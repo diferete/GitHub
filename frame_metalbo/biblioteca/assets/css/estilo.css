@@ -13,7 +13,7 @@
     padding-right: 5px;
 }
 .pesq-refresh{
-    float:right;
+    float:left;
 }
 
 .btn-padroes-form{
@@ -28,6 +28,8 @@
 }
 .input-group{
     width: 100%;
+    margin-left: 20px;
+    top:-6px;
 }
 .row{
     margin: 0 !important;
