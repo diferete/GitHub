@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta name="description" content="bootstrap admin template">
+        <meta name="author" content="">
+
+        <title>Metalbo - Indsutria de Fixadores Metálicos</title>
+        <link rel="shortcut icon" href="biblioteca/assets/images/favicon.ico">
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="biblioteca/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="biblioteca/assets/css/bootstrap-extend.min.css">
+        <link rel="stylesheet" href="biblioteca/assets/css/site.min.css"><!-- ok-->
+
+        <!-- Estilo personalizado -->
+        <link rel="stylesheet" href="biblioteca/assets/css/estilo.css">
+
+        <!-- Plugins -->
+        <link rel="stylesheet" href="biblioteca/assets/vendor/animsition/animsition.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/asscrollable/asScrollable.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/switchery/switchery.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/intro-js/introjs.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/slidepanel/slidePanel.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/flag-icon-css/flag-icon.css">
+        <link rel="stylesheet" href="biblioteca/assets/examples/css/layouts/panel-transition.css">
+
+        <!-- Datatables -->
+        <link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">		
+        <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Buttons/css/buttons.dataTables.min.css">	
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="biblioteca/assets/fonts/web-icons/web-icons.min.css">
+        <link rel="stylesheet" href="biblioteca/assets/fonts/brand-icons/brand-icons.min.css">
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+
+        <!-- Scripts -->
+        <script type="text/javascript" src="call-curr.js"></script>
+        <script src="js/vendor/jquery.ui.widget.js"></script>
+        <script src="biblioteca/assets/vendor/modernizr/modernizr.js"></script>
+        <script src="biblioteca/assets/vendor/breakpoints/breakpoints.js"></script>
+
+        <!-- Datatables-->
+        <script src="biblioteca/assets/vendor/jquery/jquery.js"></script>
+        <script type="text/javascript"  src="biblioteca/datatables/media/js/jquery.dataTables.js"></script>
+        <script type="text/javascript"  src="biblioteca/datatables/extensions/Select/js/dataTables.select.min.js"></script> 
+        <script type="text/javascript"  src="biblioteca/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script> 
+
+        <!-- File Input-->
+        <link href="biblioteca/assets/vendor/bootstrap-fileinput/css/fileinput.css" rel="stylesheet" type="text/css"/>
+        <script src="js/jquery.iframe-transport.js"></script>
+        <link rel="stylesheet" href="biblioteca/dropzone/dist/dropzone.css" />
+        <script src="biblioteca/dropzone/dist/dropzone.js"></script>
+
+        <!-- Datepicker-->
+        <link href="biblioteca/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
+        <script src="biblioteca/assets/js/moment.js" type="text/javascript"></script>
+        <script src="biblioteca/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+        <script src="biblioteca/assets/js/locales/bootstrap-datepicker.pt-BR.min.js" type="text/javascript"></script>
+        <script src="biblioteca/assets/js/jquery.maskedinput.js" type="text/javascript"></script>
+
+
+        <script>
+            Breakpoints();
+        </script>
+        <style type="text/css">
+            .fileUpload {
+                position: relative; 
+                overflow: hidden; 
+                margin: 10px; 
+            }
+            .fileUpload input.upload { 
+                position: absolute; 
+                top: 0; 
+                right: 0; 
+                margin: 0; 
+                padding: 0; 
+                font-size: 20px; 
+                cursor: pointer; 
+                opacity: 0; 
+                filter: alpha(opacity=0); 
+            }
+            .no-js #loader { display: none;  }
+            .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+            .se-pre-con {
+                position: fixed;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                height: 100%;
+                z-index: 9999;
+                background: url(biblioteca/assets/images/gif/mega.gif) center no-repeat #fff;
+            }
+        </style>
+    </head>
+    <body class="layout-boxed">
+        <div id="loading" class="se-pre-con"></div>
+        <!--[if lt IE 8]>
+              <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+          <![endif]-->
+
+        <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+
+
+            <div class="navbar-header">
+                <a href="http://metalbo.com.br/">
+                    <img class="navbar-brand-logo" style="margin:10px" id="logo" src="biblioteca/assets/images/logo.png" title="Metalbo">
+                </a>
+            </div>
+            <div class="navbar-container container-fluid">
+                <!-- Navbar Collapse -->
+                <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+                    <!-- Navbar Toolbar -->
+                    <ul class="nav navbar-toolbar">
+                        <li class="hidden-xs" id="toggleFullscreen">
+                        </li>
+                        <li class="hidden-float">
+                        </li>
+                        <li class="dropdown dropdown-fw dropdown-mega">
+                        </li>
+                    </ul>
+                    <!-- End Navbar Toolbar -->
+
+                    <!-- Navbar Toolbar Right -->
+                    <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+                        <li class="dropdown">
+                        </li>
+                        <li class="dropdown" style="font-weight:700!important;font-size:18px;">
+                            <a href="http://metalbo.com.br/">Voltar
+                            </a>
+                        </li>
+                    </ul>
+                </div>      
+            </div>
+        </nav>
+
+
+        <div class="page">
+            <div class="page-content">
+                <div class="col-md-12">
+                    <!-- Panel Wizard Form Container -->
+                    <div class="panel" id="exampleWizardFormContainer">
+                        <div class="panel-body"> <br/>
+                            <!-- Steps -->
+                            <div class="pearls row">
+                                <div class="pearl col-xs-3 current" id="etapa1" aria-expanded="true">
+                                    <div class="pearl-icon"><i class="icon wb-user" aria-hidden="true"></i></div>
+                                    <span class="pearl-title">Pessoal</span>
+                                </div>
+                                <div class="pearl col-xs-3 disabled" id="etapa2" aria-expanded="false">
+                                    <div class="pearl-icon"><i class="icon wb-users" aria-hidden="true"></i></div>
+                                    <span class="pearl-title">Familiar</span>
+                                </div>
+                                <div class="pearl col-xs-3 disabled" id="etapa3" aria-expanded="false">
+                                    <div class="pearl-icon"><i class="icon wb-home" aria-hidden="true"></i></div>
+                                    <span class="pearl-title">Endereço</span>
+                                </div>
+                                <div class="pearl col-xs-3 disabled" id="etapa4" aria-expanded="false">
+                                    <div class="pearl-icon"><i class="icon wb-wrench" aria-hidden="true"></i></div>
+                                    <span class="pearl-title">Empregos</span>
+                                </div>
+                            </div>
+                            <!-- End Steps -->
+
+                            <div id="bodyForm">
+                                <!-- Wizard Content -->
+                                <form class="wizard-content fv-form fv-form-bootstrap" enctype="multipart/form-data" id="formWizzard" novalidate="novalidate"><button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+
+                                    <div class="wizard-pane active" role="tabpanel" aria-expanded="true" id="divPes">
+                                        <div class="form-group  col-md-4" id="nomecomp-group">
+                                            <label class="control-label" >Nome Completo</label>
+                                            <input name="nomecomp"  id="nomecomp" type="text" class="form-control" required="required"  onblur="validacao(this.id)">
+                                            <small id="nomecomp-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe seu nome completo!</small>
+                                        </div>
+                                        <div id="naturalidade-group" class="form-group  col-md-2" >
+                                            <label class="control-label" >Naturalidade</label>
+                                            <input name="naturalidade" id="naturalidade" type="text" class="form-control" required="required"  onblur="validacao(this.id)">
+                                            <small id="naturalidade-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua cidade de nascimento! </small>
+                                        </div>
+                                        <div class="form-group col-md-2" >
+                                            <label class="control-label">Nascimento</label>
+                                            <div class="input-group date" id="nascimento-group"  >
+                                                <span class="input-group-addon"><i class="icon wb-calendar"></i></span>
+                                                <input name="nascimento" id="nascimento" type="text"  class="form-control">
+                                                <small id="nascimento-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua data de nascimento!</small>
+
+                                            </div>
+                                            <script>
+                                                $('#nascimento').mask('99/99/9999');
+
+                                                $("#nascimento-group").datepicker({
+                                                    format: "dd/mm/yyyy",
+                                                    todayBtn: "linked",
+                                                    language: "pt-BR",
+                                                    autoclose: true,
+                                                    todayHighlight: true});
+                                            </script>
+                                        </div>
+
+                                        <div class="form-group  col-md-2">
+                                            <label class="control-label">Sexo</label>
+                                            <div>
+                                                <div class="form-group">
+                                                    <select name="sexo" id="sexo" class="form-control">
+                                                        <option value="Masculino" selected>Masculino</option>
+                                                        <option value="Feminino">Feminino</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div id="altura-group" class="form-group  col-md-1">
+                                            <label class="control-label">Altura</label>
+                                            <input name="altura" id="altura" type="text" class="form-control"  required="required"  onblur="validacao(this.id)">
+                                            <small id="altura-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua altura!</small>
+                                            <script>
+                                                $('#altura').mask('9,99');
+                                            </script>
+                                        </div>
+                                        <div id="peso-group" class="form-group  col-md-1">
+                                            <label class="control-label">Peso</label>
+                                            <input name="peso" id="peso"  type="text" class="form-control"   required="required"  onblur="valNumber(this.id)">
+                                            <small id="peso-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe seu peso!</small>
+                                        </div>
+                                        <div id="rg-group" class="form-group  col-md-2">
+                                            <label class="control-label">RG</label>
+                                            <input name="rg" id="rg" type="text" class="form-control"   required="required"  onblur="validacao(this.id)">
+                                            <small id="rg-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe seu RG!</small>
+                                        </div>
+                                        <div id="cpf-group" class="form-group  col-md-2">
+                                            <label class="control-label">CPF</label>
+                                            <input name="cpf" id="cpf" type="text" class="form-control"   required="required"  onblur="validacao(this.id)">
+                                            <small id="cpf-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe seu CPF!</small>
+                                            <script>
+                                                $('#cpf').mask('999.999.999-99');
+                                            </script>
+                                        </div>
+                                        <div id="titulo-group" class="form-group  col-md-2">
+                                            <label class="control-label">Titulo Eleitor</label>
+                                            <input name="titulo" id="titulo" type="text" class="form-control"   required="required"  onblur="validacao(this.id)">
+                                            <small id="titulo-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe seu título de eleitor!</small>
+                                            <script>
+                                                $('#titulo').mask('9999 9999 9999');
+                                            </script>
+                                        </div>
+                                        <div id="ctps-group" class="form-group  col-md-2">
+                                            <label class="control-label">Nrº Carteira de Trabalho - CTPS</label>
+                                            <input name="ctps" id="ctps" type="text" class="form-control"   required="required"  onblur="validacao(this.id)">
+                                            <small id="ctps-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe o nº da carteira de trabalho!</small>
+                                        </div>
+                                        <div id="seriectps-group" class="form-group  col-md-2">
+                                            <label class="control-label">Nrº de série CTPS</label>
+                                            <input name="seriectps" id="seriectps" type="text" class="form-control"   required="required"  onblur="validacao(this.id)">
+                                            <small id="seriectps-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe série CTPS!</small>
+                                        </div>
+                                        <div id="pis-group" class="form-group  col-md-2">
+                                            <label class="control-label">Nrº PIS</label>
+                                            <input name="pis" id="pis" type="text" class="form-control"   required="required"  onblur="validacao(this.id)">
+                                            <small id="pis-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe o Pis</small>
+                                        </div>
+                                        <div class="form-group  col-md-2">
+                                            <label class="control-label">Escolaridade</label>
+                                            <div>
+                                                <div class="form-group">
+                                                    <select name="escolaridade" id="escolaridade" class="form-control">
+                                                        <option value="Primário - Incompleto" selected >Primário - Incompleto</option>
+                                                        <option value="Primário - Completo">Primário - Completo</option>
+                                                        <option value="Fundamental - Incompleto">Fundamental - Incompleto</option>
+                                                        <option value="Fundamental - Completo">Fundamental - Completo</option>
+                                                        <option value="Médio - Incompleto">Médio - Incompleto</option>
+                                                        <option value="Médio - Completo">Médio - Completo</option>
+                                                        <option value="Superior - Incompleto">Superior - Incompleto</option>
+                                                        <option value="Superior - Completo">Superior - Completo</option>
+                                                        <option value="Pós-graduação - Incompleto">Pós-graduação - Incompleto</option>
+                                                        <option value="Pós-graduação - Completo">Pós-graduação - Completo</option>
+                                                        <option value="Doutorado - Incompleto">Doutorado - Incompleto</option>
+                                                        <option value="Doutorado - Completo">Doutorado - Completo</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;" >Informe escolaridade!</small>
+                                        </div>
+                                        <div id="serie-group" class="form-group  col-md-1">
+                                            <label class="control-label">Série</label>
+                                            <input name="serie" id="serie" type="text" class="form-control"   required="required"  onblur="">
+                                            <small id="serie-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe a série!</small>
+                                        </div>
+                                        <div id="grau-group" class="form-group  col-md-1">
+                                            <label class="control-label">Grau</label>
+                                            <input name="grau" id="grau" type="text" class="form-control"   required="required"  onblur="">
+                                            <small id="grau-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe o grau!</small>
+                                        </div>
+                                        <div class="form-group  col-md-1">
+                                            <label class="control-label">Curso Superior?</label>
+                                            <div>
+                                                <div class="form-group">
+                                                    <select name="cursosup" id="cursosup" class="form-control">
+                                                        <option value="Sim" selected>Sim</option>
+                                                        <option value="Não">Não</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div  class="form-group  col-md-2">
+                                            <label class="control-label">Se sim, qual?</label>
+                                            <input name="qualsup" id="qualsup" type="text" class="form-control"  required="required" >
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-1">
+                                            <label class="control-label">Curso Técnico?</label>
+                                            <div>
+                                                <div class="form-group">
+                                                    <select name="cursotec" id="cursotec" class="form-control">
+                                                        <option value="Sim" selected>Sim</option>
+                                                        <option value="Não">Não</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-2">
+                                            <label class="control-label">Se sim, qual?</label>
+                                            <input name="qualtec" id="qualtec" type="text" class="form-control"  required="required" >
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-2">
+                                            <label class="control-label">Cargo Desejado</label>
+                                            <div>
+                                                <div class="form-group">
+                                                    <select name="cargodesejado" id="cargodesejado" class="form-control">
+                                                        <option value="Administração Geral" selected>Administração Geral</option>
+                                                        <option value="Comercial/Vendas">Comercial/Vendas</option>
+                                                        <option value="Compras/Logística">Compras/Logística</option>
+                                                        <option value="Engenharia/Projetos">Engenharia/Projetos</option>
+                                                        <option value="Financeiro/Contábil">Financeiro/Contábil</option>
+                                                        <option value="Gerência">Gerência</option>
+                                                        <option value="Industrial/Operador de Maquinas">Industrial/Operador de Maquinas</option>
+                                                        <option value="Manutenção Elétirca/Mecânica">Manutenção Elétirca/Mecânica</option>
+                                                        <option value="Publicidade e Propaganda/Marketing">Publicidade e Propaganda/Marketing</option>
+                                                        <option value="Qualidade/Laboratorial">Qualidade/Laboratorial</option>
+                                                        <option value="Recursos Humanos/Responsabilidade Social">Recursos Humanos/Responsabilidade Social</option>
+                                                        <option value="Saúde/Segurança">Saúde/Segurança</option>
+                                                        <option value="Sistemas/Informática/Internet">Sistemas/Informática/Internet</option>
+                                                        <option value="Terceirização de Mão de Obra/Serviços">Terceirização de Mão de Obra/Serviços</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small id="cargo-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-12">
+                                            <hr/>
+                                        </div>
+                                        <div class="form-group  col-md-12">
+                                            <input TYPE="hidden"  class="form-control" id="inputControle">
+                                        </div>
+                                        <div class="form-group  col-lg-12"> 
+                                            <input type="button" style="background: white; border: 0px" disabled>
+                                            <button type="button" class="btn btn-success btn-outline pull-right" id="btnNextPessoal"  onclick="nextButtonPessoal();">Próximo</button>
+                                        </div>
+                                        <div class="form-group  col-md-12">
+                                            <hr/>
+                                        </div>
+                                    </div>
+
+                                    <div class="wizard-pane" role="tabpanel" aria-expanded="false" id="divFam" hidden>
+                                        <div class="form-group  col-md-2">
+                                            <label class="control-label">Estado Civil</label>
+                                            <div>
+                                                <div class="form-group">
+                                                    <select name="civil" id="civil" class="form-control">
+                                                        <option value="Solteiro" selected>Solteiro(a)</option>
+                                                        <option value="Casado">Casado(a)</option>
+                                                        <option value="Divorciado">Divorciado(a)</option>
+                                                        <option value="Viuvo">Viuvo(a)</option>
+                                                        <option value="Separado">Separado(a)</option> 
+                                                        <option value="Outro">Outro</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!-- End Example Select -->
+                                            <small id="civil-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-4">
+                                            <label class="control-label" >Nome do Cônjuge, caso tenha</label>
+                                            <input name="nomeconj" id="nomeconj" type="text" class="form-control" >
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group col-md-2" >
+                                            <label class="control-label">Nascimento do Conjuge</label>
+                                            <div id="nascconj-group" class="input-group date" >
+                                                <span class="input-group-addon"><i class="icon wb-calendar"></i></span>
+                                                <input name="nascconj" id="nasconj" type="text"   class="form-control">
+                                                <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua data de nascimento!</small>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $('#nascconj').mask('99/99/9999');
+
+                                            $("#nascconj-group").datepicker({
+                                                format: "dd/mm/yyyy",
+                                                todayBtn: "linked",
+                                                language: "pt-BR",
+                                                autoclose: true,
+                                                todayHighlight: true});
+                                        </script>
+                                        <div class="form-group  col-md-2">
+                                            <label class="control-label"  >Nº de Filhos</label>
+                                            <input name="nfilhos" id="nfilhos" type="text" class="form-control" >
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-2">
+                                            <label class="control-label"  >Filhos menores de 14 anos</label>
+                                            <input name="menor14" id="menor14" type="text" class="form-control" >
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div id="pais-group" class="form-group  col-md-2">
+                                            <label class="control-label">Mora com os pais?</label>
+                                            <div>
+                                                <div class="form-group">
+                                                    <select name="morapais" id="morapais" class="form-control">
+                                                        <option value="Sim" selected>Sim</option>
+                                                        <option value="Não">Não</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <small id="pais-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-5">
+                                            <label class="control-label"  >Nome do Pai</label>
+                                            <input name="nomepai" id="nomepai" type="text" class="form-control" >
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-5">
+                                            <label class="control-label"  >Nome da Mãe</label>
+                                            <input name="nomemae" id="nomemae" type="text" class="form-control" >
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-12">
+                                            <hr/>
+                                        </div>
+                                        <div class="form-group  col-md-10">
+                                            <input TYPE="hidden"  class="form-control" id="inputControle">
+                                        </div>
+
+
+                                        <div class="form-group  col-md-2">
+
+                                            <button type="button" class="btn btn-default btn-outline"  onclick=" backFamilia()">Voltar</button>
+                                            <button type="button" class="btn btn-success btn-outline pull-right"   onclick="nextButtonFamilia();">Próximo</button>
+
+                                        </div>
+
+                                        <div class="form-group  col-md-12">
+                                            <hr/> 
+                                        </div>
+                                    </div>
+
+                                    <div class="wizard-pane" role="tabpanel" aria-expanded="false" id="divEnd" hidden>
+                                        <div id="fone-group" class="form-group  col-md-2">
+                                            <label class="control-label"  >Fone somente Nº</label>
+                                            <input name="fone" id="fone" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="fone-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira um Nº de telefone</small>
+                                            <script>
+                                                $('#fone').mask('(99)999999999');
+                                            </script>
+                                        </div>
+                                        <div id="email-group" class="form-group  col-md-3">
+                                            <label class="control-label"  >Email</label>
+                                            <input name="email" id="email" type="text" class="form-control" >
+                                            <small id="email-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div id="rua-group" class="form-group  col-md-4">
+                                            <label class="control-label"  >Rua</label>
+                                            <input name="rua" id="rua" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="rua-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o nome da rua</small>
+                                        </div>
+                                        <div id="bairro-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Bairro</label>
+                                            <input name="bairro" id="bairro" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="bairro-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o nome do bairro</small>
+                                        </div>
+                                        <div id="cep-group" class="form-group  col-md-1">
+                                            <label class="control-label" >Cep</label>
+                                            <input name="cep" id="cep" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="cep-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira um CEP</small>
+                                            <script>
+                                                $('#cep').mask('99999-999');
+                                            </script>
+                                        </div>
+                                        <div id="cidade-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Cidade</label>
+                                            <input name="cidade" id="cidade" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="cidade-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o nome da cidade</small>
+                                        </div>
+                                        <div id="estado-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Estado</label>
+                                            <input name="estado" id="estado" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="estado-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o nome do estado</small>
+                                        </div>
+                                        <div id="numero-group" class="form-group  col-md-1">
+                                            <label class="control-label" >Número</label>
+                                            <input name="numero" id="numero" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="numero-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o Nº da residência</small>
+                                        </div>
+                                        <div id="moradia-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Tempo de moradia</label>
+                                            <input name="moradia" id="moradia" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="moradia-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o tempo de moradia</small>
+                                        </div>
+                                        <div class="form-group  col-md-5">
+                                            <label class="control-label" >Perfil do Facebook, caso tenha</label>
+                                            <input name="facebook" id="facebook" type="text" class="form-control" >
+                                            <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+
+                                        <div class="form-group  col-md-12">
+                                            <hr/>
+                                        </div>
+                                        <div class="form-group  col-md-10">
+                                            <input TYPE="hidden"  class="form-control" id="inputControle">
+                                        </div>
+                                        <div class="form-group  col-md-2">
+                                            <button type="button" class="btn btn-default btn-outline"  onclick=" backEnd()">Voltar</button>
+                                            <button type="button" class="btn btn-success btn-outline pull-right" onclick="nextButtonEnd();">Próximo</button>
+                                        </div>
+                                        <div class="form-group  col-md-12">
+                                            <hr/> 
+                                        </div>
+                                    </div>
+
+                                    <div class="wizard-pane" role="tabpanel" aria-expanded="false" id="divEmp" hidden>
+                                        <div id="emp1-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Nome da Empresa</label>
+                                            <input name="emp1" id="emp1" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="emp1-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o nome de uma empresa</small>
+                                        </div>
+                                        <div id="cargo1-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Cargo</label>
+                                            <input name="cargo1" id="cargo1" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="cargo1-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o cargo exercido</small>
+                                        </div>
+                                        <div id="contato1-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Fone de contato</label>
+                                            <input name="contato1" id="contato1" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="contato1-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira um fone pra contato</small>
+                                        </div>
+                                        <div id="cidade1-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Cidade</label>
+                                            <input name="cidade1" id="cidade1" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="cidade1-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira a cidade da empresa</small>
+                                        </div>
+                                        <div class="form-group col-md-2" >
+                                            <label class="control-label">Contratação</label>
+                                            <div class="input-group date" id="contrato1-group"  >
+                                                <span class="input-group-addon"><i class="icon wb-calendar"></i></span>
+                                                <input name="contrato1" id="contrato1" type="text"  class="form-control">
+                                                <small  class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua data de nascimento!</small>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $('#contrato1').mask('99/99/9999');
+
+                                            $("#contrato1-group").datepicker({
+                                                format: "dd/mm/yyyy",
+                                                todayBtn: "linked",
+                                                language: "pt-BR",
+                                                autoclose: true,
+                                                todayHighlight: true});
+                                        </script>
+                                        <div class="form-group col-md-2" >
+                                            <label class="control-label">Rescisão</label>
+                                            <div class="input-group date" id="rescisao1-group"  >
+                                                <span class="input-group-addon"><i class="icon wb-calendar"></i></span>
+                                                <input name="rescisao1" id="rescisao1" type="text"  class="form-control">
+                                                <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua data de nascimento!</small>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $('#rescisao1').mask('99/99/9999');
+
+                                            $("#rescisao1-group").datepicker({
+                                                format: "dd/mm/yyyy",
+                                                todayBtn: "linked",
+                                                language: "pt-BR",
+                                                autoclose: true,
+                                                todayHighlight: true});
+                                        </script>
+                                        <hr>
+                                        <div id="emp2-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Nome da Empresa</label>
+                                            <input name="emp2" id="emp2" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="emp2-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o nome da empresa</small>
+                                        </div>
+                                        <div id="cargo2-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Cargo</label>
+                                            <input name="cargo2" id="cargo2" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="cargo2-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o cargo exercido</small>
+                                        </div>
+                                        <div id="contato2-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Fone de contato</label>
+                                            <input name="contato2" id="contato2" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="contato2-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira um fone pra contato</small>
+                                        </div>
+                                        <div id="cidade2-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Cidade</label>
+                                            <input name="cidade2" id="cidade2" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="cidade2-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira a cidade da empresa</small>
+                                        </div>
+                                        <div class="form-group col-md-2" >
+                                            <label class="control-label">Contratação</label>
+                                            <div class="input-group date" id="contrato2-group"  >
+                                                <span class="input-group-addon"><i class="icon wb-calendar"></i></span>
+                                                <input name="contrato2" id="contrato2" type="text"  class="form-control">
+                                                <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua data de nascimento!</small>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $('#contrato2').mask('99/99/9999');
+
+                                            $("#contrato2-group").datepicker({
+                                                format: "dd/mm/yyyy",
+                                                todayBtn: "linked",
+                                                language: "pt-BR",
+                                                autoclose: true,
+                                                todayHighlight: true});
+                                        </script>
+                                        <div class="form-group col-md-2" >
+                                            <label class="control-label">Rescisão</label>
+                                            <div class="input-group date" id="rescisao2-group"  >
+                                                <span class="input-group-addon"><i class="icon wb-calendar"></i></span>
+                                                <input name="rescisao2" id="rescisao2" type="text"  class="form-control">
+                                                <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua data de nascimento!</small>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $('#rescisao2').mask('99/99/9999');
+
+                                            $("#rescisao2-group").datepicker({
+                                                format: "dd/mm/yyyy",
+                                                todayBtn: "linked",
+                                                language: "pt-BR",
+                                                autoclose: true,
+                                                todayHighlight: true});
+                                        </script>
+                                        <hr>
+                                        <div id="emp3-group" class="form-group  col-md-2">
+                                            <label class="control-label">Nome da Empresa</label>
+                                            <input name="emp3" id="emp3" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="emp3-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o nome da empresa</small>
+                                        </div>
+                                        <div id="cargo3-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Cargo</label>
+                                            <input name="cargo3" id="cargo3" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="cargo3-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira o cargo exercido</small>
+                                        </div>
+                                        <div id="contato3-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Fone de contato</label>
+                                            <input name="contato3" id="contato3" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="contato3-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira um fone pra contato</small>
+                                        </div>
+                                        <div id="cidade3-group" class="form-group  col-md-2">
+                                            <label class="control-label" >Cidade</label>
+                                            <input name="cidade3" id="cidade3" type="text" class="form-control"  onblur="validacao(this.id)">
+                                            <small id="cidade3-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Insira a cidade da empresa</small>
+                                        </div>
+                                        <div class="form-group col-md-2" >
+                                            <label class="control-label">Contratação</label>
+                                            <div class="input-group date" id="contrato3-group"  >
+                                                <span class="input-group-addon"><i class="icon wb-calendar"></i></span>
+                                                <input name="contrato3" type="text" id="contrato3"  class="form-control">
+                                                <small id="contrato3-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua data de nascimento!</small>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $('#contrato3').mask('99/99/9999');
+
+                                            $("#contrato3-group").datepicker({
+                                                format: "dd/mm/yyyy",
+                                                todayBtn: "linked",
+                                                language: "pt-BR",
+                                                autoclose: true,
+                                                todayHighlight: true});
+                                        </script>
+                                        <div class="form-group col-md-2" >
+                                            <label class="control-label">Rescisão</label>
+                                            <div class="input-group date" id="rescisao3-group"  >
+                                                <span class="input-group-addon"><i class="icon wb-calendar"></i></span>
+                                                <input name="rescisao3" id="rescisao3" type="text"  class="form-control">
+                                                <small class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;">Informe sua data de nascimento!</small>
+                                            </div>
+                                        </div>
+                                        <script>
+                                            $('#rescisao3').mask('99/99/9999');
+
+                                            $("#rescisao3-group").datepicker({
+                                                format: "dd/mm/yyyy",
+                                                todayBtn: "linked",
+                                                language: "pt-BR",
+                                                autoclose: true,
+                                                todayHighlight: true});
+                                        </script>
+                                        <div id="ref-group" class="form-group  col-sm-12">
+                                            <label class="control-label">Referências</label>
+                                            <textarea id="ref" class="form-control" rows="3" onblur="validacao(this.id)"></textarea>
+                                            <small id="ref-blok" class="help-block" data-fv-validator="notEmpty"  data-fv-result="VALID" style="display: none;"></small>
+                                        </div>
+                                        <div class="form-group  col-md-12">
+                                            <hr/>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="nav-tabs-horizontal nav-tabs-inverse">
+                                                <div class="tab-content padding-top-15" id="tabmenucont">
+                                                    <div class="tab-pane active" id="tabmenu-1control" role="tabpanel"> <!--NAO PODE REMOVER INÍCIO DA MARCAÇÃO-->
+                                                        <div  class="dropzone" id="meuId">  
+                                                            <div class="fallback"> 
+                                                                <input type="file" multiple/> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="form-group  col-md-12">
+                                            <br>
+                                        </div>
+                                        <div class="form-group  col-md-10">
+                                            <input TYPE="hidden"  class="form-control" id="inputControle">
+                                        </div>
+                                        <div class="form-group  col-md-2">
+                                            <button type="button" class="btn btn-default btn-outline"  onclick="backEmprego()">Voltar</button>
+                                            <input class="btn btn-success btn-outline pull-right" type="submit" value="Enviar" id="teste" />
+                                        </div>
+                                        <div class="form-group  col-md-12">
+                                            <hr/> 
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+
+        <script>
+            $("div#meuId").dropzone({
+                autoProcessQueue: false,
+                url: "http://localhost/frame_metalbo/index.php?classe=UploadCurr&metodo=UploadCurr",
+                addRemoveLinks: true,
+                dictRemoveFile: 'Remover Arquvivo',
+                dictDefaultMessage: 'Arraste e solte ou clique para fazer o upload do seu currículo/foto 3x4'
+            });
+        </script>
+
+        <!-- Core  -->
+        <script src="biblioteca/assets/vendor/jquery/jquery.js"></script>
+        <script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>
+        <script src="biblioteca/assets/vendor/animsition/jquery.animsition.js"></script>
+        <script src="biblioteca/assets/vendor/asscroll/jquery-asScroll.js"></script>
+        <script src="biblioteca/assets/vendor/mousewheel/jquery.mousewheel.js"></script>
+        <script src="biblioteca/assets/vendor/asscrollable/jquery.asScrollable.all.js"></script>
+        <script src="biblioteca/assets/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+
+        <!-- Plugins -->
+        <script src="biblioteca/assets/vendor/switchery/switchery.min.js"></script>
+        <script src="biblioteca/assets/vendor/intro-js/intro.js"></script>
+        <script src="biblioteca/assets/vendor/screenfull/screenfull.js"></script>
+        <script src="biblioteca/assets/vendor/slidepanel/jquery-slidePanel.js"></script>
+
+        <!-- Scripts -->
+        <script src="biblioteca/assets/js/core.js"></script>
+        <script src="biblioteca/assets/js/site.js"></script>
+
+        <script src="biblioteca/assets/js/sections/menu.js"></script>
+        <script src="biblioteca/assets/js/sections/menubar.js"></script>
+        <script src="biblioteca/assets/js/sections/gridmenu.js"></script>
+        <script src="biblioteca/assets/js/sections/sidebar.js"></script>
+
+        <script src="biblioteca/assets/js/configs/config-colors.js"></script>
+        <script src="biblioteca/assets/js/configs/config-tour.js"></script>
+
+        <script src="biblioteca/assets/js/components/asscrollable.js"></script>
+        <script src="biblioteca/assets/js/components/animsition.js"></script>
+        <script src="biblioteca/assets/js/components/slidepanel.js"></script>
+        <script src="biblioteca/assets/js/components/switchery.js"></script>
+
+        <!-- Plugins For This Page -->
+        <script src="biblioteca/assets/vendor/matchheight/jquery.matchHeight-min.js"></script>
+        <script src="biblioteca/assets/js/plugins/responsive-tabs.js"></script>
+        <script src="biblioteca/assets/js/plugins/closeable-tabs.js"></script>
+        <script src="biblioteca/assets/js/components/tabs.js"></script>
+        <script src="resources/js/ajax.js"></script>
+        <script type="text/javascript" src="biblioteca/assets/js/bootstrap-filestyle-1.2.1/src/bootstrap-filestyle.min.js"></script>
+
+        <!-- Datatables-->
+        <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
+        <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+        <script type="text/javascript"  src="biblioteca/datatables/media/js/jquery.dataTables.js"></script>
+        <script type="text/javascript"  src="biblioteca/datatables/extensions/Select/js/dataTables.select.min.js"></script> 
+        <script type="text/javascript"  src="biblioteca/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script> 
+        <!-- Scripts For This Page -->
+        <script type="text/javascript" src="call-curr.js"></script>
+        <!--firestyle-->
+    </body>
+
+</html>

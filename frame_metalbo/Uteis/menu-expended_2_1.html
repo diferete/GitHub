@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html><!-- class="no-js" lang="en"-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="bootstrap admin template">
+  <meta name="author" content="">
+
+  <title>Menu Expended | Remark Admin Template</title>
+ <link rel="shortcut icon" href="biblioteca/assets/images/favicon.ico">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="biblioteca/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="biblioteca/assets/css/bootstrap-extend.min.css">
+  <link rel="stylesheet" href="biblioteca/assets/css/site.min.css"><!-- ok-->
+  
+  <!-- Estilo personalizado -->
+  <link rel="stylesheet" href="biblioteca/assets/css/estilo.css">
+
+  <!-- Plugins -->
+  <link rel="stylesheet" href="biblioteca/assets/vendor/animsition/animsition.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/asscrollable/asScrollable.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/switchery/switchery.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/intro-js/introjs.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/slidepanel/slidePanel.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/flag-icon-css/flag-icon.css">
+  <link rel="stylesheet" href="biblioteca/assets/examples/css/layouts/panel-transition.css">
+  <!-- Datatables -->
+  <link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">		
+  <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Buttons/css/buttons.dataTables.min.css">	
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="biblioteca/assets/fonts/web-icons/web-icons.min.css">
+  <link rel="stylesheet" href="biblioteca/assets/fonts/brand-icons/brand-icons.min.css">
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+  
+  <!-- Scripts -->
+  <script src="biblioteca/assets/vendor/modernizr/modernizr.js"></script>
+  <script src="biblioteca/assets/vendor/breakpoints/breakpoints.js"></script>
+  
+  <!-- Datatables-->
+<script src="biblioteca/assets/vendor/jquery/jquery.js"></script>
+<script type="text/javascript"  src="biblioteca/datatables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript"  src="biblioteca/datatables/extensions/Select/js/dataTables.select.min.js"></script> 
+<script type="text/javascript"  src="biblioteca/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script> 
+
+  <script>
+    Breakpoints();
+  </script>
+  <style type="text/css">
+      nav-tabs>li>a:hover{
+          background-color: #0044cc;
+      }
+  </style>
+</head>
+<body><!--class="site-menubar-unfold" data-auto-menubar="false"-->
+  <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+   <div class="navbar-header">
+      <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
+      data-toggle="menubar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse"
+      data-toggle="collapse">
+        <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+      </button>
+      <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+        <img class="navbar-brand-logo" src="biblioteca/assets/images/logo.png" title="Remark">
+        <span class="navbar-brand-text"> </span>
+      </div>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"
+      data-toggle="collapse">
+        <span class="sr-only">Toggle Search</span>
+        <i class="icon wb-search" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="navbar-container container-fluid">
+      <!-- Navbar Collapse -->
+      <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+        <!-- Navbar Toolbar -->
+        <ul class="nav navbar-toolbar">
+          <li class="hidden-float" id="toggleMenubar">
+            <a data-toggle="menubar" href="#" role="button">
+              <i class="icon hamburger hamburger-arrow-left">
+                  <span class="sr-only">Toggle menubar</span>
+                  <span class="hamburger-bar"></span>
+                </i>
+            </a>
+          </li>
+          <li class="hidden-xs" id="toggleFullscreen">
+            <a class="icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+              <span class="sr-only">Toggle fullscreen</span>
+            </a>
+          </li>
+          <li class="hidden-float">
+            <a class="icon wb-search" data-toggle="collapse" href="#" data-target="#site-navbar-search"
+            role="button">
+              <span class="sr-only">Toggle Search</span>
+            </a>
+          </li>
+          <!--INICIA O MENU SUPERIOR-->
+           <li class="dropdown dropdown-fw dropdown-mega">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="fade" role="button">MÓDULOS DO SISTEMA<i class="icon wb-chevron-down-mini" aria-hidden="true"></i></a>
+             
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <div class="mega-content">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <ul class="blocks-2">
+                        <li class="mega-menu margin-0">
+                          <ul class="list-icons">
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                                <a href="#" onclick="alert('clicou')">Vendas</a>
+                            </li>
+                            
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                                <a href="#" onclick="alert('clicou')">Vendas</a>
+                            </li>
+                            
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+           </li>
+           
+          <li class="dropdown dropdown-fw dropdown-mega">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="fade" role="button">ACESSO RÁPIDO <i class="icon wb-chevron-down-mini" aria-hidden="true"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <div class="mega-content">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <h5>UI Kit</h5>
+                      <ul class="blocks-2">
+                        <li class="mega-menu margin-0">
+                          <ul class="list-icons">
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../advanced/animation.html">Animation</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="mega-menu margin-0">
+                          <ul class="list-icons">
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/modals.html">Modals</a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-4">
+                      <h5>Media
+                        <span class="badge badge-success">4</span>
+                      </h5>
+                      <ul class="blocks-3">
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-4">
+                      <h5 class="margin-bottom-0">Accordion</h5>
+                      <!-- Accordion -->
+                      <div class="panel-group panel-group-simple" id="siteMegaAccordion" aria-multiselectable="true"
+                      role="tablist">
+                        <div class="panel">
+                          <div class="panel-heading" id="siteMegaAccordionHeadingOne" role="tab">
+                            <a class="panel-title" data-toggle="collapse" href="#siteMegaCollapseOne" data-parent="#siteMegaAccordion"
+                            aria-expanded="false" aria-controls="siteMegaCollapseOne">
+                                Collapsible Group Item #1
+                              </a>
+                          </div>
+                          <div class="panel-collapse collapse" id="siteMegaCollapseOne" aria-labelledby="siteMegaAccordionHeadingOne"
+                          role="tabpanel">
+                            <div class="panel-body">
+                              
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel">
+                          <div class="panel-heading" id="siteMegaAccordionHeadingTwo" role="tab">
+                            <a class="panel-title collapsed" data-toggle="collapse" href="#siteMegaCollapseTwo"
+                            data-parent="#siteMegaAccordion" aria-expanded="false"
+                            aria-controls="siteMegaCollapseTwo">
+                                Collapsible Group Item #2
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Accordion -->
+                    </div>
+                  </div>
+                </div> 
+              </li>
+            </ul>
+          </li>
+          
+          
+        </ul>
+        <!-- End Navbar Toolbar -->
+
+        <!--MENU DA DIREITA -->
+        <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
+            aria-expanded="false" role="button">
+              <span class="flag-icon flag-icon-us"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-gb"></span> English</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-fr"></span> French</a>
+              </li>
+             </ul>
+          </li>
+          <li class="dropdown">
+            <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <span class="avatar avatar-online">
+                <img src="biblioteca/assets/portraits/5.jpg" alt="...">
+                <i></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> Profile</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-payment" aria-hidden="true"></i> Billing</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+              </li>
+              <li class="divider" role="presentation"></li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem" onclick="requestAjax('','usuario','acaoLogout','')"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a data-toggle="dropdown" href="javascript:void(0)" title="Notifications" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <i class="icon wb-bell" aria-hidden="true"></i>
+              <span class="badge badge-danger up">5</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+              <li class="dropdown-menu-header" role="presentation">
+                <h5>NOTIFICATIONS</h5>
+                <span class="label label-round label-danger">New 5</span>
+              </li>
+
+              <li class="list-group" role="presentation">
+                <div data-role="container">
+                  <div data-role="content">
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">A new order has been placed</h6>
+                          <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">5 hours ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-user bg-green-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Completed the task</h6>
+                          <time class="media-meta" datetime="2015-06-11T18:29:20+08:00">2 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-settings bg-red-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Settings updated</h6>
+                          <time class="media-meta" datetime="2015-06-11T14:05:00+08:00">2 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-calendar bg-blue-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Event started</h6>
+                          <time class="media-meta" datetime="2015-06-10T13:50:18+08:00">3 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-chat bg-orange-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Message received</h6>
+                          <time class="media-meta" datetime="2015-06-10T12:34:48+08:00">3 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown-menu-footer" role="presentation">
+                <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                  <i class="icon wb-settings" aria-hidden="true"></i>
+                </a>
+                <a href="javascript:void(0)" role="menuitem">
+                    All notifications
+                  </a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a data-toggle="dropdown" href="javascript:void(0)" title="Messages" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <i class="icon wb-envelope" aria-hidden="true"></i>
+              <span class="badge badge-info up">3</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+              <li class="dropdown-menu-header" role="presentation">
+                <h5>MESSAGES</h5>
+                <span class="label label-round label-info">New 3</span>
+              </li>
+
+              <li class="list-group" role="presentation">
+                <div data-role="container">
+                  <div data-role="content">
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-online">
+                            <img src="biblioteca/assets/portraits/2.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Mary Adams</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-17T20:22:05+08:00">30 minutes ago</time>
+                          </div>
+                          <div class="media-detail">Anyways, i would like just do it</div>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-off">
+                            <img src="biblioteca/assets/portraits/3.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Caleb Richards</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-17T12:30:30+08:00">12 hours ago</time>
+                          </div>
+                          <div class="media-detail">I checheck the document. But there seems</div>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-busy">
+                            <img src="biblioteca/assets/portraits/4.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">June Lane</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-16T18:38:40+08:00">2 days ago</time>
+                          </div>
+                          <div class="media-detail">Lorem ipsum Id consectetur et minim</div>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-away">
+                            <img src="biblioteca/assets/portraits/5.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Edward Fletcher</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-15T20:34:48+08:00">3 days ago</time>
+                          </div>
+                          <div class="media-detail">Dolor et irure cupidatat commodo nostrud nostrud.</div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown-menu-footer" role="presentation">
+                <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                  <i class="icon wb-settings" aria-hidden="true"></i>
+                </a>
+                <a href="javascript:void(0)" role="menuitem">
+                    See all messages
+                  </a>
+              </li>
+            </ul>
+          </li>
+          <li id="toggleChat">
+            <a data-toggle="site-sidebar" href="javascript:void(0)" title="Chat" data-url="../site-sidebar.tpl">
+              <i class="icon wb-chat" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ul>
+        <!-- End Navbar Toolbar Right -->
+      </div>
+      <!-- End Navbar Collapse -->
+
+      <!-- Site Navbar Seach -->
+      <div class="collapse navbar-search-overlap" id="site-navbar-search">
+        <form role="search">
+          <div class="form-group">
+            <div class="input-search">
+              <i class="input-search-icon wb-search" aria-hidden="true"></i>
+              <input type="text" class="form-control" name="site-search" placeholder="Search...">
+              <button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search"
+              data-toggle="collapse" aria-label="Close"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- End Site Navbar Seach -->
+    </div>
+  </nav>
+    <div class="site-menubar" >
+    <div class="site-menubar-body">
+      <div>
+        <div>
+          
+            <ul class="site-menu" id="menu">
+            <li class="site-menu-category">MODULO REPRESENTANTES1</li>
+            
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="layout">
+                <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
+                <span class="site-menu-title">COTAÇÕES</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                  
+                <li class="site-menu-item" id="menu-01"><!--vai ter que carregar menu-01-->
+                    <a href="#" data-slug="layout-menu-collapsed" onclick="verificaTab('menu-01')">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Nova aba</span>
+                  </a>
+                </li>
+                
+                <li class="site-menu-item active">
+                  <a href="#" data-slug="layout-menu-expended">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Menu Expended</span>
+                  </a>
+                </li>
+               </ul>
+            </li>
+
+             <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="layout">
+                <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
+                <span class="site-menu-title">SOL. PEDIDOS</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="menu-collapsed.html" data-slug="layout-menu-collapsed">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Menu Collapsed</span>
+                  </a>
+                </li>
+                <li class="site-menu-item active">
+                  <a class="animsition-link" href="menu-expended.html" data-slug="layout-menu-expended">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Menu Expended</span>
+                  </a>
+                </li>
+               </ul>
+            </li>
+            
+            
+            
+           
+            
+              </ul>
+           </div>
+      </div>
+    </div>
+
+    <div class="site-menubar-footer">
+      <a href="javascript: void(0);" class="fold-show" data-placement="top" data-toggle="tooltip"
+      data-original-title="Settings">
+        <span class="icon wb-settings" aria-hidden="true"></span>
+      </a>
+      <a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Lock">
+        <span class="icon wb-eye-close" aria-hidden="true"></span>
+      </a>
+      <a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Logout">
+        <span class="icon wb-power" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+  <div class="site-gridmenu">
+    <div>
+      <div>
+        <ul>
+          <li>
+            <a href="../apps/mailbox/mailbox.html">
+              <i class="icon wb-envelope"></i>
+              <span>Mailbox</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/calendar/calendar.html">
+              <i class="icon wb-calendar"></i>
+              <span>Calendar</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/contacts/contacts.html">
+              <i class="icon wb-user"></i>
+              <span>Contacts</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/media/overview.html">
+              <i class="icon wb-camera"></i>
+              <span>Media</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/documents/categories.html">
+              <i class="icon wb-order"></i>
+              <span>Documents</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/projects/projects.html">
+              <i class="icon wb-image"></i>
+              <span>Project</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/forum/forum.html">
+              <i class="icon wb-chat-group"></i>
+              <span>Forum</span>
+            </a>
+          </li>
+          <li>
+            <a href="../index.html">
+              <i class="icon wb-dashboard"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Page -->
+  <div class="page animsition">
+   
+    <div class="page-content">
+      <div class="panel">
+        
+        <div class="panel-body"><!--conteúdo das tabs-->
+             <div class="nav-tabs-horizontal nav-tabs-inverse">
+                 
+             <ul class="nav nav-tabs nav-tabs-solid" data-plugin="nav-tabs" role="tablist" id="tabmenusuperior">
+             <li class="active" role="presentation" id="tabmenu-1"> <a data-toggle="tab" href="#tabmenu-1control" aria-controls="tabmenu-1control" role="tab"> <span class="close" data-close="tab" aria-label="Close">    <strong title="FECHAR">×</strong>   </span>  Relatorios  </a>  </li>
+                </ul>
+                <div class="tab-content padding-top-15" id="tabmenucont">
+                   
+              <div class="tab-pane active" id="tabmenu-1control" role="tabpanel"> <!--NAO PODE REMOVER -->
+                  
+           <div class="panel panel-bordered">
+            <div class="panel-heading">
+              <h3 class="panel-title">Panel Example</h3>
+              <div class="panel-actions">
+                <a class="panel-action icon wb-minus" aria-expanded="true" data-toggle="panel-collapse"
+                aria-hidden="true"></a>
+                <a class="panel-action icon wb-expand" data-toggle="panel-fullscreen" aria-hidden="true"></a>
+                <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a>
+              </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                   <div id="style1617582217d99f1f5resize" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                       <table id="style1617582217d99f1f5" class="display compact" cellspacing="0" width="100%">
+                           <thead>
+                               <tr role ="row">
+                                   <th></th>
+                                   <th >Emissão</th>
+                                   <th >Serie</th>
+                                   <th class="hidden"></th>
+                               </tr>
+                           </thead>
+                           <tbody>
+                               <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-10-03 00:00:00.000</td><td class="" >214771-2  </td>
+                                   <td class="hidden chave"></td>
+                               </tr>
+                               <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-10-03 00:00:00.000</td><td class="" >214807-2  </td>
+                                   <td class="hidden chave"></td>
+                               </tr>
+                               <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-21 00:00:00.000</td>
+                                   <td class="" >213843-2  </td>
+                                   <td class="hidden chave"></td>
+                               </tr>
+                               <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-08 00:00:00.000</td>
+                                   <td class="" >212677-2  </td><td class="hidden chave"></td>
+                               </tr>
+                               <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-08-30 00:00:00.000</td>
+                                   <td class="" >211895-2  </td>
+                                   <td class="hidden chave"></td>
+                               </tr>
+                                <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-08 00:00:00.000</td>
+                                   <td class="" >212677-2  </td><td class="hidden chave"></td>
+                               </tr>
+                                <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-08 00:00:00.000</td>
+                                   <td class="" >212677-2  </td><td class="hidden chave"></td>
+                               </tr>
+                                <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-08 00:00:00.000</td>
+                                   <td class="" >212677-2  </td><td class="hidden chave"></td>
+                               </tr>
+                                <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-08 00:00:00.000</td>
+                                   <td class="" >212677-2  </td><td class="hidden chave"></td>
+                               </tr>
+                                <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-08 00:00:00.000</td>
+                                   <td class="" >212677-2  </td><td class="hidden chave"></td>
+                               </tr>
+                                <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-08 00:00:00.000</td>
+                                   <td class="" >212677-2  </td><td class="hidden chave"></td>
+                               </tr>
+                                <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-08 00:00:00.000</td>
+                                   <td class="" >212677-2  </td><td class="hidden chave"></td>
+                               </tr>
+                                <tr role="row" class="odd" style="font-size:small;">
+                                   <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
+                                   <td class="" >2016-09-08 00:00:00.000</td>
+                                   <td class="" >212677-2  </td><td class="hidden chave"></td>
+                               </tr>
+                           
+                           
+                           
+                           
+                           
+                           
+                           </tbody></table>
+                               <div class="panel">
+                                   <table id="style1617582217d99f1f5-summary" class="table table-hover">
+                                       <tbody><tr></tr></tbody>
+                                   </table>
+                               </div> </div>
+                </div>
+                <script>$("#style1617582217d99f1f5").DataTable( {
+                    "scrollY": 400,
+                     "scrollX": true,
+                     "searching": false,
+                     "select": true,
+                     "paging":         false,
+                     "order":false,
+                     "info": false, 
+                     fixedColumns:   {      leftColumns: 2  },
+                     columnDefs: [ {orderable: false,className: "select-checkbox",targets:   0} ],
+                     select: {style:    "os",selector: "td:first-child"}} );
+                     var  = $("#style1617582217d99f1f5").DataTable();
+                     $("#style1617582217d99f1f5 tbody").on("click", "tr", function () {var data = .row( this ).data();} );var pressedCtrl = false;$(document).keydown(function (e) {if(e.which == 17) {pressedCtrl = true;}});$("#style1617582217d99f1f5 tbody").on( "click", "tr", function () {var tr = $("#style1617582217d99f1f5 tr");if(pressedCtrl !=true){var self = this;     tr.each(function(){        if(this == self) $(this).toggleClass("selected");        else $(this).removeClass("selected");     }); }else {     $(this).toggleClass("selected"); }} );$(document).keyup(function(e){pressedCtrl = false;});$("#style1617582217d99f1f5 tbody").click(function(){var count = 0;$("#").prop("disabled", true);$("#").prop("disabled", true);$("#").prop("disabled", true);$("#style1617582217d99f1f5 tbody .selected").each(function(){count ++;if(count > 1){$("#").prop("disabled", true);$("#").prop("disabled", true);$("#").prop("disabled", true);} else {$("#").prop("disabled", false);$("#").prop("disabled", false);$("#").prop("disabled", false);}});});</script></div>
+              
+            </div>
+          </div>
+                  
+       
+
+            </div>
+                </div>
+              </div><!--final-->
+                  </div>
+               </div>
+             </div>
+           </div>
+  
+ 
+  <script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>
+  <script src="biblioteca/assets/vendor/animsition/jquery.animsition.js"></script>
+  <script src="biblioteca/assets/vendor/asscroll/jquery-asScroll.js"></script>
+  <script src="biblioteca/assets/vendor/mousewheel/jquery.mousewheel.js"></script>
+  <script src="biblioteca/assets/vendor/asscrollable/jquery.asScrollable.all.js"></script>
+  <script src="biblioteca/assets/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+
+  <!-- Plugins -->
+  <script src="biblioteca/assets/vendor/switchery/switchery.min.js"></script>
+  <script src="biblioteca/assets/vendor/intro-js/intro.js"></script>
+  <script src="biblioteca/assets/vendor/screenfull/screenfull.js"></script>
+  <script src="biblioteca/assets/vendor/slidepanel/jquery-slidePanel.js"></script>
+
+  <!-- Scripts -->
+  <script src="biblioteca/assets/js/core.js"></script>
+  <script src="biblioteca/assets/js/site.js"></script>
+
+  <script src="biblioteca/assets/js/sections/menu.js"></script>
+  <script src="biblioteca/assets/js/sections/menubar.js"></script>
+  <script src="biblioteca/assets/js/sections/gridmenu.js"></script>
+  <script src="biblioteca/assets/js/sections/sidebar.js"></script>
+
+  <script src="biblioteca/assets/js/configs/config-colors.js"></script>
+  <script src="biblioteca/assets/js/configs/config-tour.js"></script>
+
+  <script src="biblioteca/assets/js/components/asscrollable.js"></script>
+  <script src="biblioteca/assets/js/components/animsition.js"></script>
+  <script src="biblioteca/assets/js/components/slidepanel.js"></script>
+  <script src="biblioteca/assets/js/components/switchery.js"></script>
+   <!-- Plugins For This Page -->
+  <script src="biblioteca/assets/vendor/matchheight/jquery.matchHeight-min.js"></script>
+  <script src="biblioteca/assets/js/plugins/responsive-tabs.js"></script>
+  <script src="biblioteca/assets/js/plugins/closeable-tabs.js"></script>
+  <script src="biblioteca/assets/js/components/tabs.js"></script>
+  <script src="resources/js/ajax.js"></script>
+  
+  <script src="biblioteca/assets/js/components/animate-list.js"></script>
+  <script src="biblioteca/assets/js/components/panel.js"></script>
+
+  <script src="biblioteca/assets/examples/js/layouts/panel-transition.js"></script>
+
+ 
+
+  <script>
+    (function(document, window, $) {
+      'use strict';
+
+      var Site = window.Site;
+      $(document).ready(function() {
+        Site.run();
+      });
+    })(document, window, jQuery);
+  </script>
+  
+  
+  <!-- Script PESQUISA  -->
+    <script>
+
+        $('#row-pesquisa :input' ).keyup(function(){
+            var val = $(this).val();
+        $('#row-pesquisa').each(function(){
+                if(val.length > 3){
+                    alert($('#row-pesquisa').serialize()); 
+                } 
+             });
+        });
+    </script>
+    
+  
+  <script>
+  
+  function verificaTab(id){
+      var addnewtab='s';
+      var tabname = 'tab'+id;
+     
+      $('#tabmenusuperior > li').each(function(){
+         if(tabname == $(this).attr('id')){
+              addnewtab='n';
+              }
+            });
+            alert(addnewtab);
+     //executa addnewtab for == n executa function para mudar a classe active
+           if(addnewtab=='s'){
+            newTab(id)
+            }
+            else{
+            ativaTab(tabname);    
+            }
+       }
+  
+  
+  function newTab(id){ var titulo='';
+      titulo = $('#'+id+' span').text();
+      var tabmenu = 'tab'+id;
+      
+      $('#tabmenusuperior > li').removeClass("active");
+      $('#tabmenucont > div').removeClass("active");
+      $('#tabmenusuperior').append('<li class="active" role="presentation" id='+tabmenu+' onclick="controleAbas(\''+tabmenu+'\');"> '+            
+              '<a data-toggle="tab" href="#'+tabmenu+'control" aria-controls="'+tabmenu+'control" '+           
+              'role="tab"> '+            
+              '<span class="close" data-close="tab" aria-label="Close"> '+            
+              '   <strong title="FECHAR">×</strong> '+            
+              '  </span> '+          
+              ' '+titulo+' '+        
+              ' </a> '+        
+              ' </li>'); 
+      $('#tabmenucont').append( '<div class="tab-pane active" id="'+tabmenu+'control" role="tabpanel"> '+         
+              'conteudo novo '+         
+              '</div>');
+       };
+    
+    function ativaTab(tabname){
+        alert('chegou ativatab '+tabname);
+        $('#tabmenusuperior > li').removeClass("active");
+        $('#tabmenucont > div').removeClass("active"); 
+        
+        $('#tabmenusuperior > #'+tabname).addClass("active");
+        $('#tabmenucont > #'+tabname+'control').addClass("active");
+        }
+    function controleAbas(tabId){
+        alert('chegou função '+tabId);
+        controleAbas = tabId;
+    }
+  </script>
+ 
+  <script>
+      $(document).ready(function(){
+        $('#menu').empty();
+        $('#menu').append('<li class="site-menu-category">VENDAS22</li><li class="site-menu-item has-sub"><a href="javascript:void(0)" data-slug="layout">  <i class="site-menu-icon wb-layout" aria-hidden="true"></i>  <span class="site-menu-title">Rel. Pedidos</span>  <span class="site-menu-arrow"></span></a><ul class="site-menu-sub"> <li class="site-menu-item" id="menu-1">   <a href="#" data-slug="layout-menu-collapsed" onclick="verificaTab(\'menu-1\');requestAjax(\'idForm\',\'sistema\',\'teste\',\'sparametros\');">      <i class="site-menu-icon " aria-hidden="true"></i>      <span class="site-menu-title">Relatorios</span>    </a>  </li></ul></li>');
+       
+    });
+    
+   
+  </script>
+   
+  
+     
+
+</body>
+</html>

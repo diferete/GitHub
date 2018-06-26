@@ -1,0 +1,312 @@
+/* 
+    Document   : estilos
+    Created on : 08/05/2012, 15:11:41
+    Author     : fernandoaugustosalla
+    Description: Dispõe sobre os estilos css do sistema
+*/
+
+#loadingContainer{
+    position:absolute;
+    background-color:#ffffff;
+    height:100%;
+    width:100%;
+    left:0;
+    top:0;
+}
+#loading{
+    position:absolute;
+    top:50%;
+    width:100%;
+    margin-top:-70px;
+}
+#loading .title{
+    font-family:Helvetica, Arial, sans-serif;
+    font-size:1.5em;
+    color:#095F93;
+    text-align:center;
+    white-space:nowrap;
+    display:block
+}
+#loading .logo{
+    background:url(../img/loading.gif) no-repeat center;
+    display:block;
+    height:120px;
+}
+#loading .loadMsg {
+    font-size: 10px;
+    margin-top: 2px;
+    font-weight: normal;
+    text-align:center;
+    white-space:nowrap;
+    display:block;
+    color: #999999;
+}
+
+.header{
+    height: 180px;
+}
+
+.topoHeader{
+    background-color: #333d40;
+    height: 1px;
+    border-bottom: 1px solid #333d40;
+}
+
+.logoHeader{
+    background: -webkit-gradient(linear,left top,left bottom,from(#333),to(#333d40));
+    background: -moz-linear-gradient(top,#333d40,#333d40);
+    height: 180px;
+    padding: 5px; 
+}
+
+.headerSistema{
+   background: #333 url(../img/Matos.png) no-repeat 5px 50%;
+}
+
+/* customização da linha de totalização dos grids */
+.x-grid-row-summary {
+    background-color: #e7eff8;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* campos readonly com efeito de desabilitados */
+/*input[readonly="readonly"],
+input[readonly]{
+    opacity: .0,1;
+    -moz-opacity: .0,1;
+    filter: alpha(opacity=0,1);
+}*/
+
+/* campos readonly com efeito de desabilitados */
+input[readonly="readonly"],
+input[readonly]{
+    opacity: .4;
+    -moz-opacity: .4;
+    filter: alpha(opacity=40);
+}
+
+/*estilo dos itens da tela de arquivos múltiplos */
+.dataview-file-item{
+    background: #f5f5f5;
+    padding: 5px;
+    float: left;
+    margin: 4px 0 10px 4px;
+}
+.dataview-file-item-hover{
+    border:1px solid #dddddd;
+    background-color: #efefef;
+    padding: 4px;
+    cursor: pointer;
+}
+.dataview-file-item-selected{
+    border:1px solid #89BEE5;
+    background-color: #C8DCED;
+    padding: 4px;
+}
+.dataview-file-item img{
+    background: #ffffff;
+    padding: 3px;;
+}
+.dataview-file-item span{
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    padding-top: 3px;
+}
+.x-view-selector {
+    position:absolute;
+    left:0;
+    top:0;
+    width:0;
+    border:1px dotted;
+    opacity: .5;
+    -moz-opacity: .5;
+    filter:alpha(opacity=50);
+    zoom:1;
+    background-color:#c3daf9;
+    border-color:#3399bb;
+}
+
+/* ícones das telas e botões */
+.icon-grid {
+    background-image: url(../img/icon-grid.png) !important;
+}
+.icon-form{
+    background-image: url(../img/icon-form.png) !important;
+}
+.icon-add {
+    background-image: url(../img/icon-add.png) !important;
+}
+.icon-edit {
+    background-image: url(../img/icon-edit.png) !important;
+}
+.icon-delete {
+    background-image: url(../img/icon-delete.png) !important;
+}
+.icon-save {
+    background-image: url(../img/icon-save.png) !important;
+}
+.icon-cancel {
+    background-image: url(../img/icon-cancel.png) !important;
+}
+.icon-close {
+    background-image: url(../img/icon-close.png) !important;
+}
+.icon-login {
+    background-image: url(../img/icon-login.png) !important;
+}
+.icon-exit {
+    background-image: url(../img/icon-exit.png) !important;
+}
+.icon-find {
+    background-image: url(../img/icon-find.png) !important;
+}
+.icon-select {
+    background-image: url(../img/icon-select.png) !important;
+}
+.icon-areaUser {
+    background-image: url(../img/icon-areaUser.png) !important;
+    background-size:100% 100%;
+    -webkit-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    -khtml-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;    
+}
+.icon-home {
+    background-image: url(../img/icon-home.png) !important;
+    background-size:100% 100%;
+    -webkit-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    -khtml-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;    
+}
+.icon-favoritos {
+    background-image: url(../img/icon-favoritos.png) !important;
+}
+.icon-gerar {
+    background-image: url(../img/icon-generate.png) !important;
+}
+.icon-pagamento {
+    background-image: url(../img/icon-money.png) !important;
+}
+.icon-baixar {
+    background-image: url(../img/icon-down.png) !important;
+}
+.icon-item-cancel {
+    background-image: url(../img/icon-item-cancel.png) !important;
+}
+.icon-folder {
+    background-image: url(../img/icon-folder.png) !important;
+}
+.icon-tab {
+    background-image: url(../img/icon-tab.png) !important;
+}
+.icon-close-all {
+    background-image: url(../img/icon-close-all.png) !important;
+}
+.icon-close-other {
+    background-image: url(../img/icon-close-other.png) !important;
+}
+.icon-tabs {
+    background-image: url(../img/icon-tabs.png) !important;
+}
+.icon-menu {
+    background-image: url(../img/icon-menu.png) !important;
+}
+.icon-item-menu {
+    background-image: url(../img/icon-item-menu.png) !important;
+}
+.icon-print {
+    background-image: url(../img/icon-print.png) !important;
+}
+.icon-attach {
+    background-image: url(../img/icon-attach.png) !important;
+}
+.icon-view {
+    background-image: url(../img/icon-view.png) !important;
+}
+.icon-download {
+    background-image: url(../img/icon-download.png) !important;
+}
+.icon-foto {
+    background-image: url(../img/icon-foto.png) !important;
+}
+.icon-video {
+    background-image: url(../img/icon-video.png) !important;
+}
+.icon-excel {
+    background-image: url(../img/icon-excel.png) !important;
+}
+.icon-import-bd {
+    background-image: url(../img/icon-import-bd.png) !important;
+}
+.icon-send-report {
+    background-image: url(../img/icon-send-report.png) !important;
+}
+.icon-send-user {
+    background-image: url(../img/icon-send-user.png) !important;
+}
+.icon-mail {
+    background-image: url(../img/icon-mail.png) !important;
+}
+.icon-send-mail {
+    background-image: url(../img/icon-send-mail.png) !important;
+}
+.icon-book-open {
+    background-image: url(../img/icon-book-open.png) !important;
+}
+.icon-user {
+    background-image: url(../img/icon-user.png) !important;
+}
+.icon-user-add {
+    background-image: url(../img/icon-user-add.png) !important;
+}
+.icon-empresa {
+    background-image: url(../img/icon-empresa.png) !important;
+}
+.icon-asterisk-orange {
+    background-image: url(../img/icon-asterisk-orange.png) !important;
+}
+.icon-config {
+    background-image: url(../img/icon-config.png) !important;
+}
+.icon-ferramenta {
+    background-image: url(../img/icon-ferramenta.png) !important;
+}
+.icon-pdf {
+    background-image: url(../img/icon-pdf.png) !important;
+}
+.icon-code {
+    background-image: url(../img/icon-code.png) !important;
+}
+.icon-page-edit {
+    background-image: url(../img/icon-page-edit.png) !important;
+}
+.icon-page-error {
+    background-image: url(../img/icon-page-error.png) !important;
+}
+.icon-world {
+    background-image: url(../img/icon-world.png) !important;
+}
+.icon-phone {
+    background-image: url(../img/icon-phone.png) !important;
+}
+.icon-list {
+    background-image: url(../img/icon-list.png) !important;
+}
+.icon-filter {
+    background-image: url(../img/icon-filter.png) !important;
+}
+.icon-filter-clear {
+    background-image: url(../img/icon-filter-clear.png) !important;
+}
+.icon-back{
+    background-image: url(../img/icon-back.png) !important;
+}
+.icon-atualizar{
+    background-image: url(../img/icon-atualizar.png) !important;
+  
+}

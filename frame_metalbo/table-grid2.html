@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html>
+    <!-- class="no-js" lang="en"-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta name="description" content="bootstrap admin template">
+        <meta name="author" content="">
+        <title>Metalbo | Sistema</title>
+        <link rel="shortcut icon" href="biblioteca/assets/images/favicon.ico">
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="biblioteca/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="biblioteca/assets/css/bootstrap-extend.min.css">
+        <link rel="stylesheet" href="biblioteca/assets/css/site.min.css">
+        <!-- ok-->
+        <!-- Estilo personalizado -->
+        <link rel="stylesheet" href="biblioteca/assets/css/estilo.css">
+        <!-- Plugins -->
+        <link rel="stylesheet" href="biblioteca/assets/vendor/animsition/animsition.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/asscrollable/asScrollable.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/switchery/switchery.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/intro-js/introjs.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/slidepanel/slidePanel.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/flag-icon-css/flag-icon.css">
+        <link rel="stylesheet" href="biblioteca/assets/examples/css/layouts/panel-transition.css">
+        <!-- Datatables -->
+        <link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Buttons/css/buttons.dataTables.min.css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="biblioteca/assets/fonts/web-icons/web-icons.min.css">
+        <link rel="stylesheet" href="biblioteca/assets/fonts/brand-icons/brand-icons.min.css">
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+        <!-- Scripts -->
+        <script src="biblioteca/assets/vendor/modernizr/modernizr.js"></script>
+        <script src="biblioteca/assets/vendor/breakpoints/breakpoints.js"></script>
+        <!-- Datatables-->
+        <script src="biblioteca/assets/vendor/jquery/jquery.js"></script>
+        <script type="text/javascript"  src="biblioteca/datatables/media/js/jquery.dataTables.js"></script>
+        <script type="text/javascript"  src="biblioteca/datatables/extensions/Select/js/dataTables.select.min.js"></script> 
+        <script type="text/javascript"  src="biblioteca/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script> 
+        <!-- Datepicker-->
+        <link href="biblioteca/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Datepicker-->
+        <script src="biblioteca/assets/js/moment.js" type="text/javascript"></script>
+        <script src="biblioteca/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+        <script src="biblioteca/assets/js/locales/bootstrap-datepicker.pt-BR.min.js" type="text/javascript"></script>
+        <script src="biblioteca/assets/js/jquery.maskedinput.js" type="text/javascript"></script>
+        <script>
+            Breakpoints();
+        </script>
+        <style type="text/css">
+            nav-tabs>li>a:hover{
+                background-color: #0044cc;
+            }
+        </style>
+    </head>
+    <body>
+        <!--class="site-menubar-unfold" data-auto-menubar="false"-->
+        <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
+                        data-toggle="menubar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="hamburger-bar"></span>
+                </button>
+                <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse"
+                        data-toggle="collapse">
+                    <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+                </button>
+                <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+                    <img class="navbar-brand-logo" src="biblioteca/assets/images/logo.png" title="Remark">
+                    <span class="navbar-brand-text"> </span>
+                </div>
+                <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"
+                        data-toggle="collapse">
+                    <span class="sr-only">Toggle Search</span>
+                    <i class="icon wb-search" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="navbar-container container-fluid">
+                <!-- Navbar Collapse -->
+                <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+                    <!-- Navbar Toolbar -->
+                    <ul class="nav navbar-toolbar">
+                        <li class="hidden-float" id="toggleMenubar">
+                            <a data-toggle="menubar" href="#" role="button">
+                                <i class="icon hamburger hamburger-arrow-left">
+                                    <span class="sr-only">Toggle menubar</span>
+                                    <span class="hamburger-bar"></span>
+                                </i>
+                            </a>
+                        </li>
+                        <li class="hidden-xs" id="toggleFullscreen">
+                            <a class="icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+                                <span class="sr-only">Toggle fullscreen</span>
+                            </a>
+                        </li>
+                        <li class="hidden-float">
+                            <a class="icon wb-search" data-toggle="collapse" href="#" data-target="#site-navbar-search"
+                               role="button">
+                                <span class="sr-only">Toggle Search</span>
+                            </a>
+                        </li>
+                        <!--INICIA O MENU SUPERIOR-->
+                        <li class="dropdown dropdown-fw dropdown-mega">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+                               data-animation="fade" role="button">MÓDULOS DO SISTEMA<i class="icon wb-chevron-down-mini" aria-hidden="true"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation">
+                                    <div class="mega-content">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <ul class="blocks-2">
+                                                    <li class="mega-menu margin-0">
+                                                        <ul class="list-icons">
+                                                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                                                                <a href="#" onclick="alert('clicou')">Vendas</a>
+                                                            </li>
+                                                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                                                                <a href="#" onclick="alert('clicou');">Vendas</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown dropdown-fw dropdown-mega">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+                               data-animation="fade" role="button">ACESSO RÁPIDO <i class="icon wb-chevron-down-mini" aria-hidden="true"></i></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation">
+                                    <div class="mega-content">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <h5>UI Kit</h5>
+                                                <ul class="blocks-2">
+                                                    <li class="mega-menu margin-0">
+                                                        <ul class="list-icons">
+                                                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                                                                <a
+                                                                    href="../advanced/animation.html">Animation</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="mega-menu margin-0">
+                                                        <ul class="list-icons">
+                                                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                                                                <a
+                                                                    href="../uikit/modals.html">Modals</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h5>Media
+                                                    <span class="badge badge-success">4</span>
+                                                </h5>
+                                                <ul class="blocks-3">
+                                                    <li>
+                                                        <a class="thumbnail margin-0" href="javascript:void(0)">
+                                                            <img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="thumbnail margin-0" href="javascript:void(0)">
+                                                            <img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="thumbnail margin-0" href="javascript:void(0)">
+                                                            <img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h5 class="margin-bottom-0">Accordion</h5>
+                                                <!-- Accordion -->
+                                                <div class="panel-group panel-group-simple" id="siteMegaAccordion" aria-multiselectable="true"
+                                                     role="tablist">
+                                                    <div class="panel">
+                                                        <div class="panel-heading" id="siteMegaAccordionHeadingOne" role="tab">
+                                                            <a class="panel-title" data-toggle="collapse" href="#siteMegaCollapseOne" data-parent="#siteMegaAccordion"
+                                                               aria-expanded="false" aria-controls="siteMegaCollapseOne">
+                                                                Collapsible Group Item #1
+                                                            </a>
+                                                        </div>
+                                                        <div class="panel-collapse collapse" id="siteMegaCollapseOne" aria-labelledby="siteMegaAccordionHeadingOne"
+                                                             role="tabpanel">
+                                                            <div class="panel-body">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel">
+                                                        <div class="panel-heading" id="siteMegaAccordionHeadingTwo" role="tab">
+                                                            <a class="panel-title collapsed" data-toggle="collapse" href="#siteMegaCollapseTwo"
+                                                               data-parent="#siteMegaAccordion" aria-expanded="false"
+                                                               aria-controls="siteMegaCollapseTwo">
+                                                                Collapsible Group Item #2
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End Accordion -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!-- End Navbar Toolbar -->
+                    <!--MENU DA DIREITA -->
+                    <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
+                               aria-expanded="false" role="button">
+                                <span class="flag-icon flag-icon-us"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation">
+                                    <a href="javascript:void(0)" role="menuitem">
+                                        <span class="flag-icon flag-icon-gb"></span> English</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="javascript:void(0)" role="menuitem">
+                                        <span class="flag-icon flag-icon-fr"></span> French</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+                               data-animation="scale-up" role="button">
+                                <span class="avatar avatar-online">
+                                    <img src="biblioteca/assets/portraits/5.jpg" alt="...">
+                                    <i></i>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation">
+                                    <a href="javascript:void(0)" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> Profile</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="javascript:void(0)" role="menuitem"><i class="icon wb-payment" aria-hidden="true"></i> Billing</a>
+                                </li>
+                                <li role="presentation">
+                                    <a href="javascript:void(0)" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+                                </li>
+                                <li class="divider" role="presentation"></li>
+                                <li role="presentation">
+                                    <a href="javascript:void(0)" role="menuitem" onclick="requestAjax('', 'usuario', 'acaoLogout', '')"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" href="javascript:void(0)" title="Notifications" aria-expanded="false"
+                               data-animation="scale-up" role="button">
+                                <i class="icon wb-bell" aria-hidden="true"></i>
+                                <span class="badge badge-danger up">5</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+                                <li class="dropdown-menu-header" role="presentation">
+                                    <h5>NOTIFICATIONS</h5>
+                                    <span class="label label-round label-danger">New 5</span>
+                                </li>
+                                <li class="list-group" role="presentation">
+                                    <div data-role="container">
+                                        <div data-role="content">
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10">
+                                                        <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">A new order has been placed</h6>
+                                                        <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">5 hours ago</time>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10">
+                                                        <i class="icon wb-user bg-green-600 white icon-circle" aria-hidden="true"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">Completed the task</h6>
+                                                        <time class="media-meta" datetime="2015-06-11T18:29:20+08:00">2 days ago</time>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10">
+                                                        <i class="icon wb-settings bg-red-600 white icon-circle" aria-hidden="true"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">Settings updated</h6>
+                                                        <time class="media-meta" datetime="2015-06-11T14:05:00+08:00">2 days ago</time>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10">
+                                                        <i class="icon wb-calendar bg-blue-600 white icon-circle" aria-hidden="true"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">Event started</h6>
+                                                        <time class="media-meta" datetime="2015-06-10T13:50:18+08:00">3 days ago</time>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10">
+                                                        <i class="icon wb-chat bg-orange-600 white icon-circle" aria-hidden="true"></i>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">Message received</h6>
+                                                        <time class="media-meta" datetime="2015-06-10T12:34:48+08:00">3 days ago</time>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dropdown-menu-footer" role="presentation">
+                                    <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                                        <i class="icon wb-settings" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" role="menuitem">
+                                        All notifications
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" href="javascript:void(0)" title="Messages" aria-expanded="false"
+                               data-animation="scale-up" role="button">
+                                <i class="icon wb-envelope" aria-hidden="true"></i>
+                                <span class="badge badge-info up">3</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+                                <li class="dropdown-menu-header" role="presentation">
+                                    <h5>MESSAGES</h5>
+                                    <span class="label label-round label-info">New 3</span>
+                                </li>
+                                <li class="list-group" role="presentation">
+                                    <div data-role="container">
+                                        <div data-role="content">
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10">
+                                                        <span class="avatar avatar-sm avatar-online">
+                                                            <img src="biblioteca/assets/portraits/2.jpg" alt="..." />
+                                                            <i></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">Mary Adams</h6>
+                                                        <div class="media-meta">
+                                                            <time datetime="2015-06-17T20:22:05+08:00">30 minutes ago</time>
+                                                        </div>
+                                                        <div class="media-detail">Anyways, i would like just do it</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10">
+                                                        <span class="avatar avatar-sm avatar-off">
+                                                            <img src="biblioteca/assets/portraits/3.jpg" alt="..." />
+                                                            <i></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">Caleb Richards</h6>
+                                                        <div class="media-meta">
+                                                            <time datetime="2015-06-17T12:30:30+08:00">12 hours ago</time>
+                                                        </div>
+                                                        <div class="media-detail">I checheck the document. But there seems</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10">
+                                                        <span class="avatar avatar-sm avatar-busy">
+                                                            <img src="biblioteca/assets/portraits/4.jpg" alt="..." />
+                                                            <i></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">June Lane</h6>
+                                                        <div class="media-meta">
+                                                            <time datetime="2015-06-16T18:38:40+08:00">2 days ago</time>
+                                                        </div>
+                                                        <div class="media-detail">Lorem ipsum Id consectetur et minim</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10">
+                                                        <span class="avatar avatar-sm avatar-away">
+                                                            <img src="biblioteca/assets/portraits/5.jpg" alt="..." />
+                                                            <i></i>
+                                                        </span>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">Edward Fletcher</h6>
+                                                        <div class="media-meta">
+                                                            <time datetime="2015-06-15T20:34:48+08:00">3 days ago</time>
+                                                        </div>
+                                                        <div class="media-detail">Dolor et irure cupidatat commodo nostrud nostrud.</div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="dropdown-menu-footer" role="presentation">
+                                    <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                                        <i class="icon wb-settings" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" role="menuitem">
+                                        See all messages
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="toggleChat">
+                            <a data-toggle="site-sidebar" href="javascript:void(0)" title="Chat" data-url="../site-sidebar.tpl">
+                                <i class="icon wb-chat" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- End Navbar Toolbar Right -->
+                </div>
+                <!-- End Navbar Collapse -->
+                <!-- Site Navbar Seach -->
+                <div class="collapse navbar-search-overlap" id="site-navbar-search">
+                    <form role="search">
+                        <div class="form-group">
+                            <div class="input-search">
+                                <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                                <input type="text" class="form-control" name="site-search" placeholder="Search...">
+                                <button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search"
+                                        data-toggle="collapse" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- End Site Navbar Seach -->
+            </div>
+        </nav>
+        <div class="site-menubar" id="menu-teste"  >
+            <div class="site-menubar-body">
+                <div>
+                    <div>
+                        <ul class="site-menu" id="menu">
+                            <li class="site-menu-category">MODULO REPRESENTANTES1</li>
+                            <li class="site-menu-item has-sub">
+                                <a href="javascript:void(0)" data-slug="layout">
+                                    <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
+                                    <span class="site-menu-title">COTAÇÕES</span>
+                                    <span class="site-menu-arrow"></span>
+                                </a>
+                                <ul class="site-menu-sub">
+                                    <li class="site-menu-item" id="menu-01">
+                                        <!--vai ter que carregar menu-01-->
+                                        <a href="#" data-slug="layout-menu-collapsed" onclick="verificaTab('menu-01')">
+                                            <i class="site-menu-icon " aria-hidden="true"></i>
+                                            <span class="site-menu-title">Nova aba</span>
+                                        </a>
+                                    </li>
+                                    <li class="site-menu-item active">
+                                        <a href="#" data-slug="layout-menu-expended">
+                                            <i class="site-menu-icon " aria-hidden="true"></i>
+                                            <span class="site-menu-title">Menu Expended</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="site-menu-item has-sub">
+                                <a href="javascript:void(0)" data-slug="layout">
+                                    <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
+                                    <span class="site-menu-title">SOL. PEDIDOS</span>
+                                    <span class="site-menu-arrow"></span>
+                                </a>
+                                <ul class="site-menu-sub">
+                                    <li class="site-menu-item">
+                                        <a class="animsition-link" href="menu-collapsed.html" data-slug="layout-menu-collapsed">
+                                            <i class="site-menu-icon " aria-hidden="true"></i>
+                                            <span class="site-menu-title">Menu Collapsed</span>
+                                        </a>
+                                    </li>
+                                    <li class="site-menu-item active">
+                                        <a class="animsition-link" href="menu-expended.html" data-slug="layout-menu-expended">
+                                            <i class="site-menu-icon " aria-hidden="true"></i>
+                                            <span class="site-menu-title">Menu Expended</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="site-menubar-footer">
+                <a href="javascript: void(0);" class="fold-show" data-placement="top" data-toggle="tooltip"
+                   data-original-title="Settings">
+                    <span class="icon wb-settings" aria-hidden="true"></span>
+                </a>
+                <a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Lock">
+                    <span class="icon wb-eye-close" aria-hidden="true"></span>
+                </a>
+                <a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Logout">
+                    <span class="icon wb-power" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+        <div class="site-gridmenu">
+            <div>
+                <div>
+                    <ul>
+                        <li>
+                            <a href="../apps/mailbox/mailbox.html">
+                                <i class="icon wb-envelope"></i>
+                                <span>Mailbox</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../apps/calendar/calendar.html">
+                                <i class="icon wb-calendar"></i>
+                                <span>Calendar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../apps/contacts/contacts.html">
+                                <i class="icon wb-user"></i>
+                                <span>Contacts</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../apps/media/overview.html">
+                                <i class="icon wb-camera"></i>
+                                <span>Media</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../apps/documents/categories.html">
+                                <i class="icon wb-order"></i>
+                                <span>Documents</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../apps/projects/projects.html">
+                                <i class="icon wb-image"></i>
+                                <span>Project</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../apps/forum/forum.html">
+                                <i class="icon wb-chat-group"></i>
+                                <span>Forum</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="../index.html">
+                                <i class="icon wb-dashboard"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Page -->
+        <div class="page animsition">
+            <div class="fw-container">
+
+                <div class="fw-body">
+                    <div class="content">
+
+                        <div id="example_wrapper" class="dataTables_wrapper no-footer">
+                            <div class="dataTables_length" id="example_length"></div>
+                            <div id="example_filter" class="dataTables_filter"></div>
+                            <div class="dataTables_scroll">
+                                <div class="dataTables_scrollHead" style="overflow: hidden; position: relative; border: 0px; width: 100%;">
+                                    <div class="dataTables_scrollHeadInner" style="box-sizing: content-box; width: 1070px; padding-right: 17px;">
+                                        <table class="display nowrap dataTable no-footer" style="width: 1070px; margin-left: 0px;" role="grid">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="sorting_asc" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 73px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">First name</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 71px;" aria-label="Last name: activate to sort column ascending">Last name</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 174px;" aria-label="Position: activate to sort column ascending">Position</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 76px;" aria-label="Office: activate to sort column ascending">Office</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 27px;" aria-label="Age: activate to sort column ascending">Age</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 66px;" aria-label="Start date: activate to sort column ascending">Start date</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 56px;" aria-label="Salary: activate to sort column ascending">Salary</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 35px;" aria-label="Extn.: activate to sort column ascending">Extn.</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="example" rowspan="1" colspan="1" style="width: 167px;" aria-label="E-mail: activate to sort column ascending">E-mail</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="dataTables_scrollBody" style="position: relative; overflow: auto; width: 100%; height: 200px;">
+                                    <table id="example" class="display nowrap dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="example_info">
+                                        <thead>
+                                            <tr role="row" style="height: 0px;">
+                                                <th class="sorting_asc" aria-controls="example" rowspan="1" colspan="1" style="width: 73px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-sort="ascending" aria-label="First name: activate to sort column descending">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">First name</div>
+                                                </th>
+                                                <th class="sorting" aria-controls="example" rowspan="1" colspan="1" style="width: 71px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Last name: activate to sort column ascending">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">Last name</div>
+                                                </th>
+                                                <th class="sorting" aria-controls="example" rowspan="1" colspan="1" style="width: 174px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Position: activate to sort column ascending">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">Position</div>
+                                                </th>
+                                                <th class="sorting" aria-controls="example" rowspan="1" colspan="1" style="width: 76px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Office: activate to sort column ascending">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">Office</div>
+                                                </th>
+                                                <th class="sorting" aria-controls="example" rowspan="1" colspan="1" style="width: 27px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Age: activate to sort column ascending">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">Age</div>
+                                                </th>
+                                                <th class="sorting" aria-controls="example" rowspan="1" colspan="1" style="width: 66px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Start date: activate to sort column ascending">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">Start date</div>
+                                                </th>
+                                                <th class="sorting" aria-controls="example" rowspan="1" colspan="1" style="width: 56px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Salary: activate to sort column ascending">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">Salary</div>
+                                                </th>
+                                                <th class="sorting" aria-controls="example" rowspan="1" colspan="1" style="width: 35px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="Extn.: activate to sort column ascending">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">Extn.</div>
+                                                </th>
+                                                <th class="sorting" aria-controls="example" rowspan="1" colspan="1" style="width: 167px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" aria-label="E-mail: activate to sort column ascending">
+                                                    <div class="dataTables_sizing" style="height:0;overflow:hidden;">E-mail</div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">Airi</td>
+                                                <td>Satou</td>
+                                                <td>Accountant</td>
+                                                <td>Tokyo</td>
+                                                <td>33</td>
+                                                <td>2008/11/28</td>
+                                                <td>$162,700</td>
+                                                <td>5407</td>
+                                                <td>a.satou@datatables.net</td>
+                                            </tr>
+                                            <tr role="row" class="even">
+                                                <td class="sorting_1">Angelica</td>
+                                                <td>Ramos</td>
+                                                <td>Chief Executive Officer (CEO)</td>
+                                                <td>London</td>
+                                                <td>47</td>
+                                                <td>2009/10/09</td>
+                                                <td>$1,200,000</td>
+                                                <td>5797</td>
+                                                <td>a.ramos@datatables.net</td>
+                                            </tr>
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">Ashton</td>
+                                                <td>Cox</td>
+                                                <td>Junior Technical Author</td>
+                                                <td>San Francisco</td>
+                                                <td>66</td>
+                                                <td>2009/01/12</td>
+                                                <td>$86,000</td>
+                                                <td>1562</td>
+                                                <td>a.cox@datatables.net</td>
+                                            </tr>
+                                            <tr role="row" class="even">
+                                                <td class="sorting_1">Bradley</td>
+                                                <td>Greer</td>
+                                                <td>Software Engineer</td>
+                                                <td>London</td>
+                                                <td>41</td>
+                                                <td>2012/10/13</td>
+                                                <td>$132,000</td>
+                                                <td>2558</td>
+                                                <td>b.greer@datatables.net</td>
+                                            </tr>
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">Brenden</td>
+                                                <td>Wagner</td>
+                                                <td>Software Engineer</td>
+                                                <td>San Francisco</td>
+                                                <td>28</td>
+                                                <td>2011/06/07</td>
+                                                <td>$206,850</td>
+                                                <td>1314</td>
+                                                <td>b.wagner@datatables.net</td>
+                                            </tr>
+                                            <tr role="row" class="even">
+                                                <td class="sorting_1">Brielle</td>
+                                                <td>Williamson</td>
+                                                <td>Integration Specialist</td>
+                                                <td>New York</td>
+                                                <td>61</td>
+                                                <td>2012/12/02</td>
+                                                <td>$372,000</td>
+                                                <td>4804</td>
+                                                <td>b.williamson@datatables.net</td>
+                                            </tr>
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">Bruno</td>
+                                                <td>Nash</td>
+                                                <td>Software Engineer</td>
+                                                <td>London</td>
+                                                <td>38</td>
+                                                <td>2011/05/03</td>
+                                                <td>$163,500</td>
+                                                <td>6222</td>
+                                                <td>b.nash@datatables.net</td>
+                                            </tr>
+                                            <tr role="row" class="even">
+                                                <td class="sorting_1">Caesar</td>
+                                                <td>Vance</td>
+                                                <td>Pre-Sales Support</td>
+                                                <td>New York</td>
+                                                <td>21</td>
+                                                <td>2011/12/12</td>
+                                                <td>$106,450</td>
+                                                <td>8330</td>
+                                                <td>c.vance@datatables.net</td>
+                                            </tr>
+                                            <tr role="row" class="odd">
+                                                <td class="sorting_1">Cara</td>
+                                                <td>Stevens</td>
+                                                <td>Sales Assistant</td>
+                                                <td>New York</td>
+                                                <td>46</td>
+                                                <td>2011/12/06</td>
+                                                <td>$145,600</td>
+                                                <td>3990</td>
+                                                <td>c.stevens@datatables.net</td>
+                                            </tr>
+                                            <tr role="row" class="even">
+                                                <td class="sorting_1">Cedric</td>
+                                                <td>Kelly</td>
+                                                <td>Senior Javascript Developer</td>
+                                                <td>Edinburgh</td>
+                                                <td>22</td>
+                                                <td>2012/03/29</td>
+                                                <td>$433,060</td>
+                                                <td>6224</td>
+                                                <td>c.kelly@datatables.net</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="dataTables_info" id="example_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                            <div class="dataTables_paginate paging_simple_numbers" id="example_paginate"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>
+        <script src="biblioteca/assets/vendor/animsition/jquery.animsition.js"></script>
+        <script src="biblioteca/assets/vendor/asscroll/jquery-asScroll.js"></script>
+        <script src="biblioteca/assets/vendor/mousewheel/jquery.mousewheel.js"></script>
+        <script src="biblioteca/assets/vendor/asscrollable/jquery.asScrollable.all.js"></script>
+        <script src="biblioteca/assets/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+        <!-- Plugins -->
+        <script src="biblioteca/assets/vendor/switchery/switchery.min.js"></script>
+        <script src="biblioteca/assets/vendor/intro-js/intro.js"></script>
+        <script src="biblioteca/assets/vendor/screenfull/screenfull.js"></script>
+        <script src="biblioteca/assets/vendor/slidepanel/jquery-slidePanel.js"></script>
+        <!-- Scripts -->
+        <script src="biblioteca/assets/js/core.js"></script>
+        <script src="biblioteca/assets/js/site.js"></script>
+        <script src="biblioteca/assets/js/sections/menu.js"></script>
+        <script src="biblioteca/assets/js/sections/menubar.js"></script>
+        <script src="biblioteca/assets/js/sections/gridmenu.js"></script>
+        <script src="biblioteca/assets/js/sections/sidebar.js"></script>
+        <script src="biblioteca/assets/js/configs/config-colors.js"></script>
+        <script src="biblioteca/assets/js/configs/config-tour.js"></script>
+        <script src="biblioteca/assets/js/components/asscrollable.js"></script>
+        <script src="biblioteca/assets/js/components/animsition.js"></script>
+        <script src="biblioteca/assets/js/components/slidepanel.js"></script>
+        <script src="biblioteca/assets/js/components/switchery.js"></script>
+        <!-- Plugins For This Page -->
+        <script src="biblioteca/assets/vendor/matchheight/jquery.matchHeight-min.js"></script>
+        <script src="biblioteca/assets/js/plugins/responsive-tabs.js"></script>
+        <script src="biblioteca/assets/js/plugins/closeable-tabs.js"></script>
+        <script src="biblioteca/assets/js/components/tabs.js"></script>
+        <script src="resources/js/ajax.js"></script>
+        <script src="biblioteca/assets/js/components/animate-list.js"></script>
+        <script src="biblioteca/assets/js/components/panel.js"></script>
+        <script src="biblioteca/assets/examples/js/layouts/panel-transition.js"></script>
+    </body>
+</html>

@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<architect-project version="1.0" appversion="1.0.8">
+ <project-name>modelagem básica frame</project-name>
+ <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
+ <project-data-sources>
+  <data-source id="DS0">
+   <property key="Logical" value="Modelo de Dados" />
+  </data-source>
+ </project-data-sources>
+ <source-databases>
+ </source-databases>
+ <target-database id="ppdb" dbcs-ref="DS0">
+  <table id="TAB1" populated="true" UUID="114a604f-a0ff-4111-8c24-2d05a5b23878" name="MET_CAD_setores" objectType="TABLE" physicalName="MET_CAD_setores" >
+   <remarks></remarks>
+   <folder id="FOLTAB11" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL2" populated="true" UUID="e31ea617-4d43-4b66-a315-ef33b2859387" autoIncrement="false" autoIncrementSequenceName="MET_CAD_setores_codsetor_seq" defaultValue="" name="codsetor" nullable="0" physicalName="codsetor" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL3" populated="true" UUID="8c602e09-8f1d-4a03-ada0-713cc18c0cc8" autoIncrement="false" autoIncrementSequenceName="MET_CAD_setores_descsetor_seq" defaultValue="" name="descsetor" nullable="0" physicalName="descsetor" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL4" populated="true" UUID="b941d242-7c35-4842-abbb-8604bd24202c" autoIncrement="false" autoIncrementSequenceName="MET_CAD_setores_tipoconst_seq" defaultValue="" name="tipoconst" nullable="0" physicalName="tipoconst" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL5" populated="true" UUID="2016ae45-06a1-467d-b2b3-804dbed9ed4c" autoIncrement="false" autoIncrementSequenceName="MET_CAD_setores_piso_seq" defaultValue="" name="piso" nullable="0" physicalName="piso" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL6" populated="true" UUID="9d15215f-c05d-4248-8508-4f0096e54eb5" autoIncrement="false" autoIncrementSequenceName="MET_CAD_setores_telhado_seq" defaultValue="" name="telhado" nullable="0" physicalName="telhado" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL7" populated="true" UUID="09bcb03c-7e33-4bd7-9329-6080ea136dca" autoIncrement="false" autoIncrementSequenceName="MET_CAD_setores_vent_seq" defaultValue="" name="vent" nullable="0" physicalName="vent" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL8" populated="true" UUID="91993a8b-1877-4e69-85c7-75462fe93922" autoIncrement="false" autoIncrementSequenceName="MET_CAD_setores_ilumin_seq" defaultValue="" name="ilumin" nullable="0" physicalName="ilumin" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL9" populated="true" UUID="d68dc5fa-a514-437a-a5f7-921a193b0b59" autoIncrement="false" autoIncrementSequenceName="MET_CAD_setores_obsSetor_seq" defaultValue="" name="obsSetor" nullable="0" physicalName="obsSetor" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL10" populated="true" UUID="7bc18870-cc13-4872-88e3-1294d4a0b433" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usucodigo_seq" defaultValue="" name="usucodigo" nullable="0" physicalName="usucodigo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB13" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB12" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB14" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX11" populated="true" UUID="95fd4728-d089-4ba1-8d2b-7b6ad97edc35" clustered="false" name="MET_CAD_setores_pk" physicalName="MET_CAD_setores_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC12" populated="true" UUID="491c4c1b-b35b-46c5-a3fa-bff1d0a162b2" ascendingOrDescending="UNSPECIFIED" column-ref="COL2" name="codsetor" physicalName="codsetor" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB13" populated="true" UUID="2cccd72c-2a8e-421d-ab32-121d71bb25b2" name="MET_COM_repcodoffice" objectType="TABLE" physicalName="MET_COM_repcodoffice" >
+   <remarks></remarks>
+   <folder id="FOLTAB131" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL14" populated="true" UUID="4dbb12bd-f350-4fe7-b86c-01bdb94c7207" autoIncrement="false" autoIncrementSequenceName="MET_COM_repcodoffice_filcgc_seq" defaultValue="" name="filcgc" nullable="0" physicalName="filcgc" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL15" populated="true" UUID="9b59f179-e05f-4813-84fe-81880c8c1ca5" autoIncrement="false" autoIncrementSequenceName="MET_COM_repcodoffice_officecod_seq" defaultValue="" name="officecod" nullable="0" physicalName="officecod" precision="0" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL16" populated="true" UUID="d3ef7a8e-4288-4b8d-9016-b3f01e410dbd" autoIncrement="false" autoIncrementSequenceName="MET_COM_repcodoffice_officeseq_seq" defaultValue="" name="officeseq" nullable="0" physicalName="officeseq" precision="0" primaryKeySeq="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL17" populated="true" UUID="ad87bda4-7c70-42f7-a296-c80805fc29f9" autoIncrement="false" autoIncrementSequenceName="MET_COM_repcodoffice_repcod_seq" defaultValue="" name="repcod" nullable="0" physicalName="repcod" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB133" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB132" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB134" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX18" populated="true" UUID="276b8c03-934d-4dec-931a-b746ed6af6b5" clustered="false" name="MET_COM_repcodoffice_pk" physicalName="MET_COM_repcodoffice_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC19" populated="true" UUID="fc611988-ef34-4cab-9f5a-dba09f427c0b" ascendingOrDescending="UNSPECIFIED" column-ref="COL14" name="filcgc" physicalName="filcgc" />
+     <index-column id="IDC20" populated="true" UUID="499495bf-b5bc-4094-9020-80d74f31ef05" ascendingOrDescending="UNSPECIFIED" column-ref="COL15" name="officecod" physicalName="officecod" />
+     <index-column id="IDC21" populated="true" UUID="4e715277-ad84-4748-894b-2c3a7590c999" ascendingOrDescending="UNSPECIFIED" column-ref="COL16" name="officeseq" physicalName="officeseq" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB22" populated="true" UUID="9915062e-beac-413b-85bf-f2bea060f6b8" name="MET_COM_repoffice" objectType="TABLE" physicalName="MET_COM_repoffice" >
+   <remarks></remarks>
+   <folder id="FOLTAB221" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL23" populated="true" UUID="0caa599d-b48b-4fb5-85f2-19576b1115f3" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_filcgc_seq" defaultValue="" name="filcgc" nullable="0" physicalName="filcgc" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL24" populated="true" UUID="f11b5681-9241-4bfb-8b90-f111d8daeca9" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officecod_seq" defaultValue="" name="officecod" nullable="0" physicalName="officecod" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL25" populated="true" UUID="30bf00ce-8c48-4836-9578-475541e5470a" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officedes_seq" defaultValue="" name="officedes" nullable="0" physicalName="officedes" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL26" populated="true" UUID="4aa111f9-81b7-4fcf-a261-92e1d15dac7c" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officedir_seq" defaultValue="" name="officedir" nullable="0" physicalName="officedir" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL27" populated="true" UUID="b1960306-998f-4a96-b1ea-5e5c028786c9" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officecabsol_seq" defaultValue="" name="officecabsol" nullable="0" physicalName="officecabsol" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL28" populated="true" UUID="2f278fc6-7ee9-42c4-92e1-7bf5fcdf6a79" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officecabsoliten_seq" defaultValue="" name="officecabsoliten" nullable="0" physicalName="officecabsoliten" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL29" populated="true" UUID="711a293b-afca-43ff-8887-40331b9371a2" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officecabcot_seq" defaultValue="" name="officecabcot" nullable="0" physicalName="officecabcot" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL30" populated="true" UUID="386aa048-1e7c-45c4-9709-2161c24ede3c" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officecabcotiten_seq" defaultValue="" name="officecabcotiten" nullable="0" physicalName="officecabcotiten" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL31" populated="true" UUID="057ba5e1-db52-49ff-a0f8-b577c1ce09eb" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officeimgrel_seq" defaultValue="" name="officeimgrel" nullable="0" physicalName="officeimgrel" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL32" populated="true" UUID="adab136b-ae51-4e75-b0fc-4e8757d591a6" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officesolrel_seq" defaultValue="" name="officesolrel" nullable="0" physicalName="officesolrel" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL33" populated="true" UUID="b82bccb7-0707-4dbf-a5de-84f44b615d77" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officecotrel_seq" defaultValue="" name="officecotrel" nullable="0" physicalName="officecotrel" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL34" populated="true" UUID="065fdd2b-52b4-4abd-b8a9-91ad7d077414" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officealm_seq" defaultValue="" name="officealm" nullable="0" physicalName="officealm" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL35" populated="true" UUID="c821b45f-2b90-49fe-beab-d87539d36f28" autoIncrement="false" autoIncrementSequenceName="MET_COM_repoffice_officeResp_seq" defaultValue="" name="officeResp" nullable="0" physicalName="officeResp" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL36" populated="true" UUID="71de5e5f-5fda-41c3-bdfb-9ba64dedb97a" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usucodigo_seq" defaultValue="" name="usucodigo" nullable="0" physicalName="usucodigo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB223" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB222" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB224" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX37" populated="true" UUID="c9fe4ef9-f836-4d3f-9de1-707148d22b48" clustered="false" name="MET_COM_repoffice_pk" physicalName="MET_COM_repoffice_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC38" populated="true" UUID="529a488c-8e94-4190-ab0b-8244fbca773f" ascendingOrDescending="UNSPECIFIED" column-ref="COL23" name="filcgc" physicalName="filcgc" />
+     <index-column id="IDC39" populated="true" UUID="f26de292-1860-43b1-a8c8-f206b57768f8" ascendingOrDescending="UNSPECIFIED" column-ref="COL24" name="officecod" physicalName="officecod" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB40" populated="true" UUID="55aae5d2-5a65-4e18-b53d-ac0e643d5a36" name="MET_TEC_erroLogin" objectType="TABLE" physicalName="MET_TEC_erroLogin" >
+   <remarks></remarks>
+   <folder id="FOLTAB401" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL41" populated="true" UUID="e13ef245-8447-466a-bf37-fc9bed435c1c" autoIncrement="false" autoIncrementSequenceName="MET_TEC_erroLogin_codigo_seq" defaultValue="" name="codigo" nullable="0" physicalName="codigo" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL42" populated="true" UUID="dabcc10c-20f0-4baa-a839-efa7de7768be" autoIncrement="false" autoIncrementSequenceName="MET_TEC_erroLogin_data_seq" defaultValue="" name="data" nullable="0" physicalName="data" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL43" populated="true" UUID="c64414c1-f5c3-4449-9885-c44c8905dede" autoIncrement="false" autoIncrementSequenceName="MET_TEC_erroLogin_hora_seq" defaultValue="" name="hora" nullable="0" physicalName="hora" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL44" populated="true" UUID="3fc452fd-86d8-4eba-83fe-2508c3204e36" autoIncrement="false" autoIncrementSequenceName="MET_TEC_erroLogin_ip_seq" defaultValue="" name="ip" nullable="0" physicalName="ip" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL45" populated="true" UUID="4f6da19e-0c45-4f62-a340-78ddd0309e48" autoIncrement="false" autoIncrementSequenceName="MET_TEC_erroLogin_nome_seq" defaultValue="" name="nome" nullable="0" physicalName="nome" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL46" populated="true" UUID="b3a227a8-ae42-4dd9-872f-c9f6d1595905" autoIncrement="false" autoIncrementSequenceName="MET_TEC_erroLogin_senha_seq" defaultValue="" name="senha" nullable="0" physicalName="senha" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB403" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB402" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB404" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX47" populated="true" UUID="a437b0d5-1496-43f1-a04a-228b909f1218" clustered="false" name="MET_TEC_erroLogin_pk" physicalName="MET_TEC_erroLogin_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC48" populated="true" UUID="f5f5be8d-5f0a-4b42-80e9-c57a2576b55f" ascendingOrDescending="UNSPECIFIED" column-ref="COL41" name="codigo" physicalName="codigo" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB49" populated="true" UUID="5133d800-bf2a-4de4-87d4-e10dcb4a61e1" name="MET_TEC_favmenu" objectType="TABLE" physicalName="MET_TEC_favmenu" >
+   <remarks></remarks>
+   <folder id="FOLTAB491" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL50" populated="true" UUID="76fcea77-e8ef-4259-8119-aab4a73e9889" autoIncrement="false" autoIncrementSequenceName="MET_TEC_favmenu_usucodigo_seq" defaultValue="" name="usucodigo" nullable="0" physicalName="usucodigo" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL51" populated="true" UUID="ab057fd6-253c-4b88-af93-8c6fa2713a06" autoIncrement="false" autoIncrementSequenceName="MET_TEC_favmenu_favseq_seq" defaultValue="" name="favseq" nullable="0" physicalName="favseq" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL52" populated="true" UUID="42be4b18-c07b-4b76-8418-e05904c5863e" autoIncrement="false" autoIncrementSequenceName="MET_TEC_favmenu_favdescricao_seq" defaultValue="" name="favdescricao" nullable="0" physicalName="favdescricao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL53" populated="true" UUID="1a6c08e4-d77b-47d4-baaa-782ccb70a4ab" autoIncrement="false" autoIncrementSequenceName="MET_TEC_favmenu_favclasse_seq" defaultValue="" name="favclasse" nullable="0" physicalName="favclasse" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL54" populated="true" UUID="e1b948cb-9127-4140-9441-cd282f320d81" autoIncrement="false" autoIncrementSequenceName="MET_TEC_favmenu_favmetodo_seq" defaultValue="" name="favmetodo" nullable="0" physicalName="favmetodo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL55" populated="true" UUID="c079c0a3-b93a-40b1-920e-2d4784d2f1cf" autoIncrement="false" autoIncrementSequenceName="MET_TEC_favmenu_favordem_seq" defaultValue="" name="favordem" nullable="0" physicalName="favordem" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB493" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB492" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB494" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX56" populated="true" UUID="dcb32dc1-fe7b-44a2-ba21-531691a78282" clustered="false" name="MET_TEC_favmenu_pk" physicalName="MET_TEC_favmenu_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC57" populated="true" UUID="d578c85c-3340-42ba-8210-5c0dba15e76f" ascendingOrDescending="UNSPECIFIED" column-ref="COL50" name="usucodigo" physicalName="usucodigo" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB58" populated="true" UUID="37b2a74f-bc9e-4181-b154-2b50fdc3f5b4" name="MET_TEC_itenmenu" objectType="TABLE" physicalName="MET_TEC_itenmenu" >
+   <remarks></remarks>
+   <folder id="FOLTAB581" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL59" populated="true" UUID="2bbf0a26-f719-43fe-a46d-6e1244cbcb59" autoIncrement="false" autoIncrementSequenceName="MET_TEC_itenmenu_modcod_seq" defaultValue="" name="modcod" nullable="0" physicalName="modcod" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL60" populated="true" UUID="fc9d4686-87e9-404a-964d-0a4e171e1ebc" autoIncrement="false" autoIncrementSequenceName="MET_TEC_itenmenu_mencodigo_seq" defaultValue="" name="mencodigo" nullable="0" physicalName="mencodigo" precision="0" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL61" populated="true" UUID="e65079a6-8cb2-4b1d-86a4-456b3dfcbc9d" autoIncrement="false" autoIncrementSequenceName="MET_TEC_itenmenu_itecodigo_seq" defaultValue="" name="itecodigo" nullable="0" physicalName="itecodigo" precision="0" primaryKeySeq="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL62" populated="true" UUID="f2af31f2-7275-4a01-9127-c8ac8ff528a4" autoIncrement="false" autoIncrementSequenceName="MET_TEC_itenmenu_itedescricao_seq" defaultValue="" name="itedescricao" nullable="0" physicalName="itedescricao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL63" populated="true" UUID="e7696370-1279-4ca2-9799-daad30a6f706" autoIncrement="false" autoIncrementSequenceName="MET_TEC_itenmenu_iteordem_seq" defaultValue="" name="iteordem" nullable="0" physicalName="iteordem" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL64" populated="true" UUID="63575185-cfee-440e-b3e4-f3ac5ee1d9c4" autoIncrement="false" autoIncrementSequenceName="MET_TEC_itenmenu_iteclasse_seq" defaultValue="" name="iteclasse" nullable="0" physicalName="iteclasse" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL65" populated="true" UUID="ed59da2b-8b3f-4069-84e1-2c83ade53661" autoIncrement="false" autoIncrementSequenceName="MET_TEC_itenmenu_itemetodo_seq" defaultValue="" name="itemetodo" nullable="0" physicalName="itemetodo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL66" populated="true" UUID="6dec467b-63ff-4a4c-a2e1-a550165d577e" autoIncrement="false" autoIncrementSequenceName="MET_TEC_itenmenu_iteinfo_seq" defaultValue="" name="iteinfo" nullable="0" physicalName="iteinfo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB583" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB582" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB584" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX67" populated="true" UUID="1957769d-fbe1-43f6-8155-7bd276c05998" clustered="false" name="MET_TEC_itenmenu_pk" physicalName="MET_TEC_itenmenu_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC68" populated="true" UUID="fb7efaad-74b6-42fd-9caa-138581f57512" ascendingOrDescending="UNSPECIFIED" column-ref="COL59" name="modcod" physicalName="modcod" />
+     <index-column id="IDC69" populated="true" UUID="05a38a5b-9388-471f-aa45-b7890a5be043" ascendingOrDescending="UNSPECIFIED" column-ref="COL60" name="mencodigo" physicalName="mencodigo" />
+     <index-column id="IDC70" populated="true" UUID="26f7f550-faee-4570-906c-e096fa18879e" ascendingOrDescending="UNSPECIFIED" column-ref="COL61" name="itecodigo" physicalName="itecodigo" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB71" populated="true" UUID="b3d2f170-064a-4fea-8366-a6f65ab4a3f4" name="MET_TEC_menu" objectType="TABLE" physicalName="MET_TEC_menu" >
+   <remarks></remarks>
+   <folder id="FOLTAB711" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL72" populated="true" UUID="4fd757c5-6acb-491d-ace6-eaa93e09955b" autoIncrement="false" autoIncrementSequenceName="MET_TEC_menu_modcod_seq" defaultValue="" name="modcod" nullable="0" physicalName="modcod" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL73" populated="true" UUID="7631a1f3-8f13-4dde-9ee8-f1542aa9a7a4" autoIncrement="false" autoIncrementSequenceName="MET_TEC_menu_mencodigo_seq" defaultValue="" name="mencodigo" nullable="0" physicalName="mencodigo" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL74" populated="true" UUID="8a49507e-3c19-4e8c-b0b1-ea025bcc6f36" autoIncrement="false" autoIncrementSequenceName="MET_TEC_menu_mendes_seq" defaultValue="" name="mendes" nullable="0" physicalName="mendes" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL75" populated="true" UUID="74489c3d-b346-4e26-9d8e-98e035708717" autoIncrement="false" autoIncrementSequenceName="MET_TEC_menu_menordem_seq" defaultValue="" name="menordem" nullable="0" physicalName="menordem" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB713" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB712" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB714" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX76" populated="true" UUID="613e9ba2-f2e5-4d25-90d8-c38356048cbe" clustered="false" name="MET_TEC_menu_pk" physicalName="MET_TEC_menu_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC77" populated="true" UUID="209bfa83-6165-4f0d-826b-2635c6a5db37" ascendingOrDescending="UNSPECIFIED" column-ref="COL72" name="modcod" physicalName="modcod" />
+     <index-column id="IDC78" populated="true" UUID="ccfc1272-2527-48a2-9c3e-a4d7a6c0900e" ascendingOrDescending="UNSPECIFIED" column-ref="COL73" name="mencodigo" physicalName="mencodigo" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB79" populated="true" UUID="13b9bada-a1f8-4d06-8c81-65c9a94e886f" name="MET_TEC_modulo" objectType="TABLE" physicalName="MET_TEC_modulo" >
+   <remarks></remarks>
+   <folder id="FOLTAB791" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL80" populated="true" UUID="126fb541-bf2b-4dde-96be-97ea67f6245c" autoIncrement="false" autoIncrementSequenceName="MET_TEC_modulo_modcod_seq" defaultValue="" name="modcod" nullable="0" physicalName="modcod" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL81" populated="true" UUID="96b6c54d-9e12-4d9d-bdef-da40f8864591" autoIncrement="false" autoIncrementSequenceName="MET_TEC_modulo_modescricao_seq" defaultValue="" name="modescricao" nullable="0" physicalName="modescricao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB793" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB792" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB794" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX82" populated="true" UUID="7150313d-1fb5-4f4d-b74f-8798f3687415" clustered="false" name="MET_TEC_modulo_pk" physicalName="MET_TEC_modulo_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC83" populated="true" UUID="414a5bcb-62cf-4e61-84f9-aba7e41164f8" ascendingOrDescending="UNSPECIFIED" column-ref="COL80" name="modcod" physicalName="modcod" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB84" populated="true" UUID="5adf356d-3e2b-4d07-952f-51edfdc42255" name="MET_TEC_modusuario" objectType="TABLE" physicalName="MET_TEC_modusuario" >
+   <remarks></remarks>
+   <folder id="FOLTAB841" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL85" populated="true" UUID="81ce6327-3793-44e6-838e-e253b27c84dd" autoIncrement="false" autoIncrementSequenceName="MET_TEC_modusuario_usucodigo_seq" defaultValue="" name="usucodigo" nullable="0" physicalName="usucodigo" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL86" populated="true" UUID="bfb4de66-afd1-44df-b87f-6460b45117cb" autoIncrement="false" autoIncrementSequenceName="MET_TEC_modusuario_modcod_seq" defaultValue="" name="modcod" nullable="0" physicalName="modcod" precision="0" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL87" populated="true" UUID="6d25eaba-f781-49ea-8bae-e96644503466" autoIncrement="false" autoIncrementSequenceName="MET_TEC_modusuario_modordem_seq" defaultValue="" name="modordem" nullable="0" physicalName="modordem" precision="0" primaryKeySeq="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB843" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB842" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB844" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX88" populated="true" UUID="7c7f5556-1b71-4629-b516-f052cd7a5e8a" clustered="false" name="MET_TEC_modusuario_pk" physicalName="MET_TEC_modusuario_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC89" populated="true" UUID="989d64f6-9897-46b5-903c-e3d7c49116e6" ascendingOrDescending="UNSPECIFIED" column-ref="COL85" name="usucodigo" physicalName="usucodigo" />
+     <index-column id="IDC90" populated="true" UUID="d92d2b9b-ab05-421e-981c-3059298c0eef" ascendingOrDescending="UNSPECIFIED" column-ref="COL86" name="modcod" physicalName="modcod" />
+     <index-column id="IDC91" populated="true" UUID="06888f5d-d311-4dc4-b967-f401e88df87b" ascendingOrDescending="UNSPECIFIED" column-ref="COL87" name="modordem" physicalName="modordem" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB92" populated="true" UUID="937a09e9-267c-47ec-a881-7810797b6d5e" name="MET_TEC_parametros" objectType="TABLE" physicalName="MET_TEC_parametros" >
+   <remarks></remarks>
+   <folder id="FOLTAB921" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL93" populated="true" UUID="b3ada1d9-8915-4e0c-894a-8a9c91d656a9" autoIncrement="false" autoIncrementSequenceName="MET_TEC_parametros_codigo_seq" defaultValue="" name="codigo" nullable="0" physicalName="codigo" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL94" populated="true" UUID="438c969d-4cdc-4934-a117-976e61b5f89f" autoIncrement="false" autoIncrementSequenceName="MET_TEC_parametros_parametro_seq" defaultValue="" name="parametro" nullable="0" physicalName="parametro" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL95" populated="true" UUID="a521ab81-d404-490e-a611-be273860d8cf" autoIncrement="false" autoIncrementSequenceName="MET_TEC_parametros_valor_seq" defaultValue="" name="valor" nullable="0" physicalName="valor" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL96" populated="true" UUID="83c47dfb-07b4-404f-aa9e-7e963f1ab724" autoIncrement="false" autoIncrementSequenceName="MET_TEC_parametros_aplicacao_seq" defaultValue="" name="aplicacao" nullable="0" physicalName="aplicacao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL97" populated="true" UUID="9e7b0f2f-6d07-49b2-b1c6-9b7b10a9c0c9" autoIncrement="false" autoIncrementSequenceName="MET_TEC_parametros_filcgc_seq" defaultValue="" name="filcgc" nullable="0" physicalName="filcgc" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL98" populated="true" UUID="4719e733-7b17-4cb6-bc17-b9685e29426f" autoIncrement="false" autoIncrementSequenceName="MET_TEC_parametros_officecod_seq" defaultValue="" name="officecod" nullable="0" physicalName="officecod" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB923" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB922" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB924" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX99" populated="true" UUID="266ad886-94e0-448d-b3d0-4def9272e540" clustered="false" name="MET_TEC_parametros_pk" physicalName="MET_TEC_parametros_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC100" populated="true" UUID="624eed3a-2ebc-444e-aafe-288827c26d25" ascendingOrDescending="UNSPECIFIED" column-ref="COL93" name="codigo" physicalName="codigo" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB101" populated="true" UUID="b2680234-8dce-4472-8a69-837ec889191c" name="MET_TEC_sessao" objectType="TABLE" physicalName="MET_TEC_sessao" >
+   <remarks></remarks>
+   <folder id="FOLTAB1011" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL102" populated="true" UUID="a21582ba-4068-47ef-a100-f9a86f2841eb" autoIncrement="false" autoIncrementSequenceName="MET_TEC_sessao_usucodigo_seq" defaultValue="" name="usucodigo" nullable="0" physicalName="usucodigo" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL103" populated="true" UUID="93decb36-7b4d-4e4d-ad20-3a8c2bfa8d8d" autoIncrement="false" autoIncrementSequenceName="MET_TEC_sessao_usunome_seq" defaultValue="" name="usunome" nullable="0" physicalName="usunome" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL104" populated="true" UUID="9d4172be-fdf0-416d-b713-48ca1ed6dafd" autoIncrement="false" autoIncrementSequenceName="MET_TEC_sessao_usuidsessao_seq" defaultValue="" name="usuidsessao" nullable="0" physicalName="usuidsessao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL105" populated="true" UUID="56131ca5-3cc0-4389-9b56-2c57a9f45257" autoIncrement="false" autoIncrementSequenceName="MET_TEC_sessao_usustatus_seq" defaultValue="" name="usustatus" nullable="0" physicalName="usustatus" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL106" populated="true" UUID="8edb692d-72cf-49e0-96ae-892c63b10e7d" autoIncrement="false" autoIncrementSequenceName="MET_TEC_sessao_usudata_seq" defaultValue="" name="usudata" nullable="0" physicalName="usudata" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL107" populated="true" UUID="ed9499bb-ad56-464b-9ef8-8ee1555ac239" autoIncrement="false" autoIncrementSequenceName="MET_TEC_sessao_usuhora_seq" defaultValue="" name="usuhora" nullable="0" physicalName="usuhora" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL108" populated="true" UUID="c5e6c3aa-819b-4537-bbc4-eef2baac71a8" autoIncrement="false" autoIncrementSequenceName="MET_TEC_sessao_usulastacesso_seq" defaultValue="" name="usulastacesso" nullable="0" physicalName="usulastacesso" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1013" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1012" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1014" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX109" populated="true" UUID="85d92b8a-ab08-4859-9c95-ac706a8bbf21" clustered="false" name="MET_TEC_sessao_pk" physicalName="MET_TEC_sessao_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC110" populated="true" UUID="3e0ea710-37df-4e23-9070-5af2f3f99e28" ascendingOrDescending="UNSPECIFIED" column-ref="COL102" name="usucodigo" physicalName="usucodigo" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB111" populated="true" UUID="1a15021b-0192-4750-831e-2fa4dfb4b6a5" name="MET_TEC_usuario" objectType="TABLE" physicalName="MET_TEC_usuario" >
+   <remarks></remarks>
+   <folder id="FOLTAB1111" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL112" populated="true" UUID="08defdcd-c2a4-465c-9d58-3bb9903ef7f3" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usucodigo_seq" defaultValue="" name="usucodigo" nullable="0" physicalName="usucodigo" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL113" populated="true" UUID="9bb2f93e-d05e-499b-9a04-2a37632abbe6" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usunome_seq" defaultValue="" name="usunome" nullable="0" physicalName="usunome" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL114" populated="true" UUID="a1d96f82-b9f9-49dc-b77a-98541c7a8384" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_ususobrenome_seq" defaultValue="" name="ususobrenome" nullable="0" physicalName="ususobrenome" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL115" populated="true" UUID="f9c02de7-c9dd-436b-80f8-84ac7a227c72" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usulogin_seq" defaultValue="" name="usulogin" nullable="0" physicalName="usulogin" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL116" populated="true" UUID="d6b7a1b7-f917-4260-ada6-ce35da1276e5" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_ususenha_seq" defaultValue="" name="ususenha" nullable="0" physicalName="ususenha" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL117" populated="true" UUID="2f0b9862-d437-41be-8b25-e26446d93f20" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usuimagem_seq" defaultValue="" name="usuimagem" nullable="0" physicalName="usuimagem" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL118" populated="true" UUID="ad5d0cad-1ee9-442b-8ec4-c19e806a31b3" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usucracha_seq" defaultValue="" name="usucracha" nullable="0" physicalName="usucracha" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL119" populated="true" UUID="e88f3a04-87c6-46db-9e3d-098422ad34f5" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usufone_seq" defaultValue="" name="usufone" nullable="0" physicalName="usufone" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL120" populated="true" UUID="d3c4a8e0-0fde-4e99-92a9-4ea9388741d1" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usuramal_seq" defaultValue="" name="usuramal" nullable="0" physicalName="usuramal" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL121" populated="true" UUID="b50c90c4-5c0e-47db-83fb-135f23ad3f37" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_codsetor_seq" defaultValue="" name="codsetor" nullable="0" physicalName="codsetor" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL122" populated="true" UUID="b9258170-69e5-4c64-8884-5ef54fe63f3a" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usutoken_seq" defaultValue="" name="usutoken" nullable="0" physicalName="usutoken" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL123" populated="true" UUID="d0acffbc-02ed-4dc3-8341-335e37ce9653" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usutipo_seq" defaultValue="" name="usutipo" nullable="0" physicalName="usutipo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL124" populated="true" UUID="b0a12816-8347-4d82-b188-3da539a67c62" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usubloqueado_seq" defaultValue="" name="usubloqueado" nullable="0" physicalName="usubloqueado" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL125" populated="true" UUID="e76f3fab-d509-44af-86e2-b626b19555ec" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usuti_seq" defaultValue="" name="usuti" nullable="0" physicalName="usuti" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL126" populated="true" UUID="2f08679a-0615-447d-8feb-593f430ae9ea" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usurep_seq" defaultValue="" name="usurep" nullable="0" physicalName="usurep" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL127" populated="true" UUID="9b2fa3e1-98ec-4303-b312-ac09dbb10fc5" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_filcgc_seq" defaultValue="" name="filcgc" nullable="0" physicalName="filcgc" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL128" populated="true" UUID="e7972fd8-f4bc-4a03-a65e-35475a25e06f" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_officecod_seq" defaultValue="" name="officecod" nullable="0" physicalName="officecod" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL129" populated="true" UUID="84ff886c-785b-41fc-9861-7929db26d9fc" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usuemail_seq" defaultValue="" name="usuemail" nullable="0" physicalName="usuemail" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL130" populated="true" UUID="843d2172-3826-4008-ae25-b97e53f5fb06" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_ususalvasenha_seq" defaultValue="" name="ususalvasenha" nullable="0" physicalName="ususalvasenha" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL131" populated="true" UUID="def86a6f-4ef3-4493-86f4-811c68076363" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_ususit_seq" defaultValue="" name="ususit" nullable="0" physicalName="ususit" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL132" populated="true" UUID="14ddb28f-e6cc-424b-a7d1-c516ede34ca0" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_senhaProvisoria_seq" defaultValue="" name="senhaProvisoria" nullable="0" physicalName="senhaProvisoria" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL133" populated="true" UUID="ef140bb1-2dc9-4e9a-9b62-5c1572e2a7c3" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usunomeDelsoft_seq" defaultValue="" name="usunomeDelsoft" nullable="0" physicalName="usunomeDelsoft" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL134" populated="true" UUID="44878b0d-dd02-460f-b9fe-bc27b9d470fb" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_codsismetalbo_seq" defaultValue="" name="codsismetalbo" nullable="0" physicalName="codsismetalbo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1113" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1112" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1114" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX135" populated="true" UUID="42d85621-13ac-45f0-8a34-4738a26e8520" clustered="false" name="MET_TEC_usuario_pk" physicalName="MET_TEC_usuario_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC136" populated="true" UUID="d4506019-f427-4457-bf7a-18d4c446465c" ascendingOrDescending="UNSPECIFIED" column-ref="COL112" name="usucodigo" physicalName="usucodigo" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB137" populated="true" UUID="bfdc6242-71be-4ae0-9c44-2bfee5d6f757" name="MET_TEC_usutipo" objectType="TABLE" physicalName="MET_TEC_usutipo" >
+   <remarks></remarks>
+   <folder id="FOLTAB1371" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL138" populated="true" UUID="6bc5e174-89f3-496d-b3a2-af75ca6eaca9" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usutipo_usutipo_seq" defaultValue="" name="usutipo" nullable="0" physicalName="usutipo" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL139" populated="true" UUID="1842c74d-b1c3-452c-8af6-864574a5978b" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usutipo_usutipdescricao_seq" defaultValue="" name="usutipdescricao" nullable="0" physicalName="usutipdescricao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL140" populated="true" UUID="8ed1ec56-ca73-4b30-9016-4092baef5f86" autoIncrement="false" autoIncrementSequenceName="MET_TEC_usuario_usucodigo_seq" defaultValue="" name="usucodigo" nullable="0" physicalName="usucodigo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1373" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1372" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1374" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX141" populated="true" UUID="1e7a425e-5986-47fd-bf95-4673d840df31" clustered="false" name="MET_TEC_usutipo_pk" physicalName="MET_TEC_usutipo_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC142" populated="true" UUID="75894b26-5cd7-406c-9918-d3a609cd8b2c" ascendingOrDescending="UNSPECIFIED" column-ref="COL138" name="usutipo" physicalName="usutipo" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB143" populated="true" UUID="efa3d1c3-090c-4fbb-a59e-257d6acaa863" name="MET_TEC_versao" objectType="TABLE" physicalName="MET_TEC_versao" >
+   <remarks></remarks>
+   <folder id="FOLTAB1431" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL144" populated="true" UUID="f0414d58-c8f7-4649-a3f6-19d3b241a79b" autoIncrement="false" autoIncrementSequenceName="MET_TEC_versao_seq_seq" defaultValue="" name="seq" nullable="0" physicalName="seq" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL145" populated="true" UUID="3df2eb3d-982e-494b-a418-c2397483ee48" autoIncrement="false" autoIncrementSequenceName="MET_TEC_versao_tec_seq" defaultValue="" name="tec" nullable="0" physicalName="tec" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL146" populated="true" UUID="5cbcc409-357f-4299-a425-cfcb77bfb885" autoIncrement="false" autoIncrementSequenceName="MET_TEC_versao_usucodigo_seq" defaultValue="" name="usucodigo" nullable="0" physicalName="usucodigo" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL147" populated="true" UUID="a4f9e4b8-3000-4184-bcbc-e679cc67c6e2" autoIncrement="false" autoIncrementSequenceName="MET_TEC_versao_usunome_seq" defaultValue="" name="usunome" nullable="0" physicalName="usunome" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL148" populated="true" UUID="576051a1-5c97-4a6e-ac91-5a914741c4d6" autoIncrement="false" autoIncrementSequenceName="MET_TEC_versao_versao_seq" defaultValue="" name="versao" nullable="0" physicalName="versao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL149" populated="true" UUID="09006d89-79a4-4de6-9146-d343aae1008c" autoIncrement="false" autoIncrementSequenceName="MET_TEC_versao_data_seq" defaultValue="" name="data" nullable="0" physicalName="data" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL150" populated="true" UUID="bac487b5-e0a0-4dee-a4c1-6a16464d1a44" autoIncrement="false" autoIncrementSequenceName="MET_TEC_versao_hora_seq" defaultValue="" name="hora" nullable="0" physicalName="hora" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL151" populated="true" UUID="e5eed51e-6d4b-444b-a801-7717eb5957fc" autoIncrement="false" autoIncrementSequenceName="MET_TEC_versao_descricao_seq" defaultValue="" name="descricao" nullable="0" physicalName="descricao" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL152" populated="true" UUID="7d21d6e5-7178-49b5-9d1e-2345bba6b197" autoIncrement="false" autoIncrementSequenceName="MET_TEC_versao_equipe_seq" defaultValue="" name="equipe" nullable="0" physicalName="equipe" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB1433" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB1432" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB1434" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX153" populated="true" UUID="2cacaede-9295-4fd9-8a86-926a7f74f0c8" clustered="false" name="MET_TEC_versao_pk" physicalName="MET_TEC_versao_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC154" populated="true" UUID="48ea6064-fd99-4592-b634-1c20edfec60e" ascendingOrDescending="UNSPECIFIED" column-ref="COL144" name="seq" physicalName="seq" />
+    </index>
+   </folder>
+  </table>
+  <relationships>
+   <relationship id="REL155" populated="true" UUID="253dc8b5-7212-4569-ae33-1d6440441196" deferrability="7" deleteRule="3" fk-table-ref="TAB13" fkCardinality="7" identifying="false" name="MET_COM_repoffice_MET_COM_repcodoffice_fk" physicalName="MET_COM_repoffice_MET_COM_repcodoffice_fk" pk-table-ref="TAB22" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP156" populated="true" UUID="cfb9e9e9-4895-40aa-9347-f64744be9474" fk-column-ref="COL14" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL23" />
+    <column-mapping id="CMP157" populated="true" UUID="ccefa7c7-1a0a-44e2-aa8d-c5dbff4908ee" fk-column-ref="COL15" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL24" />
+   </relationship>
+   <relationship id="REL158" populated="true" UUID="0dbaf72d-a055-4ccc-97c3-d17c3f8de2a1" deferrability="7" deleteRule="3" fk-table-ref="TAB58" fkCardinality="7" identifying="false" name="MET_TEC_menu_MET_TEC_itenmenu_fk" physicalName="MET_TEC_menu_MET_TEC_itenmenu_fk" pk-table-ref="TAB71" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP159" populated="true" UUID="70bcd3de-353d-4a21-b7de-d7c975337433" fk-column-ref="COL59" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL72" />
+    <column-mapping id="CMP160" populated="true" UUID="b26f1db2-ff29-4c93-a34e-227359d76a2c" fk-column-ref="COL60" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL73" />
+   </relationship>
+   <relationship id="REL161" populated="true" UUID="824c3762-452a-4725-9e18-2328566436ea" deferrability="7" deleteRule="3" fk-table-ref="TAB84" fkCardinality="7" identifying="false" name="MET_TEC_modulo_MET_TEC_modusuario_fk" physicalName="MET_TEC_modulo_MET_TEC_modusuario_fk" pk-table-ref="TAB79" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP162" populated="true" UUID="36b6d454-443d-46a4-814f-872f42979407" fk-column-ref="COL86" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL80" />
+   </relationship>
+   <relationship id="REL163" populated="true" UUID="2deb6c07-4d8e-4ecb-8be4-796a19052683" deferrability="7" deleteRule="3" fk-table-ref="TAB84" fkCardinality="7" identifying="false" name="MET_TEC_usuario_MET_TEC_modusuario_fk" physicalName="MET_TEC_usuario_MET_TEC_modusuario_fk" pk-table-ref="TAB111" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP164" populated="true" UUID="ce46b4ae-8df4-43f5-a749-1e1fd54b13bc" fk-column-ref="COL85" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL112" />
+   </relationship>
+   <relationship id="REL165" populated="true" UUID="b22a3d20-d991-492c-9ef2-c38cf90d2b93" deferrability="7" deleteRule="3" fk-table-ref="TAB22" fkCardinality="7" identifying="false" name="MET_TEC_usuario_MET_COM_repoffice_fk" physicalName="MET_TEC_usuario_MET_COM_repoffice_fk" pk-table-ref="TAB111" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP166" populated="true" UUID="ae95e1ae-6af4-4ead-b6ec-98e674684690" fk-column-ref="COL36" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL112" />
+   </relationship>
+   <relationship id="REL167" populated="true" UUID="de738691-f37f-4ab3-ab08-000118f12ebe" deferrability="7" deleteRule="3" fk-table-ref="TAB137" fkCardinality="7" identifying="false" name="MET_TEC_usuario_MET_TEC_usutipo_fk" physicalName="MET_TEC_usuario_MET_TEC_usutipo_fk" pk-table-ref="TAB111" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP168" populated="true" UUID="95dfa50f-8c22-4200-934b-b11a9c4b882f" fk-column-ref="COL140" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL112" />
+   </relationship>
+   <relationship id="REL169" populated="true" UUID="022f8167-b0a7-4b13-9622-623910f85074" deferrability="7" deleteRule="3" fk-table-ref="TAB1" fkCardinality="7" identifying="false" name="MET_TEC_usuario_MET_CAD_setores_fk" physicalName="MET_TEC_usuario_MET_CAD_setores_fk" pk-table-ref="TAB111" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP170" populated="true" UUID="9eef046d-ed91-4fd4-a057-74cb6fa34439" fk-column-ref="COL10" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL112" />
+   </relationship>
+  </relationships>
+ </target-database>
+ <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="true"> </ddl-generator>
+ <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
+ <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
+ <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+  <table-pane table-ref="TAB1" x="353" y="572" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB13" x="542" y="478" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB22" x="531" y="191" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB40" x="828" y="41" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB49" x="770" y="379" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB58" x="24" y="209" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB71" x="20" y="28" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB79" x="456" y="20" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB84" x="602" y="107" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB92" x="25" y="375" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB101" x="767" y="219" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB111" x="247" y="33" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB137" x="205" y="475" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB143" x="30" y="496" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-link relationship-ref="REL158" pkConnection="0.49748743718592964" fkConnection="0.4878048780487805" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL163" pkConnection="0.41595441595441596" fkConnection="0.8591549295774648" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL155" pkConnection="0.5077720207253886" fkConnection="0.494949494949495" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL165" pkConnection="0.6125356125356125" fkConnection="0.32" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="33"/>
+  <table-link relationship-ref="REL161" pkConnection="0.6594594594594595" fkConnection="0.31683168316831684" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL167" pkConnection="0.5" fkConnection="0.49489795918367346" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+  <table-link relationship-ref="REL169" pkConnection="0.9489795918367347" fkConnection="0.2857142857142857" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="132"/>
+ </play-pen>
+ <critic-manager>
+  <critic-grouping platformType="Generic" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PrimaryKeyCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.RelationshipMappingTypeCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.EmptyRelationshipCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericSequenceNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetDefaultOnColumnWithNoDefaultCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetNullOnNonNullableColumnCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DuplicateNameCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="DB2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DB2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="H2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.H2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="HSQLDB" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.HSQLDBUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="MySQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLCommentCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="Oracle" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OraclePhysicalNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="PostgreSQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PostgreSQLReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerUnsupportedFeaturesCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2000" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2000UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2005" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2005UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+ </critic-manager>
+ <profiles topNCount="10">
+  </profiles>
+  <olap>
+  </olap>
+  <olap-gui>
+  </olap-gui>
+</architect-project>
