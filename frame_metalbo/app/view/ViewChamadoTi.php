@@ -21,6 +21,7 @@ class ViewChamadoTi extends View{
         $oSit->addComparacao('AGUARDANDO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
         $oSit->addComparacao('EM ANDAMENTO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
         $oSit->addComparacao('FINALIZADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSit->addComparacao('CANCELADO', CampoConsulta::COMPARACAO_IGUAL,CampoConsulta::COR_ROXO,CampoConsulta::MODO_LINHA);
         
         $oTipo = new CampoConsulta('Tipo','tipo');
         $oTipo->setILargura(50);
