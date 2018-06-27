@@ -171,8 +171,6 @@ class ControllerQualNovoProjVenda extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
         //e-mail avanei somente para teste
-   
-
         // $oEmail->addAnexo('app/relatorio/qualidade/Aq'.$aDados[1].'_empresa_'.$aDados[0].'.pdf', utf8_decode('Aq nº'.$aDados[1].'_empresa_'.$aDados[0]));
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
@@ -214,7 +212,7 @@ class ControllerQualNovoProjVenda extends Controller {
      * retorna para projetos
      */
     public function retProjetos($sDados) {
-        $aDados = explode(', ', $sDados);
+        $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
@@ -338,7 +336,7 @@ class ControllerQualNovoProjVenda extends Controller {
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
         }
-        
+
 
         // $oEmail->addAnexo('app/relatorio/qualidade/Aq'.$aDados[1].'_empresa_'.$aDados[0].'.pdf', utf8_decode('Aq nº'.$aDados[1].'_empresa_'.$aDados[0]));
         $aRetorno = $oEmail->sendEmail();
