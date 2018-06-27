@@ -209,7 +209,7 @@ class Botao {
            break;
        case self::TIPO_FILTRO:
                 $sBotao='<div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 btn-acao-grid pesq-refresh" >'
-                        .'<button title="Habilita pesquisa" type="button" class="btn btn-icon btn-success btn-outline" id="'.$this->getId().'" >'
+                        .'<button title="Habilita pesquisa" type="button" class="btn btn-icon btn-dark btn-outline" id="'.$this->getId().'" >'
                         .'<span><i class="icon wb-search" aria-hidden="true"></i> </span>'
                         .'</div>';
            break; 
