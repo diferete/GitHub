@@ -52,6 +52,7 @@ class Form {
         
         $this->aValidacao = array();
         $this->setBRetonaRender(false);
+        
        }
        
            

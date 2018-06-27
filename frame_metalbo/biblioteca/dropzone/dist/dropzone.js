@@ -419,7 +419,7 @@ var Dropzone = function (_Emitter) {
         /**
          * The text used before any files are dropped.
          */
-        dictDefaultMessage: "Arraste e solte ou clique para fazer o upload",
+        dictDefaultMessage: "Drop files here to upload",
 
         /**
          * The text that replaces the default message text it the browser is not supported.

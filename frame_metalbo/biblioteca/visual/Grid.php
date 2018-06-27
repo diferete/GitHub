@@ -10,6 +10,7 @@ class Grid {
 
     private $sId; //id do grid
     private $sRenderTo; //renderTo
+    private $abaSel;
     private $aColunas; //colunas do grid, entra os camposconsulta da view, os objetos
     private $sController; //controle para pegar os dados
     private $aBotoes;
@@ -67,9 +68,18 @@ class Grid {
         $this->aCampos = array();
         $this->setBUsaCarrGrid(false);
         $this->setILarguraGrid($iLarguraGrid);
-        $this->setBGridResponsivo(true);
+        $this->setBGridResponsivo(TRUE);
+    }
+    
+    function getAbaSel() {
+        return $this->abaSel;
     }
 
+    function setAbaSel($abaSel) {
+        $this->abaSel = $abaSel;
+    }
+
+    
     function getBGridResponsivo() {
         return $this->bGridResponsivo;
     }
@@ -516,8 +526,7 @@ class Grid {
                     . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 15px 15px 15px 50px;  background-color: #f3f7fa;  border: 1px solid #eee">'
                     . '<div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">'//ribbon ribbon-clip ribbon-reverse ribbon-primary
                     . '<a href="javascript:void(0)" id ="' . $this->getSId() . '-pesq">'
-                    . '<span title="Clique aqui para pesquisar" class="ribbon-inner" >'
-                    //.'<i class="icon wb-search" aria-hidden="true"></i>'
+                    . '<span class="ribbon-inner" >'
                     . 'Buscar'
                     . '</span>'
                     . '</a>'
@@ -558,11 +567,10 @@ class Grid {
 
         $sGrid .= '<div id="' . $this->getSId() . 'resize" class="col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >';
         $sGrid .= '<div class="label-dark" style="margin-top:10px;"><span class="label label-dark">' . $this->getSTituloConsulta() . '</span></div>';
+
         $sGrid .= '<div class="containerTable">';
-        
-        //if ternário que seta responsividade na tabela manualmente caso a tabela tenha poucas colunas
         $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
-        
+        //$sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
         $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
                 . '<thead><tr role ="row"><th></th>';
         //monta o cabeçalho baseado nos campos do cria consulta
@@ -623,8 +631,8 @@ class Grid {
 
         $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $sDados . '</tbody></table></div>' . $sBotCarregar . '<div class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $sDados . '</tbody></table></div>' . $sBotCarregar . '<div class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
-        $sGrid .= '</tr></tbody></table></div></div>';
-
+        $sGrid .= '<span name="paramGrid" id="'.$this->getAbaSel().'paramGrid" style="display:none;">'.$this->getSId().'</span></tr></tbody></table></div></div>';
+       
 
 
         $sGrid .= '</div>';
@@ -767,7 +775,6 @@ class Grid {
                 . '$(document).keyup(function(e){'
                 . 'pressedCtrl = false;'
                 . '});'
-                . ''
                 . $sEventos
                 . $dbClick
                 . $Click

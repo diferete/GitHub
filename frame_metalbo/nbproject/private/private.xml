@@ -26,12 +26,12 @@
             <url>biblioteca/visual/CampoConsulta.php</url>
             <bookmark id="9">
                 <name/>
-                <line>73</line>
+                <line>68</line>
                 <key/>
             </bookmark>
             <bookmark id="10">
                 <name/>
-                <line>73</line>
+                <line>68</line>
                 <key/>
             </bookmark>
         </file>
@@ -47,17 +47,19 @@
             <url>biblioteca/visual/Grid.php</url>
             <bookmark id="5">
                 <name/>
-                <line>623</line>
+                <line>622</line>
                 <key/>
             </bookmark>
             <bookmark id="11">
                 <name/>
-                <line>768</line>
+                <line>767</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/biblioteca/visual/Botao.php</file>
+        </group>
     </open-files>
 </project-private>
