@@ -516,7 +516,7 @@ class Grid {
                     . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 15px 15px 15px 50px;  background-color: #f3f7fa;  border: 1px solid #eee">'
                     . '<div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">'//ribbon ribbon-clip ribbon-reverse ribbon-primary
                     . '<a href="javascript:void(0)" id ="' . $this->getSId() . '-pesq">'
-                    . '<span class="ribbon-inner" >'
+                    . '<span title="Clique aqui para pesquisar" class="ribbon-inner" >'
                     //.'<i class="icon wb-search" aria-hidden="true"></i>'
                     . 'Buscar'
                     . '</span>'
