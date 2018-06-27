@@ -513,7 +513,7 @@ class Grid {
         }
         if (!empty($this->aFiltro)) {
             $sFiltro = ' <div class="row" id="' . $this->getSId() . '-filtros" style="display: none; background-color: whitesmoke">'
-                    . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 15px 15px 0px 50px;  background-color: #f3f7fa;  border: 1px solid #eee">'
+                    . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 15px 15px 15px 50px;  background-color: #f3f7fa;  border: 1px solid #eee">'
                     . '<div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">'//ribbon ribbon-clip ribbon-reverse ribbon-primary
                     . '<a href="javascript:void(0)" id ="' . $this->getSId() . '-pesq">'
                     . '<span class="ribbon-inner" >'
