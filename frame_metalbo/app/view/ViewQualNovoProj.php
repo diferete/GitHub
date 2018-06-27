@@ -64,7 +64,6 @@ class ViewQualNovoProj extends View {
         $oSitGeral->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oSitGeral->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA);
         $oSitGeral->addComparacao('Lib.Cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_DEFAULT, CampoConsulta::MODO_COLUNA);
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(11);
 
