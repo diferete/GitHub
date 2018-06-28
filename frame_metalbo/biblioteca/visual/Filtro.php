@@ -537,11 +537,11 @@ class Filtro{
                 
                 case self::CAMPO_BUSCADOBANCOPK;
                      $sCampo = '<div class="col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'" > '
-                               .' <div class="input-group" id="'.$this->getId().'-group">   '
+                               .' <div class="input-group" style="margin-left:20px;margin-top:5px" id="'.$this->getId().'-group">   '
                              //  .'     <label class="control-label" for="style1704558a21587c7f20">'.$this->getSLabel().':</label> '
                                .'     <input type="text" autocomplete="off" name="'.$this->getSNome().'" class="form-control input-sm " id="'.$this->getId().'" value=""  placeholder="'.$this->getSLabel().'" >  ' 
                                .'     <span class="input-group-btn">     '
-                               .'         <button title="Pesquisar" type="button" class="btn btn-primary btn-sm" id="'.$this->getId().'-btn" ' 
+                               .'         <button title="Pesquisar" type="button" class="btn btn-primary btn-search btn-sm" id="'.$this->getId().'-btn" ' 
                                .'    style="margin-top: 0px; margin-rigth:0px;" ><i class="icon wb-search" aria-hidden="true"></i> '
                                .'         </button>   </span> </div> '
                                .' </div> '
