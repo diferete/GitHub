@@ -222,9 +222,9 @@ class ViewQualRnc extends View {
         $oCodigo->setSCampoRetorno('procod', $this->getTela()->getId());
         $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
 
-        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 2);
+        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 2,2,12,12);
         
-        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_MONEY, 1);
+        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_MONEY, 1,1,12,12);
 
         $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2,2,12,12);
 
