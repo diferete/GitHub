@@ -204,7 +204,7 @@ class PersistenciaQualNovoProjVenda extends Persistencia {
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $aEmail['rep'] = $oRow->usuemail;
 
-        return $aEmail['rep'];
+        return $aEmail;
     }
 
     /**

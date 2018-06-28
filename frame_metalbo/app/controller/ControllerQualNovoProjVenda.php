@@ -165,11 +165,10 @@ class ControllerQualNovoProjVenda extends Controller {
         }
 
         //na o enviar e-mail para vendas no momento
-        $aUserPlano[] = $this->Persistencia->emailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        $aUserPlano = $this->Persistencia->emailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
-        foreach ($aUserPlano as $sCopia) {
-            $oEmail->addDestinatarioCopia($sCopia);
-        }
+        $oEmail->addDestinatarioCopia($aUserPlano['rep']);
+        
         //e-mail avanei somente para teste
         // $oEmail->addAnexo('app/relatorio/qualidade/Aq'.$aDados[1].'_empresa_'.$aDados[0].'.pdf', utf8_decode('Aq nº'.$aDados[1].'_empresa_'.$aDados[0]));
         $aRetorno = $oEmail->sendEmail();
@@ -202,8 +201,7 @@ class ControllerQualNovoProjVenda extends Controller {
 
 
         $oMensagem = new Modal('Retornar para projetos', 'Deseja retornar o projeto nº' . $aCamposChave['nr'] . ' para o projetos? --ATENÇÃO SERÁ RETORNADO TODAS AS SITUAÇÕES!', Modal::TIPO_AVISO, true, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("", "' . $sClasse . '", "retProjetos", "' . $sDados . '");
-                ');
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("", "' . $sClasse . '", "retProjetos", "' . $sDados . '");');
 
         echo $oMensagem->getRender();
     }
@@ -221,8 +219,71 @@ class ControllerQualNovoProjVenda extends Controller {
         $aRet = $this->Persistencia->retProjetos($aCamposChave);
         if ($aRet[0]) {
             $oMensagem = new Mensagem('Retorno', 'Projeto retornado com sucesso para o setor de projetos!', Mensagem::TIPO_SUCESSO);
-            echo $oMensagem->getRender();
+            echo'requestAjax("", "' . $sClasse . '", "EnvRetornaProj", "' . $sDados . '");';
             echo"$('#" . $aDados[1] . "-pesq').click();";
+        }
+        echo $oMensagem->getRender();
+    }
+
+    public function EnvRetornaProj($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+
+
+
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+
+        $oEmail->setEnvioSMTP();
+        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
+        $oEmail->setServidor('smtp.terra.com.br');
+        $oEmail->setPorta(587);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario('metalboweb@metalbo.com.br');
+        $oEmail->setSenha('filialwe');
+        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+
+        $oAprov = $this->Persistencia->buscaDadosEmailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        $aObs = $this->Persistencia->buscaObs($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+
+        $oEmail->setAssunto(utf8_decode('Entrada de projeto nº' . $aCamposChave['nr'] . ''));
+        $oEmail->setMensagem(utf8_decode('ENTRADA DE PROJETO Nº ' . $aCamposChave['nr'] . ' FOI <span style="color:#006400"><b>RETORNADO</b></span> PELO SETOR DE VENDAS.<hr><br/>'
+                        . '<b>Cliente:</b> ' . $oAprov->empcod . '  ' . $oAprov->empdes . '<br/><br/><br/>'
+                        . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
+                        . '<tr><td><b>Produto:</b></td><td>' . $oAprov->desc_novo_prod . '</td></tr>'
+                        . '<tr><td><b>Acabamento:</b></td><td>' . $oAprov->acabamento . '</td></tr>'
+                        . '<tr><td><b>Quantidade:</b></td><td>' . number_format($oAprov->quant_pc, 2, ',', '.') . '</td></tr>'
+                        . '<tr><td><b>Lote Mínimo:</b></td><td>' . number_format($oAprov->lotemin, 2, ',', '.') . '</td></tr>'
+                        . '<tr><td><b>Observação vendas/Motivo reprovação:</b></td><td>' . $aObs['Financeiro'] . '</td></tr>'
+                        . '</table><br/><br/><br/>'
+                        . ' < a href = "sistema.metalbo.com.br">Clique aqui para acessar a entrada de projeto!</a>'
+                        . ' < br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+        $oEmail->limpaDestinatariosAll();
+
+        // Para
+        $aEmails = array();
+        $aEmails[] = $_SESSION['email'];
+        foreach ($aEmails as $sEmail) {
+            $oEmail->addDestinatario($sEmail);
+        }
+
+        //na o enviar e-mail para vendas no momento
+        $aUserPlano = $this->Persistencia->emailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+
+        $oEmail->addDestinatarioCopia($aUserPlano['proj']);
+
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
         }
     }
 
