@@ -156,14 +156,13 @@ class ControllerQualRnc extends Controller {
     }
 
     public function envMailGrid($sDados) {
-        $sDadosFull = $sDados;
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
         echo 'requestAjax("","QualRnc","geraRelPdfRnc","' . $aCamposChave['filcgc'] . ',' . $aCamposChave['nr'] . ',rc");';
-        echo 'requestAjax("","QualRnc","msgLiberaRnc","' . $sDadosFull . '");';
+        echo 'requestAjax("","QualRnc","msgLiberaRnc","' . $sDados . '");';
     }
 
     public function geraRelPdfRnc($sDados) {

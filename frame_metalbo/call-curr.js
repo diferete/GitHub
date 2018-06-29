@@ -504,7 +504,7 @@ $("#formWizzard").submit(function (e) {
     var str_json = JSON.stringify(data);
 
     request = new XMLHttpRequest();
-    request.open("POST", "http://localhost/frame_metalbo/index.php?classe=UploadCurr&metodo=UploadCurr", true);
+    request.open("POST", "http://localhost/GitHub/frame_metalbo/index.php?classe=UploadCurr&metodo=UploadCurr", true);
     request.setRequestHeader("Content-type", "application/json");
     request.send(str_json);
 
