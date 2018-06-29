@@ -100,10 +100,10 @@ $pdf->SetFont('Arial', '', 9);
 
 
 if ($avFim == 'aberta') {
-    $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '      Usuário: ' . $userImp . '     Início: ' . $sDataini . '                  Fim: ', 0, 'J');
+    $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '            Fim: ', 0, 'J');
 } else {
     if ($avFim == 'fechada') {
-        $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '      Usuário: ' . $userImp . '     Início: ' . $sDataini . '                  Fim: ' . $sDataFim . '', 0, 'J');
+        $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '            Fim: '.$sDataFim.'', 0, 'J');
     }
 }
 
