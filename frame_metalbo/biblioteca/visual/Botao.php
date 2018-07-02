@@ -289,7 +289,7 @@ class Botao {
     
         case self::TIPO_REL:
             $sBotao = 
-                '<div style="margin-top:35px" class="col-lg-1 col-md-1 col-sm-1 col-xs-2 btn-acao-grid">'
+                '<div style="margin-top:35px;margin-left:20px" class="col-lg-1 col-md-1 col-sm-1 col-xs-2 btn-acao-grid">'
                      .'<button type="button" class="btn btn-primary btn-sm margin-btn" name ="'.$this->getId().'"  id="'.$this->getId().'" '.  $this->setDesativado($this->getBDesativado()).'>'
                      .'<span><i class="icon wb-desktop" aria-hidden="true"></i>'.$this->sTexto.'</span>'
                      .'</button>'
