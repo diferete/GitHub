@@ -178,10 +178,10 @@ class ControllerQualRncVenda extends Controller {
 
         $oRow = $this->Persistencia->buscaDadosRnc($aCamposChave);
 
-        $oEmail->setAssunto(utf8_decode('RETORNO RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ''));
+        $oEmail->setAssunto(utf8_decode('RETORNO RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ' '.$oRow->devolucao.''));
 
 
-        $oEmail->setMensagem(utf8_decode('A devolução de Nº ' . $oRow->nr . ' foi <strong>' . $oRow->devolucao . '</strong> pela Metalbo.<hr><br/>'
+        $oEmail->setMensagem(utf8_decode('A devolução de Nº ' . $oRow->nr . ' foi <strong><span style="color:red">' . $oRow->devolucao . '</span></strong> pela Metalbo.<hr><br/>'
                         . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
                         . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
                         . '<b>Hora: ' . $hora . '  </b><br/>'
