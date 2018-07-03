@@ -13,6 +13,8 @@ class ViewQualRncVenda extends View {
 
 
         $oNr = new CampoConsulta('Nr', 'nr');
+        $oNr->setILargura(10);
+
         $oCliente = new CampoConsulta('Cliente', 'empdes');
 
         $oUser = new CampoConsulta('Usuário', 'usunome');
@@ -77,7 +79,7 @@ class ViewQualRncVenda extends View {
         $oOfficeDes->setSValor($_SESSION['repofficedes']);
         $oOfficeDes->setBCampoBloqueado(true);
 
-        $oUsucodigo = new Campo('', 'usucodigo', Campo::TIPO_TEXTO, 1);
+        $oUsucodigo = new Campo('', 'usucodigo', Campo::TIPO_TEXTO, 1,1,12,12);
         $oUsucodigo->setSValor($_SESSION['codUser']);
         $oUsucodigo->setBOculto(true);
 
@@ -147,17 +149,18 @@ class ViewQualRncVenda extends View {
 
         $oFieldContato = new FieldSet('Informações contato');
 
-        $oContato = new campo('Contato', 'contato', Campo::TIPO_TEXTO, 2);
+        $oContato = new campo('Contato', 'contato', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oContato->addValidacao(FALSE, Validacao::TIPO_STRING, 5);
 
-        $oCelular = new Campo('Celular *somente Nº', 'celular', Campo::TIPO_TEXTO, 2);
+        $oCelular = new Campo('Celular *somente Nº', 'celular', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oEmail = new campo('E-mail', 'email', Campo::TIPO_TEXTO, 2);
+        $oEmail = new campo('E-mail', 'email', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oEmail->addValidacao(false, Validacao::TIPO_EMAIL);
 
-        $oInd = new campo('Indústria', 'ind', Campo::TIPO_CHECK, 1);
+        $oInd = new campo('Indústria', 'ind', Campo::TIPO_CHECK, 1, 1, 12, 12);
         $oInd->setIMarginTop(15);
-        $oComer = new campo('Comércio', 'comer', Campo::TIPO_CHECK, 1);
+
+        $oComer = new campo('Comércio', 'comer', Campo::TIPO_CHECK, 1, 1, 12, 12);
         $oComer->setIMarginTop(15);
 
         $oFieldContato->addCampos(array($oContato, $oCelular, $oEmail, $oInd, $oComer));
@@ -165,19 +168,19 @@ class ViewQualRncVenda extends View {
         /* dados da nota fiscal */
         $oFieldNf = new FieldSet('Nota fiscal');
 
-        $oNf = new Campo('Nota fiscal', 'nf', Campo::TIPO_TEXTO, 1);
+        $oNf = new Campo('Nota fiscal', 'nf', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNf->setSCorFundo(Campo::FUNDO_MONEY);
-        $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', 2);
+        $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', 2, 2, 12, 12);
 
-        $oDataNf = new Campo('Data.Nf', 'datanf', Campo::TIPO_TEXTO, 2);
+        $oDataNf = new Campo('Data.Nf', 'datanf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oOdCompra = new Campo('Od.Compra', 'odcompra', Campo::TIPO_TEXTO, 2);
+        $oOdCompra = new Campo('Od.Compra', 'odcompra', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oPedido = new campo('Pedido', 'pedido', Campo::TIPO_TEXTO, 2);
+        $oPedido = new campo('Pedido', 'pedido', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oValor = new campo('Valor', 'valor', Campo::TIPO_TEXTO, 1);
+        $oValor = new campo('Valor', 'valor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
-        $oPeso = new campo('Peso', 'peso', Campo::TIPO_TEXTO, 1);
+        $oPeso = new campo('Peso', 'peso', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","QualRnc","buscaNf","' . $oDataNf->getId() . ',' . $oValor->getId() . ',' . $oPeso->getId() . '");';
 
@@ -186,25 +189,27 @@ class ViewQualRncVenda extends View {
         $oFieldNf->addCampos(array($oNf, $oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso));
 
         $oFieldEmb = new FieldSet('Embalagem');
-        $oLote = new Campo('Nº Lote', 'lote', Campo::TIPO_TEXTO, 2);
-        $oOp = new Campo('Ordem Produção', 'op', Campo::TIPO_TEXTO, 2);
+
+        $oLote = new Campo('Nº Lote', 'lote', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+
+        $oOp = new Campo('Ordem Produção', 'op', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oFieldEmb->addCampos(array($oLote, $oOp));
 
-        $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 9);
+        $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oDescNaoConf->setILinhasTextArea(5);
         $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
 
         $oDadosProduto = new FieldSet('Dados do produto');
 
         //campo código do produto
-        $oCodigo = new Campo('Codigo', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2);
+        $oCodigo = new Campo('Codigo', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCodigo->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
 
 
         //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto', 'prodes', Campo::TIPO_BUSCADOBANCO, 3);
+        $oProdes = new Campo('Produto', 'prodes', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oProdes->setITamanho(Campo::TAMANHO_PEQUENO);
         $oProdes->setSIdPk($oCodigo->getId());
         $oProdes->setClasseBusca('Produto');
@@ -217,14 +222,15 @@ class ViewQualRncVenda extends View {
         $oCodigo->setSCampoRetorno('procod', $this->getTela()->getId());
         $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
 
-        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 2);
-        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_TEXTO, 1);
+        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2);
+        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
-        $oAceito = new Campo('Aceito condicionalmente', 'aceitocond', Campo::TIPO_CHECK, 2);
+        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+
+        $oAceito = new Campo('Aceito condicionalmente', 'aceitocond', Campo::TIPO_CHECK, 2, 2, 12, 12);
         $oAceito->setIMarginTop(15);
-        $oReprovar = new Campo('Reprovar', 'reprovar', Campo::TIPO_CHECK, 2);
+        $oReprovar = new Campo('Reprovar', 'reprovar', Campo::TIPO_CHECK, 2, 2, 12, 12);
         $oReprovar->setIMarginTop(15);
 
         $oDadosProduto->addCampos(array($oCodigo, $oProdes, $oQuant, $oAplicacao), array($oQuanNconf, $oAceito, $oReprovar));
@@ -232,9 +238,9 @@ class ViewQualRncVenda extends View {
 
         $oAnexos = new FieldSet('Anexos');
 
-        $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2);
-        $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2);
-        $oAnexo3 = new Campo('Anexo3', 'anexo3', Campo::TIPO_UPLOAD, 2);
+        $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
+        $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
+        $oAnexo3 = new Campo('Anexo3', 'anexo3', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
 
         $oAnexos->addCampos(array($oAnexo1, $oAnexo2, $oAnexo3));
         $oAnexos->setOculto(true);
