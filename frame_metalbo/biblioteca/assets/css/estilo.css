@@ -187,3 +187,7 @@ table.dataTable td.select-checkbox:before {
 fieldset{
     padding-bottom: 15px;
 }
+
+.date{
+    margin-top:5px !important;
+}
