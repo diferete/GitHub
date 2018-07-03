@@ -14,6 +14,8 @@ class ViewQualRnc extends View {
         $this->getTela()->setILarguraGrid(1200);
 
         $oNr = new CampoConsulta('Nr', 'nr');
+        $oNr->setILargura(10);
+        
         $oCliente = new CampoConsulta('Cliente', 'empdes');
 
         $oUser = new CampoConsulta('Usuário', 'usunome');
