@@ -24,12 +24,5 @@ $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 
 
 
-
-
-
-
-
-
-
 $pdf->Output('I', 'solvenda' . $_REQUEST['nr'] . '.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
