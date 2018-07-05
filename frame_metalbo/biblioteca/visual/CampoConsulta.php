@@ -57,8 +57,7 @@ class CampoConsulta{
     const COL_ROXO = 'tr-bk-roxo';
     const COL_ROSA ='tr-bk-rosa';
     const COL_LARANJA ='tr-bk-laranja';
-    
-    
+        
 
     /**
      *  Método construtor que passa o label e o nome do campo no model
