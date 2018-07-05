@@ -15,10 +15,12 @@ class ViewQualRnc extends View {
 
         $oNr = new CampoConsulta('Nr', 'nr');
         $oNr->setILargura(10);
-        
+
         $oCliente = new CampoConsulta('Cliente', 'empdes');
 
         $oUser = new CampoConsulta('Usuário', 'usunome');
+        $oUser->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
+        $oUser->setBComparacaoColuna(true);
 
         $oOfficeDes = new CampoConsulta('Representante', 'officedes');
 
@@ -31,7 +33,7 @@ class ViewQualRnc extends View {
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao');
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Aprovada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
-        $oDevolucao->addComparacao('Reprovada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oDevolucao->setBComparacaoColuna(true);
 
         $oDropDow = new Dropdown('Opções da reclamação', Dropdown::TIPO_PRIMARY);
@@ -191,9 +193,9 @@ class ViewQualRnc extends View {
         $oFieldNf->addCampos(array($oNf, $oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso));
 
         $oFieldEmb = new FieldSet('Embalagem');
-        
+
         $oLote = new Campo('Nº Lote', 'lote', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        
+
         $oOp = new Campo('Ordem Produção', 'op', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oFieldEmb->addCampos(array($oLote, $oOp));
@@ -224,14 +226,15 @@ class ViewQualRnc extends View {
         $oCodigo->setSCampoRetorno('procod', $this->getTela()->getId());
         $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
 
-        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 2,2,12,12);
-        
-        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_MONEY, 1,1,12,12);
+        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2,2,12,12);
+        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_MONEY, 1, 1, 12, 12);
+
+        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oAceito = new Campo('Aceito condicionalmente', 'aceitocond', Campo::TIPO_CHECK, 2);
         $oAceito->setIMarginTop(15);
+
         $oReprovar = new Campo('Reprovar', 'reprovar', Campo::TIPO_CHECK, 2);
         $oReprovar->setIMarginTop(15);
 
