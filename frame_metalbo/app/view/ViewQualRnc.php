@@ -18,8 +18,6 @@ class ViewQualRnc extends View {
         $oCliente = new CampoConsulta('Cliente', 'empdes');
 
         $oUser = new CampoConsulta('Usuário', 'usunome');
-        $oUser->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
-        $oUser->setBComparacaoColuna(true);
 
         $oOfficeDes = new CampoConsulta('Representante', 'officedes');
 
