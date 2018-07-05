@@ -1,10 +1,5 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 class ControllerQualNovoProjVerif extends Controller {
     public function __construct() {
@@ -32,7 +27,7 @@ class ControllerQualNovoProjVerif extends Controller {
         //adiciona botoes padrão
         if(!$this->getBDesativaBotaoPadrao()){
             $this->View->addBotaoPadraoTela('');
-            };
+            }
         //renderiza a tela
         $this->View->getTela()->getRender();
        }
