@@ -68,65 +68,6 @@ class Config {
     const PASS_BD = 'Met@lbo@4321';
     
     
-     /* const TIPO_BD = self::BD_SQLSERVER;
-      const PORTA_BD = 1433;
-      const USER_BD  = 'sa';
-      const NOME_BD  = 'rex_maquinas';
-      const HOST_BD  = 'rexdatabase';
-      const PASS_BD  = 'M@quinas@321'; 
-      * 
-      */
- 
-
-    /*
-      const PORTA_BD = 1433;
-      const USER_BD  = 'sa';
-      const NOME_BD  = 'rex_maquinas';
-      const HOST_BD  = 'metalbobase';
-      const PASS_BD  = 'Met@lbo@4321'; */
-
-    /*
-      const PORTA_BD = 1433;
-      const USER_BD  = 'sa';
-      const NOME_BD  = 'rex_maquinas';
-      const HOST_BD  = 'localhost';
-      const PASS_BD  = 'P@lmeiras'; */
-
-    /*
-      const PORTA_BD = 1433;
-      const USER_BD  = 'sa';
-      const NOME_BD  = 'rex_maquinas';
-      const HOST_BD  = 'rexdatabase';
-      const PASS_BD  = 'M@quinas@321'; 
-     * 
-     */
-
-
-
-    /* const PORTA_BD = 1433;
-      const USER_BD  = 'sa';
-      const NOME_BD  = 'rex_metalbo';
-      const HOST_BD  = '192.168.0.1';
-      const PASS_BD  = 'M@quinas'; */
-
-    /*   const TIPO_BD = self::BD_MYSQL;
-      const PORTA_BD = 3306;
-      const USER_BD  = 'root';
-      const NOME_BD  = 'frame_metalbo';
-      const HOST_BD  = 'localhost';
-      const PASS_BD  = 'M@quinas@4321';
-
-
-      const TIPO_BD = self::BD_MYSQL;
-
-      const PORTA_BD = 3306;
-      const USER_BD  = 'root';
-      const NOME_BD  = 'painel_controle';
-      const HOST_BD  = 'localhost';
-      const PASS_BD  = 'M@quinas'; */
-
-
-
     /*
      * Configurações de nomes de elementos do sistema
      */
