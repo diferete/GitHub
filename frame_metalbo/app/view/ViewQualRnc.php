@@ -5,7 +5,6 @@
  * @author Avanei Martendal
  * @since 10/09/2017
  */
-
 class ViewQualRnc extends View {
 
     public function criaConsulta() {
