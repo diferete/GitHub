@@ -20,7 +20,6 @@ class Controller {
     public $aControllerDependente = array();
     public $ControllerDetalhe;
     public $sMetodoDetalhe;
-    
     private $oJSON;
     private $bInsereMulti;
     private $parametros;
@@ -3132,14 +3131,18 @@ class Controller {
             foreach ($aParam as $key => $value) {
                 $aChaves[] = $value;
             }
+
+            $sDados .= ',' . implode(',', $aChaves);
+
+
+            $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item (ou itens)?', Modal::TIPO_ERRO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $this->getNomeClasse() . '","acaoExcluirRegDet","' . $sDados . '");');
+
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Modal('Atenção!', 'Você deve selecionar um registro.', Modal::TIPO_INFO);
+            echo $oMensagem->getRender();
         }
-        $sDados .= ',' . implode(',', $aChaves);
-
-
-        $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item (ou itens)?', Modal::TIPO_ERRO, true, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $this->getNomeClasse() . '","acaoExcluirRegDet","' . $sDados . '");');
-
-        echo $oMensagem->getRender();
     }
 
     public function acaoExcluirRegDet($sDados) {

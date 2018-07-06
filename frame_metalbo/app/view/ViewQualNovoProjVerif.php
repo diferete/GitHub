@@ -151,17 +151,17 @@ class ViewQualNovoProjVerif extends View {
         $oFieldValProjeto = new FieldSet('Controle de validação do projeto');
         $oFieldValProjeto->setOculto(true);
 
-        $oValNf = new Campo('Nota fiscal nº', 'valNf', Campo::TIPO_TEXTO, 2);
-        $oValNfPrev = new Campo('Previsão', 'valNfPrev', Campo::TIPO_DATA, 2);
-        $oValNfTer = new Campo('Término', 'valNfTer', Campo::TIPO_DATA, 2);
-        $oValNfResp = new Campo('Responsável', 'valNfResp', Campo::TIPO_TEXTO, 3);
+        $oValNf = new Campo('Nota fiscal nº', 'valNf', Campo::TIPO_TEXTO, 2,2,12,12);
+        $oValNfPrev = new Campo('Previsão', 'valNfPrev', Campo::TIPO_DATA, 2,2,12,12);
+        $oValNfTer = new Campo('Término', 'valNfTer', Campo::TIPO_DATA, 2,2,12,12);
+        $oValNfResp = new Campo('Responsável', 'valNfResp', Campo::TIPO_TEXTO, 3,3,12,12);
 
-        $oValOd = new Campo('Ordem de fabricação nº', 'valOd', Campo::TIPO_TEXTO, 2);
-        $oValOdPrev = new Campo('Previsão', 'valOdPrev', Campo::TIPO_DATA, 2);
-        $oValOdTer = new Campo('Término', 'valOdTer', Campo::TIPO_DATA, 2);
-        $oValOdResp = new Campo('Responsável', 'valODResp', Campo::TIPO_TEXTO, 3);
+        $oValOd = new Campo('Ordem de fabricação nº', 'valOd', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oValOdPrev = new Campo('Previsão', 'valOdPrev', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oValOdTer = new Campo('Término', 'valOdTer', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oValOdResp = new Campo('Responsável', 'valODResp', Campo::TIPO_TEXTO, 3, 3, 12, 12);
 
-        $oValPed = new Campo('Pedido nº', 'valPed', Campo::TIPO_TEXTO, 2);
+        $oValPed = new Campo('Pedido nº', 'valPed', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oValPedPrev = new Campo('Previsão', 'valPedPrev', Campo::TIPO_DATA, 2);
         $oValPedTer = new Campo('Término', 'valPedTer', Campo::TIPO_DATA, 2);
         $oValPedResp = new Campo('Responsável', 'valPedResp', Campo::TIPO_TEXTO, 3);
