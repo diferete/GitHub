@@ -365,7 +365,7 @@ class Filtro{
                              .'   </div> '
                              .'</div> ';*/
                      $sCampo =    '<div class="col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'" >'
-                                  .'<div class="form-group" id="'.$this->getId().'">'
+                                  .'<div class="form-group form-group-filter" id="'.$this->getId().'">'
                         // .'<label for="inpt-drop">'.$this->getSLabel().':</label> '
                          .'<div class="input-group"> '
                          .' <input class="form-control input-sm" name="'.$this->getSNome().'" id="'.$this->getId().'" type="text" placeholder="'.$this->getSLabel().'" value="'.$this->aFiltroValor[0].'"> '
@@ -415,7 +415,7 @@ class Filtro{
             
                 case self::CAMPO_SELECT:
                   
-                  $sCampo ='<div class="form-group"><div  class="campo-form col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'">'
+                  $sCampo ='<div class="form-group form-group-filter"><div  class="campo-form col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'">'
                            .'<div class="input-group" id="'.$this->getId().'-group">'
                            .'<label for="'.$this->getId().'">'.$this->getSLabel().'  </label>'   
                            .'<select name="'.$this->getSNome().'" class="form-control selectfiltro" id="'.$this->getId().'" '.$this->verficaCampoBloqueado($this->getBCampoBloqueado()).'>';
@@ -493,7 +493,7 @@ class Filtro{
                    
                         $sCampo ='<div class="campo-form col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'" >'
                      //.'<label for="input-date">'.$this->getSLabel().' Inicial:</label>'
-                     .'<div class="input-group date" id="'.$this->getId().'-ini">'
+                     .'<div class="input-group date date-filter" id="'.$this->getId().'-ini">'
                      .'<input type="text" name="'.$this->getSNome().'" class="form-control data1 input-sm" placeholder="'.$this->getSLabel().' Inicial" value="'.$this->aFiltroValor[0].'">'
                      .'<span class="input-group-addon"><i class="icon wb-calendar"></i></span>'
                      .'</div>'
@@ -509,7 +509,7 @@ class Filtro{
                      .'</script>'
                       .'<div class="campo-form col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'" >'
                     // .'<label for="input-date">'.$this->getSLabel().' Final:</label>'
-                     .'<div class="input-group date" id="'.$this->getId().'-fim">'
+                     .'<div class="input-group date date-filter" id="'.$this->getId().'-fim">'
                      .'<input type="text" name="'.$this->getSNome().'" class="form-control data2 input-sm" placeholder="'.$this->getSLabel().' Final" value="'.$this->aFiltroValor[1].'">'
                      .'<span class="input-group-addon"><i class="icon wb-calendar"></i></span>'
                      .'</div>'
@@ -528,7 +528,7 @@ class Filtro{
             
                 case self::CAMPO_TEXTO_IGUAL:
                     $sCampo ='<div class="col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'">'
-                             .'   <div class="form-group" id="'.$this->getId().'"> '
+                             .'   <div class="form-group form-group-filter" id="'.$this->getId().'"> '
                            //  .'       <label for="inpt-name">'.$this->getSLabel().':</label>         '
                              .'       <input class="form-control input-sm" type="text" name="'.$this->getSNome().'" placeholder="'.$this->getSLabel().'"> '
                              .'   </div> '
