@@ -143,7 +143,7 @@ class ControllerQualNovoProjRep extends Controller {
         $oEmail->setMensagem(utf8_decode('PROJETO Nº ' . $oDadosProj->nr . ' FOI LIBERADO PELO REPRESENTANTE ' . $oDadosProj->officedes . '<hr><br/>'
                         . '<b>Descrição:</b> ' . $oDadosProj->desc_novo_prod . '<br/>'
                         . '<b>Acabamento:</b> ' . $oDadosProj->acabamento . '<br/>'
-                        . '<b>Quantidade:</b> ' . number_format($oDadosProj->quant_pc, 2, ',', '.') . '<br />' //.number_format($oAprov->quant_pc, 2, ',', '.').
+                        . '<b>Quant.Cnt/Mês:</b> ' . number_format($oDadosProj->quant_pc, 2, ',', '.') . '<br />' //.number_format($oAprov->quant_pc, 2, ',', '.').
                         . '<b>Data Implantação:  ' . $oDadosProj->dtimp . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Cnpj:</b></td><td>' . $oDadosProj->empcod . '</td></tr>'
@@ -313,7 +313,7 @@ class ControllerQualNovoProjRep extends Controller {
                     . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                     . '<tr><td><b>Produto:</b></td><td>' . $oObj->desc_novo_prod . '</td></tr>'
                     . '<tr><td><b>Acabamento:</b></td><td> ' . $oAprov->acabamento . '</td></tr>'
-                    . '<tr><td><b>Quantidade:</b></td><td>' . number_format($oObj->quant_pc, 2, ',', '.') . '</td></tr>'
+                    . '<tr><td><b>Quant.Cnt/Mês:</b></td><td>' . number_format($oObj->quant_pc, 2, ',', '.') . '</td></tr>'
                     . '<tr><td><b>Lote Mínimo:</b></td><td>' . number_format($oObj->lotemin, 2, ',', '.') . '</td></tr>'
                     . '<tr><td><b>Peso:</b></td><td>' . number_format($oObj->pesoct, 2, ',', '.') . '</td></tr>'
                     . '<tr><td><b>Preço:</b></td><td><span style="color:#006400"><b>R$ ' . number_format($oObj->precofinal, 2, ',', '.') . '</b></span></td></tr>'
@@ -525,7 +525,7 @@ class ControllerQualNovoProjRep extends Controller {
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Produto:</b></td><td>' . $oAprov->desc_novo_prod . '</td></tr>'
                         . '<tr><td><b>Acabamento:</b></td><td> ' . $oAprov->acabamento . '</td></tr><br/>'
-                        . '<tr><td><b>Quantidade:</b></td><td>' . number_format($oAprov->quant_pc, 2, ',', '.') . '</td></tr>'
+                        . '<tr><td><b>Quant.Cnt/Mês:</b></td><td>' . number_format($oAprov->quant_pc, 2, ',', '.') . '</td></tr>'
                         . '<tr><td><b>Lote Mínimo:</b></td><td>' . number_format($oAprov->lotemin, 2, ',', '.') . '</td></tr>'
                         . '<tr><td><b>Peso:</b></td><td>' . number_format($oAprov->pesoct, 2, ',', '.') . '</td></tr>'
                         . '<tr><td><b>Preço:</b></td><td><span style="color:#006400"><b>R$ ' . number_format($oAprov->precofinal, 2, ',', '.') . '</b></span></td></tr>'

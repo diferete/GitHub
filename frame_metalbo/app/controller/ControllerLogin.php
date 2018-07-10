@@ -46,6 +46,7 @@ class ControllerLogin extends Controller{
                 $_SESSION['nomeBanco'] = Config::NOME_BD;
                 $_SESSION['servidor'] = Config::HOST_BD;
                 $_SESSION['filcgc'] = $this->Model->getFilcgc();
+                $_SESSION['usutipo'] = $this->Model->getUsutipo();
                 
                 $_SESSION['officecabsol'] = $this->Model->getOfficecabsol();
                 $_SESSION['officecabsoliten'] = $this->Model->getOfficecabsoliten();

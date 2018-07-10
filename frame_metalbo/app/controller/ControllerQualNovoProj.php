@@ -163,7 +163,7 @@ class ControllerQualNovoProj extends Controller {
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%">'
                         . '<tr><td><b>Descrição:</b></td><td>' . $oCampos->desc_novo_prod . '</td></tr>'
                         . '<tr><td><b>Acabamento:</b></td><td>' . $oCampos->acabamento . '</td></tr>'
-                        . '<tr><td><b>Quantidade:</b></td><td>' . number_format($oCampos->quant_pc, 2, ',', '.') . '</td></tr>'
+                        . '<tr><td><b>Quant.Cnt/Mês:</b></td><td>' . number_format($oCampos->quant_pc, 2, ',', '.') . '</td></tr>'
                         . '<tr><td><b>Empresa:</b></td><td>' . $oCampos->empdes . '</td></tr>'
                         . '<tr><td><b>Observação Projetos/Motivo reprovação:</b></td><td>' . $aObs['ObsGeral'] . '</td></tr> </table>'
                         . '<a href="sistema.metalbo.com.br">Clique aqui para acessar a entrada de projeto!</a>'
@@ -285,7 +285,7 @@ class ControllerQualNovoProj extends Controller {
         $oEmail->setMensagem(utf8_decode('ENTRADA DE PROJETO Nº ' . $aCamposChave['nr'] . ' FOI <span style="color:#006400"><b>APROVADO</b></span> PELO SETOR DE PROJETOS.<hr><br/>'
                         . '<b>Descrição:</b> ' . $oDadosProj->desc_novo_prod . '<br/>'
                         . '<b>Acabamento:</b> ' . $oDadosProj->acabamento . '<br/>'
-                        . '<b>Quantidade:</b> ' . number_format($oDadosProj->quant_pc, 2, ',', '.') . '<br />' //.number_format($oAprov->quant_pc, 2, ',', '.').
+                        . '<b>Quant.Cnt/Mês:</b> ' . number_format($oDadosProj->quant_pc, 2, ',', '.') . '<br />' //.number_format($oAprov->quant_pc, 2, ',', '.').
                         . '<b>Data Implantação:  ' . $oDadosProj->dtimp . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Cnpj:</b></td><td>' . $oDadosProj->empcod . '</td></tr>'
@@ -408,7 +408,7 @@ class ControllerQualNovoProj extends Controller {
         $oEmail->setMensagem(utf8_decode('ENTRADA DE PROJETO Nº ' . $aCamposChave['nr'] . ' FOI <span style="color:#006400"><b>RETORNADA</b></span> PELO SETOR DE PROJETOS.<hr><br/>'
                         . '<b>Descrição:</b> ' . $oDadosProj->desc_novo_prod . '<br/>'
                         . '<b>Acabamento:</b> ' . $oDadosProj->acabamento . '<br/>'
-                        . '<b>Quantidade:</b> ' . number_format($oDadosProj->quant_pc, 2, ',', '.') . '<br />' //.number_format($oAprov->quant_pc, 2, ',', '.').
+                        . '<b>Quant.Cnt/Mês:</b> ' . number_format($oDadosProj->quant_pc, 2, ',', '.') . '<br />' //.number_format($oAprov->quant_pc, 2, ',', '.').
                         . '<b>Data Implantação:  ' . $oDadosProj->dtimp . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Cnpj:</b></td><td>' . $oDadosProj->empcod . '</td></tr>'
@@ -433,7 +433,7 @@ class ControllerQualNovoProj extends Controller {
         }
 
         //nao enviar e-mail para vendas no momento
-        $aUserPlano = $this->Persistencia->projEmailVendaProj($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        $aUserPlano = $this->Persistencia->projEmail($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);

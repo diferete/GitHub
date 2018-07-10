@@ -30,7 +30,7 @@ class ViewQualNovoProjRep extends View {
         $oDesc_Novo = new CampoConsulta('Produto', 'desc_novo_prod');
         $oDesc_Novo->setILargura(800);
 
-        $oQt = new CampoConsulta('Quant.', 'quant_pc', CampoConsulta::TIPO_DECIMAL);
+        $oQt = new CampoConsulta('Quant.Cnt/Mês.', 'quant_pc', CampoConsulta::TIPO_DECIMAL);
 
 
         /* Define as situações */
@@ -224,7 +224,7 @@ class ViewQualNovoProjRep extends View {
         $oAcaba->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!');
 
 
-        $oQuant = new campo('Quant/Cent.', 'quant_pc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQuant->setIMarginTop(8);
         $oQuant->setSValor('0');
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
@@ -285,7 +285,7 @@ class ViewQualNovoProjRep extends View {
         $oAcaba->setSValor($oDados->acabamento);
         $oAcaba->setBCampoBloqueado(true);
 
-        $oQuant = new campo('Quant/Cnt.', 'quant_pc', Campo::TIPO_TEXTO, 2);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 2);
         $oQuant->setSValor(number_format($oDados->quant_pc, 2, ',', '.'));
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
         $oQuant->setBCampoBloqueado(true);
@@ -374,7 +374,7 @@ class ViewQualNovoProjRep extends View {
         $oAcaba->setSValor($oDados->acabamento);
         $oAcaba->setBCampoBloqueado(true);
 
-        $oQuant = new campo('Quant/Cnt.', 'quant_pc', Campo::TIPO_TEXTO, 2);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 2);
         $oQuant->setSValor(number_format($oDados->quant_pc, 2, ',', '.'));
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
         $oQuant->setBCampoBloqueado(true);
@@ -446,7 +446,7 @@ class ViewQualNovoProjRep extends View {
         $oAcaba->setSValor($oDados->acabamento);
         $oAcaba->setBCampoBloqueado(true);
 
-        $oQuant = new campo('Quant/Cent.', 'quant_pc', Campo::TIPO_TEXTO, 2);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 2);
         $oQuant->setSValor(number_format($oDados->quant_pc, 2, ',', '.'));
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
         $oQuant->setBCampoBloqueado(true);

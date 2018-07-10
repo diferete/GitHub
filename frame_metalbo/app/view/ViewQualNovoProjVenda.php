@@ -30,7 +30,7 @@ class ViewQualNovoProjVenda extends View {
         $oRepNome = new CampoConsulta('Rep.', 'repnome');
         $oRepNome->setILargura(100);
 
-        $oQuantPc = new CampoConsulta('Quant/Cento', 'quant_pc', CampoConsulta::TIPO_DECIMAL);
+        $oQuantPc = new CampoConsulta('Quant.Cnt/Mês', 'quant_pc', CampoConsulta::TIPO_DECIMAL);
         $oQuantPc->setILargura(30);
 
         $oDescProdNew = new CampoConsulta('Novo produto', 'desc_novo_prod');
@@ -223,7 +223,7 @@ class ViewQualNovoProjVenda extends View {
         $oRepLibObs->setBCampoBloqueado(true);
         $oRepLibObs->setILinhasTextArea(5);
 
-        $oQuant = new campo('Quant/Cnt.', 'quant_pc', Campo::TIPO_TEXTO, 1);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 1);
         $oQuant->setSValor('0');
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);

@@ -29,7 +29,7 @@ class ViewQualNovoProj extends View {
         $oRepNome = new CampoConsulta('Rep.', 'repnome');
         $oRepNome->setILargura(100);
 
-        $oQuantPc = new CampoConsulta('Quant/Cnt.', 'quant_pc', CampoConsulta::TIPO_DECIMAL);
+        $oQuantPc = new CampoConsulta('Quant.Cnt/Mês', 'quant_pc', CampoConsulta::TIPO_DECIMAL);
         $oQuantPc->setILargura(100);
 
         $oDescProdNew = new CampoConsulta('Novo produto', 'desc_novo_prod');
@@ -222,7 +222,7 @@ class ViewQualNovoProj extends View {
         $oRepLibObs->setILinhasTextArea(5);
 
 
-        $oQuant = new campo('Quant/Cnt.', 'quant_pc', Campo::TIPO_TEXTO, 1);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 1);
         $oQuant->setSValor('0');
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
@@ -692,7 +692,7 @@ class ViewQualNovoProj extends View {
         $oAcaba->setSValor($oDados->acabamento);
         $oAcaba->setBCampoBloqueado(true);
 
-        $oQuant = new campo('Quant/Cnt.', 'quant_pc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oQuant->setSValor(number_format($oDados->quant_pc, 2, ',', '.'));
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
         $oQuant->setBCampoBloqueado(true);
