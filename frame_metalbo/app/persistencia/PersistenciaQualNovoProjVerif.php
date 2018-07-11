@@ -111,9 +111,12 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
         $sSql = "select respvalproj,etapProj,result,cliprov,valproj from tbqualNovoProjeto where nr='" . $sDados . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
+        
+        $aElemen = json_decode(json_encode($oRow),true);
+        $aElemenFilter = array_filter($aElemen);
 
         $oRespValProj = $oRow->respvalproj;
-        $iCount = count(get_object_vars($oRow));
+        $iCount = count($aElemenFilter);
 
         if ($iCount == 5 && $oRespValProj == 'Eloir') {
             $sSql = "update tbqualNovoProjeto set sitgeralproj='Finalizado' where nr='" . $sDados . "'";
