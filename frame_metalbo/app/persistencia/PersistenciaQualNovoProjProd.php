@@ -86,11 +86,6 @@ class PersistenciaQualNovoProjProd extends Persistencia {
 
         $this->adicionaRelacionamento('comem', 'comem');
 
-
-
-
-
-
         $this->adicionaJoin('EmpRex');
         $this->adicionaOrderBy('nr', 1);
         $this->setSTop('50');
@@ -99,23 +94,21 @@ class PersistenciaQualNovoProjProd extends Persistencia {
     }
 
     /**
-     * Finaliza pedido
+     * Libera código para o representante
      */
-    public function finaProjeto($aDados) {
+    public function liberaCodProj($aDados) {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
         $sData = date('d/m/Y');
-        $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Finalizado',
+        $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Cadastrado',
+                sitproj = 'Cód. enviado',
                 dtafimProj = '" . $sData . "',
                 horafimProj = '" . $sHora . "',
                 userfimProj = '" . $_SESSION['nome'] . "'
-                 where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+                where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
 
-        /*[dtafimProj] [date] NULL,
-          [horafimProj] [time](7) NULL,
-          [userfimProj] [varchar](80) NULL, */
     }
 
     public function verifSitProj($aDados) {

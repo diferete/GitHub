@@ -41,14 +41,18 @@ class ViewQualNovoProjProd extends View {
         $oObsCli = new CampoConsulta('ObsCliente', 'obsaprovcli');
         $oObsCli->setILargura(200);
 
-        $oSitGeral = new CampoConsulta('Sit.Geral', 'sitgeralproj');
-        $oSitGeral->addComparacao('Lib.Cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA);
+        $oSitGeral = new CampoConsulta('SitGeral', 'sitgeralproj', CampoConsulta::TIPO_TEXTO);
+        $oSitGeral->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
+        $oSitGeral->addComparacao('Lib.Projetos', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oSitGeral->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oSitGeral->addComparacao('Lib.Cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oSitGeral->addComparacao('Em execução', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
+        $oSitGeral->addComparacao('Produzido', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSitGeral->addComparacao('Faturado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA);
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(20);
 
-        $this->addCampos($oNr, $oData, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli, $oSitGeral);
+        $this->addCampos($oNr, $oData, $oSitGeral, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli);
 
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoExcluir(false);
@@ -61,13 +65,14 @@ class ViewQualNovoProjProd extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Detalhamento de projeto', 'QualNovoProjDet', 'TelaCadEtapa', '', true, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Controle e verificação de projeto', 'QualNovoProjVerif', 'TelaCadVerif', '', true, '');
 
-        $oDrop2 = new Dropdown('Finalizar', Dropdown::TIPO_SUCESSO);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar projeto', 'QualNovoProjProd', 'msgFinalizar', '', false, '');
+        $oDrop2 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Liberar código', 'QualNovoProjProd', 'msgLibCod', '', false, '');
 
         $this->addDropdown($oDrop1, $oDrop2);
 
         $oFSitProj = new Filtro($oSitGeral, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFSitProj->addItemSelect('Todos', 'Todos');
+        $oFSitProj->addItemSelect('Em execução', 'Em execução');
         $oFSitProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');
         $oFSitProj->addItemSelect('Finalizado', 'Finalizado');
         $oFSitProj->addItemSelect('Aprovado', 'Aprovado');

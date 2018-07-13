@@ -62,7 +62,7 @@ class ControllerQualNovoProjRep extends Controller {
         $bSit = $this->Persistencia->verifLibProj($aCamposChave);
 
 
-        if ($bSit) {
+        if ($bSit == true) {
             $oMensagem = new Modal('Liberação para projetos', 'Deseja liberar a entrada de projeto nº' . $aCamposChave['nr'] . ' para o setor de projetos?', Modal::TIPO_AVISO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","liberaProj","' . $sDados . '");');
         } else {
@@ -86,7 +86,6 @@ class ControllerQualNovoProjRep extends Controller {
             $oMensagem = new Mensagem('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' foi liberado com sucesso para o setor de projetos da Metalbo!', Modal::TIPO_SUCESSO);
             echo $oMensagem->getRender();
             $this->EnvProjMetalbo($sChave);
-            //echo'requestAjax("","'.$sClasse.'","EnvProjMetalbo","'.$sChave.'");';
             echo"$('#" . $aDados[1] . "-pesq').click();";
         } else {
             $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não foi liberado!', Modal::TIPO_AVISO, false, true, true);
@@ -106,7 +105,7 @@ class ControllerQualNovoProjRep extends Controller {
         $bSit = $this->Persistencia->verifLibRepProj($aCamposChave);
 
 
-        if ($bSit) {
+        if ($bSit == true) {
             $this->EnvProjMetalbo($sChave);
         } else {
             $oMensagem = new Modal('Atenção', 'A entrada de projeto nº' . $aCamposChave['nr'] . ' ainda não foi liberado!', Modal::TIPO_AVISO, false, true, true);
@@ -159,6 +158,7 @@ class ControllerQualNovoProjRep extends Controller {
         $oEmail->limpaDestinatariosAll();
 
         // Para
+        /*
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -171,8 +171,8 @@ class ControllerQualNovoProjRep extends Controller {
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
         }
-        //provisório para ir cópia para avanei
-        // $oEmail->addAnexo('app/relatorio/qualidade/Aq'.$aDados[1].'_empresa_'.$aDados[0].'.pdf', utf8_decode('Aq nº'.$aDados[1].'_empresa_'.$aDados[0]));
+        */
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -331,20 +331,18 @@ class ControllerQualNovoProjRep extends Controller {
         $oEmail->limpaDestinatariosAll();
 
         // Para
+        /*
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
             $oEmail->addDestinatario($sEmail);
         }
 
-        //nao enviar e-mail para vendas no momento
-        //  $aUserPlano = $this->Persistencia->projEmailVendaProj($aCamposChave['EmpRex_filcgc'],$aCamposChave['nr']);
-
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
-        }
-        //e-mail avanei somente para teste
-        // $oEmail->addAnexo('app/relatorio/qualidade/Aq'.$aDados[1].'_empresa_'.$aDados[0].'.pdf', utf8_decode('Aq nº'.$aDados[1].'_empresa_'.$aDados[0]));
+        }*/
+        
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -477,13 +475,8 @@ class ControllerQualNovoProjRep extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
-
-
-
         $oMensagem = new Modal('E-mail', 'Deseja notificar projetos sobre a aprovação da proposta?', Modal::TIPO_AVISO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","EnvSolCadastro","' . $sDados . '");');
-
-
 
         echo $oMensagem->getRender();
     }
@@ -524,7 +517,7 @@ class ControllerQualNovoProjRep extends Controller {
                         . '<b>Hora da Aprovação:</b>' . $oAprov->horaprovcli . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Produto:</b></td><td>' . $oAprov->desc_novo_prod . '</td></tr>'
-                        . '<tr><td><b>Acabamento:</b></td><td> ' . $oAprov->acabamento . '</td></tr><br/>'
+                        . '<tr><td><b>Acabamento:</b></td><td> ' . $oAprov->acabamento . '</td></tr>'
                         . '<tr><td><b>Quant.Cnt/Mês:</b></td><td>' . number_format($oAprov->quant_pc, 2, ',', '.') . '</td></tr>'
                         . '<tr><td><b>Lote Mínimo:</b></td><td>' . number_format($oAprov->lotemin, 2, ',', '.') . '</td></tr>'
                         . '<tr><td><b>Peso:</b></td><td>' . number_format($oAprov->pesoct, 2, ',', '.') . '</td></tr>'
@@ -537,6 +530,7 @@ class ControllerQualNovoProjRep extends Controller {
         $oEmail->limpaDestinatariosAll();
 
         // Para
+        /*
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -548,9 +542,9 @@ class ControllerQualNovoProjRep extends Controller {
 
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
-        }
-        //e-mail avanei somente para teste
-        // $oEmail->addAnexo('app/relatorio/qualidade/Aq'.$aDados[1].'_empresa_'.$aDados[0].'.pdf', utf8_decode('Aq nº'.$aDados[1].'_empresa_'.$aDados[0]));
+        }*/
+        
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -568,8 +562,6 @@ class ControllerQualNovoProjRep extends Controller {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
         $sCampos = $aCampos['filcgc'] . ',' . $aCampos['nr'];
-
-
 
         $aRetorno = $this->Persistencia->reprovCli($aCampos['EmpRex_filcgc'], $aCampos['nr'], $aCampos['obsreprov']);
         if ($aRetorno[0]) {

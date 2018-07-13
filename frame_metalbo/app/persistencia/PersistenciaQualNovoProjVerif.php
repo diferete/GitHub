@@ -98,10 +98,6 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
         $this->adicionaRelacionamento('comenvalproj', 'comenvalproj');
         $this->adicionaRelacionamento('respvalproj', 'respvalproj');
 
-
-
-
-
         $this->adicionaJoin('EmpRex');
         $this->adicionaOrderBy('nr', 1);
         $this->setSTop('50');
@@ -111,8 +107,8 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
         $sSql = "select respvalproj,etapProj,result,cliprov,valproj from tbqualNovoProjeto where nr='" . $sDados . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-        
-        $aElemen = json_decode(json_encode($oRow),true);
+
+        $aElemen = json_decode(json_encode($oRow), true);
         $aElemenFilter = array_filter($aElemen);
 
         $oRespValProj = $oRow->respvalproj;

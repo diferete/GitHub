@@ -353,7 +353,7 @@ class PersistenciaQualNovoProjRep extends Persistencia{
                 userreprovcli = '".$_SESSION['nome']."',
                 obsreprovcli='".$sObs."',
                 sitcliente ='Reprovado',
-                sitgeralproj ='Finalizado',
+                sitgeralproj ='Reprovado',
                 dtafimProj = '".$sData."',
                 horafimProj = '".$sHora."',
                 userfimProj = '".$_SESSION['nome']."'

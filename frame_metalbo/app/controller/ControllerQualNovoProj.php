@@ -91,7 +91,7 @@ class ControllerQualNovoProj extends Controller {
             $oMensagem = new Modal('Reprovar projeto', 'Deseja reprovar o projeto nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","ReprovaProj","' . $sDados . '");');
         } else {
-            $oMensagem = new Modal('Reprovar projeto', 'Atenção informe o campo observação final do projeto antes de reprovar! Projeto não reprovado!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Reprovar projeto', 'Atenção informe o campo Observação projetos/Motivo reprovação antes de reprovar! Projeto não reprovado!', Modal::TIPO_ERRO, false, true, true);
         }
 
 
@@ -174,6 +174,7 @@ class ControllerQualNovoProj extends Controller {
         $oEmail->limpaDestinatariosAll();
 
         // Para
+        /*
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -184,10 +185,9 @@ class ControllerQualNovoProj extends Controller {
 
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
-        }
-
-
-        // $oEmail->addAnexo('app/relatorio/qualidade/Aq'.$aDados[1].'_empresa_'.$aDados[0].'.pdf', utf8_decode('Aq nº'.$aDados[1].'_empresa_'.$aDados[0]));
+        }*/
+        
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -303,6 +303,7 @@ class ControllerQualNovoProj extends Controller {
 
 
         // Para
+        /*
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -314,9 +315,9 @@ class ControllerQualNovoProj extends Controller {
 
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
-        }
-        //e-mail avanei somente para teste
-        // $oEmail->addAnexo('app/relatorio/qualidade/Aq'.$aDados[1].'_empresa_'.$aDados[0].'.pdf', utf8_decode('Aq nº'.$aDados[1].'_empresa_'.$aDados[0]));
+        }*/
+        
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -426,6 +427,7 @@ class ControllerQualNovoProj extends Controller {
 
 
         // Para
+        /*
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -437,9 +439,9 @@ class ControllerQualNovoProj extends Controller {
 
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
-        }
-        //e-mail avanei somente para teste
-        // $oEmail->addAnexo('app/relatorio/qualidade/Aq'.$aDados[1].'_empresa_'.$aDados[0].'.pdf', utf8_decode('Aq nº'.$aDados[1].'_empresa_'.$aDados[0]));
+        }*/
+        
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

@@ -182,7 +182,7 @@ class PersistenciaQualNovoProj extends Persistencia {
         $sHora = date('H:i');
         $sData = date('d/m/Y');
         $sSql = "update tbqualNovoProjeto set sitproj = 'Aprovado',
-                sitgeralproj='Aprovado',sitvendas = 'Aguardando',
+                sitgeralproj='Em execução',sitvendas = 'Aguardando',
                 dtaprovaproj ='" . $sData . "',horaaprovproj ='" . $sHora . "',
                 useraprovproj='" . $_SESSION['nome'] . "' 
                 where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
@@ -194,7 +194,7 @@ class PersistenciaQualNovoProj extends Persistencia {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
         $sData = date('d/m/Y');
-        $sSql = "update tbqualNovoProjeto set sitproj = 'Reprovado',sitgeralproj='Finalizado',
+        $sSql = "update tbqualNovoProjeto set sitproj = 'Reprovado',sitgeralproj='Reprovado',
         dtareprovproj ='" . $sData . "',horareprovproj ='" . $sHora . "',
         userreprovproj='" . $_SESSION['nome'] . "',dtafimProj='" . $sData . "', horafimProj='" . $sHora . "', "
                 . "userfimProj='" . $_SESSION['nome'] . "'  "

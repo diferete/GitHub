@@ -93,11 +93,7 @@ class PersistenciaQualNovoProjVenda extends Persistencia {
         $this->adicionaRelacionamento('replibobs', 'replibobs');
         $this->adicionaRelacionamento('acabamento', 'acabamento');
 
-
-
-        $this->adicionaFiltro('sitproj', 'Aprovado');
-
-
+        $this->adicionaFiltro('sitproj','Aprovado', Persistencia::LIGACAO_AND, Persistencia::ENTRE,'Cód. enviado');
 
 
         $this->adicionaJoin('Pessoa');
@@ -137,9 +133,11 @@ class PersistenciaQualNovoProjVenda extends Persistencia {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
         $sData = date('d/m/Y');
-        $sSql = "update tbqualNovoProjeto set sitvendas = 'Aprovado',
-                dtaprovendas ='" . $sData . "',horaaprovendas ='" . $sHora . "',
-                useraprovendas='" . $_SESSION['nome'] . "' 
+        $sSql = "update tbqualNovoProjeto set sitvendas = 'Aprovado', 
+                sitcliente = 'Aguardando',
+                dtaprovendas = '" . $sData . "',
+                horaaprovendas = '" . $sHora . "',
+                useraprovendas = '" . $_SESSION['nome'] . "' 
                 where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
@@ -239,7 +237,7 @@ class PersistenciaQualNovoProjVenda extends Persistencia {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
         $sData = date('d/m/Y');
-        $sSql = "update tbqualNovoProjeto set sitgeralproj='Finalizado',sitvendas ='Reprovado',
+        $sSql = "update tbqualNovoProjeto set sitgeralproj='Reprovado',sitvendas ='Reprovado',
         dtreprovendas ='" . $sData . "',horareprovendas ='" . $sHora . "',
         userreprovendas='" . $_SESSION['nome'] . "',dtafimProj='" . $sData . "', horafimProj='" . $sHora . "', "
                 . "userfimProj='" . $_SESSION['nome'] . "'  "

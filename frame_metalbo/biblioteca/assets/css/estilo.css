@@ -45,7 +45,7 @@
     color: #0039FF;
 }
 .tr-amarelo{
-    color: #E19D12;
+    color: #FFD700;
 }
 .tr-roxo{
     color: #8B2252;
@@ -54,7 +54,7 @@
     color: #FF6EB4;
 }
 .tr-laranja{
-    color: #E19D12;
+    color: #FFA500;
 
 }
 .tr-font{
@@ -75,7 +75,7 @@
 }
 .tr-bk-amarelo{
     color: white;
-    background-color: #E6E600;
+    background-color: #FFD700;
 }
 .tr-bk-roxo{
     color: white;
@@ -87,7 +87,11 @@
 }
 .tr-bk-laranja{
     color: white;
-    background-color: #E19D12;
+    background-color: #FFA500;
+}
+.tr-bk-marrom{
+    color:white;
+    background-color: #996633;
 }
 
 fieldset legend{

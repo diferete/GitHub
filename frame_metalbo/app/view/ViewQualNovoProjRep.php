@@ -34,27 +34,31 @@ class ViewQualNovoProjRep extends View {
 
 
         /* Define as situações */
-        $oSitProj = new CampoConsulta('SitProj', 'sitproj', CampoConsulta::TIPO_TEXTO);
+        $oSitProj = new CampoConsulta('SitProjetos', 'sitproj', CampoConsulta::TIPO_TEXTO);
+        $oSitProj->addComparacao('Cód. enviado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oSitProj->addComparacao('Lib.Projetos', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
         $oSitProj->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oSitProj->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oSitProj->setBComparacaoColuna(true);
-        $oSitProj->setILargura(60);
+        $oSitProj->setILargura(11);
 
-        $oSitVendas = new CampoConsulta('SitVendas', 'sitvendas');
-        $oSitVendas->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSitVendas = new CampoConsulta('SitVendas', 'sitvendas', CampoConsulta::TIPO_TEXTO);
         $oSitVendas->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA);
         $oSitVendas->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oSitVendas->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oSitVendas->setBComparacaoColuna(true);
+        $oSitVendas->setILargura(11);
 
-        $oSitCLiente = new CampoConsulta('SitCliente', 'sitcliente');
+        $oSitCLiente = new CampoConsulta('SitCliente', 'sitcliente', CampoConsulta::TIPO_TEXTO);
+        $oSitCLiente->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA);
         $oSitCLiente->addComparacao('Enviado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
         $oSitCLiente->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oSitCLiente->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oSitCLiente->addComparacao('Expirado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_COLUNA);
         $oSitCLiente->setBComparacaoColuna(true);
 
-        $oSitGeral = new CampoConsulta('SitGeral', 'sitgeralproj', CampoConsulta::TIPO_TEXTO);        
+        $oSitGeral = new CampoConsulta('SitGeral', 'sitgeralproj', CampoConsulta::TIPO_TEXTO);
+        $oSitGeral->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA);
         $oSitGeral->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
         $oSitGeral->addComparacao('Lib.Projetos', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oSitGeral->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
@@ -82,7 +86,7 @@ class ViewQualNovoProjRep extends View {
 
         $oDrop2 = new Dropdown('Proposta', Dropdown::TIPO_DARK);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Vizualizar proposta', 'QualNovoProjRep', 'criaTelaModalProposta', '', false, '', false, 'criaModalProposta', true, 'Visualizar Proposta');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Envia Aprovação para meu e-mail', 'QualNovoProjRep', 'msgEnvProp', '', false, '', false, '', false, '', true);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Envia proposta para meu e-mail', 'QualNovoProjRep', 'msgEnvProp', '', false, '', false, '', false, '', true);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aprovar proposta', 'QualNovoProjRep', 'criaTelaModalAprovProp', '', false, '', false, 'criaModalAprovProposta', true, 'Aprova proposta');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Reprovar proposta', 'QualNovoProjRep', 'criaTelaModalReprovProp', '', false, '', false, 'criaTelaModalReprovProp', true, 'Reprova proposta');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Retorna situação cliente', 'QualNovoProjRep', 'msgRetCli', '', false, '');
@@ -374,25 +378,25 @@ class ViewQualNovoProjRep extends View {
         $oAcaba->setSValor($oDados->acabamento);
         $oAcaba->setBCampoBloqueado(true);
 
-        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 2);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 3);
         $oQuant->setSValor(number_format($oDados->quant_pc, 2, ',', '.'));
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
         $oQuant->setBCampoBloqueado(true);
 
-        $oLoteMin = new campo('Lote Mínimo', 'lotemin', Campo::TIPO_TEXTO, 2);
+        $oLoteMin = new campo('Lote Mínimo', 'lotemin', Campo::TIPO_TEXTO, 3);
         $oLoteMin->setSValor(number_format($oDados->lotemin, 2, ',', '.'));
         $oLoteMin->setBCampoBloqueado(true);
 
-        $oPesoCt = new campo('Peso Ct', 'pesoct', Campo::TIPO_TEXTO, 2);
+        $oPesoCt = new campo('Peso Ct', 'pesoct', Campo::TIPO_TEXTO, 3);
         $oPesoCt->setSValor(number_format($oDados->pesoct, 2, ',', '.'));
         $oPesoCt->setBCampoBloqueado(true);
 
-        $oPreco = new Campo('Preço R$:', 'precofinal', Campo::TIPO_TEXTO, 2);
+        $oPreco = new Campo('Preço R$:', 'precofinal', Campo::TIPO_TEXTO, 3);
         $oPreco->setSValor(number_format($oDados->precofinal, 2, ',', '.'));
         $oPreco->setSCorFundo(Campo::FUNDO_VERDE);
         $oPreco->setBCampoBloqueado(true);
 
-        $oPrazo = new Campo('Prazo entrega/Dias úteis', 'prazoentregautil', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oPrazo = new Campo('P.Entrega/Dias úteis', 'prazoentregautil', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oPrazo->setSValor($oDados->prazoentregautil);
         $oPrazo->setBCampoBloqueado(true);
 
@@ -408,7 +412,7 @@ class ViewQualNovoProjRep extends View {
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, array($oAcaba, $oQuant, $oLoteMin, $oPesoCt, $oPreco, $oPrazo), $oObsAprov, array($oBtnInserir, $oFilcgc, $oNr));
+        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, array($oAcaba, $oQuant, $oLoteMin), array($oPesoCt, $oPreco, $oPrazo), $oObsAprov, array($oBtnInserir, $oFilcgc, $oNr));
     }
 
     /**
