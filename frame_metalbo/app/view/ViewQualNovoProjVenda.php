@@ -154,68 +154,40 @@ class ViewQualNovoProjVenda extends View {
         $oSitVenda->setSValor('Aguardando');
         $oSitVenda->setBCampoBloqueado(true);
 
-        $oRespProj = new campo('...', 'resp_proj_cod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 1, 1);
+        $oRespProj = new campo('...', 'resp_proj_cod', Campo::TIPO_TEXTO, 1, 1, 1, 1);
         $oRespProj->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oRespProj->setBFocus(true);
+        $oRespProj->setBCampoBloqueado(true);
 
-        $oRespProjNome = new Campo('Resp. Projetos', 'resp_proj_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
-        $oRespProjNome->setSIdPk($oRespProj->getId());
-        $oRespProjNome->setClasseBusca('User');
-        $oRespProjNome->addCampoBusca('usucodigo', '', '');
-        $oRespProjNome->addCampoBusca('usunome', '', '');
-        $oRespProjNome->setSIdTela($this->getTela()->getid());
+        $oRespProjNome = new Campo('Resp. Projetos', 'resp_proj_nome', Campo::TIPO_TEXTO, 3, 3, 3, 3);
+        $oRespProjNome->setBCampoBloqueado(true);
 
-        $oRespProj->setClasseBusca('User');
-        $oRespProj->setSCampoRetorno('usucodigo', $this->getTela()->getId());
-        $oRespProj->addCampoBusca('usunome', $oRespProjNome->getId(), $this->getTela()->getId());
+        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 1, 1);
+        $oRespVenda->setBCampoBloqueado(true);
 
-        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 1, 1);
-        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 3, 3, 3, 3);
+        $oRespVendaNome->setBCampoBloqueado(true);
 
-        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
-        $oRespVendaNome->setSIdPk($oRespVenda->getId());
-        $oRespVendaNome->setClasseBusca('User');
-        $oRespVendaNome->addCampoBusca('usucodigo', '', '');
-        $oRespVendaNome->addCampoBusca('usunome', '', '');
-        $oRespVendaNome->setSIdTela($this->getTela()->getid());
 
-        $oRespVenda->setClasseBusca('User');
-        $oRespVenda->setSCampoRetorno('usucodigo', $this->getTela()->getId());
-        $oRespVenda->addCampoBusca('usunome', $oRespVendaNome->getId(), $this->getTela()->getId());
-
-        $oEmpcod = new Campo('...', 'Pessoa.empcod', Campo::TIPO_BUSCADOBANCOPK, 2);
+        $oEmpcod = new Campo('...', 'Pessoa.empcod', Campo::TIPO_TEXTO, 2);
         $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oEmpcod->setBCampoBloqueado(true);
 
-        $oEmpdes = new Campo('Cliente', 'Pessoa.empdes', Campo::TIPO_BUSCADOBANCO, 4);
-        $oEmpdes->setSIdPk($oEmpcod->getId());
-        $oEmpdes->setClasseBusca('Pessoa');
-        $oEmpdes->addCampoBusca('empcod', '', '');
-        $oEmpdes->addCampoBusca('empdes', '', '');
-        $oEmpdes->setSIdTela($this->getTela()->getid());
+        $oEmpdes = new Campo('Cliente', 'Pessoa.empdes', Campo::TIPO_TEXTO, 4);
+        $oEmpdes->setBCampoBloqueado(true);
         $oEmpdes->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oEmpcod->setClasseBusca('Pessoa');
-        $oEmpcod->setSCampoRetorno('empcod', $this->getTela()->getid());
-        $oEmpcod->addCampoBusca('empdes', $oEmpdes->getId(), $this->getTela()->getId());
-
         $oEmail = new Campo('Email', 'emailCli', Campo::TIPO_TEXTO, 3);
+        $oEmail->setBCampoBloqueado(true);
 
         $oDescProd = new campo('Descrição do produto', 'desc_novo_prod', Campo::TIPO_TEXTO, 6);
         $oDescProd->setIMarginTop(8);
+        $oDescProd->setBCampoBloqueado(true);
 
-        $oAcaba = new Campo('Acabamento do Produto', 'acabamento', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oAcaba->addItemSelect('POL', 'Polido');
-        $oAcaba->addItemSelect('ZINC', 'Branco');
-        $oAcaba->addItemSelect('BICR', 'Bicromatizado');
-        $oAcaba->addItemSelect('G.FOG', 'PO Galvanizado Fogo');
-        $oAcaba->addItemSelect('GALV.FOG', 'PF Galvanizado Fogo');
-        $oAcaba->addItemSelect('Z.FE.PRT', 'Zinc. Ferro Preto');
-        $oAcaba->addItemSelect('Z.FE.AMARL', 'Zinc. Ferro Amarelo');
-        $oAcaba->addItemSelect('ORG.MET', 'Org. Metalico');
-        $oAcaba->addItemSelect('ZINC.PRT', 'Zin. Preto');
-        $oAcaba->addItemSelect('BICR.TRIV', 'Bic. Trivalente');
+        $oAcaba = new Campo('Acabamento do Produto', 'acabamento', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oAcaba->setSCorFundo(Campo::FUNDO_VERDE);
-        $oAcaba->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!');
+        $oAcaba->setBCampoBloqueado(true);
+        $oAcaba->setIMarginTop(8);
 
         $sBuscaCli = 'var empcod = $("#' . $oEmpcod->getId() . '").val();  '
                 . ' if($("#' . $oEmpcod->getId() . '").val()!==""){requestAjax("","QualNovoProj","acaoExitEmp",""+empcod+",' . $oEmail->getId() . '");}';
@@ -249,6 +221,7 @@ class ViewQualNovoProjVenda extends View {
 
         $oEquipEvidencia = new campo('Evidência', 'equip_corresp_evid', Campo::TIPO_TEXTO, 5);
         $oEquipEvidencia->setIMarginTop(7);
+        $oEquipEvidencia->setBCampoBloqueado(true);
 
         $oMatPrima = new Campo('Temos matéria prima correspondente', 'mat_prima', Campo::TIPO_SELECT, 3);
         $oMatPrima->addItemSelect('Sim', 'Sim');
@@ -256,6 +229,7 @@ class ViewQualNovoProjVenda extends View {
 
         $oEquipMatPrima = new campo('Evidência', 'mat_prima_evid', Campo::TIPO_TEXTO, 5);
         $oEquipMatPrima->setIMarginTop(7);
+        $oEquipMatPrima->setBCampoBloqueado(true);
 
         //estudo_proc
         $oEstudoProc = new Campo('Requer estudo de processo', 'estudo_proc', Campo::TIPO_SELECT, 3);
@@ -264,6 +238,7 @@ class ViewQualNovoProjVenda extends View {
 
         $oEstudoEvid = new Campo('Evidência', 'estudo_proc_evid', Campo::TIPO_TEXTO, 5);
         $oEstudoEvid->setIMarginTop(7);
+        $oEstudoEvid->setBCampoBloqueado(true);
 
         //prod_sim
         $oProdSimilar = new Campo('Existe produto similar?', 'prod_sim', Campo::TIPO_SELECT, 3);
@@ -273,20 +248,23 @@ class ViewQualNovoProjVenda extends View {
 
         $oProdSimilarEvid = new Campo('Evidência', 'prod_sim_evid', Campo::TIPO_TEXTO, 5);
         $oProdSimilarEvid->setIMarginTop(7);
+        $oProdSimilarEvid->setBCampoBloqueado(true);
 
         //desen_ferram
         $oDesenFerram = new Campo('Precisa desenvolver ferramental?', 'desen_ferram', Campo::TIPO_SELECT, 3);
         $oDesenFerram->addItemSelect('Sim', 'Sim');
         $oDesenFerram->addItemSelect('Não', 'Não');
+
         //desen_ferram_evid
         $oDesenFerramEvid = new Campo('Evidência', 'desen_ferram_evid', Campo::TIPO_TEXTO, 5);
         $oDesenFerramEvid->setIMarginTop(7);
+        $oDesenFerramEvid->setBCampoBloqueado(true);
 
         $oObs_viavel = new Campo('Observação', 'sol_viavel_obs', Campo::TIPO_TEXTAREA, 8);
+        $oObs_viavel->setBCampoBloqueado(true);
 
-        $oViavel = new Campo('A solicitação é considerada viável operacionalmente?', 'sol_viavel', Campo::TIPO_RADIO, 6);
-        $oViavel->addItenRadio('Sim', 'Sim');
-        $oViavel->addItenRadio('Não', 'Não');
+        $oViavel = new Campo('É viável operacionalmente?', 'sol_viavel', Campo::TIPO_TEXTO,2);
+        $oViavel->setBCampoBloqueado(true);
 
         $oFieldOperacao = new FieldSet('Análise operacional da solicitação');
         $oFieldOperacao->setOculto(true);
@@ -340,7 +318,7 @@ class ViewQualNovoProjVenda extends View {
         $oCustTotal->setIMarginTop(3);
         $oCustTotal->setSCorFundo(Campo::FUNDO_VERDE);
         $oCustTotal->setBCampoBloqueado(true);
-        
+
         $oLabel20 = new Campo('Custo por cento', 'label20', Campo::TIPO_LABEL, 3);
         $oCustoCento = new Campo('', 'custocento', Campo::TIPO_TEXTO, 1);
         $oCustoCento->setSValor('0');
@@ -354,7 +332,7 @@ class ViewQualNovoProjVenda extends View {
 
         $oFiledCusto = new FieldSet('Análise e estimativa de custo');
         $oFiledCusto->setOculto(true);
-        $oFiledCusto->addCampos(array($oLabel1, $oLabel2), array($oLabel3, $oVlrDesenProj), array($oLabel4, $oVlrFerra), array($oLabel5, $ovlrMatPrima), array($oLabel6, $ovlrAcabSuper), array($oLabel7, $ovlrTratTer), array($oLabel8, $ovlrCustProd), $oLinha2, array($oLabel9, $oCustTotal),array($oLabel20, $oCustoCento));
+        $oFiledCusto->addCampos(array($oLabel1, $oLabel2), array($oLabel3, $oVlrDesenProj), array($oLabel4, $oVlrFerra), array($oLabel5, $ovlrMatPrima), array($oLabel6, $ovlrAcabSuper), array($oLabel7, $ovlrTratTer), array($oLabel8, $ovlrCustProd), $oLinha2, array($oLabel9, $oCustTotal), array($oLabel20, $oCustoCento));
 
         $oLoteMin = new Campo('Quant. sol. cliente', 'lotemin', Campo::TIPO_TEXTO, 1);
         $oLoteMin->setIMarginTop(0);
