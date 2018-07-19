@@ -149,30 +149,26 @@ class ViewQualNovoProj extends View {
         $oSitGeral->setBCampoBloqueado(true);
         $oSitGeral->setSValor('Lib.Projetos');
 
-        $oRespProj = new campo('...', 'resp_proj_cod', Campo::TIPO_TEXTO, 1, 1, 1, 1);
-        $oRespProj->setBCampoBloqueado(true);
-        //$oRespProj->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-        //$oRespProj->setBFocus(true);
+        $oRespProj = new campo('...', 'resp_proj_cod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 1, 1);
+        $oRespProj->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+        $oRespProj->setBFocus(true);
 
+        $oRespProjNome = new Campo('Resp. Projetos', 'resp_proj_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
+        $oRespProjNome->setSIdPk($oRespProj->getId());
+        $oRespProjNome->setClasseBusca('User');
+        $oRespProjNome->addCampoBusca('usucodigo', '', '');
+        $oRespProjNome->addCampoBusca('usunome', '', '');
+        $oRespProjNome->setSIdTela($this->getTela()->getid());
 
-        $oRespProjNome = new Campo('Resp. Projetos', 'resp_proj_nome', Campo::TIPO_TEXTO, 3, 3, 3, 3);
-        $oRespProjNome->setBCampoBloqueado(true);
-        /* $oRespProjNome->setSIdPk($oRespProj->getId());
-          $oRespProjNome->setClasseBusca('User');
-          $oRespProjNome->addCampoBusca('usucodigo', '', '');
-          $oRespProjNome->addCampoBusca('usunome', '', '');
-          $oRespProjNome->setSIdTela($this->getTela()->getid());
-
-
-          $oRespProj->setClasseBusca('User');
-          $oRespProj->setSCampoRetorno('usucodigo', $this->getTela()->getId());
-          $oRespProj->addCampoBusca('usunome', $oRespProjNome->getId(), $this->getTela()->getId());
-         */
+        $oRespProj->setClasseBusca('User');
+        $oRespProj->setSCampoRetorno('usucodigo', $this->getTela()->getId());
+        $oRespProj->addCampoBusca('usunome', $oRespProjNome->getId(), $this->getTela()->getId());
 
         $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 1, 1);
         $oRespVenda->setBCampoBloqueado(true);
-        //$oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-        //$oRespVenda->setBFocus(true);
+        /* $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+          $oRespVenda->setBFocus(true);
+         */
 
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 3, 3, 3, 3);
@@ -204,7 +200,9 @@ class ViewQualNovoProj extends View {
           $oEmpcod->setClasseBusca('Pessoa');
           $oEmpcod->setSCampoRetorno('empcod', $this->getTela()->getid());
           $oEmpcod->addCampoBusca('empdes', $oEmpdes->getId(), $this->getTela()->getId());
+         * 
          */
+
 
         $oEmail = new Campo('Email', 'emailCli', Campo::TIPO_TEXTO, 3);
         $oEmail->setBCampoBloqueado(true);

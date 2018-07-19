@@ -289,7 +289,7 @@ class ViewQualNovoProjRep extends View {
         $oAcaba->setSValor($oDados->acabamento);
         $oAcaba->setBCampoBloqueado(true);
 
-        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 2);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 3);
         $oQuant->setSValor(number_format($oDados->quant_pc, 2, ',', '.'));
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
         $oQuant->setBCampoBloqueado(true);

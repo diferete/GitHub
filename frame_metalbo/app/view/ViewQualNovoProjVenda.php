@@ -215,55 +215,45 @@ class ViewQualNovoProjVenda extends View {
         $oFieldAnexo->addCampos(array($oAnexoDesenho, $oAnexoDoc, $oAnexoFree));
         $oFieldAnexo->setOculto(true);
 
-        $oEquipamento = new Campo('Temos equipamento correspondente', 'equip_corresp', Campo::TIPO_SELECT, 3);
-        $oEquipamento->addItemSelect('Sim', 'Sim');
-        $oEquipamento->addItemSelect('Não', 'Não');
+        $oEquipamento = new Campo('Temos equipamento correspondente', 'equip_corresp', Campo::TIPO_TEXTO, 3);
+        $oEquipamento->setBCampoBloqueado(true);
 
         $oEquipEvidencia = new campo('Evidência', 'equip_corresp_evid', Campo::TIPO_TEXTO, 5);
-        $oEquipEvidencia->setIMarginTop(7);
         $oEquipEvidencia->setBCampoBloqueado(true);
 
-        $oMatPrima = new Campo('Temos matéria prima correspondente', 'mat_prima', Campo::TIPO_SELECT, 3);
-        $oMatPrima->addItemSelect('Sim', 'Sim');
-        $oMatPrima->addItemSelect('Não', 'Não');
+        $oMatPrima = new Campo('Temos matéria prima correspondente', 'mat_prima', Campo::TIPO_TEXTO, 3);
+        $oMatPrima->setBCampoBloqueado(true);
 
         $oEquipMatPrima = new campo('Evidência', 'mat_prima_evid', Campo::TIPO_TEXTO, 5);
-        $oEquipMatPrima->setIMarginTop(7);
         $oEquipMatPrima->setBCampoBloqueado(true);
 
         //estudo_proc
-        $oEstudoProc = new Campo('Requer estudo de processo', 'estudo_proc', Campo::TIPO_SELECT, 3);
-        $oEstudoProc->addItemSelect('Sim', 'Sim');
-        $oEstudoProc->addItemSelect('Não', 'Não');
+        $oEstudoProc = new Campo('Requer estudo de processo', 'estudo_proc', Campo::TIPO_TEXTO, 3);
+        $oEstudoProc->setBCampoBloqueado(true);
 
         $oEstudoEvid = new Campo('Evidência', 'estudo_proc_evid', Campo::TIPO_TEXTO, 5);
-        $oEstudoEvid->setIMarginTop(7);
         $oEstudoEvid->setBCampoBloqueado(true);
 
         //prod_sim
-        $oProdSimilar = new Campo('Existe produto similar?', 'prod_sim', Campo::TIPO_SELECT, 3);
-        $oProdSimilar->addItemSelect('Sim', 'Sim');
-        $oProdSimilar->addItemSelect('Não', 'Não');
-        //prod_sim_evid
+        $oProdSimilar = new Campo('Existe produto similar?', 'prod_sim', Campo::TIPO_TEXTO, 3);
+        $oProdSimilar->setBCampoBloqueado(true);
 
+        //prod_sim_evid
         $oProdSimilarEvid = new Campo('Evidência', 'prod_sim_evid', Campo::TIPO_TEXTO, 5);
-        $oProdSimilarEvid->setIMarginTop(7);
         $oProdSimilarEvid->setBCampoBloqueado(true);
 
         //desen_ferram
-        $oDesenFerram = new Campo('Precisa desenvolver ferramental?', 'desen_ferram', Campo::TIPO_SELECT, 3);
-        $oDesenFerram->addItemSelect('Sim', 'Sim');
-        $oDesenFerram->addItemSelect('Não', 'Não');
+        $oDesenFerram = new Campo('Precisa desenvolver ferramental?', 'desen_ferram', Campo::TIPO_TEXTO, 3);
+        $oDesenFerram->setBCampoBloqueado(true);
 
         //desen_ferram_evid
         $oDesenFerramEvid = new Campo('Evidência', 'desen_ferram_evid', Campo::TIPO_TEXTO, 5);
-        $oDesenFerramEvid->setIMarginTop(7);
         $oDesenFerramEvid->setBCampoBloqueado(true);
 
         $oObs_viavel = new Campo('Observação', 'sol_viavel_obs', Campo::TIPO_TEXTAREA, 8);
         $oObs_viavel->setBCampoBloqueado(true);
 
-        $oViavel = new Campo('É viável operacionalmente?', 'sol_viavel', Campo::TIPO_TEXTO,2);
+        $oViavel = new Campo('É viável operacionalmente?', 'sol_viavel', Campo::TIPO_TEXTO, 2);
         $oViavel->setBCampoBloqueado(true);
 
         $oFieldOperacao = new FieldSet('Análise operacional da solicitação');
