@@ -401,11 +401,13 @@ class ViewQualGerenProj extends View {
         $this->setTituloTela('Relatório de Projetos');
         $this->setBTela(true);
 
+        $oFieldRel = new FieldSet('Situações');
+
 
         $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataIni->setSValor(Util::getPrimeiroDiaMes());
         $oDataIni->addValidacao(false, Validacao::TIPO_STRING, '', '2');
-        
+
         $oDataFin = new Campo('Data Final', 'datafim', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataFin->setSValor(Util::getDataAtual());
         $oDataFin->addValidacao(false, Validacao::TIPO_STRING, '', '2');
@@ -415,7 +417,25 @@ class ViewQualGerenProj extends View {
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relProjXls");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $this->addCampos(array($oDataIni, $oDataFin), $oXls);
+        $oRelPrj = new Campo('Projetos', 'ordsit1', Campo::TIPO_SELECT, 3);
+        $oRelPrj->addItemSelect('', 'Todos');
+        $oRelPrj->addItemSelect('Aprovado', 'Aprovado');
+        $oRelPrj->addItemSelect('Reprovado', 'Reprovado');
+
+        $oRelVend = new Campo('Vendas', 'ordsit2', Campo::TIPO_SELECT, 3);
+        $oRelVend->addItemSelect('', 'Todos');
+        $oRelVend->addItemSelect('Aprovado', 'Aprovado');
+        $oRelVend->addItemSelect('Reprovado', 'Reprovado');
+
+        $oRelCli = new Campo('Cliente', 'ordsit3', Campo::TIPO_SELECT, 3);
+        $oRelCli->addItemSelect('', 'Todos');
+        $oRelCli->addItemSelect('Aprovado', 'Aprovado');
+        $oRelCli->addItemSelect('Reprovado', 'Reprovado');
+
+        $oFieldRel->setOculto(true);
+        $oFieldRel->addCampos(array($oRelPrj,$oRelVend,$oRelCli));
+
+        $this->addCampos(array($oDataIni, $oDataFin), $oFieldRel, $oXls);
     }
 
 }
