@@ -10,6 +10,9 @@ $sUserRel = $_REQUEST['userRel'];
 date_default_timezone_set('America/Sao_Paulo');
 $sData = date('d/m/Y');
 $sHora = date('H:i');
+$sSitProj = $_REQUEST['ordsit1'];
+$sSitVenda = $_REQUEST['ordsit2'];
+$sSitCli = $_REQUEST['ordsit3'];
 
 class PDF extends FPDF {
 
@@ -43,6 +46,7 @@ class PDF_AutoPrint extends PDF_JavaScript {
 }
 
 $pdf = new PDF_AutoPrint('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
+//$pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 
@@ -73,19 +77,52 @@ $pdf->Cell(30, 5, 'Hora: ' . $sHora, 0, 1, 'L');
 $pdf->Cell(0, 0, "", "B", 1, 'C');  //linha em branco 
 
 
-
-
 $pdf->SetY(45);
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
+        . " tbqualNovoProjeto.empcod,empdes,convert(varchar,dtimp,103) as dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento"
+        . " from tbqualNovoProjeto left outer join  widl.EMP01"
+        . " on tbqualNovoProjeto.empcod  = widl.EMP01.empcod"
+        . " where dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "' ";
 
-$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,
-tbqualNovoProjeto.empcod,empdes,convert(varchar,dtimp,103) as dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento
-            from tbqualNovoProjeto left outer join  widl.EMP01
-            on tbqualNovoProjeto.empcod  = widl.EMP01.empcod
-            where dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "' 
-            order by nr";
+if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '')) {
+    if (($sSitProj !== '') && ($sSitVenda == '') && ($sSitCli == '')) {
+        $sql .= " and ";
+        $sql .= " sitproj ='" . $sSitProj . "'";
+    }
+    if (($sSitProj == '') && ($sSitVenda !== '') && ($sSitCli == '')) {
+        $sql .= " and ";
+        $sql .= " sitvendas ='" . $sSitVenda . "'";
+    }
+    if (($sSitProj == '') && ($sSitVenda == '') && ($sSitCli !== '')) {
+        $sql .= " and ";
+        $sql .= " sitcliente ='" . $sSitCli . "'";
+    }
+    if (($sSitProj !== '') && ($sSitVenda !== '') && ($sSitCli !== '')) {
+        $sql .= " and ";
+        $sql .= " sitproj ='" . $sSitProj . "' and sitvendas ='" . $sSitVenda . "' and sitcliente ='" . $sSitCli . "'";
+    }
+    if (($sSitProj !== '') && ($sSitVenda !== '') && ($sSitCli == '')) {
+        $sql .= " and ";
+        $sql .= " sitproj ='" . $sSitProj . "' and sitvendas ='" . $sSitVenda . "'";
+    }
+    if (($sSitProj !== '') && ($sSitVenda == '') && ($sSitCli !== '')) {
+        $sql .= " and ";
+        $sql .= " sitproj ='" . $sSitProj . "' and sitcliente ='" . $sSitCli . "'";
+    }
+    if (($sSitProj == '') && ($sSitVenda !== '') && ($sSitCli !== '')) {
+        $sql .= " and ";
+        $sql .= " sitvendas ='" . $sSitProj . "' and sitcliente ='" . $sSitCli . "'";
+    }
+}
+$sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
+        . " tbqualNovoProjeto.empcod,empdes,dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento"
+        . " order by nr";
+
 $sth = $PDO->query($sql);
+
 $row = $sth->fetch(PDO::FETCH_ASSOC);
+
 
 $iContaAltura = $pdf->GetY();
 
@@ -122,25 +159,34 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFont('arial', '', 8);
         $pdf->SetY(45);
     }
+
     if ($row['respvalproj'] == true) {
-        $sSitProj = 'Aprovado Geral';
+        $sSitGeral = 'Finalizado';
     } else {
-        if ($row['sitgeralproj'] != 'Finalizado') {
-            $sSitProj = 'Em andamento';
-        } else {
-            $sSitProj = $row['sitgeralproj'];
-        }
-    }
-    if ($row['sitproj'] == 'Reprovado') {
-        $sSitProj = 'Repr. por Projetos';
-    }
-    if ($row['sitvendas'] == 'Reprovado') {
-        $sSitProj = 'Repr. por Vendas';
-    }
-    if ($row['sitcliente'] == 'Reprovado') {
-        $sSitProj = 'Repr. pelo Cliente';
+        $sSitGeral = $row['sitgeralproj'];
     }
 
+
+
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(16, 5, 'Situação:', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(31, 5, $row['sitproj'], 0, 0);
+
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(16, 5, 'Situação:', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(31, 5, $row['sitvendas'], 0, 0);
+
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(16, 5, 'Situação:', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(31, 5, $row['sitcliente'], 0, 0);
+
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(16, 5, 'Sit. Geral:', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(31, 5, $sSitGeral, 0, 1);
 
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(5, 5, 'Nr:', 0, 0, 'L');
@@ -160,7 +206,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(10, 5, 'Prazo:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(18, 5, $row['prazoentregautil'].' dias', 0, 1); //quebra de linha
+    $pdf->Cell(18, 5, $row['prazoentregautil'] . ' dias', 0, 1); //quebra de linha
 
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(17, 5, 'Descrição:', 0, 0, 'L');
@@ -175,17 +221,17 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(12, 5, 'Quant.:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(18, 5, number_format($row['quant_pc'], 0, ',', '.'), 0, 0); //formata casas decimais
+    $pdf->Cell(18, 5, number_format($row['quant_pc'], 0, ', ', '.'), 0, 0); //formata casas decimais
 
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(16, 5, 'Lote Min.:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(18, 5, number_format($row['lotemin'], 0, ',', '.'), 0, 0); //formata casas decimais
+    $pdf->Cell(18, 5, number_format($row['lotemin'], 0, ', ', '.'), 0, 0); //formata casas decimais
 
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(11, 5, 'Preço:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(20, 5, number_format($row['precofinal'], 2, ',', '.'), 0, 1); //formata casas decimais
+    $pdf->Cell(20, 5, number_format($row['precofinal'], 2, ', ', '.'), 0, 1); //formata casas decimais
 
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(25, 5, 'Representante:', 0, 0, 'L');
@@ -195,12 +241,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(24, 5, 'Resp. Vendas:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(35, 5, $row['resp_venda_nome'], 0, 0);
-
-    $pdf->SetFont('arial', 'B', 9);
-    $pdf->Cell(16, 5, 'Situação:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(31, 5, $sSitProj, 0, 1);
+    $pdf->Cell(35, 5, $row['resp_venda_nome'], 0, 1);
 
     $pdf->Cell(0, 5, "", "B", 1, 'C');
 
@@ -210,7 +251,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 
 
 
-//number_format($quant, 2, ',', '.')
+//number_format($quant, 2, ', ', '.')
 $pdf->AutoPrint();
 $pdf->Output('I', 'relNovoProjeto.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
