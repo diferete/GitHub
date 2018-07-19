@@ -98,7 +98,7 @@ class ControllerQualNovoProjVenda extends Controller {
 
 
         $aRetorno = $this->Persistencia->aprovaVendaProj($aCamposChave);
-        
+
         if ($aRetorno[0] == true) {
             $oMensagem = new Mensagem('Atenção', 'O projeto nº' . $aRetorno[1] . ' foi encaminhado para o representante', Modal::TIPO_SUCESSO);
             echo $oMensagem->getRender();
@@ -151,27 +151,26 @@ class ControllerQualNovoProjVenda extends Controller {
                         . '<tr><td><b>Preço:</b></td><td><span style="color:#006400">' . number_format($oAprov->precofinal, 2, ',', '.') . '</span></td></tr>'
                         . '<tr><td><b>Prazo:</b></td><td><span style="color:#006400">' . $oAprov->prazoentregautil . ' dias úteis a partir da aprovação do cliente</span></td></tr>'
                         . '<tr><td><b>Observação vendas/Motivo reprovação:</b></td><td>' . $aObs['Financeiro'] . '</td></tr>'
-                        . '</table><br/><br/><br/>'
+                        . '</table><br/><br/>'
                         . '<a href="sistema.metalbo.com.br">Clique aqui para acessar a entrada de projeto!</a>'
-                        . '< br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+                        . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 
         $oEmail->limpaDestinatariosAll();
 
         // Para
-        /*
-          $aEmails = array();
-          $aEmails[] = $_SESSION['email'];
-          foreach ($aEmails as $sEmail) {
-          $oEmail->addDestinatario($sEmail);
-          }
+        $aEmails = array();
+        $aEmails[] = $_SESSION['email'];
+        foreach ($aEmails as $sEmail) {
+            $oEmail->addDestinatario($sEmail);
+        }
 
-          //na o enviar e-mail para vendas no momento
-          $aUserPlano = $this->Persistencia->emailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        //na o enviar e-mail para vendas no momento
+        $aUserPlano = $this->Persistencia->emailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
-          $oEmail->addDestinatarioCopia($aUserPlano['rep']);
-         */
+        $oEmail->addDestinatarioCopia($aUserPlano['rep']);
 
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -256,21 +255,20 @@ class ControllerQualNovoProjVenda extends Controller {
 
         $oEmail->limpaDestinatariosAll();
 
-        // Para
-        /*
-          $aEmails = array();
-          $aEmails[] = $_SESSION['email'];
-          foreach ($aEmails as $sEmail) {
-          $oEmail->addDestinatario($sEmail);
-          }
+        // Para        
+        $aEmails = array();
+        $aEmails[] = $_SESSION['email'];
+        foreach ($aEmails as $sEmail) {
+            $oEmail->addDestinatario($sEmail);
+        }
 
-          //na o enviar e-mail para vendas no momento
-          $aUserPlano = $this->Persistencia->emailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        //na o enviar e-mail para vendas no momento
+        $aUserPlano = $this->Persistencia->emailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
-          $oEmail->addDestinatarioCopia($aUserPlano['proj']);
-         */
+        $oEmail->addDestinatarioCopia($aUserPlano['proj']);
 
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -379,21 +377,20 @@ class ControllerQualNovoProjVenda extends Controller {
 
         $oEmail->limpaDestinatariosAll();
 
-        // Para
-        /*
-          $aEmails = array();
-          $aEmails[] = $_SESSION['email'];
-          foreach ($aEmails as $sEmail) {
-          $oEmail->addDestinatario($sEmail);
-          }
+        // Para        
+        $aEmails = array();
+        $aEmails[] = $_SESSION['email'];
+        foreach ($aEmails as $sEmail) {
+            $oEmail->addDestinatario($sEmail);
+        }
 
-          $aUserPlano = $this->Persistencia->projEmail($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        $aUserPlano = $this->Persistencia->projEmail($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
-          foreach ($aUserPlano as $sCopia) {
-          $oEmail->addDestinatarioCopia($sCopia);
-          } */
+        foreach ($aUserPlano as $sCopia) {
+            $oEmail->addDestinatarioCopia($sCopia);
+        }
 
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

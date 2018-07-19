@@ -12,7 +12,6 @@ class ControllerQualNovoProj extends Controller {
         $this->carregaClassesMvc('QualNovoProj');
     }
 
-
     public function acaoExitEmp($sDados) {
         $aDados = explode(',', $sDados);
         $oPersPes = Fabrica::FabricarPersistencia('Pessoa');
@@ -173,8 +172,7 @@ class ControllerQualNovoProj extends Controller {
 
         $oEmail->limpaDestinatariosAll();
 
-        // Para
-        /*
+        // Para        
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -185,9 +183,9 @@ class ControllerQualNovoProj extends Controller {
 
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
-        }*/
-        
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+        }
+
+        // $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -302,8 +300,7 @@ class ControllerQualNovoProj extends Controller {
         $oEmail->limpaDestinatariosAll();
 
 
-        // Para
-        /*
+        // Para 
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -315,9 +312,9 @@ class ControllerQualNovoProj extends Controller {
 
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
-        }*/
-        
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+        }
+
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -426,8 +423,7 @@ class ControllerQualNovoProj extends Controller {
         $oEmail->limpaDestinatariosAll();
 
 
-        // Para
-        /*
+        // Para        
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -439,9 +435,9 @@ class ControllerQualNovoProj extends Controller {
 
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
-        }*/
-        
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+        }
+
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

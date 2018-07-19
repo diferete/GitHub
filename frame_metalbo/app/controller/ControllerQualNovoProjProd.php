@@ -175,8 +175,7 @@ class ControllerQualNovoProjProd extends Controller {
 
 
         // Para
-        /*
-        $aEmails = array();
+                $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
             $oEmail->addDestinatario($sEmail);
@@ -188,8 +187,8 @@ class ControllerQualNovoProjProd extends Controller {
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
         }
-        */
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+        
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
