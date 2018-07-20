@@ -784,10 +784,18 @@ function calcNewproj(idPlan,
 
     var CustoTotal = (Plan + Ferr + Mat + Acab + Trat + Custo);
     $('#' + idTotal + '').val(numeroParaMoeda(CustoTotal));
+
+    if (Lote > Quant) {
+        var CustoCento = (CustoTotal / Lote);
+        $('#' + idCCento + '').val(numeroParaMoeda(CustoCento));
+    } else {
+        var CustoCento = (CustoTotal / Quant);
+        $('#' + idCCento + '').val(numeroParaMoeda(CustoCento));
+    }
     
-    var CustoCento = (CustoTotal/Quant);
-    $('#'+idCCento+'').val(numeroParaMoeda(CustoCento));
-    
+    console.log(CustoCento);
+    console.log(Quant);
+    console.log(Lote);
 
 }
 
