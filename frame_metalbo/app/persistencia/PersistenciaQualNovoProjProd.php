@@ -97,18 +97,11 @@ class PersistenciaQualNovoProjProd extends Persistencia {
      * Libera código para o representante
      */
     public function liberaCodProj($aDados) {
-        date_default_timezone_set('America/Sao_Paulo');
-        $sHora = date('H:i');
-        $sData = date('d/m/Y');
         $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Cadastrado',
-                sitproj = 'Cód. enviado',
-                dtafimProj = '" . $sData . "',
-                horafimProj = '" . $sHora . "',
-                userfimProj = '" . $_SESSION['nome'] . "'
+                sitproj = 'Cód. enviado'
                 where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
-
     }
 
     public function verifSitProj($aDados) {

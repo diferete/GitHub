@@ -93,7 +93,7 @@ class PersistenciaQualNovoProjVenda extends Persistencia {
         $this->adicionaRelacionamento('replibobs', 'replibobs');
         $this->adicionaRelacionamento('acabamento', 'acabamento');
 
-        $this->adicionaFiltro('sitproj','Aprovado', Persistencia::LIGACAO_AND, Persistencia::ENTRE,'Cód. enviado');
+        $this->adicionaFiltro('sitproj', 'Aprovado', Persistencia::LIGACAO_AND, Persistencia::ENTRE, 'Cód. enviado');
 
 
         $this->adicionaJoin('Pessoa');
@@ -101,6 +101,32 @@ class PersistenciaQualNovoProjVenda extends Persistencia {
         $this->adicionaOrderBy('nr', 1);
 
         $this->setSTop('50');
+    }
+
+    public function verifProjProjVenda($aDados) {
+        $sSql = "select count(*)as total from tbqualNovoProjeto where filcgc = '" . $aDados['EmpRex_filcgc'] . "' "
+                . "and nr = '" . $aDados['nr'] . "' and sitvendas='Aprovado' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $iSit = $oRow->total;
+        if ($iSit == '1') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verifProjRep($aDados) {
+        $sSql = "select count(*)as total from tbqualNovoProjeto where filcgc = '" . $aDados['EmpRex_filcgc'] . "' "
+                . "and nr = '" . $aDados['nr'] . "' and sitcliente ='Aprovado' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $iSit = $oRow->total;
+        if ($iSit == '1') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

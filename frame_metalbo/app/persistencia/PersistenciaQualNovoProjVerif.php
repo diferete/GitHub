@@ -104,6 +104,9 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
     }
 
     public function verifValProj($sDados) {
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
         $sSql = "select respvalproj,etapProj,result,cliprov,valproj from tbqualNovoProjeto where nr='" . $sDados . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
@@ -115,7 +118,12 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
         $iCount = count($aElemenFilter);
 
         if ($iCount == 5 && $oRespValProj == 'Eloir') {
-            $sSql = "update tbqualNovoProjeto set sitgeralproj='Finalizado' where nr='" . $sDados . "'";
+            $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Cadastrado',
+                sitproj = 'Cód. enviado',
+                dtafimProj = '" . $sData . "',
+                horafimProj = '" . $sHora . "',
+                userfimProj = '" . $_SESSION['nome'] . "'
+                where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
             $this->executaSql($sSql);
             return;
         } else {

@@ -343,6 +343,19 @@ class PersistenciaQualNovoProj extends Persistencia {
         }
     }
 
+    public function verifProjProjVenda($aDados) {
+        $sSql = "select count(*)as total from tbqualNovoProjeto where filcgc = '" . $aDados['EmpRex_filcgc'] . "' "
+                . "and nr = '" . $aDados['nr'] . "' and sitvendas ='Aprovado' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $iSit = $oRow->total;
+        if ($iSit == '1') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Retorna para o representante
      */
