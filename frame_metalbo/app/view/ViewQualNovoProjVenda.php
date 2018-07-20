@@ -76,10 +76,15 @@ class ViewQualNovoProjVenda extends View {
 
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aprovar projeto (Liberar representante)', 'QualNovoProjVenda', 'msgAprov', '', false, '');
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Retorna para projetos', 'QualNovoProjVenda', 'msgRetProj', '', false, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Reprova projetos', 'QualNovoProjVenda', 'msgReprovaProjVenda', '', false, '');
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Retorna para projetos', 'QualNovoProjVenda', 'msgRetProj', '', false, '');
 
-        $this->addDropdown($oDrop1);
+        $oDrop2 = new Dropdown('E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Reenviar e-mail aprovação', 'QualNovoProjVenda', 'reenviaAprovaVenda', '', false, '');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Reenviar e-mail reprovação', 'QualNovoProjVenda', 'reenviaReprovaVenda', '', false, '');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Reennvia retorno para Projetos', 'QualNovoProjVenda', 'reenviaRetornoProj', '', false, '');
+
+        $this->addDropdown($oDrop1, $oDrop2);
 
         $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12);
 

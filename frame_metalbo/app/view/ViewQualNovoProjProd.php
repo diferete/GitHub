@@ -61,13 +61,15 @@ class ViewQualNovoProjProd extends View {
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Produto', Dropdown::TIPO_PRIMARY);
-
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Cadastro de produto', 'QualNovoProjProd', 'TelaCadProd', '', true, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Detalhamento de projeto', 'QualNovoProjDet', 'TelaCadEtapa', '', true, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Controle e verificação de projeto', 'QualNovoProjVerif', 'TelaCadVerif', '', true, '');
 
-        $oDrop2 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO);
+        $oDrop2 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO, Dropdown::ICON_POSITIVO);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Liberar código', 'QualNovoProjProd', 'msgLibCod', '', false, '');
+
+        $oDrop3 = new Dropdown('E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LOOP). 'Reenvia código', 'QualNovoProjProd', 'reenviaCodigo', '', false, '');
 
         $this->addDropdown($oDrop1, $oDrop2);
 

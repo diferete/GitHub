@@ -95,15 +95,20 @@ class ViewQualNovoProj extends View {
 
 
 
-        $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
+        $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY, Dropdown::ICON_POSITIVO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aprovar projeto', 'QualNovoProj', 'msAprovaProj', '', false, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Reprovar projeto', 'QualNovoProj', 'msgReprovaProj', '', false, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Retornar para representante', 'QualNovoProj', 'msgRetRep', '', false, '');
 
-        $oDrop2 = new Dropdown('Proposta', Dropdown::TIPO_DARK);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Relatório da Proposta', 'QualNovoProj', 'acaoMostraRelConsulta', '', false, 'relPropProj');
+        $oDrop2 = new Dropdown('Proposta', Dropdown::TIPO_DARK, Dropdown::ICON_RANDOM);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Relatório da proposta', 'QualNovoProj', 'acaoMostraRelConsulta', '', false, 'relPropProj');
 
-        $this->addDropdown($oDrop1, $oDrop2);
+        $oDrop3 = new Dropdown('E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Reenviar e-mail aprovação', 'QualNovoProj', 'reenviaAprovaProj', '', false, '');
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Reenviar e-mail reprovação', 'QualNovoProj', 'reenviaReprovaProj', '', false, '');
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Reennvia retorno para representante', 'QualNovoProj', 'reenviaRetornoRep', '', false, '');
+
+        $this->addDropdown($oDrop1, $oDrop2, $oDrop3);
     }
 
     public function criaTela() {
