@@ -98,19 +98,19 @@ class ViewQualAq extends View {
         $this->setUsaAcaoExcluir(false);
 
         $this->setUsaDropdown(true);
-        $oDrop1 = new Dropdown('Ação e Eficácia', Dropdown::TIPO_SUCESSO, 2);
+        $oDrop1 = new Dropdown('Ação e Eficácia', Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Finalizar plano de ação', 'QualAqApont', 'acaoMostraTelaApontdiv', '', true, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir avaliação da eficácia', 'QualAqEficaz', 'acaoMostraTelaApontdiv', '', true, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Apontar avaliação da eficácia', 'QualAqEficazApont', 'acaoMostraTelaApontdiv', '', true, '');
 
 
-        $oDrop3 = new Dropdown('Movimentação', Dropdown::TIPO_DARK, 2);
+        $oDrop3 = new Dropdown('Movimentação', Dropdown::TIPO_DARK);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Iniciar ação da qualidade', 'QualAq', 'startAq', '', false, '');
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Finalizar ação da qualidade', 'QualAq', 'msgFechaAq', '', false, ''); //msgAbreAq
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DESBLOQUEADO) . 'Reabrir ação da qualidade', 'QualAq', 'msgAbreAq', '', false, '');
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Ata de reunião', 'QualAta', 'acaoMostraTelaApontdiv', '', true, '');
 
-        $oDrop4 = new Dropdown('Impressão e Emails', Dropdown::TIPO_PRIMARY, 2);
+        $oDrop4 = new Dropdown('Impressão e Emails', Dropdown::TIPO_PRIMARY);
         $oDrop4->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Vizualizar ação da qualidade', 'QualAq', 'acaoMostraRelConsulta', '', false, 'AqImp');
         $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'QualAq', 'envMailGrid2', '', false, 'AqImp,email,QualAq,envMailQual');
         $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para todos envolvidos', 'QualAq', 'envMailGrid', '', false, 'AqImp,email,QualAq,envMailAll');
