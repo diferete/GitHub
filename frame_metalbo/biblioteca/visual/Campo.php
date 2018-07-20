@@ -69,7 +69,7 @@ class Campo {
     private $listaDow;
     private $iMarginTop;
     private $bDesativado; //se true o botão estará bloqueado para o click
-   
+ 
 
 
             
@@ -210,6 +210,9 @@ class Campo {
            
         } 
         
+        
+
+                
         function getBDesativado() {
             return $this->bDesativado;
         }
@@ -1299,9 +1302,15 @@ class Campo {
                             if($this->getBCampoBloqueado()){
                               $sCampo .= 'enableOnReadonly : false';                               
                             }
+                            
                  $sCampo .= '});'
                      .'</script>'
                      .$this->getRenderEventos();
+                 
+                   $sCampo .= '<script>'
+                             .'$("#'.$this->getId().'  ").mask("99/99/9999");'
+                             .'</script>';  
+               
              break;
             
             case self::TIPO_TEXTO:
