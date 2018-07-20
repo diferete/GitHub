@@ -55,8 +55,9 @@ class ControllerQualNovoProjVerif extends Controller {
         parent::afterUpdate();
 
         $oNr = $this->Model->getNr();
+        $oFilcgc = $this->Model->getFilcgc();
 
-        $this->Persistencia->verifValProj($oNr);
+        $this->Persistencia->verifValProj($oFilcgc,$oNr);
 
         $aRetorno = array();
         $aRetorno[0] = true;

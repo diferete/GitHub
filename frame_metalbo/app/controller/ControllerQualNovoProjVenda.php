@@ -110,6 +110,25 @@ class ControllerQualNovoProjVenda extends Controller {
         }
     }
 
+    public function reenviaAprovaProj($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+
+
+        $aRetorno = $this->Persistencia->verifProjProjVenda($aCamposChave);
+
+        if ($aRetorno == false) {
+            $oMensagem = new Modal('Atenção', 'O projeto está Reprovado, o reenvio do e-mail de Aprovação foi cancelado.', Modal::TIPO_AVISO, false, true, true);
+        } else {
+            $oMensagem = new Mensagem('Aguarde!', 'Seu e-mail está sendo gerado e enviado', Mensagem::TIPO_INFO);
+            echo'requestAjax("","' . $sClasse . '","EnvAprov","' . $sDados . '");';
+        }
+        echo $oMensagem->getRender();
+    }
+
     /**
      * Envia um e-mail para o representante que foi aprovado a entrada de projeto
      * @param type $sDados monta a chave primária
@@ -120,9 +139,6 @@ class ControllerQualNovoProjVenda extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-
-
-
 
         $oEmail = new Email();
         $oEmail->setMailer();
@@ -176,7 +192,7 @@ class ControllerQualNovoProjVenda extends Controller {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }
@@ -214,6 +230,25 @@ class ControllerQualNovoProjVenda extends Controller {
             $oMensagem = new Mensagem('Retorno', 'Projeto retornado com sucesso para o setor de projetos!', Mensagem::TIPO_SUCESSO);
             echo'requestAjax("", "' . $sClasse . '", "EnvRetornaProj", "' . $sDados . '");';
             echo"$('#" . $aDados[1] . "-pesq').click();";
+        }
+        echo $oMensagem->getRender();
+    }
+
+    public function reenviaRetornoProj($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+
+
+        $aRetorno = $this->Persistencia->verifProjRep($aCamposChave);
+
+        if ($aRetorno == true) {
+            $oMensagem = new Modal('Atenção!', 'Projeto Aprovado pelo Cliente, o reenvio do e-mail de Retorno foi cancelado.', Modal::TIPO_AVISO, false, true, true);
+        } else {
+            $oMensagem = new Mensagem('Aguarde', 'Seu e-mail está sendo gerado e enviado', Mensagem::TIPO_INFO);
+            echo'requestAjax("","' . $sClasse . '","EnvRetornaProj","' . $sDados . '");';
         }
         echo $oMensagem->getRender();
     }
@@ -274,7 +309,7 @@ class ControllerQualNovoProjVenda extends Controller {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }
@@ -337,6 +372,25 @@ class ControllerQualNovoProjVenda extends Controller {
         echo $oMensagem->getRender();
     }
 
+    public function reenviaReprovaVenda($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+
+
+        $aRetorno = $this->Persistencia->verifProjProjVenda($aCamposChave);
+
+        if ($aRetorno == false) {
+            $oMensagem = new Mensagem('Aguarde', 'Seu e-mail está sendo gerado e enviado', Mensagem::TIPO_INFO);
+            echo'requestAjax("","' . $sClasse . '","EnvReprov","' . $sDados . '");';
+        } else {
+            $oMensagem = new Modal('Atenção', 'O projeto está Aprovado, o reenvio do e-mail de Reprovação foi cancelado.', Modal::TIPO_AVISO, false, true, true);
+        }
+        echo $oMensagem->getRender();
+    }
+
     public function EnvReprov($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -396,7 +450,7 @@ class ControllerQualNovoProjVenda extends Controller {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }

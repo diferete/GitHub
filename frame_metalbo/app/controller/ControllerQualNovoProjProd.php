@@ -129,6 +129,19 @@ class ControllerQualNovoProjProd extends Controller {
         echo"$('#" . $aDados[1] . "-pesq').click();";
     }
 
+    public function reenviaCodigo($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+
+        $oMensagem = new Mensagem('Aguarde', 'Seu e-mail está sendo gerado e enviado', Mensagem::TIPO_INFO);
+        echo'requestAjax("","' . $sClasse . '","emailLibCod","' . $sDados . '");';
+
+        echo $oMensagem->getRender();
+    }
+
     public function emailLibCod($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -175,7 +188,7 @@ class ControllerQualNovoProjProd extends Controller {
 
 
         // Para
-                $aEmails = array();
+        $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
             $oEmail->addDestinatario($sEmail);
@@ -187,21 +200,21 @@ class ControllerQualNovoProjProd extends Controller {
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
         }
-        
+
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }
 
     /**
      * Monta Wizard linha do tempo OnClick para Gerenciar Projetos
-     **/
+     * */
     public function calculoPersonalizado($sParametros = null) {
         parent::calculoPersonalizado($sParametros);
 
@@ -216,7 +229,7 @@ class ControllerQualNovoProjProd extends Controller {
 
     /**
      * Gerencia estilo de cores do wizard conforme status do projeto
-     **/
+     * */
     public function renderTempo($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[0]);
@@ -238,7 +251,7 @@ class ControllerQualNovoProjProd extends Controller {
             $scurrentProj = 'current';
             $sEstiloProj = 'border-color:#62a8ea;color:#62a8ea';
         }
-        if($oRetorno->sitproj == 'Cód. enviado'){
+        if ($oRetorno->sitproj == 'Cód. enviado') {
             $scurrentProj = 'current';
             $sEstiloProj = 'border-color:#2eb82e;color:#2eb82e';
         }
@@ -279,7 +292,7 @@ class ControllerQualNovoProjProd extends Controller {
 
 
 
-        $sLinha ='<div id="0" class="pearl ' . $scurrentProj . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+        $sLinha = '<div id="0" class="pearl ' . $scurrentProj . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
                 . '<div class="pearl-icon" style="' . $sEstiloProj . '">'
                 . '<i class="icon wb-calendar" aria-hidden="true"></i>'
                 . '</div>'
