@@ -11,18 +11,21 @@ class ViewNoticiaSite extends View {
 
         $this->getTela()->setILarguraGrid(2000);
         $this->getTela()->setBGridResponsivo(false);
-        
+
         $this->setUsaDropdown(true);
         $oFeed = new Dropdown('Feed', Dropdown::TIPO_PRIMARY);
         $oFeed->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Publicar', 'NoticiaSite', 'getFeed', '', false, '');
 
         $oNr = new CampoConsulta('Nr', 'nr');
+        $oNr->setILargura(10);
 
         $oData = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
+        $oData->setILargura(20);
 
         $oTitulo = new CampoConsulta('Titulo', 'titulo');
-
-        $oTexto = new CampoConsulta('Texto', 'texto');
+        $oTitulo->setILargura(50);
+        
+        $oTexto = new CampoConsulta('Texto', 'texto', CampoConsulta::TIPO_LARGURA);
         $oTexto->setILargura(800);
 
         $oSite = new CampoConsulta('Site', 'filcgc');
@@ -30,14 +33,14 @@ class ViewNoticiaSite extends View {
         $oSite->addComparacao('83781641000158', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
         $oSite->setBComparacaoColuna(true);
         $oSite->setILargura(80);
-        
+
         $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12);
-        $oFilTitulo = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 2,2,12,12 );
-        
-        $this->addFiltro($oFilData,$oFilTitulo);
+        $oFilTitulo = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+
+        $this->addFiltro($oFilData, $oFilTitulo);
 
         $this->addDropdown($oFeed);
-        
+
         $this->addCampos($oNr, $oSite, $oData, $oTitulo, $oTexto);
     }
 
