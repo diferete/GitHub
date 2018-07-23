@@ -45,7 +45,7 @@
     color: #0039FF;
 }
 .tr-amarelo{
-    color: #FFD700;
+    color: #E19D12;
 }
 .tr-roxo{
     color: #8B2252;
@@ -54,9 +54,10 @@
     color: #FF6EB4;
 }
 .tr-laranja{
-    color: #FFA500;
-
+    color: #E19D12;
 }
+
+
 .tr-font{
     font-size: 11px !important;
 }
@@ -75,7 +76,7 @@
 }
 .tr-bk-amarelo{
     color: white;
-    background-color: #FFD700;
+    background-color: #E6E600;
 }
 .tr-bk-roxo{
     color: white;
@@ -87,13 +88,17 @@
 }
 .tr-bk-laranja{
     color: white;
-    background-color: #FFA500;
+    background-color: #E19D12;
+}
+
+.tr-bk-black{
+    color:white;
+    background-color:black; 
 }
 .tr-bk-marrom{
     color:white;
-    background-color: #996633;
+    background-color: brown;
 }
-
 fieldset legend{
     width: inherit !important;
     padding: 0 10px !important;

@@ -1308,10 +1308,10 @@ class Campo {
                      .$this->getRenderEventos();
                  
                    $sCampo .= '<script>'
-                             .'$("#'.$this->getId().'  ").mask("99/99/9999");'
-                             .'</script>';  
-               
-             break;
+                        . '$("#' . $this->getId() . '  ").mask("99/99/9999");'
+                        . '</script>';
+
+                break;
             
             case self::TIPO_TEXTO:
                
