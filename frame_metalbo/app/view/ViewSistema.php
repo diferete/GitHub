@@ -82,8 +82,6 @@ class ViewSistema extends View {
                 . '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic">'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/font-awesome/font-awesome.css">'
                 . '<!-- Scripts -->'
-                . '<script type="text/javascript" src="biblioteca/colresizable/colResizable-1.6.js"></script>'
-                . '<script type="text/javascript" src="biblioteca/colresizable/colResizable-1.6.min.js"></script>'
                 . '<script src="biblioteca/assets/vendor/modernizr/modernizr.js"></script>'
                 . '<script src="biblioteca/assets/vendor/breakpoints/breakpoints.js"></script>'
                 . '<script src="biblioteca/assets/vendor/jquery/jquery.js"></script>'
@@ -846,22 +844,26 @@ class ViewSistema extends View {
                 . "$('#tabmenucont > #'+tabname+'control').addClass(\"active\");"
                 . "}"
                 . "function controleAbas(tabId){"
-                . "   abaSelecionada = tabId;"
+                . "abaSelecionada = tabId;"
                 . "}"
                 . "function ativaPerfil(){"
-                // ."alert('Ativou');"
+                //. "alert('Ativou');"
                 . "var countTabs=0;"
                 . "$('#tabmenusuperior > li').each(function(){"
-                // ."alert('Entrou each');"
+                //. "alert('Entrou each');"
                 . "countTabs++;"
-                //   ."alert(countTabs);"
-                . "     }); "
-                . " if(countTabs==1){"
+                //. "alert(countTabs);"
+                . "});"
+                . "if (countTabs > 1) {"
+                . "$('#tabmenusuperior > li').hasClass(\"active\");"
+                . "abaSelecionada = tabId;"
+                . "}"
+                . " if(countTabs == 1){"
                 . "showPerfil();"
                 . "} "//$('#teste').hide()
                 . "}"
                 . "function showPerfil(){"
-                //."alert('chegou no show perfil');"
+                //. "alert('chegou no show perfil');"
                 . "$('#perfilPrincipal').show();"
                 . "}";
 

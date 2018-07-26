@@ -577,7 +577,7 @@ class Grid {
         foreach ($this->aColunas as $key => $oCampoAtual) {
             $sLargura = '';
             if (!is_null($oCampoAtual->getILargura())) {
-                $sLargura = 'style="width: ' . $oCampoAtual->getILargura() . 'px;"';
+                $sLargura = 'style="width: ' . $oCampoAtual->getILargura() . 'px!important;"';
             }
             $sGrid .= '<th ' . $sLargura . '>' . $oCampoAtual->getSLabel() . '</th>';
         }

@@ -69,9 +69,10 @@ class Campo {
     private $listaDow;
     private $iMarginTop;
     private $bDesativado; //se true o botão estará bloqueado para o click
- 
+    private $sFont;
 
 
+    
             
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -133,6 +134,8 @@ class Campo {
     const GRIDVIEW_CORACTIVE = 'active';
     const GRIDVIEW_CORSUCCESS = 'success';
     const GRIDVIEW_CORINFO = 'info';
+    
+    const FONT_BOLD ='bold';
     
    /**
     * Construtor da classe Campo 
@@ -211,8 +214,16 @@ class Campo {
         } 
         
         
+        function getSFont() {
+            return $this->sFont;
+        }
 
-                
+        function setSFont($sFont) {
+            $this->sFont = $sFont;
+        }
+
+        
+                        
         function getBDesativado() {
             return $this->bDesativado;
         }
@@ -1308,10 +1319,10 @@ class Campo {
                      .$this->getRenderEventos();
                  
                    $sCampo .= '<script>'
-                        . '$("#' . $this->getId() . '  ").mask("99/99/9999");'
-                        . '</script>';
-
-                break;
+                             .'$("#'.$this->getId().'  ").mask("99/99/9999");'
+                             .'</script>';  
+               
+             break;
             
             case self::TIPO_TEXTO:
                
@@ -1319,7 +1330,7 @@ class Campo {
                          '<div class="campo-form col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'" >'
                          .'<div class="input-group" id="'.$this->getId().'-group">'
                          .'<label class="control-label" for="'.$this->getId().'">'.$this->getLabel().'</label>'
-                         .'<input type="text" style="margin-top:'.$this->getIMarginTop().'px;" name="'.$this->getNome().'" class="form-control '.$this->getTamanho($this->getITamanho()).' " ' // IMPORTANTE!!!! REVER ID
+                         .'<input type="text" style="margin-top:'.$this->getIMarginTop().'px;font-weight:'. $this->getSFont().'" name="'.$this->getNome().'" class="form-control '.$this->getTamanho($this->getITamanho()).' " ' // IMPORTANTE!!!! REVER ID
                          .'id="'.$this->getId().'" placeholder="'.$this->getSPlaceHolder().'" value="'.htmlspecialchars($this->getSValor()).'" '.$this->verficaCampoBloqueado($this->getBCampoBloqueado()).'>'
                          .'</div>'
                          //.'</div>'

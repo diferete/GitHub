@@ -1,13 +1,15 @@
 <?php
+
 /**
  * Classe que implementa os campos do grid
  *
  * @author Avanei Martendal
  * @since 21/10/2015
  */
-class CampoConsulta{
-    private $sLabel;//nome do campo que vai no cabeçalho do grid
-    private $sNome;//nome do model do campo
+class CampoConsulta {
+
+    private $sLabel; //nome do campo que vai no cabeçalho do grid
+    private $sNome; //nome do model do campo
     private $aComparacao; //array para comparação para renderizar grid com cores
     private $bComparacaoColuna; //Se true formata as cores de acordo com comparação somente na coluna do campo
     private $Tipo;  //Define o tipo de dado do campo
@@ -25,12 +27,13 @@ class CampoConsulta{
     const TIPO_MONEY = 2;
     const TIPO_DECIMAL = 3;
     const TIPO_DOWNLOAD = 4;
-    const TIPO_DESTAQUE1=5;
+    const TIPO_DESTAQUE1 = 5;
     const TIPO_LARGURA = 6;
     const TIPO_TIME = 7;
-    const TIPO_DESTAQUE2=8;
+    const TIPO_DESTAQUE2 = 8;
     const TIPO_ACAO = 9;
-
+    const TIPO_EXCLUIR = 10;
+    
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
     const MODO_COLUNA = 1;
@@ -47,8 +50,8 @@ class CampoConsulta{
     const COR_AMARELO = 'tr-amarelo';
     const COR_VERDE = 'tr-verde';
     const COR_ROXO = 'tr-roxo';
-    const COR_ROSA ='tr-rosa';
-    const COR_LARANJA ='tr-laranja';
+    const COR_ROSA = 'tr-rosa';
+    const COR_LARANJA = 'tr-laranja';
     
     //constantes responsáveis pelos background cores
     const COL_VERMELHO = 'tr-bk-vermelha';
@@ -56,12 +59,10 @@ class CampoConsulta{
     const COL_AMARELO = 'tr-bk-amarelo';
     const COL_VERDE = 'tr-bk-verde';
     const COL_ROXO = 'tr-bk-roxo';
-    const COL_ROSA ='tr-bk-rosa';
-    const COL_LARANJA ='tr-bk-laranja';
-    const COL_MARROM='tr-bk-marrom';
+    const COL_ROSA = 'tr-bk-rosa';
+    const COL_LARANJA = 'tr-bk-laranja';
     const COL_BLACK = 'tr-bk-black';
-    
-    
+    const COL_MARROM = 'tr-bk-marrom';
 
     /**
      *  Método construtor que passa o label e o nome do campo no model
@@ -71,37 +72,35 @@ class CampoConsulta{
      *  @param integer $iLargura Define a largura do campo
      *  
      */
-    
-    
-    function __construct($sLabel,$sNome, $Tipo = self::TIPO_TEXTO) {
+    function __construct($sLabel, $sNome, $Tipo = self::TIPO_TEXTO) {
         $this->sLabel = $sLabel;
         $this->sNome = $sNome;
         $this->aComparacao = array();
         $this->bComparacaoColuna = false;
         $this->Tipo = $Tipo;
         $this->setBCampoIcone(false);
-        
-        if($this->Tipo==9){
+
+        if ($this->Tipo == 9) {
             $this->setBCampoIcone(true);
         }
-        
-        
+
+        if ($this->Tipo == 10) {
+            $this->setBCampoIcone(true);
+        }
     }
-    
+
     /**
      * Adiciona a classe e o método para a ação do botão
      * 
      * @param type $sClasse Classe para para instanciar
      * @param type $sMetodo Método para chamar
      */
-    
-    function addAcao($sClasse,$sMetodo){
-        $this->aAcao['classe']=$sClasse;
-        $this->aAcao['metodo']=$sMetodo;
+    function addAcao($sClasse, $sMetodo) {
+        $this->aAcao['classe'] = $sClasse;
+        $this->aAcao['metodo'] = $sMetodo;
+      
     }
-   
-            
-    
+
     function getAAcao() {
         return $this->aAcao;
     }
@@ -118,7 +117,6 @@ class CampoConsulta{
         $this->bHideTelaAcao = $bHideTelaAcao;
     }
 
-            
     function getSTitleAcao() {
         return $this->sTitleAcao;
     }
@@ -127,7 +125,6 @@ class CampoConsulta{
         $this->sTitleAcao = $sTitleAcao;
     }
 
-        
     function getBCampoIcone() {
         return $this->bCampoIcone;
     }
@@ -136,7 +133,6 @@ class CampoConsulta{
         $this->bCampoIcone = $bCampoIcone;
     }
 
-        
     function getILarguraFixa() {
         return $this->iLarguraFixa;
     }
@@ -145,9 +141,6 @@ class CampoConsulta{
         $this->iLarguraFixa = $iLarguraFixa;
     }
 
-        
-    
-    
     function getSTituloOperacao() {
         return $this->sTituloOperacao;
     }
@@ -156,11 +149,10 @@ class CampoConsulta{
         $this->sTituloOperacao = $sTituloOperacao;
     }
 
-        
-    
-   /*
-    * Define a operação soma,media
-    */
+    /*
+     * Define a operação soma,media
+     */
+
     function getSOperacao() {
         return $this->sOperacao;
     }
@@ -169,7 +161,6 @@ class CampoConsulta{
         $this->sOperacao = $sOperacao;
     }
 
-           
     function getILargura() {
         return $this->iLargura;
     }
@@ -178,18 +169,18 @@ class CampoConsulta{
         $this->iLargura = $iLargura;
     }
 
-    
-            
-    
     /*
      * Retorna o valor do label
      */
+
     function getSLabel() {
         return $this->sLabel;
     }
-     /*
-    * Seta o valor do label
-    */
+
+    /*
+     * Seta o valor do label
+     */
+
     function setSLabel($sLabel) {
         $this->sLabel = $sLabel;
     }
@@ -197,16 +188,19 @@ class CampoConsulta{
     /*
      * Retorna o valor do nome
      */
+
     function getSNome() {
         return $this->sNome;
     }
-  
-   /*
-    * Seta o valor do nome
-    */
+
+    /*
+     * Seta o valor do nome
+     */
+
     function setSNome($sNome) {
         $this->sNome = $sNome;
     }
+
     /**
      * Recupera Array de comparações
      * @return string
@@ -214,6 +208,7 @@ class CampoConsulta{
     function getAComparacao() {
         return $this->aComparacao;
     }
+
     function getBComparacaoColuna() {
         return $this->bComparacaoColuna;
     }
@@ -221,6 +216,7 @@ class CampoConsulta{
     function setBComparacaoColuna($bComparacaoColuna) {
         $this->bComparacaoColuna = $bComparacaoColuna;
     }
+
     function getTipo() {
         return $this->Tipo;
     }
@@ -228,8 +224,6 @@ class CampoConsulta{
     function setTipo($Tipo) {
         $this->Tipo = $Tipo;
     }
-
-    
 
     /**
      * Método responsavel por realizar a coloração de linhas/colunas do grid de acordo com
@@ -240,80 +234,101 @@ class CampoConsulta{
      * @param type $sCor CampoConsulta::CorPadrãoCor a ser atribuída a classe de acordo com o valor comparativo
      * @param type $iModo Define se o modo a ser colorido é linha ou coluna
      */
-    public function addComparacao($sValor, $iTipoComp = self::COMPARACAO_IGUAL, $sCor = self::COR_VERMELHO, $iModo = self::MODO_LI3NHA){
+    public function addComparacao($sValor, $iTipoComp = self::COMPARACAO_IGUAL, $sCor = self::COR_VERMELHO, $iModo = self::MODO_LI3NHA) {
         $aComp['valor'] = $sValor;
         $aComp['tipo'] = $iTipoComp;
         $aComp['cor'] = $sCor;
         $aComp['modo'] = $iModo;
-        
+
         $this->aComparacao[] = $aComp;
-    } 
-    
+    }
+
     /**
      * Retorna o render do campo consulta
      */
-    public function getRender($sClasse,$xValor){
+    public function getRender($sClasse, $xValor) {
         switch ($this->Tipo) {
             case self::TIPO_TEXTO:
-               $xValor = str_replace("\n", " ",$xValor);
-               $xValor = str_replace("'","\'",$xValor);   
-               $xValor = str_replace("\r", "",$xValor);
-               $sCampo ='<td class="'.$sClasse.' tr-font" >'.$xValor.'</td>';
-                
-             break;
+                $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+                $sCampo = '<td class="' . $sClasse . ' tr-font" >' . $xValor . '</td>';
+
+                break;
             case self::TIPO_MONEY:
-                $sCampo ='<td class="'.$sClasse.'" >R$ '.number_format($xValor, 2, ',', '.').'</td>'; 
-             break;
+                $sCampo = '<td class="' . $sClasse . '" >R$ ' . number_format($xValor, 2, ',', '.') . '</td>';
+                break;
             case self::TIPO_DECIMAL:
-                $sCampo ='<td class="'.$sClasse.'" >'.number_format($xValor, 2, ',', '.').'</td>'; 
-            break;
+                $sCampo = '<td class="' . $sClasse . '" >' . number_format($xValor, 2, ',', '.') . '</td>';
+                break;
             case self::TIPO_DATA:
-               if($xValor=='01/01/1970'){$xValor='';};
-               
-               $sCampo ='<td class="'.$sClasse.'" >'.$xValor.'</td>'; 
-            break;
+                if ($xValor == '01/01/1970') {
+                    $xValor = '';
+                };
+
+                $sCampo = '<td class="' . $sClasse . '" >' . $xValor . '</td>';
+                break;
             case self::TIPO_DOWNLOAD:
-               $sCampo ='<td class="'.$sClasse.'" ><a href=\\\'uploads/'.$xValor.'\\\' target=\\\'_blank\\\'>'.$xValor.'</a></td>';
-             
-            break;
+                $sCampo = '<td class="' . $sClasse . '" ><a href=\\\'uploads/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
+
+                break;
             case self::TIPO_DESTAQUE1:
-                $sCampo ='<td class="'.$sClasse.'" ><span class="badge badge-dark">'.$xValor.'</span></td>'; 
-            break;
-           case self::TIPO_DESTAQUE2:
-                $sCampo ='<td class="'.$sClasse.'" ><span class="badge badge-default">'.$xValor.'</span></td>'; 
-            break;
+                $sCampo = '<td class="' . $sClasse . '" ><span class="badge badge-dark">' . $xValor . '</span></td>';
+                break;
+            case self::TIPO_DESTAQUE2:
+                $sCampo = '<td class="' . $sClasse . '" ><span class="badge badge-default">' . $xValor . '</span></td>';
+                break;
             case self::TIPO_LARGURA:
-               $xValor = str_replace("\n", " ",$xValor);
-               $xValor = str_replace("'","\'",$xValor);   
-               $xValor = str_replace("\r", "",$xValor);
-               $sCampo ='<td class="'.$sClasse.' tr-font" style="width:'.$this->getILarguraFixa().'px !important; white-space: nowrap;" >'.$xValor.'</td>';
-               
-               break;
+                $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="width:' . $this->getILarguraFixa() . 'px !important; white-space: nowrap;" >' . $xValor . '</td>';
+
+                break;
             case self::TIPO_TIME:
-               $sTime = substr($xValor,0,-8);
-               $sCampo ='<td class="'.$sClasse.' tr-font" >'.$sTime.'</td>';
-               break; 
+                $sTime = substr($xValor, 0, -8);
+                $sCampo = '<td class="' . $sClasse . ' tr-font" >' . $sTime . '</td>';
+                break;
             case self:: TIPO_ACAO:
-               $xValor = str_replace("\n", " ",$xValor);
-               $xValor = str_replace("'","\'",$xValor);   
-               $xValor = str_replace("\r", "",$xValor);
-               $sAcao = '';
-               $sIdBtn = Base::getId();
-               $sCampo ='<td class="'.$sClasse.' tr-font" ><button id="'.$sIdBtn.'" title="'.$this->getSTitleAcao().'" class="btn btn-outline btn-warning btn-xs">+</button></td>'; 
-               $sCampo.='<script>$("#'.$sIdBtn.'").click(function(){'
-                       .'var idGrid = $("#"+abaSelecionada+"paramGrid").text();';
-               if(!$this->getBHideTelaAcao()){
-                   $sCampo.=' $("#"+idGrid+"consulta").hide(); ';
-               }
-                   $sCampo.='requestAjax("","'.$this->aAcao['classe'].'","'.$this->aAcao['metodo'].'",abaSelecionada +"control,"+idGrid+",'.$xValor.'");' 
-                       . '});</script>';
-               
-               break;
-                
-        
+                $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+                $sAcao = '';
+                $sIdBtn = Base::getId();
+                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-warning btn-xs">+</i></button></td>';
+                $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
+                        . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();';
+                if (!$this->getBHideTelaAcao()) {
+                    $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
+                }
+                $sCampo .= 'requestAjax("","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . '");'
+                        . '});</script>';
+
+                break;
+            case self:: TIPO_EXCLUIR:
+                $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+                $sAcao = '';
+                $sIdBtn = Base::getId();
+                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-danger btn-xs"><i class="icon wb-trash" aria-hidden="true"></i></i></button></td>';
+                $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
+                      //  .'alert(abaSelecionada);'
+                        . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();'
+                        . 'var idTela = $("#"+abaSelecionada+"paramTela").text();';
+                       // .'alert(idTela);alert(idGrid);';
+                if (!$this->getBHideTelaAcao()) {
+                    $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
+                }
+                $sCampo .= 'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . ',"+idTela+"");'
+                        . '});</script>';
+
+                break;
         }
-        
-         return $sCampo;
+
+        return $sCampo;
     }
+
 }
+
 ?>

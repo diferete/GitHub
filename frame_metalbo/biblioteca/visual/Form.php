@@ -10,6 +10,7 @@ class Form {
     private $sTitulo; //title
     private $sRender;
     private $sRenderHide;
+    private $abaSel;
     private $sIdFecha;
     private $aBotoes; //buttons
     private $aCampos; //campos da tela
@@ -29,6 +30,7 @@ class Form {
     private $aBotaoDet;
     private $sAcaoClose;
     private $bRetonaRender;
+    private $bFecharTelaIncluir;
     
 
     
@@ -54,8 +56,26 @@ class Form {
         $this->setBRetonaRender(false);
         
        }
+
+
+       function getAbaSel() {
+           return $this->abaSel;
+       }
+
+       function setAbaSel($abaSel) {
+           $this->abaSel = $abaSel;
+       }
+
        
-           
+       function getBFecharTelaIncluir() {
+           return $this->bFecharTelaIncluir;
+       }
+
+       function setBFecharTelaIncluir($bFecharTelaIncluir) {
+           $this->bFecharTelaIncluir = $bFecharTelaIncluir;
+       }
+
+                  
     function getSAcaoClose() {
         return $this->sAcaoClose;
     }
@@ -516,9 +536,8 @@ class Form {
                    .'});';
      //se for somente form renderiza o form
     
-        $sTela.=$sListener.'</script></div>'; 
-  
-      
+        $sTela.=$sListener.'</script><span name="paramTela" id="'.$this->getAbaSel().'paramTela" style="display:none;">'.$this->getId().'</span></div>'; 
+       
       $sRetorno = "$('#".$this->getSRender()."').append('".$sTela."');"
                    ."".$this->getSCampoFocus()."";
        
