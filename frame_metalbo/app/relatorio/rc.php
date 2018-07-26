@@ -70,7 +70,7 @@ $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(20, 5, "Cliente:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(30, 5, $row['empcod'], 0, 0, 'L');
-$pdf->Cell(90, 5, $row['empdes'], 0, 0, 'L');
+$pdf->Cell(115, 5, $row['empdes'], 0, 0, 'L');
 $pdf->Cell(20, 5, '(' . $row['ind'] . ') Indústria', 0, 0, 'L');
 $pdf->Cell(20, 5, '(' . $row['comer'] . ') Comécio', 0, 1, 'L');
 

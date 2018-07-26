@@ -13,6 +13,20 @@ $sHora = date('H:i');
 $sSitProj = $_REQUEST['ordsit1'];
 $sSitVenda = $_REQUEST['ordsit2'];
 $sSitCli = $_REQUEST['ordsit3'];
+$sSitCad = $_REQUEST['cad'];
+$sSitProd = $_REQUEST['prod'];
+$sSitFat = $_REQUEST['fat'];
+
+if($sSitCad == true){
+    $sSitCad = 'Cadastrado';
+}
+if($sSitProd == true){
+    $sSitProd = 'Produzido';
+}
+if($sSitFat == true){
+    $sSitFat = 'Faturado';
+}
+
 
 class PDF extends FPDF {
 
