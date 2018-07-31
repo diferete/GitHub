@@ -401,7 +401,7 @@ class ViewQualGerenProj extends View {
         $this->setTituloTela('Relatório de Projetos');
         $this->setBTela(true);
 
-        $oFieldRel = new FieldSet('Situações');
+        $oFieldRel = new FieldSet('Situações por setor');
 
 
         $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
@@ -432,10 +432,19 @@ class ViewQualGerenProj extends View {
         $oRelCli->addItemSelect('Aprovado', 'Aprovado');
         $oRelCli->addItemSelect('Reprovado', 'Reprovado');
 
-        $oFieldRel->setOculto(true);
-        $oFieldRel->addCampos(array($oRelPrj,$oRelVend,$oRelCli));
+        $oFieldRel->addCampos(array($oRelPrj, $oRelVend, $oRelCli));
 
-        $this->addCampos(array($oDataIni, $oDataFin), $oFieldRel, $oXls);
+        $oFieldRel2 = new FieldSet('Situações gerais');
+
+        $oSitGRel = new campo('Geral', 'geralsit', Campo::TIPO_SELECT);
+        $oSitGRel->addItemSelect('', 'Todos');
+        $oSitGRel->addItemSelect('Faturado', 'Faturado');
+        $oSitGRel->addItemSelect('Cadastrado', 'Cadastrado');
+        $oSitGRel->addItemSelect('Produzido', 'Produzido');
+
+        $oFieldRel2->addCampos(array($oSitGRel));
+
+        $this->addCampos(array($oDataIni, $oDataFin), $oFieldRel, $oFieldRel2, $oXls);
     }
 
 }

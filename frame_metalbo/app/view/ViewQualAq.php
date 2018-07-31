@@ -201,6 +201,7 @@ class ViewQualAq extends View {
 
         $oOrigem = new campo('Origem da ação', 'origem', Campo::TIPO_SELECT, 4, 12, 12, 12);
         $oOrigem->addItemSelect('Sugestão de funcionário', 'Sugestão de funcionário');
+        $oOrigem->addItemSelect('Contexto da organização', 'Contexto da organização');
         $oOrigem->addItemSelect('Análise crítica do SGQ', 'Análise crítica do SGQ');
         $oOrigem->addItemSelect('Análise dos Indicadores', 'Análise dos Indicadores');
         $oOrigem->addItemSelect('Reclamação de Cliente', 'Reclamação de Cliente');

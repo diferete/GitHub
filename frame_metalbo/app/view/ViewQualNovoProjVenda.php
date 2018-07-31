@@ -329,7 +329,10 @@ class ViewQualNovoProjVenda extends View {
         $oFiledCusto->setOculto(true);
         $oFiledCusto->addCampos(array($oLabel1, $oLabel2), array($oLabel3, $oVlrDesenProj), array($oLabel4, $oVlrFerra), array($oLabel5, $ovlrMatPrima), array($oLabel6, $ovlrAcabSuper), array($oLabel7, $ovlrTratTer), array($oLabel8, $ovlrCustProd), $oLinha2, array($oLabel9, $oCustTotal), array($oLabel20, $oCustoCento));
 
-        $oLoteMin = new Campo('Quant. sol. cliente', 'lotemin', Campo::TIPO_TEXTO, 1);
+        $oQuantSolCli = new Campo('Quant.Sol.Cli.', 'quant_pc', Campo::TIPO_TEXTO, 1);
+        $oQuantSolCli->setBCampoBloqueado(true);
+
+        $oLoteMin = new Campo('Lote Min.', 'lotemin', Campo::TIPO_TEXTO, 1);
         $oLoteMin->setIMarginTop(0);
         $oLoteMin->setBCampoBloqueado(true);
 

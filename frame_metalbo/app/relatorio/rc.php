@@ -36,7 +36,7 @@ $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
                 empfone,celular,empend,empendbair,
                 cidnome,convert(varchar,datains,103)as datains,email,
                 case when ind = 'true' then 'x' else '' end as ind,
-                case when comer = 'comer' then 'x' else '' end as comer,widl.emp01.cidcep,
+                case when comer = 'true' then 'x' else '' end as comer,widl.emp01.cidcep,
                 nf,convert(varchar,datanf,103)as datanf,odcompra,pedido,valor,peso,lote,op,naoconf,procod,prodes,aplicacao,
                 quant,quantnconf,
                 case when aceitocond = 'true' then 'x' else '' end as aceitocond,
@@ -67,47 +67,47 @@ $pdf->MultiCell(45, 5, 'Emissão:' . $row['datains'] . '       Usuário:' . $row
 $pdf->Ln(10);
 //cliente
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(20, 5, "Cliente:", 0, 0, 'L');
+$pdf->Cell(18, 5, "Cliente:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, $row['empcod'], 0, 0, 'L');
-$pdf->Cell(115, 5, $row['empdes'], 0, 0, 'L');
-$pdf->Cell(20, 5, '(' . $row['ind'] . ') Indústria', 0, 0, 'L');
-$pdf->Cell(20, 5, '(' . $row['comer'] . ') Comécio', 0, 1, 'L');
+$pdf->Cell(28, 5, $row['empcod'], 0, 0, 'L');
+$pdf->Cell(114, 5, $row['empdes'], 0, 0, 'L');
+$pdf->Cell(19, 5, '(' . $row['ind'] . ') Indústria', 0, 0, 'L');
+$pdf->Cell(19, 5, '(' . $row['comer'] . ') Comécio', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(20, 5, "Fone:", 0, 0, 'L');
+$pdf->Cell(18, 5, "Fone:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(40, 5, $row['empfone'], 0, 0, 'L');
+$pdf->Cell(38, 5, $row['empfone'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(20, 5, "Celular:", 0, 0, 'L');
+$pdf->Cell(18, 5, "Celular:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, $row['celular'], 0, 1, 'L');
+$pdf->Cell(48, 5, $row['celular'], 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(20, 5, "Endereço:", 0, 0, 'L');
+$pdf->Cell(18, 5, "Endereço:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(100, 5, $row['empend'], 0, 0, 'L');
+$pdf->Cell(98, 5, $row['empend'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(20, 5, "Bairro:", 0, 0, 'L');
+$pdf->Cell(18, 5, "Bairro:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(80, 5, $row['empendbair'], 0, 1, 'L');
+$pdf->Cell(78, 5, $row['empendbair'], 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(20, 5, "Cidade:", 0, 0, 'L');
+$pdf->Cell(18, 5, "Cidade:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(40, 5, $row['cidnome'], 0, 0, 'L');
+$pdf->Cell(38, 5, $row['cidnome'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(20, 5, "Cep:", 0, 0, 'L');
+$pdf->Cell(18, 5, "Cep:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(40, 5, $row['cidcep'], 0, 0, 'L');
+$pdf->Cell(38, 5, $row['cidcep'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(20, 5, "E-mail:", 0, 0, 'L');
+$pdf->Cell(18, 5, "E-mail:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, $row['email'], 0, 1, 'L');
+$pdf->Cell(28, 5, $row['email'], 0, 1, 'L');
 
 $pdf->Rect(2, 60, 206, 20);
 

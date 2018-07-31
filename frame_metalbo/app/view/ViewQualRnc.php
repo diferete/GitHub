@@ -5,6 +5,7 @@
  * @author Avanei Martendal
  * @since 10/09/2017
  */
+
 class ViewQualRnc extends View {
 
     public function criaConsulta() {
@@ -197,9 +198,6 @@ class ViewQualRnc extends View {
 
         $oFieldEmb->addCampos(array($oLote, $oOp));
 
-        $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oDescNaoConf->setILinhasTextArea(5);
-        $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
 
         $oDadosProduto = new FieldSet('Dados do produto');
 
@@ -210,7 +208,7 @@ class ViewQualRnc extends View {
 
 
         //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto', 'prodes', Campo::TIPO_BUSCADOBANCO, 3);
+        $oProdes = new Campo('Produto', 'prodes', Campo::TIPO_BUSCADOBANCO, 5, 5, 12, 12);
         $oProdes->setITamanho(Campo::TAMANHO_PEQUENO);
         $oProdes->setSIdPk($oCodigo->getId());
         $oProdes->setClasseBusca('Produto');
@@ -223,19 +221,43 @@ class ViewQualRnc extends View {
         $oCodigo->setSCampoRetorno('procod', $this->getTela()->getId());
         $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
 
-        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oAplicacao->addItemSelect('1', 'Oxidação branca');
+        $oAplicacao->addItemSelect('2', 'Oxidação vermelha');
+        $oAplicacao->addItemSelect('3', 'Embalagem diferente da etiqueta');
+        $oAplicacao->addItemSelect('4', 'Produto misturado');
+        $oAplicacao->addItemSelect('5', 'Quantidade errada');
+        $oAplicacao->addItemSelect('6', 'Envio de produto errado');
+        $oAplicacao->addItemSelect('7', 'Entrega de produto errado');
+        $oAplicacao->addItemSelect('8', 'Produto com trinca');
+        $oAplicacao->addItemSelect('9', 'Quantidade enviada, diferente do pedido');
+        $oAplicacao->addItemSelect('10', 'Embalagem avariada');
+        $oAplicacao->addItemSelect('11', 'Produtos entregues em duplicidade');
+        $oAplicacao->addItemSelect('12', 'Rosca danificada');
+        $oAplicacao->addItemSelect('13', 'Erro no pedido');
+        $oAplicacao->addItemSelect('14', 'Dimencional errado');
+        $oAplicacao->addItemSelect('15', 'Rosca fora da especificação');
+
 
         $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_MONEY, 1, 1, 12, 12);
+        $oQuant->setIMarginTop(1);
 
         $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oQuanNconf->setIMarginTop(8);
 
-        $oAceito = new Campo('Aceito condicionalmente', 'aceitocond', Campo::TIPO_CHECK, 2);
+        $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
+        $oDescNaoConf->setILinhasTextArea(5);
+        $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
+
+       /* $oAceito = new Campo('Aceito condicionalmente', 'aceitocond', Campo::TIPO_CHECK, 3);
         $oAceito->setIMarginTop(15);
 
-        $oReprovar = new Campo('Reprovar', 'reprovar', Campo::TIPO_CHECK, 2);
+        $oReprovar = new Campo('Reprovar', 'reprovar', Campo::TIPO_CHECK, 3);
         $oReprovar->setIMarginTop(15);
+        * 
+        */
 
-        $oDadosProduto->addCampos(array($oCodigo, $oProdes, $oQuant, $oAplicacao), array($oQuanNconf, $oAceito, $oReprovar));
+        $oDadosProduto->addCampos(array($oCodigo, $oProdes, $oQuant), array($oAplicacao, $oQuanNconf)/*, array($oAceito, $oReprovar)*/);
 
 
         $oAnexos = new FieldSet('Anexos');
@@ -253,7 +275,7 @@ class ViewQualRnc extends View {
         $this->setSIdUpload(',' . $oAnexo1->getId() . ',' . $oAnexo2->getId() . ',' . $oAnexo3->getId());
 
 
-        $this->addCampos($oField, array($oEmpcod, $oEmpdes), $oFieldContato, $oFieldNf, $oFieldEmb, $oDescNaoConf, $oDadosProduto, $oAnexos);
+        $this->addCampos($oField, array($oEmpcod, $oEmpdes), $oFieldContato, $oFieldNf, $oFieldEmb, $oDadosProduto, $oDescNaoConf, $oAnexos);
 
 
 

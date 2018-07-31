@@ -187,8 +187,10 @@ class PersistenciaQualRncVenda extends Persistencia {
         if ($sDevolucao == 'Recusada' || $sDevolucao == 'Aceita') {
             $aRetorno[0] = false;
         } else {
-            $sSql = "update tbrncqual set devolucao ='Aceita' "
-                    . "where nr ='" . $aDados['nr'] . "'";
+            $sSql = "update tbrncqual"
+                    . " set devolucao ='Aceita',"
+                    . " aceitocond='true'"
+                    . " where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
         }
         return $aRetorno;
@@ -206,8 +208,10 @@ class PersistenciaQualRncVenda extends Persistencia {
         if ($sDevolucao == 'Recusada' || $sDevolucao == 'Aceita') {
             $aRetorno[0] = false;
         } else {
-            $sSql = "update tbrncqual set devolucao ='Recusada' "
-                    . "where nr ='" . $aDados['nr'] . "'";
+            $sSql = "update tbrncqual"
+                    . " set devolucao ='Recusada',"
+                    . " reprovar='true'"
+                    . " where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
         }
         return $aRetorno;

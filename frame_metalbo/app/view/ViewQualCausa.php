@@ -17,17 +17,15 @@ class ViewQualCausa extends View{
         $this->getOGridDetalhe()->setIAltura(160);
       
         $oNr = new CampoConsulta('AQ','nr');
-        $oNr->setILargura(30);
         
         $oSeq = new CampoConsulta('Seq','seq');
-        $oSeq->setILargura(30);
+        
         $oCausa = new CampoConsulta('Causa','causa');
-        $oCausa->setILargura(150);
+        
         $oCausaDesc = new CampoConsulta('Descrição causa','causades');
-        $oCausaDesc->setILargura(800);
+        
         $oOcorrencia = new CampoConsulta('Ocorrência 6M','ocorrencia', CampoConsulta::TIPO_DESTAQUE1);
         $oOcorrencia->addComparacao('1', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
-        $oOcorrencia->setILargura(120);
         
         
         $this->addCamposDetalhe($oNr,$oSeq,$oCausa,$oOcorrencia,$oCausaDesc );

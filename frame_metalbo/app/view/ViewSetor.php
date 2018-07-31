@@ -8,7 +8,10 @@ class ViewSetor extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-              
+        
+        $this->setUsaAcaoAlterar(false);    
+        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoIncluir(false);
 
         $oCodSetor = new CampoConsulta('Código', 'codsetor');
         $oDescSetor = new CampoConsulta('Descrição', 'descsetor');

@@ -33,6 +33,7 @@ class CampoConsulta {
     const TIPO_DESTAQUE2 = 8;
     const TIPO_ACAO = 9;
     const TIPO_EXCLUIR = 10;
+    const TIPO_FINALIZAR =11;
     
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
@@ -63,6 +64,8 @@ class CampoConsulta {
     const COL_LARANJA = 'tr-bk-laranja';
     const COL_BLACK = 'tr-bk-black';
     const COL_MARROM = 'tr-bk-marrom';
+    
+    
 
     /**
      *  Método construtor que passa o label e o nome do campo no model
@@ -85,6 +88,10 @@ class CampoConsulta {
         }
 
         if ($this->Tipo == 10) {
+            $this->setBCampoIcone(true);
+        }
+        
+         if ($this->Tipo == 11) {
             $this->setBCampoIcone(true);
         }
     }
@@ -297,6 +304,10 @@ class CampoConsulta {
                 $sIdBtn = Base::getId();
                 $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-warning btn-xs">+</i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
+                        .'$("#tabmenusuperior li").each(function(){'
+                        .'if($(this).hasClass( "active" )){'
+                        . 'abaSelecionada=$(this).attr("id");}'
+                        .'     }); '
                         . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
@@ -313,14 +324,36 @@ class CampoConsulta {
                 $sIdBtn = Base::getId();
                 $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-danger btn-xs"><i class="icon wb-trash" aria-hidden="true"></i></i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
-                      //  .'alert(abaSelecionada);'
+                        .'$("#tabmenusuperior li").each(function(){'
+                        .'if($(this).hasClass( "active" )){'
+                        . 'abaSelecionada=$(this).attr("id");}'
+                        .'     }); '
                         . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();'
                         . 'var idTela = $("#"+abaSelecionada+"paramTela").text();';
-                       // .'alert(idTela);alert(idGrid);';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
                 $sCampo .= 'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . ',"+idTela+"");'
+                        . '});</script>';
+
+                break;
+                case self:: TIPO_FINALIZAR:
+                $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+                $sAcao = '';
+                $sIdBtn = Base::getId();
+                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-success btn-xs"><i class="icon fa-check" aria-hidden="true"></i></button></td>';
+                $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
+                        .'$("#tabmenusuperior li").each(function(){'
+                        .'if($(this).hasClass( "active" )){'
+                        . 'abaSelecionada=$(this).attr("id");}'
+                        .'     }); '
+                        . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();';
+                if (!$this->getBHideTelaAcao()) {
+                    $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
+                }
+                $sCampo .= 'requestAjax("","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . '");'
                         . '});</script>';
 
                 break;

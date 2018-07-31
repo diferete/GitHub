@@ -42,7 +42,9 @@ class Grid {
     private $bUsaCarrGrid;
     private $iLarguraGrid;
     private $bGridResponsivo;
-
+    private $bUsaKeypress;
+    private $bMostraFiltro;
+    
     /**
      * Construtor da classe Grid 
      * @param string $sTelaGrande Define o valor para telas de notebook e pc valores 1 ao 12
@@ -69,8 +71,34 @@ class Grid {
         $this->setBUsaCarrGrid(false);
         $this->setILarguraGrid($iLarguraGrid);
         $this->setBGridResponsivo(TRUE);
+        $this->setBUsaKeypress(true);
+        $this->setBMostraFiltro(false);
     }
     
+    function getBMostraFiltro() {
+        if($this->bMostraFiltro){
+           return ''; 
+        }else{
+            
+            return 'display: none;';
+        }
+        
+    }
+
+    function setBMostraFiltro($bMostraFiltro) {
+        $this->bMostraFiltro = $bMostraFiltro;
+    }
+
+        
+    function getBUsaKeypress() {
+        return $this->bUsaKeypress;
+    }
+
+    function setBUsaKeypress($bUsaKeypress) {
+        $this->bUsaKeypress = $bUsaKeypress;
+    }
+
+        
     function getAbaSel() {
         return $this->abaSel;
     }
@@ -522,7 +550,7 @@ class Grid {
             $sBotao .= $sModal . '</div>';
         }
         if (!empty($this->aFiltro)) {
-            $sFiltro = ' <div class="row" id="' . $this->getSId() . '-filtros" style="display: none; background-color: whitesmoke">'
+            $sFiltro = ' <div class="row" id="' . $this->getSId() . '-filtros" style="'.$this->getBMostraFiltro().' background-color: whitesmoke">'
                     . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 15px 15px 15px 50px;  background-color: #f3f7fa;  border: 1px solid #eee">'
                     . '<div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">'//ribbon ribbon-clip ribbon-reverse ribbon-primary
                     . '<a href="javascript:void(0)" id ="' . $this->getSId() . '-pesq">'
@@ -538,10 +566,10 @@ class Grid {
                 $sFiltro .= $oFiltro->getRender();
             }
             $sFiltro .= '</form>'
-                    . '<script>'
-                    . '$("#' . $this->getSId() . '-pesquisa :input").keyup(function(){'
+                    . '<script>';
+                if($this->getBUsaKeypress()){
+                    $sFiltro .= '$("#' . $this->getSId() . '-pesquisa :input").keyup(function(){'
                     . 'var val = $(this).val();'
-                    //  .'alert(val);'
                     . '$("#' . $this->getSId() . '-pesquisa").each(function(){'
                     . 'if(val.length > 2){'
                     . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
@@ -550,9 +578,9 @@ class Grid {
                     . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
                     . '}'
                     . '});'
-                    . '});'
-                    . '$("#' . $this->getSId() . '-pesq").click(function(){'
-                    // .'alert(); '
+                    . '});';
+                    }
+            $sFiltro .= '$("#' . $this->getSId() . '-pesq").click(function(){'
                     . '    sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
                     . ' });'
                     . '</script>'
@@ -577,7 +605,7 @@ class Grid {
         foreach ($this->aColunas as $key => $oCampoAtual) {
             $sLargura = '';
             if (!is_null($oCampoAtual->getILargura())) {
-                $sLargura = 'style="width: ' . $oCampoAtual->getILargura() . 'px!important;"';
+                $sLargura = 'style="width: ' . $oCampoAtual->getILargura() . 'px;"';
             }
             $sGrid .= '<th ' . $sLargura . '>' . $oCampoAtual->getSLabel() . '</th>';
         }
@@ -629,7 +657,7 @@ class Grid {
                     . '</script>';
         }
 
-        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $sDados . '</tbody></table></div>' . $sBotCarregar . '<div class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $sDados . '</tbody></table></div>' . $sBotCarregar . '<div class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
+        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $sDados . '</tbody></table></div>' . $sBotCarregar . '<div class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $sDados . '</tbody></table></div>' . $sBotCarregar . '<div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
         $sGrid .= '<span name="paramGrid" id="'.$this->getAbaSel().'paramGrid" style="display:none;">'.$this->getSId().'</span></tr></tbody></table></div></div>';
        
@@ -677,6 +705,20 @@ class Grid {
                     . '$("#' . $this->getSCampoRetorno() . '").focus();'
                     . '$("#' . $this->getSCampoRetorno() . '").blur();'
                     . '} );';
+            
+            $sEnter ='$("#' . $this->getSId() . ' tbody tr").keypress(function(e) { '  //$( "#style327115ae71976bad30 tbody tr" ).keydown(function(e) {
+                     .'                if(e.which == 13) { '
+                     .' $("#' . $this->getSId() . ' tbody .selected").each(function(){ '
+                     .'  var chaveRet = $(this).find(".consultaCampo").html(); '
+                     . '$("#' . $this->getSId() . 'form").remove();'
+                    . '$("#' . $this->getSCampoRetorno() . '").val(chaveRet);'
+                    . '$("#' . $this->getSRenderHide() . '").toggle();'
+                    . '$("#' . $this->getSCampoRetorno() . '").focus();'
+                    . '$("#' . $this->getSCampoRetorno() . '").blur();'
+                     .'                  }); '
+                     .'               } '
+                     .'             });';
+            $sEventoRetorno.=$sEnter;
         }
         //monta string duplo clique
         $dbClick = '';
@@ -694,8 +736,21 @@ class Grid {
             $Click = ' $("#' . $this->getSId() . ' tbody").on("click", "tr", function () {'
                     . $this->getSEventoClick()
                     . '} );';
-        }
-
+            }
+            
+        //monta evento setas no teclado
+        $sSetas =  '$("#' . $this->getSId() . ' tbody tr" ).keydown(function(e) { '
+                                  .'if(e.which == 40) {   '
+                                  .'     $(this).removeClass("selected"); '
+                                  .'     $(this).next().focus(); '
+                                  .'     $(this).next().addClass("selected");'
+                                  .'  } else if(e.which == 38) {  '
+                                  .'      $(this).removeClass("selected"); '                                       
+                                  .'      $(this).prev().focus(); '                                      
+                                  .'      $(this).prev().addClass("selected"); ' 
+                                  .'  } '
+                                  .'});';
+                 
         //evento de scroll
         //se marcado para nao usar scroll nao entra
         if ($this->getBNaoUsaScroll() !== true) {
@@ -778,6 +833,7 @@ class Grid {
                 . $sEventos
                 . $dbClick
                 . $Click
+                . $sSetas
 
                 //desabilita botão alterar e remover
                 . '$("#' . $this->getSId() . ' tbody").click(function(){'

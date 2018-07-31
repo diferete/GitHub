@@ -157,7 +157,7 @@ class ViewCadCliRepRec extends View {
 
         $oCidCep = new campo('Cep *(Somente N°)', 'cidcep', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oCidCep->setSCorFundo(Campo::FUNDO_MONEY);
-        $oCidCep->addValidacao(FALSE, Validacao::TIPO_INTEIRO, 'Cep inválido!', '8', '8');
+        $oCidCep->addValidacao(FALSE,'', 'Cep inválido!', '8', '8');
 
         $oEmpEnd = new campo('Endereço', 'empend', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oEmpEnd->setSCorFundo(Campo::FUNDO_MONEY);
