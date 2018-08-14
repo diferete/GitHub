@@ -1,13 +1,12 @@
 <?php
 
 /*
- * classe que implementa a classe model rnc
- * 
+ * Gerencia model da classe QualRncVenda
  * @author Avanei Martendal
- * @since 10/09/2017
+ * @since 12/09/2017
  */
 
-class ModelQualRnc {
+class ModelQualRncAnalise {
 
     private $filcgc;
     private $nr;
@@ -51,7 +50,16 @@ class ModelQualRnc {
     private $resp_venda_nome;
     private $apontamento;
     private $usuaponta;
-    
+    private $tagsetor;
+
+    function getTagsetor() {
+        return $this->tagsetor;
+    }
+
+    function setTagsetor($tagsetor) {
+        $this->tagsetor = $tagsetor;
+    }
+
     function getUsuaponta() {
         return $this->usuaponta;
     }
@@ -60,7 +68,6 @@ class ModelQualRnc {
         $this->usuaponta = $usuaponta;
     }
 
-    
     function getApontamento() {
         return $this->apontamento;
     }
@@ -69,20 +76,20 @@ class ModelQualRnc {
         $this->apontamento = $apontamento;
     }
 
-    function getEmpcod() {
-        return $this->empcod;
-    }
-
     function getDevolucao() {
         return $this->devolucao;
     }
 
-    function setEmpcod($empcod) {
-        $this->empcod = $empcod;
-    }
-
     function setDevolucao($devolucao) {
         $this->devolucao = $devolucao;
+    }
+
+    function getEmpcod() {
+        return $this->empcod;
+    }
+
+    function setEmpcod($empcod) {
+        $this->empcod = $empcod;
     }
 
     function getResp_venda_cod() {
@@ -284,14 +291,6 @@ class ModelQualRnc {
         return $this->reprovar;
     }
 
-    function getData() {
-        return $this->data;
-    }
-
-    function getNome() {
-        return $this->nome;
-    }
-
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -398,14 +397,6 @@ class ModelQualRnc {
 
     function setReprovar($reprovar) {
         $this->reprovar = $reprovar;
-    }
-
-    function setData($data) {
-        $this->data = $data;
-    }
-
-    function setNome($nome) {
-        $this->nome = $nome;
     }
 
 }

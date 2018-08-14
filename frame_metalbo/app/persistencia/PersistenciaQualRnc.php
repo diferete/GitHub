@@ -53,9 +53,6 @@ class PersistenciaQualRnc extends Persistencia {
         $this->adicionaRelacionamento('anexo2', 'anexo2');
         $this->adicionaRelacionamento('anexo3', 'anexo3');
 
-
-
-
         $this->adicionaRelacionamento('officecod', 'officecod');
         $this->adicionaRelacionamento('officedes', 'officedes');
 
@@ -66,7 +63,8 @@ class PersistenciaQualRnc extends Persistencia {
 
         $this->adicionaRelacionamento('resp_venda_cod', 'resp_venda_cod');
         $this->adicionaRelacionamento('resp_venda_nome', 'resp_venda_nome');
-
+        $this->adicionaRelacionamento('apontamento', 'apontamento');
+        $this->adicionaRelacionamento('usuaponta', 'usuaponta');
 
 
         $this->adicionaJoin('Pessoa');
@@ -89,17 +87,23 @@ class PersistenciaQualRnc extends Persistencia {
     }
 
     public function verificaFim($aDados) {
-        $sSql = "select count(*)as total from tbrncqual 
-                where  filcgc ='" . $aDados['filcgc'] . "' 
-                and nr = " . $aDados['nr'] . "
-                and situaca = 'Finalizado'";
+        $sSql = "select devolucao,situaca, count(*)as total"
+                . " from tbrncqual "
+                . " where filcgc ='" . $aDados['filcgc'] . "'"
+                . " and nr = " . $aDados['nr'] . ""
+                . " and devolucao = 'Em análise'"
+                . " group by situaca,devolucao";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $aret = array();
         if ($oRow->total > 0) {
-            $aret[] = false;
+            $aret[0] = false;
+            $aret[1] = $oRow->situaca;
+            $aret[2] = $oRow->devolucao;
         } else {
-            $aret[] = true;
+            $aret[0] = true;
+            $aret[1] = $oRow->situaca;
+            $aret[2] = $oRow->devolucao;
         }
         return $aret;
     }

@@ -75,7 +75,6 @@ class Grid {
         $this->setBGridResponsivo(TRUE);
         $this->setBUsaKeypress(true);
         $this->setBMostraFiltro(false);
-        
     }
     
      /**
@@ -511,7 +510,7 @@ class Grid {
                 . '             <div class="modal-header"> '
                 . '               <h5 class="modal-title">' . $sTitulo . '</h5>'
                 . '             </div> '
-                . '             <div style="margin-top:-30px;margin-bottom:-20px"class="modal-body" id="' . $sId . '-modal"> '
+                . '             <div style="margin-top:-30px;"class="modal-body" id="' . $sId . '-modal"> '
                 . '                                      '
                 . '              </div> '
                 . '             <div class="modal-footer"> '
@@ -640,13 +639,13 @@ class Grid {
             $aFiltro = explode(',', $value);
             $oDados->Persistencia->adicionaFiltro($aFiltro[0], $aFiltro[1]);
         }
-        $aDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo());
+        $sDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo());
 
         $sGrid .= '</tr></thead>';
 
 
-        
-        
+        //carrega botao carregar
+        $sEventoCarr = '';
         if ($this->getBScrollInf()) {
             $sEventoCarr = 'var lastregCarr = $("#' . $this->getSId() . ' tr:last" ).find(".chave").html();  '
                     . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastregCarr,"");';
@@ -662,23 +661,18 @@ class Grid {
                     . 'sendFiltros("#' . $this->getSIdTelaGrid() . '","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastregCarr,"' . $this->getSScrollInfCampo() . '");';
         }
 
-        //carrega botao carregar
-     
-        $sEventoCarr='var lastregCarr = $("#' . $this->getSId() . ' tr:last" ).find(".chave").html();'
-                . 'var idPosCarr = $("#' . $this->getSId() . ' tr:last" ).attr("id");'
-                .'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastregCarr,"",idPosCarr);';
-        
+        $sBotCarregar = '';
         if ($this->getBUsaCarrGrid()) {
-            $sBotCarregar = '<button type="button" id="' . $this->getSId() . '-botcarr" class="btn btn-dark btn-outline btn-xs '
+            $sBotCarregar = '<button type="button" id="' . $this->getSId() . '-botcarr" class="btn btn-primary btn-xs '
                     . 'ladda-button" data-style="expand-left" data-plugin="ladda" >'
-                    . '<span class="ladda-label">Total de registros '.$aDados[1].' Clique para carregar!</span>'
+                    . '<span class="ladda-label">Carregar...</span>'
                     . '<span class="ladda-spinner"></span></button> '
                     . '<script>'
                     . '$("#' . $this->getSId() . '-botcarr").click(function(){' . $sEventoCarr . '});'
                     . '</script>';
         }
 
-        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<div class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0]. '</tbody></table></div>' . $sBotCarregar . '<div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
+        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $sDados . '</tbody></table></div>' . $sBotCarregar . '<div class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $sDados . '</tbody></table></div>' . $sBotCarregar . '<div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
         $sGrid .= '<span name="paramGrid" id="'.$this->getAbaSel().'paramGrid" style="display:none;">'.$this->getSId().'</span></tr></tbody></table></div></div>';
        
@@ -784,8 +778,7 @@ class Grid {
                 $scroll = '$("#' . $this->getSId() . 'resize .dataTables_scrollBody").on("scroll", function() {'
                         . ' if($(this).scrollTop() + $(this).innerHeight() >=$(this)[0].scrollHeight) { '
                         . 'var lastreg = $("#' . $this->getSId() . ' tr:last" ).find(".chave").html(); '
-                        . 'var idPos = $("#' . $this->getSId() . ' tr:last" ).attr("id");'
-                        . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastreg,"",idPos);'
+                        . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastreg,"");'
                         . ' } '
                         . ' });';
             }
@@ -794,8 +787,7 @@ class Grid {
                 $scroll = '$("#' . $this->getSId() . 'resize .dataTables_scrollBody").on("scroll", function() {'
                         . ' if($(this).scrollTop() + $(this).innerHeight() >=$(this)[0].scrollHeight) { '
                         . 'var lastreg = $("#' . $this->getSId() . ' tr:last" ).find(".chave").html(); '
-                        . 'var idPos = $("#' . $this->getSId() . ' tr:last" ).attr("id");'
-                        . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastreg,"' . $this->getSScrollInfCampo() . '",idPos);'
+                        . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastreg,"' . $this->getSScrollInfCampo() . '");'
                         . ' } '
                         . ' });';
             }
@@ -804,8 +796,7 @@ class Grid {
                 $scroll = '$("#' . $this->getSId() . 'resize .dataTables_scrollBody").on("scroll", function() {'
                         . ' if($(this).scrollTop() + $(this).innerHeight() >=$(this)[0].scrollHeight) { '
                         . 'var lastreg = $("#' . $this->getSId() . ' tr:last" ).find(".chave").html(); '
-                        . 'var idPos = $("#' . $this->getSId() . ' tr:last" ).attr("id");'
-                        . 'sendFiltros("#' . $this->getSIdTelaGrid() . '","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastreg,"' . $this->getSScrollInfCampo() . '",idPos);'
+                        . 'sendFiltros("#' . $this->getSIdTelaGrid() . '","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastreg,"' . $this->getSScrollInfCampo() . '");'
                         . ' } '
                         . ' });';
             }

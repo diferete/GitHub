@@ -168,6 +168,10 @@ table{
     background:#C1CDC1;
 }
 
+.fundo_vermelho{
+    background: #FFC2B3;
+}
+
 .cor_vermelho{
     color: #F00 !important;
 }

@@ -76,6 +76,9 @@ class ViewUser extends View {
         $oUsuEmail = new Campo('Email', 'usuemail', Campo::TIPO_TEXTO, 4);
         $oUsuEmail->setITamanho(Campo::TAMANHO_PEQUENO);
         $oUsuEmail->addValidacao(false, Validacao::TIPO_EMAIL);
+        
+        $oUsuSenhaEmail = new Campo('Senha e-mail metalbo', 'senhaemail', Campo::TIPO_TEXTO,2);
+        $oUsuSenhaEmail->setITamanho(Campo::TAMANHO_PEQUENO);
 
         $UsuLogin = new Campo('Login', 'usulogin', Campo::TIPO_TEXTO, 4);
         $UsuLogin->addValidacao(false, Validacao::TIPO_STRING);
@@ -140,7 +143,7 @@ class ViewUser extends View {
 
         $oSenhaProv = new campo('Senha provisória', 'senhaProvisoria', Campo::TIPO_CHECK, 4);
 
-        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), array($oUserNome, $oSobrenome), array($oUsuFone, $oUsuRamal, $oUsuEmail), array($oCodSetor, $oFilcgc), array($oUsutipo, $oOfficeCod), array($oUsuimagem, $oNomeDelsoft), $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv);
+        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), array($oUserNome, $oSobrenome), array($oUsuFone, $oUsuRamal), array($oUsuEmail,$oUsuSenhaEmail), array($oCodSetor, $oFilcgc), array($oUsutipo, $oOfficeCod), array($oUsuimagem, $oNomeDelsoft), $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv);
     }
 
 }

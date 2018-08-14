@@ -1707,8 +1707,18 @@ public function funcoesAutoIncremento(){
         }
         
        $aModels = $this->Persistencia->getArrayModel();//carrega os campos da consulta
+       //pega o total de linhas na querys
+       $iTotalReg = $this->Persistencia->getCount();
        
        $sDados ='';
+       //verifica se foi informado posição do contador
+       if(isset($_REQUEST['idPos'])){
+           $sTr = $_REQUEST['idPos'];
+           $sTr =substr($sTr,3);
+           $iTr = $sTr+1;
+       }else{
+           $iTr = 1;
+       }
       foreach($aModels as $oAtual){
             //verifica as comparaçoes da consulta
             foreach($aCampos as $campoAtual){
@@ -1723,11 +1733,11 @@ public function funcoesAutoIncremento(){
                }
             }
             if($aRetornoFormat[0]){
-                $sDados .= '<tr tabindex="0" class="'.$aRetornoFormat[1].' dbclick" style="font-size:small;">';
+                $sDados .= '<tr id="tr_'.$iTr.'"  tabindex="0" class="'.$aRetornoFormat[1].' dbclick" style="font-size:small;">';
             }else{
-                 $sDados .= '<tr tabindex="0" role="row" class="odd dbclick" style="font-size:small;">';//abre a linha
+                 $sDados .= '<tr id="tr_'.$iTr.'" tabindex="0" role="row" class="odd dbclick" style="font-size:small;">';//abre a linha
             }
-            
+            $iTr++;
            
             $sDados.='<td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>';//td do check
             $aLinha = array(); //inicializa o vetor que conterá a linha atual
@@ -1775,15 +1785,26 @@ public function funcoesAutoIncremento(){
             $sChave =$this->Persistencia->getChaveModel($oAtual);
             $sDados.='<td class="hidden chave">'.$sChave.'</td>';
             $sDados .= '</tr>';
+            
           }
          //define se o $sDadosReload != null é atualização se não e nova tela
         if ($sDadosReload !== NULL){
+             //pegar id da tr
+                $sRender = 'var idTr="";$("#'.$aDadosAtualizar[0].'consulta tbody .selected").each(function(){'
+                           .' idTr=$(this).attr("id");'
+                           .' });';
              //verifica se é scroll infinito
             if($bScroll!==true){
-                $sRender ='$("#'.$aDadosAtualizar[0].' > tbody > tr").empty();'; 
+               $sRender .='$("#'.$aDadosAtualizar[0].' > tbody > tr").remove();'; 
             }
             
             $sRender .='$("#'.$aDadosAtualizar[0].'").append(\''.$sDados.'\');';
+            
+            $sRender .=' if (idTr!==""){$("#'.$aDadosAtualizar[0].' #"+idTr+"").focus();'
+                       .' $("#'.$aDadosAtualizar[0].' #"+idTr+"").addClass("selected");}';
+            
+            
+          
                       
             echo $sRender;
             $sDadosSummary = $this->getDadosFoot();
@@ -1792,7 +1813,9 @@ public function funcoesAutoIncremento(){
             echo $sSummary;
         }else{
            //retorna os dados
-           return $sDados; 
+           $aDados[0]=$sDados;
+           $aDados[1]=$iTotalReg;
+           return $aDados;//$sDados; 
         }
         
     }

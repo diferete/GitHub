@@ -101,7 +101,6 @@ class Campo {
     const TIPO_CONTROLE = 25;
     const TIPO_SELECTMULTI = 26;
     const CAMPO_SELECT = 27;
-    const CAMPO_SELECTSIMPLE = 28;
    
 
 
@@ -127,6 +126,7 @@ class Campo {
     const FUNDO_AZUL = 'fundo_azul';
     const FUNDO_VERDE = 'fundo_verde';
     const FUNDO_MONEY = 'fundo_money';
+    const FUNDO_VERMELHO = 'fundo_vermelho';
     
     const BUTTON_WARNING = 'btn-warning';
     const BUTTON_SUCCESS = 'btn-success';
@@ -1843,30 +1843,6 @@ class Campo {
                                .$sTrigger
                           .'</script> '
                            . '</div>  ';
-                break;
-                
-            case self::CAMPO_SELECTSIMPLE:
-                 $sCampo ='<div style="margin-top:8px;" class="campo-form col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'">'
-                           .'<div class="input-group" id="'.$this->getId().'-group">'
-                           .'<label for="'.$this->getId().'">'.$this->getLabel().':</label>'   
-                           .'<select name="'.$this->getNome().'" class="form-control input-sm" id="'.$this->getId().'" '.$this->verficaCampoBloqueado($this->getBCampoBloqueado()).'>';
-                  
-                   foreach ($this->getAItemsSelect() as $key => $svalue) {
-                       $sCampo.='<option value="'.$key.'">'.$svalue.'</option>';
-                       
-                   }
-                  //verifica se há valor para renderizar o default do select
-                   if($this->getSValor()!= NULL){
-                       $sTrigger= '$("#'.$this->getId().'").val("'.$this->getSValor().'").trigger("change");';
-                   }
-                  
-                   
-                $sCampo .= '</div>'
-                           .'</select>'
-                           .'</div>  '
-                           .$this->getRenderEventos()
-                          .'</div>';
-                break;
                 
                 
         }   

@@ -24,12 +24,12 @@ class PersistenciaLogin extends Persistencia {
         $sSql = "SELECT usucodigo,
                         COUNT(*) as qtd,
                         usubloqueado,
-                        usunome,usuimagem,usuemail,officecod,
+                        usunome,usuimagem,usuemail,officecod,codsetor,
                         usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft
                    FROM tbusuario
                   WHERE usulogin = '" . $this->Model->getLogin() . "' 
                     AND ususenha='" . sha1($this->Model->getLoginsenha()) . "' 
-                    group by usunome,usucodigo,usubloqueado,usuimagem,usuemail,
+                    group by usunome,usucodigo,usubloqueado,usuimagem,usuemail,codsetor,
                     officecod,usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft";
 
         $result = $this->getObjetoSql($sSql);
@@ -51,6 +51,7 @@ class PersistenciaLogin extends Persistencia {
             $this->Model->setUsubloqueado($row->usubloqueado);
             $this->Model->setSenhaProvisoria($row->senhaprovisoria);
             $this->Model->setUsunomeDelsoft($row->usunomedelsoft);
+            $this->Model->setCodsetor($row->codsetor);
             //insere registro de login
             $this->registraLogin();
             //se campo salva senha está como ok vai criar um cookie com a senha 

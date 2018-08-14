@@ -11,9 +11,10 @@ class ViewQualNovoProj extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
-        $this->setBScrollInf(false);
 
         $this->getTela()->setBGridResponsivo(false);
 

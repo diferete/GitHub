@@ -24,6 +24,7 @@ class PersistenciaUser extends Persistencia {
         $this->adicionaRelacionamento('usutipo', 'UsuTipo.usutipo');
         $this->adicionaRelacionamento('usubloqueado', 'usubloqueado');
         $this->adicionaRelacionamento('usuemail', 'usuemail');
+        $this->adicionaRelacionamento('senhaemail', 'senhaemail');
         $this->adicionaRelacionamento('filcgc', 'filcgc');
         $this->adicionaRelacionamento('officecod', 'RepOffice.officecod');
         $this->adicionaRelacionamento('ususalvasenha', 'ususalvasenha');
@@ -175,6 +176,18 @@ class PersistenciaUser extends Persistencia {
         $aRetorno = $this->executaSql($sSql);
 
         return $aRetorno;
+    }
+
+    public function buscaSetor() {
+        $sSql = "select MetCad_Setores.descsetor from"
+                . " MetCad_Setores left outer join tbusuario"
+                . " on MetCad_Setores.codsetor = tbusuario.codsetor"
+                . " where usucodigo ='" . $_SESSION['codUser'] . "'";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $sRetorno = $oRow->descsetor;
+
+        return $sRetorno;
     }
 
 }

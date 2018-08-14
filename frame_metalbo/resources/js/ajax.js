@@ -1,8 +1,7 @@
   var sUploads ='';
   var aCamposReq = []; 
-  function requestAjax(idForm,classe,metodo,sparametros,aIdCampos,bDesativaCarrega){
-        
-       console.log(sparametros);
+  function requestAjax(idForm,classe,metodo,sparametros,aIdCampos,bDesativaCarrega,idPos){
+       
         var aParametros ={};
         var aParametrosTela={};
         var aParametrosCampos={};
@@ -32,6 +31,7 @@
             }
             
             camposForm = $('#'+idForm).serialize() + camposManuais;
+        //    alert(camposForm);
             
           
         }
@@ -74,7 +74,8 @@
                         metodo: aParametros['metodo'],
                         campos: camposForm,
                         parametros : aParametrosTela,
-                        parametrosCampos : aParametrosCampos
+                        parametrosCampos : aParametrosCampos,
+                        idPos : idPos
                         
                       }
                    }).done(function(e){

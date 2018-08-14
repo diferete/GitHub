@@ -47,6 +47,7 @@ class ControllerLogin extends Controller{
                 $_SESSION['servidor'] = Config::HOST_BD;
                 $_SESSION['filcgc'] = $this->Model->getFilcgc();
                 $_SESSION['usutipo'] = $this->Model->getUsutipo();
+                $_SESSION['codsetor'] = $this->Model->getCodsetor();
                 
                 $_SESSION['officecabsol'] = $this->Model->getOfficecabsol();
                 $_SESSION['officecabsoliten'] = $this->Model->getOfficecabsoliten();

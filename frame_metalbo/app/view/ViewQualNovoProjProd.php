@@ -18,7 +18,8 @@ class ViewQualNovoProjProd extends View {
          *  private $resp_venda_cod;
           private $resp_venda_nome;
          */
-        $this->setBScrollInf(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setILarguraGrid(1500);
         $this->getTela()->setBGridResponsivo(false);
 

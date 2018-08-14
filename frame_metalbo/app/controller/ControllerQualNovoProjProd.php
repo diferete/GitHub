@@ -251,10 +251,6 @@ class ControllerQualNovoProjProd extends Controller {
             $scurrentProj = 'current';
             $sEstiloProj = 'border-color:#62a8ea;color:#62a8ea';
         }
-        if ($oRetorno->sitproj == 'Cód. enviado') {
-            $scurrentProj = 'current';
-            $sEstiloProj = 'border-color:#2eb82e;color:#2eb82e';
-        }
         if ($oRetorno->sitvendas == 'Aprovado') {
             $scurrentVenda = 'current';
             $sEstiloVenda = 'border-color:#2eb82e;color:#2eb82e;';
@@ -283,6 +279,11 @@ class ControllerQualNovoProjProd extends Controller {
             $scurrentCad = 'current';
             $sEstiloProd = 'border-color:#2eb82e;color:#2eb82e;';
             $ssitCad = 'Cadastrado';
+        }
+        if ($oRetorno->sitproj == 'Cód. enviado') {
+            $scurrentProj = 'current';
+            $sEstiloProj = 'border-color:#2eb82e;color:#2eb82e';
+            $ssitCad = 'Cód. enviado';
         }
         if ($oRetorno->valodter == true) {
             $scurrentResp = 'current';

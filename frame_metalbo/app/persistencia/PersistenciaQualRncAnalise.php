@@ -7,7 +7,7 @@
  * @since 12/09/2017
  */
 
-class PersistenciaQualRncVenda extends Persistencia {
+class PersistenciaQualRncAnalise extends Persistencia {
 
     public function __construct() {
         parent::__construct();
@@ -65,17 +65,30 @@ class PersistenciaQualRncVenda extends Persistencia {
         $this->adicionaRelacionamento('resp_venda_nome', 'resp_venda_nome');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
+        $this->adicionaRelacionamento('situaca', 'situaca');
+        $this->adicionaRelacionamento('tagsetor', 'tagsetor');
 
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
+
+        if ($_SESSION['codsetor'] == 3) {
+            $this->adicionaFiltro('tagsetor', '3');
+        }
+        if ($_SESSION['codsetor'] == 5) {
+            $this->adicionaFiltro('tagsetor', '5');
+        }
+        if ($_SESSION['codsetor'] == 25) {
+            $this->adicionaFiltro('tagsetor', '25');
+        }
+        $this->adicionaFiltro('devolucao', 'Em análise');
     }
 
     public function verificaFim($aDados) {
         $sSql = "select count(*)as total from tbrncqual 
                 where  filcgc ='" . $aDados['filcgc'] . "' 
                 and nr = " . $aDados['nr'] . "
-                and situaca = 'Finalizado'";
+                and situaca = 'Apontada'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $aret = array();
@@ -87,28 +100,12 @@ class PersistenciaQualRncVenda extends Persistencia {
         return $aret;
     }
 
-    public function verifSitDev($aDados) {
-        $sSql = "select situaca"
-                . " from tbrncqual"
-                . " where filcgc= " . $aDados['filcgc'] . " and nr= " . $aDados['nr'] . " ";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-
-        $sSit = $oRow->situaca;
-
-        return $sSit;
-    }
-
-    /**
-     * Método para buscar o responsável pelo escritório de representação que emitiu a RC.
-     */
     public function buscaRespEscritório($sDados) {
         $sSql = "select officeresp "
                 . "from tbrepoffice where officecod =" . $_SESSION['repoffice'];
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $sCodResp = $oRow->officeresp;
-
 
         $sSql = "select usucodigo,usunome "
                 . "from tbusuario where usucodigo =" . $sCodResp;
@@ -121,9 +118,6 @@ class PersistenciaQualRncVenda extends Persistencia {
         return $aRetorno;
     }
 
-    /**
-     * Método que busca os dados para montar o e-mail de encaminhamento para análise.
-     */
     public function buscaDadosRnc($sDados) {
         $sSql = "select * from tbrncqual"
                 . " where filcgc = '" . $sDados['filcgc'] . "' and nr = '" . $sDados['nr'] . "'";
@@ -132,113 +126,53 @@ class PersistenciaQualRncVenda extends Persistencia {
         return $oRow;
     }
 
-    /**
-     * Método que verifica situação atual da RC. 
-     * Verifica se a RC ja teve seu e-mail encaminhado e para qual setor.
-     * Faz os updates caso ainda não tenha sido encaminhado o e-mail.
-     */
-    public function verifSitEnc($aDados) {
-        $sSql = "select situaca,devolucao"
-                . " from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+    public function buscaEmailVenda($aDados) {
+        $sSql = "select resp_venda_cod "
+                . "from tbrncqual "
+                . "where filcgc ='" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "' ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $aRetorno[0] = $oRow->situaca;
-        $aRetorno[1] = $oRow->devolucao;
+        $codVenda = $oRow->resp_venda_cod;
 
-        return $aRetorno;
-    }
-
-    public function updateSitRC($aCamposChave, $sParam) {
-        if ($sParam == 'Env.Qual') {
-            $sSql = "update tbrncqual"
-                    . " set situaca = 'Env.Qual',"
-                    . " devolucao = 'Em análise',"
-                    . " tagsetor = '25'"
-                    . " where filcgc = '" . $aCamposChave['filcgc'] . "' and nr = '" . $aCamposChave['nr'] . "'";
-            $aRetorno = $this->executaSql($sSql);
-            return $aRetorno;
-        }
-        if ($sParam == 'Env.Emb') {
-            $sSql = "update tbrncqual"
-                    . " set situaca = 'Env.Emb',"
-                    . " devolucao = 'Em análise',"
-                    . " tagsetor = '5'"
-                    . " where filcgc = '" . $aCamposChave['filcgc'] . "' and nr = '" . $aCamposChave['nr'] . "'";
-            $aRetorno = $this->executaSql($sSql);
-            return $aRetorno;
-        }
-        if ($sParam == 'Env.Exp') {
-            $sSql = "update tbrncqual"
-                    . " set situaca = 'Env.Exp',"
-                    . " devolucao = 'Em análise',"
-                    . " tagsetor = '3'"
-                    . " where filcgc = '" . $aCamposChave['filcgc'] . "' and nr = '" . $aCamposChave['nr'] . "'";
-            $aRetorno = $this->executaSql($sSql);
-            return $aRetorno;
-        }
-    }
-
-    public function aceitaDevolucao($aDados) {
-        $sSql = "select devolucao"
-                . " from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        //busca email venda
+        $sSql = "select usuemail "
+                . "from tbusuario where usucodigo ='" . $codVenda . "' ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-
-        $sDevolucao = $oRow->devolucao;
-
-        if ($sDevolucao == 'Recusada' || $sDevolucao == 'Aceita') {
-            $aRetorno[0] = false;
-        } else {
-            $sSql = "update tbrncqual"
-                    . " set devolucao ='Aceita',"
-                    . " aceitocond = 'true'"
-                    . " where nr ='" . $aDados['nr'] . "'";
-            $aRetorno = $this->executaSql($sSql);
-        }
-        return $aRetorno;
-    }
-
-    public function recusaDevolucao($aDados) {
-        $sSql = "select devolucao"
-                . " from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-
-        $sDevolucao = $oRow->devolucao;
-
-        if ($sDevolucao == 'Recusada' || $sDevolucao == 'Aceita') {
-            $aRetorno[0] = false;
-        } else {
-            $sSql = "update tbrncqual"
-                    . " set devolucao ='Recusada'"
-                    . " reprovar = true"
-                    . " where nr ='" . $aDados['nr'] . "'";
-            $aRetorno = $this->executaSql($sSql);
-        }
-        return $aRetorno;
-    }
-
-    public function buscaEmailRep($aDados) {
-        $sSql = "select usucodigo"
-                . " from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-
-        $sCod = $oRow->usucodigo;
-
-        $sSql = "select usuemail"
-                . " from tbusuario"
-                . " where usucodigo ='" . $sCod . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-
         $sEmail = $oRow->usuemail;
 
         return $sEmail;
+    }
+
+    public function verifSit($aDados) {
+        $sSql = "select situaca"
+                . " from tbrncqual"
+                . " where filcgc='" . $aDados['filcgc'] . "' and nr='" . $aDados['nr'] . "'";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+
+        $sSituaca = $oRow->situaca;
+
+        if ($sSituaca == 'Aguardando') {
+            $aRetorno[0] = false;
+        } else {
+            $aRetorno[0] = true;
+        }
+        return $aRetorno;
+    }
+
+    /**
+     * Apontamento da reclamação 
+     */
+    public function apontaRnc($aDados) {
+        $sSql = "update tbrncqual"
+                . " set situaca = 'Apontada',"
+                . " apontamento = '" . $aDados['apontamento'] . "',"
+                . " usuaponta = '" . $aDados['usuaponta'] . "'"
+                . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
+
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
     }
 
 }

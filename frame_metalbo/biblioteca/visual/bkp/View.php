@@ -65,7 +65,6 @@ abstract class View {
     private $bAcaoLimparTela;
     private $bAcaoFecharTela;
     private $aParametrosExtras;
-    private $aModelDados;
     private $sCabtela;
     private $oModelManual;
     private $sRenderPara;
@@ -177,7 +176,6 @@ abstract class View {
         $this->aGroupBy = array();
         $this->aOrderBy = array();
         $this->aParametrosExtras = array();
-        $this->aModelDados = array();
         
         $this->setUsaAcaoIncluir(true);
         $this->setUsaAcaoAlterar(true);
@@ -190,15 +188,6 @@ abstract class View {
         $this->setAcaoFecharTela(true);
     }
     
-    function getAModelDados() {
-        return $this->aModelDados;
-    }
-
-    function setAModelDados($aModelDados) {
-        $this->aModelDados = $aModelDados;
-    }
-
-        
     public function getOGridDetalhe() {
         return $this->oGridDetalhe;
     }

@@ -98,7 +98,7 @@ class PersistenciaQualNovoProj extends Persistencia {
         $this->adicionaJoin('EmpRex');
         $this->adicionaOrderBy('nr', 1);
 
-        $this->setSTop('500');
+        $this->setSTop('50');
     }
 
     /**

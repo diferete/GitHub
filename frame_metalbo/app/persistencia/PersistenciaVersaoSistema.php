@@ -28,7 +28,7 @@ class PersistenciaVersaoSistema extends Persistencia {
     }
     
         /*Funçao para mostrar a versão sistema na ViewSistema*/
-    public function mostrVersaoSistema (){
+    public function mostraVersaoSistema (){
         $sSql = "select versao from tbversao where seq = (select MAX(seq) as seq from tbversao)";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);

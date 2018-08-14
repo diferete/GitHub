@@ -39,8 +39,10 @@ class ViewSistema extends View {
         }
         /* traz a versão do sistema */
         $oVersao = Fabrica::FabricarPersistencia('VersaoSistema');
+        $sVersao = $oVersao->mostraVersaoSistema();
 
-        $sVersao = $oVersao->mostrVersaoSistema();
+        $oSetor = Fabrica::FabricarPersistencia('User');
+        $sSetor = $oSetor->buscaSetor();
 
         date_default_timezone_set('America/Sao_Paulo');
 
@@ -325,7 +327,7 @@ class ViewSistema extends View {
                 . '              <li class="dropdown-menu-header" role="presentation">'
                 . '                <h5>Informações do usuário</h5>'
                 . '              </li>'
-                . '    <li class="list-group" role="presentation">'
+                . '                <li class="list-group" role="presentation">'
                 . '                <div data-role="container">'
                 . '                  <div data-role="content">'
                 . '                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">'
@@ -335,6 +337,7 @@ class ViewSistema extends View {
                 . '                        </div>'
                 . '                        <div class="media-body">'
                 . '                          <h6 class="media-heading">Nome: ' . $_SESSION['nome'] . '</h6>'
+                . '                          <h6 class="media-heading">Setor: ' . $sSetor . '</h6>'
                 . '                          <h6 class="media-heading">Login: ' . $_SESSION['loginUser'] . '</h6>'
                 . '                          <h6 class="media-heading">Código: ' . $_SESSION['codUser'] . '</h6>'
                 . $sRep
@@ -897,13 +900,19 @@ class ViewSistema extends View {
                 . '   <div class="example example-well">'
                 . '     <div class="page-header text-center">'
                 . '       <h1 class="page-title">Bem vindo, ' . $_SESSION["nome"] . '!</h1>'
-                . '       <p class="page-description">'
-                . '        <a target="_blank" href="http://www.metalbo.com.br">www.metalbo.com.br</a></br> '
-                . '       <a target="_blank" href="http://facebook.com/metalbo.oficial"> <button type="button" class="btn btn-labeled btn-xs social-facebook"> '
-                . '<span class="btn-label"><i class="icon bd-facebook" aria-hidden="true"></i></span>Facebook</button></a></br></br>'
-                . '             <img class="img-circle img-bordered img-bordered-primary" width="150" height="150" '
-                . '             src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1"> '
-                . '       </p>'
+                . '       <p class="page-description"><a target="_blank" href="http://www.metalbo.com.br">www.metalbo.com.br</a></br> '
+                . '          <a target="_blank" href="http://facebook.com/metalbo.oficial"> '
+                . '             <button type="button" class="btn btn-labeled btn-xs social-facebook">'
+                . '          <span class="btn-label"><i class="icon bd-facebook" aria-hidden="true"></i></span>Facebook</button>'
+                . '          </a>'
+                . '          </br>'
+                . '          </br>'
+                . '          <a target="_blank" href="https://www.youtube.com/channel/UCO6rJtl4ePqsWRTztRFkE5w"> '
+                . '             <button type="button" class="btn btn-labeled btn-xs social-youtube"> '
+                . '         <span class="btn-label"><i class="icon bd-youtube" aria-hidden="true"></i></span>Treinamentos</button>'
+                . '         </a>'
+                . '         </br>'
+                . '         </br><img class="img-circle img-bordered img-bordered-primary" width="150" height="150"  src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1"></p>'
                 . '     </div>'
                 . '   </div>'
                 . ' </div>';

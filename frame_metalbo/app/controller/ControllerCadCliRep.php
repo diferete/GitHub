@@ -129,4 +129,18 @@ class ControllerCadCliRep extends Controller {
         $this->View->setAParametrosExtras($aDados);
     }
 
+    public function getCNPJ($sDados) {
+        if ($sDados != '') {
+            $sRet = $this->Persistencia->buscaCNPJ($sDados);
+            if ($sRet == false) {
+                $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
+                echo $oMensagem->getRender();
+            } else {
+                exit;
+            }
+        } else {
+            exit;
+        }
+    }
+
 }

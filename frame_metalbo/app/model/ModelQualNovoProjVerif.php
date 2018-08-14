@@ -1,12 +1,13 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-class ModelQualNovoProjVerif{
+class ModelQualNovoProjVerif {
+
     private $EmpRex;
     private $nr;
     private $verifDesenhoPrev;
@@ -17,168 +18,150 @@ class ModelQualNovoProjVerif{
     private $verifRelFerrter;
     private $verifRelFerrResp;
     private $verifRelFerrAnex;
-    
     private $verifDesenhoFerrPrev;
     private $verifDesenhoFerrTer;
     private $verifDesenhoFerrResp;
     private $verifDesenhoFerrAnex;
-    
     private $dimenFerrPrev;
     private $dimenFerrTer;
     private $dimenFerrResp;
     private $dimenFerrAnex;
-    
     private $dimenProdPrev;
     private $dimenProdTer;
     private $dimenProdResp;
     private $dimenProdAnex;
-    
     private $camadaZincoPrev;
     private $camadaZincoTer;
     private $camadaZincoResp;
     private $camadaZincoAnex;
-    
     private $ensaioDurezaPrev;
     private $ensaioDurezaTer;
     private $ensaioDurezaResp;
     private $ensaioDurezaAnex;
-    
     private $cargaprovaPrev;
     private $cargaprovaTer;
     private $cargaprovaResp;
     private $cargaprovaAnex;
-    
     private $terceiroPrev;
     private $terceiroTer;
     private $terceiroResp;
     private $terceiroAnex;
-    
     private $ensReq;
     private $ensReqDef;
     private $ensReqLegal;
     private $ensPlan;
     private $ensComem;
     private $respEns;
-    
     private $valNf;
     private $valNfPrev;
     private $valNfTer;
     private $valNfResp;
-    
     private $valOd;
     private $valOdPrev;
     private $valOdTer;
     private $valODResp;
-    
     private $valPed;
     private $valPedPrev;
     private $valPedTer;
     private $valPedResp;
-    
     private $valPapp;
     private $valPappPrev;
     private $valPappTer;
     private $valPappResp;
-    
     private $etapProj;
     private $result;
     private $cliprov;
     private $valproj;
     private $comenvalproj;
     private $respvalproj;
-    
-    
-       /*etapProj varchar(10),
-	result varchar(10),
-	cliprov varchar(10),
-	valproj varchar(10),
-	comenvalproj varchar(1000),
-	respvalproj varchar(80)*/
-        
-     function getEtapProj() {
-         return $this->etapProj;
-     }
 
-     function getResult() {
-         return $this->result;
-     }
+    /* etapProj varchar(10),
+      result varchar(10),
+      cliprov varchar(10),
+      valproj varchar(10),
+      comenvalproj varchar(1000),
+      respvalproj varchar(80) */
 
-     function getCliprov() {
-         return $this->cliprov;
-     }
+    function getEtapProj() {
+        return $this->etapProj;
+    }
 
-     function getValproj() {
-         return $this->valproj;
-     }
+    function getResult() {
+        return $this->result;
+    }
 
-     function getComenvalproj() {
-         return $this->comenvalproj;
-     }
+    function getCliprov() {
+        return $this->cliprov;
+    }
 
-     function getRespvalproj() {
-         return $this->respvalproj;
-     }
+    function getValproj() {
+        return $this->valproj;
+    }
 
-     function setEtapProj($etapProj) {
-         $this->etapProj = $etapProj;
-     }
+    function getComenvalproj() {
+        return $this->comenvalproj;
+    }
 
-     function setResult($result) {
-         $this->result = $result;
-     }
+    function getRespvalproj() {
+        return $this->respvalproj;
+    }
 
-     function setCliprov($cliprov) {
-         $this->cliprov = $cliprov;
-     }
+    function setEtapProj($etapProj) {
+        $this->etapProj = $etapProj;
+    }
 
-     function setValproj($valproj) {
-         $this->valproj = $valproj;
-     }
+    function setResult($result) {
+        $this->result = $result;
+    }
 
-     function setComenvalproj($comenvalproj) {
-         $this->comenvalproj = $comenvalproj;
-     }
+    function setCliprov($cliprov) {
+        $this->cliprov = $cliprov;
+    }
 
-     function setRespvalproj($respvalproj) {
-         $this->respvalproj = $respvalproj;
-     }
+    function setValproj($valproj) {
+        $this->valproj = $valproj;
+    }
 
-         
-    
-     function getValPapp() {
-         return $this->valPapp;
-     }
+    function setComenvalproj($comenvalproj) {
+        $this->comenvalproj = $comenvalproj;
+    }
 
-     function getValPappPrev() {
-         return $this->valPappPrev;
-     }
+    function setRespvalproj($respvalproj) {
+        $this->respvalproj = $respvalproj;
+    }
 
-     function getValPappTer() {
-         return $this->valPappTer;
-     }
+    function getValPapp() {
+        return $this->valPapp;
+    }
 
-     function getValPappResp() {
-         return $this->valPappResp;
-     }
+    function getValPappPrev() {
+        return $this->valPappPrev;
+    }
 
-     function setValPapp($valPapp) {
-         $this->valPapp = $valPapp;
-     }
+    function getValPappTer() {
+        return $this->valPappTer;
+    }
 
-     function setValPappPrev($valPappPrev) {
-         $this->valPappPrev = $valPappPrev;
-     }
+    function getValPappResp() {
+        return $this->valPappResp;
+    }
 
-     function setValPappTer($valPappTer) {
-         $this->valPappTer = $valPappTer;
-     }
+    function setValPapp($valPapp) {
+        $this->valPapp = $valPapp;
+    }
 
-     function setValPappResp($valPappResp) {
-         $this->valPappResp = $valPappResp;
-     }
+    function setValPappPrev($valPappPrev) {
+        $this->valPappPrev = $valPappPrev;
+    }
 
-     
-    
+    function setValPappTer($valPappTer) {
+        $this->valPappTer = $valPappTer;
+    }
+
+    function setValPappResp($valPappResp) {
+        $this->valPappResp = $valPappResp;
+    }
+
     function getValPed() {
         return $this->valPed;
     }
@@ -211,7 +194,6 @@ class ModelQualNovoProjVerif{
         $this->valPedResp = $valPedResp;
     }
 
-        
     function getValOd() {
         return $this->valOd;
     }
@@ -244,8 +226,6 @@ class ModelQualNovoProjVerif{
         $this->valODResp = $valODResp;
     }
 
-        
-    
     function getValNf() {
         return $this->valNf;
     }
@@ -278,57 +258,54 @@ class ModelQualNovoProjVerif{
         $this->valNfResp = $valNfResp;
     }
 
-     
-    
-     function getEnsReq() {
-         return $this->ensReq;
-     }
+    function getEnsReq() {
+        return $this->ensReq;
+    }
 
-     function getEnsReqDef() {
-         return $this->ensReqDef;
-     }
+    function getEnsReqDef() {
+        return $this->ensReqDef;
+    }
 
-     function getEnsReqLegal() {
-         return $this->ensReqLegal;
-     }
+    function getEnsReqLegal() {
+        return $this->ensReqLegal;
+    }
 
-     function getEnsPlan() {
-         return $this->ensPlan;
-     }
+    function getEnsPlan() {
+        return $this->ensPlan;
+    }
 
-     function getEnsComem() {
-         return $this->ensComem;
-     }
+    function getEnsComem() {
+        return $this->ensComem;
+    }
 
-     function getRespEns() {
-         return $this->respEns;
-     }
+    function getRespEns() {
+        return $this->respEns;
+    }
 
-     function setEnsReq($ensReq) {
-         $this->ensReq = $ensReq;
-     }
+    function setEnsReq($ensReq) {
+        $this->ensReq = $ensReq;
+    }
 
-     function setEnsReqDef($ensReqDef) {
-         $this->ensReqDef = $ensReqDef;
-     }
+    function setEnsReqDef($ensReqDef) {
+        $this->ensReqDef = $ensReqDef;
+    }
 
-     function setEnsReqLegal($ensReqLegal) {
-         $this->ensReqLegal = $ensReqLegal;
-     }
+    function setEnsReqLegal($ensReqLegal) {
+        $this->ensReqLegal = $ensReqLegal;
+    }
 
-     function setEnsPlan($ensPlan) {
-         $this->ensPlan = $ensPlan;
-     }
+    function setEnsPlan($ensPlan) {
+        $this->ensPlan = $ensPlan;
+    }
 
-     function setEnsComem($ensComem) {
-         $this->ensComem = $ensComem;
-     }
+    function setEnsComem($ensComem) {
+        $this->ensComem = $ensComem;
+    }
 
-     function setRespEns($respEns) {
-         $this->respEns = $respEns;
-     }
+    function setRespEns($respEns) {
+        $this->respEns = $respEns;
+    }
 
-         
     function getTerceiroPrev() {
         return $this->terceiroPrev;
     }
@@ -361,7 +338,6 @@ class ModelQualNovoProjVerif{
         $this->terceiroAnex = $terceiroAnex;
     }
 
-        
     function getCargaprovaPrev() {
         return $this->cargaprovaPrev;
     }
@@ -394,75 +370,70 @@ class ModelQualNovoProjVerif{
         $this->cargaprovaAnex = $cargaprovaAnex;
     }
 
-        
- 
-    
-       function getEnsaioDurezaPrev() {
-           return $this->ensaioDurezaPrev;
-       }
+    function getEnsaioDurezaPrev() {
+        return $this->ensaioDurezaPrev;
+    }
 
-       function getEnsaioDurezaTer() {
-           return $this->ensaioDurezaTer;
-       }
+    function getEnsaioDurezaTer() {
+        return $this->ensaioDurezaTer;
+    }
 
-       function getEnsaioDurezaResp() {
-           return $this->ensaioDurezaResp;
-       }
+    function getEnsaioDurezaResp() {
+        return $this->ensaioDurezaResp;
+    }
 
-       function getEnsaioDurezaAnex() {
-           return $this->ensaioDurezaAnex;
-       }
+    function getEnsaioDurezaAnex() {
+        return $this->ensaioDurezaAnex;
+    }
 
-       function setEnsaioDurezaPrev($ensaioDurezaPrev) {
-           $this->ensaioDurezaPrev = $ensaioDurezaPrev;
-       }
+    function setEnsaioDurezaPrev($ensaioDurezaPrev) {
+        $this->ensaioDurezaPrev = $ensaioDurezaPrev;
+    }
 
-       function setEnsaioDurezaTer($ensaioDurezaTer) {
-           $this->ensaioDurezaTer = $ensaioDurezaTer;
-       }
+    function setEnsaioDurezaTer($ensaioDurezaTer) {
+        $this->ensaioDurezaTer = $ensaioDurezaTer;
+    }
 
-       function setEnsaioDurezaResp($ensaioDurezaResp) {
-           $this->ensaioDurezaResp = $ensaioDurezaResp;
-       }
+    function setEnsaioDurezaResp($ensaioDurezaResp) {
+        $this->ensaioDurezaResp = $ensaioDurezaResp;
+    }
 
-       function setEnsaioDurezaAnex($ensaioDurezaAnex) {
-           $this->ensaioDurezaAnex = $ensaioDurezaAnex;
-       }
+    function setEnsaioDurezaAnex($ensaioDurezaAnex) {
+        $this->ensaioDurezaAnex = $ensaioDurezaAnex;
+    }
 
-           
-       function getCamadaZincoPrev() {
-           return $this->camadaZincoPrev;
-       }
+    function getCamadaZincoPrev() {
+        return $this->camadaZincoPrev;
+    }
 
-       function getCamadaZincoTer() {
-           return $this->camadaZincoTer;
-       }
+    function getCamadaZincoTer() {
+        return $this->camadaZincoTer;
+    }
 
-       function getCamadaZincoResp() {
-           return $this->camadaZincoResp;
-       }
+    function getCamadaZincoResp() {
+        return $this->camadaZincoResp;
+    }
 
-       function getCamadaZincoAnex() {
-           return $this->camadaZincoAnex;
-       }
+    function getCamadaZincoAnex() {
+        return $this->camadaZincoAnex;
+    }
 
-       function setCamadaZincoPrev($camadaZincoPrev) {
-           $this->camadaZincoPrev = $camadaZincoPrev;
-       }
+    function setCamadaZincoPrev($camadaZincoPrev) {
+        $this->camadaZincoPrev = $camadaZincoPrev;
+    }
 
-       function setCamadaZincoTer($camadaZincoTer) {
-           $this->camadaZincoTer = $camadaZincoTer;
-       }
+    function setCamadaZincoTer($camadaZincoTer) {
+        $this->camadaZincoTer = $camadaZincoTer;
+    }
 
-       function setCamadaZincoResp($camadaZincoResp) {
-           $this->camadaZincoResp = $camadaZincoResp;
-       }
+    function setCamadaZincoResp($camadaZincoResp) {
+        $this->camadaZincoResp = $camadaZincoResp;
+    }
 
-       function setCamadaZincoAnex($camadaZincoAnex) {
-           $this->camadaZincoAnex = $camadaZincoAnex;
-       }
+    function setCamadaZincoAnex($camadaZincoAnex) {
+        $this->camadaZincoAnex = $camadaZincoAnex;
+    }
 
-           
     function getDimenProdPrev() {
         return $this->dimenProdPrev;
     }
@@ -495,106 +466,102 @@ class ModelQualNovoProjVerif{
         $this->dimenProdAnex = $dimenProdAnex;
     }
 
-            
-       function getDimenFerrPrev() {
-           return $this->dimenFerrPrev;
-       }
+    function getDimenFerrPrev() {
+        return $this->dimenFerrPrev;
+    }
 
-       function getDimenFerrTer() {
-           return $this->dimenFerrTer;
-       }
+    function getDimenFerrTer() {
+        return $this->dimenFerrTer;
+    }
 
-       function getDimenFerrResp() {
-           return $this->dimenFerrResp;
-       }
+    function getDimenFerrResp() {
+        return $this->dimenFerrResp;
+    }
 
-       function getDimenFerrAnex() {
-           return $this->dimenFerrAnex;
-       }
+    function getDimenFerrAnex() {
+        return $this->dimenFerrAnex;
+    }
 
-       function setDimenFerrPrev($dimenFerrPrev) {
-           $this->dimenFerrPrev = $dimenFerrPrev;
-       }
+    function setDimenFerrPrev($dimenFerrPrev) {
+        $this->dimenFerrPrev = $dimenFerrPrev;
+    }
 
-       function setDimenFerrTer($dimenFerrTer) {
-           $this->dimenFerrTer = $dimenFerrTer;
-       }
+    function setDimenFerrTer($dimenFerrTer) {
+        $this->dimenFerrTer = $dimenFerrTer;
+    }
 
-       function setDimenFerrResp($dimenFerrResp) {
-           $this->dimenFerrResp = $dimenFerrResp;
-       }
+    function setDimenFerrResp($dimenFerrResp) {
+        $this->dimenFerrResp = $dimenFerrResp;
+    }
 
-       function setDimenFerrAnex($dimenFerrAnex) {
-           $this->dimenFerrAnex = $dimenFerrAnex;
-       }
+    function setDimenFerrAnex($dimenFerrAnex) {
+        $this->dimenFerrAnex = $dimenFerrAnex;
+    }
 
-           
-     function getVerifDesenhoFerrPrev() {
-         return $this->verifDesenhoFerrPrev;
-     }
+    function getVerifDesenhoFerrPrev() {
+        return $this->verifDesenhoFerrPrev;
+    }
 
-     function getVerifDesenhoFerrTer() {
-         return $this->verifDesenhoFerrTer;
-     }
+    function getVerifDesenhoFerrTer() {
+        return $this->verifDesenhoFerrTer;
+    }
 
-     function getVerifDesenhoFerrResp() {
-         return $this->verifDesenhoFerrResp;
-     }
+    function getVerifDesenhoFerrResp() {
+        return $this->verifDesenhoFerrResp;
+    }
 
-     function getVerifDesenhoFerrAnex() {
-         return $this->verifDesenhoFerrAnex;
-     }
+    function getVerifDesenhoFerrAnex() {
+        return $this->verifDesenhoFerrAnex;
+    }
 
-     function setVerifDesenhoFerrPrev($verifDesenhoFerrPrev) {
-         $this->verifDesenhoFerrPrev = $verifDesenhoFerrPrev;
-     }
+    function setVerifDesenhoFerrPrev($verifDesenhoFerrPrev) {
+        $this->verifDesenhoFerrPrev = $verifDesenhoFerrPrev;
+    }
 
-     function setVerifDesenhoFerrTer($verifDesenhoFerrTer) {
-         $this->verifDesenhoFerrTer = $verifDesenhoFerrTer;
-     }
+    function setVerifDesenhoFerrTer($verifDesenhoFerrTer) {
+        $this->verifDesenhoFerrTer = $verifDesenhoFerrTer;
+    }
 
-     function setVerifDesenhoFerrResp($verifDesenhoFerrResp) {
-         $this->verifDesenhoFerrResp = $verifDesenhoFerrResp;
-     }
+    function setVerifDesenhoFerrResp($verifDesenhoFerrResp) {
+        $this->verifDesenhoFerrResp = $verifDesenhoFerrResp;
+    }
 
-     function setVerifDesenhoFerrAnex($verifDesenhoFerrAnex) {
-         $this->verifDesenhoFerrAnex = $verifDesenhoFerrAnex;
-     }
+    function setVerifDesenhoFerrAnex($verifDesenhoFerrAnex) {
+        $this->verifDesenhoFerrAnex = $verifDesenhoFerrAnex;
+    }
 
-         
-     function getVerifRelFerrPrev() {
-         return $this->verifRelFerrPrev;
-     }
+    function getVerifRelFerrPrev() {
+        return $this->verifRelFerrPrev;
+    }
 
-     function getVerifRelFerrter() {
-         return $this->verifRelFerrter;
-     }
+    function getVerifRelFerrter() {
+        return $this->verifRelFerrter;
+    }
 
-     function getVerifRelFerrResp() {
-         return $this->verifRelFerrResp;
-     }
+    function getVerifRelFerrResp() {
+        return $this->verifRelFerrResp;
+    }
 
-     function getVerifRelFerrAnex() {
-         return $this->verifRelFerrAnex;
-     }
+    function getVerifRelFerrAnex() {
+        return $this->verifRelFerrAnex;
+    }
 
-     function setVerifRelFerrPrev($verifRelFerrPrev) {
-         $this->verifRelFerrPrev = $verifRelFerrPrev;
-     }
+    function setVerifRelFerrPrev($verifRelFerrPrev) {
+        $this->verifRelFerrPrev = $verifRelFerrPrev;
+    }
 
-     function setVerifRelFerrter($verifRelFerrter) {
-         $this->verifRelFerrter = $verifRelFerrter;
-     }
+    function setVerifRelFerrter($verifRelFerrter) {
+        $this->verifRelFerrter = $verifRelFerrter;
+    }
 
-     function setVerifRelFerrResp($verifRelFerrResp) {
-         $this->verifRelFerrResp = $verifRelFerrResp;
-     }
+    function setVerifRelFerrResp($verifRelFerrResp) {
+        $this->verifRelFerrResp = $verifRelFerrResp;
+    }
 
-     function setVerifRelFerrAnex($verifRelFerrAnex) {
-         $this->verifRelFerrAnex = $verifRelFerrAnex;
-     }
+    function setVerifRelFerrAnex($verifRelFerrAnex) {
+        $this->verifRelFerrAnex = $verifRelFerrAnex;
+    }
 
-         
     function getVerifDesenhoPrev() {
         return $this->verifDesenhoPrev;
     }
@@ -627,25 +594,23 @@ class ModelQualNovoProjVerif{
         $this->verifDesenhoAnex = $verifDesenhoAnex;
     }
 
-        
-     function getEmpRex() {
-         if(!isset($this->EmpRex)){
-             $this->EmpRex = Fabrica::FabricarModel('EmpRex');
-         }
-         return $this->EmpRex;
-     }
+    function getEmpRex() {
+        if (!isset($this->EmpRex)) {
+            $this->EmpRex = Fabrica::FabricarModel('EmpRex');
+        }
+        return $this->EmpRex;
+    }
 
-     function getNr() {
-         return $this->nr;
-     }
+    function getNr() {
+        return $this->nr;
+    }
 
-     function setEmpRex($EmpRex) {
-         $this->EmpRex = $EmpRex;
-     }
+    function setEmpRex($EmpRex) {
+        $this->EmpRex = $EmpRex;
+    }
 
-     function setNr($nr) {
-         $this->nr = $nr;
-     }
-
+    function setNr($nr) {
+        $this->nr = $nr;
+    }
 
 }

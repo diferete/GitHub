@@ -71,8 +71,8 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
     }
 }
 
-function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, metodo) {
-
+function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, metodo, idPos) {
+   
     var dadosPesq = [];
     var countPesq = 0;
     var nome, valor, idSel = '';
@@ -132,9 +132,11 @@ function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, me
         //alert(metodo);  
         dadosPesq[countPesq] = chavescroll + ',' + 'scroll';
         if (metodo == "") {
-            requestAjax('', classe, 'getDadosScroll', idgrid + ',' + campoconsulta, dadosPesq, false);
+            requestAjax('', classe, 'getDadosScroll', idgrid + ',' + campoconsulta, dadosPesq, false,idPos);
+           // requestAjax(idForm,classe,metodo,sparametros,aIdCampos,bDesativaCarrega)
         } else {
-            requestAjax('', classe, 'getDadosScrollCampo', idgrid + ',' + metodo, dadosPesq, false);
+            requestAjax('', classe, 'getDadosScrollCampo', idgrid + ',' + metodo, dadosPesq, false,idPos);
+            //requestAjax(idForm,classe,metodo,sparametros,aIdCampos,bDesativaCarrega)
         }
 
     } else {
@@ -793,9 +795,6 @@ function calcNewproj(idPlan,
         $('#' + idCCento + '').val(numeroParaMoeda(CustoCento));
     }
     
-    console.log(CustoCento);
-    console.log(Quant);
-    console.log(Lote);
 
 }
 
@@ -1227,4 +1226,11 @@ function mensagemSlide(tipo, msg, titulo) {
 function expandeField(id) {
     $('#' + id + '').removeClass("expanded").addClass("collapsed");
     $('#' + id + ' >div').css("display", "none");
+}
+
+function buscaCNPJ(cnpj,classe){
+    
+    requestAjax("",classe,'getCNPJ',cnpj);
+    
+    
 }

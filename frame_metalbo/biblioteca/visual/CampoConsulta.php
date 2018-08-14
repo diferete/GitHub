@@ -34,6 +34,7 @@ class CampoConsulta {
     const TIPO_ACAO = 9;
     const TIPO_EXCLUIR = 10;
     const TIPO_FINALIZAR =11;
+    const TIPO_MODAL = 12;
     
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
@@ -94,6 +95,9 @@ class CampoConsulta {
          if ($this->Tipo == 11) {
             $this->setBCampoIcone(true);
         }
+        if ($this->Tipo == 12) {
+            $this->setBCampoIcone(true);
+        }
     }
 
     /**
@@ -101,11 +105,12 @@ class CampoConsulta {
      * 
      * @param type $sClasse Classe para para instanciar
      * @param type $sMetodo Método para chamar
+     * @param type $sTitulo nome da Modal 
      */
-    function addAcao($sClasse, $sMetodo) {
+    function addAcao($sClasse, $sMetodo,$sTitulo) {
         $this->aAcao['classe'] = $sClasse;
         $this->aAcao['metodo'] = $sMetodo;
-      
+        $this->aAcao['modalNome'] = $sTitulo;    
     }
 
     function getAAcao() {
@@ -357,6 +362,30 @@ class CampoConsulta {
                         . '});</script>';
 
                 break;
+                
+            case self:: TIPO_MODAL:
+                 $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+                $sAcao = '';
+                $sIdBtn = Base::getId();
+                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn-xs btn-pure btn-primary icon wb-thumb-up" data-target="#'.$this->aAcao['modalNome'].'" data-toggle="modal"></button></td>';
+                $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
+                        .'$("#tabmenusuperior li").each(function(){'
+                        .'if($(this).hasClass( "active" )){'
+                        . 'abaSelecionada=$(this).attr("id");}'
+                        .'     }); '
+                        . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();';
+                if (!$this->getBHideTelaAcao()) {
+                    $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
+                }
+                         $sCampo .= 'requestAjax("","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '","'.$this->aAcao['modalNome'].',"+idGrid+",' . $xValor . '");';
+                        
+                         $sCampo .= '});</script>';
+
+                break;
+                
+               
         }
 
         return $sCampo;

@@ -19,6 +19,23 @@ class ControllerQualRnc extends Controller {
         $this->View->setAParametrosExtras($aDados);
     }
 
+    public function antesAlterar($sParametros = null) {
+        parent::antesAlterar($sParametros);
+
+        $sChave = htmlspecialchars_decode($sParametros[0]);
+        $this->carregaModelString($sChave);
+        $this->Model = $this->Persistencia->consultar();
+
+        $oSit = $this->Model->getSituaca();
+
+        if ($oSit != 'Aguardando') {
+            $aOrdem = explode('=', $sChave);
+            $oMensagem = new Modal('Atenção!', 'O cadastro Nº' . $this->Model->getNr() . ' não pode ser modificadao somente visualizado!', Modal::TIPO_ERRO, false, true, true);
+            $this->setBDesativaBotaoPadrao(true);
+            echo $oMensagem->getRender();
+        }
+    }
+
     public function buscaNf($sDados) {
         $aParam = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
@@ -37,9 +54,7 @@ class ControllerQualRnc extends Controller {
 
         $this->Model->setValor($this->ValorSql($this->Model->getValor()));
         $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-
         $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-
         $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
         /* $date = new DateTime( '2014-08-19' );
           echo $date-> format( 'd-m-Y' ); */
@@ -127,9 +142,19 @@ class ControllerQualRnc extends Controller {
             //renderiza a tela
             $this->View->getTela()->getRender();
         } else {
-            $oMens = new Modal('Atenção, reclamação já finalizada!', '', Modal::TIPO_AVISO, false, true, false);
-            echo $oMens->getRender();
-            echo'$("#' . $aDados[1] . '-btn").click();';
+            if ($aRet[1] == 'Finalizada') {
+                $oMens = new Modal('Atenção...  A reclamação já foi finalizada!', '', Modal::TIPO_AVISO, false, true, false);
+                echo $oMens->getRender();
+                echo'$("#' . $aDados[1] . '-btn").click();';
+            } if ($aRet[1] == 'Aguardando') {
+                $oMens = new Modal('Atenção... A reclamação ainda não foi liberada para Metalbo, favor efetuar a liberação da mesma para proseguir com a análise!', '', Modal::TIPO_AVISO, false, true, false);
+                echo $oMens->getRender();
+                echo'$("#' . $aDados[1] . '-btn").click();';
+            } if($aRet[2] == 'Em análise') {
+                $oMens = new Modal('Atenção... A reclamação não está em condições de ser finalizada, aguarde!', '', Modal::TIPO_AVISO, false, true, false);
+                echo $oMens->getRender();
+                echo'$("#' . $aDados[1] . '-btn").click();';
+            }
         }
     }
 
@@ -161,8 +186,17 @@ class ControllerQualRnc extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-        echo 'requestAjax("","QualRnc","geraRelPdfRnc","' . $aCamposChave['filcgc'] . ',' . $aCamposChave['nr'] . ',rc");';
-        echo 'requestAjax("","QualRnc","msgLiberaRnc","' . $sDados . '");';
+
+        $aRet = $this->Persistencia->verificaFim($aCamposChave);
+        
+        if ($aRet[1] != 'Aguardando') {
+            $oMensagem = new Modal('Atenção...  A reclamação já foi liberada para a Metalbo!', '', Modal::TIPO_AVISO, false, true, false);
+            echo $oMensagem->getRender();
+            echo'$("#' . $aDados[1] . '-btn").click();';
+        } else {
+            echo 'requestAjax("","QualRnc","geraRelPdfRnc","' . $aCamposChave['filcgc'] . ',' . $aCamposChave['nr'] . ',rc");';
+            echo 'requestAjax("","QualRnc","msgLiberaRnc","' . $sDados . '");';
+        }
     }
 
     public function geraRelPdfRnc($sDados) {
@@ -218,7 +252,7 @@ class ControllerQualRnc extends Controller {
 
     public function enviaEmailRnc($sDados) {
         $aDados = array();
-        parse_str($sDados,$aDados);
+        parse_str($sDados, $aDados);
         $sClasse = $this->getNomeClasse();
         date_default_timezone_set('America/Sao_Paulo');
         $data = date('d/m/Y');
@@ -254,6 +288,7 @@ class ControllerQualRnc extends Controller {
                         . '<tr><td><b>Pedido Nº:</b></td><td> ' . $oRow->pedido . ' </td></tr>'
                         . '<tr><td><b>Valor: R$</b></td><td> ' . $oRow->valor . ' </td></tr>'
                         . '<tr><td><b>Peso:</b></td><td> ' . $oRow->peso . ' </td></tr>'
+                        . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
                         . '<tr><td><b>Não conformidade:</b></td><td> ' . $oRow->naoconf . ' </td></tr>'
                         . '</table><br/><br/>'
                         . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'

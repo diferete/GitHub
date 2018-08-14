@@ -46,19 +46,18 @@ class PersistenciaCadCliRep extends Persistencia {
         $this->adicionaRelacionamento('horalib', 'horalib');
         $this->adicionaRelacionamento('resp_venda_cod', 'resp_venda_cod');
         $this->adicionaRelacionamento('resp_venda_nome', 'resp_venda_nome');
-        
-        $this->adicionaRelacionamento('empcobbco','empcobbco');
-        $this->adicionaRelacionamento('empcobcar','empcobcar');
-        $this->adicionaRelacionamento('certcli','certcli');
+
+        $this->adicionaRelacionamento('empcobbco', 'empcobbco');
+        $this->adicionaRelacionamento('empcobcar', 'empcobcar');
+        $this->adicionaRelacionamento('certcli', 'certcli');
         $this->adicionaRelacionamento('comer', 'comer');
         $this->adicionaRelacionamento('transp', 'transp');
-        
+
         $this->adicionaRelacionamento('empnr', 'empnr');
-        
-         if(isset($_SESSION['repoffice'])){
-            
-              $this->adicionaFiltro('officecod',$_SESSION['repoffice']);
-            
+
+        if (isset($_SESSION['repoffice'])) {
+
+            $this->adicionaFiltro('officecod', $_SESSION['repoffice']);
         }
         $this->adicionaOrderBy('nr', 1);
     }
@@ -86,9 +85,6 @@ class PersistenciaCadCliRep extends Persistencia {
                     where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
 
-
-
-
             return $aRetorno;
         }
     }
@@ -114,21 +110,38 @@ class PersistenciaCadCliRep extends Persistencia {
 
         return $aEmail;
     }
-    
-    public function buscaRespEscritório($sDados){
-        $sSql ="select officeresp from tbrepoffice where officecod =".$_SESSION['repoffice'];
+
+    public function buscaRespEscritório($sDados) {
+        $sSql = "select officeresp from tbrepoffice where officecod =" . $_SESSION['repoffice'];
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $sCodResp = $oRow->officeresp;
-        
-        
-        $sSql ="select usucodigo,usunome from tbusuario where usucodigo =".$sCodResp;
+
+
+        $sSql = "select usucodigo,usunome from tbusuario where usucodigo =" . $sCodResp;
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-        
-        $aRetorno[0]=$oRow->usucodigo;
-        $aRetorno[1]=$oRow->usunome;
-        
+
+        $aRetorno[0] = $oRow->usucodigo;
+        $aRetorno[1] = $oRow->usunome;
+
         return $aRetorno;
     }
+
+    public function buscaCNPJ($sDados) {
+        $sSql = "select  COUNT(*) as total"
+                . " from widl.emp01"
+                . " where empcnpj='".$sDados."'";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+
+        $sRetorno = $oRow->total;
+        if ($sRetorno > 0) {
+            $sRetorno = false;
+        } else {
+            $sRetorno = true;
+        }
+        return $sRetorno;
+    }
+
 }

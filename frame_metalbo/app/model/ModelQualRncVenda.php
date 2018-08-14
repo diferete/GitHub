@@ -48,6 +48,26 @@ class ModelQualRncVenda {
     private $obsSit;
     private $resp_venda_cod;
     private $resp_venda_nome;
+    private $apontamento;
+    private $usuaponta;
+    
+    function getUsuaponta() {
+        return $this->usuaponta;
+    }
+
+    function setUsuaponta($usuaponta) {
+        $this->usuaponta = $usuaponta;
+    }
+
+    
+
+    function getApontamento() {
+        return $this->apontamento;
+    }
+
+    function setApontamento($apontamento) {
+        $this->apontamento = $apontamento;
+    }
 
     function getDevolucao() {
         return $this->devolucao;

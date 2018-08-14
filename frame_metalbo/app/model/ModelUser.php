@@ -19,6 +19,7 @@ class ModelUser {
     private $usuramal;
     private $usubloqueado;
     private $usuemail;
+    private $senhaemail;
     private $filcgc;
     private $RepOffice;
     private $UsuTipo;
@@ -27,6 +28,14 @@ class ModelUser {
     private $ususit;
     private $senhaProvisoria;
     private $usunomeDelsoft;
+
+    function getSenhaemail() {
+        return $this->senhaemail;
+    }
+
+    function setSenhaemail($senhaemail) {
+        $this->senhaemail = $senhaemail;
+    }
 
     function getUsunomeDelsoft() {
         return $this->usunomeDelsoft;

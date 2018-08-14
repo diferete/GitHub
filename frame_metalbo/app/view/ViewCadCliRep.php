@@ -111,6 +111,10 @@ class ViewCadCliRep extends View {
         $oEmpcod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '11', '14');
         $oEmpcod->setBFocus(true);
         
+        $sAcaoExit = 'buscaCNPJ($("#' . $oEmpcod->getId() . '").val(),"'.$this->getController().'")';
+        
+        $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
+        
         $oEmpDes = new campo('Razão social', 'empdes', Campo::TIPO_TEXTO, 7, 7, 12, 12);
         $oEmpDes->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpDes->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '45');
