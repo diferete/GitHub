@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="16">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="17">
         <file>
             <url>app/view/ViewSistema.php</url>
-            <bookmark id="13">
+            <bookmark id="17">
                 <name/>
-                <line>86</line>
-                <key/>
-            </bookmark>
-            <bookmark id="12">
-                <name/>
-                <line>87</line>
+                <line>861</line>
                 <key/>
             </bookmark>
         </file>
@@ -19,14 +14,6 @@
             <bookmark id="8">
                 <name/>
                 <line>77</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
-            <url>app/controller/Controller.php</url>
-            <bookmark id="15">
-                <name/>
-                <line>3132</line>
                 <key/>
             </bookmark>
         </file>
@@ -81,12 +68,14 @@
             </bookmark>
             <bookmark id="11">
                 <name/>
-                <line>767</line>
+                <line>766</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/view/ViewSistema.php</file>
+        </group>
     </open-files>
 </project-private>
