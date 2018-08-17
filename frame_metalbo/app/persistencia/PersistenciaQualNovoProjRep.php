@@ -53,6 +53,8 @@ class PersistenciaQualNovoProjRep extends Persistencia{
         }
         
         $this->adicionaOrderBy('nr',1);
+        
+        $this->setSTop(50);
        
     }
     

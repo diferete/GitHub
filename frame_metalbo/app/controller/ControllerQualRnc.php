@@ -125,7 +125,8 @@ class ControllerQualRnc extends Controller {
         $aCamposChave['id'] = $aDados[1];
 
         $aRet = $this->Persistencia->verificaFim($aCamposChave);
-        if ($aRet[0]) {
+        if ($aRet[1] == 'Aceita' || $aRet[1] == 'Recusada' & $aRet[0] != 'Finalizada') {
+
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
 
@@ -142,15 +143,15 @@ class ControllerQualRnc extends Controller {
             //renderiza a tela
             $this->View->getTela()->getRender();
         } else {
-            if ($aRet[1] == 'Finalizada') {
+            if ($aRet[0] == 'Finalizada') {
                 $oMens = new Modal('Atenção...  A reclamação já foi finalizada!', '', Modal::TIPO_AVISO, false, true, false);
                 echo $oMens->getRender();
                 echo'$("#' . $aDados[1] . '-btn").click();';
-            } if ($aRet[1] == 'Aguardando') {
+            } if ($aRet[0] == 'Aguardando') {
                 $oMens = new Modal('Atenção... A reclamação ainda não foi liberada para Metalbo, favor efetuar a liberação da mesma para proseguir com a análise!', '', Modal::TIPO_AVISO, false, true, false);
                 echo $oMens->getRender();
                 echo'$("#' . $aDados[1] . '-btn").click();';
-            } if($aRet[2] == 'Em análise') {
+            } if ($aRet[1] == 'Em análise' || $aRet[0] == 'Liberado') {
                 $oMens = new Modal('Atenção... A reclamação não está em condições de ser finalizada, aguarde!', '', Modal::TIPO_AVISO, false, true, false);
                 echo $oMens->getRender();
                 echo'$("#' . $aDados[1] . '-btn").click();';
@@ -188,8 +189,8 @@ class ControllerQualRnc extends Controller {
         $sClasse = $this->getNomeClasse();
 
         $aRet = $this->Persistencia->verificaFim($aCamposChave);
-        
-        if ($aRet[1] != 'Aguardando') {
+
+        if ($aRet[0] != 'Aguardando') {
             $oMensagem = new Modal('Atenção...  A reclamação já foi liberada para a Metalbo!', '', Modal::TIPO_AVISO, false, true, false);
             echo $oMensagem->getRender();
             echo'$("#' . $aDados[1] . '-btn").click();';

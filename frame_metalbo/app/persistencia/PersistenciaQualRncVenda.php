@@ -75,7 +75,7 @@ class PersistenciaQualRncVenda extends Persistencia {
         $sSql = "select count(*)as total from tbrncqual 
                 where  filcgc ='" . $aDados['filcgc'] . "' 
                 and nr = " . $aDados['nr'] . "
-                and situaca = 'Finalizado'";
+                and situaca = 'Finalizada'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $aret = array();
@@ -213,8 +213,8 @@ class PersistenciaQualRncVenda extends Persistencia {
             $aRetorno[0] = false;
         } else {
             $sSql = "update tbrncqual"
-                    . " set devolucao ='Recusada'"
-                    . " reprovar = true"
+                    . " set devolucao ='Recusada',"
+                    . " reprovar = 'true'"
                     . " where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
         }

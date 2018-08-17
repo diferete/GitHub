@@ -45,7 +45,7 @@ class Grid {
     private $bUsaKeypress;
     private $bMostraFiltro;
     private $aModal;
-    
+    private $sWhereInicial;
     /**
      * Construtor da classe Grid 
      * @param string $sTelaGrande Define o valor para telas de notebook e pc valores 1 ao 12
@@ -78,6 +78,15 @@ class Grid {
         
     }
     
+    function getSWhereInicial() {
+        return $this->sWhereInicial;
+    }
+
+    function setSWhereInicial($sWhereInicial) {
+        $this->sWhereInicial = $sWhereInicial;
+    }
+
+        
      /**
      * Adiciona um botão ao vetor de botões do objeto
      * 
@@ -567,7 +576,7 @@ class Grid {
         }
         if (!empty($this->aFiltro)) {
             $sFiltro = ' <div class="row" id="' . $this->getSId() . '-filtros" style="'.$this->getBMostraFiltro().' background-color: whitesmoke">'
-                    . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 15px 15px 15px 50px;  background-color: #f3f7fa;  border: 1px solid #eee">'
+                    . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 15px 15px 15px 50px;  background-color: #e6e9ea;  border: 1px solid #eee">'
                     . '<div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">'//ribbon ribbon-clip ribbon-reverse ribbon-primary
                     . '<a href="javascript:void(0)" id ="' . $this->getSId() . '-pesq">'
                     . '<span class="ribbon-inner" >'
@@ -640,6 +649,9 @@ class Grid {
             $aFiltro = explode(',', $value);
             $oDados->Persistencia->adicionaFiltro($aFiltro[0], $aFiltro[1]);
         }
+        //adiciona where manual se caso seja necessário
+        $oDados->Persistencia->setSWhereManual($this->getSWhereInicial());
+        
         $aDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo());
 
         $sGrid .= '</tr></thead>';
@@ -765,6 +777,7 @@ class Grid {
             
         //monta evento setas no teclado
         $sSetas =  '$("#' . $this->getSId() . ' tbody tr" ).keydown(function(e) { '
+                                 // .'alert("entrou");'
                                   .'if(e.which == 40) {   '
                                   .'     $(this).removeClass("selected"); '
                                   .'     $(this).next().focus(); '

@@ -11,8 +11,10 @@ class ViewQualNovoProjRep extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setBGridResponsivo(false);
-        $this->setBScrollInf(true);
+        //$this->getTela()->setBGridResponsivo(false);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
+
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
 
@@ -401,6 +403,7 @@ class ViewQualNovoProjRep extends View {
         $oPrazo->setBCampoBloqueado(true);
 
         $oObsAprov = new campo('Obs. aprovação', 'obsaprovcli', Campo::TIPO_TEXTAREA, 12);
+        $oObsAprov->addValidacao(false, Validacao::TIPO_STRING, 'É necessário informar este campo!', '10');
 
         $oBtnInserir = new Campo('Apontar aprovação', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
@@ -412,7 +415,10 @@ class ViewQualNovoProjRep extends View {
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, array($oAcaba, $oQuant, $oLoteMin), array($oPesoCt, $oPreco, $oPrazo), $oObsAprov, array($oBtnInserir, $oFilcgc, $oNr));
+        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, 
+                array($oAcaba, $oQuant, $oLoteMin), 
+                array($oPesoCt, $oPreco, $oPrazo), $oObsAprov, 
+                array($oBtnInserir, $oFilcgc, $oNr));
     }
 
     /**
@@ -469,7 +475,8 @@ class ViewQualNovoProjRep extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
 
-        $this->addCampos($oNr, array($oEmpcod, $oEmpdes), array($oProduto, $oAcaba, $oQuant), $oFilcgc, $oObsRep, $oBtnInserir);
+        $this->addCampos($oNr, array($oEmpcod, $oEmpdes), 
+                array($oProduto, $oAcaba, $oQuant), $oFilcgc, $oObsRep, $oBtnInserir);
     }
 
 }

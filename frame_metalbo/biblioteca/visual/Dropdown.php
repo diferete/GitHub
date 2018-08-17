@@ -198,7 +198,7 @@ class Dropdown {
      * @param string $sMetodo Método da classe assumida para ser executado
      * @param string $sParametro Parametros adicionais se necessários
      */
-    public function addItemDropdown($sLabelAcao, $sClasse, $sMetodo, $sParametro, $bHiden, $sParamAdicional, $bNewAba, $sNomeModal, $bModal, $sTitulo, $bMultiSelect) {
+    public function addItemDropdown($sLabelAcao, $sClasse, $sMetodo, $sParametro, $bHiden, $sParamAdicional, $bNewAba, $sNomeModal, $bModal, $sTitulo, $bMultiSelect,$bSel) {
         $aItem['label'] = $sLabelAcao;
         $aItem['classe'] = $sClasse;
         $aItem['metodo'] = $sMetodo;
@@ -215,6 +215,7 @@ class Dropdown {
         $aItem['modal'] = $sModal;
         $aItem['titulo'] = $sTitulo;
         $aItem['bMultiSelect'] = $bMultiSelect;
+        $aItem['$bSel']=$bSel;
         $this->aItensDropdown[] = $aItem;
     }
 
@@ -301,7 +302,7 @@ class Dropdown {
                     $sHiden = '';
                 };
                 $sDropdown .= '<li id="' . $aItem['id'] . '" role="presentation" ><a href="#" role="menuitem" ' . $aItem['modal'] . '> ' . $aItem['label'] . '</a></li>';  //data-target="#examplePositionCenter" data-toggle="modal"
-
+                if(!$aItem['$bSel']){
                 $sAcao .= '$("#' . $aItem['id'] . '").click(function(){ '
                         . 'var nrEach = $("#' . $sIdTela . 'consulta tbody .selected").length;'
                         . 'if(nrEach==0){requestAjax("","' . $aItem['classe'] . '","msgReg",abaSelecionada +"control,' . $sIdTela . ',' . $aItem['paramadicional'] . '");}else{'
@@ -310,11 +311,17 @@ class Dropdown {
                         . 'var chave="";'
                         . '$("#' . $sIdTela . 'consulta tbody .selected").each(function(){'
                         . 'chave = $(this).find(".chave").html();';
-
-
-
-
                 $sAcao .= '});';
+                }else{
+                 $sAcao .= '$("#' . $aItem['id'] . '").click(function(){ '
+                        . 'var nrEach = $("#' . $sIdTela . 'consulta tbody .selected").length;'
+                        . 'var contP = 0;'
+                        . 'var contChave=[];'
+                        . 'var chave="";'
+                        . '$("#' . $sIdTela . 'consulta tbody .selected").each(function(){'
+                        . 'chave = $(this).find(".chave").html();';
+                 $sAcao .= '});';   
+                }
 
                 //monta a chave com as linhas selecionadas
                 $sAcao .= '$("#' . $sIdTela . 'consulta tbody .selected").each(function(){'
@@ -328,7 +335,7 @@ class Dropdown {
                     $sAcao .= 'requestAjax("","' . $aItem['classe'] . '","' . $aItem['metodo'] . '","' . $sIdTela . ',' . $aItem['id'] . ',"+chave,"' . $aItem['paramadicional'] . '");';
                 }
                 if ($aItem['newaba']) {
-                    $sAcao .= 'verificaTab("menu-2-est","1-est","' . $aItem['classe'] . '","' . $aItem['metodo'] . '","tabmenu-2-est","' . $aItem['titulo'] . '",chave+","+"' . $aItem['paramadicional'] . '");';
+                    $sAcao .= 'verificaTab("menu-3-'.$aItem['metodo'].'","1-est","' . $aItem['classe'] . '","' . $aItem['metodo'] . '","tabmenu-3-'.$aItem['metodo'].'","' . $aItem['titulo'] . '",chave+","+"' . $aItem['paramadicional'] . '");';
                 }
                 if ($aItem['bMultiSelect']) {
                     $sAcao .= 'requestAjax("","' . $aItem['classe'] . '","' . $aItem['metodo'] . '",abaSelecionada +"control,' . $sIdTela . ',"+chave,contChave);';
@@ -340,7 +347,11 @@ class Dropdown {
 
 
                 $sAcao .= $sHiden;
-                $sAcao .= '}});';
+                 if(!$aItem['$bSel']){
+                   $sAcao .= '}});';
+                 }else{
+                    $sAcao .= '});'; 
+                 }
             }
         }
         $sDropdown .= '</ul>'

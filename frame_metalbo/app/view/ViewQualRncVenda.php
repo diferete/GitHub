@@ -12,7 +12,7 @@ class ViewQualRncVenda extends View {
         $this->getTela()->setBGridResponsivo(true);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
-    
+
         $oCliente = new CampoConsulta('Cliente', 'empdes', CampoConsulta::TIPO_LARGURA);
 
         $oUser = new CampoConsulta('Usuário', 'usunome', CampoConsulta::TIPO_LARGURA);
@@ -28,6 +28,7 @@ class ViewQualRncVenda extends View {
         $oSit->addComparacao('Env.Emb', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
         $oSit->addComparacao('Env.Qual', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
         $oSit->addComparacao('Apontada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA);
+        $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
         $oSit->setBComparacaoColuna(true);
 
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_LARGURA);
@@ -211,7 +212,7 @@ class ViewQualRncVenda extends View {
         $oCodigo->setSCampoRetorno('procod', $this->getTela()->getId());
         $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
 
-        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oAplicacao->setSCorFundo(Campo::FUNDO_VERMELHO);
 
         $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_TEXTO, 1, 1, 12, 12);

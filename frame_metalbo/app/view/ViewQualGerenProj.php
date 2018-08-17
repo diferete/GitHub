@@ -11,7 +11,8 @@ class ViewQualGerenProj extends View {
         $this->setUsaAcaoAlterar(FALSE);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(false);
-        $this->setBScrollInf(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(20);

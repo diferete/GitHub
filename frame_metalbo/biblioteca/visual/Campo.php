@@ -127,6 +127,7 @@ class Campo {
     const FUNDO_AZUL = 'fundo_azul';
     const FUNDO_VERDE = 'fundo_verde';
     const FUNDO_MONEY = 'fundo_money';
+    const FUNDO_VERMELHO = 'fundo_vermeho';
     
     const BUTTON_WARNING = 'btn-warning';
     const BUTTON_SUCCESS = 'btn-success';
@@ -1863,9 +1864,11 @@ class Campo {
                    
                 $sCampo .= '</div>'
                            .'</select>'
-                           .'</div>  '
-                           .$this->getRenderEventos()
-                          .'</div>';
+                           .'</div>'
+                        .'<script>'
+                               .$sTrigger
+                          .'</script> '
+                           . '</div>  ';
                 break;
                 
                 

@@ -14,7 +14,8 @@ class ViewQualNovoProjVenda extends View {
 
 
         $this->getTela()->setBGridResponsivo(false);
-        $this->setBScrollInf(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
 

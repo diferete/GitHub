@@ -21,6 +21,7 @@ class CampoConsulta {
     private $sTitleAcao;
     private $aAcao;
     private $bHideTelaAcao;
+    private $sTipoBotao;
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -66,6 +67,10 @@ class CampoConsulta {
     const COL_BLACK = 'tr-bk-black';
     const COL_MARROM = 'tr-bk-marrom';
     
+    //ícone campos consulta acao
+    const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
+    const ICONE_FLAG ='btn-xs btn btn-pure btn-dark icon wb-flag';
+    
     
 
     /**
@@ -73,16 +78,17 @@ class CampoConsulta {
      *  @param string $sLabel Label do campo
      *  @param string $sNome Nome campo
      *  @param string $Tipo Define o tipo do campo
-     *  @param integer $iLargura Define a largura do campo
+     *  @param integer $IconeBotao Ícone ação
      *  
      */
-    function __construct($sLabel, $sNome, $Tipo = self::TIPO_TEXTO) {
+    function __construct($sLabel, $sNome, $Tipo = self::TIPO_TEXTO, $IconeBotao = self::ICONE_OK) {
         $this->sLabel = $sLabel;
         $this->sNome = $sNome;
         $this->aComparacao = array();
         $this->bComparacaoColuna = false;
         $this->Tipo = $Tipo;
         $this->setBCampoIcone(false);
+        $this->sTipoBotao = $IconeBotao;
 
         if ($this->Tipo == 9) {
             $this->setBCampoIcone(true);
@@ -112,7 +118,16 @@ class CampoConsulta {
         $this->aAcao['metodo'] = $sMetodo;
         $this->aAcao['modalNome'] = $sTitulo;    
     }
+    
+    function getSTipoBotao() {
+        return $this->sTipoBotao;
+    }
 
+    function setSTipoBotao($sTipoBotao) {
+        $this->sTipoBotao = $sTipoBotao;
+    }
+
+    
     function getAAcao() {
         return $this->aAcao;
     }
@@ -369,7 +384,7 @@ class CampoConsulta {
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn-xs btn-pure btn-primary icon wb-thumb-up" data-target="#'.$this->aAcao['modalNome'].'" data-toggle="modal"></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="'. $this->getSTipoBotao().'" data-target="#'.$this->aAcao['modalNome'].'" data-toggle="modal"></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         .'$("#tabmenusuperior li").each(function(){'
                         .'if($(this).hasClass( "active" )){'

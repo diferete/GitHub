@@ -105,7 +105,6 @@ class ControllerQualRncVenda extends Controller {
         } else {
             if ($aRetorno[0] == 'Apontada') {
                 $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' ja foi apontada!', Modal::TIPO_AVISO, false, true, true);
-                
             } else {
                 $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' ja teve seu e-mail encaminhado para o seu setor responsável, deseja reenviar o e-mail?', Modal::TIPO_INFO, true, true, true);
                 $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
@@ -194,27 +193,32 @@ class ControllerQualRncVenda extends Controller {
 
         // Para
         if ($aRet[0] != $sParam) {
-            $oMensagem = new Modal('Ops!', 'Parece que você selecionou um setor diferente de para onde esse e-mail foi enviado, tente novamente :)', Modal::TIPO_AVISO, false, true, true);
-            echo $oMensagem->getRender();
+            $oMensagem2 = new Modal('Ops!', 'Parece que você selecionou um setor diferente de para onde esse e-mail foi enviado, tente novamente :)', Modal::TIPO_AVISO, false, true, true);
+            echo $oMensagem2->getRender();
         } else {
-            if ($aRet[0] == 'Env.Qual') {
-                $oEmail->addDestinatario('alexandre@metalbo.com.br');
-            }
-            if ($aRet[0] == 'Env.Emb') {
-                $oEmail->addDestinatario('alexandre@metalbo.com.br');
-            }
-            if ($aRet[0] == 'Env.Exp') {
-                $oEmail->addDestinatario('alexandre@metalbo.com.br');
-            }
-
-            $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RNC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc']));
-            $aRetorno = $oEmail->sendEmail();
-            if ($aRetorno[0]) {
-                $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado com sucesso para o setor responsável!', Mensagem::TIPO_SUCESSO);
-                echo $oMensagem->getRender();
+            if ($aRet[0] == 'Aguardando') {
+                $oMensagem3 = new Modal('Ops!', 'A RNC não foi liberada pelo representante, aguarde a liberação ou solicite para o mesmo.', Modal::TIPO_AVISO, false, true, true);
+                echo $oMensagem3->getRender();
             } else {
-                $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
-                echo $oMensagem->getRender();
+                if ($aRet[0] == 'Env.Qual') {
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                }
+                if ($aRet[0] == 'Env.Emb') {
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                }
+                if ($aRet[0] == 'Env.Exp') {
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                }
+
+                $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RNC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc']));
+                $aRetorno = $oEmail->sendEmail();
+                if ($aRetorno[0]) {
+                    $oMensagem4 = new Mensagem('E-mail', 'Um e-mail foi enviado com sucesso para o setor responsável!', Mensagem::TIPO_SUCESSO);
+                    echo $oMensagem4->getRender();
+                } else {
+                    $oMensagem5 = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+                    echo $oMensagem5->getRender();
+                }
             }
         }
     }

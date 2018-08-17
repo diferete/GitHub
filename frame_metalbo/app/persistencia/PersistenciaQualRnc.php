@@ -87,24 +87,16 @@ class PersistenciaQualRnc extends Persistencia {
     }
 
     public function verificaFim($aDados) {
-        $sSql = "select devolucao,situaca, count(*)as total"
+        $sSql = "select devolucao,situaca"
                 . " from tbrncqual "
                 . " where filcgc ='" . $aDados['filcgc'] . "'"
-                . " and nr = " . $aDados['nr'] . ""
-                . " and devolucao = 'Em análise'"
-                . " group by situaca,devolucao";
+                . " and nr = " . $aDados['nr'] . "";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $aret = array();
-        if ($oRow->total > 0) {
-            $aret[0] = false;
-            $aret[1] = $oRow->situaca;
-            $aret[2] = $oRow->devolucao;
-        } else {
-            $aret[0] = true;
-            $aret[1] = $oRow->situaca;
-            $aret[2] = $oRow->devolucao;
-        }
+        $aret[0] = $oRow->situaca;
+        $aret[1] = $oRow->devolucao;
+
         return $aret;
     }
 
@@ -116,7 +108,7 @@ class PersistenciaQualRnc extends Persistencia {
         $sHora = date('H:i');
         $sData = date('d/m/Y');
 
-        $sSql = "update tbrncqual set situaca = 'Finalizado',
+        $sSql = "update tbrncqual set situaca = 'Finalizada',
                 obs_fim ='" . $aDados['obs_fim'] . "',datafim='" . $sData . "',
                 horafim = '" . $sHora . "',usucod_fim = '" . $_SESSION['codUser'] . "',usunome_fim ='" . $_SESSION['nome'] . "'
                 where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
