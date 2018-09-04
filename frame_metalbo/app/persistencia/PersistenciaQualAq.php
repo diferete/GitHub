@@ -41,6 +41,8 @@ class PersistenciaQualAq extends Persistencia {
         $this->adicionaJoin('EmpRex');
 
         $this->adicionaOrderBy('nr', 1);
+        $this->setSTop(50);
+        
     }
 
     public function fechaAq($aDados) {

@@ -17,6 +17,8 @@ class PersistenciaFamProd extends Persistencia{
         $this->adicionaRelacionamento('famcod', 'famcod',true);
         $this->adicionaRelacionamento('famdes', 'famdes');
         
+        $this->setSTop(50);
+        
        // $this->adicionaJoin('GrupoProd',null, self::LEFT_JOIN,null,null,'');
         
        // $this->adicionaJoin('SubGrupoProd',null, self::LEFT_JOIN,NULL,NULL,' and widl.PROD04A.subcod = "SubGrupoProd".subcod');

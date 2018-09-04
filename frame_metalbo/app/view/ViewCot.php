@@ -11,7 +11,7 @@ class ViewCot extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setILarguraGrid(1200);
+        
 
         $oNr = new CampoConsulta('Cotação', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(50);
@@ -69,7 +69,8 @@ class ViewCot extends View {
         $this->addFiltro($oFilSolNr, $oFilCliente, $oFilCnpj, $oFilData);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoVisualizar(true);
-        $this->setBScrollInf(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
     }
 
     public function criaTela() {

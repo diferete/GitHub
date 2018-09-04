@@ -415,6 +415,7 @@ class ViewQualGerenProj extends View {
 
         $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
+        
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relProjXls");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 

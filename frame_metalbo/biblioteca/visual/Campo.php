@@ -1791,7 +1791,7 @@ class Campo {
                  break;
             
             case self::CAMPO_SELECT:
-                  $sCampo ='<div style="margin-top:8px;" class="campo-form col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'">'
+                  $sCampo ='<div style="margin-top:'.$this->getIMarginTop().'px;" class="campo-form col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().' col-xs-'.$this->getSTelaMuitoPequena().'">'
                            .'<div class="input-group" id="'.$this->getId().'-group">'
                            .'<label for="'.$this->getId().'">'.$this->getLabel().':</label>'   
                            .'<select name="'.$this->getNome().'" class="form-control" id="'.$this->getId().'" '.$this->verficaCampoBloqueado($this->getBCampoBloqueado()).'>';

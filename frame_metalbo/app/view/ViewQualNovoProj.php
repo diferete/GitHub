@@ -352,16 +352,6 @@ class ViewQualNovoProj extends View {
         $oCustoCento->setSCorFundo(Campo::FUNDO_VERDE);
         $oCustoCento->setBCampoBloqueado(true);
 
-
-        $oLinha2 = new Campo('', 'linha2', Campo::TIPO_LINHA, 12);
-        $oLinha2->setApenasTela(true);
-
-
-        $oFiledCusto = new FieldSet('Análise e estimativa de custo');
-        $oFiledCusto->setOculto(true);
-        $oFiledCusto->addCampos(array($oLabel1, $oLabel2), array($oLabel3, $oVlrDesenProj), array($oLabel4, $oVlrFerra), array($oLabel5, $ovlrMatPrima), array($oLabel6, $ovlrAcabSuper), array($oLabel7, $ovlrTratTer), array($oLabel8, $ovlrCustProd), $oLinha2, array($oLabel9, $oCustTotal), array($oLabel20, $oCustoCento));
-
-
         $oQuantSolCli = new Campo('Quant.Sol.Cli.', 'quant_pc', Campo::TIPO_TEXTO, 1);
         $oQuantSolCli->setBCampoBloqueado(true);
 
@@ -370,16 +360,24 @@ class ViewQualNovoProj extends View {
 
 
         $oPeso = new Campo('Peso/cento/Kg', 'pesoct', Campo::TIPO_TEXTO, 1);
+
         $oObsGeral = new Campo('Observação projetos/Motivo reprovação', 'obs_geral', Campo::TIPO_TEXTAREA, 12);
+
+
+        $oLinha2 = new Campo('', 'linha2', Campo::TIPO_LINHA, 12);
+        $oLinha2->setApenasTela(true);
+
+        $oLinha3 = new Campo('', 'linha3', Campo::TIPO_LINHA, 12);
+        $oLinha3->setApenasTela(true);
+
+        $oFiledCusto = new FieldSet('Análise econômica');
+        $oFiledCusto->setOculto(true);
+        $oFiledCusto->addCampos(
+                array($oLabel1, $oLabel2), array($oLabel3, $oVlrDesenProj), array($oLabel4, $oVlrFerra), array($oLabel5, $ovlrMatPrima), array($oLabel6, $ovlrAcabSuper), array($oLabel7, $ovlrTratTer), array($oLabel8, $ovlrCustProd), $oLinha2, array($oLabel9, $oCustTotal), array($oLabel20, $oCustoCento), $oLinha3, array($oQuantSolCli, $oLoteMin, $oPeso), $oObsGeral);
+
 
         $oFiledVendal = new FieldSet('Definições comerciais finais');
         $oFiledVendal->setOculto(true);
-
-
-        $oFieldFinalProj = new FieldSet('Análise final projetos');
-        $oFieldFinalProj->addCampos($oObsGeral, array($oQuantSolCli, $oLoteMin, $oPeso));
-        $oFieldFinalProj->setOculto(true);
-
 
         $oPrecoFinal = new campo('Preço Final', 'precofinal', Campo::TIPO_TEXTO, 1);
         $oPrecoFinal->setSCorFundo(Campo::FUNDO_MONEY);
@@ -478,7 +476,7 @@ class ViewQualNovoProj extends View {
 
 
 
-        $this->addCampos($oFieldInf, $oNr, array($oRespProj, $oRespProjNome, $oRespVenda, $oRespVendaNome), array($oEmpcod, $oEmpdes, $oEmail), array($oDescProd, $oAcaba, $oQuant), $oRepLibObs, $oFieldAnexo, $oFieldOperacao, $oFiledCusto, $oFieldFinalProj, $oFiledVendal, array($oDataEnvProp, $oHoraEnv, $oUserEnvPropv, $oDtaprovaProj, $oHoraAprovProj, $oUseraprovproj,
+        $this->addCampos($oFieldInf, $oNr, array($oRespProj, $oRespProjNome, $oRespVenda, $oRespVendaNome), array($oEmpcod, $oEmpdes, $oEmail), array($oDescProd, $oAcaba, $oQuant), $oRepLibObs, $oFieldAnexo, $oFieldOperacao, $oFiledCusto, /* $oFieldFinalProj, */ $oFiledVendal, array($oDataEnvProp, $oHoraEnv, $oUserEnvPropv, $oDtaprovaProj, $oHoraAprovProj, $oUseraprovproj,
             $oDtareprovcli, $oHorareprovcli, $oUserreprovcli, $oObsreprovcli));
     }
 

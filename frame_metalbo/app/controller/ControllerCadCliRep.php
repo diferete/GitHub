@@ -125,6 +125,12 @@ class ControllerCadCliRep extends Controller {
     public function antesDeCriarTela($sParametros = null) {
         parent::antesDeCriarTela($sParametros);
 
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
+
         $aDados = $this->Persistencia->buscaRespEscritório($sDados);
         $this->View->setAParametrosExtras($aDados);
     }
@@ -138,6 +144,18 @@ class ControllerCadCliRep extends Controller {
             } else {
                 exit;
             }
+        } else {
+            exit;
+        }
+    }
+
+    public function getRespVenda($sDados) {
+        $aDados = explode(',', $sDados);
+        if ($sDados != '') {
+            $aRet = $this->Persistencia->buscaRespVenda($aDados[0]);
+            echo '$("#' . $aDados[1] . '").val("' . $aRet[0] . '");';
+            echo '$("#' . $aDados[2] . '").val("' . $aRet[1] . '");';
+            exit;
         } else {
             exit;
         }

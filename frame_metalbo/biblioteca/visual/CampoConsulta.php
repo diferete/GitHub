@@ -22,6 +22,8 @@ class CampoConsulta {
     private $aAcao;
     private $bHideTelaAcao;
     private $sTipoBotao;
+    private $bOrderBy;
+   
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -36,6 +38,7 @@ class CampoConsulta {
     const TIPO_EXCLUIR = 10;
     const TIPO_FINALIZAR =11;
     const TIPO_MODAL = 12;
+    const TIPO_EDIT = 13;
     
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
@@ -119,6 +122,15 @@ class CampoConsulta {
         $this->aAcao['modalNome'] = $sTitulo;    
     }
     
+    function getBOrderBy() {
+        return $this->bOrderBy;
+    }
+
+    function setBOrderBy($bOrderBy) {
+        $this->bOrderBy = $bOrderBy;
+    }
+
+        
     function getSTipoBotao() {
         return $this->sTipoBotao;
     }
@@ -273,7 +285,7 @@ class CampoConsulta {
     /**
      * Retorna o render do campo consulta
      */
-    public function getRender($sClasse, $xValor) {
+    public function getRender($sClasse, $xValor,$sParam=null) {
         switch ($this->Tipo) {
             case self::TIPO_TEXTO:
                 $xValor = str_replace("\n", " ", $xValor);
@@ -379,7 +391,7 @@ class CampoConsulta {
                 break;
                 
             case self:: TIPO_MODAL:
-                 $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
@@ -400,6 +412,58 @@ class CampoConsulta {
 
                 break;
                 
+                case self::TIPO_EDIT:
+                    
+                $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+                $sIdInput = Base::getId();
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" value="' . $xValor . '" id="'.$sIdInput.'"/></td>';
+                $sCampo .='<script>'
+                        .'var vlrInput;'
+                        .'$("#'.$sIdInput.'").focusin(function(e) {'
+                        .'vlrInput = $("#'.$sIdInput.'").val(); console.log(vlrInput);'
+                        .'});'   
+                        .' $("#'.$sIdInput.'").blur(function(e) { '
+                            .'$("#tabmenusuperior li").each(function(){'
+                            .'if($(this).hasClass( "active" )){'
+                            . 'abaSelecionada=$(this).attr("id");}'
+                            .'     }); '
+                            . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();'
+                            . 'var idTela = $("#"+abaSelecionada+"paramTela").text();'
+                            .'var valorCampo = $("#'.$sIdInput.'").val();'
+                            .'if(vlrInput!=valorCampo){'
+                                .'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+","+valorCampo+",'.$sParam.'"+idTela+"");'
+                            .'}'
+                        .'});'
+                        
+                            
+                        .' $("#'.$sIdInput.'").keydown(function(e) { '
+                        .'if(e.which == 40) {'
+                        . 'var next_index = $("input[type=text]").index(this) + 1; '
+                        . 'var atual_index = $("input[type=text]").index(this); '
+                        
+                        . '$("input[type=text]:eq(" + next_index + ")").focus();  '
+                        
+                        . '$("input[type=text]:eq(" + atual_index + ")").parent("td").parent("tr").removeClass("selected");'
+                        . '$("input[type=text]:eq(" + next_index + ")").parent("td").parent("tr").addClass("selected");'
+                        
+                        . '}'
+                        . 'else if(e.which == 38)'
+                        .'{var next_index = $("input[type=text]").index(this) - 1; '
+                        . 'var atual_index = $("input[type=text]").index(this); '
+                        
+                        . '$("input[type=text]:eq(" + next_index + ")").focus();  '
+                       
+                        . '$("input[type=text]:eq(" + atual_index + ")").parent("td").parent("tr").removeClass("selected");'
+                        . '$("input[type=text]:eq(" + next_index + ")").parent("td").parent("tr").addClass("selected");'
+                        
+                        . '}'
+                    
+                        .'});'
+                       
+                        .'</script>';
+                break;
                
         }
 

@@ -60,6 +60,8 @@ class PersistenciaCadCliRep extends Persistencia {
             $this->adicionaFiltro('officecod', $_SESSION['repoffice']);
         }
         $this->adicionaOrderBy('nr', 1);
+
+        $this->setSTop(50);
     }
 
     //executa a liberação para projetos
@@ -131,7 +133,7 @@ class PersistenciaCadCliRep extends Persistencia {
     public function buscaCNPJ($sDados) {
         $sSql = "select  COUNT(*) as total"
                 . " from widl.emp01"
-                . " where empcnpj='".$sDados."'";
+                . " where empcnpj='" . $sDados . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
 
@@ -142,6 +144,19 @@ class PersistenciaCadCliRep extends Persistencia {
             $sRetorno = true;
         }
         return $sRetorno;
+    }
+
+    public function buscaRespVenda($sDados) {
+        $sSql = "select resp_venda_cod,resp_venda_nome"
+                . " from tbrepcodoffice"
+                . " where repcod = '" . $sDados . "'";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+
+        $aRetorno[0] = $oRow->resp_venda_cod;
+        $aRetorno[1] = $oRow->resp_venda_nome;
+
+        return $aRetorno;
     }
 
 }

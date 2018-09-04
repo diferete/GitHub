@@ -15,7 +15,7 @@ class ViewQualAq extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setIAltura(450);
+        $this->getTela()->setIAltura(400);
         $this->getTela()->setBGridResponsivo(false);
 
         $oTitulo = new CampoConsulta('Título', 'titulo', CampoConsulta::TIPO_LARGURA, 300);
@@ -94,15 +94,12 @@ class ViewQualAq extends View {
 
 
         $this->addFiltro($oFilNr, $oFilTit, $oTipoAcaoFiltro, $oOrigemFiltro, $oTipoMelFiltro, $oSitFiltro, $oFilEmp);
-
-        $this->setUsaAcaoExcluir(false);
-
+      
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Ação e Eficácia', Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Finalizar plano de ação', 'QualAqApont', 'acaoMostraTelaApontdiv', '', true, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir avaliação da eficácia', 'QualAqEficaz', 'acaoMostraTelaApontdiv', '', true, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Apontar avaliação da eficácia', 'QualAqEficazApont', 'acaoMostraTelaApontdiv', '', true, '');
-
 
         $oDrop3 = new Dropdown('Movimentação', Dropdown::TIPO_DARK);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Iniciar ação da qualidade', 'QualAq', 'startAq', '', false, '');
@@ -119,7 +116,9 @@ class ViewQualAq extends View {
 
         $this->addCampos($oNr, $oSit, $oTitulo, $oDataFim, $oTipoAcao, $oOrigem, $oTipoMel, $oFilcgc);
 
-        // $this->setBScrollInf(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
+        $this->setUsaAcaoExcluir(false);
     }
 
     public function criaTela() {

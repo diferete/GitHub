@@ -57,6 +57,7 @@ class PersistenciaCadCliRepRec extends Persistencia {
 
 
         $this->adicionaOrderBy('nr', 1);
+        $this->setSTop(50);
     }
 
     //executa a liberação para projetos

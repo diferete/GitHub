@@ -11,7 +11,7 @@ class ViewCadCliRep extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        
+
         $oNr = new CampoConsulta('Nr.Cadastro', 'nr');
         $oNr->setILargura(5);
         $oEmpcod = new CampoConsulta('Cnpj', 'empcod');
@@ -21,7 +21,7 @@ class ViewCadCliRep extends View {
         $oDataCad = new CampoConsulta('Data Cadastro', 'empdtcad', CampoConsulta::TIPO_DATA);
         $oDataCad->setILargura(30);
         $oEmpusu = new CampoConsulta('Usuário', 'empusucad');
-        
+
         $oSituaca = new CampoConsulta('Situação', 'situaca');
         $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
         $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
@@ -43,11 +43,16 @@ class ViewCadCliRep extends View {
         $this->addCampos($oNr, $oEmpcod, $oEmpDes, $oDataCad, $oEmpusu, $oSituaca);
 
         $this->setUsaAcaoExcluir(false);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
     }
 
     public function criaTela() {
         parent::criaTela();
+
         $aDadosTela = $this->getAParametrosExtras();
+        $oDadosRep = $this->getOObjTela();
+
         $oFieldInf = new FieldSet('Informações');
         $oFieldInf->setOculto(true);
 
@@ -73,6 +78,7 @@ class ViewCadCliRep extends View {
         $oOfficecod = new Campo('...', 'officecod', Campo::TIPO_TEXTO, 1, 1, 2, 2);
         $oOfficecod->setSValor($_SESSION['repoffice']);
         $oOfficecod->setBCampoBloqueado(true);
+
         $oOfficedes = new Campo('Escritório', 'officedes', Campo::TIPO_TEXTO, 3, 3, 10, 10);
         $oOfficedes->setSValor($_SESSION['repofficedes']);
         $oOfficedes->setBCampoBloqueado(true);
@@ -90,31 +96,16 @@ class ViewCadCliRep extends View {
 
         $oFieldInf->addCampos(array($oNr, $oEmpAtivo, $oEmpData, $oUsuCodigo, $oUsuEmpCad), array($oOfficecod, $oOfficedes, $oSit, $oDtLib, $oHoraLib));
 
-        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 6, 6);
-        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-        $oRespVenda->setSValor($aDadosTela[0]);
-
-        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_BUSCADOBANCO, 4, 4, 7, 7);
-        $oRespVendaNome->setSIdPk($oRespVenda->getId());
-        $oRespVendaNome->setClasseBusca('User');
-        $oRespVendaNome->addCampoBusca('usucodigo', '', '');
-        $oRespVendaNome->addCampoBusca('usunome', '', '');
-        $oRespVendaNome->setSIdTela($this->getTela()->getid());
-        $oRespVendaNome->setSValor($aDadosTela[1]);
-
-        $oRespVenda->setClasseBusca('User');
-        $oRespVenda->setSCampoRetorno('usucodigo', $this->getTela()->getId());
-        $oRespVenda->addCampoBusca('usunome', $oRespVendaNome->getId(), $this->getTela()->getId());
-
         $oEmpcod = new campo('Cnpj *(Somente N°)', 'empcod', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpcod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '11', '14');
         $oEmpcod->setBFocus(true);
-        
-        $sAcaoExit = 'buscaCNPJ($("#' . $oEmpcod->getId() . '").val(),"'.$this->getController().'")';
-        
+
+        $sAcaoExit = 'buscaCNPJ($("#' . $oEmpcod->getId() . '").val(),'
+                . '"' . $this->getController() . '")';
+
         $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        
+
         $oEmpDes = new campo('Razão social', 'empdes', Campo::TIPO_TEXTO, 7, 7, 12, 12);
         $oEmpDes->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpDes->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '45');
@@ -152,11 +143,12 @@ class ViewCadCliRep extends View {
         $oCarteira = new Campo('Carteira', 'empcobcar', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oCarteira->addItemSelect('2', 'SIMPLES');
         $oCarteira->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório');
-        
-        $oComer = new campo('Cliente','comer', Campo::TIPO_CHECK,1);
+
+        $oComer = new campo('Cliente', 'comer', Campo::TIPO_CHECK, 1);
         $oComer->setIMarginTop(25);
         $oComer->setSValor(true);
-        $oTransp = new campo('Transportadora','transp', Campo::TIPO_CHECK,1);
+
+        $oTransp = new campo('Transportadora', 'transp', Campo::TIPO_CHECK, 1);
         $oTransp->setIMarginTop(25);
 
         $oFieldEnd = new FieldSet('Endereço');
@@ -170,7 +162,7 @@ class ViewCadCliRep extends View {
         $oEmpEnd->addValidacao(FALSE, Validacao::TIPO_STRING, 'Endereço inválido', '8', '45');
 
         $oEmpnr = new campo('Número', 'empnr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oEmpnr->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório', '0', '100');
+        $oEmpnr->addValidacao(FALSE, Validacao::TIPO_INTEIRO, 'Campo obrigatório', '0', '100');
         $oEmpnr->setSCorFundo(Campo::FUNDO_MONEY);
 
         $oMunicipio = new campo('Munícipio', 'empmunicipio', Campo::TIPO_TEXTO, 3, 3, 12, 12);
@@ -184,11 +176,12 @@ class ViewCadCliRep extends View {
         $oBairro = new campo('Bairro', 'empendbair', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oBairro->addValidacao(false, Validacao::TIPO_STRING, 'Bairro inválido', '2', '25');
         $oBairro->setSCorFundo(Campo::FUNDO_MONEY);
-        
 
         $sCallBack = 'cepBusca($("#' . $oCidCep->getId() . '").val(),'
-                . '"' . $oMunicipio->getId() . '","' . $oEmpEnd->getId() . '","' . $oUf->getId() . '","' . $oBairro->getId() . '")';
-
+                . '"' . $oMunicipio->getId() . '",'
+                . '"' . $oEmpEnd->getId() . '",'
+                . '"' . $oUf->getId() . '",'
+                . '"' . $oBairro->getId() . '")';
 
         $oCidCep->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
@@ -196,9 +189,23 @@ class ViewCadCliRep extends View {
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');
+        $oEmpIns->setIMarginTop(8);
 
-        $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oRep->addValidacao(false, Validacao::TIPO_INTEIRO, 'Representante inválido', '2', '15');
+        $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oRep->addItemSelect('', '');
+        foreach ($oDadosRep as $key => $oRepCodObj) {$oRep->addItemSelect($oRepCodObj->getRepcod(), $oRepCodObj->getRepcod());}
+        $oRep->addValidacao(false, Validacao::TIPO_STRING, 'Selecione código de representante', '3', '5');
+
+        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+
+        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+
+        $sAcaoRespVenda = 'buscaRespVenda($("#' . $oRep->getId() . '").val(),'
+                . '"' . $oRespVenda->getId() . '",'
+                . '"' . $oRespVendaNome->getId() . '",'
+                . '"' . $this->getController() . '")';
+
+        $oRep->addEvento(Campo::EVENTO_CHANGE, $sAcaoRespVenda);
 
         $oPagaSt = new campo('Paga ST ', 'pagast', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oPagaSt->addItemSelect('Não', 'Não');
@@ -219,11 +226,7 @@ class ViewCadCliRep extends View {
         $oEmpObs->setILinhasTextArea(5);
         $oEmpObs->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '1000');
 
-
-
-
-
-        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira,$oComer,$oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
+        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
     }
 
 }

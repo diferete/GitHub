@@ -20,6 +20,7 @@ class ControllerChamadoTi extends Controller {
         $oDados->setProbl(str_replace("\n", " ",$oDados->getProbl()));
         $oDados->setProbl(str_replace("'","\'",$oDados->getProbl()));   
         $oDados->setProbl(str_replace("\r", "",$oDados->getProbl()));
+        $oDados->setProbl(str_replace('"', '\"',$oDados->getProbl()));
         
         $sProblema = $oDados->getProbl(); 
         echo '$("#'.$aDados[2].'").val("'.$sProblema.'");';  

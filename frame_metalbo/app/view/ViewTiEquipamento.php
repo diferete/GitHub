@@ -15,7 +15,6 @@ class ViewTiEquipamento extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setILarguraGrid(1800);
 
 
         $oEquipCod = new CampoConsulta('Código', 'equipcod');
@@ -44,12 +43,6 @@ class ViewTiEquipamento extends View {
 
         $oIp = new CampoConsulta('Ip Fixo', 'ipfixo');
 
-
-        $this->setBScrollInf(true);
-
-        $this->setUsaAcaoExcluir(false);
-
-
         $this->addCampos($oEquipCod, $oTipoEquip, $oSetor, $oFabricante, $oModelo, $oSistema, $oHostname, $oUsuario, $oIp);
 
         $oFiltro1 = new Filtro($oSistema, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
@@ -69,7 +62,11 @@ class ViewTiEquipamento extends View {
 
 
         $this->addFiltro($oFilTipo, $oFilSetor, $oFiltro1, $oFilFab);
-        $this->setBScrollInf(true);
+
+        $this->setBScrollInf(FALSE);
+        $this->setUsaAcaoExcluir(false);
+        $this->getTela()->setBUsaCarrGrid(true);
+        $this->getTela()->setILarguraGrid(1800);
     }
 
     public function criaTela() {
@@ -203,28 +200,28 @@ class ViewTiEquipamento extends View {
         $oTipoEquip = new Campo('Equipamento', 'TiEquipamentoTipo.eqtipcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTipoEquip->setClasseBusca('TiEquipamentoTipo');
         $oTipoEquip->addCampoBusca('eqtipdescricao', null, $this->getTela()->getId());
-        
+
         $oSetorCod = new Campo('Setor', 'Setor.codsetor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSetorCod->setClasseBusca('Setor');
         $oSetorCod->addCampoBusca('descsetor', null, $this->getTela()->getId());
 
-        /*$oSistema = new Campo('Sistema Operacional', 'equipsistema', Campo::TIPO_SELECT, 4, 4, 12, 12);
-        $oSistema->addItemSelect('N/A', 'N/A');
-        $oSistema->addItemSelect('Windows Xp', 'Windows Xp');
-        $oSistema->addItemSelect('Windows 7', 'Windows 7');
-        $oSistema->addItemSelect('Windows 8', 'Windows 8');
-        $oSistema->addItemSelect('Windows 8.1', 'Windows 8.1');
-        $oSistema->addItemSelect('Windows 10', 'Windows 10');
-        $oSistema->addItemSelect('Linux', 'Linux');
-        $oSistema->addItemSelect('MacOS', 'MacOS');
-        $oSistema->addItemSelect('Windows Server 2003', 'Windows Server 2003');
-        $oSistema->addItemSelect('Windows Server 2008', 'Windows Server 2008');
-        $oSistema->addItemSelect('Windows Server 2012', 'Windows Server 2012');
-        $oSistema->addItemSelect('Windows Server 2016', 'Windows Server 2016');
+        /* $oSistema = new Campo('Sistema Operacional', 'equipsistema', Campo::TIPO_SELECT, 4, 4, 12, 12);
+          $oSistema->addItemSelect('N/A', 'N/A');
+          $oSistema->addItemSelect('Windows Xp', 'Windows Xp');
+          $oSistema->addItemSelect('Windows 7', 'Windows 7');
+          $oSistema->addItemSelect('Windows 8', 'Windows 8');
+          $oSistema->addItemSelect('Windows 8.1', 'Windows 8.1');
+          $oSistema->addItemSelect('Windows 10', 'Windows 10');
+          $oSistema->addItemSelect('Linux', 'Linux');
+          $oSistema->addItemSelect('MacOS', 'MacOS');
+          $oSistema->addItemSelect('Windows Server 2003', 'Windows Server 2003');
+          $oSistema->addItemSelect('Windows Server 2008', 'Windows Server 2008');
+          $oSistema->addItemSelect('Windows Server 2012', 'Windows Server 2012');
+          $oSistema->addItemSelect('Windows Server 2016', 'Windows Server 2016');
          * 
          */
 
-        $this->addCampos($oTipoEquip, $oSetorCod/*,oSistema*/);
+        $this->addCampos($oTipoEquip, $oSetorCod/* ,oSistema */);
     }
 
 }

@@ -185,7 +185,7 @@ class ControllerQualRncVenda extends Controller {
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
                         . '</table><br/><br/>'
                         . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
-                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>))'));
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 
         $oEmail->limpaDestinatariosAll();
 
@@ -202,12 +202,15 @@ class ControllerQualRncVenda extends Controller {
             } else {
                 if ($aRet[0] == 'Env.Qual') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                   //$oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('josiani@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RNC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc']));
@@ -243,6 +246,8 @@ class ControllerQualRncVenda extends Controller {
         } else {
             if ($sRet == 'Aguardando') {
                 $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            } if ($sRet == 'Finalizada') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
             } else {
                 $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi apontada pelo setor responsável pela análise, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
             }
@@ -339,7 +344,7 @@ class ControllerQualRncVenda extends Controller {
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
                         . '</table><br/><br/>'
                         . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
-                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>))'));
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 
         $oEmail->limpaDestinatariosAll();
 

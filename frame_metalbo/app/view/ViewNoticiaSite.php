@@ -8,40 +8,45 @@ class ViewNoticiaSite extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
-        $this->getTela()->setILarguraGrid(2000);
-        $this->getTela()->setBGridResponsivo(false);
+        
+        $this->getTela()->setBGridResponsivo(true);
 
         $this->setUsaDropdown(true);
         $oFeed = new Dropdown('Feed', Dropdown::TIPO_PRIMARY);
         $oFeed->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Publicar', 'NoticiaSite', 'getFeed', '', false, '');
 
         $oNr = new CampoConsulta('Nr', 'nr');
-        $oNr->setILargura(10);
 
         $oData = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
-        $oData->setILargura(20);
 
         $oTitulo = new CampoConsulta('Titulo', 'titulo');
-        $oTitulo->setILargura(50);
-        
-        $oTexto = new CampoConsulta('Texto', 'texto', CampoConsulta::TIPO_LARGURA);
-        $oTexto->setILargura(800);
 
         $oSite = new CampoConsulta('Site', 'filcgc');
-        $oSite->addComparacao('75483040000211', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
-        $oSite->addComparacao('83781641000158', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
-        $oSite->setBComparacaoColuna(true);
-        $oSite->setILargura(80);
+        $oSite->addComparacao('75483040000211', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSite->addComparacao('83781641000158', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
 
         $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12);
+        
         $oFilTitulo = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
         $this->addFiltro($oFilData, $oFilTitulo);
 
         $this->addDropdown($oFeed);
 
-        $this->addCampos($oNr, $oSite, $oData, $oTitulo, $oTexto);
+        $this->addCampos($oNr, $oSite, $oData, $oTitulo);
+        
+        $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
+
+        $oTexto = new Campo('Problema apresentando', '', Campo::TIPO_TEXTAREA, 12);
+        $oTexto->setILinhasTextArea(6);
+        $oTexto->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oTexto->setBCampoBloqueado(true);
+
+        $this->addCamposGrid($oTexto, $oLinhaWhite);
+        $this->getTela()->setIAltura(240);
+
+        $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
+                . 'requestAjax("","NoticiaSite","carregaTexto","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oTexto->getId() . '"+","+"");');
     }
 
     public function criaTela() {

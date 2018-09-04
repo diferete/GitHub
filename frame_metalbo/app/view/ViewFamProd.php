@@ -31,6 +31,8 @@ class ViewFamProd extends View{
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         
         $this->addCampos($oFamCod,$oFamDes,$oGrucod,$oSubcod);
     }

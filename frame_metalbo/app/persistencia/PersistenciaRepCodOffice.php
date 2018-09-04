@@ -15,7 +15,9 @@ class PersistenciaRepCodOffice extends Persistencia{
         $this->adicionaRelacionamento('officecod', 'officecod',true,true);
         $this->adicionaRelacionamento('officeseq', 'officeseq',true,true,true);
         $this->adicionaRelacionamento('repcod','repcod');
+        $this->adicionaRelacionamento('resp_venda_cod', 'resp_venda_cod');
+        $this->adicionaRelacionamento('resp_venda_nome', 'resp_venda_nome');
         
-        $this->adicionaOrderBy('officeseq',1);
+        $this->adicionaOrderBy('repcod',1);
     }
 }

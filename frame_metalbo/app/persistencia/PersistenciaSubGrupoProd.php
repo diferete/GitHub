@@ -18,6 +18,8 @@ class PersistenciaSubGrupoProd extends Persistencia{
         
         $this->adicionaOrderBy('subcod',1);
         
+        $this->setSTop(50);
+        
         
     }
 }

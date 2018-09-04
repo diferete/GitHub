@@ -14,14 +14,10 @@ class ViewQualNovoProjProd extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-        /**
-         *  private $resp_venda_cod;
-          private $resp_venda_nome;
-         */
+
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
-        $this->getTela()->setILarguraGrid(1500);
-        $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setBGridResponsivo(true);
 
         $oData = new CampoConsulta('Data', 'dtimp', CampoConsulta::TIPO_DATA);
         $oData->setILargura(60);
@@ -68,11 +64,12 @@ class ViewQualNovoProjProd extends View {
 
         $oDrop2 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO, Dropdown::ICON_POSITIVO);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Liberar código', 'QualNovoProjProd', 'msgLibCod', '', false, '');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Listagem de processos', 'QualNovoProjProd', 'criaTelaModalSeqProc', '', false, '', false, 'criaTelaModalSeqProc', true, 'Listagem de processos');
 
         $oDrop3 = new Dropdown('E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LOOP). 'Reenvia código', 'QualNovoProjProd', 'reenviaCodigo', '', false, '');
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Reenvia código', 'QualNovoProjProd', 'reenviaCodigo', '', false, '');
 
-        $this->addDropdown($oDrop1, $oDrop2);
+        $this->addDropdown($oDrop1, $oDrop2, $oDrop3);
 
         $oFSitProj = new Filtro($oSitGeral, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFSitProj->addItemSelect('Todos', 'Todos');
@@ -358,6 +355,73 @@ class ViewQualNovoProjProd extends View {
         $oFieldAnaliseCri->addCampos(array($oLabel1, $oLabel3), array($oDadosEnt, $oDadosEnt_obs), array($oReqLegal, $oReqLegal_obs), array($oReqadicional, $oReqadicional_obs), array($oReqadverif, $oReqadverif_obs), array($oReqadval, $oReqadval_obs), array($oReqproblem, $oReqproblem_obs), $oComen);
 
         $this->addCampos(array($oFilcgc, $oNr, $oDtimp, $oResp_proj_nome, $oResp_venda_nome, $oSitgeralproj), $oObsCli, array($oProcod, $oDesc_novo_prod), array($oProcodSimilar, $oProdsimilar), $oFieldDimen, array($oTipRosca, $oNormaDimem), array($oNormaRosca, $oNormaMec), array($oPpap, $oVolVenda), $oReqCli, array($oRespProj, $oRespProjNome, $oDataProd), $oFieldAnaliseCri);
+    }
+
+    public function criaTelaModalSeqProc($sDados) {
+        parent::criaModal();
+
+        $this->setBTela(true);
+
+        $oDados = $this->getAParametrosExtras();
+
+        $oNr = new campo('Nrº', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oNr->setSValor($oDados->nr);
+        $oNr->setBCampoBloqueado(true);
+
+        $oFilcgc = new campo('', 'EmpRex_filcgc', Campo::TIPO_TEXTO, 1);
+        $oFilcgc->setSValor($oDados->filcgc);
+        $oFilcgc->setBOculto(true);
+
+        $oEmpcod = new Campo('Cliente', 'empcod', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oEmpcod->setSValor($oDados->empcod);
+        $oEmpcod->setBCampoBloqueado(true);
+
+        $oEmpdes = new campo('...', 'empdes', Campo::TIPO_TEXTO, 8, 8, 12, 12);
+        $oEmpdes->setSValor($oDados->empdes);
+        $oEmpdes->setBCampoBloqueado(true);
+
+        $oProduto = new campo('Produto', 'desc_novo_prod', Campo::TIPO_TEXTO, 12);
+        $oProduto->setSValor($oDados->desc_novo_prod);
+        $oProduto->setBCampoBloqueado(true);
+        
+        $oProcessos = new Campo('Conf. a frio', '1', Campo::TIPO_CHECK,3);
+        $oProcessos1 = new Campo('Conf. a quente', '2', Campo::TIPO_CHECK,3);
+        $oProcessos2 = new Campo('Corte barra - PF frio', '3', Campo::TIPO_CHECK,3);
+        $oProcessos3 = new Campo('Corte barra - PF quente', '4', Campo::TIPO_CHECK,3);
+        $oProcessos4 = new Campo('Revenimento', '5', Campo::TIPO_CHECK,3);
+        $oProcessos5 = new Campo('CNC', '6', Campo::TIPO_CHECK,3);
+        $oProcessos6 = new Campo('CNC - Terceiros', '7', Campo::TIPO_CHECK,3);
+        $oProcessos7 = new Campo('Rosqueamento', '8', Campo::TIPO_CHECK,3);
+        $oProcessos8 = new Campo('Laminação', '9', Campo::TIPO_CHECK,3);
+        $oProcessos9 = new Campo('Processos especiais', '10', Campo::TIPO_CHECK,3);
+        $oProcessos10 = new Campo('Tr. térmico', '11', Campo::TIPO_CHECK,3);
+        $oProcessos11 = new Campo('Tr. térmico - Terceiros', '12', Campo::TIPO_CHECK,3);
+        $oProcessos12 = new Campo('Óleo rustilo', '13', Campo::TIPO_CHECK,3);
+        $oProcessos13 = new Campo('Granalha', '14', Campo::TIPO_CHECK,3);
+        $oProcessos14 = new Campo('Galvanização', '15', Campo::TIPO_CHECK,3);
+        $oProcessos15 = new Campo('Zincagem', '16', Campo::TIPO_CHECK,3);
+        $oProcessos16 = new Campo('Zincagem - Terceiros', '17', Campo::TIPO_CHECK,3);
+        $oProcessos17 = new Campo('Embalagem', '18', Campo::TIPO_CHECK,3);
+
+
+        $oBtnInserir = new Campo('EMITIR', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        //id do grid
+   
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","QualNovoProjProd","geraEtapaProcesso","' . $this->getTela()->getId() . '-form","");';
+
+        $oBtnInserir->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->addCampos(
+                array($oNr, $oEmpcod, $oEmpdes), $oProduto, 
+                array($oProcessos,$oProcessos2,$oProcessos5,$oProcessos4),
+                array($oProcessos1,$oProcessos3,$oProcessos6,$oProcessos7),
+                array($oProcessos10,$oProcessos8,$oProcessos9,$oProcessos12),
+                array($oProcessos11,$oProcessos15,$oProcessos13),
+                array($oProcessos17,$oProcessos16,$oProcessos14),
+                array($oBtnInserir, $oFilcgc));
     }
 
 }

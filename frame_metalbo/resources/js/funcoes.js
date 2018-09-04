@@ -71,8 +71,8 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
     }
 }
 
-function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, metodo, idPos) {
-   
+function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, metodo, idPos, ordenacao) {
+    //console.log(ordenacao["ordenacao"]);
     var dadosPesq = [];
     var countPesq = 0;
     var nome, valor, idSel = '';
@@ -132,15 +132,15 @@ function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, me
         //alert(metodo);  
         dadosPesq[countPesq] = chavescroll + ',' + 'scroll';
         if (metodo == "") {
-            requestAjax('', classe, 'getDadosScroll', idgrid + ',' + campoconsulta, dadosPesq, false,idPos);
-           // requestAjax(idForm,classe,metodo,sparametros,aIdCampos,bDesativaCarrega)
+            requestAjax('', classe, 'getDadosScroll', idgrid + ',' + campoconsulta, dadosPesq, false, idPos);
+            // requestAjax(idForm,classe,metodo,sparametros,aIdCampos,bDesativaCarrega)
         } else {
-            requestAjax('', classe, 'getDadosScrollCampo', idgrid + ',' + metodo, dadosPesq, false,idPos);
+            requestAjax('', classe, 'getDadosScrollCampo', idgrid + ',' + metodo, dadosPesq, false, idPos);
             //requestAjax(idForm,classe,metodo,sparametros,aIdCampos,bDesativaCarrega)
         }
 
     } else {
-        requestAjax('', classe, 'getDadosConsulta', idgrid + ',' + campoconsulta, dadosPesq);
+        requestAjax('', classe, 'getDadosConsulta', idgrid + ',' + campoconsulta, dadosPesq, false, '', ordenacao);
     }
 }
 
@@ -794,7 +794,7 @@ function calcNewproj(idPlan,
         var CustoCento = (CustoTotal / Quant);
         $('#' + idCCento + '').val(numeroParaMoeda(CustoCento));
     }
-    
+
 
 }
 
@@ -1228,9 +1228,12 @@ function expandeField(id) {
     $('#' + id + ' >div').css("display", "none");
 }
 
-function buscaCNPJ(cnpj,classe){
-    
-    requestAjax("",classe,'getCNPJ',cnpj);
-    
+function buscaCNPJ(cnpj, classe) {
+    requestAjax("", classe, 'getCNPJ', cnpj);
+}
+
+function buscaRespVenda(idCod, idVenda, nomeVenda, classe) {
+    var idsCampos = idCod+','+idVenda+','+nomeVenda;
+    requestAjax("", classe, 'getRespVenda',idsCampos);
     
 }

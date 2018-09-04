@@ -20,6 +20,7 @@ class PersistenciaLoginErro  extends Persistencia{
         $this->adicionaRelacionamento('senha','senha');
         
         $this->adicionaOrderBy('codigo',1);
+        $this->setSTop(50);
     }
 }
 

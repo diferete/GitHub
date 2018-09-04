@@ -15,7 +15,7 @@ class ViewSolPed extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setILarguraGrid(1300);
+        
         
         $oNr = new CampoConsulta('Sol.', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(50);
@@ -77,7 +77,9 @@ class ViewSolPed extends View {
         $this->addFiltro($oFilSolNr, $oFilCliente, $oFilCnpj, $oFilOd, $oFilData);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoVisualizar(true);
-        $this->setBScrollInf(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
+        $this->getTela()->setILarguraGrid(1300);
     }
 
     public function criaTela() {

@@ -878,6 +878,15 @@ class Persistencia{
     }
     
     /**
+     * Método que recria a lista de filtros (ORDER BY), utilizado nos casos que
+     * precisa-se filtrar informações diferentes em cada passagem do laço de
+     * repetição 
+     */
+    public function limpaOrderBy(){
+       $this->aOrderBy = array(); 
+    }
+    
+    /**
      * Retorna o conteúdo do atributo sSqlWhere
      * @return string
      */

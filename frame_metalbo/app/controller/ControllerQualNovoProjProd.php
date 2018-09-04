@@ -333,4 +333,32 @@ class ControllerQualNovoProjProd extends Controller {
         echo '$("#titulolinhatempo").append(\'' . $sTitulo . '\');';
     }
 
+    /**
+     * Cria a tela Modal para aprovaçào da proposta
+     * @param type $sDados
+     */
+    public function criaTelaModalSeqProc($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aCamposChave['id'] = $aDados[1];
+
+        $oProposta = $this->Persistencia->buscaDados($aCamposChave);
+
+        $this->View->setAParametrosExtras($oProposta);
+
+        $this->View->criaTelaModalSeqProc($aDados[1]);
+
+        //adiciona onde será renderizado
+        $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+        //renderiza a tela
+        $this->View->getTela()->getRender();
+    }
+
+    public function geraEtapaProcesso($renderTo, $sMetodo = '') {
+        parent::acaoMostraRelatorio($renderTo, 'geraEtapaProcesso');
+    }
 }

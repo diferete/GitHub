@@ -125,7 +125,7 @@ class ControllerQualRnc extends Controller {
         $aCamposChave['id'] = $aDados[1];
 
         $aRet = $this->Persistencia->verificaFim($aCamposChave);
-        if ($aRet[1] == 'Aceita' || $aRet[1] == 'Recusada' & $aRet[0] != 'Finalizada') {
+        if ($aRet[1] == 'Aceita' & $aRet[0] != 'Finalizada' || $aRet[1] == 'Recusada' & $aRet[0] != 'Finalizada') {
 
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
@@ -293,7 +293,7 @@ class ControllerQualRnc extends Controller {
                         . '<tr><td><b>Não conformidade:</b></td><td> ' . $oRow->naoconf . ' </td></tr>'
                         . '</table><br/><br/>'
                         . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
-                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>))'));
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 
         $oEmail->limpaDestinatariosAll();
 

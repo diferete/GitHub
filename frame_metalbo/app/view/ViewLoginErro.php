@@ -21,6 +21,9 @@ class ViewLoginErro extends View{
         $oSenha = new CampoConsulta('Senha','senha');
         
         $this->addCampos($oCodigo,$oData,$oHora,$oIp,$oNome,$oSenha);
+        
+        $this->setBScrollInf(FALSE);
+        $this->getTela()->setBUsaCarrGrid(true);
     }
     
     

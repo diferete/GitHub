@@ -18,6 +18,8 @@ class PersistenciaFamSub extends Persistencia{
          $this->adicionaRelacionamento('famsub', 'famsub');
          $this->adicionaRelacionamento('famsdes','famsdes');
          
+         $this->setSTop(50);
+         
        
     }
 }

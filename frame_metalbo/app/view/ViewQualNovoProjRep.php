@@ -14,7 +14,6 @@ class ViewQualNovoProjRep extends View {
         //$this->getTela()->setBGridResponsivo(false);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
-
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
 
@@ -89,7 +88,7 @@ class ViewQualNovoProjRep extends View {
         $oDrop2 = new Dropdown('Proposta', Dropdown::TIPO_DARK);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Vizualizar proposta', 'QualNovoProjRep', 'criaTelaModalProposta', '', false, '', false, 'criaModalProposta', true, 'Visualizar Proposta');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Envia proposta para meu e-mail', 'QualNovoProjRep', 'msgEnvProp', '', false, '', false, '', false, '', true);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aprovar proposta', 'QualNovoProjRep', 'criaTelaModalAprovProp', '', false, '', false, 'criaModalAprovProposta', true, 'Aprova proposta');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aprovar proposta', 'QualNovoProjRep', 'criaTelaModalAprovProp', '', false, '', false, 'criaTelaModalAprovProposta', true, 'Aprova proposta');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Reprovar proposta', 'QualNovoProjRep', 'criaTelaModalReprovProp', '', false, '', false, 'criaTelaModalReprovProp', true, 'Reprova proposta');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Retorna situação cliente', 'QualNovoProjRep', 'msgRetCli', '', false, '');
         //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_LAPIS).'Apontar reprovação do cliente ','QualNovoProj','acaoMostraTelaModal','', false, '',false,'modal1',true,'Reprovação do cliente');
@@ -346,7 +345,9 @@ class ViewQualNovoProjRep extends View {
         $this->setBTela(true);
 
 
-        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, array($oAcaba, $oQuant, $oLoteMin, $oPesoCt), array($oPreco, $oPrazo), $oObsProj, $oObsVenda, $oObsReprova);
+        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, 
+                array($oAcaba, $oQuant, $oLoteMin, $oPesoCt), 
+                array($oPreco, $oPrazo), $oObsProj, $oObsVenda, $oObsReprova);
     }
 
     public function criaTelaModalAprovProp($sDados) {
