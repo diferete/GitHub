@@ -60,51 +60,50 @@ class ViewQualAqPlan extends View {
 
         $aValor = $this->getAParametrosExtras();
 
-        $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2);
+        $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2,2,12,12);
         $oFilcgc->setSValor($aValor[0]);
         $oFilcgc->setBCampoBloqueado(true);
 
-        $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1,1,12,12);
         $oNr->setSValor($aValor[1]);
         $oNr->setBCampoBloqueado(true);
 
-        $oSeq = new Campo('Seq', 'seq', Campo::TIPO_TEXTO, 1);
+        $oSeq = new Campo('Seq', 'seq', Campo::TIPO_TEXTO, 1,1,12,12);
         $oSeq->setBCampoBloqueado(true);
 
-        $oPlano = new Campo('O que fazer', 'plano', Campo::TIPO_TEXTAREA, 10);
+        $oPlano = new Campo('O que fazer', 'plano', Campo::TIPO_TEXTAREA, 12);
         $oPlano->setBFocus(true);
         $oPlano->setILinhasTextArea(5);
         $oPlano->setICaracter(500);
 
-        $oAnexo = new Campo('Anexar plano de ação', 'anexoplan1', Campo::TIPO_UPLOAD, 2, 2, 2, 2);
+        $oAnexo = new Campo('Anexar plano de ação', 'anexoplan1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo->setIMarginTop(3);
 
-        $oResp = new campo('Cód.', 'usucodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 1, 1);
+        $oResp = new campo('Cód.', 'usucodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oResp->setSIdHideEtapa($this->getSIdHideEtapa());
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
-        $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
+        $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oRespNome->setSIdPk($oResp->getId());
         $oRespNome->setClasseBusca('User');
         $oRespNome->addCampoBusca('usucodigo', '', '');
         $oRespNome->addCampoBusca('usunome', '', '');
         $oRespNome->setSIdTela($this->getTela()->getid());
 
-
         $oResp->setClasseBusca('User');
         $oResp->setSCampoRetorno('usucodigo', $this->getTela()->getId());
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
-        $oTipo = new Campo('Tipo ação', 'tipo', Campo::TIPO_TEXTO, 1);
+        $oTipo = new Campo('Tipo ação', 'tipo', Campo::TIPO_TEXTO, 1,1,12,12);
         $oTipo->setSValor('Aq');
         $oTipo->setBCampoBloqueado(true);
 
-
-
-        $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2);
+        $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2,2,12,12);
         $oDataPrev->addValidacao(false, Validacao::TIPO_STRING, '', '2');
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $oBotConf->setIMarginTop(6);
+        
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    
         $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oPlano->getId() . ',' . $oAnexo->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';

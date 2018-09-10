@@ -1,1 +1,1 @@
-SELECT  TOP 500 tbusutipo.usutipo AS "tbusutipo.usutipo",tbusutipo.usutipdescricao AS "tbusutipo.usutipdescricao" FROM tbusutipo
+SELECT  TOP 500 tbrepcodoffice.filcgc AS "tbrepcodoffice.filcgc",tbrepcodoffice.officecod AS "tbrepcodoffice.officecod",tbrepcodoffice.officeseq AS "tbrepcodoffice.officeseq",tbrepcodoffice.repcod AS "tbrepcodoffice.repcod",tbrepcodoffice.resp_venda_cod AS "tbrepcodoffice.resp_venda_cod",tbrepcodoffice.resp_venda_nome AS "tbrepcodoffice.resp_venda_nome" FROM tbrepcodoffice WHERE tbrepcodoffice.officecod = '1' ORDER BY tbrepcodoffice.repcod  DESC 

@@ -15,8 +15,7 @@ class ViewQualNovoProj extends View {
         $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
-
-        $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setBGridResponsivo(true);
 
         $oData = new CampoConsulta('Data', 'dtimp', CampoConsulta::TIPO_DATA);
         $oData->setILargura(50);

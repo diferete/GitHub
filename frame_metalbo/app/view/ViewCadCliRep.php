@@ -35,7 +35,7 @@ class ViewCadCliRep extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir endereços', 'CadCliRepEnd', 'acaoMostraTelaEndereço', '', true, '');
 
         //filtros 
-        $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 4, 4);
+        $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
         $this->addFiltro($oFiltroEmpdes);
 
         $this->addDropdown($oDrop2, $oDrop1);
@@ -56,42 +56,42 @@ class ViewCadCliRep extends View {
         $oFieldInf = new FieldSet('Informações');
         $oFieldInf->setOculto(true);
 
-        $oNr = new Campo('Nr.Cad', 'nr', Campo::TIPO_TEXTO, 1, 1, 2, 2);
+        $oNr = new Campo('Nr.Cad', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setBCampoBloqueado(true);
 
-        $oEmpAtivo = new Campo('Sit.Cliente', 'empativo', Campo::TIPO_TEXTO, 1, 1, 4, 4);
+        $oEmpAtivo = new Campo('Sit.Cliente', 'empativo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEmpAtivo->setSValor('S');
         $oEmpAtivo->setBCampoBloqueado(true);
 
-        $oEmpData = new Campo('Data Cadastro', 'empdtcad', Campo::TIPO_TEXTO, 2, 2, 6, 6);
+        $oEmpData = new Campo('Data Cadastro', 'empdtcad', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oEmpData->setSValor(date('d/m/Y'));
         $oEmpData->setBCampoBloqueado(true);
 
-        $oUsuCodigo = new campo('Código', 'usucodigo', Campo::TIPO_TEXTO, 1, 1, 4, 4);
+        $oUsuCodigo = new campo('Código', 'usucodigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oUsuCodigo->setSValor($_SESSION['codUser']);
         $oUsuCodigo->setBCampoBloqueado(true);
 
-        $oUsuEmpCad = new campo('Usuário', 'empusucad', Campo::TIPO_TEXTO, 2, 2, 8, 8);
+        $oUsuEmpCad = new campo('Usuário', 'empusucad', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUsuEmpCad->setSValor($_SESSION['nome']);
         $oUsuEmpCad->setBCampoBloqueado(true);
 
-        $oOfficecod = new Campo('...', 'officecod', Campo::TIPO_TEXTO, 1, 1, 2, 2);
+        $oOfficecod = new Campo('...', 'officecod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oOfficecod->setSValor($_SESSION['repoffice']);
         $oOfficecod->setBCampoBloqueado(true);
 
-        $oOfficedes = new Campo('Escritório', 'officedes', Campo::TIPO_TEXTO, 3, 3, 10, 10);
+        $oOfficedes = new Campo('Escritório', 'officedes', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oOfficedes->setSValor($_SESSION['repofficedes']);
         $oOfficedes->setBCampoBloqueado(true);
 
-        $oSit = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 2, 2);
+        $oSit = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oSit->setBCampoBloqueado(true);
         $oSit->setSValor('');
         $oSit->setBOculto(true);
 
-        $oDtLib = new Campo('', 'dtlib', Campo::TIPO_TEXTO, 2, 2, 2, 2);
+        $oDtLib = new Campo('', 'dtlib', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oDtLib->setBOculto(true);
 
-        $oHoraLib = new Campo('', 'horalib', Campo::TIPO_TEXTO, 2, 2, 2, 2);
+        $oHoraLib = new Campo('', 'horalib', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oHoraLib->setBOculto(true);
 
         $oFieldInf->addCampos(array($oNr, $oEmpAtivo, $oEmpData, $oUsuCodigo, $oUsuEmpCad), array($oOfficecod, $oOfficedes, $oSit, $oDtLib, $oHoraLib));
@@ -192,14 +192,17 @@ class ViewCadCliRep extends View {
         $oEmpIns->setIMarginTop(8);
 
         $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oRep->addItemSelect('', '');
+        $oRep->addItemSelect('Cod. Representate', 'Cod. Representate');
         foreach ($oDadosRep as $key => $oRepCodObj) {$oRep->addItemSelect($oRepCodObj->getRepcod(), $oRepCodObj->getRepcod());}
-        $oRep->addValidacao(false, Validacao::TIPO_STRING, 'Selecione código de representante', '3', '5');
+        $oRep->addValidacao(false, Validacao::TIPO_STRING, 'Selecione código de representante', '3', '3');
 
         $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oRespVenda->setBCampoBloqueado(true);
+        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING,'Caso não apareça, notificar o setor de TI da Metalbo','3','3');
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-
+        $oRespVendaNome->setBCampoBloqueado(true);
+        
         $sAcaoRespVenda = 'buscaRespVenda($("#' . $oRep->getId() . '").val(),'
                 . '"' . $oRespVenda->getId() . '",'
                 . '"' . $oRespVendaNome->getId() . '",'
@@ -226,7 +229,14 @@ class ViewCadCliRep extends View {
         $oEmpObs->setILinhasTextArea(5);
         $oEmpObs->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '1000');
 
-        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
+        $this->addCampos($oFieldInf, 
+                array($oEmpcod, $oEmpDes), 
+                array($oEmpFant, $oTipoPessoa, $oConsFinal), 
+                array($oEmpFone, $oEmailComum, $oEmailNfe), 
+                array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, 
+                array($oEmpIns, $oRep), 
+                array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, 
+                array($oRespVenda, $oRespVendaNome));
     }
 
 }

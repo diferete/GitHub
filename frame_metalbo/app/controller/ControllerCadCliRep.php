@@ -15,6 +15,12 @@ class ControllerCadCliRep extends Controller {
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
 
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
+
         $sChave = htmlspecialchars_decode($sParametros[0]);
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
@@ -151,12 +157,15 @@ class ControllerCadCliRep extends Controller {
 
     public function getRespVenda($sDados) {
         $aDados = explode(',', $sDados);
-        if ($sDados != '') {
+        $iString = strlen($aDados[0]);
+        if ($iString <= 4) {
             $aRet = $this->Persistencia->buscaRespVenda($aDados[0]);
             echo '$("#' . $aDados[1] . '").val("' . $aRet[0] . '");';
             echo '$("#' . $aDados[2] . '").val("' . $aRet[1] . '");';
             exit;
         } else {
+            $oMsg = new Mensagem('Erro', 'Código de representante inválido! Se seu código não aparecer para seleção, notifique o TI da Metalbo ', Mensagem::TIPO_WARNING);
+            echo $oMsg->getRender();
             exit;
         }
     }

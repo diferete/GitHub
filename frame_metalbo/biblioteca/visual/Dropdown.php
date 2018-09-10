@@ -291,7 +291,7 @@ class Dropdown {
                 . '<i class="icon wb-' . $sIcon . '" aria-hidden="true"></i>' . $this->getSLabel()
                 . '<span class="caret"></span>'
                 . '</button>'
-                . '<ul class="dropdown-menu" aria-labelledby="' . $this->getSId() . '" role="menu">';
+                . '<ul class="dropdown-menu-grid" aria-labelledby="' . $this->getSId() . '" role="menu">';
         $aDrop = $this->aItensDropdown;
         if (!is_null($aDrop)) {
             foreach ($this->aItensDropdown as $aItem) {
