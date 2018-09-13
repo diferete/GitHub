@@ -148,10 +148,8 @@ class ViewQualRncVenda extends View {
         $oEmail->addValidacao(false, Validacao::TIPO_EMAIL);
 
         $oInd = new campo('Indústria', 'ind', Campo::TIPO_CHECK, 1, 1, 12, 12);
-        $oInd->setIMarginTop(15);
 
         $oComer = new campo('Comércio', 'comer', Campo::TIPO_CHECK, 1, 1, 12, 12);
-        $oComer->setIMarginTop(15);
 
         $oFieldContato->addCampos(array($oContato, $oCelular, $oEmail, $oInd, $oComer));
 

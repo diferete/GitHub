@@ -1021,11 +1021,11 @@ class Controller {
         //captura o vetor de campos da tela
         $aCampos = $this->View->getTela()->getCampos();
 
-        //busca os campos do banco que sÃ£o autoincremento
+        //busca os campos do banco que são autoincremento
         $aAuto = $this->Persistencia->getAutoIncrementoArray();
 
         foreach ($aCampos as $oAtualTela) {
-            //sÃ³ deve executar para os objetos que forem instÃ¢ncia da classe Campo
+            //só deve executar para os objetos que forem instância da classe Campo
             if (get_class($oAtualTela) === 'Campo') {
                 foreach ($aAuto as $oAtualBanco) {
                     if ($oAtualTela->getNome() == $oAtualBanco->getNomeModel()) {
@@ -1565,17 +1565,6 @@ class Controller {
     public function getDadosConsulta($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false) {
         //realiza a busca dos filtros
         $this->beforFiltroConsulta();
-        //verifica se tem order by
-        if (isset($_REQUEST['ordenacao'])) {
-            $aOrdena = $_REQUEST['ordenacao'];
-            $this->Persistencia->limpaOrderBy();
-            if ($aOrdena['ordenacao'] == 'Asc') {
-                $iOrdena = 0;
-            } else {
-                $iOrdena = 1;
-            }
-            $this->Persistencia->adicionaOrderBy($aOrdena['campo'], $iOrdena);
-        }
 
         if ($sDadosReload !== NULL) {
             $aCampoConsulta = explode(',', $sDadosReload);
@@ -1605,14 +1594,8 @@ class Controller {
 
                                 $iCont++;
                             } else {
-                                //verifica se deve conter a tabela
-                                $aCampoTabela = explode('.', $aFiltroGrid[0]);
-                                if (!isset($aCampoTabela[1])) {
-                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]));
-                                } else {
-                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]), "", $aCampoTabela[0]);
-                                }
-                                //adicionaFiltro($sCampo,$sValor,$iTipoLigacao = 0,$iTipoComparacao = 0,$sValorFim = "",$sTabelaCampo="", $sCampoType = "")
+
+                                $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]));
                             }
                         }
                     }
@@ -1667,7 +1650,6 @@ class Controller {
 
         $aDadosAtualizar = explode(',', $sDadosReload);
         $this->View->criaConsulta();
-
         //verifica se há atributos de soma nos campos consulta
 
 
@@ -1679,20 +1661,8 @@ class Controller {
         }
 
         $aModels = $this->Persistencia->getArrayModel(); //carrega os campos da consulta
-        //pega o total de linhas na querys
-        $iTotalReg = $this->Persistencia->getCount();
 
         $sDados = '';
-        //verifica se foi informado posição do contador
-        /* if(isset($_REQUEST['idPos'])){
-          $sTr = $_REQUEST['idPos'];
-          $sTr =substr($sTr,3);
-          $iTr = $sTr+1;
-          }else{
-          $iTr = 1;
-          } */
-        //grava primeiro id para dar o focus
-
         foreach ($aModels as $oAtual) {
             //verifica as comparaçoes da consulta
             foreach ($aCampos as $campoAtual) {
@@ -1707,43 +1677,9 @@ class Controller {
                 }
             }
             if ($aRetornoFormat[0]) {
-                $sIdtr = Base::getId();
-                $bFocoCampo = $this->View->getTela()->getBFocoCampo();
-                $sDados .= '<tr id="' . $sIdtr . '"  tabindex="0" class="' . $aRetornoFormat[1] . ' dbclick" style="font-size:small;">';
-                if (!$bFocoCampo) {
-                    $sDados .= '<script>'
-                            . '$("#' . $sIdtr . '").keydown(function(e) { '
-                            . 'if(e.which == 40) {   '
-                            . '     $(this).removeClass("selected"); '
-                            . '     $(this).next().focus(); '
-                            . '     $(this).next().addClass("selected");'
-                            . '  } else if(e.which == 38) {  '
-                            . '      $(this).removeClass("selected"); '
-                            . '      $(this).prev().focus(); '
-                            . '      $(this).prev().addClass("selected"); '
-                            . '  } '
-                            . '});'
-                            . '</script>';
-                }
+                $sDados .= '<tr tabindex="0" class="' . $aRetornoFormat[1] . ' dbclick" style="font-size:small;">';
             } else {
-                $sIdtr = Base::getId();
-                $bFocoCampo = $this->View->getTela()->getBFocoCampo();
-                $sDados .= '<tr id="' . $sIdtr . '" tabindex="0" role="row" class="odd dbclick" style="font-size:small;">'; //abre a linha
-                if (!$bFocoCampo) {
-                    $sDados .= '<script>'
-                            . '$("#' . $sIdtr . '").keydown(function(e) { '
-                            . 'if(e.which == 40) {   '
-                            . '     $(this).removeClass("selected"); '
-                            . '     $(this).next().focus(); '
-                            . '     $(this).next().addClass("selected");'
-                            . '  } else if(e.which == 38) {  '
-                            . '      $(this).removeClass("selected"); '
-                            . '      $(this).prev().focus(); '
-                            . '      $(this).prev().addClass("selected"); '
-                            . '  } '
-                            . '});'
-                            . '</script>';
-                }
+                $sDados .= '<tr tabindex="0" role="row" class="odd dbclick" style="font-size:small;">'; //abre a linha
             }
 
 
@@ -1779,8 +1715,8 @@ class Controller {
                     }
 
                     if ($aRetornoFormat[0]) {
-                        $sChave = $this->Persistencia->getChaveModel($oAtual);
-                        $sDados .= $campoAtual->getRender($aRetornoFormat[1] . $sConsulta, $xValorCampo, $sChave);
+
+                        $sDados .= $campoAtual->getRender($aRetornoFormat[1] . $sConsulta, $xValorCampo);
                         $aRetornoFormat[0] = false;
                     } else {
 
@@ -1797,22 +1733,12 @@ class Controller {
         }
         //define se o $sDadosReload != null é atualização se não e nova tela
         if ($sDadosReload !== NULL) {
-            //pegar id da tr
-            $sRender = 'var idTr="";$("#' . $aDadosAtualizar[0] . 'consulta tbody .selected").each(function(){'
-                    . ' idTr=$(this).attr("id");'
-                    . ' });';
             //verifica se é scroll infinito
             if ($bScroll !== true) {
-                $sRender .= '$("#' . $aDadosAtualizar[0] . ' > tbody > tr").remove();';
+                $sRender = '$("#' . $aDadosAtualizar[0] . ' > tbody > tr").empty();';
             }
 
             $sRender .= '$("#' . $aDadosAtualizar[0] . '").append(\'' . $sDados . '\');';
-
-            $sRender .= ' if (idTr!==""){$("#' . $aDadosAtualizar[0] . ' #"+idTr+"").focus();'
-                    . ' $("#' . $aDadosAtualizar[0] . ' #"+idTr+"").addClass("selected");}';
-
-
-
 
             echo $sRender;
             $sDadosSummary = $this->getDadosFoot();
@@ -1821,9 +1747,7 @@ class Controller {
             echo $sSummary;
         } else {
             //retorna os dados
-            $aDados[0] = $sDados;
-            $aDados[1] = $iTotalReg;
-            return $aDados; //$sDados; 
+            return $sDados;
         }
     }
 
@@ -3234,7 +3158,7 @@ class Controller {
         return $aRetorno;
     }
 
-    public function acaoExcluirDet($sDados) { // >>>ATENÇÃO<<< É NECESSÁRIO REESCREVER ESTE MÉTODO
+    public function acaoExcluirDet($sDados) { // >>>ATENÇÃO<<< É NECESS�?RIO REESCREVER ESTE MÉTODO
         if (isset($_REQUEST['parametrosCampos'])) {
             $aParam = $_REQUEST['parametrosCampos'];
             $aChaves = array();
@@ -3309,7 +3233,7 @@ class Controller {
      * @param string $sId ID do objeto
      * @param string $sChave String contendo as chaves dos registros a serem excluídos
      */
-    public function acaoExcluir($sDados) { // >>>ATENÇÃO<<< É NECESSÁRIO REESCREVER ESTE MÉTODO
+    public function acaoExcluir($sDados) { // >>>ATENÇÃO<<< É NECESS�?RIO REESCREVER ESTE MÉTODO
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[0]);
         $aCamposChave = array();

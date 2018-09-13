@@ -187,19 +187,10 @@ class ControllerQualNovoProjProd extends Controller {
         $oEmail->limpaDestinatariosAll();
 
 
-        // Para
-        $aEmails = array();
-        $aEmails[] = $_SESSION['email'];
-        foreach ($aEmails as $sEmail) {
-            $oEmail->addDestinatario($sEmail);
-        }
-
         //nao enviar e-mail para vendas no momento
-        $aUserPlano = $this->Persistencia->projEmailVendaProj($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        $aEmail = $this->Persistencia->projEmailVendaProj($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
-        foreach ($aUserPlano as $sCopia) {
-            $oEmail->addDestinatarioCopia($sCopia);
-        }
+        $oEmail->addDestinatario($aEmail[2]);
 
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
@@ -361,4 +352,5 @@ class ControllerQualNovoProjProd extends Controller {
     public function geraEtapaProcesso($renderTo, $sMetodo = '') {
         parent::acaoMostraRelatorio($renderTo, 'geraEtapaProcesso');
     }
+
 }

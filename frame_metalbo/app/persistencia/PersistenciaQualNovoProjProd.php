@@ -148,23 +148,13 @@ class PersistenciaQualNovoProjProd extends Persistencia {
                 where filcgc ='" . $sCnpj . "' and nr ='" . $sNr . "'   ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $codProj = $oRow->resp_proj_cod;
-        $codVenda = $oRow->resp_venda_cod;
-        $repcod = $oRow->repcod;
 
-        //busca email projetos
-
-        $sSql = "select usuemail from tbusuario where usucodigo ='" . $codProj . "' ";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $aEmail['proj'] = $oRow->usuemail;
-
-        //busca email venda
-        $sSql = "select usuemail from tbusuario where usucodigo ='" . $codVenda . "' ";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $aEmail['venda'] = $oRow->usuemail;
-
+        foreach ($oRow as $key => $sCod) {
+            $sSql = "select usuemail from tbusuario where usucodigo ='" . $sCod . "' ";
+            $result = $this->getObjetoSql($sSql);
+            $oCodigo = $result->fetch(PDO::FETCH_OBJ);
+            $aEmail[] = $oCodigo->usuemail;
+        }
 
         return $aEmail;
     }

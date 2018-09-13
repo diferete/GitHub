@@ -88,7 +88,25 @@ abstract class View {
     private $sIdAbaSelecionada;
     private $bUsaCarrGrid;
     private $oObjTela;
+   
+    
+    
+    
+    
+    private $oDecimal;
 
+    function getODecimal() {
+        return $this->oDecimal;
+    }
+
+    function setODecimal($oDecimal) {
+        $this->oDecimal = $oDecimal;
+    }
+
+    
+    
+    
+    
     function getOObjTela() {
         return $this->oObjTela;
     }

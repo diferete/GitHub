@@ -2663,7 +2663,7 @@
         previewFileIconSettings: {},
         previewFileExtSettings: {},
         buttonLabelClass: 'hidden-xs',
-        browseIcon: '<i class="icon wb-folder"></i>&nbsp;',
+        browseIcon: '<i class="icon wb-upload"></i>&nbsp;',
         browseClass: 'btn btn-primary',
         removeIcon: '<i class="icon wb-trash"></i>',
         removeClass: 'btn btn-default',

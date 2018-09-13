@@ -292,7 +292,6 @@ class CampoConsulta {
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sCampo = '<td class="' . $sClasse . ' tr-font" >' . $xValor . '</td>';
-
                 break;
             case self::TIPO_MONEY:
                 $sCampo = '<td class="' . $sClasse . '" >R$ ' . number_format($xValor, 2, ',', '.') . '</td>';
@@ -303,13 +302,11 @@ class CampoConsulta {
             case self::TIPO_DATA:
                 if ($xValor == '01/01/1970') {
                     $xValor = '';
-                };
-
+                }
                 $sCampo = '<td class="' . $sClasse . '" >' . $xValor . '</td>';
                 break;
             case self::TIPO_DOWNLOAD:
                 $sCampo = '<td class="' . $sClasse . '" ><a href=\\\'uploads/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
-
                 break;
             case self::TIPO_DESTAQUE1:
                 $sCampo = '<td class="' . $sClasse . '" ><span class="badge badge-dark">' . $xValor . '</span></td>';

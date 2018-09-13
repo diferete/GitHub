@@ -149,10 +149,11 @@ class ViewQualNovoProjRep extends View {
         $oRespProjNome->setSValor('Eloir Jordelino');
         $oRespProjNome->setBCampoBloqueado(true);
 
-        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oRespVenda->setBFocus(true);
         $oRespVenda->setSValor($aDadosTela[0]);
+        $oRespVenda->setBCampoBloqueado(true);
 
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -162,6 +163,7 @@ class ViewQualNovoProjRep extends View {
         $oRespVendaNome->addCampoBusca('usunome', '', '');
         $oRespVendaNome->setSIdTela($this->getTela()->getid());
         $oRespVendaNome->setSValor($aDadosTela[1]);
+        $oRespVendaNome->setBCampoBloqueado(true);
 
 
         $oRespVenda->setClasseBusca('User');
@@ -212,7 +214,6 @@ class ViewQualNovoProjRep extends View {
 
         $oDescProd = new campo('Descrição do produto com valores referentes a peça', 'desc_novo_prod', Campo::TIPO_TEXTO, 6, 6, 12, 12);
         $oDescProd->setSCorFundo(Campo::FUNDO_VERDE);
-        $oDescProd->setIMarginTop(8);
 
         $oAcaba = new Campo('Acabamento do Produto', 'acabamento', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oAcaba->addItemSelect('POL', 'Polido');
@@ -230,7 +231,6 @@ class ViewQualNovoProjRep extends View {
 
 
         $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oQuant->setIMarginTop(8);
         $oQuant->setSValor('0');
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);

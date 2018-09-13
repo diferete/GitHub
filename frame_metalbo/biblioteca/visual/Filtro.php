@@ -345,7 +345,7 @@ class Filtro {
     public function getRender() {
         switch ($this->iTipoCampo) {
             case self::CAMPO_TEXTO:
-                $sCampo = '<div class="col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="form-group form-group-filter" id="' . $this->getId() . '">'
                         . '<div class="input-group"> '
                         . '<input class="form-control input-sm" name="' . $this->getSNome() . '" id="' . $this->getId() . '" type="text" placeholder="' . $this->getSLabel() . '" value="' . $this->aFiltroValor[0] . '"> '
@@ -370,8 +370,8 @@ class Filtro {
             case self::CAMPO_INTEIRO:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group input-sm" id="' . $this->getId() . '">'
-                        . '<input type="text" name="' . $this->getSNome() . '" class="form-control input-sm" ' // IMPORTANTE!!!! REVER ID
-                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSLabel() . '" value="' . $this->aFiltroValor[0] . '">'
+                        . '<div class="input-group"> '
+                        . '<input type="text" name="' . $this->getSNome() . '" class="form-control input-sm" id="' . $this->getId() . '" placeholder="' . $this->getSLabel() . '" value="' . $this->aFiltroValor[0] . '">'
                         . '<div class="input-group-btn">'
                         . '<button type="button" class="btn btn-default btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="-1">'
                         . '<span class="caret"></span>'
@@ -383,6 +383,7 @@ class Filtro {
                         . '<li><a href="javascript:void(0)" class="small" data-value="diferente" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="diferente" type="radio"/>&nbsp;Diferente</a></li>'
                         . '</ul>'
                         . '</div>'
+                        . '</div> '
                         . '</div>'
                         . '</div>';
                 break;

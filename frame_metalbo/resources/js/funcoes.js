@@ -161,7 +161,8 @@ function MostraCarregando(aba) {
 }
 
 function FechaCarregando(aba) {
-    var abaAtiva = $("#" + aba + "-carregando");
+    //var abaAtiva = $("#" + aba + "-carregando");
+    var abaAtiva = $(".carregando");
     //  alert("Fecha: "+aba+"-carregando");
     abaAtiva.hide();
 }
@@ -1233,7 +1234,7 @@ function buscaCNPJ(cnpj, classe) {
 }
 
 function buscaRespVenda(idCod, idVenda, nomeVenda, classe) {
-    var idsCampos = idCod+','+idVenda+','+nomeVenda;
-    requestAjax("", classe, 'getRespVenda',idsCampos);
-    
+    var idsCampos = idCod + ',' + idVenda + ',' + nomeVenda;
+    requestAjax("", classe, 'getRespVenda', idsCampos);
+
 }

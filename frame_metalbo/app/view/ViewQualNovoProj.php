@@ -70,7 +70,6 @@ class ViewQualNovoProj extends View {
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(11);
 
-
         $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12);
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
@@ -92,8 +91,6 @@ class ViewQualNovoProj extends View {
         $this->addFiltro($oFSitProj, $oFilNr, $oFilData, $oFilEmpDes, $oFilDescProdNew);
 
         $this->addCampos($oNr, $oSitProj, $oSitVendas, $oSitCli, $oSitGeral, $oData, $oEmpDes, $oRepNome, $oDescProdNew, $oQuantPc);
-
-
 
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY, Dropdown::ICON_POSITIVO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aprovar projeto', 'QualNovoProj', 'msAprovaProj', '', false, '');
@@ -136,29 +133,29 @@ class ViewQualNovoProj extends View {
         $oNr = new Campo('Número', 'nr', Campo::TIPO_TEXTO, 1);
         $oNr->setBCampoBloqueado(true);
 
-        $oDataImp = new campo('Implantação', 'dtimp', Campo::TIPO_TEXTO, 1, 2, 2, 2);
+        $oDataImp = new campo('Implantação', 'dtimp', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataImp->setSValor(date('d/m/Y'));
         $oDataImp->setBCampoBloqueado(true);
 
-        $oHora = new Campo('Hora', 'horaimp', Campo::TIPO_TEXTO, 1, 1, 1, 1);
+        $oHora = new Campo('Hora', 'horaimp', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oHora->setITamanho(Campo::TAMANHO_PEQUENO);
         date_default_timezone_set('America/Sao_Paulo');
         $oHora->setSValor(date('H:i'));
         $oHora->setBCampoBloqueado(true);
 
-        $oSit = new campo('Sit.Projetos', 'sitproj', Campo::TIPO_TEXTO, 1);
+        $oSit = new campo('Sit.Projetos', 'sitproj', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSit->setSValor('Lib.Projetos');
         $oSit->setBCampoBloqueado(true);
 
-        $oSitGeral = new campo('Sit.Geral', 'sitgeralproj', Campo::TIPO_TEXTO, 1);
+        $oSitGeral = new campo('Sit.Geral', 'sitgeralproj', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSitGeral->setBCampoBloqueado(true);
         $oSitGeral->setSValor('Lib.Projetos');
 
-        $oRespProj = new campo('...', 'resp_proj_cod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 1, 1);
+        $oRespProj = new campo('...', 'resp_proj_cod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oRespProj->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oRespProj->setBFocus(true);
 
-        $oRespProjNome = new Campo('Resp. Projetos', 'resp_proj_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
+        $oRespProjNome = new Campo('Resp. Projetos', 'resp_proj_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oRespProjNome->setSIdPk($oRespProj->getId());
         $oRespProjNome->setClasseBusca('User');
         $oRespProjNome->addCampoBusca('usucodigo', '', '');
@@ -169,55 +166,26 @@ class ViewQualNovoProj extends View {
         $oRespProj->setSCampoRetorno('usucodigo', $this->getTela()->getId());
         $oRespProj->addCampoBusca('usunome', $oRespProjNome->getId(), $this->getTela()->getId());
 
-        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 1, 1);
+        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oRespVenda->setBCampoBloqueado(true);
-        /* $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-          $oRespVenda->setBFocus(true);
-         */
 
-
-        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 3, 3, 3, 3);
+        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oRespVendaNome->setBCampoBloqueado(true);
-        /* $oRespVendaNome->setSIdPk($oRespVenda->getId());
-          $oRespVendaNome->setClasseBusca('User');
-          $oRespVendaNome->addCampoBusca('usucodigo', '', '');
-          $oRespVendaNome->addCampoBusca('usunome', '', '');
-          $oRespVendaNome->setSIdTela($this->getTela()->getid());
 
-          $oRespVenda->setClasseBusca('User');
-          $oRespVenda->setSCampoRetorno('usucodigo', $this->getTela()->getId());
-          $oRespVenda->addCampoBusca('usunome', $oRespVendaNome->getId(), $this->getTela()->getId());
-         */
-
-        $oEmpcod = new Campo('...', 'Pessoa.empcod', Campo::TIPO_TEXTO, 2);
+        $oEmpcod = new Campo('...', 'Pessoa.empcod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpcod->setBCampoBloqueado(true);
 
-        $oEmpdes = new Campo('Cliente', 'Pessoa.empdes', Campo::TIPO_TEXTO, 4);
+        $oEmpdes = new Campo('Cliente', 'Pessoa.empdes', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oEmpdes->setBCampoBloqueado(true);
-        /* $oEmpdes->setSIdPk($oEmpcod->getId());
-          $oEmpdes->setClasseBusca('Pessoa');
-          $oEmpdes->addCampoBusca('empcod', '', '');
-          $oEmpdes->addCampoBusca('empdes', '', '');
-          $oEmpdes->setSIdTela($this->getTela()->getid());
-          $oEmpdes->setSCorFundo(Campo::FUNDO_AMARELO);
 
-          $oEmpcod->setClasseBusca('Pessoa');
-          $oEmpcod->setSCampoRetorno('empcod', $this->getTela()->getid());
-          $oEmpcod->addCampoBusca('empdes', $oEmpdes->getId(), $this->getTela()->getId());
-         * 
-         */
-
-
-        $oEmail = new Campo('Email', 'emailCli', Campo::TIPO_TEXTO, 3);
+        $oEmail = new Campo('Email', 'emailCli', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmail->setBCampoBloqueado(true);
 
-        $oDescProd = new campo('Descrição do produto', 'desc_novo_prod', Campo::TIPO_TEXTO, 6);
-        $oDescProd->setIMarginTop(8);
+        $oDescProd = new campo('Descrição do produto', 'desc_novo_prod', Campo::TIPO_TEXTO, 6, 6, 12, 12);
 
         $oAcaba = new Campo('Acabamento do Produto', 'acabamento', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oAcaba->setBCampoBloqueado(true);
-        $oAcaba->setIMarginTop(8);
 
         $sBuscaCli = 'var empcod = $("#' . $oEmpcod->getId() . '").val();  '
                 . ' if($("#' . $oEmpcod->getId() . '").val()!==""){requestAjax("","QualNovoProj","acaoExitEmp",""+empcod+",' . $oEmail->getId() . '");}';
@@ -229,66 +197,60 @@ class ViewQualNovoProj extends View {
         $oRepLibObs->setBCampoBloqueado(true);
 
 
-        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 1);
+        $oQuant = new campo('Quant.Cnt/Mês', 'quant_pc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQuant->setSValor('0');
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
-        $oQuant->setIMarginTop(8);
         $oQuant->setBCampoBloqueado(true);
 
-        $oAnexoDesenho = new Campo('Anexo 1', 'anexo1', Campo::TIPO_UPLOAD, 2);
+        $oAnexoDesenho = new Campo('Anexo 1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
 
-        $oAnexoDoc = new campo('Anexo 2', 'anexo2', Campo::TIPO_UPLOAD, 2);
+        $oAnexoDoc = new campo('Anexo 2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
 
-        $oAnexoFree = new campo('Anexo 3', 'anexo3', Campo::TIPO_UPLOAD, 2);
+        $oAnexoFree = new campo('Anexo 3', 'anexo3', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
 
         $oFieldAnexo = new FieldSet('Anexos');
         $oFieldAnexo->addCampos(array($oAnexoDesenho, $oAnexoDoc, $oAnexoFree));
         $oFieldAnexo->setOculto(true);
 
-        $oEquipamento = new Campo('Temos equipamento correspondente', 'equip_corresp', Campo::TIPO_SELECT, 3);
+        $oEquipamento = new Campo('Temos equipamento correspondente', 'equip_corresp', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oEquipamento->addItemSelect('Sim', 'Sim');
         $oEquipamento->addItemSelect('Não', 'Não');
 
-        $oEquipEvidencia = new campo('Evidência', 'equip_corresp_evid', Campo::TIPO_TEXTO, 5);
-        $oEquipEvidencia->setIMarginTop(7);
+        $oEquipEvidencia = new campo('Evidência', 'equip_corresp_evid', Campo::TIPO_TEXTO, 5, 5, 12, 12);
 
-        $oMatPrima = new Campo('Temos matéria prima correspondente', 'mat_prima', Campo::TIPO_SELECT, 3);
+        $oMatPrima = new Campo('Temos matéria prima correspondente', 'mat_prima', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oMatPrima->addItemSelect('Sim', 'Sim');
         $oMatPrima->addItemSelect('Não', 'Não');
 
-        $oEquipMatPrima = new campo('Evidência', 'mat_prima_evid', Campo::TIPO_TEXTO, 5);
-        $oEquipMatPrima->setIMarginTop(7);
+        $oEquipMatPrima = new campo('Evidência', 'mat_prima_evid', Campo::TIPO_TEXTO, 5, 5, 12, 12);
 
         //estudo_proc
 
-        $oEstudoProc = new Campo('Requer estudo de processo', 'estudo_proc', Campo::TIPO_SELECT, 3);
+        $oEstudoProc = new Campo('Requer estudo de processo', 'estudo_proc', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oEstudoProc->addItemSelect('Sim', 'Sim');
         $oEstudoProc->addItemSelect('Não', 'Não');
 
-        $oEstudoEvid = new Campo('Evidência', 'estudo_proc_evid', Campo::TIPO_TEXTO, 5);
-        $oEstudoEvid->setIMarginTop(7);
+        $oEstudoEvid = new Campo('Evidência', 'estudo_proc_evid', Campo::TIPO_TEXTO, 5, 5, 12, 12);
 
         //prod_sim
-        $oProdSimilar = new Campo('Existe produto similar?', 'prod_sim', Campo::TIPO_SELECT, 3);
+        $oProdSimilar = new Campo('Existe produto similar?', 'prod_sim', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oProdSimilar->addItemSelect('Sim', 'Sim');
         $oProdSimilar->addItemSelect('Não', 'Não');
         //prod_sim_evid
 
-        $oProdSimilarEvid = new Campo('Evidência', 'prod_sim_evid', Campo::TIPO_TEXTO, 5);
-        $oProdSimilarEvid->setIMarginTop(7);
+        $oProdSimilarEvid = new Campo('Evidência', 'prod_sim_evid', Campo::TIPO_TEXTO, 5, 5, 12, 12);
 
         //desen_ferram
-        $oDesenFerram = new Campo('Precisa desenvolver ferramental?', 'desen_ferram', Campo::TIPO_SELECT, 3);
+        $oDesenFerram = new Campo('Precisa desenvolver ferramental?', 'desen_ferram', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oDesenFerram->addItemSelect('Sim', 'Sim');
         $oDesenFerram->addItemSelect('Não', 'Não');
         //desen_ferram_evid
-        $oDesenFerramEvid = new Campo('Evidência', 'desen_ferram_evid', Campo::TIPO_TEXTO, 5);
-        $oDesenFerramEvid->setIMarginTop(7);
+        $oDesenFerramEvid = new Campo('Evidência', 'desen_ferram_evid', Campo::TIPO_TEXTO, 5, 5, 12, 12);
 
-        $oObs_viavel = new Campo('Observação', 'sol_viavel_obs', Campo::TIPO_TEXTAREA, 8);
+        $oObs_viavel = new Campo('Observação', 'sol_viavel_obs', Campo::TIPO_TEXTAREA, 8, 8, 12, 12);
 
-        $oViavel = new Campo('A solicitação é considerada viável operacionalmente?', 'sol_viavel', Campo::TIPO_RADIO, 6);
+        $oViavel = new Campo('A solicitação é considerada viável operacionalmente?', 'sol_viavel', Campo::TIPO_RADIO, 6, 6, 12, 12);
         $oViavel->addItenRadio('Sim', 'Sim');
         $oViavel->addItenRadio('Não', 'Não');
 
@@ -298,24 +260,24 @@ class ViewQualNovoProj extends View {
 
 
 
-        $oLabel1 = new Campo('Requisitos analisados', 'label1', Campo::TIPO_LABEL, 3);
+        $oLabel1 = new Campo('Requisitos analisados', 'label1', Campo::TIPO_LABEL, 3, 3, 12, 12);
         $oLabel1->setIMarginTop(15);
 
-        $oLabel2 = new Campo('Valor', 'label2', Campo::TIPO_LABEL, 3);
+        $oLabel2 = new Campo('Valor', 'label2', Campo::TIPO_LABEL, 3, 3, 12, 12);
         $oLabel2->setIMarginTop(15);
 
-        $oLabel3 = new campo('Planejamento e desenvolvimento do projeto', 'label3', Campo::TIPO_LABEL, 3);
+        $oLabel3 = new campo('Planejamento e desenvolvimento do projeto', 'label3', Campo::TIPO_LABEL, 3, 3, 12, 12);
         $oVlrDesenProj = new Campo('', 'vlrDesenProj', Campo::TIPO_TEXTO, 1);
         $oVlrDesenProj->setIMarginTop(2);
         $oVlrDesenProj->setSValor('0');
 
 
-        $oLabel4 = new campo('Ferramental', 'label4', Campo::TIPO_LABEL, 3);
+        $oLabel4 = new campo('Ferramental', 'label4', Campo::TIPO_LABEL, 3, 3, 12, 12);
         $oVlrFerra = new campo('', 'vlrFerramen', Campo::TIPO_TEXTO, 1);
         $oVlrFerra->setIMarginTop(2);
         $oVlrFerra->setSValor('0');
 
-        $oLabel5 = new campo('Matéria Prima', 'label5', Campo::TIPO_LABEL, 3);
+        $oLabel5 = new campo('Matéria Prima', 'label5', Campo::TIPO_LABEL, 3, 3, 12, 12);
         $ovlrMatPrima = new campo('', 'vlrMatPrima', Campo::TIPO_TEXTO, 1);
         $ovlrMatPrima->setIMarginTop(2);
         $ovlrMatPrima->setSValor('0');

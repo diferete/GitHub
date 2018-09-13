@@ -769,8 +769,8 @@ class Grid {
                     . '$("#' . $this->getSCampoRetorno() . '").blur();'
                     . '} );';
 
-            $sEnter = '$("#' . $this->getSId() . ' tbody tr").keypress(function(e) { '  //$( "#style327115ae71976bad30 tbody tr" ).keydown(function(e) {
-                    . '                if(e.which == 13) { '
+            $sEnter = '$("#' . $this->getSId() . ' tbody").keypress(function(e) { '  
+                    . 'if(e.which == 13) { '
                     . ' $("#' . $this->getSId() . ' tbody .selected").each(function(){ '
                     . '  var chaveRet = $(this).find(".consultaCampo").html(); '
                     . '$("#' . $this->getSId() . 'form").remove();'

@@ -100,6 +100,7 @@ class Campo {
     const TIPO_SELECTMULTI = 26;
     const CAMPO_SELECT = 27;
     const CAMPO_SELECTSIMPLE = 28;
+    const TIPO_TESTE = 99;
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
@@ -1323,10 +1324,10 @@ class Campo {
                 break;
             case self::TIPO_TEXTO:
                 $sCampo = //'<div class="form-group">'
-                        '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        '<div style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<input type="text" style="margin-top:' . $this->getIMarginTop() . 'px;font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
+                        . '<input type="text" style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
                         . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         //.'</div>'
@@ -1368,7 +1369,7 @@ class Campo {
                 }
                 if ($this->getBTime()) {
                     $sCampo .= '<script>'
-                            . '$("#' . $this->getId() . ' ").mask("99:99:99");'
+                            . '$("#' . $this->getId() . ' ").mask("99:99");'
                             . '</script>';
                 }
                 break;
@@ -1385,8 +1386,21 @@ class Campo {
                         . '</script>'
                         . $this->getRenderEventos();
                 break;
+            case self::TIPO_TESTE:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        //  .'<label for="input-money ">'.$this->getLabel().'</label>'
+                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'
+                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '</div>'
+                        . '</div>'
+                        . '<script>'
+                        . '$("#' . $this->getId() . '").number(true,2);'
+                        . '</script>'
+                        . $this->getRenderEventos();
+                break;
             case self::TIPO_SELECT:
-                $sCampo = '<div style="margin-top:8px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
                         . '<select name="' . $this->getNome() . '" class="form-control" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
@@ -1438,7 +1452,7 @@ class Campo {
                 if ($this->getSValor() == '' || $this->getSValor() == null) {
                     $sCampo = '$("#' . $this->getId() . '").fileinput("clear"); ';
                 }
-                $sCampo = '<div id="' . $this->getId() . '-group" style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                $sCampo = '<div id="' . $this->getId() . '-group" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<label>' . $this->getLabel() . '</label>'
                         . '<input type="file"  id="' . $this->getId() . '" name="' . $this->getNome() . '"  >'
                         . '</div>'
@@ -1473,7 +1487,7 @@ class Campo {
                 if ($this->getSValor() == 'TRUE' || $this->getSValor() == 'true') {
                     $sCheck = 'checked';
                 }
-                $sCampo = '<div style="margin-top:5px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                $sCampo = '<div style="margin-top:20px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div  style="margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '-group" class="checkbox-custom checkbox-success">'//class="checkbox-custom checkbox-success"
                         . '<input  id="' . $this->getId() . '"  name="' . $this->getNome() . '" type="checkbox" value="true" ' . $sCheck . ' ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
@@ -1657,9 +1671,9 @@ class Campo {
                         . '   <label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" autocomplete="off" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
                         . 'id="' . $this->getId() . '"  placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
-                        . '   <span class="input-group-btn">'
-                        . '     <button title="Pesquisar" type="button" class="btn ' . $this->getSTipoBotao() . ' ' . $sBtnSmall . '" id="' . $this->getId() . '-btn" style="margin-top: 29px; margin-rigth:0px;padding:6px 10px 6px 10px !important;" ><i class="icon wb-search" aria-hidden="true"></i></button>'
-                        . '   </span>'
+                        . '   <span class="input-group-btn">';
+                $this->verficaCampoBloqueado($this->getBCampoBloqueado()) == true ? $sCampo .= '     <button title="Pesquisar" disabled type="button" class="btn ' . $this->getSTipoBotao() . ' ' . $sBtnSmall . '" id="' . $this->getId() . '-btn" style="margin-top: 22px; margin-rigth:0px;padding:6px 10px 6px 10px !important;" ><i class="icon wb-search" aria-hidden="true"></i></button>' : $sCampo .= '     <button title="Pesquisar" type="button" class="btn ' . $this->getSTipoBotao() . ' ' . $sBtnSmall . '" id="' . $this->getId() . '-btn" style="margin-top: 22px; margin-rigth:0px;padding:6px 10px 6px 10px !important;" ><i class="icon wb-search" aria-hidden="true"></i></button>';
+                $sCampo .= '   </span>'
                         . ' </div>'
                         . ' </div>'
                         . '<script>'

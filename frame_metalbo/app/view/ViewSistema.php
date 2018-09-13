@@ -649,6 +649,8 @@ class ViewSistema extends View {
                 . '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>'
                 . '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput_locale_pt-BR.js" ></script>'
                 . '<!-- Core -->'
+                . '<script src="biblioteca/jquery-number/jquery.number.js"></script>'
+                . '<script src="biblioteca/jquery-number/jquery.number.min.js"></script>'
                 . '<script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>'
                 . '<script src="biblioteca/assets/vendor/animsition/jquery.animsition.js"></script>'
                 . '<script src="biblioteca/assets/vendor/asscroll/jquery-asScroll.js"></script>'
@@ -718,11 +720,11 @@ class ViewSistema extends View {
                 . ' if (classeBusca !== undefined && classeBusca != ""){'
                 . ' var cont = $("#carregapesq").val().length; '
                 . ' if (cont > 4 ){ '
-                . ' console.log(controleRequest);'
+                //. ' console.log(controleRequest);'
                 . ' requestAjax("",classeBusca,metodoBusca,campoRetId+","+idbusca+","+campoBusca+","+campoValor+","+$("#carregapesq").val());'
                 . ' controleRequest ="request";'
                 // .' controleRequest ="n";'&& controleRequest === "s"
-                . ' console.log(controleRequest);'
+                //. ' console.log(controleRequest);'
                 . ' }'
                 . ' }'
                 . ' };'
@@ -834,6 +836,11 @@ class ViewSistema extends View {
                 . " '</div>'"
                 . ");"
                 . "};"
+                //. "function FechaCarregando(tabId) {"
+                //. "var abaAtiva = $('#'+ tabID +'-carregando');"
+                //. "var abaAtiva = $('.carregando');"
+                //. "alert('Fecha:'+ tabId+ '-carregando');"
+                //. "abaAtiva.hide();"
                 . "function ativaTab(tabname){"
                 . "$('#tabmenusuperior > li').removeClass(\"active\");"
                 . "$('#tabmenucont > div').removeClass(\"active\");"
@@ -862,9 +869,6 @@ class ViewSistema extends View {
                 //. "alert('chegou no show perfil');"
                 . "$('#perfilPrincipal').show();"
                 . "}";
-
-
-
 
         return $sTab;
     }

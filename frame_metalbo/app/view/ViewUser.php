@@ -93,12 +93,11 @@ class ViewUser extends View {
         $oUsoSalva = new Campo('Grava senha para acesso', 'ususalvasenha', Campo::TIPO_CHECK, 5);
 
 
-        $oUsuimagem = new Campo('Imagem Perfil', 'usuimagem', Campo::TIPO_UPLOAD, 2, 2, 2, 2);
+        $oUsuimagem = new Campo('Imagem Perfil', 'usuimagem', Campo::TIPO_UPLOAD, 4, 4, 12, 12);
         $oUsuimagem->setExtensoesPermitidas('png', 'jpg', 'gif');
 
         $oNomeDelsoft = new campo('Nome Delsoft', 'usunomeDelsoft', Campo::TIPO_TEXTO, 4);
         $oNomeDelsoft->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '10');
-
 
         $oFilcgc = new Campo('Empresa Padrão', 'filcgc', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oFilcgc->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
@@ -130,9 +129,6 @@ class ViewUser extends View {
         $oCodSetor = new Campo('Setor', 'Setor.codsetor', Campo::TIPO_TEXTO, 1);
         $oCodSetor->setClasseBusca('Setor');
         $oCodSetor->addCampoBusca('descsetor', null, $this->getTela()->getId()); //sempre setar o nome do modulo referente a pesquisa
-
-
-
 
         $oLabelDadosUsuarios = new Campo('Dados do Usuário:', '', Campo::TIPO_LABEL);
         $oLabelDadosLogin = new Campo('Dados de Login:', '', Campo::TIPO_LABEL);

@@ -298,7 +298,7 @@ class Botao {
                         . '</script>';
                 break;
             case self::TIPO_PESQUISAR:
-                $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="margin-top: 29px; margin-rigth:0px;left:-12px" >'
+                $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="margin-top: 22px; margin-rigth:0px;left:-8px;z-index:2" >'
                         . '<button title="Pesquisar" type="button" class="btn btn-icon btn-success" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
                         . '<i class="icon wb-search" aria-hidden="true"></i></button>'
                         . '</div>'

@@ -112,18 +112,15 @@ class ViewCadCliRep extends View {
 
         $oEmpFant = new campo('Nome Fantasia', 'empfant', Campo::TIPO_TEXTO, 5, 5, 12, 12);
         $oEmpFant->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '35');
-        $oEmpFant->setIMarginTop(8);
-
+       
         $oTipoPessoa = new campo('Tipo de pessoa', 'empfj', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oTipoPessoa->addItemSelect('J', 'Jurídica');  //J = jurídica F= física
         $oTipoPessoa->addItemSelect('F', 'Física');
-        $oTipoPessoa->setIMarginTop(8);
         $oTipoPessoa->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!');
 
         $oConsFinal = new Campo('Consumidor final', 'empconfina', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oConsFinal->addItemSelect('N', 'Cliente não é consumidor final');
         $oConsFinal->addItemSelect('S', 'Cliente é um consumidor final');
-        $oConsFinal->setIMarginTop(8);
         $oConsFinal->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!');
 
         $oEmpFone = new campo('Telefone *(Somente N°)', 'empfone', Campo::TIPO_TEXTO, 3, 3, 12, 12);
@@ -145,11 +142,9 @@ class ViewCadCliRep extends View {
         $oCarteira->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório');
 
         $oComer = new campo('Cliente', 'comer', Campo::TIPO_CHECK, 1);
-        $oComer->setIMarginTop(25);
         $oComer->setSValor(true);
 
         $oTransp = new campo('Transportadora', 'transp', Campo::TIPO_CHECK, 1);
-        $oTransp->setIMarginTop(25);
 
         $oFieldEnd = new FieldSet('Endereço');
 
@@ -189,7 +184,6 @@ class ViewCadCliRep extends View {
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');
-        $oEmpIns->setIMarginTop(8);
 
         $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oRep->addItemSelect('Cod. Representate', 'Cod. Representate');

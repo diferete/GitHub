@@ -91,9 +91,6 @@ class ViewQualNovoProjProd extends View {
         //$aInicial[0] = 'sitgeralproj,Todos';
         //$this->getTela()->setAParametros($aInicial);
 
-
-
-
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","QualNovoProjProd","renderTempo",chave+",qualnovoprojprodtempo");');
     }
@@ -243,9 +240,6 @@ class ViewQualNovoProjProd extends View {
         $oProcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
         $oProcod->setBFocus(true);
 
-
-
-
         $oFieldDimen->addCampos(array($oChaveMin, $oChaveMax, $oAltMin, $oAltMax), array($oDiamFmin, $oDiamFmax, $oCompMin, $oCompMax), array($oDiamPriMin, $oDiamPriMax, $oDiamExtMin, $oDiamExtMax), array($oCompRMin, $oCompRMax, $oCompHasteMin, $oCompHasteMax), array($oDiamHasteMin, $oDiamHasteMax, $oAngHelice, $oAcab, $oMaterial, $oClasse));
 
         /* private $tiprosca;
@@ -266,12 +260,10 @@ class ViewQualNovoProjProd extends View {
         $oPpap->addItemSelect('Não', 'Não');
 
         $oVolVenda = new Campo('Volume de venda previsto', 'vendaprev', Campo::TIPO_TEXTO, 4, 4, 12, 12);
-        $oVolVenda->setIMarginTop(7);
 
         $oReqCli = new Campo('Requisito adicional solicitado pelo cliente', 'reqcli', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
 
         $oRespProj = new campo('...', 'codresproj', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 112, 112);
-
 
         $oRespProjNome = new Campo('Resp. Projetos', 'respproj', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oRespProjNome->setSIdPk($oRespProj->getId());
@@ -279,7 +271,6 @@ class ViewQualNovoProjProd extends View {
         $oRespProjNome->addCampoBusca('usucodigo', '', '');
         $oRespProjNome->addCampoBusca('usunome', '', '');
         $oRespProjNome->setSIdTela($this->getTela()->getid());
-
 
         $oRespProj->setClasseBusca('User');
         $oRespProj->setSCampoRetorno('usucodigo', $this->getTela()->getId());
@@ -289,7 +280,6 @@ class ViewQualNovoProjProd extends View {
 
         $oFieldAnaliseCri = new FieldSet('Análise crítica de entrada');
         $oFieldAnaliseCri->setOculto(true);
-
 
         $oLabel1 = new Campo('Requisitos análisados', 'label1', Campo::TIPO_LABEL, 4, 4, 12, 12);
 
@@ -301,8 +291,8 @@ class ViewQualNovoProjProd extends View {
         $oDadosEnt->addItemSelect('Não', 'Não');
 
         $oDadosEnt_obs = new campo('', 'dadosent_obs', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oDadosEnt_obs->setIMarginTop(35);
         $oDadosEnt_obs->setSCorFundo(Campo::FUNDO_VERDE);
+        $oDadosEnt_obs->setIMarginTop(22);
 
         $oReqLegal = new campo('Os requisitos legais aplicáveis foram levantados?', 'reqlegal', Campo::TIPO_SELECT, 4);
         $oReqLegal->addItemSelect('Na', 'Na');
@@ -310,17 +300,17 @@ class ViewQualNovoProjProd extends View {
         $oReqLegal->addItemSelect('Não', 'Não');
 
         $oReqLegal_obs = new campo('', 'reqlegal_obs', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oReqLegal_obs->setIMarginTop(35);
         $oReqLegal_obs->setSCorFundo(Campo::FUNDO_VERDE);
-
+        $oReqLegal_obs->setIMarginTop(22);
+        
         $oReqadicional = new campo('Algum requisito adicional de clientes?', 'reqadicional', Campo::TIPO_SELECT, 4);
         $oReqadicional->addItemSelect('Na', 'Na');
         $oReqadicional->addItemSelect('Sim', 'Sim');
         $oReqadicional->addItemSelect('Não', 'Não');
 
         $oReqadicional_obs = new Campo('', 'reqadicional_obs', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oReqadicional_obs->setIMarginTop(35);
         $oReqadicional_obs->setSCorFundo(Campo::FUNDO_VERDE);
+        $oReqadicional_obs->setIMarginTop(22);
 
         $oReqadverif = new Campo('Algum requisito adicional de verificação?', 'reqadverif', Campo::TIPO_SELECT, 4);
         $oReqadverif->addItemSelect('Na', 'Na');
@@ -328,8 +318,8 @@ class ViewQualNovoProjProd extends View {
         $oReqadverif->addItemSelect('Não', 'Não');
 
         $oReqadverif_obs = new Campo('', 'reqadverif_obs', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oReqadverif_obs->setIMarginTop(35);
         $oReqadverif_obs->setSCorFundo(Campo::FUNDO_VERDE);
+        $oReqadverif_obs->setIMarginTop(22);
 
         $oReqadval = new Campo('Algum requisito adicional de validação?', 'reqadval', Campo::TIPO_SELECT, 4);
         $oReqadval->addItemSelect('Na', 'Na');
@@ -337,8 +327,8 @@ class ViewQualNovoProjProd extends View {
         $oReqadval->addItemSelect('Não', 'Não');
 
         $oReqadval_obs = new Campo('', 'reqadval_obs', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oReqadval_obs->setIMarginTop(35);
         $oReqadval_obs->setSCorFundo(Campo::FUNDO_VERDE);
+        $oReqadval_obs->setIMarginTop(22);
 
         $oReqproblem = new Campo('Consideramos que o produto não terá problemas com dimensional e montabilidade?', 'reqproblem', Campo::TIPO_SELECT, 4);
         $oReqproblem->addItemSelect('Na', 'Na');
@@ -346,11 +336,10 @@ class ViewQualNovoProjProd extends View {
         $oReqproblem->addItemSelect('Não', 'Não');
 
         $oReqproblem_obs = new Campo('', 'reqproblem_obs', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oReqproblem_obs->setIMarginTop(58);
         $oReqproblem_obs->setSCorFundo(Campo::FUNDO_VERDE);
+        $oReqproblem_obs->setIMarginTop(44);
 
         $oComen = new Campo('Comentários', 'comem', Campo::TIPO_TEXTAREA, 8, 8, 12, 12);
-
 
         $oFieldAnaliseCri->addCampos(array($oLabel1, $oLabel3), array($oDadosEnt, $oDadosEnt_obs), array($oReqLegal, $oReqLegal_obs), array($oReqadicional, $oReqadicional_obs), array($oReqadverif, $oReqadverif_obs), array($oReqadval, $oReqadval_obs), array($oReqproblem, $oReqproblem_obs), $oComen);
 
@@ -383,31 +372,31 @@ class ViewQualNovoProjProd extends View {
         $oProduto = new campo('Produto', 'desc_novo_prod', Campo::TIPO_TEXTO, 12);
         $oProduto->setSValor($oDados->desc_novo_prod);
         $oProduto->setBCampoBloqueado(true);
-        
-        $oProcessos = new Campo('Conf. a frio', '1', Campo::TIPO_CHECK,3);
-        $oProcessos1 = new Campo('Conf. a quente', '2', Campo::TIPO_CHECK,3);
-        $oProcessos2 = new Campo('Corte barra - PF frio', '3', Campo::TIPO_CHECK,3);
-        $oProcessos3 = new Campo('Corte barra - PF quente', '4', Campo::TIPO_CHECK,3);
-        $oProcessos4 = new Campo('Revenimento', '5', Campo::TIPO_CHECK,3);
-        $oProcessos5 = new Campo('CNC', '6', Campo::TIPO_CHECK,3);
-        $oProcessos6 = new Campo('CNC - Terceiros', '7', Campo::TIPO_CHECK,3);
-        $oProcessos7 = new Campo('Rosqueamento', '8', Campo::TIPO_CHECK,3);
-        $oProcessos8 = new Campo('Laminação', '9', Campo::TIPO_CHECK,3);
-        $oProcessos9 = new Campo('Processos especiais', '10', Campo::TIPO_CHECK,3);
-        $oProcessos10 = new Campo('Tr. térmico', '11', Campo::TIPO_CHECK,3);
-        $oProcessos11 = new Campo('Tr. térmico - Terceiros', '12', Campo::TIPO_CHECK,3);
-        $oProcessos12 = new Campo('Óleo rustilo', '13', Campo::TIPO_CHECK,3);
-        $oProcessos13 = new Campo('Granalha', '14', Campo::TIPO_CHECK,3);
-        $oProcessos14 = new Campo('Galvanização', '15', Campo::TIPO_CHECK,3);
-        $oProcessos15 = new Campo('Zincagem', '16', Campo::TIPO_CHECK,3);
-        $oProcessos16 = new Campo('Zincagem - Terceiros', '17', Campo::TIPO_CHECK,3);
-        $oProcessos17 = new Campo('Embalagem', '18', Campo::TIPO_CHECK,3);
+
+        $oProcessos = new Campo('Conf. a frio', '1', Campo::TIPO_CHECK, 3);
+        $oProcessos1 = new Campo('Conf. a quente', '2', Campo::TIPO_CHECK, 3);
+        $oProcessos2 = new Campo('Corte barra - PF frio', '3', Campo::TIPO_CHECK, 3);
+        $oProcessos3 = new Campo('Corte barra - PF quente', '4', Campo::TIPO_CHECK, 3);
+        $oProcessos4 = new Campo('Revenimento', '5', Campo::TIPO_CHECK, 3);
+        $oProcessos5 = new Campo('CNC', '6', Campo::TIPO_CHECK, 3);
+        $oProcessos6 = new Campo('CNC - Terceiros', '7', Campo::TIPO_CHECK, 3);
+        $oProcessos7 = new Campo('Rosqueamento', '8', Campo::TIPO_CHECK, 3);
+        $oProcessos8 = new Campo('Laminação', '9', Campo::TIPO_CHECK, 3);
+        $oProcessos9 = new Campo('Processos especiais', '10', Campo::TIPO_CHECK, 3);
+        $oProcessos10 = new Campo('Tr. térmico', '11', Campo::TIPO_CHECK, 3);
+        $oProcessos11 = new Campo('Tr. térmico - Terceiros', '12', Campo::TIPO_CHECK, 3);
+        $oProcessos12 = new Campo('Óleo rustilo', '13', Campo::TIPO_CHECK, 3);
+        $oProcessos13 = new Campo('Granalha', '14', Campo::TIPO_CHECK, 3);
+        $oProcessos14 = new Campo('Galvanização', '15', Campo::TIPO_CHECK, 3);
+        $oProcessos15 = new Campo('Zincagem', '16', Campo::TIPO_CHECK, 3);
+        $oProcessos16 = new Campo('Zincagem - Terceiros', '17', Campo::TIPO_CHECK, 3);
+        $oProcessos17 = new Campo('Embalagem', '18', Campo::TIPO_CHECK, 3);
 
 
         $oBtnInserir = new Campo('EMITIR', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         //id do grid
-   
+
         $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","QualNovoProjProd","geraEtapaProcesso","' . $this->getTela()->getId() . '-form","");';
 
         $oBtnInserir->setSAcaoBtn($sAcao);
@@ -415,13 +404,7 @@ class ViewQualNovoProjProd extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
         $this->addCampos(
-                array($oNr, $oEmpcod, $oEmpdes), $oProduto, 
-                array($oProcessos,$oProcessos2,$oProcessos5,$oProcessos4),
-                array($oProcessos1,$oProcessos3,$oProcessos6,$oProcessos7),
-                array($oProcessos10,$oProcessos8,$oProcessos9,$oProcessos12),
-                array($oProcessos11,$oProcessos15,$oProcessos13),
-                array($oProcessos17,$oProcessos16,$oProcessos14),
-                array($oBtnInserir, $oFilcgc));
+                array($oNr, $oEmpcod, $oEmpdes), $oProduto, array($oProcessos, $oProcessos2, $oProcessos5, $oProcessos4), array($oProcessos1, $oProcessos3, $oProcessos6, $oProcessos7), array($oProcessos10, $oProcessos8, $oProcessos9, $oProcessos12), array($oProcessos11, $oProcessos15, $oProcessos13), array($oProcessos17, $oProcessos16, $oProcessos14), array($oBtnInserir, $oFilcgc));
     }
 
 }

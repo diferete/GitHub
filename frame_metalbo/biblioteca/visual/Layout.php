@@ -68,7 +68,7 @@ class Layout {
                //abre a novo conjunto de abas
                $sTab.=$oTab->getRender();
                //renderizar as abas
-               $sAbas.='<ul class="nav nav-tabs" data-plugin="nav-tabs" role="tablist">';
+               $sAbas.='<ul class="nav nav-tabs nav-tabs-line" data-plugin="nav-tabs" role="tablist">';
                foreach ($oTab->getItems() as $key => $oAba) {
                   $sAbas.=$oAba->getRenderAba();    
                }
