@@ -11,7 +11,17 @@
 class ModelSTEEL_PCP_Tratamentos {
     private $tratcod;
     private $tratdes;
+    private $tratrevencomp;
     
+    function getTratrevencomp() {
+        return $this->tratrevencomp;
+    }
+
+    function setTratrevencomp($tratrevencomp) {
+        $this->tratrevencomp = $tratrevencomp;
+    }
+
+        
     function getTratcod() {
         return $this->tratcod;
     }

@@ -19,9 +19,9 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oMatDes = new CampoConsulta('Descrição', 'STEEL_PCP_material.matdes');
         $oRecCod = new CampoConsulta('Cod. Receita', 'cod');
         $oRecDes = new CampoConsulta('Descrição','STEEL_PCP_receitas.peca');
-        $oNucDur = new CampoConsulta('Dur.Nuc.','durezaNuc');
-        $oSupDur = new CampoConsulta('Dur.Superf','durezaSuperf');
-        $oCamDur = new CampoConsulta('Expessura.Camada','expeCamada');
+       // $oNucDur = new CampoConsulta('Dur.Nuc.','durezaNucMin');
+        //$oSupDur = new CampoConsulta('Dur.Superf','durezaSuperfMin');
+       // $oCamDur = new CampoConsulta('Expessura.Camada','expCamadaMin');
         
         $oFilProdCod = new Filtro($oProCod, Filtro::CAMPO_TEXTO, 3);
         $oFiltroProdes = new Filtro($oProDes, Filtro::CAMPO_TEXTO,3);
@@ -34,7 +34,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
 
         $this->setBScrollInf(TRUE);
         $this->getTela()->setBUsaCarrGrid(true);
-        $this->addCampos($oSeqMat,$oProCod ,$oProDes,$oMatCod,$oMatDes, $oRecCod, $oRecDes, $oNucDur, $oSupDur, $oCamDur);
+        $this->addCampos($oSeqMat,$oProCod ,$oProDes,$oMatCod,$oMatDes, $oRecCod, $oRecDes);
     }
     
     public function consultaMatOrdem() {
@@ -116,15 +116,46 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oRecCod->setSCampoRetorno('cod',$this->getTela()->getId());
         $oRecCod->addCampoBusca('peca',$oRecdes->getId(),  $this->getTela()->getId());
         
-        $oNucDur = new Campo('Dur.Nuc.','durezaNuc', Campo::TIPO_TEXTO,2);
-        $oSupDur = new Campo('Dur.Superf','durezaSuperf', Campo::TIPO_TEXTO,2);
-        $oCamDur = new Campo('Exp.Camada','expeCamada', Campo::TIPO_TEXTO,2);
+        $oNucDurMin = new Campo('Dur.NucMin.','durezaNucMin', Campo::TIPO_DECIMAL,2);
+        $oNucDurMin->addValidacao(false, Validacao::TIPO_DECIMAL);
+       
+        $oNucDurMax = new Campo('Dur.NucMax.','durezaNucMax', Campo::TIPO_DECIMAL,2);
+        $oNucDurMax->addValidacao(false, Validacao::TIPO_DECIMAL);
+       
+        $oNucEscala = new Campo('Escala','NucEscala', Campo::TIPO_SELECT,1);
+        $oNucEscala->addItemSelect('HRC','HRC');
+        $oNucEscala->addItemSelect('HV','HV');
+        $oNucEscala->addItemSelect('HRB','HRB');
+        $oNucEscala->addItemSelect('HRA','HRA');
+        $oNucEscala->addItemSelect('HB','HB');
+        
+        
+        $oSupDurMin = new Campo('Dur.SuperfMin','durezaSuperfMin', Campo::TIPO_TESTE,2);
+     //   $oSupDurMin->addValidacao(false, Validacao::TIPO_DECIMAL);
+        $oSupDurMax = new Campo('Dur.SuperfMax','durezaSuperfMax', Campo::TIPO_TESTE,2);
+     //   $oSupDurMax->addValidacao(false, Validacao::TIPO_DECIMAL);
+        $oSupEscala = new Campo('Escala','SuperEscala', Campo::TIPO_SELECT,1);
+        $oSupEscala->addItemSelect('HRC','HRC');
+        $oSupEscala->addItemSelect('HV','HV');
+        $oSupEscala->addItemSelect('HRB','HRB');
+        $oSupEscala->addItemSelect('HRA','HRA');
+        $oSupEscala->addItemSelect('HB','HB');
+        
+        $oCamDurMin = new Campo('Exp.CamadaMin','expCamadaMin', Campo::TIPO_TESTE,2);
+      //  $oCamDurMin->addValidacao(false, Validacao::TIPO_DECIMAL);
+        $oCamDurMax = new Campo('Exp.CamadaMax','expCamadaMax', Campo::TIPO_TESTE,2);
+      //  $oCamDurMax->addValidacao(false, Validacao::TIPO_DECIMAL);
         
         $oSeqMat = new Campo('Seq.Mat.','seqmat', Campo::TIPO_TEXTO,1);
         $oSeqMat->setBCampoBloqueado(true);
         
+        $oTratReven = new Campo('Descrição composta revenimento (Deve estar marcado no cadastro de tratamento "Revenir Composto")','tratrevencomp', Campo::TIPO_SELECT,8);
+        $oTratReven->addItemSelect('E ENEGRECIDO','REVENIDO E ENEGRECER');
+        $oTratReven->addItemSelect('À SECO','REVENIDO À SECO');
+        $oTratReven->addItemSelect('ENEGRECIDO OLEADO','REVENIDO ENEGRECIDO OLEADO');
+        
         $this->addCampos($oSeqMat, array($oCodigo,$oProdes),array($oMatCod, $oMatdes),
-                array($oRecCod, $oRecdes), $oLabel1,array($oNucDur, $oSupDur, $oCamDur));
+                array($oRecCod, $oRecdes), $oLabel1,array($oNucDurMin,$oNucDurMax,$oNucEscala),array($oSupDurMin,$oSupDurMax,$oSupEscala), array($oCamDurMin,$oCamDurMax),$oTratReven);
     }
 
 }

@@ -111,18 +111,29 @@ class ControllerSTEEL_PCP_Receitas extends Controller {
        
        public function beforeDelete() {
            parent::beforeDelete();
+          
+            $oReceita = Fabrica::FabricarController('STEEL_PCP_prodMatReceita');
+            $oReceita->Persistencia->adicionaFiltro('cod',$this->Model->getCod());
+            $iContReceita = $oReceita->Persistencia->getCount();
+
+            if($iContReceita==0){
+            
+                //monta o delete dos itens da receita
+                $oItens = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
+                $oItens->Persistencia->AdicionaFiltro('cod', $this->Model->getCod());
+                $oItens->Persistencia->excluir();
            
-           //monta o delete dos itens da receita
-           $oItens = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
-           $oItens->Persistencia->AdicionaFiltro('cod', $this->Model->getCod());
-           $oItens->Persistencia->excluir();
-           
-            $aRetorno = array();
-            $aRetorno[0] = true;
-            $aRetorno[1] = '';
-            return $aRetorno;
-           
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            
+            }else{
+            
+                $oModal = new Modal('Atenção', 'Essa receita não pode ser excluída, pois está vinculada a um produto!', Modal::TIPO_ERRO);
+                echo $oModal->getRender();
+                exit();
+        }  
        }
-    
     
 }

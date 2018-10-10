@@ -12,7 +12,6 @@ class ModelSTEEL_PCP_OrdensFab {
     private $op;
     private $emp_codigo;
     private $emp_razaosocial;
-    
     private $origem;
     private $documento; 
     private $prod;
@@ -35,7 +34,112 @@ class ModelSTEEL_PCP_OrdensFab {
     
     private $matcod;
     private $matdes;
+    private $retrabalho;
+    private $op_retrabalho;
     
+    private $durezaNucMin;
+    private $durezaNucMax;
+    private $NucEscala;
+    private $durezaSuperfMin;
+    private $durezaSuperfMax;
+    private $superEscala;
+    private $expCamadaMin;
+    private $expCamadaMax;
+    private $tratrevencomp;
+    
+    
+    function getDurezaNucMin() {
+        return $this->durezaNucMin;
+    }
+
+    function getDurezaNucMax() {
+        return $this->durezaNucMax;
+    }
+
+    function getNucEscala() {
+        return $this->NucEscala;
+    }
+
+    function getDurezaSuperfMin() {
+        return $this->durezaSuperfMin;
+    }
+
+    function getDurezaSuperfMax() {
+        return $this->durezaSuperfMax;
+    }
+
+    function getSuperEscala() {
+        return $this->superEscala;
+    }
+
+    function getExpCamadaMin() {
+        return $this->expCamadaMin;
+    }
+
+    function getExpCamadaMax() {
+        return $this->expCamadaMax;
+    }
+
+    function getTratrevencomp() {
+        return $this->tratrevencomp;
+    }
+
+    function setDurezaNucMin($durezaNucMin) {
+        $this->durezaNucMin = $durezaNucMin;
+    }
+
+    function setDurezaNucMax($durezaNucMax) {
+        $this->durezaNucMax = $durezaNucMax;
+    }
+
+    function setNucEscala($NucEscala) {
+        $this->NucEscala = $NucEscala;
+    }
+
+    function setDurezaSuperfMin($durezaSuperfMin) {
+        $this->durezaSuperfMin = $durezaSuperfMin;
+    }
+
+    function setDurezaSuperfMax($durezaSuperfMax) {
+        $this->durezaSuperfMax = $durezaSuperfMax;
+    }
+
+    function setSuperEscala($superEscala) {
+        $this->superEscala = $superEscala;
+    }
+
+    function setExpCamadaMin($expCamadaMin) {
+        $this->expCamadaMin = $expCamadaMin;
+    }
+
+    function setExpCamadaMax($expCamadaMax) {
+        $this->expCamadaMax = $expCamadaMax;
+    }
+
+    function setTratrevencomp($tratrevencomp) {
+        $this->tratrevencomp = $tratrevencomp;
+    }
+
+        
+    function getOp_retrabalho() {
+        return $this->op_retrabalho;
+    }
+
+    function setOp_retrabalho($op_retrabalho) {
+        $this->op_retrabalho = $op_retrabalho;
+    }
+
+        
+    function getRetrabalho() {
+        return $this->retrabalho;
+    }
+
+    function setRetrabalho($retrabalho) {
+        $this->retrabalho = $retrabalho;
+    }
+
+    
+
     /*$this->adicionaRelacionamento('matcod','matcod');
         $this->adicionaRelacionamento('matdes','matdes');*/
     
@@ -236,19 +340,6 @@ class ModelSTEEL_PCP_OrdensFab {
         $this->usuario = $usuario;
     }
 
-    
-
-    /*op integer,
-  origem varchar(50),
-  documento varchar(50),
-  prod varchar(30),
-  prodes varchar(100),
-  receita integer,
-  receita_des varchar(100),
-  quant money,
-  peso money,
-  opcliente varchar(50),
-  data date,
-  hora time,*/
+   
 }
 

@@ -16,6 +16,7 @@ class PersistenciaSTEEL_PCP_ReceitasItens extends Persistencia {
         
         $this->adicionaRelacionamento('cod','cod',true,true);
         $this->adicionaRelacionamento('seq','seq',true,true,true);
+        $this->adicionaRelacionamento('tratcod', 'tratcod');
         $this->adicionaRelacionamento('tratcod', 'STEEL_PCP_Tratamentos.tratcod');
         $this->adicionaRelacionamento('camada_min', 'camada_min');
         $this->adicionaRelacionamento('camada_max', 'camada_max');   

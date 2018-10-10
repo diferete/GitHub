@@ -12,6 +12,8 @@ class ModelSTEEL_PROD_Tratamentos {
     private $tratcod;
     private $tratdes;
     
+
+            
     function getTratcod() {
         return $this->tratcod;
     }

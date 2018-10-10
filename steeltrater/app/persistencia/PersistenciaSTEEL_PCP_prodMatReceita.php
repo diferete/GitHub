@@ -21,9 +21,17 @@ class PersistenciaSTEEL_PCP_prodMatReceita extends Persistencia {
         $this->adicionaRelacionamento('matcod', 'STEEL_PCP_material.matcod', false,false);
         $this->adicionaRelacionamento('cod', 'cod');
         $this->adicionaRelacionamento('matcod', 'STEEL_PCP_receitas.cod', false,false);
-        $this->adicionaRelacionamento('durezaNuc', 'durezaNuc');
-        $this->adicionaRelacionamento('durezaSuperf', 'durezaSuperf');
-        $this->adicionaRelacionamento('expeCamada', 'expeCamada');
+        $this->adicionaRelacionamento('durezaNucMin', 'durezaNucMin');
+        $this->adicionaRelacionamento('durezaNucMax', 'durezaNucMax');
+        $this->adicionaRelacionamento('NucEscala', 'NucEscala');//NucEscala
+        
+        $this->adicionaRelacionamento('durezaSuperfMin', 'durezaSuperfMin');
+        $this->adicionaRelacionamento('durezaSuperfMax', 'durezaSuperfMax');
+        $this->adicionaRelacionamento('SuperEscala', 'SuperEscala');//SuperEscala
+        $this->adicionaRelacionamento('expCamadaMin', 'expCamadaMin');
+        $this->adicionaRelacionamento('expCamadaMax', 'expCamadaMax');
+        
+        $this->adicionaRelacionamento('tratrevencomp', 'tratrevencomp');
 
         $this->setSTop('30');
         $this->adicionaOrderBy('seqmat', 1);

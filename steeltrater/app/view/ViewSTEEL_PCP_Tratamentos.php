@@ -34,7 +34,14 @@ class ViewSTEEL_PCP_Tratamentos extends View {
         $oTratCod->addValidacao(false, Validacao::TIPO_STRING, ''); 
         $oTratDes = new Campo('Tratamento','tratdes', Campo::TIPO_TEXTAREA,8);
         $oTratDes->addValidacao(false, Validacao::TIPO_STRING, ''); 
+        $oL1 = new Campo('','linha1', Campo::TIPO_LINHA,12);
+        $oL1->setApenasTela(true);
         
-        $this->addCampos($oTratCod,$oTratDes);
+        $oRevenComposto = new Campo('Marca tratamento como revenir composto, (No cadastro de Prod/Mat/Receita onde marcamos o complemento)','tratrevencomp', Campo::TIPO_SELECT,8,8,8,8);
+        $oRevenComposto->addItemSelect('Não', 'Não');
+        $oRevenComposto->addItemSelect('Sim', 'Sim');
+        
+        
+        $this->addCampos($oTratCod,$oTratDes,$oL1,$oRevenComposto);
     }
 }

@@ -41,8 +41,23 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
        
         $this->adicionaRelacionamento('seqmat', 'seqmat');
         
+        $this->adicionaRelacionamento('retrabalho', 'retrabalho');
+        $this->adicionaRelacionamento('op_retrabalho', 'op_retrabalho');
+        
+        $this->adicionaRelacionamento('durezaNucMin', 'durezaNucMin');
+        $this->adicionaRelacionamento('durezaNucMax', 'durezaNucMax');
+        $this->adicionaRelacionamento('NucEscala', 'NucEscala');
+        $this->adicionaRelacionamento('durezaSuperfMin', 'durezaSuperfMin');
+        $this->adicionaRelacionamento('durezaSuperfMax', 'durezaSuperfMax');
+        $this->adicionaRelacionamento('superEscala', 'superEscala');
+        $this->adicionaRelacionamento('expCamadaMin', 'expCamadaMin');
+        $this->adicionaRelacionamento('expCamadaMax', 'expCamadaMax');
+        $this->adicionaRelacionamento('tratrevencomp', 'tratrevencomp');
+        
+        
+        
         $this->adicionaOrderBy('op',1);
-        $this->setSTop('1000');
+        $this->setSTop('300');
         
     }
    
@@ -92,6 +107,19 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         
     }
     
+    
+     /**
+     * Coloca a ordem de produção em retrabalho ///////////////TERMINAR O SELECT
+     * 
+     * @param type $aOp número da op
+     */
+    public function RetrabalhoOp($aOp){
+        
+        $sSql="update STEEL_PCP_OrdensFab set situacao='Aberta',usercanc=NULL,datacanc=NULL, horacanc=NULL where op='".$aOp['op']."'   ";
+        $aRetorno = $this->executaSql($sSql);
+        
+        return $aRetorno;
+    }
    
         
 }

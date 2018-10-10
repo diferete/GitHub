@@ -13,25 +13,20 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $this->carregaClassesMvc('STEEL_PCP_OrdensFab');
     }
     
-     public function beforeUpdate() {
+    public function beforeUpdate() {
         parent::beforeUpdate();
         
-        //validar se cliente tem na base e atualizar seu nome conforme cadastro
-         $this->verificaCampos();
+        $this->verificaCampos();
        
-        $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-        $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-        $this->Model->setTemprev($this->ValorSql($this->Model->getTemprev()));
-        
+     
         
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
         return $aRetorno;
 
-
     }
-   
+
     public function afterUpdate() {
         parent::afterUpdate();
          
@@ -52,11 +47,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
 
         $this->verificaCampos();
         
-        $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-        $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-        $this->Model->setTemprev($this->ValorSql($this->Model->getTemprev()));
-        
-        
+       
 
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -95,9 +86,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         public function depoisCarregarModelAlterar($sParametros = null) {
         parent::depoisCarregarModelAlterar($sParametros);
         
-        $this->Model->setQuant(number_format($this->Model->getQuant(), 3, ',', '.'),0,0,'L' );
-        $this->Model->setPeso(number_format($this->Model->getPeso(), 3, ',', '.'),0,0,'L' );
-        $this->Model->setTemprev(number_format($this->Model->getTemprev(), 3, ',', '.'),0,0,'L' );
+       
        
     }
     
@@ -134,30 +123,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         
     }
 
-   //busca uma receita padrão 
- /*  public function buscaProdReceita($sDados){
-       $aRender = explode(',',$sDados);
-        
-        
-       
-       $oProdReceita = Fabrica::FabricarController('STEEL_PCP_ProdReceita');
-       $oDados = $oProdReceita->receitaPadrao($aRender[0]);
-       
-       
-       //coloca o valor no campo
-       if($oDados->getCod_receita()){
-        $oMensagem = new Mensagem('Localizado!','Foi localizado uma receita.', Mensagem::TIPO_SUCESSO);
-        echo $oMensagem->getRender();
-        echo '$("#'.$aRender[1].'").val("'.$oDados->getCod_receita().'");';
-        echo '$("#'.$aRender[2].'").val("");';
-       }else{
-          $oMensagem = new Mensagem('Atenção!','Não foi encontrado uma receita padrão.', Mensagem::TIPO_INFO);
-          echo $oMensagem->getRender();
-         // echo '$("#'.$aRender[1].'").val("");';
-         // echo '$("#'.$aRender[2].'").val("");';
-       }
-   }*/
-   
+  
    /**
     * Imprime as ordens de produção
     */
@@ -409,9 +375,97 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
             echo $oModal->getRender();
             exit();
         }
+        
+        //atualiza campos Dur. Nucleo Dureza Max escala super,supermax, exp, expmax, composto
+        $oProdMatRec = Fabrica::FabricarController('STEEL_PCP_prodMatReceita');
+        $oProdMatRec->Persistencia->adicionaFiltro('seqmat',$this->Model->getSeqmat());
+        $oDadosMetRec =$oProdMatRec->Persistencia->consultarWhere(); 
+        
+        $this->Model->setDurezaNucMin($oDadosMetRec->getDurezaNucMin());
+        $this->Model->setDurezaNucMax($oDadosMetRec->getDurezaNucMax());
+        $this->Model->setNucEscala($oDadosMetRec->getNucEscala());
+        
+        $this->Model->setDurezaSuperfMin($oDadosMetRec->getDurezaSuperfMin());
+        $this->Model->setDurezaSuperfMax($oDadosMetRec->getDurezaSuperfMax());
+        $this->Model->setSuperEscala($oDadosMetRec->getSuperEscala());
+        
+        $this->Model->setExpCamadaMin($oDadosMetRec->getExpCamadaMin());
+        $this->Model->setExpCamadaMax($oDadosMetRec->getExpCamadaMax());
+        $this->Model->setTratrevencomp($oDadosMetRec->getTratrevencomp());
+        
     }
  
-   
+    
+    
+    
+    /*
+     * Mensagem se deseja colocar a ordem de produção para Retrabalho
+     */ 
+     public function msgRetrabalhoOp($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+        $this->Persistencia->adicionaFiltro('op',$aCamposChave['op']);
+        $oOpAtual = $this->Persistencia->consultarWhere();
+        if($oOpAtual->getSituacao()!=='Finalizado'){
+            $oMensagem = new Modal('Situação OP inválida!', 'A OP nº' . $aCamposChave['op'] . ' não pode ser colocada em retrabalho!', Modal::TIPO_AVISO, false, true);
+            
+            echo $oMensagem->getRender();
+        }else{   
+        $oMensagem = new Modal('Colocar em Retrabalho a OP', 'Deseja colocar em Retrabalho a Ordem de Produção nº' . $aCamposChave['op'] . ' ?', Modal::TIPO_AVISO, true, true, true);
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","retrabalhoOp","' . $sDados . '");');
+       
+        echo $oMensagem->getRender();
+        }
+    }
+    
+    /*
+     * Altera para Retrabalho a Ordem de produção e cria uma nova ordem de produção
+     */
+    public function retrabalhoOp($sDados){
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+        //alimenta a model cab da op
+        $this->Persistencia->adicionaFiltro('op',$aCamposChave['op']);
+        $this->Model=$this->Persistencia->consultarWhere();
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = date("d/m/y");                     
+        $hora = date("H:i");   
+        $user =$_SESSION['nome'];
+        $this->Model->setData($data);
+        $this->Model->setHora($hora);
+        $this->Model->setUsuario($user);
+        $this->Model->setOp_retrabalho($aCamposChave['op']);
+        $this->Model->setRetrabalho('Sim');
+        $this->Model->setSituacao('Aberta');
+        $aRetorno[0]=$this->Persistencia->inserir();
+        
+        //itens da op
+        $oItensOp = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
+        $oItensOp->Persistencia->adicionaFiltro('op',$aCamposChave['op']);
+        $oModelIten=$oItensOp->Persistencia->getArrayModel();
+        
+        foreach ($oModelIten as $oIten) {
+            $oItensOp->Model = $oIten;
+            $oItensOp->Model->setOp($this->Model->getOp());
+            $oItensOp->Persistencia->setModel($oItensOp->Model);
+            $oItensOp->Persistencia->inserir();
+        }
+        
+        if($aRetorno[0]){
+        $oMensagem = new Mensagem('Atenção!','A OP '.$aCamposChave['op'].' foi colocada em Retrabalho com sucesso!', Mensagem::TIPO_SUCESSO);
+        echo $oMensagem->getRender();
+        echo"$('#".$aDados[1]."-pesq').click();"; 
+        }else{
+           $oMensagem = new Mensagem('Erro!','A OP '.$aCamposChave['op'].' não foi colocada em Retrabalho! >>>>'.$aRetorno[1], Mensagem::TIPO_ERROR);
+           echo $oMensagem->getRender();  
+        }    
+    }
         
 }
    

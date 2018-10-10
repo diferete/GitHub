@@ -19,6 +19,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oReceitaDes = new CampoConsulta('Receita','receita_des');
         $oQuant = new CampoConsulta('Quantidade','quant', CampoConsulta::TIPO_DECIMAL);
         $oPeso = new CampoConsulta('Peso','peso', CampoConsulta::TIPO_DECIMAL);
+        $oRetrabalho = new CampoConsulta('Retr.','retrabalho', CampoConsulta::TIPO_TEXTO);
         $oSituacao = new CampoConsulta('Situação', 'situacao');
         $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
         $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
@@ -27,14 +28,23 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL,1);
         $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL,2);
         $oDescricaoFiltro = new Filtro($oProdes, Filtro::CAMPO_TEXTO,3);
-        $this->addFiltro($oOpFiltro,$oCodigoFiltro,$oDescricaoFiltro);
+        
+        $oTipoAcaoFiltro = new Filtro($oRetrabalho, Filtro::CAMPO_SELECT, 3,2,12,12);
+        $oTipoAcaoFiltro->addItemSelect('Todos', 'Todos');
+        $oTipoAcaoFiltro->addItemSelect('Não', 'Não incluí retrab.');
+        $oTipoAcaoFiltro->addItemSelect('Sim', 'Incluí');
+        $oTipoAcaoFiltro->setSLabel('Retrab.');
+        $oTipoAcaoFiltro->setBInline(true);
+        
+        
+        $this->addFiltro($oOpFiltro,$oCodigoFiltro,$oDescricaoFiltro,$oTipoAcaoFiltro);
         
         $this->setUsaAcaoExcluir(false);
         
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         
-        $this->addCampos($oOp,$oSituacao,$oData,$oCodigo,$oProdes,$oSeq, $oReceitaDes,$oQuant,$oPeso);
+        $this->addCampos($oOp,$oSituacao,$oData,$oCodigo,$oProdes,$oPeso,$oRetrabalho);
         
        
         $this->setUsaDropdown(true);
@@ -45,8 +55,11 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar para Aberta', 'STEEL_PCP_OrdensFab', 'msgAbertaOp', '', false, '');
         
         
-        $this->addDropdown($oDrop1,$oDrop2);
-        $this->getTela()->setiAltura(1000);
+        $oDrop3 = new Dropdown('Retrabalho', Dropdown::TIPO_AVISO);
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Colocar em Retrabalho', 'STEEL_PCP_OrdensFab', 'msgRetrabalhoOp', '', false, '');
+        
+        $this->addDropdown($oDrop1,$oDrop2,$oDrop3);
+        $this->getTela()->setiAltura(750);
         
     }
     
@@ -75,6 +88,8 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oDocumento->addValidacao(false, Validacao::TIPO_STRING);
         if(method_exists($oDados, 'getNfsnfnro')) 
          {$oDocumento->setSValor($oDados->getNfsnfnro());}
+         
+        
          
         
         
@@ -147,63 +162,33 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         
         
         //busca campo material
-        $oCodMat = new Campo('Material','matcod', Campo::TIPO_BUSCADOBANCOPK,1);
+        $oCodMat = new Campo('Material','matcod', Campo::TIPO_TEXTO,1);
         $oCodMat->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oCodMat->setBCampoBloqueado(true);
+        
         
         //busca material descrição
-        $oMatDes = new Campo('Material Descrição','matdes', Campo::TIPO_BUSCADOBANCO,2);
-        $oMatDes->setSIdPk($oCodMat->getId());
-        $oMatDes->setClasseBusca('STEEL_PCP_Material');
-        $oMatDes->addCampoBusca('matcod','','');
-        $oMatDes->addCampoBusca('STEEL_PCP_Material','','');
-        $oMatDes->setSIdTela($this->getTela()->getId());
-        $oMatDes->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oMatDes->addValidacao(false, Validacao::TIPO_STRING);
+        $oMatDes = new Campo('Material Descrição','matdes', Campo::TIPO_TEXTO,2);
         $oMatDes->setBCampoBloqueado(true);
-        
-        //dados pk campo
-        $oCodMat->setClasseBusca('STEEL_PCP_Material');
-        $oCodMat->setSCampoRetorno('matcod',$this->getTela()->getId());
-        $oCodMat->addCampoBusca('matdes', $oMatDes->getId(), $this->getTela()->getId());
-        $oCodMat->addValidacao(false, Validacao::TIPO_STRING);
-        $oCodMat->setBCampoBloqueado(true);
+     
         
         ///////////////////////////////////////////////////////////////////////////////
         
         //busca campo receita
-        $oReceita = new Campo('Receita','receita', Campo::TIPO_BUSCADOBANCOPK,2);
+        $oReceita = new Campo('Receita','receita', Campo::TIPO_TEXTO,1);
         $oReceita->setSCorFundo(Campo::FUNDO_AMARELO);
-        
-        //busca receita descrição
-        $oReceitaDes = new Campo('Descrição','receita_des', Campo::TIPO_BUSCADOBANCO,3);
-        $oReceitaDes->setSIdPk($oReceita->getId());
-        $oReceitaDes->setClasseBusca('STEEL_PCP_Receitas');
-        $oReceitaDes->addCampoBusca('cod','','');
-        $oReceitaDes->addCampoBusca('peca','','');
-        $oReceitaDes->setSIdTela($this->getTela()->getId());
-        $oReceitaDes->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oReceitaDes->addValidacao(false, Validacao::TIPO_STRING);
-        $oReceitaDes->setBCampoBloqueado(true);
-        //dados pk campo
-        $oReceita->setClasseBusca('STEEL_PCP_Receitas');
-        $oReceita->setSCampoRetorno('cod',$this->getTela()->getId());
-        $oReceita->addCampoBusca('peca', $oReceitaDes->getId(), $this->getTela()->getId());
-        $oReceita->addValidacao(false, Validacao::TIPO_STRING);
         $oReceita->setBCampoBloqueado(true);
-        
-        $oTempRev = new Campo('Temp.Rev','temprev', Campo::TIPO_TEXTO,1);
-        
-       // $sBuscaTemp ='var recod = $("#'.$oReceita->getId().'").val();if(recod!==""){'
-       //         . 'requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_Receitas","buscaTempPadrao","'.$oTempRev->getId().'");}';
-       // $oReceita->addEvento(Campo::EVENTO_SAIR,$sBuscaTemp);
+        $oReceitaDes = new Campo('Descrição','receita_des', Campo::TIPO_TEXTO,3);
+        $oReceitaDes->setBCampoBloqueado(true);
         
         $oSeqMat = new Campo ('SeqMat','seqmat', Campo::TIPO_TEXTO,1);
         $oSeqMat->addValidacao(false, Validacao::TIPO_STRING);
         $oSeqMat->setBCampoBloqueado(true);
+       
         
-        
+        $oTempRev = new Campo('Temp.Rev','temprev', Campo::TIPO_DECIMAL,1);
         //monta o evento para buscar receita padrão
-      //  $sAcaoBusca ='requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_prodMatReceita","getDadosGrid","' . $oGridMat->getId() . '","consultaMatOrdem");';
+    
         $sEvento1 = 'var codigo = $("#'.$oCodigo->getId().'").val();'
           . 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_prodMatReceita","getDadosGrid","' . $oGridMat->getId() . '","consultaMatOrdem");';
        
@@ -212,7 +197,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oLinha = new Campo('','linha', Campo::TIPO_LINHA,12);
         $oLinha->setApenasTela(true);
         
-        $oQuant = new Campo('Quant','quant', Campo::TIPO_TEXTO,1);
+        $oQuant = new Campo('Quant','quant', Campo::TIPO_DECIMAL,1);
         $oQuant->setSValor('0,00');
         $oQuant->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
@@ -220,7 +205,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
          {$oQuant->setSValor(number_format($oDados->getNfsitqtd(), 2, ',', '.'));}
         
         
-        $oPeso = new Campo('Peso','peso', Campo::TIPO_TEXTO,1);
+        $oPeso = new Campo('Peso','peso', Campo::TIPO_DECIMAL,1);
         $oPeso->setSValor('0,00');
         $oPeso->setSCorFundo(Campo::FUNDO_MONEY);
         $oPeso->addValidacao(false, Validacao::TIPO_STRING);
@@ -275,25 +260,33 @@ class ViewSTEEL_PCP_OrdensFab extends View{
                 . '"+"'.$oMatDes->getId().'"+","+"'.$oReceita->getId().'"+","+"'.$oReceitaDes->getId().'"+","+"'.$oSeqMat->getId().'"+","+"'.$oTempRev->getId().'");} ');
         
         
-        /*
-         * $sEvento1 = 'var codigo = $("#'.$oCodigo->getId().'").val();'
-          . 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_prodMatReceita","getDadosGrid","' . $oGridMat->getId() . '","consultaMatOrdem");';
-         */
         if($sAcao=='acaoAlterar'){
          $sAcaoBuscaIni = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_prodMatReceita","getDadosGrid","' . $oGridMat->getId() . '","consultaMatOrdem");';
          $this->getTela()->setSAcaoShow($sAcaoBuscaIni);
         }
         
+        $oField1 = new FieldSet('Retrabalho');
+        
+        $oRetrabalho = new Campo('Retrabalho','retrabalho', Campo::TIPO_TEXTO,1);
+        $oRetrabalho->setBCampoBloqueado(true);
+        $oRetrabalho->setSValor('Não');
+        
+        $oOpRet = new Campo('Op Origem Retra.','op_retrabalho', Campo::TIPO_TEXTO,2);
+        $oOpRet->setBCampoBloqueado(true);
+        
+        
+        $oField1->addCampos(array($oRetrabalho,$oOpRet));
+        $oField1->setOculto(true);
+        
         $this->addCampos(array($oOp,$oOrigem,$oData,$oHora,$oUser,$oSeqProdNr, $oSituacao),
                 $oLinha,
-                $oDocumento,
+                array($oDocumento),
                 array($oEmp_codigo,$oEmp_des),
                 array($oCodigo,$oProdes),
                 $oGridMat,
                 array($oCodMat, $oMatDes,$oReceita,$oReceitaDes,$oSeqMat),
-                //array(),
-                $oLinha,
-                array($oOpCli,$oQuant,$oPeso,$oTempRev),$oObs,$oDataPrev);
+               $oLinha,
+                array($oOpCli,$oQuant,$oPeso,$oTempRev),$oObs,$oDataPrev,$oField1);
     }
     
    

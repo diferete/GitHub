@@ -15,20 +15,100 @@ class ModelSTEEL_PCP_prodMatReceita {
     private $prod;
     private $matcod;
     private $cod;
-    private $durezaNuc;
-    private $durezaSuperf;
-    private $expeCamada;
+    private $durezaNucMin;
+    private $durezaNucMax;
+    private $NucEscala;
+    private $durezaSuperfMin;
+    private $durezaSuperfMax;
+    private $SuperEscala;
+    private $expCamadaMin;
+    private $expCamadaMax;
     private $seqmat;
+    private $tratrevencomp;
     
-    function getExpeCamada() {
-        return $this->expeCamada;
+    function getSuperEscala() {
+        return $this->SuperEscala;
     }
 
-    function setExpeCamada($expeCamada) {
-        $this->expeCamada = $expeCamada;
+    function setSuperEscala($SuperEscala) {
+        $this->SuperEscala = $SuperEscala;
     }
 
         
+    
+    function getNucEscala() {
+        return $this->NucEscala;
+    }
+
+    function setNucEscala($NucEscala) {
+        $this->NucEscala = $NucEscala;
+    }
+
+        
+    function getExpCamadaMax() {
+        return $this->expCamadaMax;
+    }
+
+    function setExpCamadaMax($expCamadaMax) {
+        $this->expCamadaMax = $expCamadaMax;
+    }
+
+        
+    
+    function getExpCamadaMin() {
+        return $this->expCamadaMin;
+    }
+
+    function setExpCamadaMin($expCamadaMin) {
+        $this->expCamadaMin = $expCamadaMin;
+    }
+
+        
+    function getDurezaSuperfMax() {
+        return $this->durezaSuperfMax;
+    }
+
+    function setDurezaSuperfMax($durezaSuperfMax) {
+        $this->durezaSuperfMax = $durezaSuperfMax;
+    }
+
+        
+    function getDurezaSuperfMin() {
+        return $this->durezaSuperfMin;
+    }
+
+    function setDurezaSuperfMin($durezaSuperfMin) {
+        $this->durezaSuperfMin = $durezaSuperfMin;
+    }
+
+        
+    function getDurezaNucMax() {
+        return $this->durezaNucMax;
+    }
+
+    function setDurezaNucMax($durezaNucMax) {
+        $this->durezaNucMax = $durezaNucMax;
+    }
+
+        
+    function getDurezaNucMin() {
+        return $this->durezaNucMin;
+    }
+
+    function setDurezaNucMin($durezaNucMin) {
+        $this->durezaNucMin = $durezaNucMin;
+    }
+
+        
+    function getTratrevencomp() {
+        return $this->tratrevencomp;
+    }
+
+    function setTratrevencomp($tratrevencomp) {
+        $this->tratrevencomp = $tratrevencomp;
+    }
+
+   
     function getSeqmat() {
         return $this->seqmat;
     }
@@ -37,23 +117,7 @@ class ModelSTEEL_PCP_prodMatReceita {
         $this->seqmat = $seqmat;
     }
     
-    function getDurezaNuc() {
-        return $this->durezaNuc;
-    }
-
-    function getDurezaSuperf() {
-        return $this->durezaSuperf;
-    }
-
    
-
-    function setDurezaNuc($durezaNuc) {
-        $this->durezaNuc = $durezaNuc;
-    }
-
-    function setDurezaSuperf($durezaSuperf) {
-        $this->durezaSuperf = $durezaSuperf;
-    }
 
     function getProd() {
         return $this->prod;
