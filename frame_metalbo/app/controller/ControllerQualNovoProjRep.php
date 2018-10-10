@@ -42,7 +42,7 @@ class ControllerQualNovoProjRep extends Controller {
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
 
-        if ($this->Model->getSitgeralproj() == 'Lib.Projetos' || $this->Model->getSitgeralproj() == 'Lib.Vendas' || $this->Model->getSitgeralproj() == 'Lib.Cadastro' || $this->Model->getSitgeralproj() == 'Finalizado') {
+        if ($this->Model->getSitgeralproj() != 'Representante') {
             $aOrdem = explode('=', $sChave);
             $oMensagem = new Modal('Atenção!', 'A entrada de projeto nº' . $this->Model->getNr() . ' não pode ser modificada somente visualizada!', Modal::TIPO_ERRO, false, true, true);
             $this->setBDesativaBotaoPadrao(true);

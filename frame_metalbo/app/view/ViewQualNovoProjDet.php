@@ -33,42 +33,36 @@ class ViewQualNovoProjDet extends View{
         $oDesenPrev = new Campo('Previsão','desenho_prev', Campo::TIPO_DATA,2);
         $oDesenTer = new Campo('Término','desenho_ter', Campo::TIPO_DATA,2);
         $oDesenResp = new campo('Responsável','desenho_resp', Campo::TIPO_TEXTO,3);
-        $oDesenResp->setIMarginTop(2);
         
         $oLabel2 = new Campo('Definir etapas do processo de fabricação','label2', Campo::TIPO_LABEL,3);
         $oLabel2->setIMarginTop(30);
         $oEtapaFabPrev = new campo('Previsão','etapasfab_prev', Campo::TIPO_DATA,2);
         $oEtapaFabTer = new campo('Término','etapasfab_ter', Campo::TIPO_DATA,2);
         $oEtapaFabResp = new campo('Responsável','etapas_resp', Campo::TIPO_TEXTO,3);
-        $oEtapaFabResp->setIMarginTop(2);
         
         $oLabel3 = new Campo('Elaborar relação de ferramentas do produto','label3', Campo::TIPO_LABEL,3);
         $oLabel3->setIMarginTop(30);
         $oFerrPrev = new Campo('Previsão','relFerr_prev', Campo::TIPO_DATA,2);
         $oFerrTer = new Campo('Término','relFerr_ter', Campo::TIPO_DATA,2);
         $oFerrResp = new Campo('Responsável','relFerr_resp', Campo::TIPO_TEXTO,3);
-        $oFerrResp->setIMarginTop(2);
         
         $oLabel4 = new Campo('Elaborar desenhos de ferramentas','label4', Campo::TIPO_LABEL,3);
         $oLabel4->setIMarginTop(30);
         $oFerrDesenPrev = new Campo('Previsão','relFerrDesen_prev', Campo::TIPO_DATA,2);
         $oFerrDesenTer = new Campo('Término','relFerrDesen_ter', Campo::TIPO_DATA,2);
         $oFerrDesenResp = new Campo('Responsável','relFerrDesen_resp', Campo::TIPO_TEXTO,3);
-        $oFerrDesenResp->setIMarginTop(2);
         
         $oLabel5 = new Campo('Distrubuição de desenhos na ferramentaria','label4', Campo::TIPO_LABEL,3);
         $oLabel5->setIMarginTop(30);
         $oFerrDistPrev = new Campo('Previsão','relFerrDist_prev', Campo::TIPO_DATA,2);
         $oFerrDistTer = new Campo('Término','relFerrDist_ter', Campo::TIPO_DATA,2);
         $oFerrDistResp = new Campo('Responsável','relFerrDist_resp', Campo::TIPO_TEXTO,3);
-        $oFerrDistResp->setIMarginTop(2);
         
         $oLabel6 = new Campo('Confeccionar ferramentas','label4', Campo::TIPO_LABEL,3);
         $oLabel6->setIMarginTop(30);
         $oFerrConfPrev = new Campo('Previsão','relFerrConf_prev', Campo::TIPO_DATA,2);
         $oFerrContTer = new Campo('Término','relFerrConf_ter', Campo::TIPO_DATA,2);
         $oFerrConfResp = new Campo('Responsável','relFerrConf_resp', Campo::TIPO_TEXTO,3);
-        $oFerrConfResp->setIMarginTop(2);
     
         $oFieldDetProj->addCampos(array($oLabel1,$oDesenPrev,$oDesenTer,$oDesenResp),$oLinha2,
                 array($oLabel2,$oEtapaFabPrev,$oEtapaFabTer,$oEtapaFabResp),$oLinha2,

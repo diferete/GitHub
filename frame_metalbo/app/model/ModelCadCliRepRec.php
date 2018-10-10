@@ -44,6 +44,15 @@ class ModelCadCliRepRec {
     private $certcli;
     private $comer;
     private $transp;
+    private $usucadvenda;
+
+    function getUsucadvenda() {
+        return $this->usucadvenda;
+    }
+
+    function setUsucadvenda($usucadvenda) {
+        $this->usucadvenda = $usucadvenda;
+    }
 
     function getComer() {
         return $this->comer;

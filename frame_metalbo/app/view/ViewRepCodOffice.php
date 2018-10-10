@@ -16,16 +16,20 @@ class ViewRepCodOffice extends View {
         $officecod = new CampoConsulta('Escritório', 'officecod');
         $officeseq = new CampoConsulta('Seq.', 'officeseq');
         $oRepcod = new CampoConsulta('Representante', 'repcod');
+        $oRespVendaCod = new CampoConsulta('VendasCod', 'resp_venda_cod');
+        $oRespVendaNome = new CampoConsulta('VendasNome', 'resp_venda_nome');
 
         $oRepcodF = new Filtro($oRepcod, Filtro::CAMPO_TEXTO_IGUAL, 2);
 
         $oEscritorio = new Filtro($officecod, Filtro::CAMPO_TEXTO_IGUAL, 1);
 
-        $this->addFiltro($oRepcodF, $oEscritorio);
+        $oFilVendaNome = new Filtro($oRespVendaNome, Filtro::CAMPO_TEXTO, 2);
+
+        $this->addFiltro($oRepcodF, $oEscritorio, $oFilVendaNome);
 
 
 
-        $this->addCampos($oRepcod, $oFilcgc, $officecod, $officeseq);
+        $this->addCampos($officecod, $oRepcod, $oFilcgc, $officeseq, $oRespVendaCod, $oRespVendaNome);
     }
 
     public function criaTela() {

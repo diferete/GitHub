@@ -11,7 +11,7 @@ class ViewCadCliRepRec extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        
+
 
         $oNr = new CampoConsulta('Nr.Cadastro', 'nr');
         $oNr->setILargura(1);
@@ -23,7 +23,9 @@ class ViewCadCliRepRec extends View {
         $oEmpDes->setILargura(500);
         $oDataCad = new CampoConsulta('Data Cadastro', 'empdtcad', CampoConsulta::TIPO_DATA);
 
-        $oEmpusu = new CampoConsulta('Usuário', 'empusucad');
+        $oEmpusu = new CampoConsulta('UsuLib', 'empusucad');
+
+        $oUsuCadVenda = new CampoConsulta('UsuCad', 'usucadvenda');
 
         $oSituaca = new CampoConsulta('Situação', 'situaca');
         $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
@@ -36,14 +38,15 @@ class ViewCadCliRepRec extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Retornar para Representante', 'CadCliRepRec', 'msgRet', '', false, '');
 
         //filtros 
-        $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 4, 4);
-        $this->addFiltro($oFiltroEmpdes);
+        $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
+        $oFiltroUsuCad = new Filtro($oUsuCadVenda, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
+        $this->addFiltro($oFiltroEmpdes, $oFiltroUsuCad);
 
         $this->addDropdown($oDrop1);
 
-        $this->addCampos($oNr, $oEmpcod, $oEmpDes, $oDataCad, $oEmpusu, $oSituaca);
+        $this->addCampos($oNr, $oEmpcod, $oEmpDes, $oDataCad, $oEmpusu, $oUsuCadVenda, $oSituaca);
 
-        
+
         $this->getTela()->setILarguraGrid(1200);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoIncluir(false);
@@ -81,7 +84,7 @@ class ViewCadCliRepRec extends View {
         $oOfficecod = new Campo('...', 'officecod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oOfficecod->setSValor($_SESSION['repoffice']);
         $oOfficecod->setBCampoBloqueado(true);
-       
+
         $oOfficedes = new Campo('Escritório', 'officedes', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oOfficedes->setSValor($_SESSION['repofficedes']);
         $oOfficedes->setBCampoBloqueado(true);
@@ -97,7 +100,9 @@ class ViewCadCliRepRec extends View {
         $oHoraLib = new Campo('', 'horalib', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oHoraLib->setBOculto(true);
 
-        $oFieldInf->addCampos(array($oNr, $oEmpAtivo, $oEmpData, $oUsuCodigo, $oUsuEmpCad), array($oOfficecod, $oOfficedes, $oSit, $oDtLib, $oHoraLib));
+        $oFieldInf->addCampos(
+                array($oNr, $oEmpAtivo, $oEmpData, $oUsuCodigo, $oUsuEmpCad), 
+                array($oOfficecod, $oOfficedes, $oSit, $oDtLib, $oHoraLib));
 
         $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
@@ -162,7 +167,7 @@ class ViewCadCliRepRec extends View {
 
         $oCidCep = new campo('Cep *(Somente N°)', 'cidcep', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oCidCep->setSCorFundo(Campo::FUNDO_MONEY);
-        $oCidCep->addValidacao(FALSE,'', 'Cep inválido!', '8', '8');
+        $oCidCep->addValidacao(FALSE, '', 'Cep inválido!', '8', '8');
 
         $oEmpEnd = new campo('Endereço', 'empend', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oEmpEnd->setSCorFundo(Campo::FUNDO_MONEY);
@@ -238,11 +243,7 @@ class ViewCadCliRepRec extends View {
         $sAcaoBusca = 'requestAjax("' . $this->getTela()->getId() . '-form","CadCliRepEnd","getDadosGrid","' . $oGridEnd->getId() . '","consultaEnd");';
         $this->getTela()->setSAcaoShow($sAcaoBusca);
 
-
-
-
-
-        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira,$oComer,$oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome), $oGridEnd);
+        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome), $oGridEnd);
     }
 
 }

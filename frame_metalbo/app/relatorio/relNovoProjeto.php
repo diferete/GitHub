@@ -14,7 +14,6 @@ $sSitProj = $_REQUEST['ordsit1'];
 $sSitVenda = $_REQUEST['ordsit2'];
 $sSitCli = $_REQUEST['ordsit3'];
 
-
 class PDF extends FPDF {
 
     function Footer() { // Cria rodapé
@@ -80,7 +79,7 @@ $pdf->Cell(0, 0, "", "B", 1, 'C');  //linha em branco
 
 $pdf->SetY(45);
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
+$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
         . " tbqualNovoProjeto.empcod,empdes,convert(varchar,dtimp,103) as dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento"
         . " from tbqualNovoProjeto left outer join  widl.EMP01"
         . " on tbqualNovoProjeto.empcod  = widl.EMP01.empcod"
@@ -116,7 +115,7 @@ if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '')) {
         $sql .= " sitvendas ='" . $sSitProj . "' and sitcliente ='" . $sSitCli . "'";
     }
 }
-$sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
+$sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
         . " tbqualNovoProjeto.empcod,empdes,dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento"
         . " order by nr";
 
@@ -208,6 +207,11 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(10, 5, 'Prazo:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
     $pdf->Cell(18, 5, $row['prazoentregautil'] . ' dias', 0, 1); //quebra de linha
+
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(18, 5, 'Cód. Novo:', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(18, 5, $row['procod'], 0, 0);
 
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(17, 5, 'Descrição:', 0, 0, 'L');

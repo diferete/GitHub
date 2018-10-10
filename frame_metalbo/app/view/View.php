@@ -88,32 +88,7 @@ abstract class View {
     private $sIdAbaSelecionada;
     private $bUsaCarrGrid;
     private $oObjTela;
-   
-    
-    
-    
-    
-    private $oDecimal;
-
-    function getODecimal() {
-        return $this->oDecimal;
-    }
-
-    function setODecimal($oDecimal) {
-        $this->oDecimal = $oDecimal;
-    }
-
-    
-    
-    
-    
-    function getOObjTela() {
-        return $this->oObjTela;
-    }
-
-    function setOObjTela($oObjTela) {
-        $this->oObjTela = $oObjTela;
-    }
+    private $bOcultaBotTela; //ocultar os botões quando não é necessário
 
     function getBUsaCarrGrid() {
         return $this->bUsaCarrGrid;
@@ -121,6 +96,22 @@ abstract class View {
 
     function setBUsaCarrGrid($bUsaCarrGrid) {
         $this->bUsaCarrGrid = $bUsaCarrGrid;
+    }
+
+    function getBOcultaBotTela() {
+        return $this->bOcultaBotTela;
+    }
+
+    function setBOcultaBotTela($bOcultaBotTela) {
+        $this->bOcultaBotTela = $bOcultaBotTela;
+    }
+
+    function getOObjTela() {
+        return $this->oObjTela;
+    }
+
+    function setOObjTela($oObjTela) {
+        $this->oObjTela = $oObjTela;
     }
 
     function getSIdAbaSelecionada() {
@@ -2048,11 +2039,13 @@ abstract class View {
             $this->getTela()->setIdBtnConfirmar($oBtnAdd->getId());
             $this->getTela()->addBotoes($oBtnAdd);
         } else {
-            $sCampoIncremento .= $this->getSIdUpload();
-            $sMetodo = $this->getSRotina();
-            $oBtnAdd = new Botao('', Botao::TIPO_CONFIRMAR, '');
-            $oBtnAdd->setRequestAjax('requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . ',' . $this->getTela()->getSRenderHide() . ',' . $sCampoIncremento . '");'); //"'.$this->getSIdUpload().'"
-            $this->getTela()->addBotoes($oBtnAdd);
+            if (!($this->getBOcultaBotTela())) {
+                $sCampoIncremento .= $this->getSIdUpload();
+                $sMetodo = $this->getSRotina();
+                $oBtnAdd = new Botao('', Botao::TIPO_CONFIRMAR, '');
+                $oBtnAdd->setRequestAjax('requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . ',' . $this->getTela()->getSRenderHide() . ',' . $sCampoIncremento . '");'); //"'.$this->getSIdUpload().'"
+                $this->getTela()->addBotoes($oBtnAdd);
+            }
 
             $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
             $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);

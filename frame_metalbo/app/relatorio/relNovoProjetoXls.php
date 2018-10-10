@@ -34,13 +34,14 @@ $objPHPExcel->setActiveSheetIndex(0)
         ->setCellValue('C2', 'Data Imp')
         ->setCellValue('D2', 'Prazo')
         ->setCellValue('E2', 'Situação')
-        ->setCellValue('F2', 'Descrição')
-        ->setCellValue('G2', 'Acabamento')
-        ->setCellValue('H2', 'Quantidade')
-        ->setCellValue('I2', 'Lote Mínimo')
-        ->setCellValue('J2', 'Representante')
-        ->setCellValue('K2', 'Resp. Vendas')
-        ->setCellValue('L2', 'Preço')
+        ->setCellValue('F2','Cód.Novo')
+        ->setCellValue('G2', 'Descrição')
+        ->setCellValue('H2', 'Acabamento')
+        ->setCellValue('I2', 'Quantidade')
+        ->setCellValue('J2', 'Lote Mínimo')
+        ->setCellValue('K2', 'Representante')
+        ->setCellValue('L2', 'Resp. Vendas')
+        ->setCellValue('M2', 'Preço')
 ;
 
 $objPHPExcel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -50,18 +51,19 @@ $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(50);
 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
-$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(120);
-$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(12);
+$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(20);
+$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(120);
 $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(12);
 $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(12);
-$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(15);
+$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(12);
 $objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(15);
-$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(12);
+$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(15);
+$objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(12);
 
 
 
 
-$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,
+$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,
 tbqualNovoProjeto.empcod,empdes,convert(varchar,dtimp,103) as dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento
             from tbqualNovoProjeto left outer join  widl.EMP01
             on tbqualNovoProjeto.empcod  = widl.EMP01.empcod
@@ -76,32 +78,33 @@ $i = 3;
 
 while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 
-    if ($row['sitproj'] == 'Reprovado') {
-        $sSitProj = 'Repr. em Projetos';
-    }
-    if ($row['sitvendas'] == 'Reprovado') {
-        $sSitProj = 'Repr. em Vendas';
-    }
-    if ($row['sitcliente'] == 'Reprovado') {
-        $sSitProj = 'Repr no Cliente';
-    }
-    if ($row['respvalproj'] == true) {
-        $sSitProj = 'Aprovado Geral';
-    }
+//    if ($row['sitproj'] == 'Reprovado') {
+//        $sSitProj = 'Repr. em Projetos';
+//    }
+//    if ($row['sitvendas'] == 'Reprovado') {
+//        $sSitProj = 'Repr. em Vendas';
+//    }
+//    if ($row['sitcliente'] == 'Reprovado') {
+//        $sSitProj = 'Repr no Cliente';
+//    }
+//    if ($row['respvalproj'] == true) {
+//        $sSitProj = 'Aprovado Geral';
+//    }
 
     $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A' . $i, $row['nr'])
             ->setCellValue('B' . $i, $row['empdes'])
             ->setCellValue('C' . $i, $row['dtimp'])
             ->setCellValue('D' . $i, $row['prazoentregautil'])
-            ->setCellValue('E' . $i, $sSitProj)
-            ->setCellValue('F' . $i, $row['desc_novo_prod'])
-            ->setCellValue('G' . $i, $row['acabamento'])
-            ->setCellValue('H' . $i, $row['quant_pc'])
-            ->setCellValue('I' . $i, $row['lotemin'])
-            ->setCellValue('J' . $i, $row['repnome'])
-            ->setCellValue('K' . $i, $row['resp_venda_nome'])
-            ->setCellValue('L' . $i, $row['precofinal'])
+            ->setCellValue('E' . $i, $row['sitproj'])
+            ->setCellValue('F' . $i, $row['procod'])
+            ->setCellValue('G' . $i, $row['desc_novo_prod'])
+            ->setCellValue('H' . $i, $row['acabamento'])
+            ->setCellValue('I' . $i, $row['quant_pc'])
+            ->setCellValue('J' . $i, $row['lotemin'])
+            ->setCellValue('K' . $i, $row['repnome'])
+            ->setCellValue('L' . $i, $row['resp_venda_nome'])
+            ->setCellValue('M' . $i, $row['precofinal'])
     ;
     $i++;
 }

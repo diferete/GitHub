@@ -564,7 +564,7 @@ class Grid {
             foreach ($this->aBotoes as $key => $oBotao) {
                 $sBotao .= $oBotao->getRender();
             }
-            
+
             if (!empty($this->aDropdown)) {
                 $sModal = '';
                 foreach ($this->aDropdown as $oDropdown) {
@@ -583,7 +583,7 @@ class Grid {
         }
         if (!empty($this->aFiltro)) {
             $sFiltro = ' <div class="row" id="' . $this->getSId() . '-filtros" style="' . $this->getBMostraFiltro() . ' background-color: whitesmoke">'
-                    . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 10px 15px 10px 50px;  background-color: #e6e9ea;  border: 1px solid #eee">'
+                    . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 10px 15px 10px 70px;  background-color: #e6e9ea;  border: 1px solid #eee">'
                     . '<div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">'//ribbon ribbon-clip ribbon-reverse ribbon-primary
                     . '<a href="javascript:void(0)" id ="' . $this->getSId() . '-pesq">'
                     . '<span class="ribbon-inner" >'
@@ -630,9 +630,8 @@ class Grid {
 
         $sGrid .= '<div class="containerTable">';
         $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
-        //$sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
         $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
-                . '<thead><tr role ="row"><th></th>';
+                . '<thead><tr role ="row"><th><button id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox"></button></th>';
         //monta o cabeçalho baseado nos campos do cria consulta
         foreach ($this->aColunas as $key => $oCampoAtual) {
             $sLargura = '';
@@ -716,7 +715,7 @@ class Grid {
                     . '</script>';
         }
 
-        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<div class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
+        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
         $sGrid .= '<span name="paramGrid" id="' . $this->getAbaSel() . 'paramGrid" style="display:none;">' . $this->getSId() . '</span></tr></tbody></table></div></div>';
 
@@ -769,7 +768,7 @@ class Grid {
                     . '$("#' . $this->getSCampoRetorno() . '").blur();'
                     . '} );';
 
-            $sEnter = '$("#' . $this->getSId() . ' tbody").keypress(function(e) { '  
+            $sEnter = '$("#' . $this->getSId() . ' tbody").keypress(function(e) { '
                     . 'if(e.which == 13) { '
                     . ' $("#' . $this->getSId() . ' tbody .selected").each(function(){ '
                     . '  var chaveRet = $(this).find(".consultaCampo").html(); '
@@ -840,7 +839,16 @@ class Grid {
         //renderiza os campos
         //$sConteudo = $this->oLayout->getRender();
         //$sGrid.=$sConteudo;
-        $sGrid .= '<script>$("#' . $this->getSId() . '").DataTable( {'
+        $sGrid .= '<script>'
+                . '$("#' . $this->getSId() . '-chk").click(function () {'
+                //. 'alert("Hi back!");    '
+                . 'var tr = $("#' . $this->getSId() . 'body tr");'
+                . 'tr . each(function () {'
+                . '$(this) . toggleClass("selected");'
+                . '$("#' . $this->getSId() . '-chk") . toggleClass("icon wb-check");'
+                . ' });'
+                . '});'
+                . '$("#' . $this->getSId() . '").DataTable( {'
                 . '"scrollY": ' . $this->getIAltura() . ','
                 . '"scrollX": true,'
                 . '"searching": false,'

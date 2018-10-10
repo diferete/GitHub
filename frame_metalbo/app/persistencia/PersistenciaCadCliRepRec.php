@@ -54,7 +54,7 @@ class PersistenciaCadCliRepRec extends Persistencia {
         $this->adicionaRelacionamento('certcli', 'certcli');
         $this->adicionaRelacionamento('comer', 'comer');
         $this->adicionaRelacionamento('transp', 'transp');
-
+        $this->adicionaRelacionamento('usucadvenda', 'usucadvenda');
 
         $this->adicionaOrderBy('nr', 1);
         $this->setSTop(50);
@@ -703,6 +703,14 @@ null/*,null,null,null,null*/)
             $aRetorno[0] = true;
             return $aRetorno;
         }
+    }
+
+    public function insereUsuCad($oDados) {
+        $sSql = "update pdfempcad"
+                . " set usucadvenda = '" . $_SESSION['nome'] . "'"
+                . " where empcod = '" . $oDados->getEmpcod() . "'";
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
     }
 
 }

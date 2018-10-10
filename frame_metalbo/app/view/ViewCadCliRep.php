@@ -188,11 +188,11 @@ class ViewCadCliRep extends View {
         $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oRep->addItemSelect('Cod. Representate', 'Cod. Representate');
         foreach ($oDadosRep as $key => $oRepCodObj) {$oRep->addItemSelect($oRepCodObj->getRepcod(), $oRepCodObj->getRepcod());}
-        $oRep->addValidacao(false, Validacao::TIPO_STRING, 'Selecione código de representante', '3', '3');
+        $oRep->addValidacao(false, Validacao::TIPO_STRING, 'Selecione código de representante', '2', '3');
 
         $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oRespVenda->setBCampoBloqueado(true);
-        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING,'Caso não apareça, notificar o setor de TI da Metalbo','3','3');
+        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING,'Caso não apareça, notificar o setor de TI da Metalbo','2','3');
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oRespVendaNome->setBCampoBloqueado(true);

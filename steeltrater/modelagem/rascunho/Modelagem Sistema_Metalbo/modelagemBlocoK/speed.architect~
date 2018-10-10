@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<architect-project version="1.0" appversion="1.0.6">
+ <project-name>speed</project-name>
+ <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
+ <project-data-sources>
+  <data-source id="DS0">
+   <property key="Logical" value="Modelo de Dados" />
+  </data-source>
+ </project-data-sources>
+ <source-databases>
+ </source-databases>
+ <target-database id="ppdb" dbcs-ref="DS0">
+  <table id="TAB1" populated="true" UUID="2cba2c30-f3a0-4e8f-bb42-bc3c41ff11e6" name="WIDL.PROD08" objectType="TABLE" physicalName="WIDL.PROD08" >
+   <remarks></remarks>
+   <folder id="FOLTAB11" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL2" populated="true" UUID="f8ca2024-516f-4beb-8c29-cda256f4588c" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_procod_seq" defaultValue="" name="procod" nullable="0" physicalName="procod" precision="20" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL3" populated="true" UUID="88867d60-c5f1-4e2f-9687-dd3cc7ee5c22" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqnro_seq" defaultValue="" name="forseqnro" nullable="0" physicalName="forseqnro" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL4" populated="true" UUID="eca171ac-cb04-457c-9bd4-0169c1f08616" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqpesp_seq" defaultValue="" name="forseqpesp" nullable="0" physicalName="forseqpesp" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL5" populated="true" UUID="1b45cd89-6f80-4931-8f8f-18e9e445c025" autoIncrement="false" defaultValue="" name="forseqpest" nullable="0" physicalName="forseqpest" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL6" populated="true" UUID="11166a2b-ed07-43a6-be51-6b8197370427" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqtxin_seq" defaultValue="" name="forseqtxin" nullable="0" physicalName="forseqtxin" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL7" populated="true" UUID="f0d54959-dba1-41fa-a5d3-0b8a870329d6" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqativ_seq" defaultValue="" name="forseqativ" nullable="0" physicalName="forseqativ" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL8" populated="true" UUID="fff6395e-32d4-44a6-aba4-7d0b41d9e39d" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forsequsad_seq" defaultValue="" name="forsequsad" nullable="0" physicalName="forsequsad" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL9" populated="true" UUID="680bb02b-7757-42fb-82f1-b8f5da84fc16" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqdata_seq" defaultValue="" name="forseqdata" nullable="0" physicalName="forseqdata" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+     <remarks></remarks>
+    </column>
+    <column id="COL10" populated="true" UUID="5286f24b-e699-4606-bb19-647bcf1c386b" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forsequser_seq" defaultValue="" name="forsequser" nullable="0" physicalName="forsequser" precision="10" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL11" populated="true" UUID="bfe5b922-0740-461f-b719-7d36e36bee3e" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqdesc_seq" defaultValue="" name="forseqdesc" nullable="0" physicalName="forseqdesc" precision="80" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL12" populated="true" UUID="b6898a56-ae66-4714-9f2a-f493d29a2113" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqqtdi_seq" defaultValue="" name="forseqqtdi" nullable="0" physicalName="forseqqtdi" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL13" populated="true" UUID="24dcf0b0-d990-4e99-8925-0fdba72126ac" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqlibe_seq" defaultValue="" name="forseqlibe" nullable="0" physicalName="forseqlibe" precision="10" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL14" populated="true" UUID="1919cf6e-1f29-46d0-b802-1836a2ae9474" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqlibd_seq" defaultValue="" name="forseqlibd" nullable="0" physicalName="forseqlibd" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+     <remarks></remarks>
+    </column>
+    <column id="COL15" populated="true" UUID="c7113c52-cb06-4bc6-95d9-c803a7a4f2d7" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqempc_seq" defaultValue="" name="forseqempc" nullable="0" physicalName="forseqempc" precision="14" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="3" userDefinedTypeUUID="cc1304ea-628a-4fc5-a84a-06ba14759152" >
+     <remarks></remarks>
+    </column>
+    <column id="COL16" populated="true" UUID="c394737d-67d8-4fff-b590-8e08317a3876" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqpdvn_seq" defaultValue="" name="forseqpdvn" nullable="0" physicalName="forseqpdvn" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL17" populated="true" UUID="3cf9f28f-7f9c-4129-bd75-3b7cc4243e3a" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqdest_seq" defaultValue="" name="forseqdest" nullable="0" physicalName="forseqdest" precision="100" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL18" populated="true" UUID="236ea63f-8b36-47d0-8b18-7534fecba8a3" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqgati_seq" defaultValue="" name="forseqgati" nullable="0" physicalName="forseqgati" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL19" populated="true" UUID="ac3e4e75-c75c-457e-b2ae-c429123067c9" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forgracod_seq" defaultValue="" name="forgracod" nullable="0" physicalName="forgracod" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL20" populated="true" UUID="1900bc44-901e-4b32-839b-102e1d09c2a8" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqtmpb_seq" defaultValue="" name="forseqtmpb" nullable="0" physicalName="forseqtmpb" precision="13" referenceCount="1" scale="8" sourceDataTypeName="UserDefinedSQLType" type="3" userDefinedTypeUUID="cc1304ea-628a-4fc5-a84a-06ba14759152" >
+     <remarks></remarks>
+    </column>
+    <column id="COL21" populated="true" UUID="13ab404d-0b8f-4d38-b5de-f7dd28e19b2d" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqplan_seq" defaultValue="" name="forseqplan" nullable="0" physicalName="forseqplan" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL22" populated="true" UUID="00200590-3239-4b46-ba51-5b8bd395a923" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqVerD_seq" defaultValue="" name="forseqVerD" nullable="0" physicalName="forseqVerD" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL23" populated="true" UUID="b0c9482c-79d6-41e3-9d75-bf527f317bfd" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqbloq_seq" defaultValue="" name="forseqbloq" nullable="0" physicalName="forseqbloq" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL24" populated="true" UUID="d69c97a6-8b0a-4eb5-a8a0-6b2f3e5cb00b" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqfilc_seq" defaultValue="" name="forseqfilc" nullable="0" physicalName="forseqfilc" precision="14" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="3" userDefinedTypeUUID="cc1304ea-628a-4fc5-a84a-06ba14759152" >
+     <remarks></remarks>
+    </column>
+    <column id="COL25" populated="true" UUID="ea73619d-8edf-41ad-81dc-9fc47f5c8738" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqpada_seq" defaultValue="" name="forseqpada" nullable="0" physicalName="forseqpada" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL26" populated="true" UUID="3810ba02-a0c4-4c69-98f2-453691fe2b58" autoIncrement="false" autoIncrementSequenceName="WIDL.PROD08_forseqtipo_seq" defaultValue="" name="forseqtipo" nullable="0" physicalName="forseqtipo" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB13" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB12" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB14" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX27" populated="true" UUID="c8c57c1e-0864-490f-b5b9-1fc546e04453" clustered="false" name="WIDL.PROD08_pk" physicalName="WIDL.PROD08_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC28" populated="true" UUID="64af4887-bff7-492c-9943-69f0ded4df53" ascendingOrDescending="UNSPECIFIED" column-ref="COL2" name="procod" physicalName="procod" />
+     <index-column id="IDC29" populated="true" UUID="3dbfee66-67e1-4658-9fab-71393ed71cd1" ascendingOrDescending="UNSPECIFIED" column-ref="COL3" name="forseqnro" physicalName="forseqnro" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB30" populated="true" UUID="8932af3f-5d9e-4dd0-a22b-a3f204bf1133" name="widl.PROD081 " objectType="TABLE" physicalName="widl.PROD081 " >
+   <remarks></remarks>
+   <folder id="FOLTAB301" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL31" populated="true" UUID="96c4e41a-7383-465f-b70a-b2c6c105f4a2" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _procod_seq" defaultValue="" name="procod" nullable="0" physicalName="procod" precision="20" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL32" populated="true" UUID="b337575d-f361-40a7-9f9d-3127f813c1b2" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forseqnro_seq" defaultValue="" name="forseqnro" nullable="0" physicalName="forseqnro" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL33" populated="true" UUID="7c118488-211c-470e-8f88-86519aa92d1d" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspropos_seq" defaultValue="" name="forspropos" nullable="0" physicalName="forspropos" precision="11" primaryKeySeq="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL34" populated="true" UUID="dcb7d2e0-73f2-4926-9c6f-4183bb48c808" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprocod_seq" defaultValue="" name="forsprocod" nullable="0" physicalName="forsprocod" precision="20" primaryKeySeq="3" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL35" populated="true" UUID="250a755d-8f1f-4126-bb64-42b7bc6cb65f" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspropte(money)_seq" defaultValue="" name="forspropte(money)" nullable="0" physicalName="forspropte(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL36" populated="true" UUID="3f1f3457-5e28-4674-8286-503cb44f0659" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspropre_seq" defaultValue="" name="forspropre" nullable="0" physicalName="forspropre" precision="12" referenceCount="1" scale="6" sourceDataTypeName="UserDefinedSQLType" type="3" userDefinedTypeUUID="cc1304ea-628a-4fc5-a84a-06ba14759152" >
+     <remarks></remarks>
+    </column>
+    <column id="COL37" populated="true" UUID="ff3e787c-e5ba-44cc-8811-eaff1f233b5a" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsproper_seq" defaultValue="" name="forsproper" nullable="0" physicalName="forsproper" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL38" populated="true" UUID="5ace2502-e421-4bf1-8e3d-3bd92bf46471" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprodos_seq" defaultValue="" name="forsprodos" nullable="0" physicalName="forsprodos" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL39" populated="true" UUID="fa04490b-d176-49ce-b7d6-dfb897bdbc5f" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsproqtd_seq" defaultValue="" name="forsproqtd" nullable="0" physicalName="forsproqtd" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL40" populated="true" UUID="e5cf045f-24dc-434b-be10-6ec98ed22c5a" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprocom(money)_seq" defaultValue="" name="forsprocom(money)" nullable="0" physicalName="forsprocom(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL41" populated="true" UUID="060a3aa5-256c-4fb5-8393-b0826f1f1ea2" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprolar(money)_seq" defaultValue="" name="forsprolar(money)" nullable="0" physicalName="forsprolar(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL42" populated="true" UUID="7c954f80-4024-45e7-9309-90ac4122e1d9" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprolib_seq" defaultValue="" name="forsprolib" nullable="0" physicalName="forsprolib" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL43" populated="true" UUID="fa051ddc-9e6a-45de-8c1b-f19768055142" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspromaq_seq" defaultValue="" name="forspromaq" nullable="0" physicalName="forspromaq" precision="15" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL44" populated="true" UUID="9fe87cac-6f69-4847-8c3c-1eed9a350fbc" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspdesen_seq" defaultValue="" name="forspdesen" nullable="0" physicalName="forspdesen" precision="30" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL45" populated="true" UUID="3dba74c9-25d1-4738-afda-d9058d5e5fe2" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspromle_seq" defaultValue="" name="forspromle" nullable="0" physicalName="forspromle" precision="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL46" populated="true" UUID="098b9706-c24b-457b-aa48-fde1584c8175" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspaplic_seq" defaultValue="" name="forspaplic" nullable="0" physicalName="forspaplic" precision="40" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL47" populated="true" UUID="7f6d6e8f-c9e5-4753-abf9-4cf1816660d6" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprov1(money)_seq" defaultValue="" name="forsprov1(money)" nullable="0" physicalName="forsprov1(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL48" populated="true" UUID="b1383a70-e08f-48db-aef9-c1fc5fa172f4" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprov1(money)_seq" defaultValue="" name="forsprov2(money)" nullable="0" physicalName="forsprov2(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL49" populated="true" UUID="9a5255a6-1ee6-4baa-8316-df6bb24f58b2" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprov1(money)_seq" defaultValue="" name="forsprov3(money)" nullable="0" physicalName="forsprov3(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL50" populated="true" UUID="dfca199f-5fed-40f0-87f6-4f88ee040868" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprov1(money)_seq" defaultValue="" name="forsprov4(money)" nullable="0" physicalName="forsprov4(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL51" populated="true" UUID="1e3e9956-6b2e-4af7-b793-3b48cc4e2090" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprov1(money)_seq" defaultValue="" name="forsprov5(money)" nullable="0" physicalName="forsprov5(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL52" populated="true" UUID="c078f312-65d2-4937-aee3-a75adf97c078" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forssit_seq" defaultValue="" name="forssit" nullable="0" physicalName="forssit" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL53" populated="true" UUID="d19b43bf-a635-4a94-9df8-b9165a9c187d" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprocha_seq" defaultValue="" name="forsprocha" nullable="0" physicalName="forsprocha" precision="45" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL54" populated="true" UUID="5e3a9cc7-1a05-49b1-99b3-e9a54eed6e23" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsproprl_seq" defaultValue="" name="forsproprl" nullable="0" physicalName="forsproprl" precision="12" referenceCount="1" scale="6" sourceDataTypeName="UserDefinedSQLType" type="3" userDefinedTypeUUID="cc1304ea-628a-4fc5-a84a-06ba14759152" >
+     <remarks></remarks>
+    </column>
+    <column id="COL55" populated="true" UUID="351d2c1e-2c66-4e08-b837-a268cd1097ca" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprocli(money)_seq" defaultValue="" name="forsprocli(money)" nullable="0" physicalName="forsprocli(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL56" populated="true" UUID="fdfdd522-0977-467e-a96d-6b46ffb90df4" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprolli(money)_seq" defaultValue="" name="forsprolli(money)" nullable="0" physicalName="forsprolli(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL57" populated="true" UUID="7ced057b-ca91-418a-9bd7-739d3060bb52" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprom3(money)_seq" defaultValue="" name="forsprom3(money)" nullable="0" physicalName="forsprom3(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL58" populated="true" UUID="8d7c567b-18d5-408d-8f4e-0912d28af804" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprom3l(money)_seq" defaultValue="" name="forsprom3l(money)" nullable="0" physicalName="forsprom3l(money)" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="0" userDefinedTypeUUID="7e164a6e-b44f-40e0-8022-495a87989568" >
+     <remarks></remarks>
+    </column>
+    <column id="COL59" populated="true" UUID="a2dea27d-b9c4-454f-b4ca-a2768d328497" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspropri_seq" defaultValue="" name="forspropri" nullable="0" physicalName="forspropri" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL60" populated="true" UUID="ba61b68e-1292-4a9c-81f6-e0e6913cdc31" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspropri_seq" defaultValue="" name="forspropri" nullable="0" physicalName="forspropri" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL61" populated="true" UUID="1e20b7bb-49c1-46a3-bd3e-a0b6c563d763" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprobkx_seq" defaultValue="" name="forsprobkx" nullable="0" physicalName="forsprobkx" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL62" populated="true" UUID="f5bd98e7-0b00-4d55-86e0-6cf60b6bca23" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forspropes_seq" defaultValue="" name="forspropes" nullable="0" physicalName="forspropes" precision="12" referenceCount="1" scale="6" sourceDataTypeName="UserDefinedSQLType" type="3" userDefinedTypeUUID="cc1304ea-628a-4fc5-a84a-06ba14759152" >
+     <remarks></remarks>
+    </column>
+    <column id="COL63" populated="true" UUID="056716f3-809e-435e-af1b-4aae6faec327" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsprovia_seq" defaultValue="" name="forsprovia" nullable="0" physicalName="forsprovia" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL64" populated="true" UUID="b91ed994-168a-42df-97cf-8e35cbd296cb" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsgracod_seq" defaultValue="" name="forsgracod" nullable="0" physicalName="forsgracod" precision="20" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL65" populated="true" UUID="86ff47a9-30b3-4559-9dfd-59ac298187d1" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsforpro_seq" defaultValue="" name="forsforpro" nullable="0" physicalName="forsforpro" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL66" populated="true" UUID="4c8a7fc6-c09b-44b9-a58d-a78005dc6819" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsproemb_seq" defaultValue="" name="forsproemb" nullable="0" physicalName="forsproemb" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    <column id="COL67" populated="true" UUID="a87e384a-adeb-473c-8dd5-3465dfe2a728" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsdiasco_seq" defaultValue="" name="forsdiasco" nullable="0" physicalName="forsdiasco" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="5" userDefinedTypeUUID="69fb547f-e14c-4748-9746-4c0e9e94eb52" >
+     <remarks></remarks>
+    </column>
+    <column id="COL68" populated="true" UUID="05c4a243-6ea9-47c5-942b-138853f35382" autoIncrement="false" autoIncrementSequenceName="widl.PROD081 _forsproNAc_seq" defaultValue="" name="forsproNAc" nullable="0" physicalName="forsproNAc" precision="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="1" userDefinedTypeUUID="67ddc63f-5541-4dd1-9236-632d9d155e80" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB303" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB302" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB304" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX69" populated="true" UUID="55e1ff88-4187-47ac-a4bd-9261bbb18c9f" clustered="false" name="widl.PROD081 _pk" physicalName="widl.PROD081 _pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC70" populated="true" UUID="9691b608-d765-4749-a533-1de35cf6eab6" ascendingOrDescending="UNSPECIFIED" column-ref="COL31" name="procod" physicalName="procod" />
+     <index-column id="IDC71" populated="true" UUID="b45e0c29-20bb-4511-a2be-8d362e776939" ascendingOrDescending="UNSPECIFIED" column-ref="COL32" name="forseqnro" physicalName="forseqnro" />
+     <index-column id="IDC72" populated="true" UUID="8fe68181-7a64-4319-ac2e-1ec73bea7c09" ascendingOrDescending="UNSPECIFIED" column-ref="COL33" name="forspropos" physicalName="forspropos" />
+     <index-column id="IDC73" populated="true" UUID="4a0c5f98-d5de-46b7-ad3e-db77afaf90a3" ascendingOrDescending="UNSPECIFIED" column-ref="COL34" name="forsprocod" physicalName="forsprocod" />
+    </index>
+   </folder>
+  </table>
+  <relationships>
+  </relationships>
+ </target-database>
+ <ddl-generator type="ca.sqlpower.architect.ddl.GenericDDLGenerator" allow-connection="true"> </ddl-generator>
+ <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
+ <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
+ <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+  <table-pane table-ref="TAB1" x="84" y="83" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB30" x="393" y="51" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+ </play-pen>
+ <critic-manager>
+  <critic-grouping platformType="Generic" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PrimaryKeyCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.RelationshipMappingTypeCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.EmptyRelationshipCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericSequenceNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetDefaultOnColumnWithNoDefaultCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetNullOnNonNullableColumnCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DuplicateNameCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="DB2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DB2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="H2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.H2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="HSQLDB" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.HSQLDBUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="MySQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLCommentCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="Oracle" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OraclePhysicalNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="PostgreSQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PostgreSQLReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerUnsupportedFeaturesCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2000" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2000UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2005" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2005UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+ </critic-manager>
+ <profiles topNCount="10">
+  </profiles>
+  <olap>
+  </olap>
+  <olap-gui>
+  </olap-gui>
+</architect-project>

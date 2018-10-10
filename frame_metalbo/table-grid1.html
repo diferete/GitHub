@@ -62,6 +62,26 @@
             nav-tabs>li>a:hover{
                 background-color: #0044cc;
             }
+            .btn-checkbox{
+                border:1px solid green;
+                padding:4px;
+                background-color: #e3eee9;
+                line-height: .5em;
+                content: '\2713';
+                border: 1px solid black;
+                border-radius: 3px;
+                display: block;
+                left: 47%;
+                top: 1px;
+                width: 15px;
+                height: 15px;
+                box-sizing: border-box;
+                position: relative;
+            }
+
+            .btn-checkbox:hover{
+                background-color: #82ae9c9e
+            }
         </style>
     </head>
     <body><!--class="site-menubar-unfold" data-auto-menubar="false"-->
@@ -569,18 +589,18 @@
 
 
                                     <div id="style327115ae71976bad30resize" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-                                            <div id="style129815b8ec1cd94f8dconsulta">
+                                        <div id="style129815b8ec1cd94f8dconsulta">
                                             <div class="row botoes-consulta">
-                                            <div class="btn-toolbar" role="toolbar">
-                                                <div class="btn-group" role="group">
-                                            <button title="Adicionar registro" type="button" class="btn btn-icon btn-default btn-outline" name ="style177135b8ec1cd96225"  id="style177135b8ec1cd96225" ><span><i class="icon wb-plus-circle" aria-hidden="true"></i></span></button>
-                                            <button  title="Alterar registro" type="button" class = "btn btn-icon btn-default btn-outline" id="style51425b8ec1cd965af" disabled><span><i class="icon wb-pencil" aria-hidden="true"></i></span></button>
-                                            <button  title="Remover registro" type="button" class="btn btn-icon btn-default btn-outline" id="style290795b8ec1cd969bf"  disabled ><span><i class="icon wb-trash" aria-hidden="true"></i></span></button>
+                                                <div class="btn-toolbar" role="toolbar">
+                                                    <div class="btn-group" role="group">
+                                                        <button title="Adicionar registro" type="button" class="btn btn-icon btn-default btn-outline" name ="style177135b8ec1cd96225"  id="style177135b8ec1cd96225" ><span><i class="icon wb-plus-circle" aria-hidden="true"></i></span></button>
+                                                        <button  title="Alterar registro" type="button" class = "btn btn-icon btn-default btn-outline" id="style51425b8ec1cd965af" disabled><span><i class="icon wb-pencil" aria-hidden="true"></i></span></button>
+                                                        <button  title="Remover registro" type="button" class="btn btn-icon btn-default btn-outline" id="style290795b8ec1cd969bf"  disabled ><span><i class="icon wb-trash" aria-hidden="true"></i></span></button>
+                                                    </div>
+                                                    <button title="Habilita pesquisa" type="button" class="btn btn-icon btn-default btn-outline" id="style39725b8ec1cd96e44" ><span><i class="icon wb-search" aria-hidden="true"></i></span></button>
+                                                </div>
                                             </div>
-                                            <button title="Habilita pesquisa" type="button" class="btn btn-icon btn-default btn-outline" id="style39725b8ec1cd96e44" ><span><i class="icon wb-search" aria-hidden="true"></i></span></button>
-                                            </div>
-                                            </div>
-                                                
+
                                             <div class="row" id="style327115ae71976bad30-filtros" style="display: none; background-color: whitesmoke">
                                                 <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="style327115ae71976bad30-pesquisa" style=" position: relative; padding: 15px 15px 0px 50px;  background-color: #f3f7fa;  border: 1px solid #eee">
                                                     <div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">
@@ -631,16 +651,17 @@
                                                 <table id="style327115ae71976bad30" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >
                                                     <thead>
                                                         <tr role ="row">
-                                                            <th></th><th >Reg.</th>
-                                                            <th >OP.Steel</th>
-                                                            <th >Código</th>
-                                                            <th >Produto</th>
-                                                            <th >Empresa</th>
-                                                            <th >OP.Cliente</th>
-                                                            <th >Forno</th>
-                                                            <th >Situação</th>
-                                                            <th >Data.Ent</th>
-                                                            <th >Data.Saída</th>
+                                                            <th id="testeSelect"><button id='btn-checkbox' class=' btn-checkbox'></button></th>
+                                                            <th>Reg.</th>
+                                                            <th>OP.Steel</th>
+                                                            <th>Código</th>
+                                                            <th>Produto</th>
+                                                            <th>Empresa</th>
+                                                            <th>OP.Cliente</th>
+                                                            <th>Forno</th>
+                                                            <th>Situação</th>
+                                                            <th>Data.Ent</th>
+                                                            <th>Data.Saída</th>
                                                             <th class="hidden"></th>
                                                         </tr>
                                                     </thead>
@@ -680,7 +701,18 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <script>$("#style327115ae71976bad30").DataTable(
+                                        <script>
+                                            $("#btn-checkbox").click(function () {
+                                                //alert("Hi back!");                                                
+                                                var tr = $("#style327115ae71976bad30 tr");
+                                                tr.each(function () {
+                                                    $(this).toggleClass("selected");
+                                                    $("#btn-checkbox").toggleClass("icon wb-check");
+                                                });
+                                            });
+
+
+                                            $("#style327115ae71976bad30").DataTable(
                                                     {"scrollY": 400,
                                                         "scrollX": true,
                                                         "searching": false,

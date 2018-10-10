@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html><!-- class="no-js" lang="en"-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="bootstrap admin template">
+  <meta name="author" content="">
+
+  <title>Metalbo | Sistema</title>
+ <link rel="shortcut icon" href="biblioteca/assets/images/favicon.ico">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="biblioteca/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="biblioteca/assets/css/bootstrap-extend.min.css">
+  <link rel="stylesheet" href="biblioteca/assets/css/site.min.css"><!-- ok-->
+  
+  <!-- Estilo personalizado -->
+  <link rel="stylesheet" href="biblioteca/assets/css/estilo.css">
+
+  <!-- Plugins -->
+  <link rel="stylesheet" href="biblioteca/assets/vendor/animsition/animsition.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/asscrollable/asScrollable.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/switchery/switchery.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/intro-js/introjs.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/slidepanel/slidePanel.css">
+  <link rel="stylesheet" href="biblioteca/assets/vendor/flag-icon-css/flag-icon.css">
+  <link rel="stylesheet" href="biblioteca/assets/examples/css/layouts/panel-transition.css">
+  <!-- Datatables -->
+  <link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">
+  <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">		
+  <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Buttons/css/buttons.dataTables.min.css">	
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="biblioteca/assets/fonts/web-icons/web-icons.min.css">
+  <link rel="stylesheet" href="biblioteca/assets/fonts/brand-icons/brand-icons.min.css">
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+  
+  <!-- Scripts -->
+  <script src="biblioteca/assets/vendor/modernizr/modernizr.js"></script>
+  <script src="biblioteca/assets/vendor/breakpoints/breakpoints.js"></script>
+  
+  <!-- Datatables-->
+<script src="biblioteca/assets/vendor/jquery/jquery.js"></script>
+<script type="text/javascript"  src="biblioteca/datatables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript"  src="biblioteca/datatables/extensions/Select/js/dataTables.select.min.js"></script> 
+<script type="text/javascript"  src="biblioteca/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script> 
+
+  <!-- Datepicker-->
+  <link href="biblioteca/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
+  
+  <!-- Select2 -->
+  <link href="biblioteca/assets/css/select2.css" rel="stylesheet" type="text/css"/>
+  
+  <!-- File upload -->
+  <link href="biblioteca/assets/css/jquery.fileupload.css" rel="stylesheet" type="text/css" />
+
+ <!-- Plugins For This Page -->
+  <link rel="stylesheet" href="biblioteca/assets/vendor/toastr/toastr.css"> 
+  
+  
+  <script>
+    Breakpoints();
+  </script>
+  <style type="text/css">
+      nav-tabs>li>a:hover{
+          background-color: #0044cc;
+      }
+  </style>
+</head>
+<body><!--class="site-menubar-unfold" data-auto-menubar="false"-->
+  <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+   <div class="navbar-header">
+      <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided"
+      data-toggle="menubar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse"
+      data-toggle="collapse">
+        <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+      </button>
+      <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+        <img class="navbar-brand-logo" src="biblioteca/assets/images/logo.png" title="Remark">
+        <span class="navbar-brand-text"> </span>
+      </div>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"
+      data-toggle="collapse">
+        <span class="sr-only">Toggle Search</span>
+        <i class="icon wb-search" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="navbar-container container-fluid">
+      <!-- Navbar Collapse -->
+      <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+        <!-- Navbar Toolbar -->
+        <ul class="nav navbar-toolbar">
+          <li class="hidden-float" id="toggleMenubar">
+            <a data-toggle="menubar" href="#" role="button">
+              <i class="icon hamburger hamburger-arrow-left">
+                  <span class="sr-only">Toggle menubar</span>
+                  <span class="hamburger-bar"></span>
+                </i>
+            </a>
+          </li>
+          <li class="hidden-xs" id="toggleFullscreen">
+            <a class="icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+              <span class="sr-only">Toggle fullscreen</span>
+            </a>
+          </li>
+          <li class="hidden-float">
+            <a class="icon wb-search" data-toggle="collapse" href="#" data-target="#site-navbar-search"
+            role="button">
+              <span class="sr-only">Toggle Search</span>
+            </a>
+          </li>
+          <!--INICIA O MENU SUPERIOR-->
+           <li class="dropdown dropdown-fw dropdown-mega">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="fade" role="button">MÓDULOS DO SISTEMA<i class="icon wb-chevron-down-mini" aria-hidden="true"></i></a>
+             
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <div class="mega-content">
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <ul class="blocks-2">
+                        <li class="mega-menu margin-0">
+                          <ul class="list-icons">
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                                <a href="#" onclick="alert('clicou')">Vendas</a>
+                            </li>
+                            
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                                <a href="#" onclick="alert('clicou')">Vendas</a>
+                            </li>
+                            
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+           </li>
+           
+          <li class="dropdown dropdown-fw dropdown-mega">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="fade" role="button">ACESSO RÁPIDO <i class="icon wb-chevron-down-mini" aria-hidden="true"></i></a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <div class="mega-content">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      <h5>UI Kit</h5>
+                      <ul class="blocks-2">
+                        <li class="mega-menu margin-0">
+                          <ul class="list-icons">
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../advanced/animation.html">Animation</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li class="mega-menu margin-0">
+                          <ul class="list-icons">
+                            <li><i class="wb-chevron-right-mini" aria-hidden="true"></i>
+                              <a
+                              href="../uikit/modals.html">Modals</a>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-4">
+                      <h5>Media
+                        <span class="badge badge-success">4</span>
+                      </h5>
+                      <ul class="blocks-3">
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                        <li>
+                          <a class="thumbnail margin-0" href="javascript:void(0)">
+                            <img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-4">
+                      <h5 class="margin-bottom-0">Accordion</h5>
+                      <!-- Accordion -->
+                      <div class="panel-group panel-group-simple" id="siteMegaAccordion" aria-multiselectable="true"
+                      role="tablist">
+                        <div class="panel">
+                          <div class="panel-heading" id="siteMegaAccordionHeadingOne" role="tab">
+                            <a class="panel-title" data-toggle="collapse" href="#siteMegaCollapseOne" data-parent="#siteMegaAccordion"
+                            aria-expanded="false" aria-controls="siteMegaCollapseOne">
+                                Collapsible Group Item #1
+                              </a>
+                          </div>
+                          <div class="panel-collapse collapse" id="siteMegaCollapseOne" aria-labelledby="siteMegaAccordionHeadingOne"
+                          role="tabpanel">
+                            <div class="panel-body">
+                              
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel">
+                          <div class="panel-heading" id="siteMegaAccordionHeadingTwo" role="tab">
+                            <a class="panel-title collapsed" data-toggle="collapse" href="#siteMegaCollapseTwo"
+                            data-parent="#siteMegaAccordion" aria-expanded="false"
+                            aria-controls="siteMegaCollapseTwo">
+                                Collapsible Group Item #2
+                              </a>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Accordion -->
+                    </div>
+                  </div>
+                </div> 
+              </li>
+            </ul>
+          </li>
+          
+          
+        </ul>
+        <!-- End Navbar Toolbar -->
+
+        <!--MENU DA DIREITA -->
+        <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
+            aria-expanded="false" role="button">
+              <span class="flag-icon flag-icon-us"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-gb"></span> English</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem">
+                  <span class="flag-icon flag-icon-fr"></span> French</a>
+              </li>
+             </ul>
+          </li>
+          <li class="dropdown">
+            <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <span class="avatar avatar-online">
+                <img src="biblioteca/assets/portraits/5.jpg" alt="...">
+                <i></i>
+              </span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-user" aria-hidden="true"></i> Profile</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-payment" aria-hidden="true"></i> Billing</a>
+              </li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+              </li>
+              <li class="divider" role="presentation"></li>
+              <li role="presentation">
+                <a href="javascript:void(0)" role="menuitem" onclick="requestAjax('','usuario','acaoLogout','')"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a data-toggle="dropdown" href="javascript:void(0)" title="Notifications" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <i class="icon wb-bell" aria-hidden="true"></i>
+              <span class="badge badge-danger up">5</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+              <li class="dropdown-menu-header" role="presentation">
+                <h5>NOTIFICATIONS</h5>
+                <span class="label label-round label-danger">New 5</span>
+              </li>
+
+              <li class="list-group" role="presentation">
+                <div data-role="container">
+                  <div data-role="content">
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">A new order has been placed</h6>
+                          <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">5 hours ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-user bg-green-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Completed the task</h6>
+                          <time class="media-meta" datetime="2015-06-11T18:29:20+08:00">2 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-settings bg-red-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Settings updated</h6>
+                          <time class="media-meta" datetime="2015-06-11T14:05:00+08:00">2 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-calendar bg-blue-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Event started</h6>
+                          <time class="media-meta" datetime="2015-06-10T13:50:18+08:00">3 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <i class="icon wb-chat bg-orange-600 white icon-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Message received</h6>
+                          <time class="media-meta" datetime="2015-06-10T12:34:48+08:00">3 days ago</time>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown-menu-footer" role="presentation">
+                <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                  <i class="icon wb-settings" aria-hidden="true"></i>
+                </a>
+                <a href="javascript:void(0)" role="menuitem">
+                    All notifications
+                  </a>
+              </li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a data-toggle="dropdown" href="javascript:void(0)" title="Messages" aria-expanded="false"
+            data-animation="scale-up" role="button">
+              <i class="icon wb-envelope" aria-hidden="true"></i>
+              <span class="badge badge-info up">3</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+              <li class="dropdown-menu-header" role="presentation">
+                <h5>MESSAGES</h5>
+                <span class="label label-round label-info">New 3</span>
+              </li>
+
+              <li class="list-group" role="presentation">
+                <div data-role="container">
+                  <div data-role="content">
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-online">
+                            <img src="biblioteca/assets/portraits/2.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Mary Adams</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-17T20:22:05+08:00">30 minutes ago</time>
+                          </div>
+                          <div class="media-detail">Anyways, i would like just do it</div>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-off">
+                            <img src="biblioteca/assets/portraits/3.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Caleb Richards</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-17T12:30:30+08:00">12 hours ago</time>
+                          </div>
+                          <div class="media-detail">I checheck the document. But there seems</div>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-busy">
+                            <img src="biblioteca/assets/portraits/4.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">June Lane</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-16T18:38:40+08:00">2 days ago</time>
+                          </div>
+                          <div class="media-detail">Lorem ipsum Id consectetur et minim</div>
+                        </div>
+                      </div>
+                    </a>
+                    <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                      <div class="media">
+                        <div class="media-left padding-right-10">
+                          <span class="avatar avatar-sm avatar-away">
+                            <img src="biblioteca/assets/portraits/5.jpg" alt="..." />
+                            <i></i>
+                          </span>
+                        </div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Edward Fletcher</h6>
+                          <div class="media-meta">
+                            <time datetime="2015-06-15T20:34:48+08:00">3 days ago</time>
+                          </div>
+                          <div class="media-detail">Dolor et irure cupidatat commodo nostrud nostrud.</div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown-menu-footer" role="presentation">
+                <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                  <i class="icon wb-settings" aria-hidden="true"></i>
+                </a>
+                <a href="javascript:void(0)" role="menuitem">
+                    See all messages
+                  </a>
+              </li>
+            </ul>
+          </li>
+          <li id="toggleChat">
+            <a data-toggle="site-sidebar" href="javascript:void(0)" title="Chat" data-url="../site-sidebar.tpl">
+              <i class="icon wb-chat" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ul>
+        <!-- End Navbar Toolbar Right -->
+      </div>
+      <!-- End Navbar Collapse -->
+
+      <!-- Site Navbar Seach -->
+      <div class="collapse navbar-search-overlap" id="site-navbar-search">
+        <form role="search">
+          <div class="form-group">
+            <div class="input-search">
+              <i class="input-search-icon wb-search" aria-hidden="true"></i>
+              <input type="text" class="form-control" name="site-search" placeholder="Search...">
+              <button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search"
+              data-toggle="collapse" aria-label="Close"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- End Site Navbar Seach -->
+    </div>
+  </nav>
+    <div class="site-menubar" >
+    <div class="site-menubar-body">
+      <div>
+        <div>
+          
+            <ul class="site-menu" id="menu">
+            <li class="site-menu-category">MODULO REPRESENTANTES1</li>
+            
+            <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="layout">
+                <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
+                <span class="site-menu-title">COTAÇÕES</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                  
+                <li class="site-menu-item" id="menu-01"><!--vai ter que carregar menu-01-->
+                    <a href="#" data-slug="layout-menu-collapsed" onclick="verificaTab('menu-01')">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Nova aba</span>
+                  </a>
+                </li>
+                
+                <li class="site-menu-item active">
+                  <a href="#" data-slug="layout-menu-expended">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Menu Expended</span>
+                  </a>
+                </li>
+               </ul>
+            </li>
+
+             <li class="site-menu-item has-sub">
+              <a href="javascript:void(0)" data-slug="layout">
+                <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
+                <span class="site-menu-title">SOL. PEDIDOS</span>
+                <span class="site-menu-arrow"></span>
+              </a>
+              <ul class="site-menu-sub">
+                <li class="site-menu-item">
+                  <a class="animsition-link" href="menu-collapsed.html" data-slug="layout-menu-collapsed">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Menu Collapsed</span>
+                  </a>
+                </li>
+                <li class="site-menu-item active">
+                  <a class="animsition-link" href="menu-expended.html" data-slug="layout-menu-expended">
+                    <i class="site-menu-icon " aria-hidden="true"></i>
+                    <span class="site-menu-title">Menu Expended</span>
+                  </a>
+                </li>
+               </ul>
+            </li>
+            
+            
+            
+           
+            
+              </ul>
+           </div>
+      </div>
+    </div>
+
+    <div class="site-menubar-footer">
+      <a href="javascript: void(0);" class="fold-show" data-placement="top" data-toggle="tooltip"
+      data-original-title="Settings">
+        <span class="icon wb-settings" aria-hidden="true"></span>
+      </a>
+      <a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Lock">
+        <span class="icon wb-eye-close" aria-hidden="true"></span>
+      </a>
+      <a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Logout">
+        <span class="icon wb-power" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+  <div class="site-gridmenu">
+    <div>
+      <div>
+        <ul>
+          <li>
+            <a href="../apps/mailbox/mailbox.html">
+              <i class="icon wb-envelope"></i>
+              <span>Mailbox</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/calendar/calendar.html">
+              <i class="icon wb-calendar"></i>
+              <span>Calendar</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/contacts/contacts.html">
+              <i class="icon wb-user"></i>
+              <span>Contacts</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/media/overview.html">
+              <i class="icon wb-camera"></i>
+              <span>Media</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/documents/categories.html">
+              <i class="icon wb-order"></i>
+              <span>Documents</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/projects/projects.html">
+              <i class="icon wb-image"></i>
+              <span>Project</span>
+            </a>
+          </li>
+          <li>
+            <a href="../apps/forum/forum.html">
+              <i class="icon wb-chat-group"></i>
+              <span>Forum</span>
+            </a>
+          </li>
+          <li>
+            <a href="../index.html">
+              <i class="icon wb-dashboard"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Page -->
+  <div class="page animsition">
+   
+    <div class="page-content">
+      <div class="panel">
+        
+        <div class="panel-body"><!--conteúdo das tabs-->
+             <div class="nav-tabs-horizontal nav-tabs-inverse">
+                 
+             <ul class="nav nav-tabs nav-tabs-solid" data-plugin="nav-tabs" role="tablist" id="tabmenusuperior">
+             <li class="active" role="presentation" id="tabmenu-1"> <a data-toggle="tab" href="#tabmenu-1control" aria-controls="tabmenu-1control" role="tab"> <span class="close" data-close="tab" aria-label="Close">    <strong title="FECHAR">×</strong>   </span>  Relatorios  </a>  </li>
+                </ul>
+                <div class="tab-content padding-top-15" id="tabmenucont">
+                   
+              <div class="tab-pane active" id="tabmenu-1control" role="tabpanel"> <!--NAO PODE REMOVER -->
+              <div id="consulta"> 
+                  
+            <div class="panel panel-bordered">
+              <div class="panel-heading">
+                <h3 class="panel-title">Panel Example</h3>
+                <div class="panel-actions">
+                 <a class="panel-action icon wb-minus" aria-expanded="true" data-toggle="panel-collapse" aria-hidden="true"></a>
+                  <a class="panel-action icon wb-expand" data-toggle="panel-fullscreen" aria-hidden="true"></a>
+                  <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a>
+                </div>
+              </div>
+              <div class="panel-body">
+                  <form id="form">
+                      <div class="row">
+                          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                              <button type="button" id="abrir" class="btn btn-success margin-btn">Abrir</button>
+                          </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                              <button type="button" id="erro" class="btn btn-danger margin-btn">Erro</button>
+                          </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                              <button type="button" id="info" class="btn btn-info margin-btn">Info</button>
+                          </div>
+                          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                              <button type="button" id="aviso" class="btn btn-warning margin-btn">Aviso</button>
+                          </div>
+<!--                          <div role="alert" aria-live="polite" class="toast-top-right" id="toast-top-right"><div style="display: block; opacity: 0.604652;" class="toast toast-just-text toast-info"><div style="width: 0.1%;" class="toast-progress"></div><div class="toast-title">Messages</div><div class="toast-message">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div></div></div>-->
+                      </div>
+                  </form>  
+              </div>
+            </div>
+            <div class="row">
+               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-acao-grid">
+                   <button  class="btn btn-success btn-sm margin-btn" id="add">
+                      <span><i class="icon wb-plus-circle" aria-hidden="true"></i> Adicionar</span>
+                    </button> 
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-acao-grid">
+                   <button type="submit" class="btn btn-default btn-sm margin-btn">
+                      <span><i class="icon wb-pencil" aria-hidden="true"></i> Alterar</span>
+                    </button>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-acao-grid">
+                    <button type="submit" class="btn btn-danger btn-sm margin-btn" >
+                      <span><i class="icon wb-minus-circle" aria-hidden="true"></i> Remover</span>
+                    </button>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-acao-grid">
+                    <div class="dropdown">
+                    <button type="button" class="btn btn-outline btn-default  btn-sm margin-btn dropdown-toggle" id="exampleIconsDropdown"
+                    data-toggle="dropdown" aria-expanded="false">Ações
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="exampleIconsDropdown" role="menu">
+                      <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i> Reply</a></li>
+                      <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i> Share</a></li>
+                      <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-trash" aria-hidden="true"></i> Delete</a></li>
+                      <li class="divider" role="presentation"></li>
+                      <li role="presentation"><a href="javascript:void(0)" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 btn-acao-grid pesq-refresh">
+                   <button type="submit" class="btn  btn-dark btn-sm margin-btn" id="btn-pesquisa">
+                      <span><i class="icon wb-search" aria-hidden="true"></i> </span>
+                   </button>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 btn-acao-grid pesq-refresh" >
+                   <button type="submit" class="btn  btn-dark btn-sm margin-btn" id="btn-refresh" >
+                      <span><i class="icon wb-reload" aria-hidden="true"></i> </span>
+                   </button>
+                </div>
+           </div> 
+<!--            <div class="row" id="row-pesquisa" style="background-color: whitesmoke">
+               <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                     <div class="form-group">
+                         <label for="inpt-name">Name:</label>
+                         <input class="form-control" type="text" id="inpt-name" placeholder="Pesquise o nome...">
+                     </div>
+               </div>
+               <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                     <div class="form-group">
+                         <label for="inpt-position">Name:</label>
+                         <input class="form-control" type="text" id="inpt-position" placeholder=" position...">
+                     </div>
+               </div> 
+            </div> -->
+            <div class="row " id="row-pesquisa" style="display: none; background-color: whitesmoke">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  style=" position: relative; padding: 15px 15px 0px 50px;  background-color: #f3f7fa;  border: 1px solid #eee">
+                    <div class="ribbon ribbon-clip ribbon-dark">
+                      <span class="ribbon-inner"><i class="icon wb-search" aria-hidden="true"></i></span>
+                    </div>
+                    
+                </div>
+            </div>
+                  
+                  
+                  
+   <!--TABS-->
+     <div style="display: none;" id="style1995056d4802683731consulta"><div class="row botoes-consulta"><div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-acao-grid"><button type="button" class="btn btn-success btn-sm margin-btn" id="style1920856d48026846e6"><span><i class="icon wb-plus-circle" aria-hidden="true"></i>Adicionar</span></button></div><script></script><div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-acao-grid"><button class="btn btn-default btn-sm margin-btn" id="style476956d4802684a7a" disabled=""><span><i class="icon wb-pencil" aria-hidden="true"></i>Alterar</span></button></div><div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-acao-grid"><button class="btn btn-danger btn-sm margin-btn" id="style1146256d4802684d6c" disabled=""><span><i class="icon wb-trash" aria-hidden="true"></i>Remover</span></button></div><div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 btn-acao-grid pesq-refresh"><button type="button" class="btn  btn-dark btn-sm margin-btn" id="style525556d48026851b3"><span><i class="icon wb-reload" aria-hidden="true"></i> </span></button></div><div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 btn-acao-grid pesq-refresh"><button type="button" class="btn  btn-dark btn-sm margin-btn" id="style402056d48026855bf"><span><i class="icon wb-search" aria-hidden="true"></i> </span></button></div><div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 btn-acao-grid"><div class="dropdown"><button type="button" class="btn btn-outline btn-default  btn-sm margin-btn dropdown-toggle" id="style2523156d4802683a9c" data-toggle="dropdown" aria-expanded="false"><i class="icon wb-settings" aria-hidden="true"></i>Drop1 <span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="style2523156d4802683a9c" role="menu"><li id="style1462056d4802683d27" role="presentation"><a href="#" role="menuitem"> <i class="icon wb-unlock" aria-hidden="true"></i>Logout</a></li><li id="style234156d4802683e80" role="presentation"><a href="#" role="menuitem"> <i class="icon wb-lock" aria-hidden="true"></i>item 2 drop 1</a></li></ul></div></div><script type="text/javascript">$(document).ready(function() {$("#style1462056d4802683d27").click(function(){$("#style1995056d4802683731consulta tbody .selected").each(function(){var chave = $(this).find(".chave").html();requestAjax("","usuario","acaoLogout",chave +","+ abaSelecionada +"control,style1995056d4802683731consulta");});});$("#style234156d4802683e80").click(function(){$("#style1995056d4802683731consulta tbody .selected").each(function(){var chave = $(this).find(".chave").html();requestAjax("","Teste 2","Teste metodo 2",chave +","+ abaSelecionada +"control,style1995056d4802683731consulta");});});});</script></div> <div class="row" id="style1995056d4802683731-filtros" style="display: none; background-color: whitesmoke"><div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="style1995056d4802683731-pesquisa" style=" position: relative; padding: 15px 15px 0px 50px;  background-color: #f3f7fa;  border: 1px solid #eee"><div class="ribbon ribbon-clip ribbon-dark"><span class="ribbon-inner"><i class="icon wb-search" aria-hidden="true"></i></span></div><div class="campo-form col-lg-2 col-md-2 col-sm-2 col-xs-12"><div class="input-group input-sm" id="style2329056d4802683f66"><label for="input-texto">Descrição2:</label><input name="modescricao" class="form-control input-sm" id="style2329056d4802683f66text" placeholder="" value="" type="text"></div></div><div class="campo-form col-lg-2 col-md-2 col-sm-2 col-xs-12"><label for="input-date">Modulo Inicial:</label><div class="input-group date" id="style631556d48026840a0-ini"><input name="modcod" class="form-control" placeholder="" value="" type="text"><span class="input-group-addon"><i class="icon wb-calendar"></i></span></div></div><script>$("#style631556d48026840a0-ini").datepicker({format: "dd/mm/yyyy",todayBtn: "linked",language: "pt-BR",autoclose: true,todayHighlight: true,});</script><div class="campo-form col-lg-2 col-md-2 col-sm-2 col-xs-12"><label for="input-date">Modulo Final:</label><div class="input-group date" id="style631556d48026840a0-fim"><input name="modcod" class="form-control" placeholder="" value="" type="text"><span class="input-group-addon"><i class="icon wb-calendar"></i></span></div></div><script>$("#style631556d48026840a0-fim").datepicker({format: "dd/mm/yyyy",todayBtn: "linked",language: "pt-BR",autoclose: true,todayHighlight: true,});</script></div></div><div class="dataTables_wrapper no-footer" id="style1995056d4802683731_wrapper"><div id="style1995056d4802683731_length" class="dataTables_length"><label>Listando <select class="" aria-controls="style1995056d4802683731" name="style1995056d4802683731_length"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> regitros</label></div><div class="dataTables_scroll"><div style="overflow: hidden; position: relative; border: 0px none; width: 100%;" class="dataTables_scrollHead"><div style="box-sizing: content-box; width: 1045px; padding-right: 0px;" class="dataTables_scrollHeadInner"><table style="margin-left: 0px; width: 1045px;" role="grid" class="display compact dataTable no-footer" cellspacing="0" width="100%"><thead><tr role="row"><th aria-label="" style="width: 64px;" colspan="1" rowspan="1" class="select-checkbox sorting_asc"></th><th aria-label="Modulo: activate to sort column ascending" style="width: 262px;" colspan="1" rowspan="1" aria-controls="style1995056d4802683731" tabindex="0" class="sorting">Modulo</th><th aria-label="Descrição: activate to sort column ascending" style="width: 656px;" colspan="1" rowspan="1" aria-controls="style1995056d4802683731" tabindex="0" class="sorting">Descrição</th><th aria-label=": activate to sort column ascending" style="width: 0px;" colspan="1" rowspan="1" aria-controls="style1995056d4802683731" tabindex="0" class="hidden sorting"></th></tr></thead></table></div></div><div style="position: relative; overflow: auto; width: 100%; height: 400px;" class="dataTables_scrollBody"><table style="width: 1045px;" aria-describedby="style1995056d4802683731_info" role="grid" id="style1995056d4802683731" class="display compact dataTable no-footer" cellspacing="0"><thead><tr style="height: 0px;" role="row"><th style="width: 64px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" colspan="1" rowspan="1" class="select-checkbox sorting_disabled"><div class="dataTables_sizing" style="height:0;overflow:hidden;"></div></th><th style="width: 262px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" colspan="1" rowspan="1" aria-controls="style1995056d4802683731" class="sorting"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Modulo</div></th><th style="width: 656px; padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px;" colspan="1" rowspan="1" aria-controls="style1995056d4802683731" class="sorting"><div class="dataTables_sizing" style="height:0;overflow:hidden;">Descrição</div></th><th style="padding-top: 0px; padding-bottom: 0px; border-top-width: 0px; border-bottom-width: 0px; height: 0px; width: 0px;" colspan="1" rowspan="1" aria-controls="style1995056d4802683731" class="hidden sorting"><div class="dataTables_sizing" style="height:0;overflow:hidden;"></div></th></tr></thead><tbody><tr class="odd" role="row"><td class="select-checkbox select-checkbox sorting_1"></td><td class="">4</td><td class="tr-amarelo">Embalagem</td><td class="hidden chave">modcod=4</td></tr><tr class="even" role="row"><td class="select-checkbox select-checkbox sorting_1"></td><td class="">3</td><td class="tr-amarelo">Tecnologia da Informação</td><td class="hidden chave">modcod=3</td></tr><tr class="odd" role="row"><td class="select-checkbox select-checkbox sorting_1"></td><td class="">2</td><td class="tr-amarelo">Vendas</td><td class="hidden chave">modcod=2</td></tr><tr class="even" role="row"><td class="select-checkbox select-checkbox sorting_1"></td><td class="">1</td><td class="tr-amarelo">Representantes</td><td class="hidden chave">modcod=1</td></tr></tbody></table></div></div><div aria-live="polite" role="status" id="style1995056d4802683731_info" class="dataTables_info">Listando 1 a 4 de 4 registros</div><div id="style1995056d4802683731_paginate" class="dataTables_paginate paging_simple_numbers"><a id="style1995056d4802683731_previous" tabindex="0" data-dt-idx="0" aria-controls="style1995056d4802683731" class="paginate_button previous disabled">&lt;&lt;</a><span><a tabindex="0" data-dt-idx="1" aria-controls="style1995056d4802683731" class="paginate_button current">1</a></span><a id="style1995056d4802683731_next" tabindex="0" data-dt-idx="2" aria-controls="style1995056d4802683731" class="paginate_button next disabled">&gt;&gt;</a></div></div><script>$("#style1995056d4802683731").DataTable( {"scrollY": 400,"scrollX": true,"searching": false,"select": true,columnDefs: [ {orderable: false,className: "select-checkbox",targets:   0} ],select: {style:    "os",selector: "td:first-child"}} );var tabmenu11 = $("#style1995056d4802683731").DataTable();$("#style1995056d4802683731 tbody").on("click", "tr", function () {var data = tabmenu11.row( this ).data();} );var pressedCtrl = false;$(document).keydown(function (e) {if(e.which == 17) {pressedCtrl = true;}});$("#style1995056d4802683731 tbody").on( "click", "tr", function () {if(pressedCtrl != true) {if ( $(this).hasClass("selected") ) {$(this).removeClass("selected");}else {tabmenu11.$("tr.selected").removeClass("selected");$(this).addClass("selected");}}} );$(document).keyup(function(e){pressedCtrl = false;});$("#style1920856d48026846e6").click(function(){ $("#style1995056d4802683731consulta").hide();requestAjax("","Modulo","acaoMostraTelaIncluir","tabmenu-1-1control,style1995056d4802683731consulta");});$("#style476956d4802684a7a").click(function(){ $("#style1995056d4802683731consulta tbody .selected").each(function(){var chave = $(this).find(".chave").html(); $("#style1995056d4802683731consulta").hide();requestAjax("","Modulo","acaoMostraTelaAlterar",chave +",tabmenu-1-1control,style1995056d4802683731consulta");});});$("#style1146256d4802684d6c").click(function(){ $("#style1995056d4802683731consulta tbody .selected").each(function(){var chave = $(this).find(".chave").html();requestAjax("","Modulo","acaoExcluir",chave +",tabmenu-1-1control,style1995056d4802683731consulta");});});$("#style525556d48026851b3").click(function(){requestAjax("","Modulo","getdadosConsulta","style1995056d4802683731");});$("#style402056d48026855bf").click(function(){$("#style1995056d4802683731-filtros").toggle();});$("#style1995056d4802683731 tbody").click(function(){var count = 0;$("#style476956d4802684a7a").prop("disabled", true);$("#style1146256d4802684d6c").prop("disabled", true);$("#style1995056d4802683731 tbody .selected").each(function(){count ++;if(count > 1){$("#style476956d4802684a7a").prop("disabled", true);$("#style1146256d4802684d6c").prop("disabled", true);} else {$("#style476956d4802684a7a").prop("disabled", false);$("#style1146256d4802684d6c").prop("disabled", false);}});});</script></div><div class="panel panel-bordered" id="style345556d48029aaa61"><div class="panel-heading"><h3 class="panel-title">Cadastro de Módulos</h3><div class="panel-actions"><a class="panel-action icon wb-close" id="style852456d48029aaaf3" aria-hidden="true"></a></div></div><div id="style1163956d48029ae975" class="panel-body"><form class="form-horizontal" id="style345556d48029aaa61-form" autocomplete="off"><div class="row"><div class="campo-form col-lg-1 col-md-3 col-sm-3 col-xs-3"><div class="input-group" id="style142956d48029aae29"><label for="input-texto">Código:</label><input name="modcod" class="form-control" id="style142956d48029aae29text" placeholder="" value="5" readonly="" type="text"></div></div><div class="campo-form col-lg-6 col-md-3 col-sm-3 col-xs-3"><div class="input-group" id="style3037856d48029ab25d"><label for="input-texto">Descrição:</label><input name="modescricao" class="form-control" id="style3037856d48029ab25dtext" placeholder="" value="" type="text"></div></div></div><div class="row btn-padroes-form"><div class="col-lg-2 col-md-2 col-sm-2 col-xs-12  btn-acao-grid" style="float: right"><button type="submit" class="btn btn-success btn-sm margin-btn" id="style159256d48029ac2c0"><span><i class="icon wb-check" aria-hidden="true"></i>Confirmar</span></button></div><div class="col-lg-2 col-md-2 col-sm-2 col-xs-6  btn-acao-grid" style="float: right"><button type="button" class="btn btn-default btn-sm margin-btn" id="style2612956d48029ac524"><span><i class="icon wb-check" aria-hidden="true"></i>Limpar</span></button></div><div class="col-lg-1 col-md-1 col-sm-1 col-xs-6  btn-acao-grid" style="float: right"><button type="button" class="btn btn-danger btn-sm margin-btn" id="style2136656d48029ac7e8"><span><i class="icon wb-close" aria-hidden="true"></i></span></button></div><script></script></div><div id="style345556d48029aaa61-msg"></div></form></div><script>$("#style852456d48029aaaf3").click(function(){$("#style345556d48029aaa61").remove();$("#style1995056d4802683731consulta").toggle();});$("#style159256d48029ac2c0").click(function(){});$("#style2612956d48029ac524").click(function(){$("#style345556d48029aaa61-form").each (function(){ this.reset();});});$("#style2136656d48029ac7e8").click(function(){$("#style345556d48029aaa61").remove();$("#style1995056d4802683731consulta").toggle();});(function() {$("#style345556d48029aaa61-form").formValidation({framework: "bootstrap", button: {    selector: "style159256d48029ac2c0",    disabled: "disabled"   },icon: null,fields: {modescricao:{validators:{integer:{message: ""}, notEmpty: {message: "O campo Descrição é obrigatório"}}}}});})();</script></div>
+                  
+
+    <table id="example" class="display compact" cellspacing="0" width="100%"> 
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Office</th>
+                <th>Age</th>
+                <th>Salary</th>
+               
+            </tr>
+        </thead>
+ 
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+ 
+        <tbody>
+            
+            <tr>
+                <td></td>
+                <td>Colleen Hurst</td>
+                <td>Javascript Developer</td>
+                <td>San Francisco</td>
+                <td>39</td>
+                <td>$205,500</td>
+               
+            </tr>
+            <tr>
+                <td></td>
+                <td>Sonya Frost</td>
+                <td>Software Engineer</td>
+                <td>Edinburgh</td>
+                <td>23</td>
+                <td>$103,600</td>
+                
+            </tr>
+            <tr>
+                <td></td>
+                <td>Jena Gaines</td>
+                <td>Office Manager</td>
+                <td>London</td>
+                <td>30</td>
+                <td>$90,560</td>
+               
+            </tr>
+            <tr>
+                <td></td>
+                <td>Quinn Flynn</td>
+                <td>Support Lead</td>
+                <td>Edinburgh</td>
+                <td>22</td>
+                <td>$342,000</td>
+               
+            </tr>
+            <tr>
+                <td></td>
+                <td>Charde Marshall</td>
+                <td>Regional Director</td>
+                <td>San Francisco</td>
+                <td>36</td>
+                <td>$470,600</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Haley Kennedy</td>
+                <td>Senior Marketing Designer</td>
+                <td>London</td>
+                <td>43</td>
+                <td>$313,500</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Tatyana Fitzpatrick</td>
+                <td>Regional Director</td>
+                <td>London</td>
+                <td>19</td>
+                <td>$385,750</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Michael Silva</td>
+                <td>Marketing Designer</td>
+                <td>London</td>
+                <td>66</td>
+                <td>$198,500</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Paul Byrd</td>
+                <td>Chief Financial Officer (CFO)</td>
+                <td>New York</td>
+                <td>64</td>
+                <td>$725,000</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Gloria Little</td>
+                <td>Systems Administrator</td>
+                <td>New York</td>
+                <td>59</td>
+                <td>$237,500</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Bradley Greer</td>
+                <td>Software Engineer</td>
+                <td>London</td>
+                <td>41</td>
+                <td>$132,000</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Dai Rios</td>
+                <td>Personnel Lead</td>
+                <td>Edinburgh</td>
+                <td>35</td>
+                <td>$217,500</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Jenette Caldwell</td>
+                <td>Development Lead</td>
+                <td>New York</td>
+                <td>30</td>
+                <td>$345,000</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Yuri Berry</td>
+                <td>Chief Marketing Officer (CMO)</td>
+                <td>New York</td>
+                <td>40</td>
+                <td>$675,000</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Caesar Vance</td>
+                <td>Pre-Sales Support</td>
+                <td>New York</td>
+                <td>21</td>
+                <td>$106,450</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Doris Wilder</td>
+                <td>Sales Assistant</td>
+                <td>Sidney</td>
+                <td>23</td>
+                <td>$85,600</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Angelica Ramos</td>
+                <td>Chief Executive Officer (CEO)</td>
+                <td>London</td>
+                <td>47</td>
+                <td>$1,200,000</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Gavin Joyce</td>
+                <td>Developer</td>
+                <td>Edinburgh</td>
+                <td>42</td>
+                <td>$92,575</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Jennifer Chang</td>
+                <td>Regional Director</td>
+                <td>Singapore</td>
+                <td>28</td>
+                <td>$357,650</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Brenden Wagner</td>
+                <td>Software Engineer</td>
+                <td>San Francisco</td>
+                <td>28</td>
+                <td>$206,850</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Fiona Green</td>
+                <td>Chief Operating Officer (COO)</td>
+                <td>San Francisco</td>
+                <td>48</td>
+                <td>$850,000</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Shou Itou</td>
+                <td>Regional Marketing</td>
+                <td>Tokyo</td>
+                <td>20</td>
+                <td>$163,000</td>
+            </tr>
+         </tbody>
+    </table>
+            <script>
+                //scroll e check box
+                    $("#example").DataTable( {
+                          "scrollY": 400,
+                          "scrollX": true,
+                          "searching": false,
+                          "select": true,
+
+                          columnDefs: [ {
+                          orderable: false,
+                          className: "select-checkbox",
+                          targets:   0
+                      } ],
+                      select: {
+                          style:    "os",
+                          selector: "td:first-child"
+                      },
+                      order: [[ 1, "asc" ]]
+                          } ); 
+                     
+                      var table = $("#example").DataTable();
+                      $("#example tbody").on("click", "tr", function () {
+                      var data = table.row( this ).data();
+                    
+                       } );
+                    
+                     var pressedCtrl = false;
+                     $(document).keydown(function (e) { 
+                            if(e.which == 17) {
+                                pressedCtrl = true;
+                              }
+                          });
+
+                      $("#example tbody").on( "click", "tr", function () {
+                      if(pressedCtrl != true) { 
+                      if ( $(this).hasClass("selected") ) {
+                          $(this).removeClass("selected");
+                      }
+                      else {
+                          table.$("tr.selected").removeClass("selected");
+                          $(this).addClass("selected");
+                      }}
+
+                      } );
+                    $(document).keyup(function(e){
+                       pressedCtrl = false; 
+                    });
+
+ $('#btn-pesquisa').click(function(){
+        $('#row-pesquisa').toggle(); 
+    });
+
+$('#add').click(function(){
+ var sPanel ='<div class="panel panel-bordered" id="panel-add">'
+            +'<div class="panel-heading">'
+              +'<h3 class="panel-title">Cadastro de Pedidos</h3>'
+              +'<div class="panel-actions">'
+                +'<a class="panel-action icon wb-close" onclick="teste()" id="btn-fecha-tela" aria-hidden="true"></a>'
+              +'</div>'
+            +'</div>'
+            +'<div class="panel-body">'
+            +'<form class="control-form">'
+                
+              +'<input class="form-control" type="date">'
+               
+                +'<div class="row">'
+                     +'<div class="col-lg-1 col-md-1 col-sm-1 col-xs-6  btn-acao-grid" style="float: right">'
+                    +'<button type="button" class="btn btn-danger btn-sm margin-btn" onclick="teste()">'
+                    +'<span><i class="icon wb-close" aria-hidden="true"></i></span>'
+                    +'</button>'
+                    +'</div>'
+            
+                    +'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-6  btn-acao-grid" style="float: right">'
+                    +'<button type="button" class="btn btn-default btn-sm margin-btn">'
+                    +'<span><i class="icon wb-check" aria-hidden="true"></i> Limpar</span>'
+                    +'</button>'
+                    +'</div>'
+                   
+                    +'<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12  btn-acao-grid" style="float: right">'
+                    +'<button  class="btn btn-success btn-sm margin-btn" onclick="teste()">'
+                    +'<span><i class="icon wb-check" aria-hidden="true"></i> Confirmar</span>'
+                    +'</button>'
+                    +'</div>'
+                +'</div>'
+            +'</div>'
+            +'</form>'
+          +'</div>';
+    $('#consulta').toggle();
+    $('#tabmenu-1control').append(sPanel);
+});
+
+   
+            </script>
+            
+              </div>
+            </div>
+                </div>
+              </div><!--final-->
+                  </div>
+               </div>
+             </div>
+           </div>
+  <!-- End Page -->
+
+
+  <!-- Core  -->
+ 
+  <script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>
+  <script src="biblioteca/assets/vendor/animsition/jquery.animsition.js"></script>
+  <script src="biblioteca/assets/vendor/asscroll/jquery-asScroll.js"></script>
+  <script src="biblioteca/assets/vendor/mousewheel/jquery.mousewheel.js"></script>
+  <script src="biblioteca/assets/vendor/asscrollable/jquery.asScrollable.all.js"></script>
+  <script src="biblioteca/assets/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+
+  
+  
+  <!-- Plugins -->
+  <script src="biblioteca/assets/vendor/switchery/switchery.min.js"></script>
+  <script src="biblioteca/assets/vendor/intro-js/intro.js"></script>
+  <script src="biblioteca/assets/vendor/screenfull/screenfull.js"></script>
+  <script src="biblioteca/assets/vendor/slidepanel/jquery-slidePanel.js"></script>
+
+  <!-- Scripts -->
+  <script src="biblioteca/assets/js/core.js"></script>
+  <script src="biblioteca/assets/js/site.js"></script>
+
+  <script src="biblioteca/assets/js/sections/menu.js"></script>
+  <script src="biblioteca/assets/js/sections/menubar.js"></script>
+  <script src="biblioteca/assets/js/sections/gridmenu.js"></script>
+  <script src="biblioteca/assets/js/sections/sidebar.js"></script>
+
+  <script src="biblioteca/assets/js/configs/config-colors.js"></script>
+  <script src="biblioteca/assets/js/configs/config-tour.js"></script>
+
+  <script src="biblioteca/assets/js/components/asscrollable.js"></script>
+  <script src="biblioteca/assets/js/components/animsition.js"></script>
+  <script src="biblioteca/assets/js/components/slidepanel.js"></script>
+  <script src="biblioteca/assets/js/components/switchery.js"></script>
+   <!-- Plugins For This Page -->
+  <script src="biblioteca/assets/vendor/matchheight/jquery.matchHeight-min.js"></script>
+  <script src="biblioteca/assets/js/plugins/responsive-tabs.js"></script>
+  <script src="biblioteca/assets/js/plugins/closeable-tabs.js"></script>
+  <script src="biblioteca/assets/js/components/tabs.js"></script>
+  <script src="resources/js/ajax.js"></script>
+  
+  <script src="biblioteca/assets/js/components/animate-list.js"></script>
+  <script src="biblioteca/assets/js/components/panel.js"></script>
+
+  <script src="biblioteca/assets/examples/js/layouts/panel-transition.js"></script>
+
+  <!-- Datepicker-->
+  <script src="biblioteca/assets/js/moment.js" type="text/javascript"></script>
+  <script src="biblioteca/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+  <script src="biblioteca/assets/js/locales/bootstrap-datepicker.pt-BR.min.js" type="text/javascript"></script>
+  <script src="biblioteca/assets/js/jquery.maskedinput.js" type="text/javascript"></script>
+  
+  <!-- Select2 -->
+  <script src="biblioteca/assets/js/select2.min.js" type="text/javascript"></script>
+  <script>
+    $("#select").select2({
+      placeholder: "Selecione um estado",
+      allowClear: true
+    });
+  </script> 
+  
+  <!-- Máscara de dinheiro -->
+  <script src="biblioteca/assets/js/jquery.maskMoney.js" type="text/javascript"></script>
+  <script>
+        $("input.dinheiro").maskMoney({showSymbol:false, decimal:",", thousands:"."});
+  </script>
+  <!-- File upload -->
+  <script src="biblioteca/assets/js/jquery.ui.widget.js" type="text/javascript"></script>  
+  <script src="biblioteca/assets/js/jquery.fileupload.js" type="text/javascript"></script>
+  <script src="biblioteca/assets/js/jquery.iframe-transport.js" type="text/javascript"></script>
+  
+  
+  <script src="biblioteca/assets/vendor/toastr/toastr.js"></script>
+  
+  <script>
+      	function Reset(){
+		$('#progress > .progress-bar').css('width', '0%');
+	}
+    $(function () {
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                window.setTimeout('Reset()', 2000);
+				alert('oi');
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css('width', progress + '%');
+            }
+        });
+    });
+    function fsClean() {
+        $('#progress .progress-bar').css('width', '0%');
+    }
+  </script>
+  
+  <!-- Outros-->
+  <script>
+      
+    (function(document, window, $) {
+      'use strict';
+
+      var Site = window.Site;
+      $(document).ready(function() {
+        Site.run();
+      });
+    })(document, window, jQuery);
+  </script>
+  
+  
+  
+  <script>
+      
+    
+  $('#abrir').click(function(){
+          msg();
+        }); 
+       
+    function msg(){
+        
+        toastr["success"]("Mensagem", "Titulo");
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+    }
+   
+    
+    $('#erro').click(function(){
+        toastr["error"]("Mensagem", "Erro");
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+        }); 
+         $('#sucesso').click(function(){
+        toastr["success"]("Mensagem", "Sucesso");
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+        });
+           $('#info').click(function(){
+        toastr["info"]("Mensagem", "Info");
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+        });
+        $('#aviso').click(function(){
+        toastr["warning"]("Mensagem", "Aviso");
+        toastr.options = {
+          "closeButton": true,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "1000",
+          "timeOut": "5000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+        });
+             
+        
+ function teste(){
+    $('#panel-add').remove();
+    $('#consulta').toggle();
+  };
+  function verificaTab(id){
+      var addnewtab='s';
+      var tabname = 'tab'+id;
+     
+      $('#tabmenusuperior > li').each(function(){
+         if(tabname == $(this).attr('id')){
+              addnewtab='n';
+              }
+            });
+            alert(addnewtab);
+     //executa addnewtab for == n executa function para mudar a classe active
+           if(addnewtab=='s'){
+            newTab(id)
+            }
+            else{
+            ativaTab(tabname);    
+            }
+       }
+  
+  
+  function newTab(id){ var titulo='';
+      titulo = $('#'+id+' span').text();
+      var tabmenu = 'tab'+id;
+      
+      $('#tabmenusuperior > li').removeClass("active");
+      $('#tabmenucont > div').removeClass("active");
+      $('#tabmenusuperior').append('<li class="active" role="presentation" id='+tabmenu+'> '+            
+              '<a data-toggle="tab" href="#'+tabmenu+'control" aria-controls="'+tabmenu+'control" '+           
+              'role="tab"> '+            
+              '<span class="close" data-close="tab" aria-label="Close"> '+            
+              '   <strong title="FECHAR">×</strong> '+            
+              '  </span> '+          
+              ' '+titulo+' '+        
+              ' </a> '+        
+              ' </li>'); 
+      $('#tabmenucont').append( '<div class="tab-pane active" id="'+tabmenu+'control" role="tabpanel"> '+         
+              'conteudo novo '+         
+              '</div>');
+       };
+    
+    function ativaTab(tabname){
+        alert('chegou ativatab '+tabname);
+        $('#tabmenusuperior > li').removeClass("active");
+        $('#tabmenucont > div').removeClass("active"); 
+        
+        $('#tabmenusuperior > #'+tabname).addClass("active");
+        $('#tabmenucont > #'+tabname+'control').addClass("active");
+        };
+    $(document).ready(function(){
+        // ?
+        $('#menu').empty();
+       
+        //Inicializa plugin de data
+        $('#datepicker').datepicker({
+            format: "dd/mm/yyyy",
+            todayBtn: "linked",
+            language: "pt-BR",
+            autoclose: true,
+            todayHighlight: true,
+            
+        });
+        
+        //Inicializa campos do tipo dinheiro
+          $("#input-dinheiro").maskMoney({showSymbol:false, decimal:",", thousands:"."});
+        // Mascaras padrões de campos
+         $("#input-cnpj").mask("99.999.999/9999-99");
+         $("#input-cpf").mask("999.999.999-99");
+         $("#input-cep").mask("99.999-999");
+         $("#input-fone").mask("+99 (99) 9999-9999");
+         
+         $('#btn-show').click(function(){
+            console.log( $('#form').serialize()) 
+         });
+        
+        $('#menu').append('<li class="site-menu-category">VENDAS22</li><li class="site-menu-item has-sub"><a href="javascript:void(0)" data-slug="layout">  <i class="site-menu-icon wb-layout" aria-hidden="true"></i>  <span class="site-menu-title">Rel. Pedidos</span>  <span class="site-menu-arrow"></span></a><ul class="site-menu-sub"> <li class="site-menu-item" id="menu-1">   <a href="#" data-slug="layout-menu-collapsed" onclick="verificaTab(\'menu-1\');requestAjax(\'idForm\',\'sistema\',\'teste\',\'sparametros\');">      <i class="site-menu-icon " aria-hidden="true"></i><span class="site-menu-title">Relatorios</span></a></li></ul></li>');
+       
+       });
+  </script>
+  <script>
+
+  </script>
+</body>
+</html>

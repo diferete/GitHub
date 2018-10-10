@@ -12,6 +12,18 @@ class ControllerCadCliRep extends Controller {
         $this->carregaClassesMvc('CadCliRep');
     }
 
+    public function beforeInsert() {
+        parent::beforeInsert();
+        $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
+        $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
+        $this->Model->setEmpend(Util::removeAcentos($this->Model->getEmpend()));
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
 
@@ -114,11 +126,11 @@ class ControllerCadCliRep extends Controller {
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
         }
-        //provisório para ir cópia para avanei
-        $oEmail->addDestinatario('avanei@rexmaquinas.com.br');
 
-
+//        $aUserPlano = $this->Persistencia->buscaEmailVenda($sNr);
+//        $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
+
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();

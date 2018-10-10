@@ -207,3 +207,22 @@ fieldset{
 .botoes-consulta{
     margin-left: 3px !important;
 }
+.btn-checkbox{
+    border:1px solid green;
+    padding:4px;
+    background-color: #e3eee9;
+    line-height: .5em;
+    content: '\2713';
+    border: 1px solid black;
+    border-radius: 3px;
+    display: block;
+    left: 47%;
+    top: 1px;
+    width: 15px;
+    height: 15px;
+    box-sizing: border-box;
+    position: relative;
+}
+.btn-checkbox:hover{
+    background-color: #82ae9c9e;
+}

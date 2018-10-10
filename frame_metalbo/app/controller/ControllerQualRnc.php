@@ -53,10 +53,10 @@ class ControllerQualRnc extends Controller {
       public function beforeInsert() {
       parent::beforeInsert();
 
-      //$this->Model->setValor($this->ValorSql($this->Model->getValor()));
-      //$this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-      //$this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-      //$this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
+      $this->Model->setValor($this->ValorSql($this->Model->getValor()));
+      $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
+      $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
+      $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
 
       $aRetorno = array();
       $aRetorno[0] = true;
@@ -67,10 +67,10 @@ class ControllerQualRnc extends Controller {
       public function beforeUpdate() {
       parent::beforeUpdate();
 
-      //$this->Model->setValor($this->ValorSql($this->Model->getValor()));
-      //$this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-      //$this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-      //$this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
+      $this->Model->setValor($this->ValorSql($this->Model->getValor()));
+      $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
+      $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
+      $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
 
       $aRetorno = array();
       $aRetorno[0] = true;
@@ -83,15 +83,14 @@ class ControllerQualRnc extends Controller {
 
       $this->Model->setValor(number_format($this->Model->getValor(), 2, ',', '.'));
       $this->Model->setPeso(number_format($this->Model->getPeso(), 2, ',', '.'));
-      //$this->Model->setQuant(number_format($this->Model->getQuant(), 2, ',', '.'));
-      //$this->Model->setQuantnconf(number_format($this->Model->getQuantnconf(), 2, ',', '.'));
+      $this->Model->setQuant(number_format($this->Model->getQuant(), 2, ',', '.'));
+      $this->Model->setQuantnconf(number_format($this->Model->getQuantnconf(), 2, ',', '.'));
       }
      * 
      */
 
     public function limpaUploads($aIds) {
         parent::limpaUploads($aIds);
-
 
         $sRetorno = "$('#" . $aIds[3] . "').fileinput('clear');"
                 . "$('#" . $aIds[4] . "').fileinput('clear');"

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vizualizacot" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="975505c9-269b-402e-b4e7-8259e0a51c80">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="167"/>
+	<property name="ireport.y" value="195"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="8bbffd98-5ef3-4c46-953d-711511034442"/>
+	<subDataset name="dataset1" uuid="93f24fbb-2247-4551-8293-7bdb505cd548"/>
+	<parameter name="filtroSql" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select tbcotiten.cotcod,tbcot.cotaplic,cotdataemi,cothoraemi,
+cotusuario,tbcotiten.cotseq,
+tbcotiten.procod,prodes,cotqt,tbcotiten.cotaplic as aplicIten,
+pesnome,cotitenpreco,conddes,cotitenobs,(cotitenpreco*cotqt) as unitario,
+cotsolnr,cotsoluser
+from tbcotiten left outer join
+tbcot on tbcotiten.cotcod = tbcot.cotcod left outer join
+tbproduto on tbcotiten.procod = tbproduto.procod left outer join
+tbcotitencomp on tbcotiten.cotcod = tbcotitencomp.cotcod
+and tbcotiten.cotseq = tbcotitencomp.cotseq left outer join
+tbpessoa on tbcotitencomp.pescodigo = tbpessoa.pescodigo left outer join
+tbcondpag on tbcotitencomp.condcod = tbcondpag.condcod
+$P{filtroSql}]]>
+	</queryString>
+	<field name="cotcod" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotaplic" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotdataemi" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cothoraemi" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotusuario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotseq" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="procod" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prodes" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotqt" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="aplicIten" class="java.lang.String"/>
+	<field name="pesnome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotitenpreco" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="conddes" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotitenobs" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="unitario" class="java.math.BigDecimal"/>
+	<field name="cotsolnr" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotsoluser" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="procod">
+		<groupExpression><![CDATA[$F{procod}]]></groupExpression>
+		<groupHeader>
+			<band height="26">
+				<textField>
+					<reportElement x="56" y="4" width="21" height="20" uuid="88801547-2d95-4366-805e-8ffca67f5e3d"/>
+					<textFieldExpression><![CDATA[$F{procod}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="9" y="4" width="47" height="20" forecolor="#0000CC" uuid="dd21df46-41bf-4109-85ba-88c30579a857"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Produto]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="77" y="4" width="160" height="20" uuid="6a1dc27e-70b3-4180-9828-ac4d6f038494"/>
+					<textFieldExpression><![CDATA[$F{prodes}]]></textFieldExpression>
+				</textField>
+				<textField pattern="###0.00">
+					<reportElement x="290" y="4" width="57" height="20" uuid="cc78d7cb-0259-4c96-9326-14ecea4760cf"/>
+					<textFieldExpression><![CDATA[$F{cotqt}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="347" y="4" width="208" height="20" uuid="355f1eab-7fce-4f65-abc2-2bce97fbf321"/>
+					<textFieldExpression><![CDATA[$F{aplicIten}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="260" y="4" width="30" height="20" forecolor="#0000CC" uuid="050acf3a-01b4-4921-a95e-c135c475cb07"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[QT]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="84" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="31" width="172" height="24" uuid="cb223489-97e0-42be-93ca-4bc4e80649b6"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[SOLICITAÇÃO Nº]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="465" y="-10" width="100" height="20" uuid="fbc1e8b9-d5b2-4d6d-88e2-c29fcc357bab"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="194" y="31" width="96" height="24" uuid="f5423f7e-eaab-4915-8ebb-5e2debd6557d"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cotcod}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="137" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="5" width="68" height="14" uuid="ada0e8b2-2a36-495a-a39e-ceaafa1e289f"/>
+				<text><![CDATA[APLICAÇÃO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="99" y="5" width="446" height="14" uuid="6599db0b-ba40-4e54-95d0-869b22f462cf"/>
+				<textFieldExpression><![CDATA[$F{cotaplic}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="99" y="23" width="100" height="16" uuid="28f55396-f7ef-4069-98c3-603506414092"/>
+				<textFieldExpression><![CDATA[$F{cotdataemi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="44" width="100" height="20" uuid="73ba4e85-4750-4a3e-974d-9ade609ca3d2"/>
+				<textFieldExpression><![CDATA[$F{cothoraemi}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="24" width="68" height="20" uuid="e6c98a7a-42e5-4936-a7b4-8c5a1b1ed0a2"/>
+				<text><![CDATA[DATA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="44" width="68" height="20" uuid="22bfcac1-78e9-4aca-9c69-0544b9c247d3"/>
+				<text><![CDATA[HORA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="64" width="68" height="20" uuid="e8c9e6ba-13dc-40d7-bff0-beeafe59d30a"/>
+				<text><![CDATA[USUÁRIO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="99" y="64" width="100" height="20" uuid="f8504a2a-3a25-4877-aad7-38728edaecc0"/>
+				<textFieldExpression><![CDATA[$F{cotusuario}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="134" width="555" height="1" uuid="b0b65b34-d980-465a-b943-61f3380990e5"/>
+			</line>
+			<textField>
+				<reportElement x="99" y="86" width="100" height="20" uuid="5659918a-3935-4c91-9985-16f54562c3b0"/>
+				<textFieldExpression><![CDATA[$F{cotsolnr}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="86" width="68" height="20" uuid="d755d7a2-ddd2-48a8-9cec-dd2852f8a152"/>
+				<text><![CDATA[Nº BLOCO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="99" y="107" width="399" height="20" uuid="abfe02c2-25e8-4398-a4f0-dfdebf37a7f0"/>
+				<textFieldExpression><![CDATA[$F{cotsoluser}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="107" width="89" height="20" uuid="5525435a-4af4-4c30-9e55-fc024fbbaf10"/>
+				<text><![CDATA[SOLICITANTE:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="47" y="1" width="230" height="15" isRemoveLineWhenBlank="true" uuid="a33a54d4-b812-48e9-8651-9cdb7dcfb542"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pesnome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="13" y="1" width="33" height="15" forecolor="#FF3333" uuid="da32a894-6794-4452-b8df-c985bcc1d865"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Forn]]></text>
+			</staticText>
+			<textField pattern="###0.00">
+				<reportElement x="306" y="1" width="41" height="15" uuid="b409d300-516e-4c74-88bf-337a58864b35"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cotitenpreco}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="348" y="1" width="25" height="15" forecolor="#FF0066" uuid="f86ac6d9-85ab-4acc-84bc-7d3c7bfee571"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[R$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="1" width="28" height="15" forecolor="#FF0066" uuid="245d090e-6894-4b78-b5e1-3542ed3d8505"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pag]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="448" y="1" width="100" height="15" uuid="68da9263-4558-44c5-bcec-3c175f800188"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{conddes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="277" y="1" width="25" height="15" forecolor="#FF0066" uuid="6e6db1a9-8394-4d59-a4ec-47bb5fa299d1"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UN]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)" isBlankWhenNull="false">
+				<reportElement x="373" y="1" width="48" height="15" uuid="11152f96-744c-4c32-8093-2df8e2a27335"/>
+				<textFieldExpression><![CDATA[$F{unitario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

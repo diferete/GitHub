@@ -122,7 +122,7 @@ class ControllerQualNovoProjProd extends Controller {
 
         $aRetorno = $this->Persistencia->liberaCodProj($aCamposChave);
 
-        $oMsgEmail = new Modal('Liberar código', 'Deseja enviar e-mail com o código do Produto/Projeto nº' . $aCamposChave['nr'] . ' para o representante?', Modal::TIPO_AVISO, true, true, true);
+        $oMsgEmail = new Modal('Liberar código', 'Deseja enviar e-mail com o código do Produto/Projeto nº' . $aCamposChave['nr'] . ' para o vendas?', Modal::TIPO_AVISO, true, true, true);
         $oMsgEmail->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","emailLibCod","' . $sDados . '");');
 
         echo $oMsgEmail->getRender();
@@ -190,7 +190,7 @@ class ControllerQualNovoProjProd extends Controller {
         //nao enviar e-mail para vendas no momento
         $aEmail = $this->Persistencia->projEmailVendaProj($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
-        $oEmail->addDestinatario($aEmail[2]);
+        $oEmail->addDestinatario($aEmail[1]);
 
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();

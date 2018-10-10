@@ -98,9 +98,11 @@ class Campo {
     const TIPO_LINHA = 24;
     const TIPO_CONTROLE = 25;
     const TIPO_SELECTMULTI = 26;
+    const TIPO_TESTE = 99;
     const CAMPO_SELECT = 27;
     const CAMPO_SELECTSIMPLE = 28;
-    const TIPO_TESTE = 99;
+    const TIPO_DECIMAL = 29;
+    
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
@@ -920,7 +922,7 @@ class Campo {
                 . '       } '
                 . 'var value = $(this).val();'
                 . 'if(value !==""){'
-                . 'requestAjax("","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $sCampoFiltro . ',' . $aCampoBusca[1] . '",false,true);'
+                . 'requestAjax("'.$this->getSIdTela().'-form","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $sCampoFiltro . ',' . $aCampoBusca[1] . '",false,true);'
                 . '}'
                 . '});';
 
@@ -941,7 +943,7 @@ class Campo {
                 . '$("#' . $this->getId() . '").blur(function() {'
                 . 'var value = $(this).val();'
                 //.'requestAjax("","'.$sClasseBusca.'","'.$sMetodo.'",cars);'
-                . 'requestAjax("","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $this->getNome() . ',' . $this->getSRetornoBusca() . '",cars);'
+                . 'requestAjax("'.$this->getSIdTela().'-form","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $this->getNome() . ',' . $this->getSRetornoBusca() . '",cars);'
                 . '});'
                 . '</script>';
         //.'requestAjax("","'.$sClasseBusca.'","'.$sMetodo.'","8,'.$this->getId().','.$buscaComposto.'");'
@@ -1395,7 +1397,25 @@ class Campo {
                         . '</div>'
                         . '</div>'
                         . '<script>'
-                        . '$("#' . $this->getId() . '").number(true,2);'
+                        .'$("#' . $this->getId() . '").number(true,3);'
+                        //. '$("#' . $this->getId() . '").focus(function(){$("#' . $this->getId() . '").number(false,2);$("#' . $this->getId() . '").val("");});'
+                        //. '$("#' . $this->getId() . '").number(true,2);'
+                       // . '$("#' . $this->getId() . '").focus(function(){$("#' . $this->getId() . '").number(false,2);$("#' . $this->getId() . '").val("");});'
+                        //. '$("#' . $this->getId() . '").blur(function(){$("#' . $this->getId() . '").number(true,2);});'
+                        . '</script>'
+                        . $this->getRenderEventos();
+                break;
+            
+            case self::TIPO_DECIMAL:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        //  .'<label for="input-money ">'.$this->getLabel().'</label>'
+                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'
+                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '</div>'
+                        . '</div>'
+                        . '<script>'
+                        . '$("#' . $this->getId() . '").blur(function(){maskDecimal("' . $this->getId() . '")});'
                         . '</script>'
                         . $this->getRenderEventos();
                 break;
