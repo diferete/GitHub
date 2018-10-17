@@ -270,7 +270,7 @@ class ViewDELX_PRO_Produtos extends View {
         $oProImportEstrut->addItemSelect('N', 'Não');
         $oProImportEstrut->addItemSelect('S', 'Sim');
 
-        $oControleNSerie = new Campo('Contrle N.Série', 'pro_produtocontrolaserie', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oControleNSerie = new Campo('Controle por N.Série', 'pro_produtocontrolaserie', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oControleNSerie->addItemSelect('N', 'Não');
         $oControleNSerie->addItemSelect('S', 'Sim');
 
