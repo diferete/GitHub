@@ -13,6 +13,69 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         $this->carregaClassesMvc('STEEL_PCP_Certificado');
     }
     
+    /**
+    * Envia o e-mail
+    */
+   public function geraPdfCert($sDados) {
+       $aDados = explode(',', $sDados);
+       
+       $aNr = $_REQUEST['parametrosCampos'];
+       sort($aNr);
+       $sVethor='';
+       foreach ($aNr as $key => $value) {
+           $aNrEnv = explode('=', $value);
+           $sVethor.= 'nrcert[]='.$aNrEnv[1].'&';
+           $aCert[$key]=$aNrEnv[1];
+       }
+       
+        $_REQUEST['nrcert'] = $aCert;
+        $_REQUEST['email'] ='S';
+        $_REQUEST['userRel'] = $_SESSION['nome'];
+       
+        $aEmp= array();
+        foreach ($aCert as $iCert) {
+            $this->Persistencia->limpaFiltro();
+            $this->Persistencia->adicionaFiltro('nrcert',$iCert);
+            $oCertificado = $this->Persistencia->consultarWhere();
+            $aEmp[]=$oCertificado->getEmpcod();
+        }
+        $aEmpRep = array_unique($aEmp);
+        
+        
+       if(count($aEmpRep)==1){
+       $_REQUEST['empresaCert'] = $aEmpRep[0];
+       $aEmail = require 'app/relatorio/CertificadoOpSteel.php';
+       if($aEmail[0]){
+           $this->Persistencia->mudaSit($aCert);
+           echo"$('#".$aDados[1]."-pesq').click();"; 
+       }
+       //grava histórico
+       foreach ($aCert as $i => $cert) {
+           $sDest='';
+          $oHist = Fabrica::FabricarController('STEEL_PCP_histEmailcert');
+          $oHist->Model->setNrcert($cert); 
+          $oHist->Model->setUserEmail($_SESSION['nome']);
+          $oHist->Model->setData(date('d/m/Y'));
+          $oHist->Model->setHora(date('H:i'));
+          if($aEmail[0]){
+             $oHist->Model->setSitenv('Sucesso'); 
+          }else{
+             $oHist->Model->setSitenv($aEmail[1]);  
+          }
+          foreach ($aEmail[2] as $iDest => $sDestinatario) {
+              $sDest .= $sDestinatario.';';
+             }
+          $oHist->Model->setDestinatario($sDest); 
+          $oHist->Persistencia->setModel($oHist->Model);
+          $oHist->Persistencia->inserir();
+       }
+       }else{
+           $oModal= new Modal('Atenção!', 'Existem empresas diferentes nos certificados escolhidos, seleciona apenas certificados da mesma empresa!', Modal::TIPO_AVISO, false);
+           echo $oModal->getRender();
+       }
+       
+     }
+    
     public function acaoMostraRelCertificado($sDados) {
        
        parent::acaoMostraRelEspecifico($sDados);
@@ -57,10 +120,10 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                   . '$("#' . $aId[1] . '").val("");'
                  . '$("#' . $aId[2] . '").val("");'
                 . '$("#' . $aId[3] . '").val("");'
-               . '$("#' . $aId[4] . '").val("");'
-              . '$("#' . $aId[5] . '").val("");'
-             . '$("#' . $aId[6] . '").val("");'
-            . '$("#' . $aId[7] . '").val("");';
+                . '$("#' . $aId[4] . '").val("");'
+                . '$("#' . $aId[5] . '").val("");'
+                . '$("#' . $aId[6] . '").val("");'
+                . '$("#' . $aId[7] . '").val("");';
             } else {
                 
                 $oDados->setProdes(str_replace("\n", " ",$oDados->getProdes()));
@@ -137,5 +200,55 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         return $aRetorno;
         
     }
+    
+    public function afterDelete() {
+        parent::afterDelete();
+        
+        $oOp = Fabrica::FabricarController('STEEL_PCP_GeraCertificado');
+        $oOp->Persistencia->limpaCert($this->Model);
+        
+        
+        $aRetorno = array();
+        $aRetorno[0]=true;
+        $aRetorno[1]='';
+        return $aRetorno;
+    }
+    
+    public function beforeUpdate() {
+        parent::beforeUpdate();
+        
+        $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op', $this->Model->getOp());
+        $iCon = $oOp->Persistencia->getCount();
+        if($iCon ==0){
+            $oModal = new Modal('Atenção','Essa op não existe, forneça uma ordem de produção existente!', Modal::TIPO_ERRO,false);
+            echo $oModal->getRender();
+        }
+        
+        $aRetorno = array();
+        $aRetorno[0]=true;
+        $aRetorno[1]='';
+        return $aRetorno;
+    }
+    
+    public function beforeInsert() {
+        parent::beforeInsert();
+        
+        $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op', $this->Model->getOp());
+        $iCon = $oOp->Persistencia->getCount();
+        if($iCon ==0){
+            $oModal = new Modal('Atenção','Essa op não existe, forneça uma ordem de produção existente!', Modal::TIPO_ERRO,false);
+            echo $oModal->getRender();
+        }
+        
+        $aRetorno = array();
+        $aRetorno[0]=true;
+        $aRetorno[1]='';
+        return $aRetorno;
+        
+    }
+    
+    
     
 }

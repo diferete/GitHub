@@ -146,18 +146,43 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         
         $sCampos.= $this->getSget();
         
+        $sCampos.= '&email=N'; 
+       
         
-        
-       $sCampos.='&output=tela';
-       $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "'.$sRel.$sCampos.'", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
-       echo $oWindow; 
+        $sCampos.='&output=tela';
+        $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "'.$sRel.$sCampos.'", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
+        echo $oWindow; 
          
          
        
         }
+        
+    /**
+    * Envia o e-mail
+    */
+   public function geraPdfOp($sDados) {
+       
+       $aOps = $_REQUEST['parametrosCampos'];
+       sort($aOps);
+       $sVethor='';
+       foreach ($aOps as $key => $value) {
+           $aOpsEnv = explode('=', $value);
+           $sVethor.= 'ops[]='.$aOpsEnv[1].'&';
+           $aOp[$key]=$aOpsEnv[1];
+       }
+        $_REQUEST['ops'] = $aOp;
+        $_REQUEST['email'] ='S';
+       //require 'biblioteca/fpdf/fpdf.php';
+        
+       require 'app/relatorio/OpSteel1.php';
        
        
-    public function mostraTelaRelOpEmitida($renderTo, $sMetodo = '') {        
+       
+     }
+     
+     
+
+     public function mostraTelaRelOpEmitida($renderTo, $sMetodo = '') {        
         parent::mostraTelaRelatorio($renderTo, 'RelOpSteel2');              
         
     }  

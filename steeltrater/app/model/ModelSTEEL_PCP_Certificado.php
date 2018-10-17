@@ -24,7 +24,108 @@ class ModelSTEEL_PCP_Certificado {
     private $quant;
     private $usuario;
     private $hora;
+    private $durezaSuperfMin;
+    private $durezaSuperfMax;
+    private $SuperEscala;
     
+    private $durezaNucMin;
+    private $durezaNucMax;
+    private $NucEscala;
+    
+    private $expCamadaMin;
+    private $expCamadaMax;
+    
+    private $inspeneg;
+    
+    private $sitEmail;
+    
+    
+    function getSitEmail() {
+        return $this->sitEmail;
+    }
+
+    function setSitEmail($sitEmail) {
+        $this->sitEmail = $sitEmail;
+    }
+
+        
+    function getInspeneg() {
+        return $this->inspeneg;
+    }
+
+    function setInspeneg($inspeneg) {
+        $this->inspeneg = $inspeneg;
+    }
+
+        
+    function getExpCamadaMin() {
+        return $this->expCamadaMin;
+    }
+
+    function getExpCamadaMax() {
+        return $this->expCamadaMax;
+    }
+
+    function setExpCamadaMin($expCamadaMin) {
+        $this->expCamadaMin = $expCamadaMin;
+    }
+
+    function setExpCamadaMax($expCamadaMax) {
+        $this->expCamadaMax = $expCamadaMax;
+    }
+
+        
+    function getDurezaNucMin() {
+        return $this->durezaNucMin;
+    }
+
+    function getDurezaNucMax() {
+        return $this->durezaNucMax;
+    }
+
+    function getNucEscala() {
+        return $this->NucEscala;
+    }
+
+    function setDurezaNucMin($durezaNucMin) {
+        $this->durezaNucMin = $durezaNucMin;
+    }
+
+    function setDurezaNucMax($durezaNucMax) {
+        $this->durezaNucMax = $durezaNucMax;
+    }
+
+    function setNucEscala($NucEscala) {
+        $this->NucEscala = $NucEscala;
+    }
+
+        
+    function getSuperEscala() {
+        return $this->SuperEscala;
+    }
+
+    function setSuperEscala($SuperEscala) {
+        $this->SuperEscala = $SuperEscala;
+    }
+
+        
+    function getDurezaSuperfMin() {
+        return $this->durezaSuperfMin;
+    }
+
+    function getDurezaSuperfMax() {
+        return $this->durezaSuperfMax;
+    }
+
+    function setDurezaSuperfMin($durezaSuperfMin) {
+        $this->durezaSuperfMin = $durezaSuperfMin;
+    }
+
+    function setDurezaSuperfMax($durezaSuperfMax) {
+        $this->durezaSuperfMax = $durezaSuperfMax;
+    }
+
+        
     function getUsuario(){
         return $this->usuario;
     }

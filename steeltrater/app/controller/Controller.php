@@ -380,9 +380,6 @@ class Controller {
                             if ($oCampoTela->getITipo() == 29) {
                                 $xValorCampo = $this->ValorSql($xValorCampo);
                             }
-                            if ($oCampoTela->getITipo() == 30) {
-                                $this->gravaHistorico($aCampos);
-                            }
                         }
                         break;
                     case is_array($oCampoTela):
@@ -776,6 +773,7 @@ class Controller {
         $this->antesAlterar($aDados);
         //cria a tela
         $this->View->criaTela();
+
         //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[1]);
         //adiciona tela que será dado um show 
@@ -2798,6 +2796,7 @@ class Controller {
         $this->View->criaTela();
         $aCamposTela = $this->View->getTela()->getCampos();
         $this->carregaModel($aCamposTela);
+        
         if ($this->View->getBGravaHistorico() == true) {
             $this->gravaHistorico('Inserir');
         }
@@ -3172,13 +3171,14 @@ class Controller {
         $this->antesDeCriarTela();
         //cria a tela
         $this->View->criaTela();
-        //traz lista campos
 
+
+        //traz lista campos
+        $aCamposTela = $this->View->getTela()->getCampos();
+        
         if ($this->View->getBGravaHistorico() == true) {
             $this->gravaHistorico('Alterar');
         }
-
-        $aCamposTela = $this->View->getTela()->getCampos();
 
         $this->Persistencia->iniciaTransacao();
 
@@ -3441,10 +3441,21 @@ class Controller {
         //armazena parametros no param para recuperá-los se necessários
         $this->parametros = $aChave;
 
+
+
+
+
         foreach ($aChave as $sChaveAtual) {
             $this->Persistencia->iniciaTransacao();
             $this->carregaModelString($sChaveAtual);
             $this->Model = $this->Persistencia->consultar();
+
+            $this->View->criaTela();
+
+            if ($this->View->getBGravaHistorico() == true) {
+                $aItem = explode('=', $sChaveAtual);
+                $this->gravaHistorico('Excluir', $aItem[1]);
+            }
 
             $aRetorno = $this->beforeDelete();
 
@@ -4159,17 +4170,17 @@ class Controller {
         
     }
 
-    public function gravaHistorico($sAcao) {
+    public function gravaHistorico($sAcao, $sDados) {
 
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-        
+
 
         if ($sAcao == 'Alterar') {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
             $oHist->Model->setUsuario($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
-            $oHist->Model->setHora(date('H:m:i'));
+            $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
             $oHist->Model->setHistorico($aCampos['historico']);
             $oHist->Persistencia->setModel($oHist->Model);
@@ -4179,9 +4190,19 @@ class Controller {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
             $oHist->Model->setUsuario($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
-            $oHist->Model->setHora(date('H:m:i'));
+            $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
             $oHist->Model->setHistorico($aCampos['historico']);
+            $oHist->Persistencia->setModel($oHist->Model);
+            $oHist->Persistencia->inserir();
+        }
+        if ($sAcao == 'Excluir') {
+            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setClasse($this->getNomeClasse());
+            $oHist->Model->setHora(date('H:i:s'));
+            $oHist->Model->setData(date('d/m/Y'));
+            $oHist->Model->setHistorico('Exclusão do item ' . $sDados);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }

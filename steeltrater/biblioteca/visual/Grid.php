@@ -564,7 +564,7 @@ class Grid {
             foreach ($this->aBotoes as $key => $oBotao) {
                 $sBotao .= $oBotao->getRender();
             }
-            
+
             if (!empty($this->aDropdown)) {
                 $sModal = '';
                 foreach ($this->aDropdown as $oDropdown) {
@@ -769,7 +769,7 @@ class Grid {
                     . '$("#' . $this->getSCampoRetorno() . '").blur();'
                     . '} );';
 
-            $sEnter = '$("#' . $this->getSId() . ' tbody").keypress(function(e) { '  
+            $sEnter = '$("#' . $this->getSId() . ' tbody").keypress(function(e) { '
                     . 'if(e.which == 13) { '
                     . ' $("#' . $this->getSId() . ' tbody .selected").each(function(){ '
                     . '  var chaveRet = $(this).find(".consultaCampo").html(); '
@@ -842,12 +842,16 @@ class Grid {
         //$sGrid.=$sConteudo;
         $sGrid .= '<script>'
                 . '$("#' . $this->getSId() . '-chk").click(function () {'
-                //. 'alert("Hi back!");    '
                 . 'var tr = $("#' . $this->getSId() . 'body tr");'
-                . 'tr . each(function () {'
-                . '$(this) . toggleClass("selected");'
                 . '$("#' . $this->getSId() . '-chk") . toggleClass("icon wb-check");'
-                . ' });'
+                . 'tr . each(function () {'
+                . 'if($("#' . $this->getSId() . '-chk") . hasClass("icon wb-check")){'
+                . '$(this).removeClass("selected");'
+                . '$(this).addClass("selected");'
+                . '}else {'
+                . '$(this).removeClass("selected");'
+                . '}'
+                . '});'
                 . '});'
                 . '$("#' . $this->getSId() . '").DataTable( {'
                 . '"scrollY": ' . $this->getIAltura() . ','

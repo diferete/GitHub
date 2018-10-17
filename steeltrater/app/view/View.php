@@ -91,12 +91,12 @@ abstract class View {
     private $bOcultaBotTela; //ocultar os botões quando não é necessário
     private $bGravaHistorico;
 
-    function getBGravaHistorico() {
-        return $this->bGravaHistorico;
-    }
-
     function setBGravaHistorico($bGravaHistorico) {
         $this->bGravaHistorico = $bGravaHistorico;
+    }
+
+    function getBGravaHistorico() {
+        return $this->bGravaHistorico;
     }
 
     function getBUsaCarrGrid() {

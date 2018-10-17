@@ -301,9 +301,9 @@ class ViewDELX_PRO_Produtos extends View {
         $oProDimUnidade->setClasseBusca('DELX_PRO_UnidadeMedida');
         $oProDimUnidade->setSCampoRetorno('pro_unidademedida', $this->getTela()->getid());
 
-        $oDimConver = new Campo('Conversor das Dimen.', 'pro_dimensoesconversor', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
+        $oDimConver = new Campo('Conversor das Dimen.', 'pro_dimensoesconversor', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oDimConverUnd = new Campo('Conversor Und.Prod.', 'pro_dimensoesundconversor', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
+        $oDimConverUnd = new Campo('Conversor Und.Prod.', 'pro_dimensoesundconversor', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oCompBruto = new Campo('Comp.Bruto', 'pro_comprimentobruto', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
@@ -323,7 +323,7 @@ class ViewDELX_PRO_Produtos extends View {
         $oMedComp->addItemSelect('CM', 'Centímetros');
         $oMedComp->addItemSelect('M', 'Metros');
 
-        $oMetrosCub = new Campo('Metros Cub.', 'pro_volumem3', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oMetrosCub = new Campo('Metros Cub.', 'pro_volumem3', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $oFormula = new Campo('Formula do Calculo', 'pro_dimensoesgradeformula', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
         $oFormula->setILinhasTextArea(8);

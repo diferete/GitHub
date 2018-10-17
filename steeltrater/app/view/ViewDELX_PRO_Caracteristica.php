@@ -23,8 +23,8 @@ class ViewDELX_PRO_Caracteristica extends View {
         $oVlrCaracte = new CampoConsulta('Vlr.Caracte', 'pro_caracteristicavlrdefinidos', CampoConsulta::TIPO_TEXTO);
 
         $oFilCaractCod = new Filtro($oCaracteristicaCod, Filtro::CAMPO_TEXTO, 10, 10, 12, 12);
-        $oFilCaractDes = new Filtro($oCaracteristicaDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
-        $oFilCaractDes2 = new Filtro($oCaracteristicaDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilCaractDes = new Filtro($oCaracteristicaDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
+        $oFilCaractDes2 = new Filtro($oCaracteristicaDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
         $oFilCaractDes3 = new Filtro($oCaracteristicaDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
         $this->addFiltro($oFilCaractCod, $oFilCaractDes, $oFilCaractDes2, $oFilCaractDes3);

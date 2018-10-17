@@ -25,9 +25,13 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
         $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
         
+        $oDocumento = new CampoConsulta('NotaEnt', 'documento');
+        
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL,1);
         $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL,2);
         $oDescricaoFiltro = new Filtro($oProdes, Filtro::CAMPO_TEXTO,3);
+        
+        $oDocFiltro = new Filtro($oDocumento, Filtro::CAMPO_TEXTO_IGUAL,1);
         
         $oTipoAcaoFiltro = new Filtro($oRetrabalho, Filtro::CAMPO_SELECT, 3,2,12,12);
         $oTipoAcaoFiltro->addItemSelect('Todos', 'Todos');
@@ -37,19 +41,20 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oTipoAcaoFiltro->setBInline(true);
         
         
-        $this->addFiltro($oOpFiltro,$oCodigoFiltro,$oDescricaoFiltro,$oTipoAcaoFiltro);
+        $this->addFiltro($oOpFiltro,$oCodigoFiltro,$oDescricaoFiltro,$oTipoAcaoFiltro,$oDocFiltro);
         
         $this->setUsaAcaoExcluir(false);
         
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         
-        $this->addCampos($oOp,$oSituacao,$oData,$oCodigo,$oProdes,$oPeso,$oRetrabalho);
+        $this->addCampos($oOp,$oSituacao,$oData,$oCodigo,$oProdes,$oPeso,$oRetrabalho,$oDocumento);
         
        
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir',Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecifico', '', false, 'OpSteel1',false,'',false,'',true);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'STEEL_PCP_OrdensFab', 'geraPdfOp', '', false, 'OpSteel1',false,'',false,'',true);
         $oDrop2 = new Dropdown('Açao', Dropdown::TIPO_DARK);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Cancelar OP', 'STEEL_PCP_OrdensFab', 'msgCancelaOp', '', false, '');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar para Aberta', 'STEEL_PCP_OrdensFab', 'msgAbertaOp', '', false, '');

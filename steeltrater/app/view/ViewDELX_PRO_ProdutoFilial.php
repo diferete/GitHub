@@ -12,10 +12,20 @@ class ViewDELX_PRO_ProdutoFilial extends View {
     public function criaConsulta() {
         parent::criaConsulta();
         
+        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoAlterar(true);
+        $this->setUsaAcaoIncluir(true);
+        $this->setUsaAcaoVisualizar(true);
+        
+
+        $this->getTela()->setBMostraFiltro(true);
+        $this->getTela()->setiAltura(400);
+        $this->getTela()->setBGridResponsivo(false);
+        
+        $this->setBScrollInf(false);
+        
         $oProduto = new CampoConsulta('Produto', 'pro_codigo');
-        $oProdutoFiltro = new Filtro($oProduto,Filtro::CAMPO_TEXTO_IGUAL,3);
         $oFantasia = new CampoConsulta('Fantasia','DELX_FIL_Empresa.fil_fantasia');
-        $oFiltroFant = new Filtro($oFantasia,Filtro::CAMPO_TEXTO,3);
         $oGrupo = new CampoConsulta('Grupo','DELX_PRO_Produtos.pro_grupocodigo');
         $oSubGrupo = new CampoConsulta('SubGrupo', 'DELX_PRO_Produtos.pro_subgrupocodigo');
         $oFamilia = new CampoConsulta('Família','DELX_PRO_Produtos.pro_familiacodigo');
@@ -27,18 +37,11 @@ class ViewDELX_PRO_ProdutoFilial extends View {
         $oResEstEstPedid= new CampoConsulta('Reserva Estoque da Estrutura no Pedido de Venda','pro_filialreservaestoqueestrut');
         
         
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoAlterar(true);
-        $this->setUsaAcaoIncluir(true);
-        $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oProdutoFiltro,$oFiltroFant);
-
-        $this->getTela()->setBMostraFiltro(true);
-        $this->getTela()->setiAltura(400);
-        $this->getTela()->setBGridResponsivo(false);
+        $oProdutoFiltro = new Filtro($oProduto,Filtro::CAMPO_TEXTO_IGUAL,3);
+        $oFiltroFant = new Filtro($oFantasia,Filtro::CAMPO_TEXTO,3);
         
-        $this->setBScrollInf(false);
-        $this->addCampos($oFantasia,$oGrupo,$oSubGrupo,$oFamilia,$oSubFamilia,
+        $this->addFiltro($oProdutoFiltro,$oFiltroFant);
+        $this->addCampos($oProduto,$oFantasia,$oGrupo,$oSubGrupo,$oFamilia,$oSubFamilia,
                 $oDataBloqueio,$oItemMovEst,$oProdutoComp,$oTipoContFat,$oResEstEstPedid);
     }
 

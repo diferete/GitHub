@@ -18,13 +18,10 @@ class PersistenciaMET_TEC_Historico extends Persistencia {
         $this->adicionaRelacionamento('hora', 'hora');
         $this->adicionaRelacionamento('classe', 'classe');
         $this->adicionaRelacionamento('historico', 'historico');
+        
+        $this->adicionaOrderBy('seq',1);
 
         $this->setSTop('50');
-    }
-
-    public function gravaHistorico($aDados) {
-        $sSql = "";
-        $this->executaSql($sSql);
     }
 
 }

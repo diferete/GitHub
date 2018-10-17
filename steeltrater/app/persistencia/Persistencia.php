@@ -1610,9 +1610,9 @@ class Persistencia{
         
         $sSql = 'UPDATE '.$this->getTabela().' SET '.$sCampos.' WHERE '.$sChave; 
         
-        /* $fp = fopen("bloco1.txt", "w");
+         $fp = fopen("bloco1.txt", "w");
             fwrite($fp, $sSql);
-            fclose($fp);*/
+            fclose($fp);
         
         return $this->executaSql($sSql);
     }    

@@ -30,8 +30,36 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
         $this->adicionaRelacionamento('usuario', 'usuario');
         $this->adicionaRelacionamento('hora', 'hora');
         
+        $this->adicionaRelacionamento('durezaSuperfMin', 'durezaSuperfMin');
+        $this->adicionaRelacionamento('durezaSuperfMax', 'durezaSuperfMax');
+        $this->adicionaRelacionamento('SuperEscala', 'SuperEscala');
+        
+        $this->adicionaRelacionamento('durezaNucMin', 'durezaNucMin');
+        $this->adicionaRelacionamento('durezaNucMax', 'durezaNucMax');
+        $this->adicionaRelacionamento('NucEscala', 'NucEscala');
+        
+        $this->adicionaRelacionamento('expCamadaMin', 'expCamadaMin');
+        $this->adicionaRelacionamento('expCamadaMax', 'expCamadaMax');
+        
+        $this->adicionaRelacionamento('inspeneg','inspeneg');
+        
+        $this->adicionaRelacionamento('sitEmail', 'sitEmail');
+        
+        
+        
         $this->setSTop('300');
         $this->adicionaOrderBy('nrcert', 1);
+    }
+    
+    /**
+     * Muda a situação do envio do e-mail
+     */
+    
+    public function mudaSit($aCert){
+        foreach ($aCert as $key => $iCert) {
+            $sSql="update steel_pcp_certificado set sitEmail='Env' where nrcert='".$iCert."'   ";
+            $this->executaSql($sSql);
+        }
     }
 
 }
