@@ -101,8 +101,7 @@ class ViewCadCliRepRec extends View {
         $oHoraLib->setBOculto(true);
 
         $oFieldInf->addCampos(
-                array($oNr, $oEmpAtivo, $oEmpData, $oUsuCodigo, $oUsuEmpCad), 
-                array($oOfficecod, $oOfficedes, $oSit, $oDtLib, $oHoraLib));
+                array($oNr, $oEmpAtivo, $oEmpData, $oUsuCodigo, $oUsuEmpCad), array($oOfficecod, $oOfficedes, $oSit, $oDtLib, $oHoraLib));
 
         $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
@@ -177,6 +176,10 @@ class ViewCadCliRepRec extends View {
         $oEmpnr->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório', '0', '100');
         $oEmpnr->setSCorFundo(Campo::FUNDO_MONEY);
 
+        $oComplemento = new Campo('Complemento', 'empcomplemento', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oComplemento->setSCorFundo(Campo::FUNDO_MONEY);
+        $oComplemento->addValidacao(true, Validacao::TIPO_STRING, 'Insira menos caractéres', '0', '45');
+
         $oMunicipio = new campo('Munícipio', 'empmunicipio', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oMunicipio->setSCorFundo(Campo::FUNDO_MONEY);
         $oMunicipio->addValidacao(FALSE, Validacao::TIPO_STRING, 'Município inválido', '3', '80');
@@ -195,7 +198,10 @@ class ViewCadCliRepRec extends View {
 
         $oCidCep->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
-        $oFieldEnd->addCampos(array($oCidCep, $oUf, $oBairro), array($oEmpEnd, $oEmpnr, $oMunicipio));
+        $oFieldEnd->addCampos(
+                array($oCidCep, $oUf, $oMunicipio), 
+                array($oBairro, $oEmpEnd), 
+                array($oComplemento, $oEmpnr));
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');

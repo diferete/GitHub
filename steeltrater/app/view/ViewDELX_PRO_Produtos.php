@@ -13,32 +13,10 @@ class ViewDELX_PRO_Produtos extends View {
         parent::criaConsulta();
 
 
-        $oCodigo = new CampoConsulta('Código', 'pro_codigo');
-        $oCodigofiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 3);
-        $oDescricao = new CampoConsulta('Descrição', 'pro_descricao');
-        $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 5);
-
-        $oGrupoCod = new CampoConsulta('Grupo', 'pro_grupocodigo');
-        $oGrupoDes = new CampoConsulta('Descrição', 'DELX_PRO_Grupo.pro_grupodescricao');
-        $oSubGrupoCod = new CampoConsulta('SubGrupo', 'DELX_PRO_Subgrupo.pro_subgrupocodigo');
-        $oSubGrupoDes = new CampoConsulta('Descrição', 'DELX_PRO_Subgrupo.pro_subgrupodescricao');
-        $oFamiliaCod = new CampoConsulta('Família', 'DELX_PRO_Familia.pro_familiacodigo');
-        $oFamiliaDes = new CampoConsulta('Descrição', 'DELX_PRO_Familia.pro_familiadescricao');
-        $oSubFamiliaCod = new CampoConsulta('SubFamília', 'DELX_PRO_Subfamilia.pro_subfamiliacodigo');
-        $oSubFamiliaDes = new CampoConsulta('Descrição', 'DELX_PRO_Subfamilia.pro_subfamiliadescricao');
-        $oUnidadeMedCod = new CampoConsulta('Un.Medida', 'pro_unidademedida');
-        //$oUnidadeMedDes = new CampoConsulta('Descrição','DELX_PRO_UnidadeMedida.pro_unidademedidadescricao');
-        // $oTipoControle = new CampoConsulta('Tipo Controle do Estoque','pro_tipocontrole');
-        //$oTipoCusto = new CampoConsulta('Tipo Custo','pro_tipocusto');
-        $oPesoLiq = new CampoConsulta('Peso líquido', 'pro_pesoliquido', CampoConsulta::TIPO_DECIMAL);
-        $oPesoBruto = new CampoConsulta('Peso bruto', 'pro_pesobruto', CampoConsulta::TIPO_DECIMAL);
-        // $oVolume = new CampoConsulta('Volume','pro_volume');
-
         $this->setUsaAcaoExcluir(true);
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoIncluir(true);
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oCodigofiltro, $oDescricaofiltro);
 
         //$this->getTela()->setiAltura(400);
         $this->getTela()->setILarguraGrid(2300);
@@ -46,12 +24,65 @@ class ViewDELX_PRO_Produtos extends View {
 
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
+
+        $oCodigo = new CampoConsulta('Código', 'pro_codigo');
+        $oDescricao = new CampoConsulta('Descrição', 'pro_descricao');
+
+        $oGrupoCod = new CampoConsulta('Grupo', 'pro_grupocodigo');
+
+        $oGrupoDes = new CampoConsulta('Descrição', 'DELX_PRO_Grupo.pro_grupodescricao');
+
+        $oSubGrupoCod = new CampoConsulta('SubGrupo', 'DELX_PRO_Subgrupo.pro_subgrupocodigo');
+
+        $oSubGrupoDes = new CampoConsulta('Descrição', 'DELX_PRO_Subgrupo.pro_subgrupodescricao');
+
+        $oFamiliaCod = new CampoConsulta('Família', 'DELX_PRO_Familia.pro_familiacodigo');
+
+        $oFamiliaDes = new CampoConsulta('Descrição', 'DELX_PRO_Familia.pro_familiadescricao');
+
+        $oSubFamiliaCod = new CampoConsulta('SubFamília', 'DELX_PRO_Subfamilia.pro_subfamiliacodigo');
+
+        $oSubFamiliaDes = new CampoConsulta('Descrição', 'DELX_PRO_Subfamilia.pro_subfamiliadescricao');
+
+        $oUnidadeMedCod = new CampoConsulta('Un.Medida', 'pro_unidademedida');
+
+        $oPesoLiq = new CampoConsulta('Peso líquido', 'pro_pesoliquido', CampoConsulta::TIPO_DECIMAL);
+
+        $oPesoBruto = new CampoConsulta('Peso bruto', 'pro_pesobruto', CampoConsulta::TIPO_DECIMAL);
+
+
+        $oCodigofiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12);
+        $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, true);
+
+        $oFilGrupo = new Filtro($oGrupoCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFilGrupo->setSClasseBusca('DELX_PRO_Grupo');
+        $oFilGrupo->setSCampoRetorno('pro_grupocodigo', $this->getTela()->getSId());
+        $oFilGrupo->setSIdTela($this->getTela()->getSId());
+
+        $oFilSubGrupo = new Filtro($oSubGrupoCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFilSubGrupo->setSClasseBusca('DELX_PRO_Subgrupo');
+        $oFilSubGrupo->setSCampoRetorno('pro_subgrupocodigo', $this->getTela()->getSId());
+        $oFilSubGrupo->setSIdTela($this->getTela()->getSId());
+
+        $oFilFamilia = new Filtro($oFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFilFamilia->setSClasseBusca('DELX_PRO_Familia');
+        $oFilFamilia->setSCampoRetorno('pro_familiacodigo', $this->getTela()->getSId());
+        $oFilFamilia->setSIdTela($this->getTela()->getSId());
+
+        $oFilSubFamilia = new Filtro($oSubFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFilSubFamilia->setSClasseBusca('DELX_PRO_Subfamilia');
+        $oFilSubFamilia->setSCampoRetorno('pro_subfamiliacodigo', $this->getTela()->getSId());
+        $oFilSubFamilia->setSIdTela($this->getTela()->getSId());
+
+        $this->addFiltro($oCodigofiltro, $oDescricaofiltro, $oFilGrupo, $oFilSubGrupo, $oFilFamilia, $oFilSubFamilia);
         $this->addCampos($oCodigo, $oDescricao, $oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes, $oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes, $oUnidadeMedCod, $oPesoLiq, $oPesoBruto
         );
     }
 
     public function criaTela() {
         parent::criaTela();
+
+        $sAcao = $this->getSRotina();
 
         $oTab = new TabPanel();
         $oAbaGeral = new AbaTabPanel('Geral');
@@ -61,14 +92,14 @@ class ViewDELX_PRO_Produtos extends View {
 
         $oCodigo = new Campo('Produto', 'pro_codigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oCodigo->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oCodigo->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco', '0');
+        $oCodigo->addValidacao(false, Validacao::TIPO_INTEIRO, 'Campo não pode estar em branco', '0');
 
         $oDescricao = new Campo('Descrição do Produto', 'pro_descricao', Campo::TIPO_TEXTO, 5, 5, 12, 12);
         $oDescricao->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oDescricao->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco', '0');
+        $oDescricao->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco', '5');
 
         $oUsuCad = new Campo('Usuário do Cadastro', 'pro_cadastrousuario', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oUsuCad->setSValor($_SESSION['nome']);
+        $oUsuCad->setSValor($_SESSION['nomedelsoft']);
         $oUsuCad->setBCampoBloqueado(true);
 
         $oLinha = new Campo('', 'linha', Campo::TIPO_LINHABRANCO);
@@ -79,7 +110,12 @@ class ViewDELX_PRO_Produtos extends View {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Grupo
         $oGrupoCod = new Campo('Grupo', 'pro_grupocodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        if ($_SESSION['filcgc'] == '8993358000174') {
+            $oGrupoCod->setSValor('24');
+            $oGrupoCod->setBCampoBloqueado(true);
+        }
         $oGrupoCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
+
 
         $oGrupoDes = new Campo('Descrição', 'DELX_PRO_Grupo.pro_grupodescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oGrupoDes->setSIdPk($oGrupoCod->getId());
@@ -187,7 +223,7 @@ class ViewDELX_PRO_Produtos extends View {
 
         $oValidade = new Campo('Validade', 'pro_diasvalidade', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //Fieldset especificações
+
         $oFieldSpec = new FieldSet('Especificações');
         $oFieldSpec->setOculto(true);
 
@@ -212,7 +248,7 @@ class ViewDELX_PRO_Produtos extends View {
         $oTipoValConf->addItemSelect('S', 'Sem Código de Barras');
 
         //Principio ativo
-        $oPrincAtivoCod = new Campo('Prncípio Atv.', 'pro_produtopativo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oPrincAtivoCod = new Campo('Prncípio Atv.', 'pro_produtopativo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oPrincAtivoCod->setClasseBusca('DELX_PRO_Principioativo');
         $oPrincAtivoCod->setSCampoRetorno('pro_principioativoseq', $this->getTela()->getid());
         $oPrincAtivoCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
@@ -222,7 +258,6 @@ class ViewDELX_PRO_Produtos extends View {
         $oCodProdVinculado = new Campo('Prod.Vinculado', 'pro_produtovinculadocodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCodProdVinculado->setClasseBusca('DELX_PRO_ProdutoFilial');
         $oCodProdVinculado->setSCampoRetorno('pro_codigo', $this->getTela()->getid());
-        $oCodProdVinculado->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
 
         $oProGenerico = new campo('Genérico', 'pro_generico', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oProGenerico->addItemSelect('N', 'Não');
@@ -328,6 +363,7 @@ class ViewDELX_PRO_Produtos extends View {
         $oFormula = new Campo('Formula do Calculo', 'pro_dimensoesgradeformula', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
         $oFormula->setILinhasTextArea(8);
 
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Aba Inf. Fiscal
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -350,6 +386,7 @@ class ViewDELX_PRO_Produtos extends View {
         $oProNCM = new Campo('NCM', 'pro_ncm', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oProNCM->setClasseBusca('DELX_FIS_Ncm');
         $oProNCM->setSCampoRetorno('fis_ncmcodigo', $this->getTela()->getid());
+        $oProNCM->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco', '0');
 
         //CNAE
         $oProCnae = new Campo('CNAE', 'fis_cnaecodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
@@ -369,7 +406,6 @@ class ViewDELX_PRO_Produtos extends View {
 
         //Gênero de item
         $oGeneroItem = new Campo('Genero do Item', 'fis_generoitemcodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oGeneroItem->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
 
         $oGeneroDes = new Campo('Descrição', 'fis_generoitemdescricao', Campo::TIPO_BUSCADOBANCO, 6, 6, 12, 12);
         $oGeneroDes->setSIdPk($oGeneroItem->getId());
@@ -397,6 +433,7 @@ class ViewDELX_PRO_Produtos extends View {
         $oLabel2->setIMarginTop(30);
 
         $oGrupoTensao = new Campo('Grupo Tensão', 'pro_grupotensao', Campo::TIPO_SELECT, 4, 4, 12, 12);
+        $oGrupoTensao->addItemSelect('00', 'Nenhum');
         $oGrupoTensao->addItemSelect('01', '01 - A1 - Alta Tensão (230kV ou mais)');
         $oGrupoTensao->addItemSelect('02', '02 - A2 - Alta Tensão (88 a 138kV)');
         $oGrupoTensao->addItemSelect('03', '03 - A3 - Alta Tensão (69kV)');
@@ -467,46 +504,76 @@ class ViewDELX_PRO_Produtos extends View {
         //Aba Co-Produto
         $oAbaCoProduto = new AbaTabPanel('Co-Produto');
 
-        //Campos Fieldsets
+
+        if ($sAcao == 'acaoIncluir') {
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            $oFieldFilial = new FieldSet('Filiais');
+            $oFieldFilial->setOculto(true);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+
+            $oMatriz = new campo('Matriz', 'matriz', Campo::TIPO_CHECK, 1, 1, 6, 6);
+            $oMatriz->setApenasTela(true);
+
+            $oFilialSteel = new campo('Steeltrater', 'steeltrater', Campo::TIPO_CHECK, 1, 1, 6, 6);
+            $oFilialSteel->setApenasTela(true);
+
+            $oFeculaBoewing = new campo('Fecula Boewing ', 'fecula', Campo::TIPO_CHECK, 2, 2, 6, 6);
+            $oFeculaBoewing->setApenasTela(true);
+
+            $oFilialFecial = new campo('Fecial', 'fecial', Campo::TIPO_CHECK, 1, 1, 6, 6);
+            $oFilialSteel->setApenasTela(true);
+
+            $oFilialHedler = new campo('Hedler', 'hedler', Campo::TIPO_CHECK, 1, 1, 6, 6);
+            $oFilialHedler->setApenasTela(true);
+
+
+            $oFieldSpec->addCampos(
+                    array($oTipoProd, $oTipoCalc), array($oTipoValConf, $oPrincAtivoCod, $oCodProdVinculado), array($oProGenerico, $oControlLote, $oValorComp, $oEmbRetorna, $oGrade, $oProCoProd), array($oProControlado, $oProFant, $oProObsoleto, $oProFCIRevenda, $oProLetra), array($oProImportEstrut, $oControleNSerie, $oProFCommerce, $oProReceituario, $oDrawBack));
+            $oFieldDim->addCampos(
+                    array($oDim, $oProDimUnidade), array($oDimConver, $oDimConverUnd), array($oCompBruto, $oLargBruto, $oEspBruto), array($oCompLiquido, $oLargLiquido, $oEspLiquido), array($oMedComp, $oMetrosCub), $oFormula);
+
+            $oFieldFilial->addCampos(
+                    array($oMatriz, $oFilialSteel, $oFilialHedler, $oFilialFecial, $oFeculaBoewing));
+
+            //Campos Abas
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $oFieldSpec->addCampos(
-                array($oTipoProd, $oTipoCalc), 
-                array($oTipoValConf, $oPrincAtivoCod, $oCodProdVinculado),
-                array($oProGenerico, $oControlLote, $oValorComp, $oEmbRetorna, $oGrade, $oProCoProd),
-                array($oProControlado, $oProFant, $oProObsoleto, $oProFCIRevenda, $oProLetra),
-                array($oProImportEstrut, $oControleNSerie, $oProFCommerce, $oProReceituario, $oDrawBack));
-        $oFieldDim->addCampos(
-                array($oDim, $oProDimUnidade),
-                array($oDimConver, $oDimConverUnd),
-                array($oCompBruto, $oLargBruto, $oEspBruto),
-                array($oCompLiquido, $oLargLiquido, $oEspLiquido),
-                array($oMedComp, $oMetrosCub), $oFormula);
+            $oAbaGeral->addCampos(
+                    array($oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes), array($oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes), array($oUnidadeMedCod, $oUnidadeMedDes, $oTipoControle, $oTipoCusto), array($oPesoLiq, $oPesoBruto, $oVolume, $oPcUnidade), $oCodAnt, $oDescTecProd, array($oReferencia, $oValidade, $oTipoValidade), $oFieldSpec, $oFieldDim, $oFieldFilial);
 
-        //Campos Abas
+            $oAbaInfFiscal->addCampos(
+                    $oProOrigem, array($oProNCM, $oProCnae, $oProPrincipal, $oProSecundario), array($oGeneroItem, $oGeneroDes), array($oTipoLigacao, $oLabel1), array($oGrupoTensao, $oLabel2), array($oProUnCod, $oProDestacaNFSE, $oProCodTributaria));
+
+            $oAbaPerigo->addCampos(
+                    array($oNrOnu, $oNrRisco, $oClasseRisco,), array($oNomePerigo, $oDescEstrutura, $oPontoFulgor,), array($oEmbGrupo, $oQuantMin));
+
+
+            $oTab->addItems($oAbaGeral, $oAbaInfFiscal/* ,$oAbaFilial,$oAbaCaracteristicas, $oAbaGrades, $oAbaCodBarra, $oAbaConvUn, $oAbaSimilares, $oAbaImagem, $oAbaLog, $oAbaPerigo, $oAbaCoProduto */);
+            $this->addCampos(
+                    array($oCodigo, $oDescricao, $oUsuCad), $oLinha, $oTab);
+        } else {
+            $oFieldSpec->addCampos(
+                    array($oTipoProd, $oTipoCalc), array($oTipoValConf, $oPrincAtivoCod, $oCodProdVinculado), array($oProGenerico, $oControlLote, $oValorComp, $oEmbRetorna, $oGrade, $oProCoProd), array($oProControlado, $oProFant, $oProObsoleto, $oProFCIRevenda, $oProLetra), array($oProImportEstrut, $oControleNSerie, $oProFCommerce, $oProReceituario, $oDrawBack));
+            $oFieldDim->addCampos(
+                    array($oDim, $oProDimUnidade), array($oDimConver, $oDimConverUnd), array($oCompBruto, $oLargBruto, $oEspBruto), array($oCompLiquido, $oLargLiquido, $oEspLiquido), array($oMedComp, $oMetrosCub), $oFormula);
+
+            //Campos Abas
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $oAbaGeral->addCampos(
-                array($oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes),
-                array($oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes),
-                array($oUnidadeMedCod, $oUnidadeMedDes, $oTipoControle, $oTipoCusto),
-                array($oPesoLiq, $oPesoBruto, $oVolume, $oPcUnidade), $oCodAnt, $oDescTecProd,
-                array($oReferencia, $oValidade, $oTipoValidade), $oFieldSpec, $oFieldDim);
+            $oAbaGeral->addCampos(
+                    array($oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes), array($oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes), array($oUnidadeMedCod, $oUnidadeMedDes, $oTipoControle, $oTipoCusto), array($oPesoLiq, $oPesoBruto, $oVolume, $oPcUnidade), $oCodAnt, $oDescTecProd, array($oReferencia, $oValidade, $oTipoValidade), $oFieldSpec, $oFieldDim);
 
-        $oAbaInfFiscal->addCampos(
-                $oProOrigem,
-                array($oProNCM, $oProCnae, $oProPrincipal, $oProSecundario),
-                array($oGeneroItem, $oGeneroDes),
-                array($oTipoLigacao, $oLabel1),
-                array($oGrupoTensao, $oLabel2),
-                array($oProUnCod, $oProDestacaNFSE, $oProCodTributaria));
+            $oAbaInfFiscal->addCampos(
+                    $oProOrigem, array($oProNCM, $oProCnae, $oProPrincipal, $oProSecundario), array($oGeneroItem, $oGeneroDes), array($oTipoLigacao, $oLabel1), array($oGrupoTensao, $oLabel2), array($oProUnCod, $oProDestacaNFSE, $oProCodTributaria));
 
-        $oAbaPerigo->addCampos(
-                array($oNrOnu, $oNrRisco, $oClasseRisco,),
-                array($oNomePerigo, $oDescEstrutura, $oPontoFulgor,),
-                array($oEmbGrupo, $oQuantMin));
+            $oAbaPerigo->addCampos(
+                    array($oNrOnu, $oNrRisco, $oClasseRisco,), array($oNomePerigo, $oDescEstrutura, $oPontoFulgor,), array($oEmbGrupo, $oQuantMin));
 
 
-        $oTab->addItems($oAbaGeral, $oAbaInfFiscal, $oAbaFilial, $oAbaCaracteristicas, $oAbaGrades, $oAbaCodBarra, $oAbaConvUn, $oAbaSimilares, $oAbaImagem, $oAbaLog, $oAbaPerigo, $oAbaCoProduto);
-        $this->addCampos(array($oCodigo, $oDescricao, $oUsuCad), $oLinha, $oTab);
+            $oTab->addItems($oAbaGeral, $oAbaInfFiscal/* ,$oAbaFilial,$oAbaCaracteristicas, $oAbaGrades, $oAbaCodBarra, $oAbaConvUn, $oAbaSimilares, $oAbaImagem, $oAbaLog, $oAbaPerigo, $oAbaCoProduto */);
+            $this->addCampos(
+                    array($oCodigo, $oDescricao, $oUsuCad), $oLinha, $oTab);
+        }
     }
 
 }

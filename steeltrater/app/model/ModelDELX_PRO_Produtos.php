@@ -86,6 +86,51 @@ class ModelDELX_PRO_Produtos {
     private $pro_descricaoestrutura;
     private $pro_perigosonumerorisco;
     private $pro_produtoperigosoqtdminima;
+    private $matriz;
+    private $steeltrater;
+    private $fecula;
+    private $fecial;
+    private $hedler;
+
+    function getMatriz() {
+        return $this->matriz;
+    }
+
+    function getSteeltrater() {
+        return $this->steeltrater;
+    }
+
+    function getFecula() {
+        return $this->fecula;
+    }
+
+    function getFecial() {
+        return $this->fecial;
+    }
+
+    function getHedler() {
+        return $this->hedler;
+    }
+
+    function setMatriz($matriz) {
+        $this->matriz = $matriz;
+    }
+
+    function setSteeltrater($steeltrater) {
+        $this->steeltrater = $steeltrater;
+    }
+
+    function setFecula($fecula) {
+        $this->fecula = $fecula;
+    }
+
+    function setFecial($fecial) {
+        $this->fecial = $fecial;
+    }
+
+    function setHedler($hedler) {
+        $this->hedler = $hedler;
+    }
 
     function getPro_produtoperigosoqtdminima() {
         return $this->pro_produtoperigosoqtdminima;

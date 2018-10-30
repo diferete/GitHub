@@ -48,7 +48,7 @@
     color: #E19D12;
 }
 .tr-roxo{
-    color: #8B2252;
+    color: #990099;
 }
 .tr-rosa{
     color: #FF6EB4;
@@ -80,7 +80,7 @@
 }
 .tr-bk-roxo{
     color: white;
-    background-color: #8B2252 ;
+    background-color: #990099 ;
 }
 .tr-bk-rosa{
     color: white;
@@ -207,6 +207,7 @@ fieldset{
 .botoes-consulta{
     margin-left: 3px !important;
 }
+
 .btn-checkbox{
     border:1px solid green;
     padding:4px;

@@ -419,20 +419,24 @@ class ViewQualGerenProj extends View {
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relProjXls");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $oRelPrj = new Campo('Projetos', 'ordsit1', Campo::TIPO_SELECT, 3);
+        $oRelPrj = new Campo('Projetos', 'sitproj', Campo::TIPO_SELECT, 3);
         $oRelPrj->addItemSelect('', 'Todos');
         $oRelPrj->addItemSelect('Aprovado', 'Aprovado');
         $oRelPrj->addItemSelect('Reprovado', 'Reprovado');
+        $oRelPrj->addItemSelect('Cód. enviado', 'Cód. enviado');
 
-        $oRelVend = new Campo('Vendas', 'ordsit2', Campo::TIPO_SELECT, 3);
+        $oRelVend = new Campo('Vendas', 'sitvendas', Campo::TIPO_SELECT, 3);
         $oRelVend->addItemSelect('', 'Todos');
         $oRelVend->addItemSelect('Aprovado', 'Aprovado');
         $oRelVend->addItemSelect('Reprovado', 'Reprovado');
 
-        $oRelCli = new Campo('Cliente', 'ordsit3', Campo::TIPO_SELECT, 3);
+        $oRelCli = new Campo('Cliente', 'sitcli', Campo::TIPO_SELECT, 3);
         $oRelCli->addItemSelect('', 'Todos');
         $oRelCli->addItemSelect('Aprovado', 'Aprovado');
         $oRelCli->addItemSelect('Reprovado', 'Reprovado');
+        $oRelCli->addItemSelect('Aguardando', 'Aguardando');
+        $oRelCli->addItemSelect('Enviado', 'Enviado');
+        
 
         $oFieldRel->addCampos(array($oRelPrj, $oRelVend, $oRelCli));
 
@@ -440,9 +444,14 @@ class ViewQualGerenProj extends View {
 
         $oSitGRel = new campo('Geral', 'geralsit', Campo::TIPO_SELECT);
         $oSitGRel->addItemSelect('', 'Todos');
-        $oSitGRel->addItemSelect('Faturado', 'Faturado');
+        $oSitGRel->addItemSelect('Lib.Projetos', 'Lib.Projetos');
+        $oSitGRel->addItemSelect('Reprovado', 'Reprovado');
+        $oSitGRel->addItemSelect('Em execução', 'Em execução');
         $oSitGRel->addItemSelect('Cadastrado', 'Cadastrado');
+        $oSitGRel->addItemSelect('Finalizado', 'Finalizado');
+        $oSitGRel->addItemSelect('Faturado', 'Faturado');
         $oSitGRel->addItemSelect('Produzido', 'Produzido');
+        $oSitGRel->addItemSelect('Expirado', 'Expirado');
 
         $oFieldRel2->addCampos(array($oSitGRel));
 

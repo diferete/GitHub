@@ -700,22 +700,6 @@ function zeraCampoEstoque(grupo1, grupo2, sub1, sub2, fam1, fam2, subfam1, subfa
     $('#' + solcot + '').val('');
 }
 /**
- * Máscaras em campo decimal
- */
-
-function maskDecimal(idCampo) {
-
-    var valor = $('#' + idCampo + '').val();
-
-    if (valor == '') {
-        $('#' + idCampo + '').val('0');
-    }
-    valor = moedaParaNumero(valor);
-    $('#' + idCampo + '').val(numeroParaMoeda(valor));
-}
-
-
-/**
  * funcao para calcular preco estimado na tela de cadastro de novos projetos 
  */
 function calcNewproj(idPlan,
@@ -1245,9 +1229,8 @@ function expandeField(id) {
     $('#' + id + ' >div').css("display", "none");
 }
 
-function buscaCNPJ(cnpj, campo, classe) {
-    var campoVal = cnpj + ',' + campo;
-    requestAjax("", classe, 'getCNPJ', campoVal);
+function buscaCNPJ(cnpj, classe) {
+    requestAjax("", classe, 'getCNPJ', cnpj);
 }
 
 function buscaRespVenda(idCod, idVenda, nomeVenda, classe) {

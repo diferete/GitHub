@@ -21,6 +21,15 @@ class ControllerQualNovoProjProd extends Controller {
         parse_str($sChave, $aCamposChave);
         //procedimentos antes de criar a tela
         $this->antesAlterar($aDados);
+
+        $oRetorno = $this->Persistencia->buscaSitCli($aCamposChave['nr']);
+
+        if ($oRetorno->sitcliente != 'Aprovado') {
+            $oMensagem = new Modal('Atenção', 'Projeto não foi Aprovado pelo cliente', Modal::TIPO_AVISO, false, true, true);
+            $this->setBDesativaBotaoPadrao(true);
+            echo $oMensagem->getRender();
+        }
+
         //cria a tela
         $this->View->criaTelaProd();
 

@@ -215,7 +215,7 @@ class ControllerQualNovoProjRep extends Controller {
     public function msgEnvProp($sDados) {
         $aDados = explode(',', $sDados);
 
-        $sChave = htmlspecialchars_decode($aDados[2]);
+        $sChave = htmlspecialchars_decode($aDados[3]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
@@ -266,7 +266,7 @@ class ControllerQualNovoProjRep extends Controller {
      */
     public function EnvProp($sDados) {
         $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
+        $sChave = htmlspecialchars_decode($aDados[3]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
@@ -330,15 +330,8 @@ class ControllerQualNovoProjRep extends Controller {
         $oEmail->limpaDestinatariosAll();
 
         // Para
-        $aEmails = array();
-        $aEmails[] = $_SESSION['email'];
-        foreach ($aEmails as $sEmail) {
-            $oEmail->addDestinatario($sEmail);
-        }
+         $oEmail->addDestinatario($_SESSION['email']);
 
-        foreach ($aUserPlano as $sCopia) {
-            $oEmail->addDestinatarioCopia($sCopia);
-        }
 
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();

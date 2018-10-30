@@ -44,7 +44,17 @@ class ModelCadCliRep {
     private $certcli;
     private $comer;
     private $transp;
+    private $empcomplemento;
+    
+    function getEmpcomplemento() {
+        return $this->empcomplemento;
+    }
 
+    function setEmpcomplemento($empcomplemento) {
+        $this->empcomplemento = $empcomplemento;
+    }
+
+    
     function getComer() {
         return $this->comer;
     }

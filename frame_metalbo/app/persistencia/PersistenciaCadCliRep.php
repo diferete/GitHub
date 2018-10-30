@@ -29,6 +29,7 @@ class PersistenciaCadCliRep extends Persistencia {
         $this->adicionaRelacionamento('empend', 'empend');
         $this->adicionaRelacionamento('cidcep', 'cidcep');
         $this->adicionaRelacionamento('empendbair', 'empendbair');
+        $this->adicionaRelacionamento('empcomplemento', 'empcomplemento');
         $this->adicionaRelacionamento('empins', 'empins');
         $this->adicionaRelacionamento('empobs', 'empobs');
         $this->adicionaRelacionamento('repcod', 'repcod');

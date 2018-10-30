@@ -98,12 +98,9 @@ class Campo {
     const TIPO_LINHA = 24;
     const TIPO_CONTROLE = 25;
     const TIPO_SELECTMULTI = 26;
-    const TIPO_TESTE = 99;
     const CAMPO_SELECT = 27;
     const CAMPO_SELECTSIMPLE = 28;
-    const TIPO_DECIMAL = 29;
-    const TIPO_HISTORICO = 30;
-    
+    const TIPO_TESTE = 99;
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
@@ -1398,25 +1395,7 @@ class Campo {
                         . '</div>'
                         . '</div>'
                         . '<script>'
-                        .'$("#' . $this->getId() . '").number(true,3);'
-                        //. '$("#' . $this->getId() . '").focus(function(){$("#' . $this->getId() . '").number(false,2);$("#' . $this->getId() . '").val("");});'
-                        //. '$("#' . $this->getId() . '").number(true,2);'
-                       // . '$("#' . $this->getId() . '").focus(function(){$("#' . $this->getId() . '").number(false,2);$("#' . $this->getId() . '").val("");});'
-                        //. '$("#' . $this->getId() . '").blur(function(){$("#' . $this->getId() . '").number(true,2);});'
-                        . '</script>'
-                        . $this->getRenderEventos();
-                break;
-            
-            case self::TIPO_DECIMAL:
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
-                        //  .'<label for="input-money ">'.$this->getLabel().'</label>'
-                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
-                        . '</div>'
-                        . '</div>'
-                        . '<script>'
-                        . '$("#' . $this->getId() . '").blur(function(){maskDecimal("' . $this->getId() . '")});'
+                        . '$("#' . $this->getId() . '").number(true,3);'
                         . '</script>'
                         . $this->getRenderEventos();
                 break;
@@ -1517,21 +1496,6 @@ class Campo {
                         . $this->getRenderEventos();
                 break;
             case self::TIPO_TEXTAREA:
-                $xValor = $this->getSValor();
-                $xValor = str_replace("<br>", "&#10", $xValor);
-                $xValor = str_replace("\r", "", $xValor);
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
-                        . '<label style="margin-top:' . $this->getIMarginTop() . 'px;" for=' . $this->getId() . '>' . $this->getLabel() . ':</label>'
-                        . '<textarea style="font-size:12px;" maxlength="' . $this->getICaracter() . '" class="form-control" id="' . $this->getId() . '" name="' . $this->getNome() . '" rows="' . $this->getILinhasTextArea() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
-                        . $xValor
-                        . '</textarea>'
-                        . '</div>'
-                        . $this->getRenderEventos()
-                        . '<script>'
-                        . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
-                        . '</script>';
-                break;
-            case self::TIPO_HISTORICO:
                 $xValor = $this->getSValor();
                 $xValor = str_replace("<br>", "&#10", $xValor);
                 $xValor = str_replace("\r", "", $xValor);

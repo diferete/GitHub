@@ -1,12 +1,13 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
 class ModelQualNovoProjProd {
+
     private $EmpRex;
     private $nr;
     private $dtimp;
@@ -15,14 +16,13 @@ class ModelQualNovoProjProd {
     private $desc_novo_prod;
     private $obsaprovcli;
     private $sitgeralproj;
-    
+    private $sitcliente;
     private $procod;
     private $prodsimilar;
     private $procodsimilar;
-    
     private $chavemin;
     private $chavemax;
-    private $altmin;           
+    private $altmin;
     private $altmax;
     private $diamfmin;
     private $diamfmax;
@@ -42,36 +42,38 @@ class ModelQualNovoProjProd {
     private $acab;
     private $material;
     private $classe;
-   
     private $tiprosca;
     private $normadimen;
     private $normarosca;
     private $normapropmec;
-    
     private $ppap;
     private $vendaprev;
     private $reqcli;
     private $codresproj;
     private $respproj;
     private $dataprod;
-    
     private $dadosent;
     private $dadosent_obs;
     private $reqlegal;
     private $reqlegal_obs;
-    
     private $reqadicional;
     private $reqadicional_obs;
     private $reqadverif;
     private $reqadverif_obs;
-    
     private $reqadval;
     private $reqadval_obs;
-    
     private $reqproblem;
     private $reqproblem_obs;
     private $comem;
-    
+
+    function getSitcliente() {
+        return $this->sitcliente;
+    }
+
+    function setSitcliente($sitcliente) {
+        $this->sitcliente = $sitcliente;
+    }
+
     function getComem() {
         return $this->comem;
     }
@@ -80,7 +82,6 @@ class ModelQualNovoProjProd {
         $this->comem = $comem;
     }
 
-        
     function getReqproblem() {
         return $this->reqproblem;
     }
@@ -97,7 +98,6 @@ class ModelQualNovoProjProd {
         $this->reqproblem_obs = $reqproblem_obs;
     }
 
-        
     function getReqadval() {
         return $this->reqadval;
     }
@@ -114,8 +114,6 @@ class ModelQualNovoProjProd {
         $this->reqadval_obs = $reqadval_obs;
     }
 
-        
-    
     function getReqadicional() {
         return $this->reqadicional;
     }
@@ -148,7 +146,6 @@ class ModelQualNovoProjProd {
         $this->reqadverif_obs = $reqadverif_obs;
     }
 
-        
     function getDadosent() {
         return $this->dadosent;
     }
@@ -181,7 +178,7 @@ class ModelQualNovoProjProd {
         $this->reqlegal_obs = $reqlegal_obs;
     }
 
-        function getPpap() {
+    function getPpap() {
         return $this->ppap;
     }
 
@@ -229,12 +226,6 @@ class ModelQualNovoProjProd {
         $this->dataprod = $dataprod;
     }
 
-        
-    
-    
-    
-    
-    
     function getTiprosca() {
         return $this->tiprosca;
     }
@@ -267,7 +258,6 @@ class ModelQualNovoProjProd {
         $this->normapropmec = $normapropmec;
     }
 
-        
     function getAcab() {
         return $this->acab;
     }
@@ -292,7 +282,6 @@ class ModelQualNovoProjProd {
         $this->classe = $classe;
     }
 
-    
     function getChavemin() {
         return $this->chavemin;
     }
@@ -445,7 +434,6 @@ class ModelQualNovoProjProd {
         $this->anghelice = $anghelice;
     }
 
-        
     function getProcod() {
         return $this->procod;
     }
@@ -470,7 +458,6 @@ class ModelQualNovoProjProd {
         $this->procodsimilar = $procodsimilar;
     }
 
-        
     function getSitgeralproj() {
         return $this->sitgeralproj;
     }
@@ -479,7 +466,6 @@ class ModelQualNovoProjProd {
         $this->sitgeralproj = $sitgeralproj;
     }
 
-        
     function getObsaprovcli() {
         return $this->obsaprovcli;
     }
@@ -488,7 +474,6 @@ class ModelQualNovoProjProd {
         $this->obsaprovcli = $obsaprovcli;
     }
 
-        
     function getDesc_novo_prod() {
         return $this->desc_novo_prod;
     }
@@ -497,8 +482,6 @@ class ModelQualNovoProjProd {
         $this->desc_novo_prod = $desc_novo_prod;
     }
 
-        
-   
     function getResp_proj_nome() {
         return $this->resp_proj_nome;
     }
@@ -507,18 +490,14 @@ class ModelQualNovoProjProd {
         $this->resp_proj_nome = $resp_proj_nome;
     }
 
-    
     function getResp_venda_nome() {
         return $this->resp_venda_nome;
     }
-
-   
 
     function setResp_venda_nome($resp_venda_nome) {
         $this->resp_venda_nome = $resp_venda_nome;
     }
 
-        
     function getDtimp() {
         return $this->dtimp;
     }
@@ -527,19 +506,18 @@ class ModelQualNovoProjProd {
         $this->dtimp = $dtimp;
     }
 
-        
     function getEmpRex() {
-        if(!isset($this->EmpRex)){
+        if (!isset($this->EmpRex)) {
             $this->EmpRex = Fabrica::FabricarModel('EmpRex');
         }
-        
+
         return $this->EmpRex;
     }
 
     function setEmpRex($EmpRex) {
         $this->EmpRex = $EmpRex;
     }
-    
+
     function getNr() {
         return $this->nr;
     }
@@ -547,6 +525,5 @@ class ModelQualNovoProjProd {
     function setNr($nr) {
         $this->nr = $nr;
     }
-
 
 }

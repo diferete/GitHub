@@ -10,7 +10,10 @@ class ViewCadCliRep extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
+        
+        $this->setUsaAcaoExcluir(false);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
         $oNr = new CampoConsulta('Nr.Cadastro', 'nr');
         $oNr->setILargura(5);
@@ -42,9 +45,7 @@ class ViewCadCliRep extends View {
 
         $this->addCampos($oNr, $oEmpcod, $oEmpDes, $oDataCad, $oEmpusu, $oSituaca);
 
-        $this->setUsaAcaoExcluir(false);
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
+        
     }
 
     public function criaTela() {
@@ -102,6 +103,7 @@ class ViewCadCliRep extends View {
         $oEmpcod->setBFocus(true);
 
         $sAcaoExit = 'buscaCNPJ($("#' . $oEmpcod->getId() . '").val(),'
+                . '"' . $oEmpcod->getId() . '",'
                 . '"' . $this->getController() . '")';
 
         $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
@@ -112,7 +114,7 @@ class ViewCadCliRep extends View {
 
         $oEmpFant = new campo('Nome Fantasia', 'empfant', Campo::TIPO_TEXTO, 5, 5, 12, 12);
         $oEmpFant->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '35');
-       
+
         $oTipoPessoa = new campo('Tipo de pessoa', 'empfj', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oTipoPessoa->addItemSelect('J', 'Jurídica');  //J = jurídica F= física
         $oTipoPessoa->addItemSelect('F', 'Física');
@@ -159,6 +161,10 @@ class ViewCadCliRep extends View {
         $oEmpnr = new campo('Número', 'empnr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEmpnr->addValidacao(FALSE, Validacao::TIPO_INTEIRO, 'Campo obrigatório', '0', '100');
         $oEmpnr->setSCorFundo(Campo::FUNDO_MONEY);
+        
+        $oComplemento = new Campo('Complemento', 'empcomplemento', Campo::TIPO_TEXTO,3,3,12,12);
+        $oComplemento->setSCorFundo(Campo::FUNDO_MONEY);
+        $oComplemento->addValidacao(true, Validacao::TIPO_STRING,'Insira menos caractéres','0','45');
 
         $oMunicipio = new campo('Munícipio', 'empmunicipio', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oMunicipio->setSCorFundo(Campo::FUNDO_MONEY);
@@ -180,23 +186,28 @@ class ViewCadCliRep extends View {
 
         $oCidCep->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
-        $oFieldEnd->addCampos(array($oCidCep, $oUf, $oBairro), array($oEmpEnd, $oEmpnr, $oMunicipio));
+        $oFieldEnd->addCampos(
+                array($oCidCep, $oUf, $oMunicipio), 
+                array($oBairro, $oEmpEnd), 
+                array($oComplemento, $oEmpnr));
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');
 
         $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oRep->addItemSelect('Cod. Representate', 'Cod. Representate');
-        foreach ($oDadosRep as $key => $oRepCodObj) {$oRep->addItemSelect($oRepCodObj->getRepcod(), $oRepCodObj->getRepcod());}
+        foreach ($oDadosRep as $key => $oRepCodObj) {
+            $oRep->addItemSelect($oRepCodObj->getRepcod(), $oRepCodObj->getRepcod());
+        }
         $oRep->addValidacao(false, Validacao::TIPO_STRING, 'Selecione código de representante', '2', '3');
 
         $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oRespVenda->setBCampoBloqueado(true);
-        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING,'Caso não apareça, notificar o setor de TI da Metalbo','2','3');
+        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, 'Caso não apareça, notificar o setor de TI da Metalbo', '2', '3');
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oRespVendaNome->setBCampoBloqueado(true);
-        
+
         $sAcaoRespVenda = 'buscaRespVenda($("#' . $oRep->getId() . '").val(),'
                 . '"' . $oRespVenda->getId() . '",'
                 . '"' . $oRespVendaNome->getId() . '",'

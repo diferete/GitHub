@@ -1153,7 +1153,8 @@ class Controller {
                 }
             }
 
-            if (is_a($oAtualTela, 'TabPanel')) {
+            if (is_a($oAtualTela, 'TabPanel')) { 
+                
                 foreach ($oAtualTela->getItems() as $oTabCampos) {
                     foreach ($oTabCampos->getACampos() as $oAbaCampos) {
                         foreach ($aAuto as $oAtualBanco) {
@@ -1167,16 +1168,49 @@ class Controller {
                                     }
                                 }
                             } else {
-                                if ($oAbaCampos->getNome() == $oAtualBanco->getNomeModel()) {
-                                    //$oAtualTela->setSomenteLeitura(true);
-                                    if ($oAbaCampos->getSValor() == null) {
-                                        $oAbaCampos->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
+                                   if (is_a($oAbaCampos, 'FieldSet')) {
+                                        foreach ($oAbaCampos->getACampos() as $oFsCampos) {
+                                                    foreach ($aAuto as $oAtualBanco) {
+                                                        if (is_array($oFsCampos)) {
+                                                            foreach ($oFsCampos as $oCampoFs) {
+                                                                if ($oCampoFs->getNome() == $oAtualBanco->getNomeModel()) {
+                                                                    //$oAtualTela->setSomenteLeitura(true);
+                                                                    if ($oCampoFs->getSValor() == null) {
+                                                                        $oCampoFs->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
+                                                                    }
+                                                                }
+                                                            }
+                                                        } else {
+                                                            if ($oFsCampos->getNome() == $oAtualBanco->getNomeModel()) {
+                                                                //$oAtualTela->setSomenteLeitura(true);
+                                                                if ($oFsCampos->getSValor() == null) {
+                                                                    $oFsCampos->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                       
+                                       
+                                       
+                                       
+                                       
+                                       
+                                       
+                                    }else{
+                                        if ($oAbaCampos->getNome() == $oAtualBanco->getNomeModel()) {
+                                            //$oAtualTela->setSomenteLeitura(true);
+                                            if ($oAbaCampos->getSValor() == null) {
+                                                $oAbaCampos->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
+                                            }
+                                        }
                                     }
-                                }
                             }
                         }
                     }
                 }
+                
+                
             }
         }
     }

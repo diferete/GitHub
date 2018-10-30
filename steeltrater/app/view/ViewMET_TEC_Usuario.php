@@ -91,9 +91,12 @@ class ViewMET_TEC_Usuario extends View {
 
         $oUsuimagem = new Campo('Imagem Perfil', 'usuimagem', Campo::TIPO_UPLOAD, 2, 2, 2, 2);
         $oUsuimagem->setExtensoesPermitidas('png', 'jpg', 'gif');
-
-        $oNomeDelsoft = new campo('Nome Delsoft', 'usunomeDelsoft', Campo::TIPO_TEXTO, 4);
-        $oNomeDelsoft->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '10');
+            
+        
+        $oNomeDelsoft = new Campo('Nome Delsoft', 'usunomeDelsoft', Campo::TIPO_BUSCADOBANCOPK, 4, 4, 12, 12);
+        $oNomeDelsoft->setClasseBusca('DELX_USU_Usuario');
+        $oNomeDelsoft->setSCampoRetorno('usu_codigo', $this->getTela()->getid());
+        $oNomeDelsoft->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '20');
 
 
         $oFilcgc = new Campo('Empresa Padrão', 'filcgc', Campo::TIPO_BUSCADOBANCOPK, 2);

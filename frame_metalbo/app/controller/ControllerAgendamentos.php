@@ -18,13 +18,9 @@ class ControllerAgendamentos extends Controller {
      * model e de persistência
      * 
      * @param Busca dados via select na tabela de entrada de projetos e faz update caso expirado tempo de aprovação do cliente   */
-    public function atualizaEntProj($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
+    public function atualizaEntProj() {
 
-        $aRetorno = $this->Persistencia->verificaSitEntProj($aCamposChave);
+        $aRetorno = $this->Persistencia->verificaSitEntProj();
         //verifica se array tem dados, dar um count
         if (count($aRetorno) > 0) {
             //executa a funçao
@@ -38,12 +34,7 @@ class ControllerAgendamentos extends Controller {
      *
      */
     public function envEmail($oValue) {
-        /* $aDados = explode(',', $sDados);
-          $sChave = htmlspecialchars_decode($aDados[2]);
-          $aCamposChave = array();
-          parse_str($sChave,$aCamposChave);
-         * 
-         */
+    
         
         $sData = $oValue->dtimp;
         $sDateConvert = date("d/m/Y", strtotime($sData));

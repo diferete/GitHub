@@ -45,6 +45,15 @@ class ModelCadCliRepRec {
     private $comer;
     private $transp;
     private $usucadvenda;
+    private $empcomplemento;
+
+    function getEmpcomplemento() {
+        return $this->empcomplemento;
+    }
+
+    function setEmpcomplemento($empcomplemento) {
+        $this->empcomplemento = $empcomplemento;
+    }
 
     function getUsucadvenda() {
         return $this->usucadvenda;

@@ -80,9 +80,9 @@ class PersistenciaDELX_PRO_Produtos extends Persistencia {
         $this->adicionaRelacionamento('pro_dimensoesunidade', 'pro_dimensoesunidade');
         $this->adicionaRelacionamento('pro_origem', 'pro_origem');
         $this->adicionaRelacionamento('pro_ncm', 'pro_ncm');
-        $this->adicionaRelacionamento('fis_cnaecodigo', 'fis_cnaecodigo');        
-        $this->adicionaRelacionamento('fis_lc11603principalcodigo', 'fis_lc11603principalcodigo');        
-        $this->adicionaRelacionamento('fis_lc11603secundariocodigo', 'fis_lc11603secundariocodigo');        
+        $this->adicionaRelacionamento('fis_cnaecodigo', 'fis_cnaecodigo');
+        $this->adicionaRelacionamento('fis_lc11603principalcodigo', 'fis_lc11603principalcodigo');
+        $this->adicionaRelacionamento('fis_lc11603secundariocodigo', 'fis_lc11603secundariocodigo');
         $this->adicionaRelacionamento('fis_generoitemcodigo', 'fis_generoitemcodigo');
         $this->adicionaRelacionamento('pro_tipoligacao', 'pro_tipoligacao');
         $this->adicionaRelacionamento('pro_grupotensao', 'pro_grupotensao');
@@ -97,8 +97,13 @@ class PersistenciaDELX_PRO_Produtos extends Persistencia {
         $this->adicionaRelacionamento('pro_descricaoestrutura', 'pro_descricaoestrutura');
         $this->adicionaRelacionamento('pro_perigosonumerorisco', 'pro_perigosonumerorisco');
         $this->adicionaRelacionamento('pro_produtoperigosoqtdminima', 'pro_produtoperigosoqtdminima');
+        $this->adicionaRelacionamento('matriz', 'matriz', false, false);
+        $this->adicionaRelacionamento('steeltrater', 'steeltrater', false, false);
+        $this->adicionaRelacionamento('fecula', 'fecula', false, false);
+        $this->adicionaRelacionamento('fecial', 'fecial', false, false);
+        $this->adicionaRelacionamento('hedler', 'hedler', false, false);
 
-        $this->setSTop('50');
+        $this->setSTop('30');
         $this->adicionaOrderBy('pro_codigo', 1);
 
         $this->adicionaJoin('DELX_PRO_UnidadeMedida');
@@ -123,6 +128,10 @@ class PersistenciaDELX_PRO_Produtos extends Persistencia {
                 . 'and PRO_PRODUTO.PRO_FamiliaCodigo = "DELX_PRO_Subfamilia".PRO_FamiliaCodigo '
                 . 'and PRO_PRODUTO.PRO_SubFamiliaCodigo = "DELX_PRO_Subfamilia".PRO_SubFamiliaCodigo';
         $this->adicionaJoin('DELX_PRO_Subfamilia', null, 1, 'pro_grupocodigo', 'pro_grupocodigo', $sAndSubFam);
+    }
+
+    public function insereProdFilial($sProCod,$aCNPJ) {
+        
     }
 
 }

@@ -16,13 +16,13 @@ class PersistenciaAgendamentos extends Persistencia {
      * Busca dados via select na tabela de entrada de projetos
      * 
      **/
-    public function verificaSitEntProj($aDados) {
+    public function verificaSitEntProj() {
         $sSql = "select sitgeralproj,sitproj,sitcliente,sitvendas,filcgc,nr,desc_novo_prod,dtimp,
                 empcod,officedes,repnome,resp_venda_nome,dtaprovendas,
                 resp_proj_cod,resp_venda_cod,repcod,emailCli,
                 DATEDIFF(day,dtaprovendas,GETDATE())as dias 
                 from tbqualNovoProjeto where sitvendas='Aprovado' 
-                and  sitgeralproj='Em execução' and sitcliente is null";
+                and  sitgeralproj='Em execução' and sitcliente <> 'Aprovado'";
         $result = $this->getObjetoSql($sSql);
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
             $oModel = $oRowBD;

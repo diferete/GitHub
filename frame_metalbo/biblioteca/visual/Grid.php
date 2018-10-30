@@ -630,6 +630,7 @@ class Grid {
 
         $sGrid .= '<div class="containerTable">';
         $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
+        //$sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
         $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
                 . '<thead><tr role ="row"><th><button id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox"></button></th>';
         //monta o cabeçalho baseado nos campos do cria consulta
@@ -841,12 +842,16 @@ class Grid {
         //$sGrid.=$sConteudo;
         $sGrid .= '<script>'
                 . '$("#' . $this->getSId() . '-chk").click(function () {'
-                //. 'alert("Hi back!");    '
                 . 'var tr = $("#' . $this->getSId() . 'body tr");'
-                . 'tr . each(function () {'
-                . '$(this) . toggleClass("selected");'
                 . '$("#' . $this->getSId() . '-chk") . toggleClass("icon wb-check");'
-                . ' });'
+                . 'tr . each(function () {'
+                . 'if($("#' . $this->getSId() . '-chk") . hasClass("icon wb-check")){'
+                . '$(this).removeClass("selected");'
+                . '$(this).addClass("selected");'
+                . '}else {'
+                . '$(this).removeClass("selected");'
+                . '}'
+                . '});'
                 . '});'
                 . '$("#' . $this->getSId() . '").DataTable( {'
                 . '"scrollY": ' . $this->getIAltura() . ','

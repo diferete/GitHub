@@ -38,6 +38,15 @@ class ViewQualNovoProjProd extends View {
         $oObsCli = new CampoConsulta('ObsCliente', 'obsaprovcli');
         $oObsCli->setILargura(200);
 
+        $oSitCli = new CampoConsulta('SitCliente', 'sitcliente', CampoConsulta::TIPO_TEXTO);
+        $oSitCli->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA);
+        $oSitCli->addComparacao('Enviado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
+        $oSitCli->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSitCli->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oSitCli->addComparacao('Expirado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_COLUNA);
+        $oSitCli->setBComparacaoColuna(true);
+        $oSitCli->setILargura(20);
+
         $oSitGeral = new CampoConsulta('SitGeral', 'sitgeralproj', CampoConsulta::TIPO_TEXTO);
         $oSitGeral->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA);
         $oSitGeral->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
@@ -50,13 +59,14 @@ class ViewQualNovoProjProd extends View {
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(20);
 
-        $this->addCampos($oNr, $oData, $oSitGeral, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli);
+        $this->addCampos($oNr, $oData, $oSitCli, $oSitGeral, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli);
 
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoIncluir(false);
 
         $this->setUsaDropdown(true);
+        
         $oDrop1 = new Dropdown('Produto', Dropdown::TIPO_PRIMARY);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Cadastro de produto', 'QualNovoProjProd', 'TelaCadProd', '', true, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Detalhamento de projeto', 'QualNovoProjDet', 'TelaCadEtapa', '', true, '');
@@ -302,7 +312,7 @@ class ViewQualNovoProjProd extends View {
         $oReqLegal_obs = new campo('', 'reqlegal_obs', Campo::TIPO_TEXTO, 6, 6, 12, 12);
         $oReqLegal_obs->setSCorFundo(Campo::FUNDO_VERDE);
         $oReqLegal_obs->setIMarginTop(22);
-        
+
         $oReqadicional = new campo('Algum requisito adicional de clientes?', 'reqadicional', Campo::TIPO_SELECT, 4);
         $oReqadicional->addItemSelect('Na', 'Na');
         $oReqadicional->addItemSelect('Sim', 'Sim');

@@ -10,9 +10,10 @@ $sUserRel = $_REQUEST['userRel'];
 date_default_timezone_set('America/Sao_Paulo');
 $sData = date('d/m/Y');
 $sHora = date('H:i');
-$sSitProj = $_REQUEST['ordsit1'];
-$sSitVenda = $_REQUEST['ordsit2'];
-$sSitCli = $_REQUEST['ordsit3'];
+$sSitProj = $_REQUEST['sitproj'];
+$sSitVenda = $_REQUEST['sitvendas'];
+$sSitCli = $_REQUEST['sitcli'];
+$sSitGeral = $_REQUEST['geralsit'];
 
 class PDF extends FPDF {
 
@@ -85,34 +86,22 @@ $sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_pro
         . " on tbqualNovoProjeto.empcod  = widl.EMP01.empcod"
         . " where dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "' ";
 
-if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '')) {
-    if (($sSitProj !== '') && ($sSitVenda == '') && ($sSitCli == '')) {
+if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGeral !== '')) {
+    if (($sSitProj !== '')) {
         $sql .= " and ";
         $sql .= " sitproj ='" . $sSitProj . "'";
     }
-    if (($sSitProj == '') && ($sSitVenda !== '') && ($sSitCli == '')) {
+    if (($sSitVenda !== '')) {
         $sql .= " and ";
         $sql .= " sitvendas ='" . $sSitVenda . "'";
     }
-    if (($sSitProj == '') && ($sSitVenda == '') && ($sSitCli !== '')) {
+    if (($sSitCli !== '')) {
         $sql .= " and ";
         $sql .= " sitcliente ='" . $sSitCli . "'";
     }
-    if (($sSitProj !== '') && ($sSitVenda !== '') && ($sSitCli !== '')) {
+    if (($sSitGeral !== '')) {
         $sql .= " and ";
-        $sql .= " sitproj ='" . $sSitProj . "' and sitvendas ='" . $sSitVenda . "' and sitcliente ='" . $sSitCli . "'";
-    }
-    if (($sSitProj !== '') && ($sSitVenda !== '') && ($sSitCli == '')) {
-        $sql .= " and ";
-        $sql .= " sitproj ='" . $sSitProj . "' and sitvendas ='" . $sSitVenda . "'";
-    }
-    if (($sSitProj !== '') && ($sSitVenda == '') && ($sSitCli !== '')) {
-        $sql .= " and ";
-        $sql .= " sitproj ='" . $sSitProj . "' and sitcliente ='" . $sSitCli . "'";
-    }
-    if (($sSitProj == '') && ($sSitVenda !== '') && ($sSitCli !== '')) {
-        $sql .= " and ";
-        $sql .= " sitvendas ='" . $sSitProj . "' and sitcliente ='" . $sSitCli . "'";
+        $sql .= " sitgeralproj ='" . $sSitGeral . "'";
     }
 }
 $sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
@@ -120,9 +109,6 @@ $sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo
         . " order by nr";
 
 $sth = $PDO->query($sql);
-
-$row = $sth->fetch(PDO::FETCH_ASSOC);
-
 
 $iContaAltura = $pdf->GetY();
 
@@ -160,33 +146,25 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetY(45);
     }
 
-    if ($row['respvalproj'] == true) {
-        $sSitGeral = 'Finalizado';
-    } else {
-        $sSitGeral = $row['sitgeralproj'];
-    }
-
-
-
     $pdf->SetFont('arial', 'B', 9);
-    $pdf->Cell(16, 5, 'Situação:', 0, 0, 'L');
+    $pdf->Cell(16, 5, 'Projetos:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
     $pdf->Cell(31, 5, $row['sitproj'], 0, 0);
 
     $pdf->SetFont('arial', 'B', 9);
-    $pdf->Cell(16, 5, 'Situação:', 0, 0, 'L');
+    $pdf->Cell(16, 5, 'Vendas:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
     $pdf->Cell(31, 5, $row['sitvendas'], 0, 0);
 
     $pdf->SetFont('arial', 'B', 9);
-    $pdf->Cell(16, 5, 'Situação:', 0, 0, 'L');
+    $pdf->Cell(16, 5, 'Cliente:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
     $pdf->Cell(31, 5, $row['sitcliente'], 0, 0);
 
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(16, 5, 'Sit. Geral:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(31, 5, $sSitGeral, 0, 1);
+    $pdf->Cell(31, 5, $row['sitgeralproj'], 0, 1);
 
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(5, 5, 'Nr:', 0, 0, 'L');

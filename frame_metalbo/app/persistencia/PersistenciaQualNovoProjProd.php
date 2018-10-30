@@ -21,6 +21,7 @@ class PersistenciaQualNovoProjProd extends Persistencia {
         $this->adicionaRelacionamento('desc_novo_prod', 'desc_novo_prod');
         $this->adicionaRelacionamento('obsaprovcli', 'obsaprovcli');
         $this->adicionaRelacionamento('sitgeralproj', 'sitgeralproj');
+        $this->adicionaRelacionamento('sitcliente', 'sitcliente');
 
         $this->adicionaRelacionamento('procod', 'procod');
         $this->adicionaRelacionamento('prodsimilar', 'prodsimilar');
@@ -157,6 +158,14 @@ class PersistenciaQualNovoProjProd extends Persistencia {
         }
 
         return $aEmail;
+    }
+
+    public function buscaSitCli($sDados) {
+        $sSql = "select sitcliente from tbqualNovoProjeto where nr='" . $sDados . "'";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+
+        return $oRow;
     }
 
 }
