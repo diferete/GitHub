@@ -39,8 +39,10 @@ class ViewSistema extends View {
         }
         /* traz a versão do sistema */
         $oVersao = Fabrica::FabricarPersistencia('MET_TEC_Versao');
-
         $sVersao = $oVersao->mostrVersaoSistema();
+        
+        $oSetor = Fabrica::FabricarPersistencia('MET_TEC_usuario');
+        $sSetor = $oSetor->buscaSetor();
 
         date_default_timezone_set('America/Sao_Paulo');
 
@@ -72,6 +74,9 @@ class ViewSistema extends View {
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/slidepanel/slidePanel.css">'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/flag-icon-css/flag-icon.css">'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/bootstrap-sweetalert/sweet-alert.css">'
+                .'<!--Tag input-->'
+               .'<link rel="stylesheet" type="text/css" href="biblioteca/tagsinput/src/jquery.tagsinput.css" />'
+                    
                 . '<!-- Datatables -->'
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">'
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">'
@@ -336,6 +341,7 @@ class ViewSistema extends View {
                 . '                        <div class="media-body">'
                 . '                          <h6 class="media-heading">Nome: ' . $_SESSION['nome'] . '</h6>'
                 . '                          <h6 class="media-heading">Login: ' . $_SESSION['loginUser'] . '</h6>'
+                . '                          <h6 class="media-heading">Setor: ' . $sSetor . '</h6>'
                 . '                          <h6 class="media-heading">Código: ' . $_SESSION['codUser'] . '</h6>'
                 . $sRep
                 . '                        </div>'
@@ -692,6 +698,8 @@ class ViewSistema extends View {
                 . '   <script src="biblioteca/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>'
                 . '   <script src="biblioteca/assets/js/locales/bootstrap-datepicker.pt-BR.min.js" type="text/javascript"></script>'
                 . '   <script src="biblioteca/assets/js/jquery.maskedinput.js" type="text/javascript"></script>'
+                .'<!--Taginput-->'
+                .'<script src="biblioteca/tagsinput/src/jquery.tagsinput.js"></script>'   
                 . '<!-- Select2 -->'
                 . '<script src="biblioteca/assets/js/select2.min.js" type="text/javascript"></script>'
                 . '<!-- Mascara de dinheiro -->'
