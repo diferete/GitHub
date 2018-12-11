@@ -53,6 +53,19 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $this->adicionaRelacionamento('expCamadaMin', 'expCamadaMin');
         $this->adicionaRelacionamento('expCamadaMax', 'expCamadaMax');
         $this->adicionaRelacionamento('tratrevencomp', 'tratrevencomp');
+        $this->adicionaRelacionamento('tipoOrdem','tipoOrdem');
+        
+        $this->adicionaRelacionamento('fioDurezaSol','fioDurezaSol');
+        $this->adicionaRelacionamento('fioEsferio','fioEsferio');
+        $this->adicionaRelacionamento('fioDescarbonetaTotal','fioDescarbonetaTotal');
+        $this->adicionaRelacionamento('fioDescarbonetaParcial','fioDescarbonetaParcial');
+        $this->adicionaRelacionamento('DiamFinalMin','DiamFinalMin');
+        $this->adicionaRelacionamento('DiamFinalMax','DiamFinalMax');
+        
+        $this->adicionaRelacionamento('prodFinal', 'prodFinal');
+        $this->adicionaRelacionamento('prodesFinal', 'prodesFinal');
+        
+        $this->adicionaRelacionamento('vlrNfEnt', 'vlrNfEnt');
         
         
         
@@ -119,6 +132,25 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $aRetorno = $this->executaSql($sSql);
         
         return $aRetorno;
+    }
+    
+    /**
+     * busca preço da nota fiscal
+     */
+    
+    public function buscaPreço($aCamposChave){
+       $sql = "select nfsitvlrto "
+              ."  from rex_maquinas.widl.NFC003 "
+              ."  where nfsfilcgc ='75483040000211' "
+              ."  and nfsnfser = '2' "
+              ."  and nfsnfnro = '".$aCamposChave['nfsnfnro']."' "
+              ."  and nfsitcod = '".$aCamposChave['nfsitcod']."'";
+        
+        $result = $this->getObjetoSql($sql);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        
+        $sValor = $row->nfsitvlrto; 
+        return $sValor;
     }
    
         

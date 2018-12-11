@@ -36,6 +36,9 @@ class ViewMET_TEC_Modulo extends View {
         $oMod = new Campo('Código', 'modcod', Campo::TIPO_TEXTO, 3);
         $oMod->setBCampoBloqueado(true); //quando campo for pk
         $oMod->setBFocus(true);
+        
+        $oDivisor = new Campo('Divisão', '', Campo::DIVISOR_SUCCESS);
+        
         $oModdes = new Campo('Descrição', 'modescricao', Campo::TIPO_TEXTO, 3);
         $oModdes->addValidacao(true, Validacao::TIPO_STRING, 'Conteúdo Inválido!');
 
@@ -49,7 +52,7 @@ class ViewMET_TEC_Modulo extends View {
 
 
         $oFieldSet = new FieldSet('Módulos');
-        $oFieldSet->addCampos($oMod, $oModdes);
+        $oFieldSet->addCampos($oMod,$oDivisor, $oModdes);
 
         $this->addCampos($oFieldSet);
     }

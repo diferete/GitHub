@@ -1,18 +1,18 @@
 <?php
+
 /**
  * Classe que implementa a persistência genérica do sistema
  * 
  * @author Fernando Salla
  * @since 21/06/2012 
  */
-
 //inclusão das bibliotecas de persistência
 Fabrica::requireBibliotecaPersistencia('CampoBanco');
 Fabrica::requireBibliotecaPersistencia('Lista');
 
-class Persistencia{
+class Persistencia {
+
     public $Model;
-    
     protected $oConn;
     private $sSchema;
     private $sTabela;
@@ -35,67 +35,57 @@ class Persistencia{
     private $sTop;
     private $sWhereManual;
     private $sCase;
-
-
-
-
-
-
-
-
     //tipos de junções (JOIN) entre as tabelas aceitos pelo sistema
-    public static $TIPO_JOIN = array(" INNER JOIN "," LEFT JOIN "," RIGHT JOIN ");
-    
+    public static $TIPO_JOIN = array(" INNER JOIN ", " LEFT JOIN ", " RIGHT JOIN ");
+
     //constantes individuais de junções
     const INNER_JOIN = 0;
-    const LEFT_JOIN  = 1;
+    const LEFT_JOIN = 1;
     const RIGHT_JOIN = 2;
-    
+
     //tipos de ligações entre as comparações nas cláusulas WHERE e JOIN
-    public static $TIPO_LIGACAO = array(" AND "," OR ");
-    
+    public static $TIPO_LIGACAO = array(" AND ", " OR ");
+
     //constantes individuais de ligações
     const LIGACAO_AND = 0;
-    const LIGACAO_OR  = 1;
-    
+    const LIGACAO_OR = 1;
+
     //tipos de comparação de campos nas cláusulas WHERE e JOIN
-    public static $TIPO_COMPARACAO = array(" = ", " > ", " >= "," < "," <= "," BETWEEN "," LIKE ", " LIKE ", " LIKE ", " IN ", " <> ");
+    public static $TIPO_COMPARACAO = array(" = ", " > ", " >= ", " < ", " <= ", " BETWEEN ", " LIKE ", " LIKE ", " LIKE ", " IN ", " <> ");
 
     //constantes individuais de comparação
-    const IGUAL       = 0;
-    const MAIOR       = 1;
+    const IGUAL = 0;
+    const MAIOR = 1;
     const MAIOR_IGUAL = 2;
-    const MENOR       = 3;
+    const MENOR = 3;
     const MENOR_IGUAL = 4;
-    const ENTRE       = 5;
-    const CONTEM      = 6;
-    const INICIA_COM  = 7;
+    const ENTRE = 5;
+    const CONTEM = 6;
+    const INICIA_COM = 7;
     const TERMINA_COM = 8;
-    const GRUPO       = 9;
-    const DIFERENTE   = 10;
+    const GRUPO = 9;
+    const DIFERENTE = 10;
 
     //tipos de totalização de campos
-    public static $TIPO_TOTALIZA = array("SUM", "AVG", "COUNT","MIN","MAX");
-    
+    public static $TIPO_TOTALIZA = array("SUM", "AVG", "COUNT", "MIN", "MAX");
+
     //constantes individuais de totalizadores
-    const TOTALIZA_SOMA   = 0;
-    const TOTALIZA_MEDIA  = 1;
-    const TOTALIZA_CONTA  = 2;
+    const TOTALIZA_SOMA = 0;
+    const TOTALIZA_MEDIA = 1;
+    const TOTALIZA_CONTA = 2;
     const TOTALIZA_MINIMO = 3;
     const TOTALIZA_MAXIMO = 4;
-    
     //constantes individuais de ordenação
-    const ASC  = 0;
+    const ASC = 0;
     const DESC = 1;
-    
     //complementos do nome campo tipo lista
     const COMPLETA_NOME_LISTA = '_desc';
     const COMPLETA_NOME_CHAVE_LISTA = '_cod';
-    
+
     /**
      * Construtor da classe Persistencia 
      */
-    public function __construct(){
+    public function __construct() {
         $this->aListaCampos = array();
         $this->aListaTotaliza = array();
         $this->aListaCamposCalculo = array();
@@ -108,39 +98,35 @@ class Persistencia{
         $this->aOrderByConsulta = array();
         $this->bChaveIncremento = true;
         $this->setConsultaPorSql(false);
-        
+
         $this->oConn = Conexao::getConexao();
         $this->setBConsultaManual(false);
         $this->setSTop('500');
     }
-    
+
     /**
      * Método que retorna o tipo de banco de dados que está conectado no momento
      * 
      * @return integer
      */
-    public function getTipoBDConexao(){
+    public function getTipoBDConexao() {
         $sDriver = $this->oConn->getAttribute(PDO::ATTR_DRIVER_NAME);
         $iRetorno = 0;
-        
-        switch ($sDriver){
+
+        switch ($sDriver) {
             case "mysql":
                 $iRetorno = Config::BD_MYSQL;
-            break;
+                break;
             case "pgsql":
                 $iRetorno = Config::BD_POSTGRESQL;
-            break;
-        case "sqlsrv":
+                break;
+            case "sqlsrv":
                 $iRetorno = Config::BD_SQLSERVER;
-            break;
+                break;
         }
         return $iRetorno;
     }
-    
-    
-    
-    
-    
+
     function getSCase() {
         return $this->sCase;
     }
@@ -149,10 +135,10 @@ class Persistencia{
         $this->sCase = $sCase;
     }
 
-        /**
+    /**
      * Método que ativa a consulta por query manual
      */
-     public function getBConsultaManual() {
+    public function getBConsultaManual() {
         return $this->bConsultaManual;
     }
 
@@ -171,11 +157,10 @@ class Persistencia{
      * MINIMO = 3;
      * MAXIMO = 4;
      */
-    
     /*
      * Retorna o tipo de calculo por sql
      */
-     public function getITipoCalSql() {
+    public function getITipoCalSql() {
         return $this->iTipoCalSql;
     }
 
@@ -185,14 +170,21 @@ class Persistencia{
 
     /*
      * Retorna o número top
-     */        
+     */
+
     function getSTop() {
-        if (Config::TIPO_BD != Config::BD_MYSQL){$stop = "TOP ".$this->sTop." ";}else{ $stop = ''; }
+        if (Config::TIPO_BD != Config::BD_MYSQL) {
+            $stop = "TOP " . $this->sTop . " ";
+        } else {
+            $stop = '';
+        }
         return $stop;
     }
+
     /*
      * Seta o número top
-     */        
+     */
+
     function setSTop($sTop) {
         $this->sTop = $sTop;
     }
@@ -205,15 +197,11 @@ class Persistencia{
         $this->sWhereManual = $sWhereManual;
     }
 
-        
-    
     /**
      * Metodo que realiza a adição dos parâmetros para o somatorio por campo
      * 
      * @return string Description
      */
-
-    
     public function isConsultaPorSql() {
         return $this->bConsultaPorSql;
     }
@@ -226,11 +214,11 @@ class Persistencia{
      * Retorna o conteúdo do atributo sSchema
      * 
      * @return string
-     */    
+     */
     public function getSchema() {
         return $this->sSchema;
     }
-    
+
     /**
      * Define o valor do atributo sSchema
      * 
@@ -238,7 +226,7 @@ class Persistencia{
      */
     public function setSchema($sSchema) {
         $this->sSchema = $sSchema;
-    }  
+    }
 
     /**
      * Retorna o conteúdo do atributo sTabela, se o atributo sSchema estiver
@@ -246,17 +234,17 @@ class Persistencia{
      * do atributo sTabela
      * 
      * @return string
-     */       
-    public function getTabela(){
-        return $this->getSchema() == "" ? $this->sTabela : $this->getSchema().".".$this->sTabela;
+     */
+    public function getTabela() {
+        return $this->getSchema() == "" ? $this->sTabela : $this->getSchema() . "." . $this->sTabela;
     }
-    
+
     /**
      * Define o valor do atributo sTabela
      * 
      * @param integer sTabela 
      */
-    public function setTabela($sTabela){
+    public function setTabela($sTabela) {
         $this->sTabela = strtolower($sTabela);
     }
 
@@ -264,7 +252,7 @@ class Persistencia{
      * Retorna o conteúdo do atributo sLimit
      * 
      * @return string
-     */ 
+     */
     public function getLimit() {
         return $this->sLimit;
     }
@@ -273,7 +261,7 @@ class Persistencia{
      * Define o valor do atributo sLimit
      * 
      * @param integer sLimit 
-     */      
+     */
     public function setLimit($sLimit) {
         $this->sLimit = $sLimit;
     }
@@ -282,7 +270,7 @@ class Persistencia{
      * Retorna o conteúdo do atributo sOffset
      * 
      * @return string
-     */ 
+     */
     public function getOffset() {
         return $this->sOffset;
     }
@@ -291,30 +279,30 @@ class Persistencia{
      * Define o valor do atributo sOffset
      * 
      * @param integer sOffset 
-     */       
+     */
     public function setOffset($sOffset) {
         $this->sOffset = $sOffset;
-    }    
-    
+    }
+
     /**
      * Define o valor do atributo Model
      * 
      * @param object $oModel Model do objeto que se deseja realizar as operações 
      * de persistência
-     */     
-    public function setModel($oModel){
+     */
+    public function setModel($oModel) {
         $this->Model = $oModel;
-    } 
-    
+    }
+
     /**
      * Retorna o conteúdo do atributo bChaveIncremento
      * 
      * @return boolean
-     */    
+     */
     public function getChaveIncremento() {
         return $this->bChaveIncremento;
     }
-    
+
     /**
      * Define o valor do atributo bChaveIncremento
      * Indica ao sistema se deve utilizar os campos setados da chave para 
@@ -325,19 +313,19 @@ class Persistencia{
     public function setChaveIncremento($bChaveIncremento) {
         $this->bChaveIncremento = $bChaveIncremento;
     }
-    
+
     /**
      * Método que cria uma nova instância da classe model, usado nas consultas
      * para retornar um array de objetos
      * 
      * @return object Instância do objeto model atual 
      */
-    public function getNewModel(){
+    public function getNewModel() {
         $sModel = get_class($this->Model);
-        
+
         return new $sModel();
     }
-    
+
     /**
      * Método que cria e adiciona os campos de relacionamento entre os objetos
      * model e de persistência
@@ -349,21 +337,21 @@ class Persistencia{
      * @param boolean $bAutoincremento Indica se o campo é autoincremento
      * @param integer $iTipoCampo Indica o tipo do campo
      */
-    public function adicionaRelacionamento($sNomeBD, $sNomeModel, $bChave = false, $bPersiste = true, $bAutoincremento = false, $iTipoCampo = 1){
+    public function adicionaRelacionamento($sNomeBD, $sNomeModel, $bChave = false, $bPersiste = true, $bAutoincremento = false, $iTipoCampo = 1) {
         $oCampo = new CampoBanco($sNomeBD, $sNomeModel, $bChave, $bPersiste, $bAutoincremento, $iTipoCampo);
         $this->aListaCampos[] = $oCampo;
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aListaCampos que contêm o relacionamento
      * entre os campos do Model e do BD
      * 
      * @return array
-     */      
-    public function getListaRelacionamento(){
+     */
+    public function getListaRelacionamento() {
         return $this->aListaCampos;
     }
-    
+
     /**
      * Retorna um campo da lista de relacionamento a partir do nome do 
      * model do mesmo
@@ -372,15 +360,15 @@ class Persistencia{
      * 
      * @return Object/null Retorna um objeto do tipo campoBanco  ou nulo caso não encontre
      */
-    public function getCampoByNameModel($sNomeModel){
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if(strtolower($oCampoBanco->getNomeModel()) === strtolower($sNomeModel)){
+    public function getCampoByNameModel($sNomeModel) {
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if (strtolower($oCampoBanco->getNomeModel()) === strtolower($sNomeModel)) {
                 return $oCampoBanco;
             }
         }
         return null;
     }
-    
+
     /**
      * Retorna um campo da lista de relacionamento a partir do nome do 
      * banco do mesmo
@@ -389,81 +377,81 @@ class Persistencia{
      * 
      * @return Object/null Retorna um objeto do tipo campoBanco  ou nulo caso não encontre
      */
-    public function getCampoByNameBanco($sNomeBanco){
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if(strtolower($oCampoBanco->getNomeBanco()) === strtolower($sNomeBanco)){
+    public function getCampoByNameBanco($sNomeBanco) {
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if (strtolower($oCampoBanco->getNomeBanco()) === strtolower($sNomeBanco)) {
                 return $oCampoBanco;
             }
         }
         return null;
     }
-    
+
     /**
      * Retorna a lista de campos separando-os por vírgula para serem utilizados
      * nos comandos de consulta sql
      * 
      * @return string
-     */     
-    function getListaCampos(){
+     */
+    function getListaCampos() {
         $aCamposSelect = array();
-        
+
         //se existir agrupamento definido incluirá apenas os campos informados
-        if(sizeof($this->getGroupBy()) > 0){
-            foreach($this->getGroupBy() as $sCampo){
-                $aCamposSelect[] .= $this->getTabela().'.'.$sCampo.' AS "'.$this->getTabela().'.'.$sCampo.'"';
+        if (sizeof($this->getGroupBy()) > 0) {
+            foreach ($this->getGroupBy() as $sCampo) {
+                $aCamposSelect[] .= $this->getTabela() . '.' . $sCampo . ' AS "' . $this->getTabela() . '.' . $sCampo . '"';
             }
-        } else{
+        } else {
             //campos da tabela principal
-            foreach($this->getListaRelacionamento() as $oCampoBanco){
-                if($oCampoBanco->getPersiste()){
-                    if($oCampoBanco->getTipoCampo()!== CampoBanco::TIPO_FORALISTA){
-                    $sNomeCampo = $this->getTabela().'.'.$oCampoBanco->getNomeBanco();
-                    
-                    $aCamposSelect[] .= $sNomeCampo.' AS "'.$sNomeCampo.'"';
-                    if(sizeof($oCampoBanco->getLista()) > 0){
-                        $aCamposSelect[] .= $this->getStringCase($sNomeCampo,$sNomeCampo.self::COMPLETA_NOME_LISTA,$oCampoBanco->getLista());
+            foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+                if ($oCampoBanco->getPersiste()) {
+                    if ($oCampoBanco->getTipoCampo() !== CampoBanco::TIPO_FORALISTA) {
+                        $sNomeCampo = $this->getTabela() . '.' . $oCampoBanco->getNomeBanco();
+
+                        $aCamposSelect[] .= $sNomeCampo . ' AS "' . $sNomeCampo . '"';
+                        if (sizeof($oCampoBanco->getLista()) > 0) {
+                            $aCamposSelect[] .= $this->getStringCase($sNomeCampo, $sNomeCampo . self::COMPLETA_NOME_LISTA, $oCampoBanco->getLista());
+                        }
                     }
-                   }
-                }   
+                }
             }
 
             //campos das tabelas de ligação (Join)
-            foreach($this->getListaJoin() as $aJoin){
+            foreach ($this->getListaJoin() as $aJoin) {
                 $oPersJoin = Fabrica::FabricarPersistencia($aJoin['classe']);
-                foreach($oPersJoin->getListaRelacionamento() as $oCampoBanco){
-                    if($oCampoBanco->getPersiste()){
-                        $sAlias = $aJoin['alias'] != null ? '"'.$aJoin['alias'].'"' : $oPersJoin->getTabela();
+                foreach ($oPersJoin->getListaRelacionamento() as $oCampoBanco) {
+                    if ($oCampoBanco->getPersiste()) {
+                        $sAlias = $aJoin['alias'] != null ? '"' . $aJoin['alias'] . '"' : $oPersJoin->getTabela();
                         $sAliasAs = $aJoin['alias'] != null ? $aJoin['alias'] : $oPersJoin->getTabela();
-                        $sNomeCampo = $sAlias.'.'.$oCampoBanco->getNomeBanco();
-                        $sNomeCampoAs = $sAliasAs.'.'.$oCampoBanco->getNomeBanco();
-                       
-                        $aCamposSelect[] .= $sNomeCampo.' AS "'.$sNomeCampoAs.'"';
-                        if(sizeof($oCampoBanco->getLista()) > 0){
-                            $aCamposSelect[] .= $this->getStringCase($sNomeCampo,$sNomeCampoAs.self::COMPLETA_NOME_LISTA,$oCampoBanco->getLista());
+                        $sNomeCampo = $sAlias . '.' . $oCampoBanco->getNomeBanco();
+                        $sNomeCampoAs = $sAliasAs . '.' . $oCampoBanco->getNomeBanco();
+
+                        $aCamposSelect[] .= $sNomeCampo . ' AS "' . $sNomeCampoAs . '"';
+                        if (sizeof($oCampoBanco->getLista()) > 0) {
+                            $aCamposSelect[] .= $this->getStringCase($sNomeCampo, $sNomeCampoAs . self::COMPLETA_NOME_LISTA, $oCampoBanco->getLista());
                         }
-                    }   
+                    }
                 }
             }
         }
-        return implode(',',$aCamposSelect);
-    } 
-    
+        return implode(',', $aCamposSelect);
+    }
+
     /**
      * Método que retorna a string do comando CASE a ser usada nos campos
      * que possuirem lista de valores x descrição
      * 
      * @return string
-     */ 
-    public function getStringCase($sNomeCampo,$sNomeCampoAs, $aLista){
+     */
+    public function getStringCase($sNomeCampo, $sNomeCampoAs, $aLista) {
         $sCase = "CASE ";
-        foreach($aLista as $valor => $descricao){
-            $sCase .= "WHEN ".$sNomeCampo." = ".$valor." THEN '".$descricao."' ";
+        foreach ($aLista as $valor => $descricao) {
+            $sCase .= "WHEN " . $sNomeCampo . " = " . $valor . " THEN '" . $descricao . "' ";
         }
-        $sCase .= "END AS \"".$sNomeCampoAs."\"";
-        
+        $sCase .= "END AS \"" . $sNomeCampoAs . "\"";
+
         return $sCase;
     }
-    
+
     /**
      * Método que adiciona campos de relacionamento virtuais, ou seja,
      * criados da junção de dois ou mais campos presentes na consulta
@@ -473,42 +461,42 @@ class Persistencia{
      * @param string $sNomeModel Nome do campo do model que receberá o campo virtual
      * @param string $sAlias Alias a ser usado pela coluna virtual, quando não definido usará o mesmo nome do model
      */
-    public function adicionaCampoVirtual($aCampos,$sNomeModel, $sAlias = null){
+    public function adicionaCampoVirtual($aCampos, $sNomeModel, $sAlias = null) {
         $sCampoAlias = $sAlias === null ? $sNomeModel : $sAlias;
         $this->aListaCampoVirtual[] = array('campos' => $aCampos,
-                                            'campoModel' => $sNomeModel,
-                                            'alias' => $sCampoAlias);
-        
+            'campoModel' => $sNomeModel,
+            'alias' => $sCampoAlias);
+
         //cria um relacionamento para o cálculo adicionado
-        $this->adicionaRelacionamento($sCampoAlias,$sNomeModel,false,false);
+        $this->adicionaRelacionamento($sCampoAlias, $sNomeModel, false, false);
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aListaCampoVirtual que contêm as informações
      * sobre as colunas virtuais que devem ser adicionadas as consultas
      * 
      * @return array
-     */      
-    public function getListaCampoVirtual(){
+     */
+    public function getListaCampoVirtual() {
         return $this->aListaCampoVirtual;
     }
-    
+
     /**
      * Retorna a string de campos virtuais separando-os por vírgula 
      * para serem utilizados nos comandos de consulta sql
      * 
      * @return string
-     */     
-    public function getCamposVirtuais(){
+     */
+    public function getCamposVirtuais() {
         $sCamposVirtuais = "";
-        
+
         foreach ($this->getListaCampoVirtual() as $aVirtual) {
-            $sCamposVirtuais .= ','.$this->getStringCampoVirtual($aVirtual['campos']).' AS "'.$this->getTabela().'.'.$aVirtual['alias'].'"';
+            $sCamposVirtuais .= ',' . $this->getStringCampoVirtual($aVirtual['campos']) . ' AS "' . $this->getTabela() . '.' . $aVirtual['alias'] . '"';
         }
-        
+
         return $sCamposVirtuais;
     }
-    
+
     /**
      * Método que retorna a string referente a uma coluna virtual
      * 
@@ -516,21 +504,21 @@ class Persistencia{
      *
      * @return String
      */
-    private function getStringCampoVirtual($aCampoVirtual){
+    private function getStringCampoVirtual($aCampoVirtual) {
         $sCampoVirtual = "";
         foreach ($aCampoVirtual as $key => $sCampo) {
             $sNomeClasse = "";
-            if(strpos($sCampo,".") > 0){
-                $sNomeClasse = '"'.substr($sCampo,0,strpos($sCampo,".")).'".';
+            if (strpos($sCampo, ".") > 0) {
+                $sNomeClasse = '"' . substr($sCampo, 0, strpos($sCampo, ".")) . '".';
             }
-            if($key > 0){
+            if ($key > 0) {
                 $sCampoVirtual .= "||' - '||";
             }
-            $sCampoVirtual .= $sNomeClasse.$this->getNomeBanco($sCampo);
+            $sCampoVirtual .= $sNomeClasse . $this->getNomeBanco($sCampo);
         }
         return $sCampoVirtual;
     }
-    
+
     /**
      * Método que adiciona campos de relacionamento a partir de cálculos
      * realizados entre os campos resultantes das consultas
@@ -554,45 +542,45 @@ class Persistencia{
      * @param string $sNomeModel Nome do campo do model que receberá o resultado do cálculo
      * @param string $sAlias Alias a ser usado pela coluna virtual, quando não definido usará o mesmo nome do model
      */
-    public function adicionaCalculo($aCampos, $sFormulaCalculo, $sNomeModel, $sAlias = null){
+    public function adicionaCalculo($aCampos, $sFormulaCalculo, $sNomeModel, $sAlias = null) {
         $this->aListaCamposCalculo[] = array('campos' => $aCampos,
-                                             'formula' => $sFormulaCalculo,
-                                             'campoModel' => $sNomeModel,
-                                             'alias' => $sAlias === null ? $sNomeModel : $sAlias,);
+            'formula' => $sFormulaCalculo,
+            'campoModel' => $sNomeModel,
+            'alias' => $sAlias === null ? $sNomeModel : $sAlias,);
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aListaCamposCalculo que contêm as informações
      * sobre os cálculos (colunas virtuais) que devem ser adicionadas as consultas
      * 
      * @return array
-     */      
-    public function getListaCamposCalculados(){
+     */
+    public function getListaCamposCalculados() {
         return $this->aListaCamposCalculo;
     }
-    
+
     /**
      * Retorna a string de campos virtuais calculados por fórmula 
      * separando-os por vírgula para serem utilizados nos 
      * comandos de consulta sql
      * 
      * @return string
-     */     
-    public function getCamposCalculados(){
+     */
+    public function getCamposCalculados() {
         $sCamposCalculo = "";
-        
+
         foreach ($this->getListaCamposCalculados() as $aCalculo) {
             $sCampoCalculo = $this->getStringCampoCalculo($aCalculo);
-            
-            $sCamposCalculo .= ',('.$sCampoCalculo.') AS "'.$this->getTabela().'.'.$aCalculo['alias'].'"';
-            
+
+            $sCamposCalculo .= ',(' . $sCampoCalculo . ') AS "' . $this->getTabela() . '.' . $aCalculo['alias'] . '"';
+
             //cria um relacionamento para o cálculo adicionado
-            $this->adicionaRelacionamento($aCalculo['alias'],$aCalculo['campoModel'],false,false);
+            $this->adicionaRelacionamento($aCalculo['alias'], $aCalculo['campoModel'], false, false);
         }
-        
+
         return $sCamposCalculo;
     }
-    
+
     /**
      * Método que retorna a string referente a uma coluna virtual originada por
      * um cálculo
@@ -601,31 +589,31 @@ class Persistencia{
      *
      * @return String
      */
-    private function getStringCampoCalculo($aCampoCalculo){
+    private function getStringCampoCalculo($aCampoCalculo) {
         $sCampoFormula = $aCampoCalculo['formula'];
-        
+
         foreach ($aCampoCalculo['campos'] as $key => $sNomeCampo) {
             $sCampoReplace = "";
 
             //verifica se o campo do model é um totalizador na consulta
             $bTotalizador = false;
             foreach ($this->getListaTotaliza() as $aTotalizador) {
-                if(strtolower($sNomeCampo) === strtolower($aTotalizador['campoModel'])){
+                if (strtolower($sNomeCampo) === strtolower($aTotalizador['campoModel'])) {
                     $oPersTotal = Fabrica::FabricarPersistencia($aTotalizador['classe']);
 
                     /*
                      * verifica se deve adicionar os filtros da persistência principal
                      * na consulta da totalização
                      */
-                    if($aTotalizador['addFiltro']){
+                    if ($aTotalizador['addFiltro']) {
                         /*
                          * Adiciona a chave do objeto principal como filtro no objeto 
                          * de totalização
                          */
                         $aChave = $this->getChaveArray();
 
-                        foreach($aChave as $oAtual){
-                            $oPersTotal->adicionaFiltro($oAtual->getNomeBanco(),$this->getTabela().'.'.$oAtual->getNomeBanco());
+                        foreach ($aChave as $oAtual) {
+                            $oPersTotal->adicionaFiltro($oAtual->getNomeBanco(), $this->getTabela() . '.' . $oAtual->getNomeBanco());
                         }
                     }
 
@@ -639,18 +627,18 @@ class Persistencia{
                 }
             }
 
-            if(!$bTotalizador){
+            if (!$bTotalizador) {
                 $sNomeClasse = "";
-                if(strpos($sNomeCampo,".") > 0){
-                    $sNomeClasse = '"'.substr($sNomeCampo,0,strpos($sNomeCampo,".")).'".';
+                if (strpos($sNomeCampo, ".") > 0) {
+                    $sNomeClasse = '"' . substr($sNomeCampo, 0, strpos($sNomeCampo, ".")) . '".';
                 }
-                $sCampoReplace = $sNomeClasse.$this->getNomeBanco($sNomeCampo);
+                $sCampoReplace = $sNomeClasse . $this->getNomeBanco($sNomeCampo);
             }
-            $sCampoFormula = str_replace("{".$key."}",$sCampoReplace,$sCampoFormula);
+            $sCampoFormula = str_replace("{" . $key . "}", $sCampoReplace, $sCampoFormula);
         }
         return $sCampoFormula;
     }
-    
+
     /**
      * Método que adiciona campos de relacionamento a partir de totalizações
      * 
@@ -661,39 +649,39 @@ class Persistencia{
      * @param boolean $bAdicionaFiltro Indica se a cláusula WHERE da persistência principal deve ser adicionada
      *                                 na consulta do totalizador (subsql)
      */
-    public function adicionaTotaliza($sClasse, $sCampoTotaliza, $sCampoModelPrincipal, $iTipo = self::TOTALIZA_SOMA, $bAdicionaFiltro = true){
+    public function adicionaTotaliza($sClasse, $sCampoTotaliza, $sCampoModelPrincipal, $iTipo = self::TOTALIZA_SOMA, $bAdicionaFiltro = true) {
         $this->aListaTotaliza[] = array('classe' => $sClasse,
-                                        'campoTotaliza' => $sCampoTotaliza,
-                                        'campoModel' => $sCampoModelPrincipal,
-                                        'tipoTotaliza' => $iTipo,
-                                        'addFiltro'=> $bAdicionaFiltro);
+            'campoTotaliza' => $sCampoTotaliza,
+            'campoModel' => $sCampoModelPrincipal,
+            'tipoTotaliza' => $iTipo,
+            'addFiltro' => $bAdicionaFiltro);
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aListaTotaliza que contêm as informações
      * sobre as totalizações (subsql) que devem ser adicionadas as consultas
      * 
      * @return array
-     */      
-    function getListaTotaliza(){
+     */
+    function getListaTotaliza() {
         return $this->aListaTotaliza;
     }
-    
+
     /**
      * Retorna a lista de campos a serem totalizados separando-os por vírgula 
      * para serem utilizados nos comandos de consulta sql
      * 
      * @return string
-     */     
-    function getCamposTotalizadores(){
+     */
+    function getCamposTotalizadores() {
         $sTotaliza = "";
-        
+
         foreach ($this->getListaTotaliza() as $aTotalizador) {
-            $sTotaliza .= ','.$this->getStringCampoTotalizador($aTotalizador);
+            $sTotaliza .= ',' . $this->getStringCampoTotalizador($aTotalizador);
         }
         return $sTotaliza;
-    } 
-    
+    }
+
     /**
      * Método que retorna a string referente a uma coluna virtual originada por
      * um totalizador
@@ -702,7 +690,7 @@ class Persistencia{
      *
      * @return String
      */
-    private function getStringCampoTotalizador($aCampoTotaliza, $bAddAlias = true, $bAddRelacionamento = true){
+    private function getStringCampoTotalizador($aCampoTotaliza, $bAddAlias = true, $bAddRelacionamento = true) {
         $sTotaliza = "";
         $oPersTotal = Fabrica::FabricarPersistencia($aCampoTotaliza['classe']);
 
@@ -710,7 +698,7 @@ class Persistencia{
          * verifica se deve adicionar os filtros da persistência principal
          * na consulta da totalização
          */
-        if($aCampoTotaliza['addFiltro']){
+        if ($aCampoTotaliza['addFiltro']) {
 
             /*
              * Adiciona a chave do objeto principal como filtro no objeto 
@@ -718,8 +706,8 @@ class Persistencia{
              */
             $aChave = $this->getChaveArray();
 
-            foreach($aChave as $oAtual){
-                $oPersTotal->adicionaFiltro($oAtual->getNomeBanco(),$this->getTabela().'.'.$oAtual->getNomeBanco());
+            foreach ($aChave as $oAtual) {
+                $oPersTotal->adicionaFiltro($oAtual->getNomeBanco(), $this->getTabela() . '.' . $oAtual->getNomeBanco());
             }
         }
 
@@ -728,17 +716,17 @@ class Persistencia{
 
         $sTotaliza .= $oPersTotal->getSqlTotaliza($sNomeCampoBD, $sTipo, $aCampoTotaliza['addFiltro']);
 
-        if($bAddAlias){
-            $sTotaliza .= ' AS "'.$this->getTabela().'.'.$sNomeCampoBD.$sTipo.'"';
+        if ($bAddAlias) {
+            $sTotaliza .= ' AS "' . $this->getTabela() . '.' . $sNomeCampoBD . $sTipo . '"';
         }
 
-        if($bAddRelacionamento){
+        if ($bAddRelacionamento) {
             //cria um relacionamento para a totalização adicionada
-            $this->adicionaRelacionamento($sNomeCampoBD.$sTipo,$aCampoTotaliza['campoModel'],false,false);
+            $this->adicionaRelacionamento($sNomeCampoBD . $sTipo, $aCampoTotaliza['campoModel'], false, false);
         }
         return $sTotaliza;
     }
-    
+
     /**
      * Método que retorna o comando sql que permite adicionar totalizações 
      * nas consultas sql
@@ -747,23 +735,23 @@ class Persistencia{
      * @param string Tipo da totalização
      * @param boolean Indica se a cláusula WHERE deve ser adicionada ao comando
      */
-    private function getSqlTotaliza($sCampo, $sTipo, $bAdicionaFiltro = true){
+    private function getSqlTotaliza($sCampo, $sTipo, $bAdicionaFiltro = true) {
         $sWhere = $bAdicionaFiltro ? $this->getStringWhere() : '';
-        
-        $sSql = '(SELECT COALESCE('.$sTipo.'('.$sCampo.'),0) FROM '.$this->getTabela().$sWhere.')';
-        
+
+        $sSql = '(SELECT COALESCE(' . $sTipo . '(' . $sCampo . '),0) FROM ' . $this->getTabela() . $sWhere . ')';
+
         return $sSql;
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aListaJoin
      * 
      * @return array
-     */     
-    public function getListaJoin(){
+     */
+    public function getListaJoin() {
         return $this->aListaJoin;
     }
-    
+
     /**
      * Método que realiza a adição dos relacionamentos entre as tabelas conforme
      * modelagem ER
@@ -780,14 +768,14 @@ class Persistencia{
      * Caso não sejam informados os campos de origem e destino será feito um comparativo entre as
      * tabelas a partir dos campos chave da tabela principal
      * $sEnd coloca uma string para fazer clausulas nas ligaçoes
-     */    
-    public function adicionaJoin($sClasse, $sAlias = null, $iTipo = self::LEFT_JOIN, $xCampoOrigem = null, $xCampoDestino = null,$sEnd=null){
-        $this->aListaJoin[] = array('classe'      => $sClasse,
-                                    'alias'       => $sAlias === null ? $sClasse : $sAlias,
-                                    'tipo'        => self::$TIPO_JOIN[$iTipo],
-                                    'campoOrigem' => $xCampoOrigem,
-                                    'campoDestino'=> $xCampoDestino,
-                                    'listand'=>$sEnd);
+     */
+    public function adicionaJoin($sClasse, $sAlias = null, $iTipo = self::LEFT_JOIN, $xCampoOrigem = null, $xCampoDestino = null, $sEnd = null) {
+        $this->aListaJoin[] = array('classe' => $sClasse,
+            'alias' => $sAlias === null ? $sClasse : $sAlias,
+            'tipo' => self::$TIPO_JOIN[$iTipo],
+            'campoOrigem' => $xCampoOrigem,
+            'campoDestino' => $xCampoDestino,
+            'listand' => $sEnd);
     }
 
     /**
@@ -795,58 +783,56 @@ class Persistencia{
      * em formato de string para ser usado no comando sql
      * 
      * @return string
-     */          
-    public function getStringJoin(){
+     */
+    public function getStringJoin() {
         $sJoin = "";
 
-        foreach($this->getListaJoin() as $aJoin){
+        foreach ($this->getListaJoin() as $aJoin) {
             $oPersJoin = Fabrica::FabricarPersistencia($aJoin['classe']);
 
-            $sJoin .= $aJoin['tipo'].$oPersJoin->getTabela()." \"".$aJoin['alias']."\" ON ";
+            $sJoin .= $aJoin['tipo'] . $oPersJoin->getTabela() . " \"" . $aJoin['alias'] . "\" ON ";
 
             //se os campos de ligação forem passados por parâmetro
-            if($aJoin['campoOrigem'] != null){
-                if(is_array($aJoin['campoOrigem'])){
+            if ($aJoin['campoOrigem'] != null) {
+                if (is_array($aJoin['campoOrigem'])) {
                     foreach ($aJoin['campoOrigem'] as $key => $value) {
-                        if($key > 0){
+                        if ($key > 0) {
                             $sJoin .= " AND ";
                         }
-                        $sJoin .= '"'.$aJoin['alias']."\".".$aJoin['campoDestino'][$key]." = ".$this->getTabela().".".$aJoin['campoOrigem'][$key];
+                        $sJoin .= '"' . $aJoin['alias'] . "\"." . $aJoin['campoDestino'][$key] . " = " . $this->getTabela() . "." . $aJoin['campoOrigem'][$key];
                     }
-                } else{
-                    $sJoin .= '"'.$aJoin['alias']."\".".$aJoin['campoDestino']." = ".$this->getTabela().".".$aJoin['campoOrigem'];
+                } else {
+                    $sJoin .= '"' . $aJoin['alias'] . "\"." . $aJoin['campoDestino'] . " = " . $this->getTabela() . "." . $aJoin['campoOrigem'];
                 }
-            } else{
+            } else {
                 //realiza a ligação automaticamente pela chave da persistência de ligação
-                foreach($oPersJoin->getChaveArray() as $key => $oCampoBanco){
-                    if($key > 0){
+                foreach ($oPersJoin->getChaveArray() as $key => $oCampoBanco) {
+                    if ($key > 0) {
                         $sJoin .= " AND ";
                     }
-                    $sJoin .= '"'.$aJoin['alias']."\".".$oCampoBanco->getNomeBanco()." = ".$this->getTabela().".".$oCampoBanco->getNomeBanco(); 
-                }    
+                    $sJoin .= '"' . $aJoin['alias'] . "\"." . $oCampoBanco->getNomeBanco() . " = " . $this->getTabela() . "." . $oCampoBanco->getNomeBanco();
+                }
             }
-           //adiciona clausulas and se houve
-        $sJoin .=' '.$aJoin['listand'];
+            //adiciona clausulas and se houve
+            $sJoin .= ' ' . $aJoin['listand'];
         }
-        
+
         return $sJoin;
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aListaWhere
      * 
      * @return array
-     */      
+     */
     public function getListaWhere() {
         return $this->aListaWhere;
     }
-    
-    
+
     function setAListaWhere($aListaWhere) {
         $this->aListaWhere = $aListaWhere;
     }
 
-        
     /**
      * Método que realiza a adição dos parâmetros responsáveis pela inclusão
      * de filtros (WHERE) das consultas (SELECT)
@@ -857,35 +843,35 @@ class Persistencia{
      * @param integer $iTipoComparacao Tipo de comparação a ser realizado
      * @param string $sValorFim Valor final caso a cláusula utilizada seja BETWEEN
      * @param string $sTabelaCampo envia a tabela ao qual o campo pertence, se ficar em branco o sistema tentará buscar
-     */    
-    public function adicionaFiltro($sCampo,$sValor,$iTipoLigacao = 0,$iTipoComparacao = 0,$sValorFim = "",$sTabelaCampo="", $sCampoType = "") {
+     */
+    public function adicionaFiltro($sCampo, $sValor, $iTipoLigacao = 0, $iTipoComparacao = 0, $sValorFim = "", $sTabelaCampo = "", $sCampoType = "") {
         $this->aListaWhere[] = array('campo' => $sCampo,
-                                     'valor'  => $sValor,
-                                     'ligacao' => $iTipoLigacao,
-                                     'comparacao' => $iTipoComparacao,
-                                     'valorFim' => $sValorFim,
-                                     'tabelaCampo'=> $sTabelaCampo,
-                                     'type' => $sCampoType);
+            'valor' => $sValor,
+            'ligacao' => $iTipoLigacao,
+            'comparacao' => $iTipoComparacao,
+            'valorFim' => $sValorFim,
+            'tabelaCampo' => $sTabelaCampo,
+            'type' => $sCampoType);
     }
-    
+
     /**
      * Método que recria a lista de filtros (WHERE), utilizado nos casos que
      * precisa-se filtrar informações diferentes em cada passagem do laço de
      * repetição 
      */
-    public function limpaFiltro(){
-       $this->aListaWhere = array(); 
+    public function limpaFiltro() {
+        $this->aListaWhere = array();
     }
-    
+
     /**
      * Método que recria a lista de filtros (ORDER BY), utilizado nos casos que
      * precisa-se filtrar informações diferentes em cada passagem do laço de
      * repetição 
      */
-    public function limpaOrderBy(){
-       $this->aOrderBy = array(); 
+    public function limpaOrderBy() {
+        $this->aOrderBy = array();
     }
-    
+
     /**
      * Retorna o conteúdo do atributo sSqlWhere
      * @return string
@@ -899,316 +885,316 @@ class Persistencia{
      * controlador
      * 
      * @param string $sSqlWhere Filtro a ser aplicado na consulta
-     */    
+     */
     public function setSqlWhere($sSqlWhere) {
         $this->sSqlWhere = $sSqlWhere;
     }
-    
+
     /**
      * Método que retorna os campos presentes no atributo aListaWhere 
      * em formato de string para ser usado no filtro do comando sql
      * 
      * @return string
-     */      
-    public function getStringWhere(){
+     */
+    public function getStringWhere() {
         $sWhere = "";
         $aWhere = $this->getListaWhere();
-        
-        foreach($aWhere as $aAtual){
+
+        foreach ($aWhere as $aAtual) {
             //verifica se esta passando com o ponto
             $bPo = strpos($aAtual['campo'], '.');
-            if($bPo==true){
-                $aCampo = explode('.',$aAtual['campo']);
+            if ($bPo == true) {
+                $aCampo = explode('.', $aAtual['campo']);
                 $aAtual['campo'] = $aCampo[1];
             }
-            
-            
+
+
             $bIsDate = false;
             $sWhere .= $sWhere == "" ? " WHERE " : self::$TIPO_LIGACAO[$aAtual['ligacao']];
-            
+
             //identificador para diferenciar campos virtuais de campos normais
             $iOrigemFiltro = 0;
-            $sValor =$aAtual['valor'];
-            
+            $sValor = $aAtual['valor'];
+
             foreach ($this->getListaTotaliza() as $aTotalizador) {
                 $oPersTotal = Fabrica::FabricarPersistencia($aTotalizador['classe']);
                 $sNomeCampoBD = $oPersTotal->getNomeBanco($aTotalizador['campoTotaliza']);
                 $sTipo = self::$TIPO_TOTALIZA[$aTotalizador['tipoTotaliza']];
-                
-                if($sNomeCampoBD.$sTipo == $aAtual['campo']){
+
+                if ($sNomeCampoBD . $sTipo == $aAtual['campo']) {
                     $iOrigemFiltro = 1; // filtro pelo totalizador
-                    $sTabela = "(".$this->getStringCampoTotalizador($aTotalizador,false,false).")";
+                    $sTabela = "(" . $this->getStringCampoTotalizador($aTotalizador, false, false) . ")";
                     break;
                 }
             }
-            
+
             //verificação de campo virtual por cálculo
             foreach ($this->getListaCamposCalculados() as $aCalculo) {
-                if(strtolower($aCalculo['alias']) === strtolower($aAtual['campo'])){
+                if (strtolower($aCalculo['alias']) === strtolower($aAtual['campo'])) {
                     $iOrigemFiltro = 1; // filtro pelo campo virtual por cálculo
-                    
-                    $sTabela = "(".$this->getStringCampoCalculo($aCalculo).")";
+
+                    $sTabela = "(" . $this->getStringCampoCalculo($aCalculo) . ")";
                     break;
                 }
             }
-            
+
             //verificação de campo virtual por concatenação
             foreach ($this->getListaCampoVirtual() as $aVirtual) {
-                if(strtolower($aVirtual['alias']) === strtolower($aAtual['campo'])){
+                if (strtolower($aVirtual['alias']) === strtolower($aAtual['campo'])) {
                     $iOrigemFiltro = 1; // filtro pelo campo virtual
-                   /* $sTabela = "TO_ASCII(LOWER(".$this->getStringCampoVirtual($aVirtual['campos'])."))";
-                    $sValor  = "TO_ASCII('%".strtolower($sValor)."%')";*/
-                    $sTabela = "(".$this->getStringCampoVirtual($aVirtual['campos']).")";
-                    $sValor  = "'%".strtolower($sValor)."%'"; 
-                    
+                    /* $sTabela = "TO_ASCII(LOWER(".$this->getStringCampoVirtual($aVirtual['campos'])."))";
+                      $sValor  = "TO_ASCII('%".strtolower($sValor)."%')"; */
+                    $sTabela = "(" . $this->getStringCampoVirtual($aVirtual['campos']) . ")";
+                    $sValor = "'%" . strtolower($sValor) . "%'";
+
                     break;
                 }
             }
-            
-            if($iOrigemFiltro === 0){
+
+            if ($iOrigemFiltro === 0) {
                 //captura o nome da tabela do campo atual
-                if($aAtual['tabelaCampo']!=""){
+                if ($aAtual['tabelaCampo'] != "") {
                     $sTabelaCampo = $aAtual['tabelaCampo'];
-                } else{
+                } else {
                     $sTabelaCampo = $this->getTabelaCampo($aAtual['campo']);
                 }
 
                 //verifica se o valor é do tipo data
-                if(!is_array($aAtual['valor'])){
-                    if(Util::isValidDate($aAtual['valor']) || Util::isValidDate($aAtual['valorFim'])){
-                        $aAtual['valor'] = substr($aAtual['valor'],0,10);
-                        $aAtual['valorFim'] = substr($aAtual['valorFim'],0,10);
+                if (!is_array($aAtual['valor'])) {
+                    if (Util::isValidDate($aAtual['valor']) || Util::isValidDate($aAtual['valorFim'])) {
+                        $aAtual['valor'] = substr($aAtual['valor'], 0, 10);
+                        $aAtual['valorFim'] = substr($aAtual['valorFim'], 0, 10);
                         $bIsDate = true;
                     }
                 }
-                
+
                 //tratamento especial para alguns tipos de comparação
-                switch ($aAtual['comparacao']){
+                switch ($aAtual['comparacao']) {
                     case self::ENTRE: //between
-                        $sValor  = "'".$aAtual['valor']."' AND '".$aAtual['valorFim']."'";
-                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo.".".$aAtual['campo'];
-                    break;
+                        $sValor = "'" . $aAtual['valor'] . "' AND '" . $aAtual['valorFim'] . "'";
+                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
+                        break;
                     case self::CONTEM: //like
-                      //  $sValor  = "TO_ASCII('%".strtolower($aAtual['valor'])."%')";
-                        $sValor  = "'%".strtolower($aAtual['valor'])."%'";
-                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo.".".$aAtual['campo'];
+                        //  $sValor  = "TO_ASCII('%".strtolower($aAtual['valor'])."%')";
+                        $sValor = "'%" . strtolower($aAtual['valor']) . "%'";
+                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
                         //$sTabela = "TO_ASCII(LOWER(".$sTabela."))";
-                        $sTabela = "LOWER(".$sTabela.")";
-                    break;
+                        $sTabela = "LOWER(" . $sTabela . ")";
+                        break;
                     case self::INICIA_COM: //like (inicia com...)
-                       // $sValor  = "TO_ASCII('".strtolower($aAtual['valor'])."%')";
-                        $sValor  = "'".strtolower($aAtual['valor'])."%'";
-                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo.".".$aAtual['campo'];
+                        // $sValor  = "TO_ASCII('".strtolower($aAtual['valor'])."%')";
+                        $sValor = "'" . strtolower($aAtual['valor']) . "%'";
+                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
                         //$sTabela = "TO_ASCII(LOWER(".$sTabela."))";
-                        $sTabela = "LOWER(".$sTabela.")";
-                    break;
+                        $sTabela = "LOWER(" . $sTabela . ")";
+                        break;
                     case self::TERMINA_COM: //like (termina com...)
-                       // $sValor  = "TO_ASCII('%".strtolower($aAtual['valor'])."')";
-                        $sValor  = "'%".strtolower($aAtual['valor'])."'";
-                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo.".".$aAtual['campo'];
-                      //  $sTabela = "TO_ASCII(LOWER(".$sTabela."))";
-                        $sTabela = "LOWER(".$sTabela.")";
-                    break;
+                        // $sValor  = "TO_ASCII('%".strtolower($aAtual['valor'])."')";
+                        $sValor = "'%" . strtolower($aAtual['valor']) . "'";
+                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
+                        //  $sTabela = "TO_ASCII(LOWER(".$sTabela."))";
+                        $sTabela = "LOWER(" . $sTabela . ")";
+                        break;
                     case self::GRUPO: //in
                         $sValor = "(";
                         foreach ($aAtual['valor'] as $key => $value) {
-                            if($key > 0){
+                            if ($key > 0) {
                                 $sValor .= ",";
                             }
                             $sValor .= $value;
                         }
                         $sValor .= ")";
-                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo.".".$aAtual['campo'];
-                    break;
+                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
+                        break;
                     default:
-                        $aParts = explode(".",$aAtual['valor']);
-                        if (count($aParts)==1){
-                            if (isset($aAtual['valor'])){
-                                if (!is_numeric($aAtual['valor'])){
-                                    $aPartes = explode("'",$aAtual['valor']);
-                                    if(count($aPartes)==1){
+                        $aParts = explode(".", $aAtual['valor']);
+                        if (count($aParts) == 1) {
+                            if (isset($aAtual['valor'])) {
+                                if (!is_numeric($aAtual['valor'])) {
+                                    $aPartes = explode("'", $aAtual['valor']);
+                                    if (count($aPartes) == 1) {
                                         $aAtual['valor'] = $aAtual['valor'];
                                     }
                                 }
                             }
                         }
-                        $aParts = explode(".",$aAtual['valorFim']);
-                        if (count($aParts)==1 && isset($aAtual['valorFim'])){
-                            if (isset($aAtual['valorFim'])){
-                                if (!is_numeric($aAtual['valorFim'])){
-                                    $aPartes = explode("'",$aAtual['valorFim']);
-                                    if(count($aPartes)==1){
-                                        $aAtual['valorFim'] = "'".$aAtual['valorFim']."'";
+                        $aParts = explode(".", $aAtual['valorFim']);
+                        if (count($aParts) == 1 && isset($aAtual['valorFim'])) {
+                            if (isset($aAtual['valorFim'])) {
+                                if (!is_numeric($aAtual['valorFim'])) {
+                                    $aPartes = explode("'", $aAtual['valorFim']);
+                                    if (count($aPartes) == 1) {
+                                        $aAtual['valorFim'] = "'" . $aAtual['valorFim'] . "'";
                                     }
                                 }
                             }
                         }
 
-                        $sValor = "'".$aAtual['valor']."'";
-                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo.".".$aAtual['campo'];
-                    break;
+                        $sValor = "'" . $aAtual['valor'] . "'";
+                        $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
+                        break;
                 }
             }
-            
+
             //se o valor for do tipo data faz o cast do campo timestamp para data
-            if($bIsDate){
-                $sTabela = "CAST(".$sTabela." AS DATE)";
+            if ($bIsDate) {
+                $sTabela = "CAST(" . $sTabela . " AS DATE)";
             }
-            
-            $sWhere .= $sTabela.self::$TIPO_COMPARACAO[$aAtual['comparacao']].$sValor;
+
+            $sWhere .= $sTabela . self::$TIPO_COMPARACAO[$aAtual['comparacao']] . $sValor;
         }
-        
-        if($this->getSqlWhere()){
+
+        if ($this->getSqlWhere()) {
             $sWhere .= $sWhere == "" ? " WHERE " : " AND ";
             $sWhere .= $this->getSqlWhere();
         }
-        
+
         return $sWhere;
     }
-    
+
     /**
      * Método que retorna os campos chave que estiverem setados
      * em formato de string para ser usado filtro do comando sql
      * 
      * @return string
-     */      
-    public function getStringWhereByChave($bAutoIncremento=false){
+     */
+    public function getStringWhereByChave($bAutoIncremento = false) {
         $sWhere = "";
         $aChave = $this->getChaveArray();
-        
-        foreach($aChave as $oAtual){
-            $xValor = Controller::getValorModel($this->Model,$oAtual->getNomeModel());
-            if (!($bAutoIncremento && $oAtual->getAutoIncremento())){
-                if($xValor != null){
-                    if($sWhere == ""){
+
+        foreach ($aChave as $oAtual) {
+            $xValor = Controller::getValorModel($this->Model, $oAtual->getNomeModel());
+            if (!($bAutoIncremento && $oAtual->getAutoIncremento())) {
+                if ($xValor != null) {
+                    if ($sWhere == "") {
                         $sWhere = " WHERE ";
-                    } else{
-                        $sWhere .= self::$TIPO_LIGACAO[self::LIGACAO_AND];                
+                    } else {
+                        $sWhere .= self::$TIPO_LIGACAO[self::LIGACAO_AND];
                     }
-                   
-                    $sWhere .= $this->getTabela().".".$oAtual->getNomeBanco().self::$TIPO_COMPARACAO[self::IGUAL].strtoupper("'".$xValor."'");
+
+                    $sWhere .= $this->getTabela() . "." . $oAtual->getNomeBanco() . self::$TIPO_COMPARACAO[self::IGUAL] . strtoupper("'" . $xValor . "'");
                 }
             }
         }
         return $sWhere;
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aGroupBy
      * 
      * @return array
-     */      
+     */
     public function getGroupBy() {
         return $this->aGroupBy;
     }
-    
+
     /**
      * Método que realiza a adição dos parâmetros responsáveis pelo 
      * agrupamento das consultas SQL
      * 
      * @param string $sCampo Nome do campo que será utilizado no agrupamento
      * @param string $sTabelaCampo envia a tabela, se ficar em branco o sistema vai procurar depois
-     */    
+     */
     public function adicionaGroupBy($sCampo) {
         $this->aGroupBy[] = $sCampo;
     }
-    
+
     /**
      * Método que retorna a os campos presentes no atributo aGroupBy 
      * em formato de string para ser usado no comando sql
      * 
      * @return string
-     */      
-    public function getStringGroupBy(){
+     */
+    public function getStringGroupBy() {
         $sGroupBy = "";
         $aGroupBy = $this->getGroupBy();
-        
-        foreach($aGroupBy as $sCampo){
+
+        foreach ($aGroupBy as $sCampo) {
             $sCampoTabela = "";
-            
-            if($sGroupBy == ""){
+
+            if ($sGroupBy == "") {
                 $sGroupBy = " GROUP BY ";
-            } else{
+            } else {
                 $sGroupBy .= ", ";
             }
-            
-            if ($this->isConsultaPorSql()){
+
+            if ($this->isConsultaPorSql()) {
                 $sCampoTabela .= $sCampo;
             } else {
                 //identificador para diferenciar campos virtuais de campos normais
                 $iOrigemGroup = 0;
-                
+
                 //verificação de campo virtual por totalizador
                 foreach ($this->getListaTotaliza() as $aTotalizador) {
                     $oPersTotal = Fabrica::FabricarPersistencia($aTotalizador['classe']);
                     $sNomeCampoBD = $oPersTotal->getNomeBanco($aTotalizador['campoTotaliza']);
                     $sTipo = self::$TIPO_TOTALIZA[$aTotalizador['tipoTotaliza']];
 
-                    if($sNomeCampoBD.$sTipo == $sCampo){
+                    if ($sNomeCampoBD . $sTipo == $sCampo) {
                         $iOrigemGroup = 1; // agrupamento pelo totalizador
-                        $sCampoTabela = "(".$this->getStringCampoTotalizador($aTotalizador,false,false).")";
+                        $sCampoTabela = "(" . $this->getStringCampoTotalizador($aTotalizador, false, false) . ")";
                         break;
                     }
                 }
-                
+
                 //verificação de campo virtual por cálculo
                 foreach ($this->getListaCamposCalculados() as $aCalculo) {
-                    if(strtolower($aCalculo['alias']) === strtolower($sCampo)){
+                    if (strtolower($aCalculo['alias']) === strtolower($sCampo)) {
                         $iOrigemGroup = 1; // agrupamento pelo campo virtual por cálculo
-                        $sCampoTabela = "(".$this->getStringCampoCalculo($aCalculo).")";
+                        $sCampoTabela = "(" . $this->getStringCampoCalculo($aCalculo) . ")";
                         break;
                     }
                 }
-                
+
                 //verificação de campo virtual por concatenação
                 foreach ($this->getListaCampoVirtual() as $aVirtual) {
-                    if(strtolower($aVirtual['alias']) === strtolower($aAtual['campo'])){
+                    if (strtolower($aVirtual['alias']) === strtolower($aAtual['campo'])) {
                         $iOrigemGroup = 1; // agrupamento pelo campo virtual 
 
-                        $sCampoTabela = "(".$this->getStringCampoVirtual($aVirtual['campos']).")";
+                        $sCampoTabela = "(" . $this->getStringCampoVirtual($aVirtual['campos']) . ")";
                         break;
                     }
                 }
-                
-                if($iOrigemGroup === 0){
-                    $sCampoTabela = $this->getTabelaCampo($sCampo).".".$sCampo;
+
+                if ($iOrigemGroup === 0) {
+                    $sCampoTabela = $this->getTabelaCampo($sCampo) . "." . $sCampo;
                 }
             }
             $sGroupBy .= $sCampoTabela;
         }
         return $sGroupBy;
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aGroupByConsulta
      * 
      * @return array
-     */      
+     */
     public function getGroupByConsulta() {
         return $this->aGroupByConsulta;
     }
-    
+
     /**
      * Método que realiza a adição dos parâmetros responsáveis pelo 
      * agrupamento das telas de consulta
-     */    
+     */
     public function adicionaGroupByConsulta() {
-        $aCampos = func_get_args();    
-        
+        $aCampos = func_get_args();
+
         foreach ($aCampos as $sCampo) {
             $this->aGroupByConsulta[] = $sCampo;
         }
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aOrderBy
      * 
      * @return array
-     */      
+     */
     public function getOrderBy() {
         return $this->aOrderBy;
     }
-    
+
     /**
      * Método que realiza a adição dos parâmetros responsáveis pela ordenação
      * das consultas que retornam mais que um resultado
@@ -1217,88 +1203,88 @@ class Persistencia{
      * @param integer $iTipo Tipo da ordenação
      *                0 ==> Crescente (ASC)
      *                1 ==> Decrescente (DESC)
-     */    
+     */
     public function adicionaOrderBy($sCampo, $iTipo = self::ASC) {
         $aTipo = array(" ASC ", " DESC ");
         $this->aOrderBy[] = array('campo' => $sCampo,
-                                  'tipo'  => $aTipo[$iTipo]);
+            'tipo' => $aTipo[$iTipo]);
     }
-    
+
     /**
      * Método que retorna a os campos presentes no atributo aOrderBy 
      * em formato de string para ser usado no comando sql
      * 
      * @return string
-     */      
-    public function getStringOrderBy(){
+     */
+    public function getStringOrderBy() {
         $sOrderBy = "";
         $aOrderBy = $this->getOrderBy();
-        
-        foreach($aOrderBy as $aAtual){
+
+        foreach ($aOrderBy as $aAtual) {
             $sCampoTabela = "";
-            
-            if($sOrderBy == ""){
+
+            if ($sOrderBy == "") {
                 $sOrderBy = " ORDER BY ";
-            } else{
+            } else {
                 $sOrderBy .= ", ";
             }
-            
-            if ($this->isConsultaPorSql()){
+
+            if ($this->isConsultaPorSql()) {
                 $sCampoTabela = $aAtual['campo'];
             } else {
                 //identificador para diferenciar campos virtuais de campos normais
                 $iOrigemOrder = 0;
-                
+
                 //verificação de campo virtual por totalizador
                 foreach ($this->getListaTotaliza() as $aTotalizador) {
                     $oPersTotal = Fabrica::FabricarPersistencia($aTotalizador['classe']);
                     $sNomeCampoBD = $oPersTotal->getNomeBanco($aTotalizador['campoTotaliza']);
                     $sTipo = self::$TIPO_TOTALIZA[$aTotalizador['tipoTotaliza']];
 
-                    if($sNomeCampoBD.$sTipo == $aAtual['campo']){
+                    if ($sNomeCampoBD . $sTipo == $aAtual['campo']) {
                         $iOrigemOrder = 1; // ordenação pelo totalizador
-                        $sCampoTabela = "(".$this->getStringCampoTotalizador($aTotalizador,false,false).")";
+                        $sCampoTabela = "(" . $this->getStringCampoTotalizador($aTotalizador, false, false) . ")";
                         break;
                     }
                 }
-                
+
                 //verificação de campo virtual por cálculo
                 foreach ($this->getListaCamposCalculados() as $aCalculo) {
-                    if(strtolower($aCalculo['alias']) === strtolower($aAtual['campo'])){
+                    if (strtolower($aCalculo['alias']) === strtolower($aAtual['campo'])) {
                         $iOrigemOrder = 1; // ordenação pelo campo virtual por cálculo
-                        $sCampoTabela = "(".$this->getStringCampoCalculo($aCalculo).")";
+                        $sCampoTabela = "(" . $this->getStringCampoCalculo($aCalculo) . ")";
                         break;
                     }
                 }
-            
+
                 //verificação de campo virtual por concatenação
                 foreach ($this->getListaCampoVirtual() as $aVirtual) {
-                    if(strtolower($aVirtual['alias']) === strtolower($aAtual['campo'])){
+                    if (strtolower($aVirtual['alias']) === strtolower($aAtual['campo'])) {
                         $iOrigemOrder = 1; // ordenação pelo campo virtual 
 
-                        $sCampoTabela = "(".$this->getStringCampoVirtual($aVirtual['campos']).")";
+                        $sCampoTabela = "(" . $this->getStringCampoVirtual($aVirtual['campos']) . ")";
                         break;
                     }
                 }
-            
-                if($iOrigemOrder === 0){
-                    $sCampoTabela = $this->getTabelaCampo($aAtual['campo']).".".$aAtual['campo'];
+
+                if ($iOrigemOrder === 0) {
+                    $sCampoTabela = $this->getTabelaCampo($aAtual['campo']) . "." . $aAtual['campo'];
                 }
             }
-            $sOrderBy .= $sCampoTabela." ".$aAtual['tipo'];
+            $sOrderBy .= $sCampoTabela . " " . $aAtual['tipo'];
         }
         return $sOrderBy;
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aOrderByConsulta
      * 
      * @return array
-     */      
+     */
     public function getOrderByConsulta() {
         return $this->aOrderByConsulta;
     }
-    
+
     /**
      * Método que realiza a adição dos parâmetros responsáveis pela 
      * ordenação das telas de consulta
@@ -1307,11 +1293,11 @@ class Persistencia{
      * @param integer $iTipo Tipo da ordenação
      *                0 ==> Crescente (ASC)
      *                1 ==> Decrescente (DESC)
-     */    
+     */
     public function adicionaOrderByConsulta($sCampo, $iTipo = 0) {
         $this->aOrderByConsulta[] = array($sCampo, $iTipo);
     }
-    
+
     /**
      * Método que retorna o nome da tabela a qual pertence determinado campo
      * Utilizado principalmente na montagem dos filtros, ordenações e agrupamentos
@@ -1319,53 +1305,51 @@ class Persistencia{
      * @param string $sCampoBanco Nome do campo no banco a ser pesquisado
      * @return string Nome da tabela a qual o campo pertence
      */
-    public function getTabelaCampo($sCampoBanco){
+    public function getTabelaCampo($sCampoBanco) {
         //caso vier composto
         $bPo = strpos($sCampoBanco, '.');
-        if($bPo==true){
+        if ($bPo == true) {
             $aCampo = explode('.', $sCampoBanco);
             $sCampoBanco = $aCampo[1];
         }
-        
+
         $sTabelaCampo = "";
         //percorre os campos do relacionamento principal
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if($oCampoBanco->getNomeBanco() == $sCampoBanco){
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if ($oCampoBanco->getNomeBanco() == $sCampoBanco) {
                 $sTabelaCampo = $this->getTabela();
                 break;
             }
         }
-        
+
         //se não encontrou o campo no model principal percorre as tabelas de ligação
-        if($sTabelaCampo === ""){
+        if ($sTabelaCampo === "") {
             $bAchou = false;
-            foreach($this->getListaJoin() as $aJoin){
+            foreach ($this->getListaJoin() as $aJoin) {
                 $oPersJoin = Fabrica::FabricarPersistencia($aJoin['classe']);
-                foreach($oPersJoin->getListaRelacionamento() as $oCampoBanco){
-                    if($oCampoBanco->getNomeBanco() == $sCampoBanco){
-                        $sTabelaCampo = '"'.($aJoin['alias'] != null ? $aJoin['alias'] : $oPersJoin->getTabela()).'"';
+                foreach ($oPersJoin->getListaRelacionamento() as $oCampoBanco) {
+                    if ($oCampoBanco->getNomeBanco() == $sCampoBanco) {
+                        $sTabelaCampo = '"' . ($aJoin['alias'] != null ? $aJoin['alias'] : $oPersJoin->getTabela()) . '"';
                         $bAchou = true;
                         break;
-                    }  
+                    }
                 }
-                if($bAchou){
+                if ($bAchou) {
                     break;
                 }
             }
         }
         return $sTabelaCampo;
     }
-            
-    
+
     /**
      * Método base para as consultas, obtêm o objeto de conexão e prepara a 
      * query para a execução
      * 
      * @param string $sSql String do comando sql a ser preparado para execução
      */
-    private function preparaSql($sSql){
-        return $this->oConn->prepare($sSql); 
-        
+    private function preparaSql($sSql) {
+        return $this->oConn->prepare($sSql);
     }
 
     /**
@@ -1378,12 +1362,12 @@ class Persistencia{
      * @return Array contendo o um boolean na primeira posição e a a string de 
      *               um possível erro na segunda
      */
-    public function executaSql($sSql){
+    public function executaSql($sSql) {
         $statement = $this->preparaSql($sSql);
-       
+
         $bExecuta = $statement->execute();
         $aErro = $statement->errorInfo();
-        
+
         return array($bExecuta, $aErro[2]);
     }
 
@@ -1396,14 +1380,14 @@ class Persistencia{
      * 
      * @return object Array contendo o resultado da consulta sql
      */
-    public function consultaSql($sSql){
+    public function consultaSql($sSql) {
         $statement = $this->preparaSql($sSql);
         $statement->execute();
         $obj = $statement->fetch(PDO::FETCH_OBJ);
         $aErro = $statement->errorInfo();
-        
+
         return $obj;
-    } 
+    }
 
     /**
      * Método que realiza a execução de comandos sql retornando o objeto PDOStatement
@@ -1414,13 +1398,13 @@ class Persistencia{
      * 
      * @return object Objeto PDOStatement
      */
-    public function getObjetoSql($sSql){
+    public function getObjetoSql($sSql) {
         $statement = $this->preparaSql($sSql);
         $statement->execute();
-        
+
         return $statement;
-    }     
-    
+    }
+
     /**
      * Método que carrega o objeto model passado a partir do conteúdo presente
      * na linha da consulta sql enviada parâmetro
@@ -1428,80 +1412,80 @@ class Persistencia{
      * @param object $oModel Objeto do modelo a ser carregado
      * @param object $oRowBD Objeto PDOStatement contendo valores de uma linha de consulta sql
      */
-    function carregaModelBanco($oModel,$oRowBD){
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
+    function carregaModelBanco($oModel, $oRowBD) {
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
             $oModelAux = $oModel;
 
             $aMetodos = Controller::extractMetodos($oCampoBanco->getNomeModel());
 
-            foreach($aMetodos as $key => $sMetodo){
-                if(count($aMetodos) > 1){
-                    if($key != count($aMetodos) - 1){
+            foreach ($aMetodos as $key => $sMetodo) {
+                if (count($aMetodos) > 1) {
+                    if ($key != count($aMetodos) - 1) {
                         $sMetodo = Fabrica::montaGetter($sMetodo);
                         $oModelAux = $oModelAux->$sMetodo();
-                    } else{
+                    } else {
                         $sMetodo = Fabrica::montaSetter($sMetodo);
-                    }    
-                } else{
+                    }
+                } else {
                     $sMetodo = Fabrica::montaSetter($sMetodo);
-                }                    
+                }
             }
-            $sNomeBanco = $this->getTabela().".".$oCampoBanco->getNomeBanco();
-           
+            $sNomeBanco = $this->getTabela() . "." . $oCampoBanco->getNomeBanco();
+
             $oModelAux->$sMetodo($oRowBD->$sNomeBanco);
-            
-            if(count($oCampoBanco->getLista()) > 0){
-                $sNomeModel  = $oCampoBanco->getNomeModel().self::COMPLETA_NOME_LISTA;
+
+            if (count($oCampoBanco->getLista()) > 0) {
+                $sNomeModel = $oCampoBanco->getNomeModel() . self::COMPLETA_NOME_LISTA;
                 $sNomeBanco .= self::COMPLETA_NOME_LISTA;
                 $oModelAux->$sNomeModel = $oRowBD->$sNomeBanco;
+            }
         }
-        }
-       
-        foreach($this->getListaJoin() as $aJoin){
-            $oPersJoin  = Fabrica::FabricarPersistencia($aJoin['classe']);
-            $oModelJoin = Fabrica::FabricarModel($aJoin['classe']); 
-            
-            foreach($oPersJoin->getListaRelacionamento() as $oCampoBanco){
+
+        foreach ($this->getListaJoin() as $aJoin) {
+            $oPersJoin = Fabrica::FabricarPersistencia($aJoin['classe']);
+            $oModelJoin = Fabrica::FabricarModel($aJoin['classe']);
+
+            foreach ($oPersJoin->getListaRelacionamento() as $oCampoBanco) {
                 $oModelAux = $oModelJoin;
-                
+
                 $aMetodos = Controller::extractMetodos($oCampoBanco->getNomeModel());
 
-                foreach($aMetodos as $key => $sMetodo){
-                    if(count($aMetodos) > 1){
-                        if($key != count($aMetodos) - 1){
+                foreach ($aMetodos as $key => $sMetodo) {
+                    if (count($aMetodos) > 1) {
+                        if ($key != count($aMetodos) - 1) {
                             $sMetodo = Fabrica::montaGetter($sMetodo);
                             $oModelAux = $oModelAux->$sMetodo();
-                        } else{
+                        } else {
                             $sMetodo = Fabrica::montaSetter($sMetodo);
-                        }    
-                    } else{
+                        }
+                    } else {
                         $sMetodo = Fabrica::montaSetter($sMetodo);
-                    }                    
+                    }
                 }
                 $sAlias = $aJoin['alias'] != null ? $aJoin['alias'] : $oPersJoin->getTabela();
-                $sNomeBanco = strtolower($sAlias).".".$oCampoBanco->getNomeBanco();
+                $sNomeBanco = strtolower($sAlias) . "." . $oCampoBanco->getNomeBanco();
                 $oModelAux->$sMetodo($oRowBD->$sNomeBanco);
-                
-                if(count($oCampoBanco->getLista()) > 0){
-                    $sNomeModel  = $oCampoBanco->getNomeModel().self::COMPLETA_NOME_LISTA;
+
+                if (count($oCampoBanco->getLista()) > 0) {
+                    $sNomeModel = $oCampoBanco->getNomeModel() . self::COMPLETA_NOME_LISTA;
                     $sNomeBanco .= self::COMPLETA_NOME_LISTA;
                     $oModelAux->$sNomeModel = $oRowBD->$sNomeBanco;
+                }
             }
-            }
-            $aAlias = explode(".",$aJoin['alias']);    
-            if(count($aAlias) > 1){            
+            $aAlias = explode(".", $aJoin['alias']);
+            if (count($aAlias) > 1) {
                 $sMetodoGet = Fabrica::montaGetter($aAlias[0]);
                 $sMetodoSet = Fabrica::montaSetter($aAlias[1]);
                 $oModel->$sMetodoGet()->$sMetodoSet($oModelJoin);
-            } else {            
+            } else {
                 $sMetodo = Fabrica::montaSetter($aJoin['alias']);
                 $oModel->$sMetodo($oModelJoin);
             }
         }
 
         return $oModel;
-    } 
-    
+    }
+
     /**
      * Método que realiza a execução de comandos sql de deleção no BD com base
      * no tipo solicitado
@@ -1515,43 +1499,46 @@ class Persistencia{
      * @param integer $bFiltraByChave Identifica o tipo de montagem da cláusula WHERE
      * 
      * @return boolean Identifica o resultado da execução, se executado com sucesso TRUE, caso contrário FALSE
-     */     
-   public function excluir($bFiltraByChave = false) {        
-          $sWhere = $bFiltraByChave ? $this->getStringWhereByChave() : $this->getStringWhere();        
-	  if ($sWhere == null || $sWhere == false) {            
-		$aRetorno[0] = false;            
-		return $aRetorno;        
-		} else 
-                   {            
-		    $sSql = 'DELETE FROM ' . $this->getTabela() . $sWhere;            
-		    return $this->executaSql($sSql);        
-		 }    
+     */
+    public function excluir($bFiltraByChave = false) {
+        $sWhere = $bFiltraByChave ? $this->getStringWhereByChave() : $this->getStringWhere();
+        if ($sWhere == null || $sWhere == false) {
+            $aRetorno[0] = false;
+            return $aRetorno;
+        } else {
+            $sSql = 'DELETE FROM ' . $this->getTabela() . $sWhere;
+            return $this->executaSql($sSql);
+        }
     }
+
     /**
      * DELETA PASSANDO 
-     */     
-    public function excluirRegistro($bFiltraByChave = false) {        
-                $sWhere = $bFiltraByChave ? $this->getStringWhereByChave() : $this->getStringWhere();        
-		if ($sWhere == null || $sWhere == false) {            
-		    $aRetorno[0] = false;            
-		    return $aRetorno;        
-		    } else{           
-   			 $sSql = 'DELETE FROM ' . $this->getTabela() . $sWhere;            
-			return $this->executaSql($sSql);        
-		   }    
+     */
+    public function excluirRegistro($bFiltraByChave = false) {
+        $sWhere = $bFiltraByChave ? $this->getStringWhereByChave() : $this->getStringWhere();
+        if ($sWhere == null || $sWhere == false) {
+            $aRetorno[0] = false;
+            return $aRetorno;
+        } else {
+            $sSql = 'DELETE FROM ' . $this->getTabela() . $sWhere;
+            return $this->executaSql($sSql);
+        }
     }
-    
+
     /**
      * Método que realiza a execução de comandos sql de inserção no BD
      * 
      * @return boolean Identifica o resultado da execução, se executado com 
      *                 sucesso TRUE, caso contrário FALSE
-     */    
-    public function inserir(){
+     */
+    public function inserir() {
         $aCamposValores = $this->getArrayCamposValores();
 
-        $sSql = 'INSERT INTO '.$this->getTabela().' ('.implode(',',array_keys($aCamposValores)).') VALUES ('.implode(',',$aCamposValores).')'; 
-        
+        $sSql = 'INSERT INTO ' . $this->getTabela() . ' (' . implode(',', array_keys($aCamposValores)) . ') VALUES (' . implode(',', $aCamposValores) . ')';
+
+        //chama funcoes necessários após inserir diretamente na persistencia
+        $this->afterInsert($aCamposValores);
+
         return $this->executaSql($sSql);
     }
 
@@ -1561,7 +1548,7 @@ class Persistencia{
      * @return boolean Identifica o resultado da execução, se executado com 
      *                 sucesso TRUE, caso contrário FALSE
      */
-    public function iniciaTransacao(){
+    public function iniciaTransacao() {
         return $this->oConn->beginTransaction();
     }
 
@@ -1571,52 +1558,52 @@ class Persistencia{
      * @return boolean Identifica o resultado da execução, se executado com 
      *                 sucesso TRUE, caso contrário FALSE 
      */
-    public function commit(){
+    public function commit() {
         return $this->oConn->commit();
     }
-    
+
     /**
      * Método que cancela as operações da transação no banco de dados
      * 
      * @return boolean Identifica o resultado da execução, se executado com 
      *                 sucesso TRUE, caso contrário FALSE
      */
-    public function rollback(){
+    public function rollback() {
         return $this->oConn->rollBack();
     }
-    
+
     /**
      * Método que realiza a execução de comandos sql de alteração de um
      * registro no BD
      * 
      * @return boolean Identifica o resultado da execução, se executado com 
      *                 sucesso TRUE, caso contrário FALSE
-     */    
-    public function alterar(){
+     */
+    public function alterar() {
         $sChave = $this->getStringChave();
 
-        $aCamposValores = $this->getArrayCamposValores(false,true);
+        $aCamposValores = $this->getArrayCamposValores(false, true);
 
         $sCampos = '';
         foreach ($aCamposValores as $key => $value) {
-            if($sCampos != ''){
+            if ($sCampos != '') {
                 $sCampos .= ',';
             }
-            if($value=="''"){
-                $value='null';
+            if ($value == "''") {
+                $value = 'null';
             }
-            $sCampos .= $key .'='.$value;
+            $sCampos .= $key . '=' . $value;
         }
-        
-        $sSql = 'UPDATE '.$this->getTabela().' SET '.$sCampos.' WHERE '.$sChave; 
-        
-         $fp = fopen("bloco1.txt", "w");
-            fwrite($fp, $sSql);
-            fclose($fp);
-        
+
+        $sSql = 'UPDATE ' . $this->getTabela() . ' SET ' . $sCampos . ' WHERE ' . $sChave;
+
+        /*      $fp = fopen("bloco1.txt", "w");
+          fwrite($fp, $sSql);
+          fclose($fp); */
+
         return $this->executaSql($sSql);
-    }    
-    
+    }
+
     /**
      * Método que realiza a operação de incremento quando um campo for definido como autoincremento
      * Busca o valor máximo + 1
@@ -1624,37 +1611,38 @@ class Persistencia{
      * @param string $sNomeColuna Nome da coluna que irá realizar a busca
      * @return integer 
      */
-    public function getIncremento($sNomeColuna, $bFiltraWhere = true){
-       
+    public function getIncremento($sNomeColuna, $bFiltraWhere = true) {
+
         $sWhere = "";
-        if($bFiltraWhere){
+        if ($bFiltraWhere) {
             $sWhere = $this->getChaveIncremento() ? $this->getStringWhereByChave(true) : $this->getStringWhere();
         }
-        $sSql = 'SELECT COALESCE(MAX('.$sNomeColuna.'),0)+1 AS proximo FROM '.$this->getTabela().$sWhere;
-        
+        $sSql = 'SELECT COALESCE(MAX(' . $sNomeColuna . '),0)+1 AS proximo FROM ' . $this->getTabela() . $sWhere;
+
         $obj = $this->consultaSql($sSql);
-        
+
         return $obj->proximo;
     }
+
     /**
      * Método que retorna o último registro da coluna sem incremento
      * 
      * @param string $sNomeColuna Nome da coluna que irá realizar a busca
      * @return integer 
      */
-    public function getMaxRegistro($sNomeColuna, $bFiltraWhere = true){
-       
+    public function getMaxRegistro($sNomeColuna, $bFiltraWhere = true) {
+
         $sWhere = "";
-        if($bFiltraWhere){
+        if ($bFiltraWhere) {
             $sWhere = $this->getChaveIncremento() ? $this->getStringWhereByChave(true) : $this->getStringWhere();
         }
-        $sSql = 'SELECT COALESCE(MAX('.$sNomeColuna.'),0) AS proximo FROM '.$this->getTabela().$sWhere;
-        
+        $sSql = 'SELECT COALESCE(MAX(' . $sNomeColuna . '),0) AS proximo FROM ' . $this->getTabela() . $sWhere;
+
         $obj = $this->consultaSql($sSql);
-        
+
         return $obj->proximo;
     }
-    
+
     /**
      * Método que realiza a operação de busca do maior registro de uma tabela
      * com base em um array de campos e o retorna     
@@ -1663,31 +1651,31 @@ class Persistencia{
      *                  inseridas no Order By
      * @return object 
      */
-    public function getUltimo($aColunas = null){
+    public function getUltimo($aColunas = null) {
         $this->setLimit(1);
-        
+
         foreach ($aColunas as $sColuna) {
-            $this->adicionaOrderBy($sColuna,1);
+            $this->adicionaOrderBy($sColuna, 1);
         }
-        
-        $sSql = "SELECT * FROM ".$this->getTabela().$this->getStringWhere().$this->getStringOrderBy().$this->getStringLimit();
-        
+
+        $sSql = "SELECT * FROM " . $this->getTabela() . $this->getStringWhere() . $this->getStringOrderBy() . $this->getStringLimit();
+
         return $this->consultaSql($sSql);
     }
-    
+
     /**
      * Método que realiza a contagem de registros da tabela
      * 
      * @return integer 
      */
-    public function getCount(){
-        $sSql = 'SELECT COUNT(*) AS total FROM '.$this->getTabela().$this->getStringJoin().$this->getStringWhere();
-        
+    public function getCount() {
+        $sSql = 'SELECT COUNT(*) AS total FROM ' . $this->getTabela() . $this->getStringJoin() . $this->getStringWhere();
+
         $obj = $this->consultaSql($sSql);
-        
+
         return $obj->total;
     }
-    
+
     /**
      * Método que realiza a soma de uma coluna conforme parâmetro passado
      * 
@@ -1695,14 +1683,14 @@ class Persistencia{
      * 
      * @return integer Resultado da totalização
      */
-    public function getSoma($sNome){
-        $sSql = 'SELECT COALESCE(SUM('.$sNome.'),0) AS total FROM '.$this->getTabela().$this->getStringJoin().$this->getStringWhere();
-        
+    public function getSoma($sNome) {
+        $sSql = 'SELECT COALESCE(SUM(' . $sNome . '),0) AS total FROM ' . $this->getTabela() . $this->getStringJoin() . $this->getStringWhere();
+
         $obj = $this->consultaSql($sSql);
-        
+
         return $obj->total;
     }
-    
+
     /**
      * Método que realiza a consulta sql e carrega o model a partir dos
      * atributos setados que representam a chave da tabela
@@ -1710,71 +1698,71 @@ class Persistencia{
      * @return oModel Retorna o objeto Model com as informações carregadas
      * @throws Exception 
      */
-    public function consultar($bWhere = null){
-       
-        $sSql = $this->getSqlSelect().$this->getStringWhereByChave();
-       
-       
-        
+    public function consultar($bWhere = null) {
+
+        $sSql = $this->getSqlSelect() . $this->getStringWhereByChave();
+
+
+
         $result = $this->getObjetoSql($sSql);
-        
-       /* $fp = fopen("bloco1.txt", "w");
-            fwrite($fp, $sSql);
-            fclose($fp);*/
-        
-        if(count($result)>0){
+
+        /* $fp = fopen("bloco1.txt", "w");
+          fwrite($fp, $sSql);
+          fclose($fp); */
+
+        if (count($result) > 0) {
             $oModel = $this->getNewModel();
 
-        $oRowBD = $result->fetch(PDO::FETCH_OBJ);
-            
+            $oRowBD = $result->fetch(PDO::FETCH_OBJ);
+
             $this->Model = $this->carregaModelBanco($oModel, $oRowBD);
         }
         return $this->Model;
-    } 
-    
-     /**
+    }
+
+    /**
      * Método que realiza a consulta sql e carrega o model a partir dos
      * atributos setados que representam a chave da tabela
      * 
      * @return oModel Retorna o objeto Model com as informações carregadas
      * @throws Exception 
      */
-    public function consultarWhere(){
-       
-        $sSql = $this->getSqlSelect().$this->getStringWhere();
-        
+    public function consultarWhere() {
+
+        $sSql = $this->getSqlSelect() . $this->getStringWhere();
+
         $result = $this->getObjetoSql($sSql);
-        
-        if(count($result)>0){
+
+        if (count($result) > 0) {
             $oModel = $this->getNewModel();
 
-        $oRowBD = $result->fetch(PDO::FETCH_OBJ);
-            
+            $oRowBD = $result->fetch(PDO::FETCH_OBJ);
+
             $this->Model = $this->carregaModelBanco($oModel, $oRowBD);
         }
         return $this->Model;
-    } 
-    
+    }
+
     /**
      * Método que realiza a consulta sql e carrega o model a partir dos
      * requesitos para pesquisa em campos de consulta
      */
-    public function consultarCampoBusca(){
-       
+    public function consultarCampoBusca() {
+
         $sSql = $this->getSqlSelect();
-        
+
         $result = $this->getObjetoSql($sSql);
-        
-        if($result->rowCount() > 0){
+
+        if ($result->rowCount() > 0) {
             $oModel = $this->getNewModel();
 
             $oRowBD = $result->fetch(PDO::FETCH_OBJ);
-            
+
             $this->Model = $this->carregaModelBanco($oModel, $oRowBD);
         }
         return $this->Model;
-    } 
-    
+    }
+
     /**
      * Retorna um vetor contendo a lista de campos com seus respectivos valores 
      * 
@@ -1782,88 +1770,90 @@ class Persistencia{
      * @param boolean $bCamposSemValor Indica se deve incluir campos sem valor na listagem
      * 
      * @return Array Retorna um array com as informações carregadas
-     */    
-    public function getArrayCamposValores($bIncluiChave = true, $bCamposSemValor = false){
+     */
+    public function getArrayCamposValores($bIncluiChave = true, $bCamposSemValor = false) {
         $aCamposValores = array();
-       
+
         //percorre a lista de campos e preenche os vetores correspondentes
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if($oCampoBanco->getPersiste()){  //verifica se o campo atual deve ser persistido
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if ($oCampoBanco->getPersiste()) {  //verifica se o campo atual deve ser persistido
                 /*
                  * inclui os campos que não são chave e os que são chave desde que o parâmetro 
                  * $bIncluiChave seja verdadeiro
                  */
-                if ((!$oCampoBanco->getChave()) || ($oCampoBanco->getChave() && $bIncluiChave)){
+                if ((!$oCampoBanco->getChave()) || ($oCampoBanco->getChave() && $bIncluiChave)) {
                     //se o campo atual for autoincremento busca o valor para gravação
-                    if($oCampoBanco->getAutoIncremento()){
+                    if ($oCampoBanco->getAutoIncremento()) {
                         $sValor = $this->getIncremento($oCampoBanco->getNomeBanco());
-                        Controller::setValorModel($this->Model,$oCampoBanco->getNomeModel(),$sValor);
-                    } else{
-                        $sValor = Controller::getValorModel($this->Model,$oCampoBanco->getNomeModel());
+                        Controller::setValorModel($this->Model, $oCampoBanco->getNomeModel(), $sValor);
+                    } else {
+                        $sValor = Controller::getValorModel($this->Model, $oCampoBanco->getNomeModel());
                     }
-                    
-                    if((($sValor !== null && $sValor !== "" && $sValor !== false) || $sValor === 0) || $bCamposSemValor){
-                        $aCamposValores[$oCampoBanco->getNomeBanco()] = "'".$sValor."'";
+                    //se o campo for do tipo upload com detalhe definido na persistencia
+                    if ($oCampoBanco->getTipoCampo() == 3 && $sValor == null) {
+                        $bCamposSemValor = false;
+                    }
+
+                    if ((($sValor !== null && $sValor !== "" && $sValor !== false) || $sValor === 0) || $bCamposSemValor) {
+                        $aCamposValores[$oCampoBanco->getNomeBanco()] = "'" . $sValor . "'";
                     }
                 }
             }
         }
         return $aCamposValores;
-    }    
-    
+    }
+
     /**
      * Método que retorna um array de objetos model com base em uma consulta
      * sql
      * 
      * @return array Array contendo objetos model 
-     */    
-    public function getArrayModel($bFiltraByChave=false){
+     */
+    public function getArrayModel($bFiltraByChave = false) {
         $aRetorno = array();
-        
-        $sSql  = $this->getBConsultaManual()?$this->consultaManual():$this->getSqlSelect();
+
+        $sSql = $this->getBConsultaManual() ? $this->consultaManual() : $this->getSqlSelect();
         $sSql .= $bFiltraByChave ? $this->getStringWhereByChave() : $this->getStringWhere();
-        $sSql .= $this->getSWhereManual();//define partes do where manualmente
-        $sSql .= $this->getStringGroupBy().$this->getStringOrderBy().$this->getStringLimit();
-       
-      /*  $fp = fopen("bloco1.txt", "w");
-            fwrite($fp, $sSql);
-            fclose($fp);*/
-        
+        $sSql .= $this->getSWhereManual(); //define partes do where manualmente
+        $sSql .= $this->getStringGroupBy() . $this->getStringOrderBy() . $this->getStringLimit();
+
+        $fp = fopen("bloco1.txt", "w");
+        fwrite($fp, $sSql);
+        fclose($fp);
+
         $result = $this->getObjetoSql($sSql);
-        
-        while($oRowBD = $result->fetch(PDO::FETCH_OBJ)){
+
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
             $oModel = $this->getNewModel();
-            
-            $this->carregaModelBanco($oModel,$oRowBD);
+
+            $this->carregaModelBanco($oModel, $oRowBD);
 
             //adiciona o objeto atual ao array de retorno
             $aRetorno[] = $oModel;
         }
         return $aRetorno;
-    }  
-    
-     /**
-    * Gera consultar sql manuais no entando jogam para o model como o getArrayCampo
-    */
-    
-   public function  getArrayModelManual($bFiltraByChave=false){
-       $aRetorno = array();
-       $sSql = $this->getConsultaSqlManual();
-       
-       $result = $this->getObjetoSql($sSql);
-       
-       while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)){
-           $oModel = $this->getNewModel();
-           
-           $this->carregaModelBanco($oModel, $oRowBD);
-           
-           $aRetorno[] = $oModel;
-       }
-       return $aRetorno;
-   }
+    }
 
-    
-   /**
+    /**
+     * Gera consultar sql manuais no entando jogam para o model como o getArrayCampo
+     */
+    public function getArrayModelManual($bFiltraByChave = false) {
+        $aRetorno = array();
+        $sSql = $this->getConsultaSqlManual();
+
+        $result = $this->getObjetoSql($sSql);
+
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            $oModel = $this->getNewModel();
+
+            $this->carregaModelBanco($oModel, $oRowBD);
+
+            $aRetorno[] = $oModel;
+        }
+        return $aRetorno;
+    }
+
+    /**
      * Método que retorna uma string contendo os campos chave, utilizado
      * principalmente nas consultas para realizar alterações e exclusões
      * 
@@ -1872,56 +1862,56 @@ class Persistencia{
      * @return string
      * @throws Exception 
      */
-    public function getChaveModel($oModel){
+    public function getChaveModel($oModel) {
         $sChave = "";
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if($oCampoBanco->getChave()){
-                if ($sChave != ""){
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if ($oCampoBanco->getChave()) {
+                if ($sChave != "") {
                     $sChave .= "&";
                 }
 
-                $sValor = Controller::getValorModel($oModel,$oCampoBanco->getNomeModel());
-                
-                if(!$sValor){
+                $sValor = Controller::getValorModel($oModel, $oCampoBanco->getNomeModel());
+
+                if (!$sValor) {
                     $sValor = '';
-                } else{
-                    $sChave .= $oCampoBanco->getNomeModel() ."=".$sValor;
+                } else {
+                    $sChave .= $oCampoBanco->getNomeModel() . "=" . $sValor;
                 }
             }
-        }        
+        }
         return $sChave;
-    }    
-    
+    }
+
     /**
      * Método que retorna um array contendo os campos chave
      * 
      * @return array
      */
-    public function getChaveArray(){
+    public function getChaveArray() {
         $aChave = array();
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if($oCampoBanco->getChave()){
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if ($oCampoBanco->getChave()) {
                 $aChave[] = $oCampoBanco;
             }
-        }        
+        }
         return $aChave;
-    }    
-    
+    }
+
     /**
      * Método que retorna um array contendo os campos autoincremento
      * 
      * @return array
      */
-    public function getAutoIncrementoArray(){
+    public function getAutoIncrementoArray() {
         $aAuto = array();
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if($oCampoBanco->getAutoIncremento()){
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if ($oCampoBanco->getAutoIncremento()) {
                 $aAuto[] = $oCampoBanco;
             }
-        }        
+        }
         return $aAuto;
-    }    
-    
+    }
+
     /**
      * Método que retorna uma array contendo os campos do tipo CampoBanco
      * a partir de um array contendo o nome do campo no model que é passado
@@ -1931,16 +1921,16 @@ class Persistencia{
      * 
      * @return array
      */
-    public function getArrayCampos($aCamposModel){
+    public function getArrayCampos($aCamposModel) {
         $aCampos = array();
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if(in_array($oCampoBanco->getNomeModel(),$aCamposModel)){
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if (in_array($oCampoBanco->getNomeModel(), $aCamposModel)) {
                 $aCampos[] = $oCampoBanco;
             }
-        }        
+        }
         return $aCampos;
     }
-    
+
     /**
      * Método que retorna o nome do campo no banco a partir do nome nos models
      * setados no relacionamento
@@ -1949,83 +1939,83 @@ class Persistencia{
      * 
      * @return string Nome do campo no BD
      */
-    public function getNomeBanco($sNomeModel){
+    public function getNomeBanco($sNomeModel) {
         $sNomeBanco = "";
-        
+
         //percorre os campos do relacionamento principal
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if($oCampoBanco->getNomeModel() == $sNomeModel){
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if ($oCampoBanco->getNomeModel() == $sNomeModel) {
                 $sNomeBanco = $oCampoBanco->getNomeBanco();
                 break;
             }
         }
-        
+
         //percorre os campos de totalização
         foreach ($this->getListaTotaliza() as $aTotalizador) {
-            if($aTotalizador['campoModel'] == $sNomeModel){
+            if ($aTotalizador['campoModel'] == $sNomeModel) {
                 $oPersTotal = Fabrica::FabricarPersistencia($aTotalizador['classe']);
                 $sNomeCampoBD = $oPersTotal->getNomeBanco($aTotalizador['campoTotaliza']);
                 $sTipo = self::$TIPO_TOTALIZA[$aTotalizador['tipoTotaliza']];
-                
-                $sNomeBanco = $sNomeCampoBD.$sTipo;
+
+                $sNomeBanco = $sNomeCampoBD . $sTipo;
                 break;
             }
         }
-        
+
         //percorre os campos calculados
         foreach ($this->getListaCamposCalculados() as $aCalculo) {
-            if($aCalculo['campoModel'] == $sNomeModel){
+            if ($aCalculo['campoModel'] == $sNomeModel) {
                 $sNomeBanco = $aCalculo['alias'];
                 break;
             }
         }
-        
+
         //se não encontrou o campo no model principal percorre as tabelas de ligação
-        if($sNomeBanco === ""){
+        if ($sNomeBanco === "") {
             $bAchou = false;
-            $sNomeClasse = substr($sNomeModel,0,strpos($sNomeModel,"."));
-            $sNomeModel = substr($sNomeModel,strpos($sNomeModel,".")+1);
-            foreach($this->getListaJoin() as $aJoin){
-                if(strtolower($aJoin['alias']) === strtolower($sNomeClasse)){
+            $sNomeClasse = substr($sNomeModel, 0, strpos($sNomeModel, "."));
+            $sNomeModel = substr($sNomeModel, strpos($sNomeModel, ".") + 1);
+            foreach ($this->getListaJoin() as $aJoin) {
+                if (strtolower($aJoin['alias']) === strtolower($sNomeClasse)) {
                     $oPersJoin = Fabrica::FabricarPersistencia($aJoin['classe']);
-                    foreach($oPersJoin->getListaRelacionamento() as $oCampoBanco){
-                        if($oCampoBanco->getNomeModel() == $sNomeModel){
+                    foreach ($oPersJoin->getListaRelacionamento() as $oCampoBanco) {
+                        if ($oCampoBanco->getNomeModel() == $sNomeModel) {
                             $sNomeBanco = $oCampoBanco->getNomeBanco();
                             $bAchou = true;
                             break;
-                        }  
+                        }
                     }
                 }
-                if($bAchou){
+                if ($bAchou) {
                     break;
                 }
             }
         }
         /*
-        //se ainda não encontrou o campo no model principal percorre as tabelas de ligação - mais um nível
-        if($sNomeBanco === ""){
-            $bAchou = false;
-            $sNomeModel = substr($sNomeModel,strpos($sNomeModel,".")+1);
-            foreach($this->getListaJoin() as $aJoin){
-                $oPersJoin = Fabrica::FabricarPersistencia($aJoin['classe']);
-                foreach($oPersJoin->getListaRelacionamento() as $oCampoBanco){
-                    if($oCampoBanco->getNomeModel() == $sNomeModel){
-                        $sNomeBanco = $oCampoBanco->getNomeBanco();
-                        $bAchou = true;
-                        break;
-                    }  
-                }
-                if($bAchou){
-                    break;
-                }
-            }
-        }
+          //se ainda não encontrou o campo no model principal percorre as tabelas de ligação - mais um nível
+          if($sNomeBanco === ""){
+          $bAchou = false;
+          $sNomeModel = substr($sNomeModel,strpos($sNomeModel,".")+1);
+          foreach($this->getListaJoin() as $aJoin){
+          $oPersJoin = Fabrica::FabricarPersistencia($aJoin['classe']);
+          foreach($oPersJoin->getListaRelacionamento() as $oCampoBanco){
+          if($oCampoBanco->getNomeModel() == $sNomeModel){
+          $sNomeBanco = $oCampoBanco->getNomeBanco();
+          $bAchou = true;
+          break;
+          }
+          }
+          if($bAchou){
+          break;
+          }
+          }
+          }
          * 
          */
-        
+
         return $sNomeBanco;
     }
-    
+
     /**
      * Método que verifica se determinada classe está presente na lista de 
      * ligações da tabela
@@ -2033,17 +2023,17 @@ class Persistencia{
      * @param string $sNomeClasse Nome da classe a ser buscada
      * @param boolean $bReturn
      */
-    public function pertenceListaJoin($sNomeClasse){
+    public function pertenceListaJoin($sNomeClasse) {
         $bReturn = false;
-        foreach($this->getListaJoin() as $aJoin){
-            if(strtolower($sNomeClasse) === strtolower($aJoin['classe'])){
+        foreach ($this->getListaJoin() as $aJoin) {
+            if (strtolower($sNomeClasse) === strtolower($aJoin['classe'])) {
                 $bReturn = true;
                 break;
             }
         }
         return $bReturn;
     }
-    
+
     /**
      * Método que retorna o nome do campo no model a partir do nome no banco
      * setados no relacionamento
@@ -2052,32 +2042,32 @@ class Persistencia{
      * 
      * @return string Nome do campo no model
      */
-    public function getNomeModel($sNomeBanco){
+    public function getNomeModel($sNomeBanco) {
         $sNomemodel = "";
-        
+
         //percorre os campos do relacionamento principal
-        foreach($this->getListaRelacionamento() as $oCampoBanco){
-            if($oCampoBanco->getNomebanco() == $sNomeBanco){
+        foreach ($this->getListaRelacionamento() as $oCampoBanco) {
+            if ($oCampoBanco->getNomebanco() == $sNomeBanco) {
                 $sNomemodel = $oCampoBanco->getNomeModel();
             }
         }
         return $sNomemodel;
     }
-    
+
     /**
      * Método que monta e retorna a string da cláusula LIMIT, utilizado
      * principalmente nas consultas para paginação 
      * 
      * @return string
-     */ 
-    public function getStringLimit(){
+     */
+    public function getStringLimit() {
         $sLimit = "";
-        if ($this->getLimit()!= null){
-                $sLimit = " LIMIT ".$this->getLimit();
-                if ($this->getOffset()!= null){
-                    $sLimit .= " OFFSET ".$this->getOffset();
-                }
+        if ($this->getLimit() != null) {
+            $sLimit = " LIMIT " . $this->getLimit();
+            if ($this->getOffset() != null) {
+                $sLimit .= " OFFSET " . $this->getOffset();
             }
+        }
         return $sLimit;
     }
 
@@ -2087,54 +2077,92 @@ class Persistencia{
      * exclusões
      * 
      * @return string String contendo a chave a ser usada na cláusula WHERE
-     */     
-    public function getStringChave(){
+     */
+    public function getStringChave() {
         //monta os campos com respectivos valores para usar na cláusula WHERE
         $sChave = "";
-        foreach($this->getChaveArray() as $oCampoBanco){
-            if ($sChave != ""){
+        foreach ($this->getChaveArray() as $oCampoBanco) {
+            if ($sChave != "") {
                 $sChave .= " AND ";
             }
 
-            $sValor = Controller::getValorModel($this->Model,$oCampoBanco->getNomeModel());
+            $sValor = Controller::getValorModel($this->Model, $oCampoBanco->getNomeModel());
 
-            if(!$sValor){
-                throw new Exception("Chave ".strtoupper($oCampoBanco->getNomeModel())." não setada");
-            } else{
-                $sChave .= $this->getTabela().".".$oCampoBanco->getNomeBanco()." = '".$sValor."'";
+            if (!$sValor) {
+                throw new Exception("Chave " . strtoupper($oCampoBanco->getNomeModel()) . " não setada");
+            } else {
+                $sChave .= $this->getTabela() . "." . $oCampoBanco->getNomeBanco() . " = '" . $sValor . "'";
             }
         }
         return $sChave;
     }
-    
+
     /**
      * Método que cria o comando sql para realizar as consultas na base
      * 
      * @return string String contendo o comando a ser executado 
      */
-    public function getSqlSelect(){
-        $sSql = "SELECT  ".$this->getSTop()
-                         .$this->getListaCampos()
-                         .$this->getSCase()
-                         .$this->getCamposTotalizadores()
-                         .$this->getCamposCalculados()
-                         .$this->getCamposVirtuais()
-                ." FROM ".$this->getTabela().$this->getStringJoin();
-        
+    public function getSqlSelect() {
+        $sSql = "SELECT  " . $this->getSTop()
+                . $this->getListaCampos()
+                . $this->getSCase()
+                . $this->getCamposTotalizadores()
+                . $this->getCamposCalculados()
+                . $this->getCamposVirtuais()
+                . " FROM " . $this->getTabela() . $this->getStringJoin();
+
         return $sSql;
     }
-    
+
     /**
-     *Método para sobscrever consultar manuais de sql
+     * Método para sobscrever consultar manuais de sql
      */
-    public function getConsultaSqlManual(){
+    public function getConsultaSqlManual() {
         
     }
+
     /*
      * Método para reescrever
      */
-    public function consultaManual(){
+
+    public function consultaManual() {
         
     }
+
+    /**
+     * Método responsável por preparar strings para que possam serem inseridas no MSSQL SERVER
+     * e lidas no JQuery sem que ocorram problemas
+     * 
+     * @param string $str
+     * @return string 
+     * @author Carlos
+     */
+    public function preparaString($str) {
+        if (is_string($str)) {
+
+            if (Config::TIPO_BD == Config::BD_MYSQL) {
+                $sRetorno = str_replace("'", '"', $str);
+            } else {
+                $sRetorno = str_replace("'", "''", $str);
+                //$value = str_replace( '"', '""', $str );
+            }
+        }
+
+        return $sRetorno;
+    }
+
+    /**
+     * Método para ser substituido
+     */
+
+    /** aqui este método não faz nada, mas é sobrescrito pelas classes filhas
+     *  para fazer outras ações dentro da mesma transação
+     * @return boolean
+     */
+    public function afterInsert($aCampos) {
+        
+    }
+
 }
+
 ?>

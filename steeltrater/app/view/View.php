@@ -624,6 +624,14 @@ abstract class View {
         }
     }
 
+    public function addModaisDetalhe() {
+        $aModal = func_get_args();
+
+        foreach ($aModal as $modalAtual) {
+            $this->getOGridDetalhe()->addModal($modalAtual);
+        }
+    }
+
     /**
      * Método que adiciona os campos criados na tela de grid detalhe
      */
@@ -654,6 +662,17 @@ abstract class View {
 
         foreach ($aCampos as $campoAtual) {
             $this->getTela()->addCamposGrid($campoAtual);
+        }
+    }
+    
+    /**
+     * Método que adiciona os campos abaixo dos grids
+     */
+    public function addCamposGridDetalhe() {
+        $aCampos = func_get_args();
+
+        foreach ($aCampos as $campoAtual) {
+            $this->getOGridDetalhe()->addCamposGrid($campoAtual);
         }
     }
 
@@ -2094,22 +2113,17 @@ abstract class View {
     /**
      * Adiciona botão detalhe com mais de duas etapas
      */
-    public function adicionaBotoesEtapas($sEtapa = NULL, $sCount = NULL, $sForm = NULL, $sBody = NULL, $sBody2 = NULL, $sFormConsulta = NULL, $sControllerDetalhe = NULL) {
-        $sAcao = '$("#' . $this->getTela()->getId() . '-form").remove();$("#' . $sForm . '").toggle();$( "#' . $sEtapa . ' > #' . $sCount . '" ).removeClass( "current" );';
+    public function adicionaBotoesEtapas($sEtapa = NULL, $iCount = NULL, $sForm = NULL, $sBody = NULL, $sBody2 = NULL, $sFormConsulta = NULL, $sControllerDetalhe = NULL, $sMetodoDetalhe = 'acaoTelaDetalhe') {
+
+        $sAcao = '$("#' . $this->getTela()->getId() . '-form").remove();$("#' . $sForm . '").toggle();$( "#' . $sEtapa . ' > #' . $iCount . '" ).removeClass( "current" );';
         $oBotaoVoltar = new Botao('Voltar', Botao::TIPO_VOLTAR, $sAcao);
-        //adiciona os botões de próximo
 
-
-
-        $sEtapaInicial = $sCount;
-        ++$sEtapaInicial;
         $sTelaAtual = $this->getTela()->getId() . '-form';
-
-        $sMetodo = 'acaoTelaDetalhe';
 
         $sValores = implode(',', $this->getAParametrosExtras());
 
-        $sAcao = '$( "#' . $sEtapa . ' > #2" ).addClass( "current" );$("#' . $sTelaAtual . '").toggle(); requestAjax("' . $this->getTela()->getId() . '-form","' . $sControllerDetalhe . '","' . $sMetodo . '","' . $sEtapa . ',' . $sEtapaInicial . ',' . $sTelaAtual . ',' . $sBody . ',' . $sBody2 . ',' . $sFormConsulta . '","' . $sValores . '");';
+        $iCount++;
+        $sAcao = '$( "#' . $sEtapa . ' > #' . $iCount . '" ).addClass( "current" );$("#' . $sTelaAtual . '").toggle(); requestAjax("' . $this->getTela()->getId() . '-form","' . $sControllerDetalhe . '","' . $sMetodoDetalhe . '","' . $sEtapa . ',' . $iCount . ',' . $sTelaAtual . ',' . $sBody . ',' . $sBody2 . ',' . $sFormConsulta . '","' . $sValores . '");';
         $oBtnAdd = new Botao('Próximo', Botao::TIPO_PROXIMO, $sAcao);
 
 

@@ -920,7 +920,7 @@ class Campo {
                 . '       } '
                 . 'var value = $(this).val();'
                 . 'if(value !==""){'
-                . 'requestAjax("'.$this->getSIdTela().'-form","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $sCampoFiltro . ',' . $aCampoBusca[1] . '",false,true);'
+                . 'requestAjax("","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $sCampoFiltro . ',' . $aCampoBusca[1] . '",false,true);'
                 . '}'
                 . '});';
 
@@ -941,7 +941,7 @@ class Campo {
                 . '$("#' . $this->getId() . '").blur(function() {'
                 . 'var value = $(this).val();'
                 //.'requestAjax("","'.$sClasseBusca.'","'.$sMetodo.'",cars);'
-                . 'requestAjax("'.$this->getSIdTela().'-form","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $this->getNome() . ',' . $this->getSRetornoBusca() . '",cars);'
+                . 'requestAjax("","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $this->getNome() . ',' . $this->getSRetornoBusca() . '",cars);'
                 . '});'
                 . '</script>';
         //.'requestAjax("","'.$sClasseBusca.'","'.$sMetodo.'","8,'.$this->getId().','.$buscaComposto.'");'
@@ -1395,7 +1395,7 @@ class Campo {
                         . '</div>'
                         . '</div>'
                         . '<script>'
-                        . '$("#' . $this->getId() . '").number(true,3);'
+                        . '$("#' . $this->getId() . '").number(true,2);'
                         . '</script>'
                         . $this->getRenderEventos();
                 break;

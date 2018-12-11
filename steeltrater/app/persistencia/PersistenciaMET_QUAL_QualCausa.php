@@ -25,6 +25,12 @@ class PersistenciaMET_QUAL_QualCausa extends Persistencia{
         $this->adicionaRelacionamento('pq4', 'pq4');
         $this->adicionaRelacionamento('pq5', 'pq5');
         $this->adicionaRelacionamento('ocorrencia','ocorrencia');
+        $this->adicionaRelacionamento('matprimades', 'matprimades');
+        $this->adicionaRelacionamento('metododes', 'metododes');
+        $this->adicionaRelacionamento('maodeobrades', 'maodeobrades');
+        $this->adicionaRelacionamento('equipamentodes', 'equipamentodes');
+        $this->adicionaRelacionamento('meioambientedes', 'meioambientedes');
+        $this->adicionaRelacionamento('medidades', 'medidades');
         
         $this->adicionaOrderBy('seq',1);
     }

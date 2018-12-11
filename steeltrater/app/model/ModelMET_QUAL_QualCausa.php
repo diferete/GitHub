@@ -21,6 +21,60 @@ class ModelMET_QUAL_QualCausa {
     private $pq4;
     private $pq5;
     private $ocorrencia;
+    private $matprimades;
+    private $metododes;
+    private $maodeobrades;
+    private $equipamentodes;
+    private $meioambientedes;
+    private $medidades;
+    
+    function getMatprimades() {
+        return $this->matprimades;
+    }
+
+    function getMetododes() {
+        return $this->metododes;
+    }
+
+    function getMaodeobrades() {
+        return $this->maodeobrades;
+    }
+
+    function getEquipamentodes() {
+        return $this->equipamentodes;
+    }
+
+    function getMeioambientedes() {
+        return $this->meioambientedes;
+    }
+
+    function getMedidades() {
+        return $this->medidades;
+    }
+
+    function setMatprimades($matprimades) {
+        $this->matprimades = $matprimades;
+    }
+
+    function setMetododes($metododes) {
+        $this->metododes = $metododes;
+    }
+
+    function setMaodeobrades($maodeobrades) {
+        $this->maodeobrades = $maodeobrades;
+    }
+
+    function setEquipamentodes($equipamentodes) {
+        $this->equipamentodes = $equipamentodes;
+    }
+
+    function setMeioambientedes($meioambientedes) {
+        $this->meioambientedes = $meioambientedes;
+    }
+
+    function setMedidades($medidades) {
+        $this->medidades = $medidades;
+    }
 
     function getOcorrencia() {
         return $this->ocorrencia;

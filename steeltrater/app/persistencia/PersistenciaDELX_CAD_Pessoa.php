@@ -16,6 +16,8 @@ class PersistenciaDELX_CAD_Pessoa extends Persistencia{
         $this->adicionaRelacionamento('emp_codigo','emp_codigo',true,true);
         $this->adicionaRelacionamento('emp_razaosocial','emp_razaosocial');
         
+        $this->adicionaRelacionamento('emp_cnpj','emp_cnpj');
+        
         //Informações Gerais
         $this->adicionaRelacionamento('emp_fantasia', 'emp_fantasia');        
         $this->adicionaRelacionamento('emp_exterior','emp_exterior');
@@ -35,7 +37,7 @@ class PersistenciaDELX_CAD_Pessoa extends Persistencia{
         $this->adicionaRelacionamento('emp_pessoapadraogrupoeconomico','emp_pessoapadraogrupoeconomico');
         $this->adicionaRelacionamento('emp_condpagtocodigo','emp_condpagtocodigo');
         $this->adicionaRelacionamento('emp_tipomovimentocodigo','emp_tipomovimentocodigo');
-        $this->adicionaRelacionamento('emp_representante','emp_representante');
+        $this->adicionaRelacionamento('rep_codigo','rep_codigo');
         $this->adicionaRelacionamento('emp_pessoatabelaprecocodigo','emp_pessoatabelaprecocodigo');
         $this->adicionaRelacionamento('emp_pessoatabelafretekm','emp_pessoatabelafretekm');
         $this->adicionaRelacionamento('emp_siteempresa','emp_siteempresa');   
@@ -67,7 +69,7 @@ class PersistenciaDELX_CAD_Pessoa extends Persistencia{
         //Classificação
         $this->adicionaRelacionamento('emp_cliente','emp_cliente');
         $this->adicionaRelacionamento('emp_fornecedor','emp_fornecedor');
-        $this->adicionaRelacionamento('rep_codigo','rep_codigo');
+        $this->adicionaRelacionamento('emp_representante','emp_representante');
         $this->adicionaRelacionamento('emp_transportador','emp_transportador');
         $this->adicionaRelacionamento('emp_assistenciatecnica','emp_assistenciatecnica');
         $this->adicionaRelacionamento('emp_funcionario','emp_funcionario');
@@ -81,18 +83,18 @@ class PersistenciaDELX_CAD_Pessoa extends Persistencia{
         $this->adicionaRelacionamento('emp_centrodistribuicao','emp_centrodistribuicao');
         $this->adicionaRelacionamento('emp_poderpublico','emp_poderpublico');
         $this->adicionaRelacionamento('emp_suspect','emp_suspect');
-        $this->adicionaRelacionamento('cfe_cfefavorecidocodigo','cfe_cfefavorecidocodigo');
+        $this->adicionaRelacionamento('emp_favorecido','emp_favorecido');
         $this->adicionaRelacionamento('emp_operadoracartaocredito','emp_operadoracartaocredito');
         $this->adicionaRelacionamento('emp_financeira','emp_financeira');
         $this->adicionaRelacionamento('crm_contaclassificacaocodigo','crm_contaclassificacaocodigo');
-        $this->adicionaRelacionamento('emp_automato','emp_automato');
-        
+        $this->adicionaRelacionamento('emp_autonomo','emp_autonomo'); ///ARUMAR
+           
         //Operador
         $this->adicionaRelacionamento('emp_operadorcarregadeira','emp_operadorcarregadeira');
         $this->adicionaRelacionamento('emp_operadorcolhedeira','emp_operadorcolhedeira');
-        $this->adicionaRelacionamento('emp_operadortrasnbordo','emp_operadortrasnbordo');
+        $this->adicionaRelacionamento('emp_operadortransbordo','emp_operadortransbordo'); 
         $this->adicionaRelacionamento('emp_operadorreboque','emp_operadorreboque');
-        
+       
         //Observações
         $this->adicionaRelacionamento('emp_observacoesgerais','emp_observacoesgerais');
         $this->adicionaRelacionamento('emp_observacoescomerciais','emp_observacoescomerciais');
@@ -108,10 +110,12 @@ class PersistenciaDELX_CAD_Pessoa extends Persistencia{
         $this->adicionaRelacionamento('emp_fornecedorpercentual','emp_fornecedorpercentual');
         $this->adicionaRelacionamento('emp_fornecedornotaqualidade','emp_fornecedornotaqualidade');
         $this->adicionaRelacionamento('emp_tipofretecodigo','emp_tipofretecodigo');
+        $this->adicionaRelacionamento('emp_comprapercdifqtd','emp_comprapercdifqtd');
+        $this->adicionaRelacionamento('emp_comprapercdifvalor','emp_comprapercdifvalor');
         $this->adicionaRelacionamento('emp_fornecedorexigetabela','emp_fornecedorexigetabela');
         $this->adicionaRelacionamento('emp_pessoapadraoanfavea','emp_pessoapadraoanfavea');
         $this->adicionaRelacionamento('emp_pessoacodigoacessocotonlin','emp_pessoacodigoacessocotonlin');
-                
+       
         
         $this->setSTop('100');
         $this->adicionaOrderBy('emp_codigo', 1);

@@ -11,25 +11,16 @@ class ModelDELX_CAD_Pessoa{
     
     
    /* 
-    
     private $emp_ativa;        
-    
     private $emp_situacaocadastral;
-            
-    
     private $emp_diretoriodocumentos;
-    
     private $emp_funcionariomatricula;
     private $emp_funcionariomatriculadv;
-   
-    
     private $emp_necessitacertificado;
     private $emp_mvazerado;
     private $emp_pisporunidade;
     private $emp_cofinsporunidade;        
-    private $emp_datanascimento;
     private $emp_icmsfretepresumido;
-    
     private $emp_cfopcodigo;
     private $emp_graosunidadecodigo;
     private $emp_graosunidadenucleo;
@@ -56,34 +47,18 @@ class ModelDELX_CAD_Pessoa{
     private $grs_areaheproprio;
     private $grs_areahepecuaria;
     private $grs_areahrarrendado;
-    
-    
     private $emp_cnpjraiz;
-    
-    
-    
-    private $emp_comprapercdifvalor;
-    private $emp_comprapercdifqtd;
-    
-   
     private $emp_carteirahabilitacaodataven;
     private $emp_carteirahabilitacaonumero;
     private $emp_carteirahabilitacaoregistr;
     private $emp_categoriahabilitacao;
     private $emp_contratante;
-    private $emp_transportadorrntrc;
-    private $emp_transportadorrntrccategori;
-    private $emp_transportadortabelafrete;
-    
     private $emp_transportadorcargaperigosa;
-    private $emp_retencaoconversao;
-        
+    private $emp_retencaoconversao;   
     private $emp_localtrabalho;
     private $emp_rendimento;
-    
     private $crm_contatipoempresa;
     private $crm_contaresponsavelcodigo;
-    
     private $crm_contaprospectconvertido;
     private $crm_contadataconversao;
     private $crm_contausuarioconversao;
@@ -91,7 +66,6 @@ class ModelDELX_CAD_Pessoa{
     private $crm_contanumerofuncionarios;
     private $crm_contanumerounidades;
     private $crm_contareceitaanual;
-    private ;
     private $crm_contaatuacaocodigo;
     private $crm_contarepresregiaobloqueado;
     private $fis_simpscancagenteanp;
@@ -114,13 +88,10 @@ class ModelDELX_CAD_Pessoa{
     private $rhm_pessoanacionalidade;
     private $rhm_pessoafoneclinica;
     private $rhm_pessoasocio;
-    private $emp_favorecido;
-    private $emp_transportadorrntrcsituacao;
+    private $cfe_cfefavorecidocodigo; 
     private $cfe_cfefavorecidointegracaosit;
     private $crm_prospectestagiocodigo;
     private $crm_contadatainativacao;
-    
-    
     private $emp_pessoadircopiaxml;
     private $emp_pessoadiravisoembarque;
     private $emp_pessoacodigointerno;
@@ -134,8 +105,6 @@ class ModelDELX_CAD_Pessoa{
     private $emp_pessoafotofiletype;
     private $nfs_nfseconstrucaocivilart;
     private $nfs_nfseconstrucaocivilobra;
-    
-    
     private $emp_pessoaexpressao;
     private $emp_taxaprazocredito;
     private $emp_taxaprazodebito;
@@ -149,15 +118,8 @@ class ModelDELX_CAD_Pessoa{
     private $tms_motoristavlrcomissao;
     private $emp_pessoatipocusto;
     private $emp_pessoalayoutanfavea;
-    
-    
-    
-    
-    
     private $tms_motoristadataprimcnh;
     private $emp_pessoalayoutasn;
-    
-    
     private $emp_associadotempocontribuicao;
     private $emp_associadoidaderesgate;
     private $emp_pessoatda;
@@ -165,16 +127,11 @@ class ModelDELX_CAD_Pessoa{
     private $emp_pessoatde;
     private $emp_pessoatderaiz;
     private $emp_pessoapesocubadopadrao;
-    
-    private $emp_pessoacartaddr;
     private $emp_pessoamictextocampotranspo;
     private $emp_pessoamictextocampoproprie;
-    private $emp_pessaenviaxmlcteoriginal;
     private $emp_pessoaemitenf;
     private $emp_pessoanotaseparada;
-    private $emp_pessoadataalteracao;
     private $emp_pessoadiasflout;
-    
     private $emp_numerodiascredito;
     private $emp_pessoacrttexto;
     private $emp_pessoamotcomissionado;
@@ -186,12 +143,10 @@ class ModelDELX_CAD_Pessoa{
     private $emp_pessoagernomecct;
     private $emp_pessoagernomeproduto;
     private $emp_pessoagermonitoramentologi;
-    
     private $emp_senhaautoatendimento;
     private $rhf_pessoacartaosptrans;
     private $emp_cnpj;
     private $emp_cidadedescricao;
-    
     private $emp_pessoarateiavaloresagenda;
     private $tms_motoristaprimeiradataadmis;
     private $rhf_pessoacartaointertrans;
@@ -208,19 +163,18 @@ class ModelDELX_CAD_Pessoa{
     private $emp_pessoausuariopadrao;
     private $emp_pessoapermitepagprazo;
     private $emp_pessoapermitepagcheque;
-    
-    
     private $rhf_pessoavaletransporte;
     private $emp_pessoaterceiroautorizado;
     private $emp_pessoaterceirocpf;
     private $emp_pessoaterceiropessoanome;
-    
     private $emp_pessoaemailanexocte;
     private $emp_pessoanroregestadual;
     private $emp_pessoataf;
     */
     private $emp_codigo;
     private $emp_razaosocial;
+    
+    private $emp_cnpj;
     
     //Informações Gerais
     private $emp_fantasia; 
@@ -241,7 +195,7 @@ class ModelDELX_CAD_Pessoa{
     private $emp_pessoapadraogrupoeconomico;
     private $emp_condpagtocodigo;
     private $emp_tipomovimentocodigo;
-    private $emp_representante;
+    private $rep_codigo; 
     private $emp_pessoatabelaprecocodigo;
     private $emp_pessoatabelafretekm;
     private $emp_siteempresa;   
@@ -261,19 +215,18 @@ class ModelDELX_CAD_Pessoa{
     private $emp_grupocodigo;
     private $emp_cnae;
     private $emp_naturalidadepais;
-    private $emp_cidadeestadocodigo; ///DUVIDAS
+    private $emp_cidadeestadocodigo; 
     private $emp_naturalidadecidade;
     private $emp_imprimereferenciaprodutoda;
-    private $emp_naoenviatitulosserasapefin;
-    ////////////////////////////////////////////FALTA CAMPO
+    private $emp_naoenviatitulosserasapefin; 
     private $emp_credemissaonfe;
-    private $emp_pessoadatadesejoparcela; ///Duvida
+    private $emp_pessoadatadesejoparcela; 
     private $emp_pessoadesconsiderarfluxoca;
     
     //Classificação
     private $emp_cliente;
     private $emp_fornecedor;
-    private $rep_codigo;    /////Duvidas
+    private $emp_representante; 
     private $emp_transportador;
     private $emp_assistenciatecnica;
     private $emp_funcionario;
@@ -287,16 +240,16 @@ class ModelDELX_CAD_Pessoa{
     private $emp_centrodistribuicao;
     private $emp_poderpublico;
     private $emp_suspect;
-    private $cfe_cfefavorecidocodigo; //Dúvidas
+    private $emp_favorecido;  
     private $emp_operadoracartaocredito;
     private $emp_financeira;
     private $crm_contaclassificacaocodigo;
-    private $emp_automato;///////////////////////////////
+    private $emp_autonomo;
     
     //Operador
     private $emp_operadorcarregadeira;
     private $emp_operadorcolhedeira;
-    private $emp_operadortrasnbordo;
+    private $emp_operadortransbordo;
     private $emp_operadorreboque;
     
     //Observações
@@ -306,18 +259,42 @@ class ModelDELX_CAD_Pessoa{
     private $emp_creditobloqueiojust;
     private $emp_observacoesfinanceiras;
     private $emp_observacoestms;
-    
+   
     //Informações de Fornecedor
     private $emp_fornecedoravaliacao;
     private $emp_fornecedorhomologacao;
     private $emp_fornecedorcontabil;
     private $emp_fornecedorpercentual;
     private $emp_fornecedornotaqualidade;
-    private $emp_tipofretecodigo;   //////////Duvidas
-    //FALTOU DOIS CAMPOS=Percentual Excedente de Quantidade/Percentual Excedente de Valor Unitário
+    private $emp_tipofretecodigo;   
+    private $emp_comprapercdifqtd;   ////ALTERAÇÃO DOIS CAMPOS QUE FALTAVAM
+    private $emp_comprapercdifvalor;
     private $emp_fornecedorexigetabela;
     private $emp_pessoapadraoanfavea;
     private $emp_pessoacodigoacessocotonlin;
+    
+    //Informações do Transportador
+    private $emp_transportadorrntrc;
+    private $emp_transportadorrntrccategori;
+    private $emp_transportadorrntrcsituacao;
+    private $emp_transportadortabelafrete;
+    private $emp_pessoacartaddr;
+    private $emp_pessaenviaxmlcteoriginal;
+    
+    //Data Ultima Alteração
+    private $emp_pessoadataalteracao; ///INSERRIR CAMPO ANTES DE SELEÇÃO
+    
+    
+    function getEmp_cnpj() {
+        return $this->emp_cnpj;
+    }
+
+    function setEmp_cnpj($emp_cnpj) {
+        $this->emp_cnpj = $emp_cnpj;
+    }
+
+    
+    
     
     function getEmp_codigo() {
         return $this->emp_codigo;
@@ -399,8 +376,8 @@ class ModelDELX_CAD_Pessoa{
         return $this->emp_tipomovimentocodigo;
     }
 
-    function getEmp_representante() {
-        return $this->emp_representante;
+    function getRep_codigo() {
+        return $this->rep_codigo;
     }
 
     function getEmp_pessoatabelaprecocodigo() {
@@ -507,6 +484,202 @@ class ModelDELX_CAD_Pessoa{
         return $this->emp_pessoadesconsiderarfluxoca;
     }
 
+    function getEmp_cliente() {
+        return $this->emp_cliente;
+    }
+
+    function getEmp_fornecedor() {
+        return $this->emp_fornecedor;
+    }
+
+    function getEmp_representante() {
+        return $this->emp_representante;
+    }
+
+    function getEmp_transportador() {
+        return $this->emp_transportador;
+    }
+
+    function getEmp_assistenciatecnica() {
+        return $this->emp_assistenciatecnica;
+    }
+
+    function getEmp_funcionario() {
+        return $this->emp_funcionario;
+    }
+
+    function getEmp_prospect() {
+        return $this->emp_prospect;
+    }
+
+    function getEmp_produtor() {
+        return $this->emp_produtor;
+    }
+
+    function getEmp_associado() {
+        return $this->emp_associado;
+    }
+
+    function getEmp_motorista() {
+        return $this->emp_motorista;
+    }
+
+    function getEmp_negociador() {
+        return $this->emp_negociador;
+    }
+
+    function getEmp_trading() {
+        return $this->emp_trading;
+    }
+
+    function getEmp_tecnico() {
+        return $this->emp_tecnico;
+    }
+
+    function getEmp_centrodistribuicao() {
+        return $this->emp_centrodistribuicao;
+    }
+
+    function getEmp_poderpublico() {
+        return $this->emp_poderpublico;
+    }
+
+    function getEmp_suspect() {
+        return $this->emp_suspect;
+    }
+
+    function getEmp_favorecido() {
+        return $this->emp_favorecido;
+    }
+
+    function getEmp_operadoracartaocredito() {
+        return $this->emp_operadoracartaocredito;
+    }
+
+    function getEmp_financeira() {
+        return $this->emp_financeira;
+    }
+
+    function getCrm_contaclassificacaocodigo() {
+        return $this->crm_contaclassificacaocodigo;
+    }
+
+    function getEmp_autonomo() {
+        return $this->emp_autonomo;
+    }
+
+    function getEmp_operadorcarregadeira() {
+        return $this->emp_operadorcarregadeira;
+    }
+
+    function getEmp_operadorcolhedeira() {
+        return $this->emp_operadorcolhedeira;
+    }
+
+    function getEmp_operadortransbordo() {
+        return $this->emp_operadortransbordo;
+    }
+
+    function getEmp_operadorreboque() {
+        return $this->emp_operadorreboque;
+    }
+
+    function getEmp_observacoesgerais() {
+        return $this->emp_observacoesgerais;
+    }
+
+    function getEmp_observacoescomerciais() {
+        return $this->emp_observacoescomerciais;
+    }
+
+    function getEmp_pessoabloqueiodata() {
+        return $this->emp_pessoabloqueiodata;
+    }
+
+    function getEmp_creditobloqueiojust() {
+        return $this->emp_creditobloqueiojust;
+    }
+
+    function getEmp_observacoesfinanceiras() {
+        return $this->emp_observacoesfinanceiras;
+    }
+
+    function getEmp_observacoestms() {
+        return $this->emp_observacoestms;
+    }
+
+    function getEmp_fornecedoravaliacao() {
+        return $this->emp_fornecedoravaliacao;
+    }
+
+    function getEmp_fornecedorhomologacao() {
+        return $this->emp_fornecedorhomologacao;
+    }
+
+    function getEmp_fornecedorcontabil() {
+        return $this->emp_fornecedorcontabil;
+    }
+
+    function getEmp_fornecedorpercentual() {
+        return $this->emp_fornecedorpercentual;
+    }
+
+    function getEmp_fornecedornotaqualidade() {
+        return $this->emp_fornecedornotaqualidade;
+    }
+
+    function getEmp_tipofretecodigo() {
+        return $this->emp_tipofretecodigo;
+    }
+
+    function getEmp_comprapercdifqtd() {
+        return $this->emp_comprapercdifqtd;
+    }
+
+    function getEmp_comprapercdifvalor() {
+        return $this->emp_comprapercdifvalor;
+    }
+
+    function getEmp_fornecedorexigetabela() {
+        return $this->emp_fornecedorexigetabela;
+    }
+
+    function getEmp_pessoapadraoanfavea() {
+        return $this->emp_pessoapadraoanfavea;
+    }
+
+    function getEmp_pessoacodigoacessocotonlin() {
+        return $this->emp_pessoacodigoacessocotonlin;
+    }
+
+    function getEmp_transportadorrntrc() {
+        return $this->emp_transportadorrntrc;
+    }
+
+    function getEmp_transportadorrntrccategori() {
+        return $this->emp_transportadorrntrccategori;
+    }
+
+    function getEmp_transportadorrntrcsituacao() {
+        return $this->emp_transportadorrntrcsituacao;
+    }
+
+    function getEmp_transportadortabelafrete() {
+        return $this->emp_transportadortabelafrete;
+    }
+
+    function getEmp_pessoacartaddr() {
+        return $this->emp_pessoacartaddr;
+    }
+
+    function getEmp_pessaenviaxmlcteoriginal() {
+        return $this->emp_pessaenviaxmlcteoriginal;
+    }
+
+    function getEmp_pessoadataalteracao() {
+        return $this->emp_pessoadataalteracao;
+    }
+
     function setEmp_codigo($emp_codigo) {
         $this->emp_codigo = $emp_codigo;
     }
@@ -587,8 +760,8 @@ class ModelDELX_CAD_Pessoa{
         $this->emp_tipomovimentocodigo = $emp_tipomovimentocodigo;
     }
 
-    function setEmp_representante($emp_representante) {
-        $this->emp_representante = $emp_representante;
+    function setRep_codigo($rep_codigo) {
+        $this->rep_codigo = $rep_codigo;
     }
 
     function setEmp_pessoatabelaprecocodigo($emp_pessoatabelaprecocodigo) {
@@ -695,90 +868,6 @@ class ModelDELX_CAD_Pessoa{
         $this->emp_pessoadesconsiderarfluxoca = $emp_pessoadesconsiderarfluxoca;
     }
 
-    function getEmp_cliente() {
-        return $this->emp_cliente;
-    }
-
-    function getEmp_fornecedor() {
-        return $this->emp_fornecedor;
-    }
-
-    function getRep_codigo() {
-        return $this->rep_codigo;
-    }
-
-    function getEmp_transportador() {
-        return $this->emp_transportador;
-    }
-
-    function getEmp_assistenciatecnica() {
-        return $this->emp_assistenciatecnica;
-    }
-
-    function getEmp_funcionario() {
-        return $this->emp_funcionario;
-    }
-
-    function getEmp_prospect() {
-        return $this->emp_prospect;
-    }
-
-    function getEmp_produtor() {
-        return $this->emp_produtor;
-    }
-
-    function getEmp_associado() {
-        return $this->emp_associado;
-    }
-
-    function getEmp_motorista() {
-        return $this->emp_motorista;
-    }
-
-    function getEmp_negociador() {
-        return $this->emp_negociador;
-    }
-
-    function getEmp_trading() {
-        return $this->emp_trading;
-    }
-
-    function getEmp_tecnico() {
-        return $this->emp_tecnico;
-    }
-
-    function getEmp_centrodistribuicao() {
-        return $this->emp_centrodistribuicao;
-    }
-
-    function getEmp_poderpublico() {
-        return $this->emp_poderpublico;
-    }
-
-    function getEmp_suspect() {
-        return $this->emp_suspect;
-    }
-
-    function getCfe_cfefavorecidocodigo() {
-        return $this->cfe_cfefavorecidocodigo;
-    }
-
-    function getEmp_operadoracartaocredito() {
-        return $this->emp_operadoracartaocredito;
-    }
-
-    function getEmp_financeira() {
-        return $this->emp_financeira;
-    }
-
-    function getCrm_contaclassificacaocodigo() {
-        return $this->crm_contaclassificacaocodigo;
-    }
-
-    function getEmp_automato() {
-        return $this->emp_automato;
-    }
-
     function setEmp_cliente($emp_cliente) {
         $this->emp_cliente = $emp_cliente;
     }
@@ -787,8 +876,8 @@ class ModelDELX_CAD_Pessoa{
         $this->emp_fornecedor = $emp_fornecedor;
     }
 
-    function setRep_codigo($rep_codigo) {
-        $this->rep_codigo = $rep_codigo;
+    function setEmp_representante($emp_representante) {
+        $this->emp_representante = $emp_representante;
     }
 
     function setEmp_transportador($emp_transportador) {
@@ -843,8 +932,8 @@ class ModelDELX_CAD_Pessoa{
         $this->emp_suspect = $emp_suspect;
     }
 
-    function setCfe_cfefavorecidocodigo($cfe_cfefavorecidocodigo) {
-        $this->cfe_cfefavorecidocodigo = $cfe_cfefavorecidocodigo;
+    function setEmp_favorecido($emp_favorecido) {
+        $this->emp_favorecido = $emp_favorecido;
     }
 
     function setEmp_operadoracartaocredito($emp_operadoracartaocredito) {
@@ -859,24 +948,8 @@ class ModelDELX_CAD_Pessoa{
         $this->crm_contaclassificacaocodigo = $crm_contaclassificacaocodigo;
     }
 
-    function setEmp_automato($emp_automato) {
-        $this->emp_automato = $emp_automato;
-    }
-    
-    function getEmp_operadorcarregadeira() {
-        return $this->emp_operadorcarregadeira;
-    }
-
-    function getEmp_operadorcolhedeira() {
-        return $this->emp_operadorcolhedeira;
-    }
-
-    function getEmp_operadortrasnbordo() {
-        return $this->emp_operadortrasnbordo;
-    }
-
-    function getEmp_operadorreboque() {
-        return $this->emp_operadorreboque;
+    function setEmp_autonomo($emp_autonomo) {
+        $this->emp_autonomo = $emp_autonomo;
     }
 
     function setEmp_operadorcarregadeira($emp_operadorcarregadeira) {
@@ -887,36 +960,12 @@ class ModelDELX_CAD_Pessoa{
         $this->emp_operadorcolhedeira = $emp_operadorcolhedeira;
     }
 
-    function setEmp_operadortrasnbordo($emp_operadortrasnbordo) {
-        $this->emp_operadortrasnbordo = $emp_operadortrasnbordo;
+    function setEmp_operadortransbordo($emp_operadortransbordo) {
+        $this->emp_operadortransbordo = $emp_operadortransbordo;
     }
 
     function setEmp_operadorreboque($emp_operadorreboque) {
         $this->emp_operadorreboque = $emp_operadorreboque;
-    }
-    
-    function getEmp_observacoesgerais() {
-        return $this->emp_observacoesgerais;
-    }
-
-    function getEmp_observacoescomerciais() {
-        return $this->emp_observacoescomerciais;
-    }
-
-    function getEmp_pessoabloqueiodata() {
-        return $this->emp_pessoabloqueiodata;
-    }
-
-    function getEmp_creditobloqueiojust() {
-        return $this->emp_creditobloqueiojust;
-    }
-
-    function getEmp_observacoesfinanceiras() {
-        return $this->emp_observacoesfinanceiras;
-    }
-
-    function getEmp_observacoestms() {
-        return $this->emp_observacoestms;
     }
 
     function setEmp_observacoesgerais($emp_observacoesgerais) {
@@ -941,42 +990,6 @@ class ModelDELX_CAD_Pessoa{
 
     function setEmp_observacoestms($emp_observacoestms) {
         $this->emp_observacoestms = $emp_observacoestms;
-    }
-    
-    function getEmp_fornecedoravaliacao() {
-        return $this->emp_fornecedoravaliacao;
-    }
-
-    function getEmp_fornecedorhomologacao() {
-        return $this->emp_fornecedorhomologacao;
-    }
-
-    function getEmp_fornecedorcontabil() {
-        return $this->emp_fornecedorcontabil;
-    }
-
-    function getEmp_fornecedorpercentual() {
-        return $this->emp_fornecedorpercentual;
-    }
-
-    function getEmp_fornecedornotaqualidade() {
-        return $this->emp_fornecedornotaqualidade;
-    }
-
-    function getEmp_tipofretecodigo() {
-        return $this->emp_tipofretecodigo;
-    }
-
-    function getEmp_fornecedorexigetabela() {
-        return $this->emp_fornecedorexigetabela;
-    }
-
-    function getEmp_pessoapadraoanfavea() {
-        return $this->emp_pessoapadraoanfavea;
-    }
-
-    function getEmp_pessoacodigoacessocotonlin() {
-        return $this->emp_pessoacodigoacessocotonlin;
     }
 
     function setEmp_fornecedoravaliacao($emp_fornecedoravaliacao) {
@@ -1003,6 +1016,14 @@ class ModelDELX_CAD_Pessoa{
         $this->emp_tipofretecodigo = $emp_tipofretecodigo;
     }
 
+    function setEmp_comprapercdifqtd($emp_comprapercdifqtd) {
+        $this->emp_comprapercdifqtd = $emp_comprapercdifqtd;
+    }
+
+    function setEmp_comprapercdifvalor($emp_comprapercdifvalor) {
+        $this->emp_comprapercdifvalor = $emp_comprapercdifvalor;
+    }
+
     function setEmp_fornecedorexigetabela($emp_fornecedorexigetabela) {
         $this->emp_fornecedorexigetabela = $emp_fornecedorexigetabela;
     }
@@ -1013,6 +1034,34 @@ class ModelDELX_CAD_Pessoa{
 
     function setEmp_pessoacodigoacessocotonlin($emp_pessoacodigoacessocotonlin) {
         $this->emp_pessoacodigoacessocotonlin = $emp_pessoacodigoacessocotonlin;
+    }
+
+    function setEmp_transportadorrntrc($emp_transportadorrntrc) {
+        $this->emp_transportadorrntrc = $emp_transportadorrntrc;
+    }
+
+    function setEmp_transportadorrntrccategori($emp_transportadorrntrccategori) {
+        $this->emp_transportadorrntrccategori = $emp_transportadorrntrccategori;
+    }
+
+    function setEmp_transportadorrntrcsituacao($emp_transportadorrntrcsituacao) {
+        $this->emp_transportadorrntrcsituacao = $emp_transportadorrntrcsituacao;
+    }
+
+    function setEmp_transportadortabelafrete($emp_transportadortabelafrete) {
+        $this->emp_transportadortabelafrete = $emp_transportadortabelafrete;
+    }
+
+    function setEmp_pessoacartaddr($emp_pessoacartaddr) {
+        $this->emp_pessoacartaddr = $emp_pessoacartaddr;
+    }
+
+    function setEmp_pessaenviaxmlcteoriginal($emp_pessaenviaxmlcteoriginal) {
+        $this->emp_pessaenviaxmlcteoriginal = $emp_pessaenviaxmlcteoriginal;
+    }
+
+    function setEmp_pessoadataalteracao($emp_pessoadataalteracao) {
+        $this->emp_pessoadataalteracao = $emp_pessoadataalteracao;
     }
     
 }

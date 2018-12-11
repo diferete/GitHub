@@ -366,9 +366,9 @@ class Controller {
 
             $xValorCampo = $this->preparaString($aCampos[$sNomeRequest]);
             //checa se o campo é data
-            if (Util::ValidaData($xValorCampo)) {
-                $xValorCampo = Util::dataMysql($xValorCampo);
-            }
+            /* if (Util::ValidaData($xValorCampo)) {
+              $xValorCampo = Util::dataMysql($xValorCampo);
+              } */
 
 
             //analisa o tipo de campo para tratamentos especiais
@@ -1153,8 +1153,7 @@ class Controller {
                 }
             }
 
-            if (is_a($oAtualTela, 'TabPanel')) { 
-                
+            if (is_a($oAtualTela, 'TabPanel')) {
                 foreach ($oAtualTela->getItems() as $oTabCampos) {
                     foreach ($oTabCampos->getACampos() as $oAbaCampos) {
                         foreach ($aAuto as $oAtualBanco) {
@@ -1168,49 +1167,16 @@ class Controller {
                                     }
                                 }
                             } else {
-                                   if (is_a($oAbaCampos, 'FieldSet')) {
-                                        foreach ($oAbaCampos->getACampos() as $oFsCampos) {
-                                                    foreach ($aAuto as $oAtualBanco) {
-                                                        if (is_array($oFsCampos)) {
-                                                            foreach ($oFsCampos as $oCampoFs) {
-                                                                if ($oCampoFs->getNome() == $oAtualBanco->getNomeModel()) {
-                                                                    //$oAtualTela->setSomenteLeitura(true);
-                                                                    if ($oCampoFs->getSValor() == null) {
-                                                                        $oCampoFs->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
-                                                                    }
-                                                                }
-                                                            }
-                                                        } else {
-                                                            if ($oFsCampos->getNome() == $oAtualBanco->getNomeModel()) {
-                                                                //$oAtualTela->setSomenteLeitura(true);
-                                                                if ($oFsCampos->getSValor() == null) {
-                                                                    $oFsCampos->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                       
-                                       
-                                       
-                                       
-                                       
-                                       
-                                       
-                                    }else{
-                                        if ($oAbaCampos->getNome() == $oAtualBanco->getNomeModel()) {
-                                            //$oAtualTela->setSomenteLeitura(true);
-                                            if ($oAbaCampos->getSValor() == null) {
-                                                $oAbaCampos->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
-                                            }
-                                        }
+                                if ($oAbaCampos->getNome() == $oAtualBanco->getNomeModel()) {
+                                    //$oAtualTela->setSomenteLeitura(true);
+                                    if ($oAbaCampos->getSValor() == null) {
+                                        $oAbaCampos->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
                                     }
+                                }
                             }
                         }
                     }
                 }
-                
-                
             }
         }
     }
@@ -2830,7 +2796,7 @@ class Controller {
         $this->View->criaTela();
         $aCamposTela = $this->View->getTela()->getCampos();
         $this->carregaModel($aCamposTela);
-        
+
         if ($this->View->getBGravaHistorico() == true) {
             $this->gravaHistorico('Inserir');
         }
@@ -3209,7 +3175,7 @@ class Controller {
 
         //traz lista campos
         $aCamposTela = $this->View->getTela()->getCampos();
-        
+
         if ($this->View->getBGravaHistorico() == true) {
             $this->gravaHistorico('Alterar');
         }
@@ -3284,6 +3250,7 @@ class Controller {
                 $sCampos = implode(',', $this->montaProxEtapa());
                 //passa id da etapa,id do processo,id do form,valor chavepk
                 //  echo 'requestAjax("","'.$sClasseDetalhe.'","acaoTelaDetalhe","'.$aDados[2].','.$aDados[3].','.$aDados[0].','.$aDados[4].','.$aDados[5].'","'.$sCampos.'");';
+                // $aDados[3]++;
                 echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . '","' . $sCampos . '");';
             }
         } else {

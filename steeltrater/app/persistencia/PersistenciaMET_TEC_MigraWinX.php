@@ -484,7 +484,7 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
                             $meuArquivo = $LogNome . '-PdoLogERRO.txt';
                             $data = $aStringLog[1];
                         }
-                        $gerenciaArquivo = fopen($_SERVER['DOCUMENT_ROOT'] . 'steeltrater/LOGS/ProdFilialProd/' . $meuArquivo, 'w') or die('Cannot open file:  ' . $meuArquivo);
+                        $gerenciaArquivo = fopen($_SERVER['DOCUMENT_ROOT'] . 'GitHub/steeltrater/LOGS/ProdFilialProd/' . $meuArquivo, 'w') or die('Cannot open file:  ' . $meuArquivo);
                         fwrite($gerenciaArquivo, $data);
                         fclose($gerenciaArquivo);
                     }

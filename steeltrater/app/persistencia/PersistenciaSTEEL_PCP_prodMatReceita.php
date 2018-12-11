@@ -32,7 +32,18 @@ class PersistenciaSTEEL_PCP_prodMatReceita extends Persistencia {
         $this->adicionaRelacionamento('expCamadaMax', 'expCamadaMax');
         
         $this->adicionaRelacionamento('tratrevencomp', 'tratrevencomp');
-
+        
+        $this->adicionaRelacionamento('fioDurezaSol', 'fioDurezaSol');
+        $this->adicionaRelacionamento('fioEsferio', 'fioEsferio');
+        $this->adicionaRelacionamento('fioDescarbonetaTotal', 'fioDescarbonetaTotal');
+        $this->adicionaRelacionamento('fioDescarbonetaParcial', 'fioDescarbonetaParcial');
+        $this->adicionaRelacionamento('DiamFinalMin', 'DiamFinalMin');
+        $this->adicionaRelacionamento('DiamFinalMax', 'DiamFinalMax');
+        
+        $this->adicionaRelacionamento('ppap', 'ppap');
+        
+        $this->adicionaRelacionamento('nrppap','nrppap');
+        
         $this->setSTop('30');
         $this->adicionaOrderBy('seqmat', 1);
         $this->adicionaJoin('DELX_PRO_Produtos', null,1, 'prod','pro_codigo');

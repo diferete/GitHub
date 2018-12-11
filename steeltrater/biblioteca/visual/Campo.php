@@ -104,6 +104,14 @@ class Campo {
     const TIPO_DECIMAL = 29;
     const TIPO_HISTORICO = 30;
     
+    const DIVISOR_SUCCESS = 31;
+    const DIVISOR_VERMELHO = 32;
+    const DIVISOR_INFO = 33;
+    const DIVISOR_WARNING = 34;
+    const DIVISOR_DARK = 35;
+    
+    const TIPO_TAGS = 36;
+    
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
@@ -923,7 +931,7 @@ class Campo {
                 . '       } '
                 . 'var value = $(this).val();'
                 . 'if(value !==""){'
-                . 'requestAjax("'.$this->getSIdTela().'-form","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $sCampoFiltro . ',' . $aCampoBusca[1] . '",false,true);'
+                . 'requestAjax("' . $this->getSIdTela() . '-form","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $sCampoFiltro . ',' . $aCampoBusca[1] . '",false,true);'
                 . '}'
                 . '});';
 
@@ -944,7 +952,7 @@ class Campo {
                 . '$("#' . $this->getId() . '").blur(function() {'
                 . 'var value = $(this).val();'
                 //.'requestAjax("","'.$sClasseBusca.'","'.$sMetodo.'",cars);'
-                . 'requestAjax("'.$this->getSIdTela().'-form","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $this->getNome() . ',' . $this->getSRetornoBusca() . '",cars);'
+                . 'requestAjax("' . $this->getSIdTela() . '-form","' . $sClasseBusca . '","' . $sMetodo . '",""+value+",' . $this->getId() . ',' . $buscaComposto . ',' . $this->getNome() . ',' . $this->getSRetornoBusca() . '",cars);'
                 . '});'
                 . '</script>';
         //.'requestAjax("","'.$sClasseBusca.'","'.$sMetodo.'","8,'.$this->getId().','.$buscaComposto.'");'
@@ -1398,15 +1406,15 @@ class Campo {
                         . '</div>'
                         . '</div>'
                         . '<script>'
-                        .'$("#' . $this->getId() . '").number(true,3);'
+                        . '$("#' . $this->getId() . '").number(true,3);'
                         //. '$("#' . $this->getId() . '").focus(function(){$("#' . $this->getId() . '").number(false,2);$("#' . $this->getId() . '").val("");});'
                         //. '$("#' . $this->getId() . '").number(true,2);'
-                       // . '$("#' . $this->getId() . '").focus(function(){$("#' . $this->getId() . '").number(false,2);$("#' . $this->getId() . '").val("");});'
+                        // . '$("#' . $this->getId() . '").focus(function(){$("#' . $this->getId() . '").number(false,2);$("#' . $this->getId() . '").val("");});'
                         //. '$("#' . $this->getId() . '").blur(function(){$("#' . $this->getId() . '").number(true,2);});'
                         . '</script>'
                         . $this->getRenderEventos();
                 break;
-            
+
             case self::TIPO_DECIMAL:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         //  .'<label for="input-money ">'.$this->getLabel().'</label>'
@@ -1446,9 +1454,9 @@ class Campo {
                         . '</div>';
                 break;
             case self::TIPO_RADIO:
-                $sCampo = '<div style="margin-top:8px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
-                        . '<div class="radio-group" style="margin-top:10px" >'
-                        . '<label for="' . $this->getId() . '"><b>' . $this->getLabel() . '</b></label>'
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        . '<div class="radio-group">'
+                        . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<div id="' . $this->getId() . '" >';
                 foreach ($this->getAItensRadio() as $key => $value) {
                     //verifica o item que deve checar em um update
@@ -1778,6 +1786,51 @@ class Campo {
             case self::TIPO_LINHA:
                 $sCampo = '<hr style="margin:7px; ">';
                 break;
+            case self::DIVISOR_SUCCESS:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<div class="panel panel-bordered panel-success" style="margin-bottom: 0px !important;margin-top: 10px !important;">'
+                        . '<div class="panel-heading" style="height:22px;">'
+                        . '<h3 class="panel-title">' . $this->getLabel() . '</h3>'
+                        . '</div>'
+                        . '</div>'
+                        . '</div>';
+                break;
+            case self::DIVISOR_VERMELHO:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<div class="panel panel-bordered panel-danger" style="margin-bottom: 0px !important;margin-top: 10px !important;">'
+                        . '<div class="panel-heading" style="height:22px;">'
+                        . '<h3 class="panel-title">' . $this->getLabel() . '</h3>'
+                        . '</div>'
+                        . '</div>'
+                        . '</div>';
+                break;
+            case self::DIVISOR_INFO:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<div class="panel panel-bordered panel-info" style="margin-bottom: 0px !important;margin-top: 10px !important;">'
+                        . '<div class="panel-heading" style="height:22px;">'
+                        . '<h3 class="panel-title">' . $this->getLabel() . '</h3>'
+                        . '</div>'
+                        . '</div>'
+                        . '</div>';
+                break;
+            case self::DIVISOR_WARNING:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<div class="panel panel-bordered panel-warning" style="margin-bottom: 0px !important;margin-top: 10px !important;">'
+                        . '<div class="panel-heading" style="height:22px;">'
+                        . '<h3 class="panel-title">' . $this->getLabel() . '</h3>'
+                        . '</div>'
+                        . '</div>'
+                        . '</div>';
+                break;
+            case self::DIVISOR_DARK:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<div class="panel panel-bordered panel-dark" style="margin-bottom: 0px !important;margin-top: 10px !important;">'
+                        . '<div class="panel-heading" style="height:22px;">'
+                        . '<h3 class="panel-title">' . $this->getLabel() . '</h3>'
+                        . '</div>'
+                        . '</div>'
+                        . '</div>';
+                break;
             case self::TIPO_CONTROLE:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
@@ -1854,6 +1907,18 @@ class Campo {
                         . $sTrigger
                         . '</script> '
                         . '</div>  ';
+                break;
+            case self::TIPO_TAGS:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
+                        . '<input style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '"  id="' . $this->getId() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
+                        . 'placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '</div>'
+                        . '<script>'
+                        . '$("#' . $this->getId() . '").tagsInput();'
+                        . '</script>';
+
+
                 break;
         }
         return $sCampo;

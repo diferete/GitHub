@@ -16,6 +16,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oData = new CampoConsulta('Data','data', CampoConsulta::TIPO_DATA);
         $oCodigo = new CampoConsulta('Codigo','prod');
         $oProdes = new CampoConsulta('Descrição','prodes');
+        
         $oReceitaDes = new CampoConsulta('Receita','receita_des');
         $oQuant = new CampoConsulta('Quantidade','quant', CampoConsulta::TIPO_DECIMAL);
         $oPeso = new CampoConsulta('Peso','peso', CampoConsulta::TIPO_DECIMAL);
@@ -26,6 +27,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
         
         $oDocumento = new CampoConsulta('NotaEnt', 'documento');
+        $oTipOrdem = new CampoConsulta('Tipo','tipoOrdem');
         
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL,1);
         $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL,2);
@@ -48,13 +50,14 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         
-        $this->addCampos($oOp,$oSituacao,$oData,$oCodigo,$oProdes,$oPeso,$oRetrabalho,$oDocumento);
+        $this->addCampos($oOp,$oTipOrdem,$oSituacao,$oData,$oCodigo,$oProdes,$oPeso,$oRetrabalho,$oDocumento);
         
        
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir',Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecifico', '', false, 'OpSteel1',false,'',false,'',true);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'STEEL_PCP_OrdensFab', 'geraPdfOp', '', false, 'OpSteel1',false,'',false,'',true);
+       // $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar FIO MÁQ', 'STEEL_PCP_OrdensFab', 'acaoMostraRelTESTE', '', false, 'RelOpSteel3',false,'',false,'',true);
+       // $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'STEEL_PCP_OrdensFab', 'geraPdfOp', '', false, 'OpSteel1',false,'',false,'',true);
         $oDrop2 = new Dropdown('Açao', Dropdown::TIPO_DARK);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Cancelar OP', 'STEEL_PCP_OrdensFab', 'msgCancelaOp', '', false, '');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar para Aberta', 'STEEL_PCP_OrdensFab', 'msgAbertaOp', '', false, '');
@@ -93,10 +96,13 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oDocumento->addValidacao(false, Validacao::TIPO_STRING);
         if(method_exists($oDados, 'getNfsnfnro')) 
          {$oDocumento->setSValor($oDados->getNfsnfnro());}
-         
         
+        $oTipo = new Campo('Tipo OP','tipoOrdem', Campo::TIPO_SELECT,1);
+        $oTipo->addItemSelect('P','Padrão');
+        $oTipo->addItemSelect('F','Fio Máquina'); 
+        $oTipo->addItemSelect('A','Arame');
+       
          
-        
         
         //cliente
         $oEmp_codigo = new Campo('Cliente','emp_codigo',Campo::TIPO_BUSCADOBANCOPK,2);
@@ -145,6 +151,24 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oCodigo->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
         $oCodigo->addCampoBusca('pro_descricao',$oProdes->getId(),  $this->getTela()->getId());
         
+        //produto final
+        $oProdFinal = new Campo('ProdutoFinal','prodFinal', Campo::TIPO_BUSCADOBANCOPK,2);
+       // $oProdFinal->setBCampoBloqueado(true);
+        
+        $oProdFinalDes = new Campo('DescFinal','prodesFinal', Campo::TIPO_BUSCADOBANCO,4);
+        $oProdFinalDes->setBOculto(true);
+        $oProdFinalDes->setSIdPk($oProdFinal->getId());
+        $oProdFinalDes->setClasseBusca('DELX_PRO_Produtos');
+        $oProdFinalDes->addCampoBusca('pro_codigo', '','');
+        $oProdFinalDes->addCampoBusca('pro_descricao', '','');
+        $oProdFinalDes->setSIdTela($this->getTela()->getId());
+      //  $oProdFinalDes->setBCampoBloqueado(true);
+        
+        $oProdFinal->setClasseBusca('DELX_PRO_Produtos');
+        $oProdFinal->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
+        $oProdFinal->addCampoBusca('pro_descricao',$oProdFinalDes->getId(),  $this->getTela()->getId());
+        
+       
         //grid para escolha da prod/mat/receita 
         
         $oGridMat = new campo('Produto/Material/Receita', 'gridMat', Campo::TIPO_GRID, 11, 11, 11, 11, 150);
@@ -193,11 +217,18 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         
         $oTempRev = new Campo('Temp.Rev','temprev', Campo::TIPO_DECIMAL,1);
         //monta o evento para buscar receita padrão
-    
-        $sEvento1 = 'var codigo = $("#'.$oCodigo->getId().'").val();'
-          . 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_prodMatReceita","getDadosGrid","' . $oGridMat->getId() . '","consultaMatOrdem");';
+        
+        $sEvento1 = 'var codigo = $("#'.$oCodigo->getId().'").val(); var tipoOrdem = $("#'.$oTipo->getId().'").val();'
+          . 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_prodMatReceita","getDadosGrid","' . $oGridMat->getId() . '","consultaMatOrdem");'
+    . 'if(tipoOrdem!=="A"){$("#'.$oProdFinal->getId().'").val(codigo);}';
        
         $oCodigo->addEvento(Campo::EVENTO_SAIR,$sEvento1);
+        
+        $sEvento2 = ' var prodes = $("#'.$oProdes->getId().'").val(); var tipoOrdem = $("#'.$oTipo->getId().'").val();' 
+                    . 'if(tipoOrdem!=="A"){$("#'.$oProdFinalDes->getId().'").val(prodes);}';
+                
+        
+        $oProdes->addEvento(Campo::EVENTO_SAIR,$sEvento2);
         
         $oLinha = new Campo('','linha', Campo::TIPO_LINHA,12);
         $oLinha->setApenasTela(true);
@@ -216,6 +247,11 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oPeso->addValidacao(false, Validacao::TIPO_STRING);
         if(method_exists($oDados, 'getPeso')) 
          {$oPeso->setSValor(number_format($oDados->getPeso(), 2, ',', '.'));}
+         
+         $oValorEnt = new campo('Valor','vlrNfEnt', Campo::TIPO_DECIMAL,1);
+         $oValorEnt->setSValor('0,00');
+          if(method_exists($oDados, 'getVlrNfEnt')) 
+         {$oValorEnt->setSValor(number_format($oDados->getVlrNfEnt(), 2, ',', '.'));}
          
         
         
@@ -285,13 +321,13 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         
         $this->addCampos(array($oOp,$oOrigem,$oData,$oHora,$oUser,$oSeqProdNr, $oSituacao),
                 $oLinha,
-                array($oDocumento),
+                array($oDocumento,$oTipo),
                 array($oEmp_codigo,$oEmp_des),
-                array($oCodigo,$oProdes),
+                array($oCodigo,$oProdes,$oProdFinal,$oProdFinalDes),
                 $oGridMat,
                 array($oCodMat, $oMatDes,$oReceita,$oReceitaDes,$oSeqMat),
                $oLinha,
-                array($oOpCli,$oQuant,$oPeso,$oTempRev),$oObs,$oDataPrev,$oField1);
+                array($oOpCli,$oQuant,$oPeso,$oValorEnt,$oTempRev),$oObs,$oDataPrev,$oField1);
     }
     
    

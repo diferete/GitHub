@@ -250,8 +250,11 @@ class Util {
         }
     }
 
-    /*     * ** */
-
+    /**
+     * Escapa aspas para situações onde usa setSValor()
+     * 
+     * @param string $sString Recebe string para escapar aspas
+     **/
     public static function limpaString($sString) {
 
         $sStringLimpa = str_replace("\n", " ", $sString);
@@ -259,6 +262,22 @@ class Util {
         $sStringLimpa2 = str_replace("\r", "", $sStringLimpa1);
 
         return $sStringLimpa2;
+    }
+
+    /**
+     * Converte data do padrão Americano/SQL com traços para Brasileiro com barras em situações unde usa setSValor()
+     * 
+     * @param string $sData Recebe string data para converter
+     **/
+    public static function converteData($sData) {
+        $data = explode('-', $sData);
+        $d = $data[2];
+        $m = $data[1];
+        $a = $data[0];
+
+        $sDataConvert = $d . "/" . $m . "/" . $a;
+        
+        return $sDataConvert;
     }
 
 }

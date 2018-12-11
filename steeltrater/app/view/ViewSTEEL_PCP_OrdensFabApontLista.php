@@ -149,7 +149,7 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         $oBtnInserir->setIMarginTop(7);
         //id do grid
 
-       $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabLista","insereLista","' . $this->getTela()->getId() . '-form","");';
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabLista","insereLista","' . $this->getTela()->getId() . '-form","");';
 
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());

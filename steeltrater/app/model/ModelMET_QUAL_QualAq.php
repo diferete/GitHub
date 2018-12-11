@@ -40,6 +40,60 @@ Class ModelMET_QUAL_QualAq {
     private $acao;
     private $tipocausa;
     private $desctipocausa;
+    private $emailEquip;
+    private $codsetor;
+    private $descsetor;
+    private $dtcancela;
+    private $obscancela;
+    private $usucancela;
+    
+    function getEmailEquip() {
+        return $this->emailEquip;
+    }
+
+    function getCodsetor() {
+        return $this->codsetor;
+    }
+
+    function getDescsetor() {
+        return $this->descsetor;
+    }
+
+    function getDtcancela() {
+        return $this->dtcancela;
+    }
+
+    function getObscancela() {
+        return $this->obscancela;
+    }
+
+    function getUsucancela() {
+        return $this->usucancela;
+    }
+
+    function setEmailEquip($emailEquip) {
+        $this->emailEquip = $emailEquip;
+    }
+
+    function setCodsetor($codsetor) {
+        $this->codsetor = $codsetor;
+    }
+
+    function setDescsetor($descsetor) {
+        $this->descsetor = $descsetor;
+    }
+
+    function setDtcancela($dtcancela) {
+        $this->dtcancela = $dtcancela;
+    }
+
+    function setObscancela($obscancela) {
+        $this->obscancela = $obscancela;
+    }
+
+    function setUsucancela($usucancela) {
+        $this->usucancela = $usucancela;
+    }
 
     function getTipocausa() {
         return $this->tipocausa;

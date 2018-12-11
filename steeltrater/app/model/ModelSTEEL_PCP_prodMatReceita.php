@@ -26,6 +26,78 @@ class ModelSTEEL_PCP_prodMatReceita {
     private $seqmat;
     private $tratrevencomp;
     
+    private $fioDurezaSol;
+    private $fioEsferio;
+    private $fioDescarbonetaTotal;
+    private $fioDescarbonetaParcial;
+    private $DiamFinalMin;
+    private $DiamFinalMax;
+    
+    private $ppap;
+    private $nrppap;
+    
+    function getNrppap() {
+        return $this->nrppap;
+    }
+
+    function setNrppap($nrppap) {
+        $this->nrppap = $nrppap;
+    }
+    
+    function getPpap() {
+        return $this->ppap;
+    }
+
+    function setPpap($ppap) {
+        $this->ppap = $ppap;
+    }
+    function getFioDurezaSol() {
+        return $this->fioDurezaSol;
+    }
+    function getFioEsferio() {
+        return $this->fioEsferio;
+    }
+    function getFioDescarbonetaTotal() {
+        return $this->fioDescarbonetaTotal;
+    }
+
+    function getFioDescarbonetaParcial() {
+        return $this->fioDescarbonetaParcial;
+    }
+
+    function getDiamFinalMin() {
+        return $this->DiamFinalMin;
+    }
+
+    function getDiamFinalMax() {
+        return $this->DiamFinalMax;
+    }
+
+    function setFioDurezaSol($fioDurezaSol) {
+        $this->fioDurezaSol = $fioDurezaSol;
+    }
+
+    function setFioEsferio($fioEsferio) {
+        $this->fioEsferio = $fioEsferio;
+    }
+
+    function setFioDescarbonetaTotal($fioDescarbonetaTotal) {
+        $this->fioDescarbonetaTotal = $fioDescarbonetaTotal;
+    }
+
+    function setFioDescarbonetaParcial($fioDescarbonetaParcial) {
+        $this->fioDescarbonetaParcial = $fioDescarbonetaParcial;
+    }
+
+    function setDiamFinalMin($DiamFinalMin) {
+        $this->DiamFinalMin = $DiamFinalMin;
+    }
+
+    function setDiamFinalMax($DiamFinalMax) {
+        $this->DiamFinalMax = $DiamFinalMax;
+    }
+
+         
     function getSuperEscala() {
         return $this->SuperEscala;
     }

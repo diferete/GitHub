@@ -17,7 +17,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         parent::beforeUpdate();
         
         $this->verificaCampos();
-       
+        $this->verificaOp();
      
         
         $aRetorno = array();
@@ -46,6 +46,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         parent::beforeInsert();
 
         $this->verificaCampos();
+        $this->verificaOp();
         
        
 
@@ -107,6 +108,9 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $Peso = $oPeso->retornaPeso($oModelImp->getNfsitcod());
         $PesoTotal = ($Peso*$oModelImp->getNfsitqtd());
         $oModelImp->setPeso($PesoTotal);
+        //busca o preço da nota
+        $aCamposChave['nfsitcod'] = $oModelImp->getNfsitcod();
+        $oModelImp->setVlrNfEnt($this->Persistencia->buscaPreço($aCamposChave));
         
         $this->View->setAParametrosExtras($oModelImp);
         
@@ -137,12 +141,73 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
        foreach ($aOps as $key => $value) {
            $aOpsEnv = explode('=', $value);
            $sVethor.= 'ops[]='.$aOpsEnv[1].'&';
+           $aOp[$key]=$aOpsEnv[1];
+       }
+       //verifica se tem mais de um tipo de op selecionado
+        $aTipo= array();
+        foreach ($aOp as $iOp) {
+            $this->Persistencia->limpaFiltro();
+            $this->Persistencia->adicionaFiltro('op',$iOp);
+            $oOps = $this->Persistencia->consultarWhere();
+            $aTipo[]=$oOps->getTipoOrdem();
+        }
+        $aTipOps = array_unique($aTipo);
+        if(count($aTipOps)==1){
+       
+       if($aTipOps[0]=='P'){
+            // exemplo.php?vetor[]=valor1&vetor[]=valor2&vetor[]=valor3
+
+              $sSistema ="app/relatorio";
+              $sRelatorio = 'OpSteel1.php?'.$sVethor;
+
+              $sCampos.= $this->getSget();
+
+              $sCampos.= '&email=N'; 
+
+
+              $sCampos.='&output=tela';
+              $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "'.$sRel.$sCampos.'", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
+              echo $oWindow; 
+       }else{
+            $sSistema ="app/relatorio";
+            $sRelatorio = 'RelOpSteel3.php?'.$sVethor;
+        
+            $sCampos.= $this->getSget();
+        
+            $sCampos.= '&email=N'; 
+       
+        
+            $sCampos.='&output=tela';
+            $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "'.$sRel.$sCampos.'", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
+            echo $oWindow; 
+       }
+        }else{
+            $oModal= new Modal('Atenção!', 'Escolha apenas um tipo de OP para impressões múltiplas!', Modal::TIPO_AVISO, false);
+           echo $oModal->getRender();
+        }
+         
+       
+        }
+        
+        /**
+    * Imprime as ordens de produção
+    */
+   public function acaoMostraRelTESTE($sDados) {
+       
+       parent::acaoMostraRelEspecifico($sDados);
+       
+       $aOps = $_REQUEST['parametrosCampos'];
+       sort($aOps);
+       $sVethor='';
+       foreach ($aOps as $key => $value) {
+           $aOpsEnv = explode('=', $value);
+           $sVethor.= 'ops[]='.$aOpsEnv[1].'&';
        }
        
       // exemplo.php?vetor[]=valor1&vetor[]=valor2&vetor[]=valor3
        
         $sSistema ="app/relatorio";
-        $sRelatorio = 'OpSteel1.php?'.$sVethor;
+        $sRelatorio = 'RelOpSteel3.php?'.$sVethor;
         
         $sCampos.= $this->getSget();
         
@@ -418,6 +483,13 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $this->Model->setExpCamadaMax($oDadosMetRec->getExpCamadaMax());
         $this->Model->setTratrevencomp($oDadosMetRec->getTratrevencomp());
         
+        $this->Model->setFioDurezaSol($oDadosMetRec->getFioDurezaSol());
+        $this->Model->setFioEsferio($oDadosMetRec->getFioEsferio());
+        $this->Model->setFioDescarbonetaTotal($oDadosMetRec->getFioDescarbonetaTotal());
+        $this->Model->setFioDescarbonetaParcial($oDadosMetRec->getFioDescarbonetaParcial());
+        $this->Model->setDiamFinalMin($oDadosMetRec->getDiamFinalMin());
+        $this->Model->setDiamFinalMax($oDadosMetRec->getDiamFinalMax());
+        
     }
  
     
@@ -490,6 +562,22 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
            $oMensagem = new Mensagem('Erro!','A OP '.$aCamposChave['op'].' não foi colocada em Retrabalho! >>>>'.$aRetorno[1], Mensagem::TIPO_ERROR);
            echo $oMensagem->getRender();  
         }    
+    }
+    
+    public function verificaOp(){
+        if($this->Model->getTipoOrdem()=='A'){
+            if($this->Model->getProdFinal()==null || $this->Model->getProdFinal()==''){
+                $oModal = new Modal('Atenção!','É necessário informar um produto final.', Modal::TIPO_AVISO, false, true);
+                echo $oModal->getRender();
+                exit();
+            }
+            
+            if($this->Model->getProdFinal()==$this->Model->getProd()){
+               $oModal = new Modal('Atenção!','O tipo da OP é de Arame no entando o produto final é igual ao produto da OP, altere o produto final!', Modal::TIPO_AVISO, false, true);
+                echo $oModal->getRender();
+                exit(); 
+            }
+        }
     }
         
 }

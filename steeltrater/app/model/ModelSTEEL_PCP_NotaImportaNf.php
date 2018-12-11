@@ -28,6 +28,18 @@ class ModelSTEEL_PCP_NotaImportaNf {
       private $RoeObs;
       private $opSteel;
       
+      private $vlrNfEnt;
+      
+      function getVlrNfEnt() {
+          return $this->vlrNfEnt;
+      }
+
+      function setVlrNfEnt($vlrNfEnt) {
+          $this->vlrNfEnt = $vlrNfEnt;
+      }
+
+            
+      
       function getOpSteel() {
           return $this->opSteel;
       }

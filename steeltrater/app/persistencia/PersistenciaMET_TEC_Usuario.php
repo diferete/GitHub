@@ -195,4 +195,16 @@ class PersistenciaMET_TEC_Usuario extends Persistencia{
             
             return $aRetorno;
     }
+    
+    public function buscaSetor() {
+        $sSql = "select MET_CAD_setores.descsetor from"
+                . " MET_CAD_setores left outer join MET_TEC_usuario"
+                . " on MET_CAD_setores.codsetor = MET_TEC_usuario.codsetor"
+                . " where usucodigo ='" . $_SESSION['codUser'] . "'";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $sRetorno = $oRow->descsetor;
+
+        return $sRetorno;
+    }
 }

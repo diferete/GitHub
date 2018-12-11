@@ -34,6 +34,8 @@ class PersistenciaSTEEL_PCP_NotaImportaNf extends Persistencia{
         
         
         
+        
+        
         $this->adicionaOrderBy('nfsnfnro');
         $this->adicionaOrderBy('nfsitcod');
         

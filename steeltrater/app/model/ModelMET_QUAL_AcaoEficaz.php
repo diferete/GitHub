@@ -17,7 +17,25 @@ class ModelMET_QUAL_AcaoEficaz {
     private $usucodigo;
     private $usunome;
     private $eficaz;
+    private $obs;
+    private $sit;
 
+    function getObs() {
+        return $this->obs;
+    }
+
+    function getSit() {
+        return $this->sit;
+    }
+
+    function setObs($obs) {
+        $this->obs = $obs;
+    }
+
+    function setSit($sit) {
+        $this->sit = $sit;
+    }
+   
     function getEficaz() {
         return $this->eficaz;
     }

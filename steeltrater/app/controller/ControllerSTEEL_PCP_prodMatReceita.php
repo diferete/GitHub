@@ -86,4 +86,32 @@ class ControllerSTEEL_PCP_prodMatReceita extends Controller {
       
     }
     
+    public function antesExcluir($sParametros = null) {
+        parent::antesExcluir($sParametros);
+        
+        $oProduto = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oProduto->Persistencia->adicionaFiltro('seqmat',$this->Model->getSeqmat());
+        $iContVinculo = $oProduto->Persistencia->getCount();
+        
+        if($iContVinculo==0){
+            
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+            
+        }else{
+            
+            $oModal = new Modal('Atenção', 'Esse produto não pode ser excluído, pois está vinculado a uma Ordem de Produção!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }
+       }
+    
+       
+    public function mostraRelItensPPAP($renderTo, $sMetodo = '') {                
+        parent::mostraTelaRelatorio($renderTo, 'RelItensPPAP');                          
+           
+    }  
+         
 }

@@ -66,15 +66,15 @@ class Layout {
      * Função para recuperar a renderização
      */
     public function getRender() {
-        //verifica se Ã© tab ou nÃ£o 
+        //verifica se é tab ou não 
         if ($this->getSTipoLayout() == 'Aba') {
             foreach ($this->aItems as $key => $oTab) {
-                //verifica se Ã© array
+                //verifica se é array
                 if (is_array($oTab)) {
                     $sTab .= $this->getRenderCampos($oTab);
                 } else {
 
-                    //verifica se nÃ£o Ã© campo
+                    //verifica se não é campo
                     if (get_class($oTab) === 'Campo') {
                         $sTab .= $this->getRenderCampos($oTab);
                     } else {
@@ -87,10 +87,10 @@ class Layout {
                         }
                         //fecha ul das abas
                         $sAbas .= '</ul>';
-                        //inicia a renderizaÃ§Ã£o do conteÃºdo
+                        //inicia a renderização do conteúdo
                         $sContAbas .= ' <div class="tab-content padding-top-20">';
                         foreach ($oTab->getItems() as $key => $oContAba) {
-                            //inicializa o conteÃºdo
+                            //inicializa o conteúdo
                             $sContAbas .= $oContAba->getRenderContAba();
                             //renderiza os campos
                             foreach ($oContAba->getACampos() as $key => $aCampo) {
