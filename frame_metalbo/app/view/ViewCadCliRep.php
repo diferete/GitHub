@@ -140,7 +140,7 @@ class ViewCadCliRep extends View {
         $oBanco->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório');
 
         $oCarteira = new Campo('Carteira', 'empcobcar', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oCarteira->addItemSelect('2', 'SIMPLES');
+        $oCarteira->addItemSelect('1', 'SIMPLES');
         $oCarteira->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório');
 
         $oComer = new campo('Cliente', 'comer', Campo::TIPO_CHECK, 1);

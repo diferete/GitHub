@@ -49,7 +49,7 @@ class ViewSistema extends View {
         $sTela = '<!DOCTYPE html>'
                 . '<html><!-- class="no-js" lang="en"-->'
                 . '<head> '
-                //.'<meta charset="utf-8">'
+                
                 . '<meta http-equiv="X-UA-Compatible" content="IE=edge">'
                 . '<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">'
                 . '<meta name="description" content="bootstrap admin template">'
@@ -72,7 +72,13 @@ class ViewSistema extends View {
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/slidepanel/slidePanel.css">'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/flag-icon-css/flag-icon.css">'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/bootstrap-sweetalert/sweet-alert.css">'
+               
+               .'<!--Tag input-->'
+               .'<link rel="stylesheet" type="text/css" href="biblioteca/tagsinput/src/jquery.tagsinput.css" />'
+                
+                
                 . '<!-- Datatables -->'
+                
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">'
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">'
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Buttons/css/buttons.dataTables.min.css">'
@@ -107,8 +113,14 @@ class ViewSistema extends View {
                 . '<link href="biblioteca/assets/vendor/bootstrap-fileinput/css/fileinput.css" rel="stylesheet" type="text/css"/>'
                 . '<!-- Summernote - Editor de Texto-->'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/summernote/summernote.css">'
+                
                 . '<script src="biblioteca/assets/vendor/summernote/summernote.min.js"></script>'
                 . '<script src="biblioteca/assets/vendor/summernote/lang/summernote-pt-BR.js"></script>'
+                
+                    
+                
+                
+                    
                 . '<script>'
                 . 'Breakpoints();'
                 . '</script>'
@@ -649,6 +661,8 @@ class ViewSistema extends View {
                 . '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>'
                 . '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput_locale_pt-BR.js" ></script>'
                 . '<!-- Core -->'
+                
+               
                 . '<script src="biblioteca/jquery-number/jquery.number.js"></script>'
                 . '<script src="biblioteca/jquery-number/jquery.number.min.js"></script>'
                 . '<script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>'
@@ -689,6 +703,11 @@ class ViewSistema extends View {
                 . '<script src="biblioteca/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>'
                 . '<script src="biblioteca/assets/js/locales/bootstrap-datepicker.pt-BR.min.js" type="text/javascript"></script>'
                 . '<script src="biblioteca/assets/js/jquery.maskedinput.js" type="text/javascript"></script>'
+                .'<!--Taginput-->'
+                .'<script src="biblioteca/tagsinput/src/jquery.tagsinput.js"></script>'   
+                
+                
+                
                 . '<!-- Select2 -->'
                 . '<script src="biblioteca/assets/js/select2.min.js" type="text/javascript"></script>'
                 . '<!-- Mascara de dinheiro -->'
@@ -697,6 +716,9 @@ class ViewSistema extends View {
                 . '<script src="biblioteca/assets/vendor/toastr/toastr.js"></script> '
                 . '<!-- Plugins For This Page -->'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/formvalidation/formValidation.css">'
+               
+                
+                
                 . '<script>'
                 . ' (function(document, window, $) {'
                 . ' "use strict";'
@@ -729,6 +751,7 @@ class ViewSistema extends View {
                 . ' }'
                 . ' };'
                 . '</script>'
+                
                 . '</body>'
                 . '<script>'
                 . $this->MontaTab()
@@ -910,6 +933,9 @@ class ViewSistema extends View {
                 . '</a>'
                 . '</br>'
                 . '</br><img class="img-circle img-bordered img-bordered-primary" width="150" height="150" src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1"></p>'
+                
+               
+                
                 . '</div>'
                 . '</div>'
                 . '</div>';

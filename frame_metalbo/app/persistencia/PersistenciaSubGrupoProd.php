@@ -13,7 +13,7 @@ class PersistenciaSubGrupoProd extends Persistencia{
         $this->setTabela('widl.prod05');
         
         $this->adicionaRelacionamento('grucod','grucod',true);
-        $this->adicionaRelacionamento('subcod','subcod');
+        $this->adicionaRelacionamento('subcod','subcod',true);
         $this->adicionaRelacionamento('subdes', 'subdes');
         
         $this->adicionaOrderBy('subcod',1);

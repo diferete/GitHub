@@ -14,6 +14,7 @@ $sSitProj = $_REQUEST['sitproj'];
 $sSitVenda = $_REQUEST['sitvendas'];
 $sSitCli = $_REQUEST['sitcli'];
 $sSitGeral = $_REQUEST['geralsit'];
+$sTipoProd = $_REQUEST['grucod'];
 
 class PDF extends FPDF {
 
@@ -86,7 +87,7 @@ $sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_pro
         . " on tbqualNovoProjeto.empcod  = widl.EMP01.empcod"
         . " where dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "' ";
 
-if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGeral !== '')) {
+if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGeral !== '') || ($sTipoProd !== '')) {
     if (($sSitProj !== '')) {
         $sql .= " and ";
         $sql .= " sitproj ='" . $sSitProj . "'";
@@ -102,6 +103,10 @@ if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGera
     if (($sSitGeral !== '')) {
         $sql .= " and ";
         $sql .= " sitgeralproj ='" . $sSitGeral . "'";
+    }
+    if (($sTipoProd !== '')) {
+        $sql .= " and ";
+        $sql .= " grucod = '" . $sTipoProd . "'";
     }
 }
 $sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"

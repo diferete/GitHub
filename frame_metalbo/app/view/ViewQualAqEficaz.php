@@ -16,11 +16,13 @@ class ViewQualAqEficaz extends View {
         parent::criaTela();
 
         $aDados = $this->getAParametrosExtras();
+
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2);
-        $oFilcgc->setSValor($aDados['EmpRex_filcgc']);
+        $oFilcgc->setSValor($aDados[0]);
         $oFilcgc->setBCampoBloqueado(true);
+
         $oNr = new Campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1);
-        $oNr->setSValor($aDados['nr']);
+        $oNr->setSValor($aDados[1]);
         $oNr->setBCampoBloqueado(true);
 
         $oSeq = new Campo('', 'seq', Campo::TIPO_TEXTO, 1);
@@ -56,25 +58,29 @@ class ViewQualAqEficaz extends View {
 
         $oGridAq = new campo('Eficácia', 'gridEficaz', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
 
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
+        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz');
+        $oGridAq->getOGrid()->addModal($oBotaoModal);
+
         $oSeqGrid = new CampoConsulta('Seq.', 'seq');
-        $oSeqGrid->setILargura(30);
 
         $oNrGrid = new CampoConsulta('Nr', 'nr');
-        $oNrGrid->setILargura(30);
 
         $oAcaoGrid = new CampoConsulta('O que verificar', 'acao');
-        $oAcaoGrid->setILargura(600);
 
         $oRespNomeGrid = new CampoConsulta('Quem', 'usunome');
 
-
-
-
         $oDataPrevGrid = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
 
+        $oDataApontaGrid = new CampoConsulta('Apontamento', 'datareal', CampoConsulta::TIPO_DATA);
 
-       // $oGridAq->setBGridResponsivo(true);
-        $oGridAq->addCampos($oNrGrid, $oSeqGrid, $oAcaoGrid, $oDataPrevGrid, $oRespNomeGrid);
+        $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+
+        $oGridAq->addCampos($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
         $oGridAq->setSController('QualAqEficaz');
         $oGridAq->addParam('seq', '0');
 
@@ -98,7 +104,6 @@ class ViewQualAqEficaz extends View {
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHA);
 
-
         $sAcaoBusca = 'requestAjax("' . $this->getTela()->getId() . '-form","QualAqEficaz","getDadosGrid","' . $oGridAq->getId() . '","consultaEficaz");';
         $this->getTela()->setSAcaoShow($sAcaoBusca);
 
@@ -108,26 +113,96 @@ class ViewQualAqEficaz extends View {
     public function consultaEficaz() {
         $oGridEf = new Grid("");
 
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
+        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz');
 
+        //$this->addModaisDetalhe($oBotaoModal);
 
         $oSeqGrid = new CampoConsulta('Seq.', 'seq');
-        $oSeqGrid->setILargura(30);
 
         $oNrGrid = new CampoConsulta('Nr', 'nr');
-        $oNrGrid->setILargura(30);
 
         $oAcaoGrid = new CampoConsulta('O que verificar', 'acao');
-        $oAcaoGrid->setILargura(600);
 
         $oDataPrevGrid = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
 
+        $oDataApontaGrid = new CampoConsulta('Apontamento', 'datareal', CampoConsulta::TIPO_DATA);
+
         $oRespNomeGrid = new CampoConsulta('Quem', 'usunome');
 
-        $oGridEf->addCampos($oNrGrid, $oSeqGrid, $oAcaoGrid, $oDataPrevGrid, $oRespNomeGrid);
+        $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+
+        $oGridEf->addCampos($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
 
 
         $aCampos = $oGridEf->getArrayCampos();
         return $aCampos;
+    }
+
+ public function addeventoConc() {
+        parent::addeventoConc();
+
+        $aValor = $this->getAParametrosExtras();
+        $sRequest = 'requestAjax("","QualAq","envMailTodosMsg","' . $aValor[0] . ',' . $aValor[1] . ',concluir");';
+
+        return $sRequest;
+    }
+
+    public function criaModalApontaEficaz() {
+        parent::criaModal();
+
+        $this->setBTela(true);
+        $oDados = $this->getAParametrosExtras();
+
+        $oEmpresa = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oEmpresa->setSValor($oDados->getFilcgc());
+        $oEmpresa->setBCampoBloqueado(true);
+
+        $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 1, 12, 12);
+        $oNr->setSValor($oDados->getNr());
+        $oNr->setBCampoBloqueado(true);
+
+        $oSeqEnv = new Campo('Sêq. Plano de Ação', 'seq', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oSeqEnv->setSValor($oDados->getSeq());
+        $oSeqEnv->setBCampoBloqueado(true);
+        $oSeqEnv->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+        $oSeqEnv->setApenasTela(true);
+
+        $oEficaz = new Campo('Eficaz?', 'eficaz', Campo::TIPO_RADIO, 4, 4, 12, 12);
+        $oEficaz->addItenRadio('Sim', 'Sim! foi eficaz.');
+        $oEficaz->addItenRadio('Não', 'Não! não foi eficaz!');
+        if ($oDados->getEficaz() != null) {
+            $oEficaz->setSValor($oDados->getEficaz());
+        }
+
+        $oObs = new Campo('Observação final', 'obs', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oObs->setSCorFundo(Campo::FUNDO_AMARELO);
+        if ($oDados->getObs() != null) {
+            $oObs->setSValor(Util::limpaString($oDados->getObs()));
+        }
+
+        $oDataReali = new Campo('Data realização', 'datareal', Campo::TIPO_DATA, 3, 3, 12, 12);
+        $oDataReali->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+        if ($oDados->getDatareal() != null) {
+            $oDataReali->setSValor(Util::converteData($oDados->getDatareal()));
+        }
+
+        //botão inserir os dados
+        $oBtnInserir = new Campo('Gravar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaEfi","' . $this->getTela()->getId() . '-form","");';
+        $oBtnInserir->getOBotao()->addAcao($sAcaoAponta);
+
+
+        $oBtnNormal = new Campo('Ret. Aberta', 'btnNormal', Campo::TIPO_BOTAOSMALL, 2);
+        $sAcaoRet = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaRetEfi","' . $this->getTela()->getId() . '-form","");';
+        $oBtnNormal->getOBotao()->addAcao($sAcaoRet);
+        $oBtnNormal->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
+
+        $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), $oEficaz, $oDataReali, array($oObs, $oBtnInserir, $oBtnNormal));
     }
 
 }

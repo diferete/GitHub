@@ -39,8 +39,6 @@ class ViewQualNovoProjVerif extends View {
         $oVerifDesenResp->setIMarginTop(3);
         $oVerifDesenAnx = new Campo('Anexo', 'verifDesenhoAnex', Campo::TIPO_UPLOAD, 2);
 
-
-
         $oLabel2 = new Campo('Verificação da relação de ferramentas por produto', 'label1', Campo::TIPO_LABEL, 3);
         $oLabel2->setIMarginTop(28);
         $oVerifRelFerrPrev = new Campo('Previsão', 'verifRelFerrPrev', Campo::TIPO_DATA, 2);

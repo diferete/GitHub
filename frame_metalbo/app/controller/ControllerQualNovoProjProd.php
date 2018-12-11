@@ -19,16 +19,17 @@ class ControllerQualNovoProjProd extends Controller {
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        //procedimentos antes de criar a tela
-        $this->antesAlterar($aDados);
 
-        $oRetorno = $this->Persistencia->buscaSitCli($aCamposChave['nr']);
+        $sRetorno = $this->Persistencia->buscaSitCli($aCamposChave['nr']);
 
-        if ($oRetorno->sitcliente != 'Aprovado') {
-            $oMensagem = new Modal('Atenção', 'Projeto não foi Aprovado pelo cliente', Modal::TIPO_AVISO, false, true, true);
+        if ($sRetorno != 'Aprovado') {
+            $oMensagem = new Modal('Atenção!', 'O projeto ainda não foi Aprovado pelo cliente', Modal::TIPO_ERRO, false, true, true);
             $this->setBDesativaBotaoPadrao(true);
             echo $oMensagem->getRender();
         }
+
+        //procedimentos antes de criar a tela
+        $this->antesAlterar($aDados);
 
         //cria a tela
         $this->View->criaTelaProd();
@@ -77,6 +78,13 @@ class ControllerQualNovoProjProd extends Controller {
 
         $this->Model->setAnghelice($this->ValorSql($this->Model->getAnghelice()));
 
+        $this->Model->setProfcanecomin($this->ValorSql($this->Model->getProfcanecomin()));
+        $this->Model->setProfcanecomax($this->ValorSql($this->Model->getProfcanecomax()));
+
+        $this->Model->setAcab($this->ValorSql($this->Model->getAcab()));
+
+
+
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -93,8 +101,8 @@ class ControllerQualNovoProjProd extends Controller {
         $this->Model->setDiamfmin($this->ValorSql($this->Model->getDiamfmin()));
         $this->Model->setDiamfmax($this->ValorSql($this->Model->getDiamfmax()));
 
-        $this->Model->setCompmin($this->ValorSql($this->Model->getCompmin())); //Compmax
-        $this->Model->setCompmax($this->ValorSql($this->Model->getCompmax()));
+        $this->Model->setCompmin($this->ValorSql($this->Model->getCompmin()));
+        $this->Model->setCompmax($this->ValorSql($this->Model->getCompmax())); //Compmax
 
         $this->Model->setDiampmin($this->ValorSql($this->Model->getDiampmin()));
         $this->Model->setDiampmax($this->ValorSql($this->Model->getDiampmax()));
@@ -109,14 +117,50 @@ class ControllerQualNovoProjProd extends Controller {
         $this->Model->setComphmax($this->ValorSql($this->Model->getComphmax()));
 
         $this->Model->setDiamhmin($this->ValorSql($this->Model->getDiamhmin()));
-        $this->Model->setDiamhmax($this->ValorSql($this->Model->getDiamhmax())); //Anghelice
+        $this->Model->setDiamhmax($this->ValorSql($this->Model->getDiamhmax()));
 
-        $this->Model->setAnghelice($this->ValorSql($this->Model->getAnghelice()));
+        $this->Model->setAnghelice($this->ValorSql($this->Model->getAnghelice())); //Anghelice
+
+        $this->Model->setProfcanecomin($this->ValorSql($this->Model->getProfcanecomin()));
+        $this->Model->setProfcanecomax($this->ValorSql($this->Model->getProfcanecomax()));
+
+        $this->Model->setAcab($this->ValorSql($this->Model->getAcab()));
 
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
         return $aRetorno;
+    }
+
+    public function afterUpdate() {
+        parent::afterUpdate();
+
+        $aRetornoInsert = $this->Persistencia->insertCadDim();
+
+        if ($aRetornoInsert[0] == '1') {
+            $oMessage = new Mensagem('Cad. Dimensional', 'Produto já cadastrado no Sistema_Metalbo/Delsoft', Mensagem::TIPO_WARNING);
+            echo $oMessage->getRender();
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            if ($aRetornoInsert[0] == '0') {
+                $oMessage = new Mensagem('Cad. Dimensional', 'Cadastro dimensional inserido com sucesso no Sistema_Metalbo/Delsoft', Mensagem::TIPO_SUCESSO);
+                echo $oMessage->getRender();
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            } else {
+                $oMessage = new Mensagem('Cad. Dimensional', 'Erro ao inserir cadastro dimensional no Sistema_Metalbo/Delsoft', Mensagem::TIPO_WARNING);
+                echo $oMessage->getRender();
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
+        }
     }
 
     /**
@@ -290,6 +334,11 @@ class ControllerQualNovoProjProd extends Controller {
             $sEstiloFim = 'border-color:#2eb82e;color:#2eb82e;';
             $ssitProjProd = 'Produzido';
         }
+        if ($oRetorno->valpedter == true) {
+            $scurrentResp = 'current';
+            $sEstiloFim = 'border-color:#2eb82e;color:#2eb82e;';
+            $ssitProjProd = 'Faturado';
+        }
 
 
 
@@ -315,13 +364,13 @@ class ControllerQualNovoProjProd extends Controller {
                 . '<div class="pearl-icon" style="' . $sEstiloProd . '">'
                 . '<i class="icon wb-check" aria-hidden="true"></i>'
                 . '</div>'
-                . '<span class="pearl-title" style="font-size:12px">Produto: ' . $ssitCad . '</span>'
+                . '<span class="pearl-title" style="font-size:12px">Cadastro: ' . $ssitCad . '</span>'
                 . '</div>'
                 . '<div id="4" class="pearl ' . $scurrentResp . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
                 . '<div class="pearl-icon" style="' . $sEstiloFim . '">'
                 . '<i class="icon wb-check" aria-hidden="true"></i>'
                 . '</div>'
-                . '<span class="pearl-title" style="font-size:12px">Produção: ' . $ssitProjProd . '</span>'
+                . '<span class="pearl-title" style="font-size:12px">Produto: ' . $ssitProjProd . '</span>'
                 . '</div>';
 
         $sRender = '$("#qualnovoprojprodtempo").empty();';
@@ -347,15 +396,21 @@ class ControllerQualNovoProjProd extends Controller {
 
         $oProposta = $this->Persistencia->buscaDados($aCamposChave);
 
-        $this->View->setAParametrosExtras($oProposta);
+        if ($oProposta->sitproj == 'Cód. enviado') {
 
-        $this->View->criaTelaModalSeqProc($aDados[1]);
+            $this->View->setAParametrosExtras($oProposta);
 
-        //adiciona onde será renderizado
-        $this->View->getTela()->setSRender($aDados[1] . '-modal');
+            $this->View->criaTelaModalSeqProc($aDados[1]);
 
-        //renderiza a tela
-        $this->View->getTela()->getRender();
+            //adiciona onde será renderizado
+            $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        } else {
+            $oMensagem = new Modal('Atenção', 'Produto não cadastrado', Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+        }
     }
 
     public function geraEtapaProcesso($renderTo, $sMetodo = '') {

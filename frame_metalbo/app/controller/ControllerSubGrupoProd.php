@@ -13,13 +13,23 @@ class ControllerSubGrupoProd extends Controller{
     
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
+
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        if (count($aCampos) > 0) {
+            $this->Persistencia->adicionaFiltro('grucod', $aCampos['grucod']);
+        }
+    }
+    
+    public function antesValorBuscaPk() {
+        parent::antesValorBuscaPk();
         
         $aCampos = array();
-        parse_str($_REQUEST['campos'],$aCampos);
-        if(count($aCampos)>0){
-        $this->Persistencia->adicionaFiltro('grucod',$aCampos['grupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['grupo1']);
+        parse_str($_REQUEST['campos'], $aCampos);
+        if (count($aCampos) > 0) {
+            $this->Persistencia->adicionaFiltro('grucod', $aCampos['grucod']);
         }
-       
+        
     }
 
 }

@@ -38,6 +38,7 @@ class ControllerQualNovoProj extends Controller {
 
         $this->Model->setVlrFerramen($this->ValorSql($this->Model->getVlrFerramen()));
         $this->Model->setVlrDesenProj($this->ValorSql($this->Model->getVlrDesenProj()));
+
         $this->Model->setVlrMatPrima($this->ValorSql($this->Model->getVlrMatPrima()));
         $this->Model->setVlrAcabSuper($this->ValorSql($this->Model->getVlrAcabSuper()));
         $this->Model->setVlrTratTer($this->ValorSql($this->Model->getVlrTratTer()));
@@ -58,6 +59,7 @@ class ControllerQualNovoProj extends Controller {
 
         $this->Model->setVlrFerramen($this->ValorSql($this->Model->getVlrFerramen()));
         $this->Model->setVlrDesenProj($this->ValorSql($this->Model->getVlrDesenProj()));
+
         $this->Model->setVlrMatPrima($this->ValorSql($this->Model->getVlrMatPrima()));
         $this->Model->setVlrAcabSuper($this->ValorSql($this->Model->getVlrAcabSuper()));
         $this->Model->setVlrTratTer($this->ValorSql($this->Model->getVlrTratTer()));

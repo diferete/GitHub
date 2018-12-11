@@ -45,52 +45,61 @@ class ControllerQualRnc extends Controller {
         $oRow = $this->Persistencia->consultaNf($aCamposChave['nf']);
 
         echo"$('#" . $aParam[0] . "').val('" . $oRow->data . "');"
-        . "$('#" . $aParam[1] . "').val('" . $oRow->nfsvlrtot . "');"
-        . "$('#" . $aParam[2] . "').val('" . $oRow->nfspesolq . "');";
+        . "$('#" . $aParam[1] . "').val('" . number_format($oRow->nfsvlrtot, 2, ',', '.') . "');"
+        . "$('#" . $aParam[2] . "').val('" . number_format($oRow->nfspesolq, 2, ',', '.') . "');";
     }
 
-    /*
-      public function beforeInsert() {
-      parent::beforeInsert();
+    public function beforeInsert() {
+        parent::beforeInsert();
 
-      $this->Model->setValor($this->ValorSql($this->Model->getValor()));
-      $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-      $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-      $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
+        $this->Model->setValor($this->ValorSql($this->Model->getValor()));
+        $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
+        $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
+        $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
+        /* $date = new DateTime( '2014-08-19' );
+          echo $date-> format( 'd-m-Y' ); */
 
-      $aRetorno = array();
-      $aRetorno[0] = true;
-      $aRetorno[1] = '';
-      return $aRetorno;
-      }
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
 
-      public function beforeUpdate() {
-      parent::beforeUpdate();
+    public function beforeUpdate() {
+        parent::beforeUpdate();
 
-      $this->Model->setValor($this->ValorSql($this->Model->getValor()));
-      $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-      $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-      $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
+        $this->Model->setValor($this->ValorSql($this->Model->getValor()));
+        $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
 
-      $aRetorno = array();
-      $aRetorno[0] = true;
-      $aRetorno[1] = '';
-      return $aRetorno;
-      }
+        $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
 
-      public function depoisCarregarModelAlterar($sParametros = null) {
-      parent::depoisCarregarModelAlterar($sParametros);
+        $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
 
-      $this->Model->setValor(number_format($this->Model->getValor(), 2, ',', '.'));
-      $this->Model->setPeso(number_format($this->Model->getPeso(), 2, ',', '.'));
-      $this->Model->setQuant(number_format($this->Model->getQuant(), 2, ',', '.'));
-      $this->Model->setQuantnconf(number_format($this->Model->getQuantnconf(), 2, ',', '.'));
-      }
-     * 
-     */
+        //Quantnconf
+
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function depoisCarregarModelAlterar($sParametros = null) {
+        parent::depoisCarregarModelAlterar($sParametros);
+
+
+
+        $this->Model->setValor(number_format($this->Model->getValor(), 2, ',', '.'));
+        $this->Model->setPeso(number_format($this->Model->getPeso(), 2, ',', '.'));
+
+        $this->Model->setQuant(number_format($this->Model->getQuant(), 2, ',', '.'));
+
+        $this->Model->setQuantnconf(number_format($this->Model->getQuantnconf(), 2, ',', '.'));
+    }
 
     public function limpaUploads($aIds) {
         parent::limpaUploads($aIds);
+
 
         $sRetorno = "$('#" . $aIds[3] . "').fileinput('clear');"
                 . "$('#" . $aIds[4] . "').fileinput('clear');"
@@ -164,7 +173,7 @@ class ControllerQualRnc extends Controller {
 
 
         if ($aRet[0]) {
-            $oMsg = new Mensagem('Reclamação nº' . $aCampos['nr'] . ' foi finalizada com sucesso!', Mensagem::TIPO_SUCESSO);
+            $oMsg = new Mensagem('Sucesso','Reclamação nº' . $aCampos['nr'] . ' foi finalizada!', Mensagem::TIPO_SUCESSO);
             echo $oMsg->getRender();
             echo'$("#' . $aDados[2] . '-btn").click();';
         } else {
@@ -271,11 +280,11 @@ class ControllerQualRnc extends Controller {
                         . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
                         . '<b>Hora:' . $hora . '  </b><br/>'
                         . '<b>Data do Cadastro: ' . $data . ' </b><br/><br/><br/>'
-                        . '<table border = 1 cellspacing = 0 cellpadding = 2 width = "100%">'
+                        . '<table border = 1 cellspacing = 2 cellpadding = 2 width = "100%">'
                         . '<tr><td><b>Cnpj:</b></td><td> ' . $oRow->empcod . ' </td></tr>'
                         . '<tr><td><b>Razão Social:</b></td><td> ' . $oRow->empdes . ' </td></tr>'
                         . '<tr><td><b>Nota fiscal:</b></td><td> ' . $oRow->nf . ' </td></tr>'
-                        . '<tr><td><b>Data da NF.:</b></td><td> ' . $oRow->datanf . ' </td></tr>'
+                        . '<tr><td><b>Data da NF.:</b></td><td> ' . $oRow->data . ' </td></tr>'
                         . '<tr><td><b>Od. de compra:</b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº:</b></td><td> ' . $oRow->pedido . ' </td></tr>'
                         . '<tr><td><b>Valor: R$</b></td><td> ' . $oRow->valor . ' </td></tr>'

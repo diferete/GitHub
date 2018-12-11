@@ -149,11 +149,10 @@ class ViewQualNovoProjRep extends View {
         $oRespProjNome->setSValor('Eloir Jordelino');
         $oRespProjNome->setBCampoBloqueado(true);
 
-        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oRespVenda->setBFocus(true);
         $oRespVenda->setSValor($aDadosTela[0]);
-        $oRespVenda->setBCampoBloqueado(true);
 
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -163,7 +162,6 @@ class ViewQualNovoProjRep extends View {
         $oRespVendaNome->addCampoBusca('usunome', '', '');
         $oRespVendaNome->setSIdTela($this->getTela()->getid());
         $oRespVendaNome->setSValor($aDadosTela[1]);
-        $oRespVendaNome->setBCampoBloqueado(true);
 
 
         $oRespVenda->setClasseBusca('User');

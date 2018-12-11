@@ -10,12 +10,13 @@
 class PersistenciaAgendamentos extends Persistencia {
 
     public function __construct() {
+        parent::__construct();
     }
 
     /**
      * Busca dados via select na tabela de entrada de projetos
      * 
-     **/
+     * */
     public function verificaSitEntProj() {
         $sSql = "select sitgeralproj,sitproj,sitcliente,sitvendas,filcgc,nr,desc_novo_prod,dtimp,
                 empcod,officedes,repnome,resp_venda_nome,dtaprovendas,
@@ -26,7 +27,6 @@ class PersistenciaAgendamentos extends Persistencia {
         $result = $this->getObjetoSql($sSql);
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
             $oModel = $oRowBD;
-
             $aRetorno[] = $oModel;
         }
 
@@ -64,37 +64,61 @@ class PersistenciaAgendamentos extends Persistencia {
         return $aRetorno;
     }
 
-     /**
-      * Busca e-mails na tabela de usuários pelo código 
-      */
-      public function projEmailVendaProj($oValue) {
-      //busca códigos
-      $codProj = $oValue->resp_proj_cod;
-      $codVenda = $oValue->resp_venda_cod;
-      $repcod = $oValue->repcod;
+    /**
+     * Busca e-mails na tabela de usuários pelo código 
+     */
+    public function projEmailVendaProj($oValue) {
+        //busca códigos
+        $codProj = $oValue->resp_proj_cod;
+        $codVenda = $oValue->resp_venda_cod;
+        $repcod = $oValue->repcod;
 
-      //busca email projetos
+        //busca email projetos
 
-      $sSql = "select usuemail from tbusuario where usucodigo ='" . $codProj . "' ";
-      $result = $this->getObjetoSql($sSql);
-      $oRow = $result->fetch(PDO::FETCH_OBJ);
-      $aEmail['proj'] = $oRow->usuemail;
+        $sSql = "select usuemail from tbusuario where usucodigo ='" . $codProj . "' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $aEmail['proj'] = $oRow->usuemail;
 
-      //busca email venda
-      $sSql = "select usuemail from tbusuario where usucodigo ='" . $codVenda . "' ";
-      $result = $this->getObjetoSql($sSql);
-      $oRow = $result->fetch(PDO::FETCH_OBJ);
-      $aEmail['venda'] = $oRow->usuemail;
-      
-      //busca email representante
-      $sSql = "select usuemail from tbusuario where usucodigo ='" . $repcod . "' ";
-      $result = $this->getObjetoSql($sSql);
-      $oRow = $result->fetch(PDO::FETCH_OBJ);
-      $aEmail['rep'] = $oRow->usuemail;
+        //busca email venda
+        $sSql = "select usuemail from tbusuario where usucodigo ='" . $codVenda . "' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $aEmail['venda'] = $oRow->usuemail;
 
-      $aEmail['cli']=$oValue->emailcli;
+        //busca email representante
+        $sSql = "select usuemail from tbusuario where usucodigo ='" . $repcod . "' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $aEmail['rep'] = $oRow->usuemail;
 
-      return $aEmail;
-      }
-    
+        $aEmail['cli'] = $oValue->emailcli;
+
+        return $aEmail;
+    }
+
+    public function buscaDataAq() {
+
+        $sSql = "select filcgc,nr,seq,usucodigo,usunome,DATEDIFF(day,dataprev,GETDATE())as dias,convert(varchar,dataprev,103)as data"
+                . " from tbacaoqualplan where sitfim is null";
+        $result = $this->getObjetoSql($sSql);
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            $oModel = $oRowBD;
+            $aRetorno[] = $oModel;
+        }
+
+        return $aRetorno;
+    }
+
+    public function buscaEmailPlanoAcao($oValue) {
+
+        //busca email
+        $sSql = "select usuemail from tbusuario where usucodigo ='" . $oValue->usucodigo . "' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $aEmail[] = $oRow->usuemail;
+
+        return $aEmail;
+    }
+
 }

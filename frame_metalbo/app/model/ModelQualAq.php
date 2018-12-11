@@ -1,11 +1,13 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 Class ModelQualAq {
+
     private $nr;
     private $titulo;
     private $dtimp;
@@ -36,7 +38,61 @@ Class ModelQualAq {
     private $anexo2;
     private $certificacao;
     private $acao;
-    
+    private $emailEquip;
+    private $codsetor;
+    private $descsetor;
+    private $dtcancela;
+    private $obscancela;
+    private $usucancela;
+
+    function getUsucancela() {
+        return $this->usucancela;
+    }
+
+    function setUsucancela($usucancela) {
+        $this->usucancela = $usucancela;
+    }
+
+    function getObscancela() {
+        return $this->obscancela;
+    }
+
+    function setObscancela($obscancela) {
+        $this->obscancela = $obscancela;
+    }
+
+    function getDtcancela() {
+        return $this->dtcancela;
+    }
+
+    function setDtcancela($dtcancela) {
+        $this->dtcancela = $dtcancela;
+    }
+
+    function getCodsetor() {
+        return $this->codsetor;
+    }
+
+    function getDescsetor() {
+        return $this->descsetor;
+    }
+
+    function setCodsetor($codsetor) {
+        $this->codsetor = $codsetor;
+    }
+
+    function setDescsetor($descsetor) {
+        $this->descsetor = $descsetor;
+    }
+
+    function getEmailEquip() {
+        return $this->emailEquip;
+    }
+
+    function setEmailEquip($emailEquip) {
+        $this->emailEquip = $emailEquip;
+    }
+
     function getAcao() {
         return $this->acao;
     }
@@ -45,7 +101,6 @@ Class ModelQualAq {
         $this->acao = $acao;
     }
 
-                
     function getCertificacao() {
         return $this->certificacao;
     }
@@ -54,7 +109,6 @@ Class ModelQualAq {
         $this->certificacao = $certificacao;
     }
 
-        
     function getUsucodigo() {
         return $this->usucodigo;
     }
@@ -71,7 +125,6 @@ Class ModelQualAq {
         $this->usunome = $usunome;
     }
 
-        
     function getAnexo2() {
         return $this->anexo2;
     }
@@ -80,7 +133,6 @@ Class ModelQualAq {
         $this->anexo2 = $anexo2;
     }
 
-        
     function getAnexo1() {
         return $this->anexo1;
     }
@@ -89,7 +141,6 @@ Class ModelQualAq {
         $this->anexo1 = $anexo1;
     }
 
-        
     function getHorafech() {
         return $this->horafech;
     }
@@ -98,7 +149,6 @@ Class ModelQualAq {
         $this->horafech = $horafech;
     }
 
-        
     function getUserfech() {
         return $this->userfech;
     }
@@ -106,8 +156,6 @@ Class ModelQualAq {
     function getDatafech() {
         return $this->datafech;
     }
-
-   
 
     function setUserfech($userfech) {
         $this->userfech = $userfech;
@@ -117,9 +165,6 @@ Class ModelQualAq {
         $this->datafech = $datafech;
     }
 
-   
-        
-    
     function getSit() {
         return $this->sit;
     }
@@ -128,7 +173,6 @@ Class ModelQualAq {
         $this->sit = $sit;
     }
 
-        
     function getTitulo() {
         return $this->titulo;
     }
@@ -137,7 +181,6 @@ Class ModelQualAq {
         $this->titulo = $titulo;
     }
 
-        
     function getPq2() {
         return $this->pq2;
     }
@@ -170,7 +213,6 @@ Class ModelQualAq {
         $this->pq5 = $pq5;
     }
 
-        
     function getPq1() {
         return $this->pq1;
     }
@@ -179,7 +221,6 @@ Class ModelQualAq {
         $this->pq1 = $pq1;
     }
 
-        
     function getCausaprov() {
         return $this->causaprov;
     }
@@ -188,10 +229,6 @@ Class ModelQualAq {
         $this->causaprov = $causaprov;
     }
 
-        
-   
-
-        
     function getObjetivo() {
         return $this->objetivo;
     }
@@ -200,7 +237,6 @@ Class ModelQualAq {
         $this->objetivo = $objetivo;
     }
 
-        
     function getProblema() {
         return $this->problema;
     }
@@ -209,7 +245,6 @@ Class ModelQualAq {
         $this->problema = $problema;
     }
 
-        
     function getTipmelhoria() {
         return $this->tipmelhoria;
     }
@@ -218,7 +253,6 @@ Class ModelQualAq {
         $this->tipmelhoria = $tipmelhoria;
     }
 
-                
     function getOrigem() {
         return $this->origem;
     }
@@ -227,7 +261,6 @@ Class ModelQualAq {
         $this->origem = $origem;
     }
 
-        
     function getTipoacao() {
         return $this->tipoacao;
     }
@@ -236,7 +269,6 @@ Class ModelQualAq {
         $this->tipoacao = $tipoacao;
     }
 
-        
     function getEquipe() {
         return $this->equipe;
     }
@@ -245,7 +277,6 @@ Class ModelQualAq {
         $this->equipe = $equipe;
     }
 
-        
     function getDatafim() {
         return $this->datafim;
     }
@@ -254,7 +285,6 @@ Class ModelQualAq {
         $this->datafim = $datafim;
     }
 
-        
     function getDataini() {
         return $this->dataini;
     }
@@ -263,22 +293,17 @@ Class ModelQualAq {
         $this->dataini = $dataini;
     }
 
-        
-   
-        
     function getEmpRex() {
-        if(!isset($this->EmpRex)){
+        if (!isset($this->EmpRex)) {
             $this->EmpRex = Fabrica::FabricarModel('EmpRex');
         }
         return $this->EmpRex;
     }
-    
 
     function setEmpRex($EmpRex) {
         $this->EmpRex = $EmpRex;
     }
 
-            
     function getNr() {
         return $this->nr;
     }
@@ -310,6 +335,5 @@ Class ModelQualAq {
     function setUserimp($userimp) {
         $this->userimp = $userimp;
     }
-
 
 }

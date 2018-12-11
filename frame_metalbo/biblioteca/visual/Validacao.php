@@ -224,6 +224,27 @@ class Validacao {
                                 .'}'
                             .'}';
                   break;
+              
+              case self::TIPO_DECIMAL:
+                $sValidation = $this->getNome().' : {'
+                                
+                                .'selector : "#'.$this->getId().'", '
+                                .'row : ".col-xs-'.$this->getRow().'", '
+                                .'trigger : "'.$this->getTrigger().'",'
+                                .'validators : {'
+                                    .$this->getNotEmpty()
+                                    .'decimal : {'
+                                       .'message : "'.$this->getMensagem().'"'
+                                    .'},'
+                                    .'stringLength : {'
+                                        .'max : '.$this->getStringMax().', '
+                                        .'min : '.$this->getStringMin().', '
+                                        //.'message : "O tamanho mínimo deste campo é de '.$this->getStringMin().' e no máximo '.$this->getStringMax().'."'
+                                    .'}'
+                                .'}'
+                            .'}';
+                  break;
+              
                 case self::TIPO_STRING:
 
                         $sValidation = $this->getNome().' : {'

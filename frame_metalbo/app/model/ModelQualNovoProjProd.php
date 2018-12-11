@@ -65,6 +65,60 @@ class ModelQualNovoProjProd {
     private $reqproblem;
     private $reqproblem_obs;
     private $comem;
+    private $grucod;
+    private $subcod;
+    private $famcod;
+    private $famsub;
+    private $profcanecomin;
+    private $profcanecomax;
+
+    function getProfcanecomin() {
+        return $this->profcanecomin;
+    }
+
+    function getProfcanecomax() {
+        return $this->profcanecomax;
+    }
+
+    function setProfcanecomin($profcanecomin) {
+        $this->profcanecomin = $profcanecomin;
+    }
+
+    function setProfcanecomax($profcanecomax) {
+        $this->profcanecomax = $profcanecomax;
+    }
+
+    function getSubcod() {
+        return $this->subcod;
+    }
+
+    function getFamcod() {
+        return $this->famcod;
+    }
+
+    function getFamsub() {
+        return $this->famsub;
+    }
+
+    function setSubcod($subcod) {
+        $this->subcod = $subcod;
+    }
+
+    function setFamcod($famcod) {
+        $this->famcod = $famcod;
+    }
+
+    function setFamsub($famsub) {
+        $this->famsub = $famsub;
+    }
+
+    function getGrucod() {
+        return $this->grucod;
+    }
+
+    function setGrucod($grucod) {
+        $this->grucod = $grucod;
+    }
 
     function getSitcliente() {
         return $this->sitcliente;

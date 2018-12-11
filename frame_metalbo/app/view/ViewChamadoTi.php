@@ -51,11 +51,11 @@ class ViewChamadoTi extends View {
 
 
         $this->addCamposGrid($oProblema, $oLinhaWhite);
-        $this->getTela()->setIAltura(240);
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("","ChamadoTi","carregaProb","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oProblema->getId() . '"+","+"");');
 
+        $this->getTela()->setIAltura(240);
         $this->setBScrollInf(FALSE);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoExcluir(false);

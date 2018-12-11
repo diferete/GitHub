@@ -1,11 +1,13 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-class ModelQualCausa{
+
+class ModelQualCausa {
+
     private $filcgc;
     private $nr;
     private $seq;
@@ -19,7 +21,61 @@ class ModelQualCausa{
     private $pq4;
     private $pq5;
     private $ocorrencia;
-    
+    private $matprimades;
+    private $metododes;
+    private $maodeobrades;
+    private $equipamentodes;
+    private $meioambientedes;
+    private $medidades;
+
+    function getMatprimades() {
+        return $this->matprimades;
+    }
+
+    function getMetododes() {
+        return $this->metododes;
+    }
+
+    function getMaodeobrades() {
+        return $this->maodeobrades;
+    }
+
+    function getEquipamentodes() {
+        return $this->equipamentodes;
+    }
+
+    function getMeioambientedes() {
+        return $this->meioambientedes;
+    }
+
+    function getMedidades() {
+        return $this->medidades;
+    }
+
+    function setMatprimades($matprimades) {
+        $this->matprimades = $matprimades;
+    }
+
+    function setMetododes($metododes) {
+        $this->metododes = $metododes;
+    }
+
+    function setMaodeobrades($maodeobrades) {
+        $this->maodeobrades = $maodeobrades;
+    }
+
+    function setEquipamentodes($equipamentodes) {
+        $this->equipamentodes = $equipamentodes;
+    }
+
+    function setMeioambientedes($meioambientedes) {
+        $this->meioambientedes = $meioambientedes;
+    }
+
+    function setMedidades($medidades) {
+        $this->medidades = $medidades;
+    }
+
     function getOcorrencia() {
         return $this->ocorrencia;
     }
@@ -28,7 +84,6 @@ class ModelQualCausa{
         $this->ocorrencia = $ocorrencia;
     }
 
-        
     function getCausaprov() {
         return $this->causaprov;
     }
@@ -77,7 +132,6 @@ class ModelQualCausa{
         $this->pq5 = $pq5;
     }
 
-        
     function getAnexocausa1() {
         return $this->anexocausa1;
     }
@@ -86,8 +140,6 @@ class ModelQualCausa{
         $this->anexocausa1 = $anexocausa1;
     }
 
-    
-        
     function getFilcgc() {
         return $this->filcgc;
     }
@@ -127,6 +179,5 @@ class ModelQualCausa{
     function setCausades($causades) {
         $this->causades = $causades;
     }
-
 
 }

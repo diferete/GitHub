@@ -107,7 +107,7 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
         $sData = date('d/m/Y');
-        $sSql = "select respvalproj,etapProj,result,cliprov,valproj from tbqualNovoProjeto where filcgc = '" . $sFilcgc . "' and nr='" . $sNr . "'";
+        $sSql = "select respvalproj,etapProj,result,cliprov,valproj,valOdTer,valPedTer from tbqualNovoProjeto where filcgc = '" . $sFilcgc . "' and nr='" . $sNr . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
 
@@ -117,7 +117,19 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
         $oRespValProj = $oRow->respvalproj;
         $iCount = count($aElemenFilter);
 
-        if ($iCount == 5 && $oRespValProj == 'Eloir') {
+        if ($oRow->valodter != null) {
+            $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Produzido'"
+                    . " where filcgc = '" . $sFilcgc . "' and nr = '" . $sNr . "'";
+            $Resultado = $this->executaSql($sSql);
+        }
+        
+        if ($oRow->valpedter != null) {
+            $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Faturado'"
+                    . " where filcgc = '" . $sFilcgc . "' and nr = '" . $sNr . "'";
+            $Resultado = $this->executaSql($sSql);
+        }      
+
+        if ($iCount >= 5 && $oRespValProj == 'Eloir') {
             $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Finalizado',
                 dtafimProj = '" . $sData . "',
                 horafimProj = '" . $sHora . "',

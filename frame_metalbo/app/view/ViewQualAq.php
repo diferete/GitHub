@@ -19,19 +19,18 @@ class ViewQualAq extends View {
         $this->getTela()->setBGridResponsivo(false);
 
         $oTitulo = new CampoConsulta('Título', 'titulo', CampoConsulta::TIPO_LARGURA, 300);
-        //$oTitulo->setILargura(450);
+
         $oFilcgc = new CampoConsulta('Cnpj', 'EmpRex.filcgc');
-        //$oFilcgc->setILargura(50);
-        // $oFildes = new CampoConsulta('Empresa','EmpRex.fildes');
-        // $oFildes->setILargura(250);
+
         $oNr = new CampoConsulta('AQ', 'nr');
-        // $oNr->setILargura(30);
         $oNr->setSOperacao('personalizado');
-        $oDataFim = new CampoConsulta('DataFinal', 'datafim', CampoConsulta::TIPO_DATA);
-        // $oDataFim->setILargura(100);
+
+        $oDataFim = new CampoConsulta('Dt.Implantação', 'dtimp', CampoConsulta::TIPO_DATA);
+
         $oSit = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_DESTAQUE2);
         $oSit->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
         $oSit->addComparacao('Iniciada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
+        $oSit->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
 
         $oOrigem = new CampoConsulta('Origem', 'origem', CampoConsulta::TIPO_LARGURA);
 
@@ -40,15 +39,7 @@ class ViewQualAq extends View {
         $oTipoMel = new CampoConsulta('TipoMelhoria', 'tipmelhoria', CampoConsulta::TIPO_LARGURA);
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
-        // $oFiltrodes = new Filtro($oFildes, Filtro::CAMPO_TEXTO,3);
         $oFilTit = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 10, 10, 12, 12);
-
-        /* $oFilCnpj = new Filtro($oFilcgc, Filtro::CAMPO_BUSCADOBANCOPK, 2);
-          $oFilCnpj->setSClasseBusca('EmpRex');
-          $oFilCnpj->setSCampoRetorno('filcgc', $this->getTela()->getSId());
-          $oFilCnpj->setSIdTela($this->getTela()->getSId());
-         * 
-         */
 
         $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFilEmp->setSClasseBusca('EmpRex');
@@ -60,7 +51,6 @@ class ViewQualAq extends View {
         $oFilEmp->addItemSelect('83781641000158', 'Poliamidos');
         $oFilEmp->addItemSelect('Todos', 'Todos');
         $oFilEmp->setSLabel('Empresa');
-
 
         $oTipoAcaoFiltro = new Filtro($oTipoAcao, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oTipoAcaoFiltro->addItemSelect('Todos', 'Todos');
@@ -91,28 +81,36 @@ class ViewQualAq extends View {
         $oSitFiltro->addItemSelect('Aberta', 'Aberta');
         $oSitFiltro->addItemSelect('Iniciada', 'Iniciada');
         $oSitFiltro->addItemSelect('Finalizada', 'Finalizada');
+        $oSitFiltro->addItemSelect('Cancelada', 'Cancelada');
 
 
         $this->addFiltro($oFilNr, $oFilTit, $oTipoAcaoFiltro, $oOrigemFiltro, $oTipoMelFiltro, $oSitFiltro, $oFilEmp);
-      
+
         $this->setUsaDropdown(true);
-        $oDrop1 = new Dropdown('Ação e Eficácia', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Finalizar plano de ação', 'QualAqApont', 'acaoMostraTelaApontdiv', '', true, '');
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir avaliação da eficácia', 'QualAqEficaz', 'acaoMostraTelaApontdiv', '', true, '');
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Apontar avaliação da eficácia', 'QualAqEficazApont', 'acaoMostraTelaApontdiv', '', true, '');
+        /*
+          $oDrop1 = new Dropdown('Ação e Eficácia', Dropdown::TIPO_SUCESSO);
+          $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Finalizar plano de ação', 'QualAqApont', 'acaoMostraTelaApontdiv', '', true, '');
+          $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir avaliação da eficácia', 'QualAqEficaz', 'acaoMostraTelaApontdiv', '', true, '');
+          $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Apontar avaliação da eficácia', 'QualAqEficazApont', 'acaoMostraTelaApontdiv', '', true, '');
+         * 
+         */
 
         $oDrop3 = new Dropdown('Movimentação', Dropdown::TIPO_DARK);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Iniciar ação da qualidade', 'QualAq', 'startAq', '', false, '');
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Finalizar ação da qualidade', 'QualAq', 'msgFechaAq', '', false, ''); //msgAbreAq
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DESBLOQUEADO) . 'Reabrir ação da qualidade', 'QualAq', 'msgAbreAq', '', false, '');
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar ação da qualidade', 'QualAq', 'criaModalCancelaAq', '', false, '', false, 'criaTelaModalCancelaAq', true, 'Cancelar Aq');
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Ata de reunião', 'QualAta', 'acaoMostraTelaApontdiv', '', true, '');
 
-        $oDrop4 = new Dropdown('Impressão e Emails', Dropdown::TIPO_PRIMARY);
+        $oDrop4 = new Dropdown('Impressão e Emails', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop4->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Vizualizar ação da qualidade', 'QualAq', 'acaoMostraRelConsulta', '', false, 'AqImp');
-        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'QualAq', 'envMailGrid2', '', false, 'AqImp,email,QualAq,envMailQual');
-        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para todos envolvidos', 'QualAq', 'envMailGrid', '', false, 'AqImp,email,QualAq,envMailAll');
-        
-        $this->addDropdown($oDrop1, $oDrop3, $oDrop4);
+        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu e-mail', 'QualAq', 'geraPdfQualAq', '', false, 'AqImp', false, '', false, '', true);
+        //$oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'QualAq', 'envMailGrid2', '', false, 'AqImp,email,MET_QUAL_QualAq,envMailQual');
+        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para todos os envolvidos', 'QualAq', 'geraPdfQualAqTodos', '', false, 'AqImp', false, '', false, '', true);
+        //$oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para todos envolvidos', 'QualAq', 'envMailGrid', '', false, 'AqImp,email,MET_QUAL_QualAq,envMailAll');
+
+
+        $this->addDropdown(/* $oDrop1, */ $oDrop3, $oDrop4);
 
         $this->addCampos($oNr, $oSit, $oTitulo, $oDataFim, $oTipoAcao, $oOrigem, $oTipoMel, $oFilcgc);
 
@@ -136,7 +134,8 @@ class ViewQualAq extends View {
 
 
         $oFilcgc = new Campo('Empresa', 'EmpRex.filcgc', Campo::TIPO_BUSCADOBANCOPK, 2, 6, 12, 12);
-        $oFilcgc->setSValor('75483040000211');
+        $oFilcgc->setSValor($_SESSION['filcgc']);
+        $oFilcgc->setBFocus(true);
 
         $oFilDes = new campo('Empresa', 'EmpRex.fildes', Campo::TIPO_BUSCADOBANCO, 3, 6, 12, 12);
         $oFilDes->setSIdPk($oFilcgc->getId());
@@ -145,7 +144,6 @@ class ViewQualAq extends View {
         $oFilDes->addCampoBusca('filcgc', '', '');
         $oFilDes->addCampoBusca('fildes', '', '');
         $oFilDes->setSIdTela($this->getTela()->getid());
-        $oFilDes->setSValor('REX MÁQUINAS E EQUIPAMENTOS LTDA');
 
         $oFilcgc->setClasseBusca('EmpRex');
         $oFilcgc->setSCampoRetorno('filcgc', $this->getTela()->getId());
@@ -167,6 +165,25 @@ class ViewQualAq extends View {
         $oUserImplant->setBCampoBloqueado(true);
 
 
+        $oCertificacao = new Campo('Classificação', 'certificacao', Campo::TIPO_SELECT, 4, 12, 12, 12);
+        $oCertificacao->addItemSelect('Cliente, processos e produto', 'Cliente, processos e produto');
+        $oCertificacao->addItemSelect('Segurança e saúde ocupacional', 'Segurança e saúde ocupacional');
+        $oCertificacao->addItemSelect('Meio ambiente', 'Meio ambiente');
+
+        $oSetor = new campo('...', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oSetor->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+
+        $oSetorDes = new Campo('Setor', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oSetorDes->setSIdPk($oSetor->getId());
+        $oSetorDes->setClasseBusca('Setor');
+        $oSetorDes->addCampoBusca('codsetor', '', '');
+        $oSetorDes->addCampoBusca('descsetor', '', '');
+        $oSetorDes->setSIdTela($this->getTela()->getid());
+
+        $oSetor->setClasseBusca('Setor');
+        $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
+        $oSetor->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
+        $oSetor->addValidacao(false, Validacao::TIPO_STRING, '', 1, 3);
 
         $oResp = new campo('Cód.', 'usucodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 4, 4, 4);
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
@@ -183,15 +200,47 @@ class ViewQualAq extends View {
         $oResp->setSCampoRetorno('usucodigo', $this->getTela()->getId());
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
+        $oDivisor = new Campo('Adiciona equipe', 'addeqp', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor->setApenasTela(true);
 
+        $oCodUser = new campo('Cód.', 'codusuario', Campo::TIPO_BUSCADOBANCOPK, 2, 4, 4, 4);
 
-        $oEquipe = new campo('Equipe envolvida', 'equipe', Campo::TIPO_TEXTAREA, 4, 12, 12, 12);
+        $oUserNome = new Campo('Participa', 'participante', Campo::TIPO_BUSCADOBANCO, 3, 8, 8, 8);
+        $oUserNome->setSIdPk($oCodUser->getId());
+        $oUserNome->setClasseBusca('User');
+        $oUserNome->addCampoBusca('usucodigo', '', '');
+        $oUserNome->addCampoBusca('usunome', '', '');
+        $oUserNome->setSIdTela($this->getTela()->getid());
+        $oUserNome->setApenasTela(true);
+
+        $oCodUser->setClasseBusca('User');
+        $oCodUser->setSCampoRetorno('usucodigo', $this->getTela()->getId());
+        $oCodUser->addCampoBusca('usunome', $oUserNome->getId(), $this->getTela()->getId());
+        $oCodUser->setApenasTela(true);
+
+        $oEquipe = new campo('Equipe envolvida', 'equipe', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
         $oEquipe->setICaracter(500);
         $oEquipe->setILinhasTextArea(5);
 
+        $oEquipeEmail = new Campo('E-mails', 'emailEquip', Campo::TIPO_TAGS, 6, 6, 12, 12);
+
+        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 2);
+        $oBotConf->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
+        $sAcao = 'getUserEmail($("#' . $oCodUser->getId() . '").val(),'
+                . '"' . $oEquipe->getId() . '",'
+                . '"' . $oEquipeEmail->getId() . '",'
+                . '"' . $oCodUser->getId() . '",'
+                . '"' . $this->getController() . '")';
+        $oBotConf->getOBotao()->addAcao($sAcao);
+        $oBotConf->setApenasTela(true);
+
+        $oDivisor1 = new Campo('', 'addeqp2', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor1->setApenasTela(true);
+
         $oDataIni = new campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 6, 6, 6);
         $oDataIni->setSValor(date('d/m/Y'));
-        $oDataFinal = new campo('Data Final', 'datafim', Campo::TIPO_DATA, 2, 6, 6, 6);
+
+        $oDataFinal = new campo('Data Prevista', 'datafim', Campo::TIPO_DATA, 2, 6, 6, 6);
         $oDataFinal->setSValor(date('d/m/Y'));
 
         $oTipoAcao = new campo('Tipo da ação', 'tipoacao', Campo::TIPO_SELECT, 4, 12, 12, 12);
@@ -221,22 +270,18 @@ class ViewQualAq extends View {
         $oObjetivo->setILinhasTextArea(5);
         $oObjetivo->setICaracter(400);
 
-
-
         $oNr = new campo('', 'nr', Campo::TIPO_TEXTO, 1);
         $oNr->setBOculto(true);
 
         $oEtapas = new FormEtapa(2, 2, 2, 2);
-        $oEtapas->addItemEtapas('Inserir Ação da qualidade', true, $this->addIcone(Base::ICON_CALENDARIO));
-        $oEtapas->addItemEtapas('Causa raiz do problema', false, $this->addIcone(Base::ICON_INFO));
-        $oEtapas->addItemEtapas('Plano de ação', false, $this->addIcone(Base::ICON_CONFIRMAR));
+        $oEtapas->addItemEtapas('Inserir ação da qualidade', true, $this->addIcone(Base::ICON_CALENDARIO));
+        $oEtapas->addItemEtapas('Contenção/Abrangência', false, $this->addIcone(Base::ICON_INFO));
+        $oEtapas->addItemEtapas('Ação de correção', false, $this->addIcone(Base::ICON_BORRACHA));
+        $oEtapas->addItemEtapas('Causa raiz do problema', false, $this->addIcone(Base::ICON_LAPIS));
+        $oEtapas->addItemEtapas('Plano de ação', false, $this->addIcone(Base::ICON_MARTELO));
+        $oEtapas->addItemEtapas('Avaliação da eficácia', false, $this->addIcone(Base::ICON_CONFIRMAR));
 
         $this->addEtapa($oEtapas);
-
-        $oCertificacao = new Campo('Classificação', 'certificacao', Campo::TIPO_SELECT, 4, 12, 12, 12);
-        $oCertificacao->addItemSelect('Cliente, processos e produto', 'Cliente, processos e produto');
-        $oCertificacao->addItemSelect('Segurança e saúde ocupacional', 'Segurança e saúde ocupacional');
-        $oCertificacao->addItemSelect('Meio ambiente', 'Meio ambiente');
 
         $oAnexo1 = new Campo('Anexo 1', 'anexo1', Campo::TIPO_UPLOAD, 4);
 
@@ -250,11 +295,56 @@ class ViewQualAq extends View {
         }
         $this->setSIdControleUpAlt($oAcao->getId());
 
+        $this->addCampos(
+                array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni, $oDataFinal), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
+    }
 
+    public function criaTelaModalCancelaAq($sDados) {
+        parent:: criaModal();
 
+        $this->setBTela(true);
 
+        $oDados = $this->getAParametrosExtras();
 
-        $this->addCampos(array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), $oCertificacao, $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oEquipe, array($oDataIni, $oDataFinal), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
+        $oFilcgc = new campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oFilcgc->setSValor($oDados->filcgc);
+        $oFilcgc->setBCampoBloqueado(true);
+
+        $oNr = new campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oNr->setSValor($oDados->nr);
+        $oNr->setBCampoBloqueado(true);
+
+        $oDtCancela = new Campo('Data cancelamento', 'dtcancela', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDtCancela->setSValor(date('d/m/Y'));
+        $oDtCancela->setBCampoBloqueado(true);
+
+        $oResponsavel = new Campo('Responsável', 'usunome', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+        $oResponsavel->setSValor($oDados->usunome);
+        $oResponsavel->setBCampoBloqueado(true);
+
+        $oUsuCancela = new campo('Usu.Cancela', 'usucancela', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+        $oUsuCancela->setSValor($_SESSION['nome']);
+        $oUsuCancela->setBCampoBloqueado(true);
+
+        $oTitulo = new campo('Título Aq', 'titulo', Campo::TIPO_TEXTO, 12, 12, 12, 12);
+        $oTitulo->setSValor($oDados->titulo);
+        $oTitulo->setBCampoBloqueado(true);
+
+        $oObsCancela = new campo('Motivo do cancelamento', 'obscancela', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
+        $oObsCancela->addValidacao(false, Validacao::TIPO_STRING, 'É necessário informar este campo!', '10', '1000');
+        $oObsCancela->setILinhasTextArea(5);
+
+        $oBtnInserir = new Campo('Cancelar Aq', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        //id do grid
+
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","cancelaAq","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+
+        $oBtnInserir->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->addCampos(array($oFilcgc, $oNr, $oResponsavel), $oTitulo, array($oDtCancela, $oUsuCancela), $oObsCancela, $oBtnInserir);
     }
 
 }

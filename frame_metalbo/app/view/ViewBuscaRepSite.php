@@ -24,7 +24,8 @@ class ViewBuscaRepSite extends View {
         $oNome = new CampoConsulta('Representante','nome');
         
         $oFiltroEstado = new Filtro($oEstado, Filtro::CAMPO_TEXTO_IGUAL,2,2,2,2);
-        $this->addFiltro($oFiltroEstado);
+        $oFiltroRep = new Filtro($oNome, Filtro::CAMPO_TEXTO,4,4,12,12);
+        $this->addFiltro($oFiltroEstado,$oFiltroRep);
         
         $this->addCampos($oFilcgc,$oCodigo,$oEstado,$oNome);
     

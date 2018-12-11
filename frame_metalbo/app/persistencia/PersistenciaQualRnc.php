@@ -158,7 +158,7 @@ class PersistenciaQualRnc extends Persistencia {
     }
 
     public function buscaDadosRnc($aDados) {
-        $sSql = "select * from tbrncqual"
+        $sSql = "select convert(varchar,datanf,103)as data,nr,officedes,empcod,empdes,nf,odcompra,pedido,valor,peso,aplicacao,naoconf from tbrncqual"
                 . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);

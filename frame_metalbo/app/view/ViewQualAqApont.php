@@ -55,6 +55,7 @@ class ViewQualAqApont extends View {
         $oSeqEnv = new Campo('Sêquencia', 'seq', Campo::TIPO_TEXTO, 1, 1, 1, 1);
         $oSeqEnv->setBCampoBloqueado(true);
         $oSeqEnv->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+        
         $oPlanEnv = new campo('Plano de ação', 'plano', Campo::TIPO_TEXTAREA, 10, 10, 10, 10);
         $oPlanEnv->setBCampoBloqueado(true);
         $oPlanEnv->setILinhasTextArea(4);

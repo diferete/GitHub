@@ -232,10 +232,10 @@ class Controller {
      * Preenche os campos do Model conforme valores
      * presentes no objeto $_REQUEST 
      */
-    public function carregaModel() {
+    public function carregaModel($aCamposTela) {
         foreach ($this->Persistencia->getListaRelacionamento() as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), null, $aCamposTela);
             }
         }
     }
@@ -350,10 +350,12 @@ class Controller {
      * 
      * @return Objetct
      */
-    public function setValorModel(&$oModelOriginal, $sNomeCampo, $xValor = null) {
+    public function setValorModel(&$oModelOriginal, $sNomeCampo, $xValor = null, $aCamposTela) {
         $aMetodos = self::extractMetodos($sNomeCampo);
 
         $oModel = $oModelOriginal;
+
+
 
         if ($xValor === null && $xValor !== "" && $xValor !== 0) {
             // $aCampos = json_decode($_REQUEST['campos'],true);
@@ -364,9 +366,98 @@ class Controller {
 
             $xValorCampo = $this->preparaString($aCampos[$sNomeRequest]);
             //checa se o campo é data
-            if (Util::ValidaData($xValorCampo)) {
-                $xValorCampo = Util::dataMysql($xValorCampo);
+            /* if (Util::ValidaData($xValorCampo)) {
+              $xValorCampo = Util::dataMysql($xValorCampo);
+              } */
+
+
+            //analisa o tipo de campo para tratamentos especiais
+            foreach ($aCamposTela as $oCampoTela) {
+                switch ($oCampoTela) {
+                    case is_a($oCampoTela, 'Campo'):
+                        //seta valor so $xValorCampo
+                        if ($sNomeCampo == $oCampoTela->getNome()) {
+                            if ($oCampoTela->getITipo() == 29) {
+                                $xValorCampo = $this->ValorSql($xValorCampo);
+                            }
+                        }
+                        break;
+                    case is_array($oCampoTela):
+                        foreach ($oCampoTela as $CampoArray) {
+                            if ($sNomeCampo == $CampoArray->getNome()) {
+                                if ($CampoArray->getITipo() == 29) {
+                                    $xValorCampo = $this->ValorSql($xValorCampo);
+                                }
+                            }
+                        }
+
+                        break;
+                    case is_a($oCampoTela, 'FieldSet'):
+                        foreach ($oCampoTela->getACampos() as $oFsCampo) {
+                            if (is_array($oFsCampo)) {
+                                foreach ($oFsCampo as $oFsCampo1) {
+                                    if ($sNomeCampo == $oFsCampo1->getNome()) {
+                                        if ($oFsCampo1->getITipo() == 29) {
+                                            $xValorCampo = $this->ValorSql($xValorCampo);
+                                        }
+                                    }
+                                }
+                            } else {
+                                if ($sNomeCampo == $oFsCampo->getNome()) {
+                                    if ($oFsCampo->getITipo() == 29) {
+                                        $xValorCampo = $this->ValorSql($xValorCampo);
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case is_a($oCampoTela, 'TabPanel'):
+                        foreach ($oCampoTela->getItems() as $Aba) {
+                            foreach ($Aba->getACampos() as $AbaCampo) {
+                                if (is_array($AbaCampo)) {
+                                    foreach ($AbaCampo as $AbaCampo1) {
+                                        if ($sNomeCampo == $AbaCampo1->getNome()) {
+                                            if ($AbaCampo1->getITipo() == 29) {
+                                                $xValorCampo = $this->ValorSql($xValorCampo);
+                                            }
+                                        }
+                                    }
+                                }
+                                //verifica se é campo dentro do tab
+                                if (is_a($AbaCampo, 'Campo')) {
+                                    if ($sNomeCampo == $AbaCampo->getNome()) {
+                                        if ($AbaCampo->getITipo() == 29) {
+                                            $xValorCampo = $this->ValorSql($xValorCampo);
+                                        }
+                                    }
+                                }
+                                //verifica se é fieldset
+                                if (is_a($oCampoTela, 'FieldSet')) {
+                                    foreach ($oCampoTela->getACampos() as $oFsCampo) {
+                                        if (is_array($oFsCampo)) {
+                                            foreach ($oFsCampo as $oFsCampo1) {
+                                                if ($sNomeCampo == $oFsCampo1->getNome()) {
+                                                    if ($oFsCampo1->getITipo() == 29) {
+                                                        $xValorCampo = $this->ValorSql($xValorCampo);
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if ($sNomeCampo == $oFsCampo->getNome()) {
+                                                if ($oFsCampo->getITipo() == 29) {
+                                                    $xValorCampo = $this->ValorSql($xValorCampo);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                }
             }
+
+
             //data nascimento - cad. pessoas - pessoa jurídica, como o campo era oculto tentava gravar false
             if (/* isset($aCampos[$sNomeCampo]) && */ $aCampos[$sNomeCampo] !== "false") {
                 $xValor = $xValorCampo;
@@ -653,8 +744,10 @@ class Controller {
         $this->View->getTela()->setSRenderHide($aRender[1]);
         //busca campo autoincremento para passar como parametro
         $sCampoIncremento = $this->retornaAutoInc();
-        //adiciona botoes padrão
+        //adiciona botoes padrão 
+
         $this->View->addBotaoPadraoTela($sCampoIncremento);
+
         //função autoincremento
         $this->funcoesAutoIncremento();
         //seta o controler na view
@@ -1021,11 +1114,11 @@ class Controller {
         //captura o vetor de campos da tela
         $aCampos = $this->View->getTela()->getCampos();
 
-        //busca os campos do banco que sÃ£o autoincremento
+        //busca os campos do banco que são autoincremento
         $aAuto = $this->Persistencia->getAutoIncrementoArray();
 
         foreach ($aCampos as $oAtualTela) {
-            //sÃ³ deve executar para os objetos que forem instÃ¢ncia da classe Campo
+            //só deve executar para os objetos que forem instância da classe Campo
             if (get_class($oAtualTela) === 'Campo') {
                 foreach ($aAuto as $oAtualBanco) {
                     if ($oAtualTela->getNome() == $oAtualBanco->getNomeModel()) {
@@ -1539,6 +1632,7 @@ class Controller {
         $aDados = explode(',', $nomeGrid);
         $nomeGrid = $aDados[0];
         $aCampos = $this->View->$nomeGrid();
+        $this->afterGetdadoGrid();
         $this->getDadosConsulta($sDadosReload, true, null, $aCampos, true);
     }
 
@@ -2265,9 +2359,10 @@ class Controller {
         $iTipoLigacao = Persistencia::LIGACAO_AND;
         $iTipoComparacao = Persistencia::IGUAL;
         $this->Persistencia->adicionaFiltro($sCampoBanco, $sValorFiltro, $iTipoLigacao, $iTipoComparacao);
+        //adiciona filtro adicionais se for necessário
+        $this->antesValorBuscaPk();
 
-        //inclui os filtros adicionais definidos no controller específico
-        // $this->adicionaFiltrosExtras();
+
 
         $sMetodoPersistencia = self::METODO_ARRAY_DADOS;
         $aModels = $this->Persistencia->$sMetodoPersistencia(); //carrega os dados 
@@ -2699,7 +2794,12 @@ class Controller {
         $aRetorno[0] = true;
         $this->antesDeCriarTela();
         $this->View->criaTela();
-        $this->carregaModel();
+        $aCamposTela = $this->View->getTela()->getCampos();
+        $this->carregaModel($aCamposTela);
+
+        if ($this->View->getBGravaHistorico() == true) {
+            $this->gravaHistorico('Inserir');
+        }
 
 
 
@@ -3072,6 +3172,14 @@ class Controller {
         //cria a tela
         $this->View->criaTela();
 
+
+        //traz lista campos
+        $aCamposTela = $this->View->getTela()->getCampos();
+
+        if ($this->View->getBGravaHistorico() == true) {
+            $this->gravaHistorico('Alterar');
+        }
+
         $this->Persistencia->iniciaTransacao();
 
         $aChaveMestre = $this->Persistencia->getChaveArray();
@@ -3082,7 +3190,7 @@ class Controller {
         }
         $this->Model = $this->Persistencia->consultar();
         $this->antesCarregarModel();
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
         //alterar dependências
         $aRetorno = $this->acaoAlterarDependencias();
@@ -3142,6 +3250,7 @@ class Controller {
                 $sCampos = implode(',', $this->montaProxEtapa());
                 //passa id da etapa,id do processo,id do form,valor chavepk
                 //  echo 'requestAjax("","'.$sClasseDetalhe.'","acaoTelaDetalhe","'.$aDados[2].','.$aDados[3].','.$aDados[0].','.$aDados[4].','.$aDados[5].'","'.$sCampos.'");';
+                // $aDados[3]++;
                 echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . '","' . $sCampos . '");';
             }
         } else {
@@ -3333,10 +3442,21 @@ class Controller {
         //armazena parametros no param para recuperá-los se necessários
         $this->parametros = $aChave;
 
+
+
+
+
         foreach ($aChave as $sChaveAtual) {
             $this->Persistencia->iniciaTransacao();
             $this->carregaModelString($sChaveAtual);
             $this->Model = $this->Persistencia->consultar();
+
+            $this->View->criaTela();
+
+            if ($this->View->getBGravaHistorico() == true) {
+                $aItem = explode('=', $sChaveAtual);
+                $this->gravaHistorico('Excluir', $aItem[1]);
+            }
 
             $aRetorno = $this->beforeDelete();
 
@@ -3712,6 +3832,11 @@ class Controller {
     public function carregaValorCampo($oCampo) {
         $xValor = str_replace("\n", "<br>", $this->getValorModel($this->Model, $oCampo->getNome()));
         $xValor = str_replace("'", "\'", $xValor);
+        //verifica se é decimal
+        if ($oCampo->getITipo() == 29) {
+            $xValor = number_format($xValor, 2, ',', '.');
+        }
+
         if ($oCampo->getITipo() == 0) {
             if ($xValor !== '') {
                 $oCampo->setSValor(date('d/m/Y', strtotime($xValor)));
@@ -4030,6 +4155,58 @@ class Controller {
      */
     public function afterResetForm($sDados) {
         
+    }
+
+    /**
+     * Método para ser sobescrito
+     */
+    public function afterGetdadoGrid() {
+        
+    }
+
+    /**
+     * Metodo subs antes de buscar valorPK
+     */
+    public function antesValorBuscaPk() {
+        
+    }
+
+    public function gravaHistorico($sAcao, $sDados) {
+
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+
+        if ($sAcao == 'Alterar') {
+            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setClasse($this->getNomeClasse());
+            $oHist->Model->setHora(date('H:i:s'));
+            $oHist->Model->setData(date('d/m/Y'));
+            $oHist->Model->setHistorico($aCampos['historico']);
+            $oHist->Persistencia->setModel($oHist->Model);
+            $oHist->Persistencia->inserir();
+        }
+        if ($sAcao == 'Inserir') {
+            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setClasse($this->getNomeClasse());
+            $oHist->Model->setHora(date('H:i:s'));
+            $oHist->Model->setData(date('d/m/Y'));
+            $oHist->Model->setHistorico($aCampos['historico']);
+            $oHist->Persistencia->setModel($oHist->Model);
+            $oHist->Persistencia->inserir();
+        }
+        if ($sAcao == 'Excluir') {
+            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setClasse($this->getNomeClasse());
+            $oHist->Model->setHora(date('H:i:s'));
+            $oHist->Model->setData(date('d/m/Y'));
+            $oHist->Model->setHistorico('Exclusão do item ' . $sDados);
+            $oHist->Persistencia->setModel($oHist->Model);
+            $oHist->Persistencia->inserir();
+        }
     }
 
 }

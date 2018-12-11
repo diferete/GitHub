@@ -135,7 +135,7 @@ class ViewQualRnc extends View {
         $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oRespVenda->setBFocus(true);
         $oRespVenda->setSValor($aDadosTela[0]);
-        $oRespVenda->setBCampoBloqueado(true);
+        //$oRespVenda->setBCampoBloqueado(true);
 
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -145,7 +145,7 @@ class ViewQualRnc extends View {
         $oRespVendaNome->addCampoBusca('usunome', '', '');
         $oRespVendaNome->setSIdTela($this->getTela()->getid());
         $oRespVendaNome->setSValor($aDadosTela[1]);
-        $oRespVendaNome->setBCampoBloqueado(true);
+        //$oRespVendaNome->setBCampoBloqueado(true);
 
 
         $oRespVenda->setClasseBusca('User');
@@ -162,13 +162,13 @@ class ViewQualRnc extends View {
         $oContato = new campo('Contato', 'contato', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oContato->addValidacao(FALSE, Validacao::TIPO_STRING, 5);
 
-        $oCelular = new Campo('Celular *somente Nº', 'celular', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oCelular = new Campo('Fone *somente Nº', 'celular', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oEmail = new campo('E-mail', 'email', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmail->addValidacao(false, Validacao::TIPO_EMAIL);
 
         $oInd = new campo('Indústria', 'ind', Campo::TIPO_CHECK, 1);
-
+		
         $oComer = new campo('Comércio', 'comer', Campo::TIPO_CHECK, 1);
 
         $oFieldContato->addCampos(array($oContato, $oCelular, $oEmail, $oInd, $oComer));
@@ -186,9 +186,9 @@ class ViewQualRnc extends View {
 
         $oPedido = new campo('Pedido', 'pedido', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oValor = new campo('Valor', 'valor', Campo::TIPO_TESTE, 2, 2, 12, 12);
+        $oValor = new campo('Valor', 'valor', Campo::TIPO_MONEY, 1, 1, 12, 12);
 
-        $oPeso = new campo('Peso', 'peso', Campo::TIPO_TESTE, 1, 1, 12, 12);
+        $oPeso = new campo('Peso', 'peso', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","QualRnc","buscaNf","' . $oDataNf->getId() . ',' . $oValor->getId() . ',' . $oPeso->getId() . '");';
 
@@ -204,12 +204,14 @@ class ViewQualRnc extends View {
 
         $oFieldEmb->addCampos(array($oLote, $oOp));
 
+
         $oDadosProduto = new FieldSet('Dados do produto');
 
         //campo código do produto
         $oCodigo = new Campo('Codigo', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCodigo->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
+
 
         //campo descrição do produto adicionando o campo de busca
         $oProdes = new Campo('Produto', 'prodes', Campo::TIPO_BUSCADOBANCO, 5, 5, 12, 12);
@@ -228,29 +230,38 @@ class ViewQualRnc extends View {
         $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oAplicacao->addItemSelect('Oxidação branca', 'Oxidação branca');
         $oAplicacao->addItemSelect('Oxidação vermelha', 'Oxidação vermelha');
-        $oAplicacao->addItemSelect('Emb. diferente da etiqueta', 'Emb. diferente da etiqueta');
-        $oAplicacao->addItemSelect('Prod. misturado', 'Produto misturado');
-        $oAplicacao->addItemSelect('Quant. errada', 'Quantidade errada');
-        $oAplicacao->addItemSelect('Envio de prod. errado', 'Envio de prod. errado');
-        $oAplicacao->addItemSelect('Entrega de prod. errado', 'Entrega de prod. errado');
-        $oAplicacao->addItemSelect('Prod. com trinca', 'Prod. com trinca');
-        $oAplicacao->addItemSelect('Quant. enviada, diferente do pedido', 'Quant. enviada, diferente do pedido');
-        $oAplicacao->addItemSelect('Emb. avariada', 'Emb. avariada');
-        $oAplicacao->addItemSelect('Prod. entregues em duplicidade', 'Prod. entregues em duplicidade');
+        $oAplicacao->addItemSelect('Embalagem diferente da etiqueta', 'Embalagem diferente da etiqueta');
+        $oAplicacao->addItemSelect('Produto misturado', 'Produto misturado');
+        $oAplicacao->addItemSelect('Quantidade errada', 'Quantidade errada');
+        $oAplicacao->addItemSelect('Envio de produto errado', 'Envio de produto errado');
+        $oAplicacao->addItemSelect('Entrega de produto errado', 'Entrega de produto errado');
+        $oAplicacao->addItemSelect('Produto com trinca', 'Prod. com trinca');
+        $oAplicacao->addItemSelect('Quantidade enviada diferente do pedido', 'Quant enviada diferente do pedido');
+        $oAplicacao->addItemSelect('Embalagem avariada', 'Embalagem avariada');
+        $oAplicacao->addItemSelect('Produto entregues em duplicidade', 'Produto entregues em duplicidade');
         $oAplicacao->addItemSelect('Rosca danificada', 'Rosca danificada');
         $oAplicacao->addItemSelect('Erro no pedido', 'Erro no pedido');
         $oAplicacao->addItemSelect('Dimencional errado', 'Dimencional errado');
         $oAplicacao->addItemSelect('Rosca fora da especificação', 'Rosca fora da especificação');
 
-        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_TESTE, 1, 1, 12, 12);
 
-        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TESTE, 2, 2, 12, 12);
+        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_MONEY, 1, 1, 12, 12);
+        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oDescNaoConf->setILinhasTextArea(5);
         $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
 
+        /* $oAceito = new Campo('Aceito condicionalmente', 'aceitocond', Campo::TIPO_CHECK, 3);
+          $oAceito->setIMarginTop(15);
+
+          $oReprovar = new Campo('Reprovar', 'reprovar', Campo::TIPO_CHECK, 3);
+          $oReprovar->setIMarginTop(15);
+         * 
+         */
+
         $oDadosProduto->addCampos(array($oCodigo, $oProdes, $oQuant), array($oAplicacao, $oQuanNconf)/* , array($oAceito, $oReprovar) */);
+
 
         $oAnexos = new FieldSet('Anexos');
 
@@ -261,10 +272,15 @@ class ViewQualRnc extends View {
         $oAnexos->addCampos(array($oAnexo1, $oAnexo2, $oAnexo3));
         $oAnexos->setOculto(true);
 
+
+
         //seta ids uploads para enviar no request para limpar
         $this->setSIdUpload(',' . $oAnexo1->getId() . ',' . $oAnexo2->getId() . ',' . $oAnexo3->getId());
 
+
         $this->addCampos($oField, array($oEmpcod, $oEmpdes), $oFieldContato, $oFieldNf, $oFieldEmb, $oDadosProduto, $oDescNaoConf, $oAnexos);
+
+
 
         //array($oRespVenda, $oRespVendaNome)
     }

@@ -49,7 +49,7 @@ class ControllerQualRncVenda extends Controller {
         $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
         $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
 
-        //Quantnconf
+//Quantnconf
 
 
         $aRetorno = array();
@@ -105,7 +105,11 @@ class ControllerQualRncVenda extends Controller {
         } else {
             if ($aRetorno[0] == 'Apontada') {
                 $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' ja foi apontada!', Modal::TIPO_AVISO, false, true, true);
-            } else {
+            }
+            if ($aRetorno[0] == 'Aguardando') {
+                $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO, false, true, true);
+            }
+            if ($aRetorno[1] == 'Em análise' && $aRetorno[0] != 'Apontada') {
                 $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' ja teve seu e-mail encaminhado para o seu setor responsável, deseja reenviar o e-mail?', Modal::TIPO_INFO, true, true, true);
                 $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
             }
@@ -191,7 +195,7 @@ class ControllerQualRncVenda extends Controller {
 
         $aRet = $this->Persistencia->verifSitEnc($aCamposChave, $sParam);
 
-        // Para
+// Para
         if ($aRet[0] != $sParam) {
             $oMensagem2 = new Modal('Ops!', 'Parece que você selecionou um setor diferente de para onde esse e-mail foi enviado, tente novamente :)', Modal::TIPO_AVISO, false, true, true);
             echo $oMensagem2->getRender();
@@ -202,15 +206,15 @@ class ControllerQualRncVenda extends Controller {
             } else {
                 if ($aRet[0] == 'Env.Qual') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                   //$oEmail->addDestinatario('duda@metalbo.com.br');
+//$oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
+//$oEmail->addDestinatario('embalagem@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('josiani@metalbo.com.br');
+//$oEmail->addDestinatario('josiani@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RNC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc']));
@@ -349,7 +353,7 @@ class ControllerQualRncVenda extends Controller {
         $oEmail->limpaDestinatariosAll();
 
 
-        // Para
+// Para
         $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
         $oEmail->addDestinatario($sEmail);
 

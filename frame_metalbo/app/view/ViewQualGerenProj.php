@@ -413,9 +413,24 @@ class ViewQualGerenProj extends View {
         $oDataFin->setSValor(Util::getDataAtual());
         $oDataFin->addValidacao(false, Validacao::TIPO_STRING, '', '2');
 
+        $oGrupo = new campo('Grupo', 'grucod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+
+        $oGrupoDes = new campo('Grupo Des.', '', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
+        $oGrupoDes->setSIdPk($oGrupo->getId());
+        $oGrupoDes->setClasseBusca('GrupoProd');
+        $oGrupoDes->addCampoBusca('grucod', '', '');
+        $oGrupoDes->addCampoBusca('grudes', '', '');
+        $oGrupoDes->setSIdTela($this->getTela()->getid());
+        $oGrupoDes->setApenasTela(true);
+
+        $oGrupo->setClasseBusca('GrupoProd');
+        $oGrupo->setSCampoRetorno('grucod', $this->getTela()->getid());
+        $oGrupo->addCampoBusca('grudes', $oGrupoDes->getId(), $this->getTela()->getid());
+
+
         $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
-        
+
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relProjXls");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 
@@ -436,7 +451,7 @@ class ViewQualGerenProj extends View {
         $oRelCli->addItemSelect('Reprovado', 'Reprovado');
         $oRelCli->addItemSelect('Aguardando', 'Aguardando');
         $oRelCli->addItemSelect('Enviado', 'Enviado');
-        
+
 
         $oFieldRel->addCampos(array($oRelPrj, $oRelVend, $oRelCli));
 
@@ -455,7 +470,7 @@ class ViewQualGerenProj extends View {
 
         $oFieldRel2->addCampos(array($oSitGRel));
 
-        $this->addCampos(array($oDataIni, $oDataFin), $oFieldRel, $oFieldRel2, $oXls);
+        $this->addCampos(array($oDataIni, $oDataFin, $oGrupo, $oGrupoDes), $oFieldRel, $oFieldRel2, $oXls);
     }
 
 }

@@ -15,7 +15,7 @@ class PersistenciaFamSub extends Persistencia{
          $this->adicionaRelacionamento('grucod','grucod',true);
          $this->adicionaRelacionamento('subcod', 'subcod',true);
          $this->adicionaRelacionamento('famcod', 'famcod',true);
-         $this->adicionaRelacionamento('famsub', 'famsub');
+         $this->adicionaRelacionamento('famsub', 'famsub',true);
          $this->adicionaRelacionamento('famsdes','famsdes');
          
          $this->setSTop(50);

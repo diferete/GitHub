@@ -20,7 +20,7 @@ class ControllerSolPed extends Controller{
       $aDados = explode(',', $sDados);
       if($aDados[2]<>''){
        $aRetorno =$this->Persistencia->buscaRep($aDados[2]);
-       echo "$('#".$aDados[0]."').val('".$aRetorno[0]."');"
+       echo"$('#".$aDados[0]."').val('".$aRetorno[0]."');"
            ."$('#".$aDados[1]."').val('".$aRetorno[1]."');";
       }
       

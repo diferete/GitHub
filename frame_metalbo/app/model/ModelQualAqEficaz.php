@@ -1,12 +1,13 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
 class ModelQualAqEficaz {
+
     private $filcgc;
     private $nr;
     private $seq;
@@ -16,7 +17,25 @@ class ModelQualAqEficaz {
     private $usucodigo;
     private $usunome;
     private $eficaz;
-    
+    private $obs;
+    private $sit;
+
+    function getObs() {
+        return $this->obs;
+    }
+
+    function getSit() {
+        return $this->sit;
+    }
+
+    function setObs($obs) {
+        $this->obs = $obs;
+    }
+
+    function setSit($sit) {
+        $this->sit = $sit;
+    }
+
     function getEficaz() {
         return $this->eficaz;
     }
@@ -25,8 +44,6 @@ class ModelQualAqEficaz {
         $this->eficaz = $eficaz;
     }
 
-        
-        
     function getUsucodigo() {
         return $this->usucodigo;
     }
@@ -43,7 +60,6 @@ class ModelQualAqEficaz {
         $this->usunome = $usunome;
     }
 
-        
     function getFilcgc() {
         return $this->filcgc;
     }
@@ -60,7 +76,6 @@ class ModelQualAqEficaz {
         return $this->acao;
     }
 
-  
     function getDataprev() {
         return $this->dataprev;
     }
@@ -85,8 +100,6 @@ class ModelQualAqEficaz {
         $this->acao = $acao;
     }
 
-  
-
     function setDataprev($dataprev) {
         $this->dataprev = $dataprev;
     }
@@ -95,6 +108,4 @@ class ModelQualAqEficaz {
         $this->datareal = $datareal;
     }
 
-
-    
 }

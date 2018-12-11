@@ -12,47 +12,56 @@ class ControllerConsultaEstoque extends Controller{
     
      public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
-
+        
         $aCampos = array();
-        parse_str($_REQUEST['campos'], $aCampos);
-        if (count($aCampos) > 0) {
-            $this->Persistencia->adicionaFiltro('grucod', $aCampos['grupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE, $aCampos['grupo1']);
-            $this->Persistencia->adicionaFiltro('subcod', $aCampos['subgrupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE, $aCampos['subgrupo1']);
-            $this->Persistencia->adicionaFiltro('famcod', $aCampos['familia'], Persistencia::LIGACAO_AND, Persistencia::ENTRE, $aCampos['familia1']);
-            $this->Persistencia->adicionaFiltro('famsub', $aCampos['subfamilia'], Persistencia::LIGACAO_AND, Persistencia::ENTRE, $aCampos['subfamilia1']);
-            if ($aCampos['procod'] !== '') {
-                $this->Persistencia->adicionaFiltro('procod', $aCampos['procod']);
-            }
-            if ($aCampos['filadd'] !== '') {
-                $aRepItens = explode(',', $aCampos['filadd']);
-                //adiciona where manual 
-                $this->Persistencia->setSwhereManual(" and procod in (select codigo from " . $aRepItens[1] . " where " . $aRepItens[0] . ") ");
-            }
-        } else {
-
-            $aCamposParam = $_REQUEST['parametrosCampos'];
-            foreach ($aCamposParam as $key => $value) {
-                $aDados = explode(',', $value);
-                $aCampos[$aDados[0]] = $aDados[1];
-            }
-            $this->Persistencia->limpaFiltro();
-            $this->Persistencia->adicionaFiltro('grucod', $aCampos['grupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE, $aCampos['grupo1']);
-            $this->Persistencia->adicionaFiltro('subcod', $aCampos['subgrupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE, $aCampos['subgrupo1']);
-            $this->Persistencia->adicionaFiltro('famcod', $aCampos['familia'], Persistencia::LIGACAO_AND, Persistencia::ENTRE, $aCampos['familia1']);
-            $this->Persistencia->adicionaFiltro('famsub', $aCampos['subfamilia'], Persistencia::LIGACAO_AND, Persistencia::ENTRE, $aCampos['subfamilia1']);
-            //filtro scroll infinito
-
-            if ($_REQUEST['parametrosCampos']) {
-                foreach ($_REQUEST['parametrosCampos'] as $sAtual) {
-                    $aFiltros[] = explode(',', $sAtual);
-                }
-                $sProcod = $aFiltros[13][0];
-                $aProcod = explode('=', $sProcod);
-                $this->Persistencia->adicionaFiltro('procod', $aProcod[1], Persistencia::LIGACAO_AND, $this->tipoFiltro('scroll'));
-            }
+        parse_str($_REQUEST['campos'],$aCampos);
+        if(count($aCampos)>0){
+        $this->Persistencia->adicionaFiltro('grucod',$aCampos['grupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['grupo1']);
+        $this->Persistencia->adicionaFiltro('subcod',$aCampos['subgrupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['subgrupo1']);
+        $this->Persistencia->adicionaFiltro('famcod',$aCampos['familia'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['familia1']);
+        $this->Persistencia->adicionaFiltro('famsub',$aCampos['subfamilia'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['subfamilia1']);
+        if($aCampos['procod']!==''){
+        $this->Persistencia->adicionaFiltro('procod',$aCampos['procod']);
         }
-    }
-
+        if($aCampos['filadd']!==''){
+            $aRepItens= explode(',',$aCampos['filadd']);
+            //adiciona where manual 
+            $this->Persistencia->setSwhereManual(" and procod in (select codigo from ".$aRepItens[1]." where ".$aRepItens[0].") ");
+            
+            
+            
+        }
+        
+        }else{
+          
+        $aCamposParam = $_REQUEST['parametrosCampos'];  
+        foreach ($aCamposParam as $key => $value) {
+            $aDados = explode(',', $value);
+            $aCampos[$aDados[0]]=$aDados[1];
+        }
+          $this->Persistencia->limpaFiltro();
+          $this->Persistencia->adicionaFiltro('grucod',$aCampos['grupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['grupo1']);
+          $this->Persistencia->adicionaFiltro('subcod',$aCampos['subgrupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['subgrupo1']);
+          $this->Persistencia->adicionaFiltro('famcod',$aCampos['familia'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['familia1']);
+          $this->Persistencia->adicionaFiltro('famsub',$aCampos['subfamilia'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['subfamilia1']); 
+          //filtro scroll infinito
+         
+           if($_REQUEST['parametrosCampos']){
+                    foreach ($_REQUEST['parametrosCampos'] as $sAtual){
+                        $aFiltros[] =  explode(',',$sAtual) ;
+                    }
+                        $sProcod = $aFiltros[13][0];
+                        $aProcod = explode('=', $sProcod);
+                        $this->Persistencia->adicionaFiltro('procod',$aProcod[1],Persistencia::LIGACAO_AND, $this->tipoFiltro('scroll'));
+        }
+         
+                  
+        }
+       
+        }
+       
+    
+    
     /**
      * grid
      * código produto

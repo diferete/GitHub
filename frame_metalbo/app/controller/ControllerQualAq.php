@@ -10,9 +10,8 @@ class ControllerQualAq extends Controller {
 
     public function __construct() {
         $this->carregaClassesMvc('QualAq');
-        // $this->setControllerDetalhe('QualAqPlan');
-        $this->setControllerDetalhe('QualCausa');
-        $this->setSMetodoDetalhe('criaPainelCausa');
+        $this->setControllerDetalhe('QualContencao');
+        $this->setSMetodoDetalhe('criaPainelContencao');
     }
 
     public function adicionaFiltrosExtras() {
@@ -89,16 +88,23 @@ class ControllerQualAq extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
-        $aRetorno = $this->Persistencia->reabreAq($aCamposChave);
+        $oRetSit = $this->Persistencia->buscaDadosAq($aCamposChave);
 
-        if ($aRetorno[0]) {
-            $oMensagem = new Modal('Sucesso', 'A ação da qualidade nº' . $aCamposChave['nr'] . ' foi reaberta com sucesso', Modal::TIPO_SUCESSO, false, true, true);
-            echo $oMensagem->getRender();
-            echo"$('#" . $aDados[1] . "-pesq').click();";
-        } else {
-            $oMensagem = new Modal('Atenção', 'A ação da qualidade nº' . $aCamposChave['nr'] . ' não foi reaberta', Modal::TIPO_ERRO, false, true, true);
-            echo $oMensagem->getRender();
+        if ($oRetSit->sit == 'Cancelada') {
+            $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oRetSit->nr . ' não pode ser reaberta por estar CANCELADA.', Modal::TIPO_ERRO, false, true, true);
         }
+        if ($oRetSit->sit == 'Aberta') {
+            $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oRetSit->nr . ' já está ABERTA.', Modal::TIPO_ERRO, false, true, true);
+        } else {
+            $aRetorno = $this->Persistencia->reabreAq($aCamposChave);
+            if ($aRetorno[0]) {
+                $oMensagem = new Modal('Sucesso', 'A ação da qualidade nº' . $aCamposChave['nr'] . ' foi reaberta com sucesso', Modal::TIPO_SUCESSO, false, true, true);
+                echo"$('#" . $aDados[1] . "-pesq').click();";
+            } else {
+                $oMensagem = new Modal('Atenção', 'A ação da qualidade nº' . $aCamposChave['nr'] . ' não foi reaberta', Modal::TIPO_ERRO, false, true, true);
+            }
+        }
+        echo $oMensagem->getRender();
     }
 
     public function startAq($sDados) {
@@ -108,16 +114,27 @@ class ControllerQualAq extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
-        $aRetorno = $this->Persistencia->startAq($aCamposChave);
+        $oRetSit = $this->Persistencia->buscaDadosAq($aCamposChave);
 
-        if ($aRetorno[0]) {
-            $oMensagem = new Modal('Sucesso', 'A ação da qualidade nº' . $aCamposChave['nr'] . ' foi iniciada', Modal::TIPO_SUCESSO, false, true, true);
-            echo $oMensagem->getRender();
-            echo"$('#" . $aDados[1] . "-pesq').click();";
-        } else {
-            $oMensagem = new Modal('Atenção', 'A ação da qualidade nº' . $aCamposChave['nr'] . ' não foi iniciada', Modal::TIPO_ERRO, false, true, true);
-            echo $oMensagem->getRender();
+        if ($oRetSit->sit == 'Cancelada' || $oRetSit->sit == 'Finalizada') {
+            $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oRetSit->nr . ' não pode ser Iniciada por estar FINALIZADA ou CANCELADA. Reabra a ação para iniciar!', Modal::TIPO_ERRO, false, true, true);
         }
+        if ($oRetSit->sit == 'Aberta') {
+            $aRetorno = $this->Persistencia->startAq($aCamposChave);
+            if ($aRetorno[0]) {
+                $oMensagem = new Modal('Sucesso', 'A ação da qualidade nº' . $aCamposChave['nr'] . ' foi iniciada', Modal::TIPO_SUCESSO, false, true, true);
+                echo"$('#" . $aDados[1] . "-pesq').click();";
+            } else {
+                $oMensagem = new Modal('Atenção', 'A ação da qualidade nº' . $aCamposChave['nr'] . ' não foi iniciada', Modal::TIPO_ERRO, false, true, true);
+            }
+        } else {
+            if ($oRetSit->sit == 'Iniciada') {
+                $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oRetSit->nr . ' já está iniciada!', Modal::TIPO_AVISO, false, true, true);
+            }
+        }
+
+
+        echo $oMensagem->getRender();
     }
 
     public function envMailQual($sDados, $sRel) {
@@ -194,6 +211,19 @@ class ControllerQualAq extends Controller {
         echo'requestAjax("","QualAq","envMailQual","' . $aCamposChave['EmpRex_filcgc'] . ',' . $aCamposChave['nr'] . '");';
     }
 
+    public function envMailMsg($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aNr = explode('=', $aDados[2]);
+
+        $oMensagem = new Modal('Email', 'Deseja enviar e-mail para todos os envolvidos nessa ação da qualidade?', Modal::TIPO_INFO, true, true, true);
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualAq","envMailAll","' . $sDados . '");');
+
+        echo $oMensagem->getRender();
+    }
+
     public function envMailAll($sDados, $sRel) {
         $aDados = explode(',', $sDados);
 
@@ -240,27 +270,151 @@ class ControllerQualAq extends Controller {
         }
     }
 
-    public function envMailMsg($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
-        $aNr = explode('=', $aDados[2]);
-
-        $oMensagem = new Modal('Email', 'Deseja enviar e-mail para todos os envolvidos nessa ação da qualidade?', Modal::TIPO_INFO, true, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualAq","envMailAll","' . $sDados . '");');
-
-        echo $oMensagem->getRender();
-    }
-
     public function calculoPersonalizado($sParametros = null) {
         parent::calculoPersonalizado($sParametros);
-        $aTotal = $this->Persistencia->somaSit();
+        
+        $sEmpresa = $_SESSION['filcgc'];
+
+        $aTotal = $this->Persistencia->somaSit($sEmpresa);
 
         $sResulta = '<div class="cor_verde">Total de ações abertas:' . $aTotal['Aberta'] . '</div>'
                 . '<div class="cor_azul">Total de ações iniciadas:' . $aTotal['Iniciada'] . '</div>'
                 . 'Total de ações finalizadas:' . $aTotal['Finalizada'] . '';
         return $sResulta;
+    }
+
+    public function getUserEmail($sDados) {
+        $aDados = explode(',', $sDados);
+
+        $aRetorno = $this->Persistencia->getUserEmail($aDados[0]);
+
+        //Nomes
+        $sNome = 'var valor =$("#' . $aDados[1] . '").val();'
+                . 'if (valor !== ""){'
+                . '$("#' . $aDados[1] . '").val(valor+",' . $aRetorno[0] . '");'
+                . '}else{'
+                . '$("#' . $aDados[1] . '").val(valor+"' . $aRetorno[0] . '");'
+                . '}  ';
+        echo $sNome;
+        //E-mail
+        $sEmail = '$("#' . $aDados[2] . '_tag").val("' . $aRetorno[1] . '").focus();'
+                . '$("#' . $aDados[3] . '").focus();'
+                . '$("#' . $aDados[3] . '").focus();';
+        echo $sEmail;
+    }
+
+    public function antesAlterar($sParametros = null) {
+        parent::antesAlterar($sParametros);
+
+        $sChave = htmlspecialchars_decode($sParametros[0]);
+        $this->carregaModelString($sChave);
+        $this->Model = $this->Persistencia->consultar();
+
+        $oSit = $this->Model->getSit();
+
+        if ($oSit == 'Finalizada' || $oSit == 'Cancelada') {
+            $oMensagem = new Modal('Atenção!', 'Ação Nº' . $this->Model->getNr() . ' não pode ser alterada por estar FINALIZADA ou CANCELADA!', Modal::TIPO_ERRO, false, true, true);
+            $this->setBDesativaBotaoPadrao(true);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function criaModalCancelaAq($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aCamposChave['id'] = $aDados[1];
+
+        $oDados = $this->Persistencia->buscaDadosAq($aCamposChave);
+
+        if ($oDados->sit == 'Iniciada' || $oDados->sit == 'Aberta') {
+            $this->View->setAParametrosExtras($oDados);
+
+            $this->View->criaTelaModalCancelaAq($aCamposChave['id']);
+
+            //adiciona onde será renderizado
+            $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        } else {
+            if ($oDados->sit == 'Cancelada') {
+                $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oDados->nr . ' já está CANCELADA!', Modal::TIPO_ERRO, false, true, true);
+            }
+            if ($oDados->sit == 'Finalizada') {
+                $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oDados->nr . ' não pode ser CANCELADA por estar FINALIZADA!', Modal::TIPO_ERRO, false, true, true);
+            }
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function cancelaAq() {
+
+        $aRetorno = $this->Persistencia->cancelaAq();
+
+        if ($aRetorno == true) {
+            $oMensagem = new Mensagem('Cancelada', 'Ação Nº' . $this->Model->getNr() . ' foi cancelada com sucesso!', Mensagem::TIPO_SUCESSO);
+        } else {
+            $oMensagem = new Mensagem('Atenção!', 'Erro ao cancelar Ação Nº' . $this->Model->getNr() . ', a ação não foi cancelada!', Mensagem::TIPO_WARNING);
+        }
+        echo $oMensagem->getRender();
+    }
+    
+    public function geraPdfQualAq($sDados) {
+        $aDados = explode(',', $sDados);
+        $sAq[] = $aDados[3];
+        $sChave = htmlspecialchars_decode($sAq[0]);
+        $aDadosAq = explode('&', $sChave);
+        $sFilcgcDados = $aDadosAq[0];
+        $sNrDados = $aDadosAq[1];
+
+        $aFilcg = explode('=', $sFilcgcDados);
+        $aNr = explode('=', $sNrDados);
+
+        $_REQUEST['filcgcAq'] = $aFilcg[1];
+        $_REQUEST['nrAq'] = $aNr[1];
+        $_REQUEST['email'] = 'S';
+        $_REQUEST['userRel'] = $_SESSION['nome'];
+
+        require 'app/relatorio/AqImp.php';
+    }
+
+    public function envMailTodosMsg($sDados) {
+        $oMensagem = new Modal('Email', 'Deseja enviar e-mail para todos os envolvidos nessa ação da qualidade?', Modal::TIPO_INFO, true, true, true);
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualAq","geraPdfQualAqTodos","' . $sDados . '");');
+
+        echo $oMensagem->getRender();
+    }
+
+    public function geraPdfQualAqTodos($sDados) {
+        $aDados = explode(',', $sDados);
+        if ($aDados[2] == 'concluir') {
+            $_REQUEST['filcgcAq'] = $aDados[0];
+            $_REQUEST['nrAq'] = $aDados[1];
+            $_REQUEST['email'] = 'S';
+            $_REQUEST['userRel'] = $_SESSION['nome'];
+            $_REQUEST['todos'] = 'S';
+        } else {
+            $sAq[] = $aDados[3];
+            $sChave = htmlspecialchars_decode($sAq[0]);
+            $aDadosAq = explode('&', $sChave);
+            $sFilcgcDados = $aDadosAq[0];
+            $sNrDados = $aDadosAq[1];
+
+            $aFilcg = explode('=', $sFilcgcDados);
+            $aNr = explode('=', $sNrDados);
+
+            $_REQUEST['filcgcAq'] = $aFilcg[1];
+            $_REQUEST['nrAq'] = $aNr[1];
+            $_REQUEST['email'] = 'S';
+            $_REQUEST['userRel'] = $_SESSION['nome'];
+            $_REQUEST['todos'] = 'S';
+        }
+
+
+        require 'app/relatorio/AqImp.php';
     }
 
 }

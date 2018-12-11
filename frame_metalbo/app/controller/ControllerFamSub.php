@@ -12,14 +12,27 @@ class ControllerFamSub extends Controller {
     }
     
     
-     public function antesDeCriarConsulta($sParametros = null) {
+    public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
-         $aCampos = array();
-        parse_str($_REQUEST['campos'],$aCampos);
-         if(count($aCampos)>0){
-        $this->Persistencia->adicionaFiltro('grucod',$aCampos['grupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['grupo1']);
-        $this->Persistencia->adicionaFiltro('subcod',$aCampos['subgrupo'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['subgrupo1']);
-        $this->Persistencia->adicionaFiltro('famcod',$aCampos['familia'], Persistencia::LIGACAO_AND, Persistencia::ENTRE,$aCampos['familia1']);
+
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        if (count($aCampos) > 0) {
+            $this->Persistencia->adicionaFiltro('grucod', $aCampos['grucod']);
+            $this->Persistencia->adicionaFiltro('subcod', $aCampos['subcod']);
+            $this->Persistencia->adicionaFiltro('famcod', $aCampos['famcod']);
+        }
+    }
+
+    public function antesValorBuscaPk() {
+        parent::antesValorBuscaPk();
+
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        if (count($aCampos) > 0) {
+            $this->Persistencia->adicionaFiltro('grucod', $aCampos['grucod']);
+            $this->Persistencia->adicionaFiltro('subcod', $aCampos['subcod']);
+            $this->Persistencia->adicionaFiltro('famcod', $aCampos['famcod']);
         }
     }
 

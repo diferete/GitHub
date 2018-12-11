@@ -73,6 +73,7 @@ class CampoConsulta {
     //ícone campos consulta acao
     const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
     const ICONE_FLAG ='btn-xs btn btn-pure btn-dark icon wb-flag';
+    const ICONE_EDIT = 'btn-xs btn btn-pure btn-primary icon wb-clipboard';
     
     
 

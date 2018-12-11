@@ -50,7 +50,6 @@ $row = $dadoscab->fetch(PDO::FETCH_ASSOC);
 $pdf->SetMargins(3, 0, 3);
 $pdf->Rect(2, 10, 38, 18);
 
-$pdf->Rect(2, 32, 206, 25);
 // Logo
 $pdf->Image('../../biblioteca/assets/images/logopn.png', 4, 13, 26);
 // Arial bold 15
@@ -62,37 +61,22 @@ $pdf->Cell(120, 18, '        Relatório de não conformidade nº   ' . $nrHeader
 
 $pdf->Rect(160, 10, 48, 18);
 $pdf->SetFont('Arial', '', 9);
-$pdf->MultiCell(45, 5, 'Emissão:' . $row['datains'] . '       Usuário:' . $row['usunome'] . '                        ', 0, 'J');
+$pdf->MultiCell(45, 5, 'Emissão: ' . $row['datains'] . '       Usuário: ' . $row['usunome'] . '                        ', 0, 'J');
 
+$pdf->Rect(2, 32, 206, 30);
 $pdf->Ln(10);
 //cliente
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(18, 5, "Cliente:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(28, 5, $row['empcod'], 0, 0, 'L');
-$pdf->Cell(114, 5, $row['empdes'], 0, 0, 'L');
+$pdf->Cell(30, 5, $row['empcod'], 0, 0, 'L');
+$pdf->Cell(116, 5, $row['empdes'], 0, 1, 'L');
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(18, 5, "Tipo:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
 $pdf->Cell(19, 5, '(' . $row['ind'] . ') Indústria', 0, 0, 'L');
 $pdf->Cell(19, 5, '(' . $row['comer'] . ') Comécio', 0, 1, 'L');
 
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(18, 5, "Fone:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(38, 5, $row['empfone'], 0, 0, 'L');
-
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(18, 5, "Celular:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(48, 5, $row['celular'], 0, 1, 'L');
-
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(18, 5, "Endereço:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(98, 5, $row['empend'], 0, 0, 'L');
-
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(18, 5, "Bairro:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(78, 5, $row['empendbair'], 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(18, 5, "Cidade:", 0, 0, 'L');
@@ -105,11 +89,31 @@ $pdf->SetFont('arial', '', 10);
 $pdf->Cell(38, 5, $row['cidcep'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(18, 5, "Bairro:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(78, 5, $row['empendbair'], 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(18, 5, "Endereço:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(98, 5, $row['empend'], 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(18, 5, "Fone:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(38, 5, $row['empfone'], 0, 0, 'L');
+
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(18, 5, "Celular:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(38, 5, $row['celular'], 0, 0, 'L');
+
+$pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(18, 5, "E-mail:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(28, 5, $row['email'], 0, 1, 'L');
 
-$pdf->Rect(2, 60, 206, 20);
+$pdf->Rect(2, 65, 206, 25);
 
 $pdf->Ln(7);
 
@@ -142,9 +146,6 @@ $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(32, 5, "Peso:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(30, 5, number_format($row['peso'], 2, ',', '.'), 0, 1, 'L');
-
-$pdf->Rect(2, 84, 206, 8);
-$pdf->Ln(8);
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Lote:", 0, 0, 'L');
@@ -218,7 +219,7 @@ $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['apontamento'], 0, 'L');
 
 $pdf->Ln(30);
-         
+
 $iAltF = $pdf->GetY();
 
 

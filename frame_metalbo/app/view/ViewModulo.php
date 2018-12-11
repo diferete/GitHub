@@ -9,47 +9,49 @@ class ViewModulo extends View {
     function criaConsulta() {
         parent::criaConsulta();
 
-        $this->setUsaAcaoVisualizar(true);
         $this->setaTiluloConsulta('Pesquisa de Módulos do Sistema');
-
         $oCodigo = new CampoConsulta('Modulo', 'modcod');
         $oCodigo->setILargura(500);
 
         $oModulo = new CampoConsulta('Descrição', 'modescricao');
         $oModulo->setILargura(500);
 
-        $oModuloCod = new Filtro($oCodigo, Filtro::CAMPO_MONEY, 2, 2, 12, 12, true);
-        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 3, 4, 12, 12);
 
-        $this->addFiltro($oModuloCod, $oModuloF);
         $this->addCampos($oCodigo, $oModulo);
+
+        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4);
+        $this->addFiltro($oModuloF);
+
+        $this->setUsaAcaoVisualizar(true);
     }
 
     function criaTela() {
         parent::criaTela();
 
 
-        $oTab = new TabPanel();
-        $oAbaGeral = new AbaTabPanel('Aba Geral');
-        $oAbaGeral->setBActive(true);
 
-        $oAbaObs = new AbaTabPanel('Obs.');
+        $oTab = new TabPanel();
+        $oAbaGeral = new AbaTabPanel('Cadastro');
+        $oAbaGeral->setBActive(true);
         $this->addLayoutPadrao('Aba');
+
+
 
 
         $oModCod = new Campo('Código', 'modcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oModCod->setBCampoBloqueado(true);
 
         $oModDescricao = new Campo('Descrição', 'modescricao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oModDescricao->addValidacao(false, Validacao::TIPO_STRING, '2', '15');
+        $oModDescricao->addValidacao(false, Validacao::TIPO_STRING, '', '2', '15');
 
-        $oObs = new Campo('Obs', 'obs', Campo::TIPO_TEXTO, 3);
+        $oBotaoGrupo = new Campo('Add Grupo', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $sAcaoGrupo = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","insereGrupo");';
+        $oBotaoGrupo->getOBotao()->addAcao($sAcaoGrupo);
 
 
-        $oAbaGeral->addCampos(array($oModCod, $oModDescricao));
-        $oAbaObs->addCampos($oObs);
+        $oAbaGeral->addCampos(array($oModCod, $oModDescricao)/* ,$oBotaoGrupo */);
 
-        $oTab->addItems($oAbaGeral, $oAbaObs);
+        $oTab->addItems($oAbaGeral);
 
 
         $this->addCampos($oTab);
