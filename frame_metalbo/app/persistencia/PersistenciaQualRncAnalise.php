@@ -63,6 +63,7 @@ class PersistenciaQualRncAnalise extends Persistencia {
 
         $this->adicionaRelacionamento('resp_venda_cod', 'resp_venda_cod');
         $this->adicionaRelacionamento('resp_venda_nome', 'resp_venda_nome');
+        $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
         $this->adicionaRelacionamento('situaca', 'situaca');
@@ -81,7 +82,6 @@ class PersistenciaQualRncAnalise extends Persistencia {
         if ($_SESSION['codsetor'] == 25) {
             $this->adicionaFiltro('tagsetor', '25');
         }
-        $this->adicionaFiltro('devolucao', 'Em análise');
     }
 
     public function verificaFim($aDados) {
@@ -165,6 +165,8 @@ class PersistenciaQualRncAnalise extends Persistencia {
      * Apontamento da reclamação 
      */
     public function apontaRnc($aDados) {
+
+        $aDados['apontamento'] = $this->preparaString($aDados['apontamento']);
         $sSql = "update tbrncqual"
                 . " set situaca = 'Apontada',"
                 . " apontamento = '" . $aDados['apontamento'] . "',"

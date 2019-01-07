@@ -71,6 +71,9 @@ class ViewQualCorrecao extends View {
 
         $aValor = $this->getAParametrosExtras();
 
+        $oDivisor = new Campo('Tela com preenchimento OPCIONAL, caso for uma ação preventiva não necessita preencher.', 'divisor1', Campo::DIVISOR_VERMELHO, 12, 12, 12, 12);
+        $oDivisor->setApenasTela(true);
+
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor($aValor[0]);
         $oFilcgc->setBCampoBloqueado(true);
@@ -82,7 +85,7 @@ class ViewQualCorrecao extends View {
         $oSeq = new Campo('Sequência', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeq->setBCampoBloqueado(true);
 
-        $oPlano = new Campo('Ação efetuada', 'correcao', Campo::TIPO_TEXTAREA, 12);
+        $oPlano = new Campo('Ação efetuada', 'plano', Campo::TIPO_TEXTAREA, 12);
         $oPlano->setILinhasTextArea(5);
         $oPlano->setICaracter(500);
 
@@ -106,8 +109,9 @@ class ViewQualCorrecao extends View {
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
         $oTipo = new Campo('Tipo ação', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oTipo->setSValor('Aq');
+        $oTipo->setSValor($aValor[3]);
         $oTipo->setBCampoBloqueado(true);
+        $oTipo->setSCorFundo(Campo::FUNDO_MONEY);
 
         $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataPrev->addValidacao(false, Validacao::TIPO_STRING, '', '2');
@@ -122,7 +126,7 @@ class ViewQualCorrecao extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
+        $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }
 

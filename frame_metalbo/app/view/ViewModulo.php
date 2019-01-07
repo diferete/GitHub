@@ -48,8 +48,12 @@ class ViewModulo extends View {
         $sAcaoGrupo = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","insereGrupo");';
         $oBotaoGrupo->getOBotao()->addAcao($sAcaoGrupo);
 
+        $oBotaoXML = new Campo('XML', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $sAcaoXML = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","converteXML");';
+        $oBotaoXML->getOBotao()->addAcao($sAcaoXML);
 
-        $oAbaGeral->addCampos(array($oModCod, $oModDescricao)/* ,$oBotaoGrupo */);
+
+        $oAbaGeral->addCampos(array($oModCod, $oModDescricao), $oBotaoXML, $oBotaoGrupo);
 
         $oTab->addItems($oAbaGeral);
 

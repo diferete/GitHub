@@ -402,8 +402,8 @@ class ViewQualGerenProj extends View {
         $this->setTituloTela('Relatório de Projetos');
         $this->setBTela(true);
 
-        $oFieldRel = new FieldSet('Situações por setor');
-
+        $oDivisor1 = new Campo('Situações por setor', 'setorsit', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor1->setApenasTela(true);
 
         $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataIni->setSValor(Util::getPrimeiroDiaMes());
@@ -452,10 +452,8 @@ class ViewQualGerenProj extends View {
         $oRelCli->addItemSelect('Aguardando', 'Aguardando');
         $oRelCli->addItemSelect('Enviado', 'Enviado');
 
-
-        $oFieldRel->addCampos(array($oRelPrj, $oRelVend, $oRelCli));
-
-        $oFieldRel2 = new FieldSet('Situações gerais');
+        $oDivisor2 = new Campo('Situações Gerais', 'sitgeral', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor2->setApenasTela(true);
 
         $oSitGRel = new campo('Geral', 'geralsit', Campo::TIPO_SELECT);
         $oSitGRel->addItemSelect('', 'Todos');
@@ -468,9 +466,8 @@ class ViewQualGerenProj extends View {
         $oSitGRel->addItemSelect('Produzido', 'Produzido');
         $oSitGRel->addItemSelect('Expirado', 'Expirado');
 
-        $oFieldRel2->addCampos(array($oSitGRel));
 
-        $this->addCampos(array($oDataIni, $oDataFin, $oGrupo, $oGrupoDes), $oFieldRel, $oFieldRel2, $oXls);
+        $this->addCampos(array($oDataIni, $oDataFin, $oGrupo, $oGrupoDes), $oDivisor1, array($oRelPrj, $oRelVend, $oRelCli), $oDivisor2, array($oSitGRel), $oXls);
     }
 
 }

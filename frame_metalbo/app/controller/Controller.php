@@ -1727,13 +1727,13 @@ class Controller {
                         array_pop($aCamposChave);
                         foreach ($aCamposChave as $key => $value) {
                             //retorna campo do model
-                            $aModel = explode('_', $key);
+                           /* $aModel = explode('_', $key);
                             if (count($aModel) > 1) {
                                 $sModelFiltro = $aModel[1];
                             } else {
                                 $sModelFiltro = $aModel[0];
-                            }
-                            $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
+                            }*/
+                            $this->Persistencia->adicionaFiltro($key, $value, Persistencia::LIGACAO_AND);
                         }
                     }
                 }
@@ -1773,8 +1773,7 @@ class Controller {
         }
 
         $aModels = $this->Persistencia->getArrayModel(); //carrega os campos da consulta
-        //pega o total de linhas na querys
-        $iTotalReg = $this->Persistencia->getCount();
+        
 
         $sDados = '';
         //verifica se foi informado posição do contador
@@ -1889,6 +1888,13 @@ class Controller {
             $sDados .= '<td class="hidden chave">' . $sChave . '</td>';
             $sDados .= '</tr>';
         }
+        //pega o total de linhas na querys
+        $iTotalFiltro = $this->Persistencia->getCount();
+        if($iTotalFiltro>=$this->Persistencia->getITop()){
+            $iTotalFiltro = $this->Persistencia->getITop();
+        }
+        $this->Persistencia->limpaFiltro();
+        $iTotalReg = $this->Persistencia->getCount();
         //define se o $sDadosReload != null é atualização se não e nova tela
         if ($sDadosReload !== NULL) {
             //pegar id da tr
@@ -1913,10 +1919,17 @@ class Controller {
             $sSummary = '$("#' . $aDadosAtualizar[0] . '-summary > tbody > tr").empty();'
                     . '$("#' . $aDadosAtualizar[0] . '-summary > tbody > tr").append(\'' . $sDadosSummary . '\');';
             echo $sSummary;
+            
+            //mostra contator de registros 
+           
+            $sNrReg = 'var nrReg = $("#' . $aDadosAtualizar[0] . ' > tbody > tr").length ;'
+                    .' $("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de ' . $iTotalReg . '. Clique para carregar!"); ';
+            echo $sNrReg;
         } else {
             //retorna os dados
             $aDados[0] = $sDados;
             $aDados[1] = $iTotalReg;
+            $aDados[2] = $iTotalFiltro;
             return $aDados; //$sDados; 
         }
     }

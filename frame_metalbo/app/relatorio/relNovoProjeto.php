@@ -104,9 +104,12 @@ if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGera
         $sql .= " and ";
         $sql .= " sitgeralproj ='" . $sSitGeral . "'";
     }
+
     if (($sTipoProd !== '')) {
-        $sql .= " and ";
-        $sql .= " grucod = '" . $sTipoProd . "'";
+        if ($sSitProj == 'Cód. enviado') {
+            $sql .= " and ";
+            $sql .= " grucod = '" . $sTipoProd . "'";
+        }
     }
 }
 $sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"

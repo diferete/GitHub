@@ -51,7 +51,16 @@ class ModelQualRnc {
     private $resp_venda_nome;
     private $apontamento;
     private $usuaponta;
-    
+    private $repcod;
+
+    function getRepcod() {
+        return $this->repcod;
+    }
+
+    function setRepcod($repcod) {
+        $this->repcod = $repcod;
+    }
+
     function getUsuaponta() {
         return $this->usuaponta;
     }
@@ -60,7 +69,6 @@ class ModelQualRnc {
         $this->usuaponta = $usuaponta;
     }
 
-    
     function getApontamento() {
         return $this->apontamento;
     }

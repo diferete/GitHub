@@ -63,6 +63,7 @@ class PersistenciaQualRncVenda extends Persistencia {
 
         $this->adicionaRelacionamento('resp_venda_cod', 'resp_venda_cod');
         $this->adicionaRelacionamento('resp_venda_nome', 'resp_venda_nome');
+        $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
 
@@ -241,4 +242,14 @@ class PersistenciaQualRncVenda extends Persistencia {
         return $sEmail;
     }
 
+    
+    public function buscaAnalise($aDados){
+        $sSql = "select apontamento"
+                . " from tbrncqual"
+                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        
+        $oApontamento = $this->consultaSql($sSql);
+        
+        return $oApontamento->apontamento;
+    }
 }

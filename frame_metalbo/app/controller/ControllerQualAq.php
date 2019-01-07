@@ -272,7 +272,7 @@ class ControllerQualAq extends Controller {
 
     public function calculoPersonalizado($sParametros = null) {
         parent::calculoPersonalizado($sParametros);
-        
+
         $sEmpresa = $_SESSION['filcgc'];
 
         $aTotal = $this->Persistencia->somaSit($sEmpresa);
@@ -361,20 +361,16 @@ class ControllerQualAq extends Controller {
         }
         echo $oMensagem->getRender();
     }
-    
+
     public function geraPdfQualAq($sDados) {
         $aDados = explode(',', $sDados);
         $sAq[] = $aDados[3];
         $sChave = htmlspecialchars_decode($sAq[0]);
-        $aDadosAq = explode('&', $sChave);
-        $sFilcgcDados = $aDadosAq[0];
-        $sNrDados = $aDadosAq[1];
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
 
-        $aFilcg = explode('=', $sFilcgcDados);
-        $aNr = explode('=', $sNrDados);
-
-        $_REQUEST['filcgcAq'] = $aFilcg[1];
-        $_REQUEST['nrAq'] = $aNr[1];
+        $_REQUEST['filcgcAq'] = $aCamposChave['EmpRex_filcgc'];
+        $_REQUEST['nrAq'] = $aCamposChave['nr'];
         $_REQUEST['email'] = 'S';
         $_REQUEST['userRel'] = $_SESSION['nome'];
 
@@ -399,15 +395,11 @@ class ControllerQualAq extends Controller {
         } else {
             $sAq[] = $aDados[3];
             $sChave = htmlspecialchars_decode($sAq[0]);
-            $aDadosAq = explode('&', $sChave);
-            $sFilcgcDados = $aDadosAq[0];
-            $sNrDados = $aDadosAq[1];
+            $aCamposChave = array();
+            parse_str($sChave, $aCamposChave);
 
-            $aFilcg = explode('=', $sFilcgcDados);
-            $aNr = explode('=', $sNrDados);
-
-            $_REQUEST['filcgcAq'] = $aFilcg[1];
-            $_REQUEST['nrAq'] = $aNr[1];
+            $_REQUEST['filcgcAq'] = $aCamposChave['EmpRex_filcgc'];
+            $_REQUEST['nrAq'] = $aCamposChave['nr'];
             $_REQUEST['email'] = 'S';
             $_REQUEST['userRel'] = $_SESSION['nome'];
             $_REQUEST['todos'] = 'S';

@@ -25,46 +25,15 @@ class ControllerQualRncVenda extends Controller {
         . "$('#" . $aParam[2] . "').val('" . number_format($oRow->nfspesolq, 2, ',', '.') . "');";
     }
 
-    public function beforeInsert() {
-        parent::beforeInsert();
+    public function carregaAnalise($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[1]);
+        $aAnalise = array();
+        parse_str($sChave, $aAnalise);
 
-        $this->Model->setValor($this->ValorSql($this->Model->getValor()));
-        $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-        $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-        $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
-        /* $date = new DateTime( '2014-08-19' );
-          echo $date-> format( 'd-m-Y' ); */
+        $sAnalise = Util::limpaString($this->Persistencia->buscaAnalise($aAnalise));
 
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
-    public function beforeUpdate() {
-        parent::beforeUpdate();
-
-        $this->Model->setValor($this->ValorSql($this->Model->getValor()));
-        $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-        $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-        $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
-
-//Quantnconf
-
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
-    public function depoisCarregarModelAlterar($sParametros = null) {
-        parent::depoisCarregarModelAlterar($sParametros);
-
-        $this->Model->setValor(number_format($this->Model->getValor(), 2, ',', '.'));
-        $this->Model->setPeso(number_format($this->Model->getPeso(), 2, ',', '.'));
-        $this->Model->setQuant(number_format($this->Model->getQuant(), 2, ',', '.'));
-        $this->Model->setQuantnconf(number_format($this->Model->getQuantnconf(), 2, ',', '.'));
+        echo '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
     }
 
     public function limpaUploads($aIds) {
@@ -206,15 +175,15 @@ class ControllerQualRncVenda extends Controller {
             } else {
                 if ($aRet[0] == 'Env.Qual') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
-//$oEmail->addDestinatario('duda@metalbo.com.br');
+                //$oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
-//$oEmail->addDestinatario('embalagem@metalbo.com.br');
+                //$oEmail->addDestinatario('embalagem@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
-//$oEmail->addDestinatario('josiani@metalbo.com.br');
+                //$oEmail->addDestinatario('josiani@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RNC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc']));

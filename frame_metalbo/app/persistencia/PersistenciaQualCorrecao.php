@@ -37,4 +37,10 @@ class PersistenciaQualCorrecao extends Persistencia {
         return $aDelete;
     }
 
+    public function buscaTipoAcao($aDados) {
+        $sSql = "select tipoacao from tbacaoqual where filcgc = '" . $aDados[0] . "' and nr = '" . $aDados[1] . "'";
+        $oResult = $this->consultaSql($sSql);
+        return $oResult->tipoacao;
+    }
+
 }

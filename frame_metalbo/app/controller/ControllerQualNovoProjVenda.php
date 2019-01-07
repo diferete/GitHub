@@ -110,7 +110,7 @@ class ControllerQualNovoProjVenda extends Controller {
         }
     }
 
-    public function reenviaAprovaProj($sDados) {
+    public function reenviaAprovaVenda($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();

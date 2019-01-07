@@ -51,6 +51,15 @@ class ModelQualRncAnalise {
     private $apontamento;
     private $usuaponta;
     private $tagsetor;
+    private $repcod;
+
+    function getRepcod() {
+        return $this->repcod;
+    }
+
+    function setRepcod($repcod) {
+        $this->repcod = $repcod;
+    }
 
     function getTagsetor() {
         return $this->tagsetor;

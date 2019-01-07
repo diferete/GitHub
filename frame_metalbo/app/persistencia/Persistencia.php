@@ -180,6 +180,10 @@ class Persistencia {
         }
         return $stop;
     }
+    
+    function getITop() {
+        return $this->sTop;
+        }
 
     /*
      * Seta o número top
@@ -1706,9 +1710,9 @@ class Persistencia {
 
         $result = $this->getObjetoSql($sSql);
 
-        /* $fp = fopen("bloco1.txt", "w");
+         $fp = fopen("bloco1.txt", "w");
           fwrite($fp, $sSql);
-          fclose($fp); */
+          fclose($fp); 
 
         if (count($result) > 0) {
             $oModel = $this->getNewModel();

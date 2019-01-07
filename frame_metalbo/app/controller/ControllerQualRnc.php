@@ -15,6 +15,12 @@ class ControllerQualRnc extends Controller {
     public function antesDeCriarTela($sParametros = null) {
         parent::antesDeCriarTela($sParametros);
 
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
+
         $aDados = $this->Persistencia->buscaRespEscritório($sDados);
         $this->View->setAParametrosExtras($aDados);
     }
@@ -25,6 +31,13 @@ class ControllerQualRnc extends Controller {
         $sChave = htmlspecialchars_decode($sParametros[0]);
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
+
+
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
 
         $oSit = $this->Model->getSituaca();
 
@@ -46,55 +59,9 @@ class ControllerQualRnc extends Controller {
 
         echo"$('#" . $aParam[0] . "').val('" . $oRow->data . "');"
         . "$('#" . $aParam[1] . "').val('" . number_format($oRow->nfsvlrtot, 2, ',', '.') . "');"
-        . "$('#" . $aParam[2] . "').val('" . number_format($oRow->nfspesolq, 2, ',', '.') . "');";
-    }
-
-    public function beforeInsert() {
-        parent::beforeInsert();
-
-        $this->Model->setValor($this->ValorSql($this->Model->getValor()));
-        $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-        $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-        $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
-        /* $date = new DateTime( '2014-08-19' );
-          echo $date-> format( 'd-m-Y' ); */
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
-    public function beforeUpdate() {
-        parent::beforeUpdate();
-
-        $this->Model->setValor($this->ValorSql($this->Model->getValor()));
-        $this->Model->setPeso($this->ValorSql($this->Model->getPeso()));
-
-        $this->Model->setQuant($this->ValorSql($this->Model->getQuant()));
-
-        $this->Model->setQuantnconf($this->ValorSql($this->Model->getQuantnconf()));
-
-        //Quantnconf
-
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
-    public function depoisCarregarModelAlterar($sParametros = null) {
-        parent::depoisCarregarModelAlterar($sParametros);
-
-
-
-        $this->Model->setValor(number_format($this->Model->getValor(), 2, ',', '.'));
-        $this->Model->setPeso(number_format($this->Model->getPeso(), 2, ',', '.'));
-
-        $this->Model->setQuant(number_format($this->Model->getQuant(), 2, ',', '.'));
-
-        $this->Model->setQuantnconf(number_format($this->Model->getQuantnconf(), 2, ',', '.'));
+        . "$('#" . $aParam[2] . "').val('" . number_format($oRow->nfspesolq, 2, ',', '.') . "');"
+        . "$('#" . $aParam[3] . "').val('" . $oRow->nfsclicgc . "');"
+        . "$('#" . $aParam[4] . "').val('" . $oRow->nfsclinome . "');";
     }
 
     public function limpaUploads($aIds) {
@@ -107,10 +74,6 @@ class ControllerQualRnc extends Controller {
 
         echo $sRetorno;
     }
-
-    /**
-     * finaliza uma rnc
-     */
 
     /**
      * Cria a tela Modal para a proposta
@@ -146,15 +109,15 @@ class ControllerQualRnc extends Controller {
             if ($aRet[0] == 'Finalizada') {
                 $oMens = new Modal('Atenção...  A reclamação já foi finalizada!', '', Modal::TIPO_AVISO, false, true, false);
                 echo $oMens->getRender();
-                echo'$("#' . $aDados[1] . '-btn").click();';
+                echo'$("#' . $aDados[1] . '-pesq").click();';
             } if ($aRet[0] == 'Aguardando') {
                 $oMens = new Modal('Atenção... A reclamação ainda não foi liberada para Metalbo, favor efetuar a liberação da mesma para proseguir com a análise!', '', Modal::TIPO_AVISO, false, true, false);
                 echo $oMens->getRender();
-                echo'$("#' . $aDados[1] . '-btn").click();';
+                echo'$("#' . $aDados[1] . '-pesq").click();';
             } if ($aRet[1] == 'Em análise' || $aRet[0] == 'Liberado') {
                 $oMens = new Modal('Atenção... A reclamação não está em condições de ser finalizada, aguarde!', '', Modal::TIPO_AVISO, false, true, false);
                 echo $oMens->getRender();
-                echo'$("#' . $aDados[1] . '-btn").click();';
+                echo'$("#' . $aDados[1] . '-pesq").click();';
             }
         }
     }
@@ -173,152 +136,63 @@ class ControllerQualRnc extends Controller {
 
 
         if ($aRet[0]) {
-            $oMsg = new Mensagem('Sucesso','Reclamação nº' . $aCampos['nr'] . ' foi finalizada!', Mensagem::TIPO_SUCESSO);
+            $oMsg = new Mensagem('Sucesso', 'Reclamação nº' . $aCampos['nr'] . ' foi finalizada!', Mensagem::TIPO_SUCESSO);
             echo $oMsg->getRender();
-            echo'$("#' . $aDados[2] . '-btn").click();';
+            echo '$("#' . $aDados[2] . '-pesq").click();';
         } else {
             
         }
     }
 
-    public function envMailGrid($sDados) {
+    public function getRespVenda($sDados) {
         $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
+        $iString = strlen($aDados[0]);
+        if ($iString <= 4) {
+            $aRet = $this->Persistencia->buscaRespVenda($aDados[0]);
+            echo '$("#' . $aDados[1] . '").val("' . $aRet[0] . '");';
+            echo '$("#' . $aDados[2] . '").val("' . $aRet[1] . '");';
+            exit;
+        } else {
+            $oMsg = new Mensagem('Erro', 'Código de representante inválido! Se seu código não aparecer para seleção, notifique o TI da Metalbo ', Mensagem::TIPO_WARNING);
+            echo $oMsg->getRender();
+            exit;
+        }
+    }
+
+    public function geraPdfQualRnc($sDados) {
+        $aDados = explode(',', $sDados);
+        $sIdGrid = $aDados[1];
+        $sAq[] = $aDados[3];
+        $sChave = htmlspecialchars_decode($sAq[0]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        $sClasse = $this->getNomeClasse();
+
 
         $aRet = $this->Persistencia->verificaFim($aCamposChave);
 
         if ($aRet[0] != 'Aguardando') {
             $oMensagem = new Modal('Atenção...  A reclamação já foi liberada para a Metalbo!', '', Modal::TIPO_AVISO, false, true, false);
             echo $oMensagem->getRender();
-            echo'$("#' . $aDados[1] . '-btn").click();';
+            echo '$("#' . $sIdGrid . '-pesq").click();';
         } else {
-            echo 'requestAjax("","QualRnc","geraRelPdfRnc","' . $aCamposChave['filcgc'] . ',' . $aCamposChave['nr'] . ',rc");';
-            echo 'requestAjax("","QualRnc","msgLiberaRnc","' . $sDados . '");';
+
+            $_REQUEST['filcgcRc'] = $aCamposChave['filcgc'];
+            $_REQUEST['nrRc'] = $aCamposChave['nr'];
+            $_REQUEST['email'] = 'S';
+            $_REQUEST['userRel'] = $_SESSION['nome'];
+
+            $aRetornoEmail = require 'app/relatorio/rc.php';
         }
-    }
-
-    public function geraRelPdfRnc($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
-        $sClasse = $this->getNomeClasse();
-        $sSistema = "app/relatorio";
-        $sRelatorio = $aDados[2] . '.php?';
-        $sCampos = 'nr=' . $aDados[1] . '&';
-        $sCampos .= 'filcgc=' . $aDados[0];
-
-
-        $sCampos .= '&output=email';
-
-        $oWindow = 'var win = window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "1366002941508","width=100,height=100,left=375,top=330");'
-                . 'setTimeout(function () { win.close();}, 1000);';
-        echo $oWindow;
-        //echo 'requestAjax("","QualRnc","msgLibRnc","' . $aCamposChave['filcgc'] . ',' . $aCamposChave['nr'] . '");';
-    }
-
-    public function msgLiberaRnc($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
-        $sClasse = $this->getNomeClasse();
-
-        $oMensagem = new Modal('Liberação de RNC', 'Deseja liberar a RNC nº' . $aCamposChave['nr'] . ' para a Metalbo?', Modal::TIPO_AVISO, true, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","liberaRnc","' . $sDados . '");');
-        echo $oMensagem->getRender();
-    }
-
-    public function liberaRnc($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
-        $sClasse = $this->getNomeClasse();
-
-        $aRetorno = $this->Persistencia->liberaRnc($aCamposChave);
-
-        if ($aRetorno[0]) {
-            $oMensagem2 = new Mensagem('Sucesso!', 'Seu cadastro foi liberado com sucesso...', Mensagem::TIPO_SUCESSO);
-            echo"$('#" . $aDados[1] . "-pesq').click();";
-            $this->enviaEmailRnc($sChave);
-        } else {
-            $oMensagem2 = new Mensagem('Atenção!', $aRetorno[1], Mensagem::TIPO_ERROR);
-        }
-        echo $oMensagem2->getRender();
-    }
-
-    public function enviaEmailRnc($sDados) {
-        $aDados = array();
-        parse_str($sDados, $aDados);
-        $sClasse = $this->getNomeClasse();
-        date_default_timezone_set('America/Sao_Paulo');
-        $data = date('d/m/Y');
-        $hora = date('H:m');
-
-        $oEmail = new Email();
-        $oEmail->setMailer();
-
-        $oEmail->setEnvioSMTP();
-        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
-        $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
-
-        $oRow = $this->Persistencia->buscaDadosRnc($aDados);
-
-        $oEmail->setAssunto(utf8_decode('Inserida nova RNC - Reclamação de cliente'));
-
-        $oEmail->setMensagem(utf8_decode('RECLAMAÇÃO Nº ' . $oRow->nr . ' FOI LIBERADA PELO REPRESENTANTE<hr><br/>'
-                        . '<b>Representante: ' . $_SESSION['nome'] . ' </b><br/>'
-                        . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
-                        . '<b>Hora:' . $hora . '  </b><br/>'
-                        . '<b>Data do Cadastro: ' . $data . ' </b><br/><br/><br/>'
-                        . '<table border = 1 cellspacing = 2 cellpadding = 2 width = "100%">'
-                        . '<tr><td><b>Cnpj:</b></td><td> ' . $oRow->empcod . ' </td></tr>'
-                        . '<tr><td><b>Razão Social:</b></td><td> ' . $oRow->empdes . ' </td></tr>'
-                        . '<tr><td><b>Nota fiscal:</b></td><td> ' . $oRow->nf . ' </td></tr>'
-                        . '<tr><td><b>Data da NF.:</b></td><td> ' . $oRow->data . ' </td></tr>'
-                        . '<tr><td><b>Od. de compra:</b></td><td> ' . $oRow->odcompra . ' </td></tr>'
-                        . '<tr><td><b>Pedido Nº:</b></td><td> ' . $oRow->pedido . ' </td></tr>'
-                        . '<tr><td><b>Valor: R$</b></td><td> ' . $oRow->valor . ' </td></tr>'
-                        . '<tr><td><b>Peso:</b></td><td> ' . $oRow->peso . ' </td></tr>'
-                        . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
-                        . '<tr><td><b>Não conformidade:</b></td><td> ' . $oRow->naoconf . ' </td></tr>'
-                        . '</table><br/><br/>'
-                        . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
-                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
-
-        $oEmail->limpaDestinatariosAll();
-
-        // Para
-        $aEmails = array();
-        $aEmails[] = $_SESSION['email'];
-        foreach ($aEmails as $sEmail) {
-            $oEmail->addDestinatario($sEmail);
-        }
-
-        //enviar e-mail vendas
-        $aUserPlano = $this->Persistencia->buscaEmailVenda($aDados);
-
-        foreach ($aUserPlano as $sCopia) {
-            $oEmail->addDestinatarioCopia($sCopia);
-        }
-        //provisório para ir cópia para avanei
-        $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $aDados['nr'] . '_empresa_' . $aDados['filcgc'] . '.pdf', utf8_decode('RNC nº' . $aDados['nr'] . '_empresa_' . $aDados['filcgc']));
-        $aRetorno = $oEmail->sendEmail();
-        if ($aRetorno[0]) {
-            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
-            echo $oMensagem->getRender();
-        } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
-            echo $oMensagem->getRender();
+        if ($aRetornoEmail[0] == true) {
+            $aUpdateSit = $this->Persistencia->liberaRnc($aCamposChave);
+            if ($aUpdateSit[0] == true) {
+                $oMsg = new Mensagem('Sucesso', 'Reclamação liberada para a Metalbo!', Mensagem::TIPO_SUCESSO);
+                echo $oMsg->getRender();
+                echo '$("#' . $sIdGrid . '-pesq").click();';
+            } else {
+                $oMsg = new Mensagem('Erro', 'Reclamação não pode ser liberada para a Metalbo! ', Mensagem::TIPO_WARNING);
+                echo $oMsg->getRender();
+            }
         }
     }
 

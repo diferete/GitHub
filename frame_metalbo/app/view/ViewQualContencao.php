@@ -72,6 +72,9 @@ class ViewQualContencao extends View {
         $this->criaGridDetalhe();
 
         $aValor = $this->getAParametrosExtras();
+        
+        $oDivisor = new Campo('Tela com preenchimento OPCIONAL, caso for uma ação preventiva não necessita preencher.','divisor1', Campo::DIVISOR_VERMELHO,12,12,12,12);
+        $oDivisor->setApenasTela(true);
 
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor($aValor[0]);
@@ -108,7 +111,7 @@ class ViewQualContencao extends View {
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
         $oTipo = new Campo('Tipo ação', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oTipo->setSValor('Aq');
+        $oTipo->setSValor($aValor[3]);
         $oTipo->setBCampoBloqueado(true);
 
         $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2, 2, 12, 12);
@@ -124,7 +127,7 @@ class ViewQualContencao extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
+        $this->addCampos($oDivisor,array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }
 

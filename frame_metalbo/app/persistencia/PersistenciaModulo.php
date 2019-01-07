@@ -15,7 +15,7 @@ class PersistenciaModulo extends Persistencia {
 
     public function insereGrupo() {
 
-        $sSqlCod = "select procod from tbqualNovoProjeto where procod is not null and subcod is null and famcod is null and famsub is null";
+        $sSqlCod = "select procod from tbqualNovoProjeto where procod is not null and grucod is null and subcod is null and famcod is null and famsub is null";
         $result = $this->getObjetoSql($sSqlCod);
         $aProCod = array();
         while ($row = $result->fetch(PDO::FETCH_OBJ)) {
@@ -42,6 +42,12 @@ class PersistenciaModulo extends Persistencia {
             fwrite($gerenciaArquivo, $data);
             fclose($gerenciaArquivo);
         }
+        return;
+    }
+
+    public function pesoXml($sProcod, $sPeso) {
+        $sSql = "insert into testeXml values('" . $sProcod . "','" . $sPeso . "')";
+        $aRetorno = $this->executaSql($sSql);
         return;
     }
 

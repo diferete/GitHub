@@ -42,10 +42,25 @@ class ControllerModulo extends Controller {
 
     public function insereGrupo() {
         $this->Persistencia->insereGrupo();
-        
+
         $oMensagem = new Mensagem('Pronto', 'Conculido com sucesso');
         echo $oMensagem->getRender();
-        
+    }
+
+    public function converteXML() {
+
+        $xml = simplexml_load_file('app/arquivo.xml');
+
+        foreach ($xml->NFe as $key => $oValor) {
+            foreach ($oValor->infNFe->det->prod as $key1 => $oValor1) {
+                $s = 1;
+                $sCodigo = (string) $oValor1->cProd;
+                $sPesoTrib = (string) $oValor1->qTrib;
+                $this->Persistencia->pesoXml ($sCodigo,$sPesoTrib);
+            }
+        }
+
+        echo '<br>';
     }
 
 }

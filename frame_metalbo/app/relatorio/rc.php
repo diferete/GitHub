@@ -1,8 +1,27 @@
 <?php
 
+if (isset($_REQUEST['email'])) {
+    $sEmailRequest = 'S';
+} else {
+    $sEmailRequest = 'N';
+}
+
+// Diretórios extras para email
+if ($sEmailRequest == 'S') {
+    include 'biblioteca/fpdf/fpdf.php';
+    include("../../includes/Config.php");
+    include("../../includes/Fabrica.php");
+    include("../../biblioteca/Utilidades/Email.php");
+} else {
+    include '../../biblioteca/fpdf/fpdf.php';
+    include("../../includes/Config.php");
+    include("../../includes/Fabrica.php");
+    include("../../biblioteca/Utilidades/Email.php");
+}
+
 // Diretórios
-require '../../biblioteca/fpdf/fpdf.php';
-include("../../includes/Config.php");
+//require '../../biblioteca/fpdf/fpdf.php';
+//include("../../includes/Config.php");
 
 class PDF extends FPDF {
 
@@ -11,15 +30,24 @@ class PDF extends FPDF {
         $this->Ln(); //quebra de linha
         $this->SetFont('Arial', '', 7); // seta fonte no rodape
         $this->Cell(190, 7, 'Página ' . $this->PageNo() . ' de {nb}', 0, 1, 'C'); // paginação
-
-        $this->Image('../../biblioteca/assets/images/metalbo-preta.png', 180, 286, 20);
     }
 
 }
 
-//variares request
-$nrHeader = $_REQUEST['nr'];
-$FilcgcRex = $_REQUEST['filcgc'];
+//variaveis request
+if ($sEmailRequest == 'S') {
+    $filcgc = $_REQUEST['filcgcRc'];
+    $nr = $_REQUEST['nrRc'];
+} else {
+    if (isset($_REQUEST['nr'])) {
+        $nr = $_REQUEST['nr'];
+        $filcgc = $_REQUEST['filcgc'];
+    } else {
+        $nr = '0';
+        $filcgc = '0';
+    }
+}
+
 
 
 
@@ -43,7 +71,7 @@ $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
                 case when reprovar = 'true' then 'x' else '' end as reprovar,usunome
                 from tbrncqual left outer join widl.EMP01
                 on widl.emp01.empcod = tbrncqual.empcod left outer join widl.CID01 
-                on widl.CID01.cidcep = widl.EMP01.cidcep where nr =" . $nrHeader;
+                on widl.CID01.cidcep = widl.EMP01.cidcep where nr =" . $nr;
 $dadoscab = $PDO->query($sSql);
 $row = $dadoscab->fetch(PDO::FETCH_ASSOC);
 //cabeçalho
@@ -51,13 +79,18 @@ $pdf->SetMargins(3, 0, 3);
 $pdf->Rect(2, 10, 38, 18);
 
 // Logo
-$pdf->Image('../../biblioteca/assets/images/logopn.png', 4, 13, 26);
+if ($sEmailRequest == 'S') {
+    $pdf->Image('biblioteca/assets/images/logopn.png', 4, 13, 26);
+} else {
+    $pdf->Image('../../biblioteca/assets/images/logopn.png', 4, 13, 26);
+}
+
 // Arial bold 15
 $pdf->SetFont('Arial', 'B', 15);
 // Move to the right
 $pdf->Cell(30);
 // Title
-$pdf->Cell(120, 18, '        Relatório de não conformidade nº   ' . $nrHeader, 1, 0, 'L');
+$pdf->Cell(120, 18, '        Relatório de não conformidade nº   ' . $nr, 1, 0, 'L');
 
 $pdf->Rect(160, 10, 48, 18);
 $pdf->SetFont('Arial', '', 9);
@@ -243,10 +276,83 @@ $pdf->Cell(0, 5, "", "B", 1, 'C');
 
 
 
-if ($_REQUEST['output'] == 'email') {
-    $pdf->Output('F', 'rnc/Rnc' . $_REQUEST['nr'] . '_empresa_' . $FilcgcRex . '.pdf'); // GERA O PDF NA TELA
+if ($sEmailRequest == 'S') {
+    $pdf->Output('F', 'app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf'); // GERA O PDF NA TELA
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
 } else {
-    $pdf->Output('I', 'solvenda' . $_REQUEST['nr'] . '.pdf');
+    $pdf->Output('I', 'Rnc' . $nr . '.pdf');
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
 }
+
+if ($sEmailRequest == 'S') {
+    $aDados = array();
+    parse_str($sDados, $aDados);
+    $sClasse = $this->getNomeClasse();
+    date_default_timezone_set('America/Sao_Paulo');
+    $data = date('d/m/Y');
+    $hora = date('H:m');
+
+    $oEmail = new Email();
+    $oEmail->setMailer();
+
+    $oEmail->setEnvioSMTP();
+    //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
+    $oEmail->setServidor('smtp.terra.com.br');
+    $oEmail->setPorta(587);
+    $oEmail->setAutentica(true);
+    $oEmail->setUsuario('metalboweb@metalbo.com.br');
+    $oEmail->setSenha('filialwe');
+    $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+
+
+
+    $sSqlRC = "select convert(varchar,datanf,103)as data,nr,officedes,empcod,empdes,nf,odcompra,pedido,valor,peso,aplicacao,naoconf,resp_venda_cod from tbrncqual"
+            . " where filcgc = '" . $filcgc . "' and nr = '" . $nr . "'";
+    $DadosRC = $PDO->query($sSqlRC);
+    $aRow = $DadosRC->fetch(PDO::FETCH_ASSOC);
+
+    $oEmail->setAssunto(utf8_decode('Inserida nova RNC - Reclamação de cliente'));
+
+    $oEmail->setMensagem(utf8_decode('RECLAMAÇÃO Nº ' . $aRow['nr'] . ' FOI LIBERADA PELO REPRESENTANTE<hr><br/>'
+                    . '<b>Representante: ' . $_SESSION['nome'] . ' </b><br/>'
+                    . '<b>Escritório: ' . $aRow['officedes'] . ' </b><br/>'
+                    . '<b>Hora:' . $hora . '  </b><br/>'
+                    . '<b>Data do Cadastro: ' . $data . ' </b><br/><br/><br/>'
+                    . '<table border = 1 cellspacing = 2 cellpadding = 2 width = "100%">'
+                    . '<tr><td><b>Cnpj:</b></td><td> ' . $aRow['empcod'] . ' </td></tr>'
+                    . '<tr><td><b>Razão Social:</b></td><td> ' . $aRow['empdes'] . ' </td></tr>'
+                    . '<tr><td><b>Nota fiscal:</b></td><td> ' . $aRow['nf'] . ' </td></tr>'
+                    . '<tr><td><b>Data da NF.:</b></td><td> ' . $aRow['data'] . ' </td></tr>'
+                    . '<tr><td><b>Od. de compra:</b></td><td> ' . $aRow['odcompra'] . ' </td></tr>'
+                    . '<tr><td><b>Pedido Nº:</b></td><td> ' . $aRow['pedido'] . ' </td></tr>'
+                    . '<tr><td><b>Valor: R$</b></td><td> ' . $aRow['valor'] . ' </td></tr>'
+                    . '<tr><td><b>Peso:</b></td><td> ' . $aRow['peso'] . ' </td></tr>'
+                    . '<tr><td><b>Aplicação: </b></td><td> ' . $aRow['aplicacao'] . '</td></tr>'
+                    . '<tr><td><b>Não conformidade:</b></td><td> ' . $aRow['naoconf'] . ' </td></tr>'
+                    . '</table><br/><br/>'
+                    . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
+                    . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+    $oEmail->limpaDestinatariosAll();
+
+    //busca email venda
+    $sSqlMail = "select usuemail from tbusuario where usucodigo ='" . $aRow['resp_venda_cod'] . "' ";
+    $DadosMail = $PDO->query($sSqlMail);
+    $aRowMail = $DadosMail->fetch(PDO::FETCH_ASSOC);
+
+
+    //enviar e-mail vendas
+    $oEmail->addDestinatario($aRowMail['usuemail']);
+
+    //provisório para ir cópia para avanei
+    $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RNC nº' . $nr . '_empresa_' . $filcgc));
+    $aRetorno = $oEmail->sendEmail();
+    if ($aRetorno[0]) {
+        $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+        echo $oMensagem->getRender();
+    } else {
+        $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+        echo $oMensagem->getRender();
+    }
+}
+return $aRetorno;

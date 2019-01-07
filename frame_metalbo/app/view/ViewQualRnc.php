@@ -41,7 +41,7 @@ class ViewQualRnc extends View {
         $oDevolucao->setBComparacaoColuna(true);
 
         $oDropDown = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
-        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'QualRnc', 'envMailGrid', '', false, 'rc,email,QualRnc,enviaEmailRnc');
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'QualRnc', 'geraPdfQualRnc', '', false, 'rc', false, '', false, '', true);
 
         $oDropDown1 = new Dropdown('Finalizar reclamação', Dropdown::TIPO_AVISO);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'QualRnc', 'criaTelaModalFinaliza', '', false, '', false, 'criaTelaModalFinaliza', true, 'Finalizar Reclamação');
@@ -52,8 +52,10 @@ class ViewQualRnc extends View {
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown2, $oDropDown1);
 
-        $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3);
+
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1);
+
+        $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3);
 
         $this->addFiltro($oFilNr, $oFilCli);
         $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData);
@@ -65,7 +67,16 @@ class ViewQualRnc extends View {
     public function criaTela() {
         parent::criaTela();
 
-        $aDadosTela = $this->getAParametrosExtras();
+        $oDadosRep = $this->getOObjTela();
+
+        $oTab = new TabPanel();
+        $oTabGeral = new AbaTabPanel('Empresa/Contato');
+        $oTabGeral->setBActive(true);
+
+        $oTabNF = new AbaTabPanel('Dados NF');
+        $oTabAnexos = new AbaTabPanel('Anexos');
+
+        $this->addLayoutPadrao('Aba');
 
         $oFilcgc = new Campo('CNPJ', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor('75483040000211');
@@ -77,19 +88,19 @@ class ViewQualRnc extends View {
         $oDevolucao->setBOculto(true);
 
 
-        $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setBCampoBloqueado(true);
 
-        $oOfficecod = new Campo('', 'officecod', Campo::TIPO_TEXTO, 1);
+        $oOfficecod = new Campo('', 'officecod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oOfficecod->setSValor($_SESSION['repoffice']);
         $oOfficecod->setBCampoBloqueado(true);
         $oOfficecod->setBOculto(true);
 
-        $oOfficeDes = new Campo('Escritório', 'officedes', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+        $oOfficeDes = new Campo('Escritório', 'officedes', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oOfficeDes->setSValor($_SESSION['repofficedes']);
         $oOfficeDes->setBCampoBloqueado(true);
 
-        $oUsucodigo = new Campo('', 'usucodigo', Campo::TIPO_TEXTO, 1);
+        $oUsucodigo = new Campo('', 'usucodigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oUsucodigo->setSValor($_SESSION['codUser']);
         $oUsucodigo->setBOculto(true);
 
@@ -107,57 +118,51 @@ class ViewQualRnc extends View {
         $oHora->setSValor(date('H:i'));
         $oHora->setBCampoBloqueado(true);
 
+        $oDivisor3 = new Campo('Dados da Reclamação', 'dadosrec', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor3->setApenasTela(true);
+
         //situacao
-        $oSituaca = new Campo('Situação', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oSituaca = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oSituaca->setSValor('Aguardando');
         $oSituaca->setBCampoBloqueado(true);
+        $oSituaca->setBOculto(true);
 
-        //cliente
-        $oEmpcod = new Campo('...', 'Pessoa.empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oEmpcod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '3');
-        $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oEmpcod->setBFocus(true);
-
-        $oEmpdes = new Campo('Cliente', 'empdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
-        $oEmpdes->setSIdPk($oEmpcod->getId());
-        $oEmpdes->setClasseBusca('Pessoa');
-        $oEmpdes->addCampoBusca('empcod', '', '');
-        $oEmpdes->addCampoBusca('empdes', '', '');
-        $oEmpdes->setSIdTela($this->getTela()->getid());
-        $oEmpdes->setSCorFundo(Campo::FUNDO_AMARELO);
-
-        $oEmpcod->setClasseBusca('Pessoa');
-        $oEmpcod->setSCampoRetorno('empcod', $this->getTela()->getid());
-        $oEmpcod->addCampoBusca('empdes', $oEmpdes->getId(), $this->getTela()->getId());
 
         //responsável por vendas
-        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oRespVenda = new campo('', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-        $oRespVenda->setBFocus(true);
-        $oRespVenda->setSValor($aDadosTela[0]);
-        //$oRespVenda->setBCampoBloqueado(true);
+        $oRespVenda->setBCampoBloqueado(true);
+        $oRespVenda->setBOculto(true);
+
+        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oRespVendaNome->setBCampoBloqueado(true);
+        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
 
-        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
-        $oRespVendaNome->setSIdPk($oRespVenda->getId());
-        $oRespVendaNome->setClasseBusca('User');
-        $oRespVendaNome->addCampoBusca('usucodigo', '', '');
-        $oRespVendaNome->addCampoBusca('usunome', '', '');
-        $oRespVendaNome->setSIdTela($this->getTela()->getid());
-        $oRespVendaNome->setSValor($aDadosTela[1]);
-        //$oRespVendaNome->setBCampoBloqueado(true);
+        $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oRep->addItemSelect('Cod. Representate', 'Cod. Representate');
+        foreach ($oDadosRep as $key => $oRepCodObj) {
+            $oRep->addItemSelect($oRepCodObj->getRepcod(), $oRepCodObj->getRepcod());
+        }
+        $oRep->addValidacao(false, Validacao::TIPO_STRING, 'Selecione código de representante', '2', '3');
+
+        $sAcaoRespVenda = 'buscaRespVenda($("#' . $oRep->getId() . '").val(),'
+                . '"' . $oRespVenda->getId() . '",'
+                . '"' . $oRespVendaNome->getId() . '",'
+                . '"' . $this->getController() . '")';
+
+        $oRep->addEvento(Campo::EVENTO_CHANGE, $sAcaoRespVenda);
 
 
-        $oRespVenda->setClasseBusca('User');
-        $oRespVenda->setSCampoRetorno('usucodigo', $this->getTela()->getId());
-        $oRespVenda->addCampoBusca('usunome', $oRespVendaNome->getId(), $this->getTela()->getId());
+        $oDivisor2 = new Campo('Dados do cliente', 'clidados', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor2->setApenasTela(true);
 
+        //cliente
+        $oEmpcod = new Campo('...', 'Pessoa.empcod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oEmpcod->setBCampoBloqueado(true);
 
-        $oField = new FieldSet('Informações');
-        $oField->setOculto(true);
-        $oField->addCampos(array($oNr, $oFilcgc, $oUsunome, $oOfficeDes), array($oRespVenda, $oRespVendaNome, $oDataIns, $oHora, $oSituaca, $oUsucodigo, $oOfficecod, $oDevolucao));
-
-        $oFieldContato = new FieldSet('Informações contato');
+        $oEmpdes = new Campo('Cliente', 'empdes', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+        $oEmpdes->setBCampoBloqueado(true);
 
         $oContato = new campo('Contato', 'contato', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oContato->addValidacao(FALSE, Validacao::TIPO_STRING, 5);
@@ -168,44 +173,37 @@ class ViewQualRnc extends View {
         $oEmail->addValidacao(false, Validacao::TIPO_EMAIL);
 
         $oInd = new campo('Indústria', 'ind', Campo::TIPO_CHECK, 1);
-		
+
         $oComer = new campo('Comércio', 'comer', Campo::TIPO_CHECK, 1);
 
-        $oFieldContato->addCampos(array($oContato, $oCelular, $oEmail, $oInd, $oComer));
+        $ln = new Campo('', '', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $ln->setApenasTela(true);
 
-        /* dados da nota fiscal */
-        $oFieldNf = new FieldSet('Nota fiscal');
-
-        $oNf = new Campo('Nota fiscal', 'nf', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oNf = new Campo('Nrº Nota fiscal', 'nf', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNf->setSCorFundo(Campo::FUNDO_MONEY);
         $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', 2);
 
         $oDataNf = new Campo('Data.Nf', 'datanf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDataNf->setBCampoBloqueado(true);
 
         $oOdCompra = new Campo('Od.Compra', 'odcompra', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oPedido = new campo('Pedido', 'pedido', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oValor = new campo('Valor', 'valor', Campo::TIPO_MONEY, 1, 1, 12, 12);
+        $oValor = new campo('Valor', 'valor', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oValor->setBCampoBloqueado(true);
 
-        $oPeso = new campo('Peso', 'peso', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oPeso = new campo('Peso', 'peso', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oPeso->setBCampoBloqueado(true);
 
-        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","QualRnc","buscaNf","' . $oDataNf->getId() . ',' . $oValor->getId() . ',' . $oPeso->getId() . '");';
+        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","QualRnc","buscaNf","' . $oDataNf->getId() . ',' . $oValor->getId() . ',' . $oPeso->getId() . ',' . $oEmpcod->getId() . ',' . $oEmpdes->getId() . '");';
 
         $oNf->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
-        $oFieldNf->addCampos(array($oNf, $oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso));
-
-        $oFieldEmb = new FieldSet('Embalagem');
 
         $oLote = new Campo('Nº Lote', 'lote', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oOp = new Campo('Ordem Produção', 'op', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-
-        $oFieldEmb->addCampos(array($oLote, $oOp));
-
-
-        $oDadosProduto = new FieldSet('Dados do produto');
 
         //campo código do produto
         $oCodigo = new Campo('Codigo', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
@@ -245,8 +243,12 @@ class ViewQualRnc extends View {
         $oAplicacao->addItemSelect('Rosca fora da especificação', 'Rosca fora da especificação');
 
 
-        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_MONEY, 1, 1, 12, 12);
-        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDivisor1 = new Campo('Dados da não conformidade', 'nconf', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor1->setApenasTela(true);
+
+        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+
+        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
 
         $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oDescNaoConf->setILinhasTextArea(5);
@@ -260,25 +262,26 @@ class ViewQualRnc extends View {
          * 
          */
 
-        $oDadosProduto->addCampos(array($oCodigo, $oProdes, $oQuant), array($oAplicacao, $oQuanNconf)/* , array($oAceito, $oReprovar) */);
-
-
-        $oAnexos = new FieldSet('Anexos');
-
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo3 = new Campo('Anexo3', 'anexo3', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
-
-        $oAnexos->addCampos(array($oAnexo1, $oAnexo2, $oAnexo3));
-        $oAnexos->setOculto(true);
-
-
 
         //seta ids uploads para enviar no request para limpar
         $this->setSIdUpload(',' . $oAnexo1->getId() . ',' . $oAnexo2->getId() . ',' . $oAnexo3->getId());
 
 
-        $this->addCampos($oField, array($oEmpcod, $oEmpdes), $oFieldContato, $oFieldNf, $oFieldEmb, $oDadosProduto, $oDescNaoConf, $oAnexos);
+
+        $oTabGeral->addCampos(
+                array($oRep, $oRespVendaNome, $oRespVenda), $oDivisor2, array($oEmpcod, $oEmpdes), array($oContato, $oCelular, $oEmail, $oInd, $oComer));
+        $oTabNF->addCampos(
+                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp), array($oCodigo, $oProdes, $oQuant), $oDivisor1, array($oAplicacao, $oQuanNconf), $oDescNaoConf);
+        $oTabAnexos->addCampos(
+                array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao));
+
+        $oTab->addItems($oTabGeral, $oTabNF, $oTabAnexos);
+
+        $this->addCampos(
+                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
 
 
 

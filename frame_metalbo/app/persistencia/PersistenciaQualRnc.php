@@ -63,6 +63,7 @@ class PersistenciaQualRnc extends Persistencia {
 
         $this->adicionaRelacionamento('resp_venda_cod', 'resp_venda_cod');
         $this->adicionaRelacionamento('resp_venda_nome', 'resp_venda_nome');
+        $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
 
@@ -78,7 +79,7 @@ class PersistenciaQualRnc extends Persistencia {
     }
 
     public function consultaNf($sNfnro) {
-        $sSql = "select nfsnfnro,convert(varchar,nfsdtemiss,103)as data,nfspesolq,nfsvlrtot 
+        $sSql = "select nfsnfnro,nfsclicgc,nfsclinome,convert(varchar,nfsdtemiss,103)as data,nfspesolq,nfsvlrtot 
                 from widl.nfc001 where nfsnfnro ='" . $sNfnro . "' and nfsnfser = 2";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
@@ -107,43 +108,33 @@ class PersistenciaQualRnc extends Persistencia {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
         $sData = date('d/m/Y');
+        
+        //$aDados['obs_fim'] = Util::limpaString($aDados['obs_fim']);
 
-        $sSql = "update tbrncqual set situaca = 'Finalizada',
-                obs_fim ='" . $aDados['obs_fim'] . "',datafim='" . $sData . "',
-                horafim = '" . $sHora . "',usucod_fim = '" . $_SESSION['codUser'] . "',usunome_fim ='" . $_SESSION['nome'] . "'
-                where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
+        $sSql = "update tbrncqual set situaca = 'Finalizada',"
+                . "datafim='" . $sData . "',horafim = '" . $sHora . "',"
+                . "usucod_fim = '" . $_SESSION['codUser'] . "',"
+                . "usunome_fim ='" . $_SESSION['nome'] . "',"
+                . "obs_fim ='" . $aDados['obs_fim'] . "' "
+                . "where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
     }
 
     //Libera RNC para vendas-Metalbo
     public function liberaRnc($aDados) {
-        date_default_timezone_set('America/Sao_Paulo');
-
-        $sSql = " select * from tbrncqual where nr = '" . $aDados['nr'] . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $sSituaca = $oRow->situaca;
-        //verificar se o campo situaca == liberado se for, nao dar update e rotorna array como false na posicao zero
-        if ($sSituaca == 'Liberado') {
-            $aRetorno[0] = false;
-            $aRetorno[1] = 'Atenção este cadastro já está liberado!';
-            return $aRetorno;
-        } else {
-            $sSql = "update tbrncqual set situaca ='Liberado'"
-                    . "where nr ='" . $aDados['nr'] . "'";
-            $aRetorno = $this->executaSql($sSql);
-
-            return $aRetorno;
-        }
+        $sSql = "update tbrncqual set situaca ='Liberado'"
+                . "where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
     }
 
-    public function buscaRespEscritório($sDados) {
+    public function buscaRespEscritório() {
         $sSql = "select officeresp "
                 . "from tbrepoffice where officecod =" . $_SESSION['repoffice'];
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $sCodResp = $oRow->officeresp;
+        $result1 = $this->getObjetoSql($sSql);
+        $oRow1 = $result1->fetch(PDO::FETCH_OBJ);
+        $sCodResp = $oRow1->officeresp;
 
 
         $sSql = "select usucodigo,usunome "
@@ -157,30 +148,17 @@ class PersistenciaQualRnc extends Persistencia {
         return $aRetorno;
     }
 
-    public function buscaDadosRnc($aDados) {
-        $sSql = "select convert(varchar,datanf,103)as data,nr,officedes,empcod,empdes,nf,odcompra,pedido,valor,peso,aplicacao,naoconf from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+    public function buscaRespVenda($sDados) {
+        $sSql = "select resp_venda_cod,resp_venda_nome"
+                . " from tbrepcodoffice"
+                . " where repcod = '" . $sDados . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-        return $oRow;
-    }
 
-    public function buscaEmailVenda($aDados) {
-        $sSql = "select resp_venda_cod "
-                . "from tbrncqual "
-                . "where filcgc ='" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "' ";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $codVenda = $oRow->resp_venda_cod;
+        $aRetorno[0] = $oRow->resp_venda_cod;
+        $aRetorno[1] = $oRow->resp_venda_nome;
 
-        //busca email venda
-        $sSql = "select usuemail "
-                . "from tbusuario where usucodigo ='" . $codVenda . "' ";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $aEmail['venda'] = $oRow->usuemail;
-
-        return $aEmail;
+        return $aRetorno;
     }
 
 }

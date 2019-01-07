@@ -14,6 +14,8 @@ $sSitProj = $_REQUEST['sitproj'];
 $sSitVenda = $_REQUEST['sitvendas'];
 $sSitCli = $_REQUEST['sitcli'];
 $sSitGeral = $_REQUEST['geralsit'];
+$sTipoProd = $_REQUEST['grucod'];
+
 // Instanciamos a classe
 $objPHPExcel = new PHPExcel();
 
@@ -32,7 +34,6 @@ $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; 
 
 
 $objPHPExcel->setActiveSheetIndex(0)
-
         ->setCellValue('A2', 'Nr')
         ->setCellValue('B2', 'Sit.Projetos')
         ->setCellValue('C2', 'Sit.Vendas')
@@ -93,6 +94,12 @@ if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGera
     if (($sSitGeral !== '')) {
         $sql .= " and ";
         $sql .= " sitgeralproj ='" . $sSitGeral . "'";
+    }
+    if (($sTipoProd !== '')) {
+        if ($sSitProj == 'Cód. enviado') {
+            $sql .= " and ";
+            $sql .= " grucod = '" . $sTipoProd . "'";
+        }
     }
 }
 $sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"

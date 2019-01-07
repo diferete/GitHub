@@ -17,6 +17,8 @@ class ViewQualAq extends View {
 
         $this->getTela()->setIAltura(400);
         $this->getTela()->setBGridResponsivo(false);
+        
+        $this->getTela()->setBMostraFiltro(true);
 
         $oTitulo = new CampoConsulta('Título', 'titulo', CampoConsulta::TIPO_LARGURA, 300);
 

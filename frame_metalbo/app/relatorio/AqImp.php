@@ -609,7 +609,7 @@ if ($sEmailRequest == 'S') {
     }
 
     $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $Filcgc . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $Filcgc));
-    $aRetorno = $oEmail->sendEmail();
+    //$aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
     } else {
