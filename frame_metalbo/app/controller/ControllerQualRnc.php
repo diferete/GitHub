@@ -159,41 +159,96 @@ class ControllerQualRnc extends Controller {
         }
     }
 
-    public function geraPdfQualRnc($sDados) {
+    public function reenviaEmail($sDados) {
         $aDados = explode(',', $sDados);
         $sIdGrid = $aDados[1];
-        $sAq[] = $aDados[3];
-        $sChave = htmlspecialchars_decode($sAq[0]);
+        $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-
+        $sClasse = $this->getNomeClasse();
 
         $aRet = $this->Persistencia->verificaFim($aCamposChave);
 
-        if ($aRet[0] != 'Aguardando') {
-            $oMensagem = new Modal('Atenção...  A reclamação já foi liberada para a Metalbo!', '', Modal::TIPO_AVISO, false, true, false);
-            echo $oMensagem->getRender();
-            echo '$("#' . $sIdGrid . '-pesq").click();';
+        if ($aRet[0] == 'Liberado') {
+            $oMensagem = new Modal('Atenção...  A reclamação já foi liberada para a Metalbo! Deseja reenviar o e-mail?', '', Modal::TIPO_AVISO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","liberarMetalbo","' . $sDados . ',reenvia");');
         } else {
-
-            $_REQUEST['filcgcRc'] = $aCamposChave['filcgc'];
-            $_REQUEST['nrRc'] = $aCamposChave['nr'];
-            $_REQUEST['email'] = 'S';
-            $_REQUEST['userRel'] = $_SESSION['nome'];
-
-            $aRetornoEmail = require 'app/relatorio/rc.php';
+            if ($aRet[0] == 'Aguardando') {
+                $oMensagem = new Modal('Atenção...  A reclamação ainda não foi liberada para a Metalbo!', '', Modal::TIPO_AVISO, false, true, false);
+                echo '$("#' . $sIdGrid . '-pesq").click();';
+            } else {
+                $oMensagem = new Modal('Atenção...  A reclamação já está em análise!', '', Modal::TIPO_AVISO, false, true, false);
+                echo '$("#' . $sIdGrid . '-pesq").click();';
+            }
         }
-        if ($aRetornoEmail[0] == true) {
-            $aUpdateSit = $this->Persistencia->liberaRnc($aCamposChave);
-            if ($aUpdateSit[0] == true) {
+        echo $oMensagem->getRender();
+    }
+
+    public function liberarMetalbo($sDados) {
+        $aDados = explode(',', $sDados);
+        if ($aDados[3] == 'reenvia') {
+            $sIdGrid = $aDados[1];
+            $sAq[] = $aDados[2];
+            $sChave = htmlspecialchars_decode($sAq[0]);
+            $aCamposChave = array();
+            parse_str($sChave, $aCamposChave);
+            $this->geraPdfQualRnc($aCamposChave, $aDados);
+        } else {
+            $sIdGrid = $aDados[1];
+            $sAq[] = $aDados[3];
+            $sChave = htmlspecialchars_decode($sAq[0]);
+            $aCamposChave = array();
+
+            parse_str($sChave, $aCamposChave);
+            $aRet = $this->Persistencia->verificaFim($aCamposChave);
+
+            if ($aRet[0] != 'Aguardando') {
+                $oMensagem = new Modal('Atenção...  A reclamação já foi liberada para a Metalbo!', '', Modal::TIPO_AVISO, false, true, false);
+                echo $oMensagem->getRender();
+                return;
+            } else {
+                $sIdGrid = $aDados[1];
+                $sAq[] = $aDados[3];
+                $sChave = htmlspecialchars_decode($sAq[0]);
+                $aCamposChave = array();
+                parse_str($sChave, $aCamposChave);
+                $this->geraPdfQualRnc($aCamposChave, $aDados);
+            }
+        }
+    }
+
+    public function geraPdfQualRnc($aCamposChave, $aDados) {
+
+        $_REQUEST['filcgcRc'] = $aCamposChave['filcgc'];
+        $_REQUEST['nrRc'] = $aCamposChave['nr'];
+        $_REQUEST['email'] = 'S';
+        $_REQUEST['userRel'] = $_SESSION['nome'];
+        
+        $sIdGrid = $aDados[1];
+        $sReenvia = $aDados[3];
+
+        $aRetornoEmail = require 'app/relatorio/rc.php';
+
+        if ($sReenvia == 'reenvia') {
+            if ($aRetornoEmail[0] == true) {
                 $oMsg = new Mensagem('Sucesso', 'Reclamação liberada para a Metalbo!', Mensagem::TIPO_SUCESSO);
-                echo $oMsg->getRender();
                 echo '$("#' . $sIdGrid . '-pesq").click();';
             } else {
                 $oMsg = new Mensagem('Erro', 'Reclamação não pode ser liberada para a Metalbo! ', Mensagem::TIPO_WARNING);
-                echo $oMsg->getRender();
             }
         }
+        if ($sReenvia != 'reenvia') {
+            if ($aRetornoEmail[0] == true) {
+                $aUpdateSit = $this->Persistencia->liberaRnc($aCamposChave);
+                if ($aUpdateSit[0] == true) {
+                    $oMsg = new Mensagem('Sucesso', 'Reclamação liberada para a Metalbo!', Mensagem::TIPO_SUCESSO);
+                    echo '$("#' . $sIdGrid . '-pesq").click();';
+                } else {
+                    $oMsg = new Mensagem('Erro', 'Reclamação não pode ser liberada para a Metalbo! ', Mensagem::TIPO_WARNING);
+                }
+            }
+        }
+        echo $oMsg->getRender();
     }
 
 }

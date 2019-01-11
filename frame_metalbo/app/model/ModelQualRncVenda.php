@@ -36,8 +36,7 @@ class ModelQualRncVenda {
     private $aplicacao;
     private $quant;
     private $quantnconf;
-    private $aceitocond;
-    private $reprovar;
+    private $disposicao;
     private $officecod;
     private $officedes;
     private $anexo1;
@@ -51,6 +50,32 @@ class ModelQualRncVenda {
     private $apontamento;
     private $usuaponta;
     private $repcod;
+    private $devolucaoacc;
+    private $devolucaorec;
+
+    function getDisposicao() {
+        return $this->disposicao;
+    }
+
+    function getDevolucaoacc() {
+        return $this->devolucaoacc;
+    }
+
+    function getDevolucaorec() {
+        return $this->devolucaorec;
+    }
+
+    function setDisposicao($disposicao) {
+        $this->disposicao = $disposicao;
+    }
+
+    function setDevolucaoacc($devolucaoacc) {
+        $this->devolucaoacc = $devolucaoacc;
+    }
+
+    function setDevolucaorec($devolucaorec) {
+        $this->devolucaorec = $devolucaorec;
+    }
 
     function getRepcod() {
         return $this->repcod;
@@ -283,14 +308,6 @@ class ModelQualRncVenda {
         return $this->quantnconf;
     }
 
-    function getAceitocond() {
-        return $this->aceitocond;
-    }
-
-    function getReprovar() {
-        return $this->reprovar;
-    }
-
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -389,14 +406,6 @@ class ModelQualRncVenda {
 
     function setQuantnconf($quantnconf) {
         $this->quantnconf = $quantnconf;
-    }
-
-    function setAceitocond($aceitocond) {
-        $this->aceitocond = $aceitocond;
-    }
-
-    function setReprovar($reprovar) {
-        $this->reprovar = $reprovar;
     }
 
 }

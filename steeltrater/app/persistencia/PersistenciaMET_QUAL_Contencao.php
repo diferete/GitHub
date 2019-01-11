@@ -37,4 +37,10 @@ class PersistenciaMET_QUAL_Contencao extends Persistencia {
         return $aDelete;
     }
 
+    public function buscaTipoAcao($aDados) {
+        $sSql = "select tipoacao from MET_QUAL_qualaq where filcgc = '" . $aDados[0] . "' and nr = '" . $aDados[1] . "'";
+        $oResult = $this->consultaSql($sSql);
+        return $oResult->tipoacao;
+    }
+
 }

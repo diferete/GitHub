@@ -700,22 +700,6 @@ function zeraCampoEstoque(grupo1, grupo2, sub1, sub2, fam1, fam2, subfam1, subfa
     $('#' + solcot + '').val('');
 }
 /**
- * Máscaras em campo decimal
- */
-
-function maskDecimal(idCampo){
-    
-    var valor = $('#' + idCampo + '').val();
-    
-    if (valor == '') {
-       $('#' + idCampo + '').val('0');
-    }
-    valor = moedaParaNumero(valor);
-    $('#' + idCampo + '').val(numeroParaMoeda(valor));
-}
-
-
-/**
  * funcao para calcular preco estimado na tela de cadastro de novos projetos 
  */
 function calcNewproj(idPlan,
@@ -811,15 +795,13 @@ function calcNewproj(idPlan,
         var CustoCento = (CustoTotal / Quant);
         $('#' + idCCento + '').val(numeroParaMoeda(CustoCento));
     }
-
-
 }
 
 /**
  * funcao para valores do dimensional da entraga de novos projetos
  */
 function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
-        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idAngHelice, idAcab) {
+        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice, idAcab) {
 
 
     var ChMin = $('#' + idChMin + '').val();
@@ -845,12 +827,16 @@ function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFm
     AltMin = moedaParaNumero(AltMin);
     $('#' + idAltMin + '').val(numeroParaMoeda(AltMin));
 
+
+
     var AltMax = $('#' + idAltMax + '').val();
     if (AltMax == '') {
         $('#' + idAltMax + '').val('0');
     }
     AltMax = moedaParaNumero(AltMax);
     $('#' + idAltMax + '').val(numeroParaMoeda(AltMax));
+
+
 
     var DiamFmin = $('#' + idDiamFmin + '').val();
     if (DiamFmin == '') {
@@ -859,12 +845,16 @@ function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFm
     DiamFmin = moedaParaNumero(DiamFmin);
     $('#' + idDiamFmin + '').val(numeroParaMoeda(DiamFmin));
 
+
+
     var DiamFmax = $('#' + idDiamFmax + '').val();
     if (DiamFmax == '') {
         $('#' + idDiamFmax + '').val('0');
     }
     DiamFmax = moedaParaNumero(DiamFmax);
     $('#' + idDiamFmax + '').val(numeroParaMoeda(DiamFmax));
+
+
 
     var CompMin = $('#' + idCompMin + '').val();
     if (CompMin == '') {
@@ -873,12 +863,16 @@ function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFm
     CompMin = moedaParaNumero(CompMin);
     $('#' + idCompMin + '').val(numeroParaMoeda(CompMin));
 
+
+
     var CompMax = $('#' + idCompMax + '').val();
     if (CompMax == '') {
         $('#' + idCompMax + '').val('0');
     }
     CompMax = moedaParaNumero(CompMax);
     $('#' + idCompMax + '').val(numeroParaMoeda(CompMax));
+
+
 
     var DiamPmin = $('#' + idDiamPmin + '').val();
     if (DiamPmin == '') {
@@ -887,12 +881,16 @@ function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFm
     DiamPmin = moedaParaNumero(DiamPmin);
     $('#' + idDiamPmin + '').val(numeroParaMoeda(DiamPmin));
 
+
+
     var DiamPmax = $('#' + idDiamPmax + '').val();
     if (DiamPmax == '') {
         $('#' + idDiamPmax + '').val('0');
     }
     DiamPmax = moedaParaNumero(DiamPmax);
     $('#' + idDiamPmax + '').val(numeroParaMoeda(DiamPmax));
+
+
 
     var DiamExMin = $('#' + idDiamExMin + '').val();
     if (DiamExMin == '') {
@@ -901,12 +899,16 @@ function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFm
     DiamExMin = moedaParaNumero(DiamExMin);
     $('#' + idDiamExMin + '').val(numeroParaMoeda(DiamExMin));
 
+
+
     var DiamExMax = $('#' + idDiamExMax + '').val();
     if (DiamExMax == '') {
         $('#' + idDiamExMax + '').val('0');
     }
     DiamExMax = moedaParaNumero(DiamExMax);
     $('#' + idDiamExMax + '').val(numeroParaMoeda(DiamExMax));
+
+
 
     var CompPrMin = $('#' + idCompPrMin + '').val();
     if (CompPrMin == '') {
@@ -915,12 +917,16 @@ function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFm
     CompPrMin = moedaParaNumero(CompPrMin);
     $('#' + idCompPrMin + '').val(numeroParaMoeda(CompPrMin));
 
+
+
     var CompPrMax = $('#' + idCompPrMax + '').val();
     if (CompPrMax == '') {
         $('#' + idCompPrMax + '').val('0');
     }
     CompPrMax = moedaParaNumero(CompPrMax);
     $('#' + idCompPrMax + '').val(numeroParaMoeda(CompPrMax));
+
+
 
     var CompHmin = $('#' + idCompHmin + '').val();
     if (CompHmin == '') {
@@ -929,12 +935,16 @@ function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFm
     CompHmin = moedaParaNumero(CompHmin);
     $('#' + idCompHmin + '').val(numeroParaMoeda(CompHmin));
 
+
+
     var CompHmax = $('#' + idCompHmax + '').val();
     if (CompHmax == '') {
         $('#' + idCompHmax + '').val('0');
     }
     CompHmax = moedaParaNumero(CompHmax);
     $('#' + idCompHmax + '').val(numeroParaMoeda(CompHmax));
+
+
 
     var DiamHmin = $('#' + idDiamHmin + '').val();
     if (DiamHmin == '') {
@@ -943,6 +953,8 @@ function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFm
     DiamHmin = moedaParaNumero(DiamHmin);
     $('#' + idDiamHmin + '').val(numeroParaMoeda(DiamHmin));
 
+
+
     var DiamHmax = $('#' + idDiamHmax + '').val();
     if (DiamHmax == '') {
         $('#' + idDiamHmax + '').val('0');
@@ -950,12 +962,34 @@ function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFm
     DiamHmax = moedaParaNumero(DiamHmax);
     $('#' + idDiamHmax + '').val(numeroParaMoeda(DiamHmax));
 
+
+
+    var CanecoMin = $('#' + idCanecoMin + '').val();
+    if (CanecoMin == '') {
+        $('#' + idCanecoMin + '').val('0');
+    }
+    CanecoMin = moedaParaNumero(CanecoMin);
+    $('#' + idCanecoMin + '').val(numeroParaMoeda(CanecoMin));
+
+
+
+    var CanecoMax = $('#' + idCanecoMax + '').val();
+    if (CanecoMax == '') {
+        $('#' + idCanecoMax + '').val('0');
+    }
+    CanecoMax = moedaParaNumero(CanecoMax);
+    $('#' + idCanecoMax + '').val(numeroParaMoeda(CanecoMax));
+
+
+
     var AngHelice = $('#' + idAngHelice + '').val();
     if (AngHelice == '') {
         $('#' + idAngHelice + '').val('0');
     }
     AngHelice = moedaParaNumero(AngHelice);
     $('#' + idAngHelice + '').val(numeroParaMoeda(AngHelice));  //Acab
+
+
 
     var Acab = $('#' + idAcab + '').val();
     if (Acab == '') {
@@ -1245,12 +1279,18 @@ function expandeField(id) {
     $('#' + id + ' >div').css("display", "none");
 }
 
-function buscaCNPJ(cnpj, classe) {
-    requestAjax("", classe, 'getCNPJ', cnpj);
+function buscaCNPJ(cnpj, campo, classe) {
+    var campoVal = cnpj + ',' + campo;
+    requestAjax("", classe, 'getCNPJ', campoVal);
 }
 
 function buscaRespVenda(idCod, idVenda, nomeVenda, classe) {
     var idsCampos = idCod + ',' + idVenda + ',' + nomeVenda;
     requestAjax("", classe, 'getRespVenda', idsCampos);
 
+}
+
+function getUserEmail(codUser, idNome, idEmail, idCod, classe) {
+    var dados = codUser + ',' + idNome + ',' + idEmail + ',' + idCod;
+    requestAjax("", classe, 'getUserEmail', dados);
 }

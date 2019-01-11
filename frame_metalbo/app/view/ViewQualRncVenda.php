@@ -9,7 +9,8 @@ class ViewQualRncVenda extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setBGridResponsivo(true);
+        $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setiLarguraGrid(2000);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
 
@@ -20,6 +21,12 @@ class ViewQualRncVenda extends View {
         $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_LARGURA);
 
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
+
+        $oAnexo1 = new CampoConsulta('Anexo 1', 'anexo1', CampoConsulta::TIPO_DOWNLOAD);
+
+        $oAnexo2 = new CampoConsulta('Anexo 2', 'anexo2', CampoConsulta::TIPO_DOWNLOAD);
+
+        $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
 
         $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
         $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
@@ -57,7 +64,7 @@ class ViewQualRncVenda extends View {
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1);
 
         $this->addFiltro($oFilNr, $oFilCli);
-        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData);
+        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -76,7 +83,8 @@ class ViewQualRncVenda extends View {
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoExcluir(false);
-        $this->setBScrollInf(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
     }
 
     public function criaTela() {
@@ -107,8 +115,8 @@ class ViewQualRncVenda extends View {
         $oDataIns->setBCampoBloqueado(true);
 
         $oHora = new campo('Hora do report', 'horains', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oHora->setBCampoBloqueado(true);        
-        
+        $oHora->setBCampoBloqueado(true);
+
         $oDivisor3 = new Campo('Dados da Reclamação', 'dadosrec', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor3->setApenasTela(true);
 
@@ -128,13 +136,14 @@ class ViewQualRncVenda extends View {
         //responsável por vendas
         $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-        //$oRespVenda->setBCampoBloqueado(true);
+        $oRespVenda->setBCampoBloqueado(true);
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        //$oRespVendaNome->setBCampoBloqueado(true);
+        $oRespVendaNome->setBCampoBloqueado(true);
         $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
         $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oRep->setBCampoBloqueado(true);
 
         $oDivisor2 = new Campo('Dados do cliente', 'clidados', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor2->setApenasTela(true);
@@ -195,6 +204,10 @@ class ViewQualRncVenda extends View {
 
         $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
+        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
+        $oDisposicao->addItenRadio('1', 'Acc. Condicionalmente');
+        $oDisposicao->addItenRadio('2', 'Recusar');
+
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo3 = new Campo('Anexo3', 'anexo3', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
@@ -203,22 +216,16 @@ class ViewQualRncVenda extends View {
         $this->setSIdUpload(',' . $oAnexo1->getId() . ',' . $oAnexo2->getId() . ',' . $oAnexo3->getId());
 
         $oTabGeral->addCampos(
-                array($oRespVenda, $oRespVendaNome, $oRep), $oDivisor2, 
-                array($oEmpcod, $oEmpdes), 
-                array($oContato, $oCelular, $oEmail, $oInd, $oComer));
+                array($oRep, $oRespVenda, $oRespVendaNome), $oDivisor2, array($oEmpcod, $oEmpdes), array($oContato, $oCelular, $oEmail, $oInd, $oComer));
         $oTabNF->addCampos(
-                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), 
-                array($oLote, $oOp), 
-                array($oCodigo, $oProdes, $oQuant), $oDivisor1, 
-                array($oAplicacao, $oQuanNconf), $oDescNaoConf);
+                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp), array($oCodigo, $oProdes, $oQuant), $oDivisor1, array($oAplicacao, $oQuanNconf, $oDisposicao), $oDescNaoConf);
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3));
 
         $oTab->addItems($oTabGeral, $oTabNF, $oTabAnexos);
 
         $this->addCampos(
-                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, 
-                array($oNf), $ln, $oTab);
+                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
     }
 
 }

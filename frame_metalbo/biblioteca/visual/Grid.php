@@ -709,7 +709,7 @@ class Grid {
         if ($this->getBUsaCarrGrid()) {
             $sBotCarregar = '<button type="button" id="' . $this->getSId() . '-botcarr" class="btn btn-dark btn-outline btn-xs '
                     . 'ladda-button" data-style="expand-left" data-plugin="ladda" >'
-                    . '<span class="ladda-label" id="' . $this->getSId() . '-nrReg">'.$aDados[2].' registros de ' . $aDados[1] . ' Clique para carregar!</span>'
+                    . '<span class="ladda-label" id="' . $this->getSId() . '-nrReg">'.$aDados[2].' registros listados do total de ' . $aDados[1] . '. Clique para carregar!</span>'
                     . '<span class="ladda-spinner"></span></button> '
                     . '<script>'
                     . '$("#' . $this->getSId() . '-botcarr").click(function(){' . $sEventoCarr . '});'

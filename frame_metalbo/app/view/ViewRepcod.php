@@ -20,7 +20,6 @@ class ViewRepcod extends View{
         $oRepcod=new CampoConsulta('Código Representante', 'repcod');
         $oRepdes=new CampoConsulta('Representante', 'repdes');
         
-        $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoVisualizar(true);

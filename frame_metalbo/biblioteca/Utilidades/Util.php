@@ -265,7 +265,7 @@ class Util {
     }
 
     /**
-     * Converte data do padrão Americano/SQL com traços para Brasileiro com barras em situações unde usa setSValor() em campos tipo texto via getParametrosExtras
+     * Converte data do padrão Americano/SQL com traços para Brasileiro com barras em situações específicas
      * 
      * @param string $sData Recebe string data para converter
      **/

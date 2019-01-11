@@ -1294,3 +1294,18 @@ function getUserEmail(codUser, idNome, idEmail, idCod, classe) {
     var dados = codUser + ',' + idNome + ',' + idEmail + ',' + idCod;
     requestAjax("", classe, 'getUserEmail', dados);
 }
+
+/**
+ * Máscaras em campo decimal
+ */
+
+function maskDecimal(idCampo){
+    
+    var valor = $('#' + idCampo + '').val();
+    
+    if (valor == '') {
+       $('#' + idCampo + '').val('0');
+    }
+    valor = moedaParaNumero(valor);
+    $('#' + idCampo + '').val(numeroParaMoeda(valor));
+}

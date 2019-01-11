@@ -46,8 +46,7 @@ class PersistenciaQualRncVenda extends Persistencia {
         $this->adicionaRelacionamento('quant', 'quant');
 
         $this->adicionaRelacionamento('quantnconf', 'quantnconf');
-        $this->adicionaRelacionamento('aceitocond', 'aceitocond');
-        $this->adicionaRelacionamento('reprovar', 'reprovar');
+        $this->adicionaRelacionamento('disposicao', 'disposicao');
 
         $this->adicionaRelacionamento('anexo1', 'anexo1');
         $this->adicionaRelacionamento('anexo2', 'anexo2');
@@ -66,6 +65,9 @@ class PersistenciaQualRncVenda extends Persistencia {
         $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
+        
+        $this->adicionaRelacionamento('devolucaoacc', 'devolucaoacc');
+        $this->adicionaRelacionamento('devolucaorec', 'devolucaorec');
 
         $this->adicionaJoin('Pessoa');
 
@@ -194,7 +196,7 @@ class PersistenciaQualRncVenda extends Persistencia {
         } else {
             $sSql = "update tbrncqual"
                     . " set devolucao ='Aceita',"
-                    . " aceitocond = 'true'"
+                    . " devolucaoacc = 'true'"
                     . " where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
         }
@@ -215,7 +217,7 @@ class PersistenciaQualRncVenda extends Persistencia {
         } else {
             $sSql = "update tbrncqual"
                     . " set devolucao ='Recusada',"
-                    . " reprovar = 'true'"
+                    . " devolucaorec = 'true'"
                     . " where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
         }

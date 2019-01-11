@@ -133,7 +133,7 @@ class ControllerQualNovoProjRep extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         $oDadosProj = $this->Persistencia->buscaDadosEmail($aCamposChave);
@@ -294,7 +294,7 @@ class ControllerQualNovoProjRep extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         //monta o foreach para envio dos e-mails 
@@ -496,7 +496,7 @@ class ControllerQualNovoProjRep extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         $oAprov = $this->Persistencia->buscaProposta($aDadosP);

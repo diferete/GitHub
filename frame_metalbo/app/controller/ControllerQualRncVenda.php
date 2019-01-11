@@ -131,7 +131,7 @@ class ControllerQualRncVenda extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         $oRow = $this->Persistencia->buscaDadosRnc($aCamposChave);
@@ -175,15 +175,15 @@ class ControllerQualRncVenda extends Controller {
             } else {
                 if ($aRet[0] == 'Env.Qual') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                //$oEmail->addDestinatario('duda@metalbo.com.br');
+                    //$oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                //$oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
                     $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                //$oEmail->addDestinatario('josiani@metalbo.com.br');
+                    //$oEmail->addDestinatario('josiani@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RNC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc']));
@@ -211,10 +211,10 @@ class ControllerQualRncVenda extends Controller {
         if ($sRet == 'Apontada') {
             if ($sParam == 'Aceitar') {
                 $oMensagem = new Modal('Aceitar devolução', 'Deseja ACEITAR a devolução da RC nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
-                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","aceitaDevolucao","' . $sDados . '");');
+                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","aceitaDevolucao","' . $sDados . ',' . $sParam . '");');
             } else {
                 $oMensagem = new Modal('Recusar devolução', 'Deseja RECUSAR a devolução da RC nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
-                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","recusaDevolucao","' . $sDados . '");');
+                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","recusaDevolucao","' . $sDados . ',' . $sParam . '");');
             }
         } else {
             if ($sRet == 'Aguardando') {
@@ -228,7 +228,7 @@ class ControllerQualRncVenda extends Controller {
         echo $oMensagem->getRender();
     }
 
-    public function aceitaDevolucao($sDados) {
+    public function aceitaDevolucao($sDados, $sParam) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
@@ -242,14 +242,14 @@ class ControllerQualRncVenda extends Controller {
             $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO);
             echo $oMsg2->getRender();
             echo"$('#" . $aDados[1] . "-pesq').click();";
-            echo 'requestAjax("","QualRncVenda","enviaEmailDev","' . $sDados . '");';
+            echo 'requestAjax("","QualRncVenda","enviaEmailDev","' . $sDados . ',' . $sParam . '");';
         } else {
             $oMensagem = new Modal('Devolução', 'Essa devolução ja foi Aceita/Recusada e não pode ser alterada', Modal::TIPO_ERRO);
         }
         echo $oMensagem->getRender();
     }
 
-    public function recusaDevolucao($sDados) {
+    public function recusaDevolucao($sDados, $sParam) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
@@ -263,7 +263,7 @@ class ControllerQualRncVenda extends Controller {
             $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO);
             echo $oMsg2->getRender();
             echo"$('#" . $aDados[1] . "-pesq').click();";
-            echo 'requestAjax("","QualRncVenda","enviaEmailDev","' . $sDados . '");';
+            echo 'requestAjax("","QualRncVenda","enviaEmailDev","' . $sDados . ',' . $sParam . '");';
         } else {
             $oMensagem = new Modal('Devolução', 'Essa devolução ja foi Aceita/Recusada e não pode ser alterada', Modal::TIPO_ERRO);
         }
@@ -271,7 +271,7 @@ class ControllerQualRncVenda extends Controller {
         echo $oMensagem->getRender();
     }
 
-    public function enviaEmailDev($sDados) {
+    public function enviaEmailDev($sDados, $sParam) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
@@ -291,15 +291,21 @@ class ControllerQualRncVenda extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         $oRow = $this->Persistencia->buscaDadosRnc($aCamposChave);
 
         $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ''));
 
+        if ($sParam == 'Aceitar') {
+            $sCor = 'red';
+        } else {
+            $sCor = 'green';
+        }
 
-        $oEmail->setMensagem(utf8_decode('A devolução de Nº ' . $oRow->nr . ' foi <strong><span style="color:red">' . $oRow->devolucao . '</span></strong> pela Metalbo.<hr><br/>'
+
+        $oEmail->setMensagem(utf8_decode('A devolução de Nº ' . $oRow->nr . ' foi <strong><span style="color:' . $sCor . '">' . $oRow->devolucao . '</span></strong> pela Metalbo.<hr><br/>'
                         . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
                         . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
                         . '<b>Hora: ' . $hora . '  </b><br/>'
@@ -333,7 +339,7 @@ class ControllerQualRncVenda extends Controller {
             $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o representante com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email para o representante, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email para o representante, tente reenviar ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }

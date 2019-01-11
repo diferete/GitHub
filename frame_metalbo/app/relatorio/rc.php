@@ -66,9 +66,11 @@ $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
                 case when ind = 'true' then 'x' else '' end as ind,
                 case when comer = 'true' then 'x' else '' end as comer,widl.emp01.cidcep,
                 nf,convert(varchar,datanf,103)as datanf,odcompra,pedido,valor,peso,lote,op,naoconf,procod,prodes,aplicacao,
-                quant,quantnconf,usuaponta,apontamento,
-                case when aceitocond = 'true' then 'x' else '' end as aceitocond,
-                case when reprovar = 'true' then 'x' else '' end as reprovar,usunome
+                quant,quantnconf,usuaponta,apontamento,resp_venda_nome,
+                case when devolucaoacc = 'true' then 'x' else '' end as devolucaoacc,
+                case when devolucaorec = 'true' then 'x' else '' end as devolucaorec,
+                case when disposicao = '1' then 'x' else '' end as aceitar,
+                case when disposicao = '2' then 'x' else '' end as recusar,usunome
                 from tbrncqual left outer join widl.EMP01
                 on widl.emp01.empcod = tbrncqual.empcod left outer join widl.CID01 
                 on widl.CID01.cidcep = widl.EMP01.cidcep where nr =" . $nr;
@@ -202,7 +204,7 @@ $pdf->Cell(30, 5, "Dados produto:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
 $iAltura = $pdf->GetY();
-$pdf->Rect(2, $iAltura, 206, 28);
+$pdf->Rect(2, $iAltura, 206, 34);
 
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
@@ -230,6 +232,12 @@ $pdf->Cell(30, 5, "Quant. não conf:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(30, 5, number_format($row['quantnconf'], 2, ',', '.'), 0, 1, 'L');
 
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(30, 5, "Disposição:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(50, 5, '(' . $row['aceitar'] . ') Aceito condicionalmente', 0, 0, 'L');
+$pdf->Cell(50, 5, '(' . $row['recusar'] . ') Reprovar', 0, 1, 'L');
+
 
 $pdf->Ln(5);
 $pdf->SetFont('arial', 'B', 10);
@@ -251,36 +259,31 @@ $pdf->Cell(30, 5, "Análise da não conformidade:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['apontamento'], 0, 'L');
 
-$pdf->Ln(30);
+$pdf->Ln(18);
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(30, 5, "Análise do setor de Vendas:", 0, 1, 'L');
+$pdf->SetFont('arial', '', 10);
 
-$iAltF = $pdf->GetY();
-
+$iAltura = $pdf->GetY();
+$pdf->Rect(2, $iAltura, 206, 20);
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Disposição:", 0, 0, 'L');
+$pdf->Cell(26, 5, "Responsável:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, '(' . $row['aceitocond'] . ') Aceito condicionalmente', 0, 0, 'L');
-$pdf->Cell(50, 5, '(' . $row['reprovar'] . ') Reprovar', 0, 1, 'L');
+$pdf->Cell(50, 5, $row['resp_venda_nome'], 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Responsável:", 0, 0, 'L');
+$pdf->Cell(26, 5, "Devolução:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, $row['usunome'], 0, 0, 'L');
-
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(10, 5, "Data:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(40, 5, $row['datains'], 0, 1, 'L');
-
-$pdf->Cell(0, 5, "", "B", 1, 'C');
-
+$pdf->Cell(50, 5, '(' . $row['devolucaoacc'] . ') Aceita', 0, 0, 'L');
+$pdf->Cell(50, 5, '(' . $row['devolucaorec'] . ') Recusada', 0, 1, 'L');
 
 
 if ($sEmailRequest == 'S') {
     $pdf->Output('F', 'app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf'); // GERA O PDF NA TELA
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
 } else {
-    $pdf->Output('I', 'Rnc' . $nr . '.pdf');
+    $pdf->Output('I', 'RC' . $nr . '.pdf');
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
 }
 
@@ -301,7 +304,7 @@ if ($sEmailRequest == 'S') {
     $oEmail->setPorta(587);
     $oEmail->setAutentica(true);
     $oEmail->setUsuario('metalboweb@metalbo.com.br');
-    $oEmail->setSenha('filialwe');
+    $oEmail->setSenha('Metalbo@@50');
     $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
 
@@ -345,13 +348,13 @@ if ($sEmailRequest == 'S') {
     $oEmail->addDestinatario($aRowMail['usuemail']);
 
     //provisório para ir cópia para avanei
-    $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RNC nº' . $nr . '_empresa_' . $filcgc));
+    $oEmail->addAnexo('app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
         echo $oMensagem->getRender();
     } else {
-        $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+        $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo ou tente reenviar o e-mail! ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
         echo $oMensagem->getRender();
     }
 }

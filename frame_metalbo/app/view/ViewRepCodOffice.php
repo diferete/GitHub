@@ -10,8 +10,11 @@ class ViewRepCodOffice extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
-
+        
+        $this->setUsaAcaoExcluir(false);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
+        
         $oFilcgc = new CampoConsulta('Empresa do Escritório', 'filcgc');
         $officecod = new CampoConsulta('Escritório', 'officecod');
         $officeseq = new CampoConsulta('Seq.', 'officeseq');
@@ -26,8 +29,6 @@ class ViewRepCodOffice extends View {
         $oFilVendaNome = new Filtro($oRespVendaNome, Filtro::CAMPO_TEXTO, 2);
 
         $this->addFiltro($oRepcodF, $oEscritorio, $oFilVendaNome);
-
-
 
         $this->addCampos($officecod, $oRepcod, $oFilcgc, $officeseq, $oRespVendaCod, $oRespVendaNome);
     }

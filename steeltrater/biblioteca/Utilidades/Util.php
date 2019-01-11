@@ -265,7 +265,7 @@ class Util {
     }
 
     /**
-     * Converte data do padrão Americano/SQL com traços para Brasileiro com barras em situações unde usa setSValor()
+     * Converte data do padrão Americano/SQL com traços para Brasileiro com barras em situações unde usa setSValor() em campos tipo texto via getParametrosExtras
      * 
      * @param string $sData Recebe string data para converter
      **/
@@ -276,6 +276,17 @@ class Util {
         $a = $data[0];
 
         $sDataConvert = $d . "/" . $m . "/" . $a;
+        
+        return $sDataConvert;
+    }
+    
+    public static function converteHora($sHora) {
+        $hora = explode(':', $sHora);
+        $h = $hora[0];
+        $m = $hora[1];
+        $s = $hora[2];
+
+        $sDataConvert = $h . ":" . $m . ":" . $s;
         
         return $sDataConvert;
     }

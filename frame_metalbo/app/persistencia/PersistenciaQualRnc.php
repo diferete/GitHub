@@ -46,8 +46,7 @@ class PersistenciaQualRnc extends Persistencia {
         $this->adicionaRelacionamento('quant', 'quant');
 
         $this->adicionaRelacionamento('quantnconf', 'quantnconf');
-        $this->adicionaRelacionamento('aceitocond', 'aceitocond');
-        $this->adicionaRelacionamento('reprovar', 'reprovar');
+        $this->adicionaRelacionamento('disposicao', 'disposicao');
 
         $this->adicionaRelacionamento('anexo1', 'anexo1');
         $this->adicionaRelacionamento('anexo2', 'anexo2');
@@ -66,6 +65,9 @@ class PersistenciaQualRnc extends Persistencia {
         $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
+        
+        $this->adicionaRelacionamento('devolucaoacc', 'devolucaoacc');
+        $this->adicionaRelacionamento('devolucaorec', 'devolucaorec');
 
 
         $this->adicionaJoin('Pessoa');

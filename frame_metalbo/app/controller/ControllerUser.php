@@ -218,7 +218,7 @@ class ControllerUser extends Controller{
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'),utf8_decode('Não responda | Metalbo '));
 
         $oEmail->setAssunto(utf8_decode('Solicitação de redefinição de senha'));

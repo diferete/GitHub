@@ -149,7 +149,7 @@ class ControllerQualNovoProjVenda extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         $oAprov = $this->Persistencia->buscaDadosEmailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
@@ -269,7 +269,7 @@ class ControllerQualNovoProjVenda extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         $oAprov = $this->Persistencia->buscaDadosEmailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
@@ -410,7 +410,7 @@ class ControllerQualNovoProjVenda extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         $aObs = $this->Persistencia->buscaObs($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);

@@ -46,8 +46,7 @@ class PersistenciaQualRncAnalise extends Persistencia {
         $this->adicionaRelacionamento('quant', 'quant');
 
         $this->adicionaRelacionamento('quantnconf', 'quantnconf');
-        $this->adicionaRelacionamento('aceitocond', 'aceitocond');
-        $this->adicionaRelacionamento('reprovar', 'reprovar');
+        $this->adicionaRelacionamento('disposicao', 'disposicao');
 
         $this->adicionaRelacionamento('anexo1', 'anexo1');
         $this->adicionaRelacionamento('anexo2', 'anexo2');
@@ -68,6 +67,9 @@ class PersistenciaQualRncAnalise extends Persistencia {
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
         $this->adicionaRelacionamento('situaca', 'situaca');
         $this->adicionaRelacionamento('tagsetor', 'tagsetor');
+        
+        $this->adicionaRelacionamento('devolucaoacc', 'devolucaoacc');
+        $this->adicionaRelacionamento('devolucaorec', 'devolucaorec');
 
         $this->adicionaJoin('Pessoa');
 
@@ -145,7 +147,7 @@ class PersistenciaQualRncAnalise extends Persistencia {
     }
 
     public function verifSit($aDados) {
-        $sSql = "select situaca"
+        $sSql = "select situaca,devolucao"
                 . " from tbrncqual"
                 . " where filcgc='" . $aDados['filcgc'] . "' and nr='" . $aDados['nr'] . "'";
         $result = $this->getObjetoSql($sSql);
@@ -155,8 +157,12 @@ class PersistenciaQualRncAnalise extends Persistencia {
 
         if ($sSituaca == 'Aguardando') {
             $aRetorno[0] = false;
+            $aRetorno[1] = $sSituaca;
+            $aRetorno[2] = $oRow->devolucao;
         } else {
             $aRetorno[0] = true;
+            $aRetorno[1] = $sSituaca;
+            $aRetorno[2] = $oRow->devolucao;
         }
         return $aRetorno;
     }

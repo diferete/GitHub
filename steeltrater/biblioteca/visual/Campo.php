@@ -128,7 +128,7 @@ class Campo {
     const FUNDO_AZUL = 'fundo_azul';
     const FUNDO_VERDE = 'fundo_verde';
     const FUNDO_MONEY = 'fundo_money';
-    const FUNDO_VERMELHO = 'fundo_vermeho';
+    const FUNDO_VERMELHO = 'fundo_vermelho';
     const BUTTON_WARNING = 'btn-warning';
     const BUTTON_SUCCESS = 'btn-success';
     const BUTTON_PRIMARY = 'btn-primary';

@@ -19,5 +19,6 @@ class PersistenciaRepCodOffice extends Persistencia{
         $this->adicionaRelacionamento('resp_venda_nome', 'resp_venda_nome');
         
         $this->adicionaOrderBy('repcod',1);
+        $this->setSTop('50');
     }
 }

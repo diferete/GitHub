@@ -39,7 +39,9 @@ class ControllerMET_QUAL_Correcao extends Controller {
 
     public function pkDetalhe($aChave) {
         parent::pkDetalhe();
+        $sTipoAcao = $this->Persistencia->buscaTipoAcao($aChave);
         $aCampos = $aChave;
+        $aCampos[3] = $sTipoAcao;
         $this->View->setAParametrosExtras($aCampos);
     }
 

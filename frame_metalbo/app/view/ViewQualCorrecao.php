@@ -71,9 +71,6 @@ class ViewQualCorrecao extends View {
 
         $aValor = $this->getAParametrosExtras();
 
-        $oDivisor = new Campo('Tela com preenchimento OPCIONAL, caso for uma ação preventiva não necessita preencher.', 'divisor1', Campo::DIVISOR_VERMELHO, 12, 12, 12, 12);
-        $oDivisor->setApenasTela(true);
-
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor($aValor[0]);
         $oFilcgc->setBCampoBloqueado(true);
@@ -111,7 +108,16 @@ class ViewQualCorrecao extends View {
         $oTipo = new Campo('Tipo ação', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTipo->setSValor($aValor[3]);
         $oTipo->setBCampoBloqueado(true);
-        $oTipo->setSCorFundo(Campo::FUNDO_MONEY);
+        if ($aValor[3] == 'Ação Preventiva') {
+            $oTipo->setSCorFundo(Campo::FUNDO_VERDE);
+            $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
+            
+        } else {
+            $oTipo->setSCorFundo(Campo::FUNDO_VERMELHO);
+            $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_WARNING, 12, 12, 12, 12);
+        }
+        
+        $oDivisor->setApenasTela(true);
 
         $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataPrev->addValidacao(false, Validacao::TIPO_STRING, '', '2');

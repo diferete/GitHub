@@ -180,7 +180,7 @@ class Persistencia {
         }
         return $stop;
     }
-    
+
     function getITop() {
         return $this->sTop;
         }

@@ -1727,13 +1727,15 @@ class Controller {
                         array_pop($aCamposChave);
                         foreach ($aCamposChave as $key => $value) {
                             //retorna campo do model
-                           /* $aModel = explode('_', $key);
+                            $aModel = explode('_', $key);
                             if (count($aModel) > 1) {
+                                $aModel = $this->scrollFilhas($aModel);
                                 $sModelFiltro = $aModel[1];
                             } else {
+                                $aModel = $this->scrollFilhas($aModel);
                                 $sModelFiltro = $aModel[0];
-                            }*/
-                            $this->Persistencia->adicionaFiltro($key, $value, Persistencia::LIGACAO_AND);
+                            }
+                            $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                         }
                     }
                 }
@@ -1773,7 +1775,9 @@ class Controller {
         }
 
         $aModels = $this->Persistencia->getArrayModel(); //carrega os campos da consulta
-        
+        //pega o total de linhas na querys
+        $iTotalReg = $this->Persistencia->getCount();
+
 
         $sDados = '';
         //verifica se foi informado posição do contador
@@ -1890,7 +1894,7 @@ class Controller {
         }
         //pega o total de linhas na querys
         $iTotalFiltro = $this->Persistencia->getCount();
-        if($iTotalFiltro>=$this->Persistencia->getITop()){
+        if ($iTotalFiltro >= $this->Persistencia->getITop()) {
             $iTotalFiltro = $this->Persistencia->getITop();
         }
         $this->Persistencia->limpaFiltro();
@@ -1919,11 +1923,11 @@ class Controller {
             $sSummary = '$("#' . $aDadosAtualizar[0] . '-summary > tbody > tr").empty();'
                     . '$("#' . $aDadosAtualizar[0] . '-summary > tbody > tr").append(\'' . $sDadosSummary . '\');';
             echo $sSummary;
-            
+
             //mostra contator de registros 
-           
+
             $sNrReg = 'var nrReg = $("#' . $aDadosAtualizar[0] . ' > tbody > tr").length ;'
-                    .' $("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de ' . $iTotalReg . '. Clique para carregar!"); ';
+                    . ' $("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de ' . $iTotalReg . '. Clique para carregar!"); ';
             echo $sNrReg;
         } else {
             //retorna os dados
@@ -2756,7 +2760,7 @@ class Controller {
         //define o retorno somente do form
         $this->View->getTela()->setBSomanteForm(true);
         //função autoincremento
-        $this->funcoesAutoIncremento();
+        //$this->funcoesAutoIncremento();
         //adiciona botões na tela de detalhe
         $this->View->adicionaBotoesDet($aDados[2], $aDados[0], $aDados[4], $aDados[5], $aDados[1]);
 
@@ -3852,14 +3856,35 @@ class Controller {
 
         if ($oCampo->getITipo() == 0) {
             if ($xValor !== '') {
-                $oCampo->setSValor(date('d/m/Y', strtotime($xValor)));
+                //valida tipo de data 
+                if (Util::ValidaData($xValor)) {
+                    //altera valor de / para tipo dataSql
+                    $xValorCampo = Util::dataMysql($xValor);
+                    //setValor no campo data
+                    $oCampo->setSValor(date('d/m/Y', strtotime($xValorCampo)));
+                } else {
+                    $oCampo->setSValor(date('d/m/Y', strtotime($xValor)));
+                }
             } else {
                 $oCampo->setSValor($xValor);
             }
         } elseif ($oCampo->getITipo() == 2) {
             $oCampo->setSValor(number_format($xValor, 2, ',', '.'));
         } else {
-            $oCampo->setSValor($xValor);
+            if ($oCampo->getITipo() == 1) {
+                if ($xValor !== '') {
+                    if (Util::ValidaData(Util::converteData($xValor))) {
+                        //altera valor de / para tipo dataSql
+                        $xValorCampo = Util::converteData($xValor);
+                        //setValor no campo data
+                        $oCampo->setSValor($xValorCampo);
+                    } else {
+                        $oCampo->setSValor($xValor);
+                    }
+                }
+            } else {
+                $oCampo->setSValor($xValor);
+            }
         }
 
         //setar o valor do campo busca
@@ -3949,9 +3974,16 @@ class Controller {
                     }
                 }
                 if ($sValor !== 'semModel') {
-                    $sValor = str_replace("\n", " ", $sValor);
-                    $sValor = str_replace("'", "\'", $sValor);
-                    $sValor = str_replace("\r", "", $sValor);
+                    if (Util::ValidaData(Util::converteData($sValor))) {
+                        //altera valor de / para tipo dataSql
+                        $sValorCampo = Util::converteData($sValor);
+                        //setValor no campo data
+                        $sValor = date('d/m/Y', strtotime($sValorCampo));
+                    } else {
+                        $sValor = str_replace("\n", " ", $sValor);
+                        $sValor = str_replace("'", "\'", $sValor);
+                        $sValor = str_replace("\r", "", $sValor);
+                    }
 
                     $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
                     echo $sRetorno;
@@ -4220,6 +4252,15 @@ class Controller {
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
+    }
+
+    /**
+     * Retorna filtros scrool com tratamento das classes filhos 
+     */
+    public function scrollFilhas($aFiltros) {
+
+
+        return $aFiltros;
     }
 
 }

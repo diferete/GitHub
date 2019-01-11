@@ -9,7 +9,8 @@ class ViewQualRncAnalise extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setBGridResponsivo(true);
+        $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setiLarguraGrid(2000);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
 
@@ -20,6 +21,12 @@ class ViewQualRncAnalise extends View {
         $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_LARGURA);
 
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
+        
+        $oAnexo1 = new CampoConsulta('Anexo 1', 'anexo1', CampoConsulta::TIPO_DOWNLOAD);
+        
+        $oAnexo2 = new CampoConsulta('Anexo 2', 'anexo2', CampoConsulta::TIPO_DOWNLOAD);
+        
+        $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
 
         $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
         $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
@@ -39,12 +46,13 @@ class ViewQualRncAnalise extends View {
         $oDevolucao->setBComparacaoColuna(true);
 
 
-        $oDropDown = new Dropdown('Opções da reclamação', Dropdown::TIPO_PRIMARY);
-        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'QualRncVenda', 'acaoMostraRelConsulta', '', false, 'rc');
+        $oDropDown2 = new Dropdown('Opções da reclamação', Dropdown::TIPO_PRIMARY);
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'QualRncVenda', 'acaoMostraRelConsulta', '', false, 'rc');
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail', 'QualRncAnalise', 'reenviaEmailRnc', '', false, '');
 
 
-        $oDropDown2 = new Dropdown('Apontar análise', Dropdown::TIPO_AVISO);
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar análise', 'QualRncAnalise', 'criaTelaModalAponta', '', false, '', false, 'criaTelaModalAponta', true, 'Apontar análise');
+        $oDropDown = new Dropdown('Apontar análise', Dropdown::TIPO_AVISO);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar análise', 'QualRncAnalise', 'criaTelaModalAponta', '', false, '', false, 'criaTelaModalAponta', true, 'Apontar análise');
 
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown2);
@@ -53,14 +61,15 @@ class ViewQualRncAnalise extends View {
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1);
 
         $this->addFiltro($oFilNr, $oFilCli);
-        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData);
+        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData,$oAnexo1,$oAnexo2,$oAnexo3);
 
 
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoExcluir(false);
-        $this->setBScrollInf(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
     }
 
     public function criaTela() {
@@ -112,13 +121,16 @@ class ViewQualRncAnalise extends View {
         $oEmpcod = new Campo('...', 'Pessoa.empcod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oEmpdes = new Campo('Cliente', 'empdes', Campo::TIPO_TEXTO, 4, 4, 12, 12);
-        
+
         //responsável por vendas
         $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oRespVenda->setBCampoBloqueado(true);
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oRespVendaNome->setBCampoBloqueado(true);
         
         $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oRep->setBCampoBloqueado(true);
 
         $oDivisor2 = new Campo('Dados do cliente', 'clidados', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor2->setApenasTela(true);
@@ -169,13 +181,17 @@ class ViewQualRncAnalise extends View {
 
         $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oAplicacao->setSCorFundo(Campo::FUNDO_VERMELHO);
-        
+
         $oDivisor1 = new Campo('Dados da não conformidade', 'nconf', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
         $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+
+        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
+        $oDisposicao->addItenRadio('1', 'Acc. Condicionalmente');
+        $oDisposicao->addItenRadio('2', 'Recusar');
 
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
@@ -185,16 +201,22 @@ class ViewQualRncAnalise extends View {
         $this->setSIdUpload(',' . $oAnexo1->getId() . ',' . $oAnexo2->getId() . ',' . $oAnexo3->getId());
 
         $oTabGeral->addCampos(
-                array($oRespVenda, $oRespVendaNome, $oRep), $oDivisor2, array($oEmpcod, $oEmpdes), array($oContato, $oCelular, $oEmail, $oInd, $oComer));
+                array($oRep, $oRespVenda, $oRespVendaNome), $oDivisor2, 
+                array($oEmpcod, $oEmpdes), 
+                array($oContato, $oCelular, $oEmail, $oInd, $oComer));
         $oTabNF->addCampos(
-                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp), array($oCodigo, $oProdes, $oQuant), $oDivisor1, array($oAplicacao, $oQuanNconf), $oDescNaoConf);
+                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), 
+                array($oLote, $oOp), 
+                array($oCodigo, $oProdes, $oQuant), $oDivisor1, 
+                array($oAplicacao, $oQuanNconf, $oDisposicao), $oDescNaoConf);
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3));
 
         $oTab->addItems($oTabGeral, $oTabNF, $oTabAnexos);
 
         $this->addCampos(
-                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
+                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, 
+                array($oNf), $ln, $oTab);
     }
 
     /**

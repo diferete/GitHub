@@ -197,6 +197,14 @@ class Dropdown {
      * @param string $sClasse Classe a ser assumida
      * @param string $sMetodo Método da classe assumida para ser executado
      * @param string $sParametro Parametros adicionais se necessários
+     * @param boolean $bHiden Parametro para ocultar dropdown
+     * @param string $sParamAdicional Description
+     * @param boolean $bNewAba Description
+     * @param string $sNomeModal Description
+     * @param boolean $bModal Description
+     * @param string $sTitulo Description
+     * @param boolean $bMultiSelect Description
+     * @param boolean $bSel Description
      */
     public function addItemDropdown($sLabelAcao, $sClasse, $sMetodo, $sParametro, $bHiden, $sParamAdicional, $bNewAba, $sNomeModal, $bModal, $sTitulo, $bMultiSelect,$bSel) {
         $aItem['label'] = $sLabelAcao;

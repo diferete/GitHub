@@ -11,7 +11,8 @@ class ViewQualRnc extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setBGridResponsivo(true);
+        $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setiLarguraGrid(2000);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
 
@@ -22,6 +23,13 @@ class ViewQualRnc extends View {
         $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_LARGURA);
 
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
+
+        $oAnexo1 = new CampoConsulta('Anexo 1', 'anexo1', CampoConsulta::TIPO_DOWNLOAD);
+        
+        $oAnexo2 = new CampoConsulta('Anexo 2', 'anexo2', CampoConsulta::TIPO_DOWNLOAD);
+        
+        $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
+        
 
         $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
         $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
@@ -41,13 +49,14 @@ class ViewQualRnc extends View {
         $oDevolucao->setBComparacaoColuna(true);
 
         $oDropDown = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
-        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'QualRnc', 'geraPdfQualRnc', '', false, 'rc', false, '', false, '', true);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'QualRnc', 'liberarMetalbo', '', false, 'rc', false, '', false, '', true);
 
         $oDropDown1 = new Dropdown('Finalizar reclamação', Dropdown::TIPO_AVISO);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'QualRnc', 'criaTelaModalFinaliza', '', false, '', false, 'criaTelaModalFinaliza', true, 'Finalizar Reclamação');
 
         $oDropDown2 = new Dropdown('Opções da Reclamação', Dropdown::TIPO_INFO, Dropdown::ICON_INFO);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'QualRnc', 'acaoMostraRelConsulta', '', false, 'rc');
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail', 'QualRnc', 'reenviaEmail', '', false, '');
 
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown2, $oDropDown1);
@@ -58,9 +67,10 @@ class ViewQualRnc extends View {
         $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3);
 
         $this->addFiltro($oFilNr, $oFilCli);
-        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData);
+        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData,$oAnexo1,$oAnexo2,$oAnexo3);
 
-        $this->setBScrollInf(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoExcluir(false);
     }
 
@@ -165,7 +175,7 @@ class ViewQualRnc extends View {
         $oEmpdes->setBCampoBloqueado(true);
 
         $oContato = new campo('Contato', 'contato', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oContato->addValidacao(FALSE, Validacao::TIPO_STRING, 5);
+        $oContato->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório!', '5');
 
         $oCelular = new Campo('Fone *somente Nº', 'celular', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
@@ -181,7 +191,7 @@ class ViewQualRnc extends View {
 
         $oNf = new Campo('Nrº Nota fiscal', 'nf', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNf->setSCorFundo(Campo::FUNDO_MONEY);
-        $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', 2);
+        $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '2');
 
         $oDataNf = new Campo('Data.Nf', 'datanf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oDataNf->setBCampoBloqueado(true);
@@ -209,6 +219,7 @@ class ViewQualRnc extends View {
         $oCodigo = new Campo('Codigo', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCodigo->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oCodigo->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
 
 
         //campo descrição do produto adicionando o campo de busca
@@ -249,18 +260,16 @@ class ViewQualRnc extends View {
         $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
         $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
+        $oQuanNconf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
+
+        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
+        $oDisposicao->addItenRadio('1', 'Acc. Condicionalmente');
+        $oDisposicao->addItenRadio('2', 'Recusar');
 
         $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oDescNaoConf->setILinhasTextArea(5);
         $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
-
-        /* $oAceito = new Campo('Aceito condicionalmente', 'aceitocond', Campo::TIPO_CHECK, 3);
-          $oAceito->setIMarginTop(15);
-
-          $oReprovar = new Campo('Reprovar', 'reprovar', Campo::TIPO_CHECK, 3);
-          $oReprovar->setIMarginTop(15);
-         * 
-         */
+        $oDescNaoConf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5');
 
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
@@ -274,7 +283,7 @@ class ViewQualRnc extends View {
         $oTabGeral->addCampos(
                 array($oRep, $oRespVendaNome, $oRespVenda), $oDivisor2, array($oEmpcod, $oEmpdes), array($oContato, $oCelular, $oEmail, $oInd, $oComer));
         $oTabNF->addCampos(
-                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp), array($oCodigo, $oProdes, $oQuant), $oDivisor1, array($oAplicacao, $oQuanNconf), $oDescNaoConf);
+                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp), array($oCodigo, $oProdes, $oQuant), $oDivisor1, array($oAplicacao, $oQuanNconf, $oDisposicao), $oDescNaoConf);
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao));
 

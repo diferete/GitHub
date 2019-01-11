@@ -33,6 +33,7 @@ class Form {
     private $sAcaoClose;
     private $bRetonaRender;
     private $bFecharTelaIncluir;
+    private $bUsaAltGrid; //desabilita ou habilita o botão alterar nos grids detalhes
 
     /**
      * Construtor da classe Form 
@@ -54,6 +55,14 @@ class Form {
 
         $this->aValidacao = array();
         $this->setBRetonaRender(false);
+    }
+
+    function getBUsaAltGrid() {
+        return $this->bUsaAltGrid;
+    }
+
+    function setBUsaAltGrid($bUsaAltGrid) {
+        $this->bUsaAltGrid = $bUsaAltGrid;
     }
 
     function getAbaSel() {

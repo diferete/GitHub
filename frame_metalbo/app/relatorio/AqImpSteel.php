@@ -46,7 +46,7 @@ if ($sEmailRequest == 'S') {
 } else {
     if (isset($_REQUEST['nr'])) {
         $nrAq = $_REQUEST['nr'];
-        $Filcgc = $_REQUEST['EmpRex_filcgc'];
+        $Filcgc = $_REQUEST['DELX_FIL_Empresa_fil_codigo'];
     } else {
         $nrAq = '0';
         $Filcgc = '0';
@@ -55,7 +55,7 @@ if ($sEmailRequest == 'S') {
 
 //tratar se tem avaliação aberta ou nao
 $PDO2 = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sSql = "select COUNT(*)as total from tbacaoeficaz where nr = '" . $nrAq . "' and filcgc ='" . $Filcgc . "'";
+$sSql = "select COUNT(*)as total from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and filcgc ='" . $Filcgc . "'";
 $dadosSql = $PDO2->query($sSql);
 $eficaz = $dadosSql->fetch(PDO::FETCH_ASSOC);
 
@@ -64,7 +64,7 @@ if ($eficaz['total'] == 0) {
 } else {
     /* ver se tem alguma aberta sem apontamento */
     $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-    $sSql = " select COUNT(*) total2 from tbacaoeficaz where nr = '" . $nrAq . "' and eficaz <> 'Sim' and filcgc ='" . $Filcgc . "'";
+    $sSql = " select COUNT(*) total2 from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and eficaz <> 'Sim' and filcgc ='" . $Filcgc . "'";
     $dadosSql = $PDO->query($sSql);
     $eficaz = $dadosSql->fetch(PDO::FETCH_ASSOC);
     if ($eficaz['total2'] > 0) {
@@ -82,10 +82,10 @@ $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //dados do cabeçalho
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-    $sSql = "select certificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
+$sSql = "select classificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
         . "convert(varchar,datafim,103) as datafim,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
         . "pq1,pq2,pq3,pq4,pq5 "
-        . " from tbacaoqual where filcgc ='" . $Filcgc . "' and nr=" . $nrAq;
+        . " from MET_QUAL_qualaq where filcgc ='" . $Filcgc . "' and nr=" . $nrAq;
 $dadoscab = $PDO->query($sSql);
 while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $userImp = $row['userimp'];
@@ -102,7 +102,7 @@ while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $sObjetivo = $row['objetivo'];
     $sTipocausa = $row['tipocausa'];
     $sDescCausa = $row['desctipocausa'];
-    $sCertificacao = $row['certificacao'];
+    $sCertificacao = $row['classificacao'];
     $sPq1 = $row['pq1'];
     $sPq2 = $row['pq2'];
     $sPq3 = $row['pq3'];
@@ -118,7 +118,7 @@ $pdf->Rect(2, 10, 38, 18);
 if ($sEmailRequest == 'S') {
     $pdf->Image('biblioteca/assets/images/logopn.png', 4, 13, 26);
 } else {
-    $pdf->Image('../../biblioteca/assets/images/logopn.png', 4, 13, 26);
+    $pdf->Image('../../biblioteca/assets/images/steelrel.png', 4, 15, 32);
 }
 
 // Arial bold 15
@@ -316,7 +316,7 @@ $pdf->Cell(68, 5, "Método", 1, 0, 'C');
 $pdf->Cell(2, 5, "", 0, 0, 'C');
 $pdf->Cell(67, 5, "Medida", 1, 1, 'C');
 
-    $pdf->SetFont('Arial', '', 10);
+$pdf->SetFont('Arial', '', 10);
 
 $x=$pdf->GetX(); $y=$pdf->GetY();
 
@@ -383,11 +383,11 @@ $pdf->SetFont('Arial', '', 10);
 $iAlturaCausa = $sAlturaInicial;
 $l = 5;
 
-$sSql = "select causades,pq1,pq2,pq3,pq4,pq5,seq from tbacaoqualcausa where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' order by seq";
+$sSql = "select causades,pq1,pq2,pq3,pq4,pq5,seq from MET_QUAL_qualcausa where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' order by seq";
 $dadosCausa = $PDO->query($sSql);
 
 while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
-
+   
     //Método que limpa as strings
     if (isset($row['causades'])) {
     $row['causades'] = limpaString($row['causades']);
@@ -407,7 +407,7 @@ while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
     if (isset($row['pq5'])) {
     $row['pq5'] = limpaString($row['pq5']);
     }
-
+    
     //Conta quantidade de caracteres para definir Tamanho do campo
     $c1 = strlen($row['causades']);
     $p1 = strlen($row['pq1']);
@@ -559,7 +559,7 @@ $pdf->Cell(206, 5, "Planos de ação", 1, 1, 'C', TRUE);
 $pdf = quebraPagina($pdf->GetY(),$pdf);
 
 $sSql = "select seq,plano,sitfim,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim,procedimento,it,planocontrole,fluxograma,ppap,contexto,preventiva,funcao,treinamento,obsfim "
-        . " from tbacaoqualplan where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' and tipo <> 'Eficiência' order by seq";
+        . " from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' and tipo <> 'Eficiência' order by seq";
 $dadosEf = $PDO->query($sSql);
 while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
 
@@ -588,13 +588,13 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
     $pdf->MultiCell(206, 5, 'Obs. Final = ' . $row['obsfim'], 1, 'L');
    // $iAlturaAcao = $pdf->GetY();
     $pdf = quebraPagina($pdf->GetY(),$pdf);
-
+    
     if ($row['sitfim'] == 'Finalizado') {
 
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(206, 5, 'Documentos alterados pelo plano de ação ' . $row['seq'], 1, 1, 'C', TRUE);
         $pdf = quebraPagina($pdf->GetY(),$pdf);
-
+        
         $sDoc = '';
 
         if ($row['procedimento'] == true) {
@@ -709,7 +709,7 @@ $l = 5;
 
 $sSql = "select seq,acao,convert(varchar,dataprev,103) as dataprev,"
         . "usunome,convert(varchar,datareal,103) as datareal,eficaz,obs,comAcao "
-        . "from tbacaoeficaz where nr =" . $nrAq . " and filcgc ='" . $Filcgc . "' order by seq";
+        . "from MET_QUAL_acaoeficaz where nr =" . $nrAq . " and filcgc ='" . $Filcgc . "' order by seq";
 $dadosEficaz = $PDO->query($sSql);
 
 while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
@@ -744,19 +744,19 @@ while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(30, 5, "Data realizada:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(33, 5, $row['datareal'], 1, 1, 'C');
-
+    
     $pdf = quebraPagina($pdf->GetY(),$pdf);
 
     $pdf->SetFont('Arial', '', 10);
     $pdf->MultiCell(206, 5, 'Obs. apontamento = ' . $row['obs'], 1, 'L');
-
+    
     $pdf = quebraPagina($pdf->GetY(),$pdf);
 
     if ($row['comAcao'] == 'S') {
 
         /* Mostra os planos de ação para esta ação da eficácia */
         $sSql = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim"
-                . " from tbacaoqualplan where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' "
+                . " from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' "
                 . "and nrEfi ='" . $row['seq'] . "' order by seq"; //nr=".$nrAq." and filcgc ='".$Filcgc."'
         $dadosEf = $PDO->query($sSql);
         while ($rowPlanEf = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
@@ -816,7 +816,7 @@ if ($sEmailRequest == 'S') {
     // Para
 
     if ($sEmailRequestTodos == 'S') {
-        $sSqlEmail = "select emailEquip from tbacaoqual where nr =" . $nrAq . " and filcgc ='" . $Filcgc . "'";
+        $sSqlEmail = "select emailEquip from MET_QUAL_qualaq where nr =" . $nrAq . " and filcgc ='" . $Filcgc . "'";
         $oRow = $PDO->query($sSqlEmail);
         $aDadosEmail = $oRow->fetch(PDO::FETCH_ASSOC);
         $sDadosEmail = $aDadosEmail['emailEquip'];

@@ -1,0 +1,55 @@
+public function carregaDetalhe($sChave) {
+        $aCampos = array();
+        $sCampos = htmlspecialchars_decode($sChave);
+        $this->carregaModelString($sCampos);
+        $this->Model = $this->Persistencia->consultar();
+        parse_str($sCampos, $aCampos);
+
+        if ($_REQUEST['parametrosCampos']) {
+            foreach ($_REQUEST['parametrosCampos'] as $sAtual) {
+                $aCampo[] = explode(',', utf8_decode($sAtual));
+            }
+        }
+        $aCampos = $this->antesCarregaDetalhe($aCampo);
+
+        foreach ($aCampos as $Campo) {
+            if ($Campo[0] != '') {
+
+                $aMetodos = Controller::extractMetodos($Campo[0]);
+                if (count($aMetodos) > 1) {
+                    $sMetodoGetter = Fabrica::montaGetter($aMetodos[0]);
+                } else {
+                    $sMetodoGetter = Fabrica::montaGetter($Campo[0]);
+                }
+
+
+                if (method_exists($this->Model, $sMetodoGetter)) {
+                    $sValor = $this->getValorModel($this->Model, $Campo[0]);
+                } else {
+                    $sValor = 'semModel';
+                }
+
+
+                if ($sValor !== '0') {
+                    if (empty($sValor)) {
+                        $sValor = '';
+                    }
+                }
+                if ($sValor !== 'semModel') {
+                    if (Util::ValidaData(Util::converteData($sValor))) {
+                        //altera valor de / para tipo dataSql
+                        $sValorCampo = Util::converteData($sValor);
+                        //setValor no campo data
+                        $sValor = date('d/m/Y', strtotime($sValorCampo));
+                    } else {
+                        $sValor = str_replace("\n", " ", $sValor);
+                        $sValor = str_replace("'", "\'", $sValor);
+                        $sValor = str_replace("\r", "", $sValor);
+                    }
+
+                    $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
+                    echo $sRetorno;
+                }
+            }
+        }
+    }
