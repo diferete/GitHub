@@ -164,7 +164,7 @@ class ControllerQualRncVenda extends Controller {
 
         $aRet = $this->Persistencia->verifSitEnc($aCamposChave, $sParam);
 
-// Para
+        // Para
         if ($aRet[0] != $sParam) {
             $oMensagem2 = new Modal('Ops!', 'Parece que você selecionou um setor diferente de para onde esse e-mail foi enviado, tente novamente :)', Modal::TIPO_AVISO, false, true, true);
             echo $oMensagem2->getRender();
@@ -199,85 +199,151 @@ class ControllerQualRncVenda extends Controller {
         }
     }
 
-    public function verifSitDevolucao($sDados, $sParam) {
+    /**
+     * Cria a tela Modal para a proposta
+     * @param type $sDados
+     */
+    public function criaTelaModalAccDevolucao($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        $sClasse = $this->getNomeClasse();
+        $aCamposChave['id'] = $aDados[1];
 
-        $sRet = $this->Persistencia->verifSitDev($aCamposChave);
+        $aRet = $this->Persistencia->verifSitDev($aCamposChave);
+        if ($aRet[1] == 'Apontada' && $aRet[2] == 'Em análise') {
+            $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+            $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
 
-        if ($sRet == 'Apontada') {
-            if ($sParam == 'Aceitar') {
-                $oMensagem = new Modal('Aceitar devolução', 'Deseja ACEITAR a devolução da RC nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
-                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","aceitaDevolucao","' . $sDados . ',' . $sParam . '");');
-            } else {
-                $oMensagem = new Modal('Recusar devolução', 'Deseja RECUSAR a devolução da RC nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
-                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","recusaDevolucao","' . $sDados . ',' . $sParam . '");');
-            }
+            $oDados = $this->Persistencia->consultarWhere();
+            $this->View->setAParametrosExtras($oDados);
+
+            $this->View->criaModalAccDevolucao($sDados);
+
+            //adiciona onde será renderizado
+            $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
+            echo $sLimpa;
+            $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
         } else {
-            if ($sRet == 'Aguardando') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
-            } if ($sRet == 'Finalizada') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
-            } else {
+            if ($aRet[1] != 'Apontada') {
                 $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi apontada pelo setor responsável pela análise, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            }if ($aRet[1] == 'Finalizada') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
+            }if ($aRet[1] == 'Aguardando') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            }if ($aRet[1] == 'Apontada' && $aRet[2] == 'Recusada') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi Recusada e não pode ser apontada novamente...', Modal::TIPO_AVISO);
+            }if ($aRet[1] == 'Apontada' && $aRet[2] == 'Aceita') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi Aceita e não pode ser apontada novamente...', Modal::TIPO_AVISO);
             }
+            echo $oMensagem->getRender();
+            echo "$('#" . $aDados[1] . "-btn').click();";
         }
-        echo $oMensagem->getRender();
     }
 
-    public function aceitaDevolucao($sDados, $sParam) {
+    /**
+     * Cria a tela Modal para a proposta
+     * @param type $sDados
+     */
+    public function criaTelaModalRecDevolucao($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aCamposChave['id'] = $aDados[1];
+
+        $aRet = $this->Persistencia->verifSitDev($aCamposChave);
+        if ($aRet[1] == 'Apontada' && $aRet[2] == 'Em análise') {
+            $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+            $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+
+            $oDados = $this->Persistencia->consultarWhere();
+            $this->View->setAParametrosExtras($oDados);
+
+            $this->View->criaModalRecDevolucao($sDados);
+
+            //adiciona onde será renderizado
+            $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
+            echo $sLimpa;
+            $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        } else {
+            if ($aRet[1] != 'Apontada') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi apontada pelo setor responsável pela análise, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            }if ($aRet[1] == 'Finalizada') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
+            }if ($aRet[1] == 'Aguardando') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            }if ($aRet[1] == 'Apontada' && $aRet[2] == 'Recusada') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi Recusada e não pode ser apontada novamente...', Modal::TIPO_AVISO);
+            }if ($aRet[1] == 'Apontada' && $aRet[2] == 'Aceita') {
+                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi Aceita e não pode ser apontada novamente...', Modal::TIPO_AVISO);
+            }
+            echo $oMensagem->getRender();
+            echo "$('#" . $aDados[1] . "-btn').click();";
+        }
+    }
+
+    public function aceitaDevolucao($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[3]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
         $aRetorno = $this->Persistencia->aceitaDevolucao($aCamposChave);
 
+        $sParam = 'Aceitar';
+
         if ($aRetorno[0] == true) {
             $oMensagem = new Modal('Devolução', 'Devolução aceita pela Metalbo', Modal::TIPO_SUCESSO);
             $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO);
             echo $oMsg2->getRender();
-            echo"$('#" . $aDados[1] . "-pesq').click();";
             echo 'requestAjax("","QualRncVenda","enviaEmailDev","' . $sDados . ',' . $sParam . '");';
+            echo"$('#" . $aDados[2] . "-btn').click();";
+            echo"$('#" . $aDados[1] . "-pesq').click();";
         } else {
-            $oMensagem = new Modal('Devolução', 'Essa devolução ja foi Aceita/Recusada e não pode ser alterada', Modal::TIPO_ERRO);
+            $oMensagem = new Modal('Devolução', 'Erro ao tentar inserir a observação da devolução.', Modal::TIPO_ERRO);
         }
         echo $oMensagem->getRender();
     }
 
-    public function recusaDevolucao($sDados, $sParam) {
+    public function recusaDevolucao($sDados) {
         $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
+        $sChave = htmlspecialchars_decode($aDados[3]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
         $aRetorno = $this->Persistencia->recusaDevolucao($aCamposChave);
 
+        $sParam = 'Recusada';
+
         if ($aRetorno[0] == true) {
             $oMensagem = new Modal('Devolução', 'Devolução recusada pela Metalbo', Modal::TIPO_SUCESSO);
             $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO);
             echo $oMsg2->getRender();
-            echo"$('#" . $aDados[1] . "-pesq').click();";
             echo 'requestAjax("","QualRncVenda","enviaEmailDev","' . $sDados . ',' . $sParam . '");';
+            echo"$('#" . $aDados[2] . "-btn').click();";
+            echo"$('#" . $aDados[1] . "-pesq').click();";
         } else {
-            $oMensagem = new Modal('Devolução', 'Essa devolução ja foi Aceita/Recusada e não pode ser alterada', Modal::TIPO_ERRO);
+            $oMensagem = new Modal('Devolução', 'Erro ao tentar inserir a observação da devolução.', Modal::TIPO_ERRO);
         }
-
         echo $oMensagem->getRender();
     }
 
-    public function enviaEmailDev($sDados, $sParam) {
+    public function enviaEmailDev($sDados) {
         $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
+        $sChave = htmlspecialchars_decode($aDados[3]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-
-        $sClasse = $this->getNomeClasse();
 
         date_default_timezone_set('America/Sao_Paulo');
         $data = date('d/m/Y');
@@ -298,7 +364,7 @@ class ControllerQualRncVenda extends Controller {
 
         $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ''));
 
-        if ($sParam == 'Aceitar') {
+        if ($aDados[4] == 'Aceitar') {
             $sCor = 'red';
         } else {
             $sCor = 'green';

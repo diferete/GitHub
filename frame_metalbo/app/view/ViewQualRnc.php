@@ -150,7 +150,7 @@ class ViewQualRnc extends View {
 
 
         $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oRep->addItemSelect('Cod. Representate', 'Cod. Representate');
+        $oRep->addItemSelect('Cod. Representante', 'Cod. Representante');
         foreach ($oDadosRep as $key => $oRepCodObj) {
             $oRep->addItemSelect($oRepCodObj->getRepcod(), $oRepCodObj->getRepcod());
         }

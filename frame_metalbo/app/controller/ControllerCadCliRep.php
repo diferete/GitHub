@@ -24,6 +24,16 @@ class ControllerCadCliRep extends Controller {
         return $aRetorno;
     }
 
+    public function antesDeCriarTela($sParametros = null) {
+        parent::antesDeCriarTela($sParametros);
+
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
+    }
+
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
 
@@ -140,19 +150,6 @@ class ControllerCadCliRep extends Controller {
         }
     }
 
-    public function antesDeCriarTela($sParametros = null) {
-        parent::antesDeCriarTela($sParametros);
-
-        $oRep = Fabrica::FabricarController('RepCodOffice');
-        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
-        $oReps = $oRep->Persistencia->getArrayModel();
-
-        $this->View->setOObjTela($oReps);
-
-        $aDados = $this->Persistencia->buscaRespEscritório($sDados);
-        $this->View->setAParametrosExtras($aDados);
-    }
-
     public function getCNPJ($sDados) {
         $aDados = explode(',', $sDados);
         if ($aDados[0] != '') {
@@ -160,6 +157,7 @@ class ControllerCadCliRep extends Controller {
             if ($sRet == false) {
                 $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
                 echo '$("#' . $aDados[1] . '").val("");';
+                echo '$("#' . $aDados[1] . '").focus();';
                 echo $oMensagem->getRender();
             } else {
                 exit;

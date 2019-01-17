@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="24">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="26">
         <file>
             <url>app/view/ViewSistema.php</url>
             <bookmark id="17">
@@ -13,7 +13,7 @@
             <url>app/persistencia/PersistenciaQualRncVenda.php</url>
             <bookmark id="8">
                 <name/>
-                <line>80</line>
+                <line>81</line>
                 <key/>
             </bookmark>
         </file>
@@ -57,7 +57,20 @@
             </bookmark>
         </file>
         <file>
+            <url>app/view/View.php</url>
+            <bookmark id="25">
+                <name/>
+                <line>36</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>app/controller/Controller.php</url>
+            <bookmark id="26">
+                <name/>
+                <line>929</line>
+                <key/>
+            </bookmark>
             <bookmark id="19">
                 <name/>
                 <line>1860</line>
@@ -95,6 +108,9 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/biblioteca/visual/Filtro.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/controller/ControllerQualAqPlan.php</file>
+        </group>
     </open-files>
 </project-private>

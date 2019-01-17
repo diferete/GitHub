@@ -70,6 +70,7 @@ class PersistenciaQualRncAnalise extends Persistencia {
         
         $this->adicionaRelacionamento('devolucaoacc', 'devolucaoacc');
         $this->adicionaRelacionamento('devolucaorec', 'devolucaorec');
+        $this->adicionaRelacionamento('obs_devolucao', 'obs_devolucao');
 
         $this->adicionaJoin('Pessoa');
 

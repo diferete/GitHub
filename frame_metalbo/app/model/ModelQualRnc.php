@@ -53,6 +53,15 @@ class ModelQualRnc {
     private $repcod;
     private $devolucaoacc;
     private $devolucaorec;
+    private $obs_devolucao;
+
+    function getObs_devolucao() {
+        return $this->obs_devolucao;
+    }
+
+    function setObs_devolucao($obs_devolucao) {
+        $this->obs_devolucao = $obs_devolucao;
+    }
 
     function getDisposicao() {
         return $this->disposicao;

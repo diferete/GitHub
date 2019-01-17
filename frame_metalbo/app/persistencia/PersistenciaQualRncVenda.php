@@ -65,9 +65,10 @@ class PersistenciaQualRncVenda extends Persistencia {
         $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
-        
+
         $this->adicionaRelacionamento('devolucaoacc', 'devolucaoacc');
         $this->adicionaRelacionamento('devolucaorec', 'devolucaorec');
+        $this->adicionaRelacionamento('obs_devolucao', 'obs_devolucao');
 
         $this->adicionaJoin('Pessoa');
 
@@ -91,15 +92,17 @@ class PersistenciaQualRncVenda extends Persistencia {
     }
 
     public function verifSitDev($aDados) {
-        $sSql = "select situaca"
+        $sSql = "select situaca,devolucao"
                 . " from tbrncqual"
                 . " where filcgc= " . $aDados['filcgc'] . " and nr= " . $aDados['nr'] . " ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
 
-        $sSit = $oRow->situaca;
+        $aSit = array();
+        $aSit[1] = $oRow->situaca;
+        $aSit[2] = $oRow->devolucao;
 
-        return $sSit;
+        return $aSit;
     }
 
     /**
@@ -183,6 +186,11 @@ class PersistenciaQualRncVenda extends Persistencia {
     }
 
     public function aceitaDevolucao($aDados) {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        $sObs = Util::limpaString($aCampos['obs_devolucao']);
+
         $sSql = "select devolucao"
                 . " from tbrncqual"
                 . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
@@ -196,6 +204,7 @@ class PersistenciaQualRncVenda extends Persistencia {
         } else {
             $sSql = "update tbrncqual"
                     . " set devolucao ='Aceita',"
+                    . " obs_devolucao ='" . $sObs . "', "
                     . " devolucaoacc = 'true'"
                     . " where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
@@ -204,6 +213,11 @@ class PersistenciaQualRncVenda extends Persistencia {
     }
 
     public function recusaDevolucao($aDados) {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        
+        $sObs = Util::limpaString($aCampos['obs_devolucao']);
+
         $sSql = "select devolucao"
                 . " from tbrncqual"
                 . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
@@ -217,6 +231,7 @@ class PersistenciaQualRncVenda extends Persistencia {
         } else {
             $sSql = "update tbrncqual"
                     . " set devolucao ='Recusada',"
+                    . " obs_devolucao ='" . $sObs . "',"
                     . " devolucaorec = 'true'"
                     . " where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
@@ -244,14 +259,14 @@ class PersistenciaQualRncVenda extends Persistencia {
         return $sEmail;
     }
 
-    
-    public function buscaAnalise($aDados){
+    public function buscaAnalise($aDados) {
         $sSql = "select apontamento"
                 . " from tbrncqual"
                 . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-        
+
         $oApontamento = $this->consultaSql($sSql);
-        
+
         return $oApontamento->apontamento;
     }
+
 }

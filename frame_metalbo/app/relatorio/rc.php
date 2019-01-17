@@ -66,7 +66,7 @@ $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
                 case when ind = 'true' then 'x' else '' end as ind,
                 case when comer = 'true' then 'x' else '' end as comer,widl.emp01.cidcep,
                 nf,convert(varchar,datanf,103)as datanf,odcompra,pedido,valor,peso,lote,op,naoconf,procod,prodes,aplicacao,
-                quant,quantnconf,usuaponta,apontamento,resp_venda_nome,
+                quant,quantnconf,usuaponta,apontamento,resp_venda_nome,obs_devolucao,
                 case when devolucaoacc = 'true' then 'x' else '' end as devolucaoacc,
                 case when devolucaorec = 'true' then 'x' else '' end as devolucaorec,
                 case when disposicao = '1' then 'x' else '' end as aceitar,
@@ -277,6 +277,11 @@ $pdf->Cell(26, 5, "Devolução:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, '(' . $row['devolucaoacc'] . ') Aceita', 0, 0, 'L');
 $pdf->Cell(50, 5, '(' . $row['devolucaorec'] . ') Recusada', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(26, 5, "Obs Venda:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(50, 5, $row['obs_devolucao'], 0, 1, 'L');
 
 
 if ($sEmailRequest == 'S') {

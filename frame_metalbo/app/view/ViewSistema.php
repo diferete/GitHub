@@ -919,7 +919,7 @@ class ViewSistema extends View {
         $sMsg = '<div class="example-wrap" id="perfilPrincipal">'
                 . '<div class="example example-well">'
                 . '<div class="page-header text-center">'
-                . '<h1 class="page-title">Bem vindo, ' . $_SESSION["nome"] . '!</h1>'
+                . '<h1 class="page-title">Bem-vindo, ' . $_SESSION["nome"] . '!</h1>'
                 . '<p class="page-description"><a target="_blank" href="http://www.metalbo.com.br">www.metalbo.com.br</a></br>'
                 . '<a target="_blank" href="http://facebook.com/metalbo.oficial"> '
                 . '<button type="button" class="btn btn-labeled btn-xs social-facebook">'

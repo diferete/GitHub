@@ -34,6 +34,7 @@ abstract class View {
     const ACAO_INCLUIR = 'acaoIncluir';
     const ACAO_ALTERAR = 'acaoAlterar';
     const ACAO_EXCLUIR = 'acaoExcluir';
+    const ACAO_VISUALIZA = 'acaoVisualiza';
     const ACAO_MOSTRA_TELA_INCLUIR = 'acaoMostraTelaIncluir';
     const ACAO_MOSTRA_TELA_ALTERAR = 'acaoMostraTelaAlterar';
     const ACAO_MOSTRA_TELA_VISUALIZA = 'acaoMostraTelaVisualiza';

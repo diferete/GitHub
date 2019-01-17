@@ -10,8 +10,9 @@ class ViewCadCliRep extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-        
+
         $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoVisualizar(true);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
 
@@ -44,15 +45,13 @@ class ViewCadCliRep extends View {
         $this->addDropdown($oDrop2, $oDrop1);
 
         $this->addCampos($oNr, $oEmpcod, $oEmpDes, $oDataCad, $oEmpusu, $oSituaca);
-
-        
     }
 
     public function criaTela() {
         parent::criaTela();
 
-        $aDadosTela = $this->getAParametrosExtras();
         $oDadosRep = $this->getOObjTela();
+        $sAcao = $this->getSRotina();
 
         $oFieldInf = new FieldSet('Informações');
         $oFieldInf->setOculto(true);
@@ -102,11 +101,14 @@ class ViewCadCliRep extends View {
         $oEmpcod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '11', '14');
         $oEmpcod->setBFocus(true);
 
-        $sAcaoExit = 'buscaCNPJ($("#' . $oEmpcod->getId() . '").val(),'
-                . '"' . $oEmpcod->getId() . '",'
-                . '"' . $this->getController() . '")';
+        if ($sAcao != 'acaoVisualiza') {
 
-        $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
+            $sAcaoExit = 'buscaCNPJ($("#' . $oEmpcod->getId() . '").val(),'
+                    . '"' . $oEmpcod->getId() . '",'
+                    . '"' . $this->getController() . '")';
+
+            $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
+        }
 
         $oEmpDes = new campo('Razão social', 'empdes', Campo::TIPO_TEXTO, 7, 7, 12, 12);
         $oEmpDes->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -161,10 +163,10 @@ class ViewCadCliRep extends View {
         $oEmpnr = new campo('Número', 'empnr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEmpnr->addValidacao(FALSE, Validacao::TIPO_INTEIRO, 'Campo obrigatório', '0', '100');
         $oEmpnr->setSCorFundo(Campo::FUNDO_MONEY);
-        
-        $oComplemento = new Campo('Complemento', 'empcomplemento', Campo::TIPO_TEXTO,3,3,12,12);
+
+        $oComplemento = new Campo('Complemento', 'empcomplemento', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oComplemento->setSCorFundo(Campo::FUNDO_MONEY);
-        $oComplemento->addValidacao(true, Validacao::TIPO_STRING,'Insira menos caractéres','0','45');
+        $oComplemento->addValidacao(true, Validacao::TIPO_STRING, 'Insira menos caractéres', '0', '45');
 
         $oMunicipio = new campo('Munícipio', 'empmunicipio', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oMunicipio->setSCorFundo(Campo::FUNDO_MONEY);
@@ -187,15 +189,13 @@ class ViewCadCliRep extends View {
         $oCidCep->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
         $oFieldEnd->addCampos(
-                array($oCidCep, $oUf, $oMunicipio), 
-                array($oBairro, $oEmpEnd), 
-                array($oComplemento, $oEmpnr));
+                array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr));
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');
 
         $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oRep->addItemSelect('Cod. Representate', 'Cod. Representate');
+        $oRep->addItemSelect('Cod. Representante', 'Cod. Representante');
         foreach ($oDadosRep as $key => $oRepCodObj) {
             $oRep->addItemSelect($oRepCodObj->getRepcod(), $oRepCodObj->getRepcod());
         }
@@ -234,14 +234,7 @@ class ViewCadCliRep extends View {
         $oEmpObs->setILinhasTextArea(5);
         $oEmpObs->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '1000');
 
-        $this->addCampos($oFieldInf, 
-                array($oEmpcod, $oEmpDes), 
-                array($oEmpFant, $oTipoPessoa, $oConsFinal), 
-                array($oEmpFone, $oEmailComum, $oEmailNfe), 
-                array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, 
-                array($oEmpIns, $oRep), 
-                array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, 
-                array($oRespVenda, $oRespVendaNome));
+        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
     }
 
 }

@@ -927,7 +927,7 @@ class Controller {
      * @param string $sChave Chave do registro a ser carregado
      */
     public function acaoMostraTelaVisualiza($sDados) {
-        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $this->View->setSRotina(View::ACAO_VISUALIZA);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[0]);
         $aCamposChave = array();

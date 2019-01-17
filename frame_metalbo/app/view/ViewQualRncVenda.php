@@ -54,8 +54,10 @@ class ViewQualRncVenda extends View {
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Expedição', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Exp');
 
         $oDropDown2 = new Dropdown('Devolução', Dropdown::TIPO_AVISO);
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'verifSitDevolucao', '', false, 'Aceitar');
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Recusar devolução', 'QualRncVenda', 'verifSitDevolucao', '', false, 'Recusar');
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'criaTelaModalAccDevolucao', '', false, '1', false, 'criaTelaModalAccDevolucao', true, 'Aceitar Devolução');
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Recusar devolução', 'QualRncVenda', 'criaTelaModalRecDevolucao', '', false, '2', false, 'criaTelaModalRecDevolucao', true, 'Recusar Devolução');
+        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'verifSitDevolucao', '', false, 'Aceitar');
+        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Recusar devolução', 'QualRncVenda', 'verifSitDevolucao', '', false, 'Recusar');
 
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
@@ -226,6 +228,77 @@ class ViewQualRncVenda extends View {
 
         $this->addCampos(
                 array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
+    }
+
+    /**
+     * Cria modal para Aceitar devolução de cliente
+     */
+    public function criaModalAccDevolucao($sDados) {
+        parent::criaModal();
+
+        $oDados = $this->getAParametrosExtras();
+
+        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
+        $oFilcgc->setSValor($oDados->getFilcgc());
+        $oFilcgc->setBCampoBloqueado(true);
+        $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr->setSValor($oDados->getNr());
+        $oNr->setBCampoBloqueado(true);
+
+        $oObs_dev = new campo('Obs', 'obs_devolucao', Campo::TIPO_TEXTAREA, 12);
+        $oObs_dev->setILinhasTextArea(8);
+        $oObs_dev->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oBtnInserir = new Campo('Aceitar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        //id do grid
+
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","aceitaDevolucao","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+
+        $oBtnInserir->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->setBTela(true);
+
+
+        $this->addCampos(array($oFilcgc, $oNr), $oObs_dev, $oBtnInserir);
+    }
+    
+    
+    /**
+     * Cria modal para Recusar devolução de cliente
+     */
+    public function criaModalRecDevolucao($sDados) {
+        parent::criaModal();
+
+        $oDados = $this->getAParametrosExtras();
+
+        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
+        $oFilcgc->setSValor($oDados->getFilcgc());
+        $oFilcgc->setBCampoBloqueado(true);
+        $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr->setSValor($oDados->getNr());
+        $oNr->setBCampoBloqueado(true);
+
+        $oObs_dev = new campo('Obs', 'obs_devolucao', Campo::TIPO_TEXTAREA, 12);
+        $oObs_dev->setILinhasTextArea(8);
+        $oObs_dev->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oBtnInserir = new Campo('Recusar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        //id do grid
+
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","recusaDevolucao","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+
+        $oBtnInserir->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->setBTela(true);
+
+
+        $this->addCampos(array($oFilcgc, $oNr), $oObs_dev, $oBtnInserir);
     }
 
 }
