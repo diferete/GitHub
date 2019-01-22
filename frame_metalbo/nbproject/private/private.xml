@@ -45,11 +45,6 @@
         </file>
         <file>
             <url>biblioteca/visual/CampoConsulta.php</url>
-            <bookmark id="9">
-                <name/>
-                <line>77</line>
-                <key/>
-            </bookmark>
             <bookmark id="10">
                 <name/>
                 <line>77</line>
@@ -57,20 +52,7 @@
             </bookmark>
         </file>
         <file>
-            <url>app/view/View.php</url>
-            <bookmark id="25">
-                <name/>
-                <line>36</line>
-                <key/>
-            </bookmark>
-        </file>
-        <file>
             <url>app/controller/Controller.php</url>
-            <bookmark id="26">
-                <name/>
-                <line>929</line>
-                <key/>
-            </bookmark>
             <bookmark id="19">
                 <name/>
                 <line>1860</line>
@@ -109,8 +91,12 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/GitHub/frame_metalbo/biblioteca/visual/Filtro.php</file>
-            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/controller/ControllerQualAqPlan.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/biblioteca/visual/Modal.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/view/ViewQualRncVenda.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/persistencia/PersistenciaQualRncVenda.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/controller/ControllerQualRncVenda.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/controller/ControllerPrincipal.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/index.php</file>
         </group>
     </open-files>
 </project-private>

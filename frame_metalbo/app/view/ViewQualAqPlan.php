@@ -81,6 +81,42 @@ class ViewQualAqPlan extends View {
 
         $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlano, $oDataPrev, $oDataFim, $oUsunome, $oAnexo, $oAnexoFim);
     }
+    
+    
+    public function criaConsutaApont() {
+        $oGridAq = new Grid("");
+
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
+        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta');
+
+        $oNr = new CampoConsulta('Nr.', 'nr');
+
+        $oSeq = new CampoConsulta('Seq.', 'seq');
+
+        $oPlano = new CampoConsulta('Plano', 'Plano');
+
+        $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
+
+        $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
+
+        $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+
+        $oUsunome = new CampoConsulta('Responsável', 'usunome');
+
+        $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
+
+        $oAnexoFim = new CampoConsulta('Anexo Aponta', 'anexofim', CampoConsulta::TIPO_DOWNLOAD);
+
+        $oGridAq->addCampos($oBotaoModal, $oNr, $oSeq, $oPlano, $oSituacao, $oDataPrev, $oDataFim, $oUsunome, $oAnexo, $oAnexoFim);
+
+        $aCampos = $oGridAq->getArrayCampos();
+        return $aCampos;
+    }
+
 
     public function criaTela() {
         parent::criaTela();
@@ -243,40 +279,6 @@ class ViewQualAqPlan extends View {
         $oBtnNormal->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
 
         $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), array($oDataFim, $oAnexoFim), $oDivisor, array($oProcedimento, $oIT, $oPlanoControle), array($oFluxograma, $oPPAP, $oContexto), array($oPreventiva, $oFuncao, $oTreinamentos), $oLinha, array($oObsFim, $oBtnInserir, $oBtnNormal));
-    }
-
-    public function criaConsutaApont() {
-        $oGridAq = new Grid("");
-
-        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-        $oBotaoModal->setBHideTelaAcao(true);
-        $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta');
-
-        $oNr = new CampoConsulta('Nr.', 'nr');
-
-        $oSeq = new CampoConsulta('Seq.', 'seq');
-
-        $oPlano = new CampoConsulta('Plano', 'Plano');
-
-        $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
-
-        $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
-
-        $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
-
-        $oUsunome = new CampoConsulta('Responsável', 'usunome');
-
-        $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
-
-        $oAnexoFim = new CampoConsulta('Anexo Aponta', 'anexofim', CampoConsulta::TIPO_DOWNLOAD);
-
-        $oGridAq->addCampos($oBotaoModal, $oNr, $oSeq, $oPlano, $oSituacao, $oDataPrev, $oDataFim, $oUsunome, $oAnexo, $oAnexoFim);
-
-        $aCampos = $oGridAq->getArrayCampos();
-        return $aCampos;
     }
 
 }

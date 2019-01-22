@@ -352,7 +352,7 @@ class CampoConsulta {
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-danger btn-xs"><i class="icon wb-trash" aria-hidden="true"></i></i></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-danger btn-xs"><i class="icon wb-trash" aria-hidden="true"></i></i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         .'$("#tabmenusuperior li").each(function(){'
                         .'if($(this).hasClass( "active" )){'
@@ -363,7 +363,7 @@ class CampoConsulta {
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
-                $sCampo .= 'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . ',"+idTela+"");'
+                $sCampo .= 'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",'.$xValor.',"+idTela+"");'
                         . '});</script>';
 
                 break;

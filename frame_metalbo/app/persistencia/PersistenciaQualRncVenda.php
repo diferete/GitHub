@@ -99,8 +99,8 @@ class PersistenciaQualRncVenda extends Persistencia {
         $oRow = $result->fetch(PDO::FETCH_OBJ);
 
         $aSit = array();
-        $aSit[1] = $oRow->situaca;
-        $aSit[2] = $oRow->devolucao;
+        $aSit[0] = $oRow->situaca;
+        $aSit[1] = $oRow->devolucao;
 
         return $aSit;
     }
@@ -215,7 +215,7 @@ class PersistenciaQualRncVenda extends Persistencia {
     public function recusaDevolucao($aDados) {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-        
+
         $sObs = Util::limpaString($aCampos['obs_devolucao']);
 
         $sSql = "select devolucao"
@@ -236,6 +236,23 @@ class PersistenciaQualRncVenda extends Persistencia {
                     . " where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
         }
+        return $aRetorno;
+    }
+
+    public function apontaTransportadora($aDados) {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        $sObs = Util::limpaString($aCampos['obs_devolucao']);
+
+        $sSql = "update tbrncqual"
+                . " set situaca = 'Apontada',"
+                . " set devolucao ='Transportadora',"
+                . " obs_devolucao ='" . $sObs . "',"
+                . " devolucaorec = 'true'"
+                . " where nr ='" . $aDados['nr'] . "'";
+        $aRetorno = $this->executaSql($sSql);
+
         return $aRetorno;
     }
 

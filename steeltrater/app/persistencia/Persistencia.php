@@ -1542,6 +1542,10 @@ class Persistencia {
 
         //chama funcoes necessários após inserir diretamente na persistencia
         $this->afterInsert($aCamposValores);
+        
+        /*$fp = fopen("bloco1.txt", "w");
+          fwrite($fp, $sSql);
+          fclose($fp);*/
 
         return $this->executaSql($sSql);
     }
@@ -1601,9 +1605,9 @@ class Persistencia {
 
         $sSql = 'UPDATE ' . $this->getTabela() . ' SET ' . $sCampos . ' WHERE ' . $sChave;
 
-        /*      $fp = fopen("bloco1.txt", "w");
+          $fp = fopen("bloco1.txt", "w");
           fwrite($fp, $sSql);
-          fclose($fp); */
+          fclose($fp); 
 
         return $this->executaSql($sSql);
     }

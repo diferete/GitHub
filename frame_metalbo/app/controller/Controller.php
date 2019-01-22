@@ -377,7 +377,7 @@ class Controller {
                     case is_a($oCampoTela, 'Campo'):
                         //seta valor so $xValorCampo
                         if ($sNomeCampo == $oCampoTela->getNome()) {
-                            if ($oCampoTela->getITipo() == 29) {
+                            if ($oCampoTela->getITipo() == 29) { //campo decimal
                                 $xValorCampo = $this->ValorSql($xValorCampo);
                             }
                         }
@@ -385,7 +385,7 @@ class Controller {
                     case is_array($oCampoTela):
                         foreach ($oCampoTela as $CampoArray) {
                             if ($sNomeCampo == $CampoArray->getNome()) {
-                                if ($CampoArray->getITipo() == 29) {
+                                if ($CampoArray->getITipo() == 29) { //campo decimal
                                     $xValorCampo = $this->ValorSql($xValorCampo);
                                 }
                             }
@@ -396,7 +396,7 @@ class Controller {
                         foreach ($oCampoTela->getACampos() as $oFsCampo) {
                             if (is_array($oFsCampo)) {
                                 foreach ($oFsCampo as $oFsCampo1) {
-                                    if ($sNomeCampo == $oFsCampo1->getNome()) {
+                                    if ($sNomeCampo == $oFsCampo1->getNome()) { //campo decimal
                                         if ($oFsCampo1->getITipo() == 29) {
                                             $xValorCampo = $this->ValorSql($xValorCampo);
                                         }
@@ -404,7 +404,7 @@ class Controller {
                                 }
                             } else {
                                 if ($sNomeCampo == $oFsCampo->getNome()) {
-                                    if ($oFsCampo->getITipo() == 29) {
+                                    if ($oFsCampo->getITipo() == 29) {//campo decimal
                                         $xValorCampo = $this->ValorSql($xValorCampo);
                                     }
                                 }
@@ -417,7 +417,7 @@ class Controller {
                                 if (is_array($AbaCampo)) {
                                     foreach ($AbaCampo as $AbaCampo1) {
                                         if ($sNomeCampo == $AbaCampo1->getNome()) {
-                                            if ($AbaCampo1->getITipo() == 29) {
+                                            if ($AbaCampo1->getITipo() == 29) { //campo decimal
                                                 $xValorCampo = $this->ValorSql($xValorCampo);
                                             }
                                         }
@@ -426,7 +426,7 @@ class Controller {
                                 //verifica se é campo dentro do tab
                                 if (is_a($AbaCampo, 'Campo')) {
                                     if ($sNomeCampo == $AbaCampo->getNome()) {
-                                        if ($AbaCampo->getITipo() == 29) {
+                                        if ($AbaCampo->getITipo() == 29) { //campo decimal
                                             $xValorCampo = $this->ValorSql($xValorCampo);
                                         }
                                     }
@@ -437,14 +437,14 @@ class Controller {
                                         if (is_array($oFsCampo)) {
                                             foreach ($oFsCampo as $oFsCampo1) {
                                                 if ($sNomeCampo == $oFsCampo1->getNome()) {
-                                                    if ($oFsCampo1->getITipo() == 29) {
+                                                    if ($oFsCampo1->getITipo() == 29) { //campo decimal
                                                         $xValorCampo = $this->ValorSql($xValorCampo);
                                                     }
                                                 }
                                             }
                                         } else {
                                             if ($sNomeCampo == $oFsCampo->getNome()) {
-                                                if ($oFsCampo->getITipo() == 29) {
+                                                if ($oFsCampo->getITipo() == 29) { //campo decimal
                                                     $xValorCampo = $this->ValorSql($xValorCampo);
                                                 }
                                             }
@@ -1729,10 +1729,10 @@ class Controller {
                             //retorna campo do model
                             $aModel = explode('_', $key);
                             if (count($aModel) > 1) {
-                                $aModel = $this->scrollFilhas($aModel);
+                                $aModel=$this->scrollFilhas($aModel);
                                 $sModelFiltro = $aModel[1];
                             } else {
-                                $aModel = $this->scrollFilhas($aModel);
+                                $aModel=$this->scrollFilhas($aModel);
                                 $sModelFiltro = $aModel[0];
                             }
                             $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
@@ -1777,7 +1777,7 @@ class Controller {
         $aModels = $this->Persistencia->getArrayModel(); //carrega os campos da consulta
         //pega o total de linhas na querys
         $iTotalReg = $this->Persistencia->getCount();
-
+        
 
         $sDados = '';
         //verifica se foi informado posição do contador
@@ -1894,7 +1894,7 @@ class Controller {
         }
         //pega o total de linhas na querys
         $iTotalFiltro = $this->Persistencia->getCount();
-        if ($iTotalFiltro >= $this->Persistencia->getITop()) {
+        if($iTotalFiltro>=$this->Persistencia->getITop()){
             $iTotalFiltro = $this->Persistencia->getITop();
         }
         $this->Persistencia->limpaFiltro();
@@ -1923,11 +1923,11 @@ class Controller {
             $sSummary = '$("#' . $aDadosAtualizar[0] . '-summary > tbody > tr").empty();'
                     . '$("#' . $aDadosAtualizar[0] . '-summary > tbody > tr").append(\'' . $sDadosSummary . '\');';
             echo $sSummary;
-
+            
             //mostra contator de registros 
-
+           
             $sNrReg = 'var nrReg = $("#' . $aDadosAtualizar[0] . ' > tbody > tr").length ;'
-                    . ' $("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de ' . $iTotalReg . '. Clique para carregar!"); ';
+                    .' $("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de ' . $iTotalReg . '. Clique para carregar!"); ';
             echo $sNrReg;
         } else {
             //retorna os dados
@@ -2904,7 +2904,11 @@ class Controller {
         //array de controle de erros
         $aRetorno[0] = true;
 
-        $this->carregaModel();
+        //traz lista campos
+        $this->View->criaTela();
+        $aCamposTela = $this->View->getTela()->getCampos();
+        
+        $this->carregaModel($aCamposTela);
 
         $aRetorno = $this->beforeInsert();
 
@@ -2944,9 +2948,7 @@ class Controller {
         }
     }
 
-    /**
-     * Método para alterar detalhe
-     */
+   
 
     /**
      * Método para incluir dados nas tabelas detalhe
@@ -2972,8 +2974,13 @@ class Controller {
         }
 
         $this->Model = $this->Persistencia->consultar();
+        //cria a tela
+        $this->View->criaTela();
+        
+         //traz lista campos
+        $aCamposTela = $this->View->getTela()->getCampos();
 
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
         if ($aRetorno[0]) {
             $aRetorno = $this->beforeUpdate();
@@ -3471,8 +3478,7 @@ class Controller {
             $this->View->criaTela();
 
             if ($this->View->getBGravaHistorico() == true) {
-                $aItem = explode('=', $sChaveAtual);
-                $this->gravaHistorico('Excluir', $aItem[1]);
+                $this->gravaHistorico('Excluir', $sChaveAtual);
             }
 
             $aRetorno = $this->beforeDelete();
@@ -3863,7 +3869,7 @@ class Controller {
                     //setValor no campo data
                     $oCampo->setSValor(date('d/m/Y', strtotime($xValorCampo)));
                 } else {
-                    $oCampo->setSValor(date('d/m/Y', strtotime($xValor)));
+                $oCampo->setSValor(date('d/m/Y', strtotime($xValor)));
                 }
             } else {
                 $oCampo->setSValor($xValor);
@@ -3879,8 +3885,8 @@ class Controller {
                         //setValor no campo data
                         $oCampo->setSValor($xValorCampo);
                     } else {
-                        $oCampo->setSValor($xValor);
-                    }
+            $oCampo->setSValor($xValor);
+        }
                 }
             } else {
                 $oCampo->setSValor($xValor);
@@ -3980,9 +3986,9 @@ class Controller {
                         //setValor no campo data
                         $sValor = date('d/m/Y', strtotime($sValorCampo));
                     } else {
-                        $sValor = str_replace("\n", " ", $sValor);
-                        $sValor = str_replace("'", "\'", $sValor);
-                        $sValor = str_replace("\r", "", $sValor);
+                    $sValor = str_replace("\n", " ", $sValor);
+                    $sValor = str_replace("'", "\'", $sValor);
+                    $sValor = str_replace("\r", "", $sValor);
                     }
 
                     $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
@@ -4224,7 +4230,9 @@ class Controller {
 
         if ($sAcao == 'Alterar') {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setFilcgc($_SESSION['filcgc']);
+            $oHist->Model->setUsucodigo($_SESSION['codUser']);
+            $oHist->Model->setUsunome($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
@@ -4232,36 +4240,40 @@ class Controller {
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
-        if ($sAcao == 'Inserir') {
+        if ($sAcao == 'Inserir' && $aCampos['historico'] != '') {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setFilcgc($_SESSION['filcgc']);
+            $oHist->Model->setUsucodigo($_SESSION['codUser']);
+            $oHist->Model->setUsunome($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico($aCampos['historico']);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
         if ($sAcao == 'Excluir') {
+            $aDados = array();
+            parse_str($sDados, $aDados);
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setFilcgc($_SESSION['filcgc']);
+            $oHist->Model->setUsucodigo($_SESSION['codUser']);
+            $oHist->Model->setUsunome($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico('Exclusão do item ' . $sDados);
+            $oHist->Model->setHistorico('Exclusão do item ' . $aDados[1]);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
     }
-
     /**
      * Retorna filtros scrool com tratamento das classes filhos 
      */
-    public function scrollFilhas($aFiltros) {
-
-
-        return $aFiltros;
-    }
+     public function scrollFilhas($aFiltros) {
+       
+       
+       return $aFiltros;
+   }
 
 }
 

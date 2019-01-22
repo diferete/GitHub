@@ -58,7 +58,7 @@ class ControllerQualRncVenda extends Controller {
 
         $aRetorno = $this->Persistencia->verifSitEnc($aCamposChave);
 
-        if ($aRetorno[0] == 'Liberado') {
+        if ($aRetorno[0] == 'Liberado' && $aRetorno[1] != 'Transportadora') {
             if ($sParam == 'Env.Qual') {
                 $oMensagem = new Modal('Encaminhar e-mail', 'Deseja encaminhar a RC nº' . $aCamposChave['nr'] . ' para o setor da QUALIDADE?', Modal::TIPO_AVISO, true, true, true);
                 $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","updateSitRC","' . $sDados . '","' . $sParam . '");');
@@ -72,15 +72,20 @@ class ControllerQualRncVenda extends Controller {
                 $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","updateSitRC","' . $sDados . '","' . $sParam . '");');
             }
         } else {
-            if ($aRetorno[0] == 'Apontada') {
-                $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' ja foi apontada!', Modal::TIPO_AVISO, false, true, true);
-            }
-            if ($aRetorno[0] == 'Aguardando') {
-                $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO, false, true, true);
-            }
-            if ($aRetorno[1] == 'Em análise' && $aRetorno[0] != 'Apontada') {
-                $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' ja teve seu e-mail encaminhado para o seu setor responsável, deseja reenviar o e-mail?', Modal::TIPO_INFO, true, true, true);
+            if ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Transportadora') {
+                $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' teve sua análise como avaria da Transportadora, deseja reenviar o e-mail para o representante?', Modal::TIPO_INFO, true, true, true);
                 $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
+            } else {
+                if ($aRetorno[0] == 'Apontada') {
+                    $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' ja foi apontada!', Modal::TIPO_AVISO, false, true, true);
+                }
+                if ($aRetorno[0] == 'Aguardando') {
+                    $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO, false, true, true);
+                }
+                if ($aRetorno[1] == 'Em análise' && $aRetorno[0] != 'Apontada') {
+                    $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' ja teve seu e-mail encaminhado para o seu setor responsável, deseja reenviar o e-mail?', Modal::TIPO_INFO, true, true, true);
+                    $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
+                }
             }
         }
 
@@ -212,7 +217,7 @@ class ControllerQualRncVenda extends Controller {
         $aCamposChave['id'] = $aDados[1];
 
         $aRet = $this->Persistencia->verifSitDev($aCamposChave);
-        if ($aRet[1] == 'Apontada' && $aRet[2] == 'Em análise') {
+        if ($aRet[0] == 'Apontada' && $aRet[0] == 'Em análise') {
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
 
@@ -229,16 +234,23 @@ class ControllerQualRncVenda extends Controller {
             //renderiza a tela
             $this->View->getTela()->getRender();
         } else {
-            if ($aRet[1] != 'Apontada') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi apontada pelo setor responsável pela análise, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
-            }if ($aRet[1] == 'Finalizada') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
-            }if ($aRet[1] == 'Aguardando') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
-            }if ($aRet[1] == 'Apontada' && $aRet[2] == 'Recusada') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi Recusada e não pode ser apontada novamente...', Modal::TIPO_AVISO);
-            }if ($aRet[1] == 'Apontada' && $aRet[2] == 'Aceita') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi Aceita e não pode ser apontada novamente...', Modal::TIPO_AVISO);
+            if ($aRet[0] != 'Apontada') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC não foi apontada pelo setor responsável pela análise, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Finalizada') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Aguardando') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Apontada' && $aRet[1] == 'Recusada') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi Recusada e não pode ser apontada novamente.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Apontada' && $aRet[1] == 'Aceita') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi Aceita e não pode ser apontada novamente.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Apontada' && $aRet[1] == 'Transportadora') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi Aceita e não pode ser apontada novamente.', Modal::TIPO_AVISO);
             }
             echo $oMensagem->getRender();
             echo "$('#" . $aDados[1] . "-btn').click();";
@@ -258,7 +270,7 @@ class ControllerQualRncVenda extends Controller {
         $aCamposChave['id'] = $aDados[1];
 
         $aRet = $this->Persistencia->verifSitDev($aCamposChave);
-        if ($aRet[1] == 'Apontada' && $aRet[2] == 'Em análise') {
+        if ($aRet[0] == 'Apontada' && $aRet[1] == 'Em análise') {
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
 
@@ -275,16 +287,23 @@ class ControllerQualRncVenda extends Controller {
             //renderiza a tela
             $this->View->getTela()->getRender();
         } else {
-            if ($aRet[1] != 'Apontada') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi apontada pelo setor responsável pela análise, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
-            }if ($aRet[1] == 'Finalizada') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
-            }if ($aRet[1] == 'Aguardando') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
-            }if ($aRet[1] == 'Apontada' && $aRet[2] == 'Recusada') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi Recusada e não pode ser apontada novamente...', Modal::TIPO_AVISO);
-            }if ($aRet[1] == 'Apontada' && $aRet[2] == 'Aceita') {
-                $oMensagem = new Modal('Devolução', 'Reclamação - RNC já foi Aceita e não pode ser apontada novamente...', Modal::TIPO_AVISO);
+            if ($aRet[0] != 'Apontada') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC não foi apontada pelo setor responsável pela análise, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Finalizada') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Aguardando') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Apontada' && $aRet[1] == 'Recusada') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi Recusada e não pode ser apontada novamente.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Apontada' && $aRet[1] == 'Aceita') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi Aceita e não pode ser apontada novamente.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Apontada' && $aRet[1] == 'Transportadora') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi apontada como avaria da Transportadora e não pode ser apontada novamente.', Modal::TIPO_AVISO);
             }
             echo $oMensagem->getRender();
             echo "$('#" . $aDados[1] . "-btn').click();";
@@ -303,7 +322,7 @@ class ControllerQualRncVenda extends Controller {
         $sParam = 'Aceitar';
 
         if ($aRetorno[0] == true) {
-            $oMensagem = new Modal('Devolução', 'Devolução aceita pela Metalbo', Modal::TIPO_SUCESSO);
+            $oMensagem = new Modal('Sucesso', 'Devolução aceita pela Metalbo', Modal::TIPO_SUCESSO);
             $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO);
             echo $oMsg2->getRender();
             echo 'requestAjax("","QualRncVenda","enviaEmailDev","' . $sDados . ',' . $sParam . '");';
@@ -334,7 +353,7 @@ class ControllerQualRncVenda extends Controller {
             echo"$('#" . $aDados[2] . "-btn').click();";
             echo"$('#" . $aDados[1] . "-pesq').click();";
         } else {
-            $oMensagem = new Modal('Devolução', 'Erro ao tentar inserir a observação da devolução.', Modal::TIPO_ERRO);
+            $oMensagem = new Modal('Atenção', 'Erro ao tentar inserir a observação da devolução.', Modal::TIPO_ERRO);
         }
         echo $oMensagem->getRender();
     }
@@ -395,6 +414,144 @@ class ControllerQualRncVenda extends Controller {
 
 
 // Para
+        $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
+        $oEmail->addDestinatario($sEmail);
+
+        $oEmail->addDestinatarioCopia($_SESSION['email']);
+
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o representante com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email para o representante, tente reenviar ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    /**
+     * Cria a tela Modal para a transportadora
+     * @param type $sDados
+     */
+    public function criaTelaModalApontaTransportadora($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aCamposChave['id'] = $aDados[1];
+
+        $aRet = $this->Persistencia->verifSitDev($aCamposChave);
+
+        if ($aRet[0] == 'Liberado' && $aRet[1] == 'Aguardando') {
+            $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+            $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+
+            $oDados = $this->Persistencia->consultarWhere();
+            $this->View->setAParametrosExtras($oDados);
+
+            $this->View->criaModalApontaTransportadora($sDados);
+
+            //adiciona onde será renderizado
+            $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
+            echo $sLimpa;
+            $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        } else {
+            if ($aRet[0] == 'Apontada') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC foi apontada pelo setor responsável pela análise, não sendo problema direto da transportadora', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Finalizada') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Aguardando' && $aRet[1] == 'Aguardando') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Apontada' && $aRet[1] == 'Recusada') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi Recusada e não pode ser apontada novamente.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[0] == 'Apontada' && $aRet[1] == 'Aceita') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi Aceita e não pode ser apontada novamente.', Modal::TIPO_AVISO);
+            }
+            if ($aRet[1] == 'Transportadora') {
+                $oMensagem = new Modal('Atenção', 'Reclamação - RNC já foi apontada pelo setor de vendas como avaria causada pela transportadora.', Modal::TIPO_AVISO);
+            }
+            echo $oMensagem->getRender();
+            echo "$('#" . $aDados[1] . "-btn').click();";
+        }
+    }
+
+    public function apontaTransportadora($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[3]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aRetorno = $this->Persistencia->apontaTransportadora($aCamposChave);
+
+        if ($aRetorno[0] == true) {
+            $oMensagem = new Modal('Sucesso', 'Apontamento de transportadora aceita pela Metalbo', Modal::TIPO_SUCESSO);
+            $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO);
+            echo $oMsg2->getRender();
+            echo 'requestAjax("","QualRncVenda","enviaEmailApontaTransportadora","' . $sDados . '");';
+            echo"$('#" . $aDados[2] . "-btn').click();";
+            echo"$('#" . $aDados[1] . "-pesq').click();";
+        } else {
+            $oMensagem = new Modal('Atenção', 'Erro ao tentar inserir a observação.', Modal::TIPO_ERRO);
+        }
+        echo $oMensagem->getRender();
+    }
+
+    public function enviaEmailApontaTransportadora($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[3]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = date('d/m/Y');
+        $hora = date('H:m');
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor('smtp.terra.com.br');
+        $oEmail->setPorta(587);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario('metalboweb@metalbo.com.br');
+        $oEmail->setSenha('Metalbo@@50');
+        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+
+        $oRow = $this->Persistencia->buscaDadosRnc($aCamposChave);
+
+        $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ''));
+        $oEmail->setMensagem(utf8_decode('A reclamação de Nº ' . $oRow->nr . ' terá a <strong><span style="color:orange">TRANSPORTADORA</span></strong> notificada pela Metalbo devido as avarias.<hr><br/>'
+                        . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
+                        . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
+                        . '<b>Hora: ' . $hora . '  </b><br/>'
+                        . '<b>Data do Cadastro: ' . $data . ' </b><br/><br/><br/>'
+                        . '<table border = 1 cellspacing = 0 cellpadding = 2 width = "100%">'
+                        . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
+                        . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
+                        . '<tr><td><b>Nota fiscal: </b></td><td> ' . $oRow->nf . ' </td></tr>'
+                        . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
+                        . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
+                        . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
+                        . '<tr><td><b>Valor: R$</b></td><td> ' . $oRow->valor . ' </td></tr>'
+                        . '<tr><td><b>Peso: </b></td><td> ' . $oRow->peso . ' </td></tr>'
+                        . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
+                        . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
+                        . '</table><br/><br/>'
+                        . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+        $oEmail->limpaDestinatariosAll();
+
+
+        // Para
         $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
         $oEmail->addDestinatario($sEmail);
 

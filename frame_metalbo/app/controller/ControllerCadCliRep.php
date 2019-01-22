@@ -156,8 +156,6 @@ class ControllerCadCliRep extends Controller {
             $sRet = $this->Persistencia->buscaCNPJ($aDados[0]);
             if ($sRet == false) {
                 $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
-                echo '$("#' . $aDados[1] . '").val("");';
-                echo '$("#' . $aDados[1] . '").focus();';
                 echo $oMensagem->getRender();
             } else {
                 exit;

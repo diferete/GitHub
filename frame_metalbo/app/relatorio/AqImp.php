@@ -284,6 +284,15 @@ if ($aNr['total'] == 1) {
             . " from tbacaoqualcausa where nr='" . $nrAq . "' and filcgc ='" . $filcgcAq . "' ";
     $dadosCausa1 = $PDO->query($sSqlC);
     $row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
+
+    if ($row1 == false) {
+        $row1['matprimades'] = null;
+        $row1['maodeobrades'] = null;
+        $row1['equipamentodes'] = null;
+        $row1['meioambientedes'] = null;
+        $row1['metododes'] = null;
+        $row1['medidades'] = null;
+    }
 }
 
 
@@ -383,6 +392,7 @@ if (($iMaior2 % 34) > 0) {
 $pdf->Rect(3, $y, 67, 5 * $iLinhas);
 $pdf->Rect(72, $y, 68, 5 * $iLinhas);
 $pdf->Rect(142, $y, 67, 5 * $iLinhas);
+$pdf->Ln(5);
 
 //*******************
 //Fim do Cria Bordas Tabela
@@ -624,7 +634,7 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
 
             if ($aRowDocumentos['procedimento'] == true) {
                 $sProc = 'Procedimento';
-                if($iCountString > 1){
+                if ($iCountString > 1) {
                     $sProc = 'Procedimento, ';
                 }
                 $sDoc .= $sProc;

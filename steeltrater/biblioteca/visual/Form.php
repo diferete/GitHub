@@ -33,7 +33,8 @@ class Form {
     private $sAcaoClose;
     private $bRetonaRender;
     private $bFecharTelaIncluir;
-
+    private $bUsaAltGrid;//define se usa alterar no grid detalhe
+    private $bUsaDelGrid;//define se usa deletar no grid detalhe
     /**
      * Construtor da classe Form 
      * 
@@ -54,8 +55,30 @@ class Form {
 
         $this->aValidacao = array();
         $this->setBRetonaRender(false);
+        $this->setBUsaAltGrid(true);
+        $this->setBUsaDelGrid(true);
+    }
+    
+    function getBUsaDelGrid() {
+        return $this->bUsaDelGrid;
     }
 
+    function setBUsaDelGrid($bUsaDelGrid) {
+        $this->bUsaDelGrid = $bUsaDelGrid;
+    }
+
+        
+    function getBUsaAltGrid() {
+        return $this->bUsaAltGrid;
+    }
+
+    function setBUsaAltGrid($bUsaAltGrid) {
+        $this->bUsaAltGrid = $bUsaAltGrid;
+    }
+
+        
+
+    
     function getAbaSel() {
         return $this->abaSel;
     }
@@ -588,12 +611,24 @@ class Form {
                 $sRenderDet .= $oBtn->getRender();
             }
             $oLinhaDesc = new Campo('', '', Campo::TIPO_LINHA, 12);
-
+            //carrega o botao detalhe alterar
+            if($this->getBUsaAltGrid()){
+                $sBotaoAlt = $oBtnAlterar->getRender();
+            }else{
+                $sBotaoAlt ='';
+            }
+            //carrega o botao detalhe excluir
+            if($this->getBUsaDelGrid()){
+                $sBotaoExcluir = $oBtnDelete->getRender();
+            }else{
+                $sBotaoExcluir ='';
+            }
+            
             $sGrid .= ' <div class="row"  id="' . $oGrid->getSId() . 'div">'
                     . '<div class="row">'
                     . $oLinhaDesc->getRender()
-                    . $oBtnDelete->getRender()
-                    . $oBtnAlterar->getRender()
+                    . $sBotaoExcluir
+                    . $sBotaoAlt
                     . $sRenderDet
                     . '</div>'
                     . $sGridDetalhe;
