@@ -53,7 +53,7 @@ class ViewQualRncVenda extends View {
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_QUAL) . 'Qualidade', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Qual');
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_BOX) . 'Embalagem', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Emb');
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Expedição', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Exp');        
-        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Representante', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Rep');
+        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Repres./Transp.', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Rep');
 
         $oDropDown2 = new Dropdown('Apontamentos', Dropdown::TIPO_AVISO);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'criaTelaModalAccDevolucao', '', false, '1', false, 'criaTelaModalAccDevolucao', true, 'Aceitar Devolução');

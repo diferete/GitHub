@@ -83,6 +83,7 @@ class ViewQualNovoProj extends View {
         $oFSitProj = new Filtro($oSitProj, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFSitProj->addItemSelect('Todos', 'Todos');
         $oFSitProj->addItemSelect('Lib.Projetos', 'Lib.Projetos');
+        $oFSitProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');
         $oFSitProj->addItemSelect('Aprovado', 'Aprovado');
         $oFSitProj->addItemSelect('Reprovado', 'Reprovado');
         $oFSitProj->addItemSelect('Cód. enviado', 'Cód. enviado');

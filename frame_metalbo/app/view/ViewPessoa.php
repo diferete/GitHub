@@ -12,6 +12,7 @@ class ViewPessoa extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $this->getTela()->setBMostraFiltro(true);
 
         $oEmpoCod = new CampoConsulta('Código', 'empcod', CampoConsulta::TIPO_LARGURA, 20);
         $oEmpDes = new CampoConsulta('Empresa', 'empdes', CampoConsulta::TIPO_LARGURA, 20);

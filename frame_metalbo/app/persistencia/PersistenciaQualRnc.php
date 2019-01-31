@@ -65,10 +65,11 @@ class PersistenciaQualRnc extends Persistencia {
         $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
-        
+
         $this->adicionaRelacionamento('devolucaoacc', 'devolucaoacc');
         $this->adicionaRelacionamento('devolucaorec', 'devolucaorec');
         $this->adicionaRelacionamento('obs_devolucao', 'obs_devolucao');
+        $this->adicionaRelacionamento('produtos', 'produtos');
 
 
         $this->adicionaJoin('Pessoa');
@@ -111,7 +112,7 @@ class PersistenciaQualRnc extends Persistencia {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
         $sData = date('d/m/Y');
-        
+
         //$aDados['obs_fim'] = Util::limpaString($aDados['obs_fim']);
 
         $sSql = "update tbrncqual set situaca = 'Finalizada',"
@@ -162,6 +163,10 @@ class PersistenciaQualRnc extends Persistencia {
         $aRetorno[1] = $oRow->resp_venda_nome;
 
         return $aRetorno;
+    }
+
+    public function getDadosProd() {
+        
     }
 
 }

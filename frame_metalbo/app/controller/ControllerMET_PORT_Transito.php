@@ -12,6 +12,53 @@ class ControllerMET_PORT_Transito extends Controller {
         $this->carregaClassesMvc('MET_PORT_Transito');
     }
 
+    public function beforeInsert() {
+        parent::beforeInsert();
+
+        $sModelo = $this->Model->getMotivo();
+
+        if ($sModelo != 'Selecionar') {
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            $oMsg = new Mensagem('Atenção', 'Favor selecionar um motivo!', Mensagem::TIPO_WARNING);
+            echo $oMsg->getRender();
+
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
+    }
+
+    public function afterInsert() {
+        parent::afterInsert();
+
+        $oModel = $this->Model;
+
+        if ($oModel->getMotivo() == '1' || $oModel->getMotivo() == '2') {
+            $aRetorno = $this->Persistencia->geraCadastro($oModel);
+            if ($aRetorno) {
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            } else {
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
+        } else {
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
+    }
+
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
 
@@ -37,14 +84,15 @@ class ControllerMET_PORT_Transito extends Controller {
         $oRow = $this->Persistencia->consultaPlaca($aCamposChave['placa']);
 
         echo"$('#" . $aParam[0] . "').val('" . strtoupper($aCamposChave['placa']) . "');"
-        . "$('#" . $aParam[1] . "').val('" . $oRow->empcod . "');"
-        . "$('#" . $aParam[2] . "').val('" . $oRow->empdes . "');"
-        . "$('#" . $aParam[3] . "').val('" . $oRow->descsetor . "');"
-        . "$('#" . $aParam[4] . "').val('" . $oRow->modelo . "');"
-        . "$('#" . $aParam[5] . "').val('" . $oRow->cor . "');";
+        . "$('#" . $aParam[1] . "').val('" . $oRow->emptranscod . "');"
+        . "$('#" . $aParam[2] . "').val('" . $oRow->emptransdes . "');"
+        . "$('#" . $aParam[3] . "').val('" . $oRow->codsetor . "');"
+        . "$('#" . $aParam[4] . "').val('" . $oRow->descsetor . "');"
+        . "$('#" . $aParam[5] . "').val('" . $oRow->modelo . "');"
+        . "$('#" . $aParam[6] . "').val('" . $oRow->cor . "');";
     }
 
-    public function criaTelaModalApontaSaida($sDados) {
+    public function criaTelaModalApontamento($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -55,33 +103,53 @@ class ControllerMET_PORT_Transito extends Controller {
         $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
         $oDados = $this->Persistencia->consultarWhere();
 
-        if ($oDados->getSituaca() == 'Saída') {
-            $oMsg = new Modal('Atenção', 'Esse caminhão já teve sua saída apontada!', Modal::TIPO_AVISO, false, true, false);
-            echo "$('#criaModalApontaSaida-btn').click();";
-            echo $oMsg->getRender();
-        } else {
+        if ($oDados->getSituaca() == 'Chegada' || $oDados->getSituaca() == 'Entrada') {
+
             $this->View->setAParametrosExtras($oDados);
 
-            $this->View->criaModalApontaSaida();
-            //busca lista pela op
+            if ($oDados->getSituaca() == 'Chegada') {
+                $this->View->criaModalApontaEntrada();
+            }
+            if ($oDados->getSituaca() == 'Entrada') {
+                $this->View->criaModalApontaSaida();
+            }
 
+            //busca lista pela op
             $this->View->getTela()->setSRender($aDados[0] . '-modal');
 
             //renderiza a tela
             $this->View->getTela()->getRender();
+        } else {
+            $oMsg = new Modal('Atenção', 'Esse caminhão já seu apontamento efetuado!', Modal::TIPO_AVISO, false, true, false);
+            echo "$('#criaModalApontamento-btn').click();";
+            echo $oMsg->getRender();
         }
     }
 
-    public function apontaSaida($sDados) {
-        $aDados = explode(',', $sDados);
+    public function apontaEntrada() {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        $aRetorno = $this->Persistencia->apontaEntrada($aCampos);
+
+        if ($aRetorno == true) {
+            $oMsg = new Mensagem('Sucesso', 'Entrada de veículo apontada com sucesso', Mensagem::TIPO_SUCESSO);
+            echo "$('#criaModalApontamento-btn').click();";
+        } else {
+            $oMsg = new Mensagem('Erro', 'Erro ao inserir o registro, tente novamente!', Mensagem::TIPO_ERROR);
+        }
+        echo $oMsg->getRender();
+    }
+
+    public function apontaSaida() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
         $aRetorno = $this->Persistencia->apontaSaida($aCampos);
 
         if ($aRetorno == true) {
-            $oMsg = new Mensagem('Sucesso', 'Saída de veículo apondata com sucesso', Mensagem::TIPO_SUCESSO);
-            echo "$('#criaModalApontaSaida-btn').click();";
+            $oMsg = new Mensagem('Sucesso', 'Saída de veículo apontada com sucesso', Mensagem::TIPO_SUCESSO);
+            echo "$('#criaModalApontamento-btn').click();";
         } else {
             $oMsg = new Mensagem('Erro', 'Erro ao inserir o registro, tente novamente!', Mensagem::TIPO_ERROR);
         }

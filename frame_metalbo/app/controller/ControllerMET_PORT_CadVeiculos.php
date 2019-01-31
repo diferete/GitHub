@@ -58,7 +58,7 @@ class ControllerMET_PORT_CadVeiculos extends Controller {
             $bRetorno = $this->Persistencia->buscaPlaca($aCamposChave['placa']);
 
             if ($bRetorno == true) {
-                $oMsg = new Modal('Cadastro', 'Placa já cadastrada no sistema', Modal::TIPO_AVISO, false, true, false);
+                $oMsg = new Modal('Cadastro', 'Placa já cadastrada no sistema!', Modal::TIPO_AVISO, false, true, false);
                 echo $oMsg->getRender();
             } else {
                 return;

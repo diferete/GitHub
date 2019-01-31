@@ -23,7 +23,8 @@ class CampoConsulta {
     private $bHideTelaAcao;
     private $sTipoBotao;
     private $bOrderBy;
-   
+    private $sNomeGrid;
+    
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -39,6 +40,8 @@ class CampoConsulta {
     const TIPO_FINALIZAR =11;
     const TIPO_MODAL = 12;
     const TIPO_EDIT = 13;
+    
+    
     
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
@@ -93,6 +96,7 @@ class CampoConsulta {
         $this->Tipo = $Tipo;
         $this->setBCampoIcone(false);
         $this->sTipoBotao = $IconeBotao;
+        $this->setSNomeGrid('paramGrid');
 
         if ($this->Tipo == 9) {
             $this->setBCampoIcone(true);
@@ -108,6 +112,7 @@ class CampoConsulta {
         if ($this->Tipo == 12) {
             $this->setBCampoIcone(true);
         }
+        
     }
 
     /**
@@ -123,6 +128,15 @@ class CampoConsulta {
         $this->aAcao['modalNome'] = $sTitulo;    
     }
     
+    function getSNomeGrid() {
+        return $this->sNomeGrid;
+    }
+
+    function setSNomeGrid($sNomeGrid) {
+        $this->sNomeGrid = $sNomeGrid;
+    }
+
+        
     function getBOrderBy() {
         return $this->bOrderBy;
     }
@@ -338,7 +352,7 @@ class CampoConsulta {
                         .'if($(this).hasClass( "active" )){'
                         . 'abaSelecionada=$(this).attr("id");}'
                         .'     }); '
-                        . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();';
+                        . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
@@ -357,8 +371,8 @@ class CampoConsulta {
                         .'$("#tabmenusuperior li").each(function(){'
                         .'if($(this).hasClass( "active" )){'
                         . 'abaSelecionada=$(this).attr("id");}'
-                        .'     }); '
-                        . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();'
+                        . '     }); '
+                        . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();'
                         . 'var idTela = $("#"+abaSelecionada+"paramTela").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
@@ -367,6 +381,9 @@ class CampoConsulta {
                         . '});</script>';
 
                 break;
+                
+                
+                
                 case self:: TIPO_FINALIZAR:
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -379,7 +396,7 @@ class CampoConsulta {
                         .'if($(this).hasClass( "active" )){'
                         . 'abaSelecionada=$(this).attr("id");}'
                         .'     }); '
-                        . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();';
+                        . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
@@ -400,7 +417,7 @@ class CampoConsulta {
                         .'if($(this).hasClass( "active" )){'
                         . 'abaSelecionada=$(this).attr("id");}'
                         .'     }); '
-                        . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();';
+                        . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
@@ -427,7 +444,7 @@ class CampoConsulta {
                             .'if($(this).hasClass( "active" )){'
                             . 'abaSelecionada=$(this).attr("id");}'
                             .'     }); '
-                            . 'var idGrid = $("#"+abaSelecionada+"paramGrid").text();'
+                            . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();'
                             . 'var idTela = $("#"+abaSelecionada+"paramTela").text();'
                             .'var valorCampo = $("#'.$sIdInput.'").val();'
                             .'if(vlrInput!=valorCampo){'

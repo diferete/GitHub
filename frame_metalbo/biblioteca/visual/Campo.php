@@ -1380,7 +1380,7 @@ class Campo {
                 }
                 if ($this->getBTime()) {
                     $sCampo .= '<script>'
-                            . '$("#' . $this->getId() . ' ").mask("99:99");'
+                            . '$("#' . $this->getId() . ' ").mask("99:99:99");'
                             . '</script>';
                 }
                 break;
@@ -1911,7 +1911,7 @@ class Campo {
             case self::TIPO_TAGS:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<input style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '"  id="' . $this->getId() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
+                        . '<input style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '"  id="' . $this->getId() . '" rows="' . $this->getILinhasTextArea() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
                         . 'placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '<script>'

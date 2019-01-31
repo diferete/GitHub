@@ -177,12 +177,12 @@
 	$.fn.tagsInput = function(options) {
     var settings = jQuery.extend({
       interactive:true,
-      defaultText:'add a tag',
+      defaultText:'Add uma tag',
       minChars:0,
       height:'103px',
       autocomplete: {selectFirst: false },
       hide:true,
-      delimiter: ',',
+      delimiter: ';',
       unique:true,
       removeWithBackspace:true,
       placeholderColor:'#666666',

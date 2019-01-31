@@ -33,15 +33,13 @@ class Form {
     private $sAcaoClose;
     private $bRetonaRender;
     private $bFecharTelaIncluir;
-    private $bUsaAltGrid; //define se usa alterar no grid detalhe
-    private $bUsaDelGrid; //define se usa deletar no grid detalhe
-
+    private $bUsaAltGrid;//define se usa alterar no grid detalhe
+    private $bUsaDelGrid;//define se usa deletar no grid detalhe
     /**
      * Construtor da classe Form 
      * 
      * O único parâmetro obrigatório refere-se ao título da tela
      */
-
     function __construct($sTitulo) {
         $this->sId = Base::getId();
         $this->setTitulo($sTitulo);
@@ -60,7 +58,7 @@ class Form {
         $this->setBUsaAltGrid(true);
         $this->setBUsaDelGrid(true);
     }
-
+    
     function getBUsaDelGrid() {
         return $this->bUsaDelGrid;
     }
@@ -69,6 +67,7 @@ class Form {
         $this->bUsaDelGrid = $bUsaDelGrid;
     }
 
+        
     function getBUsaAltGrid() {
         return $this->bUsaAltGrid;
     }
@@ -77,6 +76,9 @@ class Form {
         $this->bUsaAltGrid = $bUsaAltGrid;
     }
 
+        
+
+    
     function getAbaSel() {
         return $this->abaSel;
     }
@@ -562,7 +564,7 @@ class Form {
             return $sTela;
         } else {
             echo $sRetorno;
-        }
+            }
 
 
         if ($this->getSAcaoShow() !== null) {
@@ -610,18 +612,18 @@ class Form {
             }
             $oLinhaDesc = new Campo('', '', Campo::TIPO_LINHA, 12);
             //carrega o botao detalhe alterar
-            if ($this->getBUsaAltGrid()) {
+            if($this->getBUsaAltGrid()){
                 $sBotaoAlt = $oBtnAlterar->getRender();
-            } else {
-                $sBotaoAlt = '';
+            }else{
+                $sBotaoAlt ='';
             }
             //carrega o botao detalhe excluir
-            if ($this->getBUsaDelGrid()) {
+            if($this->getBUsaDelGrid()){
                 $sBotaoExcluir = $oBtnDelete->getRender();
-            } else {
-                $sBotaoExcluir = '';
+            }else{
+                $sBotaoExcluir ='';
             }
-
+            
             $sGrid .= ' <div class="row"  id="' . $oGrid->getSId() . 'div">'
                     . '<div class="row">'
                     . $oLinhaDesc->getRender()

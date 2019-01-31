@@ -114,6 +114,7 @@ class ControllerQualRnc extends Controller {
             }
             echo $oMens->getRender();
             echo'$("#' . $aDados[1] . '-pesq").click();';
+            echo "$('#" . $aDados[1] . "-btn').click();";
         }
     }
 
@@ -123,7 +124,6 @@ class ControllerQualRnc extends Controller {
      */
     public function finalizaRnc($sDados) {
         $aDados = explode(',', $sDados);
-        $sClasse = $this->getNomeClasse();
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
@@ -132,11 +132,12 @@ class ControllerQualRnc extends Controller {
 
         if ($aRet[0]) {
             $oMsg = new Mensagem('Sucesso', 'Reclamação nº' . $aCampos['nr'] . ' foi finalizada!', Mensagem::TIPO_SUCESSO);
-            echo $oMsg->getRender();
-            echo '$("#' . $aDados[2] . '-pesq").click();';
         } else {
-            
+            $oMsg = new Modal('Atenção', 'Erro ao tentar finalizar reclamação!', Modal::TIPO_AVISO, false, true, true);
         }
+        echo $oMsg->getRender();
+        echo '$("#' . $aDados[2] . '-pesq").click();';
+        echo "$('#" . $aDados[2] . "-btn').click();";
     }
 
     public function getRespVenda($sDados) {
@@ -181,8 +182,8 @@ class ControllerQualRnc extends Controller {
                 $oMensagem = new Modal('Atenção', 'A reclamação já está em análise pela Metalbo!', Modal::TIPO_AVISO, false, true, false);
             }
             echo '$("#' . $sIdGrid . '-pesq").click();';
-            echo $oMensagem->getRender();
         }
+        echo $oMensagem->getRender();
     }
 
     public function liberarMetalbo($sDados) {
@@ -250,6 +251,28 @@ class ControllerQualRnc extends Controller {
             }
         }
         echo $oMsg->getRender();
+    }
+
+    public function insereProd($sDados) {
+        $aDados = explode(';', $sDados);
+
+        $sProd = $aDados[0] . ' - ' . $aDados[1] . ' - ' . $aDados[2] . ' - ' . $aDados[3];
+
+
+        $sProduto = '$("#' . $aDados[4] . '_tag").val("' . $sProd . '");'
+                . '$("#' . $aDados[4] . '_tag").focus();'
+                . '$("#' . $aDados[5] . '").focus();'
+                . '$("#' . $aDados[5] . '").focus();';
+        echo $sProduto;
+        $this->limpaCampos($aDados);
+    }
+
+    public function limpaCampos($aDados) {
+        $sLimpaCampos = '$("#' . $aDados[5] . '").val("");'
+                . '$("#' . $aDados[6] . '").val("");'
+                . '$("#' . $aDados[7] . '").val("");'
+                . '$("#' . $aDados[8] . '").val("");';
+        echo $sLimpaCampos;
     }
 
 }

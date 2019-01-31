@@ -59,13 +59,31 @@ $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+/* $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
+  convert(varchar,datains,103) as datains,
+  empfone,celular,empend,empendbair,
+  cidnome,convert(varchar,datains,103)as datains,email,
+  case when ind = 'true' then 'x' else '' end as ind,
+  case when comer = 'true' then 'x' else '' end as comer,widl.emp01.cidcep,
+  nf,convert(varchar,datanf,103)as datanf,odcompra,pedido,valor,peso,lote,op,naoconf,procod,prodes,aplicacao,
+  quant,quantnconf,usuaponta,apontamento,resp_venda_nome,obs_devolucao,
+  case when devolucaoacc = 'true' then 'x' else '' end as devolucaoacc,
+  case when devolucaorec = 'true' then 'x' else '' end as devolucaorec,
+  case when disposicao = '1' then 'x' else '' end as aceitar,
+  case when disposicao = '2' then 'x' else '' end as recusar,usunome
+  from tbrncqual left outer join widl.EMP01
+  on widl.emp01.empcod = tbrncqual.empcod left outer join widl.CID01
+  on widl.CID01.cidcep = widl.EMP01.cidcep where nr =" . $nr;
+ * 
+ */
+
 $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
                 convert(varchar,datains,103) as datains,
                 empfone,celular,empend,empendbair,
                 cidnome,convert(varchar,datains,103)as datains,email,
                 case when ind = 'true' then 'x' else '' end as ind,
                 case when comer = 'true' then 'x' else '' end as comer,widl.emp01.cidcep,
-                nf,convert(varchar,datanf,103)as datanf,odcompra,pedido,valor,peso,lote,op,naoconf,procod,prodes,aplicacao,
+                nf,convert(varchar,datanf,103)as datanf,odcompra,pedido,valor,peso,lote,op,naoconf,produtos,aplicacao,
                 quant,quantnconf,usuaponta,apontamento,resp_venda_nome,obs_devolucao,
                 case when devolucaoacc = 'true' then 'x' else '' end as devolucaoacc,
                 case when devolucaorec = 'true' then 'x' else '' end as devolucaorec,
@@ -79,6 +97,8 @@ $row = $dadoscab->fetch(PDO::FETCH_ASSOC);
 //cabeçalho
 $pdf->SetMargins(3, 0, 3);
 $pdf->Rect(2, 10, 38, 18);
+
+$aProdutos = explode(';', $row['produtos']);
 
 // Logo
 if ($sEmailRequest == 'S') {
@@ -198,45 +218,52 @@ $pdf->Cell(30, 5, "Descrição da não conformidade:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['naoconf'], 1, 'L');
 
+
+$pdf->Ln(5);
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(30, 5, "Disposição:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(50, 5, '(' . $row['aceitar'] . ') Aceito condicionalmente', 0, 0, 'L');
+$pdf->Cell(50, 5, '(' . $row['recusar'] . ') Reprovar', 0, 1, 'L');
+
 $pdf->Ln(5);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Dados produto:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
-$iAltura = $pdf->GetY();
-$pdf->Rect(2, $iAltura, 206, 34);
-
-$pdf->Ln(2);
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Produto:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, $row['prodes'], 0, 1, 'L');
-
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Código:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, $row['procod'], 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Aplicação:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(30, 5, $row['aplicacao'], 0, 1, 'L');
 
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Quantidade:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, number_format($row['quant'], 2, ',', '.'), 0, 1, 'L');
+foreach ($aProdutos as $key => $value) {
+    $aDadosProd = explode('-', $value);
 
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Quant. não conf:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, number_format($row['quantnconf'], 2, ',', '.'), 0, 1, 'L');
+    $iAltura = $pdf->GetY();
+    $pdf->Rect(2, $iAltura, 206, 30);
+    $pdf->Ln(5);
+    
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(30, 5, "Produto:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(30, 5, $aDadosProd[1], 0, 1, 'L');
 
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Disposição:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, '(' . $row['aceitar'] . ') Aceito condicionalmente', 0, 0, 'L');
-$pdf->Cell(50, 5, '(' . $row['recusar'] . ') Reprovar', 0, 1, 'L');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(30, 5, "Código:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(30, 5, $aDadosProd[0], 0, 1, 'L');
+
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(30, 5, "Quantidade:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(30, 5, $aDadosProd[2], 0, 1, 'L');
+
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(30, 5, "Quant. não conf:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(30, 5, $aDadosProd[3], 0, 1, 'L');
+}
 
 
 $pdf->Ln(5);
@@ -265,7 +292,7 @@ $pdf->Cell(30, 5, "Análise do setor de Vendas:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
 $iAltura = $pdf->GetY();
-$pdf->Rect(2, $iAltura, 206, 20);
+$pdf->Rect(2, $iAltura, 206, 40);
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Responsável:", 0, 0, 'L');
@@ -279,9 +306,9 @@ $pdf->Cell(50, 5, '(' . $row['devolucaoacc'] . ') Aceita', 0, 0, 'L');
 $pdf->Cell(50, 5, '(' . $row['devolucaorec'] . ') Recusada', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(26, 5, "Obs Venda:", 0, 0, 'L');
+$pdf->Cell(26, 5, "Obs Venda:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, $row['obs_devolucao'], 0, 1, 'L');
+$pdf->MultiCell(205, 5, $row['obs_devolucao'], 0, 'L');
 
 
 if ($sEmailRequest == 'S') {

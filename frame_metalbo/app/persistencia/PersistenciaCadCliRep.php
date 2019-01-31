@@ -71,14 +71,14 @@ class PersistenciaCadCliRep extends Persistencia {
         $sHora = date('H:i');
         $sData = date('d/m/Y');
 
-        $sSql = " select * from pdfempcad where nr = '" . $aDados['nr'] . "'";
+        $sSql = " select situaca from pdfempcad where nr = '" . $aDados['nr'] . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $sSituaca = $oRow->situaca;
         //verificar se o campo situaca == liberado se for, nao dar update e rotorna array como false na posicao zero
-        if ($sSituaca == 'Liberado') {
-            $aRetorno[0] = false;
-            $aRetorno[1] = 'Atenção este cadastro já está liberado!';
+        if ($sSituaca == 'Liberado' || $sSituaca == 'Cadastrado') {
+            $aRetorno[0] = $sSituaca;
+            $aRetorno[1] = false;
             return $aRetorno;
         } else {
 

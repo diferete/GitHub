@@ -1295,16 +1295,20 @@ function getUserEmail(codUser, idNome, idEmail, idCod, classe) {
     requestAjax("", classe, 'getUserEmail', dados);
 }
 
+function insereProd(proCod, proDes, quant, quantNConf, idProdTag, idProCod, idProDes, idQuant, idQuantNConf, classe) {
+    var dados = proCod + ';' + proDes + ';' + quant + ';' + quantNConf + ';' + idProdTag + ';' + idProCod + ';' + idProDes + ';' + idQuant + ';' + idQuantNConf;
+    requestAjax("", classe, 'insereProd', dados);
+}
+
 /**
  * Máscaras em campo decimal
  */
+function maskDecimal(idCampo) {
 
-function maskDecimal(idCampo){
-    
     var valor = $('#' + idCampo + '').val();
-    
+
     if (valor == '') {
-       $('#' + idCampo + '').val('0');
+        $('#' + idCampo + '').val('0');
     }
     valor = moedaParaNumero(valor);
     $('#' + idCampo + '').val(numeroParaMoeda(valor));

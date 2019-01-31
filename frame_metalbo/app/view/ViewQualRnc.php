@@ -25,11 +25,11 @@ class ViewQualRnc extends View {
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
 
         $oAnexo1 = new CampoConsulta('Anexo 1', 'anexo1', CampoConsulta::TIPO_DOWNLOAD);
-        
+
         $oAnexo2 = new CampoConsulta('Anexo 2', 'anexo2', CampoConsulta::TIPO_DOWNLOAD);
-        
+
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
-        
+
 
         $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
         $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
@@ -68,7 +68,7 @@ class ViewQualRnc extends View {
         $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3);
 
         $this->addFiltro($oFilNr, $oFilCli);
-        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData,$oAnexo1,$oAnexo2,$oAnexo3);
+        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
@@ -85,6 +85,7 @@ class ViewQualRnc extends View {
         $oTabGeral->setBActive(true);
 
         $oTabNF = new AbaTabPanel('Dados NF');
+        $oTabProd = new AbaTabPanel('Produto');
         $oTabAnexos = new AbaTabPanel('Anexos');
 
         $this->addLayoutPadrao('Aba');
@@ -216,28 +217,31 @@ class ViewQualRnc extends View {
 
         $oOp = new Campo('Ordem Produção', 'op', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        //campo código do produto
-        $oCodigo = new Campo('Codigo', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oCodigo->setSIdHideEtapa($this->getSIdHideEtapa());
-        $oCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oCodigo->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
+        /*
+          //campo código do produto
+          $oCodigo = new Campo('Codigo', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+          $oCodigo->setSIdHideEtapa($this->getSIdHideEtapa());
+          $oCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
+          $oCodigo->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
 
 
-        //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto', 'prodes', Campo::TIPO_BUSCADOBANCO, 5, 5, 12, 12);
-        $oProdes->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oProdes->setSIdPk($oCodigo->getId());
-        $oProdes->setClasseBusca('Produto');
-        $oProdes->addCampoBusca('procod', '', '');
-        $oProdes->addCampoBusca('prodes', '', '');
-        $oProdes->setSIdTela($this->getTela()->getid());
+          //campo descrição do produto adicionando o campo de busca
+          $oProdes = new Campo('Produto', 'prodes', Campo::TIPO_BUSCADOBANCO, 5, 5, 12, 12);
+          $oProdes->setITamanho(Campo::TAMANHO_PEQUENO);
+          $oProdes->setSIdPk($oCodigo->getId());
+          $oProdes->setClasseBusca('Produto');
+          $oProdes->addCampoBusca('procod', '', '');
+          $oProdes->addCampoBusca('prodes', '', '');
+          $oProdes->setSIdTela($this->getTela()->getid());
 
-        //declarando no campo código a classe de busca, campo chave e campo de retorno
-        $oCodigo->setClasseBusca('Produto');
-        $oCodigo->setSCampoRetorno('procod', $this->getTela()->getId());
-        $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
+          //declarando no campo código a classe de busca, campo chave e campo de retorno
+          $oCodigo->setClasseBusca('Produto');
+          $oCodigo->setSCampoRetorno('procod', $this->getTela()->getId());
+          $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
+         * 
+         */
 
-        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oAplicacao = new Campo('Aplicação/Avaria', 'aplicacao', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oAplicacao->addItemSelect('Oxidação branca', 'Oxidação branca');
         $oAplicacao->addItemSelect('Oxidação vermelha', 'Oxidação vermelha');
         $oAplicacao->addItemSelect('Embalagem diferente da etiqueta', 'Embalagem diferente da etiqueta');
@@ -258,10 +262,53 @@ class ViewQualRnc extends View {
         $oDivisor1 = new Campo('Dados da não conformidade', 'nconf', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        
         $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
-        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
+        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oQuanNconf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
+
+        $oProCod = new campo('Cód.', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 4, 4, 4);
+
+        $oProDes = new Campo('Produto', 'prodes', Campo::TIPO_BUSCADOBANCO, 3, 8, 8, 8);
+        $oProDes->setSIdPk($oProCod->getId());
+        $oProDes->setClasseBusca('Produto');
+        $oProDes->addCampoBusca('procod', '', '');
+        $oProDes->addCampoBusca('prodes', '', '');
+        $oProDes->setSIdTela($this->getTela()->getid());
+        $oProDes->setApenasTela(true);
+
+        $oProCod->setClasseBusca('Produto');
+        $oProCod->setSCampoRetorno('procod', $this->getTela()->getId());
+        $oProCod->addCampoBusca('prodes', $oProDes->getId(), $this->getTela()->getId());
+        $oProCod->setApenasTela(true);
+
+        $oProd = new campo('Produtos', 'produtos', Campo::TIPO_TAGS, 12, 12, 12, 12);
+        $oProd->setILinhasTextArea(5);
+        $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
+
+
+        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 2);
+        $oBotConf->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
+        
+        $sAcao = 'insereProd($("#' . $oProCod->getId() . '").val(),'
+                . '$("#' . $oProDes->getId() . '").val(),'
+                . '$("#' . $oQuant->getId() . '").val(),'
+                . '$("#' . $oQuanNconf->getId() . '").val(),'
+                . '"' . $oProd->getId() . '",'
+                . '"' . $oProCod->getId() . '",'
+                . '"' . $oProDes->getId() . '",'
+                . '"' . $oQuant->getId() . '",'
+                . '"' . $oQuanNconf->getId() . '",'
+                . '"' . $this->getController() . '")';
+        $oBotConf->getOBotao()->addAcao($sAcao);
+        $oBotConf->setApenasTela(true);
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+
 
         $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
         $oDisposicao->addItenRadio('1', 'Acc. Condicionalmente');
@@ -283,12 +330,16 @@ class ViewQualRnc extends View {
 
         $oTabGeral->addCampos(
                 array($oRep, $oRespVendaNome, $oRespVenda), $oDivisor2, array($oEmpcod, $oEmpdes), array($oContato, $oCelular, $oEmail, $oInd, $oComer));
+
         $oTabNF->addCampos(
-                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp), array($oCodigo, $oProdes, $oQuant), $oDivisor1, array($oAplicacao, $oQuanNconf, $oDisposicao), $oDescNaoConf);
+                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
+
+        $oTabProd->addCampos($oAplicacao, array(/* $oCodigo, $oProdes, */$oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
+
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao));
 
-        $oTab->addItems($oTabGeral, $oTabNF, $oTabAnexos);
+        $oTab->addItems($oTabGeral, $oTabNF, $oTabProd, $oTabAnexos);
 
         $this->addCampos(
                 array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);

@@ -30,7 +30,7 @@ class Controller {
     private $sMsgErroBusca;
     private $bDesativaBotaoPadrao;
     private $paramaux;
-
+   
     function getParamaux() {
         return $this->paramaux;
     }
@@ -735,11 +735,13 @@ class Controller {
         $this->antesDeCriarTela($renderTo);
         //cria a tela
         $this->View->criaTela();
+        
+        
         //alimenta campos busca
         $this->antesIncluir();
         //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aRender[0]);
-        $this->View->getTela()->setAbaSel($aRender[0]);
+        $this->View->getTela()->setAbaSel($aRender[2]);
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aRender[1]);
         //busca campo autoincremento para passar como parametro
@@ -773,7 +775,8 @@ class Controller {
         $this->antesAlterar($aDados);
         //cria a tela
         $this->View->criaTela();
-
+        //
+        $this->View->getTela()->setAbaSel($aDados[3]);
         //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[1]);
         //adiciona tela que será dado um show 
@@ -2752,6 +2755,9 @@ class Controller {
         $this->View->setSIdHideEtapa($aDados[4]);
 
         $this->adicionaFiltrosExtras();
+        
+        //seta ids da tela 
+        $this->View->setSIdsTelas($aDados);                    
 
         $this->View->setSRotina(View::ACAO_INCLUIR);
         $this->antesDeCriarTela();
@@ -2764,6 +2770,7 @@ class Controller {
         //adiciona botões na tela de detalhe
         $this->View->adicionaBotoesDet($aDados[2], $aDados[0], $aDados[4], $aDados[5], $aDados[1]);
 
+        
         //seta o controler na view
         $this->View->setTelaController($this->View->getController());
         $this->View->getTela()->getRender();
@@ -2881,7 +2888,7 @@ class Controller {
             //método para capturar campos para levar para outra etapa, geralmente pk e informativos
             $sCampos = implode(',', $this->montaProxEtapa());
             //passa id da etapa,id do processo,id do form,valor chavepk
-            echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . '","' . $sCampos . '");';
+            echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . ','.$aDados[7].'","' . $sCampos . '");';
         }
     }
 
@@ -3272,10 +3279,9 @@ class Controller {
                 $sMetodoDetalhe = $this->getSMetodoDetalhe();
                 //método para capturar campos para levar para outra etapa, geralmente pk e informativos
                 $sCampos = implode(',', $this->montaProxEtapa());
-                //passa id da etapa,id do processo,id do form,valor chavepk
-                //  echo 'requestAjax("","'.$sClasseDetalhe.'","acaoTelaDetalhe","'.$aDados[2].','.$aDados[3].','.$aDados[0].','.$aDados[4].','.$aDados[5].'","'.$sCampos.'");';
-                // $aDados[3]++;
-                echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . '","' . $sCampos . '");';
+                //passa id da etapa,id do processo,id do form,valor chavepk,aba
+                
+                echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . ',' . $aDados[7] . '","' . $sCampos . '");';
             }
         } else {
             $this->Persistencia->rollback();

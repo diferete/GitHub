@@ -247,7 +247,7 @@ class PersistenciaQualRncVenda extends Persistencia {
 
         $sSql = "update tbrncqual"
                 . " set situaca = 'Apontada',"
-                . " set devolucao ='Transportadora',"
+                . " devolucao ='Transportadora',"
                 . " obs_devolucao ='" . $sObs . "',"
                 . " devolucaorec = 'true'"
                 . " where nr ='" . $aDados['nr'] . "'";

@@ -22,8 +22,8 @@ class PersistenciaMET_PORT_CadVeiculos extends Persistencia {
         $this->adicionaRelacionamento('contato', 'contato');
         $this->adicionaRelacionamento('modelo', 'modelo');
         $this->adicionaRelacionamento('cor', 'cor');
-        $this->adicionaRelacionamento('empcod', 'empcod');
-        $this->adicionaRelacionamento('empdes', 'empdes');
+        $this->adicionaRelacionamento('emptranscod', 'emptranscod');
+        $this->adicionaRelacionamento('emptransdes', 'emptransdes');
         $this->adicionaRelacionamento('codsetor', 'codsetor');
         $this->adicionaRelacionamento('descsetor', 'descsetor');
 

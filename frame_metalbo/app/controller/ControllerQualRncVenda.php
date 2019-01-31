@@ -54,39 +54,72 @@ class ControllerQualRncVenda extends Controller {
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        $sClasse = $this->getNomeClasse();
 
         $aRetorno = $this->Persistencia->verifSitEnc($aCamposChave);
 
-        if ($aRetorno[0] == 'Liberado' && $aRetorno[1] != 'Transportadora') {
-            if ($sParam == 'Env.Qual') {
-                $oMensagem = new Modal('Encaminhar e-mail', 'Deseja encaminhar a RC nº' . $aCamposChave['nr'] . ' para o setor da QUALIDADE?', Modal::TIPO_AVISO, true, true, true);
-                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","updateSitRC","' . $sDados . '","' . $sParam . '");');
-            }
-            if ($sParam == 'Env.Emb') {
-                $oMensagem = new Modal('Encaminhar e-mail', 'Deseja encaminhar a RC nº' . $aCamposChave['nr'] . ' para o setor da EMBALAGEM?', Modal::TIPO_AVISO, true, true, true);
-                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","updateSitRC","' . $sDados . '","' . $sParam . '");');
-            }
-            if ($sParam == 'Env.Exp') {
-                $oMensagem = new Modal('Encaminhar e-mail', 'Deseja encaminhar a RC nº' . $aCamposChave['nr'] . ' para o setor da EXPEDIÇÃO?', Modal::TIPO_AVISO, true, true, true);
-                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","updateSitRC","' . $sDados . '","' . $sParam . '");');
-            }
+        if ($aRetorno[0] == 'Liberado' && $aRetorno[1] == 'Aguardando') {
+            $this->emailsSetores($sDados, $sParam);
+        }
+        if ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Transportadora') {
+            $this->emailRep($sDados, $sParam);
         } else {
-            if ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Transportadora') {
-                $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' teve sua análise como avaria da Transportadora, deseja reenviar o e-mail para o representante?', Modal::TIPO_INFO, true, true, true);
-                $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
-            } else {
-                if ($aRetorno[0] == 'Apontada') {
-                    $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' ja foi apontada!', Modal::TIPO_AVISO, false, true, true);
-                }
-                if ($aRetorno[0] == 'Aguardando') {
-                    $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO, false, true, true);
-                }
-                if ($aRetorno[1] == 'Em análise' && $aRetorno[0] != 'Apontada') {
-                    $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' ja teve seu e-mail encaminhado para o seu setor responsável, deseja reenviar o e-mail?', Modal::TIPO_INFO, true, true, true);
-                    $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
-                }
-            }
+            $this->sitEmails($sDados, $sParam, $aRetorno);
+        }
+    }
+
+    public function emailsSetores($sDados, $sParam) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+
+        if ($sParam == 'Env.Qual') {
+            $oMensagem = new Modal('Encaminhar e-mail', 'Deseja encaminhar a RC nº' . $aCamposChave['nr'] . ' para o setor da QUALIDADE?', Modal::TIPO_AVISO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","updateSitRC","' . $sDados . '","' . $sParam . '");');
+        }
+        if ($sParam == 'Env.Emb') {
+            $oMensagem = new Modal('Encaminhar e-mail', 'Deseja encaminhar a RC nº' . $aCamposChave['nr'] . ' para o setor da EMBALAGEM?', Modal::TIPO_AVISO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","updateSitRC","' . $sDados . '","' . $sParam . '");');
+        }
+        if ($sParam == 'Env.Exp') {
+            $oMensagem = new Modal('Encaminhar e-mail', 'Deseja encaminhar a RC nº' . $aCamposChave['nr'] . ' para o setor da EXPEDIÇÃO?', Modal::TIPO_AVISO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","updateSitRC","' . $sDados . '","' . $sParam . '");');
+        }
+        if ($sParam == 'Env.Rep') {
+            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não está em situação de ser reenviada para o representante!!', Modal::TIPO_AVISO, false, true, true);
+        }
+
+        echo $oMensagem->getRender();
+    }
+
+    public function emailRep($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' teve sua análise como avaria da Transportadora, deseja reenviar o e-mail para o representante?', Modal::TIPO_INFO, true, true, true);
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","enviaEmailApontaTransportadora","' . $sDados . '");');
+
+        echo $oMensagem->getRender();
+    }
+
+    public function sitEmails($sDados, $sParam, $aRetorno) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        if ($aRetorno[0] == 'Apontada') {
+            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi apontada!', Modal::TIPO_AVISO, false, true, true);
+        }
+        if ($aRetorno[0] == 'Aguardando') {
+            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO, false, true, true);
+        }
+        if ($aRetorno[1] == 'Em análise' && $aRetorno[0] != 'Apontada') {
+            $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' ja teve seu e-mail encaminhado para o seu setor responsável, deseja reenviar o e-mail?', Modal::TIPO_INFO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
         }
 
         echo $oMensagem->getRender();

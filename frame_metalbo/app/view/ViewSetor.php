@@ -9,6 +9,8 @@ class ViewSetor extends View {
     public function criaConsulta() {
         parent::criaConsulta();
         
+        $this->getTela()->setBMostraFiltro(true);
+        
         $this->setUsaAcaoAlterar(false);    
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoIncluir(false);

@@ -28,7 +28,7 @@ class ViewMET_PORT_CadVeiculos extends View {
 
         $oDatacad = new CampoConsulta('Data Cad', 'datacad', CampoConsulta::TIPO_DATA);
 
-        $oEmpdes = new CampoConsulta('Empresa', 'empdes', CampoConsulta::TIPO_TEXTO);
+        $oEmpdes = new CampoConsulta('Empresa', 'emptransdes', CampoConsulta::TIPO_TEXTO);
 
         $oSetor = new CampoConsulta('Setor', 'descsetor', CampoConsulta::TIPO_TEXTO);
 
@@ -46,16 +46,16 @@ class ViewMET_PORT_CadVeiculos extends View {
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oFilcgc->setSValor($_SESSION['filcgc']);
         $oFilcgc->setBCampoBloqueado(true);
-                
+
         $oNr = new Campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setBCampoBloqueado(true);
-        
-        $oUsuCod = new Campo('', 'usucod', Campo::TIPO_TEXTO,1,1,12,12);
+
+        $oUsuCod = new Campo('', 'usucod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oUsuCod->setSValor($_SESSION['codUser']);
         $oUsuCod->setBCampoBloqueado(true);
         $oUsuCod->setBOculto(true);
-        
-        $oUsuNome = new Campo('Usuário', 'usunome', Campo::TIPO_TEXTO,3,3,12,12);
+
+        $oUsuNome = new Campo('Usuário', 'usunome', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oUsuNome->setSValor($_SESSION['nome']);
         $oUsuNome->setBCampoBloqueado(true);
 
@@ -71,13 +71,13 @@ class ViewMET_PORT_CadVeiculos extends View {
         $oPlaca->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '7', '7');
         $oPlaca->setSCorFundo(Campo::FUNDO_AMARELO);
         $oPlaca->setBFocus(true);
-        
+
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_CadVeiculos","buscaPlaca","' . $oPlaca->getId() . '");';
-        
+
         $oPlaca->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
-        $oContato = new Campo('Contato *somente Nr c/ DDD', 'contato', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oContato->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '10', '11');
+        $oContato = new Campo('Contato *número c/ DDD', 'contato', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oContato->setBFone(true);
 
         $oModelo = new Campo('Fabricante/Modelo', 'modelo', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oModelo->addItemSelect('Selecionar', 'Selecionar');
@@ -102,6 +102,7 @@ class ViewMET_PORT_CadVeiculos extends View {
         $oModelo->addItemSelect('Outra', 'Outra');
 
         $oCor = new Campo('Cor', 'cor', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oCor->addItemSelect('Selecionar', 'Selecionar');
         $oCor->addItemSelect('BRANCA', 'BRANCA');
         $oCor->addItemSelect('PRETA', 'PRETA');
         $oCor->addItemSelect('PRATA', 'PRATA');
@@ -119,10 +120,10 @@ class ViewMET_PORT_CadVeiculos extends View {
         $oCor->addItemSelect('GRENÁ', 'GRENÁ');
         $oCor->addItemSelect('FANTASIA', 'FANTASIA');
 
-        $oEmpcod = new Campo('CNPJ', 'empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oEmpcod = new Campo('CNPJ', 'emptranscod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oEmpcod->addValidacao(false, Validacao::TIPO_INTEIRO, 'Campo obrigatório!', '1');
 
-        $oEmpdes = new Campo('Empresa', 'empdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oEmpdes = new Campo('Emp/Transp', 'emptransdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oEmpdes->setSIdPk($oEmpcod->getId());
         $oEmpdes->setClasseBusca('Pessoa');
         $oEmpdes->addCampoBusca('empcod', '', '');
@@ -150,12 +151,8 @@ class ViewMET_PORT_CadVeiculos extends View {
         $oSetorCod->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oSetorCod->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
 
-        $this->addCampos(array($oFilcgc, $oNr,$oUsuNome, $oDatacad), $oDivisor1, 
-                array($oPlaca,  $oModelo, $oCor),
-                array($oEmpcod, $oEmpdes, $oContato), $oDivisor2, 
-                array($oSetorCod, $oSetorDes,$oUsuCod)
-         );
-        
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDatacad), $oDivisor1, array($oPlaca, $oModelo, $oCor), array($oEmpcod, $oEmpdes, $oContato), $oDivisor2, array($oSetorCod, $oSetorDes, $oUsuCod)
+        );
     }
 
 }

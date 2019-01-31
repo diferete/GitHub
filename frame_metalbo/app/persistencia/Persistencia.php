@@ -1605,9 +1605,9 @@ class Persistencia {
 
         $sSql = 'UPDATE ' . $this->getTabela() . ' SET ' . $sCampos . ' WHERE ' . $sChave;
 
-        /*      $fp = fopen("bloco1.txt", "w");
+          $fp = fopen("bloco1.txt", "w");
           fwrite($fp, $sSql);
-          fclose($fp); */
+          fclose($fp); 
 
         return $this->executaSql($sSql);
     }
@@ -1825,12 +1825,9 @@ class Persistencia {
         $sSql .= $this->getSWhereManual(); //define partes do where manualmente
         $sSql .= $this->getStringGroupBy() . $this->getStringOrderBy() . $this->getStringLimit();
 
-        /*
-        $fp = fopen("bloco1.txt", "w");
+       /* $fp = fopen("bloco1.txt", "w");
         fwrite($fp, $sSql);
-        fclose($fp);
-         * 
-         */
+        fclose($fp);*/
 
         $result = $this->getObjetoSql($sSql);
 

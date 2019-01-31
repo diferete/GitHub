@@ -85,7 +85,7 @@ class ViewCadCliRep extends View {
 
         $oSit = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oSit->setBCampoBloqueado(true);
-        $oSit->setSValor('');
+        $oSit->setSValor('Aguardando');
         $oSit->setBOculto(true);
 
         $oDtLib = new Campo('', 'dtlib', Campo::TIPO_TEXTO, 2, 2, 12, 12);

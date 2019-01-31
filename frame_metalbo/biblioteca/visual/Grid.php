@@ -47,6 +47,7 @@ class Grid {
     private $aModal;
     private $sWhereInicial;
     private $bFocoCampo;
+    private $sNomeGrid;
 
     /**
      * Construtor da classe Grid 
@@ -77,8 +78,18 @@ class Grid {
         $this->setBGridResponsivo(TRUE);
         $this->setBUsaKeypress(true);
         $this->setBMostraFiltro(false);
+        $this->setSNomeGrid('paramGrid');
     }
 
+    function getSNomeGrid() {
+        return $this->sNomeGrid;
+    }
+
+    function setSNomeGrid($sNomeGrid) {
+        $this->sNomeGrid = $sNomeGrid;
+    }
+
+        
     function getBFocoCampo() {
         return $this->bFocoCampo;
     }
@@ -632,7 +643,7 @@ class Grid {
         $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
         //$sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
         $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
-                . '<thead><tr role ="row"><th><button type="button" id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox"></button></th>';
+                . '<thead><tr role ="row"><th style="width: 20px;"><button type="button" id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox"></button></th>';
         //monta o cabeçalho baseado nos campos do cria consulta
         foreach ($this->aColunas as $key => $oCampoAtual) {
             $sLargura = '';
@@ -718,7 +729,8 @@ class Grid {
 
         $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
-        $sGrid .= '<span name="paramGrid" id="' . $this->getAbaSel() . 'paramGrid" style="display:none;">' . $this->getSId() . '</span></tr></tbody></table></div></div>';
+        $sGrid .= '<span name="paramGrid" id="' . $this->getAbaSel() .''. $this->getSNomeGrid().'" style="display:none;">' . $this->getSId() . '</span>'
+                . '</tr></tbody></table></div></div>';
 
 
 

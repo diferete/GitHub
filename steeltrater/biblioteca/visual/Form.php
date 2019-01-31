@@ -564,7 +564,7 @@ class Form {
             return $sTela;
         } else {
             echo $sRetorno;
-        }
+            }
 
 
         if ($this->getSAcaoShow() !== null) {

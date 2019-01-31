@@ -17,10 +17,26 @@ class ModelMET_PORT_CadVeiculos {
     private $contato;
     private $modelo;
     private $cor;
-    private $empcod;
-    private $empdes;
+    private $emptranscod;
+    private $emptransdes;
     private $codsetor;
     private $descsetor;
+
+    function getEmptranscod() {
+        return $this->emptranscod;
+    }
+
+    function getEmptransdes() {
+        return $this->emptransdes;
+    }
+
+    function setEmptranscod($emptranscod) {
+        $this->emptranscod = $emptranscod;
+    }
+
+    function setEmptransdes($emptransdes) {
+        $this->emptransdes = $emptransdes;
+    }
 
     function getUsucod() {
         return $this->usucod;
@@ -82,14 +98,6 @@ class ModelMET_PORT_CadVeiculos {
         return $this->cor;
     }
 
-    function getEmpcod() {
-        return $this->empcod;
-    }
-
-    function getEmpdes() {
-        return $this->empdes;
-    }
-
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -116,14 +124,6 @@ class ModelMET_PORT_CadVeiculos {
 
     function setCor($cor) {
         $this->cor = $cor;
-    }
-
-    function setEmpcod($empcod) {
-        $this->empcod = $empcod;
-    }
-
-    function setEmpdes($empdes) {
-        $this->empdes = $empdes;
     }
 
 }

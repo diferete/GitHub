@@ -80,14 +80,19 @@ class ControllerCadCliRep extends Controller {
 
         $aRetorno = $this->Persistencia->liberaMetalbo($aCamposChave);
 
-        if ($aRetorno[0]) {
-            $oMensagem2 = new Mensagem('Sucesso!', 'Seu cadastro foi liberado com sucesso...', Mensagem::TIPO_SUCESSO);
+        if ($aRetorno[1] != false) {
+            $oMensagem = new Mensagem('Sucesso!', 'Seu cadastro foi liberado com sucesso...', Mensagem::TIPO_SUCESSO);
             echo"$('#" . $aDados[1] . "-pesq').click();";
             $this->enviaEmailMetalbo($aCamposChave['nr']);
         } else {
-            $oMensagem2 = new Mensagem('Atenção!', $aRetorno[1], Mensagem::TIPO_ERROR);
+            if ($aRetorno[0] == 'Liberado') {
+                $oMensagem = new Modal('Liberação de cadastro', 'Solicitação de cadastro nº' . $aCamposChave['nr'] . ' já foi liberada para a Metalbo, deseja REENVIAR o e-mail de notificação?', Modal::TIPO_AVISO, true, true, true);
+                $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","enviaEmailMetalbo","' . $aCamposChave['nr'] . '");');
+            } else {
+                $oMensagem = new Modal('Liberação de cadastro', 'Solicitação de cadastro nº' . $aCamposChave['nr'] . ' já foi cadastrada', Modal::TIPO_AVISO, false, true, true);
+            }
         }
-        echo $oMensagem2->getRender();
+        echo $oMensagem->getRender();
     }
 
     public function enviaEmailMetalbo($sNr) {
@@ -139,13 +144,13 @@ class ControllerCadCliRep extends Controller {
 
 //        $aUserPlano = $this->Persistencia->buscaEmailVenda($sNr);
 //        $oEmail->addDestinatario('alexandre@metalbo.com.br');
-        $aRetorno = $oEmail->sendEmail();
+        //$aRetorno = $oEmail->sendEmail();
 
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o e-mail, tente liberar novamente ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }

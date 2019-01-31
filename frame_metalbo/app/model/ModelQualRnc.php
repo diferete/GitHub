@@ -54,6 +54,15 @@ class ModelQualRnc {
     private $devolucaoacc;
     private $devolucaorec;
     private $obs_devolucao;
+    private $produtos;
+
+    function getProdutos() {
+        return $this->produtos;
+    }
+
+    function setProdutos($produtos) {
+        $this->produtos = $produtos;
+    }
 
     function getObs_devolucao() {
         return $this->obs_devolucao;

@@ -14,20 +14,114 @@ class ModelMET_PORT_Transito {
     private $placa;
     private $empcod;
     private $empdes;
-    private $datacad;
-    private $horasaida;
-    private $datasaida;
-    private $horaentra;
+    private $emptranscod;
+    private $emptransdes;
+    private $datachegou;
+    private $horachegou;
+    private $dataentrou;
+    private $horaentrou;
+    private $horasaiu;
+    private $datasaiu;
     private $usucod;
     private $usunome;
     private $motorista;
     private $documento;
     private $fone;
-    private $setor;
+    private $codsetor;
+    private $descsetor;
     private $motivo;
     private $descmotivo;
     private $modelo;
     private $cor;
+    private $tipo;
+
+    function getEmptranscod() {
+        return $this->emptranscod;
+    }
+
+    function getEmptransdes() {
+        return $this->emptransdes;
+    }
+
+    function setEmptranscod($emptranscod) {
+        $this->emptranscod = $emptranscod;
+    }
+
+    function setEmptransdes($emptransdes) {
+        $this->emptransdes = $emptransdes;
+    }
+
+    function getTipo() {
+        return $this->tipo;
+    }
+
+    function setTipo($tipo) {
+        $this->tipo = $tipo;
+    }
+
+    function getCodsetor() {
+        return $this->codsetor;
+    }
+
+    function getDescsetor() {
+        return $this->descsetor;
+    }
+
+    function setCodsetor($codsetor) {
+        $this->codsetor = $codsetor;
+    }
+
+    function setDescsetor($descsetor) {
+        $this->descsetor = $descsetor;
+    }
+
+    function getDatachegou() {
+        return $this->datachegou;
+    }
+
+    function getHorachegou() {
+        return $this->horachegou;
+    }
+
+    function getDataentrou() {
+        return $this->dataentrou;
+    }
+
+    function getHoraentrou() {
+        return $this->horaentrou;
+    }
+
+    function getHorasaiu() {
+        return $this->horasaiu;
+    }
+
+    function getDatasaiu() {
+        return $this->datasaiu;
+    }
+
+    function setDatachegou($datachegou) {
+        $this->datachegou = $datachegou;
+    }
+
+    function setHorachegou($horachegou) {
+        $this->horachegou = $horachegou;
+    }
+
+    function setDataentrou($dataentrou) {
+        $this->dataentrou = $dataentrou;
+    }
+
+    function setHoraentrou($horaentrou) {
+        $this->horaentrou = $horaentrou;
+    }
+
+    function setHorasaiu($horasaiu) {
+        $this->horasaiu = $horasaiu;
+    }
+
+    function setDatasaiu($datasaiu) {
+        $this->datasaiu = $datasaiu;
+    }
 
     function getSituaca() {
         return $this->situaca;
@@ -35,14 +129,6 @@ class ModelMET_PORT_Transito {
 
     function setSituaca($situaca) {
         $this->situaca = $situaca;
-    }
-
-    function getDatasaida() {
-        return $this->datasaida;
-    }
-
-    function setDatasaida($datasaida) {
-        $this->datasaida = $datasaida;
     }
 
     function getDescmotivo() {
@@ -89,14 +175,6 @@ class ModelMET_PORT_Transito {
         return $this->empdes;
     }
 
-    function getDatacad() {
-        return $this->datacad;
-    }
-
-    function getHoraentra() {
-        return $this->horaentra;
-    }
-
     function getUsucod() {
         return $this->usucod;
     }
@@ -117,16 +195,8 @@ class ModelMET_PORT_Transito {
         return $this->fone;
     }
 
-    function getSetor() {
-        return $this->setor;
-    }
-
     function getMotivo() {
         return $this->motivo;
-    }
-
-    function getHorasaida() {
-        return $this->horasaida;
     }
 
     function setFilcgc($filcgc) {
@@ -149,14 +219,6 @@ class ModelMET_PORT_Transito {
         $this->empdes = $empdes;
     }
 
-    function setDatacad($datacad) {
-        $this->datacad = $datacad;
-    }
-
-    function setHoraentra($horaentra) {
-        $this->horaentra = $horaentra;
-    }
-
     function setUsucod($usucod) {
         $this->usucod = $usucod;
     }
@@ -177,16 +239,8 @@ class ModelMET_PORT_Transito {
         $this->fone = $fone;
     }
 
-    function setSetor($setor) {
-        $this->setor = $setor;
-    }
-
     function setMotivo($motivo) {
         $this->motivo = $motivo;
-    }
-
-    function setHorasaida($horasaida) {
-        $this->horasaida = $horasaida;
     }
 
 }
