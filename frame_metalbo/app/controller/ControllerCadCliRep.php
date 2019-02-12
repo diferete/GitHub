@@ -144,13 +144,13 @@ class ControllerCadCliRep extends Controller {
 
 //        $aUserPlano = $this->Persistencia->buscaEmailVenda($sNr);
 //        $oEmail->addDestinatario('alexandre@metalbo.com.br');
-        //$aRetorno = $oEmail->sendEmail();
+        $aRetorno = $oEmail->sendEmail();
 
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o e-mail, tente liberar novamente ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente liberar novamente ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }

@@ -128,7 +128,7 @@ class Campo {
     const FUNDO_AZUL = 'fundo_azul';
     const FUNDO_VERDE = 'fundo_verde';
     const FUNDO_MONEY = 'fundo_money';
-    const FUNDO_VERMELHO = 'fundo_vermelho';
+    const FUNDO_VERMELHO = 'fundo_vermeho';
     const BUTTON_WARNING = 'btn-warning';
     const BUTTON_SUCCESS = 'btn-success';
     const BUTTON_PRIMARY = 'btn-primary';
@@ -1425,6 +1425,7 @@ class Campo {
                         . '</div>'
                         . '<script>'
                         . '$("#' . $this->getId() . '").blur(function(){maskDecimal("' . $this->getId() . '")});'
+                        . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
                         . '</script>'
                         . $this->getRenderEventos();
                 break;
@@ -1731,8 +1732,8 @@ class Campo {
                         . $this->getRenderEventos();
                 break;
             case self::TIPO_BADGE:
-                $sCampo = '<div style="margin-top:32px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<span id="' . $this->getId() . '" class="label label-round ' . $this->getSEstiloBadge() . '">' . $this->getLabel() . '</span> '
+                $sCampo = '<div style="margin-top:0px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<span id="' . $this->getId() . '" name="' . $this->getNome() . '" class="label label-round ' . $this->getSEstiloBadge() . '">' . $this->getLabel() . '</span> '
                         . '</div>';
                 break;
             case self::TIPO_GRIDVIEW:

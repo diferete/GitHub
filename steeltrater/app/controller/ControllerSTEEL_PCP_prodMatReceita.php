@@ -90,7 +90,7 @@ class ControllerSTEEL_PCP_prodMatReceita extends Controller {
         parent::antesExcluir($sParametros);
         
         $oProduto = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
-        $oProduto->Persistencia->adicionaFiltro('seqmat',$this->Model->getSeqmat());
+        $oProduto->Persistencia->adicionaFiltro('seqmat',$sParametros['seqmat']);
         $iContVinculo = $oProduto->Persistencia->getCount();
         
         if($iContVinculo==0){
@@ -113,5 +113,37 @@ class ControllerSTEEL_PCP_prodMatReceita extends Controller {
         parent::mostraTelaRelatorio($renderTo, 'RelItensPPAP');                          
            
     }  
+    
+    
+    public function relatorioExcelProdMatRec(){ 
+                
+        $sCampos.= $this->getSget();
+               
+        $sSistema ="app/relatorio";
+        $sRelatorio = 'RelProdMatRecExcel.php?';
+        
+        $sCampos.='&output=email';
+        $oMensagem = new Mensagem("Aguarde","Seu excel está sendo processado", Mensagem::TIPO_INFO);
+        echo $oMensagem->getRender();
+        
+        $oWindow ='var win = window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'","MsgWindow","width=500,height=100,left=375,top=330");';
+                    //.'setTimeout(function () { win.close();}, 30000);';
+        echo $oWindow;
+
+       // $oMenSuccess = new Mensagem("Sucesso","Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
+       // echo $oMenSuccess->getRender();
+       
+    } 
+    
+    public function contaRegistros($sDados){
+        
+        $sClasse = $this->getNomeClasse();
+        $oProdMatRec = Fabrica::FabricarController('STEEL_PCP_prodMatReceita');
+        $iCountCli = $oProdMatRec->Persistencia->getCount();
+        $oMensagem = new Modal('Gerando Excel', 'A tabela tem ' . $iCountCli . ' linhas deseja continuar? \n Enquanto gera seu arquivo continue a usar o sistema!', Modal::TIPO_AVISO, true, true, true);
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","relatorioExcelProdMatRec");');  
+        echo $oMensagem->getRender();      
+    }
+    
          
 }

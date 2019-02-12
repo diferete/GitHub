@@ -20,6 +20,7 @@ class ControllerMET_QUAL_QualPlan extends Controller {
         $this->pkDetalhe($aCampos);
         $this->parametros = $sCampos;
 
+        $this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
         //define o retorno somente do form

@@ -43,6 +43,7 @@ class ModelQualRncVenda {
     private $anexo2;
     private $anexo3;
     private $situaca;
+    private $reclamacao;
     private $devolucao;
     private $obsSit;
     private $resp_venda_cod;
@@ -50,40 +51,56 @@ class ModelQualRncVenda {
     private $apontamento;
     private $usuaponta;
     private $repcod;
-    private $devolucaoacc;
-    private $devolucaorec;
-    private $obs_devolucao;
+    private $obs_aponta;
+    private $usuapontavenda;
+    private $produtos;
 
-    function getObs_devolucao() {
-        return $this->obs_devolucao;
+    function getProdutos() {
+        return $this->produtos;
     }
 
-    function setObs_devolucao($obs_devolucao) {
-        $this->obs_devolucao = $obs_devolucao;
+    function setProdutos($produtos) {
+        $this->produtos = $produtos;
+    }
+
+    function getUsuapontavenda() {
+        return $this->usuapontavenda;
+    }
+
+    function setUsuapontavenda($usuapontavenda) {
+        $this->usuapontavenda = $usuapontavenda;
+    }
+
+    function getDevolucao() {
+        return $this->devolucao;
+    }
+
+    function setDevolucao($devolucao) {
+        $this->devolucao = $devolucao;
+    }
+
+    function getReclamacao() {
+        return $this->reclamacao;
+    }
+
+    function getObs_aponta() {
+        return $this->obs_aponta;
+    }
+
+    function setReclamacao($reclamacao) {
+        $this->reclamacao = $reclamacao;
+    }
+
+    function setObs_aponta($obs_aponta) {
+        $this->obs_aponta = $obs_aponta;
     }
 
     function getDisposicao() {
         return $this->disposicao;
     }
 
-    function getDevolucaoacc() {
-        return $this->devolucaoacc;
-    }
-
-    function getDevolucaorec() {
-        return $this->devolucaorec;
-    }
-
     function setDisposicao($disposicao) {
         $this->disposicao = $disposicao;
-    }
-
-    function setDevolucaoacc($devolucaoacc) {
-        $this->devolucaoacc = $devolucaoacc;
-    }
-
-    function setDevolucaorec($devolucaorec) {
-        $this->devolucaorec = $devolucaorec;
     }
 
     function getRepcod() {
@@ -108,14 +125,6 @@ class ModelQualRncVenda {
 
     function setApontamento($apontamento) {
         $this->apontamento = $apontamento;
-    }
-
-    function getDevolucao() {
-        return $this->devolucao;
-    }
-
-    function setDevolucao($devolucao) {
-        $this->devolucao = $devolucao;
     }
 
     function getEmpcod() {

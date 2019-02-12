@@ -99,6 +99,11 @@
     color:white;
     background-color: brown;
 }
+
+.tr-bk-padrao{
+    color:black;
+    background-color: white;
+}
 fieldset legend{
     width: inherit !important;
     padding: 0 10px !important;

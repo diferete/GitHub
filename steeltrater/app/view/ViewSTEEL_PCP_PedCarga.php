@@ -12,25 +12,48 @@ class ViewSTEEL_PCP_PedCarga extends View {
     public function criaConsulta() {
         parent::criaConsulta();
         
+        $oBotaoLiberar = new CampoConsulta('Lib.Fat','libFat', CampoConsulta::TIPO_FINALIZAR);
+        $oBotaoLiberar->setSTitleAcao('Libera o faturamento!');
+        $oBotaoLiberar->addAcao('STEEL_PCP_PedCarga','msgLibFat'); //finalizaOP Controller
+        $oBotaoLiberar->setBHideTelaAcao(true);
+        $oBotaoLiberar->setILargura(30);
        
-        $oCarga= new CampoConsulta('Nº Carga', 'PDV_PedidoCodigo') ;
+        $oCarga= new CampoConsulta('Nº Carga', 'pdv_pedidocodigo') ;
         $oEmp = new CampoConsulta('Empresa', 'PDV_PedidoEmpCodigo');
         $oEmDes = new CampoConsulta('Razão','DELX_CAD_Pessoa.emp_razaosocial');
         $oDtEmis = new CampoConsulta('Emissao', 'PDV_PedidoDataEmissao',CampoConsulta::TIPO_DATA);
         $oSit = new CampoConsulta('Situacao', 'PDV_PedidoSituacao');
+        $oSit->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Aprovado');
+        $oSit->addComparacao('O', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oSit->addComparacao('T', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA);
+        $oSit->addComparacao('C', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA,true,'Cancelado');
+        
         $oApr = new CampoConsulta('Aprovacao', 'PDV_PedidoAprovacao');
         
         $oCodfiltro = new Filtro($oCarga, Filtro::CAMPO_TEXTO_IGUAL, 5);
         
 
-        $this->setUsaAcaoExcluir(true);
+        $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoIncluir(true);
         $this->setUsaAcaoVisualizar(true);
         $this->addFiltro($oCodfiltro);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oCarga,$oEmp,$oEmDes,$oDtEmis,$oSit,$oApr);
+        $this->getTela()->setBUsaCarrGrid(true);
+        $this->addCampos($oBotaoLiberar,$oCarga,$oEmp,$oEmDes,$oDtEmis,$oSit);
+        
+        //$this->getTela()->setBUsaCarrGrid(true);
+        //Dropdown
+        $this->setUsaDropdown(true);
+        $oDrop1 = new Dropdown('Imprimir',Dropdown::TIPO_SUCESSO);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Relatorio Romaneio Carga', 'STEEL_PCP_PedCarga', 'acaoMostraRelCarga', '', false, 'RelRomaneioCarga',false,'',false,'',true);
+        
+        $oDrop2 = new Dropdown('Movimentações',Dropdown::TIPO_DARK);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar Apontamento', 'STEEL_PCP_PedCarga', 'msgRetornaSit', '', false, '');
+        
+        $this->addDropdown($oDrop1,$oDrop2);
+        
     }
 
     public function criaTela() {
@@ -38,7 +61,7 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oLabel = new campo('','linha1', Campo::TIPO_LINHA,12,12,12,12);
         $oLabel->setApenasTela(true);
         
-        $oDiv = new campo('Dados da carga','div1', Campo::DIVISOR_DARK,12,12,12,12);
+        $oDiv = new campo('Dados da carga','div1', Campo::DIVISOR_VERMELHO,12,12,12,12);
         $oDiv->setApenasTela(true);
         //----------------------------------------------------------------------------------------
         $oFilial = new Campo('Filial', 'pdv_pedidofilial', Campo::TIPO_TEXTO, 2, 2, 12, 12);
@@ -49,23 +72,23 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oDataEmiss->setSValor(date('d/m/Y'));
         $oDataEmiss->setBCampoBloqueado(true);
         //----------------------------------------------------------------------------------------
-        $oDataDig = new Campo('DataDig','PDV_PedidoDataDigitacao', Campo::TIPO_DATA,2,2,2,2);
+        $oDataDig = new Campo('DataDigitação','PDV_PedidoDataDigitacao', Campo::TIPO_DATA,2,2,2,2);
         $oDataDig->setSValor(date('d/m/Y'));
         $oDataDig->setBCampoBloqueado(true);
         //----------------------------------------------------------------------------------------
-        $oUseEmiss = new Campo('UserEmiss','PDV_PedidoUsuario', Campo::TIPO_TEXTO,2, 2, 2, 2);
+        $oUseEmiss = new Campo('UserEmissão','PDV_PedidoUsuario', Campo::TIPO_TEXTO,2, 2, 2, 2);
         $oUseEmiss->setBCampoBloqueado(true);
         $oUseEmiss->setSValor($_SESSION['nomedelsoft']);
         //----------------------------------------------------------------------------------------
         $oNrCarga = new Campo('CargaNº','pdv_pedidocodigo', Campo::TIPO_TEXTO,1,1,1,1);
         $oNrCarga->setBCampoBloqueado(true);
         //----------------------------------------------------------------------------------------
-        $oPedSit = new Campo('SitPed','PDV_PedidoSituacao', Campo::TIPO_TEXTO,1,1,1);
+        $oPedSit = new Campo('Situação','PDV_PedidoSituacao', Campo::TIPO_TEXTO,1,1,1);
         $oPedSit->setSValor('A');
         $oPedSit->setBCampoBloqueado(true);
         //----------------------------------------------------------------------------------------
         
-        $oPedAprov = new Campo('SitPed','PDV_PedidoAprovacao', Campo::TIPO_TEXTO,1,1,1);
+        $oPedAprov = new Campo('Aprovação','PDV_PedidoAprovacao', Campo::TIPO_TEXTO,1,1,1);
         $oPedAprov->setSValor('A');
         $oPedAprov->setBCampoBloqueado(true);
         
@@ -75,6 +98,8 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oOpBase->setApenasTela(true);
         $oOpBase->setSCorFundo(Campo::FUNDO_AMARELO);
         $oOpBase->setBFocus(true);
+        
+        
         //----------------------------------------------------------------------------------------
         $oEmp_codigo = new Campo('Cliente','PDV_PedidoEmpCodigo',Campo::TIPO_BUSCADOBANCOPK,2);
         $oEmp_codigo->setSValor('75483040000211');
@@ -121,14 +146,16 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oDataEnt = new Campo('DataEntrega','PDV_PedidoDataEntrega', Campo::TIPO_DATA,2,2,2,2);
         $oDataEnt->setSValor(date('d/m/Y'));
        //-------------------------------------------------------------------------------------------
-        $oCondPag = new Campo('CondiçãoPag','PDV_PedidoCondicaoPgtoCodigo',Campo::TIPO_TEXTO,1);
-        $oCondPag->setSValor('32');
-        $oCondPag->setBCampoBloqueado(true);
+      
         
         //adiciona os evento ao sair do campo op_base
         $sEventoOp = 'var OpSteel =  $("#'.$oOpBase->getId().'").val();if(OpSteel !==""){requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_PedCarga","consultaOpDados",'
-                 . '"'.$oEmp_codigo->getId().','.$oEmp_des->getId().'");}';
+                 . '"'.$oEmp_codigo->getId().','.$oEmp_des->getId().','.$oTabPreco->getId().'");}';
         $oOpBase->addEvento(Campo::EVENTO_SAIR,$sEventoOp);
+        //adiciona evento para analisar se há tabela de preço
+        $sEventoTabela = 'var empCod =  $("#'.$oEmp_codigo->getId().'").val();if(empCod !==""){requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_PedCarga","verificaTabelaCliente",'
+                 . '"'.$oEmp_codigo->getId().','.$oEmp_des->getId().','.$oTabPreco->getId().'");}';
+        $oEmp_codigo->addEvento(Campo::EVENTO_SAIR,$sEventoTabela);
         //-----------------------------------
         $oEtapas = new FormEtapa(2, 2, 12, 12);
         $oEtapas->addItemEtapas('Monta Carga', true, $this->addIcone(Base::ICON_EDITAR));
@@ -154,7 +181,7 @@ class ViewSTEEL_PCP_PedCarga extends View {
                 $oLabel,
                 array($oOpBase,$oEmp_codigo,$oEmp_des),
                 $oLabel,
-                array($oMovCod,$oTabPreco,$oCondPag,$oDataEnt),$oAcao
+                array($oMovCod,$oTabPreco,$oDataEnt),$oAcao
                );
     }
 

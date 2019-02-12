@@ -63,9 +63,9 @@ class PersistenciaCadCliRep extends Persistencia {
         $this->adicionaOrderBy('nr', 1);
 
         $this->setSTop(50);
-    }
-
-    //executa a liberação para projetos
+    }    
+	
+	//executa a liberação para projetos
     public function liberaMetalbo($aDados) {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
@@ -91,6 +91,7 @@ class PersistenciaCadCliRep extends Persistencia {
             return $aRetorno;
         }
     }
+
 
     /* busca resp vendas */
 

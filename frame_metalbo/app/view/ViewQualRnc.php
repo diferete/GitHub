@@ -41,18 +41,25 @@ class ViewQualRnc extends View {
         $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
         $oSit->setBComparacaoColuna(true);
 
+        $oReclamacao = new CampoConsulta('Reclamação', 'reclamacao', CampoConsulta::TIPO_LARGURA);
+        $oReclamacao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA); 
+        $oReclamacao->addComparacao('Interna', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->setBComparacaoColuna(true);
+
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_LARGURA);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
-        $oDevolucao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
-        $oDevolucao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oDevolucao->setBComparacaoColuna(true);
 
         $oDropDown = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'QualRnc', 'liberarMetalbo', '', false, 'rc', false, '', false, '', true);
 
-        $oDropDown1 = new Dropdown('Finalizar reclamação', Dropdown::TIPO_AVISO);
+        $oDropDown1 = new Dropdown('Finalizar Reclamação', Dropdown::TIPO_AVISO);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'QualRnc', 'criaTelaModalFinaliza', '', false, '', false, 'criaTelaModalFinaliza', true, 'Finalizar Reclamação');
 
         $oDropDown2 = new Dropdown('Opções da Reclamação', Dropdown::TIPO_INFO, Dropdown::ICON_INFO);
@@ -68,7 +75,7 @@ class ViewQualRnc extends View {
         $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3);
 
         $this->addFiltro($oFilNr, $oFilCli);
-        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+        $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
@@ -98,7 +105,17 @@ class ViewQualRnc extends View {
         $oDevolucao->setSValor('Aguardando');
         $oDevolucao->setBCampoBloqueado(true);
         $oDevolucao->setBOculto(true);
-
+        
+        $oReclamacao = new Campo('', 'reclamacao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oReclamacao->setSValor('Aguardando');
+        $oReclamacao->setBCampoBloqueado(true);
+        $oReclamacao->setBOculto(true);        
+        
+        //situacao
+        $oSituaca = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oSituaca->setSValor('Aguardando');
+        $oSituaca->setBCampoBloqueado(true);
+        $oSituaca->setBOculto(true);
 
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setBCampoBloqueado(true);
@@ -133,11 +150,6 @@ class ViewQualRnc extends View {
         $oDivisor3 = new Campo('Dados da Reclamação', 'dadosrec', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor3->setApenasTela(true);
 
-        //situacao
-        $oSituaca = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oSituaca->setSValor('Aguardando');
-        $oSituaca->setBCampoBloqueado(true);
-        $oSituaca->setBOculto(true);
 
 
         //responsável por vendas
@@ -263,8 +275,8 @@ class ViewQualRnc extends View {
         $oDivisor1->setApenasTela(true);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
-        
+
+
         $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
         $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
@@ -292,7 +304,7 @@ class ViewQualRnc extends View {
 
         $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 2);
         $oBotConf->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
-        
+
         $sAcao = 'insereProd($("#' . $oProCod->getId() . '").val(),'
                 . '$("#' . $oProDes->getId() . '").val(),'
                 . '$("#' . $oQuant->getId() . '").val(),'
@@ -337,7 +349,7 @@ class ViewQualRnc extends View {
         $oTabProd->addCampos($oAplicacao, array(/* $oCodigo, $oProdes, */$oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
 
         $oTabAnexos->addCampos(
-                array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao));
+                array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao,$oReclamacao));
 
         $oTab->addItems($oTabGeral, $oTabNF, $oTabProd, $oTabAnexos);
 

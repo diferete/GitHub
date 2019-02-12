@@ -56,7 +56,10 @@ class PersistenciaQualRncVenda extends Persistencia {
         $this->adicionaRelacionamento('officedes', 'officedes');
 
         $this->adicionaRelacionamento('situaca', 'situaca');
+        $this->adicionaRelacionamento('reclamacao', 'reclamacao');
         $this->adicionaRelacionamento('devolucao', 'devolucao');
+        $this->adicionaRelacionamento('produtos', 'produtos');
+
 
         $this->adicionaRelacionamento('obsSit', 'obsSit');
 
@@ -65,14 +68,23 @@ class PersistenciaQualRncVenda extends Persistencia {
         $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
+        $this->adicionaRelacionamento('usuapontavenda', 'usuapontavenda');
 
-        $this->adicionaRelacionamento('devolucaoacc', 'devolucaoacc');
-        $this->adicionaRelacionamento('devolucaorec', 'devolucaorec');
-        $this->adicionaRelacionamento('obs_devolucao', 'obs_devolucao');
+        $this->adicionaRelacionamento('obs_aponta', 'obs_aponta');
 
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
+    }
+
+    /**
+     * Método que busca os dados para montar o e-mail de encaminhamento para análise.
+     */
+    public function buscaDadosRnc($sDados) {
+        $sSql = "select * from tbrncqual"
+                . " where filcgc = '" . $sDados['filcgc'] . "' and nr = '" . $sDados['nr'] . "'";
+        $oResult = $this->consultaSql($sSql);
+        return $oResult;
     }
 
     public function verificaFim($aDados) {
@@ -91,8 +103,8 @@ class PersistenciaQualRncVenda extends Persistencia {
         return $aret;
     }
 
-    public function verifSitDev($aDados) {
-        $sSql = "select situaca,devolucao"
+    public function verifSitRC($aDados) {
+        $sSql = "select situaca,reclamacao,devolucao"
                 . " from tbrncqual"
                 . " where filcgc= " . $aDados['filcgc'] . " and nr= " . $aDados['nr'] . " ";
         $result = $this->getObjetoSql($sSql);
@@ -100,7 +112,8 @@ class PersistenciaQualRncVenda extends Persistencia {
 
         $aSit = array();
         $aSit[0] = $oRow->situaca;
-        $aSit[1] = $oRow->devolucao;
+        $aSit[1] = $oRow->reclamacao;
+        $aSit[2] = $oRow->devolucao;
 
         return $aSit;
     }
@@ -127,39 +140,11 @@ class PersistenciaQualRncVenda extends Persistencia {
         return $aRetorno;
     }
 
-    /**
-     * Método que busca os dados para montar o e-mail de encaminhamento para análise.
-     */
-    public function buscaDadosRnc($sDados) {
-        $sSql = "select * from tbrncqual"
-                . " where filcgc = '" . $sDados['filcgc'] . "' and nr = '" . $sDados['nr'] . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        return $oRow;
-    }
-
-    /**
-     * Método que verifica situação atual da RC. 
-     * Verifica se a RC ja teve seu e-mail encaminhado e para qual setor.
-     * Faz os updates caso ainda não tenha sido encaminhado o e-mail.
-     */
-    public function verifSitEnc($aDados) {
-        $sSql = "select situaca,devolucao"
-                . " from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $aRetorno[0] = $oRow->situaca;
-        $aRetorno[1] = $oRow->devolucao;
-
-        return $aRetorno;
-    }
-
     public function updateSitRC($aCamposChave, $sParam) {
         if ($sParam == 'Env.Qual') {
             $sSql = "update tbrncqual"
                     . " set situaca = 'Env.Qual',"
-                    . " devolucao = 'Em análise',"
+                    . " reclamacao = 'Em análise',"
                     . " tagsetor = '25'"
                     . " where filcgc = '" . $aCamposChave['filcgc'] . "' and nr = '" . $aCamposChave['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
@@ -168,7 +153,7 @@ class PersistenciaQualRncVenda extends Persistencia {
         if ($sParam == 'Env.Emb') {
             $sSql = "update tbrncqual"
                     . " set situaca = 'Env.Emb',"
-                    . " devolucao = 'Em análise',"
+                    . " reclamacao = 'Em análise',"
                     . " tagsetor = '5'"
                     . " where filcgc = '" . $aCamposChave['filcgc'] . "' and nr = '" . $aCamposChave['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
@@ -177,7 +162,7 @@ class PersistenciaQualRncVenda extends Persistencia {
         if ($sParam == 'Env.Exp') {
             $sSql = "update tbrncqual"
                     . " set situaca = 'Env.Exp',"
-                    . " devolucao = 'Em análise',"
+                    . " reclamacao = 'Em análise',"
                     . " tagsetor = '3'"
                     . " where filcgc = '" . $aCamposChave['filcgc'] . "' and nr = '" . $aCamposChave['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
@@ -189,50 +174,23 @@ class PersistenciaQualRncVenda extends Persistencia {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
-        $sObs = Util::limpaString($aCampos['obs_devolucao']);
+        $sObs = Util::limpaString($aCampos['obs_aponta']);
 
-        $sSql = "select devolucao"
+        $sSql = "select reclamacao"
                 . " from tbrncqual"
                 . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
 
-        $sDevolucao = $oRow->devolucao;
+        $sDevolucao = $oRow->reclamacao;
 
         if ($sDevolucao == 'Recusada' || $sDevolucao == 'Aceita') {
             $aRetorno[0] = false;
         } else {
             $sSql = "update tbrncqual"
-                    . " set devolucao ='Aceita',"
-                    . " obs_devolucao ='" . $sObs . "', "
-                    . " devolucaoacc = 'true'"
-                    . " where nr ='" . $aDados['nr'] . "'";
-            $aRetorno = $this->executaSql($sSql);
-        }
-        return $aRetorno;
-    }
-
-    public function recusaDevolucao($aDados) {
-        $aCampos = array();
-        parse_str($_REQUEST['campos'], $aCampos);
-
-        $sObs = Util::limpaString($aCampos['obs_devolucao']);
-
-        $sSql = "select devolucao"
-                . " from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-
-        $sDevolucao = $oRow->devolucao;
-
-        if ($sDevolucao == 'Recusada' || $sDevolucao == 'Aceita') {
-            $aRetorno[0] = false;
-        } else {
-            $sSql = "update tbrncqual"
-                    . " set devolucao ='Recusada',"
-                    . " obs_devolucao ='" . $sObs . "',"
-                    . " devolucaorec = 'true'"
+                    . " set reclamacao ='Aceita',"
+                    . " obs_aponta ='" . $sObs . "', "
+                    . " reclamacaoacc = 'true'"
                     . " where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
         }
@@ -243,13 +201,31 @@ class PersistenciaQualRncVenda extends Persistencia {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
-        $sObs = Util::limpaString($aCampos['obs_devolucao']);
+        $sObs = Util::limpaString($aCampos['obs_aponta']);
 
         $sSql = "update tbrncqual"
                 . " set situaca = 'Apontada',"
-                . " devolucao ='Transportadora',"
-                . " obs_devolucao ='" . $sObs . "',"
-                . " devolucaorec = 'true'"
+                . " reclamacao ='Transportadora',"
+                . " obs_aponta ='" . $sObs . "',"
+                . " usuaponta = '" . $aDados['usuaponta'] . "'"
+                . " reclamacaorec = 'true'"
+                . " where nr ='" . $aDados['nr'] . "'";
+        $aRetorno = $this->executaSql($sSql);
+
+        return $aRetorno;
+    }
+
+    public function apontaRepresentante($aDados) {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        $sObs = Util::limpaString($aCampos['obs_aponta']);
+
+        $sSql = "update tbrncqual"
+                . " set situaca = 'Apontada',"
+                . " reclamacao ='Representante',"
+                . " obs_aponta ='" . $sObs . "',"
+                . " usuaponta = '" . $aDados['usuaponta'] . "'"
                 . " where nr ='" . $aDados['nr'] . "'";
         $aRetorno = $this->executaSql($sSql);
 
@@ -276,14 +252,21 @@ class PersistenciaQualRncVenda extends Persistencia {
         return $sEmail;
     }
 
-    public function buscaAnalise($aDados) {
-        $sSql = "select apontamento"
-                . " from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+    public function apontaReclamacao($aDados) {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
 
-        $oApontamento = $this->consultaSql($sSql);
+        $sObs = Util::limpaString($aCampos['obs_aponta']);
 
-        return $oApontamento->apontamento;
+        $sSql = "update tbrncqual "
+                . "set situaca = 'Apontada', "
+                . "reclamacao = '" . $aCampos['reclamacao'] . "', "
+                . "devolucao = '" . $aCampos['devolucao'] . "', "
+                . "obs_aponta = '" . $sObs . "', "
+                . "usuapontavenda = '" . $_SESSION['nome'] . "' "
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
     }
 
 }

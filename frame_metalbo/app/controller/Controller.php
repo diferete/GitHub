@@ -30,7 +30,7 @@ class Controller {
     private $sMsgErroBusca;
     private $bDesativaBotaoPadrao;
     private $paramaux;
-
+   
     function getParamaux() {
         return $this->paramaux;
     }
@@ -735,11 +735,13 @@ class Controller {
         $this->antesDeCriarTela($renderTo);
         //cria a tela
         $this->View->criaTela();
+        
+        
         //alimenta campos busca
         $this->antesIncluir();
         //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aRender[0]);
-        $this->View->getTela()->setAbaSel($aRender[0]);
+        $this->View->getTela()->setAbaSel($aRender[2]);
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aRender[1]);
         //busca campo autoincremento para passar como parametro
@@ -773,7 +775,8 @@ class Controller {
         $this->antesAlterar($aDados);
         //cria a tela
         $this->View->criaTela();
-
+        //
+        $this->View->getTela()->setAbaSel($aDados[3]);
         //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[1]);
         //adiciona tela que será dado um show 
@@ -927,7 +930,7 @@ class Controller {
      * @param string $sChave Chave do registro a ser carregado
      */
     public function acaoMostraTelaVisualiza($sDados) {
-        $this->View->setSRotina(View::ACAO_VISUALIZA);
+        $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[0]);
         $aCamposChave = array();
@@ -1851,6 +1854,9 @@ class Controller {
                 $xValorCampo = '';
                 $sConsulta = '';
                 $sNomeCampo = $campoAtual->getSNome();
+                
+                
+                
                 if ($campoAtual->getBCampoIcone() == true) {
                     $sChave = $this->Persistencia->getChaveModel($oAtual);
                     $sDados .= $campoAtual->getRender($sConsulta, $sChave);
@@ -2376,7 +2382,7 @@ class Controller {
         $iTipoLigacao = Persistencia::LIGACAO_AND;
         $iTipoComparacao = Persistencia::IGUAL;
         $this->Persistencia->adicionaFiltro($sCampoBanco, $sValorFiltro, $iTipoLigacao, $iTipoComparacao);
-        //adiciona filtro adicionais se for necessário
+        //adiciona filtro adicionais se for necessário ou pode fazer validações
         $this->antesValorBuscaPk();
 
 
@@ -2752,6 +2758,9 @@ class Controller {
         $this->View->setSIdHideEtapa($aDados[4]);
 
         $this->adicionaFiltrosExtras();
+        
+        //seta ids da tela 
+        $this->View->setSIdsTelas($aDados);                    
 
         $this->View->setSRotina(View::ACAO_INCLUIR);
         $this->antesDeCriarTela();
@@ -2764,6 +2773,7 @@ class Controller {
         //adiciona botões na tela de detalhe
         $this->View->adicionaBotoesDet($aDados[2], $aDados[0], $aDados[4], $aDados[5], $aDados[1]);
 
+        
         //seta o controler na view
         $this->View->setTelaController($this->View->getController());
         $this->View->getTela()->getRender();
@@ -2881,7 +2891,7 @@ class Controller {
             //método para capturar campos para levar para outra etapa, geralmente pk e informativos
             $sCampos = implode(',', $this->montaProxEtapa());
             //passa id da etapa,id do processo,id do form,valor chavepk
-            echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . '","' . $sCampos . '");';
+            echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . ','.$aDados[7].'","' . $sCampos . '");';
         }
     }
 
@@ -3272,10 +3282,9 @@ class Controller {
                 $sMetodoDetalhe = $this->getSMetodoDetalhe();
                 //método para capturar campos para levar para outra etapa, geralmente pk e informativos
                 $sCampos = implode(',', $this->montaProxEtapa());
-                //passa id da etapa,id do processo,id do form,valor chavepk
-                //  echo 'requestAjax("","'.$sClasseDetalhe.'","acaoTelaDetalhe","'.$aDados[2].','.$aDados[3].','.$aDados[0].','.$aDados[4].','.$aDados[5].'","'.$sCampos.'");';
-                // $aDados[3]++;
-                echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . '","' . $sCampos . '");';
+                //passa id da etapa,id do processo,id do form,valor chavepk,aba
+                
+                echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . ',' . $aDados[7] . '","' . $sCampos . '");';
             }
         } else {
             $this->Persistencia->rollback();
@@ -3478,7 +3487,8 @@ class Controller {
             $this->View->criaTela();
 
             if ($this->View->getBGravaHistorico() == true) {
-                $this->gravaHistorico('Excluir', $sChaveAtual);
+                $aItem = explode('=', $sChaveAtual);
+                $this->gravaHistorico('Excluir', $aItem[1]);
             }
 
             $aRetorno = $this->beforeDelete();
@@ -4230,9 +4240,7 @@ class Controller {
 
         if ($sAcao == 'Alterar') {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setFilcgc($_SESSION['filcgc']);
-            $oHist->Model->setUsucodigo($_SESSION['codUser']);
-            $oHist->Model->setUsunome($_SESSION['nome']);
+            $oHist->Model->setUsuario($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
@@ -4240,28 +4248,23 @@ class Controller {
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
-        if ($sAcao == 'Inserir' && $aCampos['historico'] != '') {
+        if ($sAcao == 'Inserir') {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setFilcgc($_SESSION['filcgc']);
-            $oHist->Model->setUsucodigo($_SESSION['codUser']);
-            $oHist->Model->setUsunome($_SESSION['nome']);
+            $oHist->Model->setUsuario($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
+            $oHist->Model->setHistorico($aCampos['historico']);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
         if ($sAcao == 'Excluir') {
-            $aDados = array();
-            parse_str($sDados, $aDados);
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setFilcgc($_SESSION['filcgc']);
-            $oHist->Model->setUsucodigo($_SESSION['codUser']);
-            $oHist->Model->setUsunome($_SESSION['nome']);
+            $oHist->Model->setUsuario($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico('Exclusão do item ' . $aDados[1]);
+            $oHist->Model->setHistorico('Exclusão do item ' . $sDados);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }

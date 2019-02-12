@@ -56,6 +56,7 @@ class PersistenciaQualRncAnalise extends Persistencia {
         $this->adicionaRelacionamento('officedes', 'officedes');
 
         $this->adicionaRelacionamento('situaca', 'situaca');
+        $this->adicionaRelacionamento('reclamacao', 'reclamacao');
         $this->adicionaRelacionamento('devolucao', 'devolucao');
 
         $this->adicionaRelacionamento('obsSit', 'obsSit');
@@ -65,12 +66,10 @@ class PersistenciaQualRncAnalise extends Persistencia {
         $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
-        $this->adicionaRelacionamento('situaca', 'situaca');
+
+        $this->adicionaRelacionamento('obs_aponta', 'obs_aponta');
+        $this->adicionaRelacionamento('produtos', 'produtos');
         $this->adicionaRelacionamento('tagsetor', 'tagsetor');
-        
-        $this->adicionaRelacionamento('devolucaoacc', 'devolucaoacc');
-        $this->adicionaRelacionamento('devolucaorec', 'devolucaorec');
-        $this->adicionaRelacionamento('obs_devolucao', 'obs_devolucao');
 
         $this->adicionaJoin('Pessoa');
 
@@ -148,7 +147,7 @@ class PersistenciaQualRncAnalise extends Persistencia {
     }
 
     public function verifSit($aDados) {
-        $sSql = "select situaca,devolucao"
+        $sSql = "select situaca,reclamacao,devolucao"
                 . " from tbrncqual"
                 . " where filcgc='" . $aDados['filcgc'] . "' and nr='" . $aDados['nr'] . "'";
         $result = $this->getObjetoSql($sSql);
@@ -159,11 +158,11 @@ class PersistenciaQualRncAnalise extends Persistencia {
         if ($sSituaca == 'Aguardando') {
             $aRetorno[0] = false;
             $aRetorno[1] = $sSituaca;
-            $aRetorno[2] = $oRow->devolucao;
+            $aRetorno[2] = $oRow->reclamacao;
         } else {
             $aRetorno[0] = true;
             $aRetorno[1] = $sSituaca;
-            $aRetorno[2] = $oRow->devolucao;
+            $aRetorno[2] = $oRow->reclamacao;
         }
         return $aRetorno;
     }

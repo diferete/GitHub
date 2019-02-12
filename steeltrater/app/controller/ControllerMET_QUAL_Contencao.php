@@ -24,9 +24,11 @@ class ControllerMET_QUAL_Contencao extends Controller {
         $aCampos = explode(',', $sCampos);
         $this->pkDetalhe($aCampos);
         $this->parametros = $sCampos;
-
+        
+        $this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
+        
         //define o retorno somente do form
         $this->View->getTela()->setBSomanteForm(true);
         //seta o controler na view
@@ -39,9 +41,7 @@ class ControllerMET_QUAL_Contencao extends Controller {
 
     public function pkDetalhe($aChave) {
         parent::pkDetalhe();
-        $sTipoAcao = $this->Persistencia->buscaTipoAcao($aChave);
         $aCampos = $aChave;
-        $aCampos[3] = $sTipoAcao;
         $this->View->setAParametrosExtras($aCampos);
     }
 

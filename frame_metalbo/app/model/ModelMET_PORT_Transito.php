@@ -14,8 +14,6 @@ class ModelMET_PORT_Transito {
     private $placa;
     private $empcod;
     private $empdes;
-    private $emptranscod;
-    private $emptransdes;
     private $datachegou;
     private $horachegou;
     private $dataentrou;
@@ -25,30 +23,18 @@ class ModelMET_PORT_Transito {
     private $usucod;
     private $usunome;
     private $motorista;
-    private $documento;
+    private $cpf;
     private $fone;
-    private $codsetor;
-    private $descsetor;
     private $motivo;
     private $descmotivo;
-    private $modelo;
-    private $cor;
     private $tipo;
 
-    function getEmptranscod() {
-        return $this->emptranscod;
+    function getCpf() {
+        return $this->cpf;
     }
 
-    function getEmptransdes() {
-        return $this->emptransdes;
-    }
-
-    function setEmptranscod($emptranscod) {
-        $this->emptranscod = $emptranscod;
-    }
-
-    function setEmptransdes($emptransdes) {
-        $this->emptransdes = $emptransdes;
+    function setCpf($cpf) {
+        $this->cpf = $cpf;
     }
 
     function getTipo() {
@@ -57,22 +43,6 @@ class ModelMET_PORT_Transito {
 
     function setTipo($tipo) {
         $this->tipo = $tipo;
-    }
-
-    function getCodsetor() {
-        return $this->codsetor;
-    }
-
-    function getDescsetor() {
-        return $this->descsetor;
-    }
-
-    function setCodsetor($codsetor) {
-        $this->codsetor = $codsetor;
-    }
-
-    function setDescsetor($descsetor) {
-        $this->descsetor = $descsetor;
     }
 
     function getDatachegou() {
@@ -139,22 +109,6 @@ class ModelMET_PORT_Transito {
         $this->descmotivo = $descmotivo;
     }
 
-    function getCor() {
-        return $this->cor;
-    }
-
-    function setCor($cor) {
-        $this->cor = $cor;
-    }
-
-    function getModelo() {
-        return $this->modelo;
-    }
-
-    function setModelo($modelo) {
-        $this->modelo = $modelo;
-    }
-
     function getFilcgc() {
         return $this->filcgc;
     }
@@ -185,10 +139,6 @@ class ModelMET_PORT_Transito {
 
     function getMotorista() {
         return $this->motorista;
-    }
-
-    function getDocumento() {
-        return $this->documento;
     }
 
     function getFone() {
@@ -229,10 +179,6 @@ class ModelMET_PORT_Transito {
 
     function setMotorista($motorista) {
         $this->motorista = $motorista;
-    }
-
-    function setDocumento($documento) {
-        $this->documento = $documento;
     }
 
     function setFone($fone) {

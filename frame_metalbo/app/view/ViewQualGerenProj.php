@@ -402,8 +402,8 @@ class ViewQualGerenProj extends View {
         $this->setTituloTela('Relatório de Projetos');
         $this->setBTela(true);
 
-        $oDivisor1 = new Campo('Situações por setor', 'setorsit', Campo::DIVISOR_DARK, 12, 12, 12, 12);
-        $oDivisor1->setApenasTela(true);
+        $oFieldRel = new FieldSet('Situações por setor');
+
 
         $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataIni->setSValor(Util::getPrimeiroDiaMes());
@@ -427,13 +427,27 @@ class ViewQualGerenProj extends View {
         $oGrupo->setSCampoRetorno('grucod', $this->getTela()->getid());
         $oGrupo->addCampoBusca('grudes', $oGrupoDes->getId(), $this->getTela()->getid());
 
-
+        ///EXCEL
         $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
 
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relProjXls");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
+        
+        ///RANKING CLIENTES
+        $oRanking = new Campo('Vizualizar Ranking Clientes', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
+        $oRanking->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
 
+        $sAcaoRan = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relNovoProjetoRanking");';
+        $oRanking->getOBotao()->addAcao($sAcaoRan);
+        
+        ///NÚMERO ENTRADA PROJETOS MÊS
+        $oProjMes = new Campo('Vizualizar Projetos Mês', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
+        $oProjMes->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
+
+        $sAcaoPro = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relNovoProjetosMes");';
+        $oProjMes->getOBotao()->addAcao($sAcaoPro);
+        
         $oRelPrj = new Campo('Projetos', 'sitproj', Campo::TIPO_SELECT, 3);
         $oRelPrj->addItemSelect('', 'Todos');
         $oRelPrj->addItemSelect('Aprovado', 'Aprovado');
@@ -452,8 +466,10 @@ class ViewQualGerenProj extends View {
         $oRelCli->addItemSelect('Aguardando', 'Aguardando');
         $oRelCli->addItemSelect('Enviado', 'Enviado');
 
-        $oDivisor2 = new Campo('Situações Gerais', 'sitgeral', Campo::DIVISOR_DARK, 12, 12, 12, 12);
-        $oDivisor2->setApenasTela(true);
+
+        $oFieldRel->addCampos(array($oRelPrj, $oRelVend, $oRelCli));
+
+        $oFieldRel2 = new FieldSet('Situações gerais');
 
         $oSitGRel = new campo('Geral', 'geralsit', Campo::TIPO_SELECT);
         $oSitGRel->addItemSelect('', 'Todos');
@@ -466,8 +482,9 @@ class ViewQualGerenProj extends View {
         $oSitGRel->addItemSelect('Produzido', 'Produzido');
         $oSitGRel->addItemSelect('Expirado', 'Expirado');
 
+        $oFieldRel2->addCampos(array($oSitGRel));
 
-        $this->addCampos(array($oDataIni, $oDataFin, $oGrupo, $oGrupoDes), $oDivisor1, array($oRelPrj, $oRelVend, $oRelCli), $oDivisor2, array($oSitGRel), $oXls);
+        $this->addCampos(array($oDataIni, $oDataFin, $oGrupo, $oGrupoDes), $oFieldRel, $oFieldRel2, $oXls,$oRanking,$oProjMes);
     }
-
+    
 }

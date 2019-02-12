@@ -17,12 +17,8 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
         $this->adicionaRelacionamento('nr', 'nr', true, true, true);
         $this->adicionaRelacionamento('situaca', 'situaca');
         $this->adicionaRelacionamento('placa', 'placa');
-        $this->adicionaRelacionamento('modelo', 'modelo');
-        $this->adicionaRelacionamento('cor', 'cor');
         $this->adicionaRelacionamento('empcod', 'empcod');
         $this->adicionaRelacionamento('empdes', 'empdes');
-        $this->adicionaRelacionamento('emptranscod', 'emptranscod');
-        $this->adicionaRelacionamento('emptransdes', 'emptransdes');
         $this->adicionaRelacionamento('datachegou', 'datachegou');
         $this->adicionaRelacionamento('horachegou', 'horachegou');
         $this->adicionaRelacionamento('dataentrou', 'dataentrou');
@@ -32,38 +28,84 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
         $this->adicionaRelacionamento('usucod', 'usucod');
         $this->adicionaRelacionamento('usunome', 'usunome');
         $this->adicionaRelacionamento('motorista', 'motorista');
-        $this->adicionaRelacionamento('documento', 'documento');
+        $this->adicionaRelacionamento('cpf', 'cpf');
         $this->adicionaRelacionamento('fone', 'fone');
-        $this->adicionaRelacionamento('codsetor', 'codsetor');
-        $this->adicionaRelacionamento('descsetor', 'descsetor');
         $this->adicionaRelacionamento('motivo', 'motivo');
         $this->adicionaRelacionamento('descmotivo', 'descmotivo');
         $this->adicionaRelacionamento('tipo', 'tipo');
-
-        $this->adicionaFiltro('tipo', 'V');
 
         $this->adicionaOrderBy('nr', 1);
         $this->setSTop(50);
     }
 
     public function consultaPlaca($sNrPlaca) {
-        $sSql = "select emptranscod,emptransdes,codsetor,descsetor,modelo,cor 
-                from MET_PORT_CadVeiculos where placa ='" . $sNrPlaca . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $sSql = "select empcod,empdes from MET_CAD_Placas where placa ='" . $sNrPlaca . "'";
+        $oRow = $this->consultaSql($sSql);
 
         return $oRow;
     }
 
+    public function cadPlaca($oDados) {
+        $sSql = "select COUNT(*) as total "
+                . "from MET_CAD_Placas "
+                . "where placa = '" . $oDados->getPlaca() . "' and empcod <>'' and empdes <>''";
+        $sRetPlaca = $this->consultaSql($sSql);
+
+        if ($sRetPlaca->total >= 1) {
+            return;
+        } else {
+            $sSqlCadPlaca = "insert into MET_CAD_Placas("
+                    . "filcgc,placa,empcod,empdes) "
+                    . "values("
+                    . "'" . $oDados->getFilcgc() . "',"
+                    . "'" . $oDados->getPlaca() . "',"
+                    . "'" . $oDados->getEmpcod() . "',"
+                    . "'" . $oDados->getEmpdes() . "')";
+            $this->executaSql($sSqlCadPlaca);
+        }
+    }
+    
+    public function consultaCpf($aDados) {
+        $sSql = "select nome,fone"
+                . " from MET_CAD_Cpf"
+                . " where cpf = '" . $aDados['cpf'] . "'"
+                . " and filcgc = '" . $aDados['filcgc'] . "'";
+        $oRetorno = $this->consultaSql($sSql);
+
+        return $oRetorno;
+    }
+    
+    
+    public function cadCPF($oDados) {
+        $sSql = "select COUNT(*) as total "
+                . "from MET_CAD_Cpf "
+                . "where cpf = '" . $oDados->getCpf() . "' and empfant <>'' and fone <>'' and nome <>''";
+        $oRetCpf = $this->consultaSql($sSql);
+
+        if ($oRetCpf->total >= 1) {
+            return;
+        } else {
+            $sSqlCadCpf = "insert into MET_CAD_Cpf("
+                    . "filcgc,cpf,empfant,fone,nome) "
+                    . "values("
+                    . "'" . $oDados->getFilcgc() . "',"
+                    . "'" . $oDados->getCpf() . "',"
+                    . "'" . $oDados->getEmpdes() . "',"
+                    . "'" . $oDados->getFone() . "',"
+                    . "'" . $oDados->getMotorista() . "')";
+            $this->executaSql($sSqlCadCpf);
+        }
+    }
+
     public function geraCadastro($oDados) {
-        
+
         $sMotorista = Util::removeAcentos($oDados->getMotorista());
         $sMotorista = strtoupper($sMotorista);
 
         $sSql = "insert into MetExp_Carga("
                 . "empcod,transp,dataent,horaent,placa,motorista,motcod,sitcod,pesotara,pesobruto,pesocarregado,pesodiver)"
-                . "values('" . $oDados->getEmptranscod() . "',"
-                . "'" . $oDados->getEmptransdes() . "',"
+                . "values('" . $oDados->getEmpcod() . "',"
+                . "'" . $oDados->getEmpdes() . "',"
                 . "'" . $oDados->getDatachegou() . "',"
                 . "'" . $oDados->getHorachegou() . "',"
                 . "'" . $oDados->getPlaca() . "',"
@@ -86,7 +128,7 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
                 . "situaca = 'Entrada' "
                 . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "' and placa ='" . $aDados['placa'] . "' ";
         $aRetorno = $this->executaSql($sSql);
-        if ($aRetorno[0] == true && ($aDados['motivo'] == 1 || $aDados['motivo'] == 2)) {
+        if ($aRetorno[0] == true && $aDados['motivo'] == 1) {
             $aRetorno = $this->updateLiberaBalanca($aDados);
             if ($aRetorno) {
                 $aRetorno = true;
@@ -102,8 +144,8 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
                 . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'and placa ='" . $aDados['placa'] . "'";
         $oDados = $this->consultaSql($sSqlDados);
 
-        $sSqlIdCarga = "select idcarga from MetExp_Carga where empcod = '" . $oDados->emptranscod . "'
-                and transp ='" . $oDados->emptransdes . "' 
+        $sSqlIdCarga = "select idcarga from MetExp_Carga where empcod = '" . $oDados->empcod . "'
+                and transp ='" . $oDados->empdes . "' 
                 and dataent = '" . $oDados->datachegou . "'
                 and horaent = '" . $oDados->horachegou . "'
                 and placa = '" . $oDados->placa . "'

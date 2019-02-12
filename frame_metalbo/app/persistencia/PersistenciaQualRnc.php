@@ -56,6 +56,7 @@ class PersistenciaQualRnc extends Persistencia {
         $this->adicionaRelacionamento('officedes', 'officedes');
 
         $this->adicionaRelacionamento('situaca', 'situaca');
+        $this->adicionaRelacionamento('reclamacao', 'reclamacao');
         $this->adicionaRelacionamento('devolucao', 'devolucao');
 
         $this->adicionaRelacionamento('obsSit', 'obsSit');
@@ -63,12 +64,9 @@ class PersistenciaQualRnc extends Persistencia {
         $this->adicionaRelacionamento('resp_venda_cod', 'resp_venda_cod');
         $this->adicionaRelacionamento('resp_venda_nome', 'resp_venda_nome');
         $this->adicionaRelacionamento('repcod', 'repcod');
-        $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('usuaponta', 'usuaponta');
 
-        $this->adicionaRelacionamento('devolucaoacc', 'devolucaoacc');
-        $this->adicionaRelacionamento('devolucaorec', 'devolucaorec');
-        $this->adicionaRelacionamento('obs_devolucao', 'obs_devolucao');
+        $this->adicionaRelacionamento('obs_aponta', 'obs_aponta');
         $this->adicionaRelacionamento('produtos', 'produtos');
 
 
@@ -91,18 +89,19 @@ class PersistenciaQualRnc extends Persistencia {
         return $oRow;
     }
 
-    public function verificaFim($aDados) {
-        $sSql = "select devolucao,situaca"
-                . " from tbrncqual "
-                . " where filcgc ='" . $aDados['filcgc'] . "'"
-                . " and nr = " . $aDados['nr'] . "";
+    public function verifSitRC($aDados) {
+        $sSql = "select situaca,reclamacao,devolucao"
+                . " from tbrncqual"
+                . " where filcgc= " . $aDados['filcgc'] . " and nr= " . $aDados['nr'] . " ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $aret = array();
-        $aret[0] = $oRow->situaca;
-        $aret[1] = $oRow->devolucao;
 
-        return $aret;
+        $aSit = array();
+        $aSit[0] = $oRow->situaca;
+        $aSit[1] = $oRow->reclamacao;
+        $aSit[2] = $oRow->devolucao;
+
+        return $aSit;
     }
 
     /**
@@ -165,8 +164,5 @@ class PersistenciaQualRnc extends Persistencia {
         return $aRetorno;
     }
 
-    public function getDadosProd() {
-        
-    }
 
 }

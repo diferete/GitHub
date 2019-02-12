@@ -19,9 +19,6 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oMatDes = new CampoConsulta('Descrição', 'STEEL_PCP_material.matdes');
         $oRecCod = new CampoConsulta('Cod. Receita', 'cod');
         $oRecDes = new CampoConsulta('Descrição','STEEL_PCP_receitas.peca');
-       // $oNucDur = new CampoConsulta('Dur.Nuc.','durezaNucMin');
-        //$oSupDur = new CampoConsulta('Dur.Superf','durezaSuperfMin');
-       // $oCamDur = new CampoConsulta('Expessura.Camada','expCamadaMin');
         
         $oFilProdCod = new Filtro($oProCod, Filtro::CAMPO_TEXTO, 3);
         $oFiltroProdes = new Filtro($oProDes, Filtro::CAMPO_TEXTO,3);
@@ -35,6 +32,12 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $this->setBScrollInf(TRUE);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->addCampos($oSeqMat,$oProCod ,$oProDes,$oMatCod,$oMatDes, $oRecCod, $oRecDes);
+        
+        $this->setUsaDropdown(true);
+        $oDrop1 = new Dropdown('Imprimir',Dropdown::TIPO_SUCESSO);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Relatório em Excel', 'STEEL_PCP_prodMatReceita', 'contaRegistros', '', false, '',false,'',false,'',true, true);
+        $this->addDropdown($oDrop1);
+        
     }
     
     public function consultaMatOrdem() {
@@ -67,7 +70,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         if($sAcao=='acaoAlterar'){$oCodigo->setBCampoBloqueado(true);}
         
         //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto Descrição','descricao',Campo::TIPO_BUSCADOBANCO, 4);
+        $oProdes = new Campo('Produto Descrição','DELX_PRO_Produtos.pro_descricao',Campo::TIPO_BUSCADOBANCO, 4);
         $oProdes->setSIdPk($oCodigo->getId());
         $oProdes->setClasseBusca('DELX_PRO_Produtos');
         $oProdes->addCampoBusca('pro_codigo', '','');
@@ -75,7 +78,6 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oProdes->setSIdTela($this->getTela()->getId());
         $oProdes->addValidacao(false, Validacao::TIPO_STRING);
          if($sAcao=='acaoAlterar'){$oProdes->setBCampoBloqueado(true);}
-        $oProdes->setApenasTela(true);
         
         //declarando no campo código a classe de busca, campo chave e campo de retorno
         $oCodigo->setClasseBusca('DELX_PRO_Produtos');
@@ -87,7 +89,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
          if($sAcao=='acaoAlterar'){$oMatCod->setBCampoBloqueado(true);}
                 
         //campo descrição do material adicionando o campo de busca
-        $oMatdes = new Campo('Material Descrição','matdes',Campo::TIPO_BUSCADOBANCO, 4);
+        $oMatdes = new Campo('Material Descrição','STEEL_PCP_material.matdes',Campo::TIPO_BUSCADOBANCO, 4);
         $oMatdes->setSIdPk($oMatCod->getId());
         $oMatdes->setClasseBusca('STEEL_PCP_Material');
         $oMatdes->addCampoBusca('matcod', '','');
@@ -95,7 +97,6 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oMatdes->setSIdTela($this->getTela()->getId());
         $oMatdes->addValidacao(false, Validacao::TIPO_STRING);
          if($sAcao=='acaoAlterar'){$oMatdes->setBCampoBloqueado(true);}
-        $oMatdes->setApenasTela(true);
         
         //declarando no campo código a classe de busca, campo chave e campo de retorno
         $oMatCod->setClasseBusca('STEEL_PCP_Material');
@@ -107,7 +108,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
          if($sAcao=='acaoAlterar'){$oRecCod->setBCampoBloqueado(true);}
         
          //campo descrição da receita adicionando o campo de busca
-        $oRecdes = new Campo('Receita Descrição','peca',Campo::TIPO_BUSCADOBANCO, 4);
+        $oRecdes = new Campo('Receita Descrição','STEEL_PCP_receitas.peca',Campo::TIPO_BUSCADOBANCO, 4);
         $oRecdes->setSIdPk($oRecCod->getId());
         $oRecdes->setClasseBusca('STEEL_PCP_receitas');
         $oRecdes->addCampoBusca('cod', '','');
@@ -115,15 +116,14 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oRecdes->setSIdTela($this->getTela()->getId());
         $oRecdes->addValidacao(false, Validacao::TIPO_STRING);
          if($sAcao=='acaoAlterar'){$oRecdes->setBCampoBloqueado(true);}
-        $oRecdes->setApenasTela(true);
-             
+        
+        $oLabel1 = new Campo('', 'label1', Campo::TIPO_LINHA);
+        $oLabel1->setApenasTela(true);
+         
         //declarando no campo código a classe de busca, campo chave e campo de retorno
         $oRecCod->setClasseBusca('STEEL_PCP_receitas');
         $oRecCod->setSCampoRetorno('cod',$this->getTela()->getId());
         $oRecCod->addCampoBusca('peca',$oRecdes->getId(),  $this->getTela()->getId());
-        
-        $oLabel1 = new Campo('', 'label1', Campo::TIPO_LINHA,12);
-        $oLabel1->setApenasTela(true);
         
         $oNucDurMin = new Campo('Dur.NucMin.','durezaNucMin', Campo::TIPO_DECIMAL,2);
         //$oNucDurMin->addValidacao(false, Validacao::TIPO_DECIMAL);
@@ -181,9 +181,6 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oDiamFinalMin = new campo('Diâmetro Final Mínimo(mm)','DiamFinalMin',Campo::TIPO_DECIMAL,3);
         $oDiamFinalMax = new campo('Diâmetro Final Máximo(mm)','DiamFinalMax',Campo::TIPO_DECIMAL,3);
         
-        $oLabel2 = new Campo('', 'label1', Campo::TIPO_LINHA,12);
-        $oLabel2->setApenasTela(true);
-        
         $oAbaPadrao->addCampos(array($oNucDurMin,$oNucDurMax,$oNucEscala),
                            array($oSupDurMin,$oSupDurMax,$oSupEscala), 
                            array($oCamDurMin,$oCamDurMax));
@@ -195,7 +192,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oTab->addItems($oAbaPadrao,$oAbaFioMaquina);
         $this->addCampos($oSeqMat, array($oCodigo,$oProdes),array($oMatCod, $oMatdes),
                 array($oRecCod, $oRecdes), 
-                $oLabel1,array($oTratReven,$oPpap,$oNrPpap),$oLabel2, $oTab);
+                $oLabel1,array($oTratReven,$oPpap,$oNrPpap),$oLabel1,$oTab);
     }
     
     public function RelItensPPAP(){        

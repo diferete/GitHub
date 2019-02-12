@@ -167,7 +167,7 @@ class PersistenciaSTEEL_PCP_PedCarga extends Persistencia {
         
         
 
-        $this->setSTop('100');
+        $this->setSTop('20');
         
         $this->adicionaJoin('DELX_CAD_Pessoa',null,1,'PDV_PedidoEmpCodigo','emp_codigo');
        // $this->adicionaJoin('DELX_PRO_Produtos', null,1, 'prod','pro_codigo');
@@ -181,6 +181,52 @@ class PersistenciaSTEEL_PCP_PedCarga extends Persistencia {
                ."where tec_sequenciaFilial = '8993358000174' and tec_sequenciaTabela ='PDV_PEDIDO'";
        
         $this->executaSql($sSql);
+    }
+    
+    /**
+     * Função para gerar o totalizador no cabeçalho do pedido
+     */
+    public function geraTotaliza($iTotal,$aCampos){
+       
+        
+        $sSql = "UPDATE " . $this->getTabela() . " SET PDV_PedidoValorTotal = ".$iTotal." "
+                . "WHERE pdv_pedidofilial ='".$aCampos['pdv_pedidofilial']."' and pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'";
+        
+        $this->executaSql($sSql);
+        
+        
+    }
+    
+    /**
+     * Libera o pedido para faturamento
+     */
+    public function liberaPed($aCampos){
+        $sSql = "UPDATE pdv_pedido SET PDV_PedidoSituacao = 'O', PDV_PedidoAprovacao = 'O' "
+                . "WHERE pdv_pedidofilial ='".$aCampos['pdv_pedidofilial']."' and pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'";
+        
+        $this->executaSql($sSql);
+        $sSql = "UPDATE pdv_pedidoitem SET PDV_PedidoItemSituacao = 'O', PDV_PedidoItemAprovacao = 'O' "
+                . "WHERE pdv_pedidofilial ='".$aCampos['pdv_pedidofilial']."' and pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'";
+        
+        $this->executaSql($sSql);
+        
+       
+    }
+    
+    /**
+     * retorna situacao
+     */
+    public function retornaSit($aCampos){
+        $sSql = "UPDATE pdv_pedido SET PDV_PedidoSituacao = 'A', PDV_PedidoAprovacao = 'A' "
+                . "WHERE pdv_pedidofilial ='".$aCampos['pdv_pedidofilial']."' and pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'";
+        
+        $this->executaSql($sSql);
+        $sSql = "UPDATE pdv_pedidoitem SET PDV_PedidoItemSituacao = 'A', PDV_PedidoItemAprovacao = 'A' "
+                . "WHERE pdv_pedidofilial ='".$aCampos['pdv_pedidofilial']."' and pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'";
+        
+        $this->executaSql($sSql);
+        
+       
     }
 
 }

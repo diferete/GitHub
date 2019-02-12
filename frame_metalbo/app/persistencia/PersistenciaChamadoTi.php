@@ -29,7 +29,7 @@ class PersistenciaChamadoTi extends Persistencia{
         $this->adicionaJoin('User', NULL, 1, 'userweb','usucodigo');
         //$this->adicionaJoin('Setor', NULL, 1, 'User.codsetor','codsetor');
         
-        $this->setSTop(50);
+        $this->setSTop('100');
         
     }
 }

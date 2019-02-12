@@ -1309,3 +1309,23 @@ function maskDecimal(idCampo){
     valor = moedaParaNumero(valor);
     $('#' + idCampo + '').val(numeroParaMoeda(valor));
 }
+
+/**
+ * 
+ * @param {type} idQuant
+ * @param {type} idUnit
+ * @param {type} idTot
+ * @returns {undefined}
+ */
+function precoNfEntradaSteel(idQuant, idUnit, idTot) {
+   // console.log('chegamos');
+     var Quant = moedaParaNumero($('#' + idQuant + '').val());
+    //console.log(Quantidade);
+    var Unit = moedaParaNumero($('#' + idUnit + '').val());
+    
+    var total = Quant*Unit;
+    
+
+     $('#' + idTot + '').val(numeroParaMoeda(total));
+
+}

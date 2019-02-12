@@ -47,6 +47,120 @@ class ModelSTEEL_PCP_OrdensFab {
     private $expCamadaMax;
     private $tratrevencomp;
     
+    private $tipoOrdem;
+    
+    private $fioDurezaSol;
+    private $fioEsferio;
+    private $fioDescarbonetaTotal;
+    private $fioDescarbonetaParcial;
+    private $DiamFinalMin;
+    private $DiamFinalMax;
+    
+    private $prodFinal;
+    private $prodesFinal;
+    
+    private $vlrNfEnt;
+    
+    private $vlrNfEntUnit;
+    
+    function getVlrNfEntUnit() {
+        return $this->vlrNfEntUnit;
+    }
+
+    function setVlrNfEntUnit($vlrNfEntUnit) {
+        $this->vlrNfEntUnit = $vlrNfEntUnit;
+    }
+
+        
+    function getVlrNfEnt() {
+        return $this->vlrNfEnt;
+    }
+
+    function setVlrNfEnt($vlrNfEnt) {
+        $this->vlrNfEnt = $vlrNfEnt;
+    }
+
+       
+    function getProdFinal() {
+        return $this->prodFinal;
+    }
+
+    function getProdesFinal() {
+        return $this->prodesFinal;
+    }
+
+    function setProdFinal($prodFinal) {
+        $this->prodFinal = $prodFinal;
+    }
+
+    function setProdesFinal($prodesFinal) {
+        $this->prodesFinal = $prodesFinal;
+    }
+
+        
+    function getDiamFinalMax() {
+        return $this->DiamFinalMax;
+    }
+
+    function setDiamFinalMax($DiamFinalMax) {
+        $this->DiamFinalMax = $DiamFinalMax;
+    }
+
+        
+    function getDiamFinalMin() {
+        return $this->DiamFinalMin;
+    }
+
+    function setDiamFinalMin($DiamFinalMin) {
+        $this->DiamFinalMin = $DiamFinalMin;
+    }
+
+        
+   function getFioDescarbonetaParcial() {
+       return $this->fioDescarbonetaParcial;
+   }
+
+   function setFioDescarbonetaParcial($fioDescarbonetaParcial) {
+       $this->fioDescarbonetaParcial = $fioDescarbonetaParcial;
+   }
+
+       
+ function getFioDescarbonetaTotal() {
+     return $this->fioDescarbonetaTotal;
+ }
+
+ function setFioDescarbonetaTotal($fioDescarbonetaTotal) {
+     $this->fioDescarbonetaTotal = $fioDescarbonetaTotal;
+ }
+
+     
+ function getFioEsferio() {
+     return $this->fioEsferio;
+ }
+
+ function setFioEsferio($fioEsferio) {
+     $this->fioEsferio = $fioEsferio;
+ }
+
+     
+ function getFioDurezaSol() {
+     return $this->fioDurezaSol;
+ }
+
+ function setFioDurezaSol($fioDurezaSol) {
+     $this->fioDurezaSol = $fioDurezaSol;
+ }
+
+         
+    function getTipoOrdem() {
+        return $this->tipoOrdem;
+    }
+
+    function setTipoOrdem($tipoOrdem) {
+        $this->tipoOrdem = $tipoOrdem;
+    }
+
+        
     
     function getDurezaNucMin() {
         return $this->durezaNucMin;

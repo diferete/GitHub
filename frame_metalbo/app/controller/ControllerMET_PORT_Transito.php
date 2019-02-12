@@ -38,7 +38,12 @@ class ControllerMET_PORT_Transito extends Controller {
 
         $oModel = $this->Model;
 
-        if ($oModel->getMotivo() == '1' || $oModel->getMotivo() == '2') {
+
+        $this->Persistencia->cadPlaca($oModel);
+
+        $this->Persistencia->cadCpf($oModel);
+
+        if ($oModel->getMotivo() == '1') {
             $aRetorno = $this->Persistencia->geraCadastro($oModel);
             if ($aRetorno) {
                 $aRetorno = array();
@@ -74,6 +79,30 @@ class ControllerMET_PORT_Transito extends Controller {
             echo $oMensagem->getRender();
         }
     }
+    
+    public function buscaCpf($sDados) {
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        if ($aCamposChave['cpf'] == '') {
+            return;
+        } else {
+            $this->consultaCpf($sDados);
+        }
+    }
+
+    public function consultaCpf($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $oConsulta = $this->Persistencia->consultaCpf($aCamposChave);
+
+        echo"$('#" . $aDados[0] . "').val('" . $oConsulta->nome . "');"
+        . "$('#" . $aDados[1] . "').val('" . $oConsulta->fone . "');";
+    }
 
     public function buscaPlaca($sDados) {
         $aParam = explode(',', $sDados);
@@ -84,12 +113,8 @@ class ControllerMET_PORT_Transito extends Controller {
         $oRow = $this->Persistencia->consultaPlaca($aCamposChave['placa']);
 
         echo"$('#" . $aParam[0] . "').val('" . strtoupper($aCamposChave['placa']) . "');"
-        . "$('#" . $aParam[1] . "').val('" . $oRow->emptranscod . "');"
-        . "$('#" . $aParam[2] . "').val('" . $oRow->emptransdes . "');"
-        . "$('#" . $aParam[3] . "').val('" . $oRow->codsetor . "');"
-        . "$('#" . $aParam[4] . "').val('" . $oRow->descsetor . "');"
-        . "$('#" . $aParam[5] . "').val('" . $oRow->modelo . "');"
-        . "$('#" . $aParam[6] . "').val('" . $oRow->cor . "');";
+        . "$('#" . $aParam[1] . "').val('" . $oRow->empcod . "');"
+        . "$('#" . $aParam[2] . "').val('" . $oRow->empdes . "');";
     }
 
     public function criaTelaModalApontamento($sDados) {

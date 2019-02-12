@@ -24,7 +24,6 @@ class CampoConsulta {
     private $sTipoBotao;
     private $bOrderBy;
     private $sNomeGrid;
-    
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -37,22 +36,17 @@ class CampoConsulta {
     const TIPO_DESTAQUE2 = 8;
     const TIPO_ACAO = 9;
     const TIPO_EXCLUIR = 10;
-    const TIPO_FINALIZAR =11;
+    const TIPO_FINALIZAR = 11;
     const TIPO_MODAL = 12;
     const TIPO_EDIT = 13;
-    
-    
-    
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
     const MODO_COLUNA = 1;
-    
     //Constantes para operadores lógicos
     const COMPARACAO_IGUAL = 0;
     const COMPARACAO_MAIOR = 1;
     const COMPARACAO_MENOR = 2;
     const COMPARACAO_DIFERENTE = 3;
-    
     //constantes responsáveis pelas cores
     const COR_VERMELHO = 'tr-vermelha';
     const COR_AZUL = 'tr-azul';
@@ -61,7 +55,6 @@ class CampoConsulta {
     const COR_ROXO = 'tr-roxo';
     const COR_ROSA = 'tr-rosa';
     const COR_LARANJA = 'tr-laranja';
-    
     //constantes responsáveis pelos background cores
     const COL_VERMELHO = 'tr-bk-vermelha';
     const COL_AZUL = 'tr-bk-azul';
@@ -72,13 +65,10 @@ class CampoConsulta {
     const COL_LARANJA = 'tr-bk-laranja';
     const COL_BLACK = 'tr-bk-black';
     const COL_MARROM = 'tr-bk-marrom';
-    
     //ícone campos consulta acao
     const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
-    const ICONE_FLAG ='btn-xs btn btn-pure btn-dark icon wb-flag';
+    const ICONE_FLAG = 'btn-xs btn btn-pure btn-dark icon wb-flag';
     const ICONE_EDIT = 'btn-xs btn btn-pure btn-primary icon wb-clipboard';
-    
-    
 
     /**
      *  Método construtor que passa o label e o nome do campo no model
@@ -105,14 +95,13 @@ class CampoConsulta {
         if ($this->Tipo == 10) {
             $this->setBCampoIcone(true);
         }
-        
-         if ($this->Tipo == 11) {
+
+        if ($this->Tipo == 11) {
             $this->setBCampoIcone(true);
         }
         if ($this->Tipo == 12) {
             $this->setBCampoIcone(true);
         }
-        
     }
 
     /**
@@ -122,12 +111,12 @@ class CampoConsulta {
      * @param type $sMetodo Método para chamar
      * @param type $sTitulo nome da Modal 
      */
-    function addAcao($sClasse, $sMetodo,$sTitulo) {
+    function addAcao($sClasse, $sMetodo, $sTitulo) {
         $this->aAcao['classe'] = $sClasse;
         $this->aAcao['metodo'] = $sMetodo;
-        $this->aAcao['modalNome'] = $sTitulo;    
+        $this->aAcao['modalNome'] = $sTitulo;
     }
-    
+
     function getSNomeGrid() {
         return $this->sNomeGrid;
     }
@@ -136,7 +125,6 @@ class CampoConsulta {
         $this->sNomeGrid = $sNomeGrid;
     }
 
-        
     function getBOrderBy() {
         return $this->bOrderBy;
     }
@@ -145,7 +133,6 @@ class CampoConsulta {
         $this->bOrderBy = $bOrderBy;
     }
 
-        
     function getSTipoBotao() {
         return $this->sTipoBotao;
     }
@@ -154,7 +141,6 @@ class CampoConsulta {
         $this->sTipoBotao = $sTipoBotao;
     }
 
-    
     function getAAcao() {
         return $this->aAcao;
     }
@@ -287,20 +273,41 @@ class CampoConsulta {
      * @param type $iTipoComp Constante do tipo de comparação (Igual(0),Maior(1), Menor(2) ou diferente(3))
      * @param type $sCor CampoConsulta::CorPadrãoCor a ser atribuída a classe de acordo com o valor comparativo
      * @param type $iModo Define se o modo a ser colorido é linha ou coluna
+     * @param boolean $bUsaCase Define se o campo comparação vai ou não substituir o valor do campo pelo valor visual do $sCase
+     * @param string $sCase Define o valor a ser utilizado no mostra consulta caso valor do campo seja igual o valor da comparação
      */
-    public function addComparacao($sValor, $iTipoComp = self::COMPARACAO_IGUAL, $sCor = self::COR_VERMELHO, $iModo = self::MODO_LI3NHA) {
+    public function addComparacao($sValor, $iTipoComp = self::COMPARACAO_IGUAL, $sCor = self::COR_VERMELHO, $iModo = self::MODO_LINHA, $bUsaCase = false, $sCase) {
         $aComp['valor'] = $sValor;
         $aComp['tipo'] = $iTipoComp;
         $aComp['cor'] = $sCor;
         $aComp['modo'] = $iModo;
+        $aComp['usaCase'] = $bUsaCase;
+        $aComp['case'] = $sCase;
 
         $this->aComparacao[] = $aComp;
     }
+    
+    
 
     /**
      * Retorna o render do campo consulta
      */
-    public function getRender($sClasse, $xValor,$sParam=null) {
+    public function getRender($sClasse, $xValor, $sParam = null) {
+
+        $aComparacao = $this->getAComparacao();
+        foreach ($aComparacao as $key => $aValue) {
+            switch ($aValue['usaCase']) {
+                case true:
+                    if ($aValue['valor'] == $xValor) {
+                        $xValor = $aValue['case'];
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         switch ($this->Tipo) {
             case self::TIPO_TEXTO:
                 $xValor = str_replace("\n", " ", $xValor);
@@ -348,11 +355,11 @@ class CampoConsulta {
                 $sIdBtn = Base::getId();
                 $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-warning btn-xs">+</i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
-                        .'$("#tabmenusuperior li").each(function(){'
-                        .'if($(this).hasClass( "active" )){'
+                        . '$("#tabmenusuperior li").each(function(){'
+                        . 'if($(this).hasClass( "active" )){'
                         . 'abaSelecionada=$(this).attr("id");}'
-                        .'     }); '
-                        . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();';
+                        . '     }); '
+                        . 'var idGrid = $("#"+abaSelecionada+"' . $this->getSNomeGrid() . '").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
@@ -368,23 +375,23 @@ class CampoConsulta {
                 $sIdBtn = Base::getId();
                 $sCampo = '<td class="' . $sClasse . ' tr-font" ><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-danger btn-xs"><i class="icon wb-trash" aria-hidden="true"></i></i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
-                        .'$("#tabmenusuperior li").each(function(){'
-                        .'if($(this).hasClass( "active" )){'
+                        . '$("#tabmenusuperior li").each(function(){'
+                        . 'if($(this).hasClass( "active" )){'
                         . 'abaSelecionada=$(this).attr("id");}'
                         . '     }); '
-                        . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();'
+                        . 'var idGrid = $("#"+abaSelecionada+"' . $this->getSNomeGrid() . '").text();'
                         . 'var idTela = $("#"+abaSelecionada+"paramTela").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
-                $sCampo .= 'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",'.$xValor.',"+idTela+"");'
+                $sCampo .= 'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . ',"+idTela+"");'
                         . '});</script>';
 
                 break;
-                
-                
-                
-                case self:: TIPO_FINALIZAR:
+
+
+
+            case self:: TIPO_FINALIZAR:
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
@@ -392,11 +399,11 @@ class CampoConsulta {
                 $sIdBtn = Base::getId();
                 $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-success btn-xs"><i class="icon fa-check" aria-hidden="true"></i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
-                        .'$("#tabmenusuperior li").each(function(){'
-                        .'if($(this).hasClass( "active" )){'
+                        . '$("#tabmenusuperior li").each(function(){'
+                        . 'if($(this).hasClass( "active" )){'
                         . 'abaSelecionada=$(this).attr("id");}'
-                        .'     }); '
-                        . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();';
+                        . '     }); '
+                        . 'var idGrid = $("#"+abaSelecionada+"' . $this->getSNomeGrid() . '").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
@@ -404,82 +411,71 @@ class CampoConsulta {
                         . '});</script>';
 
                 break;
-                
+
             case self:: TIPO_MODAL:
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="'. $this->getSTipoBotao().'" data-target="#'.$this->aAcao['modalNome'].'" data-toggle="modal"></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '" data-target="#' . $this->aAcao['modalNome'] . '" data-toggle="modal"></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
-                        .'$("#tabmenusuperior li").each(function(){'
-                        .'if($(this).hasClass( "active" )){'
+                        . '$("#tabmenusuperior li").each(function(){'
+                        . 'if($(this).hasClass( "active" )){'
                         . 'abaSelecionada=$(this).attr("id");}'
-                        .'     }); '
-                        . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();';
+                        . '     }); '
+                        . 'var idGrid = $("#"+abaSelecionada+"' . $this->getSNomeGrid() . '").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
-                         $sCampo .= 'requestAjax("","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '","'.$this->aAcao['modalNome'].',"+idGrid+",' . $xValor . '");';
-                        
-                         $sCampo .= '});</script>';
+                $sCampo .= 'requestAjax("","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '","' . $this->aAcao['modalNome'] . ',"+idGrid+",' . $xValor . '");';
+
+                $sCampo .= '});</script>';
 
                 break;
-                
-                case self::TIPO_EDIT:
-                    
+
+            case self::TIPO_EDIT:
+
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sIdInput = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" value="' . $xValor . '" id="'.$sIdInput.'"/></td>';
-                $sCampo .='<script>'
-                        .'var vlrInput;'
-                        .'$("#'.$sIdInput.'").focusin(function(e) {'
-                        .'vlrInput = $("#'.$sIdInput.'").val(); console.log(vlrInput);'
-                        .'});'   
-                        .' $("#'.$sIdInput.'").blur(function(e) { '
-                            .'$("#tabmenusuperior li").each(function(){'
-                            .'if($(this).hasClass( "active" )){'
-                            . 'abaSelecionada=$(this).attr("id");}'
-                            .'     }); '
-                            . 'var idGrid = $("#"+abaSelecionada+"'.$this->getSNomeGrid().'").text();'
-                            . 'var idTela = $("#"+abaSelecionada+"paramTela").text();'
-                            .'var valorCampo = $("#'.$sIdInput.'").val();'
-                            .'if(vlrInput!=valorCampo){'
-                                .'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+","+valorCampo+",'.$sParam.'"+idTela+"");'
-                            .'}'
-                        .'});'
-                        
-                            
-                        .' $("#'.$sIdInput.'").keydown(function(e) { '
-                        .'if(e.which == 40) {'
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" value="' . $xValor . '" id="' . $sIdInput . '"/></td>';
+                $sCampo .= '<script>'
+                        . 'var vlrInput;'
+                        . '$("#' . $sIdInput . '").focusin(function(e) {'
+                        . 'vlrInput = $("#' . $sIdInput . '").val(); console.log(vlrInput);'
+                        . '});'
+                        . ' $("#' . $sIdInput . '").blur(function(e) { '
+                        . '$("#tabmenusuperior li").each(function(){'
+                        . 'if($(this).hasClass( "active" )){'
+                        . 'abaSelecionada=$(this).attr("id");}'
+                        . '     }); '
+                        . 'var idGrid = $("#"+abaSelecionada+"' . $this->getSNomeGrid() . '").text();'
+                        . 'var idTela = $("#"+abaSelecionada+"paramTela").text();'
+                        . 'var valorCampo = $("#' . $sIdInput . '").val();'
+                        . 'if(vlrInput!=valorCampo){'
+                        . 'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+","+valorCampo+",' . $sParam . '"+idTela+"");'
+                        . '}'
+                        . '});'
+                        . ' $("#' . $sIdInput . '").keydown(function(e) { '
+                        . 'if(e.which == 40) {'
                         . 'var next_index = $("input[type=text]").index(this) + 1; '
                         . 'var atual_index = $("input[type=text]").index(this); '
-                        
                         . '$("input[type=text]:eq(" + next_index + ")").focus();  '
-                        
                         . '$("input[type=text]:eq(" + atual_index + ")").parent("td").parent("tr").removeClass("selected");'
                         . '$("input[type=text]:eq(" + next_index + ")").parent("td").parent("tr").addClass("selected");'
-                        
                         . '}'
                         . 'else if(e.which == 38)'
-                        .'{var next_index = $("input[type=text]").index(this) - 1; '
+                        . '{var next_index = $("input[type=text]").index(this) - 1; '
                         . 'var atual_index = $("input[type=text]").index(this); '
-                        
                         . '$("input[type=text]:eq(" + next_index + ")").focus();  '
-                       
                         . '$("input[type=text]:eq(" + atual_index + ")").parent("td").parent("tr").removeClass("selected");'
                         . '$("input[type=text]:eq(" + next_index + ")").parent("td").parent("tr").addClass("selected");'
-                        
                         . '}'
-                    
-                        .'});'
-                       
-                        .'</script>';
+                        . '});'
+                        . '</script>';
                 break;
-               
         }
 
         return $sCampo;

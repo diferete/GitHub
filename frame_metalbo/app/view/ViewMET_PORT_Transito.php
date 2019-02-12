@@ -30,12 +30,19 @@ class ViewMET_PORT_Transito extends View {
 
         $oPlaca = new CampoConsulta('Placa', 'placa', CampoConsulta::TIPO_TEXTO);
 
-        $oEmpresa = new CampoConsulta('Empresa', 'emptransdes', CampoConsulta::TIPO_TEXTO);
+        $oEmpresa = new CampoConsulta('Empresa', 'empdes', CampoConsulta::TIPO_TEXTO);
 
         $oMotivo = new CampoConsulta('Motivo', 'motivo', CampoConsulta::TIPO_TEXTO);
+        $oMotivo->addComparacao('1', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Coleta');
+        $oMotivo->addComparacao('2', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Ent.Mat.Prima');
+        $oMotivo->addComparacao('3', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Out.Coletas');
+        $oMotivo->addComparacao('4', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Out.Entregas');
+        $oMotivo->addComparacao('5', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Serviços');
+        $oMotivo->addComparacao('6', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Visita');
+        $oMotivo->addComparacao('7', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Outro');
 
         $oSituaca = new CampoConsulta('Sit.', 'situaca', CampoConsulta::TIPO_TEXTO);
-        $oSituaca->addComparacao('Entrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
+        $oSituaca->addComparacao('Entrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
         $oSituaca->addComparacao('Saída', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
         $oSituaca->addComparacao('Chegada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oSituaca->setBComparacaoColuna(true);
@@ -66,26 +73,20 @@ class ViewMET_PORT_Transito extends View {
         $oFilMotivo->addItemSelect('2', 'Entrega Mat.P.');
         $oFilMotivo->addItemSelect('3', 'Outras Coletas');
         $oFilMotivo->addItemSelect('4', 'Outras Entregas');
-        $oFilMotivo->addItemSelect('5', 'Atraso');
-        $oFilMotivo->addItemSelect('6', 'Serviços');
-        $oFilMotivo->addItemSelect('7', 'Visita');
-        $oFilMotivo->addItemSelect('8', 'Outro');
+        $oFilMotivo->addItemSelect('5', 'Serviços');
+        $oFilMotivo->addItemSelect('6', 'Visita');
+        $oFilMotivo->addItemSelect('7', 'Outro');
         $oFilMotivo->setSLabel('Motivo');
 
 
         $this->addFiltro($oFilNR, $oFilPlaca, $oFilEmpresa, $oFilMotivo);
-        $this->addCampos($oBotaoModal, $oNr, $oPlaca, $oMotivo, $oSituaca, $oEmpresa, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntrou, $oDataSaida, $oHoraSaida);
+        $this->addCampos($oBotaoModal, $oNr, $oEmpresa, $oPlaca, $oSituaca, $oMotivo, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntrou, $oDataSaida, $oHoraSaida);
     }
 
     public function criaTela() {
         parent::criaTela();
 
-
-        $this->setBGravaHistorico(true);
-
         $sAcao = $this->getSRotina();
-
-        $oFieldInf = new FieldSet('Empresa *Se for DIFERENTE da transportadora');
 
         $oFilcgc = new Campo('CNPJ', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor($_SESSION['filcgc']);
@@ -124,11 +125,10 @@ class ViewMET_PORT_Transito extends View {
         $oMotivo->addItemSelect('2', 'Entrega Mat.P.');
         $oMotivo->addItemSelect('3', 'Outras Coletas');
         $oMotivo->addItemSelect('4', 'Outras Entregas');
-        $oMotivo->addItemSelect('5', 'Atraso');
-        $oMotivo->addItemSelect('6', 'Serviços');
-        $oMotivo->addItemSelect('7', 'Visita');
-        $oMotivo->addItemSelect('8', 'Outro');
-        $oMotivo->addValidacao(false, Validacao::TIPO_STRING,'Campo não pode estar vazio!');
+        $oMotivo->addItemSelect('5', 'Serviços');
+        $oMotivo->addItemSelect('6', 'Visita');
+        $oMotivo->addItemSelect('7', 'Outro');
+        $oMotivo->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar vazio!');
 
         $oDivisor1 = new Campo('Preencher se for diferente de Coleta/Entrega', 'divisor2', Campo::DIVISOR_WARNING, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
@@ -139,54 +139,25 @@ class ViewMET_PORT_Transito extends View {
         $oDivisor2 = new Campo('Dados do veículo', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor2->setApenasTela(true);
 
-        $oPlaca = new Campo('Placa', 'placa', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oPlaca->setClasseBusca('MET_PORT_CadVeiculos');
-        $oPlaca->setSCampoRetorno('placa', $this->getTela()->getId());
+        $oPlaca = new Campo('Placa', 'placa', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oPlaca->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '1', '7');
         $oPlaca->setSCorFundo(Campo::FUNDO_AMARELO);
         $oPlaca->setBFocus(true);
 
         $oMotorista = new Campo('Motorista', 'motorista', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oMotorista->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4', '50');
         $oMotorista->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oDocMotorista = new Campo('Doc. do motorista *RG/CPF', 'documento', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oCpf = new Campo('CPF do Motorista', 'cpf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oCpf->addValidacao(false, Validacao::TIPO_STRING, '');
+        $oCpf->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oFone = new Campo('Contato *número c/ DDD', 'fone', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oFone->addValidacao(true, Validacao::TIPO_STRING, '', '10', '11');
-
-        $oEmpCod = new Campo('CNPJ', 'emptranscod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oEmpCod->setBCampoBloqueado(true);
-
-        $oEmpDes = new Campo('Emp/Transp', 'emptransdes', Campo::TIPO_TEXTO, 4, 4, 12, 12);
-        $oEmpDes->setBCampoBloqueado(true);
-
-        $oModelo = new Campo('Fabricante/Modelo', 'modelo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oModelo->setBCampoBloqueado(true);
-
-        $oCor = new Campo('Cor', 'cor', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oCor->setBCampoBloqueado(true);
-
-        $oSetor = new campo('Cód. setor', 'codsetor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oSetor->setBCampoBloqueado(true);
-
-        $oSetorDes = new Campo('Setor', 'descsetor', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oSetorDes->setBCampoBloqueado(true);
-
-        $oTipo = new Campo('', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oTipo->setSValor('V');
-        $oTipo->setBOculto(true);
-
-        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Transito","buscaPlaca","' . $oPlaca->getId() . ',' . $oEmpCod->getId() . ',' . $oEmpDes->getId() . ',' . $oSetor->getId() . ',' . $oSetorDes->getId() . ',' . $oModelo->getId() . ',' . $oCor->getId() . '");';
-
-        if ($sAcao != 'acaoVisualiza') {
-            $oPlaca->addEvento(Campo::EVENTO_SAIR, $sCallBack);
-        }
 
         $oCnpj = new Campo('CNPJ', 'empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oCnpj->addValidacao(false, Validacao::TIPO_STRING, '', '12');
 
-        $oEmpresa = new Campo('Empresa', 'empdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oEmpresa = new Campo('Emp/Trans', 'empdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oEmpresa->setSIdPk($oCnpj->getId());
         $oEmpresa->setClasseBusca('Pessoa');
         $oEmpresa->addCampoBusca('empcod', '', '');
@@ -197,23 +168,19 @@ class ViewMET_PORT_Transito extends View {
         $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
 
+        $oTipo = new Campo('', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oTipo->setSValor('T');
+        $oTipo->setBOculto(true);
 
-        $oLinha = new Campo('', '', Campo::TIPO_LINHABRANCO);
-        $oLinha->setApenasTela(true);
+        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Transito","buscaPlaca","' . $oPlaca->getId() . ',' . $oCnpj->getId() . ',' . $oEmpresa->getId() . '");';
+        $sCallBackCPF = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Transito","buscaCpf","' . $oMotorista->getId() . ',' . $oFone->getId() . ',' . $sAcao . '");';
 
-        if ($sAcao == 'acaoAlterar') {
-
-            $oHistorico = new Campo('O que foi alterado?', 'historico', Campo::TIPO_HISTORICO);
-            $oHistorico->addValidacao(false, Validacao::TIPO_STRING, '', '20', '300');
-            $oHistorico->setILinhasTextArea(4);
-            $oHistorico->setApenasTela(true);
-
-            $oFieldInf->addCampos(array($oCnpj, $oEmpresa));
-            $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraChegou), array($oMotivo), $oDivisor1, $oDescMotivo, $oDivisor2, array($oPlaca, $oMotorista, $oDocMotorista, $oFone), array($oEmpCod, $oEmpDes), array($oModelo, $oCor), array($oSetor, $oSetorDes), $oLinha, $oFieldInf, array($oHistorico, $oTipo, $oUsuCod, $oSituaca));
-        } else {
-            $oFieldInf->addCampos(array($oCnpj, $oEmpresa));
-            $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraChegou), array($oMotivo), $oDivisor1, $oDescMotivo, $oDivisor2, array($oPlaca, $oMotorista, $oDocMotorista, $oFone), array($oEmpCod, $oEmpDes), array($oModelo, $oCor), array($oSetor, $oSetorDes), $oLinha, $oFieldInf, array($oTipo, $oUsuCod, $oSituaca));
+        if ($sAcao != 'acaoVisualiza') {
+            $oPlaca->addEvento(Campo::EVENTO_SAIR, $sCallBack);
+            $oCpf->addEvento(Campo::EVENTO_SAIR, $sCallBackCPF);
         }
+
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraChegou), $oDivisor2, array($oPlaca,  $oCpf,$oMotorista, $oFone), array($oCnpj, $oEmpresa), array($oMotivo), $oDivisor1, $oDescMotivo, array($oTipo, $oUsuCod, $oSituaca));
     }
 
     public function criaModalApontaEntrada() {
@@ -227,8 +194,8 @@ class ViewMET_PORT_Transito extends View {
         $oFilcgc->setBCampoBloqueado(true);
         $oFilcgc->setBOculto(true);
 
-        $oEmpresa = new Campo('Empresa', 'emptransdes', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oEmpresa->setSValor($oDados->getEmptransdes());
+        $oEmpresa = new Campo('Empresa', 'empdes', Campo::TIPO_TEXTO, 6, 6, 12, 12);
+        $oEmpresa->setSValor($oDados->getEmpdes());
         $oEmpresa->setBCampoBloqueado(true);
 
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 1, 12, 12);
@@ -283,8 +250,8 @@ class ViewMET_PORT_Transito extends View {
         $oFilcgc->setBCampoBloqueado(true);
         $oFilcgc->setBOculto(true);
 
-        $oEmpresa = new Campo('Empresa', 'emptransdes', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oEmpresa->setSValor($oDados->getEmptransdes());
+        $oEmpresa = new Campo('Empresa', 'empdes', Campo::TIPO_TEXTO, 6, 6, 12, 12);
+        $oEmpresa->setSValor($oDados->getEmpdes());
         $oEmpresa->setBCampoBloqueado(true);
 
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 1, 12, 12);

@@ -45,16 +45,38 @@ class ModelQualRnc {
     private $anexo3;
     private $situaca;
     private $devolucao;
+    private $reclamacao;
     private $obsSit;
     private $resp_venda_cod;
     private $resp_venda_nome;
-    private $apontamento;
     private $usuaponta;
     private $repcod;
-    private $devolucaoacc;
-    private $devolucaorec;
-    private $obs_devolucao;
+    private $obs_aponta;
     private $produtos;
+
+    function getDevolucao() {
+        return $this->devolucao;
+    }
+
+    function setDevolucao($devolucao) {
+        $this->devolucao = $devolucao;
+    }
+
+    function getReclamacao() {
+        return $this->reclamacao;
+    }
+
+    function getObs_aponta() {
+        return $this->obs_aponta;
+    }
+
+    function setReclamacao($reclamacao) {
+        $this->reclamacao = $reclamacao;
+    }
+
+    function setObs_aponta($obs_aponta) {
+        $this->obs_aponta = $obs_aponta;
+    }
 
     function getProdutos() {
         return $this->produtos;
@@ -64,36 +86,12 @@ class ModelQualRnc {
         $this->produtos = $produtos;
     }
 
-    function getObs_devolucao() {
-        return $this->obs_devolucao;
-    }
-
-    function setObs_devolucao($obs_devolucao) {
-        $this->obs_devolucao = $obs_devolucao;
-    }
-
     function getDisposicao() {
         return $this->disposicao;
     }
 
-    function getDevolucaoacc() {
-        return $this->devolucaoacc;
-    }
-
-    function getDevolucaorec() {
-        return $this->devolucaorec;
-    }
-
     function setDisposicao($disposicao) {
         $this->disposicao = $disposicao;
-    }
-
-    function setDevolucaoacc($devolucaoacc) {
-        $this->devolucaoacc = $devolucaoacc;
-    }
-
-    function setDevolucaorec($devolucaorec) {
-        $this->devolucaorec = $devolucaorec;
     }
 
     function getRepcod() {
@@ -124,16 +122,8 @@ class ModelQualRnc {
         return $this->empcod;
     }
 
-    function getDevolucao() {
-        return $this->devolucao;
-    }
-
     function setEmpcod($empcod) {
         $this->empcod = $empcod;
-    }
-
-    function setDevolucao($devolucao) {
-        $this->devolucao = $devolucao;
     }
 
     function getResp_venda_cod() {

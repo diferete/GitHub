@@ -66,6 +66,7 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $this->adicionaRelacionamento('prodesFinal', 'prodesFinal');
         
         $this->adicionaRelacionamento('vlrNfEnt', 'vlrNfEnt');
+        $this->adicionaRelacionamento('vlrNfEntUnit','vlrNfEntUnit');
         
         
         
@@ -139,7 +140,7 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
      */
     
     public function buscaPreço($aCamposChave){
-       $sql = "select nfsitvlrto "
+       $sql = "select nfsitvlrun,nfsitvlrto "
               ."  from rex_maquinas.widl.NFC003 "
               ."  where nfsfilcgc ='75483040000211' "
               ."  and nfsnfser = '2' "
@@ -149,8 +150,12 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $result = $this->getObjetoSql($sql);
         $row = $result->fetch(PDO::FETCH_OBJ);
         
-        $sValor = $row->nfsitvlrto; 
-        return $sValor;
+        
+        $aRetorno = array();
+        $aRetorno[0] = $row->nfsitvlrun;
+        $aRetorno[1] = $row->nfsitvlrto; 
+        return $aRetorno;
+        
     }
    
         

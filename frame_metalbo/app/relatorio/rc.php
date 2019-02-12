@@ -79,16 +79,15 @@ $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; 
 
 $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
                 convert(varchar,datains,103) as datains,
-                empfone,celular,empend,empendbair,
+                empfone,celular,empend,empendbair,usunome,
                 cidnome,convert(varchar,datains,103)as datains,email,
                 case when ind = 'true' then 'x' else '' end as ind,
-                case when comer = 'true' then 'x' else '' end as comer,widl.emp01.cidcep,
-                nf,convert(varchar,datanf,103)as datanf,odcompra,pedido,valor,peso,lote,op,naoconf,produtos,aplicacao,
-                quant,quantnconf,usuaponta,apontamento,resp_venda_nome,obs_devolucao,
-                case when devolucaoacc = 'true' then 'x' else '' end as devolucaoacc,
-                case when devolucaorec = 'true' then 'x' else '' end as devolucaorec,
+                case when comer = 'true' then 'x' else '' end as comer,
+                widl.emp01.cidcep,nf,convert(varchar,datanf,103)as datanf,
+                odcompra,pedido,valor,peso,lote,op,naoconf,produtos,aplicacao,
+                quant,quantnconf,usuaponta,apontamento,devolucao,reclamacao,resp_venda_nome,obs_aponta,
                 case when disposicao = '1' then 'x' else '' end as aceitar,
-                case when disposicao = '2' then 'x' else '' end as recusar,usunome
+                case when disposicao = '2' then 'x' else '' end as recusar
                 from tbrncqual left outer join widl.EMP01
                 on widl.emp01.empcod = tbrncqual.empcod left outer join widl.CID01 
                 on widl.CID01.cidcep = widl.EMP01.cidcep where nr =" . $nr;
@@ -237,32 +236,35 @@ $pdf->Cell(30, 5, "Aplicação:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(30, 5, $row['aplicacao'], 0, 1, 'L');
 
-foreach ($aProdutos as $key => $value) {
-    $aDadosProd = explode('-', $value);
+if ($aProdutos[0] != '') {
 
-    $iAltura = $pdf->GetY();
-    $pdf->Rect(2, $iAltura, 206, 30);
-    $pdf->Ln(5);
-    
-    $pdf->SetFont('arial', 'B', 10);
-    $pdf->Cell(30, 5, "Produto:", 0, 0, 'L');
-    $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(30, 5, $aDadosProd[1], 0, 1, 'L');
+    foreach ($aProdutos as $key => $value) {
+        $aDadosProd = explode('-', $value);
 
-    $pdf->SetFont('arial', 'B', 10);
-    $pdf->Cell(30, 5, "Código:", 0, 0, 'L');
-    $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(30, 5, $aDadosProd[0], 0, 1, 'L');
+        $iAltura = $pdf->GetY();
+        $pdf->Rect(2, $iAltura, 206, 30);
+        $pdf->Ln(5);
 
-    $pdf->SetFont('arial', 'B', 10);
-    $pdf->Cell(30, 5, "Quantidade:", 0, 0, 'L');
-    $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(30, 5, $aDadosProd[2], 0, 1, 'L');
+        $pdf->SetFont('arial', 'B', 10);
+        $pdf->Cell(30, 5, "Produto:", 0, 0, 'L');
+        $pdf->SetFont('arial', '', 10);
+        $pdf->Cell(30, 5, $aDadosProd[1], 0, 1, 'L');
 
-    $pdf->SetFont('arial', 'B', 10);
-    $pdf->Cell(30, 5, "Quant. não conf:", 0, 0, 'L');
-    $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(30, 5, $aDadosProd[3], 0, 1, 'L');
+        $pdf->SetFont('arial', 'B', 10);
+        $pdf->Cell(30, 5, "Código:", 0, 0, 'L');
+        $pdf->SetFont('arial', '', 10);
+        $pdf->Cell(30, 5, $aDadosProd[0], 0, 1, 'L');
+
+        $pdf->SetFont('arial', 'B', 10);
+        $pdf->Cell(30, 5, "Quantidade:", 0, 0, 'L');
+        $pdf->SetFont('arial', '', 10);
+        $pdf->Cell(30, 5, $aDadosProd[2], 0, 1, 'L');
+
+        $pdf->SetFont('arial', 'B', 10);
+        $pdf->Cell(30, 5, "Quant. não conf:", 0, 0, 'L');
+        $pdf->SetFont('arial', '', 10);
+        $pdf->Cell(30, 5, $aDadosProd[3], 0, 1, 'L');
+    }
 }
 
 
@@ -302,13 +304,12 @@ $pdf->Cell(50, 5, $row['resp_venda_nome'], 0, 1, 'L');
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Devolução:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, '(' . $row['devolucaoacc'] . ') Aceita', 0, 0, 'L');
-$pdf->Cell(50, 5, '(' . $row['devolucaorec'] . ') Recusada', 0, 1, 'L');
+$pdf->Cell(50, 5, $row['devolucao'], 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Obs Venda:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->MultiCell(205, 5, $row['obs_devolucao'], 0, 'L');
+$pdf->MultiCell(205, 5, $row['obs_aponta'], 0, 'L');
 
 
 if ($sEmailRequest == 'S') {

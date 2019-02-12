@@ -22,6 +22,27 @@ class ControllerQualRnc extends Controller {
         $this->View->setOObjTela($oReps);
     }
 
+    public function beforeInsert() {
+        parent::beforeInsert();
+        $oLote = $this->Model->getLote();
+        $oOp = $this->Model->getOp();
+
+        if (($oLote == '' || $oOp == '') || ($oLote == null || $oOp == null)) {
+            $oMsg = new Modal('Atenção', 'Favor preencer os campos de LOTE e ORDEM DE PRODUÇÃO, solicitar com o Cliente!', Modal::TIPO_AVISO, FALSE, TRUE, FALSE);
+            echo $oMsg->getRender();
+
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
+    }
+
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
 
@@ -84,8 +105,8 @@ class ControllerQualRnc extends Controller {
         parse_str($sChave, $aCamposChave);
         $aCamposChave['id'] = $aDados[1];
 
-        $aRet = $this->Persistencia->verificaFim($aCamposChave);
-        if ($aRet[1] == 'Aceita' & $aRet[0] != 'Finalizada' || $aRet[1] == 'Recusada' & $aRet[0] != 'Finalizada' || $aRet[1] == 'Transportadora' & $aRet[0] != 'Finalizada') {
+        $aRet = $this->Persistencia->verifSitRC($aCamposChave);
+        if ($aRet[0] == 'Apontada' && ($aRet[2] == 'Recusada' || $aRet[2] == 'Aceita')) {
 
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
@@ -163,7 +184,7 @@ class ControllerQualRnc extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
-        $aRet = $this->Persistencia->verificaFim($aCamposChave);
+        $aRet = $this->Persistencia->verifSitRC($aCamposChave);
 
         if ($aRet[0] == 'Liberado') {
             $oMensagem = new Modal('Atenção', 'A reclamação já foi liberada para a Metalbo! Deseja reenviar o e-mail?', Modal::TIPO_AVISO, true, true, true);
@@ -190,19 +211,19 @@ class ControllerQualRnc extends Controller {
         $aDados = explode(',', $sDados);
         if ($aDados[3] == 'reenvia') {
             $sIdGrid = $aDados[1];
-            $sAq[] = $aDados[2];
-            $sChave = htmlspecialchars_decode($sAq[0]);
+            $sRc[0] = $aDados[2];
+            $sChave = htmlspecialchars_decode($sRc[0]);
             $aCamposChave = array();
             parse_str($sChave, $aCamposChave);
             $this->geraPdfQualRnc($aCamposChave, $aDados);
         } else {
             $sIdGrid = $aDados[1];
-            $sAq[] = $aDados[3];
-            $sChave = htmlspecialchars_decode($sAq[0]);
+            $sRc[0] = $aDados[3];
+            $sChave = htmlspecialchars_decode($sRc[0]);
             $aCamposChave = array();
 
             parse_str($sChave, $aCamposChave);
-            $aRet = $this->Persistencia->verificaFim($aCamposChave);
+            $aRet = $this->Persistencia->verifSitRC($aCamposChave);
 
             if ($aRet[0] != 'Aguardando') {
                 $oMensagem = new Modal('Atenção...  A reclamação já foi liberada para a Metalbo!', '', Modal::TIPO_AVISO, false, true, false);
@@ -210,8 +231,8 @@ class ControllerQualRnc extends Controller {
                 return;
             } else {
                 $sIdGrid = $aDados[1];
-                $sAq[] = $aDados[3];
-                $sChave = htmlspecialchars_decode($sAq[0]);
+                $sRc[0] = $aDados[3];
+                $sChave = htmlspecialchars_decode($sRc[0]);
                 $aCamposChave = array();
                 parse_str($sChave, $aCamposChave);
                 $this->geraPdfQualRnc($aCamposChave, $aDados);

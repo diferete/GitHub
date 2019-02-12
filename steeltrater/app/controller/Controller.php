@@ -1854,6 +1854,9 @@ class Controller {
                 $xValorCampo = '';
                 $sConsulta = '';
                 $sNomeCampo = $campoAtual->getSNome();
+                
+                
+                
                 if ($campoAtual->getBCampoIcone() == true) {
                     $sChave = $this->Persistencia->getChaveModel($oAtual);
                     $sDados .= $campoAtual->getRender($sConsulta, $sChave);
@@ -2379,7 +2382,7 @@ class Controller {
         $iTipoLigacao = Persistencia::LIGACAO_AND;
         $iTipoComparacao = Persistencia::IGUAL;
         $this->Persistencia->adicionaFiltro($sCampoBanco, $sValorFiltro, $iTipoLigacao, $iTipoComparacao);
-        //adiciona filtro adicionais se for necessário
+        //adiciona filtro adicionais se for necessário ou pode fazer validações
         $this->antesValorBuscaPk();
 
 

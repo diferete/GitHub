@@ -68,18 +68,22 @@ $pdf->SetFont('Arial', 'B', 15);
 // Move to the right
 $pdf->Cell(50);
 // Title
-$pdf->Cell(120, 10, 'Relatorio de Novos Projetos', 0, 1, 'L');
-$pdf->Ln(10);
+$pdf->Cell(95, 10, 'Relatorio de Novos Projetos', 0, 0, 'C');
 
-$pdf->SetFont('Arial', '', 9);
-//$pdf->Cell(40, 5, 'Empresa:', 0, 1, 'L');
-$pdf->Cell(40, 5, 'Usuário: ' . $sUserRel, 0, 1, 'L');
-$pdf->Cell(30, 5, 'Data: ' . $sData, 0, 0, 'L');
-$pdf->Cell(30, 5, 'Hora: ' . $sHora, 0, 1, 'L');
-$pdf->Cell(0, 0, "", "B", 1, 'C');  //linha em branco 
+$x = $pdf->GetX();
+$y = $pdf->GetY();
 
+$pdf->SetFont('Arial', '', 10);
+$pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
+$pdf->SetXY($x, $y + 5);
+$pdf->MultiCell(50, 5, 'Data: ' . $sData .
+        '  Hora: ' . $sHora, 0, 'L');
+$pdf->SetXY($x, $y + 5);
+$pdf->MultiCell(50, 15, 'Per.: ' . $data1 .
+        ' - ' . $data2, 0, 'L');
 
-$pdf->SetY(45);
+$pdf->Ln(5);
+
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 $sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
         . " tbqualNovoProjeto.empcod,empdes,convert(varchar,dtimp,103) as dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento"
@@ -104,12 +108,9 @@ if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGera
         $sql .= " and ";
         $sql .= " sitgeralproj ='" . $sSitGeral . "'";
     }
-
     if (($sTipoProd !== '')) {
-        if ($sSitProj == 'Cód. enviado') {
-            $sql .= " and ";
-            $sql .= " grucod = '" . $sTipoProd . "'";
-        }
+        $sql .= " and ";
+        $sql .= " grucod = '" . $sTipoProd . "'";
     }
 }
 $sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
@@ -117,6 +118,83 @@ $sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo
         . " order by nr";
 
 $sth = $PDO->query($sql);
+
+//SELECT PARA CONTAR PROJETOS APROVADOS, REPROVADOS
+$sqlCont = "SELECT DISTINCT sitvendas, sitproj, sitcliente, sitgeralproj
+               ,COUNT(*) AS quantidade
+                FROM tbqualNovoProjeto
+                where dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "'";
+
+if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGeral !== '') || ($sTipoProd !== '')) {
+    if (($sSitProj !== '')) {
+        $sqlCont .= " and ";
+        $sqlCont .= " sitproj ='" . $sSitProj . "'";
+    }
+    if (($sSitVenda !== '')) {
+        $sqlCont .= " and ";
+        $sqlCont .= " sitvendas ='" . $sSitVenda . "'";
+    }
+    if (($sSitCli !== '')) {
+        $sqlCont .= " and ";
+        $sqlCont .= " sitcliente ='" . $sSitCli . "'";
+    }
+    if (($sSitGeral !== '')) {
+        $sqlCont .= " and ";
+        $sqlCont .= " sitgeralproj ='" . $sSitGeral . "'";
+    }
+    if (($sTipoProd !== '')) {
+        $sqlCont .= " and ";
+        $sqlCont .= " grucod = '" . $sTipoProd . "'";
+    }
+}
+
+$sqlCont .= " GROUP BY sitvendas, sitproj, sitcliente, sitgeralproj
+            ORDER BY quantidade DESC ";
+
+$sCont = $PDO->query($sqlCont);
+
+//Inicializa as variáveis de porjetos aprovados/reprovados
+$qAprovVend = 0;
+$qReproVend = 0;
+$qAprovProj = 0;
+$qReproProj = 0;
+$qAprovClie = 0;
+$qReproClie = 0;
+
+//Calcula projetos aprovados/reprovados por setor
+while ($row = $sCont->fetch(PDO::FETCH_ASSOC)) {
+
+    if ($row['sitvendas'] == "Aprovado") {
+        $qAprovVend = $qAprovVend + (int) $row['quantidade'];
+    } else
+    if (($row['sitvendas'] == "Reprovado")) {
+        $qReproVend = $qReproVend + (int) $row['quantidade'];
+    }
+
+    if ($row['sitproj'] == "Aprovado") {
+        $qAprovProj = $qAprovProj + (int) $row['quantidade'];
+    } else
+    if (($row['sitproj'] == "Reprovado")) {
+        $qReproProj = $qReproProj + (int) $row['quantidade'];
+    }
+
+    if ($row['sitcliente'] == "Aprovado") {
+        $qAprovClie = $qAprovClie + (int) $row['quantidade'];
+    } else
+    if (($row['sitcliente'] == "Reprovado")) {
+        $qReproClie = $qReproClie + (int) $row['quantidade'];
+    }
+}
+
+//Imprime relatório projetos aprovados/reprovados por setor
+$pdf->Cell(199, 5, 'Aprovados Vendas: ' . $qAprovVend . ''
+        . '  -   Aprovados Projetos: ' . $qAprovProj . ''
+        . '  -   Aprovados Cliente: ' . $qAprovClie, 0, 1, 'L');
+$pdf->Cell(199, 5, 'Reprovados Vendas: ' . $qReproVend . ''
+        . '  -   Reprovados Projetos: ' . $qReproProj . ''
+        . '  -   Reprovados Cliente: ' . $qReproClie, 0, 1, 'L');
+$pdf->Cell(0, 0, "", "B", 1, 'C');
+$pdf->Ln(3);
 
 $iContaAltura = $pdf->GetY();
 
@@ -137,17 +215,21 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         // Move to the right
         $pdf->Cell(50);
         // Title
-        $pdf->Cell(120, 10, 'Relatorio de Novos Projetos', 0, 1, 'L');
-        $pdf->Ln(10);
+        $pdf->Cell(95, 10, 'Relatorio de Novos Projetos', 0, 0, 'C');
 
-        $pdf->SetFont('Arial', '', 9);
-        //$pdf->Cell(40, 5, 'Empresa:', 0, 1, 'L');
-        $pdf->Cell(40, 5, 'Usuário: ' . $sUserRel, 0, 1, 'L');
-        $pdf->Cell(30, 5, 'Data: ' . $sData, 0, 0, 'L');
-        $pdf->Cell(30, 5, 'Hora: ' . $sHora, 0, 1, 'L');
-        $pdf->Cell(0, 0, "", "B", 1, 'C');
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
 
-        $pdf->SetFont('Arial', '', 9);
+        $pdf->SetFont('Arial', '', 10);
+        $pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
+        $pdf->SetXY($x, $y + 5);
+        $pdf->MultiCell(50, 5, 'Data: ' . $sData .
+                '  Hora: ' . $sHora, 0, 'L');
+        $pdf->SetXY($x, $y + 5);
+        $pdf->MultiCell(50, 15, 'Per.: ' . $data1 .
+                ' - ' . $data2, 0, 'L');
+
+        $pdf->Ln(5);
 
         //define a altura inicial dos dados
         $pdf->SetFont('arial', '', 8);
@@ -240,7 +322,22 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $iContaAltura = $pdf->GetY() + 10;
 }
 
+//Conta o total de porcas e parafusos dentro do período de datas selecionado
+$sqlTotalPa = "select count(tbqualNovoProjeto.procod) as quantidade from widl.PROD01
+                 left join tbqualNovoProjeto on tbqualNovoProjeto.procod = widl.PROD01.procod
+                 where widl.PROD01.grucod = 13 and tbqualNovoProjeto.grucod = 13 and dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "'";
+$iTotalPa = $PDO->query($sqlTotalPa)->fetch(PDO::FETCH_ASSOC);
 
+$sqlTotalPo = "select count(tbqualNovoProjeto.procod) as quantidade from widl.PROD01
+                 left join tbqualNovoProjeto on tbqualNovoProjeto.procod = widl.PROD01.procod
+                 where widl.PROD01.grucod = 12 and tbqualNovoProjeto.grucod = 12 and dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "'";
+$iTotalPo = $PDO->query($sqlTotalPo)->fetch(PDO::FETCH_ASSOC);
+
+
+$pdf->Ln(2);
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(199, 5, 'Total de Projetos de Porcas: ' . $iTotalPo['quantidade'], 0, 1, 'L');
+$pdf->Cell(199, 5, 'Total de Projetos de Parafusos: ' . $iTotalPa['quantidade'], 0, 1, 'L');
 
 //number_format($quant, 2, ', ', '.')
 $pdf->AutoPrint();

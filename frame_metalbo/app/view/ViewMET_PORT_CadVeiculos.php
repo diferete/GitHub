@@ -19,6 +19,7 @@ class ViewMET_PORT_CadVeiculos extends View {
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(true);
         $this->setUsaFiltro(true);
+        $this->getTela()->setBGridResponsivo(true);
 
         $oFilcgc = new CampoConsulta('CNPJ', 'filcgc', CampoConsulta::TIPO_TEXTO);
 
@@ -42,6 +43,8 @@ class ViewMET_PORT_CadVeiculos extends View {
 
     public function criaTela() {
         parent::criaTela();
+
+        $sAcao = $this->getSRotina();
 
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oFilcgc->setSValor($_SESSION['filcgc']);
@@ -121,7 +124,6 @@ class ViewMET_PORT_CadVeiculos extends View {
         $oCor->addItemSelect('FANTASIA', 'FANTASIA');
 
         $oEmpcod = new Campo('CNPJ', 'emptranscod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oEmpcod->addValidacao(false, Validacao::TIPO_INTEIRO, 'Campo obrigatório!', '1');
 
         $oEmpdes = new Campo('Emp/Transp', 'emptransdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oEmpdes->setSIdPk($oEmpcod->getId());
@@ -137,6 +139,10 @@ class ViewMET_PORT_CadVeiculos extends View {
         $oDivisor2 = new Campo('Setor, caso seja colaborador.', 'divisor2', Campo::DIVISOR_WARNING, 12, 12, 12, 12);
         $oDivisor2->setApenasTela(true);
 
+        $oCracha = new Campo('Crachá', 'cracha', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oPessoa = new Campo('Pessoa', 'pessoa', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+
+
         $oSetorCod = new Campo('Cód', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
         $oSetorDes = new Campo('Setor', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -151,8 +157,17 @@ class ViewMET_PORT_CadVeiculos extends View {
         $oSetorCod->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oSetorCod->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
 
-        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDatacad), $oDivisor1, array($oPlaca, $oModelo, $oCor), array($oEmpcod, $oEmpdes, $oContato), $oDivisor2, array($oSetorCod, $oSetorDes, $oUsuCod)
-        );
+        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_CadVeiculos","buscaPessoa","' . $oPessoa->getId() . ',' . $oSetorCod->getId() . ',' . $oSetorDes->getId() . ',' . $sAcao . '");';
+        if ($sAcao != 'acaoVisualiza') {
+            $oCracha->addEvento(Campo::EVENTO_SAIR, $sCallBack);
+        }
+
+        $this->addCampos(
+                array($oFilcgc, $oNr, $oUsuNome, $oDatacad), $oDivisor1, 
+                array($oPlaca, $oModelo, $oCor), 
+                array($oEmpcod, $oEmpdes, $oContato), $oDivisor2, 
+                array($oCracha, $oPessoa), 
+                array($oSetorCod, $oSetorDes, $oUsuCod));
     }
 
 }

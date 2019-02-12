@@ -63,8 +63,14 @@ class ControllerModulo extends Controller {
         echo '<br>';
     }
 
+    public function inserePlaca() {
+        $this->Persistencia->inserePlaca();
+        $oMsg = new Mensagem('Pronto', 'concluido com sucesso');
+        echo $oMsg->getRender();
+    }
+
     public function testarEmail() {
-        
+
         $oEmail = new Email();
         $oEmail->setMailer();
 
@@ -83,7 +89,7 @@ class ControllerModulo extends Controller {
         $oEmail->limpaDestinatariosAll();
         // Para        
         $oEmail->addDestinatario($_SESSION['email']);
-        
+
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {

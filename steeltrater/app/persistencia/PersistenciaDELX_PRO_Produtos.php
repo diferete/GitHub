@@ -112,25 +112,19 @@ class PersistenciaDELX_PRO_Produtos extends Persistencia {
         $sAndSub = ' and "DELX_PRO_Grupo".pro_grupocodigo = "DELX_PRO_Subgrupo".PRO_GrupoCodigo ';
 
         $this->adicionaJoin('DELX_PRO_Subgrupo', null, 1, 'pro_subgrupocodigo', 'pro_subgrupocodigo', $sAndSub);
-        //////////////////////////////////////////////////////////////////////////////////////////
+
         $sAndFam = ' and PRO_PRODUTO.PRO_GrupoCodigo = "DELX_PRO_Familia".PRO_GrupoCodigo '
                 . ' and PRO_PRODUTO.PRO_SubGrupoCodigo = "DELX_PRO_Familia".PRO_SubGrupoCodigo ';
 
         $this->adicionaJoin('DELX_PRO_Familia', null, 1, 'pro_familiacodigo', 'pro_familiacodigo', $sAndFam);
-        /////////////////////////////////////////////////////////////////////////////////////////////////
-        /* $sAndSubFam =' and PRO_PRODUTO.PRO_GrupoCodigo = "DELX_PRO_Subfamilia".PRO_GrupoCodigo '
-          .' and PRO_PRODUTO.PRO_SubGrupoCodigo = "DELX_PRO_Subfamilia".PRO_SubGrupoCodigo '
-          . 'and PRO_PRODUTO.PRO_Familiacodigo = "DELX_PRO_Subfamilia".PRO_FamiliaCodigo';
-         * 
-         * 
-         */
+       
         $sAndSubFam = ' and PRO_PRODUTO.PRO_SubGrupoCodigo = "DELX_PRO_Subfamilia".PRO_SubGrupoCodigo '
                 . 'and PRO_PRODUTO.PRO_FamiliaCodigo = "DELX_PRO_Subfamilia".PRO_FamiliaCodigo '
                 . 'and PRO_PRODUTO.PRO_SubFamiliaCodigo = "DELX_PRO_Subfamilia".PRO_SubFamiliaCodigo';
         $this->adicionaJoin('DELX_PRO_Subfamilia', null, 1, 'pro_grupocodigo', 'pro_grupocodigo', $sAndSubFam);
     }
 
-    public function insereProdFilial($sProCod,$aCNPJ) {
+    public function insereProdFilial($aDados) {
         
     }
 

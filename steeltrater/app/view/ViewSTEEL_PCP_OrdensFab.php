@@ -45,7 +45,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         
         $this->addFiltro($oOpFiltro,$oCodigoFiltro,$oDescricaoFiltro,$oTipoAcaoFiltro,$oDocFiltro);
         
-        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoExcluir(FALSE);
         
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
@@ -162,7 +162,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oProdFinalDes->addCampoBusca('pro_codigo', '','');
         $oProdFinalDes->addCampoBusca('pro_descricao', '','');
         $oProdFinalDes->setSIdTela($this->getTela()->getId());
-      //  $oProdFinalDes->setBCampoBloqueado(true);
+        $oProdFinalDes->addValidacao(false, Validacao::TIPO_STRING);
         
         $oProdFinal->setClasseBusca('DELX_PRO_Produtos');
         $oProdFinal->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
@@ -233,7 +233,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oLinha = new Campo('','linha', Campo::TIPO_LINHA,12);
         $oLinha->setApenasTela(true);
         
-        $oQuant = new Campo('Quant','quant', Campo::TIPO_DECIMAL,1);
+        $oQuant = new Campo('Quant{Peso ou CT}','quant', Campo::TIPO_DECIMAL,2);
         $oQuant->setSValor('0,00');
         $oQuant->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
@@ -241,19 +241,29 @@ class ViewSTEEL_PCP_OrdensFab extends View{
          {$oQuant->setSValor(number_format($oDados->getNfsitqtd(), 2, ',', '.'));}
         
         
-        $oPeso = new Campo('Peso','peso', Campo::TIPO_DECIMAL,1);
+        $oPeso = new Campo('Peso{Em KG}','peso', Campo::TIPO_DECIMAL,1);
         $oPeso->setSValor('0,00');
         $oPeso->setSCorFundo(Campo::FUNDO_MONEY);
         $oPeso->addValidacao(false, Validacao::TIPO_STRING);
         if(method_exists($oDados, 'getPeso')) 
          {$oPeso->setSValor(number_format($oDados->getPeso(), 2, ',', '.'));}
          
-         $oValorEnt = new campo('Valor','vlrNfEnt', Campo::TIPO_DECIMAL,1);
+         
+         $oValorUnit = new campo('Valor Unitário','vlrNfEntUnit', Campo::TIPO_DECIMAL,1);
+         $oValorUnit->setSValor('0,00');
+          if(method_exists($oDados, 'getVlrNfEntUnit')) 
+         {$oValorUnit->setSValor(number_format($oDados->getVlrNfEntUnit(), 2, ',', '.'));}
+         
+         $oValorEnt = new campo('Valor Total','vlrNfEnt', Campo::TIPO_DECIMAL,1);
          $oValorEnt->setSValor('0,00');
           if(method_exists($oDados, 'getVlrNfEnt')) 
          {$oValorEnt->setSValor(number_format($oDados->getVlrNfEnt(), 2, ',', '.'));}
-         
         
+         $sEventoCalculo = 'precoNfEntradaSteel("'.$oQuant->getId().'","'.$oValorUnit->getId().'","'.$oValorEnt->getId().'");';
+         
+
+         
+         $oQuant->addEvento(Campo::EVENTO_SAIR,$sEventoCalculo);
         
         $oOpCli = new Campo('OP do cliente','opcliente', Campo::TIPO_TEXTO,2);
          if(method_exists($oDados, 'getMetof')) 
@@ -308,12 +318,14 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         
         $oField1 = new FieldSet('Retrabalho');
         
-        $oRetrabalho = new Campo('Retrabalho','retrabalho', Campo::TIPO_TEXTO,1);
-        $oRetrabalho->setBCampoBloqueado(true);
+        $oRetrabalho = new Campo('Retrabalho','retrabalho', Campo::TIPO_SELECT,1);
         $oRetrabalho->setSValor('Não');
+        $oRetrabalho->addItemSelect('Não','Não');
+        $oRetrabalho->addItemSelect('Sim','Sim');
+        
         
         $oOpRet = new Campo('Op Origem Retra.','op_retrabalho', Campo::TIPO_TEXTO,2);
-        $oOpRet->setBCampoBloqueado(true);
+        $oOpRet->setBCampoBloqueado(false);
         
         
         $oField1->addCampos(array($oRetrabalho,$oOpRet));
@@ -327,7 +339,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
                 $oGridMat,
                 array($oCodMat, $oMatDes,$oReceita,$oReceitaDes,$oSeqMat),
                $oLinha,
-                array($oOpCli,$oQuant,$oPeso,$oValorEnt,$oTempRev),$oObs,$oDataPrev,$oField1);
+                array($oOpCli,$oQuant,$oPeso,$oValorUnit,$oValorEnt,$oTempRev),$oObs,$oDataPrev,$oField1);
     }
     
    

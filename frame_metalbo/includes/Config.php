@@ -60,7 +60,7 @@ class Config {
     
 
 
-
+   
     /*
     const TIPO_BD = self::BD_SQLSERVER;
     const PORTA_BD = 1433;
@@ -70,7 +70,7 @@ class Config {
     const PASS_BD = 'M@quinas@321';
      * 
      */
-
+   
 
 
     /*

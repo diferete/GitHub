@@ -21,6 +21,24 @@ class ModelMET_PORT_CadVeiculos {
     private $emptransdes;
     private $codsetor;
     private $descsetor;
+    private $cracha;
+    private $pessoa;
+
+    function getCracha() {
+        return $this->cracha;
+    }
+
+    function getPessoa() {
+        return $this->pessoa;
+    }
+
+    function setCracha($cracha) {
+        $this->cracha = $cracha;
+    }
+
+    function setPessoa($pessoa) {
+        $this->pessoa = $pessoa;
+    }
 
     function getEmptranscod() {
         return $this->emptranscod;

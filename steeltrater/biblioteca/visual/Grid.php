@@ -643,7 +643,7 @@ class Grid {
         $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
         //$sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
         $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
-                . '<thead><tr role ="row"><th><button type="button" id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox"></button></th>';
+                . '<thead><tr role ="row"><th style="width: 20px;"><button type="button" id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox"></button></th>';
         //monta o cabeçalho baseado nos campos do cria consulta
         foreach ($this->aColunas as $key => $oCampoAtual) {
             $sLargura = '';

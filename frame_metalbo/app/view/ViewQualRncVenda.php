@@ -28,6 +28,10 @@ class ViewQualRncVenda extends View {
 
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
 
+
+
+////////////////////////////////////////////// COLUNAS DE SITUAÇÃO /////////////////////////////////////////////////////////////////////////////
+
         $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
         $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oSit->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
@@ -38,13 +42,24 @@ class ViewQualRncVenda extends View {
         $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
         $oSit->setBComparacaoColuna(true);
 
+        $oReclamacao = new CampoConsulta('Reclamação', 'reclamacao', CampoConsulta::TIPO_LARGURA);
+        $oReclamacao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Interna', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->setBComparacaoColuna(true);
+
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_LARGURA);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
-        $oDevolucao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
-        $oDevolucao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oDevolucao->setBComparacaoColuna(true);
+
+
+
+////////////////////////////////////////////// DROPDOWNS //////////////////////////////////////////////////////////////////////////////////////////////
 
         $oDropDown = new Dropdown('Opções da reclamação', Dropdown::TIPO_PRIMARY);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'QualRncVenda', 'acaoMostraRelConsulta', '', false, 'rc');
@@ -52,15 +67,17 @@ class ViewQualRncVenda extends View {
         $oDropDown1 = new Dropdown('Encaminhar E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_QUAL) . 'Qualidade', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Qual');
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_BOX) . 'Embalagem', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Emb');
-        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Expedição', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Exp');        
-        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Repres./Transp.', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Rep');
+        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Expedição', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Exp');
+        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Representante', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Rep');
 
         $oDropDown2 = new Dropdown('Apontamentos', Dropdown::TIPO_AVISO);
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'criaTelaModalAccDevolucao', '', false, '1', false, 'criaTelaModalAccDevolucao', true, 'Aceitar Devolução');
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Recusar devolução', 'QualRncVenda', 'criaTelaModalRecDevolucao', '', false, '2', false, 'criaTelaModalRecDevolucao', true, 'Recusar Devolução');        
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Transportadora', 'QualRncVenda', 'criaTelaModalApontaTransportadora', '', false, '2', false, 'criaTelaModalApontaTransportadora', true, 'Transportadora');
-        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'verifSitDevolucao', '', false, 'Aceitar');
-        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Recusar devolução', 'QualRncVenda', 'verifSitDevolucao', '', false, 'Recusar');
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar reclamação', 'QualRncVenda', 'criaTelaModalApontamento', '', false, '', false, 'criaTelaModalApontamento', true, 'Apontar reclamação');
+        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'criaTelaModalAccReclamacao', '', false, '1', false, 'criaTelaModalAccReclamacao', true, 'Aceitar Devolução');
+        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Recusar devolução', 'QualRncVenda', 'criaTelaModalRecReclamacao', '', false, '2', false, 'criaTelaModalRecReclamacao', true, 'Recusar Devolução');        
+        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Transportadora', 'QualRncVenda', 'criaTelaModalApontaTransportadora', '', false, '2', false, 'criaTelaModalApontaTransportadora', true, 'Transportadora');
+        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Representante', 'QualRncVenda', 'criaTelaModalApontaRepresentante', '', false, '2', false, 'criaTelaModalApontaRepresentante', true, 'Representante');
+        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'verifSitReclamacao', '', false, 'Aceitar');
+        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Recusar devolução', 'QualRncVenda', 'verifSitReclamacao', '', false, 'Recusar');
 
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
@@ -69,7 +86,7 @@ class ViewQualRncVenda extends View {
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1);
 
         $this->addFiltro($oFilNr, $oFilCli);
-        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+        $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -100,6 +117,7 @@ class ViewQualRncVenda extends View {
         $oTabGeral->setBActive(true);
 
         $oTabNF = new AbaTabPanel('Dados NF');
+        $oTabProd = new AbaTabPanel('Produto');
         $oTabAnexos = new AbaTabPanel('Anexos');
 
         $this->addLayoutPadrao('Aba');
@@ -193,21 +211,20 @@ class ViewQualRncVenda extends View {
         $oDescNaoConf->setILinhasTextArea(5);
         $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
 
-        //campo código do produto
-        $oCodigo = new Campo('Codigo', 'procod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto', 'prodes', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oProd = new campo('Produtos', 'produtos', Campo::TIPO_TAGS, 12, 12, 12, 12);
+        $oProd->setILinhasTextArea(5);
+        $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+
 
         $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oAplicacao->setSCorFundo(Campo::FUNDO_VERMELHO);
 
         $oDivisor1 = new Campo('Dados da não conformidade', 'nconf', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
-
-        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-
-        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
         $oDisposicao->addItenRadio('1', 'Acc. Condicionalmente');
@@ -221,22 +238,25 @@ class ViewQualRncVenda extends View {
         $this->setSIdUpload(',' . $oAnexo1->getId() . ',' . $oAnexo2->getId() . ',' . $oAnexo3->getId());
 
         $oTabGeral->addCampos(
-                array($oRep, $oRespVenda, $oRespVendaNome), $oDivisor2, array($oEmpcod, $oEmpdes), array($oContato, $oCelular, $oEmail, $oInd, $oComer));
+                array($oRep, $oRespVendaNome, $oRespVenda), $oDivisor2, array($oEmpcod, $oEmpdes), array($oContato, $oCelular, $oEmail, $oInd, $oComer));
+
         $oTabNF->addCampos(
-                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp), array($oCodigo, $oProdes, $oQuant), $oDivisor1, array($oAplicacao, $oQuanNconf, $oDisposicao), $oDescNaoConf);
+                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
+
+        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3));
 
-        $oTab->addItems($oTabGeral, $oTabNF, $oTabAnexos);
+        $oTab->addItems($oTabGeral, $oTabNF, $oTabProd, $oTabAnexos);
 
         $this->addCampos(
                 array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
     }
 
     /**
-     * Cria modal para Aceitar devolução de cliente
+     * Cria modal para notificar em caso de erro do representante 
      */
-    public function criaModalAccDevolucao($sDados) {
+    public function criaModalApontamento($sDados) {
         parent::criaModal();
 
         $oDados = $this->getAParametrosExtras();
@@ -248,87 +268,33 @@ class ViewQualRncVenda extends View {
         $oNr->setSValor($oDados->getNr());
         $oNr->setBCampoBloqueado(true);
 
-        $oObs_dev = new campo('Obs', 'obs_devolucao', Campo::TIPO_TEXTAREA, 12);
-        $oObs_dev->setILinhasTextArea(8);
-        $oObs_dev->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+        $oLinha = new Campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha->setApenasTela(true);
 
-        $oBtnInserir = new Campo('Aceitar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
-        //id do grid
-
-        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","aceitaDevolucao","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
-
-        $oBtnInserir->setSAcaoBtn($sAcao);
-        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
-        $this->getTela()->setAcaoConfirmar($sAcao);
-
-        $this->setBTela(true);
+        $oReclamacao = new Campo('Tipo', 'reclamacao', Campo::TIPO_RADIO, 6, 6, 12, 12);
+        $oReclamacao->addItenRadio('Interna', 'Interna');
+        $oReclamacao->addItenRadio('Representante', 'Representante');
+        $oReclamacao->addItenRadio('Transportadora', 'Transportadora');
+        $oReclamacao->addItenRadio('Representante', 'Representante');
+        $oReclamacao->addItenRadio('Cliente', 'Cliente');
 
 
-        $this->addCampos(array($oFilcgc, $oNr), $oObs_dev, $oBtnInserir);
-    }
-    
-    
-    /**
-     * Cria modal para Recusar devolução de cliente
-     */
-    public function criaModalRecDevolucao($sDados) {
-        parent::criaModal();
+        $oDevolucao = new Campo('Devolução', 'devolucao', Campo::TIPO_RADIO, 6, 6, 12, 12);
+        $oDevolucao->addItenRadio('Aceita', 'Aceita');
+        $oDevolucao->addItenRadio('Recusada', 'Recusada');
 
-        $oDados = $this->getAParametrosExtras();
+        $oLinha1 = new Campo('', 'linha1', Campo::TIPO_LINHA, 12, 12, 12, 12);
+        $oLinha1->setApenasTela(true);
 
-        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
-        $oFilcgc->setSValor($oDados->getFilcgc());
-        $oFilcgc->setBCampoBloqueado(true);
-        $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
-        $oNr->setSValor($oDados->getNr());
-        $oNr->setBCampoBloqueado(true);
-
-        $oObs_dev = new campo('Obs', 'obs_devolucao', Campo::TIPO_TEXTAREA, 12);
-        $oObs_dev->setILinhasTextArea(8);
-        $oObs_dev->addValidacao(false, Validacao::TIPO_STRING, '', '2');
-
-        $oBtnInserir = new Campo('Recusar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
-        //id do grid
-
-        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","recusaDevolucao","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
-
-        $oBtnInserir->setSAcaoBtn($sAcao);
-        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
-        $this->getTela()->setAcaoConfirmar($sAcao);
-
-        $this->setBTela(true);
-
-
-        $this->addCampos(array($oFilcgc, $oNr), $oObs_dev, $oBtnInserir);
-    }
-    
-     
-    /**
-     * Cria modal para notificar em caso de transportadora 
-     */
-    public function criaModalApontaTransportadora($sDados) {
-        parent::criaModal();
-
-        $oDados = $this->getAParametrosExtras();
-
-        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
-        $oFilcgc->setSValor($oDados->getFilcgc());
-        $oFilcgc->setBCampoBloqueado(true);
-        $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
-        $oNr->setSValor($oDados->getNr());
-        $oNr->setBCampoBloqueado(true);
-
-        $oObs_dev = new campo('Obs', 'obs_devolucao', Campo::TIPO_TEXTAREA, 12);
-        $oObs_dev->setILinhasTextArea(8);
-        $oObs_dev->addValidacao(false, Validacao::TIPO_STRING, '', '10');
+        $oObs_aponta = new campo('Obs', 'obs_aponta', Campo::TIPO_TEXTAREA, 12);
+        $oObs_aponta->setILinhasTextArea(8);
+        $oObs_aponta->addValidacao(false, Validacao::TIPO_STRING, '', '10');
 
         $oBtnInserir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         //id do grid
 
-        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaTransportadora","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaReclamacao","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
 
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
@@ -337,7 +303,7 @@ class ViewQualRncVenda extends View {
         $this->setBTela(true);
 
 
-        $this->addCampos(array($oFilcgc, $oNr), $oObs_dev, $oBtnInserir);
+        $this->addCampos(array($oFilcgc, $oNr), $oLinha, array($oReclamacao, $oDevolucao), $oLinha1, $oObs_aponta, $oBtnInserir);
     }
 
 }

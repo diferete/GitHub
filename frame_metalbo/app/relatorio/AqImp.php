@@ -348,7 +348,9 @@ $pdf->SetXY($x + 139, $y);
 
 $pdf->MultiCell(67, 5, $row1['equipamentodes'], 0);
 
-$pdf->Ln(5*$iLinhas);
+//*************Insere linhas que disponibiliza altura dos campos para não sobrepor aos demais
+$pdf->Ln($iLinhas+5);
+//*******************//************************
 
 $pdf->SetFont('Arial', 'B', 10);
 
@@ -433,7 +435,7 @@ while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
     $p4 = strlen($row['pq4']);
     $p5 = strlen($row['pq5']);
 
-    //Destermina a quantidade de linhas de cada campo
+    //Determina a quantidade de linhas de cada campo
     if (($c1 % 101) > 0) {
         $iL1 = (int) ($c1 / 99);
         $iL1++;

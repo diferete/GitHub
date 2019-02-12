@@ -66,4 +66,18 @@ class ControllerMET_PORT_CadVeiculos extends Controller {
         }
     }
 
+    public function buscaPessoa($sDados) {
+        $aDados = explode(',',$sDados);
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aConsulta = $this->Persistencia->consultaCracha($aCamposChave);
+
+        echo"$('#" . $aDados[0] . "').val('" . $aConsulta[0] . "');"
+        . "$('#" . $aDados[1] . "').val('" . $aConsulta[1] . "');"
+        . "$('#" . $aDados[2] . "').val('" . $aConsulta[2] . "');";
+        
+    }
+
 }

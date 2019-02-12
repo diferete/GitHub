@@ -92,7 +92,7 @@ class PersistenciaQualAq extends Persistencia {
     public function emailPlan($aDados) {
         $sSql = "select emailEquip from tbacaoqual where nr = " . $aDados[1] . " and filcgc =" . $aDados[0];
         $oRow = $this->consultaSql($sSql);
-        $aEmail = explode(',', $oRowBD->emailequip);
+        $aEmail = explode(',', $oRow->emailequip);
 
         return $aEmail;
     }

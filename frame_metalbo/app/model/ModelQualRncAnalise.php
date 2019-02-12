@@ -44,47 +44,63 @@ class ModelQualRncAnalise {
     private $anexo3;
     private $situaca;
     private $devolucao;
+    private $reclamacao;
     private $obsSit;
     private $resp_venda_cod;
     private $resp_venda_nome;
     private $apontamento;
     private $usuaponta;
-    private $tagsetor;
     private $repcod;
-    private $devolucaoacc;
-    private $devolucaorec;
-    private $obs_devolucao;
+    private $obs_aponta;
+    private $produtos;
+    private $tagsetor;
 
-    function getObs_devolucao() {
-        return $this->obs_devolucao;
+    function getTagsetor() {
+        return $this->tagsetor;
     }
 
-    function setObs_devolucao($obs_devolucao) {
-        $this->obs_devolucao = $obs_devolucao;
+    function setTagsetor($tagsetor) {
+        $this->tagsetor = $tagsetor;
+    }
+
+    function getDevolucao() {
+        return $this->devolucao;
+    }
+
+    function setDevolucao($devolucao) {
+        $this->devolucao = $devolucao;
+    }
+
+    function getReclamacao() {
+        return $this->reclamacao;
+    }
+
+    function getObs_aponta() {
+        return $this->obs_aponta;
+    }
+
+    function setReclamacao($reclamacao) {
+        $this->reclamacao = $reclamacao;
+    }
+
+    function setObs_aponta($obs_aponta) {
+        $this->obs_aponta = $obs_aponta;
+    }
+
+    function getProdutos() {
+        return $this->produtos;
+    }
+
+    function setProdutos($produtos) {
+        $this->produtos = $produtos;
     }
 
     function getDisposicao() {
         return $this->disposicao;
     }
 
-    function getDevolucaoacc() {
-        return $this->devolucaoacc;
-    }
-
-    function getDevolucaorec() {
-        return $this->devolucaorec;
-    }
-
     function setDisposicao($disposicao) {
         $this->disposicao = $disposicao;
-    }
-
-    function setDevolucaoacc($devolucaoacc) {
-        $this->devolucaoacc = $devolucaoacc;
-    }
-
-    function setDevolucaorec($devolucaorec) {
-        $this->devolucaorec = $devolucaorec;
     }
 
     function getRepcod() {
@@ -93,14 +109,6 @@ class ModelQualRncAnalise {
 
     function setRepcod($repcod) {
         $this->repcod = $repcod;
-    }
-
-    function getTagsetor() {
-        return $this->tagsetor;
-    }
-
-    function setTagsetor($tagsetor) {
-        $this->tagsetor = $tagsetor;
     }
 
     function getUsuaponta() {
@@ -117,14 +125,6 @@ class ModelQualRncAnalise {
 
     function setApontamento($apontamento) {
         $this->apontamento = $apontamento;
-    }
-
-    function getDevolucao() {
-        return $this->devolucao;
-    }
-
-    function setDevolucao($devolucao) {
-        $this->devolucao = $devolucao;
     }
 
     function getEmpcod() {
@@ -326,6 +326,14 @@ class ModelQualRncAnalise {
         return $this->quantnconf;
     }
 
+    function getData() {
+        return $this->data;
+    }
+
+    function getNome() {
+        return $this->nome;
+    }
+
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -424,6 +432,14 @@ class ModelQualRncAnalise {
 
     function setQuantnconf($quantnconf) {
         $this->quantnconf = $quantnconf;
+    }
+
+    function setData($data) {
+        $this->data = $data;
+    }
+
+    function setNome($nome) {
+        $this->nome = $nome;
     }
 
 }

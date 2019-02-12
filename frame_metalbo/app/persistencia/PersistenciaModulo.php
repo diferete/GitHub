@@ -51,4 +51,19 @@ class PersistenciaModulo extends Persistencia {
         return;
     }
 
+    public function inserePlaca() {
+        $sSqlPlaca = "select * from MET_PORT_CadVeiculos";
+        $result = $this->getObjetoSql($sSqlPlaca);
+        $aPlacas = array();
+        while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+            array_push($aPlacas, $row);
+        }
+        foreach ($aPlacas as $key => $oValue) {
+            $sSqlInserePlaca = "insert into MET_CAD_Placas(filcgc,empcod,empdes,placa,cracha,nome)"
+                    . "values('" . $oValue->filcgc . "','" . $oValue->empcod . "','" . $oValue->empdes . "','" . $oValue->placa . "','" . $oValue->cracha . "','" . $oValue->pessoa . "')";
+            $aResult = $this->executaSql($sSqlInserePlaca);
+        }
+        return;
+    }
+
 }

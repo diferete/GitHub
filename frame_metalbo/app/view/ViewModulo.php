@@ -56,8 +56,12 @@ class ViewModulo extends View {
         $sAcaoXML = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","converteXML");';
         $oBotaoXML->getOBotao()->addAcao($sAcaoXML);
 
+        
+        $oBotaoPlaca = new Campo('PLACA', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $sAcaoPlaca = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","inserePlaca");';
+        $oBotaoPlaca->getOBotao()->addAcao($sAcaoPlaca);
 
-        $oAbaGeral->addCampos(array($oModCod, $oModDescricao), $oBotaoXML, $oBotaoGrupo);
+        $oAbaGeral->addCampos(array($oModCod, $oModDescricao));
 
         $oTab->addItems($oAbaGeral);
 

@@ -10,9 +10,11 @@
 
 class ModelSTEEL_PCP_PedCargaItens{
     
-    private $PDV_PedidoFilial;
+    //classe no join 
+    private $STEEL_PCP_CargaInsumoServ;
+    private $pdv_PedidoFilial;
     private $pdv_pedidocodigo;
-    private $PDV_PedidoItemSeq;
+    private $pdv_pedidoitemseq;
     private $PDV_PedidoItemMoeda;
     private $PDV_PedidoItemValorMoeda;
     private $PDV_PedidoItemQtdPedida;
@@ -121,6 +123,131 @@ class ModelSTEEL_PCP_PedCargaItens{
     private $PDV_PedidoItemAlturaComercial;
     private $PDV_PedidoItemLarguraComercial;
     private $PDV_PedidoItemDescProdComercia;
+    private $insumoCod;
+    private $insumoNome;
+    private $insumoQt;
+    private $insumoVlr;
+    private $servicoCod;       
+    private $servicoDes;
+    private $servicoQt;
+    private $servicoVlr;  
+    private $pdv_insserv;
+    private $op;
+    
+    function getSTEEL_PCP_CargaInsumoServ() {
+        if(!isset($this->STEEL_PCP_CargaInsumoServ)){
+            $this->STEEL_PCP_CargaInsumoServ = Fabrica::FabricarModel('STEEL_PCP_CargaInsumoServ');
+        }
+        return $this->STEEL_PCP_CargaInsumoServ;
+    }
+
+    function setSTEEL_PCP_CargaInsumoServ($STEEL_PCP_CargaInsumoServ) {
+        $this->STEEL_PCP_CargaInsumoServ = $STEEL_PCP_CargaInsumoServ;
+    }
+
+        
+    function getOp() {
+        return $this->op;
+    }
+
+    function setOp($op) {
+        $this->op = $op;
+    }
+
+        
+    function getPdv_insserv() {
+        return $this->pdv_insserv;
+    }
+
+    function setPdv_insserv($pdv_insserv) {
+        $this->pdv_insserv = $pdv_insserv;
+    }
+
+        
+    function getPdv_pedidoitemseq() {
+        return $this->pdv_pedidoitemseq;
+    }
+
+    function setPdv_pedidoitemseq($pdv_pedidoitemseq) {
+        $this->pdv_pedidoitemseq = $pdv_pedidoitemseq;
+    }
+    
+    function getInsumoCod() {
+        return $this->insumoCod;
+    }
+
+    function getInsumoNome() {
+        return $this->insumoNome;
+    }
+
+    function getInsumoQt() {
+        return $this->insumoQt;
+    }
+
+    function getInsumoVlr() {
+        return $this->insumoVlr;
+    }
+
+    function getServicoCod() {
+        return $this->servicoCod;
+    }
+
+    function getServicoDes() {
+        return $this->servicoDes;
+    }
+
+    function getServicoQt() {
+        return $this->servicoQt;
+    }
+
+    function getServicoVlr() {
+        return $this->servicoVlr;
+    }
+
+    function setInsumoCod($insumoCod) {
+        $this->insumoCod = $insumoCod;
+    }
+
+    function setInsumoNome($insumoNome) {
+        $this->insumoNome = $insumoNome;
+    }
+
+    function setInsumoQt($insumoQt) {
+        $this->insumoQt = $insumoQt;
+    }
+
+    function setInsumoVlr($insumoVlr) {
+        $this->insumoVlr = $insumoVlr;
+    }
+
+    function setServicoCod($servicoCod) {
+        $this->servicoCod = $servicoCod;
+    }
+
+    function setServicoDes($servicoDes) {
+        $this->servicoDes = $servicoDes;
+    }
+
+    function setServicoQt($servicoQt) {
+        $this->servicoQt = $servicoQt;
+    }
+
+    function setServicoVlr($servicoVlr) {
+        $this->servicoVlr = $servicoVlr;
+    }
+
+        
+    
+    
+    function getPdv_PedidoFilial() {
+        return $this->pdv_PedidoFilial;
+    }
+
+    function setPdv_PedidoFilial($pdv_PedidoFilial) {
+        $this->pdv_PedidoFilial = $pdv_PedidoFilial;
+    }
+
+        
     
     function getPdv_pedidocodigo() {
         return $this->pdv_pedidocodigo;
@@ -130,15 +257,7 @@ class ModelSTEEL_PCP_PedCargaItens{
         $this->pdv_pedidocodigo = $pdv_pedidocodigo;
     }
 
-        
-    function getPDV_PedidoFilial() {
-        return $this->PDV_PedidoFilial;
-    }
-
-    function getPDV_PedidoItemSeq() {
-        return $this->PDV_PedidoItemSeq;
-    }
-
+    
     function getPDV_PedidoItemMoeda() {
         return $this->PDV_PedidoItemMoeda;
     }
@@ -571,15 +690,7 @@ class ModelSTEEL_PCP_PedCargaItens{
         return $this->PDV_PedidoItemDescProdComercia;
     }
 
-    function setPDV_PedidoFilial($PDV_PedidoFilial) {
-        $this->PDV_PedidoFilial = $PDV_PedidoFilial;
-    }
-
-    
-
-    function setPDV_PedidoItemSeq($PDV_PedidoItemSeq) {
-        $this->PDV_PedidoItemSeq = $PDV_PedidoItemSeq;
-    }
+   
 
     function setPDV_PedidoItemMoeda($PDV_PedidoItemMoeda) {
         $this->PDV_PedidoItemMoeda = $PDV_PedidoItemMoeda;

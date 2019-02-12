@@ -21,12 +21,13 @@ class ViewQualRncAnalise extends View {
         $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_LARGURA);
 
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
-        
+
         $oAnexo1 = new CampoConsulta('Anexo 1', 'anexo1', CampoConsulta::TIPO_DOWNLOAD);
-        
+
         $oAnexo2 = new CampoConsulta('Anexo 2', 'anexo2', CampoConsulta::TIPO_DOWNLOAD);
-        
+
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
+
 
         $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
         $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
@@ -38,12 +39,18 @@ class ViewQualRncAnalise extends View {
         $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
         $oSit->setBComparacaoColuna(true);
 
+        $oReclamacao = new CampoConsulta('Reclamação', 'reclamacao', CampoConsulta::TIPO_LARGURA);
+        $oReclamacao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->setBComparacaoColuna(true);
+
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_LARGURA);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
-        $oDevolucao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
-        $oDevolucao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oDevolucao->setBComparacaoColuna(true);
 
 
@@ -62,7 +69,7 @@ class ViewQualRncAnalise extends View {
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1);
 
         $this->addFiltro($oFilNr, $oFilCli);
-        $this->addCampos($oNr, $oSit, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData,$oAnexo1,$oAnexo2,$oAnexo3);
+        $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
 
         $this->setUsaAcaoVisualizar(true);
@@ -81,6 +88,7 @@ class ViewQualRncAnalise extends View {
         $oTabGeral->setBActive(true);
 
         $oTabNF = new AbaTabPanel('Dados NF');
+        $oTabProd = new AbaTabPanel('Produto');
         $oTabAnexos = new AbaTabPanel('Anexos');
 
         $this->addLayoutPadrao('Aba');
@@ -129,7 +137,7 @@ class ViewQualRncAnalise extends View {
 
         $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oRespVendaNome->setBCampoBloqueado(true);
-        
+
         $oRep = new Campo('Código do Representante', 'repcod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oRep->setBCampoBloqueado(true);
 
@@ -174,21 +182,15 @@ class ViewQualRncAnalise extends View {
         $oDescNaoConf->setILinhasTextArea(5);
         $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
 
-        //campo código do produto
-        $oCodigo = new Campo('Codigo', 'procod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-
-        //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto', 'prodes', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oProd = new campo('Produtos', 'produtos', Campo::TIPO_TAGS, 12, 12, 12, 12);
+        $oProd->setILinhasTextArea(5);
+        $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oAplicacao->setSCorFundo(Campo::FUNDO_VERMELHO);
 
         $oDivisor1 = new Campo('Dados da não conformidade', 'nconf', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
-
-        $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-
-        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
         $oDisposicao->addItenRadio('1', 'Acc. Condicionalmente');
@@ -202,22 +204,20 @@ class ViewQualRncAnalise extends View {
         $this->setSIdUpload(',' . $oAnexo1->getId() . ',' . $oAnexo2->getId() . ',' . $oAnexo3->getId());
 
         $oTabGeral->addCampos(
-                array($oRep, $oRespVenda, $oRespVendaNome), $oDivisor2, 
-                array($oEmpcod, $oEmpdes), 
-                array($oContato, $oCelular, $oEmail, $oInd, $oComer));
+                array($oRep, $oRespVendaNome, $oRespVenda), $oDivisor2, array($oEmpcod, $oEmpdes), array($oContato, $oCelular, $oEmail, $oInd, $oComer));
+
         $oTabNF->addCampos(
-                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), 
-                array($oLote, $oOp), 
-                array($oCodigo, $oProdes, $oQuant), $oDivisor1, 
-                array($oAplicacao, $oQuanNconf, $oDisposicao), $oDescNaoConf);
+                array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
+
+        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3));
 
-        $oTab->addItems($oTabGeral, $oTabNF, $oTabAnexos);
+        $oTab->addItems($oTabGeral, $oTabNF, $oTabProd, $oTabAnexos);
+
 
         $this->addCampos(
-                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, 
-                array($oNf), $ln, $oTab);
+                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
     }
 
     /**

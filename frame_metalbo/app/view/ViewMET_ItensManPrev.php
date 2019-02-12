@@ -66,6 +66,7 @@ class ViewMET_ItensManPrev extends View {
         $oSeq->setBCampoBloqueado(true);
 
         $oCodSit = new Campo('Codsit', 'codsit', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCodSit->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodSit->addValidacao(true, Validacao::TIPO_STRING);
 
         //campo descrição da maquina adicionando o campo de busca
@@ -100,7 +101,7 @@ class ViewMET_ItensManPrev extends View {
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    
         $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oCodSit->getId() . ',' . $oServ->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
-        $oBotConf->setSAcaoBtn($sAcao);
+        //$oBotConf->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 

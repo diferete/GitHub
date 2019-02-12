@@ -108,17 +108,8 @@ class ViewMET_QUAL_Contencao extends View {
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
         $oTipo = new Campo('Tipo ação', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oTipo->setSValor($aValor[3]);
+        $oTipo->setSValor('Aq');
         $oTipo->setBCampoBloqueado(true);
-        if ($aValor[3] == 'Ação Preventiva') {
-            $oTipo->setSCorFundo(Campo::FUNDO_VERDE);
-            $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
-        } else {
-            $oTipo->setSCorFundo(Campo::FUNDO_VERMELHO);
-            $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_WARNING, 12, 12, 12, 12);
-        }
-
-        $oDivisor->setApenasTela(true);
 
         $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataPrev->addValidacao(false, Validacao::TIPO_STRING, '', '2');
@@ -132,7 +123,7 @@ class ViewMET_QUAL_Contencao extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
+        $this->addCampos(array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }
 

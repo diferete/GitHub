@@ -110,7 +110,9 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $oModelImp->setPeso($PesoTotal);
         //busca o preço da nota
         $aCamposChave['nfsitcod'] = $oModelImp->getNfsitcod();
-        $oModelImp->setVlrNfEnt($this->Persistencia->buscaPreço($aCamposChave));
+        $aPreco = $this->Persistencia->buscaPreço($aCamposChave);
+        $oModelImp->setVlrNfEntUnit($aPreco[0]);
+        $oModelImp->setVlrNfEnt($aPreco[1]);
         
         $this->View->setAParametrosExtras($oModelImp);
         
@@ -465,6 +467,30 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
             echo $oModal->getRender();
             exit();
         }
+        //verifica quantidade 
+        if($this->Model->getQuant()=='0' ||$this->Model->getQuant()=='' ){
+            $oModal = new Modal('Atenção', 'Verifique a quantidade, não pode ser zero!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }
+         //verifica o peso
+        if($this->Model->getPeso()=='0' ||$this->Model->getPeso()=='' ){
+            $oModal = new Modal('Atenção', 'Verifique o peso, não pode ser zero!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }
+        //verifica o unitário
+        if($this->Model->getVlrNfEntUnit()=='0' ||$this->Model->getVlrNfEntUnit()=='' ){
+            $oModal = new Modal('Atenção', 'Verifique o valor unitário, não pode ser zero!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }
+        //verifica o valor
+        if($this->Model->getVlrNfEnt()=='0' ||$this->Model->getVlrNfEnt()=='' ){
+            $oModal = new Modal('Atenção', 'Verifique o valor, não pode ser zero!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }
         
         //atualiza campos Dur. Nucleo Dureza Max escala super,supermax, exp, expmax, composto
         $oProdMatRec = Fabrica::FabricarController('STEEL_PCP_prodMatReceita');
@@ -565,19 +591,23 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
     }
     
     public function verificaOp(){
-        if($this->Model->getTipoOrdem()=='A'){
+        //if($this->Model->getTipoOrdem()=='A'){
             if($this->Model->getProdFinal()==null || $this->Model->getProdFinal()==''){
                 $oModal = new Modal('Atenção!','É necessário informar um produto final.', Modal::TIPO_AVISO, false, true);
                 echo $oModal->getRender();
                 exit();
             }
             
-            if($this->Model->getProdFinal()==$this->Model->getProd()){
+           
+       // }
+        //verifica se produto final é igual
+       if($this->Model->getTipoOrdem()=='A'){
+         if($this->Model->getProdFinal()==$this->Model->getProd()){
                $oModal = new Modal('Atenção!','O tipo da OP é de Arame no entando o produto final é igual ao produto da OP, altere o produto final!', Modal::TIPO_AVISO, false, true);
                 echo $oModal->getRender();
                 exit(); 
             }
-        }
+       }
     }
         
 }
