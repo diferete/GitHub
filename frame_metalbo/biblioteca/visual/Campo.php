@@ -1425,6 +1425,7 @@ class Campo {
                         . '</div>'
                         . '<script>'
                         . '$("#' . $this->getId() . '").blur(function(){maskDecimal("' . $this->getId() . '")});'
+                        . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
                         . '</script>'
                         . $this->getRenderEventos();
                 break;
