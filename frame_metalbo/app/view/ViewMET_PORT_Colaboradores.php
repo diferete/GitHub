@@ -211,14 +211,12 @@ class ViewMET_PORT_Colaboradores extends View {
         $oDivisor1 = new Campo('Dados da Entrada', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oDataSaida = new Campo('Data da entrada', 'dataentrou', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDataSaida = new Campo('Data da entrada', 'dataentrou', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataSaida->setSValor(date('d/m/Y'));
-        $oDataSaida->setBCampoBloqueado(true);
         $oDataSaida->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oHoraSaida = new Campo('Hora entrada', 'horaentrou', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oHoraSaida->setSValor(date('H:i:s'));
-        $oHoraSaida->setBCampoBloqueado(true);
         $oHoraSaida->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHABRANCO);
@@ -268,14 +266,12 @@ class ViewMET_PORT_Colaboradores extends View {
         $oDivisor1 = new Campo('Dados da saída', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oDataSaida = new Campo('Data saída', 'datasaiu', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataSaida = new Campo('Data saída', 'datasaiu', Campo::TIPO_DATA, 1, 1, 12, 12);
         $oDataSaida->setSValor(date('d/m/Y'));
-        $oDataSaida->setBCampoBloqueado(true);
         $oDataSaida->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oHoraSaida = new Campo('Hora saída', 'horasaiu', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oHoraSaida->setSValor(date('H:i:s'));
-        $oHoraSaida->setBCampoBloqueado(true);
         $oHoraSaida->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHABRANCO);

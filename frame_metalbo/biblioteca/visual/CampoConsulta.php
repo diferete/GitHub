@@ -456,7 +456,6 @@ class CampoConsulta {
                         $xValor = Util::formataHora($xValor);
                     }
                 }
-                
                 $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" value="' . $xValor . '" id="' . $sIdInput . '"/></td>';
                 $sCampo .= '<script>'
                         . 'var vlrInput;'
