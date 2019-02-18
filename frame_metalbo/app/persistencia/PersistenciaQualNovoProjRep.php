@@ -43,6 +43,7 @@ class PersistenciaQualNovoProjRep extends Persistencia{
         
         $this->adicionaRelacionamento('sitcliente', 'sitcliente');
         $this->adicionaRelacionamento('acabamento', 'acabamento');
+        $this->adicionaRelacionamento('grucod', 'grucod');
         
         $this->adicionaJoin('Pessoa');
         

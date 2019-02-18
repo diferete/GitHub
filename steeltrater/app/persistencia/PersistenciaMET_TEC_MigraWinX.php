@@ -102,7 +102,7 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
             if ($oRetornoInsert == true) {
                 $sSqlDiferencaCampos = "select procod from prod01"
                         . " where procod not in (select pro_codigo from PRO_PRODUTO) and grucod in (12,13)"
-                        . " order by prodata desc";
+                        . "order by prodata desc";
                 $result = $this->getObjetoSql($sSqlDiferencaCampos);
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     $sCodForm = trim($row['procod']);
@@ -418,7 +418,7 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
             if ($oRetornoInsert == true) {
                 $sSqlDiferencaCampos = "select * from prod01"
                         . " where procod not in (select pro_codigo from pro_produtofilial) and grucod in (12,13)"
-                        . " order by prodata desc";
+                        . "order by prodata desc";
                 $result = $this->getObjetoSql($sSqlDiferencaCampos);
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                     $sCodForm = trim($row['procod']);
@@ -484,7 +484,7 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
                             $meuArquivo = $LogNome . '-PdoLogERRO.txt';
                             $data = $aStringLog[1];
                         }
-                        $gerenciaArquivo = fopen($_SERVER['DOCUMENT_ROOT'] . 'GitHub/steeltrater/LOGS/ProdFilialProd/' . $meuArquivo, 'w') or die('Cannot open file:  ' . $meuArquivo);
+                        $gerenciaArquivo = fopen($_SERVER['DOCUMENT_ROOT'] . 'steeltrater/LOGS/ProdFilialProd/' . $meuArquivo, 'w') or die('Cannot open file:  ' . $meuArquivo);
                         fwrite($gerenciaArquivo, $data);
                         fclose($gerenciaArquivo);
                     }

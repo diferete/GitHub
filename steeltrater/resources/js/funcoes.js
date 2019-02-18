@@ -1329,3 +1329,39 @@ function precoNfEntradaSteel(idQuant, idUnit, idTot) {
      $('#' + idTot + '').val(numeroParaMoeda(total));
 
 }
+
+
+function precoMontagemCarta(idRetornoQt,idRetornoVlr,idRetornoTotal,idInsumoQt,idInsumoVlr,idInsumoTotal,
+idServicoQt,idServicoVlr,idServicoTotal){
+    //calculo do retorno
+    var QtRet = moedaParaNumero($('#' + idRetornoQt + '').val());
+    
+    var  VlrRet = moedaParaNumero($('#' + idRetornoVlr + '').val());
+    
+    var totalRetorno = QtRet*VlrRet;
+    
+
+     $('#' + idRetornoTotal + '').val(numeroParaMoeda(totalRetorno));
+     
+     
+     //calculo do insumo
+    var QtInsumo = moedaParaNumero($('#' + idInsumoQt + '').val());
+    
+    var VlrInsumo = moedaParaNumero($('#' + idInsumoVlr + '').val());
+    
+    var totalInsumo = QtInsumo*VlrInsumo;
+    
+     $('#' + idInsumoTotal + '').val(numeroParaMoeda(totalInsumo));
+     //calculo do serviço
+     
+     var QtServico = moedaParaNumero($('#' + idServicoQt + '').val());
+   
+    var VlrServico = moedaParaNumero($('#' + idServicoVlr + '').val());
+    
+    var totalServico = QtServico*VlrServico;
+    
+     $('#' + idServicoTotal + '').val(numeroParaMoeda(totalServico));
+     
+     
+     
+}

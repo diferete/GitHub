@@ -56,6 +56,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
           10=ServicoQt
           11=ServicoVlr
          
+          12=totalRetorno
+          13=totalInsumo
+          14=totalServico
+         
          */
       
         //captura a op da tela
@@ -69,12 +73,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         $oPevCabDados = $oPevCab->Persistencia->consultarWhere();
         
         //busca a tabela do cliente
-        $oTabCli = Fabrica::FabricarController('STEEL_PCP_TabCli');
+        $oTabCli = Fabrica::FabricarController('STEEL_PCP_TabCabPreco');
         $oTabCli->Persistencia->adicionaFiltro('emp_codigo',$oPevCabDados->getPDV_PedidoEmpCodigo());
+        $oTabCli->Persistencia->adicionaFiltro('sit','INATIVA',0,10);
         $oTabCliDados = $oTabCli->Persistencia->consultarWhere();
-        
-        //instancia a tabela de preco
-        $oTabPreco = Fabrica::FabricarController('DELX_TPV_TabelaPrecoProduto');
         
 
         //Fabrica a controller STEEL_PCP_OrdensFab e consulta os dados buscando no método com o filtro
@@ -83,82 +85,70 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         $oOpSteel->Persistencia->adicionaFiltro('emp_codigo',$oPevCabDados->getPDV_PedidoEmpCodigo());
         $iNrOp = $oOpSteel->Persistencia->getCount();
         if($iNrOp > 0){
-            //busca produto, quant, valor, verifica quando é arame
+            //---------------------busca produto, quant, valor, verifica quando é arame------------------------
             $aDadosTela = array();
             $oDadosOp = $oOpSteel->Persistencia->consultarWhere();
+            $oProdutoFinal = Fabrica::FabricarController('DELX_PRO_Produtos');
+            $oProdutoFinal->Persistencia->adicionaFiltro('pro_codigo',$oDadosOp->getProdFinal());
+            $oDadosProdFinal = $oProdutoFinal->Persistencia->consultarWhere();
             $aDadosTela['ProdutoFinal'] = $oDadosOp->getProdFinal();
             $aDadosTela['ProdutoFinalDes'] =$oDadosOp->getProdesFinal();
             $aDadosTela['Quant'] = $oDadosOp->getQuant();
             $aDadosTela['ValorEnt'] = $oDadosOp->getVlrNfEntUnit();
-           // $aDadosTela['TotalRetorno']=$oDadosOp->getQuant()*$oDadosOp->getVlrNfEnt();
-            //busca o insumo
-            $oReceita = Fabrica::FabricarController('STEEL_PCP_Receitas');
-            $oReceita->Persistencia->adicionaFiltro('cod',$oDadosOp->getReceita());
-            $oReceitaDados = $oReceita->Persistencia->consultarWhere();
-            $aDadosTela['codInsumo'] = $oReceitaDados->getCodInsumo(); 
-            
-            //busca descrição do insumo
-            $oProd = Fabrica::FabricarController('DELX_PRO_Produtos');
-            $oProd->Persistencia->adicionaFiltro('pro_codigo',$oReceitaDados->getCodInsumo());
-            $oProdDados = $oProd->Persistencia->consultarWhere();
-            $aDadosTela['insumoDes'] = $oProdDados->getPro_descricao();
-            
-            //busca preço do insumo
-            $oTabPreco->Persistencia->limpaFiltro();
-            $oTabPreco->Persistencia->adicionaFiltro('tpv_codigo',$oTabCliDados->getTab_preco());
-            $oTabPreco->Persistencia->adicionaFiltro('tpv_produtocodigo',$aDadosTela['codInsumo']);
-            $oTabPrecoDados = $oTabPreco->Persistencia->consultarWhere();
-            $aDadosTela['insumoQt'] =$oDadosOp->getPeso();
-            if($oTabPrecoDados->getTpv_produtopreco()==null || $oTabPrecoDados->getTpv_produtopreco()==0){
-                   $oMensagemPreco = new Mensagem('Atenção!','O item '.$aDadosTela['codInsumo'].' não tem preço cadastrado! Solicite o cadastro '
-                           . ' junto ao administrativo.', Mensagem::TIPO_ERROR);
-                   echo $oMensagemPreco->getRender();
-               }
-            $aDadosTela['insumoVlr']=$oTabPrecoDados->getTpv_produtopreco();
-            
-            
-            //analisa o código do serviço se é metalbo
-            if($oDadosOp->getEmp_codigo()=='75483040000211'){
-                $oMensagemMetalbo = new Mensagem('Cliente Metalbo!','Será carregado código serviço da Metalbo', Mensagem::TIPO_INFO);
-                echo $oMensagemMetalbo->getRender();
-                $aDadosTela['codServ']=$oReceitaDados->getCodServMet();
-                $oProd->Persistencia->limpaFiltro();
-                $oProd->Persistencia->adicionaFiltro('pro_codigo',$oReceitaDados->getCodServMet());
-                $oProdDados = $oProd->Persistencia->consultarWhere();
-                $aDadosTela['codServDes'] = $oProdDados->getPro_descricao();
-                //busca preço do insumo
-               $oTabPreco->Persistencia->limpaFiltro();
-               $oTabPreco->Persistencia->adicionaFiltro('tpv_codigo',$oTabCliDados->getTab_preco());
-               $oTabPreco->Persistencia->adicionaFiltro('tpv_produtocodigo',$aDadosTela['codServ']);
-               $oTabPrecoDados = $oTabPreco->Persistencia->consultarWhere();
-               $aDadosTela['ServicoQt'] =$oDadosOp->getPeso();
-               if($oTabPrecoDados->getTpv_produtopreco()==null || $oTabPrecoDados->getTpv_produtopreco()==0){
-                   $oMensagemPreco = new Mensagem('Atenção!','O item '.$aDadosTela['codServ'].' não tem preço cadastrado! Solicite o cadastro '
-                           . ' junto ao administrativo.', Mensagem::TIPO_ERROR);
-                   echo $oMensagemPreco->getRender();
-               }
-               $aDadosTela['ServicoVlr']=$oTabPrecoDados->getTpv_produtopreco();
-             }else {
-                $aDadosTela['codServ']=$oReceitaDados->getCodServ();
-                $oProd->Persistencia->limpaFiltro();
-                $oProd->Persistencia->adicionaFiltro('pro_codigo',$oReceitaDados->getCodServ());
-                $oProdDados = $oProd->Persistencia->consultarWhere();
-                $aDadosTela['codServDes'] = $oProdDados->getPro_descricao();
-                //busca preço do insumo
-               $oTabPreco->Persistencia->limpaFiltro();
-               $oTabPreco->Persistencia->adicionaFiltro('tpv_codigo',$oTabCliDados->getTab_preco());
-               $oTabPreco->Persistencia->adicionaFiltro('tpv_produtocodigo',$aDadosTela['codServ']);
-               $oTabPrecoDados = $oTabPreco->Persistencia->consultarWhere();
-               $aDadosTela['ServicoQt'] ='1';
-               if($oTabPrecoDados->getTpv_produtopreco()==null || $oTabPrecoDados->getTpv_produtopreco()==0){
-                   $oMensagemPreco = new Mensagem('Atenção!','O item '.$aDadosTela['codServ'].' não tem preço cadastrado! Solicite o cadastro '
-                           . ' junto ao administrativo.', Mensagem::TIPO_ERROR);
-                   echo $oMensagemPreco->getRender();
-               }
-               $aDadosTela['ServicoVlr']=$oTabPrecoDados->getTpv_produtopreco(); 
+            $aDadosTela['TotalRetorno']=$oDadosOp->getVlrNfEnt();
+            //--------------------busca o insumo------------------------------------------------------------------
+            $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');
+            $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());
+            $oItemsTabela->Persistencia->adicionaFiltro('receita',$oDadosOp->getReceita());
+            $oItemsTabela->Persistencia->adicionaFiltro('tipo','INSUMO');
+            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oDadosProdFinal->getPro_ncm());
+            $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();
+            //verifica se há cadastro do insumo
+            if($oDadosInsumo->getProd()!== null){
+                    $aDadosTela['codInsumo'] = $oDadosInsumo->getProd();
+                    //busca descrição do insumo
+                    $oProd = Fabrica::FabricarController('DELX_PRO_Produtos');
+                    $oProd->Persistencia->adicionaFiltro('pro_codigo',$oDadosInsumo->getProd());
+                    $oProdDados = $oProd->Persistencia->consultarWhere();
+                    $aDadosTela['insumoDes'] = $oProdDados->getPro_descricao();
+                    //busca peso
+                    $aDadosTela['insumoQt'] =$oDadosOp->getPeso();
+                    $aDadosTela['insumoVlr']=$oDadosInsumo->getPreco();
+                    $aDadosTela['insumoTotal']=$aDadosTela['insumoQt']*$aDadosTela['insumoVlr'];
+            }else{
+                $oModal = new Modal('Atenção','Não há cadastro do insumo desse produto, analise a tabela '
+                        . 'de preço se há o devido cadastro, verifique se há o cadastro referente a NCM. '
+                        . 'Se optar poderá inserir o insumo manualmente!' , Modal::TIPO_AVISO, false,true, false);
+                echo $oModal->getRender();
             }
+            // -----------------------Fim do insumo---------------------------------------------------------------
             
             
+            //------------------------Busca serviço---------------------------------------------------------------
+            $oItemsTabela->Persistencia->limpaFiltro();
+            $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());
+            $oItemsTabela->Persistencia->adicionaFiltro('receita',$oDadosOp->getReceita());
+            $oItemsTabela->Persistencia->adicionaFiltro('tipo','SERVIÇO');
+            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oDadosProdFinal->getPro_ncm());
+            $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+            
+            if($oDadosServico->getProd()!== null){
+                        //Servico
+                       $aDadosTela['codServ'] = $oDadosServico->getProd();
+                       $oProd = Fabrica::FabricarController('DELX_PRO_Produtos');
+                       $oProd->Persistencia->adicionaFiltro('pro_codigo',$oDadosServico->getProd());
+                       $oProdDados = $oProd->Persistencia->consultarWhere();
+                       $aDadosTela['codServDes'] = $oProdDados->getPro_descricao();
+                       $aDadosTela['ServicoQt'] =$oDadosOp->getPeso();
+                       $aDadosTela['ServicoVlr'] = $oDadosServico->getPreco();
+                       $aDadosTela['ServicoTotal']=$aDadosTela['ServicoQt']*$aDadosTela['ServicoVlr'];
+            }else{
+                $oModal = new Modal('Atenção','Não há cadastro de serviço desse produto, analise a tabela '
+                        . 'de preço se há o devido cadastro, verifique se há o cadastro referente a NCM. '
+                        . 'Se optar poderá inserir o insumo manualmente!' , Modal::TIPO_AVISO, false,true, false);
+                echo $oModal->getRender();
+            }
+
             //seta o valor na tela
             $this->setaValorTela($aDadosTela,$aId);
             
@@ -177,7 +167,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                 . '$("#' . $aId[8] . '").val("");'
                 . '$("#' . $aId[9] . '").val("");'
                 . '$("#' . $aId[10] . '").val("");'
-                . '$("#' . $aId[11] . '").val("");';
+                . '$("#' . $aId[11] . '").val("");'
+                . '$("#' . $aId[12] . '").val("");'
+                . '$("#' . $aId[13] . '").val("");'
+                . '$("#' . $aId[14] . '").val("");';
         }
     }
     /**
@@ -198,6 +191,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
           9=servicoDes
           10=ServicoQt
           11=ServicoVlr
+          * 
+          * 12=totalRetorno
+          13=totalInsumo
+          14=totalServico
          
          */
         
@@ -212,7 +209,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                 . '$("#' . $aId[8] . '").val("' .$aDadosTela['codServ']. '");'
                 . '$("#' . $aId[9] . '").val("' .$aDadosTela['codServDes']. '");'
                 . '$("#' . $aId[10] . '").val("' .number_format($aDadosTela['ServicoQt'], 2, ',', '.'). '");'
-                . '$("#' . $aId[11] . '").val("' .number_format($aDadosTela['ServicoVlr'], 2, ',', '.'). '");';
+                . '$("#' . $aId[11] . '").val("' .number_format($aDadosTela['ServicoVlr'], 2, ',', '.'). '");'
+                . '$("#' . $aId[12] . '").val("' .number_format($aDadosTela['TotalRetorno'], 2, ',', '.'). '");'
+                . '$("#' . $aId[13] . '").val("' .number_format($aDadosTela['insumoTotal'], 2, ',', '.'). '");'
+                . '$("#' . $aId[14] . '").val("' .number_format($aDadosTela['ServicoTotal'], 2, ',', '.'). '");';
     }
     
     public function antesCarregaDetalhe($aCampos) {
@@ -417,6 +417,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                 //insere os filtros
                 $this->insereFiltrosInsert();
                 
+                //atualiza o nr da carga na ordem de produção
+                $oOrdemProd = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+                $oOrdemProd->Persistencia->nrCarga($aCampos['op'],$aCampos['pdv_pedidocodigo']);
+                
             break;
             }
 
@@ -533,15 +537,25 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
       public function validaZero($aCampos){
           //verifica valor zerado no retorno
           $sErro ='';
+          if($aCampos['PDV_PedidoItemQtdPedida']=='0,00'||$aCampos['PDV_PedidoItemQtdPedida']==''||$aCampos['PDV_PedidoItemQtdPedida']=='0'){
+              $sErro .= 'Quantidade pedida do RETORNO não pode ser zero! ';
+          }
           if($aCampos['PDV_PedidoItemValorUnitario']=='0,00'||$aCampos['PDV_PedidoItemValorUnitario']==''||$aCampos['PDV_PedidoItemValorUnitario']=='0'){
-              $sErro = 'Valor unitário do RETORNO não pode ser zero! ';
+              $sErro .= 'Valor unitário do RETORNO não pode ser zero! ';
+          }
+          if($aCampos['insumoQt']=='0,00'||$aCampos['insumoQt']==''||$aCampos['insumoQt']=='0'){
+              $sErro .= 'Quantidade do insumo não pode ser zero! ';
           }
           if($aCampos['insumoVlr']=='0,00'||$aCampos['insumoVlr']==''||$aCampos['insumoVlr']=='0'){
-              $sErro .=' Valor unitário do INSUMO não pode ser zero! ';
+              $sErro .= 'Valor do insumo não pode ser zero! ';
+          }
+          if($aCampos['servicoQt']=='0,00'||$aCampos['servicoQt']==''||$aCampos['servicoQt']=='0'){
+              $sErro .= 'Quantidade do serviço não pode ser zero! ';
           }
           if($aCampos['servicoVlr']=='0,00'||$aCampos['servicoVlr']==''||$aCampos['servicoVlr']=='0'){
-              $sErro .=' Valor unitário do SERVIÇO  não pode ser zero! ';
+              $sErro .= 'Valor do serviço não pode ser zero! ';
           }
+          
           
           if($sErro!==''){
               $oMensagem = new Modal('Atenção', $sErro, Modal::TIPO_ERRO, false, true, false); 
@@ -841,31 +855,34 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             //consulta as sequencias da ordem de carga a serem deletadas
             
             $oCargaInsumos->Persistencia->limpaFiltro();
-            $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidofilial',$aCamposChave['pdv_pedidofilial']);
-            $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidocodigo',$aCamposChave['pdv_pedidocodigo']);
-            $oCargaInsumos->Persistencia->adicionaFiltro('op',$oOp->getOp());
-            
-            $aOps = $oCargaInsumos->Persistencia->getArrayModel();
-            
-            //deleta na tabela de itens
-            
-            foreach ($aOps as $key => $oValue) {
-                //deleta primeiramente dos itens da carga
-                $this->Persistencia->adicionaFiltro('pdv_pedidofilial', $oValue->getPdv_pedidofilial());
-                $this->Persistencia->adicionaFiltro('pdv_pedidocodigo', $oValue->getPdv_pedidocodigo());
-                $this->Persistencia->adicionaFiltro('pdv_pedidoitemseq', $oValue->getPdv_pedidoitemseq());
-                $this->Persistencia->excluir();
-                $this->Persistencia->limpaFiltro();
-                //delete na tabela de insumos 
-                $oCargaInsumos->Persistencia->limpaFiltro();
-                $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidofilial',$oValue->getPdv_pedidofilial());
-                $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidocodigo',$oValue->getPdv_pedidocodigo());
-                $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidoitemseq', $oValue->getPdv_pedidoitemseq());
-                $oCargaInsumos->Persistencia->excluir();
-            }
-            // Retorna Mensagem Informando o Sucesso da Exlusão do registro
-            $oMensagemSucesso = new Mensagem('Sucesso!', 'Seu registro foi deletado...', Mensagem::TIPO_SUCESSO);
-            echo $oMensagemSucesso->getRender();
+            //vai verificar se tem ordem de produção neste item
+           
+                    $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidofilial',$aCamposChave['pdv_pedidofilial']);
+                    $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidocodigo',$aCamposChave['pdv_pedidocodigo']);
+                    $oCargaInsumos->Persistencia->adicionaFiltro('op',$oOp->getOp());
+
+                    $aOps = $oCargaInsumos->Persistencia->getArrayModel();
+
+                    //deleta na tabela de itens
+
+                    foreach ($aOps as $key => $oValue) {
+                        //deleta primeiramente dos itens da carga
+                        $this->Persistencia->adicionaFiltro('pdv_pedidofilial', $oValue->getPdv_pedidofilial());
+                        $this->Persistencia->adicionaFiltro('pdv_pedidocodigo', $oValue->getPdv_pedidocodigo());
+                        $this->Persistencia->adicionaFiltro('pdv_pedidoitemseq', $oValue->getPdv_pedidoitemseq());
+                        $this->Persistencia->excluir();
+                        $this->Persistencia->limpaFiltro();
+                        //delete na tabela de insumos 
+                        $oCargaInsumos->Persistencia->limpaFiltro();
+                        $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidofilial',$oValue->getPdv_pedidofilial());
+                        $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidocodigo',$oValue->getPdv_pedidocodigo());
+                        $oCargaInsumos->Persistencia->adicionaFiltro('pdv_pedidoitemseq', $oValue->getPdv_pedidoitemseq());
+                        $oCargaInsumos->Persistencia->excluir();
+                    }
+                    // Retorna Mensagem Informando o Sucesso da Exlusão do registro
+                    $oMensagemSucesso = new Mensagem('Sucesso!', 'Seu registro foi deletado...', Mensagem::TIPO_SUCESSO);
+                    echo $oMensagemSucesso->getRender();
+           
             //atualiza o valor total do cabeçalho
                 $oPedItens = Fabrica::FabricarController('STEEL_PCP_PedCargaItens');
                 $oPedItens->Persistencia->adicionaFiltro('pdv_pedidofilial',$aCamposChave['pdv_pedidofilial']);
@@ -874,7 +891,9 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                 //gera update no cabeçalho
                 $oPevCabTot = Fabrica::FabricarController('STEEL_PCP_PedCarga');
                 $oPevCabTot->Persistencia->geraTotaliza($iTotalItens,$aCamposChave);
-             
+                //atualiza a ordem de produçao
+                $oOpCarga = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+                $oOpCarga->Persistencia->limpaCarga($oOp->getOp());
 
             //se necessário adiciona filtro de reload
             $this->filtroReload($sChave);
@@ -1000,4 +1019,6 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
            
            
        }
+       
+      
 }

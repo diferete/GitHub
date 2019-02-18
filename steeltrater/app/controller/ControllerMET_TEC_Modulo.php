@@ -27,8 +27,6 @@ class ControllerMET_TEC_Modulo extends Controller{
                 
                 $teste['nome'] = $valor[0];
                 $teste['valor'] = $valor[1];
-//                $teste['tipo'] = $aFiltros[$valor[0].'-tipo'];
-//                $teste['valor2'] = '';
                 $aNovo[] = $teste;
             }
             foreach ($aNovo as $itemteste){
@@ -39,6 +37,40 @@ class ControllerMET_TEC_Modulo extends Controller{
 
             
         }
+		
+		
+    public function testarEmail() {
+        
+        $oEmail = new Email();
+        $oEmail->setMailer();
+
+        $oEmail->setEnvioSMTP();
+        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
+        $oEmail->setServidor('smtp.terra.com.br');
+        $oEmail->setPorta(587);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario('metalboweb@metalbo.com.br');
+        $oEmail->setSenha('Metalbo@@50');
+        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+
+        $oEmail->setAssunto(utf8_decode('TESTE ENVIO DE E-MAIL'));
+        $oEmail->setMensagem(utf8_decode('Teste de envio de e-mail via sistema.metalbo'));
+
+        $oEmail->limpaDestinatariosAll();
+        // Para        
+        $oEmail->addDestinatario($_SESSION['email']);
+        
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+        }
+    }
+
 }
 
 

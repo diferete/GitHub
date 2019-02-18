@@ -39,7 +39,9 @@ class ControllerQualRncVenda extends Controller {
         $aAnalise = array();
         parse_str($sChave, $aAnalise);
 
-        $sAnalise = Util::limpaString($this->Persistencia->buscaAnalise($aAnalise));
+        $oAnalise = $this->Persistencia->buscaDadosRnc($aAnalise);
+        
+        $sAnalise = Util::limpaString($oAnalise->apontamento);
 
         echo '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
     }
@@ -425,8 +427,8 @@ class ControllerQualRncVenda extends Controller {
 
         // Para
         $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
-        //$oEmail->addDestinatario($sEmail);
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+        $oEmail->addDestinatario($sEmail);
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $oEmail->addDestinatarioCopia($_SESSION['email']);
 
@@ -434,6 +436,94 @@ class ControllerQualRncVenda extends Controller {
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o representante com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email para o representante, tente reenviar ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function retornaRep($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aRet = $this->Persistencia->verifSitRC($aCamposChave);
+
+        if ($aRet[0] == 'Liberado' && $aRet[1] == 'Aguardando' && $aRet[2] == 'Aguardando') {
+            $oMensagem = new Modal('Retornar e-mail', 'Deseja retornar a RC nº' . $aCamposChave['nr'] . ' para o Representante?', Modal::TIPO_INFO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","retornaEmailRep","' . $sDados . '");');
+        } else {
+            $oMensagem = new Modal('Atenção!', 'A RC nº' . $aCamposChave['nr'] . ' não está em condições para ser retornada para o Representante.', Modal::TIPO_AVISO, false, true, true);
+        }
+
+        echo $oMensagem->getRender();
+    }
+
+    public function retornaEmailRep($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = date('d/m/Y');
+        $hora = date('H:m');
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor('smtp.terra.com.br');
+        $oEmail->setPorta(587);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario('metalboweb@metalbo.com.br');
+        $oEmail->setSenha('Metalbo@@50');
+        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+
+        $oRow = $this->Persistencia->buscaDadosRnc($aCamposChave);
+
+        $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ''));
+        $oEmail->setMensagem(utf8_decode('A reclamação de Nº ' . $oRow->nr . ' foi RETORNADA pelo setor de VENDAS.<hr><br/>'
+                        . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
+                        . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
+                        . '<b>Hora: ' . $hora . '  </b><br/>'
+                        . '<b>Data do Cadastro: ' . $data . ' </b><br/><br/><br/>'
+                        . '<table border = 1 cellspacing = 0 cellpadding = 2 width = "100%">'
+                        . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
+                        . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
+                        . '<tr><td><b>Nota fiscal: </b></td><td> ' . $oRow->nf . ' </td></tr>'
+                        . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
+                        . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
+                        . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
+                        . '<tr><td><b>Valor: R$</b></td><td> ' . $oRow->valor . ' </td></tr>'
+                        . '<tr><td><b>Peso: </b></td><td> ' . $oRow->peso . ' </td></tr>'
+                        . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
+                        . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
+                        . '<tr><td><b>Observação de Vendas: </b></td><td> ' . $oRow->obs_aponta . ' </td></tr>'
+                        . '</table><br/><br/>'
+                        . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+        $oEmail->limpaDestinatariosAll();
+
+
+        // Para
+        $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
+        $oEmail->addDestinatario($sEmail);
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+        $oEmail->addDestinatarioCopia($_SESSION['email']);
+
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $aRetorna = $this->Persistencia->retornaRep($aCamposChave);
+            if ($aRetorna[0] == true) {
+                $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o representante com sucesso!', Mensagem::TIPO_SUCESSO);
+                echo $oMensagem->getRender();
+                echo"$('#" . $aDados[1] . "-pesq').click();";
+            }
         } else {
             $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email para o representante, tente reenviar ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();

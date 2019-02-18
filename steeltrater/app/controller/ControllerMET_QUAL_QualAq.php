@@ -156,7 +156,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         $oEmail->setAssunto(utf8_decode('Ação da qualidade nº' . $aDados[1] . ' da empresa ' . $aDados[0]));
@@ -240,7 +240,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
         $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('filialwe');
+        $oEmail->setSenha('Metalbo@@50');
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
         $oEmail->setAssunto(utf8_decode('Ação da qualidade nº' . $aDados[1] . ' da empresa ' . $aDados[0]));

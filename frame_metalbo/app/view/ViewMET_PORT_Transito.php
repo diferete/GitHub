@@ -26,7 +26,11 @@ class ViewMET_PORT_Transito extends View {
         $oBotaoModal->addAcao('MET_PORT_Transito', 'criaTelaModalApontamento', 'criaModalApontamento');
         $this->addModais($oBotaoModal);
 
-        $oNr = new CampoConsulta('Nr.', 'nr', CampoConsulta::TIPO_TEXTO);
+        $oNr = new CampoConsulta('Nr.', 'nr');
+        
+        $oHoraSaida = new CampoConsulta('Hr. Saída', 'horasaiu', CampoConsulta::TIPO_EDIT);
+        $oHoraSaida->addAcao('MET_PORT_Transito', 'gravaHora');
+        $oHoraSaida->setBOrderBy(true);
 
         $oPlaca = new CampoConsulta('Placa', 'placa', CampoConsulta::TIPO_TEXTO);
 
@@ -57,7 +61,7 @@ class ViewMET_PORT_Transito extends View {
 
         $oDataSaida = new CampoConsulta('Dt. Saída', 'datasaiu', CampoConsulta::TIPO_DATA);
 
-        $oHoraSaida = new CampoConsulta('Hr. Saída', 'horasaiu', CampoConsulta::TIPO_TIME);
+        
 
 
         ///////////////////////////////////Filtros///////////////////////////////
@@ -81,6 +85,10 @@ class ViewMET_PORT_Transito extends View {
 
         $this->addFiltro($oFilNR, $oFilPlaca, $oFilEmpresa, $oFilMotivo);
         $this->addCampos($oBotaoModal, $oNr, $oEmpresa, $oPlaca, $oSituaca, $oMotivo, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntrou, $oDataSaida, $oHoraSaida);
+
+
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
     }
 
     public function criaTela() {
@@ -142,7 +150,16 @@ class ViewMET_PORT_Transito extends View {
         $oPlaca = new Campo('Placa', 'placa', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oPlaca->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '1', '7');
         $oPlaca->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oPlaca->setBFocus(true);
+        if ($sAcao == 'acaoIncluir') {
+            $oPlaca->setBFocus(true);
+        }
+
+
+        $oPlacaCarr1 = new Campo('Placa Carr. 1', 'placacarr1', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oPlacaCarr1->setSCorFundo(Campo::FUNDO_AMARELO);
+
+        $oPlacaCarr2 = new Campo('Placa Carr. 2', 'placacarr2', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oPlacaCarr2->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oMotorista = new Campo('Motorista', 'motorista', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oMotorista->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -180,7 +197,7 @@ class ViewMET_PORT_Transito extends View {
             $oCpf->addEvento(Campo::EVENTO_SAIR, $sCallBackCPF);
         }
 
-        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraChegou), $oDivisor2, array($oPlaca,  $oCpf,$oMotorista, $oFone), array($oCnpj, $oEmpresa), array($oMotivo), $oDivisor1, $oDescMotivo, array($oTipo, $oUsuCod, $oSituaca));
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraChegou), $oDivisor2, array($oPlaca, $oPlacaCarr1, $oPlacaCarr2), array($oCpf, $oMotorista, $oFone), array($oCnpj, $oEmpresa), array($oMotivo), $oDivisor1, $oDescMotivo, array($oTipo, $oUsuCod, $oSituaca));
     }
 
     public function criaModalApontaEntrada() {
@@ -202,7 +219,7 @@ class ViewMET_PORT_Transito extends View {
         $oNr->setSValor($oDados->getNr());
         $oNr->setBCampoBloqueado(true);
 
-        $oMotivo = new Campo('Motivo', 'motivo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oMotivo = new Campo('Motivo', 'motivo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oMotivo->setSValor($oDados->getMotivo());
         $oMotivo->setBCampoBloqueado(true);
 
@@ -211,18 +228,28 @@ class ViewMET_PORT_Transito extends View {
         $oPlaca->setBCampoBloqueado(true);
         $oPlaca->setSCorFundo(Campo::FUNDO_AMARELO);
 
+        $oPlacaCarr1 = new Campo('Placa Carr. 1', 'placacarr1', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oPlacaCarr1->setSValor($oDados->getPlacacarr1());
+        $oPlacaCarr1->setBCampoBloqueado(true);
+        $oPlacaCarr1->setSCorFundo(Campo::FUNDO_MONEY);
+
+        $oPlacaCarr2 = new Campo('Placa Carr. 2', 'placacarr2', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oPlacaCarr2->setSValor($oDados->getPlacacarr2());
+        $oPlacaCarr2->setBCampoBloqueado(true);
+        $oPlacaCarr2->setSCorFundo(Campo::FUNDO_MONEY);
+
         $oDivisor1 = new Campo('Dados da Entrada', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oDataSaida = new Campo('Data da entrada', 'dataentrou', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oDataSaida->setSValor(date('d/m/Y'));
-        $oDataSaida->setBCampoBloqueado(true);
-        $oDataSaida->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oDataEntrada = new Campo('Data da entrada', 'dataentrou', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDataEntrada->setSValor(date('d/m/Y'));
+        $oDataEntrada->setBCampoBloqueado(true);
+        $oDataEntrada->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oHoraSaida = new Campo('Hora entrada', 'horaentrou', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oHoraSaida->setSValor(date('H:i:s'));
-        $oHoraSaida->setBCampoBloqueado(true);
-        $oHoraSaida->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oHoraEntrada = new Campo('Hora entrada', 'horaentrou', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oHoraEntrada->setSValor(date('H:i:s'));
+        $oHoraEntrada->setBCampoBloqueado(true);
+        $oHoraEntrada->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -236,7 +263,7 @@ class ViewMET_PORT_Transito extends View {
         $oDescMotivo->setBCampoBloqueado(true);
         $oDescMotivo->setILinhasTextArea(4);
 
-        $this->addCampos(array($oNr, $oPlaca, $oEmpresa, $oMotivo), $oDescMotivo, $oDivisor1, array($oDataSaida, $oHoraSaida, $oFilcgc), $oLinha, $oBtnInserir);
+        $this->addCampos(array($oNr, $oEmpresa), array($oMotivo, $oPlaca, $oPlacaCarr1, $oPlacaCarr2), $oDescMotivo, $oDivisor1, array($oDataEntrada, $oHoraEntrada, $oFilcgc), $oLinha, $oBtnInserir);
     }
 
     public function criaModalApontaSaida() {
@@ -258,7 +285,7 @@ class ViewMET_PORT_Transito extends View {
         $oNr->setSValor($oDados->getNr());
         $oNr->setBCampoBloqueado(true);
 
-        $oMotivo = new Campo('Motivo', 'motivo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oMotivo = new Campo('Motivo', 'motivo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oMotivo->setSValor($oDados->getMotivo());
         $oMotivo->setBCampoBloqueado(true);
 
@@ -266,6 +293,16 @@ class ViewMET_PORT_Transito extends View {
         $oPlaca->setSValor($oDados->getPlaca());
         $oPlaca->setBCampoBloqueado(true);
         $oPlaca->setSCorFundo(Campo::FUNDO_AMARELO);
+
+        $oPlacaCarr1 = new Campo('Placa Carr. 1', 'placacarr1', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oPlacaCarr1->setSValor($oDados->getPlacacarr1());
+        $oPlacaCarr1->setBCampoBloqueado(true);
+        $oPlacaCarr1->setSCorFundo(Campo::FUNDO_MONEY);
+
+        $oPlacaCarr2 = new Campo('Placa Carr. 2', 'placacarr2', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oPlacaCarr2->setSValor($oDados->getPlacacarr2());
+        $oPlacaCarr2->setBCampoBloqueado(true);
+        $oPlacaCarr2->setSCorFundo(Campo::FUNDO_MONEY);
 
         $oDivisor1 = new Campo('Dados da saída', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
@@ -292,7 +329,37 @@ class ViewMET_PORT_Transito extends View {
         $oDescMotivo->setBCampoBloqueado(true);
         $oDescMotivo->setILinhasTextArea(4);
 
-        $this->addCampos(array($oNr, $oPlaca, $oEmpresa, $oMotivo), $oDescMotivo, $oDivisor1, array($oDataSaida, $oHoraSaida, $oFilcgc), $oLinha, $oBtnInserir);
+        $this->addCampos(array($oNr, $oEmpresa), array($oMotivo, $oPlaca, $oPlacaCarr1, $oPlacaCarr2), $oDescMotivo, $oDivisor1, array($oDataSaida, $oHoraSaida, $oFilcgc), $oLinha, $oBtnInserir);
+    }
+
+    public function relTransito() {
+        parent::criaTelaRelatorio();
+
+        $this->setTituloTela('Relatório de Transito');
+        $this->setBTela(true);
+
+        $oUserRel = new Campo('', 'userRel', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oUserRel->setSValor($_SESSION['nome']);
+
+        $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataIni->setSValor(Util::getPrimeiroDiaMes());
+        $oDataIni->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oDataFin = new Campo('Data Final', 'datafim', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataFin->setSValor(Util::getDataAtual());
+        $oDataFin->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oMotivo = new Campo('Motivo', 'motivo', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oMotivo->addItemSelect('', '');
+        $oMotivo->addItemSelect('1', 'Coleta');
+        $oMotivo->addItemSelect('2', 'Entrega Mat.P.');
+        $oMotivo->addItemSelect('3', 'Outras Coletas');
+        $oMotivo->addItemSelect('4', 'Outras Entregas');
+        $oMotivo->addItemSelect('5', 'Serviços');
+        $oMotivo->addItemSelect('6', 'Visita');
+        $oMotivo->addItemSelect('7', 'Outro');
+
+        $this->addCampos(array($oDataIni, $oDataFin), $oMotivo);
     }
 
 }

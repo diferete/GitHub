@@ -100,7 +100,7 @@
                         $('<span>').text(value).append('&nbsp;&nbsp;'),
                         $('<a>', {
                             href  : '#',
-                            title : 'Remover',
+                            title : 'Removing tag',
                             text  : 'x'
                         }).click(function () {
                             return $('#' + id).removeTag(escape(value));
@@ -179,7 +179,7 @@
       interactive:true,
       defaultText:'add a tag',
       minChars:0,
-      height:'103px',
+      height:'106px',
       autocomplete: {selectFirst: false },
       hide:true,
       delimiter: ',',

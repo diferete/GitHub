@@ -29,12 +29,13 @@ $data      = date("d/m/y");                     //função para pegar a data loc
 $hora      = date("H:i");                       //para pegar a hora com a função date
 $useRel= $_REQUEST['userRel'];
 
+$oDesForno = $_REQUEST['fornoDes'];
 $oCodForno = $_REQUEST['fornoCod'];
 //Inserção do cabeçalho
 $pdf->Cell(37,12,$pdf->Image($sLogo, $pdf->GetX(), $pdf->GetY(), 45),0,0,'J');
 
 $pdf->SetFont('Arial','',15);
-$pdf->Cell(110,10,'Relatório Prioridade do Forno '.$oCodForno, '',0, 'C',0); 
+$pdf->Cell(110,10,'Relatório Prioridade do '.$oDesForno, '',0, 'C',0); 
 
 $pdf->SetFont('Arial','',9);
 $pdf->MultiCell(52,5,'Data: '.$data
@@ -127,7 +128,7 @@ $pdf->Cell(0,3,'','T',1,'L');
        $pdf->Cell(50,4,$rowItens['tratdes'], '',0, 'L',0);
    
        $pdf->SetFont('Arial','',7);
-       $pdf->Cell(50,4,number_format($rowItens['temperatura'], 0, ',', '.'), '',0, 'L',0);
+       $pdf->Cell(5,4,number_format($rowItens['temperatura'], 0, ',', '.'), '',0, 'L',0);
        
    }
    $pdf->SetFont('Arial','B',7);

@@ -37,7 +37,8 @@ class ViewMET_PORT_Colaboradores extends View {
         $oMotivo->addComparacao('1', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Serviços');
         $oMotivo->addComparacao('2', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Visita');
         $oMotivo->addComparacao('3', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Atraso');
-        $oMotivo->addComparacao('4', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Outro');
+        $oMotivo->addComparacao('4', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Saída');
+        $oMotivo->addComparacao('5', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Outro');
         $oMotivo->setBComparacaoColuna(true);
 
         $oSituaca = new CampoConsulta('Sit.', 'situaca', CampoConsulta::TIPO_TEXTO);
@@ -71,7 +72,8 @@ class ViewMET_PORT_Colaboradores extends View {
         $oFilMotivo->addItemSelect('1', 'Serviços');
         $oFilMotivo->addItemSelect('2', 'Visita');
         $oFilMotivo->addItemSelect('3', 'Atraso');
-        $oFilMotivo->addItemSelect('4', 'Outro');
+        $oFilMotivo->addItemSelect('4', 'Saída');
+        $oFilMotivo->addItemSelect('5', 'Outro');
 
         $oFilMotivo->setSLabel('Motivo');
 
@@ -120,7 +122,8 @@ class ViewMET_PORT_Colaboradores extends View {
         $oMotivo->addItemSelect('1', 'Serviços');
         $oMotivo->addItemSelect('2', 'Visita');
         $oMotivo->addItemSelect('3', 'Atraso');
-        $oMotivo->addItemSelect('4', 'Outro');
+        $oMotivo->addItemSelect('4', 'Saída');
+        $oMotivo->addItemSelect('5', 'Outro');
         $oMotivo->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar vazio!');
 
         $oDescMotivo = new Campo('Descrição do motivo', 'descmotivo', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
@@ -137,10 +140,25 @@ class ViewMET_PORT_Colaboradores extends View {
         }
 
         $oPessoa = new Campo('Pessoa', 'pessoa', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oPessoa->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '50');
         $oPessoa->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oFone = new Campo('Contato *Nr c/ DDD', 'fone', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+
+        $oRespCracha = new Campo('Resp.Crachá', 'respcracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oRespCracha->setITamanho(Campo::TAMANHO_PEQUENO);
+
+        $oRespCrachaNome = new Campo('Resp.Nome', 'respnome', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oRespCrachaNome->setSIdPk($oRespCracha->getId());
+        $oRespCrachaNome->setClasseBusca('MEt_CAD_Users');
+        $oRespCrachaNome->addCampoBusca('cracha', '', '');
+        $oRespCrachaNome->addCampoBusca('nome', '', '');
+        $oRespCrachaNome->addCampoBusca('sobrenome', '', '');
+        $oRespCrachaNome->setSIdTela($this->getTela()->getid());
+
+        $oRespCracha->setClasseBusca('MEt_CAD_Users');
+        $oRespCracha->setSCampoRetorno('cracha', $this->getTela()->getId());
+        $oRespCracha->addCampoBusca('nome', $oRespCrachaNome->getId(), $this->getTela()->getId());
+        $oRespCracha->addCampoBusca('sobrenome', $oRespCrachaNome->getId(), $this->getTela()->getId());
 
         $oTipo = new Campo('', 'tipopessoa', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTipo->setSValor('C');
@@ -159,7 +177,7 @@ class ViewMET_PORT_Colaboradores extends View {
         if ($sAcao != 'acaoVisualiza') {
             $oCracha->addEvento(Campo::EVENTO_SAIR, $sCallBackCracha);
         }
-        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraEntra), array($oMotivo), $oDescMotivo, $oDivisor1, array($oCracha, $oPessoa, $oEmpresa, $oFone), $oDivisor2, array($oPlaca), array($oTipo, $oUsuCod, $oSituaca));
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraEntra), array($oMotivo), $oDescMotivo, $oDivisor1, array($oCracha, $oPessoa, $oEmpresa, $oFone), array($oRespCracha, $oRespCrachaNome), $oDivisor2, array($oPlaca), array($oTipo, $oUsuCod, $oSituaca));
     }
 
     public function criaModalApontaEntrada() {

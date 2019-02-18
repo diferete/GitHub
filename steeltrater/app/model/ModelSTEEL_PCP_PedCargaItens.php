@@ -133,6 +133,19 @@ class ModelSTEEL_PCP_PedCargaItens{
     private $servicoVlr;  
     private $pdv_insserv;
     private $op;
+    private $DELX_PRO_Produtos;
+    
+    function setDELX_PRO_Produtos($DELX_PRO_Produtos) {
+        $this->DELX_PRO_Produtos = $DELX_PRO_Produtos;
+    }
+
+        
+     function getDELX_PRO_Produtos() {
+        if(!isset($this->DELX_PRO_Produtos)){
+            $this->DELX_PRO_Produtos = Fabrica::FabricarModel('DELX_PRO_Produtos');
+        }
+        return $this->DELX_PRO_Produtos;
+    }
     
     function getSTEEL_PCP_CargaInsumoServ() {
         if(!isset($this->STEEL_PCP_CargaInsumoServ)){

@@ -87,13 +87,13 @@ class ControllerSTEEL_PCP_OrdensFabApontLista extends Controller{
         }else{
         $oListaCons = $oLista->Persistencia->consultarWhere();
         
-        if($oLista->getSituacao()=='Processo'){
+        if($oListaCons->getSituacao()=='Processo'){
             $oMensagem = new Modal('Atenção','Esta a op nº '. $aCamposChave['op'] . ' já está em processo!', Modal::TIPO_AVISO,false,true);
             echo $oMensagem->getRender();   
         }else{
         
             $oMensagem = new Modal('Atenção!', 'Deseja excluir a lista da op nº' . $aCamposChave['op'] . '?', Modal::TIPO_AVISO, true, true, true);
-            $oMensagem->setSBtnConfirmarFunction('requestAjax("","STEEL_PCP_OrdensFabApontLista","excluirLista","' . $sDados . '");');
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","STEEL_PCP_ordensFabLista","excluirLista","' . $sDados . '");');
 
             echo $oMensagem->getRender();
         }
@@ -101,5 +101,6 @@ class ControllerSTEEL_PCP_OrdensFabApontLista extends Controller{
         }
         
     }
+    
     
 }

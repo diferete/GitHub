@@ -1,8 +1,11 @@
 <?php
 
 class ViewMET_TEC_Login extends View {
-
-    function getTelaLogin() {
+    public function criaTela() {
+        parent::criaTela();
+        $this->addCampos();
+    }
+     function getTelaLogin() {
         //verifica se tem o cookie
         if (isset($_COOKIE['loginUser'])) {
             $sUser = $_COOKIE['loginUser'];

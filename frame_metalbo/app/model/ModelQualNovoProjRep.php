@@ -34,6 +34,15 @@ class ModelQualNovoProjRep {
     private $repcod;
     private $sitcliente;
     private $acabamento;
+    private $grucod;
+
+    function getGrucod() {
+        return $this->grucod;
+    }
+
+    function setGrucod($grucod) {
+        $this->grucod = $grucod;
+    }
 
     function getAcabamento() {
         return $this->acabamento;

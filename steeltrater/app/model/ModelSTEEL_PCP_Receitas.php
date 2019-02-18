@@ -25,7 +25,54 @@ class ModelSTEEL_PCP_Receitas {
     private $carbono;
     private $imagem;
     private $temprev;
+    private $instTrab;
+    private $progForno;
+    private $codServ;
+    private $codServMet;
+    private $codInsumo;
     
+    function getCodServ() {
+        return $this->codServ;
+    }
+
+    function getCodServMet() {
+        return $this->codServMet;
+    }
+
+    function getCodInsumo() {
+        return $this->codInsumo;
+    }
+
+    function setCodServ($codServ) {
+        $this->codServ = $codServ;
+    }
+
+    function setCodServMet($codServMet) {
+        $this->codServMet = $codServMet;
+    }
+
+    function setCodInsumo($codInsumo) {
+        $this->codInsumo = $codInsumo;
+    }    
+    
+    function getProgForno() {
+        return $this->progForno;
+    }
+
+    function setProgForno($progForno) {
+        $this->progForno = $progForno;
+    }
+
+        
+    function getInstTrab() {
+        return $this->instTrab;
+    }
+
+    function setInstTrab($instTrab) {
+        $this->instTrab = $instTrab;
+    }
+
+                
     function getTemprev() {
         return $this->temprev;
     }

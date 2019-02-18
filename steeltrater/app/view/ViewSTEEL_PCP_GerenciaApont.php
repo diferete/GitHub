@@ -43,7 +43,6 @@ class ViewSTEEL_PCP_GerenciaApont extends View{
               
         $oOp = new Campo('Op nº.','op', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeq = new Campo('Seq','seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oSeq->setSValor(1);
         $oSeq->setBCampoBloqueado(true);
         // $oCodForno = new Campo('Cod.Forno','fornocod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         //$oDesForno = new Campo('Forno','fornodes', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -80,7 +79,6 @@ class ViewSTEEL_PCP_GerenciaApont extends View{
         $oDataEnt->setSValor(Util::getPrimeiroDiaMes());
         $oDataEnt->addValidacao(false, Validacao::TIPO_STRING);
         $oDataSai = new Campo('Data Saída', 'datasaida_forno', Campo::TIPO_DATA, 2, 2, 12, 12);
-        //$oDataSai->setSValor(Util::getDataAtual());
         
         $oHoraEnt = new Campo('Hora de Entrada', 'horaent_forno', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oHoraEnt->setBTime(true);
@@ -88,9 +86,6 @@ class ViewSTEEL_PCP_GerenciaApont extends View{
         $oHoraSai = new Campo('Hora de Saída', 'horasaida_forno', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oHoraSai->setBTime(true);        
         
-        //$oCodProd->setClasseBusca('STEEL_PCP_OrdensFab');
-        //$oCodProd->setSCampoRetorno('op',$this->getTela()->getId());
-        //$oCodProd->addCampoBusca('prod', $oDesProd->getId(), $this->getTela()->getId());
        
         $sBuscaProd ='var recod = $("#'.$oOp->getId().'").val();if(recod!==""){'
                 . 'requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_OrdensFab","buscaProduto","'.$oCodProd->getId().','.$oDesProd->getId().'");}';

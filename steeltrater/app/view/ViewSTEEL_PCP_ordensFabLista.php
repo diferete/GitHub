@@ -23,6 +23,7 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         $this->getTela()->setBFocoCampo(true);
 
         $oNr = new CampoConsulta('Nr', 'nr');
+        
         $oPrioridade = new CampoConsulta('Prior.','prioridade', CampoConsulta::TIPO_EDIT);
         $oPrioridade->setILargura(20);
         $oPrioridade->addAcao('STEEL_PCP_ordensFabLista', 'gravaPrio');
@@ -130,7 +131,7 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         $oProdes->setSValor($oDados->getProdes());
         $oProdes->setBCampoBloqueado(true);
         
-        $oForno = new Campo('Forno','fornocod', Campo::TIPO_SELECTMULTI,2);
+        $oForno = new Campo('Forno','fornocod', Campo::TIPO_SELECTMULTI,3);
         $oForno->addItemSelect('Todos', 'Todos');
         //coloca os fornos nos valores
         foreach ($aFornoLista as $key => $oFornoObj) {
@@ -143,7 +144,7 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         $oSitLista->addItemSelect('Liberado', 'Liberado');
         $oSitLista->setSValor($oModel->getSituacao());
         
-        $oPrioridade = new Campo('Prioridadades','prioridade', Campo::CAMPO_SELECTSIMPLE,1);
+        $oPrioridade = new Campo('Prioridadades','prioridade', Campo::CAMPO_SELECTSIMPLE,2);
         $i=1;
         while ($i<=100){
            $oPrioridade->addItemSelect($i, $i);

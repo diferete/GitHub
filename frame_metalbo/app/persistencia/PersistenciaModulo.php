@@ -44,6 +44,35 @@ class PersistenciaModulo extends Persistencia {
         }
         return;
     }
+    
+    public function insereGrupo2() {
+
+        $sSqlCod = "SELECT desc_novo_prod,grucod,nr from tbqualNovoProjeto WHERE (lower(desc_novo_prod) LIKE '%FRANCES%')";
+        $result = $this->getObjetoSql($sSqlCod);
+        $aProCod = array();
+        while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+            array_push($aProCod, $row->nr);
+        }
+
+        foreach ($aProCod as $key => $value) {
+            $sSql = "update tbqualNovoProjeto set grucod = '13' where nr = " . $value . "";
+            $aRetorno = $this->executaSql($sSql);
+
+            $i = mt_rand(00, 9999999999);
+            $LogNome = date('d-m-Y H-i-s' . $i);
+            if ($aRetorno[0] == true) {
+                $meuArquivo = $LogNome . '-PdoLogGrupoProd.txt';
+                $data = $LogNome . '-> grupo item ' . $value . ' concluida com sucesso';
+            } else {
+                $meuArquivo = $LogNome . '-PdoLogERRO.txt';
+                $data = $aRetorno[1] . $value;
+            }
+            $gerenciaArquivo = fopen($_SERVER['DOCUMENT_ROOT'] . 'GitHub/frame_metalbo/LOGS/' . $meuArquivo, 'w') or die('Cannot open file:  ' . $meuArquivo);
+            fwrite($gerenciaArquivo, $data);
+            fclose($gerenciaArquivo);
+        }
+        return;
+    }
 
     public function pesoXml($sProcod, $sPeso) {
         $sSql = "insert into testeXml values('" . $sProcod . "','" . $sPeso . "')";

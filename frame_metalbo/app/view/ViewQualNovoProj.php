@@ -81,17 +81,27 @@ class ViewQualNovoProj extends View {
          * filtro referente a situação do projeto
          */
         $oFSitProj = new Filtro($oSitProj, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
-        $oFSitProj->addItemSelect('Todos', 'Todos');
+        $oFSitProj->addItemSelect('Todos', 'Todos Projetos');
         $oFSitProj->addItemSelect('Lib.Projetos', 'Lib.Projetos');
         $oFSitProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');
         $oFSitProj->addItemSelect('Aprovado', 'Aprovado');
         $oFSitProj->addItemSelect('Reprovado', 'Reprovado');
         $oFSitProj->addItemSelect('Cód. enviado', 'Cód. enviado');
         $oFSitProj->setSLabel('');
+        
+        $oFSitGeralProj = new Filtro($oSitGeral, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
+        $oFSitGeralProj->addItemSelect('Todos', 'Todos Geral');
+        $oFSitGeralProj->addItemSelect('Em execução', 'Em execução');
+        $oFSitGeralProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');        
+        $oFSitGeralProj->addItemSelect('Lib.Projetos', 'Lib.Projetos');
+        $oFSitGeralProj->addItemSelect('Finalizado', 'Finalizado');
+        $oFSitGeralProj->addItemSelect('Aprovado', 'Aprovado');
+        $oFSitGeralProj->addItemSelect('Representante', 'Representante');
+        $oFSitGeralProj->setSLabel('');
 
         $oFilEmpDes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
 
-        $this->addFiltro($oFSitProj, $oFilNr, $oFilData, $oFilEmpDes, $oFilDescProdNew);
+        $this->addFiltro($oFSitProj,$oFSitGeralProj, $oFilNr, $oFilData, $oFilEmpDes, $oFilDescProdNew);
 
         $this->addCampos($oNr, $oSitProj, $oSitVendas, $oSitCli, $oSitGeral, $oData, $oEmpDes, $oRepNome, $oDescProdNew, $oQuantPc);
 

@@ -1,40 +1,43 @@
 <?php
 
 /*
- * Classe que implementa as views 
  * 
- * @author Cleverton Hoffmann
- * @since 16/11/2018
- */
+ * @author Alexandre W. de Souza
+ * @since 24/09/2018
+ * * */
 
 class ViewDELX_FIS_Cnae extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $oCod = new CampoConsulta('Cod.CNAE', 'FIS_CNAECodigo');
-        $oDes = new CampoConsulta('Descrição CNAE', 'FIS_CNAEDescricao');
-        $oRet = new CampoConsulta('Retenção', 'FIS_CNAERetencao');
-        $oDescricaofiltro = new Filtro($oDes, Filtro::CAMPO_TEXTO, 5);
-       
-        $this->setUsaAcaoExcluir(false);
+        $this->setBScrollInf(false);
+        $this->setBUsaCarrGrid(true);
         $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oDescricaofiltro);
 
-        $this->setBScrollInf(false);
-        $this->addCampos($oCod,$oDes,$oRet);
+        $oCnaeCod = new CampoConsulta('Cod.Cnae', 'fis_cnaecodigo', CampoConsulta::TIPO_TEXTO);
+
+        $oCnaeDes = new CampoConsulta('Descrição', 'fis_cnaedescricao', CampoConsulta::TIPO_TEXTO);
+
+        $oFilCNAECod = new Filtro($oCnaeCod, Filtro::CAMPO_TEXTO);
+        $oFilCNAEDes = new Filtro($oCnaeDes, Filtro::CAMPO_TEXTO);
+
+        $this->addFiltro($oFilCNAECod, $oFilCNAEDes);
+        $this->addCampos($oCnaeCod, $oCnaeDes);
     }
 
     public function criaTela() {
         parent::criaTela();
-
-        $oCod = new CampoConsulta('Cod.CNAE', 'FIS_CNAECodigo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oDes = new CampoConsulta('Descrição CNAE', 'FIS_CNAEDescricao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oRet = new CampoConsulta('Retenção', 'FIS_CNAERetencao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         
-        $this->addCampos(array($oCod,$oDes,$oRet));
+        $oCnaeCod = new Campo('Cod.Cnae', 'fis_cnaecodigo', Campo::TIPO_TEXTO,1,1,12,12);
+
+        $oCnaeDes = new Campo('Descrição', 'fis_cnaedescricao', Campo::TIPO_TEXTAREA,4,4,12,12);
+        $oCnaeDes->setILinhasTextArea(3);
+
+        $this->addCampos($oCnaeCod, $oCnaeDes);
     }
 
 }

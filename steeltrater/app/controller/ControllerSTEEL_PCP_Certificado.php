@@ -225,6 +225,10 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
             echo $oModal->getRender();
         }
         
+        $aInfo = $this->validaValoresCert($oOp);
+        
+        
+        
         $aRetorno = array();
         $aRetorno[0]=true;
         $aRetorno[1]='';
@@ -241,7 +245,11 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
             $oModal = new Modal('Atenção','Essa op não existe, forneça uma ordem de produção existente!', Modal::TIPO_ERRO,false);
             echo $oModal->getRender();
         }
+       
+        $aInfo = $this->validaValoresCert($oOp);
         
+       // $this->Model->setObs($aInfo);
+                
         $aRetorno = array();
         $aRetorno[0]=true;
         $aRetorno[1]='';
@@ -249,6 +257,46 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         
     }
     
-    
+    public function validaValoresCert($oOp){
+        
+        $aInfo = array();
+        if (($oOp->Model->getDurezaNucMin())>($this->Model->getDurezaNucMin())){
+            $aInfo[0] = "Dureza mínima do núcleo encontrada está abaixo da Dureza mínima solicitada!";
+        }
+        if (($oOp->Model->getDurezaNucMax())<($this->Model->getDurezaNucMin())){
+            $aInfo[1] = "Dureza mínima do núcleo encontrada está acima da Dureza máxima solicitada!";
+        }
+        if (($oOp->Model->getDurezaNucMax())<($this->Model->getDurezaNucMax())){
+            $aInfo[2] = "Dureza máxima do núcleo encontrada está acima da Dureza máxima solicitada!";
+        }
+        if (($oOp->Model->getDurezaNucMin())>($this->Model->getDurezaNucMax())){
+            $aInfo[3] = "Dureza máxima do núcleo encontrada está abaixo da Dureza mínima solicitada!";
+        }
+        if (($oOp->Model->getDurezaSuperfMin())>($this->Model->getDurezaSuperfMin())){
+            $aInfo[4] = "Dureza minima da superfície encontrada está abaixo da Dureza mínima solicitada!";
+        }
+        if (($oOp->Model->getDurezaSuperfMax())<($this->Model->getDurezaSuperfMin())){
+            $aInfo[5] = "Dureza minima da superfície encontrada está acima da Dureza máxima solicitada!";
+        }
+        if (($oOp->Model->getDurezaSuperfMax())<($this->Model->getDurezaSuperfMax())){
+            $aInfo[3] = "Dureza máxima da superfície encontrada está acima da Dureza máxima solicitada!";
+        }
+        if (($oOp->Model->getDurezaSuperfMin())>($this->Model->getDurezaSuperfMax())){
+            $aInfo[3] = "Dureza máxima da superfície encontrada está abaixo da Dureza mínima solicitada!";
+        }
+        if (($oOp->Model->getExpCamadaMin())>($this->Model->getExpCamadaMin())){
+            $aInfo[4] = "Camada minima encontrada está abaixo da Camada mínima solicitada!";
+        }
+        if (($oOp->Model->getExpCamadaMax())<($this->Model->getExpCamadaMin())){
+            $aInfo[4] = "Camada minima encontrada está acima da Camada máxima solicitada!";
+        }
+        if (($oOp->Model->getExpCamadaMax())<($this->Model->getExpCamadaMax())){
+            $aInfo[5] = "Camada máxima encontrada está acima da Camada máxima solicitada!";
+        }
+         if (($oOp->Model->getExpCamadaMin())>($this->Model->getExpCamadaMax())){
+            $aInfo[5] = "Camada máxima encontrada está abixo da Camada mínima solicitada!";
+        }
+        return $aInfo;
+    }
     
 }

@@ -58,6 +58,7 @@ class ViewQualNovoProjProd extends View {
         $oSitGeral->addComparacao('Faturado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA);
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(20);
+       
 
         $this->addCampos($oNr, $oData, $oSitCli, $oSitGeral, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli);
 
@@ -84,11 +85,13 @@ class ViewQualNovoProjProd extends View {
         $oFSitProj = new Filtro($oSitGeral, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFSitProj->addItemSelect('Todos', 'Todos');
         $oFSitProj->addItemSelect('Em execução', 'Em execução');
-        $oFSitProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');
+        $oFSitProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');        
+        $oFSitProj->addItemSelect('Lib.Projetos', 'Lib.Projetos');
         $oFSitProj->addItemSelect('Finalizado', 'Finalizado');
         $oFSitProj->addItemSelect('Aprovado', 'Aprovado');
         $oFSitProj->addItemSelect('Representante', 'Representante');
         $oFSitProj->setSLabel('');
+        
         //TelaCadVerif
 
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
@@ -96,7 +99,7 @@ class ViewQualNovoProjProd extends View {
 
         $oFiltroProd = new Filtro($oNovoProd, Filtro::CAMPO_TEXTO, 8, 8, 12, 12);
         $oFiltroProd->setSLabel('Descrição');
-        $this->addFiltro($oFiltroNr, $oFiltroProd, $oFSitProj);
+        $this->addFiltro($oFSitProj,$oFiltroNr, $oFiltroProd);
 
         //$aInicial[0] = 'sitgeralproj,Todos';
         //$this->getTela()->setAParametros($aInicial);

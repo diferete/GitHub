@@ -177,8 +177,12 @@ class ControllerSTEEL_PCP_ordensFabLista extends Controller {
         $sParam ='fornoCod='.$aDados[2].'';
         $sSistema ="app/relatorio";
         $sRelatorio = 'RelOpSteelPrioridadeForno.php?';
+        $oForno = Fabrica::FabricarController('STEEL_PCP_Forno');
+        $oForno->Persistencia->adicionaFiltro('fornocod',$aDados[2]);
+        $oDadosForno = $oForno->Persistencia->consultarWhere();
+        $oDes = 'fornoDes='.$oDadosForno->getFornodes();
         
-        $sCampos.= $sParam.$this->getSget();
+        $sCampos.= $sParam.'&'.$oDes.$this->getSget();
         
        $sCampos.='&output=tela';
        $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "'.$sCampos.'", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
@@ -205,6 +209,32 @@ class ControllerSTEEL_PCP_ordensFabLista extends Controller {
     public function baixaLista($aDados,$sSit){
         $aRetorno = $this->Persistencia->baixaLista($aDados,$sSit);
         return $aRetorno;
+        
+    }
+    
+    /**
+     * Vai excluir da lista
+     * @param type $sDados
+     */
+    
+    public function excluirLista($sDados){
+        $aDados = explode(',',$sDados);
+        
+        $sChave =htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave,$aCamposChave);
+        
+        $this->Persistencia->adicionaFiltro('op',$aCamposChave['op']);
+        $aRetorno = $this->Persistencia->excluir();
+        if($aRetorno[0]){
+           $oMensagem = new Mensagem('Sucesso!','O registro foi deletado! ', Mensagem::TIPO_SUCESSO);
+           echo $oMensagem->getRender();
+           echo"$('#".$aDados[1]."-pesq').click();";  
+           
+        }else{
+            $oMensagem = new Mensagem('Atenção!','O registro não foi deletado, mensagem do banco: '.$aRetorno[1], Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
         
     }
     

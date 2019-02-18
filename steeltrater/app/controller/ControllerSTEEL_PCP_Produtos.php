@@ -183,4 +183,10 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         $this->Model->setTms_produtopredominante(' ');
     }
     
+    public function antesDeCriarConsulta($sParametros = null) {
+        parent::antesDeCriarConsulta($sParametros);
+        
+        // $this->Persistencia->adicionaFiltro('pro_grupocodigo','100');
+         $this->Persistencia->adicionaFiltro('pro_grupocodigo', '100', Persistencia::LIGACAO_AND, Persistencia::ENTRE,'101');
+    }
 }

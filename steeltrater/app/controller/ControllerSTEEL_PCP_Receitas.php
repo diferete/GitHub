@@ -108,19 +108,23 @@ class ControllerSTEEL_PCP_Receitas extends Controller {
            parent::mostraTelaRelatorio($renderTo, 'RelOpSteelReceitasItens');                          
            
        }  
-       
-       public function beforeDelete() {
-           parent::beforeDelete();
+             
+       public function antesExcluir($sParametros = null) {
+           parent::antesExcluir($sParametros);
           
             $oReceita = Fabrica::FabricarController('STEEL_PCP_prodMatReceita');
-            $oReceita->Persistencia->adicionaFiltro('cod',$this->Model->getCod());
+            $oReceita->Persistencia->adicionaFiltro('cod',$sParametros['cod']);
             $iContReceita = $oReceita->Persistencia->getCount();
+            
+            $oProduto = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+            $oProduto->Persistencia->adicionaFiltro('receita',$sParametros['cod']);
+            $iContProduto = $oProduto->Persistencia->getCount();            
 
-            if($iContReceita==0){
+            if(($iContReceita==0)&&($iContProduto==0)){
             
                 //monta o delete dos itens da receita
                 $oItens = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
-                $oItens->Persistencia->AdicionaFiltro('cod', $this->Model->getCod());
+                $oItens->Persistencia->AdicionaFiltro('cod', $sParametros['cod']);
                 $oItens->Persistencia->excluir();
            
                 $aRetorno = array();
@@ -133,7 +137,7 @@ class ControllerSTEEL_PCP_Receitas extends Controller {
                 $oModal = new Modal('Atenção', 'Essa receita não pode ser excluída, pois está vinculada a um produto!', Modal::TIPO_ERRO);
                 echo $oModal->getRender();
                 exit();
-        }  
+            }  
        }
-    
+         
 }

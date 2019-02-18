@@ -18,7 +18,7 @@ class PersistenciaMET_PROD_Produtos extends Persistencia{
         $this->adicionaRelacionamento('pro_unidademedida', 'pro_unidademedida');
        
 
-        $this->setSTop('50');
+        $this->setSTop('200');
         $this->adicionaOrderBy('pro_codigo', 1);
     }
 

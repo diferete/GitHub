@@ -820,7 +820,7 @@ if ($sEmailRequest == 'S') {
         $oRow = $PDO->query($sSqlEmail);
         $aDadosEmail = $oRow->fetch(PDO::FETCH_ASSOC);
         $sDadosEmail = $aDadosEmail['emailEquip'];
-        $aEmail = explode(',', $sDadosEmail);
+        $aEmail = explode(';', $sDadosEmail);
         foreach ($aEmail as $sCopia) {
             $oEmail->addDestinatario($sCopia);
         }

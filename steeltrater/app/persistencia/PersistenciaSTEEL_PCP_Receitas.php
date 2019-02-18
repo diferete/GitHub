@@ -30,6 +30,11 @@ class PersistenciaSTEEL_PCP_Receitas extends Persistencia{
         $this->adicionaRelacionamento('carbono', 'carbono');
         $this->adicionaRelacionamento('imagem', 'imagem');
         $this->adicionaRelacionamento('temprev', 'temprev');
+        $this->adicionaRelacionamento('instTrab','instTrab');
+        $this->adicionaRelacionamento('progForno', 'progForno');
+        $this->adicionaRelacionamento('codServ', 'codServ');
+        $this->adicionaRelacionamento('codServMet','codServMet');
+        $this->adicionaRelacionamento('codInsumo','codInsumo');
         
         $this->adicionaOrderBy('cod',1);
         $this->setSTop('40');

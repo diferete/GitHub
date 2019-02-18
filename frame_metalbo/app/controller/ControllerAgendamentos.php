@@ -53,10 +53,12 @@ class ControllerAgendamentos extends Controller {
 
 
         $aUserPlano = $this->Persistencia->projEmailVendaProj($oValue);
-
-        foreach ($aUserPlano as $sCopia) {
-            $oEmail->addDestinatarioCopia($sCopia);
-        }
+//
+//        foreach ($aUserPlano as $sCopia) {
+//            $oEmail->addDestinatarioCopia($sCopia);
+//        }
+        
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $oEmail->setAssunto(utf8_decode('Entrada de projeto nº' . $oValue->nr . ''));
         $oEmail->setMensagem(utf8_decode('PROJETO Nº ' . $oValue->nr . ' FOI CANCELADO PELO SISTEMA<hr><br/>'

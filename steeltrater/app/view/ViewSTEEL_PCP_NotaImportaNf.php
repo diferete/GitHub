@@ -16,8 +16,8 @@ class ViewSTEEL_PCP_NotaImportaNf extends View{
         
         $oBotaoConsulta = new CampoConsulta('OF','emitOf', CampoConsulta::TIPO_ACAO);
         $oBotaoConsulta->setSTitleAcao('Emitir Ordem Fabricação!');
-        $oBotaoConsulta->addAcao('STEEL_PCP_OrdensFab','acaoMostraTelaIncluir');  ///MUDEI A CLASSE DE BUSCA..
-        $oBotaoConsulta->setBHideTelaAcao(true);                                  ///TEM QUE CONTINUAR
+        $oBotaoConsulta->addAcao('STEEL_PCP_OrdensFab','acaoMostraTelaIncluir');
+        $oBotaoConsulta->setBHideTelaAcao(true);
         
         
         $oNf = new CampoConsulta('Nota Fiscal','nfsnfnro');

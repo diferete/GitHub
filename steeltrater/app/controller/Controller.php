@@ -1498,9 +1498,10 @@ class Controller {
 
         $aDados = explode(',', $sParametros);
         $this->adicionaFiltrosExtras();
-
+                    
 
         $this->View->criaConsulta();
+        $this->antesBuscaPk($aDados);
         $this->View->getTela()->setAbaSel($aDados[0]);
         //se posição 0 esta setada define automaticamente como pesquisa
         if ($aDados[1] !== null && $aDados[1] !== '') {
@@ -1886,8 +1887,8 @@ class Controller {
                         $sDados .= $campoAtual->getRender($aRetornoFormat[1] . $sConsulta, $xValorCampo, $sChave);
                         $aRetornoFormat[0] = false;
                     } else {
-
-                        $sDados .= $campoAtual->getRender($sConsulta, $xValorCampo);
+                        $sChave = $this->Persistencia->getChaveModel($oAtual);
+                        $sDados .= $campoAtual->getRender($sConsulta, $xValorCampo,$sChave);
                     }
                 }
             }
@@ -3954,7 +3955,7 @@ class Controller {
      */
     public function carregaDetalhe($sChave) {
         $aCampos = array();
-        $sCampos = htmlspecialchars_decode($sChave);
+        $sCampos = htmlspecialchars_decode(utf8_encode($sChave));
         $this->carregaModelString($sCampos);
         $this->Model = $this->Persistencia->consultar();
         parse_str($sCampos, $aCampos);
@@ -4276,6 +4277,12 @@ class Controller {
        
        
        return $aFiltros;
+   }
+   /**
+    * Filtros adicionais antes das buscas PK
+    */
+   public function antesBuscaPk($sDados){
+       
    }
 
 }

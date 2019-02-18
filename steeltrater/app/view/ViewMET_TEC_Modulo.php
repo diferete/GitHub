@@ -8,14 +8,17 @@ class ViewMET_TEC_Modulo extends View {
 
     function criaConsulta() {
         parent::criaConsulta();
+		
+        $this->setUsaDropdown(true);
 
         $this->setaTiluloConsulta('Pesquisa de Módulos do Sistema');
         $oCodigo = new CampoConsulta('Modulo', 'modcod');
-        $oCodigo->setILargura(500);
-
         $oModulo = new CampoConsulta('Descrição', 'modescricao');
-        $oModulo->setILargura(500);
 
+		$oDropDown = new Dropdown('Testar Email', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Testar Email', 'MET_TEC_Modulo', 'testarEmail', '', false, '',false,'',false,'',false,false);
+
+        $this->addDropdown($oDropDown);
 
         $this->addCampos($oCodigo, $oModulo);
 
@@ -25,24 +28,78 @@ class ViewMET_TEC_Modulo extends View {
         $this->setUsaAcaoVisualizar(true);
     }
 
-    function criaTela() {
+     function criaTela() {
         parent::criaTela();
-        
-        $this->setBGravaHistorico(true);
 
-        $this->setTituloTela("Cadastro de Módulos");
+       // $this->setTituloTela("Cadastro de Módulos");
+        /* $oData1 = new Campo('Data', 'Data', Campo::TIPO_DATA);
+          $oData1->setSValor('17/11/2015');
+          $oData2 = new Campo('Data2', 'Data', Campo::TIPO_DATA);
+          $oData3 = new Campo('data3', 'Data', Campo::TIPO_DATA);
+          $oData4 = new Campo('data4', 'Data', Campo::TIPO_DATA);
+          $oCEP = new Campo('CEP','cep', Campo::TIPO_TEXTO,'9');
+          $oCEP->setBCEP(true);
 
+          $oMoney = new Campo('Money', 'money', Campo::TIPO_MONEY);
+
+
+          $oFone = new Campo('Fone','fone',  Campo::TIPO_TEXTO);
+          $oFone->setBFone(true);
+
+          $oCPF = new Campo('CPF','CPF',  Campo::TIPO_TEXTO);
+          $oCPF->setBCPF(true);
+          $oCNPJ = new Campo('CNPJ','CNPJ',  Campo::TIPO_TEXTO);
+          $oCNPJ->setBCNPJ(true);
+
+          $oSelect = new Campo('Campo Select','select',  Campo::TIPO_SELECT);
+          $oSelect->addItemSelect('ac', 'Acre');
+          $oSelect->addItemSelect('sc', 'Santa Catarina');
+          // $this->addCampos(array($oData1, $oCEP),array($oMoney,$oFone,$oCPF,$oCNPJ));
+          $oRadio = new Campo('Estados','radio', Campo::TIPO_RADIO);
+          $oRadio->addItenRadio('sc', 'Santa Catarina');
+          $oRadio->addItenRadio('pr', 'Paraná');
+          $oTextArea = new Campo('Descrição','texto', Campo::TIPO_TEXTAREA,6);
+          $oTextArea->setILinhasTextArea(5);
+
+          $oCheck = new Campo('teste', 'teste', Campo::TIPO_CHECK);
+          $oCheck->setBValorCheck(true);
+          $oUpload = new Campo('Avanei', 'mestre', Campo::TIPO_UPLOAD); */
+
+          $oTab = new TabPanel();
+          $oAbaGeral = new AbaTabPanel('Aba Geral');
+          $oAbaGeral->setBActive(true);
+          $oAbaCarlos = new AbaTabPanel('Pit Bull');
+          $this->addLayoutPadrao('Aba');
+
+
+          $oModCod = new Campo('Código','modcod', Campo::TIPO_TEXTO,1);
+          $oModDescricao = new Campo('Descrição','modescricao',  Campo::TIPO_TEXTO,3);
+          
+          $oTeste = new campo('teste','teste', Campo::TIPO_TAGS);
+        $oTeste->setApenasTela(true);
+
+       //   $oObs = new Campo('Obs','obs', Campo::TIPO_TEXTO,3);
+        //  $oObs->setApenasTela(true);
+
+          $oAbaGeral->addCampos(array($oModCod,$oModDescricao,$oTeste));
+         // $oAbaCarlos->addCampos($oObs);
+          $oTab->addItems($oAbaGeral,$oAbaCarlos);
+
+
+          $this->addCampos($oTab); 
         //teste da gravação no banco
-        $oMod = new Campo('Código', 'modcod', Campo::TIPO_TEXTO, 3);
+      /*  $oMod = new Campo('Código', 'modcod', Campo::TIPO_TEXTO, 3);
         $oMod->setBCampoBloqueado(true); //quando campo for pk
         $oMod->setBFocus(true);
-        
-        $oDivisor = new Campo('Divisão', '', Campo::DIVISOR_SUCCESS);
-        
         $oModdes = new Campo('Descrição', 'modescricao', Campo::TIPO_TEXTO, 3);
         $oModdes->addValidacao(true, Validacao::TIPO_STRING, 'Conteúdo Inválido!');
-
+        // $oModdes->addValidacao(true, Validacao::TIPO_EMAIL, 'Email inválido');
         $oModdes->setBFocus(true);
+        //  $oModdes->addValidacao('false', Validacao::TIPO_INTEIRO,'Dados informados são inválidos');
+        //$oModdes->addValidacao(FALSE, Validacao::TIPO_STRING,'Dados informados são inválidos','1','20');
+
+
+
 
 
         $oSelect = new Campo('Campo Select', 'select', Campo::TIPO_SELECT);
@@ -50,11 +107,29 @@ class ViewMET_TEC_Modulo extends View {
         $oSelect->addItemSelect('sc', 'Santa Catarina');
 
 
+        /* $oModdes1 = new Campo('teste','ATIVO', Campo::TIPO_CHECK,3);
+          $oModdes1->setBValorCheck(true); */
 
-        $oFieldSet = new FieldSet('Módulos');
-        $oFieldSet->addCampos($oMod,$oDivisor, $oModdes);
+//          $oSelect = new Campo('Campo Select','select',  Campo::TIPO_SELECT);
+//          $oSelect->addItemSelect('ac', 'Acre');
+//          $oSelect->addItemSelect('sc', 'Santa Catarina');
+//          $oTexto = new Campo('texto','teste', Campo::TIPO_TEXTAREA,12);
+//          $oTexto->setILinhasTextArea(5);
+//          $oTexto->setBCampoBloqueado(true);
+//          
 
-        $this->addCampos($oFieldSet);
+      /*  $oFieldSet = new FieldSet('Módulos');
+        $oFieldSet->addCampos($oMod, $oModdes);*/
+
+      //  $this->addCampos($oFieldSet);
     }
 
+
 }
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+

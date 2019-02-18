@@ -104,6 +104,10 @@ class ViewSTEEL_PCP_Receitas extends View {
         
         $oImagem = new Campo('Imagem','imagem', Campo::TIPO_UPLOAD,3);
         
+        $oInstTrab = new campo('Inst.Trab','instTrab', Campo::TIPO_TEXTO,1);
+        
+        $oProgForno = new Campo('Progr.Forno','progForno', Campo::TIPO_TEXTO,1);
+        
         $oEtapas = new FormEtapa(2, 2, 12, 12);
         $oEtapas->addItemEtapas('Cad. Receitas', true, $this->addIcone(Base::ICON_EDITAR));
         $oEtapas->addItemEtapas('Itens da Receita', false, $this->addIcone(Base::ICON_CONFIRMAR));
@@ -121,10 +125,25 @@ class ViewSTEEL_PCP_Receitas extends View {
         $this->setSIdControleUpAlt($oAcao->getId());
         
         /*********************************************************/
+        $oCamp = new campo('SERVIÇOS E INSUMOS','', Campo::DIVISOR_DARK,8);
+        $oCamp->setApenasTela(true);
+                
+        $oCodServ = new Campo('Código do Serviço','codServ', Campo::TIPO_BUSCADOBANCOPK,3);
+        $oCodServ->setClasseBusca('DELX_PRO_Produtos');
+        $oCodServ->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
+        
+        $oCodServMet = new campo('Código Serviço Metalbo', 'codServMet', Campo::TIPO_BUSCADOBANCOPK,3);
+        $oCodServMet->setClasseBusca('DELX_PRO_Produtos');
+        $oCodServMet->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
+        
+        $oCodInsumo = new campo('Código Insumo', 'codInsumo',  Campo::TIPO_BUSCADOBANCOPK,3);
+        $oCodInsumo->setClasseBusca('DELX_PRO_Produtos');
+        $oCodInsumo->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
+                
         $this->addCampos(array($oCod,$oData),array($oPeca,$oMaterial,$oClasse),
-                $oLabel1,array(/*$oDureza,*/$oBitola,$oTempRev),$oLabel2,
+                $oLabel1,array($oBitola,$oTempRev),$oLabel2,$oCamp,array($oCodServ,$oCodServMet,$oCodInsumo),$oLabel1,
                 array($oMetanol,$oXigenio,$oNitrogenio,$oAmonia),
-                array($oGpl,$oCo,$oCarbono),$oLabel3,$oImagem,$oAcao);
+                array($oGpl,$oCo,$oCarbono),$oLabel3,array($oImagem,$oInstTrab,$oProgForno),$oAcao);
        
     }
     

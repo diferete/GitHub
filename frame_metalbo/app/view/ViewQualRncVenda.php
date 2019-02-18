@@ -63,6 +63,7 @@ class ViewQualRncVenda extends View {
 
         $oDropDown = new Dropdown('Opções da reclamação', Dropdown::TIPO_PRIMARY);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'QualRncVenda', 'acaoMostraRelConsulta', '', false, 'rc');
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Retornar', 'QualRncVenda', 'retornaRep', '', false, '');
 
         $oDropDown1 = new Dropdown('Encaminhar E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_QUAL) . 'Qualidade', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Qual');
@@ -270,6 +271,9 @@ class ViewQualRncVenda extends View {
 
         $oLinha = new Campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
+        
+        $oTipoRnc = new Campo('Selecione o tipo da RNC segundo análise e se sua devolução foi aceita ou recusada!', 'divisor1', Campo::DIVISOR_INFO,12,12,12,12);
+        $oTipoRnc->setApenasTela(true);
 
         $oReclamacao = new Campo('Tipo', 'reclamacao', Campo::TIPO_RADIO, 6, 6, 12, 12);
         $oReclamacao->addItenRadio('Interna', 'Interna');
@@ -303,7 +307,7 @@ class ViewQualRncVenda extends View {
         $this->setBTela(true);
 
 
-        $this->addCampos(array($oFilcgc, $oNr), $oLinha, array($oReclamacao, $oDevolucao), $oLinha1, $oObs_aponta, $oBtnInserir);
+        $this->addCampos(array($oFilcgc, $oNr), $oLinha,$oTipoRnc, array($oReclamacao, $oDevolucao), $oLinha1, $oObs_aponta, $oBtnInserir);
     }
 
 }

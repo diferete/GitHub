@@ -158,10 +158,8 @@ class ModelSTEEL_PCP_PedCarga{
     private $PDV_PedidoCarenciaNegociada;
     private $PDV_PedidoDiasCarenciaJuros;
     private $PDV_PedidoEmbalagemManual;
-   
     
-    
-    
+        
     function getDELX_CAD_Pessoa() {
         if(!isset($this->DELX_CAD_Pessoa)){
             $this->DELX_CAD_Pessoa = Fabrica::FabricarModel('DELX_CAD_Pessoa');

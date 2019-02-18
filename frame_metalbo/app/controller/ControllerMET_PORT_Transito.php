@@ -11,11 +11,16 @@ class ControllerMET_PORT_Transito extends Controller {
     public function __construct() {
         $this->carregaClassesMvc('MET_PORT_Transito');
     }
+    
+    public function relTransito($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'relTransito');
+    }
 
     public function beforeInsert() {
         parent::beforeInsert();
 
         $sModelo = $this->Model->getMotivo();
+        $this->Model->setMotorista(strtoupper($this->Model->getMotorista()));
 
         if ($sModelo != 'Selecionar') {
             $aRetorno = array();
@@ -79,7 +84,55 @@ class ControllerMET_PORT_Transito extends Controller {
             echo $oMensagem->getRender();
         }
     }
+
+    public function afterUpdate() {
+        parent::afterUpdate();
+
+
+        $oModel = $this->Model;
+
+
+        $this->Persistencia->cadPlaca($oModel);
+
+        $this->Persistencia->cadCpf($oModel);
+
+        if ($oModel->getMotivo() == '1') {
+            $aRetorno = $this->Persistencia->updateCadastro($oModel);
+            if ($aRetorno) {
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            } else {
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
+        } else {
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
+    }
     
+    
+    
+     public function gravaHora($sDados){
+        $aDados = explode(',', $sDados);
+        $this->carregaModelString($aDados[3]);
+        $aRetorno = $this->Persistencia->alteraHora($aDados[2], $this->Model->getNr());
+        if($aRetorno[0]){
+            $oMensagem = new Mensagem('Sucesso!','Hora de saída alterada.', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        }else{
+            $oMensagem = new Mensagem('Atenção!','Hora de saída não foi alterada.'.$aRetorno[1], Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
+        
+    }
+
     public function buscaCpf($sDados) {
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
         $aCamposChave = array();

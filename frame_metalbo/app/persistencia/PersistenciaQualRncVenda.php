@@ -269,4 +269,12 @@ class PersistenciaQualRncVenda extends Persistencia {
         return $aRetorno;
     }
 
+    public function retornaRep($aDados) {
+        $sSql = "update tbrncqual "
+                . "set situaca = 'Aguardando' "
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetorna = $this->executaSql($sSql);
+        return $aRetorna;
+    }
+
 }

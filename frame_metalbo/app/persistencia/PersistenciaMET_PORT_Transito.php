@@ -17,6 +17,8 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
         $this->adicionaRelacionamento('nr', 'nr', true, true, true);
         $this->adicionaRelacionamento('situaca', 'situaca');
         $this->adicionaRelacionamento('placa', 'placa');
+        $this->adicionaRelacionamento('placacarr1', 'placacarr1');
+        $this->adicionaRelacionamento('placacarr2', 'placacarr2');
         $this->adicionaRelacionamento('empcod', 'empcod');
         $this->adicionaRelacionamento('empdes', 'empdes');
         $this->adicionaRelacionamento('datachegou', 'datachegou');
@@ -46,25 +48,41 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
     }
 
     public function cadPlaca($oDados) {
-        $sSql = "select COUNT(*) as total "
-                . "from MET_CAD_Placas "
-                . "where placa = '" . $oDados->getPlaca() . "' and empcod <>'' and empdes <>''";
-        $sRetPlaca = $this->consultaSql($sSql);
+        $aPlacas = array();
 
-        if ($sRetPlaca->total >= 1) {
-            return;
-        } else {
-            $sSqlCadPlaca = "insert into MET_CAD_Placas("
-                    . "filcgc,placa,empcod,empdes) "
-                    . "values("
-                    . "'" . $oDados->getFilcgc() . "',"
-                    . "'" . $oDados->getPlaca() . "',"
-                    . "'" . $oDados->getEmpcod() . "',"
-                    . "'" . $oDados->getEmpdes() . "')";
-            $this->executaSql($sSqlCadPlaca);
+        $aPlacas[0] = $oDados->getPlaca();
+        if ($oDados->getPlacacarr1() != '') {
+            array_push($aPlacas, strtoupper($oDados->getPlacacarr1()));
+        }
+        if ($oDados->getPlacacarr2() != '') {
+            array_push($aPlacas, strtoupper($oDados->getPlacacarr2()));
+        }
+
+        foreach ($aPlacas as $key => $sPlaca) {
+
+            $sSql = "select COUNT(*) as total "
+                    . "from MET_CAD_Placas "
+                    . "where placa = '" . $sPlaca . "' and empcod <>'' and empdes <>''";
+            $sRetPlaca = $this->consultaSql($sSql);
+
+            switch ($sRetPlaca) {
+                case $sRetPlaca->total >= '1':
+                    break;
+                default:
+
+                    $sSqlCadPlaca = "insert into MET_CAD_Placas("
+                            . "filcgc,placa,empcod,empdes) "
+                            . "values("
+                            . "'" . $oDados->getFilcgc() . "',"
+                            . "'" . $sPlaca . "',"
+                            . "'" . $oDados->getEmpcod() . "',"
+                            . "'" . $oDados->getEmpdes() . "')";
+                    $this->executaSql($sSqlCadPlaca);
+                    break;
+            }
         }
     }
-    
+
     public function consultaCpf($aDados) {
         $sSql = "select nome,fone"
                 . " from MET_CAD_Cpf"
@@ -74,8 +92,7 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
 
         return $oRetorno;
     }
-    
-    
+
     public function cadCPF($oDados) {
         $sSql = "select COUNT(*) as total "
                 . "from MET_CAD_Cpf "
@@ -118,6 +135,41 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
                 . "'0,00'"
                 . ")";
         $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
+
+    public function updateCadastro($oDados) {
+
+
+        $sSqlIdCarga = "select idcarga from MetExp_Carga where empcod = '" . $oDados->getEmpcod() . "'
+                and transp ='" . $oDados->getEmpdes() . "' 
+                and dataent = '" . $oDados->getDatachegou() . "'
+                and horaent = '" . $oDados->getHorachegou() . "'
+                and placa = '" . $oDados->getPlaca() . "'
+                and pesotara  = '0,00'
+                and pesobruto  = '0,00' 
+                and pesocarregado = '0,00'";
+        $oIdCarga = $this->consultaSql($sSqlIdCarga);
+
+        $sMotorista = Util::removeAcentos($oDados->getMotorista());
+        $sMotorista = strtoupper($sMotorista);
+
+        $sSqlSit = "select sit cod from MetExp_Carga where "
+                . "idcarga = '" . $oIdCarga->idcarga . "' ";
+        $oSit = $this->consultaSql($sSqlSit);
+
+        if ($oSit == '1') {
+
+            $sSql = "update MetExp_Carga set"
+                    . "empcod ='" . $oDados->getEmpcod() . "',"
+                    . " transp ='" . $oDados->getEmpdes() . "',"
+                    . "placa ='" . $oDados->getPlaca() . "',"
+                    . "motorista ='" . $sMotorista . "',"
+                    . "motcod ='" . $oDados->getMotivo() . "',";
+            $aRetorno = $this->executaSql($sSql);
+        } else {
+            return true;
+        }
         return $aRetorno;
     }
 
@@ -169,6 +221,13 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
                 . "situaca = 'Saída' "
                 . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'and placa ='" . $aDados['placa'] . "' ";
         $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
+
+    public function alteraHora($sValor, $sChave) {
+        $sSql = "update MET_PORT_Transito set horasaiu ='" . $sValor . "' where nr='" . $sChave . "'   ";
+        $aRetorno = $this->executaSql($sSql);
+
         return $aRetorno;
     }
 

@@ -18,7 +18,7 @@ class PersistenciaDELX_PRO_Familia extends Persistencia{
         $this->adicionaRelacionamento('pro_familiacodigo', 'pro_familiacodigo',true,true);
         $this->adicionaRelacionamento('pro_familiadescricao','pro_familiadescricao');
         
-        $this->setSTop('50');                      
+        $this->setSTop('1000');                      
         $this->adicionaOrderBy('pro_grupocodigo', 0);
         
     }

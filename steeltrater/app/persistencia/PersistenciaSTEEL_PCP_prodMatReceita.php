@@ -44,7 +44,7 @@ class PersistenciaSTEEL_PCP_prodMatReceita extends Persistencia {
         
         $this->adicionaRelacionamento('nrppap','nrppap');
         
-        $this->setSTop('30');
+        $this->setSTop('10');
         $this->adicionaOrderBy('seqmat', 1);
         $this->adicionaJoin('DELX_PRO_Produtos', null,1, 'prod','pro_codigo');
         $this->adicionaJoin('STEEL_PCP_material');

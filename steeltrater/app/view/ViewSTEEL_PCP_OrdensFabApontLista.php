@@ -116,7 +116,7 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         $oProdes->setSValor($oDados->getProdes());
         $oProdes->setBCampoBloqueado(true);
         
-        $oForno = new Campo('Forno','fornocod', Campo::TIPO_SELECTMULTI,2);
+        $oForno = new Campo('Forno','fornocod', Campo::TIPO_SELECTMULTI,3);
         $oForno->addItemSelect('Todos', 'Todos');
         //coloca os fornos nos valores
         foreach ($aFornoLista as $key => $oFornoObj) {
@@ -125,9 +125,9 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         $oForno->setSValor('Todos');
       
         $oSitLista = new campo('Situação','situacao', Campo::TIPO_SELECTMULTI,2);
-        $oSitLista->addItemSelect('Espera', 'Espera');
         $oSitLista->addItemSelect('Liberado', 'Liberado');
-        $oSitLista->setSValor('Espera');
+        $oSitLista->addItemSelect('Espera', 'Espera');
+        $oSitLista->setSValor('Liberado');
         
         $oPrioridade = new Campo('Prioridadades','prioridade', Campo::CAMPO_SELECTSIMPLE,2);
         $i=1;
@@ -138,7 +138,7 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         
         
         
-        $oTemp = new Campo('Temperatura','tempForno', Campo::TIPO_TEXTO,2);
+        $oTemp = new Campo('Temperatura','tempforno', Campo::TIPO_TEXTO,2);
         $oTemp->setIMarginTop(8);
         $oTemp->setSValor(number_format($oDados->getTemprev(), 2, ',', '.'));
         
@@ -149,7 +149,7 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         $oBtnInserir->setIMarginTop(7);
         //id do grid
 
-        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabLista","insereLista","' . $this->getTela()->getId() . '-form","");';
+       $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabLista","insereLista","' . $this->getTela()->getId() . '-form","");';
 
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());

@@ -85,10 +85,12 @@ $pdf->MultiCell(50, 15, 'Per.: ' . $data1 .
 $pdf->Ln(5);
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
-        . " tbqualNovoProjeto.empcod,empdes,convert(varchar,dtimp,103) as dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento"
-        . " from tbqualNovoProjeto left outer join  widl.EMP01"
-        . " on tbqualNovoProjeto.empcod  = widl.EMP01.empcod"
+$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,tbqualNovoProjeto.procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj, tbqualNovoProjeto.empcod,widl.EMP01.empdes,
+                 convert(varchar,dtimp,103) as dtimp,
+                 quant_pc,lotemin,prazoentregautil,precofinal,acabamento 
+                 from tbqualNovoProjeto
+                 left outer join widl.EMP01
+                 on tbqualNovoProjeto.empcod = widl.EMP01.empcod"
         . " where dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "' ";
 
 if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGeral !== '') || ($sTipoProd !== '')) {
@@ -113,9 +115,9 @@ if (($sSitProj !== '') || ($sSitVenda !== '') || ($sSitCli !== '') || ($sSitGera
         $sql .= " grucod = '" . $sTipoProd . "'";
     }
 }
-$sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
-        . " tbqualNovoProjeto.empcod,empdes,dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento"
-        . " order by nr";
+$sql .= " group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,tbqualNovoProjeto.procod,desc_novo_prod,repnome,resp_venda_nome,respvalproj,
+          tbqualNovoProjeto.empcod,widl.EMP01.empdes,
+          dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento order by nr";
 
 $sth = $PDO->query($sql);
 
@@ -171,7 +173,7 @@ while ($row = $sCont->fetch(PDO::FETCH_ASSOC)) {
         $qReproVend = $qReproVend + (int) $row['quantidade'];
     }
 
-    if ($row['sitproj'] == "Aprovado") {
+    if ($row['sitproj'] == "Aprovado" || $row['sitproj'] == "Cód. enviado") {
         $qAprovProj = $qAprovProj + (int) $row['quantidade'];
     } else
     if (($row['sitproj'] == "Reprovado")) {
@@ -186,13 +188,29 @@ while ($row = $sCont->fetch(PDO::FETCH_ASSOC)) {
     }
 }
 
+
+//Conta o total de porcas e parafusos dentro do período de datas selecionado
+
+
+$sqlTotalPo = "select count(*) as quantidade from tbqualNovoProjeto
+                 where grucod = 12 and dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "'";
+$iTotalPo = $PDO->query($sqlTotalPo)->fetch(PDO::FETCH_ASSOC);
+
+$sqlTotalPa = "select count(*) as quantidade from tbqualNovoProjeto
+                     where grucod = 13 and dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "'";
+$iTotalPa = $PDO->query($sqlTotalPa)->fetch(PDO::FETCH_ASSOC);
+
+
+
 //Imprime relatório projetos aprovados/reprovados por setor
 $pdf->Cell(199, 5, 'Aprovados Vendas: ' . $qAprovVend . ''
         . '  -   Aprovados Projetos: ' . $qAprovProj . ''
-        . '  -   Aprovados Cliente: ' . $qAprovClie, 0, 1, 'L');
+        . '  -   Aprovados Cliente: ' . $qAprovClie . ''
+        . '  -   Total de Parafusos: ' . $iTotalPa['quantidade'], 0, 1, 'L');
 $pdf->Cell(199, 5, 'Reprovados Vendas: ' . $qReproVend . ''
         . '  -   Reprovados Projetos: ' . $qReproProj . ''
-        . '  -   Reprovados Cliente: ' . $qReproClie, 0, 1, 'L');
+        . '  -   Reprovados Cliente: ' . $qReproClie . ''
+        . '  -   Total de Porcas: ' . $iTotalPo['quantidade'], 0, 1, 'L');
 $pdf->Cell(0, 0, "", "B", 1, 'C');
 $pdf->Ln(3);
 
@@ -322,22 +340,6 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $iContaAltura = $pdf->GetY() + 10;
 }
 
-//Conta o total de porcas e parafusos dentro do período de datas selecionado
-$sqlTotalPa = "select count(tbqualNovoProjeto.procod) as quantidade from widl.PROD01
-                 left join tbqualNovoProjeto on tbqualNovoProjeto.procod = widl.PROD01.procod
-                 where widl.PROD01.grucod = 13 and tbqualNovoProjeto.grucod = 13 and dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "'";
-$iTotalPa = $PDO->query($sqlTotalPa)->fetch(PDO::FETCH_ASSOC);
-
-$sqlTotalPo = "select count(tbqualNovoProjeto.procod) as quantidade from widl.PROD01
-                 left join tbqualNovoProjeto on tbqualNovoProjeto.procod = widl.PROD01.procod
-                 where widl.PROD01.grucod = 12 and tbqualNovoProjeto.grucod = 12 and dtimp BETWEEN '" . $data1 . "' and '" . $data2 . "'";
-$iTotalPo = $PDO->query($sqlTotalPo)->fetch(PDO::FETCH_ASSOC);
-
-
-$pdf->Ln(2);
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(199, 5, 'Total de Projetos de Porcas: ' . $iTotalPo['quantidade'], 0, 1, 'L');
-$pdf->Cell(199, 5, 'Total de Projetos de Parafusos: ' . $iTotalPa['quantidade'], 0, 1, 'L');
 
 //number_format($quant, 2, ', ', '.')
 $pdf->AutoPrint();

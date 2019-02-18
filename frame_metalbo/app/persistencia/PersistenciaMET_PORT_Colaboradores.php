@@ -33,6 +33,8 @@ class PersistenciaMET_PORT_Colaboradores extends Persistencia {
         $this->adicionaRelacionamento('tipopessoa', 'tipopessoa');
         $this->adicionaRelacionamento('empdes', 'empdes');
         $this->adicionaRelacionamento('cracha', 'cracha');
+        $this->adicionaRelacionamento('respcracha', 'respcracha');
+        $this->adicionaRelacionamento('respnome', 'respnome');
         $this->adicionaRelacionamento('placa', 'placa');
 
         $this->adicionaOrderBy('nr', 1);

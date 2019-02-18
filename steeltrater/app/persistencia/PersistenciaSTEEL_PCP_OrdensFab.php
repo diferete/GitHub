@@ -67,7 +67,7 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         
         $this->adicionaRelacionamento('vlrNfEnt', 'vlrNfEnt');
         $this->adicionaRelacionamento('vlrNfEntUnit','vlrNfEntUnit');
-        
+        $this->adicionaRelacionamento('nrCarga','nrCarga');
         
         
         $this->adicionaOrderBy('op',1);
@@ -121,8 +121,30 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         
     }
     
+    /**
+     * Grava número da carga na op
+     */
+    
+    public function nrCarga($sOp,$sNrCarga){
+         $sSql="update STEEL_PCP_OrdensFab set nrCarga='".$sNrCarga."' where op='".$sOp."'   ";
+        $aRetorno = $this->executaSql($sSql);
+        
+        return $aRetorno;
+    }
     
      /**
+     * Limpa carga na op
+     */
+    
+    public function limpaCarga($sOp){
+         $sSql="update STEEL_PCP_OrdensFab set nrCarga='Sem carga' where op='".$sOp."'   ";
+        $aRetorno = $this->executaSql($sSql);
+        
+        return $aRetorno;
+    }
+    
+
+    /**
      * Coloca a ordem de produção em retrabalho ///////////////TERMINAR O SELECT
      * 
      * @param type $aOp número da op

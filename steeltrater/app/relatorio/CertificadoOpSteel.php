@@ -71,6 +71,7 @@ $pdf->Cell(40,10,$pdf->Image($sLogo, $pdf->GetX(), $pdf->GetY()+2, 40, 10),0,0,'
             convert(varchar,STEEL_PCP_Certificado.dataensaio,103)as dataensaio,
             convert(varchar,STEEL_PCP_Certificado.dataemissao,103)as dataemissao,
             empdes,notasteel,notacliente,
+             convert(varchar,STEEL_PCP_ordensFab.data,103) as datafab,
             STEEL_PCP_ordensFab.durezaNucMin,
             STEEL_PCP_ordensFab.durezaNucMax,
             STEEL_PCP_ordensFab.NucEscala,
@@ -79,6 +80,12 @@ $pdf->Cell(40,10,$pdf->Image($sLogo, $pdf->GetX(), $pdf->GetY()+2, 40, 10),0,0,'
             STEEL_PCP_ordensFab.superEscala,
             STEEL_PCP_ordensFab.expCamadaMin,
             STEEL_PCP_ordensFab.expCamadaMax,
+            STEEL_PCP_ordensFab.fioDurezaSol,
+            STEEL_PCP_ordensFab.fioEsferio,
+            STEEL_PCP_ordensFab.fioDescarbonetaTotal,
+            STEEL_PCP_ordensFab.fioDescarbonetaParcial,
+            STEEL_PCP_ordensFab.DiamFinalMin,
+            STEEL_PCP_ordensFab.DiamFinalMax,
             STEEL_PCP_Certificado.durezaNucMin as certDurezaNucMin,
             STEEL_PCP_Certificado.durezaNucMax as certDurezaNucMax,
             STEEL_PCP_Certificado.NucEscala as certNucEscala,
@@ -87,12 +94,19 @@ $pdf->Cell(40,10,$pdf->Image($sLogo, $pdf->GetX(), $pdf->GetY()+2, 40, 10),0,0,'
             STEEL_PCP_Certificado.superEscala as certSuperEscala,
             STEEL_PCP_Certificado.expCamadaMin as certExpCamadaMin,
             STEEL_PCP_Certificado.expCamadaMax as certExpCamadaMax,
-            tratrevencomp,receita,inspeneg,
+            STEEL_PCP_Certificado.fioDurezaSol as certFioDurezaSol,
+            STEEL_PCP_Certificado.fioEsferio as certFioEsferio,
+            STEEL_PCP_Certificado.fioDescarbonetaTotal as certFioDescarbonetaTotal,
+            STEEL_PCP_Certificado.fioDescarbonetaParcial as certFioDescarbonetaParcial,
+            STEEL_PCP_Certificado.DiamFinalMin as certDiamFinalMin,
+            STEEL_PCP_Certificado.DiamFinalMax as certDiamFinalMax,
+            tratrevencomp,receita,inspeneg,receita_des,
             STEEL_PCP_Certificado.procod,
             STEEL_PCP_Certificado.prodes,
             STEEL_PCP_Certificado.peso,
             STEEL_PCP_Certificado.opcliente,
-            STEEL_PCP_Certificado.op
+            STEEL_PCP_Certificado.op,
+            STEEL_PCP_Certificado.conclusao, tipoOrdem, prodFinal, prodesFinal
             from STEEL_PCP_Certificado left outer join STEEL_PCP_ordensFab 
             on STEEL_PCP_ordensFab.op = STEEL_PCP_Certificado.op
             where STEEL_PCP_Certificado.nrcert =".$aNr." ";
@@ -136,9 +150,9 @@ $pdf->Cell(0,5,'','',1,'L');
  $pdf->Cell(80, 5, $row['notacliente'],'',0,'L');
  
  $pdf->SetFont('Arial','',10);
- $pdf->Cell(10, 5, 'Data: ','',0,'R');
+ $pdf->Cell(10, 5, 'Data entrada: ','',0,'R');
  $pdf->SetFont('Arial','B',10);
- $pdf->Cell(54, 5, $row['dataemissao'],'',1,'L');
+ $pdf->Cell(54, 5, $row['datafab'],'',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
  ////////////////////////////////////////////
  $pdf->SetFont('Arial','',10);
@@ -147,7 +161,7 @@ $pdf->Cell(0,5,'','',1,'L');
  $pdf->Cell(80, 5, $row['notasteel'],'',0,'L');
  
  $pdf->SetFont('Arial','',10);
- $pdf->Cell(10, 5, 'Data: ','',0,'R');
+ $pdf->Cell(10, 5, 'Data saída: ','',0,'R');
  $pdf->SetFont('Arial','B',10);
  $pdf->Cell(54, 5, $row['dataensaio'],'',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
@@ -169,6 +183,156 @@ $pdf->Cell(0,5,'','',1,'L');
  $pdf->Cell(144, 5, $row['opcliente'],'',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
  //////////////////////////////////////////
+ 
+ //VERIFICA DIFERENÇA DE PRODUTO PADRÃO E PRODUTO ACABADO
+ 
+ //Verifica se fio maquina ou Arrame
+ if (($row['tipoOrdem']=="F")||($row['tipoOrdem']=="A")){ 
+ 
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Descrição das peças: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(25, 5,$row['prodFinal'],'',0,'L');
+ $pdf->Cell(120, 5,$row['prodesFinal'],'',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+
+ //////////////////////////////////////////
+ $pdf->Cell(0,6,'','',1,'L');
+ /////////////////////////////////////////
+ 
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(199, 5, 'ESPECIFICAÇÕES DO CLIENTE','B',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ /////////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Material: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, '1018','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ ////////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Tratamento Térmico: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(36, 5,$row['receita_des'],'',0,'L');
+ $pdf->Cell(0,5,'','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+
+ ///////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Dureza Solicitada: ','',0,'R');////////////////////////////////////////
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, number_format($row['fioDurezaSol'], 0, ',', '.')."  HRB",'',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ ///////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Resistência a Tração: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, 'N/A','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ ///////////////////////////////////////////
+
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Descarbonetação (Parcial - Total): ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, number_format($row['fioDescarbonetaParcial'], 2, ',', '.').' - '
+         .number_format($row['fioDescarbonetaTotal'], 2, ',', '.').' µm','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ //////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Esferoidização: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, number_format($row['fioEsferio'], 2, ',', '.').' %','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ //////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Diametro Solicitado (Mín. - Máx.): ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, number_format($row['DiamFinalMin'], 2, ',', '.').' - '
+         .number_format($row['DiamFinalMax'], 2, ',', '.').' mm','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ ///////////////////////////////////////////
+ 
+ //////////////////////////////////////////
+ $pdf->Cell(0,6,'','',1,'L');
+ /////////////////////////////////////////
+ 
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
+  $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(199, 5, 'RESULTADOS DO TRATAMENTO','B',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ /////////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Ordem de Produção: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, $row['op'],'',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ ////////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Execução no Processo: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(36, 5,$row['receita_des'],0,'L');
+ $pdf->Cell(0,5,'','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ 
+ ///////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Dureza Obtida: ','',0,'R');////////////////////////////////////////
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, number_format($row['certFioDurezaSol'], 0, ',', '.')."  HRB",'',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ ////////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Resistência a Tração: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, 'N/A','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ ///////////////////////////////////////////
+
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Descarbonetação (Parcial - Total): ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, number_format($row['certFioDescarbonetaParcial'], 2, ',', '.').' - '
+         .number_format($row['certFioDescarbonetaTotal'], 2, ',', '.').' µm','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+  ///////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Esferoidização: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, number_format($row['certFioEsferio'], 2, ',', '.').' %','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ //////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Diametro Encontrado (Mín. - Máx.): ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, number_format($row['certDiamFinalMin'], 2, ',', '.').' - '
+         .number_format($row['certDiamFinalMax'], 2, ',', '.').' mm','',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ 
+ ///////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->Cell(55, 5, 'Número da Receita: ','',0,'R');
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(144, 5, $row['receita'],'',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ ///////////////////////////////////////////
+
+ //////////////////////////////////////////
+ $pdf->Cell(0,5,'','',1,'L');
+ /////////////////////////////////////////
+ 
+ $pdf->SetFont('Arial','B',10);
+ $pdf->Cell(199, 5, 'CONCLUSÃO','B',1,'L');
+ $pdf->Cell(0,2,'','',1,'L');
+ /////////////////////////////////////////////
+ $pdf->SetFont('Arial','',10);
+ $pdf->MultiCell(199, 5,$row['conclusao'],0,'J');
+ 
+ } 
+ 
+ //Verifica se padrão
+ if ($row['tipoOrdem']=="P"){
+ 
  $pdf->SetFont('Arial','',10);
  $pdf->Cell(55, 5, 'Descrição das peças: ','',0,'R');
  $pdf->SetFont('Arial','B',10);
@@ -177,7 +341,7 @@ $pdf->Cell(0,5,'','',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
 
  //////////////////////////////////////////
- $pdf->Cell(0,10,'','',1,'L');
+ $pdf->Cell(0,6,'','',1,'L');
  /////////////////////////////////////////
  
  $pdf->SetFont('Arial','B',10);
@@ -206,26 +370,26 @@ $pdf->Cell(0,5,'','',1,'L');
         }
        $pdf->SetFont('Arial','B',10);
        $oTratamento = $rowIten['tratdes'].' '.$rowReve['tratrevencomp'].''.$sk.'';
-       $pdf->Cell(36, 5,$oTratamento,'',0,'L');
        $sk = substr_replace($sk, ' ', 0);
        if ($ik==0){
            $oTratamento1 = $oTratamento;
            $ik++;
        }
     }
+    $pdf->Cell(36, 5,$oTratamento1.' '.$oTratamento,'',0,'L');
     $pdf->Cell(0,5,'','',1,'L');
     $pdf->Cell(0,2,'','',1,'L');
 
  ///////////////////////////////////////////
  $pdf->SetFont('Arial','',10);
- $pdf->Cell(55, 5, 'Dureza da Superfície: ','',0,'R');
+ $pdf->Cell(55, 5, 'Dureza Solicitada da Superfície: ','',0,'R');
  $pdf->SetFont('Arial','B',10);
  $pdf->Cell(144, 5, number_format($row['durezaSuperfMin'], 0, ',', '.')." - ".
             number_format($row['durezaSuperfMax'], 0, ',', '.')."  ".$row['superEscala'],'',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
  ///////////////////////////////////////////
  $pdf->SetFont('Arial','',10);
- $pdf->Cell(55, 5, 'Dureza do Núcleo: ','',0,'R');
+ $pdf->Cell(55, 5, 'Dureza Solicitada do Núcleo: ','',0,'R');
  $pdf->SetFont('Arial','B',10);
  $pdf->Cell(144, 5, number_format($row['durezaNucMin'], 0, ',', '.')." - ".
             number_format($row['durezaNucMax'], 0, ',', '.')."  ".$row['NucEscala'],'',1,'L');
@@ -241,26 +405,15 @@ $pdf->Cell(0,5,'','',1,'L');
  $pdf->Cell(55, 5, 'Profundidade da Camada: ','',0,'R');
  $pdf->SetFont('Arial','B',10);
  $pdf->Cell(144, 5, number_format($row['expCamadaMin'], 3, ',', '.')." - ".
-                          number_format($row['expCamadaMax'], 3, ',', '.').'mm','',1,'L');
+                          number_format($row['expCamadaMax'], 3, ',', '.').' mm','',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
  ///////////////////////////////////////////
- $pdf->SetFont('Arial','',10);
- $pdf->Cell(55, 5, 'Esfereodização: ','',0,'R');
- $pdf->SetFont('Arial','B',10);
- $pdf->Cell(144, 5, 'N/A','',1,'L');
- $pdf->Cell(0,2,'','',1,'L');
- ///////////////////////////////////////////
- $pdf->SetFont('Arial','',10);
- $pdf->Cell(55, 5, 'Micrografia: ','',0,'R');
- $pdf->SetFont('Arial','B',10);
- $pdf->Cell(144, 5, 'N/A','',1,'L');
- $pdf->Cell(0,2,'','',1,'L');
- ///////////////////////////////////////////
- 
+  
  //////////////////////////////////////////
- $pdf->Cell(0,10,'','',1,'L');
+ $pdf->Cell(0,6,'','',1,'L');
  /////////////////////////////////////////
  
+ //////////////////////////////////////////////////////////////////////////////////////////////////////
   $pdf->SetFont('Arial','B',10);
  $pdf->Cell(199, 5, 'RESULTADOS DO TRATAMENTO','B',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
@@ -294,6 +447,7 @@ $pdf->Cell(0,5,'','',1,'L');
             number_format($row['certDurezaNucMax'], 0, ',', '.')."  ".$row['certNucEscala'],'',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
  ///////////////////////////////////////////
+ 
  $pdf->SetFont('Arial','',10);
  $pdf->Cell(55, 5, 'Resistência a Tração: ','',0,'R');
  $pdf->SetFont('Arial','B',10);
@@ -306,12 +460,7 @@ $pdf->Cell(0,5,'','',1,'L');
  $pdf->Cell(144, 5, number_format($row['certExpCamadaMin'], 3, ',', '.')." - ".
                           number_format($row['certExpCamadaMax'], 3, ',', '.').'mm','',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
- ///////////////////////////////////////////
- $pdf->SetFont('Arial','',10);
- $pdf->Cell(55, 5, 'Esfereodização: ','',0,'R');
- $pdf->SetFont('Arial','B',10);
- $pdf->Cell(144, 5, 'N/A','',1,'L');
- $pdf->Cell(0,2,'','',1,'L');
+ 
  ///////////////////////////////////////////
  $pdf->SetFont('Arial','',10);
  $pdf->Cell(55, 5, 'Micrografia: ','',0,'R');
@@ -330,10 +479,9 @@ $pdf->Cell(0,5,'','',1,'L');
  $pdf->SetFont('Arial','B',10);
  $pdf->Cell(119, 5, $row['inspeneg'],'',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
- 
- 
+
  //////////////////////////////////////////
- $pdf->Cell(0,10,'','',1,'L');
+ $pdf->Cell(0,5,'','',1,'L');
  /////////////////////////////////////////
  
  $pdf->SetFont('Arial','B',10);
@@ -341,9 +489,10 @@ $pdf->Cell(0,5,'','',1,'L');
  $pdf->Cell(0,2,'','',1,'L');
  /////////////////////////////////////////////
  $pdf->SetFont('Arial','',10);
- $pdf->Cell(199, 5, 'Foram atingidas suas especificações conforme solicitado no documento de remessa. ','',0,'L');
- 
- 
+ $pdf->MultiCell(199, 5,$row['conclusao'],0,'J');
+     
+ }
+
 $pdf->Ln();
 
 }
@@ -372,7 +521,7 @@ if($sEmailRequest=='S'){
       $oEmail->setPorta(587);
       $oEmail->setAutentica(true);
       $oEmail->setUsuario('metalboweb@metalbo.com.br');
-      $oEmail->setSenha('filialwe');
+      $oEmail->setSenha('Metalbo@@50');
       $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'),utf8_decode('Certificados SteelTrater'));
        
       $oEmail->setAssunto(utf8_decode('Certificado número(s) '.$sCertsRel));

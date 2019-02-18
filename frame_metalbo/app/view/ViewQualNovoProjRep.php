@@ -149,6 +149,21 @@ class ViewQualNovoProjRep extends View {
         $oRespProjNome->setSValor('Eloir Jordelino');
         $oRespProjNome->setBCampoBloqueado(true);
 
+        $oGrupo = new campo('Grupo', 'grucod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oGrupo->addValidacao(false, Validacao::TIPO_STRING,'','2');
+
+        $oGrupoDes = new campo('Grupo Des.', '', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
+        $oGrupoDes->setSIdPk($oGrupo->getId());
+        $oGrupoDes->setClasseBusca('GrupoProd');
+        $oGrupoDes->addCampoBusca('grucod', '', '');
+        $oGrupoDes->addCampoBusca('grudes', '', '');
+        $oGrupoDes->setSIdTela($this->getTela()->getid());
+        $oGrupoDes->setApenasTela(true);
+
+        $oGrupo->setClasseBusca('GrupoProd');
+        $oGrupo->setSCampoRetorno('grucod', $this->getTela()->getid());
+        $oGrupo->addCampoBusca('grudes', $oGrupoDes->getId(), $this->getTela()->getid());
+
         $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oRespVenda->setBFocus(true);
@@ -259,7 +274,7 @@ class ViewQualNovoProjRep extends View {
         //seta ids uploads para enviar no request para limpar
         $this->setSIdUpload(',' . $oAnexoDesenho->getId() . ',' . $oAnexoDoc->getId() . ',' . $oAnexoFree->getId());
 
-        $this->addCampos($oFieldDetalhe, $oNr, array($oRespVenda, $oRespVendaNome), array($oEmpcod, $oEmpdes), array($oEmail, $oContato), array($oDescProd, $oAcaba, $oQuant), $oFieldAnexo, $oObsRep);
+        $this->addCampos($oFieldDetalhe, $oNr, array($oGrupo, $oGrupoDes), array($oRespVenda, $oRespVendaNome), array($oEmpcod, $oEmpdes), array($oEmail, $oContato), array($oDescProd, $oAcaba, $oQuant), $oFieldAnexo, $oObsRep);
         // array($oEmpcod,$oEmpdes),
         //array($oRespVenda,$oRespVendaNome)
     }
@@ -343,9 +358,7 @@ class ViewQualNovoProjRep extends View {
         $this->setBTela(true);
 
 
-        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, 
-                array($oAcaba, $oQuant, $oLoteMin, $oPesoCt), 
-                array($oPreco, $oPrazo), $oObsProj, $oObsVenda, $oObsReprova);
+        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, array($oAcaba, $oQuant, $oLoteMin, $oPesoCt), array($oPreco, $oPrazo), $oObsProj, $oObsVenda, $oObsReprova);
     }
 
     public function criaTelaModalAprovProp($sDados) {
@@ -414,10 +427,7 @@ class ViewQualNovoProjRep extends View {
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, 
-                array($oAcaba, $oQuant, $oLoteMin), 
-                array($oPesoCt, $oPreco, $oPrazo), $oObsAprov, 
-                array($oBtnInserir, $oFilcgc, $oNr));
+        $this->addCampos(array($oEmpcod, $oEmpdes), $oProduto, array($oAcaba, $oQuant, $oLoteMin), array($oPesoCt, $oPreco, $oPrazo), $oObsAprov, array($oBtnInserir, $oFilcgc, $oNr));
     }
 
     /**
@@ -474,8 +484,7 @@ class ViewQualNovoProjRep extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
 
-        $this->addCampos($oNr, array($oEmpcod, $oEmpdes), 
-                array($oProduto, $oAcaba, $oQuant), $oFilcgc, $oObsRep, $oBtnInserir);
+        $this->addCampos($oNr, array($oEmpcod, $oEmpdes), array($oProduto, $oAcaba, $oQuant), $oFilcgc, $oObsRep, $oBtnInserir);
     }
 
 }

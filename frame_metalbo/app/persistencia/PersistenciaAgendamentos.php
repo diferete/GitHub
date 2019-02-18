@@ -23,7 +23,7 @@ class PersistenciaAgendamentos extends Persistencia {
                 resp_proj_cod,resp_venda_cod,repcod,emailCli,
                 DATEDIFF(day,dtaprovendas,GETDATE())as dias 
                 from tbqualNovoProjeto where sitvendas='Aprovado' 
-                and  sitgeralproj='Em execução' and sitcliente <> 'Aprovado'";
+                and  sitgeralproj='Em execução' and sitcliente = 'Aguardando'";
         $result = $this->getObjetoSql($sSql);
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
             $oModel = $oRowBD;

@@ -27,6 +27,8 @@ class ViewSTEEL_PCP_Produtos extends View {
 
         $oCodigo = new CampoConsulta('Código', 'pro_codigo');
         $oDescricao = new CampoConsulta('Descrição', 'pro_descricao');
+        
+        $oNcm = new campoConsulta('NCM','pro_ncm');
 
         $oGrupoCod = new CampoConsulta('Grupo', 'pro_grupocodigo');
 
@@ -75,7 +77,7 @@ class ViewSTEEL_PCP_Produtos extends View {
         $oFilSubFamilia->setSIdTela($this->getTela()->getSId());
 
         $this->addFiltro($oCodigofiltro, $oDescricaofiltro, $oFilGrupo, $oFilSubGrupo, $oFilFamilia, $oFilSubFamilia);
-        $this->addCampos($oCodigo, $oDescricao, $oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes, $oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes, $oUnidadeMedCod, $oPesoLiq, $oPesoBruto
+        $this->addCampos($oCodigo, $oDescricao,$oNcm, $oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes, $oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes, $oUnidadeMedCod, $oPesoLiq, $oPesoBruto
         );
     }
 

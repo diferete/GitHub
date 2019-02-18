@@ -609,6 +609,27 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
             }
        }
     }
+    
+   /* public function antesAlterar($sParametros = null) {
+       parent::antesAlterar($sParametros);
+
+        $sChave = htmlspecialchars_decode( $sParametros[0]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+       
+      
+     ///  $this->Persistencia->adicionaFiltro('p',$aCamposChave['pdv_pedidofilial']);
+       
+       $oCargaDados = $oCarga->Persistencia->consultarWhere();
+       
+       if($oCargaDados->getPDV_PedidoSituacao()=='O'){
+           $oModal = new Modal('Atenção','Este carregamento já está aprovado para faturar, '
+                   . 'retorne a situação para dar prosseguimento a sua alteração.', Modal::TIPO_AVISO,false,true, false);
+           echo $oModal->getRender();
+            $this->setBDesativaBotaoPadrao(true);
+       }
+      
+   }*/
         
 }
    

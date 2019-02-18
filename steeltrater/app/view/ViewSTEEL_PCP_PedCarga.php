@@ -23,11 +23,10 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oEmDes = new CampoConsulta('Razão','DELX_CAD_Pessoa.emp_razaosocial');
         $oDtEmis = new CampoConsulta('Emissao', 'PDV_PedidoDataEmissao',CampoConsulta::TIPO_DATA);
         $oSit = new CampoConsulta('Situacao', 'PDV_PedidoSituacao');
-        $oSit->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Aprovado');
-        $oSit->addComparacao('O', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
-        $oSit->addComparacao('T', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA);
-        $oSit->addComparacao('C', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA,true,'Cancelado');
-        
+        $oSit->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'ABERTO');
+        $oSit->addComparacao('O', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA,true,'APROVADO');
+        $oSit->addComparacao('T', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA,true,'FATURADO');
+        $oSit->addComparacao('C', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA,true,'CANCELADO');
         $oApr = new CampoConsulta('Aprovacao', 'PDV_PedidoAprovacao');
         
         $oCodfiltro = new Filtro($oCarga, Filtro::CAMPO_TEXTO_IGUAL, 5);
@@ -137,10 +136,13 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oMovCod->addCampoBusca('nfs_tipomovimentodescricao',$oMov_des->getId(),  $this->getTela()->getId());
         //------------------------------------------------------------------------------------------
         
-        $oTabPreco = new Campo('Tab_Preço','PDV_PedidoTabelaPreco', Campo::TIPO_TEXTO,1,1,1);
-        $oTabPreco->setSValor('1');
+        $oTabPreco = new Campo('Tab.Preço','PDV_PedidoTabelaPreco', Campo::TIPO_TEXTO,1,1,1);
         $oTabPreco->setBCampoBloqueado(true);
+        $oTabPreco->addValidacao(false, Validacao::TIPO_STRING);
        
+        $oTabPrecoDesc = new Campo('Nome Tabela','nomeTabela', Campo::TIPO_TEXTO,2);
+        $oTabPrecoDesc->setApenasTela(true);
+        $oTabPrecoDesc->setBCampoBloqueado(true);
        
         //------------------------------------------------------------------------------------------
         $oDataEnt = new Campo('DataEntrega','PDV_PedidoDataEntrega', Campo::TIPO_DATA,2,2,2,2);
@@ -150,11 +152,11 @@ class ViewSTEEL_PCP_PedCarga extends View {
         
         //adiciona os evento ao sair do campo op_base
         $sEventoOp = 'var OpSteel =  $("#'.$oOpBase->getId().'").val();if(OpSteel !==""){requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_PedCarga","consultaOpDados",'
-                 . '"'.$oEmp_codigo->getId().','.$oEmp_des->getId().','.$oTabPreco->getId().'");}';
+                 . '"'.$oEmp_codigo->getId().','.$oEmp_des->getId().','.$oTabPreco->getId().','.$oTabPrecoDesc->getId().'");}';
         $oOpBase->addEvento(Campo::EVENTO_SAIR,$sEventoOp);
         //adiciona evento para analisar se há tabela de preço
         $sEventoTabela = 'var empCod =  $("#'.$oEmp_codigo->getId().'").val();if(empCod !==""){requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_PedCarga","verificaTabelaCliente",'
-                 . '"'.$oEmp_codigo->getId().','.$oEmp_des->getId().','.$oTabPreco->getId().'");}';
+                 . '"'.$oEmp_codigo->getId().','.$oEmp_des->getId().','.$oTabPreco->getId().','.$oTabPrecoDesc->getId().'");}';
         $oEmp_codigo->addEvento(Campo::EVENTO_SAIR,$sEventoTabela);
         //-----------------------------------
         $oEtapas = new FormEtapa(2, 2, 12, 12);
@@ -174,14 +176,13 @@ class ViewSTEEL_PCP_PedCarga extends View {
         }
         $this->setSIdControleUpAlt($oAcao->getId());
       
-                
+        
         $this->addCampos(
                 array($oFilial,$oUseEmiss,$oDataEmiss,$oDataDig,$oNrCarga,$oPedSit,$oPedAprov),
-                $oDiv,
-                $oLabel,
+                $oLabel,$oLabel,
                 array($oOpBase,$oEmp_codigo,$oEmp_des),
                 $oLabel,
-                array($oMovCod,$oTabPreco,$oDataEnt),$oAcao
+                array($oMovCod,$oTabPreco,$oTabPrecoDesc,$oDataEnt),$oAcao
                );
     }
 

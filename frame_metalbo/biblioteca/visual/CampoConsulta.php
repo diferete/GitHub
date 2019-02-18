@@ -24,6 +24,7 @@ class CampoConsulta {
     private $sTipoBotao;
     private $bOrderBy;
     private $sNomeGrid;
+    
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -39,6 +40,7 @@ class CampoConsulta {
     const TIPO_FINALIZAR = 11;
     const TIPO_MODAL = 12;
     const TIPO_EDIT = 13;
+    const TIPO_EDITDECIMAL =14; 
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
     const MODO_COLUNA = 1;
@@ -65,7 +67,6 @@ class CampoConsulta {
     const COL_LARANJA = 'tr-bk-laranja';
     const COL_BLACK = 'tr-bk-black';
     const COL_MARROM = 'tr-bk-marrom';
-    const COL_PADRAO = 'tr-bk-padrao';
     //ícone campos consulta acao
     const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
     const ICONE_FLAG = 'btn-xs btn btn-pure btn-dark icon wb-flag';
@@ -364,7 +365,7 @@ class CampoConsulta {
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
-                $sCampo .= 'requestAjax("","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . '");'
+                $sCampo .= 'requestAjax("","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . ','.$this->aAcao['modalNome'].'");'
                         . '});</script>';
 
                 break;
@@ -457,6 +458,49 @@ class CampoConsulta {
                         . 'var valorCampo = $("#' . $sIdInput . '").val();'
                         . 'if(vlrInput!=valorCampo){'
                         . 'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+","+valorCampo+",' . $sParam . '"+idTela+"");'
+                        . '}'
+                        . '});'
+                        . ' $("#' . $sIdInput . '").keydown(function(e) { '
+                        . 'if(e.which == 40) {'
+                        . 'var next_index = $("input[type=text]").index(this) + 1; '
+                        . 'var atual_index = $("input[type=text]").index(this); '
+                        . '$("input[type=text]:eq(" + next_index + ")").focus();  '
+                        . '$("input[type=text]:eq(" + atual_index + ")").parent("td").parent("tr").removeClass("selected");'
+                        . '$("input[type=text]:eq(" + next_index + ")").parent("td").parent("tr").addClass("selected");'
+                        . '}'
+                        . 'else if(e.which == 38)'
+                        . '{var next_index = $("input[type=text]").index(this) - 1; '
+                        . 'var atual_index = $("input[type=text]").index(this); '
+                        . '$("input[type=text]:eq(" + next_index + ")").focus();  '
+                        . '$("input[type=text]:eq(" + atual_index + ")").parent("td").parent("tr").removeClass("selected");'
+                        . '$("input[type=text]:eq(" + next_index + ")").parent("td").parent("tr").addClass("selected");'
+                        . '}'
+                        . '});'
+                        . '</script>';
+                break;
+            
+            case self::TIPO_EDITDECIMAL:
+
+                $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+                $sIdInput = Base::getId();
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" class="fundo_amarelo" value="' . number_format($xValor, 2, ',', '.') . '" id="' . $sIdInput . '"/></td>';//number_format($xValor, 2, ',', '.')
+                $sCampo .= '<script>'
+                        . 'var vlrInput;'
+                        . '$("#' . $sIdInput . '").focusin(function(e) { '
+                        . 'vlrInput = moedaParaNumero($("#' . $sIdInput . '").val()); console.log(vlrInput);'
+                        . '});'
+                        . ' $("#' . $sIdInput . '").blur(function(e) { maskDecimal("' . $sIdInput . '");'
+                        . '$("#tabmenusuperior li").each(function(){'
+                        . 'if($(this).hasClass( "active" )){'
+                        . 'abaSelecionada=$(this).attr("id");}'
+                        . '     }); '
+                        . 'var idGrid = $("#"+abaSelecionada+"' . $this->getSNomeGrid() . '").text();'
+                        . 'var idTela = $("#"+abaSelecionada+"paramTela").text();'
+                        . 'var valorCampo = moedaParaNumero($("#' . $sIdInput . '").val());' //moedaParaNumero($('#' + idQuant + '').val());
+                        . 'if(vlrInput!=valorCampo){'
+                        . 'requestAjax(idTela+"-form","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+","+valorCampo+",' . $sParam . ',"+idTela+"");'
                         . '}'
                         . '});'
                         . ' $("#' . $sIdInput . '").keydown(function(e) { '

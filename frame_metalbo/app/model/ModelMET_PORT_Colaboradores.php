@@ -27,6 +27,24 @@ class ModelMET_PORT_Colaboradores {
     private $empdes;
     private $cracha;
     private $placa;
+    private $respcracha;
+    private $respnome;
+
+    function getRespcracha() {
+        return $this->respcracha;
+    }
+
+    function getRespnome() {
+        return $this->respnome;
+    }
+
+    function setRespcracha($respcracha) {
+        $this->respcracha = $respcracha;
+    }
+
+    function setRespnome($respnome) {
+        $this->respnome = $respnome;
+    }
 
     function getCracha() {
         return $this->cracha;

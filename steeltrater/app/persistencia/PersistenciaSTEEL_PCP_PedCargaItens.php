@@ -38,6 +38,8 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->adicionaRelacionamento('PDV_PedidoItemProdutoCliente', 'PDV_PedidoItemProdutoCliente');
         $this->adicionaRelacionamento('PDV_PedidoItemDataEntrega', 'PDV_PedidoItemDataEntrega');
         $this->adicionaRelacionamento('PDV_PedidoItemProduto', 'PDV_PedidoItemProduto');
+        $this->adicionaRelacionamento('PDV_PedidoItemProduto', 'DELX_PRO_Produtos.pro_codigo', false,false);
+        
         $this->adicionaRelacionamento('PDV_PedidoItemProdutoNomeManua', 'PDV_PedidoItemProdutoNomeManua');
         $this->adicionaRelacionamento('PDV_PedidoItemProdutoUnidadeMa', 'PDV_PedidoItemProdutoUnidadeMa');
         $this->adicionaRelacionamento('PDV_PedidoItemMovimentaEstoque', 'PDV_PedidoItemMovimentaEstoque');
@@ -157,6 +159,8 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         
         
         $this->adicionaJoin('STEEL_PCP_CargaInsumoServ',null,1, 'pdv_pedidofilial','pdv_pedidofilial',$sEnd);
+        $this->adicionaJoin('DELX_PRO_Produtos', null,1, 'PDV_PedidoItemProduto','pro_codigo');
+        
         
         $this->setSTop('1000');
         $this->adicionaOrderBy('pdv_pedidoitemseq', 1);

@@ -63,6 +63,17 @@ class ModelSTEEL_PCP_OrdensFab {
     
     private $vlrNfEntUnit;
     
+    private $nrCarga;
+    
+    function getNrCarga() {
+        return $this->nrCarga;
+    }
+
+    function setNrCarga($nrCarga) {
+        $this->nrCarga = $nrCarga;
+    }
+
+        
     function getVlrNfEntUnit() {
         return $this->vlrNfEntUnit;
     }

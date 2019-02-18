@@ -28,6 +28,11 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         
         $oDocumento = new CampoConsulta('NotaEnt', 'documento');
         $oTipOrdem = new CampoConsulta('Tipo','tipoOrdem');
+        $oTipOrdem->addComparacao('P', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Padrão');
+        $oTipOrdem->addComparacao('F', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Fio Máq.');
+        $oTipOrdem->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Arame');
+        
+        $oNrCarga = new campoconsulta('NºCarga','nrCarga');
         
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL,1);
         $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL,2);
@@ -50,7 +55,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         
-        $this->addCampos($oOp,$oTipOrdem,$oSituacao,$oData,$oCodigo,$oProdes,$oPeso,$oRetrabalho,$oDocumento);
+        $this->addCampos($oOp,$oTipOrdem,$oSituacao,$oNrCarga,$oData,$oCodigo,$oProdes,$oPeso,$oRetrabalho,$oDocumento);
         
        
         $this->setUsaDropdown(true);
@@ -241,7 +246,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
          {$oQuant->setSValor(number_format($oDados->getNfsitqtd(), 2, ',', '.'));}
         
         
-        $oPeso = new Campo('Peso{Em KG}','peso', Campo::TIPO_DECIMAL,1);
+        $oPeso = new Campo('Peso{Em KG * cáculo insumos e serviços}','peso', Campo::TIPO_DECIMAL,4);
         $oPeso->setSValor('0,00');
         $oPeso->setSCorFundo(Campo::FUNDO_MONEY);
         $oPeso->addValidacao(false, Validacao::TIPO_STRING);
@@ -262,8 +267,15 @@ class ViewSTEEL_PCP_OrdensFab extends View{
          $sEventoCalculo = 'precoNfEntradaSteel("'.$oQuant->getId().'","'.$oValorUnit->getId().'","'.$oValorEnt->getId().'");';
          
 
-         
+         //eventos
          $oQuant->addEvento(Campo::EVENTO_SAIR,$sEventoCalculo);
+         
+         $oPeso->addEvento(Campo::EVENTO_SAIR,$sEventoCalculo);
+         
+         $oValorUnit->addEvento(Campo::EVENTO_SAIR,$sEventoCalculo);
+         
+         
+         
         
         $oOpCli = new Campo('OP do cliente','opcliente', Campo::TIPO_TEXTO,2);
          if(method_exists($oDados, 'getMetof')) 
@@ -274,6 +286,10 @@ class ViewSTEEL_PCP_OrdensFab extends View{
          $oObs = new campo('Observação','obs', Campo::TIPO_TEXTAREA,8);
          $oDataPrev = new Campo('Data prevista','dataprev', Campo::TIPO_DATA,2);  
          $oDataPrev->setSValor(date('d/m/Y',strtotime('+7 days')));
+         
+         $oNrCarga = new campo('NºCargaDev','nrCarga', Campo::TIPO_TEXTO,1,1,1,1);
+         $oNrCarga->setBCampoBloqueado(true);
+         $oNrCarga->setSValor('Sem Carga');
         
         //getRoeObs()
         if(method_exists($oDados, 'getRoeObs')) 
@@ -339,7 +355,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
                 $oGridMat,
                 array($oCodMat, $oMatDes,$oReceita,$oReceitaDes,$oSeqMat),
                $oLinha,
-                array($oOpCli,$oQuant,$oPeso,$oValorUnit,$oValorEnt,$oTempRev),$oObs,$oDataPrev,$oField1);
+                array($oOpCli,$oQuant,$oPeso,$oValorUnit,$oValorEnt,$oTempRev),$oObs,array($oDataPrev,$oNrCarga),$oField1);
     }
     
    

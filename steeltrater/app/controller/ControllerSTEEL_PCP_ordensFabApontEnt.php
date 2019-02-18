@@ -33,7 +33,7 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
      * @param type $sDados
      */
     public function consultaOpApont($sDados) {
-        //. '"'.$oCliente->getId().','.$oOp->getId().','.$oProcod->getId().','.$oProdes->getId().'");';
+        
         $aId = explode(',', $sDados);
         //captura a op da tela
         $aCampos = array();

@@ -199,8 +199,9 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
         $oOpSteel = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
         $oDados = $oOpSteel->consultaOp($aCampos['op_base']);
         
-        $oTab = Fabrica::FabricarController('STEEL_PCP_TabCli');
+        $oTab = Fabrica::FabricarController('STEEL_PCP_TabCabPreco');
         $oTab->Persistencia->adicionaFiltro('emp_codigo',$oDados->getEmp_codigo());
+        $oTab->Persistencia->adicionaFiltro('sit','INATIVA',0,10);
         $oTabela = $oTab->Persistencia->consultarWhere();
 
             if ($oDados->getOp() == null) {
@@ -208,7 +209,8 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
                 echo $oMensagem->getRender();
                 echo '$("#' . $aId[0] . '").val("");'
                   . '$("#' . $aId[1] . '").val("");'
-                  .'$("#' . $aId[2] . '").val("");';
+                  .'$("#' . $aId[2] . '").val("");'
+                  .'$("#' . $aId[3] . '").val("");';
             } else {
                              
                 //coloca os dados na view  
@@ -216,7 +218,8 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
                 . '$("#' . $aId[1] . '").val("");'
                 . '$("#' . $aId[0] . '").val("' . $oDados->getEmp_codigo() . '");'
                 . '$("#' . $aId[1] . '").val("' . $oDados->getEmp_razaosocial() . '");'
-                . '$("#' . $aId[2] . '").val("' . $oTabela->getTab_preco() . '");';
+                . '$("#' . $aId[2] . '").val("' . $oTabela->getNr() . '");'
+                . '$("#' . $aId[3] . '").val("' . $oTabela->getNometabela() . '");';
             }                       
     }
     
@@ -227,20 +230,23 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
         parse_str($_REQUEST['campos'], $aCampos);
         
         
-        $oTab = Fabrica::FabricarController('STEEL_PCP_TabCli');
+        $oTab = Fabrica::FabricarController('STEEL_PCP_TabCabPreco');
         $oTab->Persistencia->adicionaFiltro('emp_codigo',$aCampos['PDV_PedidoEmpCodigo']);
+        $oTab->Persistencia->adicionaFiltro('sit','INATIVA',0,10);
         $oTabela = $oTab->Persistencia->consultarWhere();
-        if($oTabela->getTab_preco()==null){
+        if($oTabela->getNr()==null){
             $oMensagem = new Modal('Atenção.','Este cliente não tem tabela de preço cadastrada! Solicite o cadastro da tabela ao setor administrativo!', Modal::TIPO_AVISO, FALSE, true, false);
             echo $oMensagem->getRender();
-            echo '$("#' . $aId[2] . '").val("");';
+            echo '$("#' . $aId[2] . '").val("");'
+                 .'$("#' . $aId[3] . '").val("");';
         } else {
-             echo '$("#' . $aId[2] . '").val("' . $oTabela->getTab_preco() . '");';
+             echo '$("#' . $aId[2] . '").val("' . $oTabela->getNr() . '");'
+                  .'$("#' . $aId[3] . '").val("' . $oTabela->getNometabela() . '");';
         }
         
     }
 
-        public function adicionaFiltrosExtras() {
+     public function adicionaFiltrosExtras() {
        parent::adicionaFiltrosExtras();
        $this->Persistencia->adicionaFiltro('pdv_pedidofilial',$this->Model->getPDV_PedidoFilial());
        $this->Persistencia->adicionaFiltro('pdv_pedidocodigo',$this->Model->getPdv_pedidocodigo());
@@ -396,5 +402,31 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
             $oMensagem = new Mensagem('Sucesso!','Pedido retornado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
             echo"$('#".$aDados[1]."-pesq').click();"; 
+   }
+   
+   public function antesAlterar($sParametros = null) {
+       parent::antesAlterar($sParametros);
+
+        $sChave = htmlspecialchars_decode( $sParametros[0]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+       
+       $oCarga = Fabrica::FabricarController('STEEL_PCP_PedCarga');
+       $oCarga->Persistencia->adicionaFiltro('pdv_pedidofilial',$aCamposChave['pdv_pedidofilial']);
+       $oCarga->Persistencia->adicionaFiltro('pdv_pedidocodigo',$aCamposChave['pdv_pedidocodigo']);
+       $oCargaDados = $oCarga->Persistencia->consultarWhere();
+       
+       if($oCargaDados->getPDV_PedidoSituacao()=='O'){
+           $oModal = new Modal('Atenção','Este carregamento já está aprovado para faturar, '
+                   . 'retorne a situação para dar prosseguimento a sua alteração.', Modal::TIPO_AVISO,false,true, false);
+           echo $oModal->getRender();
+            $this->setBDesativaBotaoPadrao(true);
+       }
+       if($oCargaDados->getPDV_PedidoSituacao()=='T'){
+           $oModal = new Modal('Atenção','Esta carga já foi faturado, não é possível alterar.', Modal::TIPO_AVISO,false,true, false);
+           echo $oModal->getRender();
+            $this->setBDesativaBotaoPadrao(true);
+       }
+       
    }
 }

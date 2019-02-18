@@ -15,7 +15,7 @@ class PersistenciaSTEEL_PCP_GerenciaApont extends Persistencia {
         $this->setTabela('STEEL_PCP_ordensFabApont');
 
         $this->adicionaRelacionamento('op', 'op', true, true);
-        $this->adicionaRelacionamento('seq', 'seq', true, true);
+        $this->adicionaRelacionamento('seq', 'seq', true, true,true);
         $this->adicionaRelacionamento('fornocod', 'fornocod');
         $this->adicionaRelacionamento('fornodes', 'fornodes');
         $this->adicionaRelacionamento('procod', 'procod');

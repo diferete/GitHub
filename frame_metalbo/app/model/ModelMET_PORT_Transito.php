@@ -28,6 +28,24 @@ class ModelMET_PORT_Transito {
     private $motivo;
     private $descmotivo;
     private $tipo;
+    private $placacarr1;
+    private $placacarr2;
+
+    function getPlacacarr1() {
+        return $this->placacarr1;
+    }
+
+    function getPlacacarr2() {
+        return $this->placacarr2;
+    }
+
+    function setPlacacarr1($placacarr1) {
+        $this->placacarr1 = $placacarr1;
+    }
+
+    function setPlacacarr2($placacarr2) {
+        $this->placacarr2 = $placacarr2;
+    }
 
     function getCpf() {
         return $this->cpf;

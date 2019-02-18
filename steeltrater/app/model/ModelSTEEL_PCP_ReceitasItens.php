@@ -10,7 +10,6 @@
 class ModelSTEEL_PCP_ReceitasItens {
     private $cod;
     private $seq;
-    private $tratcod;
     private $STEEL_PCP_Tratamentos;
     private $camada_min;
     private $camada_max;
@@ -28,15 +27,9 @@ class ModelSTEEL_PCP_ReceitasItens {
     function setSTEEL_PCP_Tratamentos($STEEL_PCP_Tratamentos) {
         $this->STEEL_PCP_Tratamentos = $STEEL_PCP_Tratamentos;
     }
-        
-    function getTratcod() {
-        return $this->tratcod;
-    }
 
-    function setTratcod($tratcod) {
-        $this->tratcod = $tratcod;
-    }
-
+    
+  
         
     function getResfriamento() {
         return $this->resfriamento;

@@ -113,7 +113,7 @@ class ViewMET_QUAL_Correcao extends View {
             $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
         } else {
             $oTipo->setSCorFundo(Campo::FUNDO_VERMELHO);
-            $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_WARNING, 12, 12, 12, 12);
+            $oDivisor = new Campo('Ação Corretiva tela necessita preenchimento.', 'divisor1', Campo::DIVISOR_VERMELHO, 12, 12, 12, 12);
         }
 
         $oDivisor->setApenasTela(true);

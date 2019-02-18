@@ -1,14 +1,13 @@
 <?php
 
-/* 
- * Implementa a classe controler
+/*
+ * Implementa classe controller
  * 
- * @author Cleverton Hoffmann
- * @since 26/10/2018
- */
+ * @author Alexandre W. de Souza
+ * @since 24/09/2018
+ * **/
 
-
-class ControllerDELX_FIS_Cnae extends Controller {
+class ControllerDELX_FIS_Cnae extends Controller{
     public function __construct() {
         $this->carregaClassesMvc('DELX_FIS_Cnae');
     }

@@ -45,6 +45,14 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
         
         $this->adicionaRelacionamento('sitEmail', 'sitEmail');
         
+        $this->adicionaRelacionamento('conclusao', 'conclusao');
+        
+        $this->adicionaRelacionamento('fioDurezaSol', 'fioDurezaSol');
+        $this->adicionaRelacionamento('fioEsferio', 'fioEsferio');
+        $this->adicionaRelacionamento('fioDescarbonetaTotal', 'fioDescarbonetaTotal');
+        $this->adicionaRelacionamento('fioDescarbonetaParcial', 'fioDescarbonetaParcial');
+        $this->adicionaRelacionamento('DiamFinalMin', 'DiamFinalMin');
+        $this->adicionaRelacionamento('DiamFinalMax', 'DiamFinalMax');
         
         
         $this->setSTop('300');

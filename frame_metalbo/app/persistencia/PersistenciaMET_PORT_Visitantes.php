@@ -55,7 +55,7 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
                 . "horaentrou = '" . $aDados['horaentrou'] . "', "
                 . "dataentrou = '" . $aDados['dataentrou'] . "', "
                 . "situaca = 'Entrada' "
-                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "' and cracha ='" . $aDados['cracha'] . "' ";
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "' and cpf ='" . $aDados['cpf'] . "' ";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
     }

@@ -18,7 +18,7 @@ class ViewModulo extends View {
         $oModulo->setILargura(500);
 
         $oDropDown = new Dropdown('Testar Email', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
-        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Testar Email', 'Modulo', 'testarEmail', '', false, '',false,'',false,'',false,false);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Testar Email', 'Modulo', 'testarEmail', '', false, '', false, '', false, '', false, false);
 
         $this->addDropdown($oDropDown);
         $this->addCampos($oCodigo, $oModulo);
@@ -56,12 +56,19 @@ class ViewModulo extends View {
         $sAcaoXML = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","converteXML");';
         $oBotaoXML->getOBotao()->addAcao($sAcaoXML);
 
-        
         $oBotaoPlaca = new Campo('PLACA', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $sAcaoPlaca = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","inserePlaca");';
         $oBotaoPlaca->getOBotao()->addAcao($sAcaoPlaca);
 
-        $oAbaGeral->addCampos(array($oModCod, $oModDescricao));
+        $oBotaoGrupo2 = new Campo('Add Grupo 2', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $sAcaoGrupo2 = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","insereGrupo2");';
+        $oBotaoGrupo2->getOBotao()->addAcao($sAcaoGrupo2);
+
+        $oBotaoExpira = new Campo('Expira', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $sAcaoExpira = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","expiraProd");';
+        $oBotaoExpira->getOBotao()->addAcao($sAcaoExpira);
+
+        $oAbaGeral->addCampos(array($oModCod, $oModDescricao), $oBotaoExpira);
 
         $oTab->addItems($oAbaGeral);
 

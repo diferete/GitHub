@@ -61,15 +61,14 @@ class ControllerMET_PORT_Colaboradores extends Controller {
         $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
         $oDados = $this->Persistencia->consultarWhere();
 
-        if ($oDados->getSituaca() == 'Chegada' || $oDados->getSituaca() == 'Entrada') {
+        if ($oDados->getSituaca() == 'Chegada' || ($oDados->getSituaca() == 'Entrada' && $oDados->getMotivo() != '3')) {
 
             $this->View->setAParametrosExtras($oDados);
 
-            if ($oDados->getSituaca() == 'Chegada') {
-                $this->View->criaModalApontaEntrada();
-            }
-            if ($oDados->getSituaca() == 'Entrada') {
+            if ($oDados->getMotivo() != '3' && ($oDados->getSituaca() == 'Entrada' || $oDados->getSituaca() == 'Chegada')) {
                 $this->View->criaModalApontaSaida();
+            }if ($oDados->getMotivo() != '4' && $oDados->getSituaca() == 'Chegada') {
+                $this->View->criaModalApontaEntrada();
             }
 
             //busca lista pela op

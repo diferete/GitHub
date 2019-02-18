@@ -47,6 +47,18 @@ class ControllerModulo extends Controller {
         echo $oMensagem->getRender();
     }
 
+    public function insereGrupo2() {
+        $this->Persistencia->insereGrupo2();
+
+        $oMensagem = new Mensagem('Pronto', 'Conculido com sucesso');
+        echo $oMensagem->getRender();
+    }
+
+    public function expiraProd() {
+        $oExpira = Fabrica::FabricarController('Agendamentos');
+        $aExpira = $oExpira->atualizaEntProj();
+    }
+
     public function converteXML() {
 
         $xml = simplexml_load_file('app/arquivo.xml');

@@ -57,5 +57,13 @@ class PersistenciaSTEEL_PCP_GeraCertificado extends Persistencia{
         $sSql = "update STEEL_PCP_ordensFab set nrcert ='".$oCert->getNrcert()."' where op ='".$oCert->getOp()."' ";
         $this->executaSql($sSql);
     }
+    /**
+     * Limpa o certificado da tabela de ordens de produção
+     * @param type $oCert
+     */
+    public function limpaCert($oCert){
+        $sSql = "update STEEL_PCP_ordensFab set nrcert =null where op ='".$oCert->getOp()."' ";
+        $this->executaSql($sSql);
+    }
 }
 

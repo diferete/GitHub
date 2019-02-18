@@ -83,7 +83,7 @@ class ViewQualNovoProjDet extends View{
         $oFerrElaboradas = new Campo('Todas as ferramentas foram elaboradas?','ferrElaboradas', Campo::TIPO_RADIO,3);
         $oFerrElaboradas->addItenRadio('Sim', 'Sim');
         $oFerrElaboradas->addItenRadio('Não', 'Não');
-        $oFerrElaboradas->addItenRadio('Nd', 'Não definido');
+        $oFerrElaboradas->addItenRadio('Nd', 'NA');
         
         $oDesenAcordo = new campo('O desenho do produto está de acordo conforme requisitos do cliente?','desenAcordo', Campo::TIPO_RADIO,5);
         $oDesenAcordo->addItenRadio('Sim', 'Sim');
