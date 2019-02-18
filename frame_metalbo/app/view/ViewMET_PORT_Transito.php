@@ -30,6 +30,7 @@ class ViewMET_PORT_Transito extends View {
         
         $oHoraSaida = new CampoConsulta('Hr. Saída', 'horasaiu', CampoConsulta::TIPO_EDIT);
         $oHoraSaida->addAcao('MET_PORT_Transito', 'gravaHora');
+        $oHoraSaida->setBTime(true);
         $oHoraSaida->setBOrderBy(true);
 
         $oPlaca = new CampoConsulta('Placa', 'placa', CampoConsulta::TIPO_TEXTO);

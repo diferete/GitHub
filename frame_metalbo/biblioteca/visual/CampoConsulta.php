@@ -24,7 +24,7 @@ class CampoConsulta {
     private $sTipoBotao;
     private $bOrderBy;
     private $sNomeGrid;
-    
+    private $bTime;
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -40,7 +40,7 @@ class CampoConsulta {
     const TIPO_FINALIZAR = 11;
     const TIPO_MODAL = 12;
     const TIPO_EDIT = 13;
-    const TIPO_EDITDECIMAL =14; 
+    const TIPO_EDITDECIMAL = 14;
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
     const MODO_COLUNA = 1;
@@ -67,6 +67,7 @@ class CampoConsulta {
     const COL_LARANJA = 'tr-bk-laranja';
     const COL_BLACK = 'tr-bk-black';
     const COL_MARROM = 'tr-bk-marrom';
+    const COL_PADRAO = 'tr-bk-padrao';
     //ícone campos consulta acao
     const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
     const ICONE_FLAG = 'btn-xs btn btn-pure btn-dark icon wb-flag';
@@ -125,6 +126,14 @@ class CampoConsulta {
 
     function setSNomeGrid($sNomeGrid) {
         $this->sNomeGrid = $sNomeGrid;
+    }
+
+    function getBTime() {
+        return $this->bTime;
+    }
+
+    function setBTime($bTime) {
+        $this->bTime = $bTime;
     }
 
     function getBOrderBy() {
@@ -288,8 +297,6 @@ class CampoConsulta {
 
         $this->aComparacao[] = $aComp;
     }
-    
-    
 
     /**
      * Retorna o render do campo consulta
@@ -365,7 +372,7 @@ class CampoConsulta {
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
-                $sCampo .= 'requestAjax("","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . ','.$this->aAcao['modalNome'].'");'
+                $sCampo .= 'requestAjax("","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . ',' . $this->aAcao['modalNome'] . '");'
                         . '});</script>';
 
                 break;
@@ -442,6 +449,14 @@ class CampoConsulta {
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sIdInput = Base::getId();
+                
+                if ($this->getBTime()) {
+                    $sValidacao = Util::isTime($xValor);
+                    if($sValidacao == '1'){
+                        $xValor = Util::formataHora($xValor);
+                    }
+                }
+                
                 $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" value="' . $xValor . '" id="' . $sIdInput . '"/></td>';
                 $sCampo .= '<script>'
                         . 'var vlrInput;'
@@ -478,14 +493,14 @@ class CampoConsulta {
                         . '});'
                         . '</script>';
                 break;
-            
+
             case self::TIPO_EDITDECIMAL:
 
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sIdInput = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" class="fundo_amarelo" value="' . number_format($xValor, 2, ',', '.') . '" id="' . $sIdInput . '"/></td>';//number_format($xValor, 2, ',', '.')
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" class="fundo_amarelo" value="' . number_format($xValor, 2, ',', '.') . '" id="' . $sIdInput . '"/></td>'; //number_format($xValor, 2, ',', '.')
                 $sCampo .= '<script>'
                         . 'var vlrInput;'
                         . '$("#' . $sIdInput . '").focusin(function(e) { '

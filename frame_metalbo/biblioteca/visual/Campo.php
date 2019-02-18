@@ -22,6 +22,7 @@ class Campo {
     private $sTelaPequena; //Define o valor para telas pequenas como tablets pequenos e celulares
     private $sTelaMuitoPequena; //Define o valor para telas muito pequenas como celulares pequenos
     private $bCNPJ; //Se true, define mascara do tipo CNPJ
+    private $bNCM; //Se true, define mascara do tipo NCM
     private $bCPF; //Se true, define mascara do tipo CPF
     private $bCEP; //Se true, define mascara do tipo CEP
     private $bFone; //Se true, define mascara do tipo Fone
@@ -71,6 +72,8 @@ class Campo {
     private $iMarginTop;
     private $bDesativado; //se true o botão estará bloqueado para o click
     private $sFont;
+    private $sClasseUp;//define a classe do campo upload
+    private $sMetodoUp; //define o método para upload
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -164,6 +167,7 @@ class Campo {
         $this->setBCampoBloqueado(false);
         $this->setApenasTela(false);
         $this->setBFocus(false);
+        $this->setBNCM(false);
         $this->setSTamanhoMaxKB('0'); //Define o tamanho máximo como ilitmitado
         $this->setBDeleteBtn('true');
         $this->setBDropZone('false');
@@ -173,7 +177,8 @@ class Campo {
         $this->setSTipoBotao(Campo::BUTTON_PRIMARY);
         $this->setSCorCabGridView(Campo::GRIDVIEW_CORACTIVE);
         $this->setIMarginTop(0);
-
+        $this->setSClasseUp('Upload');
+        $this->setSMetodoUp('Upload');
 
         $this->aItemsSelect = array();
         $this->aItensRadio = array();
@@ -185,6 +190,7 @@ class Campo {
         $this->aCabGridView = array(); //define cabeçalhos do grid vies
         $this->aLinhasGridView = array(); //define as linhas dos grids
         $this->aValorGridView = array();
+        
 
         switch ($this->iTipo) {
             case self::TIPO_BOTAOSMALL:
@@ -209,8 +215,33 @@ class Campo {
                 break;
         }
     }
+    
+    function getBNCM() {
+        return $this->bNCM;
+    }
 
-    function getSFont() {
+    function setBNCM($bNCM) {
+        $this->bNCM = $bNCM;
+    }
+
+    
+    function getSClasseUp() {
+        return $this->sClasseUp;
+    }
+
+    function getSMetodoUp() {
+        return $this->sMetodoUp;
+    }
+
+    function setSClasseUp($sClasseUp) {
+        $this->sClasseUp = $sClasseUp;
+    }
+
+    function setSMetodoUp($sMetodoUp) {
+        $this->sMetodoUp = $sMetodoUp;
+    }
+
+        function getSFont() {
         return $this->sFont;
     }
 
@@ -1226,6 +1257,7 @@ class Campo {
         }
     }
 
+    
     public function setExtensoesPermitidas() {
         $aExtensoes = func_get_args();
         $iCount = 0;
@@ -1380,9 +1412,14 @@ class Campo {
                 }
                 if ($this->getBTime()) {
                     $sCampo .= '<script>'
-                            . '$("#' . $this->getId() . ' ").mask("99:99:99");'
+                            . '$("#' . $this->getId() . ' ").mask("99:99");'
                             . '</script>';
                 }
+                if($this->getBNCM()){
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("9999.99.99-999");'
+                            . '</script>';
+                }  //7318.24.00-000
                 break;
             case self::TIPO_MONEY:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
@@ -1492,7 +1529,7 @@ class Campo {
                         . $this->getExtensoes($this->getSExtensaoPermitidas())
                         . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
                         . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
-                        . 'uploadUrl: "index.php?classe=Upload&metodo=Upload&nome=' . $this->getNome() . '", ' // url do arquivo php, que fara a cópia para o server
+                        . 'uploadUrl: "index.php?classe='.$this->getSClasseUp().'&metodo='.$this->getSMetodoUp().'&nome=' . $this->getNome() . '", ' // url do arquivo php, que fara a cópia para o server
                         . 'overwriteInitial: true, '
                         . 'initialCaption: "Selecione um arquivo...", '
                         . 'uploadAsync: true, '
@@ -1730,10 +1767,45 @@ class Campo {
                         . $this->getAcaoExitCampoBanco()
                         . '</script>'
                         . $this->getRenderEventos();
-                break;
+                        if ($this->getBCNPJ()) {
+                           $sCampo .= '<script>'
+                                   . '$("#' . $this->getId() . '").mask("99.999.999/9999-99");'
+                                   . '</script>';
+                       }
+                       if ($this->getBCPF()) {
+                           $sCampo .= '<script>'
+                                   . '$("#' . $this->getId() . ' ").mask("999.999.999-99");'
+                                   . '</script>';
+                       }
+                       if ($this->getBCEP()) {
+                           $sCampo .= '<script>'
+                                   . '$("#' . $this->getId() . '  ").mask("99.999-999");'
+                                   . '</script>';
+                       }
+                       if ($this->getBFone()) {
+                           $sCampo .= '<script>'
+                                   . '$("#' . $this->getId() . '  ").mask("(99) 9999-9999");'
+                                   . '</script>';
+                       }
+                       if ($this->getBOculto()) {
+                           $sCampo .= '<script>'
+                                   . '$("#' . $this->getId() . '").hide();'
+                                   . '</script>';
+                       }
+                       if ($this->getBTime()) {
+                           $sCampo .= '<script>'
+                                   . '$("#' . $this->getId() . ' ").mask("99:99");'
+                                   . '</script>';
+                       }
+                       if($this->getBNCM()){
+                           $sCampo .= '<script>'
+                                   . '$("#' . $this->getId() . ' ").mask("9999.99.99-999");'
+                                   . '</script>';
+                       }  //7318.24.00-000
+                       break;
             case self::TIPO_BADGE:
-                $sCampo = '<div style="margin-top:32px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<span id="' . $this->getId() . '" class="label label-round ' . $this->getSEstiloBadge() . '">' . $this->getLabel() . '</span> '
+                $sCampo = '<div style="margin-top:0px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<span id="' . $this->getId() . '" name="' . $this->getNome() . '" class="label label-round ' . $this->getSEstiloBadge() . '">' . $this->getLabel() . '</span> '
                         . '</div>';
                 break;
             case self::TIPO_GRIDVIEW:
@@ -1912,7 +1984,7 @@ class Campo {
             case self::TIPO_TAGS:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<input style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '"  id="' . $this->getId() . '" rows="' . $this->getILinhasTextArea() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
+                        . '<input style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '"  id="' . $this->getId() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
                         . 'placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '<script>'

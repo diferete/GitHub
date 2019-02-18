@@ -254,7 +254,7 @@ class Util {
      * Escapa aspas para situações onde usa setSValor()
      * 
      * @param string $sString Recebe string para escapar aspas
-     **/
+     * */
     public static function limpaString($sString) {
 
         $sStringLimpa = str_replace("\n", " ", $sString);
@@ -268,7 +268,7 @@ class Util {
      * Converte data do padrão Americano/SQL com traços para Brasileiro com barras em situações específicas
      * 
      * @param string $sData Recebe string data para converter
-     **/
+     * */
     public static function converteData($sData) {
         $data = explode('-', $sData);
         $d = $data[2];
@@ -276,19 +276,34 @@ class Util {
         $a = $data[0];
 
         $sDataConvert = $d . "/" . $m . "/" . $a;
-        
+
         return $sDataConvert;
     }
-    
-    public static function converteHora($sHora) {
-        $hora = explode(':', $sHora);
-        $h = $hora[0];
-        $m = $hora[1];
-        $s = $hora[2];
 
-        $sDataConvert = $h . ":" . $m . ":" . $s;
-        
-        return $sDataConvert;
+    /**
+     * Validates Time in 24 hour format (e.g. 20:32).
+     *
+     * @param string  $time Valor a ser verificado;
+     * Retorna 1 = true;
+     * Retorna 0 = false;
+     */
+    public static function isTime($time) {
+        $sReturn = preg_match("#([0-1]{1}[0-9]{1}|[2]{1}[0-3]{1}):[0-5]{1}[0-9]{1}#", $time);
+        return $sReturn;
+    }
+
+    public static function formataHora($sHora) {
+        if ($sHora == null || $sHora == '') {
+            return $sHora;
+        } else {
+
+            $hora = explode(':', $sHora);
+            $h = $hora[0];
+            $m = $hora[1];
+
+            $sHoraConvert = $h . ":" . $m ;
+            return $sHoraConvert;
+        }
     }
 
 }

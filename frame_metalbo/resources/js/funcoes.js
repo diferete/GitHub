@@ -1303,13 +1303,70 @@ function insereProd(proCod, proDes, quant, quantNConf, idProdTag, idProCod, idPr
 /**
  * Máscaras em campo decimal
  */
-function maskDecimal(idCampo) {
 
+function maskDecimal(idCampo){
+    
     var valor = $('#' + idCampo + '').val();
-
+    
     if (valor == '') {
-        $('#' + idCampo + '').val('0');
+       $('#' + idCampo + '').val('0');
     }
     valor = moedaParaNumero(valor);
     $('#' + idCampo + '').val(numeroParaMoeda(valor));
+}
+
+/**
+ * 
+ * @param {type} idQuant
+ * @param {type} idUnit
+ * @param {type} idTot
+ * @returns {undefined}
+ */
+function precoNfEntradaSteel(idQuant, idUnit, idTot) {
+   // console.log('chegamos');
+     var Quant = moedaParaNumero($('#' + idQuant + '').val());
+    //console.log(Quantidade);
+    var Unit = moedaParaNumero($('#' + idUnit + '').val());
+    
+    var total = Quant*Unit;
+    
+
+     $('#' + idTot + '').val(numeroParaMoeda(total));
+
+}
+
+
+function precoMontagemCarta(idRetornoQt,idRetornoVlr,idRetornoTotal,idInsumoQt,idInsumoVlr,idInsumoTotal,
+idServicoQt,idServicoVlr,idServicoTotal){
+    //calculo do retorno
+    var QtRet = moedaParaNumero($('#' + idRetornoQt + '').val());
+    
+    var  VlrRet = moedaParaNumero($('#' + idRetornoVlr + '').val());
+    
+    var totalRetorno = QtRet*VlrRet;
+    
+
+     $('#' + idRetornoTotal + '').val(numeroParaMoeda(totalRetorno));
+     
+     
+     //calculo do insumo
+    var QtInsumo = moedaParaNumero($('#' + idInsumoQt + '').val());
+    
+    var VlrInsumo = moedaParaNumero($('#' + idInsumoVlr + '').val());
+    
+    var totalInsumo = QtInsumo*VlrInsumo;
+    
+     $('#' + idInsumoTotal + '').val(numeroParaMoeda(totalInsumo));
+     //calculo do serviço
+     
+     var QtServico = moedaParaNumero($('#' + idServicoQt + '').val());
+   
+    var VlrServico = moedaParaNumero($('#' + idServicoVlr + '').val());
+    
+    var totalServico = QtServico*VlrServico;
+    
+     $('#' + idServicoTotal + '').val(numeroParaMoeda(totalServico));
+     
+     
+     
 }

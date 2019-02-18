@@ -34,7 +34,6 @@ abstract class View {
     const ACAO_INCLUIR = 'acaoIncluir';
     const ACAO_ALTERAR = 'acaoAlterar';
     const ACAO_EXCLUIR = 'acaoExcluir';
-    const ACAO_VISUALIZA = 'acaoVisualiza';
     const ACAO_MOSTRA_TELA_INCLUIR = 'acaoMostraTelaIncluir';
     const ACAO_MOSTRA_TELA_ALTERAR = 'acaoMostraTelaAlterar';
     const ACAO_MOSTRA_TELA_VISUALIZA = 'acaoMostraTelaVisualiza';
@@ -92,7 +91,17 @@ abstract class View {
     private $bOcultaBotTela; //ocultar os botões quando não é necessário
     private $bGravaHistorico;
     private $sIdsTelas;
+    private $bOcultaFechar;
     
+    function getBOcultaFechar() {
+        return $this->bOcultaFechar;
+    }
+
+    function setBOcultaFechar($bOcultaFechar) {
+        $this->bOcultaFechar = $bOcultaFechar;
+    }
+
+        
     function getSIdsTelas() {
         return $this->sIdsTelas;
     }
@@ -117,11 +126,17 @@ abstract class View {
     function setBUsaCarrGrid($bUsaCarrGrid) {
         $this->bUsaCarrGrid = $bUsaCarrGrid;
     }
-
+    /**
+    * Oculta o botão confirmar da tela
+    * @param type $bOcultaBotTela
+    */
     function getBOcultaBotTela() {
         return $this->bOcultaBotTela;
     }
-
+   /**
+    * Oculta o botão confirmar da tela
+    * @param type $bOcultaBotTela
+    */
     function setBOcultaBotTela($bOcultaBotTela) {
         $this->bOcultaBotTela = $bOcultaBotTela;
     }
@@ -2087,16 +2102,19 @@ abstract class View {
                 $this->getTela()->addBotoes($oBtnAdd);
             }
 
-            $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
-            $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);
-            $this->getTela()->addBotoes($oBtnLimpar);
+              $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
+              $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);
+              $this->getTela()->addBotoes($oBtnLimpar);
+            
         }
-        $sAcaoClose = '';
-        $sAcaoClose = $this->getTela()->getSAcaoClose();
-        //$("#'.$this->getTela()->getId().'").remove();$("#'.$this->getTela()->getSRenderHide().'consulta").toggle();
-        $sAcao = '' . $sAcaoClose . '$("#' . $this->getTela()->getId() . '").remove();$("#' . $this->getTela()->getSRenderHide() . 'consulta").toggle();';
-        $oBtnFechar = new Botao('', Botao::TIPO_FECHAR, $sAcao);
-        $this->getTela()->addBotoes($oBtnFechar);
+                    //desativa botao fechar
+        if(!($this->getBOcultaFechar())){
+            $sAcaoClose = '';
+            $sAcaoClose = $this->getTela()->getSAcaoClose();
+            $sAcao = '' . $sAcaoClose . '$("#' . $this->getTela()->getId() . '").remove();$("#' . $this->getTela()->getSRenderHide() . 'consulta").toggle();';
+            $oBtnFechar = new Botao('', Botao::TIPO_FECHAR, $sAcao);
+            $this->getTela()->addBotoes($oBtnFechar);
+           }
     }
 
     public function addBotaoApont() {
