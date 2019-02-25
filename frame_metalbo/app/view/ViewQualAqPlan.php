@@ -81,8 +81,7 @@ class ViewQualAqPlan extends View {
 
         $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlano, $oDataPrev, $oDataFim, $oUsunome, $oAnexo, $oAnexoFim);
     }
-    
-    
+
     public function criaConsutaApont() {
         $oGridAq = new Grid("");
 
@@ -117,11 +116,16 @@ class ViewQualAqPlan extends View {
         return $aCampos;
     }
 
-
     public function criaTela() {
         parent::criaTela();
 
         $this->criaGridDetalhe();
+
+        $sAcaoRotina = $this->getSRotina();
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(false);
+            $this->getTela()->setBUsaDelGrid(false);
+        }
 
         $aValor = $this->getAParametrosExtras();
 
@@ -168,7 +172,9 @@ class ViewQualAqPlan extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBotConf->setIMarginTop(6);
-
+        if($sAcaoRotina == 'acaoVisualizar') {
+            $oBotConf->getOBotao()->setBDesativado(true);
+        }
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    
         $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oPlano->getId() . ',' . $oAnexo->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';

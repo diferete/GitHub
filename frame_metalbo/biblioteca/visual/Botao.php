@@ -37,7 +37,6 @@ class Botao {
     const TIPO_REL = 18;
     const TIPO_DETALHE = 19;
     const TIPO_REMOVER_TELAGRID = 20;
-    
     //define o estilo do botão small
     const TIPO_DEFAULT = 'btn-default';
     const TIPO_WARNING = 'btn-warning';
@@ -314,7 +313,8 @@ class Botao {
                 break;
             case self::TIPO_SMALL:
                 $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1  btn-acao-grid" style="margin-top:0px;">'
-                        . '<a href="javascript:void(0)" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form ladda-button" id="' . $this->getId() . '"><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</a>'
+                        . '<a href="javascript:void(0)" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form ladda-button" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
+                        . '<i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</a>'
                         . '</input>'
                         . '</div>'
                         . '<script>'

@@ -86,26 +86,49 @@ class PersistenciaMET_PORT_Colaboradores extends Persistencia {
     }
 
     public function cadPlaca($oDados) {
-        $sSql = "select COUNT(*) as total "
-                . "from MET_CAD_Placas "
-                . "where placa = '" . $oDados->getPlaca() . "'";
-        $sRetPlaca = $this->consultaSql($sSql);
-
-        if ($sRetPlaca->total >= 1) {
+        if ($oDados->getPlaca() == '') {
             return;
         } else {
-            $sPlaca = strtoupper($oDados->getPlaca());
-            $sSqlCadPlaca = "insert into MET_CAD_Placas("
-                    . "filcgc,placa,nome,cracha,empcod,empdes) "
-                    . "values("
-                    . "'" . $oDados->getFilcgc() . "',"
-                    . "'" . $sPlaca . "',"
-                    . "'" . $oDados->getPessoa() . "',"
-                    . "'" . $oDados->getCracha() . "',"
-                    . "'" . $oDados->getFilcgc() . "',"
-                    . "'" . $oDados->getEmpdes() . "')";
-            $this->executaSql($sSqlCadPlaca);
+            $sSql = "select COUNT(*) as total "
+                    . "from MET_CAD_Placas "
+                    . "where placa = '" . $oDados->getPlaca() . "'";
+            $sRetPlaca = $this->consultaSql($sSql);
+
+            if ($sRetPlaca->total >= 1) {
+                return;
+            } else {
+                $sPlaca = strtoupper($oDados->getPlaca());
+                $sSqlCadPlaca = "insert into MET_CAD_Placas("
+                        . "filcgc,placa,nome,cracha,empcod,empdes) "
+                        . "values("
+                        . "'" . $oDados->getFilcgc() . "',"
+                        . "'" . $sPlaca . "',"
+                        . "'" . $oDados->getPessoa() . "',"
+                        . "'" . $oDados->getCracha() . "',"
+                        . "'" . $oDados->getFilcgc() . "',"
+                        . "'" . $oDados->getEmpdes() . "')";
+                $this->executaSql($sSqlCadPlaca);
+            }
         }
+    }
+
+    public function updateSit($oDados) {
+        $sMotivo = $oDados->getSituaca();
+        if ($sMotivo == '3') {
+
+            $sSql = "update MET_PORT_Colaboradores "
+                    . "set situaca = 'Entrada' where nr = '" . $oDados->getNr() . "'";
+        }
+        if ($sMotivo == '4') {
+            $sSql = "update MET_PORT_Colaboradores "
+                    . "set situaca = 'Saída' where nr = '" . $oDados->getNr() . "'";
+        }
+        if ($sMotivo != '4' && $sMotivo != '3') {
+            $sSql = "update MET_PORT_Colaboradores "
+                    . "set situaca = 'Chegada' where nr = '" . $oDados->getNr() . "'";
+        }
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
     }
 
 }

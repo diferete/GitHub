@@ -29,7 +29,7 @@ class ModelMET_PORT_Colaboradores {
     private $placa;
     private $respcracha;
     private $respnome;
-
+    
     function getRespcracha() {
         return $this->respcracha;
     }

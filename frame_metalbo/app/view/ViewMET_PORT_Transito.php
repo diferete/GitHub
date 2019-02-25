@@ -23,11 +23,11 @@ class ViewMET_PORT_Transito extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Aponta movimentações do veículo!');
-        $oBotaoModal->addAcao('MET_PORT_Transito', 'criaTelaModalApontamento', 'criaModalApontamento');
+        $oBotaoModal->addAcao('MET_PORT_Transito', 'criaTelaModalApontamentoTransito', 'criaModalApontamentoTransito');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
-        
+
         $oHoraSaida = new CampoConsulta('Hr. Saída', 'horasaiu', CampoConsulta::TIPO_TIME);
 
         $oPlaca = new CampoConsulta('Placa', 'placa', CampoConsulta::TIPO_TEXTO);
@@ -59,9 +59,6 @@ class ViewMET_PORT_Transito extends View {
 
         $oDataSaida = new CampoConsulta('Dt. Saída', 'datasaiu', CampoConsulta::TIPO_DATA);
 
-        
-
-
         ///////////////////////////////////Filtros///////////////////////////////
         $oFilPlaca = new Filtro($oPlaca, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
 
@@ -80,13 +77,15 @@ class ViewMET_PORT_Transito extends View {
         $oFilMotivo->addItemSelect('7', 'Outro');
         $oFilMotivo->setSLabel('Motivo');
 
+        $oFilSituaca = new Filtro($oSituaca, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
+        $oFilSituaca->addItemSelect('Todos', 'Todos');
+        $oFilSituaca->addItemSelect('Chegada', 'Chegada');
+        $oFilSituaca->addItemSelect('Entrada', 'Entrada');
+        $oFilSituaca->addItemSelect('Saída', 'Saída');
+        $oFilSituaca->setSLabel('Situação');
 
-        $this->addFiltro($oFilNR, $oFilPlaca, $oFilEmpresa, $oFilMotivo);
+        $this->addFiltro($oFilNR, $oFilPlaca, $oFilEmpresa, $oFilMotivo,$oFilSituaca);
         $this->addCampos($oBotaoModal, $oNr, $oEmpresa, $oPlaca, $oSituaca, $oMotivo, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntrou, $oDataSaida, $oHoraSaida);
-
-
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
     }
 
     public function criaTela() {
@@ -159,12 +158,19 @@ class ViewMET_PORT_Transito extends View {
         $oPlacaCarr2 = new Campo('Placa Carr. 2', 'placacarr2', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oPlacaCarr2->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oMotorista = new Campo('Motorista', 'motorista', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oMotorista->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oCpf = new campo('CPF', 'cpf', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCpf->setITamanho(Campo::TAMANHO_PEQUENO);
 
-        $oCpf = new Campo('CPF do Motorista', 'cpf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oCpf->addValidacao(false, Validacao::TIPO_STRING, '');
-        $oCpf->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oMotorista = new Campo('Pessoa', 'motorista', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oMotorista->setSIdPk($oCpf->getId());
+        $oMotorista->setClasseBusca('MET_CAD_Cpf');
+        $oMotorista->addCampoBusca('cpf', '', '');
+        $oMotorista->addCampoBusca('nome', '', '');
+        $oMotorista->setSIdTela($this->getTela()->getid());
+
+        $oCpf->setClasseBusca('MET_CAD_Cpf');
+        $oCpf->setSCampoRetorno('cpf', $this->getTela()->getId());
+        $oCpf->addCampoBusca('nome', $oMotorista->getId(), $this->getTela()->getId());
 
         $oFone = new Campo('Contato *número c/ DDD', 'fone', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
@@ -188,7 +194,7 @@ class ViewMET_PORT_Transito extends View {
         $oTipo->setBOculto(true);
 
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Transito","buscaPlaca","' . $oPlaca->getId() . ',' . $oCnpj->getId() . ',' . $oEmpresa->getId() . '");';
-        $sCallBackCPF = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Transito","buscaCpf","' . $oMotorista->getId() . ',' . $oFone->getId() . ',' . $sAcao . '");';
+        $sCallBackCPF = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Transito","buscaCpf","' . $oFone->getId() . ',' . $sAcao . '");';
 
         if ($sAcao != 'acaoVisualiza') {
             $oPlaca->addEvento(Campo::EVENTO_SAIR, $sCallBack);
@@ -198,7 +204,7 @@ class ViewMET_PORT_Transito extends View {
         $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraChegou), $oDivisor2, array($oPlaca, $oPlacaCarr1, $oPlacaCarr2), array($oCpf, $oMotorista, $oFone), array($oCnpj, $oEmpresa), array($oMotivo), $oDivisor1, $oDescMotivo, array($oTipo, $oUsuCod, $oSituaca));
     }
 
-    public function criaModalApontaEntrada() {
+    public function criaModalApontaEntradaTransito() {
         parent::criaModal();
 
         $this->setBTela(true);
@@ -251,18 +257,18 @@ class ViewMET_PORT_Transito extends View {
 
         //botão inserir os dados
         $oBtnInserir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaEntrada","' . $this->getTela()->getId() . '-form","");';
+        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaEntradaTransito","' . $this->getTela()->getId() . '-form","");';
         $oBtnInserir->getOBotao()->addAcao($sAcaoAponta);
 
         $oDescMotivo = new Campo('Descrição do motivo', 'descmotivo', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oDescMotivo->setSValor($oDados->getDescmotivo());
+        $oDescMotivo->setSValor(Util::limpaString($oDados->getDescmotivo()));
         $oDescMotivo->setBCampoBloqueado(true);
         $oDescMotivo->setILinhasTextArea(4);
 
         $this->addCampos(array($oNr, $oEmpresa), array($oMotivo, $oPlaca, $oPlacaCarr1, $oPlacaCarr2), $oDescMotivo, $oDivisor1, array($oDataEntrada, $oHoraEntrada, $oFilcgc), $oLinha, $oBtnInserir);
     }
 
-    public function criaModalApontaSaida() {
+    public function criaModalApontaSaidaTransito() {
         parent::criaModal();
 
         $this->setBTela(true);
@@ -315,7 +321,7 @@ class ViewMET_PORT_Transito extends View {
 
         //botão inserir os dados
         $oBtnInserir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaSaida","' . $this->getTela()->getId() . '-form","");';
+        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaSaidaTransito","' . $this->getTela()->getId() . '-form","");';
         $oBtnInserir->getOBotao()->addAcao($sAcaoAponta);
 
         $oDescMotivo = new Campo('Descrição do motivo', 'descmotivo', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);

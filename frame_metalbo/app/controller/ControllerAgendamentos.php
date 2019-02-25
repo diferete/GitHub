@@ -53,16 +53,16 @@ class ControllerAgendamentos extends Controller {
 
 
         $aUserPlano = $this->Persistencia->projEmailVendaProj($oValue);
-//
-//        foreach ($aUserPlano as $sCopia) {
-//            $oEmail->addDestinatarioCopia($sCopia);
-//        }
+
+        foreach ($aUserPlano as $sCopia) {
+            $oEmail->addDestinatarioCopia($sCopia);
+        }
         
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+//        $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $oEmail->setAssunto(utf8_decode('Entrada de projeto nº' . $oValue->nr . ''));
         $oEmail->setMensagem(utf8_decode('PROJETO Nº ' . $oValue->nr . ' FOI CANCELADO PELO SISTEMA<hr><br/>'
-                        . '<p style="margin:20px;color:red;font-weight:900;font-size:25px;">PROJETO EXPIRADO: TEMPO LIMITE PARA APROVAÇÃO DO CLIENTE EXCEDIDO!</p>'
+                        . '<p style="margin:20px;color:red;font-weight:900;font-size:25px;">PROJETO EXPIRADO: O TEMPO LIMITE DE 60 DIAS PARA APROVAÇÃO DO CLIENTE FOI EXCEDIDO!</p>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Descrição:</b></td><td> ' . $oValue->desc_novo_prod . '</td></tr>'
                         . '<tr><td><b>Implantação:</b></td><td> ' . $sDateConvert . '</td></tr>'

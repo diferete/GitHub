@@ -40,7 +40,7 @@ class ControllerQualRncVenda extends Controller {
         parse_str($sChave, $aAnalise);
 
         $oAnalise = $this->Persistencia->buscaDadosRnc($aAnalise);
-        
+
         $sAnalise = Util::limpaString($oAnalise->apontamento);
 
         echo '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
@@ -357,20 +357,28 @@ class ControllerQualRncVenda extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
 
-        $aRetorno = $this->Persistencia->apontaReclamacao($aCamposChave);
-
-        if ($aRetorno[0] == true) {
-            $oMensagem = new Modal('Sucesso', 'Apontamento efetuado com sucesso!', Modal::TIPO_SUCESSO);
-            $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO);
-            echo $oMsg2->getRender();
-            echo 'requestAjax("","QualRncVenda","enviaEmailRep","' . $sDados . '");';
-            echo"$('#" . $aDados[2] . "-btn').click();";
-            echo"$('#" . $aDados[1] . "-pesq').click();";
+        if ($aCampos['reclamacao'] == '' || $aCampos['reclamacao'] == null) {
+            $oMsg = new Mensagem('Atenção', 'Selecione o tipo da RNC segundo análise!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
         } else {
-            $oMensagem = new Modal('Atenção', 'Erro ao tentar inserir o registro', Modal::TIPO_ERRO);
+
+            $aRetorno = $this->Persistencia->apontaReclamacao($aCamposChave);
+
+            if ($aRetorno[0] == true) {
+                $oMensagem = new Modal('Sucesso', 'Apontamento efetuado com sucesso!', Modal::TIPO_SUCESSO);
+                $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO);
+                echo $oMsg2->getRender();
+                echo 'requestAjax("","QualRncVenda","enviaEmailRep","' . $sDados . '");';
+                echo"$('#" . $aDados[2] . "-btn').click();";
+                echo"$('#" . $aDados[1] . "-pesq').click();";
+            } else {
+                $oMensagem = new Modal('Atenção', 'Erro ao tentar inserir o registro', Modal::TIPO_ERRO);
+            }
+            echo $oMensagem->getRender();
         }
-        echo $oMensagem->getRender();
     }
 
     public function enviaEmailRep($sDados) {
@@ -432,7 +440,7 @@ class ControllerQualRncVenda extends Controller {
 
         $oEmail->addDestinatarioCopia($_SESSION['email']);
 
-        $aRetorno = $oEmail->sendEmail();
+        //$aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o representante com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();

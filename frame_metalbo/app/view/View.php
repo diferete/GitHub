@@ -34,6 +34,7 @@ abstract class View {
     const ACAO_INCLUIR = 'acaoIncluir';
     const ACAO_ALTERAR = 'acaoAlterar';
     const ACAO_EXCLUIR = 'acaoExcluir';
+    const ACAO_VISUALIZAR = 'acaoVisualizar';
     const ACAO_MOSTRA_TELA_INCLUIR = 'acaoMostraTelaIncluir';
     const ACAO_MOSTRA_TELA_ALTERAR = 'acaoMostraTelaAlterar';
     const ACAO_MOSTRA_TELA_VISUALIZA = 'acaoMostraTelaVisualiza';
@@ -92,7 +93,7 @@ abstract class View {
     private $bGravaHistorico;
     private $sIdsTelas;
     private $bOcultaFechar;
-    
+
     function getBOcultaFechar() {
         return $this->bOcultaFechar;
     }
@@ -101,7 +102,6 @@ abstract class View {
         $this->bOcultaFechar = $bOcultaFechar;
     }
 
-        
     function getSIdsTelas() {
         return $this->sIdsTelas;
     }
@@ -110,7 +110,6 @@ abstract class View {
         $this->sIdsTelas = $sIdsTelas;
     }
 
-    
     function setBGravaHistorico($bGravaHistorico) {
         $this->bGravaHistorico = $bGravaHistorico;
     }
@@ -126,17 +125,19 @@ abstract class View {
     function setBUsaCarrGrid($bUsaCarrGrid) {
         $this->bUsaCarrGrid = $bUsaCarrGrid;
     }
+
     /**
-    * Oculta o botão confirmar da tela
-    * @param type $bOcultaBotTela
-    */
+     * Oculta o botão confirmar da tela
+     * @param type $bOcultaBotTela
+     */
     function getBOcultaBotTela() {
         return $this->bOcultaBotTela;
     }
-   /**
-    * Oculta o botão confirmar da tela
-    * @param type $bOcultaBotTela
-    */
+
+    /**
+     * Oculta o botão confirmar da tela
+     * @param type $bOcultaBotTela
+     */
     function setBOcultaBotTela($bOcultaBotTela) {
         $this->bOcultaBotTela = $bOcultaBotTela;
     }
@@ -691,7 +692,7 @@ abstract class View {
             $this->getTela()->addCamposGrid($campoAtual);
         }
     }
-    
+
     /**
      * Método que adiciona os campos abaixo dos grids
      */
@@ -1030,14 +1031,14 @@ abstract class View {
         $sIdGrid = $this->getTela()->getSId() . 'consulta';
         //adição dos botões no grid
         if ($this->getUsaAcaoIncluir()) {
-            $sAcao = ' $("#' . $this->getTela()->getSId() . 'consulta").hide();requestAjax("","' . $sClasse . '","' . $sMetodoInc . '","' . $sTab . ',' . $this->getTela()->getSId() . ','.$sRenderTo.'");';
+            $sAcao = ' $("#' . $this->getTela()->getSId() . 'consulta").hide();requestAjax("","' . $sClasse . '","' . $sMetodoInc . '","' . $sTab . ',' . $this->getTela()->getSId() . ',' . $sRenderTo . '");';
             $oBtnAdd = new Botao('', Botao::TIPO_ADICIONAR, $sAcao);
             $this->getTela()->addBotoes($oBtnAdd);
         }
         if ($this->getUsaAcaoAlterar()) {
             $sAcao = ' $("#' . $this->getTela()->getSId() . 'consulta tbody .selected").each(function(){'
                     . 'var chave = $(this).find(".chave").html();'
-                    . ' $("#' . $this->getTela()->getSId() . 'consulta").hide();requestAjax("","' . $sClasse . '","' . $sMetodoAlt . '",chave +",' . $sTab . ',' . $this->getTela()->getSId() . ','.$sRenderTo.'");'
+                    . ' $("#' . $this->getTela()->getSId() . 'consulta").hide();requestAjax("","' . $sClasse . '","' . $sMetodoAlt . '",chave +",' . $sTab . ',' . $this->getTela()->getSId() . ',' . $sRenderTo . '");'
                     . '});';
             $oBtnEdit = new Botao('', Botao::TIPO_ALTERAR, $sAcao);
             $oBtnEdit->setBDesativado(true);
@@ -1046,7 +1047,7 @@ abstract class View {
         if ($this->getUsaAcaoExcluir()) {
             $sAcao = ' $("#' . $this->getTela()->getSId() . 'consulta tbody .selected").each(function(){'
                     . 'var chave = $(this).find(".chave").html();'
-                    . 'requestAjax("","' . $sClasse . '","' . $sMetodoExc . '",chave +",' . $this->getTela()->getSId() . ',' . $sIdGrid . ','.$sRenderTo.'");'
+                    . 'requestAjax("","' . $sClasse . '","' . $sMetodoExc . '",chave +",' . $this->getTela()->getSId() . ',' . $sIdGrid . ',' . $sRenderTo . '");'
                     . '});';
             $oBtnDelete = new Botao('', Botao::TIPO_REMOVER, $sAcao);
             $oBtnDelete->setBDesativado(true);
@@ -2088,7 +2089,7 @@ abstract class View {
             $sIdBody = $this->getTela()->getId() . '-body';
             //define o controle da etapa inicial
             $sEtapaInicial = '1';
-            $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . '-form,' . $this->getTela()->getSRenderHide() . ',' . $sIdEtapas . ',' . $sEtapaInicial . ',' . $sIdBody . ',' . $this->getTela()->getId() . ',' . $this->getSIdControleUpAlt() . ','.$this->getTela()->getAbaSel().'");';
+            $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . '-form,' . $this->getTela()->getSRenderHide() . ',' . $sIdEtapas . ',' . $sEtapaInicial . ',' . $sIdBody . ',' . $this->getTela()->getId() . ',' . $this->getSIdControleUpAlt() . ',' . $this->getTela()->getAbaSel() . '");';
             $oBtnAdd = new Botao('Próximo', Botao::TIPO_PROXIMO, '');
             $this->getTela()->setAcaoConfirmar($sAcao);
             $this->getTela()->setIdBtnConfirmar($oBtnAdd->getId());
@@ -2098,23 +2099,22 @@ abstract class View {
                 $sCampoIncremento .= $this->getSIdUpload();
                 $sMetodo = $this->getSRotina();
                 $oBtnAdd = new Botao('', Botao::TIPO_CONFIRMAR, '');
-                $oBtnAdd->setRequestAjax('requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . ',' . $this->getTela()->getSRenderHide() . ',' . $sCampoIncremento . ','.$this->getTela()->getAbaSel().'");'); //"'.$this->getSIdUpload().'"
+                $oBtnAdd->setRequestAjax('requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . ',' . $this->getTela()->getSRenderHide() . ',' . $sCampoIncremento . ',' . $this->getTela()->getAbaSel() . '");'); //"'.$this->getSIdUpload().'"
                 $this->getTela()->addBotoes($oBtnAdd);
             }
 
-              $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
-              $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);
-              $this->getTela()->addBotoes($oBtnLimpar);
-            
+            $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
+            $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);
+            $this->getTela()->addBotoes($oBtnLimpar);
         }
-                    //desativa botao fechar
-        if(!($this->getBOcultaFechar())){
+        //desativa botao fechar
+        if (!($this->getBOcultaFechar())) {
             $sAcaoClose = '';
             $sAcaoClose = $this->getTela()->getSAcaoClose();
             $sAcao = '' . $sAcaoClose . '$("#' . $this->getTela()->getId() . '").remove();$("#' . $this->getTela()->getSRenderHide() . 'consulta").toggle();';
             $oBtnFechar = new Botao('', Botao::TIPO_FECHAR, $sAcao);
             $this->getTela()->addBotoes($oBtnFechar);
-           }
+        }
     }
 
     public function addBotaoApont() {
@@ -2143,7 +2143,7 @@ abstract class View {
     /**
      * Adiciona botão detalhe com mais de duas etapas
      */
-    public function adicionaBotoesEtapas($sEtapa = NULL, $iCount = NULL, $sForm = NULL, $sBody = NULL, $sBody2 = NULL, $sFormConsulta = NULL, $sControllerDetalhe = NULL, $sMetodoDetalhe = 'acaoTelaDetalhe') {
+    public function adicionaBotoesEtapas($sEtapa = NULL, $iCount = NULL, $sForm = NULL, $sBody = NULL, $sBody2 = NULL, $sFormConsulta = NULL, $sControllerDetalhe = NULL, $sMetodoDetalhe = 'acaoTelaDetalhe', $sRotina = NULL) {
 
         $sAcao = '$("#' . $this->getTela()->getId() . '-form").remove();$("#' . $sForm . '").toggle();$( "#' . $sEtapa . ' > #' . $iCount . '" ).removeClass( "current" );';
         $oBotaoVoltar = new Botao('Voltar', Botao::TIPO_VOLTAR, $sAcao);
@@ -2153,7 +2153,7 @@ abstract class View {
         $sValores = implode(',', $this->getAParametrosExtras());
 
         $iCount++;
-        $sAcao = '$( "#' . $sEtapa . ' > #' . $iCount . '" ).addClass( "current" );$("#' . $sTelaAtual . '").toggle(); requestAjax("' . $this->getTela()->getId() . '-form","' . $sControllerDetalhe . '","' . $sMetodoDetalhe . '","' . $sEtapa . ',' . $iCount . ',' . $sTelaAtual . ',' . $sBody . ',' . $sBody2 . ',' . $sFormConsulta . '","' . $sValores . '");';
+        $sAcao = '$( "#' . $sEtapa . ' > #' . $iCount . '" ).addClass( "current" );$("#' . $sTelaAtual . '").toggle(); requestAjax("' . $this->getTela()->getId() . '-form","' . $sControllerDetalhe . '","' . $sMetodoDetalhe . '","' . $sEtapa . ',' . $iCount . ',' . $sTelaAtual . ',' . $sBody . ',' . $sBody2 . ',' . $sFormConsulta . ',' . $sRotina . '","' . $sValores . '");';
         $oBtnAdd = new Botao('Próximo', Botao::TIPO_PROXIMO, $sAcao);
 
 

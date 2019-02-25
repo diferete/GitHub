@@ -12,14 +12,12 @@ class PersistenciaMET_CAD_Cpf extends Persistencia {
         parent::__construct();
 
         $this->setTabela('MET_CAD_Cpf');
-        $this->adicionaRelacionamento('cpf', 'cpf');
-        $this->adicionaRelacionamento('filcgc', 'filcgc');
+        $this->adicionaRelacionamento('cpf', 'cpf',true,true);
+        $this->adicionaRelacionamento('filcgc', 'filcgc',true,true);
         $this->adicionaRelacionamento('nome', 'nome');
         $this->adicionaRelacionamento('empfant', 'empfant');
         $this->adicionaRelacionamento('fone', 'fone');
 
-        $this->setSTop('50');
-        $this->adicionaOrderBy('nome', 1);
     }
 
 }

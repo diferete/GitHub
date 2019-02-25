@@ -12,6 +12,26 @@ class ControllerMET_PORT_Colaboradores extends Controller {
         $this->carregaClassesMvc('MET_PORT_Colaboradores');
     }
 
+    public function afterUpdate() {
+        parent::afterUpdate();
+
+        $oModel = $this->Model;
+
+
+        $aRetorno = $this->Persistencia->updateSit($oModel);
+        if ($aRetorno) {
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
+    }
+
     public function afterInsert() {
         parent::afterInsert();
 
@@ -20,6 +40,31 @@ class ControllerMET_PORT_Colaboradores extends Controller {
 
         $this->Persistencia->cadPlaca($oModel);
 
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function beforeInsert() {
+        parent::beforeInsert();
+
+        $oModel = $this->Model;
+
+        if ($oModel->getMotivo() == '3') {
+            $oModel->setSituaca('Entrada');
+            $oModel->setHoraentrou($oModel->getHorachegou());
+            $oModel->setDataentrou($oModel->getDatachegou());
+        }
+        if ($oModel->getMotivo() == '4') {
+
+            $oModel->setSituaca('Saída');
+            $oModel->setHorasaiu($oModel->getHorachegou());
+            $oModel->setDatasaiu($oModel->getDatachegou());
+        }
+        if ($oModel->getMotivo() != '3' && $oModel->getMotivo() != '4') {
+            $oModel->setSituaca('Chegada');
+        }
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -50,7 +95,7 @@ class ControllerMET_PORT_Colaboradores extends Controller {
         . "$('#" . $aDados[1] . "').val('METALBO INDUSTRIA DE FIXADORES METALICOS LTDA');";
     }
 
-    public function criaTelaModalApontamento($sDados) {
+    public function criaTelaModalApontamentoColaboradores($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -61,29 +106,49 @@ class ControllerMET_PORT_Colaboradores extends Controller {
         $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
         $oDados = $this->Persistencia->consultarWhere();
 
-        if ($oDados->getSituaca() == 'Chegada' || ($oDados->getSituaca() == 'Entrada' && $oDados->getMotivo() != '3')) {
 
-            $this->View->setAParametrosExtras($oDados);
 
-            if ($oDados->getMotivo() != '3' && ($oDados->getSituaca() == 'Entrada' || $oDados->getSituaca() == 'Chegada')) {
-                $this->View->criaModalApontaSaida();
-            }if ($oDados->getMotivo() != '4' && $oDados->getSituaca() == 'Chegada') {
-                $this->View->criaModalApontaEntrada();
-            }
+        $this->View->setAParametrosExtras($oDados);
+
+        if ($oDados->getSituaca() == 'Saída' && $oDados->getMotivo() == '4') {
+            $this->View->criaModalApontaEntradaColaboradores();
+
 
             //busca lista pela op
             $this->View->getTela()->setSRender($aDados[0] . '-modal');
 
             //renderiza a tela
             $this->View->getTela()->getRender();
-        } else {
+        }
+        if ($oDados->getSituaca() == 'Chegada' && ($oDados->getMotivo() != '4' && $oDados->getMotivo() != '3')) {
+            $this->View->criaModalApontaEntradaColaboradores();
+
+
+            //busca lista pela op
+            $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        }
+        if ($oDados->getSituaca() == 'Entrada' && ($oDados->getMotivo() != '4' && $oDados->getMotivo() != '3')) {
+            $this->View->criaModalApontaSaidaColaboradores();
+
+
+            //busca lista pela op
+            $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        }
+
+        if (($oDados->getSituaca() == 'Entrada' && $oDados->getMotivo() == '3') || ($oDados->getSituaca() == 'Entrada' && $oDados->getMotivo() == '4') || ($oDados->getSituaca() == 'Saída' && ($oDados->getMotivo() != '3' && $oDados->getMotivo() != '4'))) {
             $oMsg = new Modal('Atenção', 'Essa pessoa já teve seu apontamento efetuado!', Modal::TIPO_AVISO, false, true, false);
-            echo "$('#criaModalApontamento-btn').click();";
+            echo "$('#criaModalApontamentoColaboradores-btn').click();";
             echo $oMsg->getRender();
         }
     }
 
-    public function apontaEntrada() {
+    public function apontaEntradaColaboradores() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
@@ -91,14 +156,14 @@ class ControllerMET_PORT_Colaboradores extends Controller {
 
         if ($aRetorno == true) {
             $oMsg = new Mensagem('Sucesso', 'Entrada de pessoa apontada com sucesso', Mensagem::TIPO_SUCESSO);
-            echo "$('#criaModalApontamento-btn').click();";
+            echo "$('#criaModalApontamentoColaboradores-btn').click();";
         } else {
             $oMsg = new Mensagem('Erro', 'Erro ao inserir o registro, tente novamente!', Mensagem::TIPO_ERROR);
         }
         echo $oMsg->getRender();
     }
 
-    public function apontaSaida() {
+    public function apontaSaidaColaboradores() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
@@ -106,7 +171,7 @@ class ControllerMET_PORT_Colaboradores extends Controller {
 
         if ($aRetorno == true) {
             $oMsg = new Mensagem('Sucesso', 'Saída de pessoa apontada com sucesso', Mensagem::TIPO_SUCESSO);
-            echo "$('#criaModalApontamento-btn').click();";
+            echo "$('#criaModalApontamentoColaboradores-btn').click();";
         } else {
             $oMsg = new Mensagem('Erro', 'Erro ao inserir o registro, tente novamente!', Mensagem::TIPO_ERROR);
         }

@@ -22,8 +22,8 @@ class ViewMET_PORT_Colaboradores extends View {
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Aponta movimentação de pessoas!');
-        $oBotaoModal->addAcao('MET_PORT_Colaboradores', 'criaTelaModalApontamento', 'criaModalApontamento');
+        $oBotaoModal->setSTitleAcao('Aponta movimentação de Colaboradores!');
+        $oBotaoModal->addAcao('MET_PORT_Colaboradores', 'criaTelaModalApontamentoColaboradores', 'criaModalApontamentoColaboradores');
         $this->addModais($oBotaoModal);
 
 
@@ -79,7 +79,7 @@ class ViewMET_PORT_Colaboradores extends View {
 
 
         $this->addFiltro($oFilNR, $oFilCracha, $oFilColaborador, $oFilMotivo);
-        $this->addCampos($oBotaoModal, $oNr, $oSituaca, $oPessoa, $oCracha, $oMotivo, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntra, $oDataSaida, $oHoraSaida);
+        $this->addCampos($oBotaoModal, $oNr, $oSituaca, $oPessoa, $oCracha, $oMotivo,$oDataEntra, $oHoraEntra, $oDataSaida, $oHoraSaida);
     }
 
     public function criaTela() {
@@ -93,11 +93,6 @@ class ViewMET_PORT_Colaboradores extends View {
 
         $oNr = new Campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setBCampoBloqueado(true);
-
-        $oSituaca = new Campo('', 'situaca', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oSituaca->setSValor('Chegada');
-        $oSituaca->setBCampoBloqueado(true);
-        $oSituaca->setBOculto(true);
 
         $oUsuCod = new Campo('', 'usucod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oUsuCod->setSValor($_SESSION['codUser']);
@@ -147,18 +142,16 @@ class ViewMET_PORT_Colaboradores extends View {
         $oRespCracha = new Campo('Resp.Crachá', 'respcracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oRespCracha->setITamanho(Campo::TAMANHO_PEQUENO);
 
-        $oRespCrachaNome = new Campo('Resp.Nome', 'respnome', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
-        $oRespCrachaNome->setSIdPk($oRespCracha->getId());
-        $oRespCrachaNome->setClasseBusca('MEt_CAD_Users');
-        $oRespCrachaNome->addCampoBusca('cracha', '', '');
-        $oRespCrachaNome->addCampoBusca('nome', '', '');
-        $oRespCrachaNome->addCampoBusca('sobrenome', '', '');
-        $oRespCrachaNome->setSIdTela($this->getTela()->getid());
+        $oRespNome = new Campo('Resp.Nome', 'respnome', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
+        $oRespNome->setSIdPk($oRespCracha->getId());
+        $oRespNome->setClasseBusca('MET_CAD_Users');
+        $oRespNome->addCampoBusca('cracha', '', '');
+        $oRespNome->addCampoBusca('nome', '', '');
+        $oRespNome->setSIdTela($this->getTela()->getid());
 
-        $oRespCracha->setClasseBusca('MEt_CAD_Users');
+        $oRespCracha->setClasseBusca('MET_CAD_Users');
         $oRespCracha->setSCampoRetorno('cracha', $this->getTela()->getId());
-        $oRespCracha->addCampoBusca('nome', $oRespCrachaNome->getId(), $this->getTela()->getId());
-        $oRespCracha->addCampoBusca('sobrenome', $oRespCrachaNome->getId(), $this->getTela()->getId());
+        $oRespCracha->addCampoBusca('nome', $oRespNome->getId(), $this->getTela()->getId());
 
         $oTipo = new Campo('', 'tipopessoa', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTipo->setSValor('C');
@@ -177,10 +170,10 @@ class ViewMET_PORT_Colaboradores extends View {
         if ($sAcao != 'acaoVisualiza') {
             $oCracha->addEvento(Campo::EVENTO_SAIR, $sCallBackCracha);
         }
-        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraEntra), array($oMotivo), $oDescMotivo, $oDivisor1, array($oCracha, $oPessoa, $oEmpresa, $oFone), array($oRespCracha, $oRespCrachaNome), $oDivisor2, array($oPlaca), array($oTipo, $oUsuCod, $oSituaca));
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraEntra), array($oMotivo), $oDescMotivo, $oDivisor1, array($oCracha, $oPessoa, $oEmpresa, $oFone), array($oRespCracha, $oRespNome), $oDivisor2, array($oPlaca), array($oTipo, $oUsuCod));
     }
 
-    public function criaModalApontaEntrada() {
+    public function criaModalApontaEntradaColaboradores() {
         parent::criaModal();
 
         $this->setBTela(true);
@@ -223,7 +216,7 @@ class ViewMET_PORT_Colaboradores extends View {
 
         //botão inserir os dados
         $oBtnInserir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaEntrada","' . $this->getTela()->getId() . '-form","");';
+        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaEntradaColaboradores","' . $this->getTela()->getId() . '-form","");';
         $oBtnInserir->getOBotao()->addAcao($sAcaoAponta);
 
 
@@ -235,7 +228,7 @@ class ViewMET_PORT_Colaboradores extends View {
         $this->addCampos(array($oNr, $oCracha, $oEmpresa, $oMotivo), $oDescMotivo, $oDivisor1, array($oDataSaida, $oHoraSaida, $oFilcgc), $oLinha, $oBtnInserir);
     }
 
-    public function criaModalApontaSaida() {
+    public function criaModalApontaSaidaColaboradores() {
         parent::criaModal();
 
         $this->setBTela(true);
@@ -266,7 +259,7 @@ class ViewMET_PORT_Colaboradores extends View {
         $oDivisor1 = new Campo('Dados da saída', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oDataSaida = new Campo('Data saída', 'datasaiu', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataSaida = new Campo('Data saída', 'datasaiu', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataSaida->setSValor(date('d/m/Y'));
         $oDataSaida->setSCorFundo(Campo::FUNDO_AMARELO);
 
@@ -278,7 +271,7 @@ class ViewMET_PORT_Colaboradores extends View {
 
         //botão inserir os dados
         $oBtnInserir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaSaida","' . $this->getTela()->getId() . '-form","");';
+        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaSaidaColaboradores","' . $this->getTela()->getId() . '-form","");';
         $oBtnInserir->getOBotao()->addAcao($sAcaoAponta);
 
 

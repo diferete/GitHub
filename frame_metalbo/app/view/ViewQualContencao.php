@@ -69,10 +69,17 @@ class ViewQualContencao extends View {
     public function criaTela() {
         parent::criaTela();
 
+        $sAcaoRotina = $this->getSRotina();
         $this->criaGridDetalhe();
 
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(false);
+            $this->getTela()->setBUsaDelGrid(false);
+        }
+
         $aValor = $this->getAParametrosExtras();
-        
+
+
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor($aValor[0]);
         $oFilcgc->setBCampoBloqueado(true);
@@ -125,6 +132,9 @@ class ViewQualContencao extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBotConf->setIMarginTop(6);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotConf->getOBotao()->setBDesativado(true);
+        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    

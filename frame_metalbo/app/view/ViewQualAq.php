@@ -17,7 +17,7 @@ class ViewQualAq extends View {
 
         $this->getTela()->setIAltura(400);
         $this->getTela()->setBGridResponsivo(false);
-        
+
         $this->getTela()->setBMostraFiltro(true);
 
         $oTitulo = new CampoConsulta('Título', 'titulo', CampoConsulta::TIPO_LARGURA, 300);
@@ -118,11 +118,14 @@ class ViewQualAq extends View {
 
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
+        $this->setUsaAcaoVisualizar(true);
         $this->setUsaAcaoExcluir(false);
     }
 
     public function criaTela() {
         parent::criaTela();
+
+        $sAcaoRotina = $this->getSRotina();
 
         $oTitulo = new Campo('Título da ação da qualidade', 'titulo', Campo::TIPO_TEXTO, 3, 6, 12, 12);
         $oLinha1 = new Campo('', '', Campo::TIPO_LINHA, 12);
@@ -287,18 +290,23 @@ class ViewQualAq extends View {
 
         $oAnexo1 = new Campo('Anexo 1', 'anexo1', Campo::TIPO_UPLOAD, 4);
 
-        //monta campo de controle para inserir ou alterar
-        $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
-        $oAcao->setApenasTela(true);
-        if ($this->getSRotina() == View::ACAO_INCLUIR) {
-            $oAcao->setSValor('incluir');
-        } else {
-            $oAcao->setSValor('alterar');
-        }
-        $this->setSIdControleUpAlt($oAcao->getId());
+        if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
 
-        $this->addCampos(
-                array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni, $oDataFinal), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
+            //monta campo de controle para inserir ou alterar
+            $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
+            $oAcao->setApenasTela(true);
+            if ($this->getSRotina() == View::ACAO_INCLUIR) {
+                $oAcao->setSValor('incluir');
+            } else {
+                $oAcao->setSValor('alterar');
+            }
+            $this->setSIdControleUpAlt($oAcao->getId());
+            $this->addCampos(
+                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni, $oDataFinal), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
+        } else {
+            $this->addCampos(
+                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni, $oDataFinal), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr);
+        }
     }
 
     public function criaTelaModalCancelaAq($sDados) {

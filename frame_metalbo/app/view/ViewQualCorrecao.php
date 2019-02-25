@@ -67,7 +67,14 @@ class ViewQualCorrecao extends View {
     public function criaTela() {
         parent::criaTela();
 
+        $sAcaoRotina = $this->getSRotina();
         $this->criaGridDetalhe();
+
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(false);
+            $this->getTela()->setBUsaDelGrid(false);
+        }
+
 
         $aValor = $this->getAParametrosExtras();
 
@@ -111,12 +118,11 @@ class ViewQualCorrecao extends View {
         if ($aValor[3] == 'Ação Preventiva') {
             $oTipo->setSCorFundo(Campo::FUNDO_VERDE);
             $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
-            
         } else {
             $oTipo->setSCorFundo(Campo::FUNDO_VERMELHO);
             $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_WARNING, 12, 12, 12, 12);
         }
-        
+
         $oDivisor->setApenasTela(true);
 
         $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2, 2, 12, 12);
@@ -124,6 +130,9 @@ class ViewQualCorrecao extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBotConf->setIMarginTop(6);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotConf->getOBotao()->setBDesativado(true);
+        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    

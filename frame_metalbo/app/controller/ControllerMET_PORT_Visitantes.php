@@ -12,6 +12,26 @@ class ControllerMET_PORT_Visitantes extends Controller {
         $this->carregaClassesMvc('MET_PORT_Visitantes');
     }
 
+    public function beforeInsert() {
+        parent::beforeInsert();
+
+        $oModel = $this->Model;
+        if ($oModel->getMotivo() == 'Selecionar') {
+            $oMsg = new Mensagem('Atenção', 'Selecione um MOTIVO!', Mensagem::TIPO_INFO);
+            echo $oMsg->getRender();
+
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
+    }
+
     public function afterInsert() {
         parent::afterInsert();
 
@@ -27,7 +47,7 @@ class ControllerMET_PORT_Visitantes extends Controller {
         return $aRetorno;
     }
 
-    public function criaTelaModalApontamento($sDados) {
+    public function criaTelaModalApontamentoVisitante($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -43,10 +63,10 @@ class ControllerMET_PORT_Visitantes extends Controller {
             $this->View->setAParametrosExtras($oDados);
 
             if ($oDados->getSituaca() == 'Chegada') {
-                $this->View->criaModalApontaEntrada();
+                $this->View->criaModalApontaEntradaVisitante();
             }
             if ($oDados->getSituaca() == 'Entrada') {
-                $this->View->criaModalApontaSaida();
+                $this->View->criaModalApontaSaidaVisitante();
             }
 
             //busca lista pela op
@@ -56,12 +76,12 @@ class ControllerMET_PORT_Visitantes extends Controller {
             $this->View->getTela()->getRender();
         } else {
             $oMsg = new Modal('Atenção', 'Essa pessoa já teve seu apontamento efetuado!', Modal::TIPO_AVISO, false, true, false);
-            echo "$('#criaModalApontamento-btn').click();";
+            echo "$('#criaModalApontamentoVisitante-btn').click();";
             echo $oMsg->getRender();
         }
     }
 
-    public function apontaEntrada() {
+    public function apontaEntradaVisitante() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
@@ -69,14 +89,14 @@ class ControllerMET_PORT_Visitantes extends Controller {
 
         if ($aRetorno == true) {
             $oMsg = new Mensagem('Sucesso', 'Entrada de pessoa apontada com sucesso', Mensagem::TIPO_SUCESSO);
-            echo "$('#criaModalApontamento-btn').click();";
+            echo "$('#criaModalApontamentoVisitante-btn').click();";
         } else {
             $oMsg = new Mensagem('Erro', 'Erro ao inserir o registro, tente novamente!', Mensagem::TIPO_ERROR);
         }
         echo $oMsg->getRender();
     }
 
-    public function apontaSaida() {
+    public function apontaSaidaVisitante() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
@@ -84,7 +104,7 @@ class ControllerMET_PORT_Visitantes extends Controller {
 
         if ($aRetorno == true) {
             $oMsg = new Mensagem('Sucesso', 'Saída de pessoa apontada com sucesso', Mensagem::TIPO_SUCESSO);
-            echo "$('#criaModalApontamento-btn').click();";
+            echo "$('#criaModalApontamentoVisitante-btn').click();";
         } else {
             $oMsg = new Mensagem('Erro', 'Erro ao inserir o registro, tente novamente!', Mensagem::TIPO_ERROR);
         }
@@ -111,9 +131,8 @@ class ControllerMET_PORT_Visitantes extends Controller {
 
         $oConsulta = $this->Persistencia->consultaCpf($aCamposChave);
 
-        echo"$('#" . $aDados[0] . "').val('" . $oConsulta->nome . "');"
-        . "$('#" . $aDados[1] . "').val('" . $oConsulta->empfant . "');"
-        . "$('#" . $aDados[2] . "').val('" . $oConsulta->fone . "');";
+        echo"$('#" . $aDados[0] . "').val('" . $oConsulta->empfant . "');"
+        . "$('#" . $aDados[1] . "').val('" . $oConsulta->fone . "');";
     }
 
 }

@@ -203,8 +203,6 @@ class ViewQualNovoProjRep extends View {
         //$oEmpcod->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
 
-
-
         $oEmpdes = new Campo('Cliente', 'Pessoa.empdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oEmpdes->setSIdPk($oEmpcod->getId());
         $oEmpdes->setClasseBusca('Pessoa');

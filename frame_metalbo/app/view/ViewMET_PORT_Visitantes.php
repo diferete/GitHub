@@ -22,8 +22,8 @@ class ViewMET_PORT_Visitantes extends View {
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Aponta movimentação de pessoas!');
-        $oBotaoModal->addAcao('MET_PORT_Visitantes', 'criaTelaModalApontamento', 'criaModalApontamento');
+        $oBotaoModal->setSTitleAcao('Aponta movimentação de Terceiros!');
+        $oBotaoModal->addAcao('MET_PORT_Visitantes', 'criaTelaModalApontamentoVisitante', 'criaModalApontamentoVisitante');
         $this->addModais($oBotaoModal);
 
 
@@ -36,7 +36,7 @@ class ViewMET_PORT_Visitantes extends View {
         $oMotivo = new CampoConsulta('Motivo', 'motivo', CampoConsulta::TIPO_TEXTO);
         $oMotivo->addComparacao('1', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Serviços');
         $oMotivo->addComparacao('2', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Visita');
-        $oMotivo->addComparacao('4', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Outro');
+        $oMotivo->addComparacao('3', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Outro');
         $oMotivo->setBComparacaoColuna(true);
 
         $oSituaca = new CampoConsulta('Sit.', 'situaca', CampoConsulta::TIPO_TEXTO);
@@ -125,16 +125,19 @@ class ViewMET_PORT_Visitantes extends View {
         $oDivisor1 = new Campo('Dados da pessoa', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oCpf = new campo('CPF', 'cpf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oCpf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '11', '12');
-        $oCpf->setSCorFundo(Campo::FUNDO_AMARELO);
-        if ($sAcao == 'acaoIncluir') {
-            $oCpf->setBFocus(true);
-        }
+        $oCpf = new campo('CPF', 'cpf', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCpf->setITamanho(Campo::TAMANHO_PEQUENO);
 
-        $oPessoa = new Campo('Pessoa', 'pessoa', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oPessoa->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '50');
-        $oPessoa->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oPessoa = new Campo('Pessoa', 'pessoa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oPessoa->setSIdPk($oCpf->getId());
+        $oPessoa->setClasseBusca('MET_CAD_Cpf');
+        $oPessoa->addCampoBusca('cpf', '', '');
+        $oPessoa->addCampoBusca('nome', '', '');
+        $oPessoa->setSIdTela($this->getTela()->getid());
+
+        $oCpf->setClasseBusca('MET_CAD_Cpf');
+        $oCpf->setSCampoRetorno('cpf', $this->getTela()->getId());
+        $oCpf->addCampoBusca('nome', $oPessoa->getId(), $this->getTela()->getId());
 
         $oFone = new Campo('Contato *Nr c/ DDD', 'fone', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
@@ -151,7 +154,7 @@ class ViewMET_PORT_Visitantes extends View {
 
         $oCracha = new Campo('Crachá', 'cracha', Campo::TIPO_SELECT, 1, 1, 12, 12);
         ///////////////////VISITANTES//////////////////////////
-        $oCracha->addItemSelect('0', 'Selecionar');
+        $oCracha->addItemSelect('0', 'Outros');
         $oCracha->addItemSelect('6000', '6000');
         $oCracha->addItemSelect('6001', '6001');
         $oCracha->addItemSelect('6002', '6002');
@@ -198,7 +201,7 @@ class ViewMET_PORT_Visitantes extends View {
 
         $oEmpresa = new Campo('Empresa', 'empdes', Campo::TIPO_TEXTO, 4, 4, 12, 12);
 
-        $sCallBackCPF = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Visitantes","buscaCpf","' . $oPessoa->getId() . ',' . $oEmpresa->getId() . ',' . $oFone->getId() . ',' . $sAcao . '");';
+        $sCallBackCPF = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Visitantes","buscaCpf","' . $oEmpresa->getId() . ',' . $oFone->getId() . ',' . $sAcao . '");';
         if ($sAcao != 'acaoVisualiza') {
             $oCpf->addEvento(Campo::EVENTO_SAIR, $sCallBackCPF);
         }
@@ -206,7 +209,7 @@ class ViewMET_PORT_Visitantes extends View {
         $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraEntra), array($oMotivo, $oCracha), $oDescMotivo, $oDivisor1, array($oCpf, $oPessoa, $oEmpresa, $oFone), $oDivisor2, array($oPlaca), array($oTipo, $oUsuCod, $oSituaca));
     }
 
-    public function criaModalApontaEntrada() {
+    public function criaModalApontaEntradaVisitante() {
         parent::criaModal();
 
         $this->setBTela(true);
@@ -249,7 +252,7 @@ class ViewMET_PORT_Visitantes extends View {
 
         //botão inserir os dados
         $oBtnInserir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaEntrada","' . $this->getTela()->getId() . '-form","");';
+        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaEntradaVisitante","' . $this->getTela()->getId() . '-form","");';
         $oBtnInserir->getOBotao()->addAcao($sAcaoAponta);
 
 
@@ -261,7 +264,7 @@ class ViewMET_PORT_Visitantes extends View {
         $this->addCampos(array($oNr, $oCracha, $oEmpresa, $oMotivo), $oDescMotivo, $oDivisor1, array($oDataSaida, $oHoraSaida, $oFilcgc), $oLinha, $oBtnInserir);
     }
 
-    public function criaModalApontaSaida() {
+    public function criaModalApontaSaidaVisitante() {
         parent::criaModal();
 
         $this->setBTela(true);
@@ -292,7 +295,7 @@ class ViewMET_PORT_Visitantes extends View {
         $oDivisor1 = new Campo('Dados da saída', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oDataSaida = new Campo('Data saída', 'datasaiu', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataSaida = new Campo('Data saída', 'datasaiu', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataSaida->setSValor(date('d/m/Y'));
         $oDataSaida->setSCorFundo(Campo::FUNDO_AMARELO);
 
@@ -304,7 +307,7 @@ class ViewMET_PORT_Visitantes extends View {
 
         //botão inserir os dados
         $oBtnInserir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaSaida","' . $this->getTela()->getId() . '-form","");';
+        $sAcaoAponta = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaSaidaVisitante","' . $this->getTela()->getId() . '-form","");';
         $oBtnInserir->getOBotao()->addAcao($sAcaoAponta);
 
 

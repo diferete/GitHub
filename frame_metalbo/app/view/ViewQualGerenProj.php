@@ -148,7 +148,7 @@ class ViewQualGerenProj extends View {
         $oRespVenda->setSCampoRetorno('usucodigo', $this->getTela()->getId());
         $oRespVenda->addCampoBusca('usunome', $oRespVendaNome->getId(), $this->getTela()->getId());
 
-        $oEmpcod = new Campo('CNPJ Cliente', 'Pessoa.empcod', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
+        $oEmpcod = new Campo('CNPJ Cliente', 'Pessoa.empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpcod->setBCampoBloqueado(true);
 
@@ -402,7 +402,9 @@ class ViewQualGerenProj extends View {
         $this->setTituloTela('Relatório de Projetos');
         $this->setBTela(true);
 
-        $oFieldRel = new FieldSet('Situações por setor');
+
+        $oDivisor1 = new Campo('Situações por Setor', 'divisor1', Campo::DIVISOR_INFO, 12, 12, 12, 12);
+        $oDivisor1->setApenasTela(TRUE);
 
 
         $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
@@ -433,21 +435,21 @@ class ViewQualGerenProj extends View {
 
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relProjXls");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
-        
+
         ///RANKING CLIENTES
         $oRanking = new Campo('Vizualizar Ranking Clientes', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
         $oRanking->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
 
         $sAcaoRan = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relNovoProjetoRanking");';
         $oRanking->getOBotao()->addAcao($sAcaoRan);
-        
+
         ///NÚMERO ENTRADA PROJETOS MÊS
         $oProjMes = new Campo('Vizualizar Projetos Mês', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
         $oProjMes->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
 
         $sAcaoPro = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relNovoProjetosMes");';
         $oProjMes->getOBotao()->addAcao($sAcaoPro);
-        
+
         $oRelPrj = new Campo('Projetos', 'sitproj', Campo::TIPO_SELECT, 3);
         $oRelPrj->addItemSelect('', 'Todos');
         $oRelPrj->addItemSelect('Aprovado', 'Aprovado');
@@ -467,9 +469,8 @@ class ViewQualGerenProj extends View {
         $oRelCli->addItemSelect('Enviado', 'Enviado');
 
 
-        $oFieldRel->addCampos(array($oRelPrj, $oRelVend, $oRelCli));
-
-        $oFieldRel2 = new FieldSet('Situações gerais');
+        $oDivisor2 = new Campo('Situações Gerais', 'divisor2', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
+        $oDivisor2->setApenasTela(TRUE);
 
         $oSitGRel = new campo('Geral', 'geralsit', Campo::TIPO_SELECT);
         $oSitGRel->addItemSelect('', 'Todos');
@@ -482,9 +483,26 @@ class ViewQualGerenProj extends View {
         $oSitGRel->addItemSelect('Produzido', 'Produzido');
         $oSitGRel->addItemSelect('Expirado', 'Expirado');
 
-        $oFieldRel2->addCampos(array($oSitGRel));
+        $oEmpcod = new Campo('CNPJ Cliente', 'empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $this->addCampos(array($oDataIni, $oDataFin, $oGrupo, $oGrupoDes), $oFieldRel, $oFieldRel2, $oXls,$oRanking,$oProjMes);
+        $oEmpdes = new Campo('Cliente', 'empdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oEmpdes->setSIdPk($oEmpcod->getId());
+        $oEmpdes->setClasseBusca('Pessoa');
+        $oEmpdes->addCampoBusca('empcod', '', '');
+        $oEmpdes->addCampoBusca('empdes', '', '');
+        $oEmpdes->setSIdTela($this->getTela()->getid());
+        $oEmpdes->setSCorFundo(Campo::FUNDO_AMARELO);
+
+        $oEmpcod->setClasseBusca('Pessoa');
+        $oEmpcod->setSCampoRetorno('empcod', $this->getTela()->getid());
+        $oEmpcod->addCampoBusca('empdes', $oEmpdes->getId(), $this->getTela()->getId());
+
+        $olinha = new Campo('', 'linha1', Campo::TIPO_LINHABRANCO);
+        $olinha->setApenasTela(true);
+
+
+        $this->addCampos(array($oDataIni, $oDataFin, $oGrupo, $oGrupoDes), $oDivisor1, array($oRelPrj, $oRelVend, $oRelCli), $oDivisor2, array($oSitGRel, $oEmpcod, $oEmpdes), $olinha, $oXls, $oRanking, $oProjMes);
     }
-    
+
 }

@@ -37,7 +37,6 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
         $this->adicionaRelacionamento('tipo', 'tipo');
 
         $this->adicionaOrderBy('nr', 1);
-        $this->setSTop(50);
     }
 
     public function consultaPlaca($sNrPlaca) {
@@ -84,7 +83,7 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
     }
 
     public function consultaCpf($aDados) {
-        $sSql = "select nome,fone"
+        $sSql = "select fone"
                 . " from MET_CAD_Cpf"
                 . " where cpf = '" . $aDados['cpf'] . "'"
                 . " and filcgc = '" . $aDados['filcgc'] . "'";
@@ -115,7 +114,6 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
     }
 
     public function geraCadastro($oDados) {
-
         $sMotorista = Util::removeAcentos($oDados->getMotorista());
         $sMotorista = strtoupper($sMotorista);
 
@@ -139,8 +137,6 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
     }
 
     public function updateCadastro($oDados) {
-
-
         $sSqlIdCarga = "select idcarga from MetExp_Carga where empcod = '" . $oDados->getEmpcod() . "'
                 and transp ='" . $oDados->getEmpdes() . "' 
                 and dataent = '" . $oDados->getDatachegou() . "'

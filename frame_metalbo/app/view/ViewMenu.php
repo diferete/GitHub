@@ -24,6 +24,8 @@ class ViewMenu extends View {
         parent::criaTela();
 
 
+        $sAcaoRotina = $this->getSRotina();
+
         $oModCodigo = new Campo('Cód Mod', 'Modulo.modcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oModCodigo->setClasseBusca('Modulo');
         $oModCodigo->addCampoBusca('modescricao', null, $this->getTela()->getId(), Campo::TIPO_BUSCA, 4, 5, 12, 12);
@@ -41,19 +43,23 @@ class ViewMenu extends View {
         $oEtapas->addItemEtapas('Cadastro Menu', true, $this->addIcone(Base::ICON_EDITAR));
         $oEtapas->addItemEtapas('Cadastro Item Menu', false, $this->addIcone(Base::ICON_CONFIRMAR));
 
-        //monta campo de controle para inserir ou alterar
-        $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2, 2, 12, 12);
-        $oAcao->setApenasTela(true);
-        if ($this->getSRotina() == View::ACAO_INCLUIR) {
-            $oAcao->setSValor('incluir');
-        } else {
-            $oAcao->setSValor('alterar');
-        }
-        $this->setSIdControleUpAlt($oAcao->getId());
-
-
         $this->addEtapa($oEtapas);
-        $this->addCampos($oModCodigo, array($oMenCodigo, $oMenu), $oMenuOrdem, $oAcao);
+
+        if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
+            //monta campo de controle para inserir ou alterar
+            $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2, 2, 12, 12);
+            $oAcao->setApenasTela(true);
+            if ($this->getSRotina() == View::ACAO_INCLUIR) {
+                $oAcao->setSValor('incluir');
+            } else {
+                $oAcao->setSValor('alterar');
+            }
+            $this->setSIdControleUpAlt($oAcao->getId());
+
+            $this->addCampos($oModCodigo, array($oMenCodigo, $oMenu), $oMenuOrdem, $oAcao);
+        } else {
+            $this->addCampos($oModCodigo, array($oMenCodigo, $oMenu), $oMenuOrdem);
+        }
     }
 
     /**
@@ -61,8 +67,9 @@ class ViewMenu extends View {
      */
     function criaConsulta() {
         parent::criaConsulta();
-        
-        
+
+        $this->setUsaAcaoVisualizar(true);
+
         $oModulo = new CampoConsulta('Módulo', 'Modulo.modcod');
 
         $oModDes = new CampoConsulta('Módulo', 'Modulo.modescricao');

@@ -43,7 +43,6 @@ class ControllerMET_PORT_Transito extends Controller {
 
         $oModel = $this->Model;
 
-
         $this->Persistencia->cadPlaca($oModel);
 
         $this->Persistencia->cadCpf($oModel);
@@ -88,9 +87,7 @@ class ControllerMET_PORT_Transito extends Controller {
     public function afterUpdate() {
         parent::afterUpdate();
 
-
         $oModel = $this->Model;
-
 
         $this->Persistencia->cadPlaca($oModel);
 
@@ -115,8 +112,7 @@ class ControllerMET_PORT_Transito extends Controller {
             $aRetorno[1] = '';
             return $aRetorno;
         }
-    }
-    
+    }    
     
     
      public function gravaHora($sDados){
@@ -129,8 +125,7 @@ class ControllerMET_PORT_Transito extends Controller {
         }else{
             $oMensagem = new Mensagem('Atenção!','Hora de saída não foi alterada.'.$aRetorno[1], Mensagem::TIPO_ERROR);
             echo $oMensagem->getRender();
-        }
-        
+        }        
     }
 
     public function buscaCpf($sDados) {
@@ -153,8 +148,7 @@ class ControllerMET_PORT_Transito extends Controller {
 
         $oConsulta = $this->Persistencia->consultaCpf($aCamposChave);
 
-        echo"$('#" . $aDados[0] . "').val('" . $oConsulta->nome . "');"
-        . "$('#" . $aDados[1] . "').val('" . $oConsulta->fone . "');";
+        echo"$('#" . $aDados[0] . "').val('" . $oConsulta->fone . "');";
     }
 
     public function buscaPlaca($sDados) {
@@ -170,7 +164,7 @@ class ControllerMET_PORT_Transito extends Controller {
         . "$('#" . $aParam[2] . "').val('" . $oRow->empdes . "');";
     }
 
-    public function criaTelaModalApontamento($sDados) {
+    public function criaTelaModalApontamentoTransito($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -186,10 +180,10 @@ class ControllerMET_PORT_Transito extends Controller {
             $this->View->setAParametrosExtras($oDados);
 
             if ($oDados->getSituaca() == 'Chegada') {
-                $this->View->criaModalApontaEntrada();
+                $this->View->criaModalApontaEntradaTransito();
             }
             if ($oDados->getSituaca() == 'Entrada') {
-                $this->View->criaModalApontaSaida();
+                $this->View->criaModalApontaSaidaTransito();
             }
 
             //busca lista pela op
@@ -199,12 +193,12 @@ class ControllerMET_PORT_Transito extends Controller {
             $this->View->getTela()->getRender();
         } else {
             $oMsg = new Modal('Atenção', 'Esse caminhão já seu apontamento efetuado!', Modal::TIPO_AVISO, false, true, false);
-            echo "$('#criaModalApontamento-btn').click();";
+            echo "$('#criaModalApontamentoTransito-btn').click();";
             echo $oMsg->getRender();
         }
     }
 
-    public function apontaEntrada() {
+    public function apontaEntradaTransito() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
@@ -212,14 +206,14 @@ class ControllerMET_PORT_Transito extends Controller {
 
         if ($aRetorno == true) {
             $oMsg = new Mensagem('Sucesso', 'Entrada de veículo apontada com sucesso', Mensagem::TIPO_SUCESSO);
-            echo "$('#criaModalApontamento-btn').click();";
+            echo "$('#criaModalApontamentoTransito-btn').click();";
         } else {
             $oMsg = new Mensagem('Erro', 'Erro ao inserir o registro, tente novamente!', Mensagem::TIPO_ERROR);
         }
         echo $oMsg->getRender();
     }
 
-    public function apontaSaida() {
+    public function apontaSaidaTransito() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
@@ -227,7 +221,7 @@ class ControllerMET_PORT_Transito extends Controller {
 
         if ($aRetorno == true) {
             $oMsg = new Mensagem('Sucesso', 'Saída de veículo apontada com sucesso', Mensagem::TIPO_SUCESSO);
-            echo "$('#criaModalApontamento-btn').click();";
+            echo "$('#criaModalApontamentoTransito-btn').click();";
         } else {
             $oMsg = new Mensagem('Erro', 'Erro ao inserir o registro, tente novamente!', Mensagem::TIPO_ERROR);
         }

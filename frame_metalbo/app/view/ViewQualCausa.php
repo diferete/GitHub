@@ -101,8 +101,16 @@ class ViewQualCausa extends View {
     public function criaTela() {
         parent::criaTela();
 
+        
         $this->criaGridDetalhe();
 
+        
+        $sAcaoRotina = $this->getSRotina();
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(false);
+            $this->getTela()->setBUsaDelGrid(false);
+        }
+        
         $aValor = $this->getAParametrosExtras();
 
         $oFilcgc = new Campo('', 'filcgc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -134,6 +142,9 @@ class ViewQualCausa extends View {
         $oBtnInsereCausa->setApenasTela(true);
         $sAcaoInserirCausa = 'requestAjax("' . $this->getTela()->getId() . '-form","QualDiagramaCausa","insereDiagrama","' . $this->getTela()->getId() . '-form,' . $oMatPrimaDes->getId() . ',' . $oMetodoDes->getId() . ',' . $oMaoDeObraDes->getId() . ',' . $oEquipamentoDes->getId() . ',' . $oMeioAmbienteDes->getId() . ',' . $oMedidaDes->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
         $oBtnInsereCausa->getOBotao()->addAcao($sAcaoInserirCausa);
+        if($sAcaoRotina == 'acaoVisualizar'){
+            $oBtnInsereCausa->getOBotao()->setBDesativado(true);
+        }
 
         $oDivisor = new Campo('Descrição da Causa', 'divisor', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor->setApenasTela(true);
@@ -171,6 +182,9 @@ class ViewQualCausa extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBotConf->setApenasTela(true);
+        if($sAcaoRotina == 'acaoVisualizar'){
+            $oBotConf->getOBotao()->setBDesativado(true);
+        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    

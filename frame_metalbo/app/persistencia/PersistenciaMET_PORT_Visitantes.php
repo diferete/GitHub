@@ -41,7 +41,7 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
     }
 
     public function consultaCpf($aDados) {
-        $sSql = "select nome,empfant,fone"
+        $sSql = "select empfant,fone"
                 . " from MET_CAD_Cpf"
                 . " where cpf = '" . $aDados['cpf'] . "'"
                 . " and filcgc = '" . $aDados['filcgc'] . "'";
@@ -55,7 +55,7 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
                 . "horaentrou = '" . $aDados['horaentrou'] . "', "
                 . "dataentrou = '" . $aDados['dataentrou'] . "', "
                 . "situaca = 'Entrada' "
-                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "' and cpf ='" . $aDados['cpf'] . "' ";
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
     }
@@ -65,7 +65,7 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
                 . "horasaiu = '" . $aDados['horasaiu'] . "', "
                 . "datasaiu = '" . $aDados['datasaiu'] . "', "
                 . "situaca = 'Saída' "
-                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "' and cracha ='" . $aDados['cracha'] . "' ";
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "' ";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
     }
@@ -81,43 +81,51 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
     }
 
     public function cadPlaca($oDados) {
-        $sSql = "select COUNT(*) as total "
-                . "from MET_CAD_Placas "
-                . "where placa = '" . $oDados->getPlaca() . "'";
-        $oRetPlaca = $this->consultaSql($sSql);
-
-        if ($oRetPlaca->total >= 1) {
+        if ($oDados->getPlaca() == '') {
             return;
         } else {
-            $sPlaca = strtoupper($oDados->getPlaca());
-            $sSqlCadPlaca = "insert into MET_CAD_Placas("
-                    . "filcgc,placa,empdes) "
-                    . "values("
-                    . "'" . $oDados->getFilcgc() . "',"
-                    . "'" . $sPlaca . "',"
-                    . "'" . $oDados->getEmpdes() . "')";
-            $this->executaSql($sSqlCadPlaca);
+            $sSql = "select COUNT(*) as total "
+                    . "from MET_CAD_Placas "
+                    . "where placa = '" . $oDados->getPlaca() . "'";
+            $oRetPlaca = $this->consultaSql($sSql);
+
+            if ($oRetPlaca->total >= 1) {
+                return;
+            } else {
+                $sPlaca = strtoupper($oDados->getPlaca());
+                $sSqlCadPlaca = "insert into MET_CAD_Placas("
+                        . "filcgc,placa,empdes) "
+                        . "values("
+                        . "'" . $oDados->getFilcgc() . "',"
+                        . "'" . $sPlaca . "',"
+                        . "'" . $oDados->getEmpdes() . "')";
+                $this->executaSql($sSqlCadPlaca);
+            }
         }
     }
 
     public function cadCPF($oDados) {
-        $sSql = "select COUNT(*) as total "
-                . "from MET_CAD_Cpf "
-                . "where cpf = '" . $oDados->getCpf() . "'";
-        $oRetCpf = $this->consultaSql($sSql);
-
-        if ($oRetCpf->total >= 1) {
+        if ($oDados->getPlaca() == '') {
             return;
         } else {
-            $sSqlCadCpf = "insert into MET_CAD_Cpf("
-                    . "filcgc,cpf,empfant,fone,nome) "
-                    . "values("
-                    . "'" . $oDados->getFilcgc() . "',"
-                    . "'" . $oDados->getCpf() . "',"
-                    . "'" . $oDados->getEmpdes() . "',"
-                    . "'" . $oDados->getFone() . "',"
-                    . "'" . $oDados->getPessoa() . "')";
-            $this->executaSql($sSqlCadCpf);
+            $sSql = "select COUNT(*) as total "
+                    . "from MET_CAD_Cpf "
+                    . "where cpf = '" . $oDados->getCpf() . "'";
+            $oRetCpf = $this->consultaSql($sSql);
+
+            if ($oRetCpf->total >= 1) {
+                return;
+            } else {
+                $sSqlCadCpf = "insert into MET_CAD_Cpf("
+                        . "filcgc,cpf,empfant,fone,nome) "
+                        . "values("
+                        . "'" . $oDados->getFilcgc() . "',"
+                        . "'" . $oDados->getCpf() . "',"
+                        . "'" . $oDados->getEmpdes() . "',"
+                        . "'" . $oDados->getFone() . "',"
+                        . "'" . $oDados->getPessoa() . "')";
+                $this->executaSql($sSqlCadCpf);
+            }
         }
     }
 

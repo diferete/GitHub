@@ -70,7 +70,7 @@ class Config {
     const PASS_BD = 'M@quinas@321';
      * 
      */
-  
+
 
 
     /*
