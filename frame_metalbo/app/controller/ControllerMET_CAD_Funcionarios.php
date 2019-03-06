@@ -6,10 +6,10 @@
  * and open the template in the editor.
  */
 
-class ControllerMET_CAD_Users extends Controller {
+class ControllerMET_CAD_Funcionarios extends Controller {
 
     public function __construct() {
-        $this->carregaClassesMvc('MET_CAD_Users');
+        $this->carregaClassesMvc('MET_CAD_Funcionarios');
     }
 
 }

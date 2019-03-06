@@ -453,7 +453,7 @@ class CampoConsulta {
                 if ($this->getBTime()) {
                     $sValidacao = Util::isTime($xValor);
                     if($sValidacao == '1'){
-                        $xValor = Util::formataHora($xValor);
+                        $xValor = substr($xValor, 0, -8);
                     }
                 }
                 $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" value="' . $xValor . '" id="' . $sIdInput . '"/></td>';

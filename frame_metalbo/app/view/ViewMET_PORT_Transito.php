@@ -18,7 +18,10 @@ class ViewMET_PORT_Transito extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
         $this->getTela()->setBGridResponsivo(false);
-
+        
+        $oExcluir = new Dropdown('Excluir', Dropdown::TIPO_AVISO, Dropdown::ICON_PADRAO);
+        $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Transito', 'excluirRegistro', '', false, '', false, '', false, '');
+        
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
@@ -51,7 +54,9 @@ class ViewMET_PORT_Transito extends View {
 
         $oDataChegou = new CampoConsulta('Dt. Chegada', 'datachegou', CampoConsulta::TIPO_DATA);
 
-        $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_TIME);
+        $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_EDIT);
+        $oHoraChegou->addAcao('MET_PORT_Transito', 'gravaHora');
+        $oHoraChegou->setBTime(true);
 
         $oDataEntra = new CampoConsulta('Dt. Entrada', 'dataentrou', CampoConsulta::TIPO_DATA);
 
@@ -84,6 +89,7 @@ class ViewMET_PORT_Transito extends View {
         $oFilSituaca->addItemSelect('Saída', 'Saída');
         $oFilSituaca->setSLabel('Situação');
 
+        $this->addDropdown($oExcluir);
         $this->addFiltro($oFilNR, $oFilPlaca, $oFilEmpresa, $oFilMotivo,$oFilSituaca);
         $this->addCampos($oBotaoModal, $oNr, $oEmpresa, $oPlaca, $oSituaca, $oMotivo, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntrou, $oDataSaida, $oHoraSaida);
     }
@@ -117,12 +123,6 @@ class ViewMET_PORT_Transito extends View {
         $oDataCad = new Campo('Data', 'datachegou', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataCad->setSValor(date('d/m/Y'));
         $oDataCad->setBCampoBloqueado(true);
-
-        $oHoraChegou = new Campo('Hora', 'horachegou', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oHoraChegou->setSValor(date('H:i:s'));
-        $oHoraChegou->setBCampoBloqueado(true);
-        $oHoraChegou->setBTime(true);
-
 
         $oMotivo = new Campo('Motivo', 'motivo', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oMotivo->addItemSelect('Selecionar', 'Selecionar');
@@ -158,7 +158,7 @@ class ViewMET_PORT_Transito extends View {
         $oPlacaCarr2 = new Campo('Placa Carr. 2', 'placacarr2', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oPlacaCarr2->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oCpf = new campo('CPF', 'cpf', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCpf = new campo('CPF Somente Nr.', 'cpf', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCpf->setITamanho(Campo::TAMANHO_PEQUENO);
 
         $oMotorista = new Campo('Pessoa', 'motorista', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -198,10 +198,10 @@ class ViewMET_PORT_Transito extends View {
 
         if ($sAcao != 'acaoVisualiza') {
             $oPlaca->addEvento(Campo::EVENTO_SAIR, $sCallBack);
-            $oCpf->addEvento(Campo::EVENTO_SAIR, $sCallBackCPF);
+            $oFone->addEvento(Campo::EVENTO_FOCUS, $sCallBackCPF);
         }
 
-        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraChegou), $oDivisor2, array($oPlaca, $oPlacaCarr1, $oPlacaCarr2), array($oCpf, $oMotorista, $oFone), array($oCnpj, $oEmpresa), array($oMotivo), $oDivisor1, $oDescMotivo, array($oTipo, $oUsuCod, $oSituaca));
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad), $oDivisor2, array($oPlaca, $oPlacaCarr1, $oPlacaCarr2), array($oCpf, $oMotorista, $oFone), array($oCnpj, $oEmpresa), array($oMotivo), $oDivisor1, $oDescMotivo, array($oTipo, $oUsuCod, $oSituaca));
     }
 
     public function criaModalApontaEntradaTransito() {
@@ -261,7 +261,7 @@ class ViewMET_PORT_Transito extends View {
         $oBtnInserir->getOBotao()->addAcao($sAcaoAponta);
 
         $oDescMotivo = new Campo('Descrição do motivo', 'descmotivo', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oDescMotivo->setSValor(Util::limpaString($oDados->getDescmotivo()));
+        $oDescMotivo->setSValor($oDados->getDescmotivo());
         $oDescMotivo->setBCampoBloqueado(true);
         $oDescMotivo->setILinhasTextArea(4);
 
@@ -309,7 +309,7 @@ class ViewMET_PORT_Transito extends View {
         $oDivisor1 = new Campo('Dados da saída', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oDataSaida = new Campo('Data saída', 'datasaiu', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataSaida = new Campo('Data saída', 'datasaiu', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataSaida->setSValor(date('d/m/Y'));
         $oDataSaida->setSCorFundo(Campo::FUNDO_AMARELO);
 

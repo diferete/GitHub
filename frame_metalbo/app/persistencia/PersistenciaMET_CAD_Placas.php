@@ -13,8 +13,8 @@ class PersistenciaMET_CAD_Placas extends Persistencia {
 
         $this->setTabela('MET_CAD_Placas');
 
-        $this->adicionaRelacionamento('filcgc', 'filcgc',true,true);        
-        $this->adicionaRelacionamento('placa', 'placa',true,true);
+        $this->adicionaRelacionamento('filcgc', 'filcgc', true, true);
+        $this->adicionaRelacionamento('placa', 'placa', true, true);
         $this->adicionaRelacionamento('empcod', 'empcod');
         $this->adicionaRelacionamento('empdes', 'empdes');
         $this->adicionaRelacionamento('cracha', 'cracha');
@@ -39,15 +39,12 @@ class PersistenciaMET_CAD_Placas extends Persistencia {
     }
 
     public function consultaCracha($aDados) {
-        $sSql = "select nome,sobrenome,codsetor"
-                . " from MetCad_User"
-                . " where cracha = '" . $aDados['cracha'] . "'"
-                . " and empcnpj = '" . $aDados['filcgc'] . "'";
+        $sSql = "select nomfun"
+                . " from tbfunc"
+                . " where numcad = '" . $aDados['cracha'] . "'";
         $oRetorno = $this->consultaSql($sSql);
 
-        $aDadosUser = array();
-        $aDadosUser[0] = $oRetorno->nome . ' ' . $oRetorno->sobrenome;
-        return $aDadosUser;
+        return $oRetorno;
     }
 
 }

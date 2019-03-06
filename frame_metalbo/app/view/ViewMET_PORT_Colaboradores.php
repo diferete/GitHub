@@ -49,7 +49,9 @@ class ViewMET_PORT_Colaboradores extends View {
 
         $oDataChegou = new CampoConsulta('Dt. Chegada', 'datachegou', CampoConsulta::TIPO_DATA);
 
-        $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_TIME);
+        $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_EDIT);
+        $oHoraChegou->addAcao('MET_PORT_Colaboradores', 'gravaHora');
+        $oHoraChegou->setBTime(true);
 
         $oDataEntra = new CampoConsulta('Dt. Entrada', 'dataentrou', CampoConsulta::TIPO_DATA);
 
@@ -79,7 +81,7 @@ class ViewMET_PORT_Colaboradores extends View {
 
 
         $this->addFiltro($oFilNR, $oFilCracha, $oFilColaborador, $oFilMotivo);
-        $this->addCampos($oBotaoModal, $oNr, $oSituaca, $oPessoa, $oCracha, $oMotivo,$oDataEntra, $oHoraEntra, $oDataSaida, $oHoraSaida);
+        $this->addCampos($oBotaoModal, $oNr, $oSituaca, $oPessoa, $oCracha, $oMotivo, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntra, $oDataSaida, $oHoraSaida);
     }
 
     public function criaTela() {
@@ -127,15 +129,24 @@ class ViewMET_PORT_Colaboradores extends View {
         $oDivisor1 = new Campo('Dados da pessoa', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oCracha = new campo('Crachá', 'cracha', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oCracha = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oCracha->setITamanho(Campo::TAMANHO_PEQUENO);
+
         $oCracha->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '3', '5');
-        $oCracha->setSCorFundo(Campo::FUNDO_AMARELO);
         if ($sAcao == 'acaoIncluir') {
             $oCracha->setBFocus(true);
         }
 
-        $oPessoa = new Campo('Pessoa', 'pessoa', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oPessoa->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oPessoa = new Campo('Pessoa', 'pessoa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oPessoa->setSIdPk($oCracha->getId());
+        $oPessoa->setClasseBusca('MET_CAD_Funcionarios');
+        $oPessoa->addCampoBusca('numcad', '', '');
+        $oPessoa->addCampoBusca('nomfun', '', '');
+        $oPessoa->setSIdTela($this->getTela()->getid());
+
+        $oCracha->setClasseBusca('MET_CAD_Funcionarios');
+        $oCracha->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oCracha->addCampoBusca('nomfun', $oPessoa->getId(), $this->getTela()->getId());
 
         $oFone = new Campo('Contato *Nr c/ DDD', 'fone', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
@@ -144,14 +155,14 @@ class ViewMET_PORT_Colaboradores extends View {
 
         $oRespNome = new Campo('Resp.Nome', 'respnome', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
         $oRespNome->setSIdPk($oRespCracha->getId());
-        $oRespNome->setClasseBusca('MET_CAD_Users');
-        $oRespNome->addCampoBusca('cracha', '', '');
-        $oRespNome->addCampoBusca('nome', '', '');
+        $oRespNome->setClasseBusca('MET_CAD_Funcionarios');
+        $oRespNome->addCampoBusca('numcad', '', '');
+        $oRespNome->addCampoBusca('nomfun', '', '');
         $oRespNome->setSIdTela($this->getTela()->getid());
 
-        $oRespCracha->setClasseBusca('MET_CAD_Users');
-        $oRespCracha->setSCampoRetorno('cracha', $this->getTela()->getId());
-        $oRespCracha->addCampoBusca('nome', $oRespNome->getId(), $this->getTela()->getId());
+        $oRespCracha->setClasseBusca('MET_CAD_Funcionarios');
+        $oRespCracha->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oRespCracha->addCampoBusca('nomfun', $oRespNome->getId(), $this->getTela()->getId());
 
         $oTipo = new Campo('', 'tipopessoa', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTipo->setSValor('C');
@@ -164,13 +175,7 @@ class ViewMET_PORT_Colaboradores extends View {
         $oPlaca = new campo('Placa', 'placa', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oPlaca->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oEmpresa = new Campo('Empresa', 'empdes', Campo::TIPO_TEXTO, 4, 4, 12, 12);
-
-        $sCallBackCracha = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Colaboradores","buscaCracha","' . $oPessoa->getId() . ',' . $oEmpresa->getId() . ',' . $sAcao . '");';
-        if ($sAcao != 'acaoVisualiza') {
-            $oCracha->addEvento(Campo::EVENTO_SAIR, $sCallBackCracha);
-        }
-        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraEntra), array($oMotivo), $oDescMotivo, $oDivisor1, array($oCracha, $oPessoa, $oEmpresa, $oFone), array($oRespCracha, $oRespNome), $oDivisor2, array($oPlaca), array($oTipo, $oUsuCod));
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraEntra), array($oMotivo), $oDescMotivo, $oDivisor1, array($oCracha, $oPessoa, $oFone), array($oRespCracha, $oRespNome), $oDivisor2, array($oPlaca), array($oTipo, $oUsuCod));
     }
 
     public function criaModalApontaEntradaColaboradores() {

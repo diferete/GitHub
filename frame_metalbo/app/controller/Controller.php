@@ -2319,7 +2319,7 @@ class Controller {
         $sSelect = "$('#" . $aDados[3] . " > option').remove();";
         foreach ($aDadosSelect as $key => $value) {
             $sSelect .= "$('#" . $aDados[3] . "').append($('<option>', { "
-                    . "value: " . $value[0] . ","
+                    . "value: '" . $value[0] . "',"
                     . "text: '" . $value[1] . "'"
                     . "}));";
         }
@@ -4043,7 +4043,7 @@ class Controller {
         }
         $aCampos = $this->antesCarregaDetalhe($aCampo);
 
-        foreach ($aCampos as $Campo) {
+        foreach ($teste as $Campo) {
             if ($Campo[0] != '') {
 
                 $aMetodos = Controller::extractMetodos($Campo[0]);

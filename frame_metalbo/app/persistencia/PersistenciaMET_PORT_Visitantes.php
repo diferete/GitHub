@@ -129,4 +129,11 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
         }
     }
 
+    public function alteraHora($sValor, $sChave) {
+        $sSql = "update MET_PORT_Visitantes set horachegou ='" . $sValor . "' where nr='" . $sChave . "'   ";
+        $aRetorno = $this->executaSql($sSql);
+
+        return $aRetorno;
+    }
+
 }

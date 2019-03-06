@@ -63,9 +63,9 @@ class ControllerMET_CAD_Placas extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-        $aConsulta = $this->Persistencia->consultaCracha($aCamposChave);
+        $oConsulta = $this->Persistencia->consultaCracha($aCamposChave);
 
-        echo"$('#" . $aDados[0] . "').val('" . $aConsulta[0] . "');";
+        echo"$('#" . $aDados[0] . "').val('" . $oConsulta->nomfun . "');";
     }
 
 }

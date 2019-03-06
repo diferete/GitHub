@@ -28,8 +28,8 @@ class ViewMET_PORT_Visitantes extends View {
 
 
         $oNr = new CampoConsulta('Nr.', 'nr', CampoConsulta::TIPO_TEXTO);
-
-        $oCpf = new CampoConsulta('CPF', 'cpf', CampoConsulta::TIPO_TEXTO);
+ 
+        $oCpf = new CampoConsulta('CPF Somente Nr.', 'cpf', CampoConsulta::TIPO_TEXTO);
 
         $oPessoa = new CampoConsulta('Pessoa', 'pessoa', CampoConsulta::TIPO_TEXTO);
 
@@ -47,7 +47,9 @@ class ViewMET_PORT_Visitantes extends View {
 
         $oDataChegou = new CampoConsulta('Dt. Chegada', 'datachegou', CampoConsulta::TIPO_DATA);
 
-        $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_TIME);
+        $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_EDIT);
+        $oHoraChegou->addAcao('MET_PORT_Visitantes', 'gravaHora');
+        $oHoraChegou->setBTime(true);
 
         $oDataEntra = new CampoConsulta('Dt. Entrada', 'dataentrou', CampoConsulta::TIPO_DATA);
 
@@ -203,8 +205,9 @@ class ViewMET_PORT_Visitantes extends View {
 
         $sCallBackCPF = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_PORT_Visitantes","buscaCpf","' . $oEmpresa->getId() . ',' . $oFone->getId() . ',' . $sAcao . '");';
         if ($sAcao != 'acaoVisualiza') {
-            $oCpf->addEvento(Campo::EVENTO_SAIR, $sCallBackCPF);
+            $oEmpresa->addEvento(Campo::EVENTO_FOCUS, $sCallBackCPF);
         }
+
 
         $this->addCampos(array($oFilcgc, $oNr, $oUsuNome, $oDataCad, $oHoraEntra), array($oMotivo, $oCracha), $oDescMotivo, $oDivisor1, array($oCpf, $oPessoa, $oEmpresa, $oFone), $oDivisor2, array($oPlaca), array($oTipo, $oUsuCod, $oSituaca));
     }

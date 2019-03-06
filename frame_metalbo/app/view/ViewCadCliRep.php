@@ -99,16 +99,18 @@ class ViewCadCliRep extends View {
         $oEmpcod = new campo('Cnpj *(Somente N°)', 'empcod', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpcod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '11', '14');
-        $oEmpcod->setBFocus(true);
 
-        if ($sAcao != 'acaoVisualiza') {
+        /*
+          if ($sAcao != 'acaoVisualizar') {
+          $oEmpcod->setBFocus(true);
+          $sAcaoExit = 'buscaCNPJ($("#' . $oEmpcod->getId() . '").val(),'
+          . '"' . $oEmpcod->getId() . '",'
+          . '"' . $this->getController() . '")';
 
-            $sAcaoExit = 'buscaCNPJ($("#' . $oEmpcod->getId() . '").val(),'
-                    . '"' . $oEmpcod->getId() . '",'
-                    . '"' . $this->getController() . '")';
-
-            $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        }
+          $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
+          }
+         * 
+         */
 
         $oEmpDes = new campo('Razão social', 'empdes', Campo::TIPO_TEXTO, 7, 7, 12, 12);
         $oEmpDes->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -135,6 +137,9 @@ class ViewCadCliRep extends View {
 
         $oEmailNfe = new campo('E-mail NFE', 'emailNfe', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmailNfe->addValidacao(false, Validacao::TIPO_EMAIL, 'Email inválido', '4');
+
+        $oAnexo = new Campo('Anexo consulta CNPJ/Sintegra', 'consultaCnpj', Campo::TIPO_UPLOAD, 3, 3, 12, 12);
+        $oAnexo->addValidacao(false, Validacao::TIPO_STRING, '');
 
         $oBanco = new Campo('Branco', 'empcobbco', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oBanco->addItemSelect('0006', 'Bradesco 0006');
@@ -180,16 +185,43 @@ class ViewCadCliRep extends View {
         $oBairro->addValidacao(false, Validacao::TIPO_STRING, 'Bairro inválido', '2', '25');
         $oBairro->setSCorFundo(Campo::FUNDO_MONEY);
 
-        $sCallBack = 'cepBusca($("#' . $oCidCep->getId() . '").val(),'
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        $oEmpcod->setBFocus(true);
+        $sAcaoExit = 'cnpjBusca($("#' . $oEmpcod->getId() . '").val(),'
+                . '"' . $oEmpDes->getId() . '",'
+                . '"' . $oEmpFone->getId() . '",'
+                . '"' . $oEmailComum->getId() . '",'
+                . '"' . $oCidCep->getId() . '",'
                 . '"' . $oMunicipio->getId() . '",'
                 . '"' . $oEmpEnd->getId() . '",'
                 . '"' . $oUf->getId() . '",'
-                . '"' . $oBairro->getId() . '")';
+                . '"' . $oBairro->getId() . '",'
+                . '"' . $oComplemento->getId() . '",'
+                . '"' . $oEmpnr->getId() . '",'
+                . '"' . $this->getController() . '")';
 
-        $oCidCep->addEvento(Campo::EVENTO_SAIR, $sCallBack);
+        $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
+        
 
-        $oFieldEnd->addCampos(
-                array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr));
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        /*
+          $sCallBack = 'cepBusca($("#' . $oCidCep->getId() . '").val(),'
+          . '"' . $oMunicipio->getId() . '",'
+          . '"' . $oEmpEnd->getId() . '",'
+          . '"' . $oUf->getId() . '",'
+          . '"' . $oBairro->getId() . '")';
+
+          $oCidCep->addEvento(Campo::EVENTO_SAIR, $sCallBack);
+         * 
+         */
+
+        $oFieldEnd->addCampos(array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr));
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');
@@ -234,7 +266,7 @@ class ViewCadCliRep extends View {
         $oEmpObs->setILinhasTextArea(5);
         $oEmpObs->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '1000');
 
-        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
+        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), $oAnexo, array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
     }
 
 }

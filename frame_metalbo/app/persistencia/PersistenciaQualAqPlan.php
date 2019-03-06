@@ -110,9 +110,8 @@ class PersistenciaQualAqPlan extends Persistencia {
     public function buscaParam($aDados) {
         $sSql = "select * from tbacaoqualplan where filcgc = '" . $aDados[0] . "' and nr = '" . $aDados[1] . "' and seq = '" . $aDados[2] . "' ";
 
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        
+        $oRow = $this->consultaSql($sSql);
+
         return $oRow;
     }
 

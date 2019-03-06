@@ -46,6 +46,15 @@ class ModelCadCliRepRec {
     private $transp;
     private $usucadvenda;
     private $empcomplemento;
+    private $consultaCnpj;
+
+    function getConsultaCnpj() {
+        return $this->consultaCnpj;
+    }
+
+    function setConsultaCnpj($consultaCnpj) {
+        $this->consultaCnpj = $consultaCnpj;
+    }
 
     function getEmpcomplemento() {
         return $this->empcomplemento;

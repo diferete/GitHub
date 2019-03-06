@@ -42,19 +42,6 @@ class PersistenciaMET_PORT_Colaboradores extends Persistencia {
         $this->setSTop(50);
     }
 
-    public function consultaCracha($aDados) {
-        $sSql = "select nome,sobrenome"
-                . " from MetCad_User"
-                . " where cracha = '" . $aDados['cracha'] . "'"
-                . " and empcnpj = '" . $aDados['filcgc'] . "'";
-        $oRetorno = $this->consultaSql($sSql);
-
-        $aDadosUser = array();
-        $aDadosUser[0] = $oRetorno->nome . ' ' . $oRetorno->sobrenome;
-
-        return $aDadosUser;
-    }
-
     public function apontaEntrada($aDados) {
         $sSql = "update MET_PORT_Colaboradores set "
                 . "horaentrou = '" . $aDados['horaentrou'] . "', "
@@ -128,6 +115,13 @@ class PersistenciaMET_PORT_Colaboradores extends Persistencia {
                     . "set situaca = 'Chegada' where nr = '" . $oDados->getNr() . "'";
         }
         $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
+
+    public function alteraHora($sValor, $sChave) {
+        $sSql = "update MET_PORT_Colaboradores set horachegou ='" . $sValor . "' where nr='" . $sChave . "'   ";
+        $aRetorno = $this->executaSql($sSql);
+
         return $aRetorno;
     }
 

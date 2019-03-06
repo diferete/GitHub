@@ -71,30 +71,6 @@ class ControllerMET_PORT_Colaboradores extends Controller {
         return $aRetorno;
     }
 
-    public function buscaCracha($sDados) {
-        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
-
-        if ($aCamposChave['cracha'] == '') {
-            return;
-        } else {
-            $this->consultaCracha($sDados);
-        }
-    }
-
-    public function consultaCracha($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
-
-        $aConsulta = $this->Persistencia->consultaCracha($aCamposChave);
-
-        echo"$('#" . $aDados[0] . "').val('" . $aConsulta[0] . "');"
-        . "$('#" . $aDados[1] . "').val('METALBO INDUSTRIA DE FIXADORES METALICOS LTDA');";
-    }
-
     public function criaTelaModalApontamentoColaboradores($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
@@ -176,6 +152,19 @@ class ControllerMET_PORT_Colaboradores extends Controller {
             $oMsg = new Mensagem('Erro', 'Erro ao inserir o registro, tente novamente!', Mensagem::TIPO_ERROR);
         }
         echo $oMsg->getRender();
+    }
+
+    public function gravaHora($sDados) {
+        $aDados = explode(',', $sDados);
+        $this->carregaModelString($aDados[3]);
+        $aRetorno = $this->Persistencia->alteraHora($aDados[2], $this->Model->getNr());
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('Sucesso!', 'Hora alterada com sucesso.', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção!', 'Hora não pode ser alterada.' . $aRetorno[1], Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
     }
 
 }

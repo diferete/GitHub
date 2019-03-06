@@ -135,4 +135,17 @@ class ControllerMET_PORT_Visitantes extends Controller {
         . "$('#" . $aDados[1] . "').val('" . $oConsulta->fone . "');";
     }
 
+    public function gravaHora($sDados) {
+        $aDados = explode(',', $sDados);
+        $this->carregaModelString($aDados[3]);
+        $aRetorno = $this->Persistencia->alteraHora($aDados[2], $this->Model->getNr());
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('Sucesso!', 'Hora alterada com sucesso.', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção!', 'Hora não pode ser alterada.' . $aRetorno[1], Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
+    }
+
 }

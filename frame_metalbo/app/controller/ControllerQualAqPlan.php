@@ -30,7 +30,7 @@ class ControllerQualAqPlan extends Controller {
         $this->View->getTela()->setBSomanteForm(true);
         //seta o controler na view
         $this->View->setTelaController($this->View->getController());
-        $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe(), $this->getSMetodoDetalhe(),$aDados[6]);
+        $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe(), $this->getSMetodoDetalhe(), $aDados[6]);
         $this->View->getTela()->getRender();
     }
 
@@ -88,9 +88,14 @@ class ControllerQualAqPlan extends Controller {
     public function antesCarregaDetalhe($aCampos) {
         parent::antesCarregaDetalhe($aCampos);
 
-        //$("#'.$aCampos.'").fileinput('clear');
-        //$sRetorno = "$('#".$aCampos[4][1]."').fileinput('clear');";
-        echo $sRetorno;
+        $aParametros = $_REQUEST['parametros'];
+        $sParametros = $aParametros['parametros['];
+        $sChave = htmlspecialchars_decode($sParametros);
+        $aChave = explode('&', $sChave);
+        $sCamposChave = implode(',', $aChave);
+        $aCamposChave = explode(',', $sCamposChave);
+
+        $oRetorno = $this->Persistencia->buscaParam($aCamposChave);
         unset($aCampos[8]);
         return $aCampos;
     }

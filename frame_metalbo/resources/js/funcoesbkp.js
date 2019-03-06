@@ -1250,12 +1250,7 @@ function cepBusca(sCep, sIdMunin, sIdEnd, sUf, sBairro) {
 /**
  * Mensagem pesquisa
  */
-function mensagemSlide(tipo, msg, titulo, timeout) {
-    if (timeout != '') {
-        var time = timeout;
-    } else {
-        var time = "5000";
-    }
+function mensagemSlide(tipo, msg, titulo) {
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -1266,7 +1261,7 @@ function mensagemSlide(tipo, msg, titulo, timeout) {
         "onclick": null,
         "showDuration": "300",
         "hideDuration": "1000",
-        "timeOut": time,
+        "timeOut": "5000",
         "extendedTimeOut": "1000",
         "showEasing": "swing",
         "hideEasing": "linear",
@@ -1309,12 +1304,12 @@ function insereProd(proCod, proDes, quant, quantNConf, idProdTag, idProCod, idPr
  * Máscaras em campo decimal
  */
 
-function maskDecimal(idCampo) {
-
+function maskDecimal(idCampo){
+    
     var valor = $('#' + idCampo + '').val();
-
+    
     if (valor == '') {
-        $('#' + idCampo + '').val('0');
+       $('#' + idCampo + '').val('0');
     }
     valor = moedaParaNumero(valor);
     $('#' + idCampo + '').val(numeroParaMoeda(valor));
@@ -1328,104 +1323,49 @@ function maskDecimal(idCampo) {
  * @returns {undefined}
  */
 function precoNfEntradaSteel(idQuant, idUnit, idTot) {
-    // console.log('chegamos');
-    var Quant = moedaParaNumero($('#' + idQuant + '').val());
+   // console.log('chegamos');
+     var Quant = moedaParaNumero($('#' + idQuant + '').val());
     //console.log(Quantidade);
     var Unit = moedaParaNumero($('#' + idUnit + '').val());
+    
+    var total = Quant*Unit;
+    
 
-    var total = Quant * Unit;
-
-
-    $('#' + idTot + '').val(numeroParaMoeda(total));
+     $('#' + idTot + '').val(numeroParaMoeda(total));
 
 }
 
 
-function precoMontagemCarta(idRetornoQt, idRetornoVlr, idRetornoTotal, idInsumoQt, idInsumoVlr, idInsumoTotal,
-        idServicoQt, idServicoVlr, idServicoTotal) {
+function precoMontagemCarta(idRetornoQt,idRetornoVlr,idRetornoTotal,idInsumoQt,idInsumoVlr,idInsumoTotal,
+idServicoQt,idServicoVlr,idServicoTotal){
     //calculo do retorno
     var QtRet = moedaParaNumero($('#' + idRetornoQt + '').val());
+    
+    var  VlrRet = moedaParaNumero($('#' + idRetornoVlr + '').val());
+    
+    var totalRetorno = QtRet*VlrRet;
+    
 
-    var VlrRet = moedaParaNumero($('#' + idRetornoVlr + '').val());
-
-    var totalRetorno = QtRet * VlrRet;
-
-
-    $('#' + idRetornoTotal + '').val(numeroParaMoeda(totalRetorno));
-
-
-    //calculo do insumo
+     $('#' + idRetornoTotal + '').val(numeroParaMoeda(totalRetorno));
+     
+     
+     //calculo do insumo
     var QtInsumo = moedaParaNumero($('#' + idInsumoQt + '').val());
-
+    
     var VlrInsumo = moedaParaNumero($('#' + idInsumoVlr + '').val());
-
-    var totalInsumo = QtInsumo * VlrInsumo;
-
-    $('#' + idInsumoTotal + '').val(numeroParaMoeda(totalInsumo));
-    //calculo do serviço
-
-    var QtServico = moedaParaNumero($('#' + idServicoQt + '').val());
-
+    
+    var totalInsumo = QtInsumo*VlrInsumo;
+    
+     $('#' + idInsumoTotal + '').val(numeroParaMoeda(totalInsumo));
+     //calculo do serviço
+     
+     var QtServico = moedaParaNumero($('#' + idServicoQt + '').val());
+   
     var VlrServico = moedaParaNumero($('#' + idServicoVlr + '').val());
-
-    var totalServico = QtServico * VlrServico;
-
-    $('#' + idServicoTotal + '').val(numeroParaMoeda(totalServico));
-
+    
+    var totalServico = QtServico*VlrServico;
+    
+     $('#' + idServicoTotal + '').val(numeroParaMoeda(totalServico));
+     
 }
 
-
-
-/**
- * funçao para chamar json com dados do CNPJ
- */
-function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr) {
-
-    if (sCNPJ !== '') {
-        $.ajax({
-            type: 'REQUEST',
-            url: "https://www.receitaws.com.br/v1/cnpj/" + sCNPJ,
-            contentType: 'application/json',
-            dataType: 'jsonp',
-            responseType: 'application/json',
-            xhrFields: {
-                withCredentials: false
-            },
-            headers: {
-                'Access-Control-Allow-Credentials': true,
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET',
-                'Access-Control-Allow-Headers': 'application/json',
-            },
-            success: function (data) {
-                if (data.status == 'ERROR') {
-                    mensagemSlide('warning', data.message, data.status);
-                } else {
-                    console.log(data);
-                    var fone = data.telefone.split('/');
-                    $('#' + idEmpdes + '').val(data.nome);
-                    $('#' + idEmpfant + '').val(data.fantasia);
-                    $('#' + idEmpfone + '').val(fone[0].replace(/[^\d]+/g, ''));
-                    $('#' + idEmail + '').val(data.email);
-                    $('#' + idCep + '').val(data.cep.replace(/[^\d]+/g, ''));
-                    $('#' + idMunicipio + '').val(data.municipio);
-                    $('#' + idEndereco + '').val(data.logradouro);
-                    $('#' + idUf + '').val(data.uf);
-                    $('#' + idBairro + '').val(data.bairro);
-                    $('#' + idComplemento + '').val(data.complemento);
-                    $('#' + idNr + '').val(data.numero);
-                    if (data.nome.length >= 45 || data.fantasia.length >= 35) {
-                        mensagemSlide('error', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP', 'Atenção','10000');
-                    }
-                    mensagemSlide('success', 'Consulta realizada com sucesso!', 'Busca CNPJ');
-
-                }
-            },
-            error: function (error) {
-                console.log("Erro ao tentar buscar o CNPJ");
-            }
-
-        });
-
-    }
-}

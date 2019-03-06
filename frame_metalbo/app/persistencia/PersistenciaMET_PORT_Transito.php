@@ -150,23 +150,28 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
         $sMotorista = Util::removeAcentos($oDados->getMotorista());
         $sMotorista = strtoupper($sMotorista);
 
-        $sSqlSit = "select sit cod from MetExp_Carga where "
-                . "idcarga = '" . $oIdCarga->idcarga . "' ";
-        $oSit = $this->consultaSql($sSqlSit);
-
-        if ($oSit == '1') {
-
-            $sSql = "update MetExp_Carga set"
-                    . "empcod ='" . $oDados->getEmpcod() . "',"
-                    . " transp ='" . $oDados->getEmpdes() . "',"
-                    . "placa ='" . $oDados->getPlaca() . "',"
-                    . "motorista ='" . $sMotorista . "',"
-                    . "motcod ='" . $oDados->getMotivo() . "',";
-            $aRetorno = $this->executaSql($sSql);
+        if ($oIdCarga == false) {
+            $aRetorno = $this->geraCadastro($oDados);
+            return $aRetorno;
         } else {
-            return true;
+            $sSqlSit = "select sit cod from MetExp_Carga where "
+                    . "idcarga = '" . $oIdCarga->idcarga . "' ";
+            $oSit = $this->consultaSql($sSqlSit);
+
+            if ($oSit == '1') {
+
+                $sSql = "update MetExp_Carga set"
+                        . "empcod ='" . $oDados->getEmpcod() . "',"
+                        . " transp ='" . $oDados->getEmpdes() . "',"
+                        . "placa ='" . $oDados->getPlaca() . "',"
+                        . "motorista ='" . $sMotorista . "',"
+                        . "motcod ='" . $oDados->getMotivo() . "',";
+                $aRetorno = $this->executaSql($sSql);
+            } else {
+                return true;
+            }
+            return $aRetorno;
         }
-        return $aRetorno;
     }
 
     public function apontaEntrada($aDados) {
@@ -220,11 +225,64 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
         return $aRetorno;
     }
 
+    public function buscaHora($aDados) {
+        $sSql = "select horachegou from MET_PORT_Transito where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $sRetorno = $this->consultaSql($sSql);
+
+        return $sRetorno->horachegou;
+    }
+
     public function alteraHora($sValor, $sChave) {
-        $sSql = "update MET_PORT_Transito set horasaiu ='" . $sValor . "' where nr='" . $sChave . "'   ";
+        $sSql = "update MET_PORT_Transito set horachegou ='" . $sValor . "' where nr='" . $sChave . "'   ";
         $aRetorno = $this->executaSql($sSql);
 
         return $aRetorno;
+    }
+
+    public function excluirRegistro($aDados) {
+        $sSqlDados = "select * from MET_PORT_Transito"
+                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $oDados = $this->consultaSql($sSqlDados);
+
+        $sSqlIdCarga = "select idcarga from MetExp_Carga where empcod = '" . $oDados->empcod . "'
+                and transp ='" . $oDados->empdes . "' 
+                and dataent = '" . $oDados->datachegou . "'
+                and horaent = '" . $oDados->horachegou . "'
+                and placa = '" . $oDados->placa . "'
+                and pesotara  = '0,00'
+                and pesobruto  = '0,00' 
+                and pesocarregado = '0,00'";
+        $oIdCarga = $this->consultaSql($sSqlIdCarga);
+
+        if ($oIdCarga == false) {
+            $sSqlDel = "delete from MET_PORT_Transito"
+                    . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+            $aRetornaDel = $this->executaSql($sSqlDel);
+            return $aRetornaDel;
+        } else {
+            $sSqlDeletaBalanca = "delete from MetExp_Carga "
+                    . "where idcarga = '" . $oIdCarga->idcarga . "'";
+            $aRetornaDeletaBalanca = $this->executaSql($sSqlDeletaBalanca);
+
+            if ($aRetornaDeletaBalanca[0] == true) {
+                $sSqlDel = "delete from MET_PORT_Transito"
+                        . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+                $aRetornaDel = $this->executaSql($sSqlDel);
+                return $aRetornaDel;
+            } else {
+                return $aRetornaDeletaBalanca;
+            }
+        }
+    }
+
+    public function buscaSituaca($aDados) {
+        $sSql = "select situaca from MET_PORT_Transito where nr = '" . $aDados['nr'] . "' and filcgc = '" . $aDados['filcgc'] . "'";
+        $oRetorno = $this->consultaSql($sSql);
+        if ($oRetorno->situaca == 'Chegada') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }
