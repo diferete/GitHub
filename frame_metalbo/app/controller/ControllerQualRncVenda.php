@@ -361,10 +361,13 @@ class ControllerQualRncVenda extends Controller {
         parse_str($_REQUEST['campos'], $aCampos);
 
         if ($aCampos['reclamacao'] == '' || $aCampos['reclamacao'] == null) {
-            $oMsg = new Mensagem('Atenção', 'Selecione o tipo da RNC segundo análise!', Mensagem::TIPO_ERROR);
+            $oMsg = new Mensagem('Atenção', 'Selecione o TIPO da RNC segundo análise!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+        }
+        if ($aCampos['devolucao'] == '' || $aCampos['devolucao'] == null) {
+            $oMsg = new Mensagem('Atenção', 'Selecione o status da DEVOLUÇÃO segundo análise!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
         } else {
-
             $aRetorno = $this->Persistencia->apontaReclamacao($aCamposChave);
 
             if ($aRetorno[0] == true) {
@@ -440,7 +443,7 @@ class ControllerQualRncVenda extends Controller {
 
         $oEmail->addDestinatarioCopia($_SESSION['email']);
 
-        //$aRetorno = $oEmail->sendEmail();
+        $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o representante com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
@@ -450,19 +453,39 @@ class ControllerQualRncVenda extends Controller {
         }
     }
 
-    public function retornaRep($sDados) {
+    /*
+     * Método que monta a Modal de Apontamento do setor de Vendas
+     * */
+
+    public function criaTelaModalRetorna($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
+        $aCamposChave['id'] = $aDados[1];
 
         $aRet = $this->Persistencia->verifSitRC($aCamposChave);
 
         if ($aRet[0] == 'Liberado' && $aRet[1] == 'Aguardando' && $aRet[2] == 'Aguardando') {
-            $oMensagem = new Modal('Retornar e-mail', 'Deseja retornar a RC nº' . $aCamposChave['nr'] . ' para o Representante?', Modal::TIPO_INFO, true, true, true);
-            $oMensagem->setSBtnConfirmarFunction('requestAjax("","QualRncVenda","retornaEmailRep","' . $sDados . '");');
+            $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+            $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+
+            $oDados = $this->Persistencia->consultarWhere();
+            $this->View->setAParametrosExtras($oDados);
+            $this->View->criaModalRetorna($sDados);
+
+
+            //adiciona onde será renderizado
+            $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
+            echo $sLimpa;
+            $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
         } else {
             $oMensagem = new Modal('Atenção!', 'A RC nº' . $aCamposChave['nr'] . ' não está em condições para ser retornada para o Representante.', Modal::TIPO_AVISO, false, true, true);
+            echo"$('#" . $aDados[1] . "-btn').click();";
         }
 
         echo $oMensagem->getRender();
@@ -470,10 +493,12 @@ class ControllerQualRncVenda extends Controller {
 
     public function retornaEmailRep($sDados) {
         $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
-
+        $sChave = htmlspecialchars_decode($aDados[3]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
+
+        $aDadosModal = array();
+        parse_str($_REQUEST['campos'], $aDadosModal);
 
         date_default_timezone_set('America/Sao_Paulo');
         $data = date('d/m/Y');
@@ -509,7 +534,7 @@ class ControllerQualRncVenda extends Controller {
                         . '<tr><td><b>Peso: </b></td><td> ' . $oRow->peso . ' </td></tr>'
                         . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
-                        . '<tr><td><b>Observação de Vendas: </b></td><td> ' . $oRow->obs_aponta . ' </td></tr>'
+                        . '<tr><td><b>MOTIVO DO RETORNO: </b></td><td> ' . $aDadosModal['motivo'] . ' </td></tr>'
                         . '</table><br/><br/>'
                         . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
                         . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
@@ -531,9 +556,10 @@ class ControllerQualRncVenda extends Controller {
                 $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o representante com sucesso!', Mensagem::TIPO_SUCESSO);
                 echo $oMensagem->getRender();
                 echo"$('#" . $aDados[1] . "-pesq').click();";
+                echo"$('#" . $aDados[2] . "-btn').click();";
             }
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email para o representante, tente reenviar ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email para o representante, tente novamente ou comunique o TI - ', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         }
     }

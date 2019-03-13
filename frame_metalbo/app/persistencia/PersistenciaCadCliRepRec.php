@@ -56,7 +56,6 @@ class PersistenciaCadCliRepRec extends Persistencia {
         $this->adicionaRelacionamento('comer', 'comer');
         $this->adicionaRelacionamento('transp', 'transp');
         $this->adicionaRelacionamento('usucadvenda', 'usucadvenda');
-        $this->adicionaRelacionamento('consultaCnpj', 'consultaCnpj');
 
         $this->adicionaOrderBy('nr', 1);
         $this->setSTop(50);

@@ -36,7 +36,7 @@ class ControllerConsultaEstoque extends Controller{
           
         $aCamposParam = $_REQUEST['parametrosCampos'];  
         foreach ($aCamposParam as $key => $value) {
-            $aDados = explode(',', $value);
+            $aDados = explode('|', $value);
             $aCampos[$aDados[0]]=$aDados[1];
         }
           $this->Persistencia->limpaFiltro();

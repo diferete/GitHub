@@ -74,6 +74,8 @@ class Campo {
     private $sFont;
     private $sClasseUp;//define a classe do campo upload
     private $sMetodoUp; //define o método para upload
+    private $sTituloModal;
+    private $sNomeModal;
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -216,6 +218,24 @@ class Campo {
         }
     }
     
+    function getSNomeModal() {
+        return $this->sNomeModal;
+    }
+
+    function setSNomeModal($sNomeModal) {
+        $this->sNomeModal = $sNomeModal;
+    }
+
+        
+    function getSTituloModal() {
+        return $this->sTituloModal;
+    }
+
+    function setSTituloModal($sTituloModal) {
+        $this->sTituloModal = $sTituloModal;
+    }
+
+        
     function getBNCM() {
         return $this->bNCM;
     }
@@ -1701,7 +1721,27 @@ class Campo {
                         . '<div class="form-group"> '
                         . '  <select class="form-control" multiple="" id="' . $this->getId() . 'select"> '
                         . '  </select> '
+                      //  .'<h6 style="margin-top:1px"><a href="#"> Pesquisar...</a></h6>'
+                       //------------------------------------------------------------------------
+                       
+                        . '<div id="' . $this->getId() . '-refreshPainel" class="panel " style="margin-bottom: 0px !important;margin-top: 1px !important;">'
+                        . '<div class="panel-heading" style="height:22px;">'
+                        . '<div class="panel-title"><div style="float: right"><a href="#" id="' . $this->getId() . '-refresh" style="margin-right:5px;">Atualizar</a><a class="panel-action icon wb-refresh" data-toggle="panel-refresh" data-load-type="round-circle" data-load-callback="customRefreshCallback" aria-hidden="true"></a></div></div>'
+                        .'<script>'
+                          .'$( "#' . $this->getId() . '-refreshPainel").hide();'
+                          . '$( "#' . $this->getId() . '-refresh").click(function(){'
+                            . ' requestAjax("","' . $this->getClasseBusca() . '","getDadosBuscaCampo",$("#' . $this->getId() . '").val()+",' . $sCampoBuscaDesc . ',' . $sCampoBuscaPk . ',' . $this->getId() . 'select",false,true);'
+                          .'});'
+                        
+                        .'</script>'
+                        . '</div>'
+                        . '</div>'
+                        
+                        
+                        //-----------------------------------------------------------------------
                         . '</div> '
+                       //----------------------------------------------------
+                        
                         . '</span> '
                         . '<script>'
                         . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
@@ -1710,6 +1750,7 @@ class Campo {
                         . '  $("#' . $this->getId() . 'select").hide();'
                         . '  $("#' . $this->getId() . '").keyup(function(){'
                         . '  $("#' . $this->getId() . 'select").show();'
+                        .'   $( "#' . $this->getId() . '-refreshPainel").show();'
                         . 'var val=0;'
                         . 'val =$(this).val(); '
                         . 'if(val.length > 3){     '
@@ -1733,6 +1774,7 @@ class Campo {
                         . '$("#' . $this->getId() . '").val(texto); '
                         . '});'
                         . '$("#' . $this->getId() . 'select").blur(function(){'
+                        .'$( "#' . $this->getId() . '-refreshPainel").hide();'
                         . '$(this).hide(); '
                         . 'var revalida = $("#' . $this->getSIdPk() . '").attr("name");'
                         //.'alert("nome revalida é "+revalida);'
@@ -1857,7 +1899,7 @@ class Campo {
                         . '</div>';
                 break;
             case self::TIPO_LINHA:
-                $sCampo = '<hr style="margin:7px; ">';
+                $sCampo = '<div><hr style="margin:7px; "><div>';
                 break;
             case self::DIVISOR_SUCCESS:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'

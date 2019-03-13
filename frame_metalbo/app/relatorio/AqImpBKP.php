@@ -54,16 +54,15 @@ if ($sEmailRequest == 'S') {
 }
 
 //tratar se tem avaliação aberta ou nao
-$PDO2 = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 $sSql = "select COUNT(*)as total from tbacaoeficaz where nr = '" . $nrAq . "' and filcgc ='" . $filcgcAq . "'";
-$dadosSql = $PDO2->query($sSql);
+$dadosSql = $PDO->query($sSql);
 $eficaz = $dadosSql->fetch(PDO::FETCH_ASSOC);
 
 if ($eficaz['total'] == 0) {
     $avFim = 'aberta';
 } else {
     /* ver se tem alguma aberta sem apontamento */
-    $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
     $sSql = " select COUNT(*) total2 from tbacaoeficaz where nr = '" . $nrAq . "' and eficaz <> 'Sim' and filcgc ='" . $filcgcAq . "'";
     $dadosSql = $PDO->query($sSql);
     $eficaz = $dadosSql->fetch(PDO::FETCH_ASSOC);
@@ -81,7 +80,6 @@ $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 
 $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //dados do cabeçalho
-$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 $sSql = "select certificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
         . "convert(varchar,datafim,103) as datafim,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
         . "pq1,pq2,pq3,pq4,pq5 "
@@ -278,6 +276,14 @@ if ($aNr['total'] == 1) {
             . " from MET_QUAL_DiagramaCausa where nr='" . $nrAq . "' and filcgc ='" . $filcgcAq . "' ";
     $dadosCausa1 = $PDO->query($sSqlC);
     $row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
+
+    //Tira formatação do texto
+    $row1['matprimades'] = limpaString($row1['matprimades']);
+    $row1['maodeobrades'] = limpaString($row1['maodeobrades']);
+    $row1['equipamentodes'] = limpaString($row1['equipamentodes']);
+    $row1['meioambientedes'] = limpaString($row1['meioambientedes']);
+    $row1['metododes'] = limpaString($row1['metododes']);
+    $row1['medidades'] = limpaString($row1['medidades']);
 } else {
     $sSqlC = "select matprimades, metododes, maodeobrades, "
             . "equipamentodes, meioambientedes, medidades"
@@ -285,23 +291,35 @@ if ($aNr['total'] == 1) {
     $dadosCausa1 = $PDO->query($sSqlC);
     $row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
 
-    if ($row1 == false) {
+    $arraySize = 0;
+    foreach ($row1 as $key => $value) {
+        if ($value != null) {
+            $arraySize++;
+        }
+    }
+
+    if ($arraySize == 0) {
+
+        $row1 = montaCausaDes($row1, $nrAq, $filcgcAq);
+    } elseif ($row1 == false) {
+
         $row1['matprimades'] = null;
         $row1['maodeobrades'] = null;
         $row1['equipamentodes'] = null;
         $row1['meioambientedes'] = null;
         $row1['metododes'] = null;
         $row1['medidades'] = null;
+    } else {
+
+        //Tira formatação do texto
+        $row1['matprimades'] = limpaString($row1['matprimades']);
+        $row1['maodeobrades'] = limpaString($row1['maodeobrades']);
+        $row1['equipamentodes'] = limpaString($row1['equipamentodes']);
+        $row1['meioambientedes'] = limpaString($row1['meioambientedes']);
+        $row1['metododes'] = limpaString($row1['metododes']);
+        $row1['medidades'] = limpaString($row1['medidades']);
     }
 }
-
-//Tira formatação do texto
-$row1['matprimades'] = limpaString($row1['matprimades']);
-$row1['maodeobrades'] = limpaString($row1['maodeobrades']);
-$row1['equipamentodes'] = limpaString($row1['equipamentodes']);
-$row1['meioambientedes'] = limpaString($row1['meioambientedes']);
-$row1['metododes'] = limpaString($row1['metododes']);
-$row1['medidades'] = limpaString($row1['medidades']);
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(206, 5, "Causa raiz do problema", 1, 1, 'C', TRUE);
@@ -349,7 +367,7 @@ $pdf->SetXY($x + 139, $y);
 $pdf->MultiCell(67, 5, $row1['equipamentodes'], 0);
 
 //*************Insere linhas que disponibiliza altura dos campos para não sobrepor aos demais
-$pdf->Ln($iLinhas+5);
+$pdf->Ln($iLinhas + 5);
 //*******************//************************
 
 $pdf->SetFont('Arial', 'B', 10);
@@ -393,7 +411,7 @@ $pdf->SetXY($x + 139, $y);
 
 $pdf->MultiCell(67, 5, $row1['medidades'], 0);
 
-$pdf->Ln(5*$iLinhas);
+$pdf->Ln(5 * $iLinhas);
 
 
 //###########################Análise dos Porquês#########################################
@@ -473,7 +491,6 @@ while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
         $iL6 = (int) ($p5 / 101);
     }
     //Fim das variáveis que contém as quantidade de linhas de cada campo
-    
     //Preenche os campos com os valores
     if (isset($row['causades'])) {
         $pdf->SetFont('Arial', 'B', 10);
@@ -554,7 +571,6 @@ while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
     }
 
     $pdf->Ln(1);
-    
 }
 $pdf->Ln(5);
 
@@ -575,7 +591,7 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(68, 5, "Data prev.", 1, 0, 'C', true);
     $pdf->Cell(68, 5, "Data realiz.", 1, 1, 'C', true);
     $pdf = quebraPagina($pdf->GetY(), $pdf);
-  
+
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(70, 5, $row['usunome'], 1, 0, 'C');
     $pdf->Cell(68, 5, $row['dataprev'], 1, 0, 'C');
@@ -719,7 +735,7 @@ $sSql = "select seq,acao,convert(varchar,dataprev,103) as dataprev,"
 $dadosEficaz = $PDO->query($sSql);
 
 while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
-    
+
     $pdf->SetFont('Arial', '', 10);
     $pdf->MultiCell(206, 5, 'Avaliação nº' . $row['seq'] . ': ' . $row['acao'], 1, 'L');
 
@@ -855,4 +871,69 @@ function limpaString($sString) {
     $sStringLimpa2 = str_replace("\r", "", $sStringLimpa1);
 
     return $sStringLimpa2;
+}
+
+function montaCausaDes($row1, $nrAq, $filcgcAq) {
+    $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+    $sSql = "select causa,causades "
+            . "from tbacaoqualcausa "
+            . "where nr ='" . $nrAq . "' and filcgc ='" . $filcgcAq . "'";
+    $dadosCausa = $PDO->query($sSql);
+
+    while ($aRow = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
+
+        if ($aRow['causa'] == 'Método') {
+            if ($row1['metododes'] == null) {
+                $row1['metododes'] = limpaString($aRow['causades']);
+            } else {
+                $row1['metododes'] .= "- " . limpaString($aRow['causades']);
+            }
+        }
+
+
+        if ($aRow['causa'] == 'Medida') {
+            if ($row1['medidades'] == null) {
+                $row1['medidades'] = limpaString($aRow['causades']);
+            } else {
+                $row1['medidades'] .= "- " . limpaString($aRow['causades']);
+            }
+        }
+
+
+        if ($aRow['causa'] == 'Máquinas') {
+            if ($row1['equipamentodes'] == null) {
+                $row1['equipamentodes'] = limpaString($aRow['causades']);
+            } else {
+                $row1['equipamentodes'] .= "- " . limpaString($aRow['causades']);
+            }
+        }
+
+
+        if ($aRow['causa'] == 'Matéria prima') {
+            if ($row1['matprimades'] == null) {
+                $row1['matprimades'] = limpaString($aRow['causades']);
+            } else {
+                $row1['matprimades'] .= "- " . limpaString($aRow['causades']);
+            }
+        }
+
+
+        if ($aRow['causa'] == 'Meio ambiente') {
+            if ($row1['meioambientedes'] == null) {
+                $row1['meioambientedes'] = limpaString($aRow['causades']);
+            } else {
+                $row1['meioambientedes'] .= "- " . limpaString($aRow['causades']);
+            }
+        }
+
+
+        if ($aRow['causa'] == 'Mão de obra') {
+            if ($row1['maodeobrades'] == null) {
+                $row1['maodeobrades'] = limpaString($aRow['causades']);
+            } else {
+                $row1['maodeobrades'] .= "- " . limpaString($aRow['causades']);
+            }
+        }
+    }
+    return $row1;
 }

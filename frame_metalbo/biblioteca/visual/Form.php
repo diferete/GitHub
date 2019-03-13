@@ -35,6 +35,7 @@ class Form {
     private $bFecharTelaIncluir;
     private $bUsaAltGrid;//define se usa alterar no grid detalhe
     private $bUsaDelGrid;//define se usa deletar no grid detalhe
+    private $aModal;    //monta array de telas modais se for necessário
     /**
      * Construtor da classe Form 
      * 
@@ -57,6 +58,19 @@ class Form {
         $this->setBRetonaRender(false);
         $this->setBUsaAltGrid(true);
         $this->setBUsaDelGrid(true);
+        $this->aModal = array();
+    }
+    
+     /**
+     * Adiciona um botão ao vetor de botões do objeto
+     * 
+     * @param object $oBotao 
+     */
+    public function addModal() {
+        $aModal = func_get_args();
+        foreach ($aModal as $oModal) {
+            $this->aModal[] = $oModal;
+        }
     }
     
     function getBUsaDelGrid() {
@@ -428,6 +442,33 @@ class Form {
             $this->aEtapas[] = $oEtapa;
         }
     }
+    
+    /**
+     * Método que retorna renderizaçao de telas modais
+     */
+    public function getRenderModal($sTitulo, $sNome, $sId, $sIdTela) {
+        //teste para renderizaçao de janelas modais
+        $sModal1 = '<div class="modal fade" id="' . $sNome . '" aria-hidden="true" aria-labelledby="examplePositionCenter" '
+                . 'role="dialog" tabindex="-1"> '
+                . '         <div class="modal-dialog modal-center" style="width:1100px"> '
+                . '           <div class="modal-content">   '
+                . '             <div class="modal-header"> '
+                . '               <h5 class="modal-title">' . $sTitulo . '</h5>'
+                . '             </div> '
+                . '             <div style="margin-top:-30px;margin-bottom:-20px"class="modal-body" id="' . $sId . '-modal"> '
+                . '                                      '
+                . '              </div> '
+                . '             <div class="modal-footer"> '
+                . '                <button type="button" id="' . $sId . '-btn" class="btn btn-danger" data-dismiss="modal">Fechar</button> '
+                //  .'               <button type="button" class="btn btn-primary">Save changes</button> '
+                . '             </div> '
+                . '           </div> '
+                . '         </div> '
+                . '        </div> '
+                . '<script>$("#' . $sId . '-btn").click(function(){$("#' . $sId . '-modal >").remove();$("#' . $sIdTela . '-pesq").click();});</script>';
+
+        return $sModal1;
+    }
 
     /**
      * Gera a string para renderizar a tela
@@ -478,6 +519,13 @@ class Form {
         $sForm .= '<div id="' . $this->getId() . '-msg">'
                 . '</div>';
         $sForm .= $this->getRenderDet();
+        //analisa janelas modais
+        foreach ($this->aModal as $key => $oModal) {
+           //getRenderModal($sTitulo, $sNome, $sId, $sIdTela)
+            $sForm .= $this->getRenderModal($oModal->getSTituloModal(), $oModal->getSNomeModal(),$oModal->getSNomeModal(), $this->getId());
+        }
+        
+        
         $sForm .= '</form>';
         // $sForm.=$this->getRenderDet();
         //se o form retorna toda a tela       

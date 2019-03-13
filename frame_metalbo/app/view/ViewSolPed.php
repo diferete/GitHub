@@ -40,6 +40,7 @@ class ViewSolPed extends View {
         $oGeraPed->setILargura(25);
 
         $this->setUsaDropdown(true);
+        
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Liberar para metalbo', 'SolPed', 'msgLiberaMetalbo', '', false, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_COPIAR) . 'Gerar copia', 'SolPed', 'msgCopiaSol', '', false, '');
@@ -51,8 +52,6 @@ class ViewSolPed extends View {
         } else {
             $sSolvenda = 'solvenda';
         }
-
-
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . '');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar sem logo', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',slogo');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'SolPed', 'acaoMostraRelXls', '', false, 'solvendaxls');
@@ -60,7 +59,7 @@ class ViewSolPed extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',email,SolPed,envMailSol,slogo');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Estoque', 'ConsultaEstoque', 'acaoMostraTelaEstoque', '', false, $_SESSION['officecabsoliten'], true, 'Consulta Estoques de Pedido');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'SolPed', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep');
-        $this->addDropdown($oDrop1, $oDrop2);
+        $this->addDropdown($oDrop2);
         //descontosrep
 
         $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1);
@@ -76,7 +75,8 @@ class ViewSolPed extends View {
         $this->addCampos($oNr, $oCnpj, $oCliente, $oOdCompra, $oUserLib, $oNrCot, $oGeraPed, $oData, $oEmail);
         $this->addFiltro($oFilSolNr, $oFilCliente, $oFilCnpj, $oFilOd, $oFilData);
         $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoVisualizar(true);
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoIncluir(false);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setILarguraGrid(1300);

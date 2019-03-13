@@ -276,6 +276,14 @@ if ($aNr['total'] == 1) {
             . " from MET_QUAL_DiagramaCausa where nr='" . $nrAq . "' and filcgc ='" . $filcgcAq . "' ";
     $dadosCausa1 = $PDO->query($sSqlC);
     $row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
+
+    //Tira formatação do texto
+    $row1['matprimades'] = limpaString($row1['matprimades']);
+    $row1['maodeobrades'] = limpaString($row1['maodeobrades']);
+    $row1['equipamentodes'] = limpaString($row1['equipamentodes']);
+    $row1['meioambientedes'] = limpaString($row1['meioambientedes']);
+    $row1['metododes'] = limpaString($row1['metododes']);
+    $row1['medidades'] = limpaString($row1['medidades']);
 } else {
     $sSqlC = "select matprimades, metododes, maodeobrades, "
             . "equipamentodes, meioambientedes, medidades"
@@ -283,11 +291,18 @@ if ($aNr['total'] == 1) {
     $dadosCausa1 = $PDO->query($sSqlC);
     $row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
 
-    if (!empty($row1)) {
+    if ($row1 != false) {
 
-        $row1 = montaCausaDes($row1, $nrAq, $filcgcAq);
+        $arraySize = 0;
+        foreach ($row1 as $key => $value) {
+            if ($value != null) {
+                $arraySize++;
+            }
+        }
+        if ($arraySize == 0) {
+            $row1 = montaCausaDes($row1, $nrAq, $filcgcAq);
+        }
     } elseif ($row1 == false) {
-
         $row1['matprimades'] = null;
         $row1['maodeobrades'] = null;
         $row1['equipamentodes'] = null;
@@ -295,7 +310,6 @@ if ($aNr['total'] == 1) {
         $row1['metododes'] = null;
         $row1['medidades'] = null;
     } else {
-        
         //Tira formatação do texto
         $row1['matprimades'] = limpaString($row1['matprimades']);
         $row1['maodeobrades'] = limpaString($row1['maodeobrades']);
@@ -337,6 +351,7 @@ if (($iMaior1 % 34) > 0) {
     $iLinhas = (int) ($iMaior1 / 34);
 }
 
+
 //Cria bordas da tabela com base no tamanho do texto.
 $pdf->Rect(3, $h, 67, 5 * $iLinhas);
 $pdf->Rect(72, $h, 68, 5 * $iLinhas);
@@ -352,7 +367,13 @@ $pdf->SetXY($x + 139, $y);
 $pdf->MultiCell(67, 5, $row1['equipamentodes'], 0);
 
 //*************Insere linhas que disponibiliza altura dos campos para não sobrepor aos demais
-$pdf->Ln($iLinhas + 5);
+if ($row1['matprimades'] != '') {
+    $pdf->Ln($iLinhas * 5);
+} else if ($row1['maodeobrades'] != '') {
+    $pdf->Ln($iLinhas * 5);
+} else {
+    $pdf->Ln($iLinhas);
+}
 //*******************//************************
 
 $pdf->SetFont('Arial', 'B', 10);
@@ -397,7 +418,7 @@ $pdf->SetXY($x + 139, $y);
 $pdf->MultiCell(67, 5, $row1['medidades'], 0);
 
 $pdf->Ln(5 * $iLinhas);
-
+$pdf->Ln(5);
 
 //###########################Análise dos Porquês#########################################
 $pdf->SetFont('Arial', 'B', 10);
@@ -410,152 +431,165 @@ $dadosCausa = $PDO->query($sSql);
 
 while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
 
-    //Método que limpa as strings
-    if (isset($row['causades'])) {
-        $row['causades'] = limpaString($row['causades']);
-    }
-    if (isset($row['pq1'])) {
-        $row['pq1'] = limpaString($row['pq1']);
-    }
-    if (isset($row['pq2'])) {
-        $row['pq2'] = limpaString($row['pq2']);
-    }
-    if (isset($row['pq3'])) {
-        $row['pq3'] = limpaString($row['pq3']);
-    }
-    if (isset($row['pq4'])) {
-        $row['pq4'] = limpaString($row['pq4']);
-    }
-    if (isset($row['pq5'])) {
-        $row['pq5'] = limpaString($row['pq5']);
+
+    $arraySize = 0;
+    foreach ($row as $key => $value) {
+        if ($value != null) {
+            $arraySize++;
+        }
     }
 
-    //Conta quantidade de caracteres para definir Tamanho do campo
-    $c1 = strlen($row['causades']);
-    $p1 = strlen($row['pq1']);
-    $p2 = strlen($row['pq2']);
-    $p3 = strlen($row['pq3']);
-    $p4 = strlen($row['pq4']);
-    $p5 = strlen($row['pq5']);
+    switch ($arraySize) {
+        case 2:
+            break;
+        default:
+            //Método que limpa as strings
+            if (isset($row['causades'])) {
+                $row['causades'] = limpaString($row['causades']);
+            }
+            if (isset($row['pq1'])) {
+                $row['pq1'] = limpaString($row['pq1']);
+            }
+            if (isset($row['pq2'])) {
+                $row['pq2'] = limpaString($row['pq2']);
+            }
+            if (isset($row['pq3'])) {
+                $row['pq3'] = limpaString($row['pq3']);
+            }
+            if (isset($row['pq4'])) {
+                $row['pq4'] = limpaString($row['pq4']);
+            }
+            if (isset($row['pq5'])) {
+                $row['pq5'] = limpaString($row['pq5']);
+            }
 
-    //Determina a quantidade de linhas de cada campo
-    if (($c1 % 101) > 0) {
-        $iL1 = (int) ($c1 / 99);
-        $iL1++;
-    } else {
-        $iL1 = (int) ($c1 / 101);
+            //Conta quantidade de caracteres para definir Tamanho do campo
+            $c1 = strlen($row['causades']);
+            $p1 = strlen($row['pq1']);
+            $p2 = strlen($row['pq2']);
+            $p3 = strlen($row['pq3']);
+            $p4 = strlen($row['pq4']);
+            $p5 = strlen($row['pq5']);
+
+            //Determina a quantidade de linhas de cada campo
+            if (($c1 % 101) > 0) {
+                $iL1 = (int) ($c1 / 99);
+                $iL1++;
+            } else {
+                $iL1 = (int) ($c1 / 101);
+            }
+            if (($p1 % 101) > 0) {
+                $iL2 = (int) ($p1 / 102);
+                $iL2++;
+            } else {
+                $iL2 = (int) ($p1 / 101);
+            }
+            if (($p2 % 101) > 0) {
+                $iL3 = (int) ($p2 / 102);
+                $iL3++;
+            } else {
+                $iL3 = (int) ($p2 / 101);
+            }
+            if (($p3 % 101) > 0) {
+                $iL4 = (int) ($p3 / 102);
+                $iL4++;
+            } else {
+                $iL4 = (int) ($p3 / 101);
+            }
+            if (($p4 % 101) > 0) {
+                $iL5 = (int) ($p4 / 102);
+                $iL5++;
+            } else {
+                $iL5 = (int) ($p4 / 101);
+            }
+            if (($p5 % 101) > 0) {
+                $iL6 = (int) ($p5 / 102);
+                $iL6++;
+            } else {
+                $iL6 = (int) ($p5 / 101);
+            }
+            //Fim das variáveis que contém as quantidade de linhas de cada campo
+            //Preenche os campos com os valores
+            if (isset($row['causades'])) {
+                $pdf->SetFont('Arial', 'B', 10);
+                $x = $pdf->GetX();
+                $y = $pdf->GetY();
+                $pdf->MultiCell(27, $iL1 * 5, 'Causa', 1, 'C');
+
+                $pdf->SetXY($x + 27, $y);
+
+                $pdf->SetFont('Arial', 'B', 10);
+                $pdf->MultiCell(179, 5, $row['causades'], 1, 'J');
+                $pdf = quebraPagina($pdf->GetY(), $pdf);
+            }
+
+            if (isset($row['pq1'])) {
+                $pdf->SetFont('Arial', 'B', 10);
+                $x = $pdf->GetX();
+                $y = $pdf->GetY();
+                $pdf->MultiCell(27, $iL2 * 5, '1º Porque', 1, 'C');
+
+                $pdf->SetXY($x + 27, $y);
+
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->MultiCell(179, 5, $row['pq1'], 1, 'J');
+                $pdf = quebraPagina($pdf->GetY(), $pdf);
+            }
+
+            if (isset($row['pq2'])) {
+                $pdf->SetFont('Arial', 'B', 10);
+                $x = $pdf->GetX();
+                $y = $pdf->GetY();
+                $pdf->MultiCell(27, $iL3 * 5, '2º Porque', 1, 'C');
+
+                $pdf->SetXY($x + 27, $y);
+
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->MultiCell(179, 5, $row['pq2'], 1, 'J');
+                $pdf = quebraPagina($pdf->GetY(), $pdf);
+            }
+
+            if (isset($row['pq3'])) {
+                $pdf->SetFont('Arial', 'B', 10);
+                $x = $pdf->GetX();
+                $y = $pdf->GetY();
+                $pdf->MultiCell(27, $iL4 * 5, '3º Porque', 1, 'C');
+
+                $pdf->SetXY($x + 27, $y);
+
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->MultiCell(179, 5, $row['pq3'], 1, 'J');
+                $pdf = quebraPagina($pdf->GetY(), $pdf);
+            }
+
+            if (isset($row['pq4'])) {
+                $pdf->SetFont('Arial', 'B', 10);
+                $x = $pdf->GetX();
+                $y = $pdf->GetY();
+                $pdf->MultiCell(27, $iL5 * 5, '4º Porque', 1, 'C');
+
+                $pdf->SetXY($x + 27, $y);
+
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->MultiCell(179, 5, $row['pq4'], 1, 'J');
+                $pdf = quebraPagina($pdf->GetY(), $pdf);
+            }
+
+            if (isset($row['pq5'])) {
+                $pdf->SetFont('Arial', 'B', 10);
+                $x = $pdf->GetX();
+                $y = $pdf->GetY();
+                $pdf->MultiCell(27, $iL6 * 5, '5º Porque', 1, 'C');
+
+                $pdf->SetXY($x + 27, $y);
+
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->MultiCell(179, 5, $row['pq5'], 1, 'J');
+                $pdf = quebraPagina($pdf->GetY(), $pdf);
+            }
+
+            $pdf->Ln(1);
     }
-    if (($p1 % 101) > 0) {
-        $iL2 = (int) ($p1 / 102);
-        $iL2++;
-    } else {
-        $iL2 = (int) ($p1 / 101);
-    }
-    if (($p2 % 101) > 0) {
-        $iL3 = (int) ($p2 / 102);
-        $iL3++;
-    } else {
-        $iL3 = (int) ($p2 / 101);
-    }
-    if (($p3 % 101) > 0) {
-        $iL4 = (int) ($p3 / 102);
-        $iL4++;
-    } else {
-        $iL4 = (int) ($p3 / 101);
-    }
-    if (($p4 % 101) > 0) {
-        $iL5 = (int) ($p4 / 102);
-        $iL5++;
-    } else {
-        $iL5 = (int) ($p4 / 101);
-    }
-    if (($p5 % 101) > 0) {
-        $iL6 = (int) ($p5 / 102);
-        $iL6++;
-    } else {
-        $iL6 = (int) ($p5 / 101);
-    }
-    //Fim das variáveis que contém as quantidade de linhas de cada campo
-    //Preenche os campos com os valores
-    if (isset($row['causades'])) {
-        $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL1 * 5, 'Causa', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->MultiCell(179, 5, $row['causades'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
-    }
-
-    if (isset($row['pq1'])) {
-        $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL2 * 5, '1º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->MultiCell(179, 5, $row['pq1'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
-    }
-
-    if (isset($row['pq2'])) {
-        $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL3 * 5, '2º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->MultiCell(179, 5, $row['pq2'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
-    }
-
-    if (isset($row['pq3'])) {
-        $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL4 * 5, '3º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->MultiCell(179, 5, $row['pq3'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
-    }
-
-    if (isset($row['pq4'])) {
-        $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL5 * 5, '4º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->MultiCell(179, 5, $row['pq4'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
-    }
-
-    if (isset($row['pq5'])) {
-        $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL6 * 5, '5º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
-        $pdf->SetFont('Arial', '', 10);
-        $pdf->MultiCell(179, 5, $row['pq5'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
-    }
-
-    $pdf->Ln(1);
 }
 $pdf->Ln(5);
 
@@ -871,7 +905,7 @@ function montaCausaDes($row1, $nrAq, $filcgcAq) {
             if ($row1['metododes'] == null) {
                 $row1['metododes'] = limpaString($aRow['causades']);
             } else {
-                $row1['metododes'] .= "\r\n- " . limpaString($aRow['causades']);
+                $row1['metododes'] .= "- " . limpaString($aRow['causades']);
             }
         }
 
@@ -880,7 +914,7 @@ function montaCausaDes($row1, $nrAq, $filcgcAq) {
             if ($row1['medidades'] == null) {
                 $row1['medidades'] = limpaString($aRow['causades']);
             } else {
-                $row1['medidades'] .= "\r\n- " . limpaString($aRow['causades']);
+                $row1['medidades'] .= "- " . limpaString($aRow['causades']);
             }
         }
 
@@ -889,7 +923,7 @@ function montaCausaDes($row1, $nrAq, $filcgcAq) {
             if ($row1['equipamentodes'] == null) {
                 $row1['equipamentodes'] = limpaString($aRow['causades']);
             } else {
-                $row1['equipamentodes'] .= "\r\n- " . limpaString($aRow['causades']);
+                $row1['equipamentodes'] .= "- " . limpaString($aRow['causades']);
             }
         }
 
@@ -898,7 +932,7 @@ function montaCausaDes($row1, $nrAq, $filcgcAq) {
             if ($row1['matprimades'] == null) {
                 $row1['matprimades'] = limpaString($aRow['causades']);
             } else {
-                $row1['matprimades'] .= "\r\n- " . limpaString($aRow['causades']);
+                $row1['matprimades'] .= "- " . limpaString($aRow['causades']);
             }
         }
 
@@ -907,7 +941,7 @@ function montaCausaDes($row1, $nrAq, $filcgcAq) {
             if ($row1['meioambientedes'] == null) {
                 $row1['meioambientedes'] = limpaString($aRow['causades']);
             } else {
-                $row1['meioambientedes'] .= "\r\n- " . limpaString($aRow['causades']);
+                $row1['meioambientedes'] .= "- " . limpaString($aRow['causades']);
             }
         }
 
@@ -916,7 +950,7 @@ function montaCausaDes($row1, $nrAq, $filcgcAq) {
             if ($row1['maodeobrades'] == null) {
                 $row1['maodeobrades'] = limpaString($aRow['causades']);
             } else {
-                $row1['maodeobrades'] .= "\r\n- " . limpaString($aRow['causades']);
+                $row1['maodeobrades'] .= "- " . limpaString($aRow['causades']);
             }
         }
     }

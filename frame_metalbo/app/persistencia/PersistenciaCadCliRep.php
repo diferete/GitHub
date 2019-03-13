@@ -53,7 +53,6 @@ class PersistenciaCadCliRep extends Persistencia {
         $this->adicionaRelacionamento('certcli', 'certcli');
         $this->adicionaRelacionamento('comer', 'comer');
         $this->adicionaRelacionamento('transp', 'transp');
-        $this->adicionaRelacionamento('consultaCnpj', 'consultaCnpj');
 
         $this->adicionaRelacionamento('empnr', 'empnr');
 

@@ -985,7 +985,7 @@ class Controller {
     }
 
     public function acaoMostraTela($sDados) {
-
+        $this->View->setSRotina(View::ACAO_INCLUIR);
 
         $aDados = explode(',', $sDados);
 
@@ -1748,7 +1748,7 @@ class Controller {
             $sCampoConsulta = $aCampoConsulta[1];
             if ($_REQUEST['parametrosCampos']) {
                 foreach ($_REQUEST['parametrosCampos'] as $sAtual) {
-                    $aFiltros[] = explode(',', $sAtual);
+                    $aFiltros[] = explode('|', $sAtual);
                 }
             }
             if (isset($aFiltros)) {
@@ -1785,7 +1785,7 @@ class Controller {
                     //verifica se tem filtro scroll infinito
                     if ($aFiltroGrid[1] == 'scroll') {
                         //tratar qdo é chave composta
-                        $aDados = explode(',', $aFiltroGrid[0]);
+                        $aDados = explode('|', $aFiltroGrid[0]);
                         $sChave = htmlspecialchars_decode($aDados[0]);
                         $aCamposChave = array();
                         parse_str($sChave, $aCamposChave);
@@ -2413,7 +2413,7 @@ class Controller {
 
         foreach ($aDadosSelect as $key => $value) {
             $sSelect .= "$('#" . $aDados[1] . "').append($('<option>', { "
-                    . "value: " . $value[0] . ","
+                    . "value: '" . $value[0] . "',"
                     . "text: '" . $value[1] . "'"
                     . "}));";
         }
@@ -4043,7 +4043,7 @@ class Controller {
         }
         $aCampos = $this->antesCarregaDetalhe($aCampo);
 
-        foreach ($teste as $Campo) {
+        foreach ($aCampos as $Campo) {
             if ($Campo[0] != '') {
 
                 $aMetodos = Controller::extractMetodos($Campo[0]);

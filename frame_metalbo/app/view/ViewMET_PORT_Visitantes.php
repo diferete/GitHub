@@ -15,6 +15,8 @@ class ViewMET_PORT_Visitantes extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);

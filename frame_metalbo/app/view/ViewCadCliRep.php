@@ -96,21 +96,10 @@ class ViewCadCliRep extends View {
 
         $oFieldInf->addCampos(array($oNr, $oEmpAtivo, $oEmpData, $oUsuCodigo, $oUsuEmpCad), array($oOfficecod, $oOfficedes, $oSit, $oDtLib, $oHoraLib));
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////
         $oEmpcod = new campo('Cnpj *(Somente N°)', 'empcod', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpcod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '11', '14');
-
-        /*
-          if ($sAcao != 'acaoVisualizar') {
-          $oEmpcod->setBFocus(true);
-          $sAcaoExit = 'buscaCNPJ($("#' . $oEmpcod->getId() . '").val(),'
-          . '"' . $oEmpcod->getId() . '",'
-          . '"' . $this->getController() . '")';
-
-          $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-          }
-         * 
-         */
 
         $oEmpDes = new campo('Razão social', 'empdes', Campo::TIPO_TEXTO, 7, 7, 12, 12);
         $oEmpDes->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -119,43 +108,11 @@ class ViewCadCliRep extends View {
         $oEmpFant = new campo('Nome Fantasia', 'empfant', Campo::TIPO_TEXTO, 5, 5, 12, 12);
         $oEmpFant->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '35');
 
-        $oTipoPessoa = new campo('Tipo de pessoa', 'empfj', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oTipoPessoa->addItemSelect('J', 'Jurídica');  //J = jurídica F= física
-        $oTipoPessoa->addItemSelect('F', 'Física');
-        $oTipoPessoa->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!');
-
-        $oConsFinal = new Campo('Consumidor final', 'empconfina', Campo::TIPO_SELECT, 3, 3, 12, 12);
-        $oConsFinal->addItemSelect('N', 'Cliente não é consumidor final');
-        $oConsFinal->addItemSelect('S', 'Cliente é um consumidor final');
-        $oConsFinal->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!');
-
         $oEmpFone = new campo('Telefone *(Somente N°)', 'empfone', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpFone->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '15');
 
         $oEmailComum = new campo('E-mail *(E-mail geral da empresa)', 'empinterne', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmailComum->addValidacao(false, Validacao::TIPO_EMAIL, 'E-mail inválido', '4');
-
-        $oEmailNfe = new campo('E-mail NFE', 'emailNfe', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oEmailNfe->addValidacao(false, Validacao::TIPO_EMAIL, 'Email inválido', '4');
-
-        $oAnexo = new Campo('Anexo consulta CNPJ/Sintegra', 'consultaCnpj', Campo::TIPO_UPLOAD, 3, 3, 12, 12);
-        $oAnexo->addValidacao(false, Validacao::TIPO_STRING, '');
-
-        $oBanco = new Campo('Branco', 'empcobbco', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oBanco->addItemSelect('0006', 'Bradesco 0006');
-        $oBanco->addItemSelect('0005', 'Unibanco 0005');
-        $oBanco->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório');
-
-        $oCarteira = new Campo('Carteira', 'empcobcar', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oCarteira->addItemSelect('1', 'SIMPLES');
-        $oCarteira->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório');
-
-        $oComer = new campo('Cliente', 'comer', Campo::TIPO_CHECK, 1);
-        $oComer->setSValor(true);
-
-        $oTransp = new campo('Transportadora', 'transp', Campo::TIPO_CHECK, 1);
-
-        $oFieldEnd = new FieldSet('Endereço');
 
         $oCidCep = new campo('Cep *(Somente N°)', 'cidcep', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oCidCep->setSCorFundo(Campo::FUNDO_MONEY);
@@ -186,12 +143,12 @@ class ViewCadCliRep extends View {
         $oBairro->setSCorFundo(Campo::FUNDO_MONEY);
 
 
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        $oEmpcod->setBFocus(true);
+        if ($sAcao == 'acaoIncluir') {
+            $oEmpcod->setBFocus(true);
+        }
         $sAcaoExit = 'cnpjBusca($("#' . $oEmpcod->getId() . '").val(),'
                 . '"' . $oEmpDes->getId() . '",'
+                . '"' . $oEmpFant->getId() . '",'
                 . '"' . $oEmpFone->getId() . '",'
                 . '"' . $oEmailComum->getId() . '",'
                 . '"' . $oCidCep->getId() . '",'
@@ -204,22 +161,38 @@ class ViewCadCliRep extends View {
                 . '"' . $this->getController() . '")';
 
         $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        $oTipoPessoa = new campo('Tipo de pessoa', 'empfj', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oTipoPessoa->addItemSelect('J', 'Jurídica');  //J = jurídica F= física
+        $oTipoPessoa->addItemSelect('F', 'Física');
+        $oTipoPessoa->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!');
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        $oConsFinal = new Campo('Consumidor final', 'empconfina', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oConsFinal->addItemSelect('N', 'Cliente não é consumidor final');
+        $oConsFinal->addItemSelect('S', 'Cliente é um consumidor final');
+        $oConsFinal->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!');
 
-        /*
-          $sCallBack = 'cepBusca($("#' . $oCidCep->getId() . '").val(),'
-          . '"' . $oMunicipio->getId() . '",'
-          . '"' . $oEmpEnd->getId() . '",'
-          . '"' . $oUf->getId() . '",'
-          . '"' . $oBairro->getId() . '")';
+        $oEmailNfe = new campo('E-mail NFE', 'emailNfe', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oEmailNfe->addValidacao(false, Validacao::TIPO_EMAIL, 'Email inválido', '4');
 
-          $oCidCep->addEvento(Campo::EVENTO_SAIR, $sCallBack);
-         * 
-         */
+        $oBanco = new Campo('Branco', 'empcobbco', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oBanco->addItemSelect('0006', 'Bradesco 0006');
+        $oBanco->addItemSelect('0005', 'Unibanco 0005');
+        $oBanco->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório');
+
+        $oCarteira = new Campo('Carteira', 'empcobcar', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oCarteira->addItemSelect('1', 'SIMPLES');
+        $oCarteira->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório');
+
+        $oComer = new campo('Cliente', 'comer', Campo::TIPO_CHECK, 1);
+        $oComer->setSValor(true);
+
+        $oTransp = new campo('Transportadora', 'transp', Campo::TIPO_CHECK, 1);
+
+        $oFieldEnd = new FieldSet('Endereço');
+
 
         $oFieldEnd->addCampos(array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr));
 
@@ -266,7 +239,7 @@ class ViewCadCliRep extends View {
         $oEmpObs->setILinhasTextArea(5);
         $oEmpObs->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '1000');
 
-        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), $oAnexo, array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
+        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
     }
 
 }

@@ -105,7 +105,7 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
     }
 
     public function cadCPF($oDados) {
-        if ($oDados->getPlaca() == '') {
+        if ($oDados->getCpf() == '') {
             return;
         } else {
             $sSql = "select COUNT(*) as total "
@@ -134,6 +134,13 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
         $aRetorno = $this->executaSql($sSql);
 
         return $aRetorno;
+    }
+    
+    public function buscaHora($aDados) {
+        $sSql = "select horachegou from MET_PORT_Visitantes where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $sRetorno = $this->consultaSql($sSql);
+
+        return $sRetorno->horachegou;
     }
 
 }

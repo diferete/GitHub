@@ -7,7 +7,7 @@ public function carregaDetalhe($sChave) {
 
         if ($_REQUEST['parametrosCampos']) {
             foreach ($_REQUEST['parametrosCampos'] as $sAtual) {
-                $aCampo[] = explode(',', utf8_decode($sAtual));
+                $aCampo[] = explode('|', utf8_decode($sAtual));
             }
         }
         $aCampos = $this->antesCarregaDetalhe($aCampo);

@@ -80,7 +80,7 @@ class ControllerMET_PORT_Transito extends Controller {
         $oSit = $this->Model->getSituaca();
 
         if ($oSit != 'Chegada') {
-            $oMensagem = new Modal('Atenção!', 'O trânsito Nº' . $this->Model->getNr() . ' não pode ser modificadao somente visualizado!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Atenção!', 'A movimentação Nº' . $this->Model->getNr() . ' não pode ser modificada, somente visualizada!', Modal::TIPO_ERRO, false, true, true);
             $this->setBDesativaBotaoPadrao(true);
             echo $oMensagem->getRender();
         }
@@ -98,22 +98,7 @@ class ControllerMET_PORT_Transito extends Controller {
         $this->Model->setHorachegou($aHora[0]);
         $this->Model->setDescmotivo(Util::limpaString($this->Model->getDescmotivo()));
 
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
-    public function afterUpdate() {
-        parent::afterUpdate();
-
         $oModel = $this->Model;
-
-        $this->Persistencia->cadPlaca($oModel);
-
-        $this->Persistencia->cadCpf($oModel);
-
         if ($oModel->getMotivo() == '1') {
             $aRetorno = $this->Persistencia->updateCadastro($oModel);
             if ($aRetorno) {
@@ -128,6 +113,7 @@ class ControllerMET_PORT_Transito extends Controller {
                 return $aRetorno;
             }
         } else {
+
             $aRetorno = array();
             $aRetorno[0] = true;
             $aRetorno[1] = '';
@@ -135,10 +121,27 @@ class ControllerMET_PORT_Transito extends Controller {
         }
     }
 
+    public function afterUpdate() {
+        parent::afterUpdate();
+
+        $oModel = $this->Model;
+
+        $this->Persistencia->cadPlaca($oModel);
+
+        $this->Persistencia->cadCpf($oModel);
+
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
     public function gravaHora($sDados) {
         $aDados = explode(',', $sDados);
-        $this->carregaModelString($aDados[3]);
-        $aRetorno = $this->Persistencia->alteraHora($aDados[2], $this->Model->getNr());
+        $aCamposChave = array();
+        parse_str($aDados[3], $aCamposChave);
+        $aRetorno = $this->Persistencia->alteraHora($aDados[2], $aCamposChave);
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('Sucesso!', 'Hora alterada com sucesso.', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
@@ -182,6 +185,7 @@ class ControllerMET_PORT_Transito extends Controller {
         echo"$('#" . $aParam[0] . "').val('" . strtoupper($aCamposChave['placa']) . "');"
         . "$('#" . $aParam[1] . "').val('" . $oRow->empcod . "');"
         . "$('#" . $aParam[2] . "').val('" . $oRow->empdes . "');";
+        exit;
     }
 
     public function criaTelaModalApontamentoTransito($sDados) {
@@ -257,8 +261,8 @@ class ControllerMET_PORT_Transito extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-        $bRetorno = $this->Persistencia->buscaSituaca($aCamposChave);
-        if ($bRetorno == true) {
+        $sRetorno = $this->Persistencia->buscaSituaca($aCamposChave);
+        if ($sRetorno == 'Chegada') {
             $oMensagem = new Modal('Excluir', 'Deseja EXCLUIR o registro nrº' . $aCamposChave['nr'] . '?', Modal::TIPO_INFO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_PORT_Transito","excluiRegistro","' . $sDados . '");');
         } else {

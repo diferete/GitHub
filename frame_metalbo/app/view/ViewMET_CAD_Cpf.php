@@ -26,11 +26,11 @@ class ViewMET_CAD_Cpf extends View {
         $oNome = new CampoConsulta('Nome', 'nome', CampoConsulta::TIPO_TEXTO);
         $oEmpFant = new CampoConsulta('Emp.Fant', 'empfant', CampoConsulta::TIPO_TEXTO);
 
-        $oFiltroFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
+        $oFiltroEmpFant = new Filtro($oEmpFant, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
         $oFiltroCPF = new Filtro($oCPF, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
         $oFiltroNome = new Filtro($oNome, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
 
-        $this->addFiltro($oFiltroFilcgc, $oFiltroNome, $oFiltroCPF);
+        $this->addFiltro($oFiltroEmpFant, $oFiltroNome, $oFiltroCPF);
 
         $this->addCampos($oFilcgc, $oCPF, $oNome, $oEmpFant);
         $this->getTela()->setBGridResponsivo(true);

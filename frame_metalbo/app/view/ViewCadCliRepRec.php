@@ -144,8 +144,6 @@ class ViewCadCliRepRec extends View {
 
         $oEmailNfe = new campo('E-mail NFE', 'emailNfe', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmailNfe->addValidacao(false, Validacao::TIPO_EMAIL, 'Email inválido', '4');
-        
-        $oAnexo = new Campo('Anexo consulta CNPJ/Sintegra', 'consultaCnpj', Campo::TIPO_UPLOAD, 3,3,12,12);
 
         $oBanco = new Campo('Branco', 'empcobbco', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oBanco->addItemSelect('0006', 'Bradesco 0006');
@@ -168,7 +166,7 @@ class ViewCadCliRepRec extends View {
 
         $oEmpEnd = new campo('Endereço', 'empend', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oEmpEnd->setSCorFundo(Campo::FUNDO_MONEY);
-        $oEmpEnd->addValidacao(FALSE, Validacao::TIPO_STRING, 'Endereço inválido', '8', '45');
+        $oEmpEnd->addValidacao(FALSE, Validacao::TIPO_STRING, 'Endereço inválido', '5', '45');
 
         $oEmpnr = new campo('Número', 'empnr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEmpnr->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório', '0', '100');
@@ -247,7 +245,7 @@ class ViewCadCliRepRec extends View {
         $sAcaoBusca = 'requestAjax("' . $this->getTela()->getId() . '-form","CadCliRepEnd","getDadosGrid","' . $oGridEnd->getId() . '","consultaEnd");';
         $this->getTela()->setSAcaoShow($sAcaoBusca);
 
-        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe),$oAnexo, array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome), $oGridEnd);
+        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome), $oGridEnd);
     }
 
 }

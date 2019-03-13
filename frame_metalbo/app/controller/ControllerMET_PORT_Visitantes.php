@@ -12,8 +12,58 @@ class ControllerMET_PORT_Visitantes extends Controller {
         $this->carregaClassesMvc('MET_PORT_Visitantes');
     }
 
+    public function antesAlterar($sParametros = null) {
+        parent::antesAlterar($sParametros);
+
+        $sChave = htmlspecialchars_decode($sParametros[0]);
+        $this->carregaModelString($sChave);
+        $this->Model = $this->Persistencia->consultar();
+
+        $oSit = $this->Model->getSituaca();
+
+        if ($oSit != 'Chegada') {
+            $oMensagem = new Modal('Atenção!', 'A movimentação Nº' . $this->Model->getNr() . ' não pode ser modificada, somente visualizada!', Modal::TIPO_ERRO, false, true, true);
+            $this->setBDesativaBotaoPadrao(true);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function beforeUpdate() {
+        parent::beforeUpdate();
+
+
+        $this->Model->setPessoa(strtoupper($this->Model->getPessoa()));
+        $aDados = array();
+        parse_str($_REQUEST['campos'], $aDados);
+        $sHora = $this->Persistencia->buscaHora($aDados);
+        $aHora = explode('.', $sHora);
+        $this->Model->setHorachegou($aHora[0]);
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function afterUpdate() {
+        parent::afterUpdate();
+        
+        $oModel = $this->Model;
+        
+        $this->Persistencia->cadCPF($oModel);
+        $this->Persistencia->cadPlaca($oModel);
+        
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
     public function beforeInsert() {
         parent::beforeInsert();
+
+
+        $this->Model->setPessoa(strtoupper($this->Model->getPessoa()));
 
         $oModel = $this->Model;
         if ($oModel->getMotivo() == 'Selecionar') {

@@ -276,7 +276,7 @@ class ControllerQualNovoProjRep extends Controller {
             $aParam = $_REQUEST['parametrosCampos'];
             foreach ($aParam as $key => $value) {
                 $sParam = $value;
-                $aChaves = explode(',', $value);
+                $aChaves = explode('|', $value);
             }
         }
         //aplica foreach para mudar situaçao 

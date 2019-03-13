@@ -63,7 +63,7 @@ class ViewQualRncVenda extends View {
 
         $oDropDown = new Dropdown('Opções da reclamação', Dropdown::TIPO_PRIMARY);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'QualRncVenda', 'acaoMostraRelConsulta', '', false, 'rc');
-        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Retornar', 'QualRncVenda', 'retornaRep', '', false, '');
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Retornar', 'QualRncVenda', 'criaTelaModalRetorna', '', false, '', false, 'criaTelaModalRetorna', true, 'Retornar para o Representante');
 
         $oDropDown1 = new Dropdown('Encaminhar E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_QUAL) . 'Qualidade', 'QualRncVenda', 'verificaEmailSetor', '', false, 'Env.Qual');
@@ -271,8 +271,8 @@ class ViewQualRncVenda extends View {
 
         $oLinha = new Campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
-        
-        $oTipoRnc = new Campo('Selecione o tipo da RNC segundo análise e se sua devolução foi aceita ou recusada!', 'divisor1', Campo::DIVISOR_INFO,12,12,12,12);
+
+        $oTipoRnc = new Campo('Selecione o tipo da RNC segundo análise e se sua devolução foi aceita ou recusada!', 'divisor1', Campo::DIVISOR_INFO, 12, 12, 12, 12);
         $oTipoRnc->setApenasTela(true);
 
         $oReclamacao = new Campo('Tipo', 'reclamacao', Campo::TIPO_RADIO, 6, 6, 12, 12);
@@ -307,7 +307,45 @@ class ViewQualRncVenda extends View {
         $this->setBTela(true);
 
 
-        $this->addCampos(array($oFilcgc, $oNr), $oLinha,$oTipoRnc, array($oReclamacao, $oDevolucao), $oLinha1, $oObs_aponta, $oBtnInserir);
+        $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oTipoRnc, array($oReclamacao, $oDevolucao), $oLinha1, $oObs_aponta, $oBtnInserir);
+    }
+
+    /**
+     * Cria modal para notificar em caso de erro do representante 
+     */
+    public function criaModalRetorna($sDados) {
+        parent::criaModal();
+
+        $oDados = $this->getAParametrosExtras();
+
+        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
+        $oFilcgc->setSValor($oDados->getFilcgc());
+        $oFilcgc->setBCampoBloqueado(true);
+        $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr->setSValor($oDados->getNr());
+        $oNr->setBCampoBloqueado(true);
+
+        $oLinha = new Campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha->setApenasTela(true);
+
+        $oObs_aponta = new campo('Descreva o porque de retornar ao representante', 'motivo', Campo::TIPO_TEXTAREA, 12);
+        $oObs_aponta->setILinhasTextArea(8);
+        $oObs_aponta->addValidacao(false, Validacao::TIPO_STRING, '', '10');
+
+        $oBtnInserir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        //id do grid
+
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","retornaEmailRep","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+
+        $oBtnInserir->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->setBTela(true);
+
+
+        $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oObs_aponta, $oBtnInserir);
     }
 
 }

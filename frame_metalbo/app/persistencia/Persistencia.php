@@ -180,10 +180,10 @@ class Persistencia {
         }
         return $stop;
     }
-    
+
     function getITop() {
         return $this->sTop;
-        }
+    }
 
     /*
      * Seta o número top
@@ -1542,10 +1542,10 @@ class Persistencia {
 
         //chama funcoes necessários após inserir diretamente na persistencia
         $this->afterInsert($aCamposValores);
-        
-        /*$fp = fopen("bloco1.txt", "w");
+
+        /* $fp = fopen("bloco1.txt", "w");
           fwrite($fp, $sSql);
-          fclose($fp);*/
+          fclose($fp); */
 
         return $this->executaSql($sSql);
     }
@@ -1825,9 +1825,12 @@ class Persistencia {
         $sSql .= $this->getSWhereManual(); //define partes do where manualmente
         $sSql .= $this->getStringGroupBy() . $this->getStringOrderBy() . $this->getStringLimit();
 
-        $fp = fopen("bloco1.txt", "w");
-        fwrite($fp, $sSql);
-        fclose($fp);
+        /*
+          $fp = fopen("bloco1.txt", "w");
+          fwrite($fp, $sSql);
+          fclose($fp);
+         * 
+         */
 
         $result = $this->getObjetoSql($sSql);
 

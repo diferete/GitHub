@@ -25,7 +25,7 @@ class CampoConsulta {
     private $bOrderBy;
     private $sNomeGrid;
     private $bTime;
-
+    
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
     const TIPO_MONEY = 2;
@@ -297,7 +297,7 @@ class CampoConsulta {
 
         $this->aComparacao[] = $aComp;
     }
-
+    
     /**
      * Retorna o render do campo consulta
      */
@@ -406,13 +406,14 @@ class CampoConsulta {
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-success btn-xs"><i class="icon fa-check" aria-hidden="true"></i></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-success btn-xs"><i class="icon fa-check" aria-hidden="true"></i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'
                         . 'abaSelecionada=$(this).attr("id");}'
                         . '     }); '
-                        . 'var idGrid = $("#"+abaSelecionada+"' . $this->getSNomeGrid() . '").text();';
+                        . 'var idGrid = $("#"+abaSelecionada+"' . $this->getSNomeGrid() . '").text();'
+                        . 'var idTela = $("#"+abaSelecionada+"paramTela").text();';
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
@@ -492,14 +493,14 @@ class CampoConsulta {
                         . '});'
                         . '</script>';
                 break;
-
+            
             case self::TIPO_EDITDECIMAL:
 
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sIdInput = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" class="fundo_amarelo" value="' . number_format($xValor, 2, ',', '.') . '" id="' . $sIdInput . '"/></td>'; //number_format($xValor, 2, ',', '.')
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" class="fundo_amarelo" value="' . number_format($xValor, 2, ',', '.') . '" id="' . $sIdInput . '"/></td>';//number_format($xValor, 2, ',', '.')
                 $sCampo .= '<script>'
                         . 'var vlrInput;'
                         . '$("#' . $sIdInput . '").focusin(function(e) { '
