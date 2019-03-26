@@ -31,8 +31,6 @@ class ControllerMET_PORT_Visitantes extends Controller {
     public function beforeUpdate() {
         parent::beforeUpdate();
 
-
-        $this->Model->setPessoa(strtoupper($this->Model->getPessoa()));
         $aDados = array();
         parse_str($_REQUEST['campos'], $aDados);
         $sHora = $this->Persistencia->buscaHora($aDados);
@@ -45,25 +43,8 @@ class ControllerMET_PORT_Visitantes extends Controller {
         return $aRetorno;
     }
 
-    public function afterUpdate() {
-        parent::afterUpdate();
-        
-        $oModel = $this->Model;
-        
-        $this->Persistencia->cadCPF($oModel);
-        $this->Persistencia->cadPlaca($oModel);
-        
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
     public function beforeInsert() {
         parent::beforeInsert();
-
-
-        $this->Model->setPessoa(strtoupper($this->Model->getPessoa()));
 
         $oModel = $this->Model;
         if ($oModel->getMotivo() == 'Selecionar') {
@@ -196,6 +177,39 @@ class ControllerMET_PORT_Visitantes extends Controller {
             $oMensagem = new Mensagem('Atenção!', 'Hora não pode ser alterada.' . $aRetorno[1], Mensagem::TIPO_ERROR);
             echo $oMensagem->getRender();
         }
+    }
+
+    public function relVisitantes($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'relVisitantes');
+    }
+
+    public function excluirRegistro($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oMensagem = new Modal('Excluir', 'Deseja EXCLUIR o registro nrº' . $aCamposChave['nr'] . '?', Modal::TIPO_INFO, true, true, true);
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_PORT_Visitantes","excluiRegistro","' . $sDados . '");');
+        
+        echo $oMensagem->getRender();
+        exit;
+    }
+
+    public function excluiRegistro($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aRetorno = $this->Persistencia->excluirRegistro($aCamposChave);
+        if ($aRetorno == true) {
+            $oMsg = new Mensagem('Sucesso', 'Registro excluido com sucesso', Mensagem::TIPO_SUCESSO);
+        } else {
+            $oMsg = new Mensagem('Atenção', 'Registro não pode ser excluido', Mensagem::TIPO_ERROR);
+        }
+        echo $oMsg->getRender();
+        echo"$('#" . $aDados[1] . "-pesq').click();";
+        exit;
     }
 
 }

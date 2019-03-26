@@ -63,7 +63,7 @@ if ($eficaz['total'] == 0) {
     $avFim = 'aberta';
 } else {
     /* ver se tem alguma aberta sem apontamento */
-    $sSql = " select COUNT(*) total2 from tbacaoeficaz where nr = '" . $nrAq . "' and eficaz <> 'Sim' and filcgc ='" . $filcgcAq . "'";
+    $sSql = " select COUNT(*) total2 from tbacaoeficaz where nr = '" . $nrAq . "' and sit != 'Finalizado' and filcgc ='" . $filcgcAq . "'";
     $dadosSql = $PDO->query($sSql);
     $eficaz = $dadosSql->fetch(PDO::FETCH_ASSOC);
     if ($eficaz['total2'] > 0) {
@@ -80,10 +80,12 @@ $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 
 $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //dados do cabeçalho
-$sSql = "select certificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
-        . "convert(varchar,datafim,103) as datafim,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
-        . "pq1,pq2,pq3,pq4,pq5 "
-        . " from tbacaoqual where filcgc ='" . $filcgcAq . "' and nr=" . $nrAq;
+$sSql = "select certificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,tbacaoqual.usunome,equipe,convert(varchar,dataini,103) as dataini, "
+        . "convert(varchar,datafim,103) as datafim,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,pq1,pq2,pq3,pq4,pq5,convert(varchar,tbacaoeficaz.datareal,103) as datafechou "
+        . "from tbacaoqual "
+        . "inner join tbacaoeficaz "
+        . "on tbacaoqual.nr = tbacaoeficaz.nr "
+        . "where tbacaoqual.filcgc = '" . $filcgcAq . "' and tbacaoeficaz.nr = '" . $nrAq . "'";
 $dadoscab = $PDO->query($sSql);
 while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $userImp = $row['userimp'];
@@ -92,7 +94,7 @@ while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $sResp = $row['usunome'];
     $sEquipe = $row['equipe'];
     $sDataini = $row['dataini'];
-    $sDataFim = $row['datafim'];
+    $sDataFim = $row['datafechou'];
     $sTipoAcao = $row['tipoacao'];
     $sOrigem = $row['origem'];
     $sTipMelhoria = $row['tipmelhoria'];
@@ -197,14 +199,14 @@ $pdf->Ln(5);
 
 $sSqlContencao = "select COUNT(*) as total "
         . "from MET_QUAL_Contencao "
-        . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
+        . "where filcgc = '" . $filcgcAq . "' and nr = '" . $nrAq . "'";
 $iContecao = $PDO->query($sSqlContencao);
 $existeContencao = $iContecao->fetch(PDO::FETCH_ASSOC);
 
 if ($existeContencao['total'] > 0) {
-    $sSqlDadosContencao = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,situaca "
+    $sSqlDadosContencao = "select plano, convert(varchar, dataprev, 103) as dataprev, usunome, situaca "
             . "from MET_QUAL_Contencao "
-            . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
+            . "where filcgc = '" . $filcgcAq . "' and nr = '" . $nrAq . "'";
     $dadosContencao = $PDO->query($sSqlDadosContencao);
 
 
@@ -232,14 +234,14 @@ $pdf->Ln(5);
 
 $sSqlContencao = "select COUNT(*) as total "
         . "from MET_QUAL_Correcao "
-        . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
+        . "where filcgc = '" . $filcgcAq . "' and nr = '" . $nrAq . "'";
 $iCorrecao = $PDO->query($sSqlContencao);
 $existeCorrecao = $iCorrecao->fetch(PDO::FETCH_ASSOC);
 
 if ($existeCorrecao['total'] > 0) {
-    $sSqlDadosCorrecao = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,situaca "
+    $sSqlDadosCorrecao = "select plano, convert(varchar, dataprev, 103) as dataprev, usunome, situaca "
             . "from MET_QUAL_Correcao "
-            . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
+            . "where filcgc = '" . $filcgcAq . "' and nr = '" . $nrAq . "'";
     $dadosCorrecao = $PDO->query($sSqlDadosCorrecao);
 
 
@@ -273,7 +275,7 @@ $aNr = $oExisteNr->fetch(PDO::FETCH_ASSOC);
 if ($aNr['total'] == 1) {
     $sSqlC = "select matprimades, metododes, maodeobrades, "
             . "equipamentodes, meioambientedes, medidades"
-            . " from MET_QUAL_DiagramaCausa where nr='" . $nrAq . "' and filcgc ='" . $filcgcAq . "' ";
+            . " from MET_QUAL_DiagramaCausa where nr = '" . $nrAq . "' and filcgc = '" . $filcgcAq . "' ";
     $dadosCausa1 = $PDO->query($sSqlC);
     $row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
 
@@ -287,7 +289,7 @@ if ($aNr['total'] == 1) {
 } else {
     $sSqlC = "select matprimades, metododes, maodeobrades, "
             . "equipamentodes, meioambientedes, medidades"
-            . " from tbacaoqualcausa where nr='" . $nrAq . "' and filcgc ='" . $filcgcAq . "' ";
+            . " from tbacaoqualcausa where nr = '" . $nrAq . "' and filcgc = '" . $filcgcAq . "' ";
     $dadosCausa1 = $PDO->query($sSqlC);
     $row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
 
@@ -426,7 +428,7 @@ $pdf->Cell(206, 5, "Análise dos Porquês", 1, 1, 'C', TRUE);
 
 $pdf->SetFont('Arial', '', 10);
 
-$sSql = "select causades,pq1,pq2,pq3,pq4,pq5,seq from tbacaoqualcausa where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' order by seq";
+$sSql = "select causades, pq1, pq2, pq3, pq4, pq5, seq from tbacaoqualcausa where nr = " . $nrAq . " and filcgc = '" . $filcgcAq . "' order by seq";
 $dadosCausa = $PDO->query($sSql);
 
 while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
@@ -601,8 +603,8 @@ $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(206, 5, "Planos de ação", 1, 1, 'C', TRUE);
 $pdf = quebraPagina($pdf->GetY(), $pdf);
 
-$sSql = "select seq,plano,sitfim,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim,obsfim "
-        . " from tbacaoqualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
+$sSql = "select seq, plano, sitfim, convert(varchar, dataprev, 103) as dataprev, usunome, convert(varchar, datafim, 103) as datafim, obsfim "
+        . " from tbacaoqualplan where nr = " . $nrAq . " and filcgc = '" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
 $dadosEf = $PDO->query($sSql);
 while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
 
@@ -629,8 +631,8 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
 
     if ($row['sitfim'] == 'Finalizado') {
 
-        $sSqlDocumentos = "select procedimento,it,planocontrole,fluxograma,ppap,contexto,preventiva,funcao,treinamento "
-                . " from tbacaoqualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
+        $sSqlDocumentos = "select procedimento, it, planocontrole, fluxograma, ppap, contexto, preventiva, funcao, treinamento "
+                . " from tbacaoqualplan where nr = " . $nrAq . " and filcgc = '" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
         $documentos = $PDO->query($sSqlDocumentos);
         $aRowDocumentos = $documentos->fetch(PDO::FETCH_ASSOC);
 
@@ -748,9 +750,9 @@ $pdf = quebraPagina($pdf->GetY(), $pdf);
 
 $iAlturaEfi = $pdf->GetY();
 
-$sSql = "select seq,acao,convert(varchar,dataprev,103) as dataprev,"
-        . "usunome,convert(varchar,datareal,103) as datareal,eficaz,obs,comAcao "
-        . "from tbacaoeficaz where nr =" . $nrAq . " and filcgc ='" . $filcgcAq . "' order by seq";
+$sSql = "select seq, acao, convert(varchar, dataprev, 103) as dataprev, "
+        . "usunome, convert(varchar, datareal, 103) as datareal, eficaz, obs, comAcao "
+        . "from tbacaoeficaz where nr = " . $nrAq . " and filcgc = '" . $filcgcAq . "' order by seq";
 $dadosEficaz = $PDO->query($sSql);
 
 while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
@@ -790,9 +792,9 @@ while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
     if ($row['comAcao'] == 'S') {
 
         /* Mostra os planos de ação para esta ação da eficácia */
-        $sSql = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim"
-                . " from tbacaoqualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' "
-                . "and nrEfi ='" . $row['seq'] . "' order by seq"; //nr=".$nrAq." and filcgc ='".$filcgcAq."'
+        $sSql = "select plano, convert(varchar, dataprev, 103) as dataprev, usunome, convert(varchar, datafim, 103) as datafim"
+                . " from tbacaoqualplan where nr = " . $nrAq . " and filcgc = '" . $filcgcAq . "' "
+                . "and nrEfi = '" . $row['seq'] . "' order by seq"; //nr=".$nrAq." and filcgc ='".$filcgcAq."'
         $dadosEf = $PDO->query($sSql);
         while ($rowPlanEf = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
             $pdf->SetY($pdf->GetY() + 2);
@@ -851,7 +853,7 @@ if ($sEmailRequest == 'S') {
     // Para
 
     if ($sEmailRequestTodos == 'S') {
-        $sSqlEmail = "select emailEquip from tbacaoqual where nr =" . $nrAq . " and filcgc ='" . $filcgcAq . "'";
+        $sSqlEmail = "select emailEquip from tbacaoqual where nr = " . $nrAq . " and filcgc = '" . $filcgcAq . "'";
         $oRow = $PDO->query($sSqlEmail);
         $aDadosEmail = $oRow->fetch(PDO::FETCH_ASSOC);
         $sDadosEmail = $aDadosEmail['emailEquip'];
@@ -875,7 +877,8 @@ if ($sEmailRequest == 'S') {
 }
 
 //Função que quebra página em uma dada altura do PDF
-function quebraPagina($i, $pdf) {
+function quebraPagina(
+$i, $pdf) {
     if ($i >= 270) {    // 275 é o tamanho da página
         $pdf->AddPage();   // adiciona se ultrapassar o limite da página
         $pdf->SetY(10);
@@ -883,10 +886,11 @@ function quebraPagina($i, $pdf) {
     return $pdf;
 }
 
-function limpaString($sString) {
+function limpaString(
+$sString) {
 
-    $sStringLimpa = str_replace("\n", " ", $sString);
-    $sStringLimpa1 = str_replace("'", "\'", $sStringLimpa);
+    $sStringLimpa = str_replace("\n ", " ", $sString);
+    $sStringLimpa1 = str_replace("  '", "\'", $sStringLimpa);
     $sStringLimpa2 = str_replace("\r", "", $sStringLimpa1);
 
     return $sStringLimpa2;
@@ -896,7 +900,8 @@ function montaCausaDes($row1, $nrAq, $filcgcAq) {
     $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
     $sSql = "select causa,causades "
             . "from tbacaoqualcausa "
-            . "where nr ='" . $nrAq . "' and filcgc ='" . $filcgcAq . "'";
+            . "where nr ='  "
+            . $nrAq . "' and filcgc ='" . $filcgcAq . "'";
     $dadosCausa = $PDO->query($sSql);
 
     while ($aRow = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {

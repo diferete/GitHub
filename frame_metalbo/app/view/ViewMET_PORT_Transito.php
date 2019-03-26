@@ -14,13 +14,13 @@ class ViewMET_PORT_Transito extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-        
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
         $this->getTela()->setBGridResponsivo(false);
+        
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         
         $oExcluir = new Dropdown('Excluir', Dropdown::TIPO_AVISO, Dropdown::ICON_PADRAO);
         $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Transito', 'excluirRegistro', '', false, '', false, '', false, '');
@@ -123,9 +123,8 @@ class ViewMET_PORT_Transito extends View {
         $oUsuNome->setSValor($_SESSION['nome']);
         $oUsuNome->setBCampoBloqueado(true);
 
-        $oDataCad = new Campo('Data', 'datachegou', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataCad = new Campo('Data', 'datachegou', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataCad->setSValor(date('d/m/Y'));
-        $oDataCad->setBCampoBloqueado(true);
 
         $oMotivo = new Campo('Motivo', 'motivo', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oMotivo->addItemSelect('Selecionar', 'Selecionar');
@@ -338,22 +337,22 @@ class ViewMET_PORT_Transito extends View {
     public function relTransito() {
         parent::criaTelaRelatorio();
 
-        $this->setTituloTela('Relatório de Transito');
+        $this->setTituloTela('Relatório de Trânsito');
         $this->setBTela(true);
 
         $oUserRel = new Campo('', 'userRel', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oUserRel->setSValor($_SESSION['nome']);
 
-        $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataIni->setSValor(Util::getPrimeiroDiaMes());
         $oDataIni->addValidacao(false, Validacao::TIPO_STRING, '', '2');
 
-        $oDataFin = new Campo('Data Final', 'datafim', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataFin = new Campo('Data Final', 'datafim', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataFin->setSValor(Util::getDataAtual());
         $oDataFin->addValidacao(false, Validacao::TIPO_STRING, '', '2');
 
         $oMotivo = new Campo('Motivo', 'motivo', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oMotivo->addItemSelect('', '');
+        $oMotivo->addItemSelect('', 'Todos');
         $oMotivo->addItemSelect('1', 'Coleta');
         $oMotivo->addItemSelect('2', 'Entrega Mat.P.');
         $oMotivo->addItemSelect('3', 'Outras Coletas');
@@ -361,8 +360,31 @@ class ViewMET_PORT_Transito extends View {
         $oMotivo->addItemSelect('5', 'Serviços');
         $oMotivo->addItemSelect('6', 'Visita');
         $oMotivo->addItemSelect('7', 'Outro');
+        
+        $oCnpj = new Campo('CNPJ', 'empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
+        //$oCnpj->addValidacao(false, Validacao::TIPO_STRING, '', '12');
 
-        $this->addCampos(array($oDataIni, $oDataFin), $oMotivo);
+        $oEmpresa = new Campo('Emp/Trans', 'empdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oEmpresa->setSIdPk($oCnpj->getId());
+        $oEmpresa->setClasseBusca('Pessoa');
+        $oEmpresa->addCampoBusca('empcod', '', '');
+        $oEmpresa->addCampoBusca('empdes', '', '');
+        $oEmpresa->setSIdTela($this->getTela()->getid());
+
+        $oCnpj->setClasseBusca('Pessoa');
+        $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
+        $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
+        
+        $oSituacao = new Campo('Situação','situacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oSituacao->addItemSelect('', 'Todas');
+        $oSituacao->addItemSelect('Chegada', 'Chegada');
+        $oSituacao->addItemSelect('Entrada', 'Entrada');
+        $oSituacao->addItemSelect('Saída', 'Saída');
+        
+        $oL = new Campo('', '', Campo::TIPO_LINHABRANCO);
+        
+        $this->addCampos(array($oMotivo, $oDataIni, $oDataFin),$oL, array($oCnpj,$oEmpresa),$oL, $oSituacao);
     }
 
 }

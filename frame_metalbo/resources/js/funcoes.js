@@ -1281,11 +1281,6 @@ function expandeField(id) {
     $('#' + id + ' >div').css("display", "none");
 }
 
-function buscaCNPJ(cnpj, campo, classe) {
-    var campoVal = cnpj + ',' + campo;
-    requestAjax("", classe, 'getCNPJ', campoVal);
-}
-
 function buscaRespVenda(idCod, idVenda, nomeVenda, classe) {
     var idsCampos = idCod + ',' + idVenda + ',' + nomeVenda;
     requestAjax("", classe, 'getRespVenda', idsCampos);
@@ -1372,32 +1367,29 @@ function precoMontagemCarta(idRetornoQt, idRetornoVlr, idRetornoTotal, idInsumoQ
 }
 
 
+function buscaCNPJ(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
+    var campoVal = sCNPJ + ',' + idEmpdes + ',' + idEmpfant + ',' + idEmpfone + ',' + idEmail + ',' + idCep + ',' + idMunicipio + ',' + idEndereco + ',' + idUf + ',' + idBairro + ',' + idComplemento + ',' + idUf + ',' + idNr;
+    console.log(campoVal);
+    requestAjax("", sClasse, 'getCNPJ', campoVal);
+}
+
+
 
 /**
  * funçao para chamar json com dados do CNPJ
  */
-function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr) {
-
+function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
     if (sCNPJ !== '') {
         $.ajax({
             type: 'REQUEST',
             url: "https://www.receitaws.com.br/v1/cnpj/" + sCNPJ,
             contentType: 'application/json',
             dataType: 'jsonp',
-            responseType: 'application/json',
-            xhrFields: {
-                withCredentials: false
-            },
-            headers: {
-                'Access-Control-Allow-Credentials': true,
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET',
-                'Access-Control-Allow-Headers': 'application/json',
-            },
             success: function (data) {
                 if (data.status == 'ERROR') {
                     mensagemSlide('warning', data.message, data.status);
                 } else {
+                    mensagemSlide('info', 'Buscando dados do CNPJ!', 'Aguarde!');
                     console.log(data);
                     var fone = data.telefone.split('/');
                     var numero = data.numero;
@@ -1406,21 +1398,22 @@ function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
                     } else {
                         numero = '';
                     }
-                    $('#' + idEmpdes + '').val(data.nome);
-                    $('#' + idEmpfant + '').val(data.fantasia);
-                    $('#' + idEmpfone + '').val(fone[0].replace(/[^\d]+/g, ''));
-                    $('#' + idEmail + '').val(data.email);
-                    $('#' + idCep + '').val(data.cep.replace(/[^\d]+/g, ''));
-                    $('#' + idMunicipio + '').val(data.municipio);
-                    $('#' + idEndereco + '').val(data.logradouro);
-                    $('#' + idUf + '').val(data.uf);
-                    $('#' + idBairro + '').val(data.bairro);
-                    $('#' + idComplemento + '').val(data.complemento);
-                    $('#' + idNr + '').val(numero);
-                    if (data.nome.length > 45 || data.fantasia.length >= 35) {
-                        mensagemSlide('error', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP', 'Atenção', '10000');
-                    }
-                    mensagemSlide('success', 'Consulta realizada com sucesso!', 'Busca CNPJ');
+                    var empdes = data.nome;
+                    var empfant = data.fantasia;
+                    var empfone = fone[0].replace(/[^\d]+/g, '');
+                    var email = data.email;
+                    var cep = data.cep.replace(/[^\d]+/g, '');
+                    var municipio = data.municipio;
+                    var endereco = data.logradouro;
+                    var uf = data.uf;
+                    var bairro = data.bairro;
+                    var complemento = data.complemento;
+                    var nr = numero;
+                    
+                    var ids = idEmpdes + ',' + idEmpfant + ',' + idEmpfone + ',' + idEmail + ',' + idCep + ',' + idMunicipio + ',' + idEndereco + ',' + idUf + ',' + idBairro + ',' + idComplemento + ',' + idNr;
+                    var valores = sCNPJ + ',' + empdes + ',' + empfant + ',' + empfone + ',' + email + ',' + cep + ',' + municipio + ',' + endereco + ',' + uf + ',' + bairro + ',' + complemento + ',' + nr;
+                    requestAjax("", sClasse, 'getCNPJ', valores + ',' + ids);
+                    
 
                 }
             },

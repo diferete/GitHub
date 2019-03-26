@@ -20,8 +20,8 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Shared_Best_Fit
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
+ * @license    https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.6, 2011-02-27
  */
 
@@ -35,7 +35,7 @@ require_once PHPEXCEL_ROOT . 'PHPExcel/Shared/JAMA/Matrix.php';
  *
  * @category   PHPExcel
  * @package    PHPExcel_Shared_Best_Fit
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Polynomial_Best_Fit extends PHPExcel_Best_Fit
 {

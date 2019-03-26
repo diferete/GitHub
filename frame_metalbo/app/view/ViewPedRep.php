@@ -21,17 +21,17 @@ class ViewPedRep extends View{
         $oSeq->setILargura(25);
         $oCodigo = new CampoConsulta('Código','procod');
         $oCodigo->setILargura(60);
-        $oDes = new CampoConsulta('Descrição','pdvprodes');
-        $oDes->setILargura(350);
-        $oQt = new CampoConsulta('Quantidade','pdvproqtdp', CampoConsulta::TIPO_DECIMAL);
-        $oQt->setILargura(80);
+        $oDesProPed = new CampoConsulta('Descrição','pdvprodes');
+        $oDesProPed->setILargura(350);
+        $oQtProPed = new CampoConsulta('Quantidade','pdvproqtdp', CampoConsulta::TIPO_DECIMAL);
+        $oQtProPed->setILargura(80);
         $oVlrUnit = new CampoConsulta('Vlr. Unit','pdvprovlta', CampoConsulta::TIPO_DECIMAL);
         $oVlrUnit->setILargura(80);
         $oTotal = new CampoConsulta('Total','total', CampoConsulta::TIPO_DECIMAL);
         $oTotal->setILargura(80);
         $oTotalFat = new CampoConsulta('Tot.Faturado','totalfat', CampoConsulta::TIPO_DECIMAL);
         
-        $oGridItensPed->addCampos($oPdvnr,$oSeq,$oCodigo,$oDes,$oQt,$oVlrUnit,$oTotal,$oTotalFat);
+        $oGridItensPed->addCampos($oPdvnr,$oSeq,$oCodigo,$oDesProPed,$oQtProPed,$oVlrUnit,$oTotal,$oTotalFat);
         $oGridItensPed->setSController('PedRepIten');
         $oGridItensPed->addParam('pdvnro','0');
         $oGridItensPed->getOGrid()->setIAltura(150);
@@ -43,14 +43,14 @@ class ViewPedRep extends View{
         $oNf->setILargura(60);
         $oNfCod = new CampoConsulta('Código','nfsitcod');
         $oNfCod->setILargura(60);
-        $oDes = new CampoConsulta('Descrição','nfsitdes');
-        $oDes->setILargura(400);
-        $oQt = new CampoConsulta('Quantidade','nfsitqtd', CampoConsulta::TIPO_DECIMAL);
+        $oDesProNota = new CampoConsulta('Descrição','nfsitdes');
+        $oDesProNota->setILargura(400);
+        $oQtProNota = new CampoConsulta('Quantidade','nfsitqtd', CampoConsulta::TIPO_DECIMAL);
         $oDataEmi = new CampoConsulta('Emissão','nfsitdtemi', CampoConsulta::TIPO_DATA);
         $oPedido = new CampoConsulta('Pedido','nfsitpdvnr');
         $oNfSeq = new CampoConsulta('Seq.','nfsitseq');
         
-        $oGridNotas->addCampos($oNf,$oNfSeq,$oNfCod,$oDes,$oQt,$oDataEmi,$oPedido);
+        $oGridNotas->addCampos($oNf,$oNfSeq,$oNfCod,$oDesProNota,$oQtProNota,$oDataEmi,$oPedido);
         $oGridNotas->setSController('NfItenPed');
         $oGridNotas->addParam('nfsitpdvnr','0');
         $oGridNotas->getOGrid()->setIAltura(150);

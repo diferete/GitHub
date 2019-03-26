@@ -163,7 +163,24 @@ class ControllerCadCliRep extends Controller {
                 $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
             } else {
-                exit;
+                $sSetValorCampos = '$("#' . $aDados[12] . '").val("' . $aDados[1] . '");'
+                        . '$("#' . $aDados[13] . '").val("' . $aDados[2] . '");'
+                        . '$("#' . $aDados[14] . '").val("' . $aDados[3] . '");'
+                        . '$("#' . $aDados[15] . '").val("' . $aDados[4] . '");'
+                        . '$("#' . $aDados[16] . '").val("' . $aDados[5] . '");'
+                        . '$("#' . $aDados[17] . '").val("' . $aDados[6] . '");'
+                        . '$("#' . $aDados[18] . '").val("' . $aDados[7] . '");'
+                        . '$("#' . $aDados[19] . '").val("' . $aDados[8] . '");'
+                        . '$("#' . $aDados[20] . '").val("' . $aDados[9] . '");'
+                        . '$("#' . $aDados[21] . '").val("' . $aDados[10] . '");'
+                        . '$("#' . $aDados[22] . '").val("' . $aDados[11] . '");';
+                echo $sSetValorCampos;
+                $oMensagem = new Mensagem('Sucesso', 'Busca efetuada com sucesso!', Mensagem::TIPO_SUCESSO);
+                echo $oMensagem->getRender();
+                if (strlen($aDados[1]) > 45 || strlen($aDados[2]) > 35) {
+                    $oMsg = new Mensagem('Atenção', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP', Mensagem::TIPO_ERROR, '10000');
+                    echo $oMsg->getRender();
+                }
             }
         } else {
             exit;

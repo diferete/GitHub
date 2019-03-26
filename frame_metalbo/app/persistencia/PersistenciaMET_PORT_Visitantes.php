@@ -135,12 +135,25 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
 
         return $aRetorno;
     }
-    
+
     public function buscaHora($aDados) {
         $sSql = "select horachegou from MET_PORT_Visitantes where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $sRetorno = $this->consultaSql($sSql);
 
         return $sRetorno->horachegou;
+    }
+
+    public function excluirRegistro($aDados) {
+        $sSqlDel = "delete from MET_PORT_Visitantes"
+                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetornaDel = $this->executaSql($sSqlDel);
+        return $aRetornaDel;
+    }
+
+    public function buscaSituaca($aDados) {
+        $sSql = "select situaca from MET_PORT_Visitante where nr = '" . $aDados['nr'] . "' and filcgc = '" . $aDados['filcgc'] . "'";
+        $oRetorno = $this->consultaSql($sSql);
+        return $oRetorno->situaca;
     }
 
 }

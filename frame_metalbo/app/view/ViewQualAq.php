@@ -32,7 +32,6 @@ class ViewQualAq extends View {
         $oSit = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_DESTAQUE2);
         $oSit->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
         $oSit->addComparacao('Iniciada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
-        $oSit->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
 
         $oOrigem = new CampoConsulta('Origem', 'origem', CampoConsulta::TIPO_LARGURA);
 
@@ -245,8 +244,9 @@ class ViewQualAq extends View {
         $oDataIni = new campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 6, 6, 6);
         $oDataIni->setSValor(date('d/m/Y'));
 
-        $oDataFinal = new campo('Data Prevista', 'datafim', Campo::TIPO_DATA, 2, 6, 6, 6);
-        $oDataFinal->setSValor(date('d/m/Y'));
+        /* $oDataFinal = new campo('Data Prevista', 'datafim', Campo::TIPO_DATA, 2, 6, 6, 6);
+          $oDataFinal->setSValor(date('d/m/Y'));
+         */
 
         $oTipoAcao = new campo('Tipo da ação', 'tipoacao', Campo::TIPO_SELECT, 4, 12, 12, 12);
         $oTipoAcao->addItemSelect('Ação Corretiva', 'Ação Corretiva');
@@ -302,10 +302,10 @@ class ViewQualAq extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
             $this->addCampos(
-                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni, $oDataFinal), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
+                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
         } else {
             $this->addCampos(
-                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni, $oDataFinal), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr);
+                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr);
         }
     }
 

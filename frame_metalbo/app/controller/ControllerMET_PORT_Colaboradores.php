@@ -167,4 +167,38 @@ class ControllerMET_PORT_Colaboradores extends Controller {
         }
     }
 
+    public function relColaboradores($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'relColaboradores');
+    }
+
+    public function excluirRegistro($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $oMensagem = new Modal('Excluir', 'Deseja EXCLUIR o registro nrº' . $aCamposChave['nr'] . '?', Modal::TIPO_INFO, true, true, true);
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_PORT_Colaboradores","excluiRegistro","' . $sDados . '");');
+
+        echo $oMensagem->getRender();
+        exit;
+    }
+
+    public function excluiRegistro($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aRetorno = $this->Persistencia->excluirRegistro($aCamposChave);
+        if ($aRetorno == true) {
+            $oMsg = new Mensagem('Sucesso', 'Registro excluido com sucesso', Mensagem::TIPO_SUCESSO);
+        } else {
+            $oMsg = new Mensagem('Atenção', 'Registro não pode ser excluido', Mensagem::TIPO_ERROR);
+        }
+        echo $oMsg->getRender();
+        echo"$('#" . $aDados[1] . "-pesq').click();";
+        exit;
+    }
+
 }

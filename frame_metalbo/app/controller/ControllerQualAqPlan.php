@@ -206,7 +206,7 @@ class ControllerQualAqPlan extends Controller {
                 echo $sLimpa;
                 echo 'requestAjax("' . $aDados[0] . '","QualAqPlan","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
             } else {
-                $oMensagem = new Modal('Problema', 'Problemas ao retorna plano de ação' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Modal('Problema', 'Problemas ao retornar plano de ação' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
             }
         }

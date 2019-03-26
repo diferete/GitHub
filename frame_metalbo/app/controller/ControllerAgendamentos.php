@@ -87,7 +87,7 @@ class ControllerAgendamentos extends Controller {
             foreach ($aRetorno as $iKey => $oValue) {
                 $iDias = $oValue->dias;
 
-                if ($iDias >= -7) {
+                if ($iDias = -7) {
                     $this->envEmailAq($oValue);
                 }
             }
@@ -108,7 +108,7 @@ class ControllerAgendamentos extends Controller {
         $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
 
-        $aEmail = $this->Persistencia->buscaEmailPlanoAca($oValue);
+        $aEmail = $this->Persistencia->buscaEmailPlanoAcao($oValue);
 
         $oEmail->addDestinatario($aEmail[0]);
 
@@ -126,7 +126,7 @@ class ControllerAgendamentos extends Controller {
                         . '<br/><b style="margin:40px;color:blue">E-mail enviado automaticamente, favor não responder!</b>'
                         . '<br/><b style="margin:40px;color:red">Você continuará recebendo e-mails até o plano de ação ser finalizado!</b>'));
 
-        $aRetorno = $oEmail->sendEmail();
+        //$aRetorno = $oEmail->sendEmail();
         return;
     }
 

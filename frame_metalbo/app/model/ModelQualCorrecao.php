@@ -20,6 +20,24 @@ class ModelQualCorrecao {
     private $usunome;
     private $tipo;
     private $situaca;
+    private $apontamento;
+    private $dtaponta;
+
+    function getApontamento() {
+        return $this->apontamento;
+    }
+
+    function getDtaponta() {
+        return $this->dtaponta;
+    }
+
+    function setApontamento($apontamento) {
+        $this->apontamento = $apontamento;
+    }
+
+    function setDtaponta($dtaponta) {
+        $this->dtaponta = $dtaponta;
+    }
 
     function getPlano() {
         return $this->plano;

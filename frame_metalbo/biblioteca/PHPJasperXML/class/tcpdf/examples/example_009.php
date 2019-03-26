@@ -90,7 +90,7 @@ $pdf->Image('@'.$imgdata);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Image example with resizing
-$pdf->Image('../images/image_demo.jpg', 15, 140, 75, 113, 'JPG', 'http://www.tcpdf.org', '', true, 150, '', false, false, 1, false, false, false);
+$pdf->Image('../images/image_demo.jpg', 15, 140, 75, 113, 'JPG', 'https://www.tcpdf.org', '', true, 150, '', false, false, 1, false, false, false);
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

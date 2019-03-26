@@ -20,8 +20,8 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel2007
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
+ * @license    https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.6, 2011-02-27
  */
 
@@ -31,7 +31,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Writer_Excel2007
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_Excel2007_ContentTypes extends PHPExcel_Writer_Excel2007_WriterPart
 {
@@ -57,7 +57,7 @@ class PHPExcel_Writer_Excel2007_ContentTypes extends PHPExcel_Writer_Excel2007_W
 
 		// Types
 		$objWriter->startElement('Types');
-		$objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/package/2006/content-types');
+		$objWriter->writeAttribute('xmlns', 'https://schemas.openxmlformats.org/package/2006/content-types');
 
 			// Theme
 			$this->_writeOverrideContentType(

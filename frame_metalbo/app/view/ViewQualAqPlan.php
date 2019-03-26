@@ -252,7 +252,7 @@ class ViewQualAqPlan extends View {
             $oPPAP->setSValor($oDados->getPpap());
         }
 
-        $oContexto = new Campo('Contexto da Organização', 'contexto', Campo::TIPO_CHECK, 4, 4, 12, 12);
+        $oContexto = new Campo('Riscos e Oportunidades', 'contexto', Campo::TIPO_CHECK, 4, 4, 12, 12);
         if ($oDados->getContexto() != null) {
             $oContexto->setSValor($oDados->getContexto());
         }

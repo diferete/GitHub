@@ -15,11 +15,13 @@ class ViewMET_PORT_Visitantes extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
+        
+        $oExcluir = new Dropdown('Excluir', Dropdown::TIPO_AVISO, Dropdown::ICON_PADRAO);
+        $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Visitantes', 'excluirRegistro', '', false, '', false, '', false, '');
+        
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
@@ -76,7 +78,7 @@ class ViewMET_PORT_Visitantes extends View {
         $oFilMotivo->addItemSelect('3', 'Outro');
         $oFilMotivo->setSLabel('Motivo');
 
-
+        $this->addDropdown($oExcluir);
         $this->addFiltro($oFilNR, $oFilCracha, $oFilColaborador, $oFilMotivo);
         $this->addCampos($oBotaoModal, $oNr, $oSituaca, $oPessoa, $oCpf, $oMotivo, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntra, $oDataSaida, $oHoraSaida);
     }
@@ -107,9 +109,8 @@ class ViewMET_PORT_Visitantes extends View {
         $oUsuNome->setSValor($_SESSION['nome']);
         $oUsuNome->setBCampoBloqueado(true);
 
-        $oDataCad = new Campo('Data', 'datachegou', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataCad = new Campo('Data', 'datachegou', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataCad->setSValor(date('d/m/Y'));
-        $oDataCad->setBCampoBloqueado(true);
 
         $oHoraEntra = new Campo('Hora', 'horachegou', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oHoraEntra->setSValor(date('H:i:s'));
@@ -322,6 +323,54 @@ class ViewMET_PORT_Visitantes extends View {
         $oDescMotivo->setILinhasTextArea(4);
 
         $this->addCampos(array($oNr, $oCracha, $oEmpresa, $oMotivo), $oDescMotivo, $oDivisor1, array($oDataSaida, $oHoraSaida, $oFilcgc), $oLinha, $oBtnInserir);
+    }
+
+        public function relVisitantes() {
+        parent::criaTelaRelatorio();
+
+        $this->setTituloTela('Relatório de Terceiros');
+        $this->setBTela(true);
+
+        $oUserRel = new Campo('', 'userRel', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oUserRel->setSValor($_SESSION['nome']);
+
+        $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataIni->setSValor(Util::getPrimeiroDiaMes());
+        $oDataIni->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oDataFin = new Campo('Data Final', 'datafim', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataFin->setSValor(Util::getDataAtual());
+        $oDataFin->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oMotivo = new Campo('Motivo', 'motivo', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oMotivo->addItemSelect('', 'Todos');
+        $oMotivo->addItemSelect('2', 'Visita - 6000');
+        $oMotivo->addItemSelect('1', 'Serviços - 7000');
+        $oMotivo->addItemSelect('3', 'Outro');
+        
+        $oCpf = new campo('CPF', 'cpf', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCpf->setITamanho(Campo::TAMANHO_PEQUENO);
+
+        $oPessoa = new Campo('Pessoa', 'pessoa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oPessoa->setSIdPk($oCpf->getId());
+        $oPessoa->setClasseBusca('MET_CAD_Cpf');
+        $oPessoa->addCampoBusca('cpf', '', '');
+        $oPessoa->addCampoBusca('nome', '', '');
+        $oPessoa->setSIdTela($this->getTela()->getid());
+
+        $oCpf->setClasseBusca('MET_CAD_Cpf');
+        $oCpf->setSCampoRetorno('cpf', $this->getTela()->getId());
+        $oCpf->addCampoBusca('nome', $oPessoa->getId(), $this->getTela()->getId());
+        
+        $oSituacao = new Campo('Situação','situacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oSituacao->addItemSelect('', 'Todas');
+        $oSituacao->addItemSelect('Chegada', 'Chegada');
+        $oSituacao->addItemSelect('Entrada', 'Entrada');
+        $oSituacao->addItemSelect('Saída', 'Saída');
+        
+        $oL = new Campo('', '', Campo::TIPO_LINHABRANCO);
+        
+        $this->addCampos(array($oMotivo, $oDataIni, $oDataFin),$oL, array($oCpf,$oPessoa),$oL, $oSituacao);
     }
 
 }

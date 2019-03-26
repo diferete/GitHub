@@ -61,7 +61,7 @@ class ViewLogin extends View {
                 . '</form>'
                 . '<p><a href="#" data-target="#style2538359449931f24b2" data-toggle="modal" id="solicita">Clique aqui para solicitar um usuário.</a></p>'
                 . '<a target="_blank" href="https://www.youtube.com/channel/UCO6rJtl4ePqsWRTztRFkE5w"><img src="biblioteca/assets/images/youtube.png" /></a>'
-                . '       <a target="_blank" href="http://facebook.com/metalbo.oficial"><img src="biblioteca/assets/images/face.png" /></a>'
+                . '       <a target="_blank" href="https://facebook.com/metalbo.oficial"><img src="biblioteca/assets/images/face.png" /></a>'
                 . '</div>'
                 . '</div>'
                 . '<div id="resultado">'

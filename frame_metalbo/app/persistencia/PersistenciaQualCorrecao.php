@@ -26,6 +26,8 @@ class PersistenciaQualCorrecao extends Persistencia {
         $this->adicionaRelacionamento('usunome', 'usunome');
         $this->adicionaRelacionamento('tipo', 'tipo');
         $this->adicionaRelacionamento('situaca', 'situaca');
+        $this->adicionaRelacionamento('apontamento', 'apontamento');
+        $this->adicionaRelacionamento('dtaponta', 'dtaponta');
 
         $this->adicionaOrderBy('seq', 1);
     }
@@ -41,6 +43,38 @@ class PersistenciaQualCorrecao extends Persistencia {
         $sSql = "select tipoacao from tbacaoqual where filcgc = '" . $aDados[0] . "' and nr = '" . $aDados[1] . "'";
         $oResult = $this->consultaSql($sSql);
         return $oResult->tipoacao;
+    }
+
+    public function apontaCorrecao() {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        $aCampos['apontamento'] = $this->preparaString($aCampos['apontamento']);
+
+        $sSql = "update MET_QUAL_Correcao set dtaponta = '" . $aCampos['dtaponta'] . "',"
+                . "apontamento = '" . $aCampos['apontamento'] . "', situaca = 'Finalizado'"
+                . "where filcgc ='" . $aCampos['filcgc'] . "' and nr = '" . $aCampos['nr'] . "' and seq = '" . $aCampos['seq'] . "' ";
+
+        $aRet = $this->executaSql($sSql);
+        return $aRet;
+    }
+
+    public function retCorrecao() {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        $sSql = "update MET_QUAL_Correcao set dtaponta = null,apontamento = '', situaca = null 
+        where filcgc ='" . $aCampos['filcgc'] . "' and nr = '" . $aCampos['nr'] . "' and seq = '" . $aCampos['seq'] . "' ";
+
+        $aRet = $this->executaSql($sSql);
+        return $aRet;
+    }
+
+    public function buscaParam($aDados) {
+        $sSql = "select * from MET_QUAL_Correcao where filcgc = '" . $aDados[0] . "' and nr = '" . $aDados[1] . "' and seq = '" . $aDados[2] . "' ";
+
+        $oRow = $this->consultaSql($sSql);
+
+        return $oRow;
     }
 
 }

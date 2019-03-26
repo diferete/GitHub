@@ -20,8 +20,8 @@
  *
  * @category   PHPExcel
  * @package	PHPExcel_Writer_Excel2007
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
- * @license	http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
+ * @license	https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version	1.7.6, 2011-02-27
  */
 
@@ -31,7 +31,7 @@
  *
  * @category   PHPExcel
  * @package	PHPExcel_Writer_Excel2007
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Writer_Excel2007_Worksheet extends PHPExcel_Writer_Excel2007_WriterPart
 {
@@ -60,8 +60,8 @@ class PHPExcel_Writer_Excel2007_Worksheet extends PHPExcel_Writer_Excel2007_Writ
 			// Worksheet
 			$objWriter->startElement('worksheet');
 			$objWriter->writeAttribute('xml:space', 'preserve');
-			$objWriter->writeAttribute('xmlns', 'http://schemas.openxmlformats.org/spreadsheetml/2006/main');
-			$objWriter->writeAttribute('xmlns:r', 'http://schemas.openxmlformats.org/officeDocument/2006/relationships');
+			$objWriter->writeAttribute('xmlns', 'https://schemas.openxmlformats.org/spreadsheetml/2006/main');
+			$objWriter->writeAttribute('xmlns:r', 'https://schemas.openxmlformats.org/officeDocument/2006/relationships');
 
 				// sheetPr
 				$this->_writeSheetPr($objWriter, $pSheet);

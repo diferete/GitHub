@@ -241,6 +241,7 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
 
     public function alteraHora($sValor, $aCamposChave) {
         $sSituaca = $this->buscaSituaca($aCamposChave);
+        $dHoje = date('Y-m-d');
 
         if ($sSituaca == 'Chegada') {
 
@@ -248,7 +249,9 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
                     . " where nr = '" . $aCamposChave['nr'] . "'";
             $oDados = $this->consultaSql($sSqlDados);
 
-            $sSqlIdCarga = "select idcarga from MetExp_Carga where empcod = '" . $oDados->empcod . "'
+            if ($oDados->datachegou == $dHoje) {
+
+                $sSqlIdCarga = "select idcarga from MetExp_Carga where empcod = '" . $oDados->empcod . "'
                 and transp ='" . $oDados->empdes . "' 
                 and dataent = '" . $oDados->datachegou . "'
                 and horaent = '" . $oDados->horachegou . "'
@@ -256,18 +259,23 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
                 and pesotara  = '0,00'
                 and pesobruto  = '0,00' 
                 and pesocarregado = '0,00'";
-            $oIdCarga = $this->consultaSql($sSqlIdCarga);
+                $oIdCarga = $this->consultaSql($sSqlIdCarga);
 
-            if ($oIdCarga->idcarga != null && $oIdCarga->idcarga != '') {
+                if ($oIdCarga->idcarga != null && $oIdCarga->idcarga != '') {
+                    $sSql = "update MET_PORT_Transito set horachegou ='" . $sValor . "' where nr='" . $aCamposChave['nr'] . "'";
+                    $aRetorno = $this->executaSql($sSql);
+                    if ($aRetorno) {
+                        $sSqlHoraCarga = "update MetExp_Carga set horaent ='" . $sValor . "' where idcarga='" . $oIdCarga->idcarga . "'";
+                        $this->executaSql($sSqlHoraCarga);
+                    }
+                }
+
+                return $aRetorno;
+            } else {
                 $sSql = "update MET_PORT_Transito set horachegou ='" . $sValor . "' where nr='" . $aCamposChave['nr'] . "'";
                 $aRetorno = $this->executaSql($sSql);
-                if ($aRetorno) {
-                    $sSqlHoraCarga = "update MetExp_Carga set horaent ='" . $sValor . "' where idcarga='" . $oIdCarga->idcarga . "'";
-                    $this->executaSql($sSqlHoraCarga);
-                }
+                return $aRetorno;
             }
-
-            return $aRetorno;
         } else {
             return false;
         }
@@ -309,7 +317,8 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
         }
     }
 
-    public function buscaSituaca($aDados) {
+    public
+            function buscaSituaca($aDados) {
         $sSql = "select situaca from MET_PORT_Transito where nr = '" . $aDados['nr'] . "' and filcgc = '" . $aDados['filcgc'] . "'";
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno->situaca;

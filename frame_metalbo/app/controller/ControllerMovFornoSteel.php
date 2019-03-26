@@ -12,7 +12,7 @@ class ControllerMovFornoSteel extends Controller{
     }
     
     public function getDadosSteel($sDados){
-        $oMensagemPesq = new Mensagem('Pesquisanto API_STEEL', 'http://steelfornos.ddns.net:8080/api_steel', Mensagem::TIPO_INFO);
+        $oMensagemPesq = new Mensagem('Pesquisanto API_STEEL', 'https://steelfornos.ddns.net:8080/api_steel', Mensagem::TIPO_INFO);
         echo $oMensagemPesq->getRender();
          date_default_timezone_set('America/Sao_Paulo');
          $sDataAnt =date('Y-m-d',strtotime('-7 days'));
@@ -20,7 +20,7 @@ class ControllerMovFornoSteel extends Controller{
          
          $sDataTime =date("Y-m-d H:i:s");
         
-        $json_file = file_get_contents("http://steelfornos.ddns.net:8080/api_steel");   //http://steelfornos.ddns.net:8080/api_steel 
+        $json_file = file_get_contents("https://steelfornos.ddns.net:8080/api_steel");   //https://steelfornos.ddns.net:8080/api_steel 
         $json_str = json_decode($json_file, true);
         $iCont = count($json_str);
        if($iCont==0){

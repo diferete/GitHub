@@ -125,4 +125,17 @@ class PersistenciaMET_PORT_Colaboradores extends Persistencia {
         return $aRetorno;
     }
 
+    public function excluirRegistro($aDados) {
+        $sSqlDel = "delete from MET_PORT_Colaboradores"
+                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetornaDel = $this->executaSql($sSqlDel);
+        return $aRetornaDel;
+    }
+
+    public function buscaSituaca($aDados) {
+        $sSql = "select situaca from MET_PORT_Colaboradores where nr = '" . $aDados['nr'] . "' and filcgc = '" . $aDados['filcgc'] . "'";
+        $oRetorno = $this->consultaSql($sSql);
+        return $oRetorno->situaca;
+    }
+
 }

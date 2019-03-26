@@ -242,18 +242,20 @@ class ControllerQualNovoProjRep extends Controller {
         $bEnvia = true;
         foreach ($aDadosParam as $key => $value) {
             $aCamposChave['nr'] = $value;
-            $bEnvia = $this->Persistencia->verifAprovRep($aCamposChave);
-            if ($bEnvia == false) {
+            $oEnvia = $this->Persistencia->verifSit($aCamposChave);
+            if ($oEnvia->sitgeralproj == 'Expirado' || $oEnvia->sitgeralproj == 'Expirado') {
                 break;
             }
         }
 
 
-        if ($bEnvia) {
+        if ($oEnvia->sitproj == 'Aprovado' && $oEnvia->sitvendas == 'Aprovado' && $oEnvia->sitcliente == 'Aguardando') {
             $oMensagem = new Modal('Proposta', 'Deseja enviar a proposta do projeto(s) n(s)º ' . $sChaveParam . ' para o seu e-mail?', Modal::TIPO_AVISO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","EnvProp","' . $sDados . '","' . $sChaveParam . '");');
-        } else {
-            $oMensagem = new Modal('Prosposta', 'Há entrada de projetos que não estão aprovados pelo setor de projetos e vendas.', Modal::TIPO_ERRO, false, true, true);
+        } if ($oEnvia->sitgeralproj == 'Reprovado') {
+            $oMensagem = new Modal('Prosposta', 'Entrada de projetos foi reprovada e não pode ser encaminhada.', Modal::TIPO_ERRO, false, true, true);
+        }if ($oEnvia->sitgeralproj == 'Expirado') {
+            $oMensagem = new Modal('Prosposta', 'Entrada de projetos foi expirada pelo sistema e não pode ser encaminhada.', Modal::TIPO_ERRO, false, true, true);
         }
 
 
@@ -330,7 +332,7 @@ class ControllerQualNovoProjRep extends Controller {
         $oEmail->limpaDestinatariosAll();
 
         // Para
-         $oEmail->addDestinatario($_SESSION['email']);
+        $oEmail->addDestinatario($_SESSION['email']);
 
 
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
@@ -359,37 +361,44 @@ class ControllerQualNovoProjRep extends Controller {
 
         $bExecuta = $this->Persistencia->verifAprovRep($aCamposChave);
         $oProposta = $this->Persistencia->buscaProposta($aCamposChave);
-        //se false não abre a tela
-        if ($bExecuta) {
-            //verifica se o projeto já está aprovado
-            $bAprov = $this->Persistencia->verifAprovCli($aCamposChave);
+        $bExpira = $this->Persistencia->verifExpirado($aCamposChave);
+        if ($bExpira) {
+            //se false não abre a tela
+            if ($bExecuta) {
+                //verifica se o projeto já está aprovado
+                $bAprov = $this->Persistencia->verifAprovCli($aCamposChave);
 
-            if ($bAprov) {
-                $bReprov = $this->Persistencia->verifReprov($aCamposChave);
-                if ($bReprov) {
-                    $this->View->setAParametrosExtras($oProposta);
-
-
-                    $this->View->criaTelaModalAprovProp($aDados[1]);
-
-                    //adiciona onde será renderizado
-                    $this->View->getTela()->setSRender($aDados[1] . '-modal');
+                if ($bAprov) {
+                    $bReprov = $this->Persistencia->verifReprov($aCamposChave);
+                    if ($bReprov) {
+                        $this->View->setAParametrosExtras($oProposta);
 
 
-                    //renderiza a tela
-                    $this->View->getTela()->getRender();
+                        $this->View->criaTelaModalAprovProp($aDados[1]);
+
+                        //adiciona onde será renderizado
+                        $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+
+                        //renderiza a tela
+                        $this->View->getTela()->getRender();
+                    } else {
+                        $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' está reprovado!', Modal::TIPO_ERRO, false, true, true);
+                        echo $oMensagem->getRender();
+                        echo "$('#" . $aDados[1] . "-btn').click();";
+                    }
                 } else {
-                    $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' está reprovado!', Modal::TIPO_ERRO, false, true, true);
+                    $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' já está aprovado pelo cliente!', Modal::TIPO_ERRO, false, true, true);
                     echo $oMensagem->getRender();
                     echo "$('#" . $aDados[1] . "-btn').click();";
                 }
             } else {
-                $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' já está aprovado pelo cliente!', Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' não está em situação para ser aprovado!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
                 echo "$('#" . $aDados[1] . "-btn').click();";
             }
         } else {
-            $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' não está em situação para ser aprovado!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' foi expirado pelo sistema!', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
             echo "$('#" . $aDados[1] . "-btn').click();";
         }
@@ -409,25 +418,32 @@ class ControllerQualNovoProjRep extends Controller {
 
         $bLibCad = $this->Persistencia->verifLibCadastro($aCamposChave);
         $bReprov = $this->Persistencia->verifReprov($aCamposChave);
-        if ($bLibCad) {
-            if ($bReprov) {
-                $oProposta = $this->Persistencia->buscaProposta($aCamposChave);
-                $this->View->setAParametrosExtras($oProposta);
+        $bExpira = $this->Persistencia->verifExpirado($aCamposChave);
+        if ($bExpira) {
+            if ($bLibCad) {
+                if ($bReprov) {
+                    $oProposta = $this->Persistencia->buscaProposta($aCamposChave);
+                    $this->View->setAParametrosExtras($oProposta);
 
-                $this->View->criaTelaModalReprovProp($aCamposChave['id']);
+                    $this->View->criaTelaModalReprovProp($aCamposChave['id']);
 
-                //adiciona onde será renderizado
-                $this->View->getTela()->setSRender($aDados[1] . '-modal');
+                    //adiciona onde será renderizado
+                    $this->View->getTela()->setSRender($aDados[1] . '-modal');
 
-                //renderiza a tela
-                $this->View->getTela()->getRender();
+                    //renderiza a tela
+                    $this->View->getTela()->getRender();
+                } else {
+                    $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' não pode ser reprovado!', Modal::TIPO_ERRO, false, true, true);
+                    echo $oMensagem->getRender();
+                    echo "$('#" . $aDados[1] . "-btn').click();";
+                }
             } else {
-                $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' já está reprovado!', Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' já foi liberado para cadastro!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
                 echo "$('#" . $aDados[1] . "-btn').click();";
             }
         } else {
-            $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' já foi liberado para cadastro!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Projeto', 'O projeto ' . $aCamposChave['nr'] . ' foi expirado pelo sistema!', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
             echo "$('#" . $aDados[1] . "-btn').click();";
         }
