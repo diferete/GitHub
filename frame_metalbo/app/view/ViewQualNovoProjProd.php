@@ -58,7 +58,7 @@ class ViewQualNovoProjProd extends View {
         $oSitGeral->addComparacao('Faturado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA);
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(20);
-       
+
 
         $this->addCampos($oNr, $oData, $oSitCli, $oSitGeral, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli);
 
@@ -85,13 +85,13 @@ class ViewQualNovoProjProd extends View {
         $oFSitProj = new Filtro($oSitGeral, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFSitProj->addItemSelect('Todos', 'Todos');
         $oFSitProj->addItemSelect('Em execução', 'Em execução');
-        $oFSitProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');        
+        $oFSitProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');
         $oFSitProj->addItemSelect('Lib.Projetos', 'Lib.Projetos');
         $oFSitProj->addItemSelect('Finalizado', 'Finalizado');
         $oFSitProj->addItemSelect('Aprovado', 'Aprovado');
         $oFSitProj->addItemSelect('Representante', 'Representante');
         $oFSitProj->setSLabel('');
-        
+
         //TelaCadVerif
 
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
@@ -99,7 +99,7 @@ class ViewQualNovoProjProd extends View {
 
         $oFiltroProd = new Filtro($oNovoProd, Filtro::CAMPO_TEXTO, 8, 8, 12, 12);
         $oFiltroProd->setSLabel('Descrição');
-        $this->addFiltro($oFSitProj,$oFiltroNr, $oFiltroProd);
+        $this->addFiltro($oFSitProj, $oFiltroNr, $oFiltroProd);
 
         //$aInicial[0] = 'sitgeralproj,Todos';
         //$this->getTela()->setAParametros($aInicial);
@@ -154,67 +154,6 @@ class ViewQualNovoProjProd extends View {
         $oFieldDimen = new FieldSet('Especificações dimensionais');
         $oFieldDimen->setOculto(true);
 
-
-        $oGrupo = new campo('Grupo', 'grucod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-
-        $oGrupoDes = new campo('Grupo Des.', 'grupodes', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
-        $oGrupoDes->setSIdPk($oGrupo->getId());
-        $oGrupoDes->setClasseBusca('GrupoProd');
-        $oGrupoDes->addCampoBusca('grucod', '', '');
-        $oGrupoDes->addCampoBusca('grudes', '', '');
-        $oGrupoDes->setSIdTela($this->getTela()->getid());
-        $oGrupoDes->setApenasTela(true);
-
-        $oGrupo->setClasseBusca('GrupoProd');
-        $oGrupo->setSCampoRetorno('grucod', $this->getTela()->getid());
-        $oGrupo->addCampoBusca('grudes', $oGrupoDes->getId(), $this->getTela()->getid());
-        $oGrupo->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-
-        $oSubGrupo = new campo('SubGrupo', 'subcod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-
-        $oSubGrupoDes = new campo('SubGrupo Des.', 'subgrupodes', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
-        $oSubGrupoDes->setSIdPk($oSubGrupo->getId());
-        $oSubGrupoDes->setClasseBusca('SubGrupoProd');
-        $oSubGrupoDes->addCampoBusca('subcod', '', '');
-        $oSubGrupoDes->addCampoBusca('subdes', '', '');
-        $oSubGrupoDes->setSIdTela($this->getTela()->getid());
-        $oSubGrupoDes->setApenasTela(true);
-
-        $oSubGrupo->setClasseBusca('SubGrupoProd');
-        $oSubGrupo->setSCampoRetorno('subcod', $this->getTela()->getid());
-        $oSubGrupo->addCampoBusca('subdes', $oSubGrupoDes->getId(), $this->getTela()->getid());
-        $oSubGrupo->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-
-        $oFamilia = new campo('Familia', 'famcod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-
-        $oFamiliaDes = new campo('Fam. Des.', 'famdes', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
-        $oFamiliaDes->setSIdPk($oFamilia->getId());
-        $oFamiliaDes->setClasseBusca('FamProd');
-        $oFamiliaDes->addCampoBusca('famcod', '', '');
-        $oFamiliaDes->addCampoBusca('famdes', '', '');
-        $oFamiliaDes->setSIdTela($this->getTela()->getid());
-        $oFamiliaDes->setApenasTela(true);
-
-        $oFamilia->setClasseBusca('FamProd');
-        $oFamilia->setSCampoRetorno('famcod', $this->getTela()->getid());
-        $oFamilia->addCampoBusca('famdes', $oFamiliaDes->getId(), $this->getTela()->getid());
-        $oFamilia->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-
-        $oSubFamilia = new campo('SubFam', 'famsub', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-
-        $oSubFamiliaDes = new campo('SubFam Des.', 'subfamdes', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
-        $oSubFamiliaDes->setSIdPk($oSubFamilia->getId());
-        $oSubFamiliaDes->setClasseBusca('FamSub');
-        $oSubFamiliaDes->addCampoBusca('famsub', '', '');
-        $oSubFamiliaDes->addCampoBusca('famsdes', '', '');
-        $oSubFamiliaDes->setSIdTela($this->getTela()->getid());
-        $oSubFamiliaDes->setApenasTela(true);
-
-        $oSubFamilia->setClasseBusca('FamSub');
-        $oSubFamilia->setSCampoRetorno('famsub', $this->getTela()->getid());
-        $oSubFamilia->addCampoBusca('famsdes', $oSubFamiliaDes->getId(), $this->getTela()->getid());
-        $oSubFamilia->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-
         $oAngHelice = new campo('Âng. Helice', 'anghelice', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oAcab = new Campo('Acab.', 'acab', Campo::TIPO_TEXTO, 2, 2, 12, 12);
@@ -223,125 +162,100 @@ class ViewQualNovoProjProd extends View {
 
         $oClasse = new campo('Classe', 'classe', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $oChaveMin = new campo('Chave Mín.', 'chavemin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oChaveMin = new campo('Chave Mín.', 'chavemin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oChaveMin->setSCorFundo(Campo::FUNDO_AMARELO);
         $oChaveMin->setSValor('0');
 
-        $oChaveMax = new campo('Chave Max.', 'chavemax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oChaveMax = new campo('Chave Max.', 'chavemax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oChaveMax->setSValor('0');
         $oChaveMax->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oAltMin = new Campo('Alt. Mín', 'altmin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oAltMin = new Campo('Alt. Mín', 'altmin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oAltMin->setSCorFundo(Campo::FUNDO_AMARELO);
         $oAltMin->setSValor('0');
 
-        $oAltMax = new Campo('Alt. Máx', 'altmax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oAltMax = new Campo('Alt. Máx', 'altmax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oAltMax->setSValor('0');
         $oAltMax->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oDiamFmin = new campo('Diâm. Furo Mín', 'diamfmin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDiamFmin = new campo('Diâm. Furo Mín', 'diamfmin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oDiamFmin->setSValor('0');
         $oDiamFmin->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oDiamFmax = new campo('Diâm. Furo Máx', 'diamfmax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDiamFmax = new campo('Diâm. Furo Máx', 'diamfmax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oDiamFmax->setSValor('0');
         $oDiamFmax->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oCompMin = new campo('Comp. Mín', 'compmin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oCompMin = new campo('Comp. Mín', 'compmin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oCompMin->setSValor('0');
         $oCompMin->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oCompMax = new campo('Comp .Máx', 'compmax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oCompMax = new campo('Comp .Máx', 'compmax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oCompMax->setSValor('0');
         $oCompMax->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oDiamPriMin = new Campo('Diâm. Prim. Mín', 'diampmin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDiamPriMin = new Campo('Diâm. Prim. Mín', 'diampmin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oDiamPriMin->setSCorFundo(Campo::FUNDO_AMARELO);
         $oDiamPriMin->setSValor('0');
 
-        $oDiamPriMax = new Campo('Diâm. Prim. Máx', 'diampmax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDiamPriMax = new Campo('Diâm. Prim. Máx', 'diampmax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oDiamPriMax->setSValor('0');
         $oDiamPriMax->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oDiamExtMin = new campo('Diâm. Ext. Mín', 'diamexmin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDiamExtMin = new campo('Diâm. Ext. Mín', 'diamexmin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oDiamExtMin->setSValor('0');
         $oDiamExtMin->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oDiamExtMax = new campo('Diâm. Ext. Máx', 'diamexmax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDiamExtMax = new campo('Diâm. Ext. Máx', 'diamexmax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oDiamExtMax->setSValor('0');
         $oDiamExtMax->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oCompRMin = new campo('Com. Rosc. Mín', 'comprmin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oCompRMin = new campo('Com. Rosc. Mín', 'comprmin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oCompRMin->setSValor('0');
         $oCompRMin->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oCompRMax = new campo('Com. Rosc. Máx', 'comprmax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oCompRMax = new campo('Com. Rosc. Máx', 'comprmax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oCompRMax->setSValor('0');
         $oCompRMax->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oCompHasteMin = new Campo('Com. Hast. Mín', 'comphmin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oCompHasteMin = new Campo('Com. Hast. Mín', 'comphmin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oCompHasteMin->setSValor('0');
         $oCompHasteMin->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oCompHasteMax = new Campo('Com. Hast. Máx', 'comphmax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oCompHasteMax = new Campo('Com. Hast. Máx', 'comphmax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oCompHasteMax->setSValor('0');
         $oCompHasteMax->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oDiamHasteMin = new campo('Diâm. Haste. Mín', 'diamhmin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDiamHasteMin = new campo('Diâm. Haste. Mín', 'diamhmin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oDiamHasteMin->setSValor('0');
         $oDiamHasteMin->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oDiamHasteMax = new campo('Diâm. Haste. Máx', 'diamhmax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDiamHasteMax = new campo('Diâm. Haste. Máx', 'diamhmax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oDiamHasteMax->setSValor('0');
         $oDiamHasteMax->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oProfCanecoMin = new Campo('Prof.Caneco Min.', 'profcanecomin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oProfCanecoMin = new Campo('Prof.Caneco Min.', 'profcanecomin', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oProfCanecoMin->setSValor('0');
         $oProfCanecoMin->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oProfCanecoMax = new Campo('Prof.Caneco Max.', 'profcanecomax', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oProfCanecoMax = new Campo('Prof.Caneco Max.', 'profcanecomax', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oProfCanecoMax->setSValor('0');
         $oProfCanecoMax->setSCorFundo(Campo::FUNDO_AMARELO);
 
 
 
         //executa esta funcao ao sair dos campos
-        $sAcaoExit = 'dimenNewProj("' . $oChaveMin->getId() . '","' . $oChaveMax->getId() . '","' . $oAltMin->getId() . '","' . $oAltMax->getId() . '",'
-                . '"' . $oDiamFmin->getId() . '","' . $oDiamFmax->getId() . '","' . $oCompMin->getId() . '",'
-                . '"' . $oCompMax->getId() . '","' . $oDiamPriMin->getId() . '",'
-                . '"' . $oDiamPriMax->getId() . '","' . $oDiamExtMin->getId() . '",'
-                . '"' . $oDiamExtMax->getId() . '","' . $oCompRMin->getId() . '",'
-                . '"' . $oCompRMax->getId() . '","' . $oCompHasteMin->getId() . '",'
-                . '"' . $oCompHasteMax->getId() . '","' . $oDiamHasteMin->getId() . '",'
-                . '"' . $oDiamHasteMax->getId() . '","' . $oProfCanecoMin->getId() . '",'
-                . '"' . $oProfCanecoMax->getId() . '","' . $oAngHelice->getId() . '","' . $oAcab->getId() . '");';   //$oCompRMin
-        $oChaveMin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oChaveMax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oAltMin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oAltMax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oDiamFmin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oDiamFmax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oCompMin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oCompMax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oDiamPriMin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oDiamPriMax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oDiamExtMin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oDiamExtMax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oCompRMin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oCompRMax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oCompHasteMin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oCompHasteMax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oDiamHasteMin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oDiamHasteMax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oProfCanecoMin->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oProfCanecoMax->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oAngHelice->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oAcab->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oProcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
-        $oProcod->setBFocus(true);
+        $sAcaoExit = 'dimenNewProj($("#' . $oProcodSimilar->getId() . '").val(),'
+                . '"' . $oChaveMin->getId() . '","' . $oChaveMax->getId() . '","' . $oAltMin->getId() . '","' . $oAltMax->getId() . '","' . $oDiamFmin->getId() . '",'
+                . '"' . $oDiamFmax->getId() . '","' . $oCompMin->getId() . '","' . $oCompMax->getId() . '","' . $oDiamPriMin->getId() . '",' . '"' . $oDiamPriMax->getId() . '",'
+                . '"' . $oDiamExtMin->getId() . '","' . $oDiamExtMax->getId() . '","' . $oCompRMin->getId() . '","' . $oCompRMax->getId() . '","' . $oCompHasteMin->getId() . '",'
+                . '"' . $oCompHasteMax->getId() . '","' . $oDiamHasteMin->getId() . '","' . $oDiamHasteMax->getId() . '","' . $oProfCanecoMin->getId() . '","' . $oProfCanecoMax->getId() . '",'
+                . '"' . $oAngHelice->getId() . '","' . $oAcab->getId() . '","' . $oMaterial->getId() . '","' . $oClasse->getId() . '","' . $this->getController() . '");';   //$oCompRMin
+        $oProcodSimilar->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
+
 
         $oFieldDimen->addCampos(
-                array($oGrupo, $oGrupoDes, $oSubGrupo, $oSubGrupoDes), array($oFamilia, $oFamiliaDes, $oSubFamilia, $oSubFamiliaDes), array($oAcab, $oMaterial, $oClasse, $oAngHelice), array($oChaveMin, $oChaveMax, $oAltMin, $oAltMax), array($oDiamFmin, $oDiamFmax, $oCompMin, $oCompMax), array($oDiamPriMin, $oDiamPriMax, $oDiamExtMin, $oDiamExtMax), array($oCompHasteMin, $oCompHasteMax, $oCompRMin, $oCompRMax), array($oDiamHasteMin, $oDiamHasteMax, $oProfCanecoMin, $oProfCanecoMax));
+                array($oAcab, $oMaterial, $oClasse, $oAngHelice), array($oChaveMin, $oChaveMax, $oAltMin, $oAltMax), array($oDiamFmin, $oDiamFmax, $oCompMin, $oCompMax), array($oDiamPriMin, $oDiamPriMax, $oDiamExtMin, $oDiamExtMax), array($oCompHasteMin, $oCompHasteMax, $oCompRMin, $oCompRMax), array($oDiamHasteMin, $oDiamHasteMax, $oProfCanecoMin, $oProfCanecoMax));
 
         /* private $tiprosca;
           private $normadimen;

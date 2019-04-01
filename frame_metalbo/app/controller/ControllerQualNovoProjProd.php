@@ -48,49 +48,7 @@ class ControllerQualNovoProjProd extends Controller {
         $this->View->getTela()->getRender();
     }
 
-    public function beforeInsert() {
-        parent::beforeInsert();
-
-        $this->Model->setChavemin($this->ValorSql($this->Model->getChavemin()));
-        $this->Model->setChavemax($this->ValorSql($this->Model->getChavemax()));
-        $this->Model->setAltmin($this->ValorSql($this->Model->getAltmin())); //Altmax()
-        $this->Model->setAltmax($this->ValorSql($this->Model->getAltmax()));
-        $this->Model->setDiamfmin($this->ValorSql($this->Model->getDiamfmin()));
-        $this->Model->setDiamfmax($this->ValorSql($this->Model->getDiamfmax()));
-
-        $this->Model->setCompmin($this->ValorSql($this->Model->getCompmin())); //Compmax
-        $this->Model->setCompmax($this->ValorSql($this->Model->getCompmax()));
-
-        $this->Model->setDiampmin($this->ValorSql($this->Model->getDiampmin()));
-        $this->Model->setDiampmax($this->ValorSql($this->Model->getDiampmax()));
-
-        $this->Model->setDiamexmin($this->ValorSql($this->Model->getDiamexmin()));
-        $this->Model->setDiamexmax($this->ValorSql($this->Model->getDiamexmax()));
-
-        $this->Model->setComprmin($this->ValorSql($this->Model->getComprmin()));
-        $this->Model->setComprmax($this->ValorSql($this->Model->getComprmax()));
-
-        $this->Model->setComphmin($this->ValorSql($this->Model->getComphmin()));
-        $this->Model->setComphmax($this->ValorSql($this->Model->getComphmax()));
-
-        $this->Model->setDiamhmin($this->ValorSql($this->Model->getDiamhmin()));
-        $this->Model->setDiamhmax($this->ValorSql($this->Model->getDiamhmax())); //Anghelice
-
-        $this->Model->setAnghelice($this->ValorSql($this->Model->getAnghelice()));
-
-        $this->Model->setProfcanecomin($this->ValorSql($this->Model->getProfcanecomin()));
-        $this->Model->setProfcanecomax($this->ValorSql($this->Model->getProfcanecomax()));
-
-        $this->Model->setAcab($this->ValorSql($this->Model->getAcab()));
-
-
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
+  
     public function beforeUpdate() {
         parent::beforeUpdate();
 
@@ -137,29 +95,20 @@ class ControllerQualNovoProjProd extends Controller {
 
         $aRetornoInsert = $this->Persistencia->insertCadDim();
 
-        if ($aRetornoInsert[0] == '1') {
-            $oMessage = new Mensagem('Cad. Dimensional', 'Produto já cadastrado no Sistema_Metalbo/Delsoft', Mensagem::TIPO_WARNING);
+        if ($aRetornoInsert[0]) {
+            $oMessage = new Mensagem('Cad. Dimensional', 'Cadastro dimensional inserido com sucesso no Sistema_Metalbo/Delsoft', Mensagem::TIPO_SUCESSO);
             echo $oMessage->getRender();
             $aRetorno = array();
             $aRetorno[0] = true;
             $aRetorno[1] = '';
             return $aRetorno;
         } else {
-            if ($aRetornoInsert[0] == '0') {
-                $oMessage = new Mensagem('Cad. Dimensional', 'Cadastro dimensional inserido com sucesso no Sistema_Metalbo/Delsoft', Mensagem::TIPO_SUCESSO);
-                echo $oMessage->getRender();
-                $aRetorno = array();
-                $aRetorno[0] = true;
-                $aRetorno[1] = '';
-                return $aRetorno;
-            } else {
-                $oMessage = new Mensagem('Cad. Dimensional', 'Erro ao inserir cadastro dimensional no Sistema_Metalbo/Delsoft', Mensagem::TIPO_WARNING);
-                echo $oMessage->getRender();
-                $aRetorno = array();
-                $aRetorno[0] = true;
-                $aRetorno[1] = '';
-                return $aRetorno;
-            }
+            $oMessage = new Mensagem('Cad. Dimensional', 'Erro ao inserir cadastro dimensional no Sistema_Metalbo/Delsoft', Mensagem::TIPO_WARNING);
+            echo $oMessage->getRender();
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
         }
     }
 
@@ -223,7 +172,7 @@ class ControllerQualNovoProjProd extends Controller {
                         . '<b>CÓDIGO DO NOVO PRODUTO:</b> ' . $oDadosProj->procod . '<br/>'
                         . '<b>Descrição:</b> ' . $oDadosProj->desc_novo_prod . '<br/>'
                         . '<b>Acabamento:</b> ' . $oDadosProj->acabamento . '<br/>'
-                        . '<b>Quantidade:</b> ' . number_format($oDadosProj->quant_pc, 2, ',', '.') . '<br />' //.number_format($oAprov->quant_pc, 2, ',', '.').
+                        . '<b>Quantidade:</b> ' . number_format($oDadosProj->quant_pc, '.') . '<br />' //.number_format($oAprov->quant_pc, '.').
                         . '<b>Data Implantação:  ' . $oDadosProj->dtimp . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Cnpj:</b></td><td>' . $oDadosProj->empcod . '</td></tr>'
@@ -415,6 +364,41 @@ class ControllerQualNovoProjProd extends Controller {
 
     public function geraEtapaProcesso($renderTo, $sMetodo = '') {
         parent::acaoMostraRelatorio($renderTo, 'geraEtapaProcesso');
+    }
+
+    public function getDadosProdSimilar($sDados) {
+        $aDados = explode(',', $sDados);
+
+        $oObj = $this->Persistencia->getCadDim($aDados[0]);
+
+        $sSetValorCampos = '$("#' . $aDados[1] . '").val("' . Util::formataSqlDecimal($oObj->prodchamin) . '");'
+                . '$("#' . $aDados[2] . '").val("' . Util::formataSqlDecimal($oObj->prodchamax) . '");'
+                . '$("#' . $aDados[3] . '").val("' . Util::formataSqlDecimal($oObj->prodaltmin) . '");'
+                . '$("#' . $aDados[4] . '").val("' . Util::formataSqlDecimal($oObj->prodaltmax) . '");'
+                . '$("#' . $aDados[5] . '").val("' . Util::formataSqlDecimal($oObj->proddiamin) . '");'
+                . '$("#' . $aDados[6] . '").val("' . Util::formataSqlDecimal($oObj->proddiamax) . '");'
+                . '$("#' . $aDados[7] . '").val("' . Util::formataSqlDecimal($oObj->procommin) . '");'
+                . '$("#' . $aDados[8] . '").val("' . Util::formataSqlDecimal($oObj->procommax) . '");'
+                . '$("#' . $aDados[9] . '").val("' . Util::formataSqlDecimal($oObj->prodiapmin) . '");'
+                . '$("#' . $aDados[10] . '").val("' . Util::formataSqlDecimal($oObj->prodiapmax) . '");'
+                . '$("#' . $aDados[11] . '").val("' . Util::formataSqlDecimal($oObj->prodiaemin) . '");'
+                . '$("#' . $aDados[12] . '").val("' . Util::formataSqlDecimal($oObj->prodiaemax) . '");'
+                . '$("#' . $aDados[13] . '").val("' . Util::formataSqlDecimal($oObj->procomrmin) . '");'
+                . '$("#' . $aDados[14] . '").val("' . Util::formataSqlDecimal($oObj->procomrmax) . '");'
+                . '$("#' . $aDados[15] . '").val("' . Util::formataSqlDecimal($oObj->comphastma) . '");'
+                . '$("#' . $aDados[16] . '").val("' . Util::formataSqlDecimal($oObj->comphastmi) . '");'
+                . '$("#' . $aDados[17] . '").val("' . Util::formataSqlDecimal($oObj->diamhastmi) . '");'
+                . '$("#' . $aDados[18] . '").val("' . Util::formataSqlDecimal($oObj->diamhastma) . '");'
+                . '$("#' . $aDados[19] . '").val("' . Util::formataSqlDecimal($oObj->pfcmin) . '");'
+                . '$("#' . $aDados[20] . '").val("' . Util::formataSqlDecimal($oObj->pfcmax) . '");'
+                . '$("#' . $aDados[22] . '").val("' . (int) $oObj->prodacab . '");'
+                . '$("#' . $aDados[23] . '").val("' . $oObj->promatcod . '");'
+                . '$("#' . $aDados[24] . '").val("' . $oObj->proclasseg . '");';
+        $teste = strlen($oObj->proanghel);
+        if ($teste > 0) {
+            $sSetValorCampos .= '$("#' . $aDados[21] . '").val("' . $oObj->proanghel . '");';
+        }
+        echo $sSetValorCampos;
     }
 
 }

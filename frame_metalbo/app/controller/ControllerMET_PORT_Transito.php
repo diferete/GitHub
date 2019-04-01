@@ -264,7 +264,7 @@ class ControllerMET_PORT_Transito extends Controller {
         parse_str($sChave, $aCamposChave);
 
         $sRetorno = $this->Persistencia->buscaSituaca($aCamposChave);
-        if ($sRetorno == 'Saida') {
+        if ($sRetorno != 'Saida') {
             $oMensagem = new Modal('Excluir', 'Deseja EXCLUIR o registro nrº' . $aCamposChave['nr'] . '?', Modal::TIPO_INFO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_PORT_Transito","excluiRegistro","' . $sDados . '");');
         } else {

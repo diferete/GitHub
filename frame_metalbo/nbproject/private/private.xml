@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="32">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="33">
         <file>
             <url>app/view/ViewSistema.php</url>
             <bookmark id="17">
@@ -29,17 +29,17 @@
             <url>app/view/ViewQualNovoProjProd.php</url>
             <bookmark id="20">
                 <name/>
-                <line>219</line>
+                <line>262</line>
                 <key/>
             </bookmark>
             <bookmark id="21">
                 <name/>
-                <line>297</line>
+                <line>262</line>
                 <key/>
             </bookmark>
             <bookmark id="23">
                 <name/>
-                <line>301</line>
+                <line>262</line>
                 <key/>
             </bookmark>
         </file>
@@ -81,6 +81,14 @@
             </bookmark>
         </file>
         <file>
+            <url>resources/js/funcoes.js</url>
+            <bookmark id="33">
+                <name/>
+                <line>801</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
             <url>app/relatorio/AqImpBKP.php</url>
             <bookmark id="32">
                 <name/>
@@ -98,6 +106,11 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/persistencia/PersistenciaQualNovoProjProd.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/controller/ControllerQualNovoProjProd.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/app/view/ViewQualNovoProjProd.php</file>
+            <file>file:/C:/wamp/www/GitHub/frame_metalbo/index.php</file>
+        </group>
     </open-files>
 </project-private>

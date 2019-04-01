@@ -176,6 +176,15 @@ class PersistenciaQualNovoProjProd extends Persistencia {
         return $oRow->sitcliente;
     }
 
+    public function getCadDim($sDados) {
+        $sSql = "select prodacab,promatcod,ProClasseG ,ProAngHel,"
+                . " prodchamin,prodchamax,prodaltmin,prodaltmax,proddiamin,proddiamax,procommin,procommax,prodiapmin,prodiapmax,"
+                . "prodiaemin,prodiaemax,procomrmin,procomrmax,comphastma,comphastmi,DiamHastMi,DiamHastMa ,pfcmin, pfcmax"
+                . " from widl.prod01 where procod = '" . $sDados . "'";
+        $oObj = $this->consultaSql($sSql);
+        return $oObj;
+    }
+
     public function insertCadDim() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
@@ -191,41 +200,20 @@ class PersistenciaQualNovoProjProd extends Persistencia {
 
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
-
-        /*
-         * Consulta/conta se existe cadastro do produto no Sistema_Metalbo/Delsoft
-         * * */
-        $sSqlConsulta = "select COUNT(*) as existe from WIDL.PROD01"
-                . " where procod = '" . $oRow->procod . "'";
-
-        $consulta = $this->getObjetoSql($sSqlConsulta);
-        $oRowCount = $consulta->fetch(PDO::FETCH_OBJ);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 
         /*
-         * Condição para inserir valores na PROD01 caso cadastro não exista
+         * Update valores na PROD01
          * * */
-        if ($oRowCount->existe == 0) {
-            $sSqlInsert = "insert into WIDL.PROD01 ("
-                    . "procod,prodes,grucod ,subcod,famcod,famsub,prodacab,promatcod,ProClasseG ,ProAngHel,"
-                    . " prodchamin,prodchamax,prodaltmin,prodaltmax,proddiamin,proddiamax,procommin,procommax,prodiapmin,prodiapmax,"
-                    . "prodiaemin,prodiaemax,procomrmin,procomrmax,comphastma,comphastmi,DiamHastMi,DiamHastMa ,pfcmin, pfcmax"
-                    . ")"
-                    . "values("
-                    . "$oRow->procod,'$oRow->desc_novo_prod',$oRow->grucod,$oRow->subcod,$oRow->famcod,$oRow->famsub,$oRow->acab,'$oRow->material',$oRow->classe,$oRow->anghelice,"
-                    . "$oRow->chavemin,$oRow->chavemax,$oRow->altmin,$oRow->altmax,$oRow->diamfmin,$oRow->diamfmax,$oRow->compmin,$oRow->compmax,$oRow->diampmin,$oRow->diampmax,"
-                    . "$oRow->diamexmin,$oRow->diamexmax,$oRow->comprmin,$oRow->comprmax,$oRow->comphmin,$oRow->comphmax,$oRow->diamhmin,$oRow->diamhmax,$oRow->profcanecomin,$oRow->profcanecomax"
-                    . ")";
-            $aRetorno = $this->executaSql($sSqlInsert);
-            if ($aRetorno[0] == true) {
-                $aRetorno[0] = '0';
-            }
-        } else {
-            if ($oRowCount->existe > 0) {
-                $aRetorno[0] = '1';
-            }
-        }
+        $sSqlInsert = "update WIDL.PROD01 set "
+                . "prodacab ='" . $oRow->acab . "',promatcod='" . $oRow->material . "',ProClasseG ='" . $oRow->classe . "',ProAngHel='" . $oRow->anghelice . "',"
+                . "prodchamin='" . $oRow->chavemin . "',prodchamax='" . $oRow->chavemax . "',prodaltmin='" . $oRow->altmin . "',prodaltmax='" . $oRow->altmax . "',proddiamin='" . $oRow->diamfmin . "',"
+                . "proddiamax='" . $oRow->diamfmax . "',procommin='" . $oRow->compmin . "',procommax='" . $oRow->compmax . "',prodiapmin='" . $oRow->diampmin . "',prodiapmax='" . $oRow->diampmax . "',"
+                . "prodiaemin='" . $oRow->diamexmin . "',prodiaemax='" . $oRow->diamexmax . "',procomrmin='" . $oRow->comprmin . "',procomrmax='" . $oRow->comprmax . "',comphastma='" . $oRow->comphmax . "',comphastmi='" . $oRow->comphmin . "',"
+                . "DiamHastMi='" . $oRow->diamhmin . "',DiamHastMa ='" . $oRow->diamhmax . "',pfcmin='" . $oRow->profcanecomin . "', pfcmax='" . $oRow->profcanecomax . "' "
+                . "where procod = '" . $oRow->procod . "'";
+        $aRetorno = $this->executaSql($sSqlInsert);
+
         return $aRetorno;
     }
 

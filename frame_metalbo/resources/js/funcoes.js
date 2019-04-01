@@ -516,12 +516,12 @@ function calcMod(idQuant, idCxNormal) {
 
     var quantidade = moedaParaNumero($('#' + idQuant + '').val()); //   $('#'+idQuant+'').val();
     quantidade = quantidade * 100;
-    console.log(quantidade);
+
     var caixaNormal = moedaParaNumero($('#' + idCxNormal + '').val());//$('#'+idCxNormal+'').val();
     caixaNormal = caixaNormal * 100;
-    console.log(caixaNormal);
+
     var modulo = quantidade % caixaNormal;
-    console.log(modulo);
+
     if (modulo > 0) {
 
         return true;
@@ -663,7 +663,7 @@ function dataAtual(idData, dataAtual) {
     //  alert(nova_data2);
 
     if (nova_data1 > nova_data2) {
-        console.log('entrou');
+
         return false;
     } else
     {
@@ -797,204 +797,12 @@ function calcNewproj(idPlan,
 /**
  * funcao para valores do dimensional da entraga de novos projetos
  */
-function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
-        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice, idAcab) {
-
-
-    var ChMin = $('#' + idChMin + '').val();
-    if (ChMin == '') {
-        $('#' + idChMin + '').val('0');
-    }
-    ChMin = moedaParaNumero(ChMin);
-    $('#' + idChMin + '').val(numeroParaMoeda(ChMin));
-
-
-    var ChMax = $('#' + idChMax + '').val();
-    if (ChMax == '') {
-        $('#' + idChMax + '').val('0');
-    }
-    ChMax = moedaParaNumero(ChMax);
-    $('#' + idChMax + '').val(numeroParaMoeda(ChMax));
-
-
-    var AltMin = $('#' + idAltMin + '').val();
-    if (AltMin == '') {
-        $('#' + idAltMin + '').val('0');
-    }
-    AltMin = moedaParaNumero(AltMin);
-    $('#' + idAltMin + '').val(numeroParaMoeda(AltMin));
-
-
-
-    var AltMax = $('#' + idAltMax + '').val();
-    if (AltMax == '') {
-        $('#' + idAltMax + '').val('0');
-    }
-    AltMax = moedaParaNumero(AltMax);
-    $('#' + idAltMax + '').val(numeroParaMoeda(AltMax));
-
-
-
-    var DiamFmin = $('#' + idDiamFmin + '').val();
-    if (DiamFmin == '') {
-        $('#' + idDiamFmin + '').val('0');
-    }
-    DiamFmin = moedaParaNumero(DiamFmin);
-    $('#' + idDiamFmin + '').val(numeroParaMoeda(DiamFmin));
-
-
-
-    var DiamFmax = $('#' + idDiamFmax + '').val();
-    if (DiamFmax == '') {
-        $('#' + idDiamFmax + '').val('0');
-    }
-    DiamFmax = moedaParaNumero(DiamFmax);
-    $('#' + idDiamFmax + '').val(numeroParaMoeda(DiamFmax));
-
-
-
-    var CompMin = $('#' + idCompMin + '').val();
-    if (CompMin == '') {
-        $('#' + idCompMin + '').val('0');
-    }
-    CompMin = moedaParaNumero(CompMin);
-    $('#' + idCompMin + '').val(numeroParaMoeda(CompMin));
-
-
-
-    var CompMax = $('#' + idCompMax + '').val();
-    if (CompMax == '') {
-        $('#' + idCompMax + '').val('0');
-    }
-    CompMax = moedaParaNumero(CompMax);
-    $('#' + idCompMax + '').val(numeroParaMoeda(CompMax));
-
-
-
-    var DiamPmin = $('#' + idDiamPmin + '').val();
-    if (DiamPmin == '') {
-        $('#' + idDiamPmin + '').val('0');
-    }
-    DiamPmin = moedaParaNumero(DiamPmin);
-    $('#' + idDiamPmin + '').val(numeroParaMoeda(DiamPmin));
-
-
-
-    var DiamPmax = $('#' + idDiamPmax + '').val();
-    if (DiamPmax == '') {
-        $('#' + idDiamPmax + '').val('0');
-    }
-    DiamPmax = moedaParaNumero(DiamPmax);
-    $('#' + idDiamPmax + '').val(numeroParaMoeda(DiamPmax));
-
-
-
-    var DiamExMin = $('#' + idDiamExMin + '').val();
-    if (DiamExMin == '') {
-        $('#' + idDiamExMin + '').val('0');
-    }
-    DiamExMin = moedaParaNumero(DiamExMin);
-    $('#' + idDiamExMin + '').val(numeroParaMoeda(DiamExMin));
-
-
-
-    var DiamExMax = $('#' + idDiamExMax + '').val();
-    if (DiamExMax == '') {
-        $('#' + idDiamExMax + '').val('0');
-    }
-    DiamExMax = moedaParaNumero(DiamExMax);
-    $('#' + idDiamExMax + '').val(numeroParaMoeda(DiamExMax));
-
-
-
-    var CompPrMin = $('#' + idCompPrMin + '').val();
-    if (CompPrMin == '') {
-        $('#' + idCompPrMin + '').val('0');
-    }
-    CompPrMin = moedaParaNumero(CompPrMin);
-    $('#' + idCompPrMin + '').val(numeroParaMoeda(CompPrMin));
-
-
-
-    var CompPrMax = $('#' + idCompPrMax + '').val();
-    if (CompPrMax == '') {
-        $('#' + idCompPrMax + '').val('0');
-    }
-    CompPrMax = moedaParaNumero(CompPrMax);
-    $('#' + idCompPrMax + '').val(numeroParaMoeda(CompPrMax));
-
-
-
-    var CompHmin = $('#' + idCompHmin + '').val();
-    if (CompHmin == '') {
-        $('#' + idCompHmin + '').val('0');
-    }
-    CompHmin = moedaParaNumero(CompHmin);
-    $('#' + idCompHmin + '').val(numeroParaMoeda(CompHmin));
-
-
-
-    var CompHmax = $('#' + idCompHmax + '').val();
-    if (CompHmax == '') {
-        $('#' + idCompHmax + '').val('0');
-    }
-    CompHmax = moedaParaNumero(CompHmax);
-    $('#' + idCompHmax + '').val(numeroParaMoeda(CompHmax));
-
-
-
-    var DiamHmin = $('#' + idDiamHmin + '').val();
-    if (DiamHmin == '') {
-        $('#' + idDiamHmin + '').val('0');
-    }
-    DiamHmin = moedaParaNumero(DiamHmin);
-    $('#' + idDiamHmin + '').val(numeroParaMoeda(DiamHmin));
-
-
-
-    var DiamHmax = $('#' + idDiamHmax + '').val();
-    if (DiamHmax == '') {
-        $('#' + idDiamHmax + '').val('0');
-    }
-    DiamHmax = moedaParaNumero(DiamHmax);
-    $('#' + idDiamHmax + '').val(numeroParaMoeda(DiamHmax));
-
-
-
-    var CanecoMin = $('#' + idCanecoMin + '').val();
-    if (CanecoMin == '') {
-        $('#' + idCanecoMin + '').val('0');
-    }
-    CanecoMin = moedaParaNumero(CanecoMin);
-    $('#' + idCanecoMin + '').val(numeroParaMoeda(CanecoMin));
-
-
-
-    var CanecoMax = $('#' + idCanecoMax + '').val();
-    if (CanecoMax == '') {
-        $('#' + idCanecoMax + '').val('0');
-    }
-    CanecoMax = moedaParaNumero(CanecoMax);
-    $('#' + idCanecoMax + '').val(numeroParaMoeda(CanecoMax));
-
-
-
-    var AngHelice = $('#' + idAngHelice + '').val();
-    if (AngHelice == '') {
-        $('#' + idAngHelice + '').val('0');
-    }
-    AngHelice = moedaParaNumero(AngHelice);
-    $('#' + idAngHelice + '').val(numeroParaMoeda(AngHelice));  //Acab
-
-
-
-    var Acab = $('#' + idAcab + '').val();
-    if (Acab == '') {
-        $('#' + idAcab + '').val('0');
-    }
-    Acab = moedaParaNumero(Acab);
-    $('#' + idAcab + '').val(numeroParaMoeda(Acab));
-
+function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
+        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice, idAcab, idMat, idClass, sClasse) {
+    var campoValSim = codProdSimilar + ',' + idChMin + ',' + idChMax + ',' + idAltMin + ',' + idAltMax + ',' + idDiamFmin + ',' + idDiamFmax + ',' + idCompMin + ',' + idCompMax + ',' + idDiamPmin + ',' + idDiamPmax + ','
+            + idDiamExMin + ',' + idDiamExMax + ',' + idCompPrMin + ',' + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ',' + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
+    console.log(campoValSim);
+    requestAjax("", sClasse, 'getDadosProdSimilar', campoValSim);
 }
 
 function NewProjRep(idQt) {
@@ -1084,7 +892,7 @@ function strongPass() {
  */
 
 function callRequestRedefine() {
-    console.log('chegou');
+
     //chama classe para alterar a senha
     requestAjax('frm-redefini', 'User', 'redefinePasswdLogin');
 }
@@ -1092,7 +900,7 @@ function callRequestRedefine() {
  * gera força de senha para redefinição da senha dentro do sistema
  */
 function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
-    console.log(idBotao);
+
 
     var Pass1Val = $('#' + idPass1 + '').val();
     var Pass2Val = $('#' + idPass2 + '').val();
@@ -1166,12 +974,12 @@ function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
     }
 
     if (forca == 's' && same == 's') {
-        console.log('entrou');
+
 
         $('#' + idBotao + '').prop('disabled', false);
 
     } else {
-        console.log('nao entrou');
+
         $('#' + idBotao + '').prop('disabled', true);
     }
 }
@@ -1186,8 +994,7 @@ function verifLoteMin(sIdLote, sIdQt) {
     var loteqt = moedaParaNumero($('#' + sIdLote + '').val());
     var qt = moedaParaNumero($('#' + sIdQt + '').val());
 
-    console.log(loteqt);
-    console.log(qt);
+
 
     if (loteqt !== 0) {
         if (loteqt > qt) {
@@ -1211,7 +1018,7 @@ function cepBusca(sCep, sIdMunin, sIdEnd, sUf, sBairro) {
     if (sCep !== '') {
         mensagemSlide('info', 'Buscando Cep nos correios....', 'Busca de Cep');
         $.getJSON("https://viacep.com.br/ws/" + sCep + "/json/", function (data) {
-            console.log(data);
+
             if (data.erro !== true) {
                 $('#' + sIdMunin + '').val(data.localidade);
                 $('#' + sIdEnd + '').val(data.logradouro);
@@ -1369,7 +1176,7 @@ function precoMontagemCarta(idRetornoQt, idRetornoVlr, idRetornoTotal, idInsumoQ
 
 function buscaCNPJ(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
     var campoVal = sCNPJ + ',' + idEmpdes + ',' + idEmpfant + ',' + idEmpfone + ',' + idEmail + ',' + idCep + ',' + idMunicipio + ',' + idEndereco + ',' + idUf + ',' + idBairro + ',' + idComplemento + ',' + idUf + ',' + idNr;
-    console.log(campoVal);
+
     requestAjax("", sClasse, 'getCNPJ', campoVal);
 }
 
@@ -1390,7 +1197,7 @@ function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
                     mensagemSlide('warning', data.message, data.status);
                 } else {
                     mensagemSlide('info', 'Buscando dados do CNPJ!', 'Aguarde!');
-                    console.log(data);
+
                     var fone = data.telefone.split('/');
                     var numero = data.numero;
                     if ($.isNumeric(numero)) {
@@ -1409,11 +1216,11 @@ function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
                     var bairro = data.bairro;
                     var complemento = data.complemento;
                     var nr = numero;
-                    
+
                     var ids = idEmpdes + ',' + idEmpfant + ',' + idEmpfone + ',' + idEmail + ',' + idCep + ',' + idMunicipio + ',' + idEndereco + ',' + idUf + ',' + idBairro + ',' + idComplemento + ',' + idNr;
                     var valores = sCNPJ + ',' + empdes + ',' + empfant + ',' + empfone + ',' + email + ',' + cep + ',' + municipio + ',' + endereco + ',' + uf + ',' + bairro + ',' + complemento + ',' + nr;
                     requestAjax("", sClasse, 'getCNPJ', valores + ',' + ids);
-                    
+
 
                 }
             },

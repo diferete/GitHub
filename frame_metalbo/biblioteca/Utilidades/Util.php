@@ -153,6 +153,13 @@ class Util {
         return number_format($valor, $iQtdDecimais, ",", ".");
     }
 
+    public function formataSqlDecimal($valor) {
+        $iValor = bcdiv($valor, 1, 2);
+        $aDecimais = explode('.', $iValor);
+        $sValor = $aDecimais[0] . ',' . $aDecimais[1];
+        return $sValor;
+    }
+
     public static function removeAcentos($sString) {
 
         $sTabAcento = array(
@@ -301,7 +308,7 @@ class Util {
             $h = $hora[0];
             $m = $hora[1];
 
-            $sHoraConvert = $h . ":" . $m ;
+            $sHoraConvert = $h . ":" . $m;
             return $sHoraConvert;
         }
     }
