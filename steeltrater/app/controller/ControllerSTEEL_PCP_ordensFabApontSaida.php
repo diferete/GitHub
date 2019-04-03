@@ -24,7 +24,14 @@ class ControllerSTEEL_PCP_ordensFabApontSaida extends Controller {
         
         $oFornoUser = $oUserForno->pesqFornoUser();
         
-        $this->Persistencia->adicionaFiltro('fornocod',$oFornoUser->getFornocod());
+        if(isset($_COOKIE['cookfornocod'])){
+            $sForno = $_COOKIE['cookfornocod'];
+        }else{
+        if (method_exists($oFornoUser,'getFornocod')){
+            $sForno=$oFornoUser->getFornocod();
+        }}
+        
+        $this->Persistencia->adicionaFiltro('fornocod',$sForno);
     }
     /*
      * Mensagem de finalização da OP em processo

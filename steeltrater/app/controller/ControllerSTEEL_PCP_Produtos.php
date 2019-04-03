@@ -23,27 +23,11 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         parent::afterInsert();
 
         $aCampos = array();
-        parse_str($_REQUEST['campos'], $aCampos);
+       //Vamos fazer o insert dos itens na filial
+        
+       $this->insertProdutoFilial();
 
-        $aValorCampo = array();
-
-        if (isset($aCampos['matriz'])) {
-            array_push($aValorCampo, '75483040000130');
-        }
-        if (isset($aCampos['fecial'])) {
-            array_push($aValorCampo, '5572480000189');
-        }
-        if (isset($aCampos['fecula'])) {
-            array_push($aValorCampo, '10540966000175');
-        }
-        if (isset($aCampos['hedler'])) {
-            array_push($aValorCampo, '83781641000158');
-        }
-        if (isset($aCampos['steeltrater'])) {
-            array_push($aValorCampo, '8993358000174');
-        }
-
-        $this->Persistencia->insereProdFilial($aCampos['pro_codigo'], $aValorCampo);
+       
 
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -55,7 +39,41 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         parent::beforeInsert();
         
         $this->Model->setPro_cadastrodatahora(date('d/m/Y h:m:s'));
+        //seta código caso não foi setado pelo usuário
+        if($this->Model->getPro_codigo()==null || $this->Model->getPro_codigo()==''){
+            $oProdSeq = Fabrica::FabricarController('STEEL_PCP_Produtos');
+            $sSeq = $oProdSeq->Persistencia->geraSequencia();
+            $this->Model->setPro_codigo($sSeq);
+        }
+        //analisa se o código já tem 
+        $this->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getPro_codigo());
+        $iCont = $this->Persistencia->getCount();
+        if($iCont > 0){
+            $this->Persistencia->rollback();
+            $oModal = new Modal('Atenção','Código já cadastrado!', Modal::TIPO_AVISO, false,true, false);
+            echo $oModal->getRender();
+            exit();
+        }
+       
+        
+        if($this->Model->getPro_referencia()!=='' && $this->Model->getPro_codigoantigo()!==''){
+            $oOprodutoRef = Fabrica::FabricarController('STEEL_PCP_Produtos');
+            $oOprodutoRef->Persistencia->adicionaFiltro('pro_referencia',$this->Model->getPro_referencia());
+            $oOprodutoRef->Persistencia->adicionaFiltro('pro_codigoantigo',$this->Model->getPro_codigoantigo());
+            $iCountRef = $oOprodutoRef->Persistencia->getCount();
+            if($iCountRef>0){
+            $oModal = new Modal('Atenção!','Já existe uma referência cadastrada para esse Cliente, necessário alterar a referência!', Modal::TIPO_AVISO, false, true, true);
+            echo $oModal->getRender();
+            exit();
+          }
+        }
+        
+        
+        
+        
         $this->preencheModelcomDados();
+        $this->validacaoProdutos();
+        
         
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -71,15 +89,16 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         $this->Model->setPro_alteracaodatahora(date('d/m/Y h:m:s'));
         $this->Model->setPro_alteracaousuario($_SESSION['nomedelsoft']);
         $this->preencheModelcomDados();
+        $this->validacaoProdutos();
         
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
         return $aRetorno;
         
-    }  
+    } 
     
-    
+  
     public function preencheModelcomDados(){
                 
         $this->Model->setPro_mva(0);
@@ -181,12 +200,156 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         $this->Model->setFis_produtocompra(' ');
         $this->Model->setPro_produtodrawback(' ');
         $this->Model->setTms_produtopredominante(' ');
+        //$this->Model->setPro_imagem(' ');
+        
+        
+        
+        
     }
     
-    public function antesDeCriarConsulta($sParametros = null) {
+    public function validacaoProdutos(){
+        if($this->Model->getPro_ncm()==null || $this->Model->getPro_ncm()==''){
+            $oModal = new Modal('Atencão','Obrigatório informar o NCM do produto.', Modal::TIPO_AVISO, false, true, false);
+            echo $oModal->getRender();
+            exit();
+        }
+        
+        //verifica se não há mais de uma referencia
+        if($this->Model->getPro_referencia()!=='' && $this->Model->getPro_codigoantigo()!==''){
+            $oOprodutoRef = Fabrica::FabricarController('STEEL_PCP_Produtos');
+            $oOprodutoRef->Persistencia->adicionaFiltro('pro_referencia',$this->Model->getPro_referencia());
+            $oOprodutoRef->Persistencia->adicionaFiltro('pro_codigoantigo',$this->Model->getPro_codigoantigo());
+            $iCountRef = $oOprodutoRef->Persistencia->getCount();
+            if($iCountRef>1){
+                $oModal = new Modal('Atenção!','Já existe uma referência cadastrada para esse Cliente, necessário alterar a referência!', Modal::TIPO_AVISO, false, true, true);
+                echo $oModal->getRender();
+                exit();
+          }
+        }
+    }
+
+        public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
         
         // $this->Persistencia->adicionaFiltro('pro_grupocodigo','100');
-         $this->Persistencia->adicionaFiltro('pro_grupocodigo', '100', Persistencia::LIGACAO_AND, Persistencia::ENTRE,'101');
+        // $this->Persistencia->adicionaFiltro('pro_grupocodigo', '100', Persistencia::LIGACAO_AND, Persistencia::ENTRE,'102');
+        $aFiltros[0]=100;
+        $aFiltros[1]=101;
+        $aFiltros[2]=102;
+        $aFiltros[3]=12;
+        $aFiltros[4]=13;
+        $aFiltros[5]=2;
+        $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aFiltros, Persistencia::LIGACAO_AND, Persistencia::GRUPO);
+        
+    }
+    
+    public function insertProdutoFilial(){
+        $oProdutoFilial = Fabrica::FabricarController('STEEL_PCP_ProdutoFilial');
+        
+        $oProdutoFilial->Model->setFil_codigo('8993358000174');
+        $oProdutoFilial->Model->setPro_codigo($this->Model->getPro_codigo());
+        $oProdutoFilial->Model->setPro_filialprioridade('1');
+        $oProdutoFilial->Model->setPro_filialdtbloqueado('1753-01-01 00:00:00.000');
+        $oProdutoFilial->Model->setPro_filialestoque('S');
+        $oProdutoFilial->Model->setPro_filialestminimo('0');
+        $oProdutoFilial->Model->setPro_filialestminimodias('0');
+        $oProdutoFilial->Model->setPro_filialestmaximo('0');
+        $oProdutoFilial->Model->setPro_filialestmaximodias('0');
+        $oProdutoFilial->Model->setPro_filialdtinventariorota('1753-01-01 00:00:00.000');
+        $oProdutoFilial->Model->setPro_filialmrpplanejamento('S');
+        $oProdutoFilial->Model->setPro_filialmrptipoordem('A');
+        $oProdutoFilial->Model->setPro_filialmrpdiascompra('0');
+        $oProdutoFilial->Model->setPro_filialmrpdiasproducao('0');
+        $oProdutoFilial->Model->setPro_filialmrpdiasqualidade('0');
+        $oProdutoFilial->Model->setPro_filialmrpdiasfornecedor('0');
+        $oProdutoFilial->Model->setPro_filialestminimotipo('Q');
+        $oProdutoFilial->Model->setPro_filialestminimoperiodo('0');
+        $oProdutoFilial->Model->setPro_filialmrplotemultiploqtd('0');
+        $oProdutoFilial->Model->setPro_filialmrploteminimoqtd('0');
+        $oProdutoFilial->Model->setPro_filialmrpdiasagrupamento('0') ;
+        $oProdutoFilial->Model->setPro_filialcomprador(' ');
+        $oProdutoFilial->Model->setPro_filialloteproducaoqtd(0);
+        $oProdutoFilial->Model->setPro_filialcomprapercdifvalor('0');
+        $oProdutoFilial->Model->setPro_filialcomprapercdifqtd('0');//1753-01-01 00:00:00.000
+        $oProdutoFilial->Model->setPro_filialinvrotativodata('1753-01-01 00:00:00.000');
+        $oProdutoFilial->Model->setPro_filialcodigofiname(' ');
+        $oProdutoFilial->Model->setPro_filialdescricaofiname(' ');
+        $oProdutoFilial->Model->setPro_filialreferenciaseriefilia('8993358000174');
+        $oProdutoFilial->Model->setPro_filialreferenciaserie('0');
+        $oProdutoFilial->Model->setPro_filialitemcomposto('N');
+        $oProdutoFilial->Model->setPro_filialcontrolasaldo('Q');
+        $oProdutoFilial->Model->setPro_filialreservaestoqueestrut('N');
+        $oProdutoFilial->Model->setPro_filialmrpacao('C');
+        $oProdutoFilial->Model->setPro_filialquantidademultpadrao('0');
+        $oProdutoFilial->Model->setPro_filialespeciepadrao(' ');
+        $oProdutoFilial->Model->setPro_filialespeciecapacidade('0');
+        $oProdutoFilial->Model->setPro_filialqtdprodutividade('0');
+        $oProdutoFilial->Model->setPro_filialpercustocoproduto('0');
+        $oProdutoFilial->Model->setPro_filialveiculo('N');
+        $oProdutoFilial->Model->setPro_filialconsqtdeprodcoprodut('N');
+        $oProdutoFilial->Model->setPro_filialmotivobloqueio(' ');
+        $oProdutoFilial->Model->setPro_filialestpontorep('0');
+        $oProdutoFilial->Model->setPro_filialmrpfilial('0');
+        $oProdutoFilial->Model->setPro_produtofilialgrupotipo(' ');
+        
+        $oProdutoFilial->Persistencia->inserir();
+    }
+    
+    public function afterCriaTela() {
+        parent::afterCriaTela();
+        
+        $this->View->setBOcultaFechar(true);
+    }
+    
+    public function antesDeMostrarTela($sParametros = null) {
+        parent::antesDeMostrarTela($sParametros);
+        $aDados = explode(',', $sParametros);
+        
+        $oImpXml = Fabrica::FabricarController('STEEL_PCP_ImportaXml');
+        $oImpXml->Persistencia->adicionaFiltro('seq',$aDados[1]);
+        $oDados = $oImpXml->Persistencia->consultarWhere();
+        
+        $this->View->setAParametrosExtras($oDados); 
+                
+                
+    }
+    
+    public function buscaReferencia($sDados){
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        
+        if($aCampos['emp_codigo']=='75483040000211'){
+            echo "$('#".$sDados."').val('".$aCampos['prod']."');";
+        }else{
+            $this->Persistencia->adicionaFiltro('pro_codigo',$aCampos['prod']);
+            $oDados = $this->Persistencia->consultarWhere();
+            
+            echo "$('#".$sDados."').val('".$oDados->getPro_referencia()."');";
+        }
+        
+        
+    }
+    
+    /**
+     * Busca produto pela referencia
+     */
+    public function buscaProdutoReferencia($sDados){
+        $aIds = explode(',', $sDados);
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        
+        if($aCampos['emp_codigo']=='75483040000211'){
+            $oMensagem = new Mensagem('Op Metalbo!','Não é necessário buscar referencia!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        }else{
+            $this->Persistencia->adicionaFiltro('pro_referencia',$aCampos['referencia']);
+            $this->Persistencia->adicionaFiltro('pro_codigoantigo',$aCampos['emp_codigo']);
+            $oDados = $this->Persistencia->consultarWhere();
+            
+            echo "$('#".$aIds[0]."').val('".$oDados->getPro_codigo()."');"
+                 ."$('#".$aIds[1]."').val('".$oDados->getPro_descricao()."');";
+        }
+        
+        
     }
 }

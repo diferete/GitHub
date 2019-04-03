@@ -25,22 +25,26 @@ class PersistenciaSTEEL_PCP_ordensFabApontEnt extends Persistencia {
         $this->adicionaRelacionamento('datasaida_forno', 'datasaida_forno');
         $this->adicionaRelacionamento('horasaida_forno', 'horasaida_forno');
         $this->adicionaRelacionamento('situacao','situacao');
+        $this->adicionaRelacionamento('coduser','coduser');
+        $this->adicionaRelacionamento('usernome','usernome');
+        $this->adicionaRelacionamento('codusersaida','codusersaida');
+        $this->adicionaRelacionamento('usernomesaida','usernomesaida');
 
         $this->setSTop('500');
         $this->adicionaOrderBy('op', 1);
     }
     
-    public function inserirApont($aCampos){
+    public function inserirApont($aCampos,$oDadosOp){
         date_default_timezone_set('America/Sao_Paulo');
         $sData = Util::getDataAtual();
         $sHora = date('H:i');
         
         $iSeq = $this->getIncremento('seq');
         
-        $sSql ="insert into STEEL_PCP_ordensFabApont (op,seq,fornocod,fornodes,procod,prodes,dataent_forno,horaent_forno,situacao)"
-                . " values(".$aCampos['op'].",".$iSeq.","
-                . " ".$aCampos['fornocod'].",'".$aCampos['fornodes']."','".$aCampos['procod']."',"
-                . "'".$aCampos['prodes']."','".$sData."','".$sHora."','Processo');";
+        $sSql ="insert into STEEL_PCP_ordensFabApont (op,seq,fornocod,fornodes,procod,prodes,dataent_forno,horaent_forno,situacao,coduser,usernome)"
+                . " values(".$oDadosOp->getOp().",".$iSeq.","
+                . " ".$aCampos['fornocod'].",'".$aCampos['fornodes']."','".$oDadosOp->getProdFinal()."',"
+                . "'".$oDadosOp->getProdesFinal()."','".$sData."','".$sHora."','Processo','".$aCampos['coduser']."','".$aCampos['usernome']."');";
         $aRetorno = $this->executaSql($sSql);
         
         //muda a situacao da op para em processo

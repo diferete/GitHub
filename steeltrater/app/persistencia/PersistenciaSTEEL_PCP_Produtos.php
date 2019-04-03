@@ -16,6 +16,7 @@ class PersistenciaSTEEL_PCP_Produtos extends Persistencia {
 
         $this->adicionaRelacionamento('pro_cadastrousuario', 'pro_cadastrousuario');
         $this->adicionaRelacionamento('pro_codigo', 'pro_codigo', true, true);
+        $this->adicionaRelacionamento('pro_codigo', 'STEEL_PCP_ProdutoFilial.pro_codigo', false, false);
         $this->adicionaRelacionamento('pro_descricao', 'pro_descricao');
         $this->adicionaRelacionamento('pro_pesoliquido', 'pro_pesoliquido');
         $this->adicionaRelacionamento('pro_tipocontrole', 'pro_tipocontrole');
@@ -192,12 +193,22 @@ class PersistenciaSTEEL_PCP_Produtos extends Persistencia {
         $this->adicionaJoin('DELX_PRO_Subfamilia', null, 1, 'pro_grupocodigo', 'pro_grupocodigo', $sAndSubFam);
     
         
-        
+        $sAndFilial = ' and "STEEL_PCP_ProdutoFilial".fil_codigo =8993358000174 ';
+         $this->adicionaJoin('STEEL_PCP_ProdutoFilial', null, 1, 'pro_codigo', 'pro_codigo', $sAndFilial);
         
         
     }
 
     public function insereProdFilial($sProCod,$aCNPJ) {
+        
+    }
+    
+    public function geraSequencia(){
+        $sSql = "select max(pro_codigo)+1 as seq from pro_produto where pro_codigo >= 88880001 and pro_codigo < 95010396";
+        
+        $result = $this->getObjetoSql($sSql);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        return $row->seq;
         
     }
 

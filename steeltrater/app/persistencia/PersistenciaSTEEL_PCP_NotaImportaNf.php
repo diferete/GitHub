@@ -98,5 +98,48 @@ class PersistenciaSTEEL_PCP_NotaImportaNf extends Persistencia{
         }
         
     }
+     /*    $sqlCount = "select COUNT(*)as nr "
+                    ."from metalbo.widl.NEC0401 left outer join metalbo.widl.NEC040 "
+                    ."on metalbo.widl.NEC0401.filcgc =metalbo.widl.NEC040.filcgc "
+                    ."and metalbo.widl.NEC0401.RoeNro = metalbo.widl.NEC040.RoeNro "
+                    ."where metalbo.widl.NEC040.RoeNroNf ='".$aCampos[1]."'";
+        
+        $result = $this->getObjetoSql($sqlCount);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        
+        $iCont = $row->nr;
+        
+        if($iCont>0){
+         $sSql = "insert into STEEL_PCP_importaNf "
+         ."select metalbo.widl.NEC040.RoeNroNf,"
+         ."  '2' as serie,"
+         ."metalbo.widl.NEC0401.RoeSeq,"
+         ."metalbo.widl.NEC0401.procod,"
+         ."metalbo.widl.prod01.prodes,metalbo.widl.prod01.pround,"
+         ."metalbo.widl.NEC0401.RoeQtdReal,"
+         ."metalbo.widl.NEC0401.filcgc, "
+         ."'METALBO INDUSTRIA DE FIXADORES METALICOS LTDA' as empdes,"
+         ."metalbo.widl.NEC040.RoeData,"
+         ."metalbo.widl.NEC0401.RoeNro,"
+         ."metalbo.widl.NEC0401.metof, "
+         ."metalbo.widl.NEC0401.metpesocarg,metalbo.widl.NEC0401.metmat,"
+         ."metalbo.widl.NEC040.RoeObs,'' as opSteel "
+         ."from metalbo.widl.NEC0401 left outer join metalbo.widl.NEC040 "
+         ."on metalbo.widl.NEC0401.filcgc =metalbo.widl.NEC040.filcgc  "
+         ."and metalbo.widl.NEC0401.RoeNro = metalbo.widl.NEC040.RoeNro "
+         ."left outer join metalbo.widl.prod01 "
+         ."on metalbo.widl.NEC0401.procod = metalbo.widl.prod01.procod "
+         ."where metalbo.widl.NEC040.RoeNroNf ='".$aCampos[1]."' "
+         ."order by metalbo.widl.NEC0401.procod ";
+         $aRetorno = $this->executaSql($sSql);
+         return $aRetorno;
+        }else
+        {
+            $aRetorno[0]=false;
+            return $aRetorno;
+        }
+        
+    }*/
+    
 }
 

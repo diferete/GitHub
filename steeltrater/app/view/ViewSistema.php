@@ -14,6 +14,7 @@ class ViewSistema extends View {
      */
 
     function retornaTelaInicial() {
+        
         $telaInicial = 'window.location = "index.php?classe=Sistema&metodo=getTelaInicial";';
         return $telaInicial;
     }

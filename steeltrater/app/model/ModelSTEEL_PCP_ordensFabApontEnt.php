@@ -20,7 +20,49 @@ class ModelSTEEL_PCP_ordensFabApontEnt {
     private $procod;
     private $prodes;
     private $situacao;
+    private $coduser;
+    private $usernome;
+    private $codusersaida;
+    private $usernomesaida;
+    /*$this->adicionaRelacionamento('codusersaida','codusersaida');
+        $this->adicionaRelacionamento('usernomesaida','usernomesaida');*/
     
+     function getCodusersaida() {
+         return $this->codusersaida;
+     }
+
+     function getUsernomesaida() {
+         return $this->usernomesaida;
+     }
+
+     function setCodusersaida($codusersaida) {
+         $this->codusersaida = $codusersaida;
+     }
+
+     function setUsernomesaida($usernomesaida) {
+         $this->usernomesaida = $usernomesaida;
+     }
+
+         
+    function getUsernome() {
+        return $this->usernome;
+    }
+
+    function setUsernome($usernome) {
+        $this->usernome = $usernome;
+    }
+
+        
+    function getCoduser() {
+        return $this->coduser;
+    }
+
+   
+    function setCoduser($coduser) {
+        $this->coduser = $coduser;
+    }
+
+  
     function getSituacao() {
         return $this->situacao;
     }

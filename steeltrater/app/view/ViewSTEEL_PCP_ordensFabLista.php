@@ -23,7 +23,6 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         $this->getTela()->setBFocoCampo(true);
 
         $oNr = new CampoConsulta('Nr', 'nr');
-        
         $oPrioridade = new CampoConsulta('Prior.','prioridade', CampoConsulta::TIPO_EDIT);
         $oPrioridade->setILargura(20);
         $oPrioridade->addAcao('STEEL_PCP_ordensFabLista', 'gravaPrio');

@@ -9,6 +9,7 @@
 
 class ModelSTEEL_PCP_pesqArame {
 
+    private $STEEL_PCP_ProdutoFilial;
     private $DELX_PRO_Grupo;
     private $pro_codigo;
     private $pro_descricao;
@@ -86,6 +87,623 @@ class ModelSTEEL_PCP_pesqArame {
     private $pro_descricaoestrutura;
     private $pro_perigosonumerorisco;
     private $pro_produtoperigosoqtdminima;
+    private $matriz;
+    private $steeltrater;
+    private $fecula;
+    private $fecial;
+    private $hedler;
+    ////////////////////////////////////////////////////////////////////////////////
+    private $pro_mva;
+    private $pro_composto;
+    private $pro_cadastrodatahora;
+    private $pro_alteracaousuario;
+    private $pro_alteracaodatahora;
+    private $pro_imagem;
+    private $pro_sequencia;
+    private $pro_imagemfiletype;
+    private $pro_imagemfilename;
+    private $pro_inventariosequencia;
+    private $pro_transgenico;
+    private $fis_simpscancgrupocodigo;
+    private $fis_simpscancprodutocodigo;
+    private $pro_simpscancinpminicial;
+    private $pro_simpscanccalculoimposto;
+    private $pro_classeconsumo;
+    private $pro_tipoassinante;
+    private $pro_tipoutilizacao;
+    private $pro_classificacaoitem;
+    private $pro_garantiatempo;
+    private $pro_garantiatempotipo;
+    private $pro_garantiatipo;
+    private $fis_agrupamentocodigo;
+    private $pro_tipoproduto;
+    private $pro_tipovolume;
+    private $pro_lotesequencial;
+    private $qld_produtofrequenciainspecao;
+    private $qld_produtoregimecodigo;
+    private $qld_produtonivelcodigo;
+    private $qld_produtoskiplotecodigo;
+    private $qld_produtoexamecodigo;
+    private $qld_produtonaoatualizaautoregi;
+    private $pro_mascaralote;
+    private $pro_tipocalculodecimal;
+    private $pro_casasdecimais;
+    private $pro_produtobovinos;
+    private $pro_produtovacina;
+    private $pro_produtovacinacodigo;
+    private $grs_agrotoxicoclassetoxicologi;
+    private $grs_agrotoxicoregistrominister;
+    private $grs_agrotoxicograurisco;
+    private $grs_classeriscocodigo;
+    private $grs_agrotoxicoprincipioativo;
+    private $grs_agrotoxicotriplicelavagem;
+    private $grs_agrotoxicoindea;
+    private $grs_agrotoxicofabricante;
+    private $grs_agrotoxicoenderecofabrican;
+    private $grs_agrotoxicotelefoneemergenc;
+    private $grs_agrotoxiconumerososcotec;
+    private $grs_agrotoxicobulaarquivo;
+    private $grs_agrotoxicobulaarquivonome;
+    private $grs_agrotoxicobulaarquivotipo;
+    private $pro_produtoprioridadecomposto;
+    private $grs_agrotoxicocarencia;
+    private $cmb_produtoreducaost;
+    private $dii_produtobeneficio;
+    private $pro_produtodescnfe;
+    private $pro_mascaraqualidade;
+    private $pro_produtofilialfaturamento;
+    private $pro_tipocoluna;
+    private $fis_produtocompra;
+    private $tms_produtopredominante;
+    
+    function getSTEEL_PCP_ProdutoFilial() {
+        if(!isset($this->STEEL_PCP_ProdutoFilial)){
+            $this->STEEL_PCP_ProdutoFilial = Fabrica::FabricarModel('STEEL_PCP_ProdutoFilial');
+        }
+        return $this->STEEL_PCP_ProdutoFilial;
+    }
+
+    function setSTEEL_PCP_ProdutoFilial($STEEL_PCP_ProdutoFilial) {
+        $this->STEEL_PCP_ProdutoFilial = $STEEL_PCP_ProdutoFilial;
+    }
+
+    
+    function getPro_mva() {
+        return $this->pro_mva;
+    }
+
+    function getPro_composto() {
+        return $this->pro_composto;
+    }
+
+    function getPro_cadastrodatahora() {
+        return $this->pro_cadastrodatahora;
+    }
+
+    function getPro_alteracaousuario() {
+        return $this->pro_alteracaousuario;
+    }
+
+    function getPro_alteracaodatahora() {
+        return $this->pro_alteracaodatahora;
+    }
+
+    function getPro_imagem() {
+        return $this->pro_imagem;
+    }
+
+    function getPro_sequencia() {
+        return $this->pro_sequencia;
+    }
+
+    function getPro_imagemfiletype() {
+        return $this->pro_imagemfiletype;
+    }
+
+    function getPro_imagemfilename() {
+        return $this->pro_imagemfilename;
+    }
+
+    function getPro_inventariosequencia() {
+        return $this->pro_inventariosequencia;
+    }
+
+    function getPro_transgenico() {
+        return $this->pro_transgenico;
+    }
+
+    function getFis_simpscancgrupocodigo() {
+        return $this->fis_simpscancgrupocodigo;
+    }
+
+    function getFis_simpscancprodutocodigo() {
+        return $this->fis_simpscancprodutocodigo;
+    }
+
+    function getPro_simpscancinpminicial() {
+        return $this->pro_simpscancinpminicial;
+    }
+
+    function getPro_simpscanccalculoimposto() {
+        return $this->pro_simpscanccalculoimposto;
+    }
+
+    function getPro_classeconsumo() {
+        return $this->pro_classeconsumo;
+    }
+
+    function getPro_tipoassinante() {
+        return $this->pro_tipoassinante;
+    }
+
+    function getPro_tipoutilizacao() {
+        return $this->pro_tipoutilizacao;
+    }
+
+    function getPro_classificacaoitem() {
+        return $this->pro_classificacaoitem;
+    }
+
+    function getPro_garantiatempo() {
+        return $this->pro_garantiatempo;
+    }
+
+    function getPro_garantiatempotipo() {
+        return $this->pro_garantiatempotipo;
+    }
+
+    function getPro_garantiatipo() {
+        return $this->pro_garantiatipo;
+    }
+
+    function getFis_agrupamentocodigo() {
+        return $this->fis_agrupamentocodigo;
+    }
+
+    function getPro_tipoproduto() {
+        return $this->pro_tipoproduto;
+    }
+
+    function getPro_tipovolume() {
+        return $this->pro_tipovolume;
+    }
+
+    function getPro_lotesequencial() {
+        return $this->pro_lotesequencial;
+    }
+
+    function getQld_produtofrequenciainspecao() {
+        return $this->qld_produtofrequenciainspecao;
+    }
+
+    function getQld_produtoregimecodigo() {
+        return $this->qld_produtoregimecodigo;
+    }
+
+    function getQld_produtonivelcodigo() {
+        return $this->qld_produtonivelcodigo;
+    }
+
+    function getQld_produtoskiplotecodigo() {
+        return $this->qld_produtoskiplotecodigo;
+    }
+
+    function getQld_produtoexamecodigo() {
+        return $this->qld_produtoexamecodigo;
+    }
+
+    function getQld_produtonaoatualizaautoregi() {
+        return $this->qld_produtonaoatualizaautoregi;
+    }
+
+    function getPro_mascaralote() {
+        return $this->pro_mascaralote;
+    }
+
+    function getPro_tipocalculodecimal() {
+        return $this->pro_tipocalculodecimal;
+    }
+
+    function getPro_casasdecimais() {
+        return $this->pro_casasdecimais;
+    }
+
+    function getPro_produtobovinos() {
+        return $this->pro_produtobovinos;
+    }
+
+    function getPro_produtovacina() {
+        return $this->pro_produtovacina;
+    }
+
+    function getPro_produtovacinacodigo() {
+        return $this->pro_produtovacinacodigo;
+    }
+
+    function getGrs_agrotoxicoclassetoxicologi() {
+        return $this->grs_agrotoxicoclassetoxicologi;
+    }
+
+    function getGrs_agrotoxicoregistrominister() {
+        return $this->grs_agrotoxicoregistrominister;
+    }
+
+    function getGrs_agrotoxicograurisco() {
+        return $this->grs_agrotoxicograurisco;
+    }
+
+    function getGrs_classeriscocodigo() {
+        return $this->grs_classeriscocodigo;
+    }
+
+    function getGrs_agrotoxicoprincipioativo() {
+        return $this->grs_agrotoxicoprincipioativo;
+    }
+
+    function getGrs_agrotoxicotriplicelavagem() {
+        return $this->grs_agrotoxicotriplicelavagem;
+    }
+
+    function getGrs_agrotoxicoindea() {
+        return $this->grs_agrotoxicoindea;
+    }
+
+    function getGrs_agrotoxicofabricante() {
+        return $this->grs_agrotoxicofabricante;
+    }
+
+    function getGrs_agrotoxicoenderecofabrican() {
+        return $this->grs_agrotoxicoenderecofabrican;
+    }
+
+    function getGrs_agrotoxicotelefoneemergenc() {
+        return $this->grs_agrotoxicotelefoneemergenc;
+    }
+
+    function getGrs_agrotoxiconumerososcotec() {
+        return $this->grs_agrotoxiconumerososcotec;
+    }
+
+    function getGrs_agrotoxicobulaarquivo() {
+        return $this->grs_agrotoxicobulaarquivo;
+    }
+
+    function getGrs_agrotoxicobulaarquivonome() {
+        return $this->grs_agrotoxicobulaarquivonome;
+    }
+
+    function getGrs_agrotoxicobulaarquivotipo() {
+        return $this->grs_agrotoxicobulaarquivotipo;
+    }
+
+    function getPro_produtoprioridadecomposto() {
+        return $this->pro_produtoprioridadecomposto;
+    }
+
+    function getGrs_agrotoxicocarencia() {
+        return $this->grs_agrotoxicocarencia;
+    }
+
+    function getCmb_produtoreducaost() {
+        return $this->cmb_produtoreducaost;
+    }
+
+    function getDii_produtobeneficio() {
+        return $this->dii_produtobeneficio;
+    }
+
+    function getPro_produtodescnfe() {
+        return $this->pro_produtodescnfe;
+    }
+
+    function getPro_mascaraqualidade() {
+        return $this->pro_mascaraqualidade;
+    }
+
+    function getPro_produtofilialfaturamento() {
+        return $this->pro_produtofilialfaturamento;
+    }
+
+    function getPro_tipocoluna() {
+        return $this->pro_tipocoluna;
+    }
+
+    function getFis_produtocompra() {
+        return $this->fis_produtocompra;
+    }
+
+    function getTms_produtopredominante() {
+        return $this->tms_produtopredominante;
+    }
+
+    function setPro_mva($pro_mva) {
+        $this->pro_mva = $pro_mva;
+    }
+
+    function setPro_composto($pro_composto) {
+        $this->pro_composto = $pro_composto;
+    }
+
+    function setPro_cadastrodatahora($pro_cadastrodatahora) {
+        $this->pro_cadastrodatahora = $pro_cadastrodatahora;
+    }
+
+    function setPro_alteracaousuario($pro_alteracaousuario) {
+        $this->pro_alteracaousuario = $pro_alteracaousuario;
+    }
+
+    function setPro_alteracaodatahora($pro_alteracaodatahora) {
+        $this->pro_alteracaodatahora = $pro_alteracaodatahora;
+    }
+
+    function setPro_imagem($pro_imagem) {
+        $this->pro_imagem = $pro_imagem;
+    }
+
+    function setPro_sequencia($pro_sequencia) {
+        $this->pro_sequencia = $pro_sequencia;
+    }
+
+    function setPro_imagemfiletype($pro_imagemfiletype) {
+        $this->pro_imagemfiletype = $pro_imagemfiletype;
+    }
+
+    function setPro_imagemfilename($pro_imagemfilename) {
+        $this->pro_imagemfilename = $pro_imagemfilename;
+    }
+
+    function setPro_inventariosequencia($pro_inventariosequencia) {
+        $this->pro_inventariosequencia = $pro_inventariosequencia;
+    }
+
+    function setPro_transgenico($pro_transgenico) {
+        $this->pro_transgenico = $pro_transgenico;
+    }
+
+    function setFis_simpscancgrupocodigo($fis_simpscancgrupocodigo) {
+        $this->fis_simpscancgrupocodigo = $fis_simpscancgrupocodigo;
+    }
+
+    function setFis_simpscancprodutocodigo($fis_simpscancprodutocodigo) {
+        $this->fis_simpscancprodutocodigo = $fis_simpscancprodutocodigo;
+    }
+
+    function setPro_simpscancinpminicial($pro_simpscancinpminicial) {
+        $this->pro_simpscancinpminicial = $pro_simpscancinpminicial;
+    }
+
+    function setPro_simpscanccalculoimposto($pro_simpscanccalculoimposto) {
+        $this->pro_simpscanccalculoimposto = $pro_simpscanccalculoimposto;
+    }
+
+    function setPro_classeconsumo($pro_classeconsumo) {
+        $this->pro_classeconsumo = $pro_classeconsumo;
+    }
+
+    function setPro_tipoassinante($pro_tipoassinante) {
+        $this->pro_tipoassinante = $pro_tipoassinante;
+    }
+
+    function setPro_tipoutilizacao($pro_tipoutilizacao) {
+        $this->pro_tipoutilizacao = $pro_tipoutilizacao;
+    }
+
+    function setPro_classificacaoitem($pro_classificacaoitem) {
+        $this->pro_classificacaoitem = $pro_classificacaoitem;
+    }
+
+    function setPro_garantiatempo($pro_garantiatempo) {
+        $this->pro_garantiatempo = $pro_garantiatempo;
+    }
+
+    function setPro_garantiatempotipo($pro_garantiatempotipo) {
+        $this->pro_garantiatempotipo = $pro_garantiatempotipo;
+    }
+
+    function setPro_garantiatipo($pro_garantiatipo) {
+        $this->pro_garantiatipo = $pro_garantiatipo;
+    }
+
+    function setFis_agrupamentocodigo($fis_agrupamentocodigo) {
+        $this->fis_agrupamentocodigo = $fis_agrupamentocodigo;
+    }
+
+    function setPro_tipoproduto($pro_tipoproduto) {
+        $this->pro_tipoproduto = $pro_tipoproduto;
+    }
+
+    function setPro_tipovolume($pro_tipovolume) {
+        $this->pro_tipovolume = $pro_tipovolume;
+    }
+
+    function setPro_lotesequencial($pro_lotesequencial) {
+        $this->pro_lotesequencial = $pro_lotesequencial;
+    }
+
+    function setQld_produtofrequenciainspecao($qld_produtofrequenciainspecao) {
+        $this->qld_produtofrequenciainspecao = $qld_produtofrequenciainspecao;
+    }
+
+    function setQld_produtoregimecodigo($qld_produtoregimecodigo) {
+        $this->qld_produtoregimecodigo = $qld_produtoregimecodigo;
+    }
+
+    function setQld_produtonivelcodigo($qld_produtonivelcodigo) {
+        $this->qld_produtonivelcodigo = $qld_produtonivelcodigo;
+    }
+
+    function setQld_produtoskiplotecodigo($qld_produtoskiplotecodigo) {
+        $this->qld_produtoskiplotecodigo = $qld_produtoskiplotecodigo;
+    }
+
+    function setQld_produtoexamecodigo($qld_produtoexamecodigo) {
+        $this->qld_produtoexamecodigo = $qld_produtoexamecodigo;
+    }
+
+    function setQld_produtonaoatualizaautoregi($qld_produtonaoatualizaautoregi) {
+        $this->qld_produtonaoatualizaautoregi = $qld_produtonaoatualizaautoregi;
+    }
+
+    function setPro_mascaralote($pro_mascaralote) {
+        $this->pro_mascaralote = $pro_mascaralote;
+    }
+
+    function setPro_tipocalculodecimal($pro_tipocalculodecimal) {
+        $this->pro_tipocalculodecimal = $pro_tipocalculodecimal;
+    }
+
+    function setPro_casasdecimais($pro_casasdecimais) {
+        $this->pro_casasdecimais = $pro_casasdecimais;
+    }
+
+    function setPro_produtobovinos($pro_produtobovinos) {
+        $this->pro_produtobovinos = $pro_produtobovinos;
+    }
+
+    function setPro_produtovacina($pro_produtovacina) {
+        $this->pro_produtovacina = $pro_produtovacina;
+    }
+
+    function setPro_produtovacinacodigo($pro_produtovacinacodigo) {
+        $this->pro_produtovacinacodigo = $pro_produtovacinacodigo;
+    }
+
+    function setGrs_agrotoxicoclassetoxicologi($grs_agrotoxicoclassetoxicologi) {
+        $this->grs_agrotoxicoclassetoxicologi = $grs_agrotoxicoclassetoxicologi;
+    }
+
+    function setGrs_agrotoxicoregistrominister($grs_agrotoxicoregistrominister) {
+        $this->grs_agrotoxicoregistrominister = $grs_agrotoxicoregistrominister;
+    }
+
+    function setGrs_agrotoxicograurisco($grs_agrotoxicograurisco) {
+        $this->grs_agrotoxicograurisco = $grs_agrotoxicograurisco;
+    }
+
+    function setGrs_classeriscocodigo($grs_classeriscocodigo) {
+        $this->grs_classeriscocodigo = $grs_classeriscocodigo;
+    }
+
+    function setGrs_agrotoxicoprincipioativo($grs_agrotoxicoprincipioativo) {
+        $this->grs_agrotoxicoprincipioativo = $grs_agrotoxicoprincipioativo;
+    }
+
+    function setGrs_agrotoxicotriplicelavagem($grs_agrotoxicotriplicelavagem) {
+        $this->grs_agrotoxicotriplicelavagem = $grs_agrotoxicotriplicelavagem;
+    }
+
+    function setGrs_agrotoxicoindea($grs_agrotoxicoindea) {
+        $this->grs_agrotoxicoindea = $grs_agrotoxicoindea;
+    }
+
+    function setGrs_agrotoxicofabricante($grs_agrotoxicofabricante) {
+        $this->grs_agrotoxicofabricante = $grs_agrotoxicofabricante;
+    }
+
+    function setGrs_agrotoxicoenderecofabrican($grs_agrotoxicoenderecofabrican) {
+        $this->grs_agrotoxicoenderecofabrican = $grs_agrotoxicoenderecofabrican;
+    }
+
+    function setGrs_agrotoxicotelefoneemergenc($grs_agrotoxicotelefoneemergenc) {
+        $this->grs_agrotoxicotelefoneemergenc = $grs_agrotoxicotelefoneemergenc;
+    }
+
+    function setGrs_agrotoxiconumerososcotec($grs_agrotoxiconumerososcotec) {
+        $this->grs_agrotoxiconumerososcotec = $grs_agrotoxiconumerososcotec;
+    }
+
+    function setGrs_agrotoxicobulaarquivo($grs_agrotoxicobulaarquivo) {
+        $this->grs_agrotoxicobulaarquivo = $grs_agrotoxicobulaarquivo;
+    }
+
+    function setGrs_agrotoxicobulaarquivonome($grs_agrotoxicobulaarquivonome) {
+        $this->grs_agrotoxicobulaarquivonome = $grs_agrotoxicobulaarquivonome;
+    }
+
+    function setGrs_agrotoxicobulaarquivotipo($grs_agrotoxicobulaarquivotipo) {
+        $this->grs_agrotoxicobulaarquivotipo = $grs_agrotoxicobulaarquivotipo;
+    }
+
+    function setPro_produtoprioridadecomposto($pro_produtoprioridadecomposto) {
+        $this->pro_produtoprioridadecomposto = $pro_produtoprioridadecomposto;
+    }
+
+    function setGrs_agrotoxicocarencia($grs_agrotoxicocarencia) {
+        $this->grs_agrotoxicocarencia = $grs_agrotoxicocarencia;
+    }
+
+    function setCmb_produtoreducaost($cmb_produtoreducaost) {
+        $this->cmb_produtoreducaost = $cmb_produtoreducaost;
+    }
+
+    function setDii_produtobeneficio($dii_produtobeneficio) {
+        $this->dii_produtobeneficio = $dii_produtobeneficio;
+    }
+
+    function setPro_produtodescnfe($pro_produtodescnfe) {
+        $this->pro_produtodescnfe = $pro_produtodescnfe;
+    }
+
+    function setPro_mascaraqualidade($pro_mascaraqualidade) {
+        $this->pro_mascaraqualidade = $pro_mascaraqualidade;
+    }
+
+    function setPro_produtofilialfaturamento($pro_produtofilialfaturamento) {
+        $this->pro_produtofilialfaturamento = $pro_produtofilialfaturamento;
+    }
+
+    function setPro_tipocoluna($pro_tipocoluna) {
+        $this->pro_tipocoluna = $pro_tipocoluna;
+    }
+
+    function setFis_produtocompra($fis_produtocompra) {
+        $this->fis_produtocompra = $fis_produtocompra;
+    }
+
+    function setTms_produtopredominante($tms_produtopredominante) {
+        $this->tms_produtopredominante = $tms_produtopredominante;
+    }
+/////////////////////////////////////////////////////////////////////////////////////////    
+    
+    function getMatriz() {
+        return $this->matriz;
+    }
+
+    function getSteeltrater() {
+        return $this->steeltrater;
+    }
+
+    function getFecula() {
+        return $this->fecula;
+    }
+
+    function getFecial() {
+        return $this->fecial;
+    }
+
+    function getHedler() {
+        return $this->hedler;
+    }
+
+    function setMatriz($matriz) {
+        $this->matriz = $matriz;
+    }
+
+    function setSteeltrater($steeltrater) {
+        $this->steeltrater = $steeltrater;
+    }
+
+    function setFecula($fecula) {
+        $this->fecula = $fecula;
+    }
+
+    function setFecial($fecial) {
+        $this->fecial = $fecial;
+    }
+
+    function setHedler($hedler) {
+        $this->hedler = $hedler;
+    }
 
     function getPro_produtoperigosoqtdminima() {
         return $this->pro_produtoperigosoqtdminima;

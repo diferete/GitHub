@@ -41,30 +41,29 @@ class PDF extends FPDF {
 //cptura dados
 
 if ($sEmailRequest == 'S') {
-    $Filcgc = $_REQUEST['filcgcAq'];
+    $filcgcAq = $_REQUEST['filcgcAq'];
     $nrAq = $_REQUEST['nrAq'];
 } else {
     if (isset($_REQUEST['nr'])) {
         $nrAq = $_REQUEST['nr'];
-        $Filcgc = $_REQUEST['DELX_FIL_Empresa_fil_codigo'];
+        $filcgcAq = $_REQUEST['DELX_FIL_Empresa_fil_codigo'];
     } else {
         $nrAq = '0';
-        $Filcgc = '0';
+        $filcgcAq = '0';
     }
 }
 
 //tratar se tem avaliação aberta ou nao
-$PDO2 = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sSql = "select COUNT(*)as total from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and filcgc ='" . $Filcgc . "'";
-$dadosSql = $PDO2->query($sSql);
+$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+$sSql = "select COUNT(*)as total from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and filcgc ='" . $filcgcAq . "'";
+$dadosSql = $PDO->query($sSql);
 $eficaz = $dadosSql->fetch(PDO::FETCH_ASSOC);
 
 if ($eficaz['total'] == 0) {
     $avFim = 'aberta';
 } else {
     /* ver se tem alguma aberta sem apontamento */
-    $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-    $sSql = " select COUNT(*) total2 from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and eficaz <> 'Sim' and filcgc ='" . $Filcgc . "'";
+    $sSql = " select COUNT(*) total2 from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and sit != 'Finalizado' and filcgc ='" . $filcgcAq . "'";
     $dadosSql = $PDO->query($sSql);
     $eficaz = $dadosSql->fetch(PDO::FETCH_ASSOC);
     if ($eficaz['total2'] > 0) {
@@ -81,11 +80,9 @@ $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 
 $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //dados do cabeçalho
-$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 $sSql = "select classificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
-        . "convert(varchar,datafim,103) as datafim,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
-        . "pq1,pq2,pq3,pq4,pq5 "
-        . " from MET_QUAL_qualaq where filcgc ='" . $Filcgc . "' and nr=" . $nrAq;
+        . "convert(varchar,datafech,103) as datafechou,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,pq1,pq2,pq3,pq4,pq5 "
+        . " from MET_QUAL_qualaq where filcgc ='" . $filcgcAq . "' and nr=" . $nrAq;
 $dadoscab = $PDO->query($sSql);
 while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $userImp = $row['userimp'];
@@ -94,7 +91,7 @@ while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $sResp = $row['usunome'];
     $sEquipe = $row['equipe'];
     $sDataini = $row['dataini'];
-    $sDataFim = $row['datafim'];
+    $sDataFim = $row['datafechou'];
     $sTipoAcao = $row['tipoacao'];
     $sOrigem = $row['origem'];
     $sTipMelhoria = $row['tipmelhoria'];
@@ -199,14 +196,14 @@ $pdf->Ln(5);
 
 $sSqlContencao = "select COUNT(*) as total "
         . "from MET_QUAL_Contencao "
-        . "where filcgc = '" . $Filcgc . "' and nr ='" . $nrAq . "'";
+        . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
 $iContecao = $PDO->query($sSqlContencao);
 $existeContencao = $iContecao->fetch(PDO::FETCH_ASSOC);
 
 if ($existeContencao['total'] > 0) {
     $sSqlDadosContencao = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,situaca "
             . "from MET_QUAL_Contencao "
-            . "where filcgc = '" . $Filcgc . "' and nr ='" . $nrAq . "'";
+            . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
     $dadosContencao = $PDO->query($sSqlDadosContencao);
 
 
@@ -234,14 +231,14 @@ $pdf->Ln(5);
 
 $sSqlContencao = "select COUNT(*) as total "
         . "from MET_QUAL_Correcao "
-        . "where filcgc = '" . $Filcgc . "' and nr ='" . $nrAq . "'";
+        . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
 $iCorrecao = $PDO->query($sSqlContencao);
 $existeCorrecao = $iCorrecao->fetch(PDO::FETCH_ASSOC);
 
 if ($existeCorrecao['total'] > 0) {
     $sSqlDadosCorrecao = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,situaca "
             . "from MET_QUAL_Correcao "
-            . "where filcgc = '" . $Filcgc . "' and nr ='" . $nrAq . "'";
+            . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
     $dadosCorrecao = $PDO->query($sSqlDadosCorrecao);
 
 
@@ -270,7 +267,7 @@ $pdf->Ln(5);
 
 $sSqlC = "select matprimades, metododes, maodeobrades, "
         . "equipamentodes, meioambientedes, medidades"
-        . " from MET_QUAL_DiagramaCausa where nr='" . $nrAq . "' and filcgc ='" . $Filcgc . "' ";
+        . " from MET_QUAL_DiagramaCausa where nr='" . $nrAq . "' and filcgc ='" . $filcgcAq . "' ";
 $dadosCausa1 = $PDO->query($sSqlC);
 $row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
 
@@ -295,18 +292,48 @@ $pdf->Cell(67, 5, "Máquinas", 1, 1, 'C');
 
 $pdf->SetFont('Arial', '', 10);
 
-$h=$pdf->GetY();
-$x=$pdf->GetX(); $y=$pdf->GetY();
+$h = $pdf->GetY();
+$x = $pdf->GetX();
+$y = $pdf->GetY();
 
-$pdf->MultiCell(67, 5,$row1['matprimades'],0);
-$pdf->SetXY($x+69,$y); 
+//strlen($sSqlC)   Conta a quantidade de caracteres
+$t1 = strlen($row1['matprimades']);
+$t2 = strlen($row1['maodeobrades']);
+$t3 = strlen($row1['equipamentodes']);
 
-$pdf->MultiCell(68, 5,$row1['maodeobrades'],0);
-$pdf->SetXY($x+139,$y); 
+$iMaior1 = max($t1, $t2, $t3);
 
-$pdf->MultiCell(67, 5,$row1['equipamentodes'],0);
+if (($iMaior1 % 34) > 0) {
+    $iLinhas = (int) ($iMaior1 / 34);
+    $iLinhas++;
+} else {
+    $iLinhas = (int) ($iMaior1 / 34);
+}
 
-$pdf->Ln(5);
+
+//Cria bordas da tabela com base no tamanho do texto.
+$pdf->Rect(3, $h, 67, 5 * $iLinhas);
+$pdf->Rect(72, $h, 68, 5 * $iLinhas);
+$pdf->Rect(142, $h, 67, 5 * $iLinhas);
+
+//Preenche os dados
+$pdf->MultiCell(67, 5, $row1['matprimades'], 0);
+$pdf->SetXY($x + 69, $y);
+
+$pdf->MultiCell(68, 5, $row1['maodeobrades'], 0);
+$pdf->SetXY($x + 139, $y);
+
+$pdf->MultiCell(67, 5, $row1['equipamentodes'], 0);
+
+//*************Insere linhas que disponibiliza altura dos campos para não sobrepor aos demais
+if ($row1['matprimades'] != '') {
+    $pdf->Ln($iLinhas * 5);
+} else if ($row1['maodeobrades'] != '') {
+    $pdf->Ln($iLinhas * 5);
+} else {
+    $pdf->Ln($iLinhas);
+}
+//*******************//************************
 
 $pdf->SetFont('Arial', 'B', 10);
 
@@ -318,96 +345,83 @@ $pdf->Cell(67, 5, "Medida", 1, 1, 'C');
 
 $pdf->SetFont('Arial', '', 10);
 
-$x=$pdf->GetX(); $y=$pdf->GetY();
+$x = $pdf->GetX();
+$y = $pdf->GetY();
 
-$pdf->MultiCell(67, 5,$row1['meioambientedes'],0);
-$pdf->SetXY($x+69,$y); 
-
-$pdf->MultiCell(68, 5,$row1['metododes'],0);
-$pdf->SetXY($x+139,$y); 
-
-$pdf->MultiCell(67, 5,$row1['medidades'],0);
-
-$pdf->Ln(5);
-
-//strlen($sSqlC)   Conta a quantidade de caracteres
-
-//Cria bordas da tabela com base no tamanho do texto.
-//**************************************************
-//PRIMEIRA LINHA DE BLOCOS
-$t1 = strlen($row1['matprimades']);
-$t2 = strlen($row1['maodeobrades']);
-$t3 = strlen($row1['equipamentodes']);
-
-$iMaior1 = max($t1,$t2,$t3);
-
-if (($iMaior1%34)>0){
-    $iLinhas = (int)($iMaior1/34);
-    $iLinhas++;
-}else{
-    $iLinhas = (int)($iMaior1/34);
-}
-
-$pdf->Rect(3, $h, 67, 5*$iLinhas);
-$pdf->Rect(72, $h, 68, 5*$iLinhas);
-$pdf->Rect(142, $h, 67, 5*$iLinhas);
-
-//SEGUNDA LINHA DE BLOCOS
+//strlen - Conta a quantidade de caracteres
 $t4 = strlen($row1['meioambientedes']);
 $t5 = strlen($row1['metododes']);
 $t6 = strlen($row1['medidades']);
 
-$iMaior2 = max($t4,$t5,$t6);
+$iMaior2 = max($t4, $t5, $t6);
 
-if (($iMaior2%34)>0){
-    $iLinhas = (int)($iMaior2/34);
+if (($iMaior2 % 34) > 0) {
+    $iLinhas = (int) ($iMaior2 / 34);
     $iLinhas++;
-}else{
-    $iLinhas = (int)($iMaior2/34);
+} else {
+    $iLinhas = (int) ($iMaior2 / 34);
 }
 
-$pdf->Rect(3, $y, 67, 5*$iLinhas);
-$pdf->Rect(72, $y, 68, 5*$iLinhas);
-$pdf->Rect(142, $y, 67, 5*$iLinhas);
+//Cria bordas da tabela com base no tamanho do texto.
+$pdf->Rect(3, $y, 67, 5 * $iLinhas);
+$pdf->Rect(72, $y, 68, 5 * $iLinhas);
+$pdf->Rect(142, $y, 67, 5 * $iLinhas);
 
-//*******************
-//Fim do Cria Bordas Tabela
-//***********************************************
+//Preenche os dados
+$pdf->MultiCell(67, 5, $row1['meioambientedes'], 0);
+$pdf->SetXY($x + 69, $y);
 
+$pdf->MultiCell(68, 5, $row1['metododes'], 0);
+$pdf->SetXY($x + 139, $y);
+
+$pdf->MultiCell(67, 5, $row1['medidades'], 0);
+
+$pdf->Ln(5 * $iLinhas);
+$pdf->Ln(5);
+
+//###########################Análise dos Porquês#########################################
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(206, 5, "Análise dos Porquês", 1, 1, 'C', TRUE);
 
-$sAlturaInicial = $pdf->GetY();
-$pdf->SetY($sAlturaInicial);
 $pdf->SetFont('Arial', '', 10);
-$iAlturaCausa = $sAlturaInicial;
-$l = 5;
 
-$sSql = "select causades,pq1,pq2,pq3,pq4,pq5,seq from MET_QUAL_qualcausa where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' order by seq";
+$sSql = "select causades,pq1,pq2,pq3,pq4,pq5,seq from MET_QUAL_qualcausa where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' order by seq";
 $dadosCausa = $PDO->query($sSql);
 
 while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
-   
+
+
+    $arraySize = 0;
+    foreach ($row as $key => $value) {
+        if ($value != null) {
+            $arraySize++;
+        }
+    }
+
+    switch ($arraySize) {
+        case 2:
+            break;
+        default:
     //Método que limpa as strings
     if (isset($row['causades'])) {
-    $row['causades'] = limpaString($row['causades']);
+        $row['causades'] = limpaString($row['causades']);
     }
     if (isset($row['pq1'])) {
-    $row['pq1'] = limpaString($row['pq1']);
+        $row['pq1'] = limpaString($row['pq1']);
     }
     if (isset($row['pq2'])) {
-    $row['pq2'] = limpaString($row['pq2']);
+        $row['pq2'] = limpaString($row['pq2']);
     }
     if (isset($row['pq3'])) {
-    $row['pq3'] = limpaString($row['pq3']);
+        $row['pq3'] = limpaString($row['pq3']);
     }
     if (isset($row['pq4'])) {
-    $row['pq4'] = limpaString($row['pq4']);
+        $row['pq4'] = limpaString($row['pq4']);
     }
     if (isset($row['pq5'])) {
-    $row['pq5'] = limpaString($row['pq5']);
+        $row['pq5'] = limpaString($row['pq5']);
     }
-    
+
     //Conta quantidade de caracteres para definir Tamanho do campo
     $c1 = strlen($row['causades']);
     $p1 = strlen($row['pq1']);
@@ -415,316 +429,296 @@ while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
     $p3 = strlen($row['pq3']);
     $p4 = strlen($row['pq4']);
     $p5 = strlen($row['pq5']);
-    
-    //Destermina a quantidade de linhas de cada campo
-    if (($c1%99)>0){
-    $iL1 = (int)($c1/99);
-    $iL1++;
-    }else{
-    $iL1 = (int)($c1/99);
+
+            //Determina a quantidade de linhas de cada campo
+            if (($c1 % 101) > 0) {
+        $iL1 = (int) ($c1 / 99);
+        $iL1++;
+    } else {
+                $iL1 = (int) ($c1 / 101);
     }
-    if (($p1%99)>0){
-    $iL2 = (int)($p1/99);
-    $iL2++;
-    }else{
-    $iL2 = (int)($p1/99);
+            if (($p1 % 101) > 0) {
+                $iL2 = (int) ($p1 / 102);
+        $iL2++;
+    } else {
+                $iL2 = (int) ($p1 / 101);
     }
-    if (($p2%99)>0){
-    $iL3 = (int)($p2/99);
-    $iL3++;
-    }else{
-    $iL3 = (int)($p2/99);
+            if (($p2 % 101) > 0) {
+                $iL3 = (int) ($p2 / 102);
+        $iL3++;
+    } else {
+                $iL3 = (int) ($p2 / 101);
     }
-    if (($p3%99)>0){
-    $iL4 = (int)($p3/99);
-    $iL4++;
-    }else{
-    $iL4 = (int)($p3/99);
+            if (($p3 % 101) > 0) {
+                $iL4 = (int) ($p3 / 102);
+        $iL4++;
+    } else {
+                $iL4 = (int) ($p3 / 101);
     }
-    if (($p4%99)>0){
-    $iL5 = (int)($p4/99);
-    $iL5++;
-    }else{
-    $iL5 = (int)($p4/99);
+            if (($p4 % 101) > 0) {
+                $iL5 = (int) ($p4 / 102);
+        $iL5++;
+    } else {
+                $iL5 = (int) ($p4 / 101);
     }
-    if (($p5%99)>0){
-    $iL6 = (int)($p5/99);
-    $iL6++;
-    }else{
-    $iL6 = (int)($p5/99);
+            if (($p5 % 101) > 0) {
+                $iL6 = (int) ($p5 / 102);
+        $iL6++;
+    } else {
+                $iL6 = (int) ($p5 / 101);
     }
-    
+            //Fim das variáveis que contém as quantidade de linhas de cada campo
+            //Preenche os campos com os valores
     if (isset($row['causades'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x=$pdf->GetX(); $y=$pdf->GetY(); 
-        $pdf->MultiCell(27, $iL1*5, 'Causa', 1 ,'C');
-               
-        $pdf->SetXY($x+27,$y); 
-        
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
+        $pdf->MultiCell(27, $iL1 * 5, 'Causa', 1, 'C');
+
+        $pdf->SetXY($x + 27, $y);
+
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->MultiCell(179, 5,$row['causades'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(),$pdf);
-    
-        
+        $pdf->MultiCell(179, 5, $row['causades'], 1, 'J');
+        $pdf = quebraPagina($pdf->GetY(), $pdf);
     }
-    
+
     if (isset($row['pq1'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x=$pdf->GetX(); $y=$pdf->GetY(); 
-        $pdf->MultiCell(27, $iL2*5, '1º Porque', 1 ,'C');
-        
-        $pdf->SetXY($x+27,$y);
-        
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
+        $pdf->MultiCell(27, $iL2 * 5, '1º Porque', 1, 'C');
+
+        $pdf->SetXY($x + 27, $y);
+
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq1'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(),$pdf);
-    
-        
+        $pdf = quebraPagina($pdf->GetY(), $pdf);
     }
-    
+
     if (isset($row['pq2'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x=$pdf->GetX(); $y=$pdf->GetY(); 
-        $pdf->MultiCell(27, $iL3*5, '2º Porque', 1 ,'C');
-        
-        $pdf->SetXY($x+27,$y);
-                
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
+        $pdf->MultiCell(27, $iL3 * 5, '2º Porque', 1, 'C');
+
+        $pdf->SetXY($x + 27, $y);
+
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq2'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(),$pdf);
-    
-        
+        $pdf = quebraPagina($pdf->GetY(), $pdf);
     }
-    
+
     if (isset($row['pq3'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x=$pdf->GetX(); $y=$pdf->GetY(); 
-        $pdf->MultiCell(27, $iL4*5, '3º Porque', 1 ,'C');
-        
-        $pdf->SetXY($x+27,$y);
-                
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
+        $pdf->MultiCell(27, $iL4 * 5, '3º Porque', 1, 'C');
+
+        $pdf->SetXY($x + 27, $y);
+
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq3'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(),$pdf);
-   
+        $pdf = quebraPagina($pdf->GetY(), $pdf);
     }
-    
+
     if (isset($row['pq4'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x=$pdf->GetX(); $y=$pdf->GetY(); 
-        $pdf->MultiCell(27, $iL5*5, '4º Porque', 1 ,'C');
-        
-        $pdf->SetXY($x+27,$y);
-                
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
+        $pdf->MultiCell(27, $iL5 * 5, '4º Porque', 1, 'C');
+
+        $pdf->SetXY($x + 27, $y);
+
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq4'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(),$pdf);
-        
+        $pdf = quebraPagina($pdf->GetY(), $pdf);
     }
-    
+
     if (isset($row['pq5'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x=$pdf->GetX(); $y=$pdf->GetY(); 
-        $pdf->MultiCell(27, $iL6*5, '5º Porque', 1 ,'C');
-        
-        $pdf->SetXY($x+27,$y);
-                
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
+        $pdf->MultiCell(27, $iL6 * 5, '5º Porque', 1, 'C');
+
+        $pdf->SetXY($x + 27, $y);
+
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq5'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(),$pdf);
-        
+        $pdf = quebraPagina($pdf->GetY(), $pdf);
     }
-    
+
     $pdf->Ln(1);
-    $iAlturaCausa = $pdf->GetY() + 5;
 }
+}
+$pdf->Ln(5);
 
 
-//$pdf->Cell(0,5,"","B",1,'C');
 //###########################plano de ação#########################################
-$pdf = quebraPagina($pdf->GetY(),$pdf);
-/*
-$pdf->SetY($iAlturaCausa);
-$iAlturaAcao = $iAlturaCausa;
-$l = 5;
+$pdf = quebraPagina($pdf->GetY(), $pdf);
 
-if ($iAlturaAcao + $l >= 270) {    // 275 é o tamanho da página
-    $pdf->AddPage();   // adiciona se ultrapassar o limite da página
-    $pdf->SetY(10);
-    $iAlturaAcao = 10;
-}
-*/
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(206, 5, "Planos de ação", 1, 1, 'C', TRUE);
-$pdf = quebraPagina($pdf->GetY(),$pdf);
+$pdf = quebraPagina($pdf->GetY(), $pdf);
 
-$sSql = "select seq,plano,sitfim,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim,procedimento,it,planocontrole,fluxograma,ppap,contexto,preventiva,funcao,treinamento,obsfim "
-        . " from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' and tipo <> 'Eficiência' order by seq";
+$sSql = "select seq,plano,sitfim,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim,obsfim "
+        . " from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
 $dadosEf = $PDO->query($sSql);
 while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
 
     $pdf->Cell(70, 5, "Responsável", 1, 0, 'C', true);
     $pdf->Cell(68, 5, "Data prev.", 1, 0, 'C', true);
     $pdf->Cell(68, 5, "Data realiz.", 1, 1, 'C', true);
-    $pdf = quebraPagina($pdf->GetY(),$pdf);
-/*
-    if ($iAlturaAcao >= 260) {    // 275 é o tamanho da página
-        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
-        $pdf->SetY(10);
-        $iAlturaAcao = 10;
-    }*/
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
+
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(70, 5, $row['usunome'], 1, 0, 'C');
     $pdf->Cell(68, 5, $row['dataprev'], 1, 0, 'C');
     $pdf->Cell(68, 5, $row['datafim'], 1, 1, 'C');
-    
-    $pdf = quebraPagina($pdf->GetY(),$pdf);
-    
+
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
+
     $pdf->SetFont('Arial', 'B', 8);
-    $pdf->MultiCell(206, 5, 'Ação ' . $row['seq'] . ' = ' . $row['plano'], 1, 'L');
-    
-    $pdf = quebraPagina($pdf->GetY(),$pdf);
-    
+    $pdf->MultiCell(206, 5, 'Ação Nº' . $row['seq'] . ' = ' . $row['plano'], 1, 'L');
+
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
+
     $pdf->MultiCell(206, 5, 'Obs. Final = ' . $row['obsfim'], 1, 'L');
-   // $iAlturaAcao = $pdf->GetY();
-    $pdf = quebraPagina($pdf->GetY(),$pdf);
-    
+    // $iAlturaAcao = $pdf->GetY();
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
+
     if ($row['sitfim'] == 'Finalizado') {
 
+        $sSqlDocumentos = "select procedimento, it, planocontrole, fluxograma, ppap, contexto, preventiva, funcao, treinamento "
+                . " from MET_QUAL_qualplan where nr = " . $nrAq . " and filcgc = '" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
+        $documentos = $PDO->query($sSqlDocumentos);
+        $aRowDocumentos = $documentos->fetch(PDO::FETCH_ASSOC);
+
+        $iCountString = 0;
+        foreach ($aRowDocumentos as $key => $value) {
+            if ($value == true) {
+                $iCountString++;
+            }
+        }
+
+        if ($iCountString > 0) {
+
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(206, 5, 'Documentos alterados pelo plano de ação ' . $row['seq'], 1, 1, 'C', TRUE);
-        $pdf = quebraPagina($pdf->GetY(),$pdf);
-        
+            $pdf->Cell(206, 5, 'Documentos alterados pela Ação Nº' . $row['seq'], 1, 1, 'C', TRUE);
+        $pdf = quebraPagina($pdf->GetY(), $pdf);
+
         $sDoc = '';
 
-        if ($row['procedimento'] == true) {
-            $sProc = ' Procedimento';
+            if ($aRowDocumentos['procedimento'] == true) {
+                $sProc = 'Procedimento';
+                if ($iCountString > 1) {
+                    $sProc = 'Procedimento, ';
+                }
             $sDoc .= $sProc;
         }
-        if ($row['it'] == true) {
-            $sIT = ' IT';
-            if ($sDoc != ' ') {
-                $sIT = ', IT';
+            if ($aRowDocumentos['it'] == true) {
+                $sIT = 'IT';
+                if ($sDoc != '') {
+                    $sIT = 'IT, ';
                 $sDoc .= $sIT;
             } else {
                 $sDoc .= $sIT;
             }
         }
-        if ($row['planocontrole'] == true) {
+            if ($aRowDocumentos['planocontrole'] == true) {
             $sPlanCont = 'Plano de Controle';
-            if ($sDoc != ' ') {
-                $sIT = ', Plano de Controle';
-                $sDoc .= $sIT;
+                if ($sDoc != '') {
+                    $sPlanCont = 'Plano de Controle, ';
+                    $sDoc .= $sPlanCont;
             } else {
-                $sDoc .= $sIT;
+                    $sDoc .= $sPlanCont;
             }
         }
-        if ($row['fluxograma'] == true) {
+            if ($aRowDocumentos['fluxograma'] == true) {
             $sFlux = 'Fluxograma';
-            if ($sDoc != ' ') {
-                $sIT = ', Fluxograma';
-                $sDoc .= $sIT;
+                if ($sDoc != '') {
+                    $sFlux = 'Fluxograma, ';
+                    $sDoc .= $sFlux;
             } else {
-                $sDoc .= $sIT;
+                    $sDoc .= $sFlux;
             }
         }
-        if ($row['ppap'] == true) {
+            if ($aRowDocumentos['ppap'] == true) {
             $sPpap = 'PPAP';
-            if ($sDoc != ' ') {
-                $sIT = ', PPAP';
-                $sDoc .= $sIT;
+                if ($sDoc != '') {
+                    $sPpap = 'PPAP, ';
+                    $sDoc .= $sPpap;
             } else {
-                $sDoc .= $sIT;
+                    $sDoc .= $sPpap;
             }
         }
-        if ($row['contexto'] == true) {
+            if ($aRowDocumentos['contexto'] == true) {
             $sContexto = 'Contexto da Organização';
-            if ($sDoc != ' ') {
-                $sIT = ', Contexto da Organização';
-                $sDoc .= $sIT;
+                if ($sDoc != '') {
+                    $sContexto = 'Contexto da Organização, ';
+                    $sDoc .= $sContexto;
             } else {
-                $sDoc .= $sIT;
+                    $sDoc .= $sContexto;
             }
         }
-        if ($row['preventiva'] == true) {
-            $sMant = 'Manutenção Preventiva';
-            if ($sDoc != ' ') {
-                $sIT = ', Manutenção Preventiva';
-                $sDoc .= $sIT;
+            if ($aRowDocumentos['preventiva'] == true) {
+                $sManutencao = 'Manutenção Preventiva';
+                if ($sDoc != '') {
+                    $sIT = 'Manutenção Preventiva, ';
+                    $sDoc .= $sManutencao;
             } else {
-                $sDoc .= $sIT;
+                    $sDoc .= $sManutencao;
             }
         }
-        if ($row['funcao'] == true) {
+            if ($aRowDocumentos['funcao'] == true) {
             $sDescFunc = 'Descrição de Função';
-            if ($sDoc != ' ') {
-                $sIT = ', Descrição de Função';
-                $sDoc .= $sIT;
+                if ($sDoc != '') {
+                    $sDescFunc = 'Descrição de Função, ';
+                    $sDoc .= $sDescFunc;
             } else {
-                $sDoc .= $sIT;
+                    $sDoc .= $sDescFunc;
             }
         }
-        if ($row['treinamento'] == true) {
+            if ($aRowDocumentos['treinamento'] == true) {
             $sContTreinamento = 'Controle de Treinamento';
-            if ($sDoc != ' ') {
-                $sIT = ', IT';
-                $sDoc .= $sIT;
+                if ($sDoc != '') {
+                    $sContTreinamento = 'Controle de Treinamento.';
+                    $sDoc .= $sContTreinamento;
             } else {
-                $sDoc .= $sIT;
+                    $sDoc .= $sContTreinamento;
             }
         }
 
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(206, 5, $sDoc, 1, 'J');
         $pdf->Ln(1);
-        $pdf = quebraPagina($pdf->GetY(),$pdf);
+        $pdf = quebraPagina($pdf->GetY(), $pdf);
     }
 }
+}
 
-
-/*
-  $pdf->SetY($iAlturaAcao + 2);
-  $pdf->SetFont('Arial', 'B', 10);
-  $iAlturaEfi = $iAlturaAcao;
-  $l = 5;
-
-  if ($iAlturaEfi + $l >= 270) {    // 275 é o tamanho da página
-  $pdf->AddPage();   // adiciona se ultrapassar o limite da página
-  $pdf->SetY(10);
-  $iAlturaEfi = 10;
-  }
- * 
- */
 /* * ******************************AVALIAÇÃO DA EFICÁCIA******************************************************************************* */
 $pdf->Ln(5);
-$pdf = quebraPagina($pdf->GetY(),$pdf);
+$pdf = quebraPagina($pdf->GetY(), $pdf);
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(206, 5, "Avaliação da eficácia", 1, 1, 'C', TRUE);
 
-$pdf = quebraPagina($pdf->GetY(),$pdf);
+$pdf = quebraPagina($pdf->GetY(), $pdf);
 //$pdf->SetY($iAlturaAcao+12);
 
 $iAlturaEfi = $pdf->GetY();
-$l = 5;
 
 $sSql = "select seq,acao,convert(varchar,dataprev,103) as dataprev,"
         . "usunome,convert(varchar,datareal,103) as datareal,eficaz,obs,comAcao "
-        . "from MET_QUAL_acaoeficaz where nr =" . $nrAq . " and filcgc ='" . $Filcgc . "' order by seq";
+        . "from MET_QUAL_acaoeficaz where nr =" . $nrAq . " and filcgc ='" . $filcgcAq . "' order by seq";
 $dadosEficaz = $PDO->query($sSql);
 
 while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
-    /*
-    if ($iAlturaEfi + $l >= 265) {    // 275 é o tamanho da página
-        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
-        $pdf->SetY(10);
-        $iAlturaEfi = 10;
-    }
-    */
+
     $pdf->SetFont('Arial', '', 10);
     $pdf->MultiCell(206, 5, 'Avaliação nº' . $row['seq'] . ': ' . $row['acao'], 1, 'L');
 
-    $pdf = quebraPagina($pdf->GetY(),$pdf);
-    
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
+
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(20, 5, "Quando:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
@@ -744,20 +738,20 @@ while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(30, 5, "Data realizada:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(33, 5, $row['datareal'], 1, 1, 'C');
-    
-    $pdf = quebraPagina($pdf->GetY(),$pdf);
+
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
 
     $pdf->SetFont('Arial', '', 10);
     $pdf->MultiCell(206, 5, 'Obs. apontamento = ' . $row['obs'], 1, 'L');
-    
-    $pdf = quebraPagina($pdf->GetY(),$pdf);
+
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
 
     if ($row['comAcao'] == 'S') {
 
         /* Mostra os planos de ação para esta ação da eficácia */
         $sSql = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim"
-                . " from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' "
-                . "and nrEfi ='" . $row['seq'] . "' order by seq"; //nr=".$nrAq." and filcgc ='".$Filcgc."'
+                . " from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' "
+                . "and nrEfi ='" . $row['seq'] . "' order by seq"; //nr=".$nrAq." and filcgc ='".$filcgcAq."'
         $dadosEf = $PDO->query($sSql);
         while ($rowPlanEf = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
             $pdf->SetY($pdf->GetY() + 2);
@@ -765,19 +759,19 @@ while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
             $pdf->Cell(70, 5, "Responsável", 1, 0, 'C', true);
             $pdf->Cell(68, 5, "Data prev.", 1, 0, 'C', true);
             $pdf->Cell(68, 5, "Data realiz.", 1, 1, 'C', true);
-            
-            $pdf = quebraPagina($pdf->GetY(),$pdf);
-            
+
+            $pdf = quebraPagina($pdf->GetY(), $pdf);
+
             $pdf->SetFont('Arial', '', 10);
             $pdf->Cell(70, 5, $rowPlanEf['usunome'], 1, 0, 'C', true);
             $pdf->Cell(68, 5, $rowPlanEf['dataprev'], 1, 0, 'C', true);
             $pdf->Cell(68, 5, $rowPlanEf['datafim'], 1, 1, 'C', true);
-            
-            $pdf = quebraPagina($pdf->GetY(),$pdf);
-            
+
+            $pdf = quebraPagina($pdf->GetY(), $pdf);
+
             $pdf->MultiCell(206, 5, 'Ação = ' . $rowPlanEf['plano'], 1, 'L', true);
-            
-            $pdf = quebraPagina($pdf->GetY(),$pdf);
+
+            $pdf = quebraPagina($pdf->GetY(), $pdf);
         }
     }
 
@@ -788,10 +782,10 @@ while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
 
 // $pdf->Output();
 if ($sEmailRequest == 'S') {
-    $pdf->Output('F', 'app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $Filcgc . '.pdf');  // GERA O PDF NA TELA
+    $pdf->Output('F', 'app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf');  // GERA O PDF NA TELA
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
 } else {
-    $pdf->Output('I', 'Aq' . $nrAq . '_empresa_' . $Filcgc . '.pdf');
+    $pdf->Output('I', 'Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf');
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
 }
 
@@ -805,22 +799,22 @@ if ($sEmailRequest == 'S') {
     $oEmail->setPorta(587);
     $oEmail->setAutentica(true);
     $oEmail->setUsuario('metalboweb@metalbo.com.br');
-    $oEmail->setSenha('filialwe');
+    $oEmail->setSenha('Metalbo@@50');
     $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
-    $oEmail->setAssunto(utf8_decode('Ação da qualidade nº' . $nrAq . ' da empresa ' . $Filcgc));
-    $oEmail->setMensagem(utf8_decode('Anexo ação da qualidade nº' . $nrAq . ' da empresa ' . $Filcgc . ' da qual você está envolvido. '
+    $oEmail->setAssunto(utf8_decode('Ação da qualidade nº' . $nrAq . ' da empresa ' . $filcgcAq));
+    $oEmail->setMensagem(utf8_decode('Anexo ação da qualidade nº' . $nrAq . ' da empresa ' . $filcgcAq . ' da qual você está envolvido. '
                     . ' Verifique a ação em anexo para ficar por dentro dos detalhes!'));
     $oEmail->limpaDestinatariosAll();
 
     // Para
 
     if ($sEmailRequestTodos == 'S') {
-        $sSqlEmail = "select emailEquip from MET_QUAL_qualaq where nr =" . $nrAq . " and filcgc ='" . $Filcgc . "'";
+        $sSqlEmail = "select emailEquip from MET_QUAL_qualaq where nr =" . $nrAq . " and filcgc ='" . $filcgcAq . "'";
         $oRow = $PDO->query($sSqlEmail);
         $aDadosEmail = $oRow->fetch(PDO::FETCH_ASSOC);
         $sDadosEmail = $aDadosEmail['emailEquip'];
-        $aEmail = explode(',', $sDadosEmail);
+        $aEmail = explode(';', $sDadosEmail);
         foreach ($aEmail as $sCopia) {
             $oEmail->addDestinatario($sCopia);
         }
@@ -828,7 +822,7 @@ if ($sEmailRequest == 'S') {
         $oEmail->addDestinatario($_SESSION['email']);
     }
 
-    $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $Filcgc . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $Filcgc));
+    $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $filcgcAq));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -840,19 +834,21 @@ if ($sEmailRequest == 'S') {
 }
 
 //Função que quebra página em uma dada altura do PDF
-function quebraPagina($i, $pdf){
+function quebraPagina(
+$i, $pdf) {
     if ($i >= 270) {    // 275 é o tamanho da página
-    $pdf->AddPage();   // adiciona se ultrapassar o limite da página
-    $pdf->SetY(10);
+        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
+        $pdf->SetY(10);
     }
     return $pdf;
 }
 
-function limpaString($sString) {
+function limpaString(
+$sString) {
 
-        $sStringLimpa = str_replace("\n", " ", $sString);
-        $sStringLimpa1 = str_replace("'", "\'", $sStringLimpa);
-        $sStringLimpa2 = str_replace("\r", "", $sStringLimpa1);
+    $sStringLimpa = str_replace("\n ", " ", $sString);
+    $sStringLimpa1 = str_replace("  '", "\'", $sStringLimpa);
+    $sStringLimpa2 = str_replace("\r", "", $sStringLimpa1);
 
-        return $sStringLimpa2;
+    return $sStringLimpa2;
 }

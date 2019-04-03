@@ -39,8 +39,22 @@ class ViewSTEEL_PCP_Forno extends View {
         $oCod = new Campo('Codigo', 'fornocod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oDes = new Campo('Descrição', 'fornodes', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oSig = new Campo('Sigla', 'fornosigla', Campo::TIPO_TEXTO, 4, 4, 12, 12);
-
-        $this->addCampos(array($oCod,$oDes,$oSig));
+        $oLabel1 = new campo('','label', Campo::TIPO_LINHA,12);
+        $oLabel1->setApenasTela(true);
+        $oCookieCod = new campo('Codigo forno {Para gravação local}','cookfornocod', Campo::TIPO_TEXTO,4,4,4,4);
+        $oCookieCod->setApenasTela(true);
+        if(isset($_COOKIE['cookfornocod'])){
+            $oCookieCod->setSValor($_COOKIE['cookfornocod']);
+        }
+        
+        $oCookieDes = new campo('Descrição forno{Para gravação local}','cookfornodes', Campo::TIPO_TEXTO,4,4,4,4);
+        $oCookieDes->setApenasTela(true);
+        if(isset($_COOKIE['cookfornodes'])){
+            $oCookieDes->setSValor($_COOKIE['cookfornodes']);
+        }
+                
+        $this->addCampos(array($oCod,$oDes,$oSig),
+                $oLabel1,$oCookieCod,$oCookieDes);
     }
 
 }

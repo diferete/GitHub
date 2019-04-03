@@ -20,7 +20,7 @@ class ViewSTEEL_PCP_TabCabPreco extends View {
         $oSit = new CampoConsulta('Situação','sit');
         $oSit->addComparacao('ATIVA', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
         $oSit->addComparacao('INATIVA', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
-
+       
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);
@@ -85,6 +85,8 @@ class ViewSTEEL_PCP_TabCabPreco extends View {
         $oSit->addItemSelect('ATIVA','ATIVA');
         $oSit->addItemSelect('INATIVA','INATIVA');
         
+        $oConcaTena = new campo('Concatena referência ao insumo e serviço na nota fiscal de saída','concatena', Campo::TIPO_CHECK,5,5,5,5);
+        
         //monta campo de controle para inserir ou alterar
         $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2, 2, 12, 12);
         $oAcao->setApenasTela(true);
@@ -96,7 +98,7 @@ class ViewSTEEL_PCP_TabCabPreco extends View {
         $this->setSIdControleUpAlt($oAcao->getId());
 
         $this->addCampos($oNr,array($oEmp_codigo,$oEmp_des),$oTab,$oLinha,
-                array($oUsuario,$oData,$oAcao),$oSit);
+                array($oUsuario,$oData,$oAcao),$oSit,$oConcaTena);
         
         $oEtapas = new FormEtapa(2, 2, 12, 12);
         $oEtapas->addItemEtapas('Cria tabela', true, $this->addIcone(Base::ICON_EDITAR));

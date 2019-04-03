@@ -70,4 +70,62 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
         }
     }
 
+    /**
+     * Atualiza o certificado referente a sua nota fiscal
+     */
+    public function atualizaNotaCertificado(){
+        $sSql = "select * from steel_pcp_certificado where notasteel is null or notasteel = 0";
+        $result = $this->getObjetoSql($sSql);
+
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            //busca a carga
+            $sCarga = $this->buscaCarga($oRowBD->op);
+            //busca a nota fiscal
+            $iNota =$this->buscaNota($sCarga);
+            //gera update 
+            $this->updateNotaCert($oRowBD->nrcert,$iNota);
+           }
+       }
+    /**
+     * Busca nota fiscal
+     * @param type $sNrCarga
+     */
+    public function buscaNota($sNrCarga){
+       $sSql = "select NFS_NotaFiscalNumero 
+                from nfs_notafiscalitem left outer join NFS_NOTAFISCAL
+                on nfs_notafiscalitem.NFS_NotaFiscalFilial = NFS_NOTAFISCAL.NFS_NotaFiscalFilial
+                and nfs_notafiscalitem.NFS_NotaFiscalSeq = NFS_NOTAFISCAL.NFS_NotaFiscalSeq
+                where nfs_notafiscalitempedidocodigo = '".$sNrCarga."' and nfs_notafiscalcancelada = 'N'
+                and nfs_notafiscalitem.NFS_NotaFiscalFilial ='8993358000174'
+                group by NFS_NotaFiscalNumero "; 
+       
+       $result = $this->getObjetoSql($sSql);
+       
+       $oRowNota = $result->fetch(PDO::FETCH_OBJ);
+       
+       $iNota = $oRowNota->nfs_notafiscalnumero;
+           
+       return $iNota; 
+       
+    }
+    
+    /**
+     * Atualiza nota fiscal
+     */
+    public function updateNotaCert($iNrCert,$iNota){
+        $sSql = "update steel_pcp_certificado set notasteel ='".$iNota."' where nrcert ='".$iNrCert."'";
+        $this->executaSql($sSql);
+        
+    }
+    /**
+     * Busca carga
+     */
+    public function buscaCarga($sOp){
+        $sSql = "select nrcarga from steel_pcp_ordensfab where op ='".$sOp."'";
+        $result = $this->getObjetoSql($sSql);
+        
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        
+        return $oRow->nrcarga;
+    }
 }

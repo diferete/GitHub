@@ -17,17 +17,17 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
         dadosSend = nome + ',' + valor;
         var classdata1 = $(this).hasClass("data1");
         if (classdata1 == true) {
-            dadosSend = dadosSend + ',' + 'entre,vlrini';
+            dadosSend = dadosSend + '|' + 'entre|vlrini';
         }
         ;
         var classdata2 = $(this).hasClass("data2");
         if (classdata2 == true) {
-            dadosSend = dadosSend + ',' + 'entre,vlrfim';
+            dadosSend = dadosSend + '|' + 'entre|vlrfim';
         }
         ;
         $("#" + idSel + "-tipoFiltro :radio:checked").each(function () {
             valSel = $(this).val();
-            dadosSend = dadosSend + ',' + valSel;
+            dadosSend = dadosSend + '|' + valSel;
         });
         dadosPesq[countPesq] = dadosSend;
         countPesq++;
@@ -42,7 +42,7 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
             if (valor !== 'Todos') {
                 if (nome !== undefined) {
 
-                    dadosSend = nome + ',' + valor;
+                    dadosSend = nome + '|' + valor;
                     dadosPesq[countPesq] = dadosSend;
 
                     countPesq++;
@@ -52,14 +52,11 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
         });
 
     });
-
-
-
-
-
+   
+    
     if (bscroll == true) {
         //alert(metodo);  
-        dadosPesq[countPesq] = chavescroll + ',' + 'scroll';
+        dadosPesq[countPesq] = chavescroll + '|' + 'scroll';
         if (metodo == "") {
             requestAjax('', classe, 'getDadosScroll', idgrid + ',' + campoconsulta, dadosPesq, false);
         } else {
@@ -85,20 +82,20 @@ function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, me
         idSel = $(this).attr("id");
         nome = $(this).attr("name");
         valor = $(this).val();
-        dadosSend = nome + ',' + valor;
+        dadosSend = nome + '|' + valor;
         var classdata1 = $(this).hasClass("data1");
         if (classdata1 == true) {
-            dadosSend = dadosSend + ',' + 'entre,vlrini';
+            dadosSend = dadosSend + '|' + 'entre|vlrini';
         }
         ;
         var classdata2 = $(this).hasClass("data2");
         if (classdata2 == true) {
-            dadosSend = dadosSend + ',' + 'entre,vlrfim';
+            dadosSend = dadosSend + '|' + 'entre|vlrfim';
         }
         ;
         $("#" + idSel + "-tipoFiltro :radio:checked").each(function () {
             valSel = $(this).val();
-            dadosSend = dadosSend + ',' + valSel;
+            dadosSend = dadosSend + '|' + valSel;
         });
         dadosPesq[countPesq] = dadosSend;
         countPesq++;
@@ -116,7 +113,7 @@ function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, me
             if (valor !== 'Todos') {
                 if (nome !== undefined) {
 
-                    dadosSend = nome + ',' + valor;
+                    dadosSend = nome + '|' + valor;
                     dadosPesq[countPesq] = dadosSend;
 
                     countPesq++;
@@ -130,7 +127,7 @@ function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, me
 
     if (bscroll == true) {
         //alert(metodo);  
-        dadosPesq[countPesq] = chavescroll + ',' + 'scroll';
+        dadosPesq[countPesq] = chavescroll + '|' + 'scroll';
         if (metodo == "") {
             requestAjax('', classe, 'getDadosScroll', idgrid + ',' + campoconsulta, dadosPesq, false, idPos);
             // requestAjax(idForm,classe,metodo,sparametros,aIdCampos,bDesativaCarrega)

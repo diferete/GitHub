@@ -520,9 +520,9 @@ if($sEmailRequest=='S'){
       $oEmail->setServidor('smtp.terra.com.br');
       $oEmail->setPorta(587);
       $oEmail->setAutentica(true);
-      $oEmail->setUsuario('metalboweb@metalbo.com.br');
-      $oEmail->setSenha('Metalbo@@50');
-      $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'),utf8_decode('Certificados SteelTrater'));
+      $oEmail->setUsuario('laboratorio@steeltrater.com.br');
+      $oEmail->setSenha('labste0751');
+      $oEmail->setRemetente(utf8_decode('laboratorio@steeltrater.com.br'),utf8_decode('Certificados SteelTrater'));
        
       $oEmail->setAssunto(utf8_decode('Certificado número(s) '.$sCertsRel));
       $oEmail->setMensagem(utf8_decode('Anexo certificado número(s) '.$sCertsRel));

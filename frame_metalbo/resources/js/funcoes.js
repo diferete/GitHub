@@ -798,11 +798,21 @@ function calcNewproj(idPlan,
  * funcao para valores do dimensional da entraga de novos projetos
  */
 function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
-        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice, idAcab, idMat, idClass, sClasse) {
-    var campoValSim = codProdSimilar + ',' + idChMin + ',' + idChMax + ',' + idAltMin + ',' + idAltMax + ',' + idDiamFmin + ',' + idDiamFmax + ',' + idCompMin + ',' + idCompMax + ',' + idDiamPmin + ',' + idDiamPmax + ','
-            + idDiamExMin + ',' + idDiamExMax + ',' + idCompPrMin + ',' + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ',' + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
-    console.log(campoValSim);
-    requestAjax("", sClasse, 'getDadosProdSimilar', campoValSim);
+        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice,
+        idAcab, idMat, idClass, sClasse) {
+    if (codProdSimilar == '') {
+        return;
+    } else {
+
+        var campoValSim = codProdSimilar + ',' + idChMin + ',' + idChMax + ',' + idAltMin + ',' + idAltMax + ',' + idDiamFmin + ',' + idDiamFmax + ','
+                + idCompMin + ',' + idCompMax + ',' + idDiamPmin + ',' + idDiamPmax + ',' + idDiamExMin + ',' + idDiamExMax + ',' + idCompPrMin + ','
+                + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ','
+                + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
+
+        console.log(campoValSim);
+
+        requestAjax("", sClasse, 'getDadosProdSimilar', campoValSim);
+    }
 }
 
 function NewProjRep(idQt) {

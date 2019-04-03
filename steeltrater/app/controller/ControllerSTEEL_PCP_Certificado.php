@@ -299,4 +299,198 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         return $aInfo;
     }
     
+    /**
+    * Modal apontamentos certificado
+    */
+     public function criaTelaModalAponta($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $aChave = explode('&', $aDados[2]);
+        $aFilcgc= explode('=', $aChave[0]);
+        $aPedido = explode('=', $aChave[1]);
+        $aSeq = explode('=', $aChave[2]);
+        
+        //busca a op
+        $oCargaInsumoServ = Fabrica::FabricarController('STEEL_PCP_CargaInsumoServ');
+        $oCargaInsumoServ->Persistencia->adicionaFiltro('pdv_pedidofilial',$aFilcgc[1]);
+        $oCargaInsumoServ->Persistencia->adicionaFiltro('pdv_pedidocodigo',$aPedido[1]);
+        $oCargaInsumoServ->Persistencia->adicionaFiltro('pdv_pedidoitemseq',$aSeq[1]);
+        $oDadosCarga = $oCargaInsumoServ->Persistencia->consultarWhere();
+        
+        
+        
+        $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op',$oDadosCarga->getOp());
+        
+        $oDados = $oOp->Persistencia->consultarWhere();
+
+
+        $this->View->setAParametrosExtras($oDados);
+
+        $this->View->criaTelaModal($aDados[3]);
+        //busca lista pela op
+
+        $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+        //renderiza a tela
+        $this->View->getTela()->getRender();
+    }
+    
+    public function geraCertCarga($sDados){
+       $aId = explode(',', $sDados);
+        //captura a op da tela
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos); 
+        //verifica se já existe o certificado para alterá-lo
+         $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op',$aCampos['op']);
+        $oOpDados = $oOp->Persistencia->consultarWhere();
+        //verifica se há o certificado
+        $oCert = Fabrica::FabricarController('STEEL_PCP_Certificado');
+        $oCert->Persistencia->adicionaFiltro('nrcert',$oOpDados->getNrcert());
+        $iCert = $oCert->Persistencia->getCount();
+        //se não há certificad na tabela gera o insert de um novo certificado
+        if($iCert>0){
+            $this->alteraCertModal($sDados);
+        }else{
+            $this->insereCertificadoModal($sDados);
+        }
+        
+        
+        
+    }
+
+    
+
+    public function insereCertificadoModal($sDados){
+         $aDados = explode(',',$sDados);
+       $aId = explode(',', $sDados);
+        //captura a op da tela
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos); 
+        
+        //inicia gravação
+        $this->Persistencia->iniciaTransacao();
+        $aRetorno[0] = true;
+        //carrega o model
+        $this->View->criaTela();
+        $aCamposTela = $this->View->getTela()->getCampos();
+        $this->carregaModel($aCamposTela);
+        //carrega os dados que nao temos
+        
+        $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op',$aCampos['op']);
+        $oOpDados = $oOp->Persistencia->consultarWhere();
+        
+        $this->Model->setPeso($oOpDados->getPeso());
+        $this->Model->setQuant($oOpDados->getQuant());
+        $this->Model->setNotacliente($oOpDados->getDocumento());
+        $this->Model->setOpcliente($oOpDados->getOpcliente());
+        $this->Model->setEmpcod($oOpDados->getEmp_codigo());
+        $this->Model->setEmpdes($oOpDados->getEmp_razaosocial());
+        
+        if ($aRetorno[0]) {
+            $aRetorno = $this->Persistencia->inserir();
+        }
+
+        if ($aRetorno[0]) {
+            $aRetorno = $this->afterInsert();
+            $this->Persistencia->commit();
+        }
+        
+        if ($aRetorno[0]) {
+            //atualiza nr do certificado na ordem e produção
+            $oGeraCert = Fabrica::FabricarPersistencia('STEEL_PCP_GeraCertificado');
+            
+            $oGeraCert->putCertOp($this->Model);
+            $oMsg = new Mensagem('Sucesso!', 'Registro inserido com sucesso...', Mensagem::TIPO_SUCESSO);
+            echo $oMsg->getRender();
+            echo'$("#modalApontaItem-btn").click();';
+            echo '$("#'.$aDados[2].'").focus();';
+        }else {
+            $this->Persistencia->rollback();
+            $oMsg = new Mensagem('ERRO AO INSERIR', 'Seu registro não foi inserido!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+        }
+        
+        
+        
+        
+    }
+    
+    public function alteraCertModal($sDados){
+        $aDados = explode(',',$sDados);
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos); 
+        $this->View->criaTela();
+        
+        $aRetorno[0] = true;
+        //traz lista campos
+        $aCamposTela = $this->View->getTela()->getCampos();
+
+        if ($this->View->getBGravaHistorico() == true) {
+            $this->gravaHistorico('Alterar');
+        }
+
+        $this->Persistencia->iniciaTransacao();
+
+        $aChaveMestre = $this->Persistencia->getChaveArray();
+        foreach ($aChaveMestre as $oCampoBanco) {
+            if ($oCampoBanco->getPersiste()) {
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
+            }
+        }
+        $this->Model = $this->Persistencia->consultar();
+       
+        $this->carregaModel($aCamposTela);
+       
+        //carrega os dados que nao temos
+        
+        $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op',$aCampos['op']);
+        $oOpDados = $oOp->Persistencia->consultarWhere();
+        
+        $this->Model->setPeso($oOpDados->getPeso());
+        $this->Model->setQuant($oOpDados->getQuant());
+        $this->Model->setNotacliente($oOpDados->getDocumento());
+        $this->Model->setOpcliente($oOpDados->getOpcliente());
+        $this->Model->setEmpcod($oOpDados->getEmp_codigo());
+        $this->Model->setEmpdes($oOpDados->getEmp_razaosocial());
+        
+         if ($aRetorno[0]) {
+            $aRetorno = $this->beforeUpdate();
+        }
+
+        if ($aRetorno[0]) {
+            $aRetorno = $this->Persistencia->alterar();
+        }
+        
+        if($aRetorno[0]){
+            $this->Persistencia->commit();
+             //MENSAGEM SUCESSO
+            $oMsg = new Mensagem('Sucesso!', 'Seu registro foi alterado com sucesso...', Mensagem::TIPO_SUCESSO);
+            echo $oMsg->getRender();
+            echo'$("#modalApontaItem-btn").click();';
+            echo '$("#'.$aDados[2].'").focus();';
+        }else{
+            $this->Persistencia->rollback();
+            $oMsg = new Mensagem('Erro!', 'Seu registro não foi alterado.', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+        }
+        
+        
+    }
+    /**
+     * Função para atualiza número de notas fiscais com seus certificados
+     * @param type $sParametros
+     */
+    
+    public function antesDeCriarConsulta($sParametros = null) {
+        parent::antesDeCriarConsulta($sParametros);
+        
+        $oCertificado = Fabrica::FabricarController('STEEL_PCP_Certificado');
+        $oCertificado->Persistencia->atualizaNotaCertificado();
+        
+        
+    }
 }

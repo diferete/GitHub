@@ -83,30 +83,25 @@ $pdf->Cell(0,5,'','T',1,'L');
    //$pdf->SetFont('Arial','',9);
    //$pdf->Cell(30,10,'Data inicial: '.$dtfinal, '',1, 'L',0);
    $pdf->Cell(0,3,'','',1,'L');
-  
-   
-   
-   
-   
    
    //Títulos do relatório
    $pdf->SetFont('Arial','B',9);
    $pdf->Cell(8,5,'OP', 'B,R,L,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(17,5,'Prod.', 'B,R,T',0, 'C',0);
+   $pdf->Cell(16,5,'Prod.', 'B,R,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(69,5,'Descrição', 'B,R,T',0, 'C',0);
+   $pdf->Cell(59,5,'Descrição', 'B,R,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(17,5,'Quant.', 'B,R,T',0, 'C',0);
+   $pdf->Cell(16,5,'Quant.', 'B,R,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(17,5,'Peso', 'B,R,T',0, 'C',0);
+   $pdf->Cell(16,5,'Peso', 'B,R,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(17,5,'OpCliente', 'B,R,T',0, 'C',0);
+   $pdf->Cell(34,5,'OpCliente', 'B,R,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
    $pdf->Cell(19,5,'Data', 'B,R,T',0, 'C',0);
@@ -126,25 +121,25 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->SetFont('Arial','',8);
    $pdf->Cell(8, 6, $row['op'],'L,B',0,'C');
        
-   $pdf->SetFont('Arial','',9);
-   $pdf->Cell(17, 6, $row['prod'],'L,B',0,'R');
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(16, 6, $row['prod'],'L,B',0,'L');
        
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(69, 6, $row['prodes'],'L,B',0,'L');
+   $pdf->Cell(59, 6, $row['prodes'],'L,B',0,'L');
    
-   $pdf->SetFont('Arial','',9);
-   $pdf->Cell(17, 6, number_format($row['quant'], 2, ',', '.'),'L,B',0,'R');
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(16, 6, number_format($row['quant'], 2, ',', '.'),'L,B',0,'R');
    
-   $pdf->SetFont('Arial','',9);
-   $pdf->Cell(17, 6, number_format($row['peso'], 2, ',', '.'),'L,B',0,'R');
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(16, 6, number_format($row['peso'], 2, ',', '.'),'L,B',0,'R');
    
-   $pdf->SetFont('Arial','',9);
-   $pdf->Cell(17, 6, $row['opcliente'],'L,B',0,'R');
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(34, 6, $row['opcliente'],'L,B',0,'R');
        
-   $pdf->SetFont('Arial','',9);
+   $pdf->SetFont('Arial','',8);
    $pdf->Cell(19, 6, $row['data'],'L,B',0,'C');
    
-   $pdf->SetFont('Arial','',9);
+   $pdf->SetFont('Arial','',8);
    $pdf->Cell(19, 6, $row['dataprev'],'L,B',0,'C');
    
    $pdf->SetFont('Arial','',8);
@@ -165,13 +160,9 @@ $pdf->Cell(0,5,'','T',1,'L');
    
    $pdf->SetFont('Arial','B',10);
    $pdf->Cell(99, 8, 'Peso Total: '.number_format($Pesototal, 2, ',', '.'),'',0,'J');
-   
- 
+    
 //Fim  
-
-
-
-
 
 $pdf->Output('I','RelOpSteel2.pdf');
  Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE 
+ 

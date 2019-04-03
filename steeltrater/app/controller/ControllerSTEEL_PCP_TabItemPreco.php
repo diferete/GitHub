@@ -98,6 +98,7 @@ class ControllerSTEEL_PCP_TabItemPreco extends Controller {
         parent::beforeInsert();
         
         //busca ncm do produto
+      if($this->Model->getCod()== ''){
         $oProd = Fabrica::FabricarController('STEEL_PCP_Produtos');
         $oProd->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getProd());
         $oProdDados = $oProd->Persistencia->consultarWhere();
@@ -111,8 +112,9 @@ class ControllerSTEEL_PCP_TabItemPreco extends Controller {
         $iTotal = $oItems->Persistencia->getCount();
         //se o total > 0 para o insert
         if($iTotal >0){
-            $oModal = new Modal('Atenção','Está receita já tem um produto do tipo '.$this->Model->getTipo().' para este NCM, é permitido um insumo e um serviço por receita.', Modal::TIPO_AVISO, false, true, false);
-            echo $oModal->getRender();
+            //$oModal = new Modal('Atenção','Está receita já tem um produto do tipo '.$this->Model->getTipo().' para este NCM, é permitido um insumo e um serviço por receita.', Modal::TIPO_AVISO, false, true, false);
+            $oMensagem = new Mensagem('Atençao','Essa ncm já tem insumo cadastrado, verifique se não é necessário informar um tratamento caso a OP for de fio máquina!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
             $aRetorno = array();
             $aRetorno[0] = false;
             $aRetorno[1] = '';
@@ -123,6 +125,35 @@ class ControllerSTEEL_PCP_TabItemPreco extends Controller {
             $aRetorno[1] = '';
             return $aRetorno;
         }
+      }else{
+          $oProd = Fabrica::FabricarController('STEEL_PCP_Produtos');
+        $oProd->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getProd());
+        $oProdDados = $oProd->Persistencia->consultarWhere();
+        
+        $oItems = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');
+        $oItems->Persistencia->adicionaFiltro('nr', $this->Model->getNr());
+        $oItems->Persistencia->adicionaFiltro('receita',$this->Model->getReceita());
+        $oItems->Persistencia->adicionaFiltro('tipo', $this->Model->getTipo());
+        $oItems->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+        $oItems->Persistencia->adicionaFiltro('cod', $this->Model->getCod());
+        
+        $iTotal = $oItems->Persistencia->getCount();
+        //se o total > 0 para o insert
+        if($iTotal >0){
+            //$oModal = new Modal('Atenção','Está receita já tem um produto do tipo '.$this->Model->getTipo().' para este NCM, é permitido um insumo e um serviço por receita.', Modal::TIPO_AVISO, false, true, false);
+            $oMensagem = new Mensagem('Atençao','Essa ncm já tem insumo cadastrado!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }else{
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } 
+      }
     }
     
     /**

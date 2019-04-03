@@ -35,7 +35,7 @@ class ControllerSTEEL_PCP_NotaImportaNf extends Controller{
        
        if($_REQUEST['parametrosCampos']){
                     foreach ($_REQUEST['parametrosCampos'] as $sAtual){
-                        $aFiltros[] =  explode(',',$sAtual) ;
+                        $aFiltros[] =  explode('|',$sAtual) ;
                     }
         }
         

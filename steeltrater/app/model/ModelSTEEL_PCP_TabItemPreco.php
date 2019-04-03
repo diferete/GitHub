@@ -17,8 +17,19 @@ class ModelSTEEL_PCP_TabItemPreco{
     private $STEEL_PCP_receitas;
     private $STEEL_PCP_Produtos;
     private $tipo;
+    private $cod;
     
     
+    function getCod() {
+        return $this->cod;
+    }
+
+    function setCod($cod) {
+        $this->cod = $cod;
+    }
+
+    
+        
     function getSTEEL_PCP_Produtos() {
         if(!isset($this->STEEL_PCP_Produtos)){
             $this->STEEL_PCP_Produtos = Fabrica::FabricarModel('STEEL_PCP_Produtos');

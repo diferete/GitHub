@@ -150,6 +150,7 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         //tipo do model atual
         $this->adicionaRelacionamento('pdv_insserv', 'pdv_insserv',false,false);
         $this->adicionaRelacionamento('op','op',false,false);
+        $this->adicionaRelacionamento('pesoOp','pesoOp',false,false);
         
         //adiciona o left outer join na tabela de insumos
         $sEnd ='and pdv_pedidoitem.PDV_PedidoCodigo = steel_pcp_cargainsumoserv.pdv_pedidocodigo
@@ -202,5 +203,17 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         return $aRetorno;
         
     }
+    
+    /**
+     * Faz o somatório para o peso bruto e para o peso líquido
+     */
+    
+    public function pesoCarga($aChave){
+        
+        
+        
+    }
+    
+   
 
 }

@@ -13,7 +13,27 @@ class ModelSTEEL_PCP_CargaInsumoServ {
     private $pdv_pedidoitemseq;
     private $pdv_insserv;
     private $op;
+    private $alerta;
+    private $pesoOp;
     
+    function getPesoOp() {
+        return $this->pesoOp;
+    }
+
+    function setPesoOp($pesoOp) {
+        $this->pesoOp = $pesoOp;
+    }
+
+        
+    function getAlerta() {
+        return $this->alerta;
+    }
+
+    function setAlerta($alerta) {
+        $this->alerta = $alerta;
+    }
+
+        
     function getOp() {
         return $this->op;
     }

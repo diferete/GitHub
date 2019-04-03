@@ -41,12 +41,15 @@ class ViewSTEEL_PCP_NotaImportaNf extends View{
         $this->addCampos($oBotaoConsulta,$oNf,$oOpSteel,$oProd,$oDes,$oQt,$oData,$oMetOf,$oMetMat,$oRoeNro,$oSeq);
         
         $oFiltroNf = new Filtro($oNf, Filtro::CAMPO_TEXTO_IGUAL,2);
-        $this->addFiltro($oFiltroNf);
+        
+        $oFilOpMet = new Filtro($oMetOf, Filtro::CAMPO_TEXTO_IGUAL,2);
+        
+        $this->addFiltro($oFiltroNf,$oFilOpMet);
         
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->getTela()->setBUsaKeypress(false);
-       // $this->getTela()->setBScrollInf(true);
+        $this->getTela()->setiAltura(750);
     }
 }

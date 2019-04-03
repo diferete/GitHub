@@ -158,7 +158,20 @@ class ModelSTEEL_PCP_PedCarga{
     private $PDV_PedidoCarenciaNegociada;
     private $PDV_PedidoDiasCarenciaJuros;
     private $PDV_PedidoEmbalagemManual;
+    private $DELX_NFS_TipoMovimento;
     
+    function getDELX_NFS_TipoMovimento() {
+        if(!isset($this->DELX_NFS_TipoMovimento)){
+            $this->DELX_NFS_TipoMovimento = Fabrica::FabricarModel('DELX_NFS_TipoMovimento');
+        }
+        return $this->DELX_NFS_TipoMovimento;
+    }
+
+    function setDELX_NFS_TipoMovimento($DELX_NFS_TipoMovimento) {
+        $this->DELX_NFS_TipoMovimento = $DELX_NFS_TipoMovimento;
+    }
+
+        
         
     function getDELX_CAD_Pessoa() {
         if(!isset($this->DELX_CAD_Pessoa)){

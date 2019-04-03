@@ -17,6 +17,7 @@ class PersistenciaSTEEL_PCP_PedCarga extends Persistencia {
         $this->adicionaRelacionamento('pdv_pedidofilial', 'pdv_pedidofilial', true, true);
         $this->adicionaRelacionamento('pdv_pedidocodigo', 'pdv_pedidocodigo', true, true,true);
         
+        $this->adicionaRelacionamento('PDV_PedidoTipoMovimentoCodigo', 'DELX_NFS_TipoMovimento.nfs_tipomovimentocodigo',false,false);
         $this->adicionaRelacionamento('PDV_PedidoEmpCodigo','DELX_CAD_Pessoa.emp_codigo',false,false);
         $this->adicionaRelacionamento('PDV_PedidoEmpCodigo', 'PDV_PedidoEmpCodigo');
         
@@ -167,10 +168,10 @@ class PersistenciaSTEEL_PCP_PedCarga extends Persistencia {
         
         
 
-        $this->setSTop('20');
+        $this->setSTop('50');
         
         $this->adicionaJoin('DELX_CAD_Pessoa',null,1,'PDV_PedidoEmpCodigo','emp_codigo');
-       // $this->adicionaJoin('DELX_PRO_Produtos', null,1, 'prod','pro_codigo');
+        $this->adicionaJoin('DELX_NFS_TipoMovimento', null,1, 'PDV_PedidoTipoMovimentoCodigo','nfs_tipomovimentocodigo');
         $this->adicionaOrderBy('pdv_pedidocodigo',1);
     }
     
@@ -228,5 +229,60 @@ class PersistenciaSTEEL_PCP_PedCarga extends Persistencia {
         
        
     }
-
+    
+     /**
+     * atualiza pesos do cabeçalho de pedido
+     */
+    public function atualizaPeso($aCampos,$iPesoLiq,$iVolumes,$sEmpcod){
+        $oCaixa = Fabrica::FabricarController('STEEL_PCP_PesoCaixas');
+        $oCaixa->Persistencia->adicionaFiltro('empcodigo',$sEmpcod);
+        $oDadosCaixa = $oCaixa->Persistencia->consultarWhere();
+        
+        $iPesoCaixa = $oDadosCaixa->getPeso();
+        $iTotalCaixa = $iPesoCaixa * $iVolumes;
+        $iPesoBruto = $iTotalCaixa + $iPesoLiq; 
+        
+        
+        $sSql = "UPDATE pdv_pedido SET PDV_PedidoPesoLiquido = '".$iPesoLiq."', PDV_PedidoPesoBruto='".$iPesoBruto."', PDV_PedidoVolumes ='".$iVolumes."' "
+                . "WHERE pdv_pedidofilial ='".$aCampos['pdv_pedidofilial']."' and pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'";
+        
+        $this->executaSql($sSql); 
+    }
+     /**
+     * atualiza pesos do cabeçalho de pedido
+     */
+    public function buscaPeso($aCampos){
+        $sSql = "select coalesce(sum(pesoOp),0)as pesoliquido 
+                from pdv_pedidoitem left outer join STEEL_PCP_CargaInsumoServ
+                on pdv_pedidoitem.pdv_pedidofilial = STEEL_PCP_CargaInsumoServ.pdv_pedidofilial
+                and pdv_pedidoitem.pdv_pedidocodigo = STEEL_PCP_CargaInsumoServ.pdv_pedidocodigo
+                and pdv_pedidoitem.pdv_pedidoitemseq = STEEL_PCP_CargaInsumoServ.pdv_pedidoitemseq
+                where pdv_pedidoitem.pdv_pedidofilial = '8993358000174' 
+                and pdv_pedidoitem.pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'
+                and pdv_insserv = 'RETORNO'";
+        //COALESCE(SUM(Price),0)
+        $result = $this->getObjetoSql($sSql);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        
+        return $row->pesoliquido;
+    }
+    
+    /**
+     * Busca o total de volumes retornados
+     */
+    public function retornaVolumes($aCampos){
+        $sSql = " select count(*) as volumes 
+		from pdv_pedidoitem left outer join STEEL_PCP_CargaInsumoServ
+                on pdv_pedidoitem.pdv_pedidofilial = STEEL_PCP_CargaInsumoServ.pdv_pedidofilial
+                and pdv_pedidoitem.pdv_pedidocodigo = STEEL_PCP_CargaInsumoServ.pdv_pedidocodigo
+                and pdv_pedidoitem.pdv_pedidoitemseq = STEEL_PCP_CargaInsumoServ.pdv_pedidoitemseq
+                where pdv_pedidoitem.pdv_pedidofilial = '8993358000174' 
+                and pdv_pedidoitem.pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'
+                and pdv_insserv = 'RETORNO'";
+        
+        $result = $this->getObjetoSql($sSql);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        
+        return $row->volumes;
+    }
 }

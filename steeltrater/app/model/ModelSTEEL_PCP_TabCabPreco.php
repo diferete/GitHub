@@ -16,7 +16,17 @@ class ModelSTEEL_PCP_TabCabPreco{
     private $usuarioCadastro;
     private $data;
     private $sit;
+    private $concatena;
     
+    function getConcatena() {
+        return $this->concatena;
+    }
+
+    function setConcatena($concatena) {
+        $this->concatena = $concatena;
+    }
+
+        
     function getSit() {
         return $this->sit;
     }

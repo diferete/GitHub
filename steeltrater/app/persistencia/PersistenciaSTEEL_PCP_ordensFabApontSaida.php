@@ -36,9 +36,11 @@ class PersistenciaSTEEL_PCP_ordensFabApontSaida extends Persistencia {
         date_default_timezone_set('America/Sao_Paulo');
         $sData = Util::getDataAtual();
         $sHora = date('H:i');
+        $user = $_SESSION['codUser'];
+        $nomeuser = $_SESSION['nome'];
 
         //Realiza a inserçao da data e da hora na tabela
-        $sSql="update STEEL_PCP_OrdensFabApont set situacao='Finalizado', datasaida_forno='".$sData."',horasaida_forno='".$sHora."' where op='".$aOp['op']."'   ";
+        $sSql="update STEEL_PCP_OrdensFabApont set situacao='Finalizado', datasaida_forno='".$sData."',horasaida_forno='".$sHora."',codusersaida='".$user."',usernomesaida='".$nomeuser."' where op='".$aOp['op']."'   ";
         $aRetorno = $this->executaSql($sSql);
         
         $sSql="update STEEL_PCP_ordensFab set situacao = 'Finalizado' where op ='".$aOp['op']."' ";

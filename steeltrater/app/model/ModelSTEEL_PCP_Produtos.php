@@ -9,6 +9,7 @@
 
 class ModelSTEEL_PCP_Produtos {
 
+    private $STEEL_PCP_ProdutoFilial;
     private $DELX_PRO_Grupo;
     private $pro_codigo;
     private $pro_descricao;
@@ -155,7 +156,18 @@ class ModelSTEEL_PCP_Produtos {
     private $fis_produtocompra;
     private $tms_produtopredominante;
     
+    function getSTEEL_PCP_ProdutoFilial() {
+        if(!isset($this->STEEL_PCP_ProdutoFilial)){
+            $this->STEEL_PCP_ProdutoFilial = Fabrica::FabricarModel('STEEL_PCP_ProdutoFilial');
+        }
+        return $this->STEEL_PCP_ProdutoFilial;
+    }
 
+    function setSTEEL_PCP_ProdutoFilial($STEEL_PCP_ProdutoFilial) {
+        $this->STEEL_PCP_ProdutoFilial = $STEEL_PCP_ProdutoFilial;
+    }
+
+    
     function getPro_mva() {
         return $this->pro_mva;
     }

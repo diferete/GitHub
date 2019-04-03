@@ -34,6 +34,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $oFabintens = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
         $oFabintens->itensOrdem($this->Model);
         
+       
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -76,6 +77,14 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $oImporta->atualizaOPnf($aCampos);
         }
         
+        //marca na importa op no xml
+        
+        if($this->Model->getOrigem()=='XML'){
+            $oImporta = Fabrica::FabricarController('STEEL_PCP_ImportaXml');
+            $aCampos['seq'] = $this->Model->getSeqprodnf();
+            $aCampos['op'] = $this->Model->getOp();
+            $oImporta->Persistencia->atualizaImpXml($aCampos);
+        }
         
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -100,33 +109,72 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $aCamposChave = array();
         parse_str($sChave,$aCamposChave);
         
-        if(count($aCamposChave)>0){
-        $oNotasImp = Fabrica::FabricarController('STEEL_PCP_NotaImportaNf');
-        $oModelImp = $oNotasImp->buscaNota($aCamposChave);
-        //busca o peso do produto
-        $oPeso = Fabrica::FabricarController('DELX_PRO_Produtos');
-        $Peso = $oPeso->retornaPeso($oModelImp->getNfsitcod());
-        $PesoTotal = ($Peso*$oModelImp->getNfsitqtd());
-        $oModelImp->setPeso($PesoTotal);
-        //busca o preço da nota
-        $aCamposChave['nfsitcod'] = $oModelImp->getNfsitcod();
-        $aPreco = $this->Persistencia->buscaPreço($aCamposChave);
-        $oModelImp->setVlrNfEntUnit($aPreco[0]);
-        $oModelImp->setVlrNfEnt($aPreco[1]);
+        //verifica se vem de xml ou importa metalbo
         
-        $this->View->setAParametrosExtras($oModelImp);
-        
-        //valida se há op
-        if($oModelImp->getOpSteel()){
-            $oModal = new Modal('Atenção!','Esse ítem já tem ordem de produção.', Modal::TIPO_AVISO);
-            echo $oModal->getRender();
-            exit();
+        if($aRender[3]!=='xml'){
+            if(count($aCamposChave)>0){
+            $oNotasImp = Fabrica::FabricarController('STEEL_PCP_NotaImportaNf');
+            $oModelImp = $oNotasImp->buscaNota($aCamposChave);
+            //busca o peso do produto
+            $oPeso = Fabrica::FabricarController('DELX_PRO_Produtos');
+            $Peso = $oPeso->retornaPeso($oModelImp->getNfsitcod());
+            $PesoTotal = ($Peso*$oModelImp->getNfsitqtd());
+            $oModelImp->setPeso($PesoTotal);
+            //busca o preço da nota
+            $aCamposChave['nfsitcod'] = $oModelImp->getNfsitcod();
+            $aPreco = $this->Persistencia->buscaPreço($aCamposChave);
+            $oModelImp->setVlrNfEntUnit($aPreco[0]);
+            $oModelImp->setVlrNfEnt($aPreco[1]);
+
+            $this->View->setAParametrosExtras($oModelImp);
+
+            //valida se há op
+            if($oModelImp->getOpSteel()){
+                $oModal = new Modal('Atenção!','Esse ítem já tem ordem de produção.', Modal::TIPO_AVISO);
+                echo $oModal->getRender();
+                exit();
+            }
+            echo ' $("#'.$aRender[1].'consulta").hide(); ';
+
+            }
+        }else{
+            //notas importada por xml
+            $oNotaXml = Fabrica::FabricarController('STEEL_PCP_ImportaXml');
+            $oNotaXml->Persistencia->adicionaFiltro('seq',$aCamposChave['seq']);
+            
+            $oDadosXml = $oNotaXml->Persistencia->consultarWhere();
+            
+            if($oDadosXml->getEmpcod()!=='75483040000211'){
+                //busca a referencia do produto
+                $oProdutos = Fabrica::FabricarController('DELX_PRO_Produtos');
+                $oProdutos->Persistencia->adicionaFiltro('pro_referencia',$oDadosXml->getProcod());
+                $oProdutos->Persistencia->adicionaFiltro('pro_codigoantigo',$oDadosXml->getEmpcod());
+                
+                $iCont = $oProdutos->Persistencia->getCount();
+                
+                if($iCont==0){
+                    $sSeq = $oDadosXml->getSeq();
+                    $oModal = new Modal('Atenção','Este código não possui cadastro ou referência no sistema! '
+                            . 'Prossiga a tela de cadastro de produto para gerar seu cadastro!', Modal::TIPO_AVISO, true, true, true);
+                    $oModal->setSBtnConfirmarFunction('verificaTab("menu-1-prod","1-prod","STEEL_PCP_Produtos","acaoMostraTela","tabmenu-1-prod,'.$sSeq.'","Produtos","parametro");');
+                    echo $oModal->getRender();
+                    exit();
+                }else{
+                    $oProdDados = $oProdutos->Persistencia->consultarWhere();
+                    $oDadosXml->setCodInterno($oProdDados->getPro_codigo());
+                }
+            }
+            $this->View->setAParametrosExtras($oDadosXml);
+            
+            if($oDadosXml->getOpSteel()){
+                $oModal = new Modal('Atenção!','Esse ítem já tem ordem de produção.', Modal::TIPO_AVISO);
+                echo $oModal->getRender();
+                exit();
+            }
+            echo ' $("#'.$aRender[1].'consulta").hide(); ';
+            
         }
-        echo ' $("#'.$aRender[1].'consulta").hide(); ';
-        
-        }
-        
-        
+
     }
 
   
@@ -610,27 +658,198 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
        }
     }
     
-   /* public function antesAlterar($sParametros = null) {
-       parent::antesAlterar($sParametros);
-
-        $sChave = htmlspecialchars_decode( $sParametros[0]);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
-       
-      
-     ///  $this->Persistencia->adicionaFiltro('p',$aCamposChave['pdv_pedidofilial']);
-       
-       $oCargaDados = $oCarga->Persistencia->consultarWhere();
-       
-       if($oCargaDados->getPDV_PedidoSituacao()=='O'){
-           $oModal = new Modal('Atenção','Este carregamento já está aprovado para faturar, '
-                   . 'retorne a situação para dar prosseguimento a sua alteração.', Modal::TIPO_AVISO,false,true, false);
-           echo $oModal->getRender();
-            $this->setBDesativaBotaoPadrao(true);
-       }
-      
-   }*/
+   /**
+    * Modal apontamentos
+    */
+     public function criaTelaModalAponta($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $aChave = explode('&', $aDados[2]);
+        $aOp= explode('=', $aChave[0]);
         
+        $oApontOp = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
+        $oApontOp->Persistencia->adicionaFiltro('op',$aOp[1]);
+        
+        $oDados = $oApontOp->Persistencia->consultarWhere();
+
+
+        $this->View->setAParametrosExtras($oDados);
+
+        $this->View->criaModalAponta();
+        //busca lista pela op
+
+        $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+        //renderiza a tela
+        $this->View->getTela()->getRender();
+    }
+
+    public function antesAlterar($sParametros = null) {
+        parent::antesAlterar($sParametros);
+        $aOp= explode('=', $sParametros[0]);
+        $this->Persistencia->adicionaFiltro('op',$aOp[1]);
+        $oDados = $this->Persistencia->consultarWhere();
+        $sSituacao = $oDados->getSituacao();
+        if($sSituacao == 'Finalizado'){
+            $oModal = new Modal('Atenção!','Não é possível alterar a OP '.$aOp[1].', por que ela está finalizada!', Modal::TIPO_AVISO, false, true);
+            echo $oModal->getRender();
+            $this->setBDesativaBotaoPadrao(true);
+        }else{
+            return true;
+        }
+    }
+    
+    /**
+     * açoes após dar um comit
+     */
+    
+    public function afterCommitUpdate() {
+        parent::afterCommitUpdate();
+        
+        $this->pendenciasOP($sOp);
+        
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno; 
+    }
+    /**
+     * açoes após inserir
+     */
+    public function afterCommitInsert() {
+        parent::afterCommitInsert();
+        
+        $this->pendenciasOP($sOp);
+        
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno; 
+    }
+
+    /**
+     * Monta as pendencias que podem ocorrer 
+     */
+    
+    public function pendenciasOP($sOp){
+        $aErro['pendencia'] = '';
+        $aErro['pendenciaobs'] = '';
+        //verificar se há tabela de preço para o cliente
+        $aCamposChave = array();
+        parse_str($_REQUEST['campos'], $aCamposChave);
+        
+        //busca tabela de preço
+        $oTabCli = Fabrica::FabricarController('STEEL_PCP_TabCabPreco');
+        $oTabCli->Persistencia->adicionaFiltro('emp_codigo',$aCamposChave['emp_codigo']);
+        $oTabCli->Persistencia->adicionaFiltro('sit','INATIVA',0,10);
+        $oTabCliDados = $oTabCli->Persistencia->consultarWhere();
+        $iTabela = $oTabCli->Persistencia->getCount();
+        
+        //busca produtos
+        $oProdUn = Fabrica::FabricarController('DELX_PRO_Produtos');
+        $oProdUn->Persistencia->limpaFiltro();
+        $oProdUn->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getProdFinal());
+        $oProdDados = $oProdUn->Persistencia->consultarWhere();
+        //item da tabela de preço   
+         $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');    
+        //------------------------verificar tabela ----------------------------------------------
+        if($iTabela==0){
+            //mensagem e gravamos tabela = 0
+            $oMensagem = new Mensagem('Atenção!','Não há tabela de preços para esse cliente! ', Mensagem::TIPO_WARNING,5000);
+            echo $oMensagem->getRender();
+            $aErro['pendencia'] = 'Atenção';
+            $aErro['pendenciaobs'] .= 'Tabela de preços não cadastrada! ';
+            }
+         
+        //------------------------verifica item na tabela de preço -----------------------------
+                //verifica tipo da op para analisar 
+            if($this->Model->getTipoOrdem()=='P'){
+                //INSUMO----------------------------------------------------
+                $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());
+                $oItemsTabela->Persistencia->adicionaFiltro('receita',$this->Model->getReceita());
+                $oItemsTabela->Persistencia->adicionaFiltro('tipo','INSUMO');
+                $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());
+                $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();
+                 if($oDadosInsumo->getProd()== null){
+                    //mensagem e gravamos tabela = 0
+                    $oMensagem = new Mensagem('Atenção!','Não há INSUMO cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING,5000);
+                    echo $oMensagem->getRender();
+                    $aErro['pendencia'] = 'Atenção';
+                    $aErro['pendenciaobs'] .= 'Não há INSUMO cadastrado na tabela de preço! ';
+                    }
+                  //SERVIÇO--------------------------------------------------
+                $oItemsTabela->Persistencia->limpaFiltro();
+                $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());
+                $oItemsTabela->Persistencia->adicionaFiltro('receita',$this->Model->getReceita());
+                $oItemsTabela->Persistencia->adicionaFiltro('tipo','SERVIÇO');
+                $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());
+                $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+                 if($oDadosServico->getProd()== null){
+                    //mensagem e gravamos tabela = 0
+                    $oMensagem = new Mensagem('Atenção!','Não há SERVIÇO cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING,5000);
+                    echo $oMensagem->getRender();
+                    $aErro['pendencia'] = 'Atenção';
+                    $aErro['pendenciaobs'] .= 'Não há SERVIÇO cadastrado na tabela de preço! ';
+                    }  
+                  //-----------------------------------------------------------  
+                    
+                }
+        
+               //-----------------------SE A OP FOR FIO MÁQUINA----------------------
+                
+            if($this->Model->getTipoOrdem()=='F'){
+                        //novo método para inserir dando um foreach
+                        $oItensReceita = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
+                        $oItensReceita->Persistencia->adicionaFiltro('cod',$this->Model->getReceita());
+                        //gera os items da receita de modo distinc
+                        $aDadosItensReceita = $oItensReceita->Persistencia->distinctItemReceita($this->Model->getReceita());
+                        
+                        foreach ($aDadosItensReceita as $key => $oTrat) {
+                            $oItemsTabela->Persistencia->limpaFiltro();
+                            $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());  //tabela de preco
+                            $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita()); //receita
+                            $oItemsTabela->Persistencia->adicionaFiltro('tipo','SERVIÇO'); //insumo ou serviço
+                            $oItemsTabela->Persistencia->adicionaFiltro('cod',$oTrat->tratcod); //codigo do tratamento somente qdo for op fio
+                            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());//ncm
+                            $oDadosFioServ = $oItemsTabela->Persistencia->consultarWhere();
+                            
+                            if($oDadosFioServ->getProd()== null){
+                                //mensagem e gravamos tabela = 0
+                                $oMensagem = new Mensagem('Atenção!','Não há SERVIÇO cadastrado na tabela de preço e lembrar de informar o tratamento! ', Mensagem::TIPO_WARNING,5000);
+                                echo $oMensagem->getRender();
+                                $aErro['pendencia'] = 'Atenção';
+                                $aErro['pendenciaobs'] .= 'Não há SERVIÇO cadastrado na tabela de preço e lembrar de informar o tratamento nº'.$oTrat->tratcod.'! '; 
+                            }
+                            
+                            $oItemsTabela->Persistencia->limpafiltro();
+                            $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());  //tabela de preco
+                            $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita()); //receita
+                            $oItemsTabela->Persistencia->adicionaFiltro('tipo','INSUMO'); //insumo ou serviço
+                            $oItemsTabela->Persistencia->adicionaFiltro('cod',$oTrat->tratcod); //codigo do tratamento somente qdo for op fio
+                            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());//ncm
+                            $oDadosFioInsumo = $oItemsTabela->Persistencia->consultarWhere();
+                            
+                            if($oDadosFioInsumo->getProd()== null){
+                                //mensagem e gravamos tabela = 0
+                                $oMensagem = new Mensagem('Atenção!','Não há INSUMO cadastrado na tabela de preço e lembrar de informar o tratamento! ', Mensagem::TIPO_WARNING,5000);
+                                echo $oMensagem->getRender();
+                                $aErro['pendencia'] = 'Atenção';
+                                $aErro['pendenciaobs'] .= 'Não há INSUMO cadastrado na tabela de preço e lembrar de informar o tratamento nº'.$oTrat->tratcod.'! '; 
+                            }
+                            
+                            
+                        }
+            }
+                
+                
+                
+            
+        //grava
+        $this->Persistencia->gravaPendencia($this->Model->getOp(),$aErro['pendencia'],$aErro['pendenciaobs']);
+        //($sOp,$sAtencao,$sPendencia)
+       
+        
+    }
 }
    
    

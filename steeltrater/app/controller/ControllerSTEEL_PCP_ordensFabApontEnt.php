@@ -53,6 +53,7 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             . '$("#' . $aId[1] . '").val("");'
             . '$("#' . $aId[2] . '").val("");'
             . '$("#' . $aId[3] . '").val("");';
+            exit();
         } else {
             if ($oDados->getOp() == null) {
                 $oMensagem = new Mensagem('Atenção!', 'Ordem de produção não foi localizada!', Mensagem::TIPO_WARNING);
@@ -61,6 +62,7 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
                 . '$("#' . $aId[1] . '").val("");'
                 . '$("#' . $aId[2] . '").val("");'
                 . '$("#' . $aId[3] . '").val("");';
+                exit();
             } else {
                 
                 $oDados->setProdes(str_replace("\n", " ",$oDados->getProdes()));
@@ -78,6 +80,7 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
                 . '$("#' . $aId[1] . '").val("' . $oDados->getOpcliente() . '");'
                 . '$("#' . $aId[2] . '").val("' . $oDados->getProd() . '");'
                 . '$("#' . $aId[3] . '").val("' . $oDados->getProdes() . '");';
+                exit();
             }
         }
                        
@@ -91,14 +94,42 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
         $this->Persistencia->adicionaFiltro('op',$aCampos['op']);
         $iCont = $this->Persistencia->getCount();
         //VERIFICA SE EXISTE ESSA 
-        
-        
+        $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op',$aCampos['op']);
+        $oDadosOp = $oOp->Persistencia->consultarWhere();
+        //valida situações da op
+        //verifica se op = cancelada
+        if ($oDadosOp->getSituacao() == 'Cancelada') {
+            $oModal = new Modal('Atenção!', 'Ordem de produção cancelada!', Modal::TIPO_AVISO, false);
+            echo $oModal->getRender();
+            
+             $oLimpa = new Base();
+             $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
+             //$msg .='$("#' . $aIds[2] . '" ).focus();';
+             echo $msg; 
+             exit();
+        }
+        if ($oDadosOp->getOp() == null) {
+                $oMensagem = new Mensagem('Atenção!', 'Ordem de produção não foi localizada!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+                $oLimpa = new Base();
+                $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
+                $msg .='$("#' . $aIds[2] . '" ).focus();';
+                echo $msg; 
+                exit();
+            }
        
         if($iCont > 0){
               $oMensagem = new Modal('Atenção!', 'Entrada da ordem de produção nº' . $aCampos['op'] . ' já está apontada!', Modal::TIPO_INFO);
               echo $oMensagem->getRender();
+              $oLimpa = new Base();
+              $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
+             // $msg .='$("#' . $aIds[2] . '" ).focus();';
+              echo $msg; 
+              exit();
         }else{
-        $aRetorno = $this->Persistencia->inserirApont($aCampos);
+       
+        $aRetorno = $this->Persistencia->inserirApont($aCampos,$oDadosOp);
         //baixa da lista
         $oLista = Fabrica::FabricarController('STEEL_PCP_ordensFabLista');
         $aRetornoLista=$oLista->baixaLista($aCampos,'Processo');
@@ -110,10 +141,11 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             echo $oMensagemLista->getRender();
         }
         if ($aRetorno[0]) {
-            $oMensagem = new Modal('Sucesso!', 'Entrada da ordem de produção nº' . $aCampos['op'] . '', Modal::TIPO_SUCESSO);
+            $oMensagem = new Mensagem('Sucesso!', 'Entrada da ordem de produção nº' . $aCampos['op'] . '', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
             $oLimpa = new Base();
             $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
+            $msg .='$("#' . $aIds[2] . '" ).focus();';
             echo 'requestAjax("' . $aIds[0] . '-form","STEEL_PCP_ordensFabApontEnt","getDadosGrid","' . $aIds[1] . '","consultaApontGrid");';
             echo $msg;
         }

@@ -81,7 +81,7 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
         
         $this->Model->setPDV_PedidoContaCobranca($oParamDados->getPDV_PedidoContaCobranca());
         $this->Model->setPDV_PedidoMotoristaNome($oParamDados->getPDV_PedidoMotoristaNome());
-        $this->Model->setPDV_PedidoTipoFreteCodigo($oParamDados->getPDV_PedidoTipoFreteCodigo());
+       // $this->Model->setPDV_PedidoTipoFreteCodigo($oParamDados->getPDV_PedidoTipoFreteCodigo());
         $this->Model->setPDV_PedidoCondicaoPgtoCodigo($oParamDados->getPDV_PedidoCondicaoPgtoCodigo());
         $this->Model->setPDV_PedidoMoedaCodigo($oParamDados->getPDV_PedidoMoedaCodigo());
         $this->Model->setPDV_PedidoTipoEmiNF($oParamDados->getPDV_PedidoTipoEmiNF());
@@ -137,11 +137,11 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
         $this->Model->setPDV_PedidoEnderecoLogradouro($oDadosEnd->getEmp_enderecologradouro());
         
         
-        $oPedTabPreco = Fabrica::FabricarController('STEEL_PCP_TabCli');
+       /* $oPedTabPreco = Fabrica::FabricarController('STEEL_PCP_TabCabPreco');
         $oPedTabPreco->Persistencia->adicionaFiltro('emp_codigo', $this->Model->getPDV_PedidoEmpCodigo());
         $oDadosTab = $oPedTabPreco->Persistencia->consultarWhere();
         $this->Model->setPDV_PedidoTabelaPreco($oDadosTab->getTab_preco());
-                
+         */       
         
        
         $this->Model->setPDV_PedidoEmpCNPJ($oDadosRep->getEmp_cnpj());
@@ -186,6 +186,7 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
         $oPedItens->Persistencia->adicionaFiltro('pdv_pedidocodigo',$this->Model->getPdv_pedidocodigo());
         $iTotalItens = $oPedItens->Persistencia->getSoma('PDV_PedidoItemValorTotal');
         $this->Model->setPDV_PedidoValorTotal($iTotalItens);
+        
         
     }
     
@@ -342,7 +343,9 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
             $aCamposChave = array();
             parse_str($sChave, $aCamposChave);
             $sClasse = $this->getNomeClasse();
-            
+            //atualiza obsAdicional da nota fiscal
+            $oCargaInsumo = Fabrica::FabricarController('STEEL_PCP_CargaInsumoServ');
+            $oCargaInsumo->Persistencia->retornaOps($aCamposChave);
             
             $this->Persistencia->liberaPed($aCamposChave);
             
@@ -425,7 +428,7 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
        if($oCargaDados->getPDV_PedidoSituacao()=='T'){
            $oModal = new Modal('Atenção','Esta carga já foi faturado, não é possível alterar.', Modal::TIPO_AVISO,false,true, false);
            echo $oModal->getRender();
-            $this->setBDesativaBotaoPadrao(true);
+           $this->setBDesativaBotaoPadrao(true);
        }
        
    }

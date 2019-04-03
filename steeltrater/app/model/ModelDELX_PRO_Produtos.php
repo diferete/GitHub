@@ -91,7 +91,26 @@ class ModelDELX_PRO_Produtos {
     private $fecula;
     private $fecial;
     private $hedler;
+    private $prodFinal;
+    private $prodFinalDes;
+    
+    function getProdFinal() {
+        return $this->prodFinal;
+    }
 
+    function getProdFinalDes() {
+        return $this->prodFinalDes;
+    }
+
+    function setProdFinal($prodFinal) {
+        $this->prodFinal = $prodFinal;
+    }
+
+    function setProdFinalDes($prodFinalDes) {
+        $this->prodFinalDes = $prodFinalDes;
+    }
+
+    
     function getMatriz() {
         return $this->matriz;
     }

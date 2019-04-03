@@ -20,7 +20,7 @@ class ViewSTEEL_PCP_Receitas extends View {
         $oCamadaMax = new CampoConsulta('CamadaMáx','camada_max', CampoConsulta::TIPO_DECIMAL);
         $oTemperatura = new CampoConsulta('Temperatura','temperatura', CampoConsulta::TIPO_DECIMAL);
         
-        $oGridItens->addCampos($oCod,$oSeq,$oTrat,$oTratDes,$oCamadaMin,$oCamadaMax,$oTemperatura);
+        $oGridItens->addCampos($oCod,$oSeq,$oTrat,$oTratDes,$oTemperatura);
         $oGridItens->setSController('STEEL_PCP_ReceitasItens');
         $oGridItens->addParam('cod','0');
         $oGridItens->getOGrid()->setIAltura(250);
@@ -141,7 +141,7 @@ class ViewSTEEL_PCP_Receitas extends View {
         $oCodInsumo->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
                 
         $this->addCampos(array($oCod,$oData),array($oPeca,$oMaterial,$oClasse),
-                $oLabel1,array($oBitola,$oTempRev),$oLabel2,$oCamp,array($oCodServ,$oCodServMet,$oCodInsumo),$oLabel1,
+                $oLabel1,array($oBitola,$oTempRev),$oLabel2,$oLabel1,
                 array($oMetanol,$oXigenio,$oNitrogenio,$oAmonia),
                 array($oGpl,$oCo,$oCarbono),$oLabel3,array($oImagem,$oInstTrab,$oProgForno),$oAcao);
        

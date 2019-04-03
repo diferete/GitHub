@@ -21,11 +21,12 @@ class PersistenciaSTEEL_PCP_TabCabPreco extends Persistencia {
         $this->adicionaRelacionamento('usuarioCadastro','usuarioCadastro');
         $this->adicionaRelacionamento('data','data');
         $this->adicionaRelacionamento('sit','sit');
+        $this->adicionaRelacionamento('concatena','concatena');
 
         $this->setSTop('100');
         
         $this->adicionaJoin('DELX_CAD_Pessoa',null,1,'emp_codigo','emp_codigo');
-        $this->adicionaOrderBy('emp_codigo',1);
+        $this->adicionaOrderBy('nr',1);
     }
 
 }

@@ -11,4 +11,5 @@ class ControllerDELX_PRO_ProdutoFilial extends Controller {
     public function __construct() {
         $this->carregaClassesMvc('DELX_PRO_ProdutoFilial');
     }
+    
 }

@@ -36,6 +36,43 @@ class ModelSTEEL_PCP_prodMatReceita {
     private $ppap;
     private $nrppap;
     
+   private $obs;
+   
+   private $prodfinal;
+   
+   private $STEEL_PCP_pesqArame;
+  
+   
+    function getSTEEL_PCP_pesqArame() {
+        if(!isset($this->STEEL_PCP_pesqArame)){
+            $this->STEEL_PCP_pesqArame = Fabrica::FabricarModel('STEEL_PCP_pesqArame');
+        }
+        return $this->STEEL_PCP_pesqArame;
+    }
+
+    function setSTEEL_PCP_pesqArame($STEEL_PCP_pesqArame) {
+        $this->STEEL_PCP_pesqArame = $STEEL_PCP_pesqArame;
+    }
+
+
+    function getProdfinal() {
+        return $this->prodfinal;
+    }
+
+    function setProdfinal($prodfinal) {
+        $this->prodfinal = $prodfinal;
+    }
+
+       function getObs() {
+       return $this->obs;
+   }
+
+   function setObs($obs) {
+       $this->obs = $obs;
+   }
+
+   
+        
     function getNrppap() {
         return $this->nrppap;
     }

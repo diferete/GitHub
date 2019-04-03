@@ -9,13 +9,14 @@
 
 class PersistenciaSTEEL_PCP_pesqArame extends Persistencia {
 
-    public function __construct() {
+   public function __construct() {
         parent::__construct();
 
         $this->setTabela('PRO_PRODUTO');
 
         $this->adicionaRelacionamento('pro_cadastrousuario', 'pro_cadastrousuario');
-        $this->adicionaRelacionamento('pro_codigo', 'pro_codigo', true, true,true);
+        $this->adicionaRelacionamento('pro_codigo', 'pro_codigo', true, true);
+        $this->adicionaRelacionamento('pro_codigo', 'STEEL_PCP_ProdutoFilial.pro_codigo', false, false);
         $this->adicionaRelacionamento('pro_descricao', 'pro_descricao');
         $this->adicionaRelacionamento('pro_pesoliquido', 'pro_pesoliquido');
         $this->adicionaRelacionamento('pro_tipocontrole', 'pro_tipocontrole');
@@ -80,9 +81,9 @@ class PersistenciaSTEEL_PCP_pesqArame extends Persistencia {
         $this->adicionaRelacionamento('pro_dimensoesunidade', 'pro_dimensoesunidade');
         $this->adicionaRelacionamento('pro_origem', 'pro_origem');
         $this->adicionaRelacionamento('pro_ncm', 'pro_ncm');
-        $this->adicionaRelacionamento('fis_cnaecodigo', 'fis_cnaecodigo');        
-        $this->adicionaRelacionamento('fis_lc11603principalcodigo', 'fis_lc11603principalcodigo');        
-        $this->adicionaRelacionamento('fis_lc11603secundariocodigo', 'fis_lc11603secundariocodigo');        
+        $this->adicionaRelacionamento('fis_cnaecodigo', 'fis_cnaecodigo');
+        $this->adicionaRelacionamento('fis_lc11603principalcodigo', 'fis_lc11603principalcodigo');
+        $this->adicionaRelacionamento('fis_lc11603secundariocodigo', 'fis_lc11603secundariocodigo');
         $this->adicionaRelacionamento('fis_generoitemcodigo', 'fis_generoitemcodigo');
         $this->adicionaRelacionamento('pro_tipoligacao', 'pro_tipoligacao');
         $this->adicionaRelacionamento('pro_grupotensao', 'pro_grupotensao');
@@ -97,8 +98,81 @@ class PersistenciaSTEEL_PCP_pesqArame extends Persistencia {
         $this->adicionaRelacionamento('pro_descricaoestrutura', 'pro_descricaoestrutura');
         $this->adicionaRelacionamento('pro_perigosonumerorisco', 'pro_perigosonumerorisco');
         $this->adicionaRelacionamento('pro_produtoperigosoqtdminima', 'pro_produtoperigosoqtdminima');
+        $this->adicionaRelacionamento('matriz', 'matriz', false, false);
+        $this->adicionaRelacionamento('steeltrater', 'steeltrater', false, false);
+        $this->adicionaRelacionamento('fecula', 'fecula', false, false);
+        $this->adicionaRelacionamento('fecial', 'fecial', false, false);
+        $this->adicionaRelacionamento('hedler', 'hedler', false, false);
 
-        $this->setSTop('50');
+        
+        ///////////////////////////////////////////////////////////////////////////////////
+        $this->adicionaRelacionamento('pro_mva', 'pro_mva');
+        $this->adicionaRelacionamento('pro_composto', 'pro_composto');
+        $this->adicionaRelacionamento('pro_cadastrodatahora', 'pro_cadastrodatahora');
+        $this->adicionaRelacionamento('pro_alteracaousuario', 'pro_alteracaousuario');
+        $this->adicionaRelacionamento('pro_alteracaodatahora', 'pro_alteracaodatahora');
+        $this->adicionaRelacionamento('pro_imagem', 'pro_imagem');
+        $this->adicionaRelacionamento('pro_sequencia', 'pro_sequencia');
+        $this->adicionaRelacionamento('pro_imagemfiletype', 'pro_imagemfiletype');
+        $this->adicionaRelacionamento('pro_imagemfilename', 'pro_imagemfilename');
+        $this->adicionaRelacionamento('pro_inventariosequencia', 'pro_inventariosequencia');
+        $this->adicionaRelacionamento('pro_transgenico', 'pro_transgenico');
+        $this->adicionaRelacionamento('fis_simpscancgrupocodigo', 'fis_simpscancgrupocodigo');
+        $this->adicionaRelacionamento('fis_simpscancprodutocodigo', 'fis_simpscancprodutocodigo');
+        $this->adicionaRelacionamento('pro_simpscancinpminicial', 'pro_simpscancinpminicial');
+        $this->adicionaRelacionamento('pro_simpscanccalculoimposto', 'pro_simpscanccalculoimposto');
+        $this->adicionaRelacionamento('pro_classeconsumo', 'pro_classeconsumo');
+        $this->adicionaRelacionamento('pro_tipoassinante', 'pro_tipoassinante');
+        $this->adicionaRelacionamento('pro_tipoutilizacao', 'pro_tipoutilizacao');
+        $this->adicionaRelacionamento('pro_classificacaoitem', 'pro_classificacaoitem');
+        $this->adicionaRelacionamento('pro_garantiatempo', 'pro_garantiatempo');
+        $this->adicionaRelacionamento('pro_garantiatempotipo', 'pro_garantiatempotipo');
+        $this->adicionaRelacionamento('pro_garantiatipo', 'pro_garantiatipo');
+        $this->adicionaRelacionamento('fis_agrupamentocodigo', 'fis_agrupamentocodigo');
+        $this->adicionaRelacionamento('pro_tipoproduto', 'pro_tipoproduto');
+        $this->adicionaRelacionamento('pro_tipovolume', 'pro_tipovolume');
+        $this->adicionaRelacionamento('pro_lotesequencial', 'pro_lotesequencial');
+        $this->adicionaRelacionamento('qld_produtofrequenciainspecao', 'qld_produtofrequenciainspecao');
+        $this->adicionaRelacionamento('qld_produtoregimecodigo', 'qld_produtoregimecodigo');
+        $this->adicionaRelacionamento('qld_produtonivelcodigo', 'qld_produtonivelcodigo');
+        $this->adicionaRelacionamento('qld_produtoskiplotecodigo', 'qld_produtoskiplotecodigo');
+        $this->adicionaRelacionamento('qld_produtoexamecodigo', 'qld_produtoexamecodigo');
+        $this->adicionaRelacionamento('qld_produtonaoatualizaautoregi', 'qld_produtonaoatualizaautoregi');
+        $this->adicionaRelacionamento('pro_mascaralote', 'pro_mascaralote');
+        $this->adicionaRelacionamento('pro_tipocalculodecimal', 'pro_tipocalculodecimal');
+        $this->adicionaRelacionamento('pro_casasdecimais', 'pro_casasdecimais');
+        $this->adicionaRelacionamento('pro_produtobovinos', 'pro_produtobovinos');
+        $this->adicionaRelacionamento('pro_produtovacina', 'pro_produtovacina');
+        $this->adicionaRelacionamento('pro_produtovacinacodigo', 'pro_produtovacinacodigo');
+        $this->adicionaRelacionamento('grs_agrotoxicoclassetoxicologi', 'grs_agrotoxicoclassetoxicologi');
+        $this->adicionaRelacionamento('grs_agrotoxicoregistrominister', 'grs_agrotoxicoregistrominister');
+        $this->adicionaRelacionamento('grs_agrotoxicograurisco', 'grs_agrotoxicograurisco');
+        $this->adicionaRelacionamento('grs_classeriscocodigo', 'grs_classeriscocodigo');
+        $this->adicionaRelacionamento('grs_agrotoxicoprincipioativo', 'grs_agrotoxicoprincipioativo');
+        $this->adicionaRelacionamento('grs_agrotoxicotriplicelavagem', 'grs_agrotoxicotriplicelavagem');
+        $this->adicionaRelacionamento('grs_agrotoxicoindea', 'grs_agrotoxicoindea');
+        $this->adicionaRelacionamento('grs_agrotoxicofabricante', 'grs_agrotoxicofabricante');
+        $this->adicionaRelacionamento('grs_agrotoxicoenderecofabrican', 'grs_agrotoxicoenderecofabrican');
+        $this->adicionaRelacionamento('grs_agrotoxicotelefoneemergenc', 'grs_agrotoxicotelefoneemergenc');
+        $this->adicionaRelacionamento('grs_agrotoxiconumerososcotec', 'grs_agrotoxiconumerososcotec');
+        $this->adicionaRelacionamento('grs_agrotoxicobulaarquivo', 'grs_agrotoxicobulaarquivo');
+        $this->adicionaRelacionamento('grs_agrotoxicobulaarquivonome', 'grs_agrotoxicobulaarquivonome');
+        $this->adicionaRelacionamento('grs_agrotoxicobulaarquivotipo', 'grs_agrotoxicobulaarquivotipo');
+        $this->adicionaRelacionamento('pro_produtoprioridadecomposto', 'pro_produtoprioridadecomposto');
+        $this->adicionaRelacionamento('grs_agrotoxicocarencia', 'grs_agrotoxicocarencia');
+        $this->adicionaRelacionamento('cmb_produtoreducaost', 'cmb_produtoreducaost');
+        $this->adicionaRelacionamento('dii_produtobeneficio', 'dii_produtobeneficio');
+        $this->adicionaRelacionamento('pro_produtodescnfe', 'pro_produtodescnfe');
+        $this->adicionaRelacionamento('pro_mascaraqualidade', 'pro_mascaraqualidade');
+        $this->adicionaRelacionamento('pro_produtofilialfaturamento', 'pro_produtofilialfaturamento');
+        $this->adicionaRelacionamento('pro_tipocoluna', 'pro_tipocoluna');
+        $this->adicionaRelacionamento('fis_produtocompra', 'fis_produtocompra');
+        $this->adicionaRelacionamento('tms_produtopredominante', 'tms_produtopredominante');        
+        
+        ///////////////////////////////////////////////////////////////////////////////
+        
+        
+        $this->setSTop('30');
         $this->adicionaOrderBy('pro_codigo', 1);
 
         $this->adicionaJoin('DELX_PRO_UnidadeMedida');
@@ -107,22 +181,34 @@ class PersistenciaSTEEL_PCP_pesqArame extends Persistencia {
         $sAndSub = ' and "DELX_PRO_Grupo".pro_grupocodigo = "DELX_PRO_Subgrupo".PRO_GrupoCodigo ';
 
         $this->adicionaJoin('DELX_PRO_Subgrupo', null, 1, 'pro_subgrupocodigo', 'pro_subgrupocodigo', $sAndSub);
-        //////////////////////////////////////////////////////////////////////////////////////////
+
         $sAndFam = ' and PRO_PRODUTO.PRO_GrupoCodigo = "DELX_PRO_Familia".PRO_GrupoCodigo '
                 . ' and PRO_PRODUTO.PRO_SubGrupoCodigo = "DELX_PRO_Familia".PRO_SubGrupoCodigo ';
 
         $this->adicionaJoin('DELX_PRO_Familia', null, 1, 'pro_familiacodigo', 'pro_familiacodigo', $sAndFam);
-        /////////////////////////////////////////////////////////////////////////////////////////////////
-        /* $sAndSubFam =' and PRO_PRODUTO.PRO_GrupoCodigo = "DELX_PRO_Subfamilia".PRO_GrupoCodigo '
-          .' and PRO_PRODUTO.PRO_SubGrupoCodigo = "DELX_PRO_Subfamilia".PRO_SubGrupoCodigo '
-          . 'and PRO_PRODUTO.PRO_Familiacodigo = "DELX_PRO_Subfamilia".PRO_FamiliaCodigo';
-         * 
-         * 
-         */
+
         $sAndSubFam = ' and PRO_PRODUTO.PRO_SubGrupoCodigo = "DELX_PRO_Subfamilia".PRO_SubGrupoCodigo '
                 . 'and PRO_PRODUTO.PRO_FamiliaCodigo = "DELX_PRO_Subfamilia".PRO_FamiliaCodigo '
                 . 'and PRO_PRODUTO.PRO_SubFamiliaCodigo = "DELX_PRO_Subfamilia".PRO_SubFamiliaCodigo';
         $this->adicionaJoin('DELX_PRO_Subfamilia', null, 1, 'pro_grupocodigo', 'pro_grupocodigo', $sAndSubFam);
+    
+        
+        $sAndFilial = ' and "STEEL_PCP_ProdutoFilial".fil_codigo =8993358000174 ';
+         $this->adicionaJoin('STEEL_PCP_ProdutoFilial', null, 1, 'pro_codigo', 'pro_codigo', $sAndFilial);
+        
+        
     }
 
+    public function insereProdFilial($sProCod,$aCNPJ) {
+        
+    }
+    
+    public function geraSequencia(){
+        $sSql = "select max(pro_codigo)+1 as seq from pro_produto where pro_codigo >= 88880001 and pro_codigo < 95010396";
+        
+        $result = $this->getObjetoSql($sSql);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        return $row->seq;
+        
+    }
 }

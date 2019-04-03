@@ -23,6 +23,7 @@ class PersistenciaSTEEL_PCP_ReceitasItens extends Persistencia {
         $this->adicionaRelacionamento('Tempo','tempo');
         $this->adicionaRelacionamento('Resfriamento','resfriamento');
         
+        
         $this->adicionaJoin('STEEL_PCP_Tratamentos');
        
     }
@@ -35,5 +36,19 @@ class PersistenciaSTEEL_PCP_ReceitasItens extends Persistencia {
         return $row->temperatura;
         
         
+    }
+    
+     /**
+     * Analisa de modo distintivo os serviços da receita do produto
+     */
+    public function distinctItemReceita($sReceita){
+        $sSql = "select distinct tratcod from "
+                . "STEEL_PCP_receitasItens where cod ='".$sReceita."'";
+        $result = $this->getObjetoSql($sSql);
+
+       while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+             $aRetorno[] = $oRowBD;
+        }
+        return $aRetorno;
     }
 }

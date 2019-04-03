@@ -12,7 +12,27 @@ class ModelSTEEL_PCP_Forno {
     private $fornocod;
     private $fornodes;
     private $fornosigla;
+    private $cookfornocod;
+    private $cookfornodes;
+    
+    function getCookfornodes() {
+        return $this->cookfornodes;
+    }
 
+    function setCookfornodes($cookfornodes) {
+        $this->cookfornodes = $cookfornodes;
+    }
+
+        
+    function getCookfornocod() {
+        return $this->cookfornocod;
+    }
+
+    function setCookfornocod($cookfornocod) {
+        $this->cookfornocod = $cookfornocod;
+    }
+
+            
     function getFornocod() {
         return $this->fornocod;
     }

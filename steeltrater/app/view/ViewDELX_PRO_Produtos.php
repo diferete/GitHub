@@ -13,7 +13,7 @@ class ViewDELX_PRO_Produtos extends View {
         parent::criaConsulta();
 
 
-        $this->setUsaAcaoExcluir(true);
+        $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoIncluir(true);
         $this->setUsaAcaoVisualizar(true);

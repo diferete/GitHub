@@ -1,6 +1,5 @@
 <?php
 
-
 // Diretórios
 require '../../biblioteca/fpdf/fpdf.php'; 
 require '../../biblioteca/code/code39.php';
@@ -63,7 +62,9 @@ foreach ($aOps as $key => $aOp) {
             convert(varchar,dataprev,103) as dataprev,
             seqMat,
             retrabalho,
-            op_retrabalho
+            op_retrabalho,
+            referencia,
+            obs
             from STEEL_PCP_ordensFab left outer join STEEL_PCP_receitas 
             on STEEL_PCP_ordensFab.receita = STEEL_PCP_receitas.cod
             where op =".$aOp." ";
@@ -103,7 +104,7 @@ foreach ($aOps as $key => $aOp) {
     $dadosForno=$PDO->query($sSqlForno);
     
     
-    $sSqlMaterial = "select seqmat,STEEL_PCP_PRODMATRECEITA.matcod,matdes
+    $sSqlMaterial = "select seqmat,STEEL_PCP_PRODMATRECEITA.matcod,matdes, obs
                     from STEEL_PCP_PRODMATRECEITA left outer join steel_pcp_material
                     on STEEL_PCP_PRODMATRECEITA.matcod = steel_pcp_material.matcod
                     where seqmat =".$row['seqMat']." ";
@@ -154,7 +155,7 @@ foreach ($aOps as $key => $aOp) {
     $pdf->SetFont('Arial','',9);
     $pdf->Cell(15, 5, 'Produto:','L,B',0,'L');
     $pdf->SetFont('Arial','B',9);
-    $pdf->Cell(132, 5, $row['prod']." - ".$row['prodes'],'B',0,'L');
+    $pdf->Cell(132, 5, $row['referencia']." - ".$row['prodes'],'B',0,'L');
     
     if ($row['retrabalho']=='Sim'){
     //OP origem
@@ -167,14 +168,14 @@ foreach ($aOps as $key => $aOp) {
     }
     //material
     $pdf->SetFont('Arial','',9);
-    $pdf->Cell(15, 5, 'Material:','L,B',0,'L');
+    $pdf->Cell(13, 5, 'Material:','L,B',0,'L');
     $pdf->SetFont('Arial','B',9);
-    $pdf->Cell(30, 5, $rowMat['matdes'],'B,R',0,'L');
+    $pdf->Cell(20, 5, $rowMat['matdes'],'B,R',0,'L');
     //op do cliente
     $pdf->SetFont('Arial','',9);
     $pdf->Cell(21, 5, 'Op do cliente:','L,B',0,'L');
     $pdf->SetFont('Arial','B',9);
-    $pdf->Cell(25, 5, $row['opcliente'],'B,R',0,'L');
+    $pdf->Cell(40, 5, $row['opcliente'],'B,R',0,'L');
     //dureza Nuc
     $pdf->SetFont('Arial','',9);
     $pdf->Cell(26, 5, 'Dureza Núcleo:','L,B',0,'L');
@@ -185,12 +186,12 @@ foreach ($aOps as $key => $aOp) {
     //dureza Superf
     if (($row['durezaSuperfMin']!=0)&&($row['durezaSuperfMax']!=0)){
         $pdf->SetFont('Arial','',9);
-        $pdf->Cell(29, 5, 'Dureza Superficial:','L,B',0,'L');
+        $pdf->Cell(28, 5, 'Dureza Superficial:','L,B',0,'L');
         $pdf->SetFont('Arial','B',9);
-        $pdf->Cell(25, 5, number_format($row['durezaSuperfMin'], 0, ',', '.')." - ".
+        $pdf->Cell(23, 5, number_format($row['durezaSuperfMin'], 0, ',', '.')." - ".
             number_format($row['durezaSuperfMax'], 0, ',', '.')."  ".$row['SuperEscala'],'B,R',1,'L');
     }else{
-        $pdf->Cell(54, 5, '','B,R',1,'L');
+        $pdf->Cell(51, 5, '','B,R',1,'L');
     }
     
     //inspeção recebimento
@@ -427,7 +428,7 @@ foreach ($aOps as $key => $aOp) {
     
     //Observações
     $pdf->SetFont('Arial','',9);
-    $pdf->Cell(199,5,'Observações:',1,1,'L');
+    $pdf->Cell(199,5,'Observações: '.$rowMat['obs'].' - '.$row['obs'],1,1,'L');
     
     //Formulário - PG 06 - 09/10/2017
     $pdf->SetFont('Arial','',2);
@@ -472,13 +473,13 @@ foreach ($aOps as $key => $aOp) {
     
     //OP do cliente
     $pdf->SetFont('Arial','',9);
-    $pdf->Cell(37, 5, 'OP do cliente:','L,B',0,'L');
+    $pdf->Cell(25, 5, 'OP do cliente:','L,B',0,'L');
     $pdf->SetFont('Arial','B',9);
-    $pdf->Cell(30, 5, $row['opcliente'],'B,R',0,'L');
+    $pdf->Cell(52, 5, $row['opcliente'],'B,R',0,'L');
     
     //receita/it nr.:
     $pdf->SetFont('Arial','',9);
-    $pdf->Cell(35, 5, 'Receita:','B,B',0,'L');
+    $pdf->Cell(25, 5, 'Receita:','B,B',0,'L');
     $pdf->SetFont('Arial','B',9);
     $pdf->Cell(30, 5, $row['receita'],'B,R',1,'L');
     
@@ -516,7 +517,7 @@ foreach ($aOps as $key => $aOp) {
     $pdf->SetFont('Arial','',9);
     $pdf->Cell(25, 5, 'Produto:','L,B',0,'L');
     $pdf->SetFont('Arial','B',9);
-    $pdf->Cell(139, 5, $row['prod']." - ".$row['prodes'],'B,R',0,'L');
+    $pdf->Cell(139, 5, $row['referencia']." - ".$row['prodes'],'B,R',0,'L');
     
     //Peso
     $pdf->SetFont('Arial','',9);

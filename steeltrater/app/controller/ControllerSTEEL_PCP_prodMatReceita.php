@@ -18,6 +18,7 @@ class ControllerSTEEL_PCP_prodMatReceita extends Controller {
         $this->Persistencia->adicionaFiltro('prod', $this->Model->getProd());
         $this->Persistencia->adicionaFiltro('matcod', $this->Model->getMatcod());
         $this->Persistencia->adicionaFiltro('cod', $this->Model->getCod());
+        $this->Persistencia->adicionaFiltro('prodfinal', $this->Model->getProdFinal());
         
         $iCont =$this->Persistencia->getCount();
         if($iCont>0){
@@ -43,11 +44,14 @@ class ControllerSTEEL_PCP_prodMatReceita extends Controller {
           exit();
         }else{
           $this->Persistencia->adicionaFiltro('prod',$aCamposChave['prod']);
+          $this->Persistencia->adicionaFiltro('prodfinal',$aCamposChave['prodFinal']);
           $iCout = $this->Persistencia->getCount();
           if ($iCout==0){
-              $oModal = new Modal('Atenção!', 'Não há vínculo do produto com o Material e sua Receita!', Modal::TIPO_AVISO);
+              $oModal = new Modal('Atenção!', 'Não há vínculo do produto com o Material e sua Receita, prossiga até a tela de cadastro.', Modal::TIPO_AVISO,TRUE,TRUE,TRUE);
+              $oModal->setSBtnConfirmarFunction('verificaTab("menu-1-prodMatRec","1-prodMatRec","STEEL_PCP_prodMatReceita",'
+                      . '"acaoMostraTela","tabmenu-1-prodMatRec,'.$aCamposChave['prod'].'|'.$aCamposChave['prodFinal'].'|'.$aCamposChave['prodesFinal'].'","Prod/Mat/Receita","parametro");');
               echo $oModal->getRender();
-             
+              
           } 
         }
     }
@@ -143,6 +147,29 @@ class ControllerSTEEL_PCP_prodMatReceita extends Controller {
         $oMensagem = new Modal('Gerando Excel', 'A tabela tem ' . $iCountCli . ' linhas deseja continuar? \n Enquanto gera seu arquivo continue a usar o sistema!', Modal::TIPO_AVISO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","relatorioExcelProdMatRec");');  
         echo $oMensagem->getRender();      
+    }
+    
+    public function afterCriaTela() {
+        parent::afterCriaTela();
+        
+        $this->View->setBOcultaFechar(true);
+    }
+    
+    public function antesDeMostrarTela($sParametros = null) {
+        parent::antesDeMostrarTela($sParametros);
+        
+        $aDados = explode('|', $sParametros);
+        $aDados1 = explode(',', $aDados[0]);
+        
+        $oProdDados = Fabrica::FabricarController('DELX_PRO_Produtos');
+        $oProdDados->Persistencia->adicionaFiltro('pro_codigo',$aDados1[1]);
+        $oDados = $oProdDados->Persistencia->consultarWhere();
+        if($oDados->getPro_codigo()!==null){
+            $oDados->setProdFinal($aDados[1]);
+            $oDados->setProdFinalDes($aDados[2]);
+        }
+        
+        $this->View->setAParametrosExtras($oDados); 
     }
     
          

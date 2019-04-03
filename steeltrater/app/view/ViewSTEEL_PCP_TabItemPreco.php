@@ -121,6 +121,15 @@ class ViewSTEEL_PCP_TabItemPreco extends View {
         $oCodigo->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
         $oCodigo->addCampoBusca('pro_descricao',$oProdes->getId(),  $this->getTela()->getId());
         
+        //-----------------------------------------------------------------------------------------
+        
+        $oTratcod = new Campo('Tratamento *Necessário para Ops de Fio Máquina', 'cod', Campo::TIPO_BUSCADOBANCOPK, 4, 4, 4, 4);
+        $oTratcod->setSIdHideEtapa($this->getSIdHideEtapa());
+        if($sAcao=='acaoAlterar'){$oTratcod->setBCampoBloqueado(true);}
+        $oTratcod->setClasseBusca('STEEL_PCP_Tratamentos');
+        $oTratcod->setSCampoRetorno('tratcod',$this->getTela()->getId());
+       
+        
         //------------------------------------------------------------------------------------------
         
         $oPre = new Campo('Preço', 'preco', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
@@ -157,7 +166,7 @@ class ViewSTEEL_PCP_TabItemPreco extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
         $this->addCampos(array($oNr,$oSeq),array($oRecCod,$oRecdes),
-                array($oCodigo,$oProdes,$oTipo,$oNcm),array($oPre,$oBotConf));
+                array($oCodigo,$oProdes,$oTratcod),array($oTipo,$oNcm),array($oPre,$oBotConf));
         //adiciona objetos campos para servirem como filtros iniciais do grid
         $this->addCamposFiltroIni($oNr);
     }

@@ -69,6 +69,15 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $this->adicionaRelacionamento('vlrNfEntUnit','vlrNfEntUnit');
         $this->adicionaRelacionamento('nrCarga','nrCarga');
         
+        $this->adicionaRelacionamento('referencia','referencia');
+        
+        $this->adicionaRelacionamento('xPed','xPed');
+        $this->adicionaRelacionamento('nItemPed','nItemPed');
+        
+        $this->adicionaRelacionamento('nrcert','nrcert');
+        
+        $this->adicionaRelacionamento('pendencias','pendencias');
+        $this->adicionaRelacionamento('pendenciasobs','pendenciasobs');
         
         $this->adicionaOrderBy('op',1);
         $this->setSTop('300');
@@ -180,5 +189,10 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         
     }
    
+    public function gravaPendencia($sOp,$sAtencao,$sPendencia){
+         $sSql="update STEEL_PCP_OrdensFab set pendencias='".$sAtencao."',pendenciasobs='".$sPendencia."' where op='$sOp'   ";
+        $aRetorno = $this->executaSql($sSql);
         
+        return $aRetorno;
+    }
 }

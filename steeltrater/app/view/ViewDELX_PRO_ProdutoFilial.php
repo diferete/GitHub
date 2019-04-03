@@ -25,8 +25,7 @@ class ViewDELX_PRO_ProdutoFilial extends View {
         $oProdutoComp = new CampoConsulta('Produto Composto','pro_filialitemcomposto');
         $oTipoContFat = new CampoConsulta('Tipo de Controle para Faturamento Pedido/Controle','pro_filialcontrolasaldo');
         $oResEstEstPedid= new CampoConsulta('Reserva Estoque da Estrutura no Pedido de Venda','pro_filialreservaestoqueestrut');
-        
-        
+                
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoIncluir(true);
@@ -231,5 +230,6 @@ class ViewDELX_PRO_ProdutoFilial extends View {
         $this->addCampos($oTab);
         
     }
+    
 }
 

@@ -46,12 +46,13 @@ class ViewSTEEL_PCP_PedCarga extends View {
         //Dropdown
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir',Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Relatorio Romaneio Carga', 'STEEL_PCP_PedCarga', 'acaoMostraRelCarga', '', false, 'RelRomaneioCarga',false,'',false,'',true);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Relatório Romaneio Carga', 'STEEL_PCP_PedCarga', 'acaoMostraRelCarga', '', false, 'RelRomaneioCarga',false,'',false,'',true);
         
         $oDrop2 = new Dropdown('Movimentações',Dropdown::TIPO_DARK);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar Apontamento', 'STEEL_PCP_PedCarga', 'msgRetornaSit', '', false, '');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar Situação', 'STEEL_PCP_PedCarga', 'msgRetornaSit', '', false, '');
         
         $this->addDropdown($oDrop1,$oDrop2);
+        $this->getTela()->setiAltura(700);
         
     }
 
@@ -123,14 +124,13 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oMovCod->setSValor('302');
         $oMovCod->addValidacao(false, Validacao::TIPO_STRING);
         
-        $oMov_des = new Campo('MovDescrição','movdes',Campo::TIPO_BUSCADOBANCO, 5);
+        $oMov_des = new Campo('MovDescrição','DELX_NFS_TipoMovimento.nfs_tipomovimentodescricao',Campo::TIPO_BUSCADOBANCO, 5);
         $oMov_des->setSIdPk($oMovCod->getId());
         $oMov_des->setClasseBusca('DELX_NFS_TipoMovimento');
         $oMov_des->addCampoBusca('nfs_tipomovimentocodigo', '','');
         $oMov_des->addCampoBusca('nfs_tipomovimentodescricao', '','');
         $oMov_des->setSIdTela($this->getTela()->getId());
-        $oMov_des->setApenasTela(true);
-        
+        $oMov_des->setSValor('RETORNO INDUSTRIALIZAÇÃO(SAÍDA)');
         $oMovCod->setClasseBusca('DELX_NFS_TipoMovimento');
         $oMovCod->setSCampoRetorno('nfs_tipomovimentocodigo',$this->getTela()->getId());
         $oMovCod->addCampoBusca('nfs_tipomovimentodescricao',$oMov_des->getId(),  $this->getTela()->getId());
@@ -148,6 +148,19 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oDataEnt = new Campo('DataEntrega','PDV_PedidoDataEntrega', Campo::TIPO_DATA,2,2,2,2);
         $oDataEnt->setSValor(date('d/m/Y'));
        //-------------------------------------------------------------------------------------------
+        $oFrete = new campo('Frete','PDV_PedidoTipoFreteCodigo', Campo::TIPO_SELECT,3);
+        $oFrete->addItemSelect('1','CIF (POR CONTA DO EMITENTE)'); 
+        $oFrete->addItemSelect('2','FOB (POR CONTA DO DESTINATARIO/REMETENTE)'); 
+        $oFrete->addItemSelect('3','POR CONTA DE TERCEIRO');
+        $oFrete->addItemSelect('4','SEM COBRANÇA DE FRETE');
+        //------------------------------------------------------------------------------------------
+        $oMarca = new Campo('Marca','PDV_PedidoMarca', Campo::TIPO_TEXTO,2);
+        $oMarca->setSValor('');
+        $oMarca->setBCampoBloqueado(true);
+        //-----------------------------------------------------------------------------------------
+        $oEspecie = new Campo('Espécie','PDV_PedidoEspecie', Campo::TIPO_TEXTO,2);
+        $oEspecie->setSValor('Caixas');
+        
       
         
         //adiciona os evento ao sair do campo op_base
@@ -182,7 +195,9 @@ class ViewSTEEL_PCP_PedCarga extends View {
                 $oLabel,$oLabel,
                 array($oOpBase,$oEmp_codigo,$oEmp_des),
                 $oLabel,
-                array($oMovCod,$oTabPreco,$oTabPrecoDesc,$oDataEnt),$oAcao
+                array($oMovCod,$oMov_des),$oLabel,
+                array($oTabPreco,$oTabPrecoDesc,$oDataEnt),$oLabel,
+                array($oFrete,$oMarca,$oEspecie),$oAcao
                );
     }
 

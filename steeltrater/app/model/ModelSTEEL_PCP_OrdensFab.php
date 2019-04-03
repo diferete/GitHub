@@ -65,6 +65,69 @@ class ModelSTEEL_PCP_OrdensFab {
     
     private $nrCarga;
     
+    private $referencia;
+    
+    private $xPed;
+    
+    private $nItemPed;
+    
+    private $nrcert;
+    private $pendencias;
+    private $pendenciasobs;
+    
+    function getPendencias() {
+        return $this->pendencias;
+    }
+
+    function getPendenciasobs() {
+        return $this->pendenciasobs;
+    }
+
+    function setPendencias($pendencias) {
+        $this->pendencias = $pendencias;
+    }
+
+    function setPendenciasobs($pendenciasobs) {
+        $this->pendenciasobs = $pendenciasobs;
+    }
+
+        
+    function getNrcert() {
+        return $this->nrcert;
+    }
+
+    function setNrcert($nrcert) {
+        $this->nrcert = $nrcert;
+    }
+
+        
+    function getNItemPed() {
+        return $this->nItemPed;
+    }
+
+    function setNItemPed($nItemPed) {
+        $this->nItemPed = $nItemPed;
+    }
+
+        
+    function getXPed() {
+        return $this->xPed;
+    }
+
+    function setXPed($xPed) {
+        $this->xPed = $xPed;
+    }
+
+        
+    function getReferencia() {
+        return $this->referencia;
+    }
+
+    function setReferencia($referencia) {
+        $this->referencia = $referencia;
+    }
+
+        
     function getNrCarga() {
         return $this->nrCarga;
     }

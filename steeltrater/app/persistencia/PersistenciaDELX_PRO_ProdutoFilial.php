@@ -83,4 +83,6 @@ class PersistenciaDELX_PRO_ProdutoFilial extends Persistencia{
         $this->adicionaJoin('DELX_PRO_Produtos');
         
         }
+        
+        
 }

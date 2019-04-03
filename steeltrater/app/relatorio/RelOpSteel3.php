@@ -69,7 +69,7 @@ foreach ($aOps as $key => $aOp) {
             convert(varchar,dataprev,103) as dataprev,
             seqMat,
             retrabalho,
-            op_retrabalho, prodFinal,prodesFinal,tipoOrdem
+            op_retrabalho, prodFinal,prodesFinal,tipoOrdem,referencia
             from STEEL_PCP_ordensFab left outer join STEEL_PCP_receitas 
             on STEEL_PCP_ordensFab.receita = STEEL_PCP_receitas.cod
             where op =".$aOp." ";
@@ -141,7 +141,7 @@ foreach ($aOps as $key => $aOp) {
     $pdf->SetFont('Arial','',9);
     $pdf->Cell(15, 5, 'Produto: ','L,B',0,'L');
     $pdf->SetFont('Arial','B',9);
-    $pdf->Cell(124, 5, $row['prod'].' - '.$row['prodes'],'B,R',0,'L');
+    $pdf->Cell(124, 5, $row['referencia'].' - '.$row['prodes'],'B,R',0,'L');
     
     $pdf->SetFont('Arial','',9);
     $pdf->Cell(25, 5, 'DATA:','L,B,R',0,'L');
@@ -193,11 +193,11 @@ foreach ($aOps as $key => $aOp) {
     $pdf->SetFont('Arial','',9);
     $pdf->Cell(44, 5, 'Descarbonetação(Parcial-Total):','L,B',0,'L');
     $pdf->SetFont('Arial','B',9);
-    $pdf->Cell(30, 5, number_format($row['fioDescarbonetaParcial'], 0, ',', '.').'mm - '
-            .number_format($row['fioDescarbonetaTotal'], 0, ',', '.').'mm','B,R',1,'C');
+    $pdf->Cell(30, 5, number_format($row['fioDescarbonetaParcial'], 0, ',', '.').'µm - '
+            .number_format($row['fioDescarbonetaTotal'], 0, ',', '.').'µm','B,R',1,'C');
     
     $pdf->SetFont('Arial','',9);
-    $pdf->Cell(39, 5, 'Diâmetro Final (mm):','L,B,R',0,'L');
+    $pdf->Cell(39, 5, 'Diâmetro Final (µm):','L,B,R',0,'L');
     $pdf->SetFont('Arial','B',9);
     $pdf->Cell(18, 5, number_format($row['DiamFinalMin'], 2, ',', '.'),'B,R',0,'C');
     $pdf->Cell(18, 5, number_format($row['DiamFinalMax'], 2, ',', '.'),'B,R',0,'C');
@@ -396,14 +396,14 @@ foreach ($aOps as $key => $aOp) {
                 $pdf->Cell(99, 5, '','B,R',1,'L');
 
                 $pdf->SetFont('Arial','',9);
-                $pdf->Cell(57, 5, 'Diâmetro Inicial (mm):','L,B',0,'L');
+                $pdf->Cell(57, 5, 'Diâmetro Inicial (µm):','L,B',0,'L');
                 $pdf->SetFont('Arial','B',9);
                 $pdf->Cell(18, 5, '','L,B,R',0,'C');
                 $pdf->SetFont('Arial','B',9);
                 $pdf->Cell(18, 5, '','L,B,R',0,'C');
 
                 $pdf->SetFont('Arial','',9);
-                $pdf->Cell(70, 5, 'Diâmetro Final (mm): ','L,B',0,'R');
+                $pdf->Cell(70, 5, 'Diâmetro Final (µm): ','L,B',0,'R');
                 $pdf->Cell(18, 5, '','L,B,R',0,'C');
                 $pdf->SetFont('Arial','B',9);
                 $pdf->Cell(18, 5, '','L,B,R',1,'C');
@@ -489,7 +489,7 @@ foreach ($aOps as $key => $aOp) {
         $pdf->Cell(39, 5, '','B,R',1,'C');
 
         $pdf->SetFont('Arial','',9);
-        $pdf->Cell(39, 5, 'Diâmetro Final (mm):','L,B',0,'L');
+        $pdf->Cell(39, 5, 'Diâmetro Final (µm):','L,B',0,'L');
         $pdf->SetFont('Arial','B',9);
         $pdf->Cell(18, 5, '','L,B,R',0,'C');
         $pdf->SetFont('Arial','B',9);

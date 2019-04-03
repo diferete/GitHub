@@ -17,6 +17,7 @@ class ModelSTEEL_PCP_ReceitasItens {
     private $tempo;
     private $resfriamento;
     
+            
     function getSTEEL_PCP_Tratamentos() {
         if(!isset($this->STEEL_PCP_Tratamentos)){
             $this->STEEL_PCP_Tratamentos = Fabrica::FabricarModel('STEEL_PCP_Tratamentos');

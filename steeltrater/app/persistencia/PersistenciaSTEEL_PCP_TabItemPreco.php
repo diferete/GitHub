@@ -22,10 +22,13 @@ class PersistenciaSTEEL_PCP_TabItemPreco extends Persistencia {
         $this->adicionaRelacionamento('prod', 'prod');
         $this->adicionaRelacionamento('preco', 'preco');
         $this->adicionaRelacionamento('tipo','tipo');
+        $this->adicionaRelacionamento('cod','cod');
+        
 
         $this->setSTop('100');
         $this->adicionaJoin('STEEL_PCP_receitas', null,1, 'receita','cod');
         $this->adicionaJoin('STEEL_PCP_Produtos', null,1, 'prod','pro_codigo');
+       
         $this->adicionaOrderBy('nr',1);
         $this->adicionaOrderBy('seq',1);
     }

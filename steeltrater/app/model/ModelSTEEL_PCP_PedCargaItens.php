@@ -134,7 +134,27 @@ class ModelSTEEL_PCP_PedCargaItens{
     private $pdv_insserv;
     private $op;
     private $DELX_PRO_Produtos;
+    private $alerta;
+    private $pesoOp;
     
+    function getPesoOp() {
+        return $this->pesoOp;
+    }
+
+    function setPesoOp($pesoOp) {
+        $this->pesoOp = $pesoOp;
+    }
+
+        
+    function getAlerta() {
+        return $this->alerta;
+    }
+
+    function setAlerta($alertas) {
+        $this->alerta = $alertas;
+    }
+
+        
     function setDELX_PRO_Produtos($DELX_PRO_Produtos) {
         $this->DELX_PRO_Produtos = $DELX_PRO_Produtos;
     }

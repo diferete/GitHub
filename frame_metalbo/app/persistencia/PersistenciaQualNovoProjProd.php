@@ -192,7 +192,7 @@ class PersistenciaQualNovoProjProd extends Persistencia {
         /*
          * Busca dados inseridos na tabela tbqualNovoProjeto para cadastro dimensional Sistema_Metalbo/Delsoft
          * * */
-        $sSql = "select procod,desc_novo_prod,grucod,subcod,famcod,famsub,acab,material,classe,anghelice,"
+        $sSql = "select procod,desc_novo_prod,acab,material,classe,anghelice,"
                 . "chavemin,chavemax,altmin,altmax,diamfmin,diamfmax,compmin,compmax,diampmin,diampmax,"
                 . "diamexmin,diamexmax,comprmin,comprmax,comphmin,comphmax,diamhmin,diamhmax,profcanecomin,profcanecomax"
                 . " from tbqualNovoProjeto"

@@ -22,7 +22,7 @@ class ViewSTEEL_PCP_ReceitasItens extends View {
         $oTemperatura->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
         $oTemperatura->setBComparacaoColuna(true);
         
-        $this->addCampos($oCod,$oSeq,$oTrat,$oTratDes,$oCamadaMin,$oCamadaMax,$oTemperatura);
+        $this->addCampos($oCod,$oSeq,$oTrat,$oTratDes,$oTemperatura);
         
         
     }
@@ -42,7 +42,7 @@ class ViewSTEEL_PCP_ReceitasItens extends View {
         $oCamadaMin = new CampoConsulta('CamadaMín','camada_min', CampoConsulta::TIPO_DECIMAL);
         $oCamadaMax = new CampoConsulta('CamadaMáx','camada_max', CampoConsulta::TIPO_DECIMAL);
         $oTemperatura = new CampoConsulta('Temperatura','temperatura', CampoConsulta::TIPO_DECIMAL);
-        $this->addCamposDetalhe($oCod,$oSeq,$oTrat,$oTratDes,$oCamadaMin,$oCamadaMax,$oTemperatura);
+        $this->addCamposDetalhe($oCod,$oSeq,$oTrat,$oTratDes,$oTemperatura);
         $this->addGriTela($this->getOGridDetalhe());
         
     }
@@ -98,8 +98,8 @@ class ViewSTEEL_PCP_ReceitasItens extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
         
-        $this->addCampos(array($oCod,$oSeq),array($oTrat,$oTratDes),array($oCamadaMin,$oCamadaMax,$oTemperatura,$oTempo),
-                array($oResf,$oBotConf));
+        $this->addCampos(array($oCod,$oSeq),array($oTrat,$oTratDes),
+                array($oTempo,$oResf,$oTemperatura,$oBotConf));
         
         //adiciona objetos campos para servirem como filtros iniciais do grid
         $this->addCamposFiltroIni($oCod);

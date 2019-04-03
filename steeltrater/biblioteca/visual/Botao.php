@@ -15,6 +15,7 @@ class Botao {
     private $bDesativado; //se true o botão estará bloqueado para o click
     private $requestAjax; //Somente o request ajax deste "carinha", segundo o Avanei
     private $sStyleBotao;
+    private $sNomeModal;
 
     const TIPO_PADRAO = 0;
     const TIPO_ADICIONAR = 1;
@@ -37,7 +38,6 @@ class Botao {
     const TIPO_REL = 18;
     const TIPO_DETALHE = 19;
     const TIPO_REMOVER_TELAGRID = 20;
-    
     //define o estilo do botão small
     const TIPO_DEFAULT = 'btn-default';
     const TIPO_WARNING = 'btn-warning';
@@ -58,6 +58,14 @@ class Botao {
         $this->addAcao($sAcao);
         $this->setRequestAjax($sAcao);
         $this->sStyleBotao = Botao::TIPO_SUCCESS;
+    }
+
+    function getSNomeModal() {
+        return $this->sNomeModal;
+    }
+
+    function setSNomeModal($sNomeModal) {
+        $this->sNomeModal = $sNomeModal;
     }
 
     function getSStyleBotao() {
@@ -289,7 +297,7 @@ class Botao {
                 break;
             case self::TIPO_SMALL_SUB:
                 $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1  btn-acao-grid" style="margin-top:0px;">'
-                        . '<button type="button" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form btn-outline " id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
+                        . '<button type="button" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form btn-outline " id="' . $this->getId() . '" data-target="#' . $this->getSNomeModal() . '" data-toggle="modal"' . $this->setDesativado($this->getBDesativado()) . '>'
                         . '<span><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
                         . '</div>'
@@ -314,7 +322,8 @@ class Botao {
                 break;
             case self::TIPO_SMALL:
                 $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1  btn-acao-grid" style="margin-top:0px;">'
-                        . '<a href="javascript:void(0)" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form ladda-button" id="' . $this->getId() . '"><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</a>'
+                        . '<a href="javascript:void(0)" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form ladda-button" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . ' data-target="#' . $this->getSNomeModal() . '" data-toggle="modal">'
+                        . '<i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</a>'
                         . '</input>'
                         . '</div>'
                         . '<script>'
