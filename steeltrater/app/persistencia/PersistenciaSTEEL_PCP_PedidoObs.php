@@ -16,7 +16,7 @@ class PersistenciaSTEEL_PCP_PedidoObs extends Persistencia {
 
         $this->adicionaRelacionamento('pdv_pedidofilial', 'pdv_pedidofilial', true, true);
         $this->adicionaRelacionamento('pdv_pedidocodigo', 'pdv_pedidocodigo', true, true);
-        $this->adicionaRelacionamento('pdv_pedidoobscodigo', 'pdv_pedidoobscodigo', true, true,true);
+        $this->adicionaRelacionamento('pdv_pedidoobscodigo', 'pdv_pedidoobscodigo', true, true);
         $this->adicionaRelacionamento('pdv_pedidoobsdescricao', 'pdv_pedidoobsdescricao');
         
         $this->setSTop('100');

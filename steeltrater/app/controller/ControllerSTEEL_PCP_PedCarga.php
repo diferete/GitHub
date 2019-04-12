@@ -200,6 +200,12 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
         $oOpSteel = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
         $oDados = $oOpSteel->consultaOp($aCampos['op_base']);
         
+        if($oDados->getRetrabalho()=='Sim S/Cobrança'){
+            $oMensagem = new Mensagem('Atenção!','Ordem de produção de retrabalho sem cobrança!', Mensagem::TIPO_INFO,'9000');
+            echo $oMensagem->getRender();
+            echo '$("#' . $aId[4] . '").val("304");';
+        }
+        
         $oTab = Fabrica::FabricarController('STEEL_PCP_TabCabPreco');
         $oTab->Persistencia->adicionaFiltro('emp_codigo',$oDados->getEmp_codigo());
         $oTab->Persistencia->adicionaFiltro('sit','INATIVA',0,10);
@@ -221,7 +227,7 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
                 . '$("#' . $aId[1] . '").val("' . $oDados->getEmp_razaosocial() . '");'
                 . '$("#' . $aId[2] . '").val("' . $oTabela->getNr() . '");'
                 . '$("#' . $aId[3] . '").val("' . $oTabela->getNometabela() . '");';
-            }                       
+              }                       
     }
     
     public function verificaTabelaCliente($sDados){

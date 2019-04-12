@@ -348,7 +348,6 @@ class Controller {
      * @param string $sNomeCampo
      * @param string $xValor
      * 
-     * @return Objetct
      */
     public function setValorModel(&$oModelOriginal, $sNomeCampo, $xValor = null, $aCamposTela) {
         $aMetodos = self::extractMetodos($sNomeCampo);

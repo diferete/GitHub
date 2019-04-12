@@ -599,6 +599,145 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         //função que seta os valores padrões 
         $this->setaPadraoItem();
 //---------------INICIALMENTE VERIFICA SE É RETRABALHO SEM COBRANÇA SER FOR ENTRA E DA UM EXIT----------------------------------
+        if($oPevCabDados->getPDV_PedidoTipoMovimentoCodigo()=='304'||$oDadosOp->getRetrabalho()=='Sim S/Cobrança'){
+            $oMensagem = new Mensagem('Atenção','Carga de retrabalho sem cobrança!', Mensagem::TIPO_INFO,'7000');
+            echo $oMensagem->getRender();
+            
+                        //inicialmente colocamos o retorno----------------------------------------------------------------------------------
+            //busca o retorno da indutrialização
+            $this->Model->setPDV_PedidoItemProduto($oDadosOp->getProdFinal());
+            $this->Model->setPDV_PedidoItemProdutoNomeManua($oDadosOp->getProdesFinal());
+            $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getQuant());
+            $this->Model->setPDV_PedidoItemValorUnitario($oDadosOp->getVlrNfEntUnit());
+            $this->Model->setOp($aCampos['op']);
+            $this->Model->setPdv_insserv('RETORNO');
+            //seta o peso
+            $this->Model->setPesoOp($oDadosOp->getPeso());
+
+            //define a CFOP do retorno por hora vamos no tipo = do movimento
+            $this->Model->setPDV_PedidoItemCFOP('5916');
+
+            //busca a unidade de medida
+            $oProdUn->Persistencia->limpaFiltro();
+            $oProdUn->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getPDV_PedidoItemProduto());
+            $oProdDados = $oProdUn->Persistencia->consultarWhere();
+            $this->Model->setPDV_PedidoItemProdutoUnidadeMa($oProdDados->getDELX_PRO_UnidadeMedida()->getPro_unidademedida());
+
+            //seta valores específicos do retorno da mercadoria
+            $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
+            $this->Model->setPDV_PedidoItemGeraFinanceiro('N');
+            $this->Model->setPDV_PedidoItemConsideraVenda('S');
+
+            //gera o valor total
+            $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
+            $ValorUni = $this->Model->getPDV_PedidoItemValorUnitario();
+            $ValorTotal = ($Qt*$ValorUni);
+            $this->Model->setPDV_PedidoItemValorTotal($ValorTotal);
+
+            //atualiza o nr da carga na ordem de produção
+            $oOrdemProd = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+            $oOrdemProd->Persistencia->nrCarga($aCampos['op'],$aCampos['pdv_pedidocodigo']);
+
+            //caso não seja metalbo carrega o código do produto do cliente
+            $sInfAdicional = '';
+           
+            //$sInfAdicional .= 'Retrabalho sem cobrança->';
+            //$this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
+            //gera o insert do retorno
+             //Filtros para reload
+                     //insere os filtros
+                    $this->insereFiltrosInsert();
+                    //Inicia processo de inserção
+                    $this->Persistencia->iniciaTransacao();
+
+                    //array de controle de erros
+                    $aRetorno[0] = true;
+
+
+                    $aRetorno = $this->beforeInsert();
+
+                    if ($aRetorno[0]) {
+                        $aRetorno = $this->Persistencia->inserir();
+                    }
+
+                    if ($aRetorno[0]) {
+                        $aRetorno = $this->afterInsert();
+                        $this->Persistencia->commit();
+                    }
+                    //instancia a classe mensagem
+                    if ($aRetorno[0]) {
+                        $oMsg = new Mensagem('INSERIDO COM SUCESSO', 'Seu registro foi inserido!', Mensagem::TIPO_SUCESSO);
+                        //chama o método para zerar os campos do form se não for detalhe
+                        //Limpar o form é tratado na controller filhos
+                        $this->acaoLimpar($sForm, $sCampos);
+                        //método que executa após limpar
+                        $this->afterResetForm($sDados);
+
+                        //retorna aut incremento
+                        $iAutoInc = $this->retornaValuInc();
+                        //monta a mensagem
+
+                        $msg = "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
+                        echo $msg;
+                        echo $oMsg->getRender();
+                        $oFocus = new Base();
+                        echo $oFocus->focus($aDados[3]);
+                    } else {
+                        $oMsg = new Mensagem('ERRO AO INSERIR', 'Seu registro não foi inserido!', Mensagem::TIPO_ERROR);
+                        echo $oMsg->getRender();
+             }
+             
+              //atualiza o grid
+            //busca dados para o grid
+            $this->getDadosConsulta($aDados[2], true, null);
+            //gera o total na tabela de cabeçalho
+            $this->Persistencia->adicionaFiltro('pdv_pedidofilial',$aCampos['pdv_pedidofilial']);
+            $this->Persistencia->adicionaFiltro('pdv_pedidocodigo',$aCampos['pdv_pedidocodigo']);
+            $iValorTot = $this->Persistencia->getSoma('PDV_PedidoItemValorTotal');
+            $oPevCabTot = Fabrica::FabricarController('STEEL_PCP_PedCarga');
+            $oPevCabTot->Persistencia->geraTotaliza($iValorTot,$aCampos);
+            //gera o total de peso líguido e peso bruto
+            $iPesoLiq = $oPevCabTot->Persistencia->buscaPeso($aCampos);
+            //busca nr caixas
+            $iVolumes = $oPevCabTot->Persistencia->retornaVolumes($aCampos);
+            //atualiza no cabecalho
+            $oPevCabTot->Persistencia->atualizaPeso($aCampos,$iPesoLiq,$iVolumes,$oPevCabDados->getPDV_PedidoEmpCodigo());
+            //gera o totalizador para a tela
+            $aTotal = $this->Persistencia->pesoInsumo($aChave);
+            $sInsumo ='0';
+            $sRetorno ='0';
+            $sServico ='0';
+            foreach ($aTotal as $key => $value) {
+                switch ($value->pdv_insserv) {
+                        case 'INSUMO':
+                            $sInsumo = number_format($value->total, 2,',', '.');
+                            break;
+                        case 'RETORNO':
+                            $sRetorno = number_format($value->total, 2,',', '.');
+                            break;
+                        case 'SERVIÇO':
+                            $sServico = number_format($value->total, 2,',', '.');
+                            break;
+                    }
+            }
+            //aplica os valores
+            echo '$("#' . $aDados[4] . '").text("PESO/QUANT. RETORNO: ' . number_format($sRetorno, 2, ',', '.'). '");';
+            
+            //vamos gerar as parcelas do financeiro
+            $this->parcelaPedido($aChave);
+            //método que executa após limpar
+            $this->afterResetForm($sId);
+
+            //mostra modal certificado
+            if($aCampos['chkcert']){
+                echo '$("#modalApontaItem").modal("show");';
+                echo 'requestAjax("","STEEL_PCP_Certificado","criaTelaModalAponta",'
+                . '"modalApontaItem,id,pdv_pedidofilial='.$this->Model->getPdv_PedidoFilial().'&pdv_pedidocodigo='.$this->Model->getPdv_pedidocodigo().'&pdv_pedidoitemseq='.$this->Model->getPdv_pedidoitemseq().','.$aDados[3].'");';
+            }
+            //finaliza o programa
+            exit();
+        }
+        
         
         //verifica se a op é padrão RETORNO,SERVIÇO,INSUMO, SERIA O MOVIMENTO 302
         if($oDadosOp->getTipoOrdem()=='P'){
@@ -892,7 +1031,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             $this->Model->setOp($aCampos['op']);
             $this->Model->setPdv_insserv('RETORNO');
             //seta o peso
-            $this->Model->setPesoOp($oDadosOp->getPeso);
+            $this->Model->setPesoOp($oDadosOp->getPeso());
 
             //define a CFOP do retorno por hora vamos no tipo = do movimento
             $this->Model->setPDV_PedidoItemCFOP('5902');
@@ -1236,7 +1375,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             $this->Model->setOp($aCampos['op']);
             $this->Model->setPdv_insserv('RETORNO');
             //seta o peso
-            $this->Model->setPesoOp($oDadosOp->getPeso);
+            $this->Model->setPesoOp($oDadosOp->getPeso());
 
             //define a CFOP do retorno por hora vamos no tipo = do movimento
             $this->Model->setPDV_PedidoItemCFOP('5902');

@@ -46,10 +46,10 @@ class ViewSTEEL_PCP_Certificado extends View {
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoIncluir(true);
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oOpFiltro,$oFiltroCliente,$oFiltroNotaSteel,$oFiltroNotaCliente);
+        $this->addFiltro($oFiltroNotaSteel,$oOpFiltro,$oFiltroCliente,$oFiltroNotaCliente);
 
         $this->setUsaDropdown(true);
-        $oDrop1 = new Dropdown('Imprimir',Dropdown::TIPO_SUCESSO);
+        $oDrop1 = new Dropdown('Imprimir/E-mail',Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'STEEL_PCP_Certificado', 'acaoMostraRelCertificado', '', false, 'CertificadoOpSteel',false,'',false,'',true);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar E-mail', 'STEEL_PCP_Certificado', 'geraPdfCert', '', false, 'CertificadoOpSteel',false,'',false,'',true);
         $this->addDropdown($oDrop1);

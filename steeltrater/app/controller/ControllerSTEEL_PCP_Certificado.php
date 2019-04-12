@@ -31,6 +31,24 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         $_REQUEST['nrcert'] = $aCert;
         $_REQUEST['email'] ='S';
         $_REQUEST['userRel'] = $_SESSION['nome'];
+        
+         
+        //busca se há notas diferentes
+        $aNotaCert=array();
+        foreach ($aCert as $iCert) {
+            $this->Persistencia->limpaFiltro();
+            $this->Persistencia->adicionaFiltro('nrcert',$iCert);
+            $oCertificadoNota = $this->Persistencia->consultarWhere();
+            $aNotaSteel[]=$oCertificadoNota->getNotasteel();
+        }
+        $aNotaSteelUni = array_unique($aNotaSteel);
+        $_REQUEST['notaRetorno']=$aNotaSteelUni[0];
+        if(count($aNotaSteelUni)>1){
+            $oModal= new Modal('Atenção!', 'Existem notas diferentes selecionadas, selecione itens da mesma nota de retorno!', Modal::TIPO_AVISO, false);
+           echo $oModal->getRender();
+           exit();
+        }
+        
        
         $aEmp= array();
         foreach ($aCert as $iCert) {
@@ -40,7 +58,7 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
             $aEmp[]=$oCertificado->getEmpcod();
         }
         $aEmpRep = array_unique($aEmp);
-        
+       
         
        if(count($aEmpRep)==1){
        $_REQUEST['empresaCert'] = $aEmpRep[0];
@@ -88,12 +106,30 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
            $sVethor.= 'nrcert[]='.$aNrEnv[1].'&';
        }
        
+       //busca se há notas diferentes
+        $aNotaCert=array();
+        foreach ($aNr as $iCert) {
+            $aCertEnv = explode('=', $iCert);
+            $this->Persistencia->limpaFiltro();
+            $this->Persistencia->adicionaFiltro('nrcert',$aCertEnv[1]);
+            $oCertificadoNota = $this->Persistencia->consultarWhere();
+            $aNotaSteel[]=$oCertificadoNota->getNotasteel();
+        }
+        $aNotaSteelUni = array_unique($aNotaSteel);
+        $_REQUEST['notaRetorno']=$aNotaSteelUni[0];
+        if(count($aNotaSteelUni)>1){
+            $oModal= new Modal('Atenção!', 'Existem notas diferentes selecionadas, selecione itens da mesma nota de retorno!', Modal::TIPO_AVISO, false);
+           echo $oModal->getRender();
+           exit();
+        }
+       
       // exemplo.php?vetor[]=valor1&vetor[]=valor2&vetor[]=valor3
        
         $sSistema ="app/relatorio";
         $sRelatorio = 'CertificadoOpSteel.php?'.$sVethor;
         
         $sCampos.= $this->getSget();
+        $sCampos.='&notaRetorno='.$aNotaSteelUni[0];
         
        $sCampos.='&output=tela';
        $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "'.$sRel.$sCampos.'", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';

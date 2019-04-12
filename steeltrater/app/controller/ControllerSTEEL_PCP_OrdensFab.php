@@ -116,10 +116,10 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
             $oNotasImp = Fabrica::FabricarController('STEEL_PCP_NotaImportaNf');
             $oModelImp = $oNotasImp->buscaNota($aCamposChave);
             //busca o peso do produto
-            $oPeso = Fabrica::FabricarController('DELX_PRO_Produtos');
-            $Peso = $oPeso->retornaPeso($oModelImp->getNfsitcod());
-            $PesoTotal = ($Peso*$oModelImp->getNfsitqtd());
-            $oModelImp->setPeso($PesoTotal);
+           // $oPeso = Fabrica::FabricarController('DELX_PRO_Produtos');
+           // $Peso = $oPeso->retornaPeso($oModelImp->getNfsitcod());
+           // $PesoTotal = ($Peso*$oModelImp->getNfsitqtd());
+            $oModelImp->setPeso($oModelImp->getMetpesocarg());
             //busca o preço da nota
             $aCamposChave['nfsitcod'] = $oModelImp->getNfsitcod();
             $aPreco = $this->Persistencia->buscaPreço($aCamposChave);

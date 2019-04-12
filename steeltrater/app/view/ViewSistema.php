@@ -119,7 +119,7 @@ class ViewSistema extends View {
                 . 'Breakpoints();'
                 . '</script>'
                 . '</head>'
-                . '<body><!--class="site-menubar-unfold" data-auto-menubar="false"-->'
+                . '<body style=" min-width: 1024px !important;"><!--class="site-menubar-unfold" data-auto-menubar="false"-->'
                 . '<script>'
                 . '   var classeBusca;'
                 . '    var metodoBusca;'
@@ -750,7 +750,7 @@ class ViewSistema extends View {
                 . '</script>'
                 . '  <script> '
                 . '   $(document).ready(function() { '
-                //.'    window.open("http://google.com");  '
+                .'    document.body.style.zoom = "89%";  '
                 . '  }); '
                 . '   </script> '
                 . '</html>';

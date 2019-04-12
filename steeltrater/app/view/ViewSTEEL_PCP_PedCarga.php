@@ -148,7 +148,7 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oDataEnt = new Campo('DataEntrega','PDV_PedidoDataEntrega', Campo::TIPO_DATA,2,2,2,2);
         $oDataEnt->setSValor(date('d/m/Y'));
        //-------------------------------------------------------------------------------------------
-        $oFrete = new campo('Frete','PDV_PedidoTipoFreteCodigo', Campo::TIPO_SELECT,3);
+        $oFrete = new campo('Frete','PDV_PedidoTipoFreteCodigo', Campo::TIPO_SELECT,4);
         $oFrete->addItemSelect('1','CIF (POR CONTA DO EMITENTE)'); 
         $oFrete->addItemSelect('2','FOB (POR CONTA DO DESTINATARIO/REMETENTE)'); 
         $oFrete->addItemSelect('3','POR CONTA DE TERCEIRO');
@@ -159,13 +159,13 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oMarca->setBCampoBloqueado(true);
         //-----------------------------------------------------------------------------------------
         $oEspecie = new Campo('Espécie','PDV_PedidoEspecie', Campo::TIPO_TEXTO,2);
-        $oEspecie->setSValor('Caixas');
+        $oEspecie->setSValor('VOLUMES');
         
       
         
         //adiciona os evento ao sair do campo op_base
         $sEventoOp = 'var OpSteel =  $("#'.$oOpBase->getId().'").val();if(OpSteel !==""){requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_PedCarga","consultaOpDados",'
-                 . '"'.$oEmp_codigo->getId().','.$oEmp_des->getId().','.$oTabPreco->getId().','.$oTabPrecoDesc->getId().'");}';
+                 . '"'.$oEmp_codigo->getId().','.$oEmp_des->getId().','.$oTabPreco->getId().','.$oTabPrecoDesc->getId().','.$oMovCod->getId().'");}';
         $oOpBase->addEvento(Campo::EVENTO_SAIR,$sEventoOp);
         //adiciona evento para analisar se há tabela de preço
         $sEventoTabela = 'var empCod =  $("#'.$oEmp_codigo->getId().'").val();if(empCod !==""){requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_PedCarga","verificaTabelaCliente",'

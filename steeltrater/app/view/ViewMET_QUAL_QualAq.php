@@ -15,9 +15,6 @@ class ViewMET_QUAL_QualAq extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setIAltura(450);
-        $this->getTela()->setBGridResponsivo(false);
-
         $oTitulo = new CampoConsulta('Título', 'titulo', CampoConsulta::TIPO_LARGURA, 300);
 
         $oFilcgc = new CampoConsulta('Cnpj', 'DELX_FIL_Empresa.fil_codigo');
@@ -124,6 +121,7 @@ class ViewMET_QUAL_QualAq extends View {
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoVisualizar(true);
     }
 
     public function criaTela() {

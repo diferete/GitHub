@@ -34,26 +34,63 @@ class PersistenciaSTEEL_PCP_CargaInsumoServ extends Persistencia{
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
                $aRetorno[] = $oRowBD;
            }
+         
         //limpa a classe obs adicionais
          $oPedidoObs = Fabrica::FabricarController('STEEL_PCP_PedidoObs');
          $oPedidoObs->Persistencia->adicionaFiltro('pdv_pedidofilial','8993358000174');
          $oPedidoObs->Persistencia->adicionaFiltro('pdv_pedidocodigo',$aCamposChave['pdv_pedidocodigo']);
          $oPedidoObs->Persistencia->excluir();
-         
+          
            $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
            foreach ($aRetorno as $key => $oValue) {
                $oOp->Persistencia->limpaFiltro();
                $oOp->Persistencia->adicionaFiltro('op',$oValue->op);
                $oDados = $oOp->Persistencia->consultarWhere();
+               $sData = Util::converteData($oDados->getData());
+               $aDocumento[] = $oDados->getDocumento() .' de '.$sData; 
+                
+             }
+           
+             //remove documentos duplicados
+             $aDocumentoUni =array_unique($aDocumento);
+             foreach ($aDocumentoUni as $key => $infAdicional) {
+                 $sInf .=$infAdicional.', ';
+               }
+                 $sInf = substr($sInf,0,-2);
+                 
+                 $sInf.='.';
+             
+              
+           //analisa registro de rnc
+           $sInfRnc ='';
+           foreach ($aRetorno as $keyRnc => $oValueRnc) {
+               $oOp->Persistencia->limpaFiltro();
+               $oOp->Persistencia->adicionaFiltro('op',$oValueRnc->op);
+               $oDadosRnc = $oOp->Persistencia->consultarWhere();
+                if($oDadosRnc->getRetrabalho()=='Sim S/Cobrança'){
+                    $aDocumentoRnc[] = $oDadosRnc->getRnc();
+                }
+           }
+            //remove documentos duplicados
+             $aDocumentoRncUni =array_unique($aDocumentoRnc);
+             foreach ($aDocumentoRncUni as $key => $infAdicionalRnc) {
+                 $sInfRnc .=$infAdicionalRnc.', ';
+               }
+               if($sInfRnc!==''){
+                    $sInfRnc = substr($sInfRnc,0,-2);
+                    $sInfRnc ='RETRABALHO SEM COBRANCA RNC '.$sInfRnc.'.';
+               }
+                
                
+             
+              
+             //faz a inserção
                $sData = Util::converteData($oDados->getData());
                $oPedidoObs->Model->setPdv_pedidofilial('8993358000174');
                $oPedidoObs->Model->setPdv_pedidocodigo($aCamposChave['pdv_pedidocodigo']);
-               $oPedidoObs->Model->setPdv_pedidoobscodigo('1');
-               $oPedidoObs->Model->setPdv_pedidoobsdescricao(' DEVOLUCAO SUA NF '.$oDados->getDocumento().' de '.$sData.'.');
+               $oPedidoObs->Model->setPdv_pedidoobscodigo('3');
+               $oPedidoObs->Model->setPdv_pedidoobsdescricao($sInfRnc.' DEVOLUCAO SUA NF '.$sInf.'');
                $oPedidoObs->Persistencia->inserir();
-               
-           }  
        }
   
 }

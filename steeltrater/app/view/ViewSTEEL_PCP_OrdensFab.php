@@ -181,7 +181,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
          
         
         //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto','prodes',Campo::TIPO_BUSCADOBANCO, 4);
+        $oProdes = new Campo('Produto','prodes',Campo::TIPO_BUSCADOBANCO, 5);
         $oProdes->setSIdPk($oCodigo->getId());
         $oProdes->setClasseBusca('DELX_PRO_Produtos');
         $oProdes->addCampoBusca('pro_codigo', '','');
@@ -205,7 +205,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oProdFinal = new Campo('Produto.Final','prodFinal', Campo::TIPO_BUSCADOBANCOPK,2);
        // $oProdFinal->setBCampoBloqueado(true);
         
-        $oProdFinalDes = new Campo('DescFinal','prodesFinal', Campo::TIPO_BUSCADOBANCO,4);
+        $oProdFinalDes = new Campo('DescFinal','prodesFinal', Campo::TIPO_BUSCADOBANCO,5);
         $oProdFinalDes->setBOculto(true);
         $oProdFinalDes->setSIdPk($oProdFinal->getId());
         $oProdFinalDes->setClasseBusca('STEEL_PCP_pesqArame');
@@ -242,20 +242,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
             {$oReferencia->setSValor($oDados->getProcod());}
         }
         $oReferencia->addEvento(Campo::EVENTO_SAIR,$sEventoReferencia);
-      /*  //caso valor nulo para o código ativa evento para buscar pela referencia
-        if(method_exists($oDados,'getNfsitcod')){
-            if($oDados->getNfsitcod()==null){
-                $oReferencia->addEvento(Campo::EVENTO_SAIR,$sEventoReferencia);
-                $oReferencia->setLabel('Referência do Cliente <span class="badge badge-success">*Ativado busca</span>');
-            }
-        }
-        if(method_exists($oDados,'getProcod')){
-            if($oDados->getProcod()==null){
-                $oReferencia->addEvento(Campo::EVENTO_SAIR,$sEventoReferencia);
-                $oReferencia->setLabel('Referência do Cliente <span class="badge badge-success">*Ativado busca</span>');
-            }
-        }
-        */
+     
         $oGridMat = new campo('Produto/Material/Receita', 'gridMat', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
         $oGridMat->getOGrid()->setAbaSel($this->getSIdAbaSelecionada());
         $oGridMat->setApenasTela(true);
@@ -270,7 +257,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oGridMat->addCampos($oSeqMatGrid,$oProDesGrid,$oMatDesGrid,$oRecDesGrid,$oProdFinalGrid);
         $oGridMat->setSController('STEEL_PCP_prodMatReceita');
         $oGridMat->addParam('seqmat', '0');
-        $oGridMat->getOGrid()->setIAltura(75);
+        $oGridMat->getOGrid()->setIAltura(90);
         
         
         
@@ -356,6 +343,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
          
          $oValorEnt = new campo('Valor Total','vlrNfEnt', Campo::TIPO_DECIMAL,1);
          $oValorEnt->setSValor('0,00');
+         $oValorEnt->setBCampoBloqueado(true);
           if($sClasse !=='ModelSTEEL_PCP_ImportaXml'){
           if(method_exists($oDados, 'getVlrNfEnt')) 
           {$oValorEnt->setSValor(number_format($oDados->getVlrNfEnt(), 2, ',', '.'));}} else {
@@ -457,8 +445,10 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oOpRet = new Campo('Op Origem Retra.','op_retrabalho', Campo::TIPO_TEXTO,2);
         $oOpRet->setBCampoBloqueado(false);
         
+        $oRnc = new campo('RNC','rnc', Campo::TIPO_TEXTO,2);
         
-        $oField1->addCampos(array($oRetrabalho,$oOpRet));
+        
+        $oField1->addCampos(array($oRetrabalho,$oOpRet,$oRnc));
         $oField1->setOculto(true);
         
          $oNrcert = new Campo('Certificado','nrcert', Campo::TIPO_TEXTO,1,1,1,1);

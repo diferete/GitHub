@@ -75,6 +75,17 @@ class ModelSTEEL_PCP_OrdensFab {
     private $pendencias;
     private $pendenciasobs;
     
+    private $rnc;
+    
+    function getRnc() {
+        return $this->rnc;
+    }
+
+    function setRnc($rnc) {
+        $this->rnc = $rnc;
+    }
+
+        
     function getPendencias() {
         return $this->pendencias;
     }
