@@ -2917,6 +2917,7 @@ class Controller {
         if ($aRetorno[0]) {
             $aRetorno = $this->afterInsert();
             $this->Persistencia->commit();
+             $this->afterCommitInsert();
         }
         //muda variável de controle para alterar
         $setAlt = "$('#" . $aDados[6] . "').val('alterar');";

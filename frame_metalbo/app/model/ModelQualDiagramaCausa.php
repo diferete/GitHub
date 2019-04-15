@@ -16,7 +16,7 @@ class ModelQualDiagramaCausa {
     private $equipamentodes;
     private $meioambientedes;
     private $medidades;
-    
+
     function getFilcgc() {
         return $this->filcgc;
     }
@@ -80,7 +80,5 @@ class ModelQualDiagramaCausa {
     function setMedidades($medidades) {
         $this->medidades = $medidades;
     }
-
-
 
 }

@@ -49,6 +49,7 @@ class ViewSistema extends View {
         $sTela = '<!DOCTYPE html>'
                 . '<html><!-- class="no-js" lang="en"-->'
                 . '<head> '
+                
                 . '<meta http-equiv="X-UA-Compatible" content="IE=edge">'
                 . '<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">'
                 . '<meta name="description" content="bootstrap admin template">'
@@ -77,6 +78,7 @@ class ViewSistema extends View {
                 
                 
                 . '<!-- Datatables -->'
+                
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">'
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">'
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Buttons/css/buttons.dataTables.min.css">'
@@ -111,8 +113,14 @@ class ViewSistema extends View {
                 . '<link href="biblioteca/assets/vendor/bootstrap-fileinput/css/fileinput.css" rel="stylesheet" type="text/css"/>'
                 . '<!-- Summernote - Editor de Texto-->'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/summernote/summernote.css">'
+                
                 . '<script src="biblioteca/assets/vendor/summernote/summernote.min.js"></script>'
                 . '<script src="biblioteca/assets/vendor/summernote/lang/summernote-pt-BR.js"></script>'
+                
+                    
+                
+                
+                    
                 . '<script>'
                 . 'Breakpoints();'
                 . '</script>'
@@ -708,6 +716,9 @@ class ViewSistema extends View {
                 . '<script src="biblioteca/assets/vendor/toastr/toastr.js"></script> '
                 . '<!-- Plugins For This Page -->'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/formvalidation/formValidation.css">'
+               
+                
+                
                 . '<script>'
                 . ' (function(document, window, $) {'
                 . ' "use strict";'
@@ -718,38 +729,33 @@ class ViewSistema extends View {
                 . ' });'
                 . ' })(document, window, jQuery);'
                 . ' var menuRecolhido = false;'
-
-                /*.' $("#toggleMenubar").click(function(){'      
-                  .' if(!menuRecolhido){'
-                  .' $("#logo").attr("src","biblioteca/assets/images/m.png");'
-                  .' menuRecolhido = true;'
-                  .' }else{'
-                  .' $("#logo").attr("src","biblioteca/assets/images/logo.png");'
-                  .' menuRecolhido = false;'
-                  .' }'
-                  .' });' */
-                . ' function carregapesq(){'
+                . ' $("#toggleMenubar").click(function(){'
+                . ' if(!menuRecolhido){'
+                . ' $("#logo").attr("src","biblioteca/assets/images/m.png");'
+                . ' menuRecolhido = true;'
+                . ' }else{'
+                . ' $("#logo").attr("src","biblioteca/assets/images/logo.png");'
+                . ' menuRecolhido = false;'
+                . ' }'
+                . ' });'
+                . 'function carregapesq(){'
                 . ' if (classeBusca !== undefined && classeBusca != ""){'
                 . ' var cont = $("#carregapesq").val().length; '
                 . ' if (cont > 4 ){ '
-                . ' console.log(controleRequest);'
+                //. ' console.log(controleRequest);'
                 . ' requestAjax("",classeBusca,metodoBusca,campoRetId+","+idbusca+","+campoBusca+","+campoValor+","+$("#carregapesq").val());'
                 . ' controleRequest ="request";'
-                //.' controleRequest ="n";'&& controleRequest === "s"
+                // .' controleRequest ="n";'&& controleRequest === "s"
                 //. ' console.log(controleRequest);'
                 . ' }'
                 . ' }'
                 . ' };'
                 . '</script>'
+                
                 . '</body>'
                 . '<script>'
                 . $this->MontaTab()
                 . '</script>'
-                . '<script> '
-                . '$(document).ready(function() { '
-                . 'document.body.style.zoom = "89%";  '
-                . '}); '
-                . '</script> '
                 . '</html>';
 
         return $sTela;
@@ -845,9 +851,9 @@ class ViewSistema extends View {
                 . "'<strong title=\"FECHAR\" onclick=\"ativaPerfil()\">×</strong> '+"
                 . "'</span> '+"
                 . "' '+titulo+' '+"
-                . "' </a> '+"
-                . "' </li>');"
-                . "$('#tabmenucont').append( '<div class=\"tab-pane active\" id=\"'+tabmenu+'control\" role=\"tabpanel\"> '+"
+                . "'</a> '+"
+                . "'</li>');"
+                . " $('#tabmenucont').append( '<div class=\"tab-pane active\" id=\"'+tabmenu+'control\" role=\"tabpanel\"> '+"
                 . " '<div class=\"carregando\" id=\"'+tabmenu+'control-carregando\"></div> '+ "
                 . " ' '+ "
                 . " '</div>'"
@@ -880,20 +886,12 @@ class ViewSistema extends View {
                 . "}"
                 . " if(countTabs == 1){"
                 . "showPerfil();"
-                . "} "
+                . "} "//$('#teste').hide()
                 . "}"
                 . "function showPerfil(){"
                 //. "alert('chegou no show perfil');"
                 . "$('#perfilPrincipal').show();"
                 . "}";
-
-        /*
-         * '$("#' . $sIdTela . 'consulta tbody .selected").each(function(){'
-          . 'contChave[contP]=$(this).find(".chave").html();'
-          . 'contP++;'
-          . '});';
-         */
-
 
         return $sTab;
     }
@@ -935,6 +933,9 @@ class ViewSistema extends View {
                 . '</a>'
                 . '</br>'
                 . '</br><img class="img-circle img-bordered img-bordered-primary" width="150" height="150" src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1"></p>'
+                
+               
+                
                 . '</div>'
                 . '</div>'
                 . '</div>';

@@ -2318,7 +2318,7 @@ class Controller {
         $sSelect = "$('#" . $aDados[3] . " > option').remove();";
         foreach ($aDadosSelect as $key => $value) {
             $sSelect .= "$('#" . $aDados[3] . "').append($('<option>', { "
-                    . "value: " . $value[0] . ","
+                    . "value: '" . $value[0] . "',"
                     . "text: '" . $value[1] . "'"
                     . "}));";
         }
@@ -2412,7 +2412,7 @@ class Controller {
 
         foreach ($aDadosSelect as $key => $value) {
             $sSelect .= "$('#" . $aDados[1] . "').append($('<option>', { "
-                    . "value: " . $value[0] . ","
+                    . "value: '" . $value[0] . "',"
                     . "text: '" . $value[1] . "'"
                     . "}));";
         }

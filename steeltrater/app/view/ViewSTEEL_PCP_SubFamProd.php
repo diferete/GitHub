@@ -87,13 +87,12 @@ class ViewSTEEL_PCP_SubFamProd extends View {
 
         $oPRO_SubFamiliaProDescricao = new Campo('Descrição Padrão', 'PRO_SubFamiliaProDescricao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oPRO_SubFamiliaProDescTec = new Campo('Descrição Técnica Padrão', 'PRO_SubFamiliaProDescTec', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oPRO_SubFamiliaProDescTec->setILinhasTextArea(3);
 
         $oPRO_SubFamiliaProFormataDesc = new Campo('Formatar a descrição do Produto', 'PRO_SubFamiliaProFormataDesc', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oPRO_SubFamiliaProFormataDesc->addItemSelect('', 'N/A');
         $oPRO_SubFamiliaProFormataDesc->addItemSelect('S', 'Sim');
         $oPRO_SubFamiliaProFormataDesc->addItemSelect('N', 'Não');
-
-
 
         $oDivisor0 = new Campo('Tipo', 'tipo', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor0->setApenasTela(true);
@@ -164,7 +163,7 @@ class ViewSTEEL_PCP_SubFamProd extends View {
 
         $this->addCampos(
                 array($oPRO_GrupoCodigo, $oPRO_GrupoCodigoDescricao), array($oPRO_SubGrupoCodigo, $oPRO_SubGrupoDescricao),
-                array($oPRO_FamiliaCodigo, $oPRO_FamiliaDescricao), array($oPRO_SubFamiliaCodigo, $oPRO_SubFamiliaDescricao), $oDivisor0,
+                array($oPRO_FamiliaCodigo, $oPRO_FamiliaDescricao), array($oPRO_SubFamiliaCodigo, $oPRO_SubFamiliaDescricao),$oPRO_SubFamiliaProDescTec, $oDivisor0,
                 array($oPRO_FamTipoDespesa, $oPRO_FamDescTipoDespesa), array($oPRO_FamTipoReceita, $oPRO_FamDescTipoReceita),
                 array($oPRO_SubFamiliaProdutoBase,$oPRO_SubFamiliaSequencialProdut), $oDivisor1, 
                 array($oPRO_FamiliaTipoControle, $oPRO_FamiliaTipoCusto, $oPRO_FamiliaMovEstoque, $oPRO_FamiliaControleLote));
