@@ -1372,6 +1372,10 @@ class Persistencia {
         $bExecuta = $statement->execute();
         $aErro = $statement->errorInfo();
 
+        $fp = fopen("bloco1.txt", "w");
+        fwrite($fp, $sSql);
+        fclose($fp);
+
         return array($bExecuta, $aErro[2]);
     }
 
@@ -1391,6 +1395,15 @@ class Persistencia {
         $aErro = $statement->errorInfo();
 
         return $obj;
+    }
+
+    public function consultaSqlAssoc($sSql) {
+        $statement = $this->preparaSql($sSql);
+        $statement->execute();
+        $array = $statement->fetch(PDO::FETCH_ASSOC);
+        $aErro = $statement->errorInfo();
+
+        return $array;
     }
 
     /**

@@ -394,22 +394,6 @@ class ViewSolPedIten extends View{
       
         $oVlrUnit->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '100', '', '', $sValidaPrcKg, Validacao::TRIGGER_SAIR);
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-                
-                
-       
-        
          //adiciona os campos na tela
         $this->addCampos(array($oCodigo,$oProdes,$oQuant,$oPrcBruto,$oVlrUnit,$oDesconto,$oTratamento,$oDescExtra1,$oDescExtra2),array($oSeqOd,$oObsProd,$oChkTodos,$oVlrTot,$oBtnInserir,$oPrecoKg,$oNr,$oSeq),$oFieldEmb,$oFieldLib);
     

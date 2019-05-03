@@ -34,6 +34,8 @@ class PersistenciaMET_PORT_Visitantes extends Persistencia {
         $this->adicionaRelacionamento('cpf', 'cpf');
         $this->adicionaRelacionamento('placa', 'placa');
         $this->adicionaRelacionamento('cracha', 'cracha');
+        $this->adicionaRelacionamento('codsetor', 'codsetor');
+        $this->adicionaRelacionamento('descsetor', 'descsetor');
 
         $this->adicionaOrderBy('nr', 1);
 

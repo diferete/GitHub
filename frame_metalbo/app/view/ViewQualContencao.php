@@ -15,10 +15,9 @@ class ViewQualContencao extends View {
     function criaGridDetalhe() {
         parent::criaGridDetalhe();
 
-        /**
-         * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
-         */
         $this->getOGridDetalhe()->setIAltura(200);
+        
+        $sAcaoRotina = $this->getSRotina();
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
@@ -51,6 +50,8 @@ class ViewQualContencao extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
+        
+        $sAcaoRotina = $this->getSRotina();
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
@@ -76,7 +77,6 @@ class ViewQualContencao extends View {
         $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
-
 
 
         $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oUsunome, $oAnexo);

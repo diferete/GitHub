@@ -12,7 +12,7 @@ class PersistenciaQualAq extends Persistencia {
         parent::__construct();
 
         $this->setTabela('tbacaoqual');
-        
+
         $this->adicionaRelacionamento('filcgc', 'EmpRex.filcgc', true, true);
         $this->adicionaRelacionamento('nr', 'nr', true, true, true);
         $this->adicionaRelacionamento('titulo', 'titulo');
@@ -158,6 +158,84 @@ class PersistenciaQualAq extends Persistencia {
 
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
+    }
+
+    public function verifSituacoes($aDados) {
+        $sSqlAq = "select tipoacao,sit,problema,objetivo from tbacaoqual where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "'";
+        $oRowAq = $this->consultaSql($sSqlAq);
+        $aRowAq = (array) $oRowAq;
+        if (($aRowAq['problema'] != '' && $aRowAq['problema'] != null) && ($aRowAq['objetivo'] != '' && $aRowAq['objetivo'] != null)) {
+            $aRowAq['problema'] = true;
+            $aRowAq['objetivo'] = true;
+        } else {
+            $aRowAq['problema'] = false;
+            $aRowAq['objetivo'] = false;
+        }
+
+        $sSqlContencao = "select COUNT(*) as total from MET_QUAL_Contencao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "' and situaca is null";
+        $oContencao = $this->consultaSql($sSqlContencao);
+        if ($oContencao->total == 0) {
+            $aRowAq['contencao'] = true;
+        } else {
+            $aRowAq['contencao'] = false;
+        }
+
+
+        $sSqlCorrecao = "select situaca,seq from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "' and situaca is null";
+        $oCorrecao = $this->consultaSql($sSqlCorrecao);
+        if ($oCorrecao->total == 0) {
+            $aRowAq['plano'] = true;
+        } else {
+            $aRowAq['plano'] = false;
+        }
+
+
+
+        $sSqlCausa = "select COUNT(*) as total from MET_QUAL_DiagramaCausa  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "'";
+        $oCausa = $this->consultaSql($sSqlCausa);
+        if ($oCausa->total == 0) {
+            $aRowAq['causa'] = $this->buscaCausaOld($aDados);
+        } else {
+            $aRowAq['causa'] = true;
+        }
+
+
+        $sSqlPlan = "select COUNT(*) as total from tbacaoqualplan  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "' and sitfim is null";
+        $oPlan = $this->consultaSql($sSqlPlan);
+        if ($oPlan->total == 0) {
+            $aRowAq['plano'] = true;
+        } else {
+            $aRowAq['plano'] = false;
+        }
+
+
+        $sSqlEficaz = "select COUNT(*) as total from tbacaoeficaz  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "' and sit is null";
+        $oEficaz = $this->consultaSql($sSqlEficaz);
+        if ($oEficaz->total == 0) {
+            $aRowAq['eficaz'] = true;
+        } else {
+            $aRowAq['eficaz'] = false;
+        }
+
+
+        return $aRowAq;
+    }
+
+    public function buscaCausaOld($aDados) {
+
+        $sSqlCausa = "select * from tbacaoqualcausa  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "'";
+        $resultCausa = $this->getObjetoSql($sSqlCausa);
+        $arrayCausa = array();
+        while ($oRowCausa = $resultCausa->fetch(PDO::FETCH_OBJ)) {
+            array_push($arrayCausa, (array) $oRowCausa);
+        }
+        if (empty($arrayCausa)) {
+            $bCausa = false;
+        } else {
+            $bCausa = true;
+        }
+
+        return $bCausa;
     }
 
 }

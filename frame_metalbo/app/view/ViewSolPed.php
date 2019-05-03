@@ -15,8 +15,8 @@ class ViewSolPed extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        
-        
+
+
         $oNr = new CampoConsulta('Sol.', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(50);
         $oCnpj = new CampoConsulta('Cnpj', 'cnpj', CampoConsulta::TIPO_TEXTO);
@@ -40,7 +40,7 @@ class ViewSolPed extends View {
         $oGeraPed->setILargura(25);
 
         $this->setUsaDropdown(true);
-        
+
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Liberar para metalbo', 'SolPed', 'msgLiberaMetalbo', '', false, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_COPIAR) . 'Gerar copia', 'SolPed', 'msgCopiaSol', '', false, '');
@@ -75,8 +75,7 @@ class ViewSolPed extends View {
         $this->addCampos($oNr, $oCnpj, $oCliente, $oOdCompra, $oUserLib, $oNrCot, $oGeraPed, $oData, $oEmail);
         $this->addFiltro($oFilSolNr, $oFilCliente, $oFilCnpj, $oFilOd, $oFilData);
         $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoIncluir(false);
+        $this->setUsaAcaoVisualizar(true);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setILarguraGrid(1300);
@@ -84,6 +83,8 @@ class ViewSolPed extends View {
 
     public function criaTela() {
         parent::criaTela();
+
+        $sAcaoRotina = $this->getSRotina();
 
         $this->setTituloTela('Inclusão de solicitação de pedidos de venda!');
 
@@ -178,9 +179,15 @@ class ViewSolPed extends View {
         $oObs->setSValor(' ');
         $oObs->setICaracter(300);
 
-        $oQtExata = new Campo('Quant.Exata', 'qtexata', Campo::TIPO_SELECT, 4);
+        $oQtExata = new Campo('Quant.Exata', 'qtexata', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oQtExata->addItemSelect('N', 'CLIENTE NÃO SOLICITA QUANTIDADES EXATAS');
         $oQtExata->addItemSelect('S', 'CLIENTE SOLICITA QUANTIDADE EXATAS');
+
+
+        $oAtencao = new Campo('Atenção à seleção', '', Campo::TIPO_BADGE, 1);
+        $oAtencao->setSEstiloBadge(Campo::BADGE_DANGER);
+        $oAtencao->setApenasTela(true);
+
 
         $oDataEnt = new Campo('DataEntrega', 'dtent', Campo::TIPO_DATA, 2);
         $oDataEnt->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -231,19 +238,24 @@ class ViewSolPed extends View {
         $oEmail->setSValor('NV');
         $oEmail->setBOculto(true);
 
-        //monta campo de controle para inserir ou alterar
-        $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
-        $oAcao->setApenasTela(true);
-        if ($this->getSRotina() == View::ACAO_INCLUIR) {
-            $oAcao->setSValor('incluir');
+        if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
+            //monta campo de controle para inserir ou alterar
+            $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
+            $oAcao->setApenasTela(true);
+            if ($this->getSRotina() == View::ACAO_INCLUIR) {
+                $oAcao->setSValor('incluir');
+            } else {
+                $oAcao->setSValor('alterar');
+            }
+            $this->setSIdControleUpAlt($oAcao->getId());
+
+
+
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRed, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oAcao, $oSituaca);
         } else {
-            $oAcao->setSValor('alterar');
+
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRed, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oSituaca);
         }
-        $this->setSIdControleUpAlt($oAcao->getId());
-
-
-
-        $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRed, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, $oSituaca, $oQtExata, $oDataEnt, array($oContato, $oEmail), $oAcao);
     }
 
 }

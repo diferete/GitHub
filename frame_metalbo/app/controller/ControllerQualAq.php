@@ -279,8 +279,156 @@ class ControllerQualAq extends Controller {
 
         $sResulta = '<div class="cor_verde">Total de ações abertas:' . $aTotal['Aberta'] . '</div>'
                 . '<div class="cor_azul">Total de ações iniciadas:' . $aTotal['Iniciada'] . '</div>'
-                . 'Total de ações finalizadas:' . $aTotal['Finalizada'] . '';
+                . 'Total de ações finalizadas:' . $aTotal['Finalizada'] . ''
+                . '<div id="titulolinhatempo">'
+                . '<h3 class="panel-title">Linha do Tempo da AQ</h3></br>'
+                . '</div>'
+                . '<div class="pearls row" id="qualaqtempo">'
+                . '</div>';
+
         return $sResulta;
+    }
+
+    /**
+     * Gerencia estilo de cores do wizard conforme status do projeto
+     * */
+    public function renderTempo($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[0]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        if ($aDados[0] == '') {
+            echo '$("#qualaqtempo").empty();';
+            echo '$("#titulolinhatempo").empty();';
+        } else {
+            $aRetorno = $this->Persistencia->verifSituacoes($aCamposChave);
+
+            if ($aRetorno['sit'] == 'Iniciada') {
+                $sCurrentAq = 'current';
+                $sEstiloAq = 'border-color:blue;color:blue';
+            }
+            if ($aRetorno['sit'] == 'Aberta' && $aRetorno['problema'] == false && $aRetorno['objetivo'] == false) {
+                $sCurrentAq = 'current';
+                $sEstiloAq = 'border-color:orange;color:orange;';
+            }
+            if ($aRetorno['sit'] == 'Aberta' && $aRetorno['problema'] == true && $aRetorno['objetivo'] == true) {
+                $sCurrentAq = 'current';
+                $sEstiloAq = 'border-color:green;color:green';
+            }
+            if ($aRetorno['sit'] == 'Finalizada') {
+                $sCurrentAq = 'current';
+                $sEstiloAq = 'border-color:black;color:black';
+            }
+            //Contenção
+            if ($aRetorno['contencao'] == false && $aRetorno['tipoacao'] == 'Ação Corretiva') {
+                $sCurrentCont = 'current';
+                $sEstiloCont = 'border-color:orange;color:orange';
+                $sContencao = 'Apontamento Pendente';
+            }
+            if ($aRetorno['contencao'] == true || $aRetorno['tipoacao'] == 'Ação Preventiva') {
+                $sCurrentCont = 'current';
+                $sEstiloCont = 'border-color:green;color:green';
+                $sContencao = 'Ação Preventiva ou Finalizadas';
+            }
+            //Correção
+            if ($aRetorno['correcao'] == false && $aRetorno['tipoacao'] == 'Ação Corretiva') {
+                $sCurrentCorr = 'current';
+                $sEstiloCorr = 'border-color:orange;color:orange';
+                $sCorrecao = 'Apontamento Pendente';
+            }
+            if ($aRetorno['correcao'] == true || $aRetorno['tipoacao'] == 'Ação Preventiva') {
+                $sCurrentCorr = 'current';
+                $sEstiloCorr = 'border-color:green;color:green';
+                $sCorrecao = 'Ação Preventiva ou Finalizadas';
+            }
+            //Causa
+            if ($aRetorno['causa'] == false) {
+                $sCurrentCausa = 'current';
+                $sEstiloCausa = 'border-color:orange;color:orange';
+                $sCausa = 'Causas vazias';
+            }
+            if ($aRetorno['causa'] == true) {
+                $sCurrentCausa = 'current';
+                $sEstiloCausa = 'border-color:green;color:green';
+                $sCausa = 'Ao menos uma causa apontada';
+            }
+            //Plano
+            if ($aRetorno['plano'] == true) {
+                $sCurrentPlano = 'current';
+                $sEstiloPlano = 'border-color:green;color:green';
+                $sPlano = 'Finalizados';
+            }
+            if ($aRetorno['plano'] == false) {
+                $sCurrentPlano = 'current';
+                $sEstiloPlano = 'border-color:orange;color:orange';
+                $sPlano = 'Apontamento Pendente';
+            }
+            //Eficácia
+            if ($aRetorno['eficaz'] == false) {
+                $sCurrentEficaz = 'current';
+                $sEstiloEficaz = 'border-color:orange;color:orange';
+                $sEficaz = 'Apontamento Pendente';
+            }
+            if ($aRetorno['eficaz'] == true) {
+                $sCurrentEficaz = 'current';
+                $sEstiloEficaz = 'border-color:green;color:green';
+                $sEficaz = 'Finalizado';
+            }
+
+
+
+            $sLinha = //posição 1 AQ
+                    '<div id="0" class="pearl ' . $sCurrentAq . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloAq . '">'
+                    . '<i class="icon wb-calendar" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Situação da AQ: ' . $aRetorno['sit'] . '</span>'
+                    . '</div>'
+                    //posição 2 Contenção
+                    . '<div id="1" class="pearl ' . $sCurrentCont . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloCont . '">'
+                    . '<i class="icon wb-calendar" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Ação de Contenção: ' . $sContencao . '</span>'
+                    . '</div>'
+                    //posição 3 Correção
+                    . '<div id="2" class="pearl ' . $sCurrentCorr . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloCorr . '">'
+                    . '<i class="icon wb-calendar" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Ação de Correção: ' . $sCorrecao . '</span>'
+                    . '</div>'
+                    //posição 4 Causa
+                    . '<div id="3" class="pearl ' . $sCurrentCausa . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloCausa . '">'
+                    . '<i class="icon wb-calendar" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Causa(s): ' . $sCausa . '</span>'
+                    . '</div>'
+                    //posição 5 Plano de ação
+                    . '<div id="4" class="pearl ' . $sCurrentPlano . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloPlano . '">'
+                    . '<i class="icon wb-calendar" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Plano(s) de Ação: ' . $sPlano . ' </span>'
+                    . '</div>'
+                    //posição 6 Eficáz
+                    . '<div id="5" class="pearl ' . $sCurrentEficaz . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloEficaz . '">'
+                    . '<i class="icon wb-calendar" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Eficácia: ' . $sEficaz . '</span>'
+                    . '</div>';
+
+            $sRender = '$("#qualaqtempo").empty();';
+            $sRender .= '$("#qualaqtempo").append(\'' . $sLinha . '\');';
+            echo $sRender;
+            //coloca o titulo
+            echo '$("#titulolinhatempo").empty();';
+            $sTitulo = '<h3 class="panel-title">Linha do Tempo AQ Nº ' . $aCamposChave['nr'] . '</h3></br>';
+            echo '$("#titulolinhatempo").append(\'' . $sTitulo . '\');';
+        }
     }
 
     public function getUserEmail($sDados) {

@@ -228,13 +228,13 @@ class PersistenciaCadCliRepRec extends Persistencia {
             cclidatlim,cclilimaut,empcar,rh47camisa*/
 )values 
 ('" . $oCliente->getEmpcod() . "',/*cnpj*/
-'" . $oCliente->getEmpdes() . "',/*empdes*/
+'" . Util::limpaString($oCliente->getEmpdes()) . "',/*empdes*/
 '" . $oCliente->getCidcep() . "',/*cep*/
 '" . $oCliente->getEmpcod() . "',/*cnpj novamente*/
 '1753-01-01 00:00:00.000',/*data nula*/
 '" . $sData . "',/*data do cadastro*/
 '" . $sNomeDelsot . "',/*usuário*/
-'" . $oCliente->getEmpfant() . "',/*nome fantasia*/
+'" . Util::limpaString($oCliente->getEmpfant()) . "',/*nome fantasia*/
 '" . $oCliente->getEmpend() . " " . $oCliente->getEmpnr() . "',/*campo endereço*/ 
 '" . $oCliente->getEmpendbair() . "',/*bairro*/
 '" . $oCliente->getEmpfone() . "',/*telefone*/

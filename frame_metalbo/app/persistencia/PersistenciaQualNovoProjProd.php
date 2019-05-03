@@ -217,4 +217,49 @@ class PersistenciaQualNovoProjProd extends Persistencia {
         return $aRetorno;
     }
 
+    public function somaSit() {
+        $sSql = "select COUNT(*) as cont from tbqualnovoprojeto where sitgeralproj = 'Cadastrado'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalCad = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from tbqualnovoprojeto where sitgeralproj = 'Em execução'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalExec = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from tbqualnovoprojeto where sitgeralproj = 'Finalizado'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalFim = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from tbqualnovoprojeto where sitgeralproj = 'Lib.Projetos'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalLibProj = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from tbqualnovoprojeto where sitgeralproj = 'Produzido'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalProd = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from tbqualnovoprojeto where sitgeralproj = 'Representante'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalRep = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from tbqualnovoprojeto where sitgeralproj = 'Reprovado'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalCanc = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from tbqualnovoprojeto where sitgeralproj = 'Expirado'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalExp = $oRow->cont;
+
+        $aTotal['cadastrado'] = $sTotalCad;
+        $aTotal['execucao'] = $sTotalExec;
+        $aTotal['finalizado'] = $sTotalFim;
+        $aTotal['liberadoproj'] = $sTotalLibProj;
+        $aTotal['produzido'] = $sTotalProd;
+        $aTotal['representante'] = $sTotalRep;
+        $aTotal['reprovado'] = $sTotalCanc;
+        $aTotal['expirado'] = $sTotalExp;
+
+        return $aTotal;
+    }
+
 }

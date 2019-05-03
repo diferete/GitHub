@@ -34,12 +34,17 @@ class ViewPnlFinanCot extends View{
         
         
         $oGrid = new Campo('Títulos a receber','rec', Campo::TIPO_GRID,12,12,12,12,250);
+        
         $oDataEmiss = new CampoConsulta('Emissão', 'recdtemiss', CampoConsulta::TIPO_DATA);
+        
         $oSerie = new CampoConsulta('Documento','recdocto');
+        
         $oVenc = new CampoConsulta('Vencimento', 'recprdtpro', CampoConsulta::TIPO_DATA);
+        
         $oVlr = new CampoConsulta('Valor', 'recprvlr', CampoConsulta::TIPO_MONEY);
         $oVlr->setSOperacao('personalizado');
         $oVlr->setSTituloOperacao('Total:');
+        
         $oDiasVenc = new CampoConsulta('Dias para vencer', 'diasvenc');
         $oDiasVenc->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
         $oDiasVenc->addComparacao('0', CampoConsulta::COMPARACAO_MENOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);

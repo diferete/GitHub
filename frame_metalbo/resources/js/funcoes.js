@@ -1242,3 +1242,8 @@ function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
 
     }
 }
+
+/*function fetchdata() {
+    alert('got here');
+    setInterval(fetchdata, 5000);
+}*/

@@ -26,6 +26,7 @@
         <link rel="stylesheet" href="biblioteca/assets/vendor/slidepanel/slidePanel.css">
         <link rel="stylesheet" href="biblioteca/assets/vendor/flag-icon-css/flag-icon.css">
         <link rel="stylesheet" href="biblioteca/assets/examples/css/layouts/panel-transition.css">
+
         <!-- Datatables -->
         <link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">
         <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">		
@@ -37,6 +38,7 @@
         <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
 
         <!-- Scripts -->
+        <script src="biblioteca/ChartJs/Chart.min.js"></script>
         <script src="biblioteca/assets/vendor/modernizr/modernizr.js"></script>
         <script src="biblioteca/assets/vendor/breakpoints/breakpoints.js"></script>
 
@@ -56,8 +58,7 @@
 
 
         <script>
-            Breakpoints();
-        </script>
+                    Breakpoints();</script>
         <style type="text/css">
             nav-tabs>li>a:hover{
                 background-color: #0044cc;
@@ -585,204 +586,11 @@
                             </ul>
                             <div class="tab-content padding-top-15" id="tabmenucont">
 
-                                <div class="tab-pane active" id="tabmenu-1control" role="tabpanel"> <!--NAO PODE REMOVER INÍCIO DA MARCAÇÃO-->
+                                <div class="tab-pane active" id="tabmenu-1control" role="tabpanel"> 
+                                    <!--NAO PODE REMOVER INÍCIO DA MARCAÇÃO-->
+                                    <canvas id="primeiroGrafico"></canvas>
 
-
-                                    <div id="style327115ae71976bad30resize" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-                                        <div id="style129815b8ec1cd94f8dconsulta">
-                                            <div class="row botoes-consulta">
-                                                <div class="btn-toolbar" role="toolbar">
-                                                    <div class="btn-group" role="group">
-                                                        <button title="Adicionar registro" type="button" class="btn btn-icon btn-default btn-outline" name ="style177135b8ec1cd96225"  id="style177135b8ec1cd96225" ><span><i class="icon wb-plus-circle" aria-hidden="true"></i></span></button>
-                                                        <button  title="Alterar registro" type="button" class = "btn btn-icon btn-default btn-outline" id="style51425b8ec1cd965af" disabled><span><i class="icon wb-pencil" aria-hidden="true"></i></span></button>
-                                                        <button  title="Remover registro" type="button" class="btn btn-icon btn-default btn-outline" id="style290795b8ec1cd969bf"  disabled ><span><i class="icon wb-trash" aria-hidden="true"></i></span></button>
-                                                    </div>
-                                                    <button title="Habilita pesquisa" type="button" class="btn btn-icon btn-default btn-outline" id="style39725b8ec1cd96e44" ><span><i class="icon wb-search" aria-hidden="true"></i></span></button>
-                                                </div>
-                                            </div>
-
-                                            <div class="row" id="style327115ae71976bad30-filtros" style="display: none; background-color: whitesmoke">
-                                                <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="style327115ae71976bad30-pesquisa" style=" position: relative; padding: 15px 15px 0px 50px;  background-color: #f3f7fa;  border: 1px solid #eee">
-                                                    <div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">
-                                                        <a href="javascript:void(0)" id ="style327115ae71976bad30-pesq"><span class="ribbon-inner" >Buscar</span></a>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div  class="campo-form col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                                            <div class="input-group" id="style148365ae71976bae68-group">
-                                                                <label for="style148365ae71976bae68">Forno  </label>
-                                                                <select name="forno" class="form-control selectfiltro" id="style148365ae71976bae68" >
-                                                                    <option value="Todos">Todos</option><option value="Forno 1">Forno 1</option>
-                                                                    <option value="Forno 2">Forno 2</option>
-                                                                    <option value="Forno 3">Forno 3</option>
-                                                                    <option value="Forno 4">Forno 4</option>
-                                                                </select>
-                                                            </div>  
-                                                            <script></script> 
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div  class="campo-form col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                                                            <div class="input-group" id="style135975ae71976baeda-group"><label for="style135975ae71976baeda">Situação  </label>
-                                                                <select name="sit" class="form-control selectfiltro" id="style135975ae71976baeda" >
-                                                                    <option value="Todos">Todos</option><option value="Processo">Processo</option>
-                                                                    <option value="Finalizado">Finalizado</option></select></div>  
-                                                            <script></script> 
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                                <script>$("#style327115ae71976bad30-pesquisa :input").keyup(function () {
-                                                        var val = $(this).val();
-                                                        $("#style327115ae71976bad30-pesquisa").each(function () {
-                                                            if (val.length > 2) {
-                                                                sendFiltros("#style327115ae71976bad30-filtros", "MovFornoSteel", "style327115ae71976bad30", "");
-                                                            }
-                                                            if (val.length <= 1) {
-                                                                sendFiltros("#style327115ae71976bad30-filtros", "MovFornoSteel", "style327115ae71976bad30", "");
-                                                            }
-                                                        });
-                                                    });
-                                                    $("#style327115ae71976bad30-pesq").click(function () {
-                                                        sendFiltros("#style327115ae71976bad30-filtros", "MovFornoSteel", "style327115ae71976bad30", "");
-                                                    });
-                                                </script>
-                                            </div>
-                                            <div id="style327115ae71976bad30resize" class="col-lg- col-md-12 col-sm-12 col-xs-12" >
-                                                <div class="label-dark" style="margin-top:10px;"><span class="label label-dark"></span></div>
-                                                <table id="style327115ae71976bad30" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >
-                                                    <thead>
-                                                        <tr role ="row">
-                                                            <th id="testeSelect"><button id='btn-checkbox' class=' btn-checkbox'></button></th>
-                                                            <th>Reg.</th>
-                                                            <th>OP.Steel</th>
-                                                            <th>Código</th>
-                                                            <th>Produto</th>
-                                                            <th>Empresa</th>
-                                                            <th>OP.Cliente</th>
-                                                            <th>Forno</th>
-                                                            <th>Situação</th>
-                                                            <th>Data.Ent</th>
-                                                            <th>Data.Saída</th>
-                                                            <th class="hidden"></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="style327115ae71976bad30body">
-                                                        <tr class="tr-azul dbclick" style="font-size:small;">
-                                                            <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
-                                                            <td class="tr-azul tr-font" >535</td>
-                                                            <td class=" tr-font" >103037</td>
-                                                            <td class=" tr-font" >9705</td>
-                                                            <td class=" tr-font" style="width:300px !important; white-space: nowrap;" >MO-PARAFUSO DE RODA RECART. M22-1.5 X 98/106 RECART.-ENEGRECIDO</td>
-                                                            <td class=" tr-font" style="width:300px !important; white-space: nowrap;" >ZM S.A.</td>
-                                                            <td class=" tr-font" >15-3002203</td>
-                                                            <td class="" ><span class="badge badge-dark">Forno 2</span></td>
-                                                            <td class=" tr-font" >Processo</td>
-                                                            <td class="" >13/04/2018</td>
-                                                            <td class="" ></td>
-                                                            <td class="hidden chave">nr=535</td>
-                                                        </tr>
-                                                        <tr class="tr-azul dbclick" style="font-size:small;">
-                                                            <td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>
-                                                            <td class="tr-azul tr-font" >534</td>
-                                                            <td class=" tr-font" >103059</td>
-                                                            <td class=" tr-font" >7549</td>
-                                                            <td class=" tr-font" style="width:300px !important; white-space: nowrap;" >PARAF SX GR8 UNC R.P 3/4 X 2.1/4 OX</td>
-                                                            <td class=" tr-font" style="width:300px !important; white-space: nowrap;" >METALBO INDUSTRIA DE FIXADORES METALICOS LTDA</td>
-                                                            <td class=" tr-font" >275744</td><td class="" ><span class="badge badge-dark">Forno 4</span></td>
-                                                            <td class=" tr-font" >Processo</td><td class="" >13/04/2018</td>
-                                                            <td class="" ></td><td class="hidden chave">nr=534</td>
-                                                        </tr></tbody>
-                                                </table><div class="panel">
-                                                    <table id="style327115ae71976bad30-summary" class="table table-hover">
-                                                        <tbody><tr class="tr-destaque">
-                                                                <td class="td-destaque"><div class="cor_azul">Útima atualização: </div></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <script>
-                                            $("#btn-checkbox").click(function () {
-                                                //alert("Hi back!");                                                
-                                                var tr = $("#style327115ae71976bad30 tr");
-                                                tr.each(function () {
-                                                    $(this).toggleClass("selected");
-                                                    $("#btn-checkbox").toggleClass("icon wb-check");
-                                                });
-                                            });
-
-
-                                            $("#style327115ae71976bad30").DataTable(
-                                                    {"scrollY": 400,
-                                                        "scrollX": true,
-                                                        "searching": false,
-                                                        "select": true,
-                                                        "paging": false,
-                                                        "order": false,
-                                                        "info": false,
-                                                        fixedColumns: {leftColumns: 2},
-                                                        columnDefs: [{orderable: false,
-                                                                className: "select-checkbox",
-                                                                targets: 0}],
-                                                        select: {style: "os", selector: "td:first-child"}});
-                                            var pressedCtrl = false;
-                                            $(document).keydown(function (e) {
-                                                if (e.which == 17) {
-                                                    pressedCtrl = true;
-                                                }
-                                            });
-                                            $("#style327115ae71976bad30 tbody").on("click", "tr", function () {
-                                                var tr = $("#style327115ae71976bad30 tr");
-                                                if (pressedCtrl != true) {
-                                                    var self = this;
-                                                    tr.each(function () {
-                                                        if (this == self)
-                                                            $(this).toggleClass("selected");
-                                                        else
-                                                            $(this).removeClass("selected");
-                                                    });
-                                                } else {
-                                                    $(this).toggleClass("selected");
-                                                }
-                                            });
-                                            $(document).keyup(function (e) {
-                                                pressedCtrl = false;
-                                            });
-                                            $("#style91065ae71976bb1cf").click(function () {
-                                                $("#style327115ae71976bad30-filtros").toggle();
-                                            });
-                                            $("#style327115ae71976bad30 tbody").on("dblclick", "tr", function () {
-                                                $("#").prop("disabled", false);
-                                                $(this).removeClass("selected");
-                                                $(this).addClass("selected");
-                                                $("#").click();
-                                            });
-                                            $("#style327115ae71976bad30 tbody").click(function () {
-                                                var count = 0;
-                                                $("#").prop("disabled", true);
-                                                $("#").prop("disabled", true);
-                                                $("#").prop("disabled", true);
-                                                $("#style327115ae71976bad30 tbody .selected").each(function () {
-                                                    count++;
-                                                    if (count > 1) {
-                                                        $("#").prop("disabled", true);
-                                                        $("#").prop("disabled", true);
-                                                        $("#").prop("disabled", true);
-                                                    } else {
-                                                        $("#").prop("disabled", false);
-                                                        $("#").prop("disabled", false);
-                                                        $("#").prop("disabled", false);
-                                                    }
-                                                });
-                                            });
-                                            $("#style327115ae71976bad30resize .dataTables_scrollBody").on("scroll", function () {
-                                                if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-                                                    var lastreg = $("#style327115ae71976bad30 tr:last").find(".chave").html();
-                                                    sendFiltros("#style327115ae71976bad30-filtros", "MovFornoSteel", "style327115ae71976bad30", "", true, lastreg, "");
-                                                }
-                                            });
-                                        </script>
-                                    </div><!--final-->
+                                    <!--final-->
                                 </div>
                             </div>
                         </div>
@@ -791,6 +599,25 @@
             </div>
         </div>
 
+        <script>
+                    let primeiroGrafico = document.getElementById('primeiroGrafico').getContext('2d');
+                    let chart = new Chart(primeiroGrafico, {
+                    type: 'line',
+                            data: {
+                            labels: ['2000', '2001', '2002', '2003', '2004', '2005'],
+                                    datasets: [{
+                                    label: 'Crecimento Populacional',
+                                            data: [173448346, 175885229, 178276128, 180619108, 182911487, 185150806],
+                                            backgroundColor: "rgba(255, 34, 0, 0.3)",
+                                            borderColor: "#0000ff"
+                                    },
+                                    {
+                                    label: 'Exemplo de Gráfico Comparativo',
+                                            data: [173448346, 185150806, 175885229, 182911487, 178276128, 180619108],
+                                            backgroundColor: "rgba(0, 255, 0, 0.3)",
+                                            borderColor: "#002200"
+                                    }]}
+                    });        </script>
 
 
         <script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>

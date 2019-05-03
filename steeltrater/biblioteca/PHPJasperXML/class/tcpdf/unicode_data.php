@@ -5,7 +5,7 @@
 // Begin       : 2008-01-01
 // Last Update : 2011-10-01
 // Author      : Nicola Asuni - Tecnick.com LTD - Manor Coach House, Church Hill, Aldershot, Hants, GU12 4RQ, UK - www.tecnick.com - info@tecnick.com
-// License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
+// License     : GNU-LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
 // -------------------------------------------------------------------
 // Copyright (C) 2008-2012  Nicola Asuni - Tecnick.com LTD
 //
@@ -22,7 +22,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with TCPDF.  If not, see <http://www.gnu.org/licenses/>.
+// along with TCPDF.  If not, see <https://www.gnu.org/licenses/>.
 //
 // See LICENSE.TXT file for more information.
 // -------------------------------------------------------------------
@@ -112,7 +112,7 @@ public $uni_RE_PATTERN_RTL = "/(
 	)/x";
 
 /**
- * Pattern to test Arabic strings using regular expressions. Source: http://www.w3.org/International/questions/qa-forms-utf-8
+ * Pattern to test Arabic strings using regular expressions. Source: https://www.w3.org/International/questions/qa-forms-utf-8
  * @public
  */
 public $uni_RE_PATTERN_ARABIC = "/(
@@ -17865,7 +17865,7 @@ public $uni_type = array(
 );
 
 /**
- * Mirror unicode characters. For information on bidi mirroring, see UAX #9: Bidirectional Algorithm, at http://www.unicode.org/unicode/reports/tr9/
+ * Mirror unicode characters. For information on bidi mirroring, see UAX #9: Bidirectional Algorithm, at https://www.unicode.org/unicode/reports/tr9/
  * @public
  */
 public $uni_mirror = array (

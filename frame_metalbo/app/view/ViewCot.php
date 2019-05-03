@@ -11,7 +11,7 @@ class ViewCot extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        
+
 
         $oNr = new CampoConsulta('Cotação', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(50);
@@ -75,6 +75,8 @@ class ViewCot extends View {
 
     public function criaTela() {
         parent::criaTela();
+
+        $sAcaoRotina = $this->getSRotina();
 
         $this->setTituloTela('Inclusão de cotações de venda!');
 
@@ -169,9 +171,13 @@ class ViewCot extends View {
         $oObs->setSValor(' ');
         $oObs->setICaracter(300);
 
-        $oQtExata = new Campo('Quantidade exata', 'qtexata', Campo::TIPO_SELECT, 4);
+        $oQtExata = new Campo('Quantidade exata', 'qtexata', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oQtExata->addItemSelect('N', 'CLIENTE NÃO SOLICITA QUANTIDADES EXATAS');
         $oQtExata->addItemSelect('S', 'CLIENTE SOLICITA QUANTIDADE EXATAS');
+
+        $oAtencao = new Campo('Atenção à seleção', '', Campo::TIPO_BADGE, 1);
+        $oAtencao->setSEstiloBadge(Campo::BADGE_DANGER);
+        $oAtencao->setApenasTela(true);
 
         $oDataEnt = new Campo('Data entrega', 'dtent', Campo::TIPO_DATA, 2);
         $oDataEnt->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -222,20 +228,22 @@ class ViewCot extends View {
         $oEmail->setSValor('NV');
         $oEmail->setBOculto(true);
 
-        //monta campo de controle para inserir ou alterar
-        $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
-        $oAcao->setApenasTela(true);
-        if ($this->getSRotina() == View::ACAO_INCLUIR) {
-            $oAcao->setSValor('incluir');
+
+        if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
+            //monta campo de controle para inserir ou alterar
+            $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
+            $oAcao->setApenasTela(true);
+            if ($this->getSRotina() == View::ACAO_INCLUIR) {
+                $oAcao->setSValor('incluir');
+            } else {
+                $oAcao->setSValor('alterar');
+            }
+            $this->setSIdControleUpAlt($oAcao->getId());
+
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRed, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oAcao, $oSituaca);
         } else {
-            $oAcao->setSValor('alterar');
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRed, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oSituaca);
         }
-        $this->setSIdControleUpAlt($oAcao->getId());
-
-
-
-
-        $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRed, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, $oSituaca, $oQtExata, $oDataEnt, array($oContato, $oEmail), $oAcao);
     }
 
 }

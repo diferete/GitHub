@@ -18,10 +18,14 @@ class ViewMET_PORT_Colaboradores extends View {
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
+         $this->getTela()->setBGridResponsivo(false);
         
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
+
         $oExcluir = new Dropdown('Excluir', Dropdown::TIPO_AVISO, Dropdown::ICON_PADRAO);
         $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Colaboradores', 'excluirRegistro', '', false, '', false, '', false, '');
-        
+
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
@@ -67,6 +71,8 @@ class ViewMET_PORT_Colaboradores extends View {
 
 
         ///////////////////////////////////Filtros///////////////////////////////
+        $oFilData = new Filtro($oDataChegou, Filtro::CAMPO_DATA_ENTRE);
+
         $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12);
 
         $oFilNR = new Filtro($oNr, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12);
@@ -84,7 +90,7 @@ class ViewMET_PORT_Colaboradores extends View {
         $oFilMotivo->setSLabel('Motivo');
 
         $this->addDropdown($oExcluir);
-        $this->addFiltro($oFilNR, $oFilCracha, $oFilColaborador, $oFilMotivo);
+        $this->addFiltro($oFilNR, $oFilCracha, $oFilColaborador, $oFilData, $oFilMotivo);
         $this->addCampos($oBotaoModal, $oNr, $oSituaca, $oPessoa, $oCracha, $oMotivo, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntra, $oDataSaida, $oHoraSaida);
     }
 
@@ -290,8 +296,8 @@ class ViewMET_PORT_Colaboradores extends View {
 
         $this->addCampos(array($oNr, $oCracha, $oEmpresa, $oMotivo), $oDescMotivo, $oDivisor1, array($oDataSaida, $oHoraSaida, $oFilcgc), $oLinha, $oBtnInserir);
     }
-    
-     public function relColaboradores() {
+
+    public function relColaboradores() {
         parent::criaTelaRelatorio();
 
         $this->setTituloTela('Relatório de Colaboradores');
@@ -315,7 +321,7 @@ class ViewMET_PORT_Colaboradores extends View {
         $oMotivo->addItemSelect('3', 'Atraso');
         $oMotivo->addItemSelect('4', 'Saída');
         $oMotivo->addItemSelect('5', 'Outro');
-        
+
         $oCracha = new campo('Cracha', 'numcad', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCracha->setITamanho(Campo::TAMANHO_PEQUENO);
 
@@ -329,16 +335,16 @@ class ViewMET_PORT_Colaboradores extends View {
         $oCracha->setClasseBusca('MET_CAD_Funcionarios');
         $oCracha->setSCampoRetorno('numcad', $this->getTela()->getId());
         $oCracha->addCampoBusca('nomfun', $oPessoa->getId(), $this->getTela()->getId());
-        
-        $oSituacao = new Campo('Situação','situacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
+
+        $oSituacao = new Campo('Situação', 'situacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oSituacao->addItemSelect('', 'Todas');
         $oSituacao->addItemSelect('Chegada', 'Chegada');
         $oSituacao->addItemSelect('Entrada', 'Entrada');
         $oSituacao->addItemSelect('Saída', 'Saída');
-        
+
         $oL = new Campo('', '', Campo::TIPO_LINHABRANCO);
-        
-        $this->addCampos(array($oMotivo, $oDataIni, $oDataFin),$oL, array($oCracha,$oPessoa),$oL, $oSituacao);
+
+        $this->addCampos(array($oMotivo, $oDataIni, $oDataFin), $oL, array($oCracha, $oPessoa), $oL, $oSituacao);
     }
 
 }

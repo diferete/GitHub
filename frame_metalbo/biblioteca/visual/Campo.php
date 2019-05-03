@@ -72,7 +72,7 @@ class Campo {
     private $iMarginTop;
     private $bDesativado; //se true o botão estará bloqueado para o click
     private $sFont;
-    private $sClasseUp;//define a classe do campo upload
+    private $sClasseUp; //define a classe do campo upload
     private $sMetodoUp; //define o método para upload
     private $sTituloModal;
     private $sNomeModal;
@@ -108,15 +108,12 @@ class Campo {
     const CAMPO_SELECTSIMPLE = 28;
     const TIPO_DECIMAL = 29;
     const TIPO_HISTORICO = 30;
-    
     const DIVISOR_SUCCESS = 31;
     const DIVISOR_VERMELHO = 32;
     const DIVISOR_INFO = 33;
     const DIVISOR_WARNING = 34;
     const DIVISOR_DARK = 35;
-    
     const TIPO_TAGS = 36;
-    
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
@@ -192,7 +189,7 @@ class Campo {
         $this->aCabGridView = array(); //define cabeçalhos do grid vies
         $this->aLinhasGridView = array(); //define as linhas dos grids
         $this->aValorGridView = array();
-        
+
 
         switch ($this->iTipo) {
             case self::TIPO_BOTAOSMALL:
@@ -217,7 +214,7 @@ class Campo {
                 break;
         }
     }
-    
+
     function getSNomeModal() {
         return $this->sNomeModal;
     }
@@ -226,7 +223,6 @@ class Campo {
         $this->sNomeModal = $sNomeModal;
     }
 
-        
     function getSTituloModal() {
         return $this->sTituloModal;
     }
@@ -235,7 +231,6 @@ class Campo {
         $this->sTituloModal = $sTituloModal;
     }
 
-        
     function getBNCM() {
         return $this->bNCM;
     }
@@ -244,7 +239,6 @@ class Campo {
         $this->bNCM = $bNCM;
     }
 
-    
     function getSClasseUp() {
         return $this->sClasseUp;
     }
@@ -261,7 +255,7 @@ class Campo {
         $this->sMetodoUp = $sMetodoUp;
     }
 
-        function getSFont() {
+    function getSFont() {
         return $this->sFont;
     }
 
@@ -1277,7 +1271,6 @@ class Campo {
         }
     }
 
-    
     public function setExtensoesPermitidas() {
         $aExtensoes = func_get_args();
         $iCount = 0;
@@ -1435,7 +1428,7 @@ class Campo {
                             . '$("#' . $this->getId() . ' ").mask("99:99");'
                             . '</script>';
                 }
-                if($this->getBNCM()){
+                if ($this->getBNCM()) {
                     $sCampo .= '<script>'
                             . '$("#' . $this->getId() . ' ").mask("9999.99.99-999");'
                             . '</script>';
@@ -1549,7 +1542,7 @@ class Campo {
                         . $this->getExtensoes($this->getSExtensaoPermitidas())
                         . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
                         . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
-                        . 'uploadUrl: "index.php?classe='.$this->getSClasseUp().'&metodo='.$this->getSMetodoUp().'&nome=' . $this->getNome() . '", ' // url do arquivo php, que fara a cópia para o server
+                        . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '", ' // url do arquivo php, que fara a cópia para o server
                         . 'overwriteInitial: true, '
                         . 'initialCaption: "Selecione um arquivo...", '
                         . 'uploadAsync: true, '
@@ -1721,27 +1714,24 @@ class Campo {
                         . '<div class="form-group"> '
                         . '  <select class="form-control" multiple="" id="' . $this->getId() . 'select"> '
                         . '  </select> '
-                      //  .'<h6 style="margin-top:1px"><a href="#"> Pesquisar...</a></h6>'
-                       //------------------------------------------------------------------------
-                       
+                        //  .'<h6 style="margin-top:1px"><a href="#"> Pesquisar...</a></h6>'
+                        //------------------------------------------------------------------------
                         . '<div id="' . $this->getId() . '-refreshPainel" class="panel " style="margin-bottom: 0px !important;margin-top: 1px !important;">'
                         . '<div class="panel-heading" style="height:22px;">'
                         . '<div class="panel-title"><div style="float: right"><a href="#" id="' . $this->getId() . '-refresh" style="margin-right:5px;">Atualizar</a><a class="panel-action icon wb-refresh" data-toggle="panel-refresh" data-load-type="round-circle" data-load-callback="customRefreshCallback" aria-hidden="true"></a></div></div>'
-                        .'<script>'
-                          .'$( "#' . $this->getId() . '-refreshPainel").hide();'
-                          . '$( "#' . $this->getId() . '-refresh").click(function(){'
-                            . ' requestAjax("","' . $this->getClasseBusca() . '","getDadosBuscaCampo",$("#' . $this->getId() . '").val()+",' . $sCampoBuscaDesc . ',' . $sCampoBuscaPk . ',' . $this->getId() . 'select",false,true);'
-                          .'});'
-                        
-                        .'</script>'
+                        . '<script>'
+                        . '$( "#' . $this->getId() . '-refreshPainel").hide();'
+                        . '$( "#' . $this->getId() . '-refresh").click(function(){'
+                        . ' requestAjax("","' . $this->getClasseBusca() . '","getDadosBuscaCampo",$("#' . $this->getId() . '").val()+",' . $sCampoBuscaDesc . ',' . $sCampoBuscaPk . ',' . $this->getId() . 'select",false,true);'
+                        . '});'
+                        . '</script>'
                         . '</div>'
                         . '</div>'
-                        
-                        
+
+
                         //-----------------------------------------------------------------------
                         . '</div> '
-                       //----------------------------------------------------
-                        
+                        //----------------------------------------------------
                         . '</span> '
                         . '<script>'
                         . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
@@ -1750,7 +1740,7 @@ class Campo {
                         . '  $("#' . $this->getId() . 'select").hide();'
                         . '  $("#' . $this->getId() . '").keyup(function(){'
                         . '  $("#' . $this->getId() . 'select").show();'
-                        .'   $( "#' . $this->getId() . '-refreshPainel").show();'
+                        . '   $( "#' . $this->getId() . '-refreshPainel").show();'
                         . 'var val=0;'
                         . 'val =$(this).val(); '
                         . 'if(val.length > 3){     '
@@ -1774,7 +1764,7 @@ class Campo {
                         . '$("#' . $this->getId() . '").val(texto); '
                         . '});'
                         . '$("#' . $this->getId() . 'select").blur(function(){'
-                        .'$( "#' . $this->getId() . '-refreshPainel").hide();'
+                        . '$( "#' . $this->getId() . '-refreshPainel").hide();'
                         . '$(this).hide(); '
                         . 'var revalida = $("#' . $this->getSIdPk() . '").attr("name");'
                         //.'alert("nome revalida é "+revalida);'
@@ -1809,44 +1799,44 @@ class Campo {
                         . $this->getAcaoExitCampoBanco()
                         . '</script>'
                         . $this->getRenderEventos();
-                        if ($this->getBCNPJ()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . '").mask("99.999.999/9999-99");'
-                                   . '</script>';
-                       }
-                       if ($this->getBCPF()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . ' ").mask("999.999.999-99");'
-                                   . '</script>';
-                       }
-                       if ($this->getBCEP()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . '  ").mask("99.999-999");'
-                                   . '</script>';
-                       }
-                       if ($this->getBFone()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . '  ").mask("(99) 9999-9999");'
-                                   . '</script>';
-                       }
-                       if ($this->getBOculto()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . '").hide();'
-                                   . '</script>';
-                       }
-                       if ($this->getBTime()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . ' ").mask("99:99");'
-                                   . '</script>';
-                       }
-                       if($this->getBNCM()){
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . ' ").mask("9999.99.99-999");'
-                                   . '</script>';
-                       }  //7318.24.00-000
-                       break;
+                if ($this->getBCNPJ()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '").mask("99.999.999/9999-99");'
+                            . '</script>';
+                }
+                if ($this->getBCPF()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("999.999.999-99");'
+                            . '</script>';
+                }
+                if ($this->getBCEP()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '  ").mask("99.999-999");'
+                            . '</script>';
+                }
+                if ($this->getBFone()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '  ").mask("(99) 9999-9999");'
+                            . '</script>';
+                }
+                if ($this->getBOculto()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '").hide();'
+                            . '</script>';
+                }
+                if ($this->getBTime()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("99:99");'
+                            . '</script>';
+                }
+                if ($this->getBNCM()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("9999.99.99-999");'
+                            . '</script>';
+                }  //7318.24.00-000
+                break;
             case self::TIPO_BADGE:
-                $sCampo = '<div style="margin-top:0px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                $sCampo = '<div style="margin-top:25px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<span id="' . $this->getId() . '" name="' . $this->getNome() . '" class="label label-round ' . $this->getSEstiloBadge() . '">' . $this->getLabel() . '</span> '
                         . '</div>';
                 break;
@@ -2003,7 +1993,7 @@ class Campo {
                         . '</div>  ';
                 break;
             case self::CAMPO_SELECTSIMPLE:
-                $sCampo = '<div style="margin-top:8px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
                         . '<select name="' . $this->getNome() . '" class="form-control input-sm" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';

@@ -44,6 +44,7 @@ class ViewQualRncAnalise extends View {
         $oReclamacao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
         $oReclamacao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oReclamacao->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao->addComparacao('Interna', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA);
         $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oReclamacao->setBComparacaoColuna(true);
 
@@ -237,7 +238,7 @@ class ViewQualRncAnalise extends View {
 
         $oApontamento = new campo('Apontar análise', 'apontamento', Campo::TIPO_TEXTAREA, 12);
         $oApontamento->setILinhasTextArea(8);
-        $oApontamento->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+        $oApontamento->addValidacao(false, Validacao::TIPO_STRING, '', '2','999');
 
         $oUsuAponta = new campo('Usuário', 'usuaponta', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oUsuAponta->setSValor($_SESSION['nome']);

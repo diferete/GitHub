@@ -30,7 +30,17 @@ class Controller {
     private $sMsgErroBusca;
     private $bDesativaBotaoPadrao;
     private $paramaux;
+    private $bPesqScroll;
+    
+    function getBPesqScroll() {
+        return $this->bPesqScroll;
+    }
 
+    function setBPesqScroll($bPesqScroll) {
+        $this->bPesqScroll = $bPesqScroll;
+    }
+
+    
     function getParamaux() {
         return $this->paramaux;
     }
@@ -1692,8 +1702,9 @@ class Controller {
      * Scroll infinito
      */
     public function getDadosScroll($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false) {
+        $this->setBPesqScroll(true);
         $this->getDadosConsulta($sDadosReload, $bReload, $sCampoConsulta, $aColuna, $bGridCampo, true);
-    }
+     }
 
     /**
      * método para chamar a o getdadosconsulta com o array de camposconsulta
@@ -1972,8 +1983,13 @@ class Controller {
         if ($iTotalFiltro >= $this->Persistencia->getITop()) {
             $iTotalFiltro = $this->Persistencia->getITop();
         }
-        $this->Persistencia->limpaFiltro();
+        //caso pesquisa por scroll limpa os filtros*teria q limpar o filtro <
+        if($this->getBPesqScroll()){
+           $this->Persistencia->limpaFiltro(); 
+        }
         $iTotalReg = $this->Persistencia->getCount();
+        $this->Persistencia->limpaFiltro();
+        
         //define se o $sDadosReload != null é atualização se não e nova tela
         if ($sDadosReload !== NULL) {
             //pegar id da tr
@@ -2780,7 +2796,7 @@ class Controller {
 
                 break;
             case 'alterar':
-                $this->acaoAlterar($sDados, true);
+            $this->acaoAlterar($sDados, true);
 
                 break;
 
@@ -2917,7 +2933,7 @@ class Controller {
         if ($aRetorno[0]) {
             $aRetorno = $this->afterInsert();
             $this->Persistencia->commit();
-             $this->afterCommitInsert();
+            $this->afterCommitInsert();
         }
         //muda variável de controle para alterar
         $setAlt = "$('#" . $aDados[6] . "').val('alterar');";
@@ -3293,7 +3309,7 @@ class Controller {
         }
 
         $this->Persistencia->iniciaTransacao();
-
+       
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {

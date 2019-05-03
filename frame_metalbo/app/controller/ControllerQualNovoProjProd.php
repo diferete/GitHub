@@ -48,7 +48,6 @@ class ControllerQualNovoProjProd extends Controller {
         $this->View->getTela()->getRender();
     }
 
-  
     public function beforeUpdate() {
         parent::beforeUpdate();
 
@@ -211,7 +210,13 @@ class ControllerQualNovoProjProd extends Controller {
     public function calculoPersonalizado($sParametros = null) {
         parent::calculoPersonalizado($sParametros);
 
-        $sResulta = '<div id="titulolinhatempo">'
+        $sEmpresa = $_SESSION['filcgc'];
+        $aTotal = $this->Persistencia->somaSit($sEmpresa);
+
+        $sResulta = '<div style="color:#E19D12 !important">Em Execução: ' .$aTotal['execucao']. '</div>'
+                . '<div style="color:red !important">Total Reprovados: ' . $aTotal['reprovado'] . '</div>'
+                . 'Total finalizados: ' . $aTotal['finalizado'] . ''
+                . '<div id="titulolinhatempo">'
                 . '<h3 class="panel-title">Linha do Tempo dos Projetos</h3></br>'
                 . '</div>'
                 . '<div class="pearls row" id="qualnovoprojprodtempo">'
@@ -229,106 +234,111 @@ class ControllerQualNovoProjProd extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-        $oRetorno = $this->Persistencia->verifSitProj($aCamposChave);
+        if ($aDados[0] == '') {
+            echo '$("#qualnovoprojprodtempo").empty();';
+            echo '$("#titulolinhatempo").empty();';
+        } else {
+            $oRetorno = $this->Persistencia->verifSitProj($aCamposChave);
 
 
-        if ($oRetorno->sitproj == 'Aprovado') {
-            $scurrentProj = 'current';
-            $sEstiloProj = 'border-color:#2eb82e;color:#2eb82e';
-        }
-        if ($oRetorno->sitproj == 'Reprovado') {
-            $scurrentProj = 'current';
-            $sEstiloProj = 'border-color:#F00;color:#F00;';
-        }
-        if ($oRetorno->sitproj == 'Lib.Projetos') {
-            $scurrentProj = 'current';
-            $sEstiloProj = 'border-color:#62a8ea;color:#62a8ea';
-        }
-        if ($oRetorno->sitvendas == 'Aprovado') {
-            $scurrentVenda = 'current';
-            $sEstiloVenda = 'border-color:#2eb82e;color:#2eb82e;';
-        }
-        if ($oRetorno->sitvendas == 'Reprovado') {
-            $scurrentVenda = 'current';
-            $sEstiloVenda = 'border-color:#f00;color:#f00;';
-        }
-        if ($oRetorno->sitvendas == 'Aguardando') {
-            $scurrentVenda = 'current';
-            $sEstiloVenda = 'border-color:#8B2252;color:#8B2252;';
-        }
-        if ($oRetorno->sitcliente == 'Aprovado') {
-            $scurrentCli = 'current';
-            $sEstiloCli = 'border-color:#2eb82e;color:#2eb82e;';
-        }
-        if ($oRetorno->sitcliente == 'Expirado') {
-            $scurrentCli = 'current';
-            $sEstiloCli = 'border-color:#E19D12;color:#E19D12;';
-        }
-        if ($oRetorno->sitcliente == 'Reprovado') {
-            $scurrentCli = 'current';
-            $sEstiloCli = 'border-color:#f00;color:#f00;';
-        }
-        if ($oRetorno->dataprod == true) {
-            $scurrentCad = 'current';
-            $sEstiloProd = 'border-color:#2eb82e;color:#2eb82e;';
-            $ssitCad = 'Cadastrado';
-        }
-        if ($oRetorno->sitproj == 'Cód. enviado') {
-            $scurrentProj = 'current';
-            $sEstiloProj = 'border-color:#2eb82e;color:#2eb82e';
-            $ssitCad = 'Cód. enviado';
-        }
-        if ($oRetorno->valodter == true) {
-            $scurrentResp = 'current';
-            $sEstiloFim = 'border-color:#2eb82e;color:#2eb82e;';
-            $ssitProjProd = 'Produzido';
-        }
-        if ($oRetorno->valpedter == true) {
-            $scurrentResp = 'current';
-            $sEstiloFim = 'border-color:#2eb82e;color:#2eb82e;';
-            $ssitProjProd = 'Faturado';
-        }
+            if ($oRetorno->sitproj == 'Aprovado') {
+                $scurrentProj = 'current';
+                $sEstiloProj = 'border-color:#2eb82e;color:#2eb82e';
+            }
+            if ($oRetorno->sitproj == 'Reprovado') {
+                $scurrentProj = 'current';
+                $sEstiloProj = 'border-color:#F00;color:#F00;';
+            }
+            if ($oRetorno->sitproj == 'Lib.Projetos') {
+                $scurrentProj = 'current';
+                $sEstiloProj = 'border-color:#62a8ea;color:#62a8ea';
+            }
+            if ($oRetorno->sitvendas == 'Aprovado') {
+                $scurrentVenda = 'current';
+                $sEstiloVenda = 'border-color:#2eb82e;color:#2eb82e;';
+            }
+            if ($oRetorno->sitvendas == 'Reprovado') {
+                $scurrentVenda = 'current';
+                $sEstiloVenda = 'border-color:#f00;color:#f00;';
+            }
+            if ($oRetorno->sitvendas == 'Aguardando') {
+                $scurrentVenda = 'current';
+                $sEstiloVenda = 'border-color:#8B2252;color:#8B2252;';
+            }
+            if ($oRetorno->sitcliente == 'Aprovado') {
+                $scurrentCli = 'current';
+                $sEstiloCli = 'border-color:#2eb82e;color:#2eb82e;';
+            }
+            if ($oRetorno->sitcliente == 'Expirado') {
+                $scurrentCli = 'current';
+                $sEstiloCli = 'border-color:#E19D12;color:#E19D12;';
+            }
+            if ($oRetorno->sitcliente == 'Reprovado') {
+                $scurrentCli = 'current';
+                $sEstiloCli = 'border-color:#f00;color:#f00;';
+            }
+            if ($oRetorno->dataprod == true) {
+                $scurrentCad = 'current';
+                $sEstiloProd = 'border-color:#2eb82e;color:#2eb82e;';
+                $ssitCad = 'Cadastrado';
+            }
+            if ($oRetorno->sitproj == 'Cód. enviado') {
+                $scurrentProj = 'current';
+                $sEstiloProj = 'border-color:#2eb82e;color:#2eb82e';
+                $ssitCad = 'Cód. enviado';
+            }
+            if ($oRetorno->valodter == true) {
+                $scurrentResp = 'current';
+                $sEstiloFim = 'border-color:#2eb82e;color:#2eb82e;';
+                $ssitProjProd = 'Produzido';
+            }
+            if ($oRetorno->valpedter == true) {
+                $scurrentResp = 'current';
+                $sEstiloFim = 'border-color:#2eb82e;color:#2eb82e;';
+                $ssitProjProd = 'Faturado';
+            }
 
 
 
-        $sLinha = '<div id="0" class="pearl ' . $scurrentProj . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
-                . '<div class="pearl-icon" style="' . $sEstiloProj . '">'
-                . '<i class="icon wb-calendar" aria-hidden="true"></i>'
-                . '</div>'
-                . '<span class="pearl-title" style="font-size:12px">Projetos: ' . $oRetorno->sitproj . '</span>'
-                . '</div>'
-                . '<div id="1" class="pearl ' . $scurrentVenda . '  col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
-                . '<div class="pearl-icon" style="' . $sEstiloVenda . '">'
-                . '<i class="icon wb-check" aria-hidden="true"></i>'
-                . '</div>'
-                . '<span class="pearl-title" style="font-size:12px">Vendas: ' . $oRetorno->sitvendas . '</span>'
-                . '</div>'
-                . '<div id="2" class="pearl ' . $scurrentCli . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
-                . '<div class="pearl-icon" style="' . $sEstiloCli . '">'
-                . '<i class="icon wb-check" aria-hidden="true"></i>'
-                . '</div>'
-                . '<span class="pearl-title" style="font-size:12px">Cliente: ' . $oRetorno->sitcliente . '</span>'
-                . '</div>'
-                . '<div id="3" class="pearl ' . $scurrentCad . '  col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
-                . '<div class="pearl-icon" style="' . $sEstiloProd . '">'
-                . '<i class="icon wb-check" aria-hidden="true"></i>'
-                . '</div>'
-                . '<span class="pearl-title" style="font-size:12px">Cadastro: ' . $ssitCad . '</span>'
-                . '</div>'
-                . '<div id="4" class="pearl ' . $scurrentResp . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
-                . '<div class="pearl-icon" style="' . $sEstiloFim . '">'
-                . '<i class="icon wb-check" aria-hidden="true"></i>'
-                . '</div>'
-                . '<span class="pearl-title" style="font-size:12px">Produto: ' . $ssitProjProd . '</span>'
-                . '</div>';
+            $sLinha = '<div id="0" class="pearl ' . $scurrentProj . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloProj . '">'
+                    . '<i class="icon wb-calendar" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Projetos: ' . $oRetorno->sitproj . '</span>'
+                    . '</div>'
+                    . '<div id="1" class="pearl ' . $scurrentVenda . '  col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloVenda . '">'
+                    . '<i class="icon wb-check" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Vendas: ' . $oRetorno->sitvendas . '</span>'
+                    . '</div>'
+                    . '<div id="2" class="pearl ' . $scurrentCli . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloCli . '">'
+                    . '<i class="icon wb-check" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Cliente: ' . $oRetorno->sitcliente . '</span>'
+                    . '</div>'
+                    . '<div id="3" class="pearl ' . $scurrentCad . '  col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloProd . '">'
+                    . '<i class="icon wb-check" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Cadastro: ' . $ssitCad . '</span>'
+                    . '</div>'
+                    . '<div id="4" class="pearl ' . $scurrentResp . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    . '<div class="pearl-icon" style="' . $sEstiloFim . '">'
+                    . '<i class="icon wb-check" aria-hidden="true"></i>'
+                    . '</div>'
+                    . '<span class="pearl-title" style="font-size:12px">Produto: ' . $ssitProjProd . '</span>'
+                    . '</div>';
 
-        $sRender = '$("#qualnovoprojprodtempo").empty();';
-        $sRender .= '$("#qualnovoprojprodtempo").append(\'' . $sLinha . '\');';
-        echo $sRender;
-        //coloca o titulo
-        echo '$("#titulolinhatempo").empty();';
-        $sTitulo = '<h3 class="panel-title">Linha do Tempo Projeto Nº ' . $aCamposChave['nr'] . '</h3></br>';
-        echo '$("#titulolinhatempo").append(\'' . $sTitulo . '\');';
+            $sRender = '$("#qualnovoprojprodtempo").empty();';
+            $sRender .= '$("#qualnovoprojprodtempo").append(\'' . $sLinha . '\');';
+            echo $sRender;
+            //coloca o titulo
+            echo '$("#titulolinhatempo").empty();';
+            $sTitulo = '<h3 class="panel-title">Linha do Tempo Projeto Nº ' . $aCamposChave['nr'] . '</h3></br>';
+            echo '$("#titulolinhatempo").append(\'' . $sTitulo . '\');';
+        }
     }
 
     /**
@@ -358,6 +368,7 @@ class ControllerQualNovoProjProd extends Controller {
             $this->View->getTela()->getRender();
         } else {
             $oMensagem = new Modal('Atenção', 'Produto não cadastrado', Modal::TIPO_ERRO, false, true, true);
+            echo '$("#' . $aDados[1] . '-btn").click();';
             echo $oMensagem->getRender();
         }
     }
