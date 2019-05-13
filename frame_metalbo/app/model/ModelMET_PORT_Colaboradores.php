@@ -47,11 +47,11 @@ class ModelMET_PORT_Colaboradores {
     }
 
     function getCracha() {
-        return $this->cracha;
+        return str_pad($this->cracha , 4 , '0' , STR_PAD_LEFT);
     }
 
     function setCracha($cracha) {
-        $this->cracha = $cracha;
+        $this->cracha = str_pad($cracha, 4 , '0' , STR_PAD_LEFT);
     }
 
     function getFilcgc() {

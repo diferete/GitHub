@@ -557,4 +557,8 @@ class ControllerQualAq extends Controller {
         require 'app/relatorio/AqImp.php';
     }
 
+    public function relAcaoQualidade($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'relAcaoQualidade');
+    }
+    
 }

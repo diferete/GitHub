@@ -94,7 +94,7 @@ class ViewQualAq extends View {
           $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Apontar avaliação da eficácia', 'QualAqEficazApont', 'acaoMostraTelaApontdiv', '', true, '');
          * 
          */
-
+        
         $oDrop3 = new Dropdown('Movimentação', Dropdown::TIPO_DARK);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Iniciar ação da qualidade', 'QualAq', 'startAq', '', false, '');
         //$oDrop3->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Finalizar ação da qualidade', 'QualAq', 'msgFechaAq', '', false, ''); //msgAbreAq
@@ -249,7 +249,7 @@ class ViewQualAq extends View {
         $oDataIni->setSValor(date('d/m/Y'));
 
         /* $oDataFinal = new campo('Data Prevista', 'datafim', Campo::TIPO_DATA, 2, 6, 6, 6);
-          $oDataFinal->setSValor(date('d/m/Y'));
+        $oDataFinal->setSValor(date('d/m/Y'));
          */
 
         $oTipoAcao = new campo('Tipo da ação', 'tipoacao', Campo::TIPO_SELECT, 4, 12, 12, 12);
@@ -361,4 +361,55 @@ class ViewQualAq extends View {
         $this->addCampos(array($oFilcgc, $oNr, $oResponsavel), $oTitulo, array($oDtCancela, $oUsuCancela), $oObsCancela, $oBtnInserir);
     }
 
+    public function relAcaoQualidade() {
+        parent::criaTelaRelatorio();
+
+        $this->setTituloTela('Relatório de Ações da Qualidade');
+        $this->setBTela(true);
+
+        $oDivisor1 = new Campo('Situações por Setor', 'divisor1', Campo::DIVISOR_INFO, 12, 12, 12, 12);
+        $oDivisor1->setApenasTela(TRUE);
+
+        $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
+
+        $oDataFin = new Campo('Data Final', 'datafim', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataFin->setSValor(date('d/m/Y'));
+
+        $oSituacao = new Campo ('Situação da Ação', 'situacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oSituacao->addItemSelect('T', 'Todas');
+        $oSituacao->addItemSelect('A', 'Aberta');
+        $oSituacao->addItemSelect('F', 'Finalizada');
+        
+        $oSituacao2 = new Campo ('Situação do Plano de Ação', 'situacao2', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oSituacao2->addItemSelect('T', 'Todos');
+        $oSituacao2->addItemSelect('A', 'Aberto');
+        $oSituacao2->addItemSelect('F', 'Finalizado');
+        
+        $oVencidos = new Campo('Atraso', 'vencido', Campo::TIPO_CHECK, 1,1,12,12);
+                
+        $oSetor = new campo('Setor', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+
+        $oSetorDes = new Campo('Descrição', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oSetorDes->setSIdPk($oSetor->getId());
+        $oSetorDes->setClasseBusca('Setor');
+        $oSetorDes->addCampoBusca('codsetor', '', '');
+        $oSetorDes->addCampoBusca('descsetor', '', '');
+        $oSetorDes->setSIdTela($this->getTela()->getid());
+
+        $oSetor->setClasseBusca('Setor');
+        $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
+        $oSetor->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
+        
+        $oTipoAcao = new campo('Tipo da ação', 'tipoacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oTipoAcao->addItemSelect('T', 'Todas');
+        $oTipoAcao->addItemSelect('Ação Corretiva', 'Ação Corretiva');
+        $oTipoAcao->addItemSelect('Ação Preventiva', 'Ação Preventiva');
+        
+        $olinha = new Campo('', 'linha1', Campo::TIPO_LINHABRANCO);
+        $olinha->setApenasTela(true);
+        
+        $this->addCampos(array($oSetor,$oSetorDes), $olinha,array($oDataIni, $oDataFin),$olinha,array($oSituacao,$oTipoAcao),$olinha,$oSituacao2,$oVencidos);
+        
+    }
+    
 }
