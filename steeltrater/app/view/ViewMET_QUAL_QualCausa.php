@@ -15,7 +15,6 @@ class ViewMET_QUAL_QualCausa extends View {
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
         $this->getOGridDetalhe()->setIAltura(220);
-        $this->getOGridDetalhe()->setBGridResponsivo(false);
 
         $oNr = new CampoConsulta('AQ', 'nr');
         $oNr->setILargura(10);
@@ -25,10 +24,7 @@ class ViewMET_QUAL_QualCausa extends View {
 
         $oCausaDesc = new CampoConsulta('Descrição causa', 'causades');
 
-        //$oOcorrencia = new CampoConsulta('Ocorrência 6M', 'ocorrencia', CampoConsulta::TIPO_DESTAQUE1);
-        //$oOcorrencia->addComparacao('1', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
-
-        $this->addCamposDetalhe($oNr, $oSeq, $oCausaDesc/*, $oOcorrencia*/);
+        $this->addCamposDetalhe($oNr, $oSeq, $oCausaDesc/* , $oOcorrencia */);
 
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -78,7 +74,6 @@ class ViewMET_QUAL_QualCausa extends View {
         parent::criaConsulta();
 
         $this->getTela()->setIAltura(220);
-        $this->getTela()->setBGridResponsivo(false);
 
         $oNr = new CampoConsulta('AQ', 'nr');
         $oNr->setILargura(10);
@@ -88,8 +83,10 @@ class ViewMET_QUAL_QualCausa extends View {
 
         $oCausaDesc = new CampoConsulta('Descrição causa', 'causades');
 
-        //$oOcorrencia = new CampoConsulta('Ocorrência 6M', 'ocorrencia', CampoConsulta::TIPO_DESTAQUE1);
-        //$oOcorrencia->addComparacao('1', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+        /*
+          $oOcorrencia = new CampoConsulta('Ocorrência 6M', 'ocorrencia', CampoConsulta::TIPO_DESTAQUE1);
+          $oOcorrencia->addComparacao('1', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+         */
 
         $this->addCampos($oNr, $oSeq, $oCausaDesc/* , $oOcorrencia */);
     }
@@ -99,6 +96,13 @@ class ViewMET_QUAL_QualCausa extends View {
 
 
         $this->criaGridDetalhe();
+
+
+        $sAcaoRotina = $this->getSRotina();
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(false);
+            $this->getTela()->setBUsaDelGrid(false);
+        }
 
         $aValor = $this->getAParametrosExtras();
 
@@ -121,18 +125,27 @@ class ViewMET_QUAL_QualCausa extends View {
         $oDivisor1->setApenasTela(true);
 
         $oMatPrimaDes = new Campo('Mat.Prima', 'matprimades', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
+        $oMatPrimaDes->setILinhasTextArea(5);
         $oMetodoDes = new Campo('Método', 'metododes', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
+        $oMetodoDes->setILinhasTextArea(5);
         $oMaoDeObraDes = new Campo('Mão-de-obra', 'maodeobrades', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
+        $oMaoDeObraDes->setILinhasTextArea(5);
         $oEquipamentoDes = new Campo('Equipamento', 'equipamentodes', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
+        $oEquipamentoDes->setILinhasTextArea(5);
         $oMeioAmbienteDes = new Campo('Meio Ambiente', 'meioambientedes', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
+        $oMeioAmbienteDes->setILinhasTextArea(5);
         $oMedidaDes = new Campo('Medida', 'medidades', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
+        $oMedidaDes->setILinhasTextArea(5);
 
         $oBtnInsereCausa = new Campo('Inserir diagrama da causa', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBtnInsereCausa->setApenasTela(true);
         $sAcaoInserirCausa = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_QUAL_DiagramaCausa","insereDiagrama","' . $this->getTela()->getId() . '-form,' . $oMatPrimaDes->getId() . ',' . $oMetodoDes->getId() . ',' . $oMaoDeObraDes->getId() . ',' . $oEquipamentoDes->getId() . ',' . $oMeioAmbienteDes->getId() . ',' . $oMedidaDes->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
         $oBtnInsereCausa->getOBotao()->addAcao($sAcaoInserirCausa);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBtnInsereCausa->getOBotao()->setBDesativado(true);
+        }
 
-        $oDivisor = new Campo('Descrição da Causa', 'divisor', Campo::DIVISOR_VERMELHO, 12, 12, 12, 12);
+        $oDivisor = new Campo('Descrição da Causa', 'divisor', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor->setApenasTela(true);
 
         $oCausaDes = new Campo('Descrição da causa', 'causades', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
@@ -168,6 +181,9 @@ class ViewMET_QUAL_QualCausa extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBotConf->setApenasTela(true);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotConf->getOBotao()->setBDesativado(true);
+        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    

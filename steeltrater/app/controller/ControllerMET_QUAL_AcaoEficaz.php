@@ -123,21 +123,6 @@ class ControllerMET_QUAL_AcaoEficaz extends Controller {
         }
     }
 
-    /*
-      public function geraRelPdfAq($sDados) {
-      $aDados = explode(',', $sDados);
-      $sSistema = "app/relatorio";
-      $sRelatorio = $aDados[2] . '.php?';
-      $sCampos = 'nr=' . $aDados[1] . '&';
-      $sCampos .= 'EmpRex_filcgc=' . $aDados[0];
-
-      $sCampos .= '&output=email';
-
-      $oWindow = 'var win = window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "1366002941508","width=100,height=100,left=375,top=330");'
-      . 'setTimeout(function () { win.close();}, 1000);';
-      echo $oWindow;
-      } */
-
     public function criaTelaModalApontaEficaz($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
@@ -176,6 +161,7 @@ class ControllerMET_QUAL_AcaoEficaz extends Controller {
         if ($aCampos['datareal'] != null && $aCampos['obs'] != null) {
             $aRet = $this->Persistencia->apontaEfi();
             if ($aRet[0]) {
+                $this->Persistencia->finalizaAcao($aCampos);
                 $oMensagem = new Mensagem('Sucesso', 'Finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
                 $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
                 echo $sLimpa;
@@ -195,6 +181,7 @@ class ControllerMET_QUAL_AcaoEficaz extends Controller {
         parse_str($_REQUEST['campos'], $aCampos);
         $aRet = $this->Persistencia->retEfi();
         if ($aRet[0]) {
+            $this->Persistencia->reabreAq($aCampos);
             $oMensagem = new Mensagem('Sucesso', 'Retornado com sucesso!', Mensagem::TIPO_SUCESSO);
             $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
             echo $sLimpa;

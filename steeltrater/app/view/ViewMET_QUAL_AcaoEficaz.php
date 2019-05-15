@@ -16,6 +16,7 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         parent::criaTela();
 
         $aDados = $this->getAParametrosExtras();
+        $sAcaoRotina = $this->getSRotina();
 
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2);
         $oFilcgc->setSValor($aDados[0]);
@@ -87,6 +88,8 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         //botão inserir os dados
         $oBtnInserir = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+
+
         //id do grid
         $sGrid = $oGridAq->getId();
         $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontEficaz","' . $this->getTela()->getId() . '-form,' . $sGrid . ',' . $oSeq->getId() . '","");';
@@ -94,13 +97,23 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBtnInserir->getOBotao()->setBDesativado(true);
+        }
+
+
 
         /* botão excluir */
         $sAcao = 'var chave=""; $("#' . $oGridAq->getId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("' . $this->getTela()->getId() . '-form","MET_QUAL_AcaoEficaz","excluirEf","' . $this->getTela()->getId() . '-form,' . $oGridAq->getId() . '"+","+chave+""); '; // excluirEf
+        
+
         $oBtnDelete = new Campo('Deletar', 'btnNormal', Campo::TIPO_BOTAOSMALL, 2);
         $oBtnDelete->getOBotao()->setSStyleBotao(Botao::TIPO_DANGER);
         $oBtnDelete->getOBotao()->addAcao($sAcao);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBtnDelete->setBDesativado(true);
+        }
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHA);
 
@@ -187,6 +200,7 @@ class ViewMET_QUAL_AcaoEficaz extends View {
 
         $oDataReali = new Campo('Data realização', 'datareal', Campo::TIPO_DATA, 3, 3, 12, 12);
         $oDataReali->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+        $oDataReali->setSValor(date('d/m/Y'));
         if ($oDados->getDatareal() != null) {
             $oDataReali->setSValor(Util::converteData($oDados->getDatareal()));
         }

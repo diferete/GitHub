@@ -48,4 +48,30 @@ class PersistenciaMET_QUAL_AcaoEficaz extends Persistencia {
         return $aRetorno;
     }
 
+    public function finalizaAcao($aDados) {
+        $user = $_SESSION['nome'];
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+
+        $sSql = "update MET_QUAL_qualaq set sit = 'Finalizada', userfech = '" . $user . "', horafech = '" . $sHora . "', datafech = '" . $sData . "' 
+         where filcgc = '" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'  ";
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+}
+
+    public function reabreAq($aDados) {
+        $user = $_SESSION['nome'];
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+
+        $sSql = "update MET_QUAL_qualaq set sit = 'Aberta', userfech =null, horafech =null, datafech =null 
+         where filcgc = '" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'  ";
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
+
 }

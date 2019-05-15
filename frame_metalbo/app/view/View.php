@@ -578,15 +578,6 @@ abstract class View {
     }
 
     /**
-     * M�todo que executa as fun��es necess�rias e comuns para permitir a 
-     * cria��o das telas de relat�rios
-     */
-    public function criaTelaRelatorioGrafico() {
-        $this->oTela = new Form("");
-        $this->setTituloTela($this->getTitulo());
-    }
-
-    /**
      * M�todo que permite definir o t�tulo da tela em situa��es que n�o
      * se trata de telas de cadastro, como no login, por exemplo
      * 

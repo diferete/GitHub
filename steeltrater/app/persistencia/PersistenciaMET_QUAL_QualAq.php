@@ -82,47 +82,32 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         $sHora = date('H:i');
         $sData = date('d/m/Y');
 
+       
         $sSql = "update MET_QUAL_qualaq set sit = 'Aberta', userfech =null, horafech =null, datafech =null 
          where filcgc = '" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and nr ='" . $aDados['nr'] . "'  ";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
     }
 
-    //    public function emailPlan($aDados) {
-//        $aEmail = array();
-//        $sSql = "select usuemail from MET_QUAL_qualplan left outer join MET_TEC_usuario 
-//                on MET_QUAL_qualplan.usucodigo = MET_TEC_usuario.usucodigo 
-//                where nr ='" . $aDados[1] . "' and MET_QUAL_qualplan.filcgc ='" . $aDados[0] . "' group by usuemail";
-//        $result = $this->getObjetoSql($sSql);
-//        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
-//            $aEmail[] = $oRowBD->usuemail;
-//        }
-//        return $aEmail;
-//    }
-
     public function emailPlan($aDados) {
         $sSql = "select emailEquip from MET_QUAL_qualaq where nr = " . $aDados[1] . " and filcgc =" . $aDados[0];
-        $sResult = $this->getObjetoSql($sSql);
-        $oRowBD = $sResult->fetch(PDO::FETCH_OBJ);
-        $aEmail = explode(',', $oRowBD->emailequip);
+        $oRow = $this->consultaSql($sSql);
+        $aEmail = explode(',', $oRow->emailequip);
 
         return $aEmail;
     }
 
-    public function somaSit($sDados) {
-        $sSql = "select COUNT(*) as cont from MET_QUAL_qualaq where sit = 'Aberta' and filcgc = '" . $sDados . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
+    public function somaSit() {
+        $sSql = "select COUNT(*) as cont from tbacaoqual where sit = 'Aberta'";
+         $oRow = $this->consultaSql($sSql);
         $sTotalAnd = $oRow->cont;
 
-        $sSql = "select COUNT(*) as cont from MET_QUAL_qualaq where sit = 'Finalizada' and filcgc = '" . $sDados . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $sSql = "select COUNT(*) as cont from MET_QUAL_qualaq where sit = 'Finalizada'";
+       $oRow = $this->consultaSql($sSql);
         $sTotalFim = $oRow->cont;
 
-        $sSql = "select COUNT(*) as cont from MET_QUAL_qualaq where sit = 'Iniciada' and filcgc = '" . $sDados . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $sSql = "select COUNT(*) as cont from MET_QUAL_qualaq where sit = 'Iniciada'";
+        $oRow = $this->consultaSql($sSql);
         $sTotalIni = $oRow->cont;
 
         $aTotal['Aberta'] = $sTotalAnd;
@@ -133,8 +118,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
 
     public function verifEfi($sFilcgc, $sNr) {
         $sSql = " select COUNT(*)as ef from MET_QUAL_acaoeficaz where filcgc = '" . $sFilcgc . "' and nr = '" . $sNr . "' and sit='Finalizado'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $oRow = $this->consultaSql($sSql);
         $iCont = $oRow->ef;
         if ($iCont == 0) {
             return false;
@@ -145,8 +129,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
 
     public function getUserEmail($sDados) {
         $sSql = "select usunome,usuemail from MET_TEC_usuario where usucodigo = " . $sDados;
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $oRow = $this->consultaSql($sSql);
 
         $aRetorno[0] = $oRow->usunome;
         $aRetorno[1] = $oRow->usuemail;
@@ -155,7 +138,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
     }
 
     public function buscaDadosAq($aDados) {
-        $sSql = "select * from MET_QUAL_qualaq where filcgc = '" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and nr = '" . $aDados['nr'] . "'";
+        $sSql = "select * from MET_QUAL_qualaq where filcgc = " . $aDados['DELX_FIL_Empresa_fil_codigo'] . " and nr = " . $aDados['nr'] ;
         $oRow = $this->consultaSql($sSql);
 
         return $oRow;
@@ -175,6 +158,84 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
 
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
+    }
+
+    public function verifSituacoes($aDados) {
+        $sSqlAq = "select tipoacao,sit,problema,objetivo from MET_QUAL_qualaq where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
+        $oRowAq = $this->consultaSql($sSqlAq);
+        $aRowAq = (array) $oRowAq;
+        if (($aRowAq['problema'] != '' && $aRowAq['problema'] != null) && ($aRowAq['objetivo'] != '' && $aRowAq['objetivo'] != null)) {
+            $aRowAq['problema'] = true;
+            $aRowAq['objetivo'] = true;
+        } else {
+            $aRowAq['problema'] = false;
+            $aRowAq['objetivo'] = false;
+}
+
+        $sSqlContencao = "select COUNT(*) as total from MET_QUAL_Contencao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and situaca is null";
+        $oContencao = $this->consultaSql($sSqlContencao);
+        if ($oContencao->total == 0) {
+            $aRowAq['contencao'] = true;
+        } else {
+            $aRowAq['contencao'] = false;
+        }
+
+
+        $sSqlCorrecao = "select situaca,seq from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and situaca is null";
+        $oCorrecao = $this->consultaSql($sSqlCorrecao);
+        if ($oCorrecao->total == 0) {
+            $aRowAq['plano'] = true;
+        } else {
+            $aRowAq['plano'] = false;
+        }
+
+
+
+        $sSqlCausa = "select COUNT(*) as total from MET_QUAL_DiagramaCausa  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
+        $oCausa = $this->consultaSql($sSqlCausa);
+        if ($oCausa->total == 0) {
+            $aRowAq['causa'] = $this->buscaCausaOld($aDados);
+        } else {
+            $aRowAq['causa'] = true;
+        }
+
+
+        $sSqlPlan = "select COUNT(*) as total from MET_QUAL_qualplan  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and sitfim is null";
+        $oPlan = $this->consultaSql($sSqlPlan);
+        if ($oPlan->total == 0) {
+            $aRowAq['plano'] = true;
+        } else {
+            $aRowAq['plano'] = false;
+        }
+
+
+        $sSqlEficaz = "select COUNT(*) as total from MET_QUAL_acaoeficaz  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and sit is null";
+        $oEficaz = $this->consultaSql($sSqlEficaz);
+        if ($oEficaz->total == 0) {
+            $aRowAq['eficaz'] = true;
+        } else {
+            $aRowAq['eficaz'] = false;
+        }
+
+
+        return $aRowAq;
+    }
+
+    public function buscaCausaOld($aDados) {
+
+        $sSqlCausa = "select * from MET_QUAL_qualcausa  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
+        $resultCausa = $this->getObjetoSql($sSqlCausa);
+        $arrayCausa = array();
+        while ($oRowCausa = $resultCausa->fetch(PDO::FETCH_OBJ)) {
+            array_push($arrayCausa, (array) $oRowCausa);
+        }
+        if (empty($arrayCausa)) {
+            $bCausa = false;
+        } else {
+            $bCausa = true;
+        }
+
+        return $bCausa;
     }
 
 }

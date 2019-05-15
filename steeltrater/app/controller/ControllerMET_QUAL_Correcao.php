@@ -24,27 +24,22 @@ class ControllerMET_QUAL_Correcao extends Controller {
         $aCampos = explode(',', $sCampos);
         $this->pkDetalhe($aCampos);
         $this->parametros = $sCampos;
+        if ($aDados[6] != '') {
+            $this->View->setSRotina($aDados[6]);
+        }
 
-		$this->View->setSIdHideEtapa($aDados[4]);
+        $this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
         //define o retorno somente do form
         $this->View->getTela()->setBSomanteForm(true);
         //seta o controler na view
         $this->View->setTelaController($this->View->getController());
-        $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe(), $this->getSMetodoDetalhe());
+        $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe(), $this->getSMetodoDetalhe(), $aDados[6]);
         $this->View->getTela()->getRender();
     }
 
     /* Métodos de filtros below */
-
-    public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
-        $sTipoAcao = $this->Persistencia->buscaTipoAcao($aChave);
-        $aCampos = $aChave;
-        $aCampos[3] = $sTipoAcao;
-        $this->View->setAParametrosExtras($aCampos);
-    }
 
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
@@ -73,9 +68,6 @@ class ControllerMET_QUAL_Correcao extends Controller {
 
         //verifica se está como 
         $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';
-
-
-
         echo $sScript;
     }
 
@@ -90,6 +82,14 @@ class ControllerMET_QUAL_Correcao extends Controller {
         }
 
         $this->Persistencia->setChaveIncremento(false);
+    }
+
+    public function pkDetalhe($aChave) {
+        parent::pkDetalhe();
+        $sTipoAcao = $this->Persistencia->buscaTipoAcao($aChave);
+        $aCampos = $aChave;
+        $aCampos[3] = $sTipoAcao;
+        $this->View->setAParametrosExtras($aCampos);
     }
 
     public function antesCarregaDetalhe($aCampos) {
@@ -151,6 +151,80 @@ class ControllerMET_QUAL_Correcao extends Controller {
 
         $sPlano = $oDados->getPlano();
         echo '$("#' . $aDados[2] . '").val("' . $sPlano . '");';
+    }
+
+    public function criaTelaModalApontaCorrecao($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $aChave = explode('&', $aDados[2]);
+        $aFilcgc = explode('=', $aChave[0]);
+        $aNr = explode('=', $aChave[1]);
+        $aSeq = explode('=', $aChave[2]);
+
+        $aParam = array();
+        $aParam[0] = $aFilcgc[1];
+        $aParam[1] = $aNr[1];
+        $aParam[2] = $aSeq[1];
+
+        $this->Persistencia->adicionaFiltro('filcgc', $aParam[0]);
+        $this->Persistencia->adicionaFiltro('nr', $aParam[1]);
+        $this->Persistencia->adicionaFiltro('seq', $aParam[2]);
+        $oDados = $this->Persistencia->consultarWhere();
+
+
+        $this->View->setAParametrosExtras($oDados);
+
+        $this->View->criaModalApontaCorrecao();
+        //busca lista pela op
+
+        $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+        //renderiza a tela
+        $this->View->getTela()->getRender();
+}
+
+    public function apontaCorrecao($sDados) {
+        $aDados = explode(',', $sDados);
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        if ($aCampos['dtaponta'] != null && $aCampos['apontamento'] != null) {
+            $aRet = $this->Persistencia->apontaCorrecao();
+            if ($aRet[0]) {
+                $oMensagem = new Mensagem('Sucesso', 'Finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
+                $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
+                echo $sLimpa;
+                echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_Correcao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
+                $sRetorno = "$('#" . $aDados[2] . "').fileinput('clear');";
+                echo $sRetorno;
+            } else {
+                $oMensagem = new Modal('Problema', 'Problemas ao finalizar plano de ação' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
+            }
+        } else {
+            $oMensagem = new Mensagem('Aviso', 'Favor preencher todos os campos', Mensagem::TIPO_WARNING);
+        }
+        echo $oMensagem->getRender();
+    }
+
+    public function apontaRetAberto($sDados) {
+        $aDados = explode(',', $sDados);
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        if ($aCampos['seq'] == '') {
+            $oMensagem = new Modal('Problema', 'Selecione um registro para retornar!', Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+        } else {
+            $aRet = $this->Persistencia->retCorrecao();
+            if ($aRet[0]) {
+                $oMensagem = new Mensagem('Sucesso', 'Retornado com sucesso!', Mensagem::TIPO_SUCESSO);
+                echo $oMensagem->getRender();
+                $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
+                echo $sLimpa;
+                echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_Correcao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
+            } else {
+                $oMensagem = new Modal('Problema', 'Problemas ao retornar plano de ação' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+                echo $oMensagem->getRender();
+            }
+        }
     }
 
 }
