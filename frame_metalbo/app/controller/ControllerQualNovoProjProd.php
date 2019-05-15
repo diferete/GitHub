@@ -123,11 +123,18 @@ class ControllerQualNovoProjProd extends Controller {
 
         $aRetorno = $this->Persistencia->liberaCodProj($aCamposChave);
 
-        $oMsgEmail = new Modal('Liberar código', 'Deseja enviar e-mail com o código do Produto/Projeto nº' . $aCamposChave['nr'] . ' para o vendas?', Modal::TIPO_AVISO, true, true, true);
-        $oMsgEmail->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","emailLibCod","' . $sDados . '");');
+        if ($aRetorno == false) {
+            $oMsgEmail = new Modal('Código já liberado!', 'Se deseja reenviar o código utilize o botão: E-mails', Modal::TIPO_AVISO, false, true, false);
+            echo"$('#" . $aDados[1] . "-pesq').click();";
+            echo $oMsgEmail->getRender();
+        } else {
 
-        echo $oMsgEmail->getRender();
-        echo"$('#" . $aDados[1] . "-pesq').click();";
+            $oMsgEmail = new Modal('Liberar código', 'Deseja enviar e-mail com o código do Produto/Projeto nº' . $aCamposChave['nr'] . ' para o vendas?', Modal::TIPO_AVISO, true, true, true);
+            $oMsgEmail->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","emailLibCod","' . $sDados . '");');
+
+            echo $oMsgEmail->getRender();
+            echo"$('#" . $aDados[1] . "-pesq').click();";
+        }
     }
 
     public function reenviaCodigo($sDados) {
@@ -213,7 +220,7 @@ class ControllerQualNovoProjProd extends Controller {
         $sEmpresa = $_SESSION['filcgc'];
         $aTotal = $this->Persistencia->somaSit($sEmpresa);
 
-        $sResulta = '<div style="color:#E19D12 !important">Em Execução: ' .$aTotal['execucao']. '</div>'
+        $sResulta = '<div style="color:#E19D12 !important">Em Execução: ' . $aTotal['execucao'] . '</div>'
                 . '<div style="color:red !important">Total Reprovados: ' . $aTotal['reprovado'] . '</div>'
                 . 'Total finalizados: ' . $aTotal['finalizado'] . ''
                 . '<div id="titulolinhatempo">'

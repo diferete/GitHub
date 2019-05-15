@@ -106,11 +106,19 @@ class PersistenciaQualNovoProjProd extends Persistencia {
      * Libera código para o representante
      */
     public function liberaCodProj($aDados) {
-        $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Cadastrado',
+
+        $sSqlSit = "select sitproj,sitgeralproj from tbqualNovoProjeto where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $oSit = $this->consultaSql($sSqlSit);
+
+        if ($oSit->sitproj == 'Cód. enviado' || $oSit->sitgeralproj == 'Cadastrado') {
+            return false;
+        } else {
+            $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Cadastrado',
                 sitproj = 'Cód. enviado'
                 where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-        $aRetorno = $this->executaSql($sSql);
-        return $aRetorno;
+            $aRetorno = $this->executaSql($sSql);
+            return $aRetorno;
+        }
     }
 
     public function verifSitProj($aDados) {
