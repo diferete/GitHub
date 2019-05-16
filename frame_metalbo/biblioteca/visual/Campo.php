@@ -1380,7 +1380,7 @@ class Campo {
                 break;
             case self::TIPO_TEXTO:
                 $sCampo = //'<div class="form-group">'
-                        '<div style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        '<div id="' . $this->getId() . '-campo" style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
@@ -1420,7 +1420,7 @@ class Campo {
                 }
                 if ($this->getBOculto()) {
                     $sCampo .= '<script>'
-                            . '$("#' . $this->getId() . '").hide();'
+                            . '$("#' . $this->getId() . '-campo").hide();'
                             . '</script>';
                 }
                 if ($this->getBTime()) {
@@ -1780,7 +1780,7 @@ class Campo {
                 break;
             case self::TIPO_BUSCADOBANCOPK:
                 $sBtnSmall = ($this->getITamanho() == Campo::TAMANHO_PEQUENO) ? 'btn-sm' : '';
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                $sCampo = '<div id="' . $this->getId() . '-campo" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '   <label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" autocomplete="off" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
@@ -1821,7 +1821,7 @@ class Campo {
                 }
                 if ($this->getBOculto()) {
                     $sCampo .= '<script>'
-                            . '$("#' . $this->getId() . '").hide();'
+                            . '$("#' . $this->getId() . '-campo").hide();'
                             . '</script>';
                 }
                 if ($this->getBTime()) {

@@ -32,7 +32,10 @@ class PersistenciaTiEquipamento extends Persistencia {
         $this->adicionaRelacionamento('equipdatacad', 'equipdatacad');
         $this->adicionaRelacionamento('equiphoracad', 'equiphoracad');
         $this->adicionaRelacionamento('obs', 'obs');
-       
+        $this->adicionaRelacionamento('situaca', 'situaca');
+        $this->adicionaRelacionamento('numlic', 'numlic');
+        $this->adicionaRelacionamento('office', 'office');
+        $this->adicionaRelacionamento('licoffice', 'licoffice');
         
         $this->adicionaJoin('Setor');
         $this->adicionaJoin('TiEquipamentoTipo');

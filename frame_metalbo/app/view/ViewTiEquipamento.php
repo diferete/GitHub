@@ -15,8 +15,6 @@ class ViewTiEquipamento extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-
-
         $oEquipCod = new CampoConsulta('Código', 'equipcod');
         $oEquipCod->setILargura(60);
 
@@ -43,7 +41,11 @@ class ViewTiEquipamento extends View {
 
         $oIp = new CampoConsulta('Ip Fixo', 'ipfixo');
 
-        $this->addCampos($oEquipCod, $oTipoEquip, $oSetor, $oFabricante, $oModelo, $oSistema, $oHostname, $oUsuario, $oIp);
+        $oSituaca = new CampoConsulta('Situação', 'situaca');
+        $oSituaca->addComparacao('D', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, true, 'Desativado');
+        $oSituaca->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Ativado');
+
+        $this->addCampos($oEquipCod, $oTipoEquip, $oSetor, $oFabricante, $oModelo, $oSistema, $oHostname, $oUsuario, $oIp, $oSituaca);
 
         $oFiltro1 = new Filtro($oSistema, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
 
@@ -59,9 +61,11 @@ class ViewTiEquipamento extends View {
         $oFilSetor->setSCampoRetorno('descsetor', $this->getTela()->getSId());
         $oFilSetor->setSIdTela($this->getTela()->getSId());
 
+        $oFilHostName = new Filtro($oHostname, Filtro::CAMPO_TEXTO, 3, 4, 12, 12);
+        $oFilUsuario = new Filtro($oUsuario, Filtro::CAMPO_TEXTO, 2, 4, 12, 12);
+        $oFilIp = new Filtro($oIp, Filtro::CAMPO_TEXTO, 2, 4, 12, 12);
 
-
-        $this->addFiltro($oFilTipo, $oFilSetor, $oFiltro1, $oFilFab);
+        $this->addFiltro($oFilTipo, $oFilSetor, $oFiltro1, $oFilFab, $oFilHostName, $oFilUsuario, $oFilIp);
 
         $this->setBScrollInf(FALSE);
         $this->setUsaAcaoExcluir(false);
@@ -72,12 +76,12 @@ class ViewTiEquipamento extends View {
     public function criaTela() {
         parent::criaTela();
 
-        $oData = new Campo('', 'equipdatacad', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oData = new Campo('Data', 'equipdatacad', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oData->setSValor(date('d/m/Y'));
         $oData->setBCampoBloqueado(true);
         $oData->setBOculto(true);
 
-        $oHora = new Campo('', 'equiphoracad', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oHora = new Campo('Hora', 'equiphoracad', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oHora->setITamanho(Campo::TAMANHO_PEQUENO);
         date_default_timezone_set('America/Sao_Paulo');
         $oHora->setSValor(date('H:i'));
@@ -85,7 +89,6 @@ class ViewTiEquipamento extends View {
         $oHora->setBOculto(true);
 
         $oNFE = new Campo('NFE', 'nfe', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
-        $oNFE->setIMarginTop(8);
 
         $oEquipCod = new Campo('Código', 'equipcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEquipCod->setBCampoBloqueado(true);
@@ -113,17 +116,29 @@ class ViewTiEquipamento extends View {
         $oSistema->addItemSelect('Windows Server 2012', 'Windows Server 2012');
         $oSistema->addItemSelect('Windows Server 2016', 'Windows Server 2016');
 
-        $oLicensa = new Campo('Licença', 'equiplicenca', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oLicensa = new Campo('Licença Windows', 'equiplicenca', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oLicensa->addItemSelect('Ativado', 'Ativado');
         $oLicensa->addItemSelect('Aguardando', 'Aguardando');
 
+        $oUsuario = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oUsuario->setApenasTela(true);
+        $oUsuario->setBOculto(true);
 
-        $oUsuario = new Campo('Usuário', 'equipusuario', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oPessoa = new Campo('Usuário', 'equipusuario', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oPessoa->setSIdPk($oUsuario->getId());
+        $oPessoa->setClasseBusca('MET_CAD_Funcionarios');
+        $oPessoa->addCampoBusca('numcad', '', '');
+        $oPessoa->addCampoBusca('nomfun', '', '');
+        $oPessoa->setSIdTela($this->getTela()->getid());
+
+        $oUsuario->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsuario->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oUsuario->addCampoBusca('nomfun', $oPessoa->getId(), $this->getTela()->getId());
+
 
         $oCodSetor = new Campo('Setor', 'Setor.codsetor', Campo::TIPO_TEXTO, 1);
         $oCodSetor->setClasseBusca('Setor');
         $oCodSetor->addCampoBusca('descsetor', null, $this->getTela()->getId()); //sempre setar o nome do modulo referente a pesquisa
-
 
         $oFilcgc = new Campo('Empresa Padrão', 'filcgc', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oFilcgc->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
@@ -141,11 +156,9 @@ class ViewTiEquipamento extends View {
         $oFilcgc->setSCampoRetorno('filcgc', $this->getTela()->getId());
         $oFilcgc->addCampoBusca('fildes', $oFildes->getId(), $this->getTela()->getId());
 
-
         $oFieldHard = new FieldSet('Hardware');
 
         $oCpu = new Campo('Processador', 'equipcpu', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oCpu->setIMarginTop(8);
 
         $oRam = new Campo('Memória Ram', 'equipmemoria', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oRam->addItemSelect('N/A', 'N/A');
@@ -181,7 +194,19 @@ class ViewTiEquipamento extends View {
         $oObs = new Campo('Observações', 'obs', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oObs->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $this->addCampos(array($oEquipCod, $oEquipTipo), array($oUsuario, $oFilcgc,), $oCodSetor, array($oFabricante, $oModelo), array($oSistema, $oLicensa, $oNFE), $oFieldHard, $oFieldNetwork, $oObs, $oHora, $oData);
+        $oSituaca = new Campo('Situação', 'situaca', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oSituaca->addItemSelect('A', 'Ativado');
+        $oSituaca->addItemSelect('D', 'Desativado');
+
+        $oOffice = new Campo('Licença Office', 'office', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oOffice->addItemSelect('A', 'Ativado');
+        $oOffice->addItemSelect('D', 'Desativado');
+
+        $oLicOffice = new Campo('Número:', 'licoffice', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+
+        $oNumeroLicenca = new Campo('Número:', 'numlic', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+
+        $this->addCampos(array($oEquipCod, $oEquipTipo, $oHora, $oData, $oSituaca), array($oUsuario, $oPessoa), $oFilcgc, $oCodSetor, array($oFabricante, $oModelo), array($oSistema, $oNFE), array($oLicensa, $oNumeroLicenca), array($oOffice, $oLicOffice), $oFieldHard, $oFieldNetwork, $oObs);
     }
 
     public function relTiEquip() {
@@ -189,13 +214,6 @@ class ViewTiEquipamento extends View {
 
         $this->setTituloTela('Relatório de Equiupamentos de TI');
         $this->setBTela(true);
-
-        /* $oTipoEquip = new Campo('Tipo','TiEquipamento.eqtipcod', Campo::TIPO_BUSCADOBANCOPK, 3, 3, 12, 12);
-          $oTipoEquip->setSClasseBusca('TiEquipamentoTipo');
-          $oTipoEquip->setSCampoRetorno('TiEquipamentoTipo.eqtipdescricao', $this->getTela()->getSId());
-          $oTipoEquip->setSIdTela($this->getTela()->getSId());
-         * 
-         */
 
         $oTipoEquip = new Campo('Equipamento', 'TiEquipamentoTipo.eqtipcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTipoEquip->setClasseBusca('TiEquipamentoTipo');
@@ -205,23 +223,7 @@ class ViewTiEquipamento extends View {
         $oSetorCod->setClasseBusca('Setor');
         $oSetorCod->addCampoBusca('descsetor', null, $this->getTela()->getId());
 
-        /* $oSistema = new Campo('Sistema Operacional', 'equipsistema', Campo::TIPO_SELECT, 4, 4, 12, 12);
-          $oSistema->addItemSelect('N/A', 'N/A');
-          $oSistema->addItemSelect('Windows Xp', 'Windows Xp');
-          $oSistema->addItemSelect('Windows 7', 'Windows 7');
-          $oSistema->addItemSelect('Windows 8', 'Windows 8');
-          $oSistema->addItemSelect('Windows 8.1', 'Windows 8.1');
-          $oSistema->addItemSelect('Windows 10', 'Windows 10');
-          $oSistema->addItemSelect('Linux', 'Linux');
-          $oSistema->addItemSelect('MacOS', 'MacOS');
-          $oSistema->addItemSelect('Windows Server 2003', 'Windows Server 2003');
-          $oSistema->addItemSelect('Windows Server 2008', 'Windows Server 2008');
-          $oSistema->addItemSelect('Windows Server 2012', 'Windows Server 2012');
-          $oSistema->addItemSelect('Windows Server 2016', 'Windows Server 2016');
-         * 
-         */
-
-        $this->addCampos($oTipoEquip, $oSetorCod/* ,oSistema */);
+        $this->addCampos($oTipoEquip, $oSetorCod);
     }
 
 }

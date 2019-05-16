@@ -98,7 +98,6 @@ class ViewUser extends View {
 
         $oNomeDelsoft = new campo('Nome Delsoft', 'usunomeDelsoft', Campo::TIPO_TEXTO, 4);
         $oNomeDelsoft->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '10');
-        $oNomeDelsoft->setIMarginTop(8);
 
         $oFilcgc = new Campo('Empresa Padrão', 'filcgc', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oFilcgc->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');

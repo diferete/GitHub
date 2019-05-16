@@ -27,6 +27,42 @@ class ModelTiEquipamento {
     private $Setor;
     private $filcgc;
     private $obs;
+    private $situaca;
+    private $numlic;
+    private $office;
+    private $licoffice;
+    
+    function getLicoffice() {
+        return $this->licoffice;
+    }
+
+    function setLicoffice($licoffice) {
+        $this->licoffice = $licoffice;
+    }
+    
+    function getOffice() {
+        return $this->office;
+    }
+
+    function setOffice($office) {
+        $this->office = $office;
+    }
+    
+    function getNumlic() {
+        return $this->numlic;
+    }
+
+    function setNumlic($numlic) {
+        $this->numlic = $numlic;
+    }
+    
+    function getSituaca() {
+        return $this->situaca;
+    }
+
+    function setSituaca($situaca) {
+        $this->situaca = $situaca;
+    }
     
     function getObs() {
         return $this->obs;

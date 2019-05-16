@@ -57,6 +57,7 @@ class CampoConsulta {
     const COR_ROXO = 'tr-roxo';
     const COR_ROSA = 'tr-rosa';
     const COR_LARANJA = 'tr-laranja';
+    const COR_PADRAO = 'tr-padrao';
     //constantes responsáveis pelos background cores
     const COL_VERMELHO = 'tr-bk-vermelha';
     const COL_AZUL = 'tr-bk-azul';
