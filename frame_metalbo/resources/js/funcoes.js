@@ -799,7 +799,7 @@ function calcNewproj(idPlan,
  */
 function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
         idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice,
-        idAcab, idMat, idClass, sClasse) {
+        idAcab, idMat, idClass, sClasse, codProCod) {
     if (codProdSimilar == '') {
         return;
     } else {
@@ -807,7 +807,7 @@ function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDi
         var campoValSim = codProdSimilar + ',' + idChMin + ',' + idChMax + ',' + idAltMin + ',' + idAltMax + ',' + idDiamFmin + ',' + idDiamFmax + ','
                 + idCompMin + ',' + idCompMax + ',' + idDiamPmin + ',' + idDiamPmax + ',' + idDiamExMin + ',' + idDiamExMax + ',' + idCompPrMin + ','
                 + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ','
-                + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
+                + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass + ',' + codProCod;
 
         console.log(campoValSim);
 
@@ -1244,6 +1244,6 @@ function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
 }
 
 /*function fetchdata() {
-    alert('got here');
-    setInterval(fetchdata, 5000);
-}*/
+ alert('got here');
+ setInterval(fetchdata, 5000);
+ }*/

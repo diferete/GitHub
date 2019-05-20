@@ -222,8 +222,32 @@ class ViewTiEquipamento extends View {
         $oSetorCod = new Campo('Setor', 'Setor.codsetor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSetorCod->setClasseBusca('Setor');
         $oSetorCod->addCampoBusca('descsetor', null, $this->getTela()->getId());
+        
+        $oOffice = new Campo('Licença Office', 'office', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oOffice->addItemSelect('Todos', 'Todos');
+        $oOffice->addItemSelect('A', 'Ativado');
+        $oOffice->addItemSelect('D', 'Desativado');
 
-        $this->addCampos($oTipoEquip, $oSetorCod);
+        $oLicensa = new Campo('Licença Windows', 'equiplicenca', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oLicensa->addItemSelect('Todos', 'Todos');
+        $oLicensa->addItemSelect('Ativado', 'Ativado');
+        $oLicensa->addItemSelect('Aguardando', 'Aguardando');
+        
+        $oSistema = new Campo('Sistema Operacional', 'equipsistema', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oSistema->addItemSelect('N/A', 'N/A');
+        $oSistema->addItemSelect('Windows Xp', 'Windows Xp');
+        $oSistema->addItemSelect('Windows 7', 'Windows 7');
+        $oSistema->addItemSelect('Windows 8', 'Windows 8');
+        $oSistema->addItemSelect('Windows 8.1', 'Windows 8.1');
+        $oSistema->addItemSelect('Windows 10', 'Windows 10');
+        $oSistema->addItemSelect('Linux', 'Linux');
+        $oSistema->addItemSelect('MacOS', 'MacOS');
+        $oSistema->addItemSelect('Windows Server 2003', 'Windows Server 2003');
+        $oSistema->addItemSelect('Windows Server 2008', 'Windows Server 2008');
+        $oSistema->addItemSelect('Windows Server 2012', 'Windows Server 2012');
+        $oSistema->addItemSelect('Windows Server 2016', 'Windows Server 2016');
+        
+        $this->addCampos($oTipoEquip, $oSetorCod, $oSistema, $oLicensa, $oOffice);
     }
 
 }

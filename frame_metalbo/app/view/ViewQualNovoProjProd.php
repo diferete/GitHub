@@ -250,7 +250,7 @@ class ViewQualNovoProjProd extends View {
                 . '"' . $oDiamFmax->getId() . '","' . $oCompMin->getId() . '","' . $oCompMax->getId() . '","' . $oDiamPriMin->getId() . '",' . '"' . $oDiamPriMax->getId() . '",'
                 . '"' . $oDiamExtMin->getId() . '","' . $oDiamExtMax->getId() . '","' . $oCompRMin->getId() . '","' . $oCompRMax->getId() . '","' . $oCompHasteMin->getId() . '",'
                 . '"' . $oCompHasteMax->getId() . '","' . $oDiamHasteMin->getId() . '","' . $oDiamHasteMax->getId() . '","' . $oProfCanecoMin->getId() . '","' . $oProfCanecoMax->getId() . '",'
-                . '"' . $oAngHelice->getId() . '","' . $oAcab->getId() . '","' . $oMaterial->getId() . '","' . $oClasse->getId() . '","' . $this->getController() . '");';   //$oCompRMin
+                . '"' . $oAngHelice->getId() . '","' . $oAcab->getId() . '","' . $oMaterial->getId() . '","' . $oClasse->getId() . '","' . $this->getController() . '",$("#' . $oProcod->getId() . '").val());';   //$oCompRMin
         $oProcodSimilar->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
 
 
