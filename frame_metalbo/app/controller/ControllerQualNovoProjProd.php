@@ -83,6 +83,8 @@ class ControllerQualNovoProjProd extends Controller {
 
         $this->Model->setAcab($this->ValorSql($this->Model->getAcab()));
 
+        $this->Model->setMetMat($this->ValorSql($this->Model->getMetMat()));
+
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';

@@ -128,7 +128,6 @@ class ViewMET_PORT_Visitantes extends View {
         $oMotivo->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar vazio!');
 
         $oSetor = new campo('Cód.', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oSetor->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
         $oSetorDes = new Campo('Setor a ser visitado', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSetorDes->setSIdPk($oSetor->getId());
@@ -140,7 +139,6 @@ class ViewMET_PORT_Visitantes extends View {
         $oSetor->setClasseBusca('Setor');
         $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oSetor->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
-        $oSetor->addValidacao(false, Validacao::TIPO_STRING, '', 1, 3);
 
         $oDescMotivo = new Campo('Descrição do motivo', 'descmotivo', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oDescMotivo->setILinhasTextArea(4);

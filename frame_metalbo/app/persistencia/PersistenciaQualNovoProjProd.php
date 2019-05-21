@@ -95,6 +95,8 @@ class PersistenciaQualNovoProjProd extends Persistencia {
         $this->adicionaRelacionamento('famcod', 'famcod');
         $this->adicionaRelacionamento('famsub', 'famsub');
 
+        $this->adicionaRelacionamento('metmat', 'metmat');
+
         $this->adicionaJoin('EmpRex');
         $this->adicionaOrderBy('nr', 1);
         $this->setSTop('50');
@@ -202,7 +204,7 @@ class PersistenciaQualNovoProjProd extends Persistencia {
          * * */
         $sSql = "select procod,desc_novo_prod,acab,material,classe,anghelice,"
                 . "chavemin,chavemax,altmin,altmax,diamfmin,diamfmax,compmin,compmax,diampmin,diampmax,"
-                . "diamexmin,diamexmax,comprmin,comprmax,comphmin,comphmax,diamhmin,diamhmax,profcanecomin,profcanecomax"
+                . "diamexmin,diamexmax,comprmin,comprmax,comphmin,comphmax,diamhmin,diamhmax,profcanecomin,profcanecomax,metmat"
                 . " from tbqualNovoProjeto"
                 . " WHERE procod =" . $aCampos['procod'];
 
@@ -222,7 +224,28 @@ class PersistenciaQualNovoProjProd extends Persistencia {
                 . "where procod = '" . $oRow->procod . "'";
         $aRetorno = $this->executaSql($sSqlInsert);
 
-        return $aRetorno;
+        if ($aRetorno[0]) {
+            $this->metMat($aCampos);
+            return $aRetorno;
+        } else {
+
+            return $aRetorno;
+        }
+    }
+
+    public function metMat($aDados) {
+        $sSql = "select COUNT(*) as total from metmat where procod = " . $aDados['procod'];
+        $oObj = $this->consultaSql($sSql);
+
+        if ($oObj->total == 1) {
+            $sSqlUpdate = "update metmat set material ='" . $aDados['metmat'] . "' where procod = " . $aDados['procod'];
+            $this->executaSql($sSqlUpdate);
+            return;
+        } else {
+            $sSqlInsert = "insert into metmat (procod,material)values('" . $aDados['procod'] . "','" . $aDados['metmat'] . "')";
+            $this->executaSql($sSqlInsert);
+            return;
+        }
     }
 
     public function somaSit() {

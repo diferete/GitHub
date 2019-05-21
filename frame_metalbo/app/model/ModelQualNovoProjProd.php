@@ -71,6 +71,15 @@ class ModelQualNovoProjProd {
     private $famsub;
     private $profcanecomin;
     private $profcanecomax;
+    private $metmat;
+
+    function getMetmat() {
+        return $this->metmat;
+    }
+
+    function setMetmat($metmat) {
+        $this->metmat = $metmat;
+    }
 
     function getProfcanecomin() {
         return $this->profcanecomin;
