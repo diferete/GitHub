@@ -161,7 +161,8 @@ class ViewQualNovoProjProd extends View {
         $oMaterial = new campo('Material', 'material', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $oDiamMat = new Campo('Bitola Mat.', 'metmat', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
-        $oDiamMat->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oDiamMat->setSCorFundo(Campo::FUNDO_AMARELO);        
+        $oDiamMat->setSValor('0');
 
         $oClasse = new campo('Classe', 'classe', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 

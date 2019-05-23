@@ -184,9 +184,9 @@ class PersistenciaQualAq extends Persistencia {
         $sSqlCorrecao = "select situaca,seq from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "' and situaca is null";
         $oCorrecao = $this->consultaSql($sSqlCorrecao);
         if ($oCorrecao->total == 0) {
-            $aRowAq['plano'] = true;
+            $aRowAq['correcao'] = true;
         } else {
-            $aRowAq['plano'] = false;
+            $aRowAq['correcao'] = false;
         }
 
 

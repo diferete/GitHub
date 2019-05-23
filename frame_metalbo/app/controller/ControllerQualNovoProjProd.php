@@ -81,9 +81,7 @@ class ControllerQualNovoProjProd extends Controller {
         $this->Model->setProfcanecomin($this->ValorSql($this->Model->getProfcanecomin()));
         $this->Model->setProfcanecomax($this->ValorSql($this->Model->getProfcanecomax()));
 
-        $this->Model->setAcab($this->ValorSql($this->Model->getAcab()));
-
-        $this->Model->setMetMat($this->ValorSql($this->Model->getMetMat()));
+        $this->Model->setMetmat($this->ValorSql($this->Model->getMetmat()));
 
         $aRetorno = array();
         $aRetorno[0] = true;

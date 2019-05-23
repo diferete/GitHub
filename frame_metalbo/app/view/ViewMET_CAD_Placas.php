@@ -18,8 +18,10 @@ class ViewMET_CAD_Placas extends View {
         $this->setUsaAcaoExcluir(TRUE);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(true);
-        $this->setUsaFiltro(true);
-        $this->getTela()->setBGridResponsivo(true);
+        $this->setUsaFiltro(true);  
+        
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
         $oFilcgc = new CampoConsulta('Empresa', 'filcgc', CampoConsulta::TIPO_TEXTO);
 

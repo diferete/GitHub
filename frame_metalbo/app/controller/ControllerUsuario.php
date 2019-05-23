@@ -137,10 +137,49 @@ class ControllerUsuario extends Controller {
      *                a mensagem de erro
      */
     public function msgSessaoInvalida() {
-        //$sMsg = "Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!";
-        $oMensagem = new Modal('Sessão Expirada!', 'Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!', Modal::TIPO_ERRO, false, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("","Usuario","acaoLogout","");');
-        echo $oMensagem->getRender();
+
+        if (isset($_SESSION['sessao'])) {
+            $oMensagem = new Modal('Sessão Expirada!', 'Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","Usuario","acaoLogout","");');
+            echo $oMensagem->getRender();
+        } else {
+            $this->msgHtmlSessaoInvalida();
+        }
+    }
+
+    public function msgHtmlSessaoInvalida() {
+
+        $cssStyleBtn = 'padding: 6px 15px;'
+                . 'font-size: 14px;'
+                . 'line-height: 1.57142857;'
+                . 'border-radius: 3px;'
+                . 'cursor: pointer;'
+                . 'display: block;'
+                . 'color: #fff;'
+                . 'background-color: #46be8a;'
+                . 'border: 1px solid transparent;'
+                . 'position: absolute;'
+                . 'margin-top: 50px;'
+                . 'left: 50%;'
+                . 'transform: translateX(-50%) translateY(-50%);';
+
+        $cssStyleDiv = 'padding: 50px 40px 100px 50px;'
+                . 'margin: 100px 700px 200px 700px;'
+                . 'box-shadow: 0 0 5px grey;'
+                . 'position: relative;'
+                . 'text-align: center!important;';
+
+        $cssBody = 'background-image: url(https://drive.google.com/uc?export=view=&id=1Tfk4MwDDl1jPEhw2K8D2mWPDbDQqelD8");';
+
+        $htmlReLog = '<body style="' . $cssBody . '">'
+                . '<div style="' . $cssStyleDiv . '">'
+                . '<h2 style="margin:10px;font-family: Roboto, sans-serif;"> Sessão Expirada!</h2>'
+                . '<p style="margin:10px;font-family: Roboto, sans-serif;"> Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!'
+                . '<a href="https://sistema.metalbo.com.br/"><input style="' . $cssStyleBtn . '"  type="button" value="Clique aqui!" /></a>'
+                . '</div>'
+                . '</body>';
+
+        echo $htmlReLog;
     }
 
     /**

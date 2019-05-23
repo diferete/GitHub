@@ -238,11 +238,11 @@ class PersistenciaQualNovoProjProd extends Persistencia {
         $oObj = $this->consultaSql($sSql);
 
         if ($oObj->total == 1) {
-            $sSqlUpdate = "update metmat set material ='" . $aDados['metmat'] . "' where procod = " . $aDados['procod'];
+            $sSqlUpdate = "update metmat set material ='" . Util::ValorSql($aDados['metmat']) . "' where procod = " . $aDados['procod'];
             $this->executaSql($sSqlUpdate);
             return;
         } else {
-            $sSqlInsert = "insert into metmat (procod,material)values('" . $aDados['procod'] . "','" . $aDados['metmat'] . "')";
+            $sSqlInsert = "insert into metmat (procod,material)values('" . $aDados['procod'] . "','" . Util::ValorSql($aDados['metmat']) . "')";
             $this->executaSql($sSqlInsert);
             return;
         }

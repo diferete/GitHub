@@ -71,11 +71,8 @@ class ViewSistema extends View {
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/slidepanel/slidePanel.css">'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/flag-icon-css/flag-icon.css">'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/bootstrap-sweetalert/sweet-alert.css">'
-               
-               .'<!--Tag input-->'
-               .'<link rel="stylesheet" type="text/css" href="biblioteca/tagsinput/src/jquery.tagsinput.css" />'
-                
-                
+                . '<!--Tag input-->'
+                . '<link rel="stylesheet" type="text/css" href="biblioteca/tagsinput/src/jquery.tagsinput.css" />'
                 . '<!-- Datatables -->'
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">'
                 . '<link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">'
@@ -83,7 +80,8 @@ class ViewSistema extends View {
                 . '<!-- Fonts -->'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/web-icons/web-icons.min.css">'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/brand-icons/brand-icons.min.css">'
-                . '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic">'
+                //. '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic">'
+                . '<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/font-awesome/font-awesome.css">'
                 . '<!-- Scripts -->'
                 . '<script src="biblioteca/assets/vendor/modernizr/modernizr.js"></script>'
@@ -117,7 +115,7 @@ class ViewSistema extends View {
                 . 'Breakpoints();'
                 . '</script>'
                 . '</head>'
-                . '<body>'
+                . '<body id="body">'
                 . '<!--class="site-menubar-unfold" data-auto-menubar="false"-->'
                 . '<script>'
                 . 'var classeBusca;'
@@ -653,8 +651,6 @@ class ViewSistema extends View {
                 . '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>'
                 . '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput_locale_pt-BR.js" ></script>'
                 . '<!-- Core -->'
-                
-               
                 . '<script src="biblioteca/jquery-number/jquery.number.js"></script>'
                 . '<script src="biblioteca/jquery-number/jquery.number.min.js"></script>'
                 . '<script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>'
@@ -695,11 +691,8 @@ class ViewSistema extends View {
                 . '<script src="biblioteca/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script>'
                 . '<script src="biblioteca/assets/js/locales/bootstrap-datepicker.pt-BR.min.js" type="text/javascript"></script>'
                 . '<script src="biblioteca/assets/js/jquery.maskedinput.js" type="text/javascript"></script>'
-                .'<!--Taginput-->'
-                .'<script src="biblioteca/tagsinput/src/jquery.tagsinput.js"></script>'   
-                
-                
-                
+                . '<!--Taginput-->'
+                . '<script src="biblioteca/tagsinput/src/jquery.tagsinput.js"></script>'
                 . '<!-- Select2 -->'
                 . '<script src="biblioteca/assets/js/select2.min.js" type="text/javascript"></script>'
                 . '<!-- Mascara de dinheiro -->'
@@ -718,16 +711,15 @@ class ViewSistema extends View {
                 . ' });'
                 . ' })(document, window, jQuery);'
                 . ' var menuRecolhido = false;'
-
-                /*.' $("#toggleMenubar").click(function(){'      
-                  .' if(!menuRecolhido){'
-                  .' $("#logo").attr("src","biblioteca/assets/images/m.png");'
-                  .' menuRecolhido = true;'
-                  .' }else{'
-                  .' $("#logo").attr("src","biblioteca/assets/images/logo.png");'
-                  .' menuRecolhido = false;'
-                  .' }'
-                  .' });' */
+                . ' $("#toggleMenubar").click(function(){'
+                . ' if(!menuRecolhido){'
+                . ' $("#logo").attr("src","biblioteca/assets/images/m.png");'
+                . ' menuRecolhido = true;'
+                . ' }else{'
+                . ' $("#logo").attr("src","biblioteca/assets/images/logo.png");'
+                . ' menuRecolhido = false;'
+                . ' }'
+                . ' });'
                 . ' function carregapesq(){'
                 . ' if (classeBusca !== undefined && classeBusca != ""){'
                 . ' var cont = $("#carregapesq").val().length; '

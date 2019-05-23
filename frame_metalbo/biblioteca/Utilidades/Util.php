@@ -153,7 +153,7 @@ class Util {
         return number_format($valor, $iQtdDecimais, ",", ".");
     }
 
-    public function formataSqlDecimal($valor) {
+    public static function formataSqlDecimal($valor) {
         $iValor = bcdiv($valor, 1, 2);
         $aDecimais = explode('.', $iValor);
         $sValor = $aDecimais[0] . ',' . $aDecimais[1];
@@ -297,6 +297,21 @@ class Util {
     public static function isTime($time) {
         $sReturn = preg_match("#([0-1]{1}[0-9]{1}|[2]{1}[0-3]{1}):[0-5]{1}[0-9]{1}#", $time);
         return $sReturn;
+    }
+    
+     /**
+     * arruma valores para salvar no banco
+     */
+    public static function ValorSql($valor) {
+        $verificaPonto = ".";
+        if (strpos("[" . $valor . "]", "$verificaPonto")):
+            $valor = str_replace('.', '', $valor);
+            $valor = str_replace(',', '.', $valor);
+        else:
+            $valor = str_replace(',', '.', $valor);
+        endif;
+
+        return $valor;
     }
 
     public static function formataHora($sHora) {
