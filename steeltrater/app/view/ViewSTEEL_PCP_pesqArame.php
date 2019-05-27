@@ -25,11 +25,11 @@ class ViewSTEEL_PCP_pesqArame extends View {
         $this->setUsaAcaoIncluir(true);
         $this->setUsaAcaoVisualizar(true);
 
-          $this->getTela()->setiAltura(600);
+          $this->getTela()->setiAltura(800);
        // $this->getTela()->setILarguraGrid(2300);
        // $this->getTela()->setBGridResponsivo(false);
 
-        $this->setBScrollInf(false);
+        $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
 
         $oCodigo = new CampoConsulta('Código', 'pro_codigo');

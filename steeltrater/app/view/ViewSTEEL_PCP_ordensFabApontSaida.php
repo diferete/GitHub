@@ -11,7 +11,11 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
+        
+        $oFornos = Fabrica::FabricarController('STEEL_PCP_Forno');
+        $aForno = $oFornos->Persistencia->getArrayModel();
+        
+        
         $oBotaoFinalizar = new CampoConsulta('Apont.','finalizar', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoFinalizar->setSTitleAcao('Finalizar apontamento!');
         $oBotaoFinalizar->addAcao('STEEL_PCP_ordensFabApontSaida','msgFinalizaOP'); //finalizaOP Controller
@@ -30,7 +34,8 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
         $oHentr = new CampoConsulta('Hora entrada', 'horaent_forno', CampoConsulta::TIPO_TIME);
         $oDtsaid = new CampoConsulta('Data saída', 'datasaida_forno', CampoConsulta::TIPO_DATA);
         $oHsaida = new CampoConsulta('Hora saída', 'horasaida_forno', CampoConsulta::TIPO_TIME);
-        $oForno = new CampoConsulta('Forno','fornodes');
+        $oForno = new CampoConsulta('','fornodes');
+        $oFornoCod = new CampoConsulta('','fornocod');
         $oSituaca = new CampoConsulta('Situação','situacao');
         $oSituaca->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
         $oSituaca->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
@@ -43,6 +48,14 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
         $oSitFiltro->addItemSelect('Todos', 'Todos');
         $oSitFiltro->addItemSelect('Finalizado', 'Finalizado');
         
+        $oFornoChoice = new Filtro($oFornoCod, Filtro::CAMPO_SELECT,2,2,12,12);
+        $oFornoChoice->addItemSelect('--','--');
+        foreach ($aForno as $keyForno => $oValueForno) {
+            $oFornoChoice->addItemSelect($oValueForno->getFornocod(),$oValueForno->getFornodes());
+        }
+        
+        
+        
         //mostra os filtros
         $this->getTela()->setBMostraFiltro(true);
         $this->getTela()->setIAltura(600);
@@ -52,7 +65,7 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(false);
-        $this->addFiltro($oOpFiltro,$oSitFiltro);
+        $this->addFiltro($oOpFiltro,$oSitFiltro,$oFornoChoice);
         
         /**
          * define o filtro inicial
@@ -67,7 +80,24 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
         $this->addDropdown($oDrop1);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oBotaoFinalizar,$oOp,$oProdes,$oDtent,$oHentr,$oDtsaid,$oHsaida,$oForno,$oSituaca,$oSeq);
-    }
+        $this->addCampos($oBotaoFinalizar,$oOp,$oProdes,$oDtent,$oHentr,$oDtsaid,$oHsaida,$oFornoCod,$oForno,$oSituaca,$oSeq);
+    
+        //busca o forno padrao 
+        $oUserForno = Fabrica::FabricarController('STEEL_PCP_fornoUser');
+        $oFornoUser = $oUserForno->pesqFornoUser();
+
+        if(isset($_COOKIE['cookfornocod'])){
+            $sForno = $_COOKIE['cookfornocod'];
+        }else{
+        if (method_exists($oFornoUser,'getFornocod')){
+            $sForno=$oFornoUser->getFornocod();
+        }}
+        
+        
+        $aParam1[]='situacao,Processo';
+        $aParam1[]='fornocod,'.$sForno;
+        $this->getTela()->setAParametros($aParam1);
+        
+        }
 
 }

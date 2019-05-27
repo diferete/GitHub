@@ -46,12 +46,10 @@ class ViewSTEEL_PCP_ordensFabListaPesq extends View {
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         
-        
-        
-
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setSTituloConsulta($this->addIcone("icon wb-search"). 'PESQUISA PRIORIDADE DE OPS');
+        $this->getTela()->setBDesativaRetornoConsulta(true);
         
        // $aInicial[0]='situacao,Liberado';
        // $this->getTela()->setAParametros($aInicial);

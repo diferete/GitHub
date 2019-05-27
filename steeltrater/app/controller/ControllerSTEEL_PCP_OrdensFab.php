@@ -684,6 +684,30 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $this->View->getTela()->getRender();
     }
 
+    /**
+     * 
+     * @param type $sParametros
+     * @return boolean
+     */
+    public function criaTelaModalFat($sDados){
+         $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $aChave = explode('&', $aDados[2]);
+        $aOp= explode('=', $aChave[0]);
+        
+       
+       // $this->View->setAParametrosExtras($oDados);
+
+        $this->View->criaModalFat($aOp);
+        //busca lista pela op
+
+        $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+        //renderiza a tela
+        $this->View->getTela()->getRender();
+    }
+
+
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
         $aOp= explode('=', $sParametros[0]);
@@ -734,6 +758,10 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
     public function pendenciasOP($sOp){
         $aErro['pendencia'] = '';
         $aErro['pendenciaobs'] = '';
+        $aDadosFat['tabela']='';
+        $aDadosFat['ncm']='';
+        
+        
         //verificar se há tabela de preço para o cliente
         $aCamposChave = array();
         parse_str($_REQUEST['campos'], $aCamposChave);
@@ -744,12 +772,14 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $oTabCli->Persistencia->adicionaFiltro('sit','INATIVA',0,10);
         $oTabCliDados = $oTabCli->Persistencia->consultarWhere();
         $iTabela = $oTabCli->Persistencia->getCount();
-        
+        $aDadosFat['tabela']=$oTabCliDados->getNometabela();
         //busca produtos
         $oProdUn = Fabrica::FabricarController('DELX_PRO_Produtos');
         $oProdUn->Persistencia->limpaFiltro();
         $oProdUn->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getProdFinal());
         $oProdDados = $oProdUn->Persistencia->consultarWhere();
+        $aDadosFat['ncm'] = $oProdDados->getPro_ncm(); 
+        
         //item da tabela de preço   
          $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');    
         //------------------------verificar tabela ----------------------------------------------
@@ -770,6 +800,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
                 $oItemsTabela->Persistencia->adicionaFiltro('tipo','INSUMO');
                 $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());
                 $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();
+                //alimenta array insumo
+                $aDadosFat['insumo'][] = $oDadosInsumo;
                  if($oDadosInsumo->getProd()== null){
                     //mensagem e gravamos tabela = 0
                     $oMensagem = new Mensagem('Atenção!','Não há INSUMO cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING,5000);
@@ -784,6 +816,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
                 $oItemsTabela->Persistencia->adicionaFiltro('tipo','SERVIÇO');
                 $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());
                 $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+                //alimenta array serviço
+                $aDadosFat['servico'][] = $oDadosServico;
                  if($oDadosServico->getProd()== null){
                     //mensagem e gravamos tabela = 0
                     $oMensagem = new Mensagem('Atenção!','Não há SERVIÇO cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING,5000);
@@ -812,7 +846,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
                             $oItemsTabela->Persistencia->adicionaFiltro('cod',$oTrat->tratcod); //codigo do tratamento somente qdo for op fio
                             $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());//ncm
                             $oDadosFioServ = $oItemsTabela->Persistencia->consultarWhere();
-                            
+                            //servico
+                            $aDadosFat['servico'][] = $oDadosFioServ;
                             if($oDadosFioServ->getProd()== null){
                                 //mensagem e gravamos tabela = 0
                                 $oMensagem = new Mensagem('Atenção!','Não há SERVIÇO cadastrado na tabela de preço e lembrar de informar o tratamento! ', Mensagem::TIPO_WARNING,5000);
@@ -828,6 +863,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
                             $oItemsTabela->Persistencia->adicionaFiltro('cod',$oTrat->tratcod); //codigo do tratamento somente qdo for op fio
                             $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());//ncm
                             $oDadosFioInsumo = $oItemsTabela->Persistencia->consultarWhere();
+                            //alimenta array insumo
+                            $aDadosFat['insumo'][] = $oDadosFioInsumo;
                             
                             if($oDadosFioInsumo->getProd()== null){
                                 //mensagem e gravamos tabela = 0
@@ -848,7 +885,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $this->Persistencia->gravaPendencia($this->Model->getOp(),$aErro['pendencia'],$aErro['pendenciaobs']);
         //($sOp,$sAtencao,$sPendencia)
        
-        
+        return $aDadosFat;
     }
 }
    

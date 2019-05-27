@@ -82,7 +82,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         $sHora = date('H:i');
         $sData = date('d/m/Y');
 
-       
+
         $sSql = "update MET_QUAL_qualaq set sit = 'Aberta', userfech =null, horafech =null, datafech =null 
          where filcgc = '" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and nr ='" . $aDados['nr'] . "'  ";
         $aRetorno = $this->executaSql($sSql);
@@ -98,12 +98,12 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
     }
 
     public function somaSit() {
-        $sSql = "select COUNT(*) as cont from tbacaoqual where sit = 'Aberta'";
-         $oRow = $this->consultaSql($sSql);
+        $sSql = "select COUNT(*) as cont from MET_QUAL_qualaq where sit = 'Aberta'";
+        $oRow = $this->consultaSql($sSql);
         $sTotalAnd = $oRow->cont;
 
         $sSql = "select COUNT(*) as cont from MET_QUAL_qualaq where sit = 'Finalizada'";
-       $oRow = $this->consultaSql($sSql);
+        $oRow = $this->consultaSql($sSql);
         $sTotalFim = $oRow->cont;
 
         $sSql = "select COUNT(*) as cont from MET_QUAL_qualaq where sit = 'Iniciada'";
@@ -138,7 +138,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
     }
 
     public function buscaDadosAq($aDados) {
-        $sSql = "select * from MET_QUAL_qualaq where filcgc = " . $aDados['DELX_FIL_Empresa_fil_codigo'] . " and nr = " . $aDados['nr'] ;
+        $sSql = "select * from MET_QUAL_qualaq where filcgc = " . $aDados['DELX_FIL_Empresa_fil_codigo'] . " and nr = " . $aDados['nr'];
         $oRow = $this->consultaSql($sSql);
 
         return $oRow;
@@ -170,7 +170,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         } else {
             $aRowAq['problema'] = false;
             $aRowAq['objetivo'] = false;
-}
+        }
 
         $sSqlContencao = "select COUNT(*) as total from MET_QUAL_Contencao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and situaca is null";
         $oContencao = $this->consultaSql($sSqlContencao);
@@ -184,9 +184,9 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         $sSqlCorrecao = "select situaca,seq from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and situaca is null";
         $oCorrecao = $this->consultaSql($sSqlCorrecao);
         if ($oCorrecao->total == 0) {
-            $aRowAq['plano'] = true;
+            $aRowAq['correcao'] = true;
         } else {
-            $aRowAq['plano'] = false;
+            $aRowAq['correcao'] = false;
         }
 
 
@@ -194,7 +194,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         $sSqlCausa = "select COUNT(*) as total from MET_QUAL_DiagramaCausa  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
         $oCausa = $this->consultaSql($sSqlCausa);
         if ($oCausa->total == 0) {
-            $aRowAq['causa'] = $this->buscaCausaOld($aDados);
+            $aRowAq['causa'] = false;
         } else {
             $aRowAq['causa'] = true;
         }
@@ -219,23 +219,6 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
 
 
         return $aRowAq;
-    }
-
-    public function buscaCausaOld($aDados) {
-
-        $sSqlCausa = "select * from MET_QUAL_qualcausa  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
-        $resultCausa = $this->getObjetoSql($sSqlCausa);
-        $arrayCausa = array();
-        while ($oRowCausa = $resultCausa->fetch(PDO::FETCH_OBJ)) {
-            array_push($arrayCausa, (array) $oRowCausa);
-        }
-        if (empty($arrayCausa)) {
-            $bCausa = false;
-        } else {
-            $bCausa = true;
-        }
-
-        return $bCausa;
     }
 
 }

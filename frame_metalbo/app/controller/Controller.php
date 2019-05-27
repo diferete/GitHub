@@ -31,7 +31,7 @@ class Controller {
     private $bDesativaBotaoPadrao;
     private $paramaux;
     private $bPesqScroll;
-    
+
     function getBPesqScroll() {
         return $this->bPesqScroll;
     }
@@ -40,7 +40,6 @@ class Controller {
         $this->bPesqScroll = $bPesqScroll;
     }
 
-    
     function getParamaux() {
         return $this->paramaux;
     }
@@ -1704,7 +1703,7 @@ class Controller {
     public function getDadosScroll($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false) {
         $this->setBPesqScroll(true);
         $this->getDadosConsulta($sDadosReload, $bReload, $sCampoConsulta, $aColuna, $bGridCampo, true);
-     }
+    }
 
     /**
      * método para chamar a o getdadosconsulta com o array de camposconsulta
@@ -1984,12 +1983,12 @@ class Controller {
             $iTotalFiltro = $this->Persistencia->getITop();
         }
         //caso pesquisa por scroll limpa os filtros*teria q limpar o filtro <
-        if($this->getBPesqScroll()){
-           $this->Persistencia->limpaFiltro(); 
+        if ($this->getBPesqScroll()) {
+            $this->Persistencia->limpaFiltro();
         }
         $iTotalReg = $this->Persistencia->getCount();
         $this->Persistencia->limpaFiltro();
-        
+
         //define se o $sDadosReload != null é atualização se não e nova tela
         if ($sDadosReload !== NULL) {
             //pegar id da tr
@@ -2796,7 +2795,7 @@ class Controller {
 
                 break;
             case 'alterar':
-            $this->acaoAlterar($sDados, true);
+                $this->acaoAlterar($sDados, true);
 
                 break;
 
@@ -3309,7 +3308,8 @@ class Controller {
         }
 
         $this->Persistencia->iniciaTransacao();
-       
+
+
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {

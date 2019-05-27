@@ -89,7 +89,7 @@ class ViewMET_QUAL_QualPlan extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('MET_QUAL_QualPlan', 'criaTelaModalAponta', 'modalAponta');
+        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta');
 
         $oNr = new CampoConsulta('Nr.', 'nr');
 
@@ -252,7 +252,7 @@ class ViewMET_QUAL_QualPlan extends View {
             $oPPAP->setSValor($oDados->getPpap());
         }
 
-        $oContexto = new Campo('Contexto da Organização', 'contexto', Campo::TIPO_CHECK, 4, 4, 12, 12);
+        $oContexto = new Campo('Riscos e Oportunidades', 'contexto', Campo::TIPO_CHECK, 4, 4, 12, 12);
         if ($oDados->getContexto() != null) {
             $oContexto->setSValor($oDados->getContexto());
         }
@@ -287,4 +287,4 @@ class ViewMET_QUAL_QualPlan extends View {
         $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), array($oDataFim, $oAnexoFim), $oDivisor, array($oProcedimento, $oIT, $oPlanoControle), array($oFluxograma, $oPPAP, $oContexto), array($oPreventiva, $oFuncao, $oTreinamentos), $oLinha, array($oObsFim, $oBtnInserir, $oBtnNormal));
     }
 
-}
+    }

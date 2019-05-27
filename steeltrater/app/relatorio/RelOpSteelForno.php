@@ -116,77 +116,69 @@ $pdf->Cell(0,5,'','T',1,'L');
    
    //Títulos do relatório
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(8,5,'OP', 'B,R,L,T',0, 'C',0);
-   
-   $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(14,5,'FORNO', 'B,R,T',0, 'C',0);
-   
-   $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(72,5,'PRODUTO', 'B,R,T',0, 'C',0);
-   
-   $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(19,5,'DATA ENT', 'B,R,T',0, 'C',0);
-   
-   $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(19,5,'HORA ENT', 'B,R,T',0, 'C',0);
-   
-   $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(21,5,'DATA SAIDA', 'B,R,T',0, 'C',0);
-   
-   $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(24,5,'HORA SAIDA', 'B,R,T',0, 'C',0);
-   
-   $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(22,5,'SITUAÇÃO', 'B,R,T',1, 'C',0);
-       
+   $pdf->Cell(8,5,'OP: ', 'B,T,L',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(8, 6, $row['op'],'L,B',0,'C');
-       
+   $pdf->Cell(10, 5, $row['op'] ,'B,T',0,'L');
+   
+   $pdf->SetFont('Arial','B',8);
+   $pdf->Cell(14,5,'FORNO: ', 'B,T,L',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(14, 6, $row['fornodes'],'L,B',0,'C');
-       
+   $pdf->Cell(14, 5, $row['fornodes'] ,'B,R,T',0,'L');
+   
+   $pdf->SetFont('Arial','B',8);
+   $pdf->Cell(17,5,'PRODUTO: ', 'B,T,L',0, 'C',0);
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(136, 5, $row['prodes'] ,'B,R,T',1,'L');
+   
+   $pdf->SetFont('Arial','B',8);
+   $pdf->Cell(19,5,'DATA ENT: ', 'B,T,L',0, 'L',0);
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(20, 5, $row['dataent_forno'] ,'B,R,T',0,'L');
+   
+   $pdf->SetFont('Arial','B',8);
+   $pdf->Cell(20,5,'HORA ENT: ', 'B,T',0, 'L',0);
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(21, 5, $row['horaent_forno'] ,'B,R,T',0,'L');
+   
+   $pdf->SetFont('Arial','B',8);
+   $pdf->Cell(20,5,'DATA SAIDA: ', 'B,T',0, 'L',0);
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(21, 5, $row['datasaida_forno'] ,'B,R,T',0,'L');
+   
+   $pdf->SetFont('Arial','B',8);
+   $pdf->Cell(20,5,'HORA SAIDA:', 'B,T',0, 'L',0);
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(20, 5, $row['horasaida_forno'] ,'B,R,T',0,'L');
+   
+   $pdf->SetFont('Arial','B',8);
+   $pdf->Cell(16,5,'SITUAÇÃO: ', 'B,T',0, 'L',0);
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(22, 5, $row['situacao'] ,'B,R,T',1,'L');
+   
+   $pdf->SetFont('Arial','B',8);
+   $pdf->Cell(16,5,'CLIENTE:', 'B,L',0, 'L',0);
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(72, 6, $row['prodes'],'L,B',0,'L');
-   
-   $pdf->SetFont('Arial','',9);
-   $pdf->Cell(19, 6, $row['dataent_forno'],'L,B',0,'C');
-   
-   $pdf->SetFont('Arial','',9);
-   $pdf->Cell(19, 6, $row['horaent_forno'],'L,B',0,'C');
-   
-   $pdf->SetFont('Arial','',9);
-   $pdf->Cell(21, 6, $row['datasaida_forno'],'L,B',0,'C');
-       
-   $pdf->SetFont('Arial','',9);
-   $pdf->Cell(24, 6, $row['horasaida_forno'],'L,B',0,'C');
-   
-   $pdf->SetFont('Arial','',8);
-   $pdf->Cell(22, 6, $row['situacao'],'L,B,R',1,'C');
+   $pdf->Cell(78, 5, $row['emp_razaosocial'],'B,R',0,'L');
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(16,6,'CLIENTE:', 'B,L',0, 'L',0);
-   $pdf->SetFont('Arial','',7);
-   $pdf->Cell(78, 6, $row['emp_razaosocial'],'B,R',0,'L');
+   $pdf->Cell(18,5,'DATA OP:', 'B',0, 'L',0);
+   $pdf->SetFont('Arial','',8);
+   $pdf->Cell(20, 5, $row['data'],'B,R',0,'L');
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(18,6,'DATA OP:', 'B',0, 'L',0);
+   $pdf->Cell(10,5,'NOTA:', 'B',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(20, 6, $row['data'],'B,R',0,'L');
+   $pdf->Cell(11, 5, $row['documento'],'B,R',0,'L');
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(10,6,'NOTA:', 'B',0, 'L',0);
+   $pdf->Cell(10,5,'PESO:', 'B',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(11, 6, $row['documento'],'B,R',0,'L');
+   $pdf->Cell(14, 5, number_format($row['peso'], 2, ',', '.'),'B,R',0,'L');
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(10,6,'PESO:', 'B',0, 'L',0);
+   $pdf->Cell(6,5,'QT:', 'B',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(14, 6, number_format($row['peso'], 2, ',', '.'),'B,R',0,'L');
-   
-   $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(6,6,'QT:', 'B',0, 'L',0);
-   $pdf->SetFont('Arial','',8);
-   $pdf->Cell(16, 6, number_format($row['quant'], 2, ',', '.'),'B,R',1,'L');
+   $pdf->Cell(16, 5, number_format($row['quant'], 2, ',', '.'),'B,R',1,'L');
    
    $pdf->Cell(100,5,'', '',1, '',0);
 

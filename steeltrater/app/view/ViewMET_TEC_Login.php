@@ -60,7 +60,7 @@ class ViewMET_TEC_Login extends View {
                 . ' <input type="password" class="form-control" name="loginsenha" style="font-size:14px;" value="' . $sPass . '" id="psswd"/>'
                 . ' <label class="floating-label">Senha</label>'
                 . '</div>'
-                . ' <input type="button" class="btn btn-block btn-success margin-top-40" id="12345" value="ENTRAR" onclick="requestAjax(\'frm-login\',\'MET_TEC_Login\',\'logaSistema\',\'\')" />'
+                . ' <input type="button" class="btn btn-block btn-success margin-top-40" id="btn_entrar" value="ENTRAR" onclick="requestAjax(\'frm-login\',\'MET_TEC_Login\',\'logaSistema\',\'\')" />'
                 . '</form>'
                 . '<p><a href="#" data-target="#style2538359449931f24b2" data-toggle="modal" id="solicita">Clique aqui para solicitar um usuário.</a></p>'
                 . '<a target="_blank" href="https://www.youtube.com/channel/UCO6rJtl4ePqsWRTztRFkE5w"><img src="biblioteca/assets/images/youtube.png" /></a>'
@@ -194,9 +194,18 @@ class ViewMET_TEC_Login extends View {
            $sTelaIncial.='<script>'
           .' $(document).ready(function () { '
           .' $("#solicita").click();  ' 
+          .' alert();'
           .'}); '
           .'</script>';
         }
+        //verifica se tem a senha salva
+       /*  if (isset($_COOKIE['pass'])) {
+         $sTelaIncial.='<script>'
+          .' $(document).ready(function () { '
+          .' $("#btn_entrar").click();  ' 
+          .'}); '
+          .'</script>';
+         }*/
           
         
         return $sTelaIncial;

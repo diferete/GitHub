@@ -293,9 +293,17 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
      
         //totalizadores retorno peso, insumo, serviço
         
-        $oRetornoTot = new Campo('RETORNO','retorno',  Campo::TIPO_BADGE,2);
+        $oRetornoTot = new Campo('PESO RETORNO','retorno',  Campo::TIPO_TEXTO,2,2,2,2);
         $oRetornoTot->setSEstiloBadge(Campo::BADGE_PRIMARY);
-        $oRetornoTot->setLabel('PESO/QUANT. RETORNO: '.$sRetorno);
+        $oRetornoTot->setSCorFundo(Campo::FUNDO_AZUL);
+        $oRetornoTot->setBCampoBloqueado(true);
+        $oRetornoTot->setSValor(number_format($aValor[3], 2,',', '.'));
+        
+        $oVolumes = new Campo('TOTAL VOLUMES','volumes',  Campo::TIPO_TEXTO,2,2,2,2);
+        $oVolumes->setSEstiloBadge(Campo::BADGE_PRIMARY);
+        $oVolumes->setSCorFundo(Campo::FUNDO_AZUL);
+        $oVolumes->setBCampoBloqueado(true);
+        $oVolumes->setSValor(number_format($aValor[4], 2,',', '.'));
         
         $oInsumoTot = new Campo('INSUMO','insumo',  Campo::TIPO_BADGE,2);
         $oInsumoTot->setSEstiloBadge(Campo::BADGE_PRIMARY);
@@ -309,7 +317,7 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
          $oCheckCertificado = new campo('Gera certificado','chkcert', Campo::TIPO_CHECK,3,3,3,3);
         $oCheckCertificado->setApenasTela(true);
         $oCheckCertificado->setBValorCheck(true);
-        $oCheckCertificado->setIMarginTop(-22);
+        $oCheckCertificado->setIMarginTop(0);
         //-------------------Botão inserir-----------------------------
 
         $oBtnInserir = new Campo('Inserir','',  Campo::TIPO_BOTAOSMALL_SUB,1);
@@ -318,7 +326,7 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
         //id form,id incremento,id do grid, id focus,    
         $sAcao = 'requestAjax("'.$this->getTela()->getId().'-form","'.$this->getController().'","pedAcaoDetalheIten",'  //acaoIncluirDetSteel  pedAcaoDetalheIten
                 . '"'.$this->getTela()->getId().'-form,'.$oSeq->getId().','.$sGrid.','.$oOp->getId().','
-                . ''.$oRetornoTot->getId().','.$oInsumoTot->getId().','.$oServicoTot->getId().','.$oCheckCertificado->getId().'","'.$aValor[0].','.$aValor[1].'");';
+                . ''.$oRetornoTot->getId().','.$oVolumes->getId().','.$oServicoTot->getId().','.$oCheckCertificado->getId().'","'.$aValor[0].','.$aValor[1].'");';
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
@@ -327,7 +335,7 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
        
                 
         $this->addCampos(array($oFilial,$oNrCarga,$oSeq,$oOp,$oBtnInserir),$oLinha,
-        array($oRetornoTot,$oCheckCertificado));
+        array($oRetornoTot,$oVolumes,$oCheckCertificado));
         
         //adiciona objetos campos para servirem como filtros iniciais do grid
         $this->addCamposFiltroIni($oFilial,$oNrCarga);

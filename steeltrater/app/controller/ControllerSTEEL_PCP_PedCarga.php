@@ -206,6 +206,12 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
             echo '$("#' . $aId[4] . '").val("304");';
         }
         
+         if($oDados->getTipoOrdem()=='A'){
+            $oMensagem = new Mensagem('Atenção!','Ordem de produção de venda!', Mensagem::TIPO_INFO,'9000');
+            echo $oMensagem->getRender();
+            echo '$("#' . $aId[4] . '").val("300");';
+        }
+        
         $oTab = Fabrica::FabricarController('STEEL_PCP_TabCabPreco');
         $oTab->Persistencia->adicionaFiltro('emp_codigo',$oDados->getEmp_codigo());
         $oTab->Persistencia->adicionaFiltro('sit','INATIVA',0,10);

@@ -171,7 +171,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oNucDurMax = new Campo('Dur.NucMax.','durezaNucMax', Campo::TIPO_DECIMAL,2);
         //$oNucDurMax->addValidacao(false, Validacao::TIPO_DECIMAL);
        
-        $oNucEscala = new Campo('Escala','NucEscala', Campo::TIPO_SELECT,1);
+        $oNucEscala = new Campo('Escala','NucEscala', Campo::CAMPO_SELECTSIMPLE,1);
         $oNucEscala->addItemSelect('HRC','HRC');
         $oNucEscala->addItemSelect('HV','HV');
         $oNucEscala->addItemSelect('HRB','HRB');
@@ -183,7 +183,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
     
         $oSupDurMax = new Campo('Dur.SuperfMax','durezaSuperfMax', Campo::TIPO_DECIMAL,2);
      
-        $oSupEscala = new Campo('Escala','SuperEscala', Campo::TIPO_SELECT,1);
+        $oSupEscala = new Campo('Escala','SuperEscala', Campo::CAMPO_SELECTSIMPLE,1);
         $oSupEscala->addItemSelect('HRC','HRC');
         $oSupEscala->addItemSelect('HV','HV');
         $oSupEscala->addItemSelect('HRB','HRB');
@@ -205,7 +205,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oTratReven->addItemSelect('ENEGRECIDO OLEADO','REVENIDO ENEGRECIDO OLEADO');
         
         
-        $oPpap = new Campo('PPAP','ppap', Campo::TIPO_SELECT,1);
+        $oPpap = new Campo('PPAP','ppap', Campo::CAMPO_SELECTSIMPLE,1);
         $oPpap->addItemSelect('S','Sim');
         $oPpap->addItemSelect('N','Não');
         $oPpap->setSValor('N');

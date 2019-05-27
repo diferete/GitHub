@@ -50,7 +50,8 @@ $pdf->Cell(0,3,'','T',1,'L');
      //busca os dados do banco
      $PDO = new PDO("sqlsrv:server=".Config::HOST_BD.",".Config::PORTA_BD."; Database=".Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
      $sSqli = "select STEEL_PCP_ordensFabLista.op, STEEL_PCP_ordensFabLista.situacao, prioridade, 
-               tempForno, prod, STEEL_PCP_ordensFab.prodes, peso, emp_razaosocial 
+               tempForno, prod, STEEL_PCP_ordensFab.prodes, peso, emp_razaosocial,
+               STEEL_PCP_ordensFabLista.nrcarga
                from STEEL_PCP_ordensFabLista left join STEEL_PCP_ordensFab on
                STEEL_PCP_ordensFabLista.op = STEEL_PCP_ordensFab.op
                where STEEL_PCP_ordensFabLista.fornocod = '".$oCodForno."' and STEEL_PCP_ordensFabLista.situacao = 'Liberado'
@@ -128,12 +129,14 @@ $pdf->Cell(0,3,'','T',1,'L');
        $pdf->Cell(50,4,$rowItens['tratdes'], '',0, 'L',0);
    
        $pdf->SetFont('Arial','',7);
-       $pdf->Cell(5,4,number_format($rowItens['temperatura'], 0, ',', '.'), '',0, 'L',0);
+       $pdf->Cell(14,4,number_format($rowItens['temperatura'], 0, ',', '.'), '',0, 'L',0);
        
    }
    $pdf->SetFont('Arial','B',7);
+   $pdf->Cell(5,4,'Número da carga:'.number_format($row['nrcarga'], 0, ',', '.'), '',0, 'L',0);
    $pdf->Cell(0,4,'', '',1, 'L',0);
    
+  
    $pdf->SetFont('Arial','B',5);
    $pdf->Cell(200,2,'', 'T',1, 'L',0);
    $peso = ($peso + $row['peso']);

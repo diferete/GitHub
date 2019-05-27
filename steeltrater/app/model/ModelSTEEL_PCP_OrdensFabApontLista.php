@@ -30,7 +30,17 @@ class ModelSTEEL_PCP_OrdensFabApontLista {
     private $dataprev;
     private $situacao;
     private $temprev;
+    private $referencia;
     
+    function getReferencia() {
+        return $this->referencia;
+    }
+
+    function setReferencia($referencia) {
+        $this->referencia = $referencia;
+    }
+
+        
     function getOp() {
         return $this->op;
     }

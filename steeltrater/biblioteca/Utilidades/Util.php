@@ -13,6 +13,23 @@ class Util {
     const MASCARA_CNPJ = '##.###.###/####-##';
     const MASCARA_FONE = '(##) ####-####';
     const MASCARA_CEP = '#####-###';
+    const MASCARA_NCM = '####.##.##-###';
+    
+    function maskNew($val, $mask){
+    $maskared = '';
+    $k = 0;
+    for($i = 0; $i<=strlen($mask)-1; $i++){
+       if($mask[$i] == '#'){
+       if(isset($val[$k]))
+       $maskared .= $val[$k++];
+    }
+    else{
+    if(isset($mask[$i]))
+    $maskared .= $mask[$i];
+    }
+    }
+    return $maskared;
+  }
 
     public function getHoraAtual() {
         $h = (float) (date('H') * 3600);
@@ -151,13 +168,6 @@ class Util {
         $iQtdDecimais = strlen($aDecimais[1]) < 2 ? 2 : strlen($aDecimais[1]);
 
         return number_format($valor, $iQtdDecimais, ",", ".");
-    }
-
-    public function formataSqlDecimal($valor) {
-        $iValor = bcdiv($valor, 1, 2);
-        $aDecimais = explode('.', $iValor);
-        $sValor = $aDecimais[0] . ',' . $aDecimais[1];
-        return $sValor;
     }
 
     public static function removeAcentos($sString) {
@@ -308,7 +318,7 @@ class Util {
             $h = $hora[0];
             $m = $hora[1];
 
-            $sHoraConvert = $h . ":" . $m;
+            $sHoraConvert = $h . ":" . $m ;
             return $sHoraConvert;
         }
     }

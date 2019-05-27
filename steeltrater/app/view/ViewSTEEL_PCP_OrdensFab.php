@@ -11,12 +11,21 @@ class ViewSTEEL_PCP_OrdensFab extends View{
     public function criaConsulta() {
         parent::criaConsulta();
         
+        $this->getTela()->setBGridResponsivo(false);
+        
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Analisar apontamentos!');
         $oBotaoModal->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalAponta', 'modalAponta');
         $this->addModais($oBotaoModal);
+        
+        $oBotaoFat = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_FLAG);
+        $oBotaoFat->setBHideTelaAcao(true);
+        $oBotaoFat->setILargura(15);
+        $oBotaoFat->setSTitleAcao('Itens que vão para nota fiscal!');
+        $oBotaoFat->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalFat', 'modalFat');
+        $this->addModais($oBotaoFat);
         
         $oEmpCod = new CampoConsulta('Cnpj','emp_codigo');
         $oSeq = new CampoConsulta('Seq.Material','seqmat');
@@ -39,9 +48,9 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         
         $oDocumento = new CampoConsulta('NotaEnt', 'documento');
         $oTipOrdem = new CampoConsulta('Tipo','tipoOrdem');
-        $oTipOrdem->addComparacao('P', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Padrão');
-        $oTipOrdem->addComparacao('F', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Fio Máq.');
-        $oTipOrdem->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Arame');
+        //$oTipOrdem->addComparacao('P', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Padrão');
+        //$oTipOrdem->addComparacao('F', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Fio Máq.');
+        //$oTipOrdem->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'Arame');
         
         $oNrCarga = new campoconsulta('NºCarga','nrCarga');
         
@@ -70,10 +79,10 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $this->setUsaAcaoExcluir(FALSE);
         $this->setUsaAcaoVisualizar(true);
         
-        $this->setBScrollInf(false);
+        $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
         
-        $this->addCampos($oOp,$oBotaoModal,$oTipOrdem,$oSituacao,$Pendencia,$oNrCarga,$oData,$oCodigo,$oReferencia,$oProdes,$oPeso,$oRetrabalho,$oDocumento);
+        $this->addCampos($oOp,$oBotaoModal,$oBotaoFat,$oSituacao,$Pendencia,$oData,$oCodigo,$oReferencia,$oProdes,$oPeso,$oRetrabalho,$oDocumento,$oNrCarga,$oTipOrdem);
         
        
         $this->setUsaDropdown(true);
@@ -130,7 +139,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
            {$oDocumento->setSValor($oDados->getNfnro());}   
          }
         
-        $oTipo = new Campo('Tipo OP','tipoOrdem', Campo::TIPO_SELECT,3);
+        $oTipo = new Campo('Tipo OP','tipoOrdem', Campo::CAMPO_SELECTSIMPLE,3,3,3,3);
         $oTipo->addItemSelect('P','Padrão - Tempera');
         $oTipo->addItemSelect('F','Fio Máquina - Industrialização'); 
         $oTipo->addItemSelect('A','Arame - Venda');
@@ -231,7 +240,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
        
         //referencia do produto do cliente
         $oReferencia = new campo('Referência do Cliente <span class="badge badge-success">Ativado busca</span>'
-                . '<span class="badge badge-warning">Para Metalbo não necessário informar</span>','referencia', Campo::TIPO_TEXTO,5,5,5,5);
+                . '<span class="badge badge-warning">Para Metalbo não necessário informar</span>','referencia', Campo::TIPO_TEXTO,6,6,6,6);
         $oReferencia->setSCorFundo(Campo::FUNDO_AMARELO);
         //$oReferencia->addValidacao(false, Validacao::TIPO_STRING);
         if($sClasse !=='ModelSTEEL_PCP_ImportaXml'){
@@ -242,6 +251,8 @@ class ViewSTEEL_PCP_OrdensFab extends View{
             {$oReferencia->setSValor($oDados->getProcod());}
         }
         $oReferencia->addEvento(Campo::EVENTO_SAIR,$sEventoReferencia);
+        
+        $oOpAntes = new Campo('Op sistema anterior','opAntes', Campo::TIPO_TEXTO,3,3,3,3);
      
         $oGridMat = new campo('Produto/Material/Receita', 'gridMat', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
         $oGridMat->getOGrid()->setAbaSel($this->getSIdAbaSelecionada());
@@ -436,7 +447,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         
         $oField1 = new FieldSet('Retrabalho');
         
-        $oRetrabalho = new Campo('Retrabalho','retrabalho', Campo::TIPO_SELECT,2,2,2,2);
+        $oRetrabalho = new Campo('Retrabalho','retrabalho', Campo::CAMPO_SELECTSIMPLE,3,3,3,3,3);
         $oRetrabalho->setSValor('Não');
         $oRetrabalho->addItemSelect('Não','Não');
         $oRetrabalho->addItemSelect('Sim','Sim');
@@ -467,7 +478,7 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $this->addCampos(array($oOp,$oOrigem,$oData,$oHora,$oUser,$oSeqProdNr, $oSituacao),
                 $oLinha,
                 array($oDocumento,$oEmp_codigo,$oEmp_des,$oTipo),$oLinha,
-                $oReferencia,$oLinha,
+                array($oReferencia,$oOpAntes),$oLinha,
                 array($oCodigo,$oProdes),$oLinha,
                 array($oProdFinal,$oProdFinalDes,$oBtnPesqOp),$oLinha,
                 $oGridMat,$oLinha,
@@ -672,5 +683,99 @@ class ViewSTEEL_PCP_OrdensFab extends View{
                 array($oDtEnt,$oHoEnt,$oUserE),$sLinha,
                 $oDiv1,$sLinha,
                 array($oDtSai,$oHoSai,$oUserS));
+    }
+    
+    
+     public function criaModalFat($aOp){
+        parent::criaModal();
+
+        $this->setBTela(true);
+        
+        //carrega a op
+        $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op',$aOp[1]);
+        $oDadosOp = $oOp->Persistencia->consultarWhere();
+        $_REQUEST['campos']= 'emp_codigo='.$oDadosOp->getEmp_codigo();
+        
+        $oOp->Model=$oDadosOp;
+        
+        $aDados =$oOp->pendenciasOP($aOp);
+        
+        $oTabela = new Campo('Tabela de preço','tabpreco', Campo::TIPO_TEXTO,4);
+        $oTabela->setSValor($aDados['tabela']);
+        $oTabela->setBCampoBloqueado(true);
+        $oNcm = new campo('Ncm retorno','ncm', Campo::TIPO_TEXTO,3);
+        $oNcm->setSValor($aDados['ncm']);
+        $oNcm->setBNCM(true);
+        $oNcm->setBCampoBloqueado(true);
+        $oTipoOP = new campo('Tipo OP','tipoOp', Campo::TIPO_TEXTO,3);
+        $oTipoOP->setBCampoBloqueado(true);
+        //define o tipo da op
+        
+        switch ($oOp->Model->getTipoOrdem()) {
+            case 'P':
+                $oTipoOP->setSValor('Padrão - Têmpera');
+                break;
+            case 'F':
+                $oTipoOP->setSValor('Fio Máquina - Industrialização');
+                break;
+            case 'A':
+                $oTipoOP->setSValor('Arame - Venda');
+                break;
+            default:
+               $oTipoOP->setSValor('Padrão');
+        }
+       
+        $oLinha = new Campo('','linha', Campo::TIPO_LINHA,12);
+        $oRetorno = new Campo('Retorno','retorno', Campo::TIPO_TEXTO,6);
+        $oRetorno->setSValor($oDadosOp->getProdesFinal());
+        $oRetorno->setBCampoBloqueado(true);
+        $oQuantRet = new Campo('Qt.Retorno','qtRetorno', Campo::TIPO_DECIMAL,2);
+        $oQuantRet->setBCampoBloqueado(true);
+        $oQuantRet->setSValor(number_format($oDadosOp->getQuant(), 2, ',', '.'));
+        $oPesoRet = new campo('Peso.Retorno','pesoRetorno',Campo::TIPO_DECIMAL,2);
+        $oPesoRet->setBCampoBloqueado(true);
+        $oPesoRet->setSValor(number_format($oDadosOp->getPeso(), 2, ',', '.'));
+        $oValorTotRet = new campo('Vlr.Total','vlrTotRetorno',Campo::TIPO_DECIMAL,2);
+        $oValorTotRet->setBCampoBloqueado(true);
+        $oValorTotRet->setSValor(number_format($oDadosOp->getVlrNfEnt(), 2, ',', '.'));
+        
+        $oGrid = new Campo('','insumo', Campo::TIPO_GRIDVIEW,12,12,12,12);
+        $oGrid->addCabGridView('Insumo');
+        $oGrid->addCabGridView('Descrição do insumo');
+        $oGrid->addCabGridView('Quantidade');
+        $oGrid->addCabGridView('Valor');
+        $oGrid->addCabGridView('Total');
+        
+        $oGrid1 = new Campo('','servico', Campo::TIPO_GRIDVIEW,12,12,12,12);
+        $oGrid1->addCabGridView('Serviço');
+        $oGrid1->addCabGridView('Descrição do serviço');
+        $oGrid1->addCabGridView('Quantidade');
+        $oGrid1->addCabGridView('Valor');
+        $oGrid1->addCabGridView('Total');
+       
+        
+        $this->addCampos(array($oTabela,$oNcm,$oTipoOP),$oLinha,
+                array($oRetorno,$oQuantRet,$oPesoRet,$oValorTotRet),$oLinha);
+        
+        foreach ($aDados['insumo'] as $keyInsumo => $oInsumo) {
+           $oGrid->addLinhasGridView(1,$oInsumo->getProd());
+           $oGrid->addLinhasGridView(1,$oInsumo->getSTEEL_PCP_Produtos()->getPro_descricao());
+           $oGrid->addLinhasGridView(1,number_format($oDadosOp->getPeso(), 2, ',', '.'));
+           $oGrid->addLinhasGridView(1,number_format($oInsumo->getPreco(), 2, ',', '.'));
+           $TotalInsumo = $oDadosOp->getPeso() * $oInsumo->getPreco();
+           $oGrid->addLinhasGridView(1,number_format($TotalInsumo, 2, ',', '.'));
+        }
+         $this->addCampos($oGrid);
+         
+        foreach ($aDados['servico'] as $keyServico => $oServico) {
+           $oGrid1->addLinhasGridView(1,$oServico->getProd());
+           $oGrid1->addLinhasGridView(1,$oServico->getSTEEL_PCP_Produtos()->getPro_descricao());
+           $oGrid1->addLinhasGridView(1,number_format($oDadosOp->getPeso(), 2, ',', '.'));
+           $oGrid1->addLinhasGridView(1,number_format($oServico->getPreco(), 2, ',', '.'));
+           $TotalServico = $oDadosOp->getPeso() * $oServico->getPreco();
+           $oGrid1->addLinhasGridView(1,number_format($TotalServico, 2, ',', '.'));
+        }
+         $this->addCampos($oGrid1);
     }
 }

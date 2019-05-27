@@ -27,8 +27,9 @@ class PersistenciaSTEEL_PCP_ordensFabLista extends Persistencia {
         $this->adicionaRelacionamento('dataEntForno', 'dataEntForno');
         $this->adicionaRelacionamento('horaEntForno','horaEntForno');
         $this->adicionaRelacionamento('seqApont','seqApont');
-        $this->adicionaRelacionamento('tempforno','tempforno');
+        $this->adicionaRelacionamento('tempForno','tempForno');
         $this->adicionaRelacionamento('prioridade', 'prioridade');
+        $this->adicionaRelacionamento('nrCarga','nrCarga');
         
 
         $this->setSTop('1000');
@@ -44,7 +45,8 @@ class PersistenciaSTEEL_PCP_ordensFabLista extends Persistencia {
                 fornocod='".$oModel->getFornocod()."',
                 fornodes='".$oModel->getFornodes()."',
                 tempForno='".$oModel->getTempForno()."',
-                prioridade='".$oModel->getPrioridade()."'
+                prioridade='".$oModel->getPrioridade()."',
+                nrCarga ='".$oModel->getNrCarga()."'
                 where nr='".$oModel->getNr()."'";  
       $aRetorno= $this->executaSql($sSql);
       return $aRetorno;

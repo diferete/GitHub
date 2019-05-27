@@ -10,7 +10,7 @@ class ViewQualCausa extends View {
 
     function criaGridDetalhe() {
         parent::criaGridDetalhe();
-
+ 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */

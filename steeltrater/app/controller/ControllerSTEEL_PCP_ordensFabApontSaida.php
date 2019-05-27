@@ -20,7 +20,7 @@ class ControllerSTEEL_PCP_ordensFabApontSaida extends Controller {
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
         
-        $oUserForno = Fabrica::FabricarController('STEEL_PCP_fornoUser');
+     /*   $oUserForno = Fabrica::FabricarController('STEEL_PCP_fornoUser');
         
         $oFornoUser = $oUserForno->pesqFornoUser();
         
@@ -31,7 +31,11 @@ class ControllerSTEEL_PCP_ordensFabApontSaida extends Controller {
             $sForno=$oFornoUser->getFornocod();
         }}
         
-        $this->Persistencia->adicionaFiltro('fornocod',$sForno);
+        //caso o campo esteja selecionado um forno ele deve limpar e filtrar por esse forno
+        
+        
+        
+        $this->Persistencia->adicionaFiltro('fornocod',$sForno);*/
     }
     /*
      * Mensagem de finalização da OP em processo
@@ -127,4 +131,37 @@ class ControllerSTEEL_PCP_ordensFabApontSaida extends Controller {
        
     }
     
+    public function beforFiltroConsulta($sParametros = null) {
+        parent::beforFiltroConsulta($sParametros);
+        //array_pop($cesta);
+        if ($_REQUEST['parametrosCampos']) {
+                foreach ($_REQUEST['parametrosCampos'] as $sAtual) {
+                    $aFiltros[] = explode('|', $sAtual);
+                }
+            }
+            //caso de não se informar o forno
+            if($aFiltros['2']['1']=='--'){
+               array_pop($_REQUEST['parametrosCampos']); 
+               
+               $oUserForno = Fabrica::FabricarController('STEEL_PCP_fornoUser');
+               $oFornoUser = $oUserForno->pesqFornoUser();
+
+                if(isset($_COOKIE['cookfornocod'])){
+                    $sForno = $_COOKIE['cookfornocod'];
+                }else{
+                if (method_exists($oFornoUser,'getFornocod')){
+                    $sForno=$oFornoUser->getFornocod();
+                }}
+                $this->Persistencia->adicionaFiltro('fornocod',$sForno);
+             }
+            
+            
+            
+             
+           
+
+
+
+            
+    }
 }    

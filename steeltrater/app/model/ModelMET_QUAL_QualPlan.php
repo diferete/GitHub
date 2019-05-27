@@ -34,26 +34,6 @@ class ModelMET_QUAL_QualPlan {
     private $procedimento;
     private $fluxograma;
     
-    function getDatafim() {
-        return $this->datafim;
-    }
-
-    function getObsfim() {
-        return $this->obsfim;
-    }
-
-    function getSitfim() {
-        return $this->sitfim;
-    }
-
-    function getAnexofim() {
-        return $this->anexofim;
-    }
-
-    function getNrEfi() {
-        return $this->nrEfi;
-    }
-
     function getFuncao() {
         return $this->funcao;
     }
@@ -90,26 +70,6 @@ class ModelMET_QUAL_QualPlan {
         return $this->fluxograma;
     }
 
-    function setDatafim($datafim) {
-        $this->datafim = $datafim;
-    }
-
-    function setObsfim($obsfim) {
-        $this->obsfim = $obsfim;
-    }
-
-    function setSitfim($sitfim) {
-        $this->sitfim = $sitfim;
-    }
-
-    function setAnexofim($anexofim) {
-        $this->anexofim = $anexofim;
-    }
-
-    function setNrEfi($nrEfi) {
-        $this->nrEfi = $nrEfi;
-    }
-
     function setFuncao($funcao) {
         $this->funcao = $funcao;
     }
@@ -144,6 +104,46 @@ class ModelMET_QUAL_QualPlan {
 
     function setFluxograma($fluxograma) {
         $this->fluxograma = $fluxograma;
+    }
+
+    function getDatafim() {
+        return $this->datafim;
+    }
+
+    function getObsfim() {
+        return $this->obsfim;
+    }
+
+    function getSitfim() {
+        return $this->sitfim;
+    }
+
+    function getAnexofim() {
+        return $this->anexofim;
+    }
+
+    function getNrEfi() {
+        return $this->nrEfi;
+    }
+
+    function setDatafim($datafim) {
+        $this->datafim = $datafim;
+    }
+
+    function setObsfim($obsfim) {
+        $this->obsfim = $obsfim;
+    }
+
+    function setSitfim($sitfim) {
+        $this->sitfim = $sitfim;
+    }
+
+    function setAnexofim($anexofim) {
+        $this->anexofim = $anexofim;
+    }
+
+    function setNrEfi($nrEfi) {
+        $this->nrEfi = $nrEfi;
     }
 
     function getTipo() {

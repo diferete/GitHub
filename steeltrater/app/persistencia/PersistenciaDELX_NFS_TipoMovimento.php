@@ -19,6 +19,7 @@ class PersistenciaDELX_NFS_TipoMovimento extends Persistencia {
 
         $this->setSTop('1000');
         $this->adicionaOrderBy('nfs_tipomovimentocodigo', 0);
+        $this->adicionaFiltro('nfs_tipomovimentocodigo', '300',0,2);
     }
 
 }

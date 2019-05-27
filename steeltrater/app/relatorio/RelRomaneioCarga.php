@@ -55,28 +55,28 @@ foreach ($nCargas as $key => $aCarga) {
     //busca os dados do banco pegando a carga do foreach
     $PDO = new PDO("sqlsrv:server=".Config::HOST_BD.",".Config::PORTA_BD."; Database=".Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
     $sSql = "select PDV_PedidoEmpCodigo,
-                     pdv_pedido.PDV_PedidoDataEmissao, 
-                     pdv_pedido.PDV_PedidoSituacao, 
-                     pdv_pedido.PDV_PedidoAprovacao,
-                     PDV_PedidoItemSeq,
-                     PDV_PedidoItemProduto,
-                     PDV_PedidoItemProdutoNomeManua,
-                     PDV_PedidoItemQtdPedida,
-                     PDV_PedidoItemProdutoUnidadeMa,
-                     PDV_PedidoItemValorUnitario,
-                     PDV_PedidoItemValorTotal,
-                     pro_ncm
+                pdv_pedido.PDV_PedidoDataEmissao, 
+                pdv_pedido.PDV_PedidoSituacao, 
+                pdv_pedido.PDV_PedidoAprovacao,
+                PDV_PedidoItemSeq,
+                PDV_PedidoItemProduto,
+                PDV_PedidoItemProdutoNomeManua,
+                PDV_PedidoItemQtdPedida,
+                PDV_PedidoItemProdutoUnidadeMa,
+                PDV_PedidoItemValorUnitario,
+                PDV_PedidoItemValorTotal,
+                pro_ncm
                 from pdv_pedido left outer join pdv_pedidoitem 
                 on pdv_pedido.PDV_PedidoFilial = pdv_pedidoitem.PDV_PedidoFilial
                 and pdv_pedido.PDV_PedidoCodigo = pdv_pedidoitem.PDV_PedidoCodigo left outer join PRO_PRODUTO
                 on pdv_pedidoitem.PDV_PedidoItemProduto = PRO_PRODUTO.PRO_Codigo
-                    where pdv_pedido.PDV_PedidoCodigo='".$aCarga."' order by pdv_pedidoitemseq";
+                where pdv_pedido.PDV_PedidoCodigo='".$aCarga."' order by pdv_pedidoitemseq";
     $dadosCarga = $PDO->query($sSql);
     
     $iConta = 0;
     $dValorTotal = 0;
     while($rowIten = $dadosCarga->fetch(PDO::FETCH_ASSOC)){
-        
+    
     if ($iConta==0){
      $iConta++;   
     //Pega dados da empresa
@@ -104,15 +104,15 @@ foreach ($nCargas as $key => $aCarga) {
     $pdf->SetFont('Arial','B',8);
     $pdf->Cell(25, 5, 'CÓDIGO','B',0,'L');
     $pdf->SetFont('Arial','B',8);
-    $pdf->Cell(80, 5, 'DESCRIÇÃO','B',0,'L');
+    $pdf->Cell(99, 5, 'DESCRIÇÃO','B',0,'L');
     $pdf->SetFont('Arial','B',8);
     $pdf->Cell(15, 5, 'QTD.','B',0,'L');
     $pdf->SetFont('Arial','B',8);
     $pdf->Cell(10, 5, 'UN.','B',0,'L');
     $pdf->SetFont('Arial','B',8);
-    $pdf->Cell(20, 5, 'VALOR','B',0,'L');
+    $pdf->Cell(15, 5, 'VALOR','B',0,'L');
     $pdf->SetFont('Arial','B',8);
-    $pdf->Cell(29, 5, 'TOTAL','B',0,'L');
+    $pdf->Cell(15, 5, 'TOTAL','B',0,'L');
     $pdf->Cell(20, 5, 'NCM','B',1,'L');
     }
     
@@ -120,16 +120,16 @@ foreach ($nCargas as $key => $aCarga) {
     
     $pdf->SetFont('Arial','B',8);
     $pdf->Cell(25, 5, trim($rowIten['PDV_PedidoItemProduto']),'B',0,'L');
-    $pdf->SetFont('Arial','',8);
-    $pdf->Cell(80, 5, $rowIten['PDV_PedidoItemProdutoNomeManua'] ,'B',0,'L');
+    $pdf->SetFont('Arial','',7);
+    $pdf->Cell(99, 5, $rowIten['PDV_PedidoItemProdutoNomeManua'] ,'B',0,'L');
     $pdf->SetFont('Arial','',8);
     $pdf->Cell(15, 5, number_format($rowIten['PDV_PedidoItemQtdPedida'], 2, ',', '.'),'B',0,'L');  
     $pdf->SetFont('Arial','',8);
     $pdf->Cell(10, 5, $rowIten['PDV_PedidoItemProdutoUnidadeMa'] ,'B',0,'L');
     $pdf->SetFont('Arial','',8);
-    $pdf->Cell(20, 5, number_format($rowIten['PDV_PedidoItemValorUnitario'], 2, ',', '.') ,'B',0,'L'); 
+    $pdf->Cell(15, 5, number_format($rowIten['PDV_PedidoItemValorUnitario'], 2, ',', '.') ,'B',0,'L'); 
     $pdf->SetFont('Arial','',8);
-    $pdf->Cell(29, 5, number_format($rowIten['PDV_PedidoItemValorTotal'], 2, ',', '.') ,'B',0,'L');
+    $pdf->Cell(15, 5, number_format($rowIten['PDV_PedidoItemValorTotal'], 2, ',', '.') ,'B',0,'L');
     $pdf->SetFont('Arial','',8);
     $pdf->Cell(20, 5,$rowIten['pro_ncm'] ,'B',1,'L');
     

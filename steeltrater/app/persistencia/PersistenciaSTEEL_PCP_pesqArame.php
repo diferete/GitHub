@@ -172,7 +172,7 @@ class PersistenciaSTEEL_PCP_pesqArame extends Persistencia {
         ///////////////////////////////////////////////////////////////////////////////
         
         
-        $this->setSTop('30');
+        $this->setSTop('100');
         $this->adicionaOrderBy('pro_codigo', 1);
 
         $this->adicionaJoin('DELX_PRO_UnidadeMedida');

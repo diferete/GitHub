@@ -189,6 +189,11 @@ class ViewSTEEL_PCP_PedCarga extends View {
         }
         $this->setSIdControleUpAlt($oAcao->getId());
       
+        //campos para totalizar pesos
+        $oPesoBruto = new Campo('Peso Bruto','PDV_PedidoPesoBruto', Campo::TIPO_DECIMAL,2,2,2,2);
+        $oPesoBruto->setBCampoBloqueado(true);
+        $oPesoLiquido = new Campo('Peso Líquido','PDV_PedidoPesoLiquido', Campo::TIPO_DECIMAL,2,2,2,2);
+        $oPesoLiquido->setBCampoBloqueado(true);
         
         $this->addCampos(
                 array($oFilial,$oUseEmiss,$oDataEmiss,$oDataDig,$oNrCarga,$oPedSit,$oPedAprov),
@@ -196,8 +201,8 @@ class ViewSTEEL_PCP_PedCarga extends View {
                 array($oOpBase,$oEmp_codigo,$oEmp_des),
                 $oLabel,
                 array($oMovCod,$oMov_des),$oLabel,
-                array($oTabPreco,$oTabPrecoDesc,$oDataEnt),$oLabel,
-                array($oFrete,$oMarca,$oEspecie),$oAcao
+                array($oTabPreco,$oTabPrecoDesc,$oDataEnt,$oMarca),$oLabel,
+                array($oFrete,$oEspecie,$oPesoBruto,$oPesoLiquido),$oAcao
                );
     }
 

@@ -11,6 +11,9 @@ class ViewMET_TEC_MigraWinX extends View {
     public function criaTela() {
         parent::criaTela();
 
+        $this->setBOcultaBotTela(true);
+        $this->setBOcultaFechar(true);
+        
         $this->setBTela(true);
 
         $oTab = new TabPanel();
@@ -47,10 +50,14 @@ class ViewMET_TEC_MigraWinX extends View {
         $oBotaoMigraFilial = new Campo('Migra Prod.Filial', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $sAcaoFilial = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","migraProdGeral","pro_filial");';
         $oBotaoMigraFilial->getOBotao()->addAcao($sAcaoFilial);
+        //pro_filialCompleto
+        $oBotaoMigraFilialCompleto = new Campo('Migra Prod.Filial Completo', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $sAcaoFilialCompleto = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","migraProdGeral","pro_filialCompleto");';
+        $oBotaoMigraFilialCompleto->getOBotao()->addAcao($sAcaoFilialCompleto);
 
-        $oAbaProFam->addCampos($oBotaoGrupo, $oBotaoSubGrupo, $oBotaoFamilia, $oBotaoSubFam);
+        $oAbaProFam->addCampos(/*$oBotaoGrupo, $oBotaoSubGrupo, $oBotaoFamilia, $oBotaoSubFam*/);
         
-        $oAbaProProd->addCampos($oBotaoMigraProd, $oBotaoMigraFilial);
+        $oAbaProProd->addCampos($oBotaoMigraProd, $oBotaoMigraFilial/*,$oBotaoMigraFilialCompleto*/);
         
         $oTab->addItems($oAbaProFam, $oAbaProProd);
 

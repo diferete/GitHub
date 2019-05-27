@@ -16,8 +16,14 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
      public function pkDetalhe($aChave) {
         parent::pkDetalhe();
         //vai totalizar os insumos
-        $aInsumos = $this->Persistencia->pesoInsumo($aChave);
-        $aChave[3]=$aInsumos;
+        $aCamposChave['pdv_pedidocodigo'] = $aChave[1];
+        //$aInsumos = $this->Persistencia->pesoInsumo($aChave);
+        //$aChave[3]=$aInsumos;
+        
+        $oPevCabTot = Fabrica::FabricarController('STEEL_PCP_PedCarga');
+        
+        $aChave[3]= $oPevCabTot->Persistencia->buscaPeso($aCamposChave);
+        $aChave[4]= $oPevCabTot->Persistencia->retornaVolumes($aCamposChave);
         $this->View->setAParametrosExtras($aChave);
         
         }
@@ -721,8 +727,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                     }
             }
             //aplica os valores
-            echo '$("#' . $aDados[4] . '").text("PESO/QUANT. RETORNO: ' . number_format($sRetorno, 2, ',', '.'). '");';
-            
+           // echo '$("#' . $aDados[4] . '").text("PESO/QUANT. RETORNO: ' . number_format($sRetorno, 2, ',', '.'). '");';
+             //aplica os valores
+            echo '$("#' . $aDados[4] . '").val("' .number_format($iPesoLiq, 2,',', '.'). '");';
+            echo '$("#' . $aDados[5] . '").val("' .number_format($iVolumes, 2,',', '.'). '");';
             //vamos gerar as parcelas do financeiro
             $this->parcelaPedido($aChave);
             //método que executa após limpar
@@ -783,10 +791,14 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                     //caso não seja metalbo carrega o código do produto do cliente
                     $sInfAdicional = '';
                     if($oDadosOp->getEmp_codigo()!=='75483040000211'){
-                           $sInfAdicional = 'Seu Prod.-> '.$oDadosOp->getReferencia();
-                           $sInfAdicional .= ' Sua NF-> '.$oDadosOp->getDocumento();
+                           $sInfAdicional = 'Seu Prod. '.$oDadosOp->getReferencia();
+                           $sInfAdicional .= ' Sua NF '.$oDadosOp->getDocumento();
+                           if($oDadosOp->getEmp_codigo()=='76812379000104'){
+                                $sInfAdicional .= ' Pedido '.$oDadosOp->getXPed();
+                           }
+                    }else{
+                        $sInfAdicional .= 'Sua NF - '.$oDadosOp->getDocumento();
                     }
-                    $sInfAdicional .= 'Sua NF->'.$oDadosOp->getDocumento();
                     $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
                     break;
 //------------------faz a busca pelo insumo-------------------------------------------------------------
@@ -840,7 +852,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                         //seta informações adicionais
                         $sInfAdicional ='';
                         if($oTabCliDados->getConcatena()==true){
-                           $sInfAdicional = 'Seu Prod.-> '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
+                           $sInfAdicional = 'Seu Prod. '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
                            $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
                         }else{
                             $this->Model->setPDV_PedidoItemObsDescricao(''); 
@@ -908,7 +920,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                         //seta informações adicionais
                         $sInfAdicional ='';
                         if($oTabCliDados->getConcatena()==true){
-                           $sInfAdicional = 'Seu Prod.-> '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
+                           $sInfAdicional = 'Seu Prod. '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
                            $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
                         }else{
                             $this->Model->setPDV_PedidoItemObsDescricao(''); 
@@ -1002,9 +1014,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                     }
             }
             //aplica os valores
-            echo '$("#' . $aDados[4] . '").text("PESO/QUANT. RETORNO: ' .$sRetorno. '");';
-            //  echo '$("#' . $aDados[5] . '").text("QUANT. INSUMO: ' . number_format($sInsumo, 2, ',', '.'). '");';
-            //  echo '$("#' . $aDados[6] . '").text("QUANT. SERVIÇO: ' . number_format($sServico, 2, ',', '.'). '");';
+            echo '$("#' . $aDados[4] . '").val("' .number_format($iPesoLiq, 2,',', '.'). '");';
+            echo '$("#' . $aDados[5] . '").val("' .number_format($iVolumes, 2,',', '.'). '");';
             //vamos gerar as parcelas do financeiro
             $this->parcelaPedido($aChave);
             //método que executa após limpar
@@ -1060,10 +1071,15 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             //caso não seja metalbo carrega o código do produto do cliente
             $sInfAdicional = '';
             if($oDadosOp->getEmp_codigo()!=='75483040000211'){
-                 $sInfAdicional = 'Seu Prod.-> '.$oDadosOp->getReferencia();
-                 $sInfAdicional .= ' Sua NF-> '.$oDadosOp->getDocumento();
+                 $sInfAdicional = 'Seu Prod. '.$oDadosOp->getReferencia();
+                 $sInfAdicional .= ' Sua NF '.$oDadosOp->getDocumento();
+                  if($oDadosOp->getEmp_codigo()=='76812379000104'){
+                                $sInfAdicional .= ' Pedido '.$oDadosOp->getXPed();
+                           }
+            }else{
+                $sInfAdicional .= 'Sua NF '.$oDadosOp->getDocumento();
+                
             }
-            $sInfAdicional .= 'Sua NF->'.$oDadosOp->getDocumento();
             $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
             //gera o insert do retorno
              //Filtros para reload
@@ -1179,7 +1195,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                             //seta informações adicionais
                             $sInfAdicional ='';
                             if($oTabCliDados->getConcatena()==true){
-                               $sInfAdicional = 'Seu Prod.-> '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
+                               $sInfAdicional = 'Seu Prod. '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
                                $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
                             }else{
                                 $this->Model->setPDV_PedidoItemObsDescricao(''); 
@@ -1247,7 +1263,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                         //seta informações adicionais
                         $sInfAdicional ='';
                         if($oTabCliDados->getConcatena()==true){
-                           $sInfAdicional = 'Seu Prod.-> '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
+                           $sInfAdicional = 'Seu Prod. '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
                            $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
                         }else{
                             $this->Model->setPDV_PedidoItemObsDescricao(''); 
@@ -1329,7 +1345,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             //busca nr caixas
             $iVolumes = $oPevCabTot->Persistencia->retornaVolumes($aCampos);
             //atualiza no cabecalho
-            $oPevCabTot->Persistencia->atualizaPeso($aCampos,$iPesoLiq,$iVolumes,$oPevCabDados->getPDV_PedidoEmpCodigo());
+            $oPevCabTot->Persistencia->atualizaPeso($aCampos,$iPesoLiq,$iVolumes,$oPevCabDados->getPDV_PedidoEmpCodigo(),$oDadosOp->getTipoOrdem());
             //gera o totalizador para a tela
             $aTotal = $this->Persistencia->pesoInsumo($aChave);
             
@@ -1349,8 +1365,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                             break;
                     }
             }
+            
             //aplica os valores
-            echo '$("#' . $aDados[4] . '").text("PESO/QUANT. RETORNO: ' . number_format($sRetorno, 2, ',', '.'). '");';
+            echo '$("#' . $aDados[4] . '").val("' .number_format($iPesoLiq, 2,',', '.'). '");';
+            echo '$("#' . $aDados[5] . '").val("' .number_format($iVolumes, 2,',', '.'). '");';
             //vamos gerar as parcelas do financeiro
             $this->parcelaPedido($aChave);
             //método que executa após limpar
@@ -1407,7 +1425,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                  $sInfAdicional = 'Seu Prod.-> '.$oDadosOp->getReferencia();
                  $sInfAdicional .= ' Sua NF-> '.$oDadosOp->getDocumento();
             }*/
-            $sInfAdicional .= 'Sua OC->'.$oDadosOp->getDocumento();
+            $sInfAdicional .= 'Sua OC-'.$oDadosOp->getDocumento();
             $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
             //gera o insert do retorno
              //Filtros para reload
@@ -1486,8 +1504,9 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                             break;
                     }
             }
-            //aplica os valores
-            echo '$("#' . $aDados[4] . '").text("PESO/QUANT. RETORNO: ' . number_format($sRetorno, 2, ',', '.'). '");';
+             //aplica os valores
+            echo '$("#' . $aDados[4] . '").val("' .number_format($iPesoLiq, 2,',', '.'). '");';
+            echo '$("#' . $aDados[5] . '").val("' .number_format($iVolumes, 2,',', '.'). '");';
             
             //vamos gerar as parcelas do financeiro
             $this->parcelaPedido($aChave);
@@ -1926,10 +1945,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                 }
         }
         //aplica os valores
-        echo '$("[name=retorno]").text("PESO/QUANT. RETORNO: ' .$sRetorno. '");';
-        //echo '$("[name=insumo]").text("QUANT. INSUMO: ' . number_format($sInsumo, 2, ',', '.'). '");';
-        //echo '$("[name=servico]").text("QUANT. SERVIÇO: ' . number_format($sServico, 2, ',', '.'). '");';
-        //atualiza as parcelas do financeiro
+        //echo '$("[name=retorno]").text("PESO/QUANT. RETORNO: ' .$sRetorno. '");';
+        
         $this->parcelaPedido($aChave);
         //atualiza o peso
         //consulta a tabela de preço
@@ -1945,7 +1962,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             //atualiza no cabecalho
             $oPevCabTot->Persistencia->atualizaPeso($aCamposChave,$iPesoLiq,$iVolumes,$oPevDadosCab->getPDV_PedidoEmpCodigo());
            
-        
+        //joga dados na tela
+            //aplica os valores
+            echo '$("[name=retorno]").val("' .number_format($iPesoLiq, 2,',', '.'). '");';
+            echo '$("[name=volumes]").val("' .number_format($iVolumes, 2,',', '.'). '");';
         }
 
 

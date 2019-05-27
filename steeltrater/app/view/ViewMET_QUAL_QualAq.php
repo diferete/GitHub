@@ -88,11 +88,10 @@ class ViewMET_QUAL_QualAq extends View {
 
         $this->setUsaDropdown(true);
         /*
-          $oDrop1 = new Dropdown('Ação e Eficácia', Dropdown::TIPO_SUCESSO);
-          $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Finalizar plano de ação', 'QualAqApont', 'acaoMostraTelaApontdiv', '', true, '');
-          $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir avaliação da eficácia', 'QualAqEficaz', 'acaoMostraTelaApontdiv', '', true, '');
-          $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Apontar avaliação da eficácia', 'QualAqEficazApont', 'acaoMostraTelaApontdiv', '', true, '');
-         * 
+          $oDrop1 = new Dropdown('Ação e Eficácia', Dropdown::TIPO_SUCESSO, 2);
+          $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Finalizar plano de ação', 'MET_QUAL_AqPlanApont', 'acaoMostraTelaApontdiv', '', true, '');
+          $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir avaliação da eficácia', 'MET_QUAL_AcaoEficaz', 'acaoMostraTelaApontdiv', '', true, '');
+          $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CALENDARIO) . 'Apontar avaliação da eficácia', 'MET_QUAL_AcaoEficazApont', 'acaoMostraTelaApontdiv', '', true, '');
          */
 
         $oDrop3 = new Dropdown('Movimentação', Dropdown::TIPO_DARK);
@@ -119,10 +118,9 @@ class ViewMET_QUAL_QualAq extends View {
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaAcaoExcluir(false);
 
-        
+
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","MET_QUAL_QualAq","renderTempo",chave+",qualaqtempo");');
-        
     }
 
     public function criaTela() {
@@ -130,17 +128,17 @@ class ViewMET_QUAL_QualAq extends View {
 
         $sAcaoRotina = $this->getSRotina();
 
-        $oTitulo = new Campo('Título da ação da qualidade', 'titulo', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oTitulo = new Campo('Título da ação da qualidade', 'titulo', Campo::TIPO_TEXTO, 3, 6, 12, 12);
         $oLinha1 = new Campo('', '', Campo::TIPO_LINHA, 12);
         $oLinha1->setApenasTela(true);
         $oTitulo->setSCorFundo(Campo::FUNDO_AMARELO);
         $oTitulo->setBFocus(true);
 
-        $oSit = new Campo('Situação', 'sit', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oSit = new Campo('Situação', 'sit', Campo::TIPO_TEXTO, 2, 6, 6, 6);
         $oSit->setSValor('Aberta');
         $oSit->setBCampoBloqueado(true);
 
-        
+
         $oFilcgc = new Campo('Empresa', 'DELX_FIL_Empresa.fil_codigo', Campo::TIPO_BUSCADOBANCOPK, 3, 3, 12, 12);
         $oFilcgc->setSValor($_SESSION['filcgc']);
         $oFilcgc->setBFocus(true);
@@ -158,19 +156,25 @@ class ViewMET_QUAL_QualAq extends View {
         $oFilcgc->addCampoBusca('fil_fantasia', $oFilDes->getId(), $this->getTela()->getId());
 
 
-        $oDataImp = new campo('Implantação', 'dtimp', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDataImp = new campo('Implantação', 'dtimp', Campo::TIPO_TEXTO, 2, 6, 6, 6);
         $oDataImp->setSValor(date('d/m/Y'));
         $oDataImp->setBCampoBloqueado(true);
 
-        $oHora = new Campo('Hora', 'horimp', Campo::TIPO_TEXTO, 2, 3, 12, 12);
+        $oHora = new Campo('Hora', 'horimp', Campo::TIPO_TEXTO, 2, 3, 3, 3);
         $oHora->setITamanho(Campo::TAMANHO_PEQUENO);
         date_default_timezone_set('America/Sao_Paulo');
         $oHora->setSValor(date('H:i'));
         $oHora->setBCampoBloqueado(true);
 
-        $oUserImplant = new campo('Usuário Implantação', 'userimp', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oUserImplant = new campo('Usuário Implantação', 'userimp', Campo::TIPO_TEXTO, 2, 9, 9, 9);
         $oUserImplant->setSValor($_SESSION['nome']);
         $oUserImplant->setBCampoBloqueado(true);
+
+
+        $oCertificacao = new Campo('Classificação', 'classificacao', Campo::TIPO_SELECT, 4, 12, 12, 12);
+        $oCertificacao->addItemSelect('Cliente, processos e produto', 'Cliente, processos e produto');
+        $oCertificacao->addItemSelect('Segurança e saúde ocupacional', 'Segurança e saúde ocupacional');
+        $oCertificacao->addItemSelect('Meio ambiente', 'Meio ambiente');
 
         $oSetor = new campo('...', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oSetor->addValidacao(false, Validacao::TIPO_STRING, '', '1');
@@ -197,21 +201,17 @@ class ViewMET_QUAL_QualAq extends View {
         $oRespNome->addCampoBusca('usunome', '', '');
         $oRespNome->setSIdTela($this->getTela()->getid());
 
+
         $oResp->setClasseBusca('MET_TEC_usuario');
         $oResp->setSCampoRetorno('usucodigo', $this->getTela()->getId());
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
-        $oClassificacao = new Campo('Classificação', 'classificacao', Campo::TIPO_SELECT, 4, 4, 12, 12);
-        $oClassificacao->addItemSelect('Cliente, processos e produto', 'Cliente, processos e produto');
-        $oClassificacao->addItemSelect('Segurança e saúde ocupacional', 'Segurança e saúde ocupacional');
-        $oClassificacao->addItemSelect('Meio ambiente', 'Meio ambiente');
-
         $oDivisor = new Campo('Adiciona equipe', 'addeqp', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor->setApenasTela(true);
 
-        $oCodUser = new campo('Cód.', 'codusuario', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oCodUser = new campo('Cód.', 'codusuario', Campo::TIPO_BUSCADOBANCOPK, 2, 4, 4, 4);
 
-        $oUserNome = new Campo('Participa', 'participante', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oUserNome = new Campo('Participa', 'participante', Campo::TIPO_BUSCADOBANCO, 3, 8, 8, 8);
         $oUserNome->setSIdPk($oCodUser->getId());
         $oUserNome->setClasseBusca('MET_TEC_usuario');
         $oUserNome->addCampoBusca('usucodigo', '', '');
@@ -240,14 +240,14 @@ class ViewMET_QUAL_QualAq extends View {
         $oBotConf->getOBotao()->addAcao($sAcao);
         $oBotConf->setApenasTela(true);
 
-        $oDivisor2 = new Campo('', 'divisor2', Campo::DIVISOR_DARK, 12, 12, 12, 12);
-        $oDivisor2->setApenasTela(true);
+        $oDivisor1 = new Campo('', 'addeqp2', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor1->setApenasTela(true);
 
         $oDataIni = new campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataIni->setSValor(date('d/m/Y'));
 
         /* $oDataFinal = new campo('Data Prevista', 'datafim', Campo::TIPO_DATA, 2, 6, 6, 6);
-        $oDataFinal->setSValor(date('d/m/Y'));
+          $oDataFinal->setSValor(date('d/m/Y'));
          */
 
         $oTipoAcao = new campo('Tipo da ação', 'tipoacao', Campo::TIPO_SELECT, 4, 4, 12, 12);
@@ -286,7 +286,7 @@ class ViewMET_QUAL_QualAq extends View {
         $oEtapas->addItemEtapas('Ação de correção', false, $this->addIcone(Base::ICON_CONFIRMAR));
         $oEtapas->addItemEtapas('Causa raiz do problema', false, $this->addIcone(Base::ICON_LAPIS));
         $oEtapas->addItemEtapas('Plano de ação', false, $this->addIcone(Base::ICON_MARTELO));
-        $oEtapas->addItemEtapas('Avaliação da Eficácia', false, $this->addIcone(Base::ICON_CONFIRMAR));
+        $oEtapas->addItemEtapas('Avaliação da eficácia', false, $this->addIcone(Base::ICON_CONFIRMAR));
 
         $this->addEtapa($oEtapas);
 
@@ -295,7 +295,7 @@ class ViewMET_QUAL_QualAq extends View {
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
 
             //monta campo de controle para inserir ou alterar
-            $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2, 2, 12, 12);
+            $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
             $oAcao->setApenasTela(true);
             if ($this->getSRotina() == View::ACAO_INCLUIR) {
                 $oAcao->setSValor('incluir');
@@ -304,10 +304,10 @@ class ViewMET_QUAL_QualAq extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
             $this->addCampos(
-                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oClassificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor2, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
+                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
         } else {
             $this->addCampos(
-                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oClassificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor2, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr);
+                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr);
         }
     }
 
@@ -373,41 +373,40 @@ class ViewMET_QUAL_QualAq extends View {
         $oDataFin = new Campo('Data Final', 'datafim', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataFin->setSValor(date('d/m/Y'));
 
-        $oSituacao = new Campo ('Situação da Ação', 'situacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oSituacao = new Campo('Situação da Ação', 'situacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oSituacao->addItemSelect('T', 'Todas');
         $oSituacao->addItemSelect('A', 'Aberta');
         $oSituacao->addItemSelect('F', 'Finalizada');
-        
-        $oSituacao2 = new Campo ('Situação do Plano de Ação', 'situacao2', Campo::TIPO_SELECT, 2, 2, 12, 12);
+
+        $oSituacao2 = new Campo('Situação do Plano de Ação', 'situacao2', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oSituacao2->addItemSelect('T', 'Todos');
         $oSituacao2->addItemSelect('A', 'Aberto');
         $oSituacao2->addItemSelect('F', 'Finalizado');
-        
-        $oVencidos = new Campo('Atraso', 'vencido', Campo::TIPO_CHECK, 1,1,12,12);
-                
+
+        $oVencidos = new Campo('Atraso', 'vencido', Campo::TIPO_CHECK, 1, 1, 12, 12);
+
         $oSetor = new campo('Setor', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
         $oSetorDes = new Campo('Descrição', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSetorDes->setSIdPk($oSetor->getId());
-        $oSetorDes->setClasseBusca('MET_CAD_Setores');
+        $oSetorDes->setClasseBusca('Setor');
         $oSetorDes->addCampoBusca('codsetor', '', '');
         $oSetorDes->addCampoBusca('descsetor', '', '');
         $oSetorDes->setSIdTela($this->getTela()->getid());
 
-        $oSetor->setClasseBusca('MET_CAD_Setores');
+        $oSetor->setClasseBusca('Setor');
         $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oSetor->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
-        
+
         $oTipoAcao = new campo('Tipo da ação', 'tipoacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oTipoAcao->addItemSelect('T', 'Todas');
         $oTipoAcao->addItemSelect('Ação Corretiva', 'Ação Corretiva');
         $oTipoAcao->addItemSelect('Ação Preventiva', 'Ação Preventiva');
-        
+
         $olinha = new Campo('', 'linha1', Campo::TIPO_LINHABRANCO);
         $olinha->setApenasTela(true);
-        
-        $this->addCampos(array($oSetor,$oSetorDes), $olinha,array($oDataIni, $oDataFin),$olinha,array($oSituacao,$oTipoAcao),$olinha,$oSituacao2,$oVencidos);
-        
-}
-    
+
+        $this->addCampos(array($oSetor, $oSetorDes), $olinha, array($oDataIni, $oDataFin), $olinha, array($oSituacao, $oTipoAcao), $olinha, $oSituacao2, $oVencidos);
+    }
+
 }

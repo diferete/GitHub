@@ -21,11 +21,13 @@ class PersistenciaMET_QUAL_Correcao extends Persistencia {
         $this->adicionaRelacionamento('seq', 'seq', true, true, true);
         $this->adicionaRelacionamento('plano', 'plano');
         $this->adicionaRelacionamento('dataprev', 'dataprev');
-        $this->adicionaRelacionamento('anexoplan1', 'anexoplan1', false, true, false, 3); //tipo arquivo
+        $this->adicionaRelacionamento('anexoplan1', 'anexoplan1');
         $this->adicionaRelacionamento('usucodigo', 'usucodigo');
         $this->adicionaRelacionamento('usunome', 'usunome');
         $this->adicionaRelacionamento('tipo', 'tipo');
         $this->adicionaRelacionamento('situaca', 'situaca');
+        $this->adicionaRelacionamento('apontamento', 'apontamento');
+        $this->adicionaRelacionamento('dtaponta', 'dtaponta');
 
         $this->adicionaOrderBy('seq', 1);
     }
@@ -41,6 +43,38 @@ class PersistenciaMET_QUAL_Correcao extends Persistencia {
         $sSql = "select tipoacao from MET_QUAL_qualaq where filcgc = '" . $aDados[0] . "' and nr = '" . $aDados[1] . "'";
         $oResult = $this->consultaSql($sSql);
         return $oResult->tipoacao;
+    }
+
+    public function apontaCorrecao() {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        $aCampos['apontamento'] = $this->preparaString($aCampos['apontamento']);
+
+        $sSql = "update MET_QUAL_Correcao set dtaponta = '" . $aCampos['dtaponta'] . "',"
+                . "apontamento = '" . $aCampos['apontamento'] . "', situaca = 'Finalizado'"
+                . "where filcgc ='" . $aCampos['filcgc'] . "' and nr = '" . $aCampos['nr'] . "' and seq = '" . $aCampos['seq'] . "' ";
+
+        $aRet = $this->executaSql($sSql);
+        return $aRet;
+}
+
+    public function retCorrecao() {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        $sSql = "update MET_QUAL_Correcao set dtaponta = null,apontamento = '', situaca = null 
+        where filcgc ='" . $aCampos['filcgc'] . "' and nr = '" . $aCampos['nr'] . "' and seq = '" . $aCampos['seq'] . "' ";
+
+        $aRet = $this->executaSql($sSql);
+        return $aRet;
+    }
+
+    public function buscaParam($aDados) {
+        $sSql = "select * from MET_QUAL_Correcao where filcgc = '" . $aDados[0] . "' and nr = '" . $aDados[1] . "' and seq = '" . $aDados[2] . "' ";
+
+        $oRow = $this->consultaSql($sSql);
+
+        return $oRow;
     }
 
 }

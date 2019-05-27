@@ -32,7 +32,7 @@ class PersistenciaSTEEL_PCP_ordensFabListaPesq extends Persistencia {
         
 
         $this->setSTop('1000');
-        $this->adicionaOrderBy('prioridade', 1);
+        $this->adicionaOrderBy('prioridade');
         $this->adicionaFiltro('situacao','Liberado');
         $this->adicionaJoin('STEEL_PCP_ordensFab');
         

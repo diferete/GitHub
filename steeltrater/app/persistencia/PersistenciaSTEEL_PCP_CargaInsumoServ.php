@@ -81,15 +81,25 @@ class PersistenciaSTEEL_PCP_CargaInsumoServ extends Persistencia{
                     $sInfRnc ='RETRABALHO SEM COBRANCA RNC '.$sInfRnc.'.';
                }
                 
-               
-             
-              
+             //busca informaçoes comercias do cadastro cliente
+                $oPedido = Fabrica::FabricarController('STEEL_PCP_PedCarga');
+                $oPedido->Persistencia->adicionaFiltro('pdv_pedidofilial','8993358000174');
+                $oPedido->Persistencia->adicionaFiltro('pdv_pedidocodigo',$aCamposChave['pdv_pedidocodigo']);
+                $oPevdados = $oPedido->Persistencia->consultarWhere();
+                
+                $oDelXPessoa = Fabrica::FabricarController('DELX_CAD_Pessoa');
+                $oDelXPessoa->Persistencia->adicionaFiltro('emp_codigo',$oPevdados->getPDV_PedidoEmpCodigo());
+                $oDelXPessoaDados = $oDelXPessoa->Persistencia->consultarWhere();
+                
+                if($oDelXPessoaDados->getEmp_observacoescomerciais()!==null || $oDelXPessoaDados->getEmp_observacoescomerciais()!==''){
+                    $sInf .=' '.$oDelXPessoaDados->getEmp_observacoescomerciais();
+                }
              //faz a inserção
                $sData = Util::converteData($oDados->getData());
                $oPedidoObs->Model->setPdv_pedidofilial('8993358000174');
                $oPedidoObs->Model->setPdv_pedidocodigo($aCamposChave['pdv_pedidocodigo']);
                $oPedidoObs->Model->setPdv_pedidoobscodigo('3');
-               $oPedidoObs->Model->setPdv_pedidoobsdescricao($sInfRnc.' DEVOLUCAO SUA NF '.$sInf.'');
+               $oPedidoObs->Model->setPdv_pedidoobsdescricao($sInfRnc.' DEVOLUCAO SUA NF/DOC '.$sInf.'');
                $oPedidoObs->Persistencia->inserir();
        }
   

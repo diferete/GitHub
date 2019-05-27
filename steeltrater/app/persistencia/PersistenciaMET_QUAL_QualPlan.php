@@ -68,7 +68,7 @@ class PersistenciaMET_QUAL_QualPlan extends Persistencia {
         $aInsAfPlan = $this->executaSql($sInsAfPlan);
 
         //da um update na eficácia para setar como com plano de ação
-        $sUpdateAcao = "update tbacaoeficaz set comacao = 'S' where filcgc = '" . $aCampos['filcgc'] . "' and nr ='" . $aCampos['nr'] . "' and seq = '" . $aCampos['seq'] . "' ";
+        $sUpdateAcao = "update MET_QUAL_acaoeficaz set comacao = 'S' where filcgc = '" . $aCampos['filcgc'] . "' and nr ='" . $aCampos['nr'] . "' and seq = '" . $aCampos['seq'] . "' ";
         $aUpdateAcao = $this->executaSql($sUpdateAcao);
 
         return $aRet;

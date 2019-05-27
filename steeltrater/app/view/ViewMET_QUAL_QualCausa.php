@@ -170,13 +170,13 @@ class ViewMET_QUAL_QualCausa extends View {
         $oPq5->setILinhasTextArea(5);
 
         /*
-        $oGridOcorr = new Campo('Ocorrência 6M', '6m', Campo::TIPO_GRIDVIEW, 2, 2, 12, 12);
-        $oGridOcorr->addCabGridView('Causa');
-        $oGridOcorr->addCabGridView('Ocorrências');
-        $oGridOcorr->addLinhasGridView(1, '');
-        $oGridOcorr->addLinhasGridView(1, '0');
-        $oGridOcorr->addLinhasGridView(2, '');
-        $oGridOcorr->addLinhasGridView(2, '0');
+          $oGridOcorr = new Campo('Ocorrência 6M', '6m', Campo::TIPO_GRIDVIEW, 2, 2, 12, 12);
+          $oGridOcorr->addCabGridView('Causa');
+          $oGridOcorr->addCabGridView('Ocorrências');
+          $oGridOcorr->addLinhasGridView(1, '');
+          $oGridOcorr->addLinhasGridView(1, '0');
+          $oGridOcorr->addLinhasGridView(2, '');
+          $oGridOcorr->addLinhasGridView(2, '0');
          */
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);

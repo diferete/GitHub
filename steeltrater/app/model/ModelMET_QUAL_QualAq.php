@@ -38,8 +38,6 @@ Class ModelMET_QUAL_QualAq {
     private $anexo2;
     private $classificacao;
     private $acao;
-    private $tipocausa;
-    private $desctipocausa;
     private $emailEquip;
     private $codsetor;
     private $descsetor;
@@ -47,8 +45,28 @@ Class ModelMET_QUAL_QualAq {
     private $obscancela;
     private $usucancela;
     
-    function getEmailEquip() {
-        return $this->emailEquip;
+    function getUsucancela() {
+        return $this->usucancela;
+    }
+
+    function setUsucancela($usucancela) {
+        $this->usucancela = $usucancela;
+    }
+
+    function getObscancela() {
+        return $this->obscancela;
+    }
+
+    function setObscancela($obscancela) {
+        $this->obscancela = $obscancela;
+    }
+
+    function getDtcancela() {
+        return $this->dtcancela;
+    }
+
+    function setDtcancela($dtcancela) {
+        $this->dtcancela = $dtcancela;
     }
 
     function getCodsetor() {
@@ -59,22 +77,6 @@ Class ModelMET_QUAL_QualAq {
         return $this->descsetor;
     }
 
-    function getDtcancela() {
-        return $this->dtcancela;
-    }
-
-    function getObscancela() {
-        return $this->obscancela;
-    }
-
-    function getUsucancela() {
-        return $this->usucancela;
-    }
-
-    function setEmailEquip($emailEquip) {
-        $this->emailEquip = $emailEquip;
-    }
-
     function setCodsetor($codsetor) {
         $this->codsetor = $codsetor;
     }
@@ -83,40 +85,12 @@ Class ModelMET_QUAL_QualAq {
         $this->descsetor = $descsetor;
     }
 
-    function setDtcancela($dtcancela) {
-        $this->dtcancela = $dtcancela;
+    function getEmailEquip() {
+        return $this->emailEquip;
     }
 
-    function setObscancela($obscancela) {
-        $this->obscancela = $obscancela;
-    }
-
-    function setUsucancela($usucancela) {
-        $this->usucancela = $usucancela;
-    }
-
-    function getTipocausa() {
-        return $this->tipocausa;
-    }
-
-    function getDesctipocausa() {
-        return $this->desctipocausa;
-    }
-
-    function setTipocausa($tipocausa) {
-        $this->tipocausa = $tipocausa;
-    }
-
-    function setDesctipocausa($desctipocausa) {
-        $this->desctipocausa = $desctipocausa;
-    }
-
-    function getClassificacao() {
-        return $this->classificacao;
-    }
-
-    function setClassificacao($classificacao) {
-        $this->classificacao = $classificacao;
+    function setEmailEquip($emailEquip) {
+        $this->emailEquip = $emailEquip;
     }
 
     function getAcao() {
@@ -125,6 +99,14 @@ Class ModelMET_QUAL_QualAq {
 
     function setAcao($acao) {
         $this->acao = $acao;
+    }
+
+    function getClassificacao() {
+        return $this->classificacao;
+    }
+
+    function setClassificacao($classificacao) {
+        $this->classificacao = $classificacao;
     }
 
     function getUsucodigo() {

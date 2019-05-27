@@ -53,6 +53,7 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
         $this->adicionaRelacionamento('fioDescarbonetaParcial', 'fioDescarbonetaParcial');
         $this->adicionaRelacionamento('DiamFinalMin', 'DiamFinalMin');
         $this->adicionaRelacionamento('DiamFinalMax', 'DiamFinalMax');
+        $this->adicionaRelacionamento('dataNotaRetorno', 'dataNotaRetorno');
         
         
         $this->setSTop('300');
@@ -81,39 +82,42 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
             //busca a carga
             $sCarga = $this->buscaCarga($oRowBD->op);
             //busca a nota fiscal
-            $iNota =$this->buscaNota($sCarga);
+            $aNota =$this->buscaNota($sCarga,$oRowBD->procod);
             //gera update 
-            $this->updateNotaCert($oRowBD->nrcert,$iNota);
+            $this->updateNotaCert($oRowBD->nrcert,$aNota);
            }
        }
     /**
      * Busca nota fiscal
      * @param type $sNrCarga
      */
-    public function buscaNota($sNrCarga){
-       $sSql = "select NFS_NotaFiscalNumero 
+    public function buscaNota($sNrCarga,$sProcod){
+       $sSql = "select NFS_NotaFiscalNumero,NFS_NotaFiscalDataEmissao 
                 from nfs_notafiscalitem left outer join NFS_NOTAFISCAL
                 on nfs_notafiscalitem.NFS_NotaFiscalFilial = NFS_NOTAFISCAL.NFS_NotaFiscalFilial
                 and nfs_notafiscalitem.NFS_NotaFiscalSeq = NFS_NOTAFISCAL.NFS_NotaFiscalSeq
                 where nfs_notafiscalitempedidocodigo = '".$sNrCarga."' and nfs_notafiscalcancelada = 'N'
                 and nfs_notafiscalitem.NFS_NotaFiscalFilial ='8993358000174'
-                group by NFS_NotaFiscalNumero "; 
+                and nfs_notafiscalitemproduto = '".$sProcod."'
+                group by NFS_NotaFiscalNumero,NFS_NotaFiscalDataEmissao  "; 
        
        $result = $this->getObjetoSql($sSql);
        
        $oRowNota = $result->fetch(PDO::FETCH_OBJ);
        
-       $iNota = $oRowNota->nfs_notafiscalnumero;
+       $aNota['nr'] = $oRowNota->nfs_notafiscalnumero;
+       $aNota['data'] = $oRowNota->nfs_notafiscaldataemissao;
+       //$iNota = $oRowNota->nfs_notafiscalnumero;
            
-       return $iNota; 
+       return $aNota; 
        
     }
     
     /**
      * Atualiza nota fiscal
      */
-    public function updateNotaCert($iNrCert,$iNota){
-        $sSql = "update steel_pcp_certificado set notasteel ='".$iNota."' where nrcert ='".$iNrCert."'";
+    public function updateNotaCert($iNrCert,$aNota){
+        $sSql = "update steel_pcp_certificado set notasteel ='".$aNota['nr']."',dataNotaRetorno ='".$aNota['data']."' where nrcert ='".$iNrCert."'";
         $this->executaSql($sSql);
         
     }

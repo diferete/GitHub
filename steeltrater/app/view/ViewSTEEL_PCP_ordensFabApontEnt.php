@@ -36,13 +36,14 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
     public function criaTela() {
         parent::criaTela();
         //captura os dados 
-        $oDados = $this->getAParametrosExtras();
+        $aDados = $this->getAParametrosExtras();
+        $aFornosRadio = $aDados[1];
         
         $this->setBOcultaBotTela(true);
         $this->setBOcultaFechar(true);
         
         $this->setBTela(true);
-      
+        $oLinha = new campo('','linha1', Campo::TIPO_LINHA,12);
         
         $oOp = new Campo('OP', 'op', Campo::TIPO_BUSCADOBANCOPK, 3, 3, 6, 6);
         $oOp->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -76,27 +77,45 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         $oProdes->setSFont(Campo::FONT_BOLD);
         
         
+        $oFornoCod = new campo('','fornocod', Campo::TIPO_TEXTO,1);
+        $oFornoCod->setBOculto(true);
+        $oFornoDes=new Campo('Forno','fornodes', Campo::TIPO_TEXTO,2);
         
-        $oFornoCod = new campo('Cod.Forno','fornocod', Campo::TIPO_TEXTO,1);
-       // $oFornoCod->setBOculto(true);
+        //-----------------------combo dos fornos---------------------------
+         $oFornoChoice = new campo('FORNO PARA APONTAMENTO <span class="badge badge-warning">Somente mudar se necessário</span>','fornoCombo', Campo::CAMPO_SELECTSIMPLE,8,8,8,8);
+        foreach ($aFornosRadio as $keyForno => $oValueForno) {
+            $oFornoChoice->addItemSelect($oValueForno->getFornocod(),$oValueForno->getFornodes());
+        }
+       $sCombo ='var textCombo = $("#'.$oFornoChoice->getId().' option:selected").text(); '
+                . 'var valueCombo = $("#'.$oFornoChoice->getId().'").val(); '
+                .'$("#'.$oFornoCod->getId().'").val(valueCombo); $("#'.$oFornoDes->getId().'").val(textCombo); ';
+        $oFornoChoice->addEvento(Campo::EVENTO_CHANGE,$sCombo);
+        //-----------------------------------------------------------------
+        
         $oFornoCod->setSCorFundo(Campo::FUNDO_VERDE);
         $oFornoCod->setSFont(Campo::FONT_BOLD);
         //verifica primeiro se há cookie setado
          if(isset($_COOKIE['cookfornocod'])){
             $oFornoCod->setSValor($_COOKIE['cookfornocod']);
+             //seta valor padrão
+            $oFornoChoice->setSValor($_COOKIE['cookfornocod']);
         }else{
-        if (method_exists($oDados,'getFornocod')){
-            $oFornoCod->setSValor($oDados->getFornocod());
-        }}
-        $oFornoDes=new Campo('Forno','fornodes', Campo::TIPO_TEXTO,2);
+            $oFornoArr = $aDados[0];
+            
+            if (method_exists($oFornoArr,'getFornocod')){
+                $oFornoCod->setSValor($oFornoArr->getFornocod());
+                $oFornoChoice->setSValor($oFornoArr->getFornocod());
+            }}
+        
         $oFornoDes->setBCampoBloqueado(true);
         $oFornoDes->setSCorFundo(Campo::FUNDO_AMARELO);
         if(isset($_COOKIE['cookfornodes'])){
             $oFornoDes->setSValor($_COOKIE['cookfornodes']);
         }else{
-        if (method_exists($oDados,'getFornodes')){
-            $oFornoDes->setSValor($oDados->getFornodes());
-        }}
+            $oFornoArr = $aDados[0];
+            if (method_exists($oFornoArr,'getFornodes')){
+                $oFornoDes->setSValor($oFornoArr->getFornodes());
+            }}
         $oFornoDes->addValidacao(false, Validacao::TIPO_STRING,'','3','100');
         
         $oCodUser = new campo('coduser','coduser', Campo::TIPO_TEXTO,1,1,1,1);
@@ -152,7 +171,8 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         
        
         $sAcao = 'requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_ordensFabApontEnt","inserirApont",'
-                 . '"'.$this->getTela()->getId().','. $oGridEnt->getId().','.$oOp->getId().'");';
+                 . '"'.$this->getTela()->getId().','. $oGridEnt->getId().','.$oOp->getId().','
+                . ''.$oFornoChoice->getId().','.$oFornoCod->getId().','.$oFornoDes->getId().'");';
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
@@ -167,8 +187,8 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         $oBtnAtualizar->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
         $oBtnAtualizar->getOBotao()->addAcao($sAcaoAtualizar);
         
-        $this->addCampos(array($oOp,$oBtnPesqOp,$oSeq),
-                array($oCliente,$oOpCliente,$oCodUser,$oUserNome),array($oProcod,$oProdes,$oFornoCod,$oFornoDes),array($oBtnInserir,$oBtnAtualizar),$oGridEnt);
+        $this->addCampos($oFornoChoice,$oLinha,array($oOp,$oBtnPesqOp,$oSeq),
+                array($oCliente,$oOpCliente,$oCodUser,$oUserNome),array($oProcod,$oProdes,$oFornoDes,$oFornoCod),array($oBtnInserir,$oBtnAtualizar),$oGridEnt);
         
         
         

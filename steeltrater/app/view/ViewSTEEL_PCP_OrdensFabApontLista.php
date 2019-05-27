@@ -41,7 +41,10 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         
         $oCliente = new CampoConsulta('Cliente','emp_razaosocial');
         
+        $oRefencia = new CampoConsulta('Referencia','referencia');
+        
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL,1);
+        $oRefFiltro = new Filtro($oRefencia, Filtro::CAMPO_TEXTO_IGUAL,2);
         $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL,2);
         $oDescricaoFiltro = new Filtro($oProdes, Filtro::CAMPO_TEXTO,3);
         $oClienteFiltro = new Filtro($oCliente, Filtro::CAMPO_TEXTO,5);
@@ -64,14 +67,16 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         $oSitListaFiltro->addItemSelect('Liberado', 'Liberado');
         $oSitListaFiltro->setBInline(true);
         
-        $oDataFiltro = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE,2,2,2,2);
+        $oDataFiltro = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE,2,2,2,2,true);
         
-        $this->addFiltro($oOpFiltro,$oCodigoFiltro,$oDescricaoFiltro,$oDataFiltro,$oClienteFiltro,$oSitFiltro,$oSitListaFiltro);
+        $this->addFiltro($oOpFiltro,$oRefFiltro,$oCodigoFiltro,$oDescricaoFiltro,$oDataFiltro,$oClienteFiltro,$oSitFiltro,$oSitListaFiltro);
         
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(false);
+        
+        $this->getTela()->setBGridResponsivo(false);
         
         $aInicial[0]='situacao,Aberta';
         
@@ -92,8 +97,11 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         //addItemDropdown($sLabelAcao, $sClasse, $sMetodo, $sParametro, $bHiden, $sParamAdicional, $bNewAba, $sNomeModal, $bModal, $sTitulo, $bMultiSelect,$bSel)
         $this->addDropdown($oDrop1,$oDrop2);
         
-        $this->addCampos($oBotaoModal,$oOp,$oSitLista,$oTempRev,$oSituacao,$oData,$oCodigo,$oProdes,$oPeso,$oCliente);
+        $this->addCampos($oBotaoModal,$oOp,$oSitLista,$oTempRev,$oSituacao,$oData,$oRefencia,$oCodigo,$oProdes,$oPeso,$oCliente);
         $this->getTela()->setiAltura(700);
+        
+       // $this->setBScrollInf(true);
+       // $this->getTela()->setBUsaCarrGrid(true);
     }
     
     public function criaModalOp(){
@@ -118,16 +126,20 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         
         $oForno = new Campo('Forno','fornocod', Campo::TIPO_SELECTMULTI,3);
         $oForno->addItemSelect('Todos', 'Todos');
+       
         //coloca os fornos nos valores
         foreach ($aFornoLista as $key => $oFornoObj) {
-          $oForno->addItemSelect($oFornoObj->getFornocod(), $oFornoObj->getFornodes());  
+            $sFornoCod =rtrim($oFornoObj->getFornocod()); 
+            $sFornoDes = rtrim($oFornoObj->getFornodes());
+            $oForno->addItemSelect($sFornoCod,$sFornoDes);  
           }
-        $oForno->setSValor('Todos');
+        $oForno->setSValor(rtrim($_COOKIE['montalistaForno']));//$_COOKIE['montalistaForno']
       
         $oSitLista = new campo('Situação','situacao', Campo::TIPO_SELECTMULTI,2);
         $oSitLista->addItemSelect('Liberado', 'Liberado');
         $oSitLista->addItemSelect('Espera', 'Espera');
-        $oSitLista->setSValor('Liberado');
+        
+        $oSitLista->setSValor($_COOKIE['montalistaSit']);
         
         $oPrioridade = new Campo('Prioridadades','prioridade', Campo::CAMPO_SELECTSIMPLE,2);
         $i=1;
@@ -135,14 +147,29 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
            $oPrioridade->addItemSelect($i, $i);
            $i++;
         }
+        $oPrioridade->setSValor($_COOKIE['montalistaPrio']);
         
         
         
-        $oTemp = new Campo('Temperatura','tempforno', Campo::TIPO_TEXTO,2);
-        $oTemp->setIMarginTop(8);
+        $oTemp = new Campo('Temperatura','tempForno', Campo::TIPO_TEXTO,2);
+        $oTemp->setBCampoBloqueado(true);
+        //$oTemp->setIMarginTop(8);
         $oTemp->setSValor(number_format($oDados->getTemprev(), 2, ',', '.'));
         
-        //botao inserir da tela
+        //oNr carga
+        $oNrCarta = new campo('Nr.Carga','nrCarga', Campo::CAMPO_SELECTSIMPLE,1,1,1,1);
+        $oNrCarta->addItemSelect('1','1');
+        $oNrCarta->addItemSelect('2','2');
+        $oNrCarta->addItemSelect('3','3');
+        $oNrCarta->addItemSelect('3','3');
+        $oNrCarta->addItemSelect('4','4');
+        $oNrCarta->addItemSelect('5','5');
+        $oNrCarta->addItemSelect('6','6');
+        $oNrCarta->addItemSelect('7','7');
+        $oNrCarta->addItemSelect('8','8');
+        $oNrCarta->addItemSelect('9','9');
+        $oNrCarta->addItemSelect('10','10');
+        $oNrCarta->setSValor($_COOKIE['montalistaCarga']);
         
         $oBtnInserir = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
@@ -157,7 +184,7 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
 
         
         
-        $this->addCampos(array($oOp,$oProcod,$oProdes),array($oForno,$oSitLista,$oPrioridade,$oTemp),$oBtnInserir);
+        $this->addCampos(array($oOp,$oProcod,$oProdes),array($oForno,$oSitLista,$oPrioridade,$oTemp,$oNrCarta),$oBtnInserir);
         
         
     }

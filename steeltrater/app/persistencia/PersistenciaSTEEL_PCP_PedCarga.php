@@ -233,18 +233,27 @@ class PersistenciaSTEEL_PCP_PedCarga extends Persistencia {
      /**
      * atualiza pesos do cabeçalho de pedido
      */
-    public function atualizaPeso($aCampos,$iPesoLiq,$iVolumes,$sEmpcod){
+    public function atualizaPeso($aCampos,$iPesoLiq,$iVolumes,$sEmpcod,$sTipo){
+        
         $oCaixa = Fabrica::FabricarController('STEEL_PCP_PesoCaixas');
         $oCaixa->Persistencia->adicionaFiltro('empcodigo',$sEmpcod);
         $oDadosCaixa = $oCaixa->Persistencia->consultarWhere();
         
         $iPesoCaixa = $oDadosCaixa->getPeso();
         $iTotalCaixa = $iPesoCaixa * $iVolumes;
+        if($sTipo =='F'){
+            $iTotalCaixa = 0;
+         } 
+        if($sTipo =='A'){
+            $iTotalCaixa = 0;
+         } 
         $iPesoBruto = $iTotalCaixa + $iPesoLiq; 
         
         
-        $sSql = "UPDATE pdv_pedido SET PDV_PedidoPesoLiquido = '".$iPesoLiq."', PDV_PedidoPesoBruto='".$iPesoBruto."', PDV_PedidoVolumes ='".$iVolumes."' "
-                . "WHERE pdv_pedidofilial ='".$aCampos['pdv_pedidofilial']."' and pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'";
+        $sSql = "UPDATE pdv_pedido SET PDV_PedidoPesoLiquido = '".$iPesoLiq."', "
+                . "PDV_PedidoPesoBruto='".$iPesoBruto."', PDV_PedidoVolumes ='".$iVolumes."' "
+                . "WHERE pdv_pedidofilial ='".$aCampos['pdv_pedidofilial']."' "
+                . "and pdv_pedidocodigo ='".$aCampos['pdv_pedidocodigo']."'";
         
         $this->executaSql($sSql); 
     }

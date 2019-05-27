@@ -11,7 +11,7 @@ class ViewQualCorrecao extends View {
     public function __construct() {
         parent::__construct();
     }
-
+ 
     function criaGridDetalhe() {
         parent::criaGridDetalhe();
 

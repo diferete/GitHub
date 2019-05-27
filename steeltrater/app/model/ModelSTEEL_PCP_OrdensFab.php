@@ -77,6 +77,17 @@ class ModelSTEEL_PCP_OrdensFab {
     
     private $rnc;
     
+    private $opAntes;
+    
+    function getOpAntes() {
+        return $this->opAntes;
+    }
+
+    function setOpAntes($opAntes) {
+        $this->opAntes = $opAntes;
+    }
+
+                
     function getRnc() {
         return $this->rnc;
     }

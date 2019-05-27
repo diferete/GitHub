@@ -42,6 +42,9 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         
         $oForDes = new CampoConsulta('Forno', 'fornodes');
         $oCliente = new CampoConsulta('Cliente','STEEL_PCP_ordensFab.emp_razaosocial');
+        $oNrCarta = new campoConsulta('Carg','nrCarga');
+        
+       
        
         //filtro situação da lista 
         $oSitListaFiltro = new Filtro($oSit, Filtro::CAMPO_SELECT,2,2,2,2);
@@ -65,6 +68,9 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         $oFornoFiltro->setSValor('Todos');
         
         $oFornoFiltro->setBInline(true);
+        $oCliFiltro->setBQuebraLinha(true);
+        
+       
         
         $this->addFiltro($oSitListaFiltro,$oFornoFiltro,$oProdFiltro,$oCliFiltro);
         $this->setUsaAcaoExcluir(false);
@@ -91,7 +97,7 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         $this->getTela()->setAParametros($aInicial);
         $this->getTela()->setiAltura(1000);
         
-        $this->addCampos($oPrioridade,$oBotaoModal,$oTempFor,$oOp,$oSit,$oProduto,$oProdes,$oForDes,$oCliente,$oNr);
+        $this->addCampos($oPrioridade,$oBotaoModal,$oTempFor,$oOp,$oSit,$oProduto,$oProdes,$oForDes,$oNrCarta,$oCliente,$oNr);
     }
 
     public function criaTela() {
@@ -154,10 +160,24 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         
         
         $oTemp = new Campo('Temperatura','tempForno', Campo::TIPO_TEXTO,1);
-        $oTemp->setIMarginTop(6);
+        $oTemp->setBCampoBloqueado(true);
         $oTemp->setSValor(number_format($oDados->getTemprev(), 2, ',', '.'));
         
-        //botao inserir da tela
+         //oNr carga
+        $oNrCarta = new campo('Nr.Carga','nrCarga', Campo::CAMPO_SELECTSIMPLE,1,1,1,1);
+        $oNrCarta->addItemSelect('1','1');
+        $oNrCarta->addItemSelect('2','2');
+        $oNrCarta->addItemSelect('3','3');
+        $oNrCarta->addItemSelect('3','3');
+        $oNrCarta->addItemSelect('4','4');
+        $oNrCarta->addItemSelect('5','5');
+        $oNrCarta->addItemSelect('6','6');
+        $oNrCarta->addItemSelect('7','7');
+        $oNrCarta->addItemSelect('8','8');
+        $oNrCarta->addItemSelect('9','9');
+        $oNrCarta->addItemSelect('10','10');
+        
+        $oNrCarta->setSValor($oModel->getNrCarga());
         
         $oBtnInserir = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
@@ -172,7 +192,7 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
 
         
         
-        $this->addCampos(array($oNr,$oOp,$oProcod,$oProdes),array($oForno,$oSitLista,$oPrioridade,$oTemp),$oBtnInserir);
+        $this->addCampos(array($oNr,$oOp,$oProcod,$oProdes),array($oForno,$oSitLista,$oPrioridade,$oTemp,$oNrCarta),$oBtnInserir);
         
         
     }

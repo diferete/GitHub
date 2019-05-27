@@ -92,7 +92,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
 
         if ($oRetSit->sit == 'Cancelada') {
             $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oRetSit->nr . ' não pode ser reaberta por estar CANCELADA.', Modal::TIPO_ERRO, false, true, true);
-        } 
+        }
         if ($oRetSit->sit == 'Aberta') {
             $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oRetSit->nr . ' já está ABERTA.', Modal::TIPO_ERRO, false, true, true);
         } else {
@@ -517,11 +517,8 @@ class ControllerMET_QUAL_QualAq extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-        $aFilcg = explode('=', $sFilcgcDados);
-        $aNr = explode('=', $sNrDados);
-
-        $_REQUEST['filcgcAq'] = $aFilcg[1];
-        $_REQUEST['nrAq'] = $aNr[1];
+        $_REQUEST['filcgcAq'] = $aCamposChave['DELX_FIL_Empresa_fil_codigo'];
+        $_REQUEST['nrAq'] = $aCamposChave['nr'];
         $_REQUEST['email'] = 'S';
         $_REQUEST['userRel'] = $_SESSION['nome'];
 
@@ -549,7 +546,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
             $aCamposChave = array();
             parse_str($sChave, $aCamposChave);
 
-            $_REQUEST['filcgcAq'] = $aCamposChave['EmpRex_filcgc'];
+            $_REQUEST['filcgcAq'] = $aCamposChave['DELX_FIL_Empresa_fil_codigo'];
             $_REQUEST['nrAq'] = $aCamposChave['nr'];
             $_REQUEST['email'] = 'S';
             $_REQUEST['userRel'] = $_SESSION['nome'];
@@ -562,6 +559,6 @@ class ControllerMET_QUAL_QualAq extends Controller {
 
     public function relAcaoQualidade($renderTo, $sMetodo = '') {
         parent::mostraTelaRelatorio($renderTo, 'relAcaoQualidade');
-}
-    
+    }
+
 }

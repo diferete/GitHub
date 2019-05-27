@@ -24,7 +24,17 @@ class ModelSTEEL_PCP_ordensFabLista {
     private $tempForno;
     private $prioridade;
     private $STEEL_PCP_ordensFab;
+    private $nrCarga;
     
+    function getNrCarga() {
+        return $this->nrCarga;
+    }
+
+    function setNrCarga($nrCarga) {
+        $this->nrCarga = $nrCarga;
+    }
+
+        
     function getSTEEL_PCP_ordensFab() {
         if(!$this->STEEL_PCP_ordensFab){
             $this->STEEL_PCP_ordensFab = Fabrica::FabricarModel('STEEL_PCP_ordensFab');

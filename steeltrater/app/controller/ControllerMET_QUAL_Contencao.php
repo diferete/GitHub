@@ -196,8 +196,9 @@ class ControllerMET_QUAL_Contencao extends Controller {
                 echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_Contencao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
                 $sRetorno = "$('#" . $aDados[2] . "').fileinput('clear');";
                 echo $sRetorno;
+                echo '$(#modalApontaContencao-btn).click();';
             } else {
-                $oMensagem = new Modal('Problema', 'Problemas ao finalizar plano de ação' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Modal('Problema', 'Problemas ao finalizar' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
             }
         } else {
             $oMensagem = new Mensagem('Aviso', 'Favor preencher todos os campos', Mensagem::TIPO_WARNING);
@@ -221,7 +222,7 @@ class ControllerMET_QUAL_Contencao extends Controller {
                 echo $sLimpa;
                 echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_Contencao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
             } else {
-                $oMensagem = new Modal('Problema', 'Problemas ao retornar plano de ação' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Modal('Problema', 'Problemas ao retornar para aberto' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
             }
         }

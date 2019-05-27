@@ -1371,7 +1371,7 @@ class Persistencia {
 
         $bExecuta = $statement->execute();
         $aErro = $statement->errorInfo();
-
+     
         return array($bExecuta, $aErro[2]);
     }
 

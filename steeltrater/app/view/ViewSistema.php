@@ -85,7 +85,8 @@ class ViewSistema extends View {
                 . '<!-- Fonts -->'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/web-icons/web-icons.min.css">'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/brand-icons/brand-icons.min.css">'
-                . '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic">'
+                //. '<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic">'
+                . '<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/font-awesome/font-awesome.css">'
                 . '<!-- Scripts -->'
                 . '<script src="biblioteca/assets/vendor/modernizr/modernizr.js"></script>'
@@ -200,6 +201,7 @@ class ViewSistema extends View {
                 . '    </li>'
                 . '  </ul>'
                 . ' </li> <!--fim acesso modulos-->'
+               
                 . '<li class="dropdown">'
                 . '            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-down"'
                 . '            aria-expanded="false" role="button">'
@@ -217,6 +219,11 @@ class ViewSistema extends View {
                   .'              </li>' */
                 . '           </ul>'
                 . '          </li>'
+                 
+                . ' <li class="dropdown dropdown-fw dropdown-mega"> '
+                .'<a type="button" href="http://177.84.0.34:8080/DelsoftXPRO/servlet/loginerp?" target="_blank" ><i class="icon wb-calendar" aria-hidden="true"></i><i class="icon wb-users" aria-hidden="true"></i>&nbsp  Nfe/ Fiscal/ Contábil    </a>'
+                . ' </li> <!--fim acesso modulos-->'
+                    
                 /* .'          <li class="dropdown dropdown-fw dropdown-mega">'
                   .'            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"'
                   .'            data-animation="fade" role="button">Mega <i class="icon wb-chevron-down-mini" aria-hidden="true"></i></a>'
@@ -722,7 +729,7 @@ class ViewSistema extends View {
                 . '       '
                 . '   var menuRecolhido = false;'
 
-                /*   .'   $("#toggleMenubar").click(function(){'      
+                   .'   $("#toggleMenubar").click(function(){'      
                   .'      if(!menuRecolhido){'
                   .'         $("#logo").attr("src","biblioteca/assets/images/m.png");'
                   .'         menuRecolhido = true;'
@@ -730,7 +737,7 @@ class ViewSistema extends View {
                   .'         $("#logo").attr("src","biblioteca/assets/images/logo.png");'
                   .'         menuRecolhido = false;'
                   .'      }'
-                  .'   });' */
+                  .'   });' 
                 . 'function carregapesq(){'
                 . '    if (classeBusca !== undefined && classeBusca != ""){'
                 . '    var cont = $("#carregapesq").val().length; '
@@ -750,7 +757,7 @@ class ViewSistema extends View {
                 . '</script>'
                 . '  <script> '
                 . '   $(document).ready(function() { '
-                .'    document.body.style.zoom = "89%";  '
+                .'    document.body.style.zoom = "88%";  '
                 . '  }); '
                 . '   </script> '
                 . '</html>';

@@ -19,6 +19,8 @@ class ControllerSTEEL_PCP_ordensFabLista extends Controller {
     public function insereLista($sDados){
         
         $this->carregaModel();
+        
+        
         date_default_timezone_set('America/Sao_Paulo');
         $this->Persistencia->adicionaFiltro('op', $this->Model->getOp());
         $iAgenda = $this->Persistencia->getCount();
@@ -57,6 +59,11 @@ class ControllerSTEEL_PCP_ordensFabLista extends Controller {
         }
         $aRetorno = $this->Persistencia->inserir();
         if($aRetorno[0]){
+            //seta os cookies para recuperação
+            setcookie("montalistaSit", $this->Model->getSituacao(), time()+3600*24*30*12*5); 
+            setcookie("montalistaForno", $this->Model->getFornocod(), time()+3600*24*30*12*5);
+            setcookie("montalistaPrio", $this->Model->getPrioridade(), time()+3600*24*30*12*5);
+            setcookie("montalistaCarga", $this->Model->getNrCarga(), time()+3600*24*30*12*5);
             $oMensagem = new Mensagem('Sucesso!','Op inserida com sucesso na lista de prioridades!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
             echo'$("#modalLista-btn").click();';

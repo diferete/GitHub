@@ -17,7 +17,7 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
         if ($sDados == 'Grupo') {
             $sSql = "insert into PRO_GRUPO "
                     . "select grucod,grudes,"
-                    . "'04' as pro_grupoTipo,"
+                    . "'99' as pro_grupoTipo,"
                     . "'E' as Prod_GrupoTipoControle,'0' as Pro_tipoDespesa,"
                     . "'0' as pro_tipoReceita,'N' as GRS_grupoPH,"
                     . "'' as pro_grupocomprador,'N' as pro_grupoContLote,"
@@ -96,12 +96,13 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
 
             $sSqlInsertProd01 = "insert into prod01 "
                     . "select * from rex_maquinas.widl.prod01 "
-                    . "where grucod in (12,13)";
+                    . "where grucod in (12,13,2)";
             $oRetornoInsert = $this->executaSql($sSqlInsertProd01);
-
+          
+           // $oRetornoInsert = true;
             if ($oRetornoInsert == true) {
                 $sSqlDiferencaCampos = "select procod from prod01"
-                        . " where procod not in (select pro_codigo from PRO_PRODUTO) and grucod in (12,13)"
+                        . " where procod not in (select pro_codigo from PRO_PRODUTO) and grucod in (12,13,2)"
                         . "order by prodata desc";
                 $result = $this->getObjetoSql($sSqlDiferencaCampos);
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -390,16 +391,27 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
                         $meuArquivo = $LogNome . '-PdoLogERRO.txt';
                         $data = $aStringLog[1];
                     }
-                    $gerenciaArquivo = fopen($_SERVER['DOCUMENT_ROOT'] . 'steeltrater/LOGS/ProdFilialProd/' . $meuArquivo, 'w') or die('Cannot open file:  ' . $meuArquivo);
-                    fwrite($gerenciaArquivo, $data);
-                    fclose($gerenciaArquivo);
-                }
+                        $i = mt_rand(00, 9999999999);
+                        $LogNome = date('d-m-Y H-i-s' . $i);
+                        if ($aStringLog[0] == true) {
+                            $meuArquivo = $LogNome . '-PdoLogProdFilial.txt';
+                            $data = $LogNome . '-> Migração do item ' . $sCodForm . ' para CNPJ ' . $empcod . ' conclúida com sucesso';
+                        } else {
+                            $meuArquivo = $LogNome . '-PdoLogERRO.txt';
+                            $data = $aStringLog[1];
+                        }
+                        $fp = fopen('logs/'.$meuArquivo.".txt", "w");
+                        fwrite($fp, $data);
+                        fclose($fp);
+                
+                       
+                        }
             }
         }
 
 
         if ($sDados == 'pro_filial') {
-            $aCNPJ = array(
+           $aCNPJ = array(
                 0 => '5572480000189',
                 1 => '8993358000174',
                 2 => '10540966000175',
@@ -412,12 +424,12 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
 
             $sSqlInsertProd01 = "insert into prod01 "
                     . "select * from rex_maquinas.widl.prod01 "
-                    . "where grucod in (12,13)";
-            $oRetornoInsert = $this->executaSql($sSqlInsertProd01);
-
+                  . "where grucod in (12,13,2)";
+           $oRetornoInsert = $this->executaSql($sSqlInsertProd01);
+           //$oRetornoInsert = true;
             if ($oRetornoInsert == true) {
                 $sSqlDiferencaCampos = "select * from prod01"
-                        . " where procod not in (select pro_codigo from pro_produtofilial) and grucod in (12,13)"
+                        . " where procod not in (select pro_codigo from pro_produtofilial) and grucod in (12,13,2)"
                         . "order by prodata desc";
                 $result = $this->getObjetoSql($sSqlDiferencaCampos);
                 while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
@@ -484,13 +496,114 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
                             $meuArquivo = $LogNome . '-PdoLogERRO.txt';
                             $data = $aStringLog[1];
                         }
-                        $gerenciaArquivo = fopen($_SERVER['DOCUMENT_ROOT'] . 'steeltrater/LOGS/ProdFilialProd/' . $meuArquivo, 'w') or die('Cannot open file:  ' . $meuArquivo);
-                        fwrite($gerenciaArquivo, $data);
-                        fclose($gerenciaArquivo);
+                        $fp = fopen('logs/'.$meuArquivo.".txt", "w");
+                        fwrite($fp, $data);
+                        fclose($fp);
                     }
                 }
             }
         }
-    }
+        
+        //-----------------------MIGRA PRODUTO_FILIAL TOTAL-----------------------
+        if ($sDados == 'pro_filialCompleto') {
+            /*delete prod01 
+            insert into prod01 select * from rex_maquinas.widl.prod01 where grucod in (12,13,2)*/
+            
+            $aCNPJ = array(
+                //0 => '5572480000189',
+                1 => '8993358000174'
+                //2 => '10540966000175',
+                //3 => '75483040000130',
+                //4 => '75483040000211',
+                //5 => '83781641000158'
+            );
+            $sSql ="   SELECT * FROM PRO_PRODUTO 
+                    WHERE PRO_CODIGO NOT IN (SELECT PRO_CODIGO FROM PRO_PRODUTOFILIAL(nolock) where FIL_Codigo ='8993358000174')
+                    and PRO_GrupoCodigo in (2)";
+            $result = $this->getObjetoSql($sSql);
+            while ($row = $result->fetch(PDO::FETCH_OBJ)){
+                 foreach ($aCNPJ as $keyemp => $empcod) {
+                        $sSql = "insert into pro_produtofilial
+                        select '" . $empcod . "' as FIL_Codigo,
+                        procod as PRO_Codigo,
+                        '1' as PRO_FilialPrioridade,
+                        case when probloqpro ='S' then CONVERT(varchar,CONVERT (date, SYSDATETIME()),103) else '1753-01-01 00:00:00.000' end as PRO_FilialDtBloqueado,
+                        promovEst as PRO_FilialEstoque,
+                        estqtdmini as PRO_FilialEstMinimo,
+                        '0' as PRO_FilialEstMinimoDias, 
+                        '0.000000' as PRO_FilialEstMaximo,
+                        '0' as PRO_FilialEstMaximoDias,
+                        '2009-09-04 00:00:00.000' as PRO_FilialDtInventarioRota,
+                        '' as PRO_FilialMRPPlanejamento,
+                        'A' as PRO_FilialMRPTipoOrdem,
+                        '0' as PRO_filialMRPDiasCompra,
+                        '0' as PRO_FilialMRPDiasProducao,
+                        '0' as PRO_FilialMRPDiasQualidade,
+                        '0' as PRO_FilialMRPDiasFornecedor,
+                        'Q' as PRO_FilialEstMinimoTipo,
+                        '0' as PRO_FilialEstMinimoPeriodo,
+                        '0.000000' as PRO_FilialMRPLoteMinimoQtd,
+                        '0.000000' as PRO_FilialMRPLoteMultiploQtd,
+                        '0' as PRO_FilialMRPDiasAgrupamento,
+                        '' as PRO_FilialComprador,
+                        '0.000000' as PRO_FilialLoteProducaoQtd,
+                        '0.000000' as PRO_FilialCompraPercDifValor,
+                        '0.000000' as PRO_FilialCompraPercDifQtd,
+                        '2009-09-04 00:00:00.000' as PRO_FilialInvRotativoData,
+                        '' as PRO_FilialCodigoFINAME,
+                        '' as PRO_FilialDescricaoFINAME,
+                        '0' as PRO_FilialReferenciaSerieFilial,
+                        '0' as PRO_FilialReferenciaSerie,
+                        'N' as PRO_FilialItemComposto,
+                        'Q' as PRO_FilialControlaSaldo,
+                        'N' as PRO_FilialReservaEstoqueEstrut,
+                        'P' as PRO_FilialMRPAcao,
+                        '0.000000' as PRO_FilialQuantidadeMultPadrao,
+                        '' as PRO_FilialEspeciePadrao,
+                        '0.000000' as PRO_FilialEspecieCapacidade,
+                        '0.000000' as PRO_FilialQtdProdutividade,
+                        '0.000000' as PRO_FilialPerCustoProduto,
+                        'N' as PRO_FilialVeiculo,
+                        'S' as PRO_FilialConsQtdeProdCoProdut,
+                        probloqmot as PRO_FilialMotivoBloqueio,
+                        NULL as CMB_ProdutoCustoValor,
+                        '0.000000' as PRO_FilialEstPontoRep,
+                        '0' as PRO_FilialMRPFilial,
+                        ' ' as PRO_ProdutoFilialGrupoTipo,
+                        'N' as PRO_FilialNegativo
+                        from prod01(nolock) where procod =" . $row->pro_codigo . " ";
+                        
+                        $this->iniciaTransacao();
+                       
+                        $aStringLog = $this->executaSql($sSql);
+                        if($aStringLog[0]==false){
+                            $oMensagem = new Mensagem('Erro na query','Gravado Log!', Mensagem::TIPO_INFO);
+                            echo $oMensagem->getRender();
+                                $fp = fopen("bloco1.txt", "w");
+                                fwrite($fp, $sSql);
+                                fclose($fp);
+                                exit();
+                        }
 
+                        $i = mt_rand(00, 9999999999);
+                        $LogNome = date('d-m-Y H-i-s' . $i);
+                        if ($aStringLog[0] == true) {
+                            $meuArquivo = $LogNome . '-PdoLogProdFilial.txt';
+                            $data = $LogNome . '-> Migração do item ' . $sCodForm . ' para CNPJ ' . $empcod . ' conclúida com sucesso';
+                        } else {
+                            $meuArquivo = $LogNome . '-PdoLogERRO.txt';
+                            $data = $aStringLog[1];
+                        }
+                        $fp = fopen('logs/'.$meuArquivo.".txt", "w");
+                        fwrite($fp, $data);
+                        fclose($fp);
+                        
+             }
+            }
+            
+            $oMensagem = new Mensagem('Finalizado','Processo finalizado!', Mensagem::TIPO_INFO);
+            echo $oMensagem->getRender();
+            
+    }
+    }
 }

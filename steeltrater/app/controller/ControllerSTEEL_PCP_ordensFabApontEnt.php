@@ -23,9 +23,15 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
         $oForno = Fabrica::FabricarController('STEEL_PCP_Forno');
         $oFornoAtual = $oForno->buscaForno($oDados->getFornocod());
 
+        $aForno[]=$oFornoAtual;
+        
+        
+        $oFornos = Fabrica::FabricarController('STEEL_PCP_Forno');
+        $oFornoSel = $oFornos->Persistencia->getArrayModel();
+        
+        $aForno[]=$oFornoSel;
 
-
-        $this->View->setAParametrosExtras($oFornoAtual);
+        $this->View->setAParametrosExtras($aForno);
     }
 
     /**
@@ -44,8 +50,8 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
 
         $oOpSteel = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
         $oDados = $oOpSteel->consultaOp($aCampos['op']);
-
-        //verifica se op = cancelada
+        
+       //verifica se op = cancelada
         if ($oDados->getSituacao() == 'Cancelada') {
             $oModal = new Modal('Atenção!', 'Ordem de produção cancelada!', Modal::TIPO_AVISO, false);
             echo $oModal->getRender();
@@ -53,6 +59,7 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             . '$("#' . $aId[1] . '").val("");'
             . '$("#' . $aId[2] . '").val("");'
             . '$("#' . $aId[3] . '").val("");';
+           
             exit();
         } else {
             if ($oDados->getOp() == null) {
@@ -105,7 +112,6 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             
              $oLimpa = new Base();
              $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-             //$msg .='$("#' . $aIds[2] . '" ).focus();';
              echo $msg; 
              exit();
         }
@@ -124,7 +130,6 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
               echo $oMensagem->getRender();
               $oLimpa = new Base();
               $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-             // $msg .='$("#' . $aIds[2] . '" ).focus();';
               echo $msg; 
               exit();
         }else{
@@ -140,6 +145,8 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             $oMensagemLista = new Mensagem('Lista de prioridades!','Ocorreu um erro ao baixar a lista de prioridades! '.$aRetornoLista[1], Mensagem::TIPO_SUCESSO);
             echo $oMensagemLista->getRender();
         }
+        
+        
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('Sucesso!', 'Entrada da ordem de produção nº' . $aCampos['op'] . '', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
@@ -148,6 +155,9 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             $msg .='$("#' . $aIds[2] . '" ).focus();';
             echo 'requestAjax("' . $aIds[0] . '-form","STEEL_PCP_ordensFabApontEnt","getDadosGrid","' . $aIds[1] . '","consultaApontGrid");';
             echo $msg;
+            echo '$("#'. $aIds[3] .'>option[value='.$aCampos['fornocod'].']" ).attr("selected", true);';
+            echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+            echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");';
         }
        }
     }

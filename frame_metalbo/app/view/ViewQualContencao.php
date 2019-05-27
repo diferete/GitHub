@@ -16,7 +16,7 @@ class ViewQualContencao extends View {
         parent::criaGridDetalhe();
 
         $this->getOGridDetalhe()->setIAltura(200);
-        
+
         $sAcaoRotina = $this->getSRotina();
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
@@ -50,7 +50,7 @@ class ViewQualContencao extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-        
+
         $sAcaoRotina = $this->getSRotina();
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);

@@ -107,6 +107,9 @@ class ViewSTEEL_PCP_Certificado extends View {
                 
         $oNotaSteel = new Campo('Nota retorno', 'notasteel', Campo::TIPO_TEXTO, 1, 2, 12, 12);
         $oNotaSteel->setBFocus(true);
+        
+        $oDataRetorno = new Campo('Data Retorno','dataNotaRetorno', Campo::TIPO_DATA,2,2,2,2);
+        
         $oNotaClient = new Campo('Nota rec.', 'notacliente', Campo::TIPO_TEXTO, 1, 2, 12, 12);
         $oNotaClient->addValidacao(false, Validacao::TIPO_INTEIRO);
         
@@ -115,7 +118,7 @@ class ViewSTEEL_PCP_Certificado extends View {
          $oNotaClient->setBCampoBloqueado(TRUE);
          }
         $oOpcliente = new Campo('OP Cliente.', 'opcliente', Campo::TIPO_TEXTO, 1, 2, 12, 12);
-        $oOpcliente->addValidacao(false, Validacao::TIPO_INTEIRO);
+        //$oOpcliente->addValidacao(false, Validacao::TIPO_INTEIRO);
         if(method_exists($oDadosOp, 'getOpcliente')) 
          {$oOpcliente->setSValor($oDadosOp->getOpcliente());
          $oOpcliente->setBCampoBloqueado(TRUE);
@@ -196,7 +199,7 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oSupDurMin = new Campo('Dur.SuperfMin','durezaSuperfMin', Campo::TIPO_DECIMAL,2);
         $oSupDurMax = new Campo('Dur.SuperfMax','durezaSuperfMax', Campo::TIPO_DECIMAL,2);
         
-        $oSupEscala = new Campo('Escala','SuperEscala', Campo::TIPO_SELECT,1);
+        $oSupEscala = new Campo('Escala','SuperEscala', Campo::CAMPO_SELECTSIMPLE,1);
         $oSupEscala->addItemSelect('HRC','HRC');
         $oSupEscala->addItemSelect('HV','HV');
         $oSupEscala->addItemSelect('HRB','HRB');
@@ -207,7 +210,7 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oNucDurMax = new Campo('Dur.NucMax','durezaNucMax', Campo::TIPO_DECIMAL,2);
         
        
-        $oNucEscala = new Campo('Escala','NucEscala', Campo::TIPO_SELECT,1);
+        $oNucEscala = new Campo('Escala','NucEscala', Campo::CAMPO_SELECTSIMPLE,1);
         $oNucEscala->addItemSelect('HRC','HRC');
         $oNucEscala->addItemSelect('HV','HV');
         $oNucEscala->addItemSelect('HRB','HRB');
@@ -218,7 +221,7 @@ class ViewSTEEL_PCP_Certificado extends View {
       
         $oCamDurMax = new Campo('Exp.CamadaMax','expCamadaMax', Campo::TIPO_TESTE,2);
         
-        $oInsEneg = new Campo('Insp.Enegrecimento','inspeneg', Campo::TIPO_SELECT,2);
+        $oInsEneg = new Campo('Insp.Enegrecimento','inspeneg', Campo::CAMPO_SELECTSIMPLE,2);
         $oInsEneg->addItemSelect('Bom', 'Bom');
         $oInsEneg->addItemSelect('Tolerável', 'Tolerável');
         $oInsEneg->addItemSelect('Ruim', 'Ruim');
@@ -294,7 +297,7 @@ class ViewSTEEL_PCP_Certificado extends View {
         
         $oTab->addItems($oAbaPadrao,$oAbaFioMaquina,$oAbaLog);        
         
-        $this->addCampos(array($oNr,$oOp,$oNotaSteel),
+        $this->addCampos(array($oNr,$oOp,$oNotaSteel,$oDataRetorno),
                 array($oEmp_codigo,$oEmp_des),
                 array($oOpcliente,$oNotaClient,$oCodProd, $oProduto),
                 array($oQuant,$oPeso,$oDataEnsaio),$oLinha1,$oLabel1,
@@ -386,7 +389,7 @@ class ViewSTEEL_PCP_Certificado extends View {
             $oSupDurMax->setSValor(number_format($oDadosCert->getDurezaSuperfMax(), 2, ',', '.'));
         }
         
-        $oSupEscala = new Campo('Escala','SuperEscala', Campo::TIPO_SELECT,1);
+        $oSupEscala = new Campo('Escala','SuperEscala', Campo::CAMPO_SELECTSIMPLE,1);
         $oSupEscala->addItemSelect('HRC','HRC');
         $oSupEscala->addItemSelect('HV','HV');
         $oSupEscala->addItemSelect('HRB','HRB');
@@ -404,7 +407,7 @@ class ViewSTEEL_PCP_Certificado extends View {
             //number_format($Quanttotal, 2, ',', '.')
         }
        
-        $oNucEscala = new Campo('Escala','NucEscala', Campo::TIPO_SELECT,1);
+        $oNucEscala = new Campo('Escala','NucEscala', Campo::CAMPO_SELECTSIMPLE,1);
         $oNucEscala->addItemSelect('HRC','HRC');
         $oNucEscala->addItemSelect('HV','HV');
         $oNucEscala->addItemSelect('HRB','HRB');
@@ -423,7 +426,7 @@ class ViewSTEEL_PCP_Certificado extends View {
             //number_format($Quanttotal, 2, ',', '.')
         }
         
-        $oInsEneg = new Campo('Insp.Enegrecimento','inspeneg', Campo::TIPO_SELECT,2);
+        $oInsEneg = new Campo('Insp.Enegrecimento','inspeneg', Campo::CAMPO_SELECTSIMPLE,2);
         $oInsEneg->addItemSelect('Bom', 'Bom');
         $oInsEneg->addItemSelect('Tolerável', 'Tolerável');
         $oInsEneg->addItemSelect('Ruim', 'Ruim');

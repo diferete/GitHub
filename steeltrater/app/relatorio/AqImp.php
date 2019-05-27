@@ -63,7 +63,7 @@ if ($eficaz['total'] == 0) {
     $avFim = 'aberta';
 } else {
     /* ver se tem alguma aberta sem apontamento */
-    $sSql = " select COUNT(*) total2 from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and eficaz <> 'Sim' and filcgc ='" . $filcgcAq . "'";
+    $sSql = " select COUNT(*) total2 from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and sit != 'Finalizado' and filcgc ='" . $filcgcAq . "'";
     $dadosSql = $PDO->query($sSql);
     $eficaz = $dadosSql->fetch(PDO::FETCH_ASSOC);
     if ($eficaz['total2'] > 0) {
@@ -81,7 +81,7 @@ $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //dados do cabeçalho
 $sSql = "select classificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
-        . "convert(varchar,datafim,103) as datafim,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
+        . "convert(varchar,datafech,103) as datafechou,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
         . "pq1,pq2,pq3,pq4,pq5,anexo1,anexo2 "
         . " from MET_QUAL_qualaq where filcgc ='" . $filcgcAq . "' and nr=" . $nrAq;
 $dadoscab = $PDO->query($sSql);
@@ -92,7 +92,7 @@ while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $sResp = $row['usunome'];
     $sEquipe = $row['equipe'];
     $sDataini = $row['dataini'];
-    $sDataFim = $row['datafim'];
+    $sDataFim = $row['datafechou'];
     $sTipoAcao = $row['tipoacao'];
     $sOrigem = $row['origem'];
     $sTipMelhoria = $row['tipmelhoria'];
@@ -210,7 +210,7 @@ $existeContencao = $iContecao->fetch(PDO::FETCH_ASSOC);
 $iConCont = 0;
 
 if ($existeContencao['total'] > 0) {
-    $sSqlDadosContencao = "select plano,anexoplan1,convert(varchar,dataprev,103) as dataprev,usunome,situaca "
+    $sSqlDadosContencao = "select plano, anexoplan1,convert(varchar,dataprev,103) as dataprev,usunome,situaca "
             . "from MET_QUAL_Contencao "
             . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
     $dadosContencao = $PDO->query($sSqlDadosContencao);
@@ -255,7 +255,7 @@ $iCorrecao = $PDO->query($sSqlContencao);
 $existeCorrecao = $iCorrecao->fetch(PDO::FETCH_ASSOC);
 
 if ($existeCorrecao['total'] > 0) {
-    $sSqlDadosCorrecao = "select plano, anexoplan1, convert(varchar,dataprev,103) as dataprev,usunome,situaca "
+    $sSqlDadosCorrecao = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,situaca "
             . "from MET_QUAL_Correcao "
             . "where filcgc = '" . $filcgcAq . "' and nr ='" . $nrAq . "'";
     $dadosCorrecao = $PDO->query($sSqlDadosCorrecao);
@@ -292,6 +292,8 @@ if ($iConCorre > 0) {
 $pdf->Ln(1);
 
 //########################### causa raiz do problema #########################################
+
+$pdf->Ln(5);
 
 $sSqlC = "select matprimades, metododes, maodeobrades, "
         . "equipamentodes, meioambientedes, medidades"
@@ -619,8 +621,8 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
 
     if ($row['sitfim'] == 'Finalizado') {
 
-        $sSqlDocumentos = "select procedimento,it,planocontrole,fluxograma,ppap,contexto,preventiva,funcao,treinamento "
-                . " from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
+        $sSqlDocumentos = "select procedimento, it, planocontrole, fluxograma, ppap, contexto, preventiva, funcao, treinamento "
+                . " from MET_QUAL_qualplan where nr = " . $nrAq . " and filcgc = '" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
         $documentos = $PDO->query($sSqlDocumentos);
         $aRowDocumentos = $documentos->fetch(PDO::FETCH_ASSOC);
 
@@ -842,7 +844,7 @@ if ($sEmailRequest == 'S') {
     $oEmail->setPorta(587);
     $oEmail->setAutentica(true);
     $oEmail->setUsuario('metalboweb@metalbo.com.br');
-    $oEmail->setSenha('filialwe');
+    $oEmail->setSenha('Metalbo@@50');
     $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
     $oEmail->setAssunto(utf8_decode('Ação da qualidade nº' . $nrAq . ' da empresa ' . $filcgcAq));
@@ -857,7 +859,7 @@ if ($sEmailRequest == 'S') {
         $oRow = $PDO->query($sSqlEmail);
         $aDadosEmail = $oRow->fetch(PDO::FETCH_ASSOC);
         $sDadosEmail = $aDadosEmail['emailEquip'];
-        $aEmail = explode(',', $sDadosEmail);
+        $aEmail = explode(';', $sDadosEmail);
         foreach ($aEmail as $sCopia) {
             $oEmail->addDestinatario($sCopia);
         }
@@ -866,7 +868,7 @@ if ($sEmailRequest == 'S') {
     }
 
     $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $filcgcAq));
-    //$aRetorno = $oEmail->sendEmail();
+    $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
     } else {

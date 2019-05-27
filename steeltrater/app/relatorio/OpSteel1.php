@@ -23,6 +23,7 @@ system("net use ".$letter.": \"".$location."\" ".$pass." /user:".$user." /persis
 
 
 //captura o número da op
+date_default_timezone_set('America/Sao_Paulo');
 $aOps = $_REQUEST['ops'];
 $data      = date("d/m/y");                     //função para pegar a data local
 $hora      = date("H:i");                       //para pegar a hora com a função date
@@ -139,7 +140,7 @@ foreach ($aOps as $key => $aOp) {
     
     $pdf->SetFont('Arial','',15);
     
-    if ($row['retrabalho']=='Sim'){
+    if ($row['retrabalho']=='Sim' || $row['retrabalho']=='Sim S/Cobrança'){
         $pdf->Cell(110,8,'ORDEM DE PRODUÇÃO - RETRABALHO',1,0,'C');
         $pdf->Code39(165,$pdf->GetY()+1,$row['op'],1,5);
         $pdf->Cell(52,8,' ','L,B,T,R',1,'C');    
@@ -171,7 +172,7 @@ foreach ($aOps as $key => $aOp) {
     //produto
     $pdf->SetFont('Arial','',9);
     $pdf->Cell(15, 5, 'Produto:','L,B',0,'L');
-    $pdf->SetFont('Arial','B',9);
+    $pdf->SetFont('Arial','B',8);
     $pdf->Cell(132, 5, $row['referencia']." - ".$row['prodes'],'B',0,'L');
     
     if ($row['retrabalho']=='Sim'){
@@ -533,7 +534,7 @@ foreach ($aOps as $key => $aOp) {
     //Produto
     $pdf->SetFont('Arial','',9);
     $pdf->Cell(25, 5, 'Produto:','L,B',0,'L');
-    $pdf->SetFont('Arial','B',9);
+    $pdf->SetFont('Arial','B',8);
     $pdf->Cell(139, 5, $row['referencia']." - ".$row['prodes'],'B,R',0,'L');
     
     //Peso

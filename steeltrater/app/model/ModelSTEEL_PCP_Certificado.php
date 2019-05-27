@@ -47,7 +47,17 @@ class ModelSTEEL_PCP_Certificado {
     private $fioDescarbonetaParcial;
     private $DiamFinalMin;
     private $DiamFinalMax;
+    private $dataNotaRetorno;
     
+    function getDataNotaRetorno() {
+        return $this->dataNotaRetorno;
+    }
+
+    function setDataNotaRetorno($dataNotaRetorno) {
+        $this->dataNotaRetorno = $dataNotaRetorno;
+    }
+
+        
     
     function getFioDurezaSol() {
         return $this->fioDurezaSol;

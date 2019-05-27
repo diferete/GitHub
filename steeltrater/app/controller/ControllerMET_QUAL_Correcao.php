@@ -28,7 +28,7 @@ class ControllerMET_QUAL_Correcao extends Controller {
             $this->View->setSRotina($aDados[6]);
         }
 
-        $this->View->setSIdHideEtapa($aDados[4]);
+		$this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
         //define o retorno somente do form
@@ -196,8 +196,9 @@ class ControllerMET_QUAL_Correcao extends Controller {
                 echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_Correcao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
                 $sRetorno = "$('#" . $aDados[2] . "').fileinput('clear');";
                 echo $sRetorno;
+                echo '$(#modalApontaCorrecao-btn).click();';
             } else {
-                $oMensagem = new Modal('Problema', 'Problemas ao finalizar plano de ação' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Modal('Problema', 'Problemas ao finalizar' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
             }
         } else {
             $oMensagem = new Mensagem('Aviso', 'Favor preencher todos os campos', Mensagem::TIPO_WARNING);
@@ -221,7 +222,7 @@ class ControllerMET_QUAL_Correcao extends Controller {
                 echo $sLimpa;
                 echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_Correcao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
             } else {
-                $oMensagem = new Modal('Problema', 'Problemas ao retornar plano de ação' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Modal('Problema', 'Problemas ao retornar para aberto' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
             }
         }

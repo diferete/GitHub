@@ -93,7 +93,8 @@ abstract class View {
     private $bGravaHistorico;
     private $sIdsTelas;
     private $bOcultaFechar;
-
+    
+    
     function getBOcultaFechar() {
         return $this->bOcultaFechar;
     }

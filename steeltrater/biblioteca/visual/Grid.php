@@ -48,6 +48,7 @@ class Grid {
     private $sWhereInicial;
     private $bFocoCampo;
     private $sNomeGrid;
+    private $bDesativaRetornoConsulta;
 
     /**
      * Construtor da classe Grid 
@@ -81,6 +82,14 @@ class Grid {
         $this->setSNomeGrid('paramGrid');
     }
 
+    function getBDesativaRetornoConsulta() {
+        return $this->bDesativaRetornoConsulta;
+    }
+
+    function setBDesativaRetornoConsulta($bDesativaRetornoConsulta) {
+        $this->bDesativaRetornoConsulta = $bDesativaRetornoConsulta;
+    }
+
     function getSNomeGrid() {
         return $this->sNomeGrid;
     }
@@ -89,7 +98,6 @@ class Grid {
         $this->sNomeGrid = $sNomeGrid;
     }
 
-        
     function getBFocoCampo() {
         return $this->bFocoCampo;
     }
@@ -617,8 +625,8 @@ class Grid {
                         . 'if(val.length > 5){'
                         . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
                         . '}'
-                      /*  . 'if(val.length <= 1){'
-                        . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
+                        /*  . 'if(val.length <= 1){'
+                          . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
                         . '}'*/
                         . '});'
                         . '});';
@@ -720,16 +728,16 @@ class Grid {
         if ($this->getBUsaCarrGrid()) {
             $sBotCarregar = '<button type="button" id="' . $this->getSId() . '-botcarr" class="btn btn-dark btn-outline btn-xs '
                     . 'ladda-button" data-style="expand-left" data-plugin="ladda" >'
-                    . '<span class="ladda-label" id="' . $this->getSId() . '-nrReg">'.$aDados[2].' registros listados do total de ' . $aDados[1] . '. Clique para carregar!</span>'
+                    . '<span class="ladda-label" id="' . $this->getSId() . '-nrReg">' . $aDados[2] . ' registros listados do total de ' . $aDados[1] . '. Clique para carregar!</span>'
                     . '<span class="ladda-spinner"></span></button> '
                     . '<script>'
                     . '$("#' . $this->getSId() . '-botcarr").click(function(){' . $sEventoCarr . '});'
                     . '</script>';
         }
 
-        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
+        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
-        $sGrid .= '<span name="paramGrid" id="' . $this->getAbaSel() .''. $this->getSNomeGrid().'" style="display:none;">' . $this->getSId() . '</span>'
+        $sGrid .= '<span name="paramGrid" id="' . $this->getAbaSel() . '' . $this->getSNomeGrid() . '" style="display:none;">' . $this->getSId() . '</span>'
                 . '</tr></tbody></table></div></div>';
 
 
@@ -794,6 +802,9 @@ class Grid {
                     . '               } '
                     . '             });';
             $sEventoRetorno .= $sEnter;
+            if ($this->getBDesativaRetornoConsulta() == true) {
+                $sEventoRetorno = '';
+            }
         }
         //monta string duplo clique
         $dbClick = '';
@@ -822,7 +833,12 @@ class Grid {
                         . ' if($(this).scrollTop() + $(this).innerHeight() >=$(this)[0].scrollHeight) { '
                         . 'var lastreg = $("#' . $this->getSId() . ' tr:last" ).find(".chave").html(); '
                         . 'var idPos = $("#' . $this->getSId() . ' tr:last" ).attr("id");'
+                        . 'var lastenv = $("#' . $this->getSId() . '-lastenv" ).val();'
+                        //.'console.log(lastenv);'
+                        . 'if(lastreg!==lastenv){'
                         . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '",true,lastreg,"",idPos);'
+                        . '$("#' . $this->getSId() . '-lastenv" ).val(lastreg);'
+                        . '}'
                         . ' } '
                         . ' });';
             }
