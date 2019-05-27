@@ -196,7 +196,6 @@ class ControllerMET_QUAL_Correcao extends Controller {
                 echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_Correcao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
                 $sRetorno = "$('#" . $aDados[2] . "').fileinput('clear');";
                 echo $sRetorno;
-                echo '$(#modalApontaCorrecao-btn).click();';
             } else {
                 $oMensagem = new Modal('Problema', 'Problemas ao finalizar' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
             }

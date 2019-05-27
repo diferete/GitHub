@@ -27,7 +27,7 @@ class ControllerMET_QUAL_Contencao extends Controller {
         if ($aDados[7] != '') {
             $this->View->setSRotina($aDados[7]);
         }
-        
+
         $this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
@@ -181,7 +181,7 @@ class ControllerMET_QUAL_Contencao extends Controller {
 
         //renderiza a tela
         $this->View->getTela()->getRender();
-}
+    }
 
     public function apontaContencao($sDados) {
         $aDados = explode(',', $sDados);
@@ -196,7 +196,6 @@ class ControllerMET_QUAL_Contencao extends Controller {
                 echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_Contencao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
                 $sRetorno = "$('#" . $aDados[2] . "').fileinput('clear');";
                 echo $sRetorno;
-                echo '$(#modalApontaContencao-btn).click();';
             } else {
                 $oMensagem = new Modal('Problema', 'Problemas ao finalizar' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
             }

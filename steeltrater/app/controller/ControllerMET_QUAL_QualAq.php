@@ -316,7 +316,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
                 $sCurrentAq = 'current';
                 $sEstiloAq = 'border-color:green;color:green';
             }
-            if ($aRetorno['sit'] == 'Finalizada') {
+            if ($aRetorno['sit'] == 'Finalizada' || $aRetorno['sit'] == 'Cancelada') {
                 $sCurrentAq = 'current';
                 $sEstiloAq = 'border-color:black;color:black';
             }
@@ -490,6 +490,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
         } else {
             if ($oDados->sit == 'Cancelada') {
                 $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oDados->nr . ' já está CANCELADA!', Modal::TIPO_ERRO, false, true, true);
+                echo "$('#" . $aDados[1] . "-btn').click();";
             }
             if ($oDados->sit == 'Finalizada') {
                 $oMensagem = new Modal('Atenção!', 'Ação Nº' . $oDados->nr . ' não pode ser CANCELADA por estar FINALIZADA!', Modal::TIPO_ERRO, false, true, true);
@@ -498,12 +499,14 @@ class ControllerMET_QUAL_QualAq extends Controller {
         }
     }
 
-    public function cancelaAq() {
+    public function cancelaAq($sDados) {
+        $aDados = explode(',', $sDados);
 
         $aRetorno = $this->Persistencia->cancelaAq();
 
         if ($aRetorno == true) {
             $oMensagem = new Mensagem('Cancelada', 'Ação Nº' . $this->Model->getNr() . ' foi cancelada com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo '$("#' . $aDados[1] . '-btn").click();';
         } else {
             $oMensagem = new Mensagem('Atenção!', 'Erro ao cancelar Ação Nº' . $this->Model->getNr() . ', a ação não foi cancelada!', Mensagem::TIPO_WARNING);
         }

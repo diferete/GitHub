@@ -118,7 +118,7 @@ class ViewMET_QUAL_Contencao extends View {
         $oResp->setBFocus(true);
         $oResp->setSIdHideEtapa($this->getSIdHideEtapa());
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-        
+
         $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oRespNome->setSIdPk($oResp->getId());
         $oRespNome->setClasseBusca('MET_TEC_Usuario');
@@ -186,7 +186,7 @@ class ViewMET_QUAL_Contencao extends View {
         $oDataFim = new Campo('Data Finalização', 'dtaponta', Campo::TIPO_DATA, 2, 2, 2, 2);
         if ($oDados->getDtaponta() != null) {
             $oDataFim->setSValor(Util::converteData($oDados->getDtaponta()));
-}
+        }
         $oDataFim->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oDataFim->setSCorFundo(Campo::FUNDO_AMARELO);
 
