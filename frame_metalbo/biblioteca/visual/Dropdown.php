@@ -337,16 +337,16 @@ class Dropdown {
 
                 //$sAcao .='alert(chave);';
                 if ($aItem['bModal']) {
-                    $sAcao .= 'requestAjax("","' . $aItem['classe'] . '","' . $aItem['metodo'] . '","' . $sIdTela . ',' . $aItem['id'] . ',"+chave,"' . $aItem['paramadicional'] . '");';
+                    $sAcao .= 'requestAjax("' . $sIdTela . '-formgridbelow","' . $aItem['classe'] . '","' . $aItem['metodo'] . '","' . $sIdTela . ',' . $aItem['id'] . ',"+chave,"' . $aItem['paramadicional'] . '");';
                 }
                 if ($aItem['newaba']) {
                     $sAcao .= 'verificaTab("menu-3-' . $aItem['metodo'] . '","1-est","' . $aItem['classe'] . '","' . $aItem['metodo'] . '","tabmenu-3-' . $aItem['metodo'] . '","' . $aItem['titulo'] . '",chave+","+"' . $aItem['paramadicional'] . '");';
                 }
                 if ($aItem['bMultiSelect']) {
-                    $sAcao .= 'requestAjax("","' . $aItem['classe'] . '","' . $aItem['metodo'] . '",abaSelecionada +"control,' . $sIdTela . ',' . $aItem['parametro'] . ',"+chave,contChave);';
+                    $sAcao .= 'requestAjax("' . $sIdTela . '-formgridbelow","' . $aItem['classe'] . '","' . $aItem['metodo'] . '",abaSelecionada +"control,' . $sIdTela . ',' . $aItem['parametro'] . ',"+chave,contChave);';
                 }
                 if ($aItem['newaba'] == null && $aItem['bModal'] == null && $aItem['bMultiSelect'] == null) {
-                    $sAcao .= 'requestAjax("","' . $aItem['classe'] . '","' . $aItem['metodo'] . '",abaSelecionada +"control,' . $sIdTela . ',"+chave,"' . $aItem['paramadicional'] . '");';
+                    $sAcao .= 'requestAjax("' . $sIdTela . '-formgridbelow","' . $aItem['classe'] . '","' . $aItem['metodo'] . '",abaSelecionada +"control,' . $sIdTela . ',"+chave,"' . $aItem['paramadicional'] . '");';
                 }
 
 
