@@ -18,10 +18,8 @@ class ViewMET_CAD_Placas extends View {
         $this->setUsaAcaoExcluir(TRUE);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(true);
-        $this->setUsaFiltro(true);  
-        
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
+        $this->setUsaFiltro(true);
+
 
         $oFilcgc = new CampoConsulta('Empresa', 'filcgc', CampoConsulta::TIPO_TEXTO);
 
@@ -35,9 +33,10 @@ class ViewMET_CAD_Placas extends View {
 
         $oFiltroEmpdes = new Filtro($oEmpdes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
         $oFiltroPlaca = new Filtro($oPlaca, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFiltroNome = new Filtro($oColab, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
-        $this->addFiltro($oFiltroEmpdes, $oFiltroPlaca);
-        $this->addCampos($oFilcgc, $oPlaca, $oEmpCod, $oEmpdes,$oColab);
+        $this->addFiltro($oFiltroEmpdes, $oFiltroPlaca, $oFiltroNome);
+        $this->addCampos($oFilcgc, $oPlaca, $oEmpCod, $oEmpdes, $oColab);
     }
 
     public function criaTela() {

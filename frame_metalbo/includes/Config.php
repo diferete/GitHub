@@ -52,24 +52,24 @@ class Config {
     const BD_SQLSERVER = 6;
 
 
-      /*
+      
     const TIPO_BD = self::BD_SQLSERVER;
     const PORTA_BD = 1433;
     const USER_BD = 'sa';
     const NOME_BD = 'rex_maquinas';
     const HOST_BD = 'Metalbobase02';
     const PASS_BD = 'M@quinas@321';
-       * 
-       */
      
       
-      
+      /*
     const TIPO_BD = self::BD_SQLSERVER;
     const PORTA_BD = 1433;
     const USER_BD = 'sa';
     const NOME_BD = 'rex_maquinas';
     const HOST_BD = 'metalbobase';
     const PASS_BD = 'Met@lbo@4321';
+       * 
+       */
       
    
 

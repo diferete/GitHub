@@ -21,7 +21,6 @@ class PersistenciaMET_CAD_Placas extends Persistencia {
         $this->adicionaRelacionamento('nome', 'nome');
 
         $this->adicionaOrderBy('placa');
-        $this->setSTop('50');
     }
 
     public function buscaPlaca($sPlaca) {
