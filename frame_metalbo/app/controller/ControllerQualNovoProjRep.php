@@ -51,7 +51,7 @@ class ControllerQualNovoProjRep extends Controller {
         }
     }
 
-    //mensagem para liberar para o setor de vendas
+    //mensagem para liberar para a metalbo
     public function msLiberaProj($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -72,7 +72,7 @@ class ControllerQualNovoProjRep extends Controller {
         echo $oMensagem->getRender();
     }
 
-    //efetua a liberação para o setor de vendas
+    //efetua a liberação para a metalbo
     public function liberaProj($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -103,7 +103,6 @@ class ControllerQualNovoProjRep extends Controller {
         $sClasse = $this->getNomeClasse();
 
         $bSit = $this->Persistencia->verifLibRepProj($aCamposChave);
-
 
         if ($bSit == true) {
             $this->EnvProjMetalbo($sChave);
@@ -157,6 +156,7 @@ class ControllerQualNovoProjRep extends Controller {
 
         $oEmail->limpaDestinatariosAll();
 
+        /*
         // Para        
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
@@ -170,8 +170,10 @@ class ControllerQualNovoProjRep extends Controller {
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
         }
+         * 
+         */
 
-        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

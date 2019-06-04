@@ -326,16 +326,16 @@ class ControllerQualRncVenda extends Controller {
                 echo $oMensagem3->getRender();
             } else {
                 if ($aRet[0] == 'Env.Qual') {
-                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('duda@metalbo.com.br');
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
-                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
-                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('josiani@metalbo.com.br');
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('josiani@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RNC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc']));

@@ -90,9 +90,9 @@ class ControllerQualRncAnalise extends Controller {
         parse_str($sChave, $aCamposChave);
         $aCamposChave['id'] = $aDados[1];
 
-        $aRet = $this->Persistencia->verificaFim($aCamposChave);
+        $aRet = $this->Persistencia->verifSit($aCamposChave);
 
-        if ($aRet[0]) {
+        if ($aRet[0] == true && $aRet[2] == 'Em análise' && $aRet[1] != 'Apontada') {
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
 
@@ -109,7 +109,7 @@ class ControllerQualRncAnalise extends Controller {
             //renderiza a tela
             $this->View->getTela()->getRender();
         } else {
-            $oMens = new Modal('Atenção!', 'A reclamação já foi apontada!', Modal::TIPO_AVISO, false, true, false);
+            $oMens = new Modal('Atenção!', 'A reclamação não está em situação de ser apontada!', Modal::TIPO_AVISO, false, true, false);
             echo $oMens->getRender();
             echo'$("#' . $aDados[1] . '-btn").click();';
         }

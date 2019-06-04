@@ -76,6 +76,17 @@ class ControllerQualNovoProj extends Controller {
         return $aRetorno;
     }
 
+    public function antesAlterar($sParametros = null) {
+        parent::antesAlterar($sParametros);
+
+
+        $sChave = htmlspecialchars_decode($sParametros[0]);
+        $this->carregaModelString($sChave);
+        $this->Model = $this->Persistencia->consultar();
+
+        $sDescCod = $this->Model->getDesc_novo_prod();
+    }
+
     //retorna para para aberto
     public function msgReprovaProj($sDados) {
         $aDados = explode(',', $sDados);
@@ -210,7 +221,7 @@ class ControllerQualNovoProj extends Controller {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - '  . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }
@@ -424,7 +435,6 @@ class ControllerQualNovoProj extends Controller {
 
         if ($aRetorno == true) {
             $oMensagem = new Modal('Atenção!', 'Projeto Aprovado por vendas, o reenvio do e-mail de Retorno foi cancelado.', Modal::TIPO_AVISO, false, true, true);
-            
         } else {
             $oMensagem = new Mensagem('Aguarde', 'Seu e-mail está sendo gerado e enviado', Mensagem::TIPO_INFO);
             echo'requestAjax("","' . $sClasse . '","EmailRetornaProj","' . $sDados . '");';

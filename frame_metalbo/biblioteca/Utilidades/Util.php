@@ -277,14 +277,18 @@ class Util {
      * @param string $sData Recebe string data para converter
      * */
     public static function converteData($sData) {
-        $data = explode('-', $sData);
-        $d = $data[2];
-        $m = $data[1];
-        $a = $data[0];
+        if (strlen($sData) > 10) {
+            return $sData;
+        } else {
+            $data = explode('-', $sData);
+            $d = $data[2];
+            $m = $data[1];
+            $a = $data[0];
 
-        $sDataConvert = $d . "/" . $m . "/" . $a;
+            $sDataConvert = $d . "/" . $m . "/" . $a;
 
-        return $sDataConvert;
+            return $sDataConvert;
+        }
     }
 
     /**
@@ -298,8 +302,8 @@ class Util {
         $sReturn = preg_match("#([0-1]{1}[0-9]{1}|[2]{1}[0-3]{1}):[0-5]{1}[0-9]{1}#", $time);
         return $sReturn;
     }
-    
-     /**
+
+    /**
      * arruma valores para salvar no banco
      */
     public static function ValorSql($valor) {

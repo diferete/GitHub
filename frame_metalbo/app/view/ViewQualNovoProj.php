@@ -225,11 +225,9 @@ class ViewQualNovoProj extends View {
         $oEmail->setBCampoBloqueado(true);
 
         $oDescProd = new campo('Descrição do produto', 'desc_novo_prod', Campo::TIPO_TEXTO, 6);
-        $oDescProd->setIMarginTop(8);
 
         $oAcaba = new Campo('Acabamento do Produto', 'acabamento', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oAcaba->setBCampoBloqueado(true);
-        $oAcaba->setIMarginTop(8);
 
         $sBuscaCli = 'var empcod = $("#' . $oEmpcod->getId() . '").val();  '
                 . ' if($("#' . $oEmpcod->getId() . '").val()!==""){requestAjax("","QualNovoProj","acaoExitEmp",""+empcod+",' . $oEmail->getId() . '");}';
@@ -245,7 +243,6 @@ class ViewQualNovoProj extends View {
         $oQuant->setSValor('0');
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
-        $oQuant->setIMarginTop(8);
         $oQuant->setBCampoBloqueado(true);
 
         $oAnexoDesenho = new Campo('Anexo 1', 'anexo1', Campo::TIPO_UPLOAD, 2);
