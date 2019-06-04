@@ -90,6 +90,7 @@ class ControllerQualRncAnalise extends Controller {
         parse_str($sChave, $aCamposChave);
         $aCamposChave['id'] = $aDados[1];
 
+        
         $aRet = $this->Persistencia->verifSit($aCamposChave);
 
         if ($aRet[0] == true && $aRet[2] == 'Em análise' && $aRet[1] != 'Apontada') {
