@@ -815,6 +815,25 @@ function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDi
     }
 }
 
+
+/**
+ * funcao para valores do dimensional da entraga de novos projetos
+ */
+function dimenProd(codProd, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
+        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice,
+        idAcab, idMat, idClass, sClasse) {
+    if (codProd == '') {
+        return;
+    } else {
+
+        var campoVal = codProd + ',' + idChMin + ',' + idChMax + ',' + idAltMin + ',' + idAltMax + ',' + idDiamFmin + ',' + idDiamFmax + ','
+                + idCompMin + ',' + idCompMax + ',' + idDiamPmin + ',' + idDiamPmax + ',' + idDiamExMin + ',' + idDiamExMax + ',' + idCompPrMin + ','
+                + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ','
+                + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
+        requestAjax("", sClasse, 'buscaDadosProd', campoVal);
+    }
+}
+
 function NewProjRep(idQt) {
 
 
