@@ -11,7 +11,7 @@ require_once "../Matrix.php";
  * the results [2.5, -8.5, 10] which means that the points are on the
  * curve y = 2.5x² - 8.5x + 10.
  *
- * @see https://geosoft.no/software/lagrange/LagrangeInterpolation.java.html
+ * @see http://geosoft.no/software/lagrange/LagrangeInterpolation.java.html
  * @author Jacob Dreyer
  * @author Paul Meagher (port to PHP and minor changes)
  *

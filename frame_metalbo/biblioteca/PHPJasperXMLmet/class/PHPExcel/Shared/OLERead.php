@@ -20,8 +20,8 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Shared
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
- * @license    https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.6, 2011-02-27
  */
 
@@ -302,7 +302,7 @@ class PHPExcel_Shared_OLERead {
 	private static function _GetInt4d($data, $pos)
 	{
 		// FIX: represent numbers correctly on 64-bit system
-		// https://sourceforge.net/tracker/index.php?func=detail&aid=1487372&group_id=99160&atid=623334
+		// http://sourceforge.net/tracker/index.php?func=detail&aid=1487372&group_id=99160&atid=623334
 		// Hacked by Andreas Rehm 2006 to ensure correct result of the <<24 block on 32 and 64bit systems
 		$_or_24 = ord($data[$pos + 3]);
 		if ($_or_24 >= 128) {

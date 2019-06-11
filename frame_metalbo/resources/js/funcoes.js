@@ -813,7 +813,7 @@ function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDi
 
         requestAjax("", sClasse, 'getDadosProdSimilar', campoValSim);
     }
-}
+    }
 
 
 /**
@@ -832,7 +832,7 @@ function dimenProd(codProd, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, id
                 + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
         requestAjax("", sClasse, 'buscaDadosProd', campoVal);
     }
-}
+    }
 
 function NewProjRep(idQt) {
 

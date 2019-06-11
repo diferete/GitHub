@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="https://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports https://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3831c998-ee37-4b41-a5df-19b06fa8c485">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3831c998-ee37-4b41-a5df-19b06fa8c485">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -101,19 +101,19 @@ FROM
 			</staticText>
 			<componentElement>
 				<reportElement uuid="eda370f8-3d81-4fb4-9056-16f3bd493c68" x="316" y="0" width="86" height="60"/>
-				<jr:DataMatrix xmlns:jr="https://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports/components https://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+				<jr:DataMatrix xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
 					<jr:codeExpression><![CDATA["QR:12345"]]></jr:codeExpression>
 				</jr:DataMatrix>
 			</componentElement>
 			<componentElement>
 				<reportElement uuid="eda370f8-3d81-4fb4-9056-16f3bd493c68" x="455" y="0" width="76" height="60"/>
-				<jr:DataMatrix xmlns:jr="https://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports/components https://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+				<jr:DataMatrix xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
 					<jr:codeExpression><![CDATA["12345"]]></jr:codeExpression>
 				</jr:DataMatrix>
 			</componentElement>
 			<componentElement>
 				<reportElement uuid="0e2ba44f-8ff4-4475-a20c-77737fc33016" x="191" y="13" width="108" height="35"/>
-				<jr:Code128 xmlns:jr="https://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports/components https://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom">
 					<jr:codeExpression><![CDATA["12345"]]></jr:codeExpression>
 				</jr:Code128>
 			</componentElement>
@@ -160,7 +160,7 @@ FROM
 			</textField>
 			<componentElement>
 				<reportElement uuid="0e2ba44f-8ff4-4475-a20c-77737fc33016" x="67" y="0" width="176" height="32"/>
-				<jr:Code128 xmlns:jr="https://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports/components https://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="none">
 					<jr:codeExpression><![CDATA[$F{sample1_itemname}]]></jr:codeExpression>
 				</jr:Code128>
 			</componentElement>

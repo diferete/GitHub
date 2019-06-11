@@ -3,7 +3,7 @@ TCPDF - README
 
 I WISH TO IMPROVE AND EXPAND TCPDF BUT I NEED YOUR SUPPORT.
 PLEASE MAKE A DONATION:
-https://sourceforge.net/donate/index.php?group_id=128076
+http://sourceforge.net/donate/index.php?group_id=128076
 
 ------------------------------------------------------------
 
@@ -62,10 +62,10 @@ Installation (full instructions on http:  www.tcpdf.org):
 	3. call the examples/example_001.php page with your browser to see an example
 
 Source Code Documentation:
-	https://www.tcpdf.org
+	http://www.tcpdf.org
 
 Additional Documentation:
-	https://www.tcpdf.org
+	http://www.tcpdf.org
 
 License
 	Copyright (C) 2002-2012  Nicola Asuni - Tecnick.com LTD
@@ -82,7 +82,7 @@ License
 
 	You should have received a copy of the License
 	along with TCPDF. If not, see
-	<https://www.tecnick.com/pagefiles/tcpdf/LICENSE.TXT>.
+	<http://www.tecnick.com/pagefiles/tcpdf/LICENSE.TXT>.
 
 	See LICENSE.TXT file for more information.
 

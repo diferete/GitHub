@@ -2,7 +2,7 @@
 
 // Levenberg-Marquardt in PHP
 
-// https://www.idiom.com/~zilla/Computer/Javanumeric/LM.java
+// http://www.idiom.com/~zilla/Computer/Javanumeric/LM.java
 
 class LevenbergMarquardt {
 
