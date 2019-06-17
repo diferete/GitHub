@@ -17,6 +17,29 @@ class ViewMenu extends View {
         $this->setTitulo('Menu');
     }
 
+    function criaConsulta() {
+        parent::criaConsulta();
+
+        $this->setUsaAcaoVisualizar(true);
+
+        $oModulo = new CampoConsulta('Módulo', 'Modulo.modcod');
+
+        $oModDes = new CampoConsulta('Módulo', 'Modulo.modescricao');
+        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO);
+
+        $oMenuCod = new CampoConsulta('Cód. Menu', 'mencodigo');
+
+        $oMenDes = new CampoConsulta('Descrição', 'mendes');
+        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO);
+
+        $oMenOrdem = new CampoConsulta('Ordem', 'menordem');
+
+        $this->addFiltro($oFMenDes, $oFModDes);
+
+
+        $this->addCampos($oMenuCod, $oMenDes, $oModulo, $oModDes, $oMenOrdem);
+    }
+
     /**
      * Método que realiza a criação dos campos da tela de manutenção (inclusão/alteração) 
      */
@@ -65,29 +88,6 @@ class ViewMenu extends View {
     /**
      * Método que realiza a criação dos campos da tela de consulta
      */
-    function criaConsulta() {
-        parent::criaConsulta();
-
-        $this->setUsaAcaoVisualizar(true);
-
-        $oModulo = new CampoConsulta('Módulo', 'Modulo.modcod');
-
-        $oModDes = new CampoConsulta('Módulo', 'Modulo.modescricao');
-        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO);
-
-        $oMenuCod = new CampoConsulta('Cód. Menu', 'mencodigo');
-
-        $oMenDes = new CampoConsulta('Descrição', 'mendes');
-        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO);
-
-        $oMenOrdem = new CampoConsulta('Ordem', 'menordem');
-
-        $this->addFiltro($oFMenDes, $oFModDes);
-
-
-        $this->addCampos($oMenuCod, $oMenDes, $oModulo, $oModDes, $oMenOrdem);
-    }
-
 }
 
 ?>

@@ -1992,8 +1992,8 @@ class Campo {
                         . '</script> '
                         . '</div>  ';
                 break;
-            case self::CAMPO_SELECTSIMPLE:
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+            case self::CAMPO_SELECTSIMPLE://margin-top:8px;
+                $sCampo = '<div style="" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
                         . '<select name="' . $this->getNome() . '" class="form-control input-sm" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
@@ -2011,6 +2011,7 @@ class Campo {
                         . '<script>'
                         . $sTrigger
                         . '</script> '
+                        . $this->getRenderEventos()
                         . '</div>  ';
                 break;
             case self::TIPO_TAGS:

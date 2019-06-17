@@ -2853,12 +2853,14 @@ class Controller {
 
         //seta ids da tela 
         $this->View->setSIdsTelas($aDados);
-        if ($aDados[6] == 'acaoVisualizar') {
+        if ($aDados[6] == 'acaoVisualizar' || $aDados[7] == 'acaoVisualizar') {
             $this->View->setSRotina(View::ACAO_VISUALIZAR);
         } else {
             $this->View->setSRotina(View::ACAO_INCLUIR);
         }
         $this->antesDeCriarTela();
+        
+        $this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
         //define o retorno somente do form

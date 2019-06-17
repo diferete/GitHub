@@ -63,9 +63,9 @@ class PersistenciaCadCliRep extends Persistencia {
         $this->adicionaOrderBy('nr', 1);
 
         $this->setSTop(50);
-    }    
-	
-	//executa a liberação para projetos
+    }
+
+    //executa a liberação para projetos
     public function liberaMetalbo($aDados) {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
@@ -77,21 +77,23 @@ class PersistenciaCadCliRep extends Persistencia {
         $sSituaca = $oRow->situaca;
         //verificar se o campo situaca == liberado se for, nao dar update e rotorna array como false na posicao zero
         if ($sSituaca == 'Liberado' || $sSituaca == 'Cadastrado') {
-            $aRetorno[0] = $sSituaca;
-            $aRetorno[1] = false;
-            return $aRetorno;
+            $sRetorno[0] = $sSituaca;
+            return $sRetorno;
         } else {
-
             $sSql = "update pdfempcad set situaca ='Liberado',
                     dtlib ='" . $sData . "',
                     horalib ='" . $sHora . "'
                     where nr ='" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
 
-            return $aRetorno;
+            if ($aRetorno[0] == true) {
+                $sRetorno = 'ok';
+                return $sRetorno;
+            } else {
+                return $aRetorno;
+            }
         }
     }
-
 
     /* busca resp vendas */
 

@@ -23,7 +23,22 @@ class ViewMET_ServicoMaquina extends View {
         $oHora = new CampoConsulta('Hora', 'hora');
         
         $oTipFiltro = new Filtro($oTip, Filtro::CAMPO_TEXTO_IGUAL,1);
-        $oDesTipFiltro = new Filtro($oTipDes, Filtro::CAMPO_TEXTO,3);
+        $oDesTipFiltro = new Filtro($oTipDes, Filtro::CAMPO_SELECT, 4,4,12,12);
+        $oDesTipFiltro->addItemSelect('CONFORMACAO A FRIO PORCAS', 'CONFORMACAO A FRIO PORCAS');
+        $oDesTipFiltro->addItemSelect('CONFORMACAO A QUENTE', 'CONFORMACAO A QUENTE');
+        $oDesTipFiltro->addItemSelect('TREFILA', 'TREFILA');
+        $oDesTipFiltro->addItemSelect('CONFORMACAO A FRIO PARAFUSOS', 'CONFORMACAO A FRIO PARAFUSOS');
+        $oDesTipFiltro->addItemSelect('ZINCAGEM ELETROLITICA', 'ZINCAGEM ELETROLITICA');
+        $oDesTipFiltro->addItemSelect('GALVANIZACAO A FOGO', 'GALVANIZACAO A FOGO');
+        $oDesTipFiltro->addItemSelect('FOSFATIZACAO', 'FOSFATIZACAO');
+        $oDesTipFiltro->addItemSelect('USINAGEM DE PRODUTOS', 'USINAGEM DE PRODUTOS');
+        $oDesTipFiltro->addItemSelect('PRENSAS HORIZONTAIS', 'PRENSAS HORIZONTAIS');
+        $oDesTipFiltro->addItemSelect('TORNO', 'TORNO');
+        $oDesTipFiltro->addItemSelect('ROSQUEADEIRA', 'ROSQUEADEIRA');
+        $oDesTipFiltro->addItemSelect('DIVERSOS', 'DIVERSOS');
+        $oDesTipFiltro->setSLabel('Desc.Tipo.Maquina');
+        $oDesTipFiltro->setBInline(true);
+        
         $oDescricaoFiltro = new Filtro($oServ, Filtro::CAMPO_TEXTO,3);
         $oResponsavelFiltro = new Filtro($oResp, Filtro::CAMPO_TEXTO,2);
         $oUsuarioFiltro = new Filtro($oUser, Filtro::CAMPO_TEXTO,2);
@@ -47,6 +62,7 @@ class ViewMET_ServicoMaquina extends View {
         $oSer->addValidacao(false, Validacao::TIPO_STRING);
               
         $oCiclo = new Campo('Ciclo', 'ciclo', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oCiclo->addItemSelect('','');
         $oCiclo->addItemSelect('1','1 dias');
         $oCiclo->addItemSelect('7','7 dias');
         $oCiclo->addItemSelect('15','15 dias');
@@ -59,9 +75,10 @@ class ViewMET_ServicoMaquina extends View {
         $oCiclo->addItemSelect('365', '365 dias');
         $oCiclo->addItemSelect('730', '730 dias');
         $oCiclo->addItemSelect('1095', '1095 dias');
-        $oCiclo->addValidacao(false, Validacao::TIPO_INTEIRO);
+        //$oCiclo->addValidacao(false, Validacao::TIPO_INTEIRO);
               
         $oResp = new Campo('Responsável', 'resp', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oResp->addItemSelect('', '');
         $oResp->addItemSelect('ENCARREGADO DA PRODUCAO', 'ENCARREGADO DA PRODUCAO');
         $oResp->addItemSelect('MANUTENCAO', 'MANUTENCAO');
         $oResp->addItemSelect('OPERADOR', 'OPERADOR');
@@ -70,7 +87,7 @@ class ViewMET_ServicoMaquina extends View {
         $oResp->addItemSelect('MECANICA', 'MECANICA');
         $oResp->addItemSelect('LIDER', 'LIDER');
         $oResp->addItemSelect('SOLDADOR', 'SOLDADOR');
-        $oResp->addValidacao(false, Validacao::TIPO_STRING);
+        //$oResp->addValidacao(false, Validacao::TIPO_STRING);
         
         
         $oData = new Campo('Data','data', Campo::TIPO_TEXTO,1,1,12,12);

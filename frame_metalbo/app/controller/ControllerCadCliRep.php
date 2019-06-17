@@ -79,18 +79,21 @@ class ControllerCadCliRep extends Controller {
         $sClasse = $this->getNomeClasse();
 
         $aRetorno = $this->Persistencia->liberaMetalbo($aCamposChave);
-
-        if ($aRetorno[1] != false) {
-            $oMensagem = new Mensagem('Sucesso!', 'Seu cadastro foi liberado com sucesso...', Mensagem::TIPO_SUCESSO);
-            echo"$('#" . $aDados[1] . "-pesq').click();";
-            $this->enviaEmailMetalbo($aCamposChave['nr']);
-        } else {
-            if ($aRetorno[0] == 'Liberado') {
+        $sCondicao = $aRetorno[0];
+        
+        switch ($sCondicao) {
+            case 'Liberado':
                 $oMensagem = new Modal('Liberação de cadastro', 'Solicitação de cadastro nº' . $aCamposChave['nr'] . ' já foi liberada para a Metalbo, deseja REENVIAR o e-mail de notificação?', Modal::TIPO_AVISO, true, true, true);
                 $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","enviaEmailMetalbo","' . $aCamposChave['nr'] . '");');
-            } else {
+                break;
+            case 'Cadastrado':
                 $oMensagem = new Modal('Liberação de cadastro', 'Solicitação de cadastro nº' . $aCamposChave['nr'] . ' já foi cadastrada', Modal::TIPO_AVISO, false, true, true);
-            }
+                break;
+            default:
+                $oMensagem = new Mensagem('Sucesso!', 'Seu cadastro foi liberado com sucesso...', Mensagem::TIPO_SUCESSO);
+                echo"$('#" . $aDados[1] . "-pesq').click();";
+                $this->enviaEmailMetalbo($aCamposChave['nr']);
+                break;
         }
         echo $oMensagem->getRender();
     }

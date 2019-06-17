@@ -809,11 +809,9 @@ function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDi
                 + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ','
                 + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass + ',' + codProCod + ',' + idDiamMat;
 
-        console.log(campoValSim);
-
         requestAjax("", sClasse, 'getDadosProdSimilar', campoValSim);
     }
-    }
+}
 
 
 /**
@@ -832,7 +830,7 @@ function dimenProd(codProd, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, id
                 + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
         requestAjax("", sClasse, 'buscaDadosProd', campoVal);
     }
-    }
+}
 
 function NewProjRep(idQt) {
 

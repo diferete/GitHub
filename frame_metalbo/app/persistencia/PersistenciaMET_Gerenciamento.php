@@ -41,5 +41,13 @@ class PersistenciaMET_Gerenciamento extends Persistencia{
         
     }
     
+    public function verificaQuantMaqAber($iCodMaq){
+        
+        $sSql = "select count (codmaq) as total from tbmanutmp where codmaq = '".$iCodMaq."' and sitmp = 'ABERTO'";       
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        return ((int) $oRow->total);
+        
+    }
     
 }

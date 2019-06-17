@@ -48,6 +48,7 @@ class Grid {
     private $sWhereInicial;
     private $bFocoCampo;
     private $sNomeGrid;
+    private $bDesativaRetornoConsulta;
 
     /**
      * Construtor da classe Grid 
@@ -746,7 +747,8 @@ class Grid {
 
         //renderiza campos abaixo do grid  id="' . $this->getSId() . '-pesquisa"
         //renderiza os campos   '<form id="' . $this->getSId() . '-formGrid>"'. $this->oLayout->getRender().'</form>';
-        $sConteudo = '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-formgridbelow" style=" position: relative; padding: 10px 15px 10px 70px;  background-color: #e6e9ea;  border: 1px solid #eee">' . $this->oLayout->getRender() . '</form>';
+        $sConteudo = $this->oLayout->getRender();
+        //$sConteudo = '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-formgridbelow" style=" position: relative;  background-color: #e6e9ea;  border: 1px solid #eee">' . $this->oLayout->getRender() . '</form>';
         $sGrid .= $sConteudo;
 
 

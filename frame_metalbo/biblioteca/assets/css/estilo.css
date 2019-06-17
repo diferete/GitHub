@@ -1,4 +1,16 @@
+.truncate {
+    display: inline-block;
+    width: 150px; /* Largura da elemento */
+    white-space: nowrap;
+    overflow: hidden; /* Esconde o conteúdo que ultrapassar a largura */
+    text-overflow: ellipsis; /* Adiciona as reticências */
+}
 
+/* Corrige a posição do elemento para ficarem na mesma linha */
+.truncate + a {
+    vertical-align: top;
+    margin-top: -1px;
+}
 .btn-form{
     margin-top: 20px;
 }

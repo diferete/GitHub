@@ -16,6 +16,7 @@ class ModelMET_ItensManPrev {
     private $codmaq;
     private $maquina;
     private $codsit;
+    private $servico;
     private $sitmp;
     private $dias;
     private $databert;
@@ -23,7 +24,24 @@ class ModelMET_ItensManPrev {
     private $datafech;
     private $userfinal;
     private $obs;
+    private $oqfazer;
     
+    function getServico() {
+        return $this->servico;
+    }
+
+    function setServico($servico) {
+        $this->servico = $servico;
+    }
+    
+    function getOqfazer() {
+        return $this->oqfazer;
+    }
+
+    function setOqfazer($oqfazer) {
+        $this->oqfazer = $oqfazer;
+    }
+  
     function getMET_ServicoMaquina() {
         if (!isset($this->MET_ServicoMaquina)) {
             $this->MET_ServicoMaquina = Fabrica::FabricarModel('MET_ServicoMaquina');

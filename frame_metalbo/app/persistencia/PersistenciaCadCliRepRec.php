@@ -669,6 +669,23 @@ null/*,null,null,null,null*/)
         return $aRetorno;
     }
 
+    public function buscaEmailRep($sNr) {
+
+        $sSql = "select usucodigo 
+                from pdfempcad 
+                where nr ='" . $sNr . "'";
+        $sCod = $this->consultaSql($sSql);
+
+        //busca email venda
+        $sSql = "select usuemail
+                from tbusuario 
+                where usucodigo ='" . $sCod->usucodigo . "' ";
+
+        $sEmail = $this->consultaSql($sSql);
+
+        return $sEmail->usuemail;
+    }
+
     /**
      * Insere endereços 
      */
@@ -712,6 +729,14 @@ null/*,null,null,null,null*/)
                 . " where empcod = '" . $oDados->getEmpcod() . "'";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
+    }
+
+    public function getSit($sNr) {
+        $sSql = "select situaca from pdfempcad "
+                . "where nr = " . $sNr;
+        $oSit = $this->consultaSql($sSql);
+
+        return $oSit->situaca;
     }
 
 }
