@@ -627,7 +627,7 @@ class Grid {
                         . '}'
                         /*  . 'if(val.length <= 1){'
                           . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
-                        . '}'*/
+                          . '}' */
                         . '});'
                         . '});';
             }
@@ -747,11 +747,11 @@ class Grid {
 
         //renderiza campos abaixo do grid  id="' . $this->getSId() . '-pesquisa"
         //renderiza os campos   '<form id="' . $this->getSId() . '-formGrid>"'. $this->oLayout->getRender().'</form>';
-        $sConteudo = $this->oLayout->getRender();
-        //$sConteudo = '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-formgridbelow" style=" position: relative;  background-color: #e6e9ea;  border: 1px solid #eee">' . $this->oLayout->getRender() . '</form>';
-        $sGrid .= $sConteudo;
 
-
+        if ($this->oLayout->getRender() !== null) {
+            $sConteudo = '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-formgridbelow" style=" position: relative;  background-color: #e6e9ea;  border: 1px solid #eee">' . $this->oLayout->getRender() . '</form>';
+            $sGrid .= $sConteudo;
+        }
         $sGrid .= '</div>';
 
         //verifica se tem botao do tipo modal no grid

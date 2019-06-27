@@ -87,6 +87,7 @@ class ViewMET_ItensManPrev extends View {
     public function criaTela() {
         parent::criaTela();
 
+        $sAcaoRotina = $this->getSRotina();
 
         //novo---------------------------------------------------
         $this->criaGridDetalhe();
@@ -96,11 +97,8 @@ class ViewMET_ItensManPrev extends View {
 
         $aValor = $this->getAParametrosExtras();
 
-        $sAcaoRotina = $this->getSRotina();
-
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);
-            $this->getTela()->setBUsaDelGrid(false);
         }
 
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 2, 2, 12, 12);

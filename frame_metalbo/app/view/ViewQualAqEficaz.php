@@ -36,7 +36,7 @@ class ViewQualAqEficaz extends View {
         $oResp->setSIdHideEtapa($this->getSIdHideEtapa());
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
-        $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
+        $oRespNome = new Campo('Quem', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
         $oRespNome->setSIdPk($oResp->getId());
         $oRespNome->setClasseBusca('User');
         $oRespNome->addCampoBusca('usucodigo', '', '');
@@ -49,7 +49,7 @@ class ViewQualAqEficaz extends View {
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
 
-        $oDataPrev = new Campo('Quando', 'dataprev', Campo::TIPO_DATA, 2);
+        $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2);
         $oDataPrev->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
         $oEficaz = new Campo('', 'eficaz', Campo::TIPO_TEXTO, 1);

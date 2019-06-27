@@ -635,23 +635,29 @@ $sSql = "select seq,plano,sitfim,convert(varchar,dataprev,103) as dataprev,usuno
         . " from tbacaoqualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
 $dadosEf = $PDO->query($sSql);
 while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
-
-    $pdf->Cell(70, 5, "Responsável", 1, 0, 'C', true);
-    $pdf->Cell(68, 5, "Data prev.", 1, 0, 'C', true);
-    $pdf->Cell(68, 5, "Data realiz.", 1, 1, 'C', true);
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
-
-    $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(70, 5, $row['usunome'], 1, 0, 'C');
-    $pdf->Cell(68, 5, $row['dataprev'], 1, 0, 'C');
-    $pdf->Cell(68, 5, $row['datafim'], 1, 1, 'C');
-
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
-
+    
     $pdf->SetFont('Arial', 'B', 8);
     $pdf->MultiCell(206, 5, 'Ação Nº' . $row['seq'] . ' = ' . $row['plano'], 1, 'L');
 
     $pdf = quebraPagina($pdf->GetY(), $pdf);
+    
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(25, 5, "Quem:", 1, 0, 'L');
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(51, 5, $row['usunome'], 1, 0, 'C');
+
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(25, 5, "Data prev.:", 1, 0, 'L');
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(40, 5, $row['dataprev'], 1, 0, 'C');
+
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(25, 5, "Quando:", 1, 0, 'L');
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(40, 5, $row['datafim'], 1, 1, 'C');
+ 
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
+
 
     $pdf->MultiCell(206, 5, 'Obs. Final = ' . $row['obsfim'], 1, 'L');
     // $iAlturaAcao = $pdf->GetY();
@@ -660,7 +666,7 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
     if ($row['sitfim'] == 'Finalizado') {
 
         $sSqlDocumentos = "select procedimento,it,planocontrole,fluxograma,ppap,contexto,preventiva,funcao,treinamento "
-                . " from tbacaoqualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
+                . " from tbacaoqualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' and tipo <> 'Eficiência' and seq ='" . $row['seq'] . "' order by seq";
         $documentos = $PDO->query($sSqlDocumentos);
         $aRowDocumentos = $documentos->fetch(PDO::FETCH_ASSOC);
 
@@ -770,6 +776,7 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
        $iConPlan++;
        $sPlanAx = $sPlanAx.$row['seq'].", ";
     }
+    $pdf->Ln(1);
 }
 
 $pdf->Ln(1);

@@ -92,7 +92,7 @@ class FormEtapa{
      * Método que renderiza as etapas
      */
     public function getRender(){
-        $sRender = '<div class="pearls row" id="'.$this->getSId().'">';
+        $sRender = '<div class="pearls pearls-xs row" id="'.$this->getSId().'">';
         foreach ($this->aEtapa as $keyEtapa => $aPassos) {
             $sCurrent = $aPassos['setada']?'current':'';
             $sRender.= '<div id="'.$keyEtapa.'" class="pearl '.$sCurrent.' col-lg-'.$this->getSTelaGrande().' col-md-'.$this->getSTelaMedia().' col-sm-'.$this->getSTelaPequena().'  col-xs-'.$this->getSTelaMuitoPequena().' ">'

@@ -60,7 +60,7 @@ class ViewQualNovoProjProd extends View {
         $oSitGeral->setILargura(20);
 
 
-        $this->addCampos($oNr, $oData, $oSitCli, $oSitGeral, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli);
+       
 
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoExcluir(false);
@@ -106,6 +106,8 @@ class ViewQualNovoProjProd extends View {
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","QualNovoProjProd","renderTempo",chave+",qualnovoprojprodtempo");');
+        
+         $this->addCampos($oNr, $oData, $oSitCli, $oSitGeral, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli);
     }
 
     public function criaTelaProd() {

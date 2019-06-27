@@ -38,7 +38,7 @@ class ViewQualCorrecao extends View {
 
         $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
 
-        $oUsunome = new CampoConsulta('Responsável', 'usunome');
+        $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
         $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
@@ -70,7 +70,7 @@ class ViewQualCorrecao extends View {
 
         $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
 
-        $oUsunome = new CampoConsulta('Responsável', 'usunome');
+        $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
         $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
@@ -117,7 +117,7 @@ class ViewQualCorrecao extends View {
         $oResp->setSIdHideEtapa($this->getSIdHideEtapa());
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
-        $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oRespNome = new Campo('Quem', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oRespNome->setSIdPk($oResp->getId());
         $oRespNome->setClasseBusca('User');
         $oRespNome->addCampoBusca('usucodigo', '', '');

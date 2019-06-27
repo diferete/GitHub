@@ -40,7 +40,7 @@ class ViewQualAqPlan extends View {
 
         $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
 
-        $oUsunome = new CampoConsulta('Responsável', 'usunome');
+        $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
@@ -73,7 +73,7 @@ class ViewQualAqPlan extends View {
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
         $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
-        $oUsunome = new CampoConsulta('Responsável', 'usunome');
+        $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
@@ -104,7 +104,7 @@ class ViewQualAqPlan extends View {
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
         $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
-        $oUsunome = new CampoConsulta('Responsável', 'usunome');
+        $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
@@ -152,7 +152,7 @@ class ViewQualAqPlan extends View {
         $oResp->setSIdHideEtapa($this->getSIdHideEtapa());
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
-        $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oRespNome = new Campo('Quem', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oRespNome->setSIdPk($oResp->getId());
         $oRespNome->setClasseBusca('User');
         $oRespNome->addCampoBusca('usucodigo', '', '');

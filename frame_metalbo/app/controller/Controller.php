@@ -2859,7 +2859,7 @@ class Controller {
             $this->View->setSRotina(View::ACAO_INCLUIR);
         }
         $this->antesDeCriarTela();
-        
+
         $this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
@@ -4090,7 +4090,7 @@ class Controller {
                         //altera valor de / para tipo dataSql
                         $sValorCampo = Util::converteData($sValor);
                         //setValor no campo data
-                        $sValor = date('d/m/Y', strtotime($sValorCampo));
+                        $sValor = $sValorCampo;
                     } else {
                         $sValor = str_replace("\n", " ", $sValor);
                         $sValor = str_replace("'", "\'", $sValor);
