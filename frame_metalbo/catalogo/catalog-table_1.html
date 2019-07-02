@@ -20,9 +20,11 @@
         <link rel="stylesheet" href="css/swiper.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/media.css">
+        <link rel="stylesheet" href="css/animate.css">
 
     </head>
     <body>
+        <div class="se-pre-con"></div>
         <!-- Header - start -->
         <header class="header">
 
@@ -231,8 +233,11 @@
                 <div class="section-sb">
                     <!-- Filter - start -->
                     <div  class="section-filter">
+                        <button id="section-filter-toggle" class="section-filter-toggle" data-close="Hide Filter" data-open="Show Filter">
+                            <span>Show Filter</span> <i class="fa fa-angle-down"></i>
+                        </button>
                         <div id="filtro" class="section-filter-cont">
-                            <div class="section-filter-item opened">
+                            <div id="linha" class="section-filter-item opened">
                                 <p class="section-filter-ttl"><strong>Selecione a linha de produtos</strong> <i class="fa fa-angle-down"></i></p>
                                 <div class="section-filter-fields">
                                     <div class="section-filter-select">
@@ -250,10 +255,6 @@
                                     <div class="section-filter-select">
                                         <select id="subg" class="chosen-select">
                                             <option value="0" disabled selected>Tipo de produto</option>
-                                            <option value="500">PARAFUSO FRANCES COM PORCA</option>
-                                            <option value="501">PARAFUSO FRANCES SEM PORCA</option>
-                                            <option value="502">PARAFUSO SEXTAVADO GRAU 2 ROSCA INTEIRA</option>
-                                            <option value="503">PARAFUSO SEXTAVADO GRAU 2 ROSCA PARCIAL</option>
                                         </select>
                                     </div>
                                 </div>
@@ -263,15 +264,7 @@
                                 <div class="section-filter-fields">
                                     <div class="section-filter-select">
                                         <select id="fam" data-placeholder="Acabamentos" class="chosen-select" multiple>
-                                            <option value="1">Polido</option>
-                                            <option value="2">Zincado/Branco</option>
-                                            <option value="3">Bicromatizado</option>
-                                            <option value="4">Galvanizado Fogo</option>
-                                            <option value="5">Zinc. Ferro Preto Triv.</option>
-                                            <option value="6">Zinc. Ferro Amarelo</option>
-                                            <option value="7">Dacrometizado</option>
-                                            <option value="8">Zincado Preto</option>
-                                            <option value="9">Bicromatizado Triv.</option>
+
                                         </select>
                                     </div>
                                 </div>
@@ -281,82 +274,40 @@
                                 <div class="section-filter-fields">
                                     <div class="section-filter-select">
                                         <select id="subf" data-placeholder="Bitolas" class="chosen-select" multiple>
-                                            <option value="3">3/16</option>
-                                            <option value="4">1/4</option>
-                                            <option value="5">5/16</option>
+
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="section-filter button-section">
-                            <div class="section-filter-cont button-section-b">
-                                <div class="section-filter-buttons">
-                                    <input onclick="filtro()" class="btn btn-themes" id="set_filter" name="set_filter" value="Aplicar filtro" type="button">
-                                    <input onclick="Reset()" class="btn btn-link" id="del_filter" name="del_filter" value="Limpar" type="button">
-                                </div>
+                            <div class="section-filter-buttons">
+                                <p id="filter-msg" class="msg-filter hidden">Olá! Favor selecionar ao menos a linha de produtos :)</p>
+                                <input onclick="filtro()" class="btn btn-themes" id="set_filter" name="set_filter" value="Aplicar filtro" type="button">
+                                <input class="btn btn-link" id="reset" name="del_filter" value="Limpar" type="button">
                             </div>
                         </div>
                     </div>
                     <!-- Filter - end -->
+
                 </div>
                 <!-- Catalog Sidebar - end -->
                 <!-- Catalog Items | Table - start -->
                 <div class="section-cont">
-
-                    <!-- Catalog Topbar - start -->
-
-                    <!-- Catalog Topbar - end -->
-                    <div class="prod-items section-items prod-tb">
-                        <div class="prodtb-i">
-                            <div class="prodtb-i-top">
-                                <button class="prodtb-i-toggle" type="button"></button>
-                                <h3 id="desc" class="prodtb-i-ttl">PORCA SX GR2 1/8 UNC CH.1/4 POL (Nº05)       </h3>
-                                <div class="prodtb-i-info">
-                                    <span class="prodtb-i-price">
-                                        <b>Cód:</b>
-                                    </span>
-                                    <p class="prodtb-i-qnt">
-                                        <input id="cod" value="10110101" type="text">
-                                    </p>
-                                </div>
-                                <p class="prodtb-i-action">
-                                    <a href="#" class="prodtb-i-buy"><span>Adicionar ao carrinho</span><i class="fa fa-shopping-basket"></i></a>
-                                </p>
-                            </div>
-                            <div class="prodlist-i">
-                                <a class="list-img-carousel prodlist-i-img">
-                                    <!-- NO SPACE -->
-                                    <img src="http://placehold.it/300x311" alt="Adipisci aperiam commodi">
-                                    <!-- NO SPACE -->
-                                </a>
-                                <div class="prodlist-i-cont">
-                                    <div class="prodlist-i-txt">
-                                        Quisquam totam quas veritatis dolor voluptates, laudantium repellendus. Cupiditate repellat tempora consequatur sequi, neque                            </div>
-                                </div>
-                                <ul class="prodlist-i-props2">
-                                    <li><span class="prodlist-i-propttl"><span>Exterior</span></span> <span class="prodlist-i-propval">Silt Pocket</span></li>
-                                    <li><span class="prodlist-i-propttl"><span>Material</span></span> <span class="prodlist-i-propval">PU</span></li>
-                                    <li><span class="prodlist-i-propttl"><span>Occasion</span></span> <span class="prodlist-i-propval">Versatile</span></li>
-                                    <li><span class="prodlist-i-propttl"><span>Shape</span></span> <span class="prodlist-i-propval">Casual Tote</span></li>
-                                    <li><span class="prodlist-i-propttl"><span>Pattern Type</span></span> <span class="prodlist-i-propval">Solid</span></li>
-                                    <li><span class="prodlist-i-propttl"><span>Style</span></span> <span class="prodlist-i-propval">American Style</span></li>
-                                    <li><span class="prodlist-i-propttl"><span>Hardness</span></span> <span class="prodlist-i-propval">Soft</span></li>
-                                    <li><span class="prodlist-i-propttl"><span>Decoration</span></span> <span class="prodlist-i-propval">None</span></li>
-                                    <li><span class="prodlist-i-propttl"><span>Closure Type</span></span> <span class="prodlist-i-propval">Zipper</span></li>
-                                </ul>
-                            </div>
-                        </div>                                                                     
+                    <div id="prods" class="prod-items section-items prod-tb">  
+                        <h2 class="title-content">Seus itens vão carregar aqui!</h2>
                     </div>
 
+                    <p class="totop"> 
+                        <a id="topo" title="Voltar ao topo" class="fa fa-angle-up" href="#top"></a> 
+                    </p>
+
                     <!-- Pagination - start -->
-                    <ul class="pagi">
+                    <!--<ul class="pagi">
                         <li class="active"><span>1</span></li>
                         <li><a href="#">2</a></li>
                         <li><a href="#">3</a></li>
                         <li><a href="#">4</a></li>
                         <li class="pagi-next"><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                    </ul>
+                    </ul>-->
                     <!-- Pagination - end -->
                 </div>
                 <!-- Catalog Items | Table - end -->
@@ -416,11 +367,12 @@
         <script src="js/ion.rangeSlider.min.js"></script>
         <script src="js/chosen.jquery.min.js"></script>
         <script src="js/jQuery.Brazzers-Carousel.js"></script>
+        <script src="js/jquery.balloon.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
+        <script src="js/infinite-scroll.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhAYvx0GmLyN5hlf6Uv_e9pPvUT3YpozE"></script>
         <script src="js/gmap.js"></script>
-        <script src="js/filter.js"></script>
         <!-- jQuery plugins/scripts - end -->
 
     </body>

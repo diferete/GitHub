@@ -87,7 +87,7 @@ class ControllerAgendamentos extends Controller {
             foreach ($aRetorno as $iKey => $oValue) {
                 $iDias = $oValue->dias;
 
-                if ($iDias = -7) {
+                if ($iDias >= -7) {
                     $this->envEmailAq($oValue);
                 }
             }

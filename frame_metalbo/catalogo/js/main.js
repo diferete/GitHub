@@ -70,7 +70,7 @@ $(document).ready(function () {
             'height': '0px'
         }, 350);
         $($(this).attr('data-frpoptab')).animate({
-            'height': $($(this).attr('data-frpoptab')).find('.flex-viewport').outerHeight()+'px'
+            'height': $($(this).attr('data-frpoptab')).find('.flex-viewport').outerHeight() + 'px'
         }, 350);
 
         return false;
@@ -87,7 +87,7 @@ $(document).ready(function () {
             'height': '0px'
         }, 350);
         $($(this).attr('data-accordion')).animate({
-            'height': $($(this).attr('data-accordion')).find('.accordion-inner').outerHeight()+'px'
+            'height': $($(this).attr('data-accordion')).find('.accordion-inner').outerHeight() + 'px'
         }, 350);
 
         return false;
@@ -130,8 +130,7 @@ $(document).ready(function () {
         $(this).next('.section-filter-cont').slideToggle();
         if ($(this).hasClass('opened')) {
             $(this).removeClass("opened").find('span').text($(this).data("open"));
-        }
-        else {
+        } else {
             $(this).addClass('opened').find('span').text($(this).data("close"));
         }
         return false;
@@ -162,12 +161,12 @@ $(document).ready(function () {
         } else {
             $('body').addClass('mainmenu-show');
         }
-            return false;
+        return false;
     });
     $('html').on('click', 'body.mainmenu-show', function () {
         $('body').removeClass('mainmenu-show');
     });
-    $('body').on('click', '.mainmenu', function(event){
+    $('body').on('click', '.mainmenu', function (event) {
         event.stopPropagation();
     });
 
@@ -190,12 +189,12 @@ $(document).ready(function () {
             } else {
                 $('body').addClass('topcatalog-show');
             }
-                return false;
+            return false;
         });
         $('html').on('click', 'body.topcatalog-show', function () {
             $('body').removeClass('topcatalog-show');
         });
-        $('body').on('click', '.topcatalog-list', function(event){
+        $('body').on('click', '.topcatalog-list', function (event) {
             event.stopPropagation();
         });
         $('.topcatalog li .fa').on('click', function () {
@@ -217,7 +216,7 @@ $(document).ready(function () {
         } else {
             $('body').addClass('search-show');
         }
-            return false;
+        return false;
     });
 
     // Search Close
@@ -230,7 +229,7 @@ $(document).ready(function () {
     $('html').on('click', 'body.search-show', function () {
         $('body').removeClass('search-show');
     });
-    $('body').on('click', '.topsearch', function(event){
+    $('body').on('click', '.topsearch', function (event) {
         event.stopPropagation();
     });
 
@@ -259,7 +258,7 @@ $(document).ready(function () {
 
         $('.mainmenu').addClass('sections-show');
 
-        $(window).resize(function() {
+        $(window).resize(function () {
             var menu_sections = $('.mainmenu');
             var menu_width = menu_sections.width();
             var menu_items_width = 0;
@@ -312,7 +311,7 @@ $(document).ready(function () {
 
         $('.fr-pop-tabs').addClass('sections-show');
 
-        $(window).resize(function() {
+        $(window).resize(function () {
             var menu_sections = $('.fr-pop-tabs');
             var menu_width = menu_sections.width();
             var menu_items_width = 0;
@@ -381,16 +380,15 @@ $(document).ready(function () {
     }
 
     // Forms Validation
-    var filterEmail  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})+$/;
+    var filterEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,6})+$/;
     $('.form-validate').submit(function () {
         var errors = 0;
         $(this).find('[data-required="text"]').each(function () {
-            if ($(this).attr('data-required-email') == 'email'){
+            if ($(this).attr('data-required-email') == 'email') {
                 if (!filterEmail.test($(this).val())) {
                     $(this).addClass("redborder");
                     errors++;
-                }
-                else {
+                } else {
                     $(this).removeClass("redborder");
                 }
                 return;
@@ -408,7 +406,7 @@ $(document).ready(function () {
                 type: "POST",
                 url: 'php/email.php',
                 data: $(this).serialize(),
-                success: function(data) {
+                success: function (data) {
                     form1.append('<p class="form-result">Thank you!</p>');
                     $("form").trigger('reset');
                 }
@@ -438,9 +436,9 @@ $(window).load(function () {
     $('.qview-btn').fancybox({
         content: $('.qview-modal'),
         padding: 0,
-        helpers : {
-            overlay : {
-                locked  : false
+        helpers: {
+            overlay: {
+                locked: false
             }
         }
     });
@@ -462,7 +460,7 @@ $(window).load(function () {
                 maxSlides: 5,
                 pager: false,
             });
-        });         
+        });
     }
 
     // Filter
@@ -477,7 +475,7 @@ $(window).load(function () {
             return false;
         });
     }
-    
+
     // Product Countdown
     if ($('.countdown').length > 0) {
         $('.countdown').each(function () {
@@ -486,17 +484,17 @@ $(window).load(function () {
             }
             var countdown = $(this);
             var BigDay = new Date(countdown.data('date'));
-            var msPerDay = 24 * 60 * 60 * 1000 ;
-            window.setInterval(function(){
+            var msPerDay = 24 * 60 * 60 * 1000;
+            window.setInterval(function () {
                 var today = new Date();
                 var timeLeft = (BigDay.getTime() - today.getTime());
                 var e_daysLeft = timeLeft / msPerDay;
                 var daysLeft = Math.floor(e_daysLeft);
-                var e_hrsLeft = (e_daysLeft - daysLeft)*24;
+                var e_hrsLeft = (e_daysLeft - daysLeft) * 24;
                 var hrsLeft = Math.floor(e_hrsLeft);
-                var e_minsLeft = (e_hrsLeft - hrsLeft)*60;
+                var e_minsLeft = (e_hrsLeft - hrsLeft) * 60;
                 var minsLeft = Math.floor(e_minsLeft);
-                var e_secsLeft = (e_minsLeft - minsLeft)*60;
+                var e_secsLeft = (e_minsLeft - minsLeft) * 60;
                 var secsLeft = Math.floor(e_secsLeft);
                 var timeString = daysLeft + "d " + pad(hrsLeft) + ":" + pad(minsLeft) + ":" + pad(secsLeft);
                 countdown.html(timeString);
@@ -516,13 +514,13 @@ var fixed_obj = {};
 
 function compareScrollStyles(st, newSt) {
     var obj1 = $.extend({}, st),
-        obj2 = $.extend({}, newSt);
-    $.each(obj1, function(i, k) {
+            obj2 = $.extend({}, newSt);
+    $.each(obj1, function (i, k) {
         if (i !== 'position') {
             obj1[i] = Math.round(k);
         }
     });
-    $.each(obj2, function(i, k) {
+    $.each(obj2, function (i, k) {
         if (i !== 'position') {
             obj2[i] = Math.round(k);
         }
@@ -530,10 +528,14 @@ function compareScrollStyles(st, newSt) {
     return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 
-function setStyle(elem, name, value){
+function setStyle(elem, name, value) {
     elem = $(elem);
-    if (!elem) return;
-    if (typeof name == 'object') return $.each(name, function(k, v) { setStyle(elem,k,v); });
+    if (!elem)
+        return;
+    if (typeof name == 'object')
+        return $.each(name, function (k, v) {
+            setStyle(elem, k, v);
+        });
     elem.removeAttr('style');
     elem.css(name, value + 'px');
 }
@@ -541,31 +543,31 @@ function setStyle(elem, name, value){
 function fixed_on_scroll() {
 
     var
-        thumbs = $('.prod2-thumbs-car'),
-        content = $('.prod-cont-inner'),
-        slider = $('.prod2-slider-wrap');
+            thumbs = $('.prod2-thumbs-car'),
+            content = $('.prod-cont-inner'),
+            slider = $('.prod2-slider-wrap');
 
     var
-        wh = $(window).height() || 0,
-        st = $(window).scrollTop(),
-        headH = 15,
-        isFixed = content.css('position') == 'fixed',
-        contentH = content.outerHeight(),
-        sliderH = slider.outerHeight(),
-        sliderPos = slider.offset().top,
-        tooBig = contentH >= sliderH,
-        contentBottom = st + wh - sliderH - sliderPos,
-        contentPB = Math.max(0, contentBottom),
-        contentPT = sliderPos - headH,
-        contentPos = content.offset().top,
-        thumbsH = (typeof thumbs !== "undefined" ? thumbs.outerHeight() : 0),
-        thumbsPos = (typeof thumbs.offset() !== "undefined" ? thumbs.offset().top : 0),
-        lastSt = fixed_obj.lastSt || 0,
-        lastStyles = fixed_obj.lastStyles || {},
-        styles,
-        needFix = false,
-        smallEnough = headH + contentH + contentPB <= wh,
-        delta = 1;
+            wh = $(window).height() || 0,
+            st = $(window).scrollTop(),
+            headH = 15,
+            isFixed = content.css('position') == 'fixed',
+            contentH = content.outerHeight(),
+            sliderH = slider.outerHeight(),
+            sliderPos = slider.offset().top,
+            tooBig = contentH >= sliderH,
+            contentBottom = st + wh - sliderH - sliderPos,
+            contentPB = Math.max(0, contentBottom),
+            contentPT = sliderPos - headH,
+            contentPos = content.offset().top,
+            thumbsH = (typeof thumbs !== "undefined" ? thumbs.outerHeight() : 0),
+            thumbsPos = (typeof thumbs.offset() !== "undefined" ? thumbs.offset().top : 0),
+            lastSt = fixed_obj.lastSt || 0,
+            lastStyles = fixed_obj.lastStyles || {},
+            styles,
+            needFix = false,
+            smallEnough = headH + contentH + contentPB <= wh,
+            delta = 1;
 
     if (st - delta < contentPT && !(smallEnough && contentPos < headH) || tooBig) {
         thumbs.removeAttr('style');
@@ -599,7 +601,7 @@ function fixed_on_scroll() {
     }
 
     if (!compareScrollStyles(styles, lastStyles)) {
-        $.each (lastStyles, function(i, k) {
+        $.each(lastStyles, function (i, k) {
             lastStyles[i] = null;
         });
         setStyle(content, $.extend(lastStyles, styles));
@@ -639,11 +641,11 @@ $(window).load(function () {
         $('.prod2-thumbs-car li').on('click', 'a', function () {
             if ($(window).width() >= 975) {
                 var
-                    el_index = $(this).attr('data-slide-index'),
-                    slide = $('.prod2-slider-car li img').eq(el_index),
-                    slide_h = slide.outerHeight(),
-                    w_h = $(window).height(),
-                    slide_pos = slide.offset().top + slide_h/2 - w_h/2;
+                        el_index = $(this).attr('data-slide-index'),
+                        slide = $('.prod2-slider-car li img').eq(el_index),
+                        slide_h = slide.outerHeight(),
+                        w_h = $(window).height(),
+                        slide_pos = slide.offset().top + slide_h / 2 - w_h / 2;
                 $('html, body').animate({scrollTop: slide_pos}, 700);
                 return false;
             }
@@ -654,7 +656,7 @@ $(window).load(function () {
             var this_img = $(this);
             var inview = new Waypoint.Inview({
                 element: this_img,
-                entered: function(direction) {
+                entered: function (direction) {
                     $('.prod2-thumbs-car li img').removeClass('scroll_active');
                     $('.prod2-thumbs-car li img').eq(i).addClass('scroll_active');
                 }
@@ -734,21 +736,21 @@ $(window).load(function () {
 
 
 // Compare List
-(function($) {
-    $.fn.setDraggable = function() {
+(function ($) {
+    $.fn.setDraggable = function () {
         var compares = $(this),
-            html = $('html');
+                html = $('html');
 
-        compares.each(function() {
+        compares.each(function () {
             var compare = $(this),
-                tables = compare.find('.wccm-table'),
-                wrappers = compare.find('.wccm-table-wrapper'),
-                dragging = false,
-                maxshift = wrappers.width() - tables.width(),
-                offset = 0,
-                shift = 0;
+                    tables = compare.find('.wccm-table'),
+                    wrappers = compare.find('.wccm-table-wrapper'),
+                    dragging = false,
+                    maxshift = wrappers.width() - tables.width(),
+                    offset = 0,
+                    shift = 0;
 
-            $(window).resize(function() {
+            $(window).resize(function () {
                 maxshift = wrappers.width() - tables.width();
                 if (maxshift < 0) {
                     wrappers.css('cursor', 'move');
@@ -763,7 +765,7 @@ $(window).load(function () {
                 shift = parseInt(tables.css('margin-left'));
             }
 
-            tables.mousedown(function(e) {
+            tables.mousedown(function (e) {
                 var node = e.target.nodeName;
 
                 if (maxshift < 0 && node != 'IMG' && node != 'A') {
@@ -774,25 +776,288 @@ $(window).load(function () {
                 }
             });
 
-            html.mouseup(function() {
+            html.mouseup(function () {
                 dragging = false;
                 if (maxshift < 0) {
                     wrappers.css('cursor', 'move');
                 }
             });
 
-            html.mousemove(function(e) {
+            html.mousemove(function (e) {
                 var move = shift - (offset - e.screenX);
                 if (dragging && maxshift <= move && move <= 0) {
                     tables.css('margin-left', move + 'px');
                 }
             });
         });
-        
+
         return compares;
     };
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.wccm-compare-table').setDraggable();
     });
 })(jQuery);
+
+
+
+//=======================================================================================================================================================================//
+
+//Loading - GIF
+$(window).load(function () {
+    $(".se-pre-con").fadeOut("slow");
+});
+
+//Adiciona um balão ao passar o mouse sobre o botão de rodapé - VOLTAR AO TOPO
+//Ver jquery-balloon.js plug-in
+$('#topo').balloon({position: "left",
+    css: {
+        backgroundColor: '#006b00',
+        color: '#fff',
+        fontSize: '14px'
+    }
+
+});
+
+//Função para limpar a página e filtro
+$('#reset').click(function () {
+    location.reload();
+});
+
+function filtro() {
+    //valor/código do GRUPO
+    var gru = $('#gru').val();
+    //valor/código do SUBGRUPO
+    var subg = $('#subg').val();
+    //valor/código da FAMILIA
+    var fam = $('#fam').val();
+    //valor/código SUBFAMILIA
+    var subf = $('#subf').val();
+    if (gru == null) {
+        //Mostra mensagem notificando usuário sobre a necessidade de um valor no campo de filtro
+        $("#filter-msg").removeClass('shake animated hidden').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $("#filter-msg").removeClass('shake animated');
+        });
+    } else {
+        //Concatena os valores de cada campo do filtro
+        var dados = gru + '|' + subg + '|' + fam + '|' + subf;
+        //Cria variável que vai receber o HTML
+        var htmlTable = '';
+        //Request JSON com os valores dos campos do filtro *dados*
+        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=montaFiltro" + "&dados=" + dados, function (result) {
+            //Gera HTML com cada um dos itens trazidos pelo request JSON da Classe na frame
+            result.forEach(function (e) {
+                //Concatena HTML gerado para o item anterior com o próximo item para formar a lista
+                htmlTable = htmlTable + '<div class="prodtb-i">'
+                        + '<div class="prodtb-i-top">'
+                        + '<button class="prodtb-i-toggle" type="button"></button>'
+                        + '<h3 id="desc" class="prodtb-i-ttl">' + e['prodes'] + '</h3>'
+                        + '<div class="prodtb-i-info">'
+                        + '<span class="prodtb-i-price">'
+                        + '<b>Cód:</b>'
+                        + '</span>'
+                        + '<p class="prodtb-i-qnt">'
+                        + '<input id="cod" value=' + e['procod'] + ' type="text">'
+                        + '</p>'
+                        + '</div>'
+                        + '<p class="prodtb-i-action">'
+                        + '<a href="#" class="prodtb-i-buy"><span>Adicionar ao carrinho</span><i class="fa fa-shopping-basket"></i></a>'
+                        + '</p>'
+                        + '</div>'
+                        + '<div class="prodlist-i">'
+                        + '<a class="list-img-carousel prodlist-i-img">'
+                        + '<!-- NO SPACE -->'
+                        + '<img src="http://placehold.it/300x311" alt="Adipisci aperiam commodi">'
+                        + '<!-- NO SPACE -->'
+                        + '</a>'
+                        + '<div class="prodlist-i-cont">'
+                        + '<div class="prodlist-i-txt">'
+                        + 'Quisquam totam quas veritatis dolor voluptates, laudantium repellendus. Cupiditate repellat tempora consequatur sequi, neque '
+                        + '</div>'
+                        + '</div>'
+                        + '<ul class="prodlist-i-props2">'
+                        + '<li><span class="prodlist-i-propttl"><span>Exterior</span></span> <span class="prodlist-i-propval">Silt Pocket</span></li>'
+                        + '<li><span class="prodlist-i-propttl"><span>Material</span></span> <span class="prodlist-i-propval">' + e['promatcod'] + '</span></li>'
+                        + '<li><span class="prodlist-i-propttl"><span>Uidade de Med.</span></span> <span class="prodlist-i-propval">' + e['pround'] + '</span></li>'
+                        + '<li><span class="prodlist-i-propttl"><span>Shape</span></span> <span class="prodlist-i-propval">Casual Tote</span></li>'
+                        + '<li><span class="prodlist-i-propttl"><span>Pattern Type</span></span> <span class="prodlist-i-propval">Solid</span></li>'
+                        + '<li><span class="prodlist-i-propttl"><span>Style</span></span> <span class="prodlist-i-propval">American Style</span></li>'
+                        + '<li><span class="prodlist-i-propttl"><span>Hardness</span></span> <span class="prodlist-i-propval">Soft</span></li>'
+                        + '<li><span class="prodlist-i-propttl"><span>Decoration</span></span> <span class="prodlist-i-propval">None</span></li>'
+                        + '<li><span class="prodlist-i-propttl"><span>Closure Type</span></span> <span class="prodlist-i-propval">Zipper</span></li>'
+                        + '</ul>'
+                        + '</div>'
+                        + '</div>';
+            });
+            //Limpa DIV dos dados carregadosna página
+            $('#prods').empty();
+            //Append - Adiciona o HTML gerado a partir do JSON dentro da DIV carregando os dados na página
+            $('#prods').append(htmlTable);
+
+
+            //Toggle - informações extra
+            //Recarrega dropdown de dados extras abaixo da linha/grid de cada item
+            //Verifica se o dropdown possui dados
+            if ($('.prodtb-i-toggle').length > 0) {
+                //Captura clique no dropdown
+                $('.prodtb-i-toggle').on('click', function () {
+                    //Ao clicar, verifica se tem a classe OPENED *Aberta* 
+                    if ($(this).hasClass('opened')) {
+                        //Se possui a classe, ao clicar, fecha/esconde *hide* o dropdown 
+                        $(this).removeClass('opened').parents('.prodtb-i').find('.prodlist-i').hide();
+                    } else {
+                        //Se não possiu a classe, ao clicar, abre/mostra *show* o dropdown
+                        $(this).addClass('opened').parents('.prodtb-i').find('.prodlist-i').show();
+                    }
+                    //Se não possui a classe toggle, retorna false e não executa ação no clique
+                    return false;
+                });
+            }
+
+        });
+    }
+
+}
+
+//=======================================================================================================================================================//
+//Documentação - Comentários podem ser replicados para cada uma das funções abaixo
+//Funções para captura e request de dados dos filtros por campo em sequencia:
+// 1 - Linha de produtos *Valores fixos de Porcas e Parafusos*
+// 2 - Tipo de produto
+// 3 - Acabamentos
+// 4 - Bitolas/Diâmetros
+
+//Captura mudança de valor no campo 1 
+$("#gru").change(function () {
+    //Verifica se campo 2 possui classe OPENED *Aberta*
+    if ($('#tipo').hasClass('opened')) {
+        //Se sim, mantem a classe OPENED e entra na condicional
+        //Adiciona classe hidden para esconder a mensagem de notificação de filtro vazio
+        $("#filter-msg").addClass('hidden');
+        //Captura valor do campo 1
+        var gru = $('#gru').val();
+        //Limpa campos 2,3 e 4 para reaplicar filtros caso deseja mudar a linha de produtos filtrada
+        //trigger('chosen:updated') faz o trabalho de atualizar a lista de itens *<options>* no campo select 
+        $('#fam').empty().trigger('chosen:updated');
+        $('#subf').empty().trigger('chosen:updated');
+        //Append - Adiciona HTML com mensagem indicando o carregamento dos dados da lista *<options>* no campo select
+        $('#subg').empty().append('<option>Carregando...</option>').trigger('chosen:updated');
+        //Request JSON com o valor do campo 1 do filtro *dados*
+        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubG" + "&dados=" + gru, function (result) {
+            var html = '<option value="0" disabled selected>Tipo de produto</option>';
+            result.forEach(function (dados) {
+                html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
+            });
+            $('#subg').empty();
+            $('#subg').append(html).trigger('chosen:updated');
+        });
+    } else {
+        var gru = $('#gru').val();
+        $("#filter-msg").addClass('hidden');
+        $('#fam').empty().trigger('chosen:updated');
+        $('#subf').empty().trigger('chosen:updated');
+        $('#subg').empty();
+        $('#subg').append('<option>Carregando...</option>').trigger('chosen:updated');
+        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubG" + "&dados=" + gru, function (result) {
+            var html = '<option value="0" disabled selected>Tipo de produto</option>';
+            result.forEach(function (dados) {
+                html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
+            });
+            $('#subg').empty();
+            $('#subg').append(html).trigger('chosen:updated');
+
+        });
+
+
+        $('#tipo').addClass('opened');
+
+    }
+});
+
+$("#subg").change(function () {
+    if ($('#acab').hasClass('opened')) {
+        var gru = $('#gru').val();
+        var subg = $('#subg').val();
+        $('#fam').empty();
+        $('#fam').append('<option>Carregando...</option>').trigger('chosen:updated');
+        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroFam" + "&dados=" + gru + ',' + subg, function (result) {
+            var html = '';
+            result.forEach(function (dados) {
+                html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
+            });
+            $('#fam').empty();
+            $('#fam').append(html).trigger('chosen:updated');
+        });
+    } else {
+        var gru = $('#gru').val();
+        var subg = $('#subg').val();
+        $('#fam').empty();
+        $('#fam').append('<option>Carregando...</option>').trigger('chosen:updated');
+        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroFam" + "&dados=" + gru + ',' + subg, function (result) {
+            var html = '';
+            result.forEach(function (dados) {
+                html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
+            });
+            $('#fam').empty();
+            $('#fam').append(html).trigger('chosen:updated');
+
+        });
+        $('#acab').addClass('opened');
+
+    }
+});
+
+
+$("#fam").change(function () {
+    if ($('#bit').hasClass('opened')) {
+        var gru = $('#gru').val();
+        var subg = $('#subg').val();
+        var fam = $('#fam').val();
+        $('#subf').empty();
+        $('#subf').append('<option>Carregando...</option>').trigger('chosen:updated');
+        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubF" + "&dados=" + gru + ',' + subg + ',' + fam, function (result) {
+            var html = '';
+            result.forEach(function (dados) {
+                html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
+            });
+            $('#subf').empty();
+            $('#subf').append(html).trigger('chosen:updated');
+        });
+    } else {
+        var gru = $('#gru').val();
+        var subg = $('#subg').val();
+        var fam = $('#fam').val();
+        $('#subf').empty();
+        $('#subf').append('<option>Carregando...</option>').trigger('chosen:updated');
+        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubF" + "&dados=" + gru + ',' + subg + ',' + fam, function (result) {
+            var html = '';
+            result.forEach(function (dados) {
+                html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
+            });
+            $('#subf').empty();
+            $('#subf').append(html).trigger('chosen:updated');
+
+        });
+        $('#bit').addClass('opened');
+
+    }
+});
+
+//=======================================================================================================================================================//
+
+$('a[href=#top]').click(function () {
+    $('body,html').animate({
+        scrollTop: 0
+    }, 600);
+    return false;
+});
+
+$(window).scroll(function () {
+    if ($(this).scrollTop() > 200) {
+        $('.totop a').fadeIn();
+    } else {
+        $('.totop a').fadeOut();
+    }
+});
+
+

@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
- 
+
 class ViewQualAqEficaz extends View {
 
     public function __construct() {
@@ -97,11 +97,6 @@ class ViewQualAqEficaz extends View {
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBtnInserir->getOBotao()->setBDesativado(true);
-        }
-
-
 
         /* botão excluir */
         $sAcao = 'var chave=""; $("#' . $oGridAq->getId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
@@ -111,16 +106,18 @@ class ViewQualAqEficaz extends View {
         $oBtnDelete = new Campo('Deletar', 'btnNormal', Campo::TIPO_BOTAOSMALL, 2);
         $oBtnDelete->getOBotao()->setSStyleBotao(Botao::TIPO_DANGER);
         $oBtnDelete->getOBotao()->addAcao($sAcao);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBtnDelete->setBDesativado(true);
-        }
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHA);
 
         $sAcaoBusca = 'requestAjax("' . $this->getTela()->getId() . '-form","QualAqEficaz","getDadosGrid","' . $oGridAq->getId() . '","consultaEficaz");';
         $this->getTela()->setSAcaoShow($sAcaoBusca);
+        if ($sAcaoRotina == 'acaoVisualizar') {
 
-        $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oBtnInserir, $oEficaz), $oLinha, $oBtnDelete, $oGridAq);
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oEficaz), $oLinha, $oGridAq);
+        } else {
+
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oBtnInserir, $oEficaz), $oLinha, $oBtnDelete, $oGridAq);
+        }
     }
 
     public function consultaEficaz() {

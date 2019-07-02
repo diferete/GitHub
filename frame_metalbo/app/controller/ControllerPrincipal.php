@@ -27,7 +27,7 @@ class ControllerPrincipal extends Controller {
                 $bExecuta = true;
             } else
             if ($_REQUEST['classe'] == 'SolCadUser' || $_REQUEST['classe'] == 'Agendamentos' || $_REQUEST['classe'] == 'BuscaRepSite' ||
-                    $_REQUEST['classe'] == 'NoticiaSite' || $_REQUEST['classe'] == 'MovFornoSteel' || $_REQUEST['classe'] == 'UploadCurr') {
+                    $_REQUEST['classe'] == 'NoticiaSite' || $_REQUEST['classe'] == 'MovFornoSteel' || $_REQUEST['classe'] == 'UploadCurr' || $_REQUEST['classe'] == 'MET_TEC_Catalogo') {
                 $bExecuta = true;
             } else {
                 $bExecuta = $this->validaSessao();

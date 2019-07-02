@@ -148,9 +148,7 @@ class ViewQualContencao extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBotConf->setIMarginTop(6);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBotConf->getOBotao()->setBDesativado(true);
-        }
+
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    
@@ -159,7 +157,14 @@ class ViewQualContencao extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
+        if ($sAcaoRotina == 'acaoVisualizar') {
+
+            $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo));
+        } else {
+
+            $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
+        }
+
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }
 
@@ -190,13 +195,13 @@ class ViewQualContencao extends View {
         $oDataFim->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oDataFim->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oObsFim = new Campo('Observação final', 'apontamento', Campo::TIPO_TEXTAREA, 8, 8, 8, 8);
-        $oObsFim->setICaracter(1000);
+        $oApontamento = new Campo('Observação final', 'apontamento', Campo::TIPO_TEXTAREA, 8, 8, 8, 8);
+        $oApontamento->setICaracter(1000);
         if ($oDados->getApontamento() != null) {
-            $oObsFim->setSValor(Util::limpaString($oDados->getApontamento()));
+            $oApontamento->setSValor(Util::limpaString($oDados->getApontamento()));
         }
-        $oObsFim->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oObsFim->setILinhasTextArea(3);
+        $oApontamento->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oApontamento->setILinhasTextArea(3);
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -210,7 +215,7 @@ class ViewQualContencao extends View {
         $oBtnNormal->getOBotao()->addAcao($sAcaoRet);
         $oBtnNormal->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
 
-        $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), array($oDataFim), $oLinha, array($oObsFim, $oBtnInserir, $oBtnNormal));
+        $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), array($oDataFim), $oLinha, array($oApontamento, $oBtnInserir, $oBtnNormal));
     }
 
 }

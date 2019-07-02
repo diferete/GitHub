@@ -4,7 +4,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */ 
+ */
 
 class ViewQualAqPlan extends View {
 
@@ -172,16 +172,17 @@ class ViewQualAqPlan extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBotConf->setIMarginTop(6);
-        if($sAcaoRotina == 'acaoVisualizar') {
-            $oBotConf->getOBotao()->setBDesativado(true);
-        }
+
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    
         $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oPlano->getId() . ',' . $oAnexo->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-
-        $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oPlano, array($oResp, $oRespNome, $oTipo), array($oDataPrev, $oAnexo, $oBotConf));
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oPlano, array($oResp, $oRespNome, $oTipo), array($oDataPrev, $oAnexo));
+        } else {
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oPlano, array($oResp, $oRespNome, $oTipo), array($oDataPrev, $oAnexo, $oBotConf));
+        }
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }
 

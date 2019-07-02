@@ -76,6 +76,9 @@ class Campo {
     private $sMetodoUp; //define o método para upload
     private $sTituloModal;
     private $sNomeModal;
+    private $iTamanhoLabel; //define de 1 ate o 7 qual o tamanho do label
+    private $iTamFonteBadge;
+    private $iTamMarginTopBadge = 25;
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -189,6 +192,7 @@ class Campo {
         $this->aCabGridView = array(); //define cabeçalhos do grid vies
         $this->aLinhasGridView = array(); //define as linhas dos grids
         $this->aValorGridView = array();
+        $this->sTamanhoLabel = 5;
 
 
         switch ($this->iTipo) {
@@ -213,6 +217,42 @@ class Campo {
                 $this->setApenasTela(true);
                 break;
         }
+    }
+
+    function getITamFonteBadge() {
+        return $this->iTamFonteBadge;
+    }
+
+    function getITamMarginTopBadge() {
+        return $this->iTamMarginTopBadge;
+    }
+
+    /**
+     * Define o tamanho do fonte nos inteiros de 5 - 30
+     * @param type $iTamFonteBadge
+     */
+    function setITamFonteBadge($iTamFonteBadge) {
+        $this->iTamFonteBadge = $iTamFonteBadge;
+    }
+
+    /**
+     * Define o tamanho da margim top nos inteiros de 5 - 30
+     * @param type $iTamMarginTopBadge
+     */
+    function setITamMarginTopBadge($iTamMarginTopBadge) {
+        $this->iTamMarginTopBadge = $iTamMarginTopBadge;
+    }
+
+    function getITamanhoLabel() {
+        return $this->iTamanhoLabel;
+    }
+
+    /**
+     * Define o tamanho do label nos inteiros de 1 - 7
+     * @param type $iTamanhoLabel
+     */
+    function setITamanhoLabel($iTamanhoLabel) {
+        $this->iTamanhoLabel = $iTamanhoLabel;
     }
 
     function getSNomeModal() {
@@ -1380,7 +1420,7 @@ class Campo {
                 break;
             case self::TIPO_TEXTO:
                 $sCampo = //'<div class="form-group">'
-                        '<div id="' . $this->getId() . '-campo" style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        '<div id="' . $this->getId() . '-campo"  style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
@@ -1836,7 +1876,7 @@ class Campo {
                 }  //7318.24.00-000
                 break;
             case self::TIPO_BADGE:
-                $sCampo = '<div style="margin-top:25px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                $sCampo = '<div style="margin-top:' . $this->getITamMarginTopBadge() . 'px; font-size:' . $this->getITamFonteBadge() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<span id="' . $this->getId() . '" name="' . $this->getNome() . '" class="label label-round ' . $this->getSEstiloBadge() . '">' . $this->getLabel() . '</span> '
                         . '</div>';
                 break;
@@ -1885,7 +1925,7 @@ class Campo {
                 break;
             case self::TIPO_LABEL:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<h5 style="margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '" style="margin-top: 30px;"><b>' . $this->getLabel() . '</b></h5>'
+                        . '<h' . $this->getITamanhoLabel() . ' style="margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '" style="margin-top: 30px;"><b>' . $this->getLabel() . '</b></h' . $this->getITamanhoLabel() . '>'
                         . '</div>';
                 break;
             case self::TIPO_LINHA:
