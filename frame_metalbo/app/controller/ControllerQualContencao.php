@@ -4,7 +4,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */ 
+ */
 
 class ControllerQualContencao extends Controller {
 
@@ -173,14 +173,21 @@ class ControllerQualContencao extends Controller {
 
 
         $this->View->setAParametrosExtras($oDados);
+        $oRetorno = $this->Persistencia->buscaParam($aParam);
+        if ($oRetorno->situaca == 'Finalizado') {
+            $oMsg = new Mensagem('Atenção', 'Item já possui apontamento', Mensagem::TIPO_WARNING);
+            echo $oMsg->getRender();
+            $sFecha = "$('#modalApontaContencao-btn').click();";
+            echo $sFecha;
+        } else {
+            $this->View->criaModalApontaContencao();
+            //busca lista pela op
 
-        $this->View->criaModalApontaContencao();
-        //busca lista pela op
+            $this->View->getTela()->setSRender($aDados[0] . '-modal');
 
-        $this->View->getTela()->setSRender($aDados[0] . '-modal');
-
-        //renderiza a tela
-        $this->View->getTela()->getRender();
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        }
     }
 
     public function apontaContencao($sDados) {
@@ -196,7 +203,8 @@ class ControllerQualContencao extends Controller {
                 echo 'requestAjax("' . $aDados[0] . '","QualContencao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
                 $sRetorno = "$('#" . $aDados[2] . "').fileinput('clear');";
                 echo $sRetorno;
-                echo '$(#modalApontaContencao-btn).click();';
+                $sFecha = "$('#modalApontaContencao-btn').click();";
+                echo $sFecha;
             } else {
                 $oMensagem = new Modal('Problema', 'Problemas ao finalizar' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
             }

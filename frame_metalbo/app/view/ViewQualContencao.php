@@ -13,17 +13,19 @@ class ViewQualContencao extends View {
     }
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        $aIdsTela = $this->getSIdsTelas();
+        parent::criaGridDetalhe($aIdsTela[6]);
+
+
 
         $this->getOGridDetalhe()->setIAltura(200);
-
-        $sAcaoRotina = $this->getSRotina();
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
         $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao');
+        $oBotaoModal->setSNomeGrid('detalheContencao');
         $this->addModaisDetalhe($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -44,6 +46,7 @@ class ViewQualContencao extends View {
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
+        $this->getOGridDetalhe()->setSNomeGrid('detalheContecao');
         $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oUsunome, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
@@ -51,13 +54,12 @@ class ViewQualContencao extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $sAcaoRotina = $this->getSRotina();
-
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
         $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao');
+        $oBotaoModal->setSNomeGrid('detalheContencao');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -78,7 +80,7 @@ class ViewQualContencao extends View {
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-
+        $this->getTela()->setSNomeGrid('detalheContencao');
         $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oUsunome, $oAnexo);
     }
 

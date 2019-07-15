@@ -1,5 +1,5 @@
 <?php
- 
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -173,14 +173,21 @@ class ControllerQualCorrecao extends Controller {
 
 
         $this->View->setAParametrosExtras($oDados);
+        $oRetorno = $this->Persistencia->buscaParam($aParam);
+        if ($oRetorno->situaca == 'Finalizado') {
+            $oMsg = new Mensagem('Atenção', 'Item já possui apontamento', Mensagem::TIPO_WARNING);
+            echo $oMsg->getRender();
+            $sFecha = "$('#modalApontaCorrecao-btn').click();";
+            echo $sFecha;
+        } else {
+            $this->View->criaModalApontaCorrecao();
+            //busca lista pela op
 
-        $this->View->criaModalApontaCorrecao();
-        //busca lista pela op
+            $this->View->getTela()->setSRender($aDados[0] . '-modal');
 
-        $this->View->getTela()->setSRender($aDados[0] . '-modal');
-
-        //renderiza a tela
-        $this->View->getTela()->getRender();
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        }
     }
 
     public function apontaCorrecao($sDados) {
@@ -196,7 +203,7 @@ class ControllerQualCorrecao extends Controller {
                 echo 'requestAjax("' . $aDados[0] . '","QualCorrecao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
                 $sRetorno = "$('#" . $aDados[2] . "').fileinput('clear');";
                 echo $sRetorno;
-                echo '$(#modalApontaCorrecao-btn).click();';
+                echo "$('#modalApontaCorrecao-btn').click();";
             } else {
                 $oMensagem = new Modal('Problema', 'Problemas ao finalizar' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
             }

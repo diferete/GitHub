@@ -131,7 +131,7 @@ a:not([href]):not([tabindex]):hover {
 .section2{
     padding:10px;
     padding-bottom: 1px;
-    background: #e80018 !important;
+    background: red !important;
 }
 .section-header {
     color: #fff;
@@ -1439,7 +1439,7 @@ button:focus {
 20. Footer Style
  ========================================================================== */
 footer {
-    background: #333;
+    background: black;
     padding: 30px;
     text-align: center;
 }
@@ -1619,7 +1619,7 @@ footer {
 }
 
 .modal-site{
-    color: #e80018;
+    color: red;
 
 }
 
