@@ -46,4 +46,27 @@ class ControllerMET_TEC_Catalogo extends Controller {
         echo json_encode($aRetorno);
     }
 
+    function montaCarrinho() {
+        $sDados = $_REQUEST['dados'];
+        $aDados = explode(',', $sDados);
+        $aRetorno = $this->Persistencia->buscaCarrinho($aDados);
+
+        echo json_encode($aRetorno);
+    }
+
+    function PDF() {
+        $_REQUEST['dados'] = $_REQUEST['dados'];
+        $_REQUEST['email'] = $_REQUEST['email'];
+        $_REQUEST['dadosUF'] = $_REQUEST['dadosUF'];
+        $sReturn = require 'app/relatorio/PDFCart.php';
+        
+        echo json_encode($sReturn);
+        
+    }
+
+    function buscaPDF($aDados) {
+        $aRetorno = $this->Persistencia->buscaCarrinho($aDados);
+        return $aRetorno;
+    }
+
 }

@@ -800,6 +800,7 @@ $(window).load(function () {
 })(jQuery);
 
 //=========================================================================================================================================================================================================//
+//Baseado no filtro, mota toda a tela que mostra os produtos
 function filtro() {
     //valor/código do GRUPO
     var gru = $('#gru').val();
@@ -844,7 +845,7 @@ function filtro() {
                         + '</p>'
                         + '</div>'
                         + '<p id="' + e['procod'] + '-id" name="' + e['procod'] + '" class="prodtb-i-action">'
-                        + '<a  id="' + e['procod'] + '-addCart" class="prodtb-i-buy"><span>Adicionar ao carrinho</span><i id="' + e['procod'] + '-cart" class="fa fa-shopping-basket"></i></a>'
+                        + '<a id="' + e['procod'] + '-addCart" class="prodtb-i-buy"><span>Adicionar ao carrinho</span><i id="' + e['procod'] + '-cart" class="fa fa-shopping-basket"></i></a>'
                         + '</p>'
                         + '</div>'
                         + '<div class="prodlist-i">'
@@ -855,17 +856,29 @@ function filtro() {
                         + '</a>'
                         + '<div class="prodlist-i-cont">'
                         + '<div class="prodlist-i-txt">'
-                        + 'Imangem ilustrativa, acabamentos podem variar.'
+                        + '<p>Imangem ilustrativa, acabamentos podem variar.</p>'
+                        + '<p>Quantidades e preços:</p>'
+                        + '<ul class="prodlist-i-props2">'
+                        + '<li><span class="prodlist-i-propttl"><span>Preço R$/100pçs</span></span> <span class="prodlist-i-propval">' + e['preco'] + '</span></li>'
+                        + '<li><span class="prodlist-i-propttl"><span>Un. medida</span></span> <span class="prodlist-i-propval">' + e['pround'] + '</span></li>';
+                //Tipo de embalagem e quantidades
+                if (e['cxnormal'] != 'N/A') {
+                    htmlTable = htmlTable + '<li><span class="prodlist-i-propttl"><span>Mínima</span></span> <span class="prodlist-i-propval">' + e['cxnormal'] + '</span></li>';
+                }
+                if (e['cxmaster'] != 'N/A') {
+                    htmlTable = htmlTable + '<li><span class="prodlist-i-propttl"><span>Master</span></span> <span class="prodlist-i-propval">' + e['cxmaster'] + '</span></li>';
+                }
+                if (e['saco'] != 'N/A') {
+                    htmlTable = htmlTable + '<li><span class="prodlist-i-propttl"><span>Saco</span></span> <span class="prodlist-i-propval">' + e['saco'] + '</span></li>';
+                }
+                htmlTable = htmlTable
+                        + '<li><span class="prodlist-i-propttl"><span>Classe</span></span> <span class="prodlist-i-propval">' + e['classe'] + '</span></li>' + '</ul>'
+                        + '</div>'
+                        + '</div>'
+                        + 'Dimensões listados em Milímetros - MM.'
                         + '<ul class="prodlist-i-props2">'
                         + '<li><span class="prodlist-i-propttl"><span>Material</span></span> <span class="prodlist-i-propval">' + e['promatcod'] + '</span></li>'
-                        + '<li><span class="prodlist-i-propttl"><span>Classe</span></span> <span class="prodlist-i-propval">' + e['classe'] + '</span></li>'
-                        + '<li><span class="prodlist-i-propttl"><span>Un. medida</span></span> <span class="prodlist-i-propval">' + e['pround'] + '</span></li>'
                         + '<li><span class="prodlist-i-propttl"><span>Angulo hélice</span></span> <span class="prodlist-i-propval">' + e['proanghel'] + '</span></li>'
-                        + '</ul>'
-                        + '</div>'
-                        + '</div>'
-                        + 'Dados listados em Milímetros - MM.'
-                        + '<ul class="prodlist-i-props2">'
                         + '<li><span class="prodlist-i-propttl"><span>Chave mín.</span></span> <span class="prodlist-i-propval">' + e['prodchamin'] + '</span></li>'
                         + '<li><span class="prodlist-i-propttl"><span>Chave máx.</span></span> <span class="prodlist-i-propval">' + e['prodchamax'] + '</span></li>'
                         + '<li><span class="prodlist-i-propttl"><span>Altura mín.</span></span> <span class="prodlist-i-propval">' + e['prodaltmin'] + '</span></li>'
@@ -891,19 +904,20 @@ function filtro() {
                         + '<script>$("#' + e['procod'] + '-id").on("click",function(){'
                         + 'if($("#' + e['procod'] + '-cart").hasClass("cart-active")){'
                         + 'var text = $("#shopping-cart").text();'
-                        + 'console.log(text--);'
-                        + '$("#shopping-cart").text(text--);'
-                        + '$("#' + e['procod'] + '-cart").toggleClass("cart-active");'
+                        + 'text--;'
+                        + '$("#shopping-cart").text(" " + text);'
+                        + '$("#' + e['procod'] + '-cart").removeClass("cart-active");'
                         + 'var cod = $(this).attr("name");'
+                        + 'removeCart(cod);'
                         + '$("#' + e['procod'] + '-addCart > span").replaceWith("<span>Adicionar ao carrinho</span>");'
                         + '$("#' + e['procod'] + '-addCart > span").removeClass("span-active");'
                         + '}else{'
                         + 'var text = $("#shopping-cart").text();'
-                        + 'console.log(text++);'
-                        + '$("#shopping-cart").text(text++);'
-                        + '$("#' + e['procod'] + '-cart").toggleClass("cart-active");'
+                        + 'text++;'
+                        + '$("#shopping-cart").text(" " + text);'
+                        + '$("#' + e['procod'] + '-cart").addClass("cart-active");'
                         + 'var cod = $(this).attr("name");'
-                        + '$("#shopping-cart").toggleClass("fa-shopping-cart fa-cart-plus");'
+                        + 'addCart(cod);'
                         + '$("#' + e['procod'] + '-addCart > span").replaceWith("<span>Remover do carrinho</span>");'
                         + '$("#' + e['procod'] + '-addCart > span").addClass("span-active");'
                         + '}});'
@@ -916,10 +930,11 @@ function filtro() {
             $('#prods').empty();
             //Append - Adiciona o HTML gerado a partir do JSON dentro da DIV carregando os dados na página
             $('#prods').append(htmlTable);
+            //Mostra mensagem no "cabeçalho" que mostra quantidade de itens retornados no filtro
             if (itens > 0) {
-                $('.dados-filtro').html('Seu filtro retornou ' + itens + ' item(s), veja-os abaixo.');
+                $('#filtro-count').html('Seu filtro retornou ' + itens + ' item(s), veja abaixo.');
             } else {
-                $('.dados-filtro').html('Seu filtro não retornou nenhum item.');
+                $('#filtro-count').html('Seu filtro não retornou nenhum item.');
             }
 
             //Toggle - informações extra
@@ -939,27 +954,38 @@ function filtro() {
                     return false;
                 });
             }
+            //Contador que mostra apenas os primeiros 20 items 
             $("#prods > div").slice(20).css('display', 'none');
+            //Função contador que tras a quantidade de itens escondidos para o calculo do botão "carregar mais"
             var hidden = countLoad();
+            //Calculo de resto mostrando quantos itens faltam mostrar dos itens carregados baseados no filtro
             var shown = itens - hidden;
+            //Limpa a div do botão "carregar mais"
             $('#carregar-mais').empty();
+            //Monta o botão "carregar mais" mostrando quantos itens foram carregados do total
             $('#carregar-mais').append('<p class="load-more"  id="loadMore"><a id="load-msg" href="#" >Mostrando ' + shown + ' de ' + itens + ' itens. Carregar mais...</a></p>');
+            //Função do botão carregar mais
             $("#loadMore").on('click', function (e) {
                 e.preventDefault();
+                //Conta os próximos 20 itens da lista somando com os primeiros 20 fixos e altera o display, mostrando os itens 
                 $("#prods > div:hidden").slice(0, 20).css('display', 'block');
+                //Contador para verificar se todos os itens foram carregados
                 var hidden = countLoad();
                 switch (hidden) {
+                    //Caso todos os itens carregados, desativa o clique do botão e mostra mensagem 
                     case 0:
                         $('#loadMore').removeClass().addClass('load-more-end');
                         $('#loadMore').off('click');
                         $('#load-msg').html('Todos os itens carregados.');
                         break;
+                        //Caso faltem itens a serem mostrados, mostra mensagem com quantidade de itens que ainda faltam carregar
                     default:
                         var shown = itens - hidden;
                         $('#loadMore').removeClass().addClass('load-more');
                         $('#load-msg').html('Mostrando ' + shown + ' de ' + itens + ' itens. Carregar mais...');
                 }
             });
+            //Botão de busca do conteudo carregado na tela
             $('#search-btn').click(function () {
                 var val = $('#search-val').val().toLowerCase();
                 $("#prods > div").hide();
@@ -974,13 +1000,14 @@ function filtro() {
                         $('#load-msg').html('Mostrando ' + shown + ' de ' + itens + ' itens. Carregar mais...');
                     }
                 });
+
             });
         });
     }
 
 }
 
-//=======================================================================================================================================================//
+//================================================================ Inicio funções filtro ===================================================================//
 //Documentação - Comentários podem ser replicados para cada uma das funções abaixo
 //Funções para captura e request de dados dos filtros por campo em sequencia:
 // 1 - Linha de produtos *Valores fixos de: Porcas e Parafusos*
@@ -1005,14 +1032,20 @@ $("#gru").change(function () {
         $('#subg').empty().append('<option>Carregando...</option>').trigger('chosen:updated');
         //Request JSON com o valor do campo 1 do filtro *dados*
         $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubG" + "&dados=" + gru, function (result) {
+            //Valor padrão do primeiro item do select usado como "legenda" do campo
             var html = '<option value="0" disabled selected>Tipo de produto</option>';
+            //Para cada item retornado no Json, cria um option para dar append no campo 2
             result.forEach(function (dados) {
                 html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
             });
+            //Limpa options no campo 2
             $('#subg').empty();
+            //Append options no campo 2 e chama funcção da biblioteca "chosen.jquery.min.js" para atualizar os itens da lista
             $('#subg').append(html).trigger('chosen:updated');
         });
     } else {
+        //Campo 2 já foi ativado por uso do filtro do campo 1 anteriormente, não adiciona classe OPENED ao campo 2
+        //Executa mesmas funções anteriores, porem sem resetar o campo 1 ou fechar o campo 2
         var gru = $('#gru').val();
         $("#filter-msg").addClass('hidden');
         $('#fam').empty().trigger('chosen:updated');
@@ -1034,7 +1067,8 @@ $("#gru").change(function () {
 
     }
 });
-
+//Documentação e comentários podem ser replicados a partir da função change do campo anterior.
+//Mudar apenar a sequencia numerica dos campos. Ex: 1 para 2,2 para 3 e 3 para 4.
 $("#subg").change(function () {
     if ($('#acab').hasClass('opened')) {
         var gru = $('#gru').val();
@@ -1068,7 +1102,8 @@ $("#subg").change(function () {
     }
 });
 
-
+//Documentação e comentários podem ser replicados a partir da função change do campo anterior.
+//Mudar apenar a sequencia numerica dos campos. Ex: 1 para 2,2 para 3 e 3 para 4.
 $("#fam").change(function () {
     if ($('#bit').hasClass('opened')) {
         var gru = $('#gru').val();
@@ -1105,15 +1140,17 @@ $("#fam").change(function () {
 });
 
 
-//=======================================================================================================================================================//
+//=========================================================================== Fim funções filtro ============================================================================//
 
+//Retorna para o topo da página
+//Não faz nenhuma alteração na DOM
 $('#toTop').click(function () {
     $('body,html').animate({
         scrollTop: 0
     }, 600);
     return false;
 });
-
+//Função para esconder o botão VOLTAR AO TOPO até que posição do scroll na página seja alcançada
 $(window).scroll(function () {
     if ($(this).scrollTop() > 200) {
         $('#toTop').fadeIn();
@@ -1121,7 +1158,8 @@ $(window).scroll(function () {
         $('#toTop').fadeOut();
     }
 });
-
+//Função para esconder botão CARREGAR MAIS até que a posição do scroll na página seja alcançada
+//Utilizada como base para trazer a quantidade fixa de 20 itens por clique devido a responsividade mobile, fazendo a lista ficar com comprimento maior
 $(window).scroll(function () {
     if ($(this).scrollTop() > 500) {
         $('#loadMore').fadeIn("slow");
@@ -1130,7 +1168,7 @@ $(window).scroll(function () {
     }
 });
 
-//Loading - GIF
+//Loading para carregar página - GIF
 $(window).load(function () {
     $(".se-pre-con").fadeOut("slow");
 });
@@ -1147,9 +1185,25 @@ $('#toTop').balloon({position: "left",
 
 //Função para limpar a página e filtro
 $('#reset').click(function () {
-    location.reload();
+    $('#prods').empty();
+    $('#prods').append('<h2 class="title-content">Seus itens vão carregar aqui!</h2>');
+    $('#gru').empty().append('<option value="0" disabled selected>Produtos</option>'
+            + '<option value="12">Porcas (PO)</option>'
+            + '<option value="13">Parafusos (PF)</option>').trigger('chosen:updated');
+    $('#tipo').removeClass('opened');
+    $('#subg').empty().append('<option value="0" disabled selected>Tipo de produto</option>').trigger('chosen:updated');
+    $('#acab').removeClass('opened');
+    $('#fam').empty().trigger('chosen:updated');
+    $('#bit').removeClass('opened');
+    $('#subf').empty().trigger('chosen:updated');
+    $('#filtro-count').empty();
+    $('#cart-count').empty();
+
+
+
 });
 
+//Contador de itens ocultos 
 function countLoad() {
     var hidden = 0;
     $("#prods > div").each(function () {
@@ -1159,9 +1213,402 @@ function countLoad() {
     });
     return hidden;
 }
+/*
+ $('#shopping-list').on('click', function () {
+ $('#prods').hide();
+ $('#shopping-list > i').toggleClass('fa-shopping-cart fa-list');
+ });*/
+//Cria "lista de compras" oculta com os códigos dos itens que foram postos no carrinho, para criar consultas SQL
+function addCart(cod) {
+    $('#cart-list').append('<li id="' + cod + '-cartItem">' + cod + '</li>');
+}
+//Remove individualmente itens adicionados na "lista de compras"
+function removeCart(cod) {
+    $('#' + cod + '-cartItem').remove();
+}
+//Baseado nos itens do #cart-list monta toda a tela do carrinho de compras
+function shoppingList() {
+    //Captura valor/texto mostrado no icone do carrinho de compras 
+    var text = $("#shopping-cart").text();
+    //Faz verificações se existem itens no carrinho de compras
+    if (text <= 0) {
+        //Esse IF é uma repetição de código proposital, para garantir que não seja criado uma tela de carrinho de compras sem nenhum item no carrinho
+        //Se não possui:
+        //Esconde form de envio e geração do PDF
+        $('#table-prods > #send-form').hide();
+        //Remove o HTML das mensagens relacionadas ao envio do e-mail com PDF
+        $('#waiting-msg').remove();
+        //Mostra novamente a tela com a listra de produtos trazidos com o filtro
+        $('#prods').show();
+        //Mostra novamente a mensagem no cabeçalho, que traz a quantidade de itens retornados com o filtro
+        $('#filtro-count').show();
+        //Limpa e esconde a DIV que recebe os itens do carrinho
+        $('#cart-table').empty().hide();
+        //Limpa e esconde a div que mostra a mensagem de quantidade de itens no carrinho
+        $('#cart-count').empty().hide();
+        //Para e sai da função
+        return;
+    } else {
+        //Se possui ao menos 1 item:
+        //Verifica se a lista de itens está escondida
+        if ($('#prods').css('display') === 'none' && text > 0) {
+            //Se sim:
+            //Cria uma espécie de função toggle no botão de carrinho de compras, permitindo mostrar os itens do filtro e esconder o carrinho de compras
+            $('#table-prods > #send-form').hide();
+            $('#waiting-msg').remove();
+            $('#cart-table').empty().hide();
+            $('#cart-count').empty().hide();
+            $('#prods').show();
+            $('#filtro-count').show();
+            $('#load-msg').show();
+        }
+        //Se a lista de itens não está escondida
+        else {
+            //Se sim:
+            //Cria uma espécie de função toggle no botão de carrinho de compras, permitindo mostrar o carrinho de compras e esconder de itens do filtro
+            //Cria GIF de loading enquanto o HTML do carrinho de compras é gerado
+            $('#cart-table').append('<span class="back"><span>C</span><span>a</span><span>r</span><span>r</span><span>e</span><span>g</span><span>a</span><span>n</span><span>d</span><span>o</span></span>').show();
+            //Esconde a lista de itens do filtro
+            $('#prods').hide();
+            //Esconde mensagem do cabeçalho que mostra quantidade de itens do filtro
+            $('#filtro-count').hide();
+            //Esconde botão carregar mais
+            $('#load-msg').hide();
+            //Mostra mensagem do cabeçalho que mostra quantidades de itens no carrinho de compras
+            $('#cart-count').empty().html('Você tem ' + text + ' item(s) no seu carrinho.').show();
+            //Cria array com os códigos dos itens na lista de compras
+            var codigos = [];
+            //For each para capturar itens da lista de compras
+            $('#cart-list').find('li').each(function () {
+                codigos.push($(this).text());
+            });
+            //Json da consulta SQL com os códigos dos itens da lista de compras
+            $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=montaCarrinho" + "&dados=" + codigos, function (result) {
+                //Variavel que vai ser alimentada com o HTML do carrinho de compras
+                var htmlCart = '';
+                //Replica função for each usada para criar itens da lista de produtos
+                result.forEach(function (e) {
+                    //Concatena HTML gerado para o item anterior com o próximo item para formar a lista
+                    htmlCart = htmlCart + '<div id="' + e['procod'] + '-prodIdTab" class="prod-items section-items prod-tb">'
+                            + '<div class="prodtb-i">'
+                            + '<div class="prodtb-i-top">'
+                            + '<button class="prodtb-i-toggle" type="button"></button>'
+                            + '<h3 class="prodtb-i-ttl">' + e['prodes'] + '</h3>'
+                            + '<div class="prodtb-i-info">'
+                            + '<span class="prodtb-i-price">'
+                            + '<b>Cód:</b>'
+                            + '</span>'
+                            + '<p class="prodtb-i-qnt">'
+                            + '<input value=' + e['procod'] + ' type="text">'
+                            + '</p>'
+                            + '</div>'
+                            + '<p id="' + e['procod'] + '-idCartItem" name="' + e['procod'] + '" class="prodtb-i-action">'
+                            + '<a id="' + e['procod'] + '-removeCartItem" class="prodtb-i-buy"><span>Remover do carrinho</span><i id="' + e['procod'] + '-cartItemSpan" class="fa fa-times-circle cart-active"></i></a>'
+                            + '</p>'
+                            + '</div>'
+                            + '<div class="prodlist-i">'
+                            + '<a class="list-img-carousel prodlist-i-img">'
+                            + '<!-- NO SPACE -->'
+                            + '<img src="img/media/' + e['media'] + '" alt="' + e['media'] + '" title="Imagem ilustrativa, acabamentos podem variar.">'
+                            + '<!-- NO SPACE -->'
+                            + '</a>'
+                            + '<div class="prodlist-i-cont">'
+                            + '<div class="prodlist-i-txt">'
+                            + '<p>Imangem ilustrativa, acabamentos podem variar.</p>'
+                            + '<p>Quantidades e preços:</p>'
+                            + '<ul class="prodlist-i-props2">'
+                            + '<li><span class="prodlist-i-propttl"><span>Preço R$/100pçs</span></span> <span class="prodlist-i-propval">' + e['preco'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Un. medida</span></span> <span class="prodlist-i-propval">' + e['pround'] + '</span></li>';
+                    //Tipo de embalagens e quantidades
+                    if (e['cxnormal'] != 'N/A') {
+                        htmlCart = htmlCart + '<li><span class="prodlist-i-propttl"><span>Mínima</span></span> <span class="prodlist-i-propval">' + e['cxnormal'] + '</span></li>';
+                    }
+                    if (e['cxmaster'] != 'N/A') {
+                        htmlCart = htmlCart + '<li><span class="prodlist-i-propttl"><span>Master</span></span> <span class="prodlist-i-propval">' + e['cxmaster'] + '</span></li>';
+                    }
+                    if (e['saco'] != 'N/A') {
+                        htmlCart = htmlCart + '<li><span class="prodlist-i-propttl"><span>Saco</span></span> <span class="prodlist-i-propval">' + e['saco'] + '</span></li>';
+                    }
+                    htmlCart = htmlCart
+                            + '<li><span class="prodlist-i-propttl"><span>Classe</span></span> <span class="prodlist-i-propval">' + e['classe'] + '</span></li>' + '</ul>'
+                            + '</div>'
+                            + '</div>'
+                            + 'Dimensões listados em Milímetros - MM.'
+                            + '<ul class="prodlist-i-props2">'
+                            + '<li><span class="prodlist-i-propttl"><span>Material</span></span> <span class="prodlist-i-propval">' + e['promatcod'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Angulo hélice</span></span> <span class="prodlist-i-propval">' + e['proanghel'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Chave mín.</span></span> <span class="prodlist-i-propval">' + e['prodchamin'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Chave máx.</span></span> <span class="prodlist-i-propval">' + e['prodchamax'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Altura mín.</span></span> <span class="prodlist-i-propval">' + e['prodaltmin'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Altura máx.</span></span> <span class="prodlist-i-propval">' + e['prodaltmax'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Diâm. furo mín.</span></span> <span class="prodlist-i-propval">' + e['proddiamin'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Diâm. furo máx.</span></span> <span class="prodlist-i-propval">' + e['proddiamax'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Com. mín.</span></span> <span class="prodlist-i-propval">' + e['procommin'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Com. máx.</span></span> <span class="prodlist-i-propval">' + e['procommax'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Diâm. prim. min.</span></span> <span class="prodlist-i-propval">' + e['prodiapmin'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Diâm. prim. máx.</span></span> <span class="prodlist-i-propval">' + e['prodiapmax'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Diâm. ext. mín.</span></span> <span class="prodlist-i-propval">' + e['prodiaemin'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Diâm. ext. máx.</span></span> <span class="prodlist-i-propval">' + e['prodiaemax'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Com. haste mín.</span></span> <span class="prodlist-i-propval">' + e['procomrmin'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Com. haste máx.</span></span> <span class="prodlist-i-propval">' + e['procomrmax'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Diâm. haste mín.</span></span> <span class="prodlist-i-propval">' + e['comphastma'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Diâm. haste máx.</span></span> <span class="prodlist-i-propval">' + e['comphastmi'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Com. rosca mín.</span></span> <span class="prodlist-i-propval">' + e['diamhastmi'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Com. rosca máx.</span></span> <span class="prodlist-i-propval">' + e['diamhastma'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Prof. caneco mín.</span></span> <span class="prodlist-i-propval">' + e['pfcmin'] + '</span></li>'
+                            + '<li><span class="prodlist-i-propttl"><span>Prof. caneco máx.</span></span> <span class="prodlist-i-propval">' + e['pfcmax'] + '</span></li>'
+                            + '</ul>'
+                            + '</div>'
+                            + '<script>$("#' + e['procod'] + '-idCartItem").on("click",function(){'
+                            + '$("#' + e['procod'] + '-prodIdTab").remove();'
+                            + 'var text = $("#shopping-cart").text();'
+                            + 'text--;'
+                            + '$("#shopping-cart").text(" " + text);'
+                            + '$("#' + e['procod'] + '-cartItem").remove();'
+                            + '$("#' + e['procod'] + '-cart").removeClass("cart-active");'
+                            + '$("#' + e['procod'] + '-addCart > span").replaceWith("<span>Adicionar ao carrinho</span>");'
+                            + '$("#cart-count").empty().html("Você tem " + text + " item(s) no seu carrinho.");'
+                            + 'back();'
+                            + '});'
+                            + '</script>'
+                            + '</div>'
+                            + '</div>';
+                });
+                //Limpa DIV do carrinho de compras, append HTML do carrinho de compras na DIV e mostra na tela
+                $('#cart-table').empty().append(htmlCart).show();
 
-$('#shopping-list').on('click', function () {
-    $('#prods').hide();
-    $('#shopping-list > i').toggleClass('fa-shopping-cart fa-list');
-});
+                //Toggle - informações extra
+                //Recarrega dropdown de dados extras abaixo da linha/grid de cada item
+                //Verifica se o dropdown possui dados
+                if ($('.prodtb-i-toggle').length > 0) {
+                    //Captura clique no dropdown
+                    $('.prodtb-i-toggle').on('click', function () {
+                        //Ao clicar, verifica se tem a classe OPENED *Aberta* 
+                        if ($(this).hasClass('opened')) {
+                            //Se possui a classe, ao clicar, fecha/esconde *hide* o dropdown 
+                            $(this).removeClass('opened').parents('.prodtb-i').find('.prodlist-i').hide();
+                        } else {
+                            //Se não possiu a classe, ao clicar, abre/mostra *show* o dropdown
+                            $(this).addClass('opened').parents('.prodtb-i').find('.prodlist-i').show();
+                        }
+                        return false;
+                    });
+                }
+                //Cria form de envio e geração do PDF
+                $('#table-prods > #cart-table').before('<div id="send-form" style="text-align: center">'
+                        + '<p class="contactform-field" style="display: inline-block;margin-bottom: 10px;">'
+                        + '<label  class="contactform-label">E-mail</label>'
+                        + '<!-- NO SPACE -->'
+                        + '<span class="contactform-input" style="margin: 0 5px;width: 300px;">'
+                        + '<input class="input-email-cart" placeholder="Seu e-mail" type="text" id="email" name="email" data-required="text" data-required-email="email"></span>'
+                        + '</p>'
+                        + '<div id="UF" class="select-location-div">'
+                        + '<div >'
+                        + '<div >'
+                        + '<select id="UF-select" onchange="getES()" class="select-location">'
+                        + '<option value="0" disabled selected>Selecione o Estado</option>'
+                        + '<option value="12">Acre</option>'
+                        + '<option value="27">Alagoas</option>'
+                        + '<option value="16">Amapá</option>'
+                        + '<option value="13">Amazonas</option>'
+                        + '<option value="29">Bahia</option>'
+                        + '<option value="23">Ceará</option>'
+                        + '<option value="53">Distrito Federal</option>'
+                        + '<option value="32">Espírito Santo</option>'
+                        + '<option value="52">Goiás</option>'
+                        + '<option value="21">Maranhão</option>'
+                        + '<option value="51">Mato Grosso</option>'
+                        + '<option value="50">Mato Grosso do Sul</option>'
+                        + '<option value="31">Minas Gerais</option>'
+                        + '<option value="41">Paraná</option>'
+                        + '<option value="25">Paraíba</option>'
+                        + '<option value="15">Pará</option>'
+                        + '<option value="26">Pernambuco</option> '
+                        + '<option value="22">Piauí</option>'
+                        + '<option value="33">Rio de Janeiro</option>'
+                        + '<option value="24">Rio Grande do Norte</option>'
+                        + '<option value="43">Rio Grande do Sul</option>'
+                        + '<option value="11">Rondônia</option>'
+                        + '<option value="14">Roraima</option>'
+                        + '<option value="42">Santa Catarina</option>'
+                        + '<option value="28">Sergipe</option>'
+                        + '<option value="35">São Paulo</option>'
+                        + '<option value="17">Tocantins</option>'
+                        + '</select>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div id="ES" class="select-location-div">'
+                        + '<div >'
+                        + '<div >'
+                        + '<select id="ES-select" class="select-location">'
+                        + '<option value="0" disabled selected>Selecione a Cidade</option>'
+                        + '</select>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div id="send-form" style="text-align: center;margin: 0 0 10px 0;">'
+                        + '<input id="send-list" onclick="sendPdfEmail()" class="btn class-test" value="Enviar para Metalbo" type="button">'
+                        + '<input id="send-pdf" onclick="sendPdf()" class="btn class-test" value="Gerar PDF" type="button">'
+                        + '</div>'
+                        + '<p id="waiting-msg" class="msg-email hidden"></p>');
 
+                //Botão de busca do conteudo carregado na tela
+                $('#search-btn').click(function () {
+                    var val = $('#search-val').val().toLowerCase();
+                    $("#cart-table > div").hide();
+                    $("#cart-table > div").each(function () {
+                        var text = $(this).text().toLowerCase();
+                        if (text.indexOf(val) != -1)
+                        {
+                            $(this).show();
+                        }
+                    });
+
+                });
+            });
+        }
+    }
+}
+
+//Função para esconder e limpar DIV do carrinho de compras
+function home() {
+    $('#table-prods > #send-form').remove();
+    $('#waiting-msg').remove();
+    $('#cart-table').empty();
+    $('#cart-count').empty();
+    $('#prods').show();
+    $('#filtro-count').show();
+    $('#load-msg').show();
+}
+
+//Função para gerar o PDF com os itens do carrinho de compras
+function sendPdf() {
+    //Verifica se tem itens no carrinho
+    var text = $("#shopping-cart").text();
+    if (text <= 0) {
+        //Se vazio, para a funcção
+        return;
+    } else {
+        //Se possui ao menos um item
+        //Variavel de arrey dos códigos 
+        var codigos = [];
+        //For each que alimenta array com os códigos dos itens do carrinho de compras
+        $('#cart-list').find('li').each(function () {
+            codigos.push($(this).text());
+        });
+        //Abre janela do PDF em nova aba e envia dados para consulta SQL e geração do PDF no PHP da frame Metalbo
+        window.open('http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=PDF' + '&dados=' + codigos, '_blank');
+    }
+}
+
+//Função para gerar e enviar o PDF via e-mail para Metalbo com cópia do PDF para o usuário
+function sendPdfEmail() {
+    //Variaveis para pegar valores
+    var text = $("#shopping-cart").text();
+    //Validação do formato de e-mail
+    var email = validateEmail($("#email").val());
+    var uf = $('#UF-select').val();
+    var es = $('#ES-select').val();
+    //Verifica se tem itens no carrinho
+    if (text <= 0) {
+        //Se não, para a função e retorna 
+        return;
+    } else {
+        //Vefirica valores
+        if (email == false || uf == null || es == null) {
+            $("#waiting-msg").text('Oops, e-mail inválido ou informações insuficientes!').addClass('email-error').removeClass('shake animated hidden').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $("#waiting-msg").removeClass('shake animated');
+            });
+        } else {
+            //For each que alimenta array com os códigos dos itens do carrinho de compras
+            var codigos = [];
+            $("#cart-list").find('li').each(function () {
+                codigos.push($(this).text());
+            });
+            //Array que envia os dados do Estado e Cidade do usuário que está enviando o e-mail
+            var dadosUF = [];
+            dadosUF[0] = $('#UF-select option:selected').html();
+            dadosUF[1] = $('#ES-select option:selected').html();
+            //Mostra mensagem notificando usuário que o e-mail está sendo enviado
+            $("#waiting-msg").text('Olá, aguarde enquanto enviamos seu e-mail.').removeClass('shake animated hidden email-error email-success').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $("#waiting-msg").removeClass('shake animated');
+            });
+            //Json que recebe confirmação ou erro ao enviar e-mail via PHP na frame Metalbo
+            $.getJSON('http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=PDF' + '&dados=' + codigos + '&email=' + $("#email").val() + '&dadosUF=' + dadosUF, function (result) {
+                if (result == 'success') {
+                    //Caso sucesso, mostra mensagem verde com mensagem de sucesso
+                    $("#waiting-msg").text('E-mail foi enviado com sucesso, cheque sua caixa de entrada para uma cópia!').addClass('email-success').removeClass('shake animated hidden email-error').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                        $("#waiting-msg").removeClass('shake animated');
+                    });
+                } else {
+                    //Caso erro, mostra mensagem vermelha com mensagem de erro
+                    $("#waiting-msg").text('Erro ao tentar enviar o e-mail, tente novamente mais tarde!').addClass('email-error').removeClass('shake animated hidden email-success').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                        $("#waiting-msg").removeClass('shake animated');
+                    });
+                }
+            });
+        }
+    }
+}
+
+//Funcção para validar formato de e-mail
+function validateEmail(email) {
+    if (email == '' || email == null) {
+        return false;
+    } else {
+        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        return emailReg.test(email);
+    }
+}
+//Função para limpar todos os itens do carrinho
+function limpaCart() {
+    var text = $("#shopping-cart").text();
+    if (text <= 0) {
+        //Se vazio, para a função e retorna
+        return;
+    } else {
+        $('#cart-list').find('li').each(function () {
+            var cod = $(this).text();
+            $('#' + cod + '-addCart > span').replaceWith("<span>Adicionar ao carrinho</span>");
+            $('#' + cod + '-cart').removeClass('cart-active');
+        });
+        $('#table-prods > #send-form').remove();
+        $('#waiting-msg').remove();
+        $('#cart-table').empty();
+        $('#cart-count').empty();
+        $('#prods').show();
+        $('#filtro-count').show();
+        $('#load-msg').show();
+        $("#shopping-cart").text(' 0');
+        $('#cart-list').empty();
+    }
+}
+//Função que verifica individualmente, quanntos itens existem no carrinho, a cada clique item que é removido do carrinho
+function back() {
+    var text = $("#shopping-cart").text();
+    if (text > 0) {
+        //Enquanto itens no carrinho, maior que 0, para a função e retorna
+        return;
+    } else {
+        //Se o carrinho foi esvaziado, executa função home()
+        home();
+    }
+}
+//Função baseada na API do IBGE Brasil para busca dos municípios por estado para criar select no form de envio de e-mail
+function getES() {
+    //Captura valor númerico do código do estado
+    var uf = $("#UF-select").val();
+    //Json que recebe os dados com os nomes dos múnicípios do estado selecionado
+    $.getJSON('https://servicodados.ibge.gov.br/api/v1/localidades/estados/' + uf + '/municipios', function (result) {
+        //Variavel alimentada com o HTML criando os options do select de Cidades
+        //Valor padrão do primeiro item do select usado como "legenda" do campo
+        var htmlSelect = '<option value="0" disabled selected>Selecione a Cidade</option>';
+        //For each utilizado para alimentar HTML do select com os options contendo nomes das cidades
+        result.forEach(function (es) {
+            htmlSelect = htmlSelect + '<option value="' + es['nome'] + '">' + es['nome'] + '</option>';
+        });
+        //Limpa e cria append do HTML do select de cidades
+        $("#ES-select").empty().append(htmlSelect);
+    });
+}

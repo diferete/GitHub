@@ -504,4 +504,17 @@ class PersistenciaQualNovoProjRep extends Persistencia {
         return $aRetorno;
     }
 
+    public function buscaRespVenda($sDados) {
+        $sSql = "select resp_venda_cod,resp_venda_nome"
+                . " from tbrepcodoffice"
+                . " where repcod = '" . $sDados . "'";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+
+        $aRetorno[0] = $oRow->resp_venda_cod;
+        $aRetorno[1] = $oRow->resp_venda_nome;
+
+        return $aRetorno;
+    }
+
 }

@@ -156,8 +156,8 @@ class ControllerQualNovoProjRep extends Controller {
 
         $oEmail->limpaDestinatariosAll();
 
-        /*
-        // Para        
+
+        // Para
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -170,10 +170,9 @@ class ControllerQualNovoProjRep extends Controller {
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
         }
-         * 
-         */
 
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -655,6 +654,27 @@ class ControllerQualNovoProjRep extends Controller {
 
         $aDados = $this->Persistencia->buscaRespEscritório($sDados);
         $this->View->setAParametrosExtras($aDados);
+
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
+    }
+
+    public function getRespVenda($sDados) {
+        $aDados = explode(',', $sDados);
+        $iString = strlen($aDados[0]);
+        if ($iString <= 4) {
+            $aRet = $this->Persistencia->buscaRespVenda($aDados[0]);
+            echo '$("#' . $aDados[1] . '").val("' . $aRet[0] . '");';
+            echo '$("#' . $aDados[2] . '").val("' . $aRet[1] . '");';
+            exit;
+        } else {
+            $oMsg = new Mensagem('Erro', 'Código de representante inválido! Se seu código não aparecer para seleção, notifique o TI da Metalbo ', Mensagem::TIPO_WARNING);
+            echo $oMsg->getRender();
+            exit;
+        }
     }
 
 }

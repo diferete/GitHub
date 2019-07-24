@@ -104,6 +104,7 @@ class ViewQualNovoProjRep extends View {
     public function criaTela() {
         parent::criaTela();
 
+        $oDadosRep = $this->getOObjTela();
         $aDadosTela = $this->getAParametrosExtras();
 
         $oFilcgc = new Campo('Empresa', 'EmpRex.filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
@@ -150,7 +151,7 @@ class ViewQualNovoProjRep extends View {
         $oRespProjNome->setBCampoBloqueado(true);
 
         $oGrupo = new campo('Grupo', 'grucod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oGrupo->addValidacao(false, Validacao::TIPO_STRING,'','2');
+        $oGrupo->addValidacao(false, Validacao::TIPO_STRING, '', '2');
 
         $oGrupoDes = new campo('Grupo Des.', '', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
         $oGrupoDes->setSIdPk($oGrupo->getId());
@@ -164,37 +165,47 @@ class ViewQualNovoProjRep extends View {
         $oGrupo->setSCampoRetorno('grucod', $this->getTela()->getid());
         $oGrupo->addCampoBusca('grudes', $oGrupoDes->getId(), $this->getTela()->getid());
 
-        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-        $oRespVenda->setBFocus(true);
-        $oRespVenda->setSValor($aDadosTela[0]);
-
-
-        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
-        $oRespVendaNome->setSIdPk($oRespVenda->getId());
-        $oRespVendaNome->setClasseBusca('User');
-        $oRespVendaNome->addCampoBusca('usucodigo', '', '');
-        $oRespVendaNome->addCampoBusca('usunome', '', '');
-        $oRespVendaNome->setSIdTela($this->getTela()->getid());
-        $oRespVendaNome->setSValor($aDadosTela[1]);
-
-
-        $oRespVenda->setClasseBusca('User');
-        $oRespVenda->setSCampoRetorno('usucodigo', $this->getTela()->getId());
-        $oRespVenda->addCampoBusca('usunome', $oRespVendaNome->getId(), $this->getTela()->getId());
+        //==================================================================================================================================//
+        $oRepCod = new Campo('Código do Representante', 'repcod', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oRepCod->addItemSelect('Cod. Representante', 'Cod. Representante');
+        $oRepCod->setApenasTela(true);
+        foreach ($oDadosRep as $key => $oRepCodObj) {
+            $oRepCod->addItemSelect($oRepCodObj->getRepcod(), $oRepCodObj->getRepcod());
+        }
+        $oRepCod->addValidacao(false, Validacao::TIPO_STRING, 'Selecione código de representante', '2', '3');
 
         $oRepNome = new campo('Representante', 'repnome', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oRepNome->setSValor($_SESSION['nome']);
         $oRepNome->setBCampoBloqueado(true);
 
-        $oRepCod = new campo('Cod.', 'repcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oRepCod->setSValor($_SESSION['codUser']);
-        $oRepCod->setBCampoBloqueado(true);
+        $oRespVenda = new campo('...', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oRespVenda->setBCampoBloqueado(true);
+        $oRespVenda->addValidacao(false, Validacao::TIPO_STRING, 'Caso não apareça, notificar o setor de TI da Metalbo', '2', '3');
+
+        $oRespVendaNome = new Campo('Resp. Vendas', 'resp_venda_nome', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oRespVendaNome->setBCampoBloqueado(true);
+
+        $sAcaoRespVenda = 'buscaRespVenda($("#' . $oRepCod->getId() . '").val(),'
+                . '"' . $oRespVenda->getId() . '",'
+                . '"' . $oRespVendaNome->getId() . '",'
+                . '"' . $this->getController() . '")';
+
+        $oRepCod->addEvento(Campo::EVENTO_CHANGE, $sAcaoRespVenda);
+        //===============================================================================================================================//
+
+
+        /*
+          $oRepCod = new campo('Cod.', 'repcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+          $oRepCod->setSValor($_SESSION['codUser']);
+          $oRepCod->setBCampoBloqueado(true);
+         * 
+         */
 
 
         $oOfficecod = new Campo('...', 'officecod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oOfficecod->setSValor($_SESSION['repoffice']);
         $oOfficecod->setBCampoBloqueado(true);
+
         $oOfficedes = new Campo('Escritório', 'officedes', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oOfficedes->setSValor($_SESSION['repofficedes']);
         $oOfficedes->setBCampoBloqueado(true);
@@ -263,7 +274,7 @@ class ViewQualNovoProjRep extends View {
 
         $oFieldDetalhe = new FieldSet('Informações');
         $oFieldDetalhe->setOculto(true);
-        $oFieldDetalhe->addCampos(array($oDataImp, $oHora, $oSit, $oSitGeral, $oSitVenda, $oSitCliente), array($oFilcgc, $oRespProjCod, $oRespProjNome), array($oOfficecod, $oOfficedes, $oRepNome, $oRepCod));
+        $oFieldDetalhe->addCampos(array($oDataImp, $oHora, $oSit, $oSitGeral, $oSitVenda, $oSitCliente), array($oFilcgc, $oRespProjCod, $oRespProjNome), array($oOfficecod, $oOfficedes));
 
 
         $oObsRep = new Campo('Observação gerais do cliente/representante', 'replibobs', Campo::TIPO_TEXTAREA, 12);
@@ -272,7 +283,7 @@ class ViewQualNovoProjRep extends View {
         //seta ids uploads para enviar no request para limpar
         $this->setSIdUpload(',' . $oAnexoDesenho->getId() . ',' . $oAnexoDoc->getId() . ',' . $oAnexoFree->getId());
 
-        $this->addCampos($oFieldDetalhe, $oNr, array($oGrupo, $oGrupoDes), array($oRespVenda, $oRespVendaNome), array($oEmpcod, $oEmpdes), array($oEmail, $oContato), array($oDescProd, $oAcaba, $oQuant), $oFieldAnexo, $oObsRep);
+        $this->addCampos($oFieldDetalhe, $oNr, array($oGrupo, $oGrupoDes), array($oRepNome, $oRepCod, $oRespVenda, $oRespVendaNome), array($oEmpcod, $oEmpdes), array($oEmail, $oContato), array($oDescProd, $oAcaba, $oQuant), $oFieldAnexo, $oObsRep);
         // array($oEmpcod,$oEmpdes),
         //array($oRespVenda,$oRespVendaNome)
     }

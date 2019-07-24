@@ -117,7 +117,7 @@ class PersistenciaCadCliRep extends Persistencia {
         return $aEmail;
     }
 
-    public function buscaRespEscritório($sDados) {
+    public function buscaRespEscritorio($sDados) {
         $sSql = "select officeresp from tbrepoffice where officecod =" . $_SESSION['repoffice'];
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);

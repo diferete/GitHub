@@ -1924,8 +1924,8 @@ class Campo {
                         . '</div>';
                 break;
             case self::TIPO_LABEL:
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<h' . $this->getITamanhoLabel() . ' style="margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '" style="margin-top: 30px;"><b>' . $this->getLabel() . '</b></h' . $this->getITamanhoLabel() . '>'
+                $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<h' . $this->getITamanhoLabel() . ' id="' . $this->getId() . '" style="margin-top: 30px;"><b>' . $this->getLabel() . '</b></h' . $this->getITamanhoLabel() . '>'
                         . '</div>';
                 break;
             case self::TIPO_LINHA:
