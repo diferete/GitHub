@@ -10,17 +10,22 @@
 class ViewMET_ItensManPrev extends View {
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        
+        $aIdsTela = $this->getSIdsTelas();
+        parent::criaGridDetalhe($aIdsTela[6]);
+        
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
         $this->getOGridDetalhe()->setIAltura(200);
+         $this->getOGridDetalhe()->setSNomeGrid('itensManPrev');
 
         $oBotaoFinalizar = new CampoConsulta('Finalizar', 'teste', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoFinalizar->setSTitleAcao('Finalizar item!');
         $oBotaoFinalizar->addAcao('MET_ItensManPrev', 'msgFinalizaServ');
         $oBotaoFinalizar->setBHideTelaAcao(true);
         $oBotaoFinalizar->setILargura(30);
+        $oBotaoFinalizar->setSNomeGrid('itensManPrev');
 
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oCodmaq = new CampoConsulta('Cod.Maq.', 'codmaq');
@@ -49,15 +54,16 @@ class ViewMET_ItensManPrev extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
+        
+        $this->getTela()->setSNomeGrid('itensManPrev');
 
         $oBotaoFinalizar = new CampoConsulta('Finalizar', 'teste', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoFinalizar->setSTitleAcao('Finalizar item!');
         $oBotaoFinalizar->addAcao('MET_ItensManPrev', 'msgFinalizaServ');
         $oBotaoFinalizar->setBHideTelaAcao(true);
         $oBotaoFinalizar->setILargura(30);
-
-        // $oFilcgc = new CampoConsulta('Empresa', 'filcgc');
-        // $oNr = new CampoConsulta('Nr', 'nr');
+        $oBotaoFinalizar->setSNomeGrid('itensManPrev');
+        
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oCodmaq = new CampoConsulta('Cod.Maq.', 'codmaq');
         $oCodSit = new CampoConsulta('Cod.Sit.', 'MET_ServicoMaquina.codsit');
@@ -87,8 +93,6 @@ class ViewMET_ItensManPrev extends View {
     public function criaTela() {
         parent::criaTela();
 
-        $sAcaoRotina = $this->getSRotina();
-
         //novo---------------------------------------------------
         $this->criaGridDetalhe();
         //-------------------------------------------------------
@@ -96,6 +100,8 @@ class ViewMET_ItensManPrev extends View {
         $this->getTela()->setBUsaDelGrid(false);
 
         $aValor = $this->getAParametrosExtras();
+
+        $sAcaoRotina = $this->getSRotina();
 
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);
@@ -178,14 +184,14 @@ class ViewMET_ItensManPrev extends View {
         $oSitmp->setBCampoBloqueado(true);
 
 
-        $oDatabert = new Campo('DataAbert.', 'databert', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDatabert = new Campo('DataAbert.', 'databert', Campo::TIPO_DATA, 2, 2, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
         $oDatabert->setSValor(date('d/m/Y'));
         $oDatabert->setBCampoBloqueado(true);
         $oUserinic = new Campo('Usuario Inicial.', 'userinicial', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUserinic->setSValor($_SESSION['nome']);
         $oUserinic->setBCampoBloqueado(true);
-        $oDatafech = new Campo('DataFech', 'datafech', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDatafech = new Campo('DataFech', 'datafech', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDatafech->setBCampoBloqueado(true);
         $oUserfinal = new Campo('Usuario Final', 'userfinal', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUserfinal->setBCampoBloqueado(true);
@@ -217,7 +223,7 @@ class ViewMET_ItensManPrev extends View {
         $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes), array($oDatabert, $oUserinic, $oDatafech, $oUserfinal, $oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), $oObs, $oBotConf);
 
         //-novo-----------------------------------------
-        $this->addCamposFiltroIni($oFilcgc, $oNr);
+        $this->addCamposFiltroIni($oFilcgc, $oNr, $oCodmaq);
     }
 
 }

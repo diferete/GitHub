@@ -10,7 +10,7 @@
 class ModelMET_Gerenciamento {
 
     private $MET_Maquinas;
-    private $MET_Setores;
+    private $Setor;
     private $filcgc;
     private $nr;
     private $codmaq;
@@ -42,15 +42,15 @@ class ModelMET_Gerenciamento {
         $this->MET_Maquinas = $MET_Maquinas;
     }
     
-    function getMET_Setores() {
-        if(!isset($this->MET_Setores)){
-            $this->MET_Setores = Fabrica::FabricarModel('MET_Setores');
+    function getSetor() {
+        if(!isset($this->Setor)){
+            $this->Setor = Fabrica::FabricarModel('Setor');
         }
-        return $this->MET_Setores;
+        return $this->Setor;
     }
 
-    function setMET_Setores($MET_Setores) {
-        $this->MET_Setores = $MET_Setores;
+    function setSetor($Setor) {
+        $this->Setor = $Setor;
     }
 
     function getFilcgc() {

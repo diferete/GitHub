@@ -16,8 +16,6 @@ class ViewQualContencao extends View {
         $aIdsTela = $this->getSIdsTelas();
         parent::criaGridDetalhe($aIdsTela[6]);
 
-
-
         $this->getOGridDetalhe()->setIAltura(200);
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);

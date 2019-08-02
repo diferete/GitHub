@@ -72,10 +72,12 @@ class ControllerMET_ItensManPrev extends Controller {
         if (count($aparam) > 0) {
             $this->Persistencia->adicionaFiltro('filcgc', $aparam[0]);
             $this->Persistencia->adicionaFiltro('nr', $aparam[1]);
+            $this->Persistencia->adicionaFiltro('codmaq', $aparam[2]);
             $this->Persistencia->setChaveIncremento(false);
         } else {
             $this->Persistencia->adicionaFiltro('filcgc', $aparam1[0]);
             $this->Persistencia->adicionaFiltro('nr', $aparam1[1]);
+            $this->Persistencia->adicionaFiltro('codmaq', $this->Model->getCodmaq());
             $this->Persistencia->setChaveIncremento(true);
         }
     }
@@ -108,6 +110,7 @@ class ControllerMET_ItensManPrev extends Controller {
         parent::adicionaFiltroDet();
 
         $this->Persistencia->adicionaFiltro('seq', $this->Model->getSeq());
+       // $this->Persistencia->adicionaFiltro('codmaq', $this->Model->getCodmaq());
     }
 
     public function beforeInsert() {
@@ -189,7 +192,7 @@ class ControllerMET_ItensManPrev extends Controller {
         $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
         $this->Persistencia->adicionaFiltro('codmaq', $oDados->getCodmaq());
         $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
-        $this->getDadosConsulta('style35165d079f88801ca', TRUE, null);
+        $this->getDadosConsulta($aDados[1], TRUE, null);
     }
 
     public function antesDeCriarConsulta($sParametros = null) {
@@ -198,6 +201,9 @@ class ControllerMET_ItensManPrev extends Controller {
         if (($_REQUEST['metodo'] == 'acaoTelaDetalhe') || ($_REQUEST['metodo'] == 'acaoDetalheIten')) {
             $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
         }
+        $this->Persistencia->atualizaDataAntesdaConsulta();
     }
 
+    
+    
 }

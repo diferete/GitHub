@@ -69,6 +69,7 @@ class PersistenciaQualRnc extends Persistencia {
         $this->adicionaRelacionamento('obs_aponta', 'obs_aponta');
         $this->adicionaRelacionamento('produtos', 'produtos');
 
+        $this->adicionaRelacionamento('tagexcecao', 'tagexcecao');
 
         $this->adicionaJoin('Pessoa');
 

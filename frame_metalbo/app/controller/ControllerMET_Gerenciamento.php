@@ -81,4 +81,22 @@ class ControllerMET_Gerenciamento extends Controller {
         return $aRetorno;
     }
 
+    function antesAlterar($sParametros = null) {
+        parent::antesAlterar($sParametros);
+       
+        $sChave = htmlspecialchars_decode($sParametros[0]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+        $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+        $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+        $oValoresAtuais = $this->Persistencia->consultarWhere();
+        
+        if ($oValoresAtuais->getSitmp() == 'FINALIZADO') {
+            $oModal = new Modal('Atenção', 'Não é possivel alterar manutenção pois está finalizada!', Modal::TIPO_AVISO);
+            $this->setBDesativaBotaoPadrao(true);
+            echo $oModal->getRender();
+        }
+    }
+    
 }

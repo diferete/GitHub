@@ -49,6 +49,12 @@ class ControllerQualNovoProjRep extends Controller {
             echo $oMensagem->getRender();
             //exit();
         }
+
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
     }
 
     //mensagem para liberar para a metalbo
@@ -324,7 +330,7 @@ class ControllerQualNovoProjRep extends Controller {
         }
 
 
-        $sEmail .= '<b style="color:red; font-weight:900;font-size:18px;">SE NÃO APROVADO EM ATÉ 60 DIAS O PROJETO IRÁ EXPIRAR E SERÁ CANCELADO</b>';
+        $sEmail .= '<b style="color:red; font-weight:900;font-size:18px;">SE NÃO APROVADO PELO EM ATÉ 60 DIAS O PROJETO IRÁ EXPIRAR E SERÁ CANCELADO</b>';
         $sEmail .= '<br/><b>E-mail enviado automaticamente, favor não responder!</b>';
 
 

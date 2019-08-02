@@ -28,7 +28,7 @@ class PersistenciaMET_Gerenciamento extends Persistencia{
         $this->adicionaOrderBy('nr',1);
         
         $this->adicionaJoin('MET_Maquinas',null,1,'codmaq','cod');
-        $this->adicionaJoin('MET_Setores');
+        $this->adicionaJoin('Setor');
        
     }
       

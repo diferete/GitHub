@@ -117,6 +117,7 @@ class Campo {
     const DIVISOR_WARNING = 34;
     const DIVISOR_DARK = 35;
     const TIPO_TAGS = 36;
+    const TIPO_SELECTTAGS = 37;
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
@@ -1544,6 +1545,33 @@ class Campo {
                         . $this->getRenderEventos()
                         . '</div>';
                 break;
+            case self::TIPO_SELECTTAGS:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'
+                        . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
+                        . '<div class="select2-success">'
+                        . '<select name="' . $this->getNome() . '" class="form-control select2-hidden-accessible" multiple="" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                foreach ($this->getAItemsSelect() as $key => $svalue) {
+                    $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
+                }
+                //verifica se há valor para renderizar o default do select
+                if ($this->getSValor() != NULL) {
+                    $sTrigger = '$("#' . $this->getId() . '").val("' . $this->getSValor() . '").trigger("change");';
+                }
+                $sCampo .= '</div>'
+                        . '</select>'
+                        . '</div>  '
+                        . '<script>'
+                        . '$("#' . $this->getId() . '").select2({'
+                        . '  placeholder: "' . $this->getSPlaceHolder() . '",'
+                        . '  allowClear: false'
+                        . '});'
+                        . $sTrigger
+                        . '</script> '
+                        . $this->getRenderEventos()
+                        . '</div>'
+                        . '</div>';
+                break;
             case self::TIPO_RADIO:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="radio-group">'
@@ -2071,5 +2099,4 @@ class Campo {
     }
 
 }
-
 ?>

@@ -173,21 +173,14 @@ class ControllerQualContencao extends Controller {
 
 
         $this->View->setAParametrosExtras($oDados);
-        $oRetorno = $this->Persistencia->buscaParam($aParam);
-        if ($oRetorno->situaca == 'Finalizado') {
-            $oMsg = new Mensagem('Atenção', 'Item já possui apontamento', Mensagem::TIPO_WARNING);
-            echo $oMsg->getRender();
-            $sFecha = "$('#modalApontaContencao-btn').click();";
-            echo $sFecha;
-        } else {
-            $this->View->criaModalApontaContencao();
-            //busca lista pela op
 
-            $this->View->getTela()->setSRender($aDados[0] . '-modal');
+        $this->View->criaModalApontaContencao();
+        //busca lista pela op
 
-            //renderiza a tela
-            $this->View->getTela()->getRender();
-        }
+        $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+        //renderiza a tela
+        $this->View->getTela()->getRender();
     }
 
     public function apontaContencao($sDados) {

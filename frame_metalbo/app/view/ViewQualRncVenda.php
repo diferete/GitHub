@@ -191,6 +191,8 @@ class ViewQualRncVenda extends View {
         $oNf->setSCorFundo(Campo::FUNDO_MONEY);
         $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', 2, 2, 12, 12);
 
+        $oTagExcecao = new Campo(' <- Exceção, inserir sem LOTE', 'tagexcecao', Campo::TIPO_CHECK, 2, 2, 12, 12);
+
         $oDataNf = new Campo('Data.Nf', 'datanf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oOdCompra = new Campo('Od.Compra', 'odcompra', Campo::TIPO_TEXTO, 2, 2, 12, 12);
@@ -251,7 +253,7 @@ class ViewQualRncVenda extends View {
         $oTab->addItems($oTabGeral, $oTabNF, $oTabProd, $oTabAnexos);
 
         $this->addCampos(
-                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
+                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf,$oTagExcecao), $ln, $oTab);
     }
 
     /**

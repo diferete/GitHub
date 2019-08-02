@@ -832,6 +832,10 @@ function dimenProd(codProd, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, id
     }
 }
 
+function PDFDimen(campoVal, sClasse) {
+    requestAjax("", sClasse, 'geraPDF', campoVal);
+}
+
 function NewProjRep(idQt) {
 
 

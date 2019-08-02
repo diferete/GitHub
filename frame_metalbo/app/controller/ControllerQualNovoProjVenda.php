@@ -168,6 +168,7 @@ class ControllerQualNovoProjVenda extends Controller {
                         . '<tr><td><b>Prazo:</b></td><td><span style="color:#006400">' . $oAprov->prazoentregautil . ' dias úteis a partir da aprovação do cliente</span></td></tr>'
                         . '<tr><td><b>Observação vendas/Motivo reprovação:</b></td><td>' . $aObs['Financeiro'] . '</td></tr>'
                         . '</table><br/><br/>'
+                        . '<b style="color:red; font-weight:900;font-size:18px;">SE NÃO APROVADO PELO CLIENTE EM ATÉ 60 DIAS O PROJETO IRÁ EXPIRAR E SERÁ CANCELADO</b>'
                         . '<a href="sistema.metalbo.com.br">Clique aqui para acessar a entrada de projeto!</a>'
                         . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 

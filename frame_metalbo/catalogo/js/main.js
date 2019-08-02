@@ -1232,20 +1232,6 @@ function shoppingList() {
     var text = $("#shopping-cart").text();
     //Faz verificações se existem itens no carrinho de compras
     if (text <= 0) {
-        //Esse IF é uma repetição de código proposital, para garantir que não seja criado uma tela de carrinho de compras sem nenhum item no carrinho
-        //Se não possui:
-        //Esconde form de envio e geração do PDF
-        $('#table-prods > #send-form').hide();
-        //Remove o HTML das mensagens relacionadas ao envio do e-mail com PDF
-        $('#waiting-msg').remove();
-        //Mostra novamente a tela com a listra de produtos trazidos com o filtro
-        $('#prods').show();
-        //Mostra novamente a mensagem no cabeçalho, que traz a quantidade de itens retornados com o filtro
-        $('#filtro-count').show();
-        //Limpa e esconde a DIV que recebe os itens do carrinho
-        $('#cart-table').empty().hide();
-        //Limpa e esconde a div que mostra a mensagem de quantidade de itens no carrinho
-        $('#cart-count').empty().hide();
         //Para e sai da função
         return;
     } else {
@@ -1261,6 +1247,24 @@ function shoppingList() {
             $('#prods').show();
             $('#filtro-count').show();
             $('#load-msg').show();
+
+            //Toggle - informações extra
+            //Recarrega dropdown de dados extras abaixo da linha/grid de cada item
+            //Verifica se o dropdown possui dados
+            if ($('.prodtb-i-toggle').length > 0) {
+                //Captura clique no dropdown
+                $('.prodtb-i-toggle').on('click', function () {
+                    //Ao clicar, verifica se tem a classe OPENED *Aberta* 
+                    if ($(this).hasClass('opened')) {
+                        //Se possui a classe, ao clicar, fecha/esconde *hide* o dropdown 
+                        $(this).removeClass('opened').parents('.prodtb-i').find('.prodlist-i').hide();
+                    } else {
+                        //Se não possiu a classe, ao clicar, abre/mostra *show* o dropdown
+                        $(this).addClass('opened').parents('.prodtb-i').find('.prodlist-i').show();
+                    }
+                    return false;
+                });
+            }
         }
         //Se a lista de itens não está escondida
         else {
@@ -1480,6 +1484,24 @@ function home() {
     $('#prods').show();
     $('#filtro-count').show();
     $('#load-msg').show();
+
+    //Toggle - informações extra
+    //Recarrega dropdown de dados extras abaixo da linha/grid de cada item
+    //Verifica se o dropdown possui dados
+    if ($('.prodtb-i-toggle').length > 0) {
+        //Captura clique no dropdown
+        $('.prodtb-i-toggle').on('click', function () {
+            //Ao clicar, verifica se tem a classe OPENED *Aberta* 
+            if ($(this).hasClass('opened')) {
+                //Se possui a classe, ao clicar, fecha/esconde *hide* o dropdown 
+                $(this).removeClass('opened').parents('.prodtb-i').find('.prodlist-i').hide();
+            } else {
+                //Se não possiu a classe, ao clicar, abre/mostra *show* o dropdown
+                $(this).addClass('opened').parents('.prodtb-i').find('.prodlist-i').show();
+            }
+            return false;
+        });
+    }
 }
 
 //Função para gerar o PDF com os itens do carrinho de compras
@@ -1582,6 +1604,24 @@ function limpaCart() {
         $('#load-msg').show();
         $("#shopping-cart").text(' 0');
         $('#cart-list').empty();
+
+        //Toggle - informações extra
+        //Recarrega dropdown de dados extras abaixo da linha/grid de cada item
+        //Verifica se o dropdown possui dados
+        if ($('.prodtb-i-toggle').length > 0) {
+            //Captura clique no dropdown
+            $('.prodtb-i-toggle').on('click', function () {
+                //Ao clicar, verifica se tem a classe OPENED *Aberta* 
+                if ($(this).hasClass('opened')) {
+                    //Se possui a classe, ao clicar, fecha/esconde *hide* o dropdown 
+                    $(this).removeClass('opened').parents('.prodtb-i').find('.prodlist-i').hide();
+                } else {
+                    //Se não possiu a classe, ao clicar, abre/mostra *show* o dropdown
+                    $(this).addClass('opened').parents('.prodtb-i').find('.prodlist-i').show();
+                }
+                return false;
+            });
+        }
     }
 }
 //Função que verifica individualmente, quanntos itens existem no carrinho, a cada clique item que é removido do carrinho

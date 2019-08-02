@@ -44,11 +44,6 @@ $pdf->Cell(100, 10, 'Itens do carrinho', 0, 0, 'L');
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 
-$pdf->SetFont('Arial', '', 10);
-$pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
-$pdf->SetXY($x, $y + 5);
-$pdf->MultiCell(50, 5, 'Data: HOJE
-          Hora: AGORA', 0, 'L');
 
 $oCart = Fabrica::FabricarController('MET_TEC_Catalogo');
 $aItens = $oCart->buscaPDF($aDados);
@@ -75,9 +70,12 @@ if ($sEmail != '') {
     $oEmail->setSenha('Metalbo@@50');
     $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
-    $oEmail->setAssunto(utf8_decode('Ação da qualidade nº' . $nrAq . ' da empresa ' . $filcgcAq));
-    $oEmail->setMensagem(utf8_decode('Anexo ação da qualidade nº' . $nrAq . ' da empresa ' . $filcgcAq . ' da qual você está envolvido. '
-                    . ' Verifique a ação em anexo para ficar por dentro dos detalhes!'));
+    $oEmail->setAssunto(utf8_decode('Cotação do Catálogo Metalbo'));
+    $oEmail->setMensagem(utf8_decode('Em anexo PDF com os itens.<hr><br/>'
+                    . '<b>E-mail: ' . $sEmail . '<br/>'
+                    . '<b>Estado: ' . $aDadosUF[0] . '<br/>'
+                    . '<b>Cidade: ' . $aDadosUF[1] . '<br/>'
+                    . '<br/><br/><br/><b>Obrigado pelo contato. E-mail enviado automaticamente, favor não responder!</b>'));
     $oEmail->limpaDestinatariosAll();
 
     // Para

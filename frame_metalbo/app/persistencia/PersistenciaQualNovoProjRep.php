@@ -466,21 +466,21 @@ class PersistenciaQualNovoProjRep extends Persistencia {
     }
 
     public function retornaAprovCli($aDados) {
-        $sSql = "	update tbqualNovoProjeto set 
+        $sSql = "update tbqualNovoProjeto set 
 	    dtareprovcli = null,
 	    horareprovcli = null,
-		userreprovcli = null,
+            userreprovcli = null,
 	    obsreprovcli = null,
-		dtaprovcli = null,
-		horaprovcli = null,
-		useraprovcli = null,
-		obsaprovcli = null,
-		sitcliente = '',
-		dtafimProj = null,
-		horafimProj = null,
-		userfimProj = null,
-		sitgeralproj = 'Aprovado' 
-	where filcgc = '" . $aDados['EmpRex_filcgc'] . "'
+            dtaprovcli = null,
+            horaprovcli = null,
+            useraprovcli = null,
+            obsaprovcli = null,
+            sitcliente = 'Aguardando',
+            dtafimProj = null,
+            horafimProj = null,
+            userfimProj = null,
+            sitgeralproj = 'Em execução' 
+            where filcgc = '" . $aDados['EmpRex_filcgc'] . "'
                 and nr = '" . $aDados['nr'] . "'";
 
         $aRetorno = $this->executaSql($sSql);

@@ -17,7 +17,7 @@ class ViewMET_Gerenciamento extends View {
         $oCodmaq = new CampoConsulta('Cod.Maq.', 'codmaq');
         $oDesMaq = new CampoConsulta('Maquina', 'MET_Maquinas.maquina');
         $oCodsetor = new CampoConsulta('Cod.Setor', 'codsetor');
-        $oSetDes = new CampoConsulta('Setor', 'MET_Setores.descsetor');
+        $oSetDes = new CampoConsulta('Setor', 'Setor.descsetor');
         $oSitmp = new CampoConsulta('Situação', 'sitmp');
         $oDatabert = new CampoConsulta('DataAbert.', 'databert', CampoConsulta::TIPO_DATA);
         $oUserabert = new CampoConsulta('UsuarioAbert.', 'userabert');
@@ -81,10 +81,6 @@ class ViewMET_Gerenciamento extends View {
         $oUserabert->setSValor($_SESSION['nome']);
         $oUserabert->setBCampoBloqueado(true);
 
-        // $oUserfecho = new Campo('UsuarioFech', 'userfecho', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        // $oUserfecho->setBCampoBloqueado(true);
-        // $oDatafech = new Campo('DataFech', 'datafech', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        // $oDatafech->setBCampoBloqueado(true);
         //NOVO ------------------------------------------------------------------------------------------------
         $oEtapas = new FormEtapa(4, 4, 4, 4);
         $oEtapas->addItemEtapas('Manutenção Preventiva Máquina', true, $this->addIcone(Base::ICON_CONFIG));

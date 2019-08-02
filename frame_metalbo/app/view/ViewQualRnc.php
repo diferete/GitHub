@@ -45,7 +45,7 @@ class ViewQualRnc extends View {
         $oReclamacao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
         $oReclamacao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
         $oReclamacao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
-        $oReclamacao->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA); 
+        $oReclamacao->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oReclamacao->addComparacao('Interna', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA);
         $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oReclamacao->setBComparacaoColuna(true);
@@ -105,12 +105,12 @@ class ViewQualRnc extends View {
         $oDevolucao->setSValor('Aguardando');
         $oDevolucao->setBCampoBloqueado(true);
         $oDevolucao->setBOculto(true);
-        
+
         $oReclamacao = new Campo('', 'reclamacao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oReclamacao->setSValor('Aguardando');
         $oReclamacao->setBCampoBloqueado(true);
-        $oReclamacao->setBOculto(true);        
-        
+        $oReclamacao->setBOculto(true);
+
         //situacao
         $oSituaca = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oSituaca->setSValor('Aguardando');
@@ -149,8 +149,6 @@ class ViewQualRnc extends View {
 
         $oDivisor3 = new Campo('Dados da Reclamação', 'dadosrec', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor3->setApenasTela(true);
-
-
 
         //responsável por vendas
         $oRespVenda = new campo('', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -207,6 +205,8 @@ class ViewQualRnc extends View {
         $oNf->setSCorFundo(Campo::FUNDO_MONEY);
         $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '2');
 
+        $oTagExcecao = new Campo(' <- Exceção, inserir sem LOTE', 'tagexcecao', Campo::TIPO_CHECK, 2, 2, 12, 12);
+
         $oDataNf = new Campo('Data.Nf', 'datanf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oDataNf->setBCampoBloqueado(true);
 
@@ -223,7 +223,6 @@ class ViewQualRnc extends View {
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","QualRnc","buscaNf","' . $oDataNf->getId() . ',' . $oValor->getId() . ',' . $oPeso->getId() . ',' . $oEmpcod->getId() . ',' . $oEmpdes->getId() . '");';
 
         $oNf->addEvento(Campo::EVENTO_SAIR, $sCallBack);
-
 
         $oLote = new Campo('Nº Lote', 'lote', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
@@ -279,7 +278,7 @@ class ViewQualRnc extends View {
 
         $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
-        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oQuanNconf = new Campo('Qnt. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oQuanNconf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
 
         $oProCod = new campo('Cód.', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 4, 4, 4);
@@ -349,12 +348,12 @@ class ViewQualRnc extends View {
         $oTabProd->addCampos($oAplicacao, array(/* $oCodigo, $oProdes, */$oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
 
         $oTabAnexos->addCampos(
-                array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao,$oReclamacao));
+                array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao, $oReclamacao));
 
         $oTab->addItems($oTabGeral, $oTabNF, $oTabProd, $oTabAnexos);
 
         $this->addCampos(
-                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
+                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf, $oTagExcecao), $ln, $oTab);
 
 
 
@@ -382,7 +381,7 @@ class ViewQualRnc extends View {
 
         $oObs_fim = new campo('Obs', 'obs_fim', Campo::TIPO_TEXTAREA, 12);
         $oObs_fim->setILinhasTextArea(8);
-        $oObs_fim->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+        $oObs_fim->addValidacao(false, Validacao::TIPO_STRING, '', '5');
 
 
 
