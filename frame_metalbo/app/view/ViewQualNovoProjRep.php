@@ -231,6 +231,7 @@ class ViewQualNovoProjRep extends View {
 
         $oDescProd = new campo('Descrição do produto com valores referentes a peça', 'desc_novo_prod', Campo::TIPO_TEXTO, 6, 6, 12, 12);
         $oDescProd->setSCorFundo(Campo::FUNDO_VERDE);
+        $oDescProd->addValidacao(false, Validacao::TIPO_STRING,'Descrição muito longa, utilize OBS','0','100');
 
         $oAcaba = new Campo('Acabamento do Produto', 'acabamento', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oAcaba->addItemSelect('POL', 'Polido');

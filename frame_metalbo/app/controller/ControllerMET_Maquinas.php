@@ -11,4 +11,23 @@ class ControllerMET_Maquinas extends Controller {
     public function __construct() {
         $this->carregaClassesMvc('MET_Maquinas');
     }
+    
+    public function adicionaFiltrosExtras() {
+        parent::adicionaFiltrosExtras();
+        
+        $aParame = $this->buscaDados();
+        $this->View->setAParametrosExtras($aParame);
+
+    }
+    
+    public function buscaDados(){
+        $aParame = array();
+        $aParame1 = $this->Persistencia->buscaDadosCelula();
+        $aParame2 =  $this->Persistencia->buscaDadosSetor();
+        $aParame3 =  $this->Persistencia->buscaDadosTipManut();
+        $aParame[0]= $aParame1;
+        $aParame[1]= $aParame2;
+        $aParame[2]= $aParame3;
+        return $aParame;
+    }
 }

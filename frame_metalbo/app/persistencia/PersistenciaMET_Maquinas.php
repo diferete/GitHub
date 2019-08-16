@@ -17,8 +17,60 @@ class PersistenciaMET_Maquinas extends Persistencia{
         $this->adicionaRelacionamento('maquina', 'maquina');
         $this->adicionaRelacionamento('maqtip', 'maqtip');
         $this->adicionaRelacionamento('nomeclatura', 'nomeclatura');
+        $this->adicionaRelacionamento('seq', 'seq');
+        $this->adicionaRelacionamento('tipmanut', 'tipmanut');
+        $this->adicionaRelacionamento('sitmaq', 'sitmaq');
+        $this->adicionaRelacionamento('codsetor', 'codsetor');
         
         $this->adicionaOrderBy('cod',0);
         
+        $this->adicionaFiltro('sitmaq', 'ATIVA');
+        
+        $this->setSTop(50);
+        
     }
+    
+    public function buscaDadosCelula(){
+        
+        $sSql = "select seq from metmaq where seq!=0 group by seq order by seq";       
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI]= $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+    
+    public function buscaDadosSetor(){
+        
+        $sSql = "select codsetor,descsetor from MetCad_Setores order by codsetor";       
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow1 = Array();
+        $aRow2 = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow1[$iI]= $key['codsetor'];
+            $aRow2[$iI] = $key['descsetor'];
+            $iI++;
+        }
+        $aRow[0] = $aRow1;
+        $aRow[1] = $aRow2;
+        return $aRow;
+    }
+    
+    public function buscaDadosTipManut(){
+        
+        $sSql = "select tipmanut from metmaq where tipmanut is not null group by tipmanut";       
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI]= $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+    
 }

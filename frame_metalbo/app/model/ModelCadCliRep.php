@@ -45,6 +45,15 @@ class ModelCadCliRep {
     private $comer;
     private $transp;
     private $empcomplemento;
+    private $cnpj;
+
+    function getCnpj() {
+        return $this->cnpj;
+    }
+
+    function setCnpj($cnpj) {
+        $this->cnpj = $cnpj;
+    }
 
     function getEmpcomplemento() {
         return $this->empcomplemento;

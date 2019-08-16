@@ -20,7 +20,7 @@ class ViewQualAq extends View {
         $this->getTela()->setBMostraFiltro(true);
 
         $oTitulo = new CampoConsulta('Título', 'titulo', CampoConsulta::TIPO_LARGURA, 300);
-
+       
         $oFilcgc = new CampoConsulta('Cnpj', 'EmpRex.filcgc');
 
         $oNr = new CampoConsulta('AQ', 'nr');
@@ -39,7 +39,9 @@ class ViewQualAq extends View {
         $oTipoMel = new CampoConsulta('TipoMelhoria', 'tipmelhoria', CampoConsulta::TIPO_LARGURA);
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
+        
         $oFilTit = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 10, 10, 12, 12);
+        $oFilTit->setBQuebraLinha(true);
 
         $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFilEmp->setSClasseBusca('EmpRex');

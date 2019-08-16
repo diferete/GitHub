@@ -2875,7 +2875,7 @@ class Controller {
         $this->View->setTelaController($this->View->getController());
         $this->View->getTela()->getRender();
     }
-  
+
 
     /**
      * Método para cria a tela do painel financeiro

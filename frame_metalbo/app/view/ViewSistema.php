@@ -56,9 +56,9 @@ class ViewSistema extends View {
                 . '<title>Metalbo | Sistema</title>'
                 . '<link rel="shortcut icon" href="biblioteca/assets/images/favicon.ico">'
                 . '<!-- Stylesheets -->'
-                . '<link rel="stylesheet" href="biblioteca/assets/css/bootstrap.min.css">'
-                . '<link rel="stylesheet" href="biblioteca/assets/css/bootstrap-extend.min.css">'
-                . '<link rel="stylesheet" href="biblioteca/assets/css/site.min.css"><!-- ok-->'
+                . '<link rel="stylesheet" href="biblioteca/assets/css/bootstrap.min.css?' . time() . '">'
+                . '<link rel="stylesheet" href="biblioteca/assets/css/bootstrap-extend.min.css?' . time() . '">'
+                . '<link rel="stylesheet" href="biblioteca/assets/css/site.min.css?' . time() . '"><!-- ok-->'
                 . '<!-- Estilo personalizado -->'
                 . '<link rel="stylesheet" href="biblioteca/assets/css/estilo.css?' . time() . '">'
                 . '<!-- FormValidation -->'
@@ -682,9 +682,7 @@ class ViewSistema extends View {
                 . '<script src="biblioteca/assets/js/plugins/responsive-tabs.js"></script>'
                 . '<script src="biblioteca/assets/js/plugins/closeable-tabs.js"></script>'
                 . '<script src="biblioteca/assets/js/components/tabs.js"></script>'
-                . '<script src="resources/js/funcoes.js?'
-                . time()
-                . ' "></script>'
+                . '<script src="resources/js/funcoes.js?' . time() . '"></script>'
                 . '<script src="resources/js/ajax.js"></script>'
                 . '<!-- Datepicker-->'
                 . '<script src="biblioteca/assets/js/moment.js" type="text/javascript"></script>'
@@ -922,7 +920,7 @@ class ViewSistema extends View {
                 . '</br>'
                 . '</br>'
                 . '<a target="_blank" href="https://www.youtube.com/channel/UCO6rJtl4ePqsWRTztRFkE5w">'
-                . '<button type="button" class="btn btn-labeled btn-xs social-youtube"> '
+                . '<button type="button" class="btn btn-labeled btn-xs social-youtube">'
                 . '<span class="btn-label"><i class="icon bd-youtube" aria-hidden="true"></i></span>Treinamentos</button>'
                 . '</a>'
                 . '</br>'
@@ -930,8 +928,6 @@ class ViewSistema extends View {
                 . '</div>'
                 . '</div>'
                 . '</div>';
-
-
         return $sMsg;
     }
 

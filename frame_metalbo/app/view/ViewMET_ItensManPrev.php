@@ -103,9 +103,9 @@ class ViewMET_ItensManPrev extends View {
 
         $sAcaoRotina = $this->getSRotina();
 
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $this->getTela()->setBUsaAltGrid(false);
-        }
+      //  if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(true);
+      //  }
 
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oNr->setBCampoBloqueado(true);
@@ -131,6 +131,7 @@ class ViewMET_ItensManPrev extends View {
         $oCodSit->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodSit->addValidacao(true, Validacao::TIPO_STRING);
         $oCodSit->setSCampoRetorno('codsit', $this->getTela()->getId());
+       // $oCodSit->setBCampoBloqueado(true);
 
         //campo descrição da maquina adicionando o campo de busca
         $oServ = new Campo('Serviço', 'MET_ServicoMaquina.servico', Campo::TIPO_BUSCADOBANCO, 8, 8, 12, 12);
@@ -140,6 +141,7 @@ class ViewMET_ItensManPrev extends View {
         $oServ->addCampoBusca('servico', '', '');
         $oServ->setSIdTela($this->getTela()->getId());
         $oServ->addValidacao(true, Validacao::TIPO_STRING);
+       // $oServ->setBCampoBloqueado(true);
 
         //declarando no campo código a classe de busca, campo chave e campo de retorno
         $oCodSit->setClasseBusca('MET_ServicoMaquina');
@@ -187,14 +189,14 @@ class ViewMET_ItensManPrev extends View {
         $oDatabert = new Campo('DataAbert.', 'databert', Campo::TIPO_DATA, 2, 2, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
         $oDatabert->setSValor(date('d/m/Y'));
-        $oDatabert->setBCampoBloqueado(true);
+        //$oDatabert->setBCampoBloqueado(true);
         $oUserinic = new Campo('Usuario Inicial.', 'userinicial', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUserinic->setSValor($_SESSION['nome']);
         $oUserinic->setBCampoBloqueado(true);
-        $oDatafech = new Campo('DataFech', 'datafech', Campo::TIPO_DATA, 2, 2, 12, 12);
-        $oDatafech->setBCampoBloqueado(true);
-        $oUserfinal = new Campo('Usuario Final', 'userfinal', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oUserfinal->setBCampoBloqueado(true);
+       // $oDatafech = new Campo('DataFech', 'datafech', Campo::TIPO_DATA, 2, 2, 12, 12);
+      //  $oDatafech->setBCampoBloqueado(true);
+      //  $oUserfinal = new Campo('Usuario Final', 'userfinal', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+      //  $oUserfinal->setBCampoBloqueado(true);
         $oObs = new Campo('Obs', 'obs', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oObs->setILinhasTextArea(2);
 
@@ -220,7 +222,7 @@ class ViewMET_ItensManPrev extends View {
 
         //-----------------------------------------------------------------------------------------------
 
-        $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes), array($oDatabert, $oUserinic, $oDatafech, $oUserfinal, $oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), $oObs, $oBotConf);
+        $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes), array($oDatabert, $oUserinic, /*$oDatafech, $oUserfinal, */$oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), $oObs, $oBotConf);
 
         //-novo-----------------------------------------
         $this->addCamposFiltroIni($oFilcgc, $oNr, $oCodmaq);

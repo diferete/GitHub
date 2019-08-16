@@ -203,7 +203,5 @@ class ControllerMET_ItensManPrev extends Controller {
         }
         $this->Persistencia->atualizaDataAntesdaConsulta();
     }
-
-    
-    
+        
 }

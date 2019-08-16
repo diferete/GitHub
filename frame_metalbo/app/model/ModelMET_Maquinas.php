@@ -13,6 +13,42 @@ class ModelMET_Maquinas {
     private $maquina;
     private $maqtip;
     private $nomeclatura;
+    private $seq;
+    private $tipmanut;
+    private $sitmaq;
+    private $codsetor;
+    
+    function getCodsetor() {
+        return $this->codsetor;
+    }
+
+    function setCodsetor($codsetor) {
+        $this->codsetor = $codsetor;
+    }
+    
+    function getSitmaq() {
+        return $this->sitmaq;
+    }
+
+    function setSitmaq($sitmaq) {
+        $this->sitmaq = $sitmaq;
+    }
+    
+    function getTipmanut() {
+        return $this->tipmanut;
+    }
+
+    function setTipmanut($tipmanut) {
+        $this->tipmanut = $tipmanut;
+    }
+    
+    function getSeq() {
+        return $this->seq;
+    }
+
+    function setSeq($seq) {
+        $this->seq = $seq;
+    }
     
     function getNomeclatura() {
         return $this->nomeclatura;

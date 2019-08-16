@@ -12,6 +12,13 @@ class ViewMET_Gerenciamento extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $aDados = $this->getAParametrosExtras();
+        $aDado1 = $aDados[0];
+        $aDado2 = $aDados[1];  
+        $aCodSetor = $aDado2[0];
+        $aDesSetor = $aDado2[1];
+        $aDado3 = $aDados[2];
+        
         $oFilcgc = new CampoConsulta('Empresa', 'filcgc');
         $oNr = new CampoConsulta('Nr', 'nr');
         $oCodmaq = new CampoConsulta('Cod.Maq.', 'codmaq');
@@ -21,22 +28,59 @@ class ViewMET_Gerenciamento extends View {
         $oSitmp = new CampoConsulta('Situação', 'sitmp');
         $oDatabert = new CampoConsulta('DataAbert.', 'databert', CampoConsulta::TIPO_DATA);
         $oUserabert = new CampoConsulta('UsuarioAbert.', 'userabert');
-        $oUserfecho = new CampoConsulta('UsuarioFech', 'userfecho');
-        $oDatafech = new CampoConsulta('DataFech', 'datafech', CampoConsulta::TIPO_DATA);
-
+      //  $oUserfecho = new CampoConsulta('UsuarioFech', 'userfecho');
+       // $oDatafech = new CampoConsulta('DataFech', 'datafech', CampoConsulta::TIPO_DATA);
+        $oSeq = new CampoConsulta('Célula', 'MET_Maquinas.seq');
+        $oTipManut = new CampoConsulta ('Tipo Manutenção','MET_Maquinas.tipmanut');
+        $oSetor = new CampoConsulta('Setor', 'MET_Maquinas.codsetor');
+        
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 2);
         $oFiltroMaquina = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 3);
-        $oFiltroSetor = new Filtro($oSetDes, Filtro::CAMPO_TEXTO, 3);
-
+        
+        //Filtro de células
+        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 2,2,2,2);
+        $oFiltroSeq->addItemSelect('', 'Todas Células');
+        foreach ($aDado1 as $key){
+            $val =(int)$key['seq'];
+            $oFiltroSeq->addItemSelect($val, $key['seq'].' - Célula');
+        }
+        $oFiltroSeq->setSLabel('');
+      
+        //Filtro de Setor
+        $oFiltroSetor = new Filtro($oSetor, Filtro::CAMPO_SELECT, 3,3,3,3);
+        $oFiltroSetor->addItemSelect('', 'Todos Setores');
+        $iCont = 0;
+        foreach ($aCodSetor as $key1){
+            $oFiltroSetor->addItemSelect($key1, $key1.' - '.$aDesSetor[$iCont]);
+            $iCont++;
+        }
+        $oFiltroSetor->setSLabel('');
+       
+        //Filtro tipo Manutenção
+        $oTipManutFiltro= new Filtro($oTipManut, Filtro::CAMPO_SELECT, 2,2,2,2);
+        $oTipManutFiltro->addItemSelect('', 'Todos Tipos de Manutenção');
+        foreach ($aDado3 as $key2){
+            $oTipManutFiltro->addItemSelect($key2['tipmanut'], $key2['tipmanut']);
+        }
+        $oTipManutFiltro->setSLabel('');
+        
         $this->setUsaAcaoExcluir(true);
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoIncluir(true);
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oFiltroNr, $oFiltroMaquina, $oFiltroSetor);
-
+        $this->addFiltro($oFiltroNr, $oFiltroMaquina, $oFiltroSeq, $oTipManutFiltro, $oFiltroSetor);
+        
+        $this->getTela()->setBMostraFiltro(true);
 
         $this->setBScrollInf(TRUE);
-        $this->addCampos($oFilcgc, $oNr, $oCodmaq, $oDesMaq, $oCodsetor, $oSetDes, $oSitmp, $oDatabert, $oUserabert, $oUserfecho, $oDatafech);
+        $this->addCampos($oSeq,$oTipManut,$oFilcgc, $oNr, $oCodmaq, $oDesMaq, $oCodsetor, $oSetDes, $oSitmp, $oDatabert, $oUserabert/*, $oUserfecho, $oDatafech*/);
+        
+        $this->setUsaDropdown(true);
+        $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'TODOS', 'MET_Gerenciamento', 'acaoMostraRelEspecifico', 'TODOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'ABERTOS', 'MET_Gerenciamento', 'acaoMostraRelEspecifico', 'ABERTOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'FINALIZADOS', 'MET_Gerenciamento', 'acaoMostraRelEspecifico', 'FINALIZADOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true);
+        $this->addDropdown($oDrop1);
     }
 
     public function criaTela() {

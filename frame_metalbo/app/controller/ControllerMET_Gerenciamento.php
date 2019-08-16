@@ -22,6 +22,7 @@ class ControllerMET_Gerenciamento extends Controller {
         $this->Persistencia->adicionaFiltro('filcgc', $this->Model->getFilcgc());
         $this->Persistencia->adicionaFiltro('nr', $this->Model->getNr());
         $this->Persistencia->adicionaFiltro('codmaq', $this->Model->getCodmaq());
+        $this->buscaCelulas();
     }
 
     function montaProxEtapa() {
@@ -99,4 +100,36 @@ class ControllerMET_Gerenciamento extends Controller {
         }
     }
     
+    public function acaoMostraRelEspecifico() {
+       parent::acaoMostraRelEspecifico();
+
+        $sNrs = '';
+        $aDados = $_REQUEST['parametrosCampos'];
+        foreach ($aDados as $key){
+            $sNrs = $sNrs.'&'. substr($key,26);
+        }
+        $aSit = $_REQUEST['parametros'];
+        foreach ($aSit as $key1){
+            $aSit1 = explode(',', $key1);
+        }
+
+        $sSistema ="app/relatorio";
+        $sRelatorio = 'relServicoMaquinaMantPrev.php?'.$sNrs.'&Sit='.$aSit1[2];
+
+        $sCampos.= $this->getSget();
+
+        $sCampos.= '&email=N'; 
+
+        $sCampos.='&output=tela';
+        $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "'.$sCampos.'", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
+        echo $oWindow; 
+
+        }
+        
+    public function buscaCelulas(){
+        $oControllerMaquina = Fabrica::FabricarController('MET_Maquinas');
+        $aParame = $oControllerMaquina->buscaDados();
+        $this->View->setAParametrosExtras($aParame);
+    }
+        
 }

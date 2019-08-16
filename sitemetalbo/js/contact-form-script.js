@@ -21,6 +21,90 @@ function submitForm() {
     var msg_estado = $("#msg_estado").val();
     var cidade = $("#cidade").val();
 
+    switch (msg_estado) {
+        case '12':
+            msg_estado = 'Acre';
+            break;
+        case '27':
+            msg_estado = 'Alagoas';
+            break;
+        case '16':
+            msg_estado = 'Amapá';
+            break;
+        case '13':
+            msg_estado = 'Amazonas';
+            break;
+        case '29':
+            msg_estado = 'Bahia';
+            break;
+        case '23':
+            msg_estado = 'Ceará';
+            break;
+        case '53':
+            msg_estado = 'Distrito Federal';
+            break;
+        case '32':
+            msg_estado = 'Espírito Santo';
+            break;
+        case '52':
+            msg_estado = 'Goiás';
+            break;
+        case '21':
+            msg_estado = 'Maranhão';
+            break;
+        case '51':
+            msg_estado = 'Mato Grosso';
+            break;
+        case '50':
+            msg_estado = 'Mato Grosso do Sul';
+            break;
+        case '31':
+            msg_estado = 'Minas Gerais';
+            break;
+        case '41':
+            msg_estado = 'Paraná';
+            break;
+        case '25':
+            msg_estado = 'Paraíba';
+            break;
+        case '15':
+            msg_estado = 'Pará';
+            break;
+        case '26':
+            msg_estado = 'Pernambuco';
+            break;
+        case '22':
+            msg_estado = 'Piauí';
+            break;
+        case '33':
+            msg_estado = 'Rio de Janeiro';
+            break;
+        case '24':
+            msg_estado = 'Rio Grande do Norte';
+            break;
+        case '43':
+            msg_estado = 'Rio Grande do Sul';
+            break;
+        case '11':
+            msg_estado = 'Rondônia';
+            break;
+        case '14':
+            msg_estado = 'Roraima';
+            break;
+        case '42':
+            msg_estado = 'Santa Catarina';
+            break;
+        case '28':
+            msg_estado = 'Sergipe';
+            break;
+        case '35':
+            msg_estado = 'São Paulo';
+            break;
+        case '17':
+            msg_estado = 'Tocantins';
+            break;
+    }
+
     $.ajax({
         type: "POST",
         url: "php/form-process.php",

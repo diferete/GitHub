@@ -16,23 +16,47 @@ class ControllerQualNovoProjRep extends Controller {
     public function beforeInsert() {
         parent::beforeInsert();
 
-        $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+        $sDescProd = $this->Model->getDesc_novo_prod();
+        if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_¬¨]/', $sDescProd)) {
 
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
+            $oMsg = new Mensagem('Atenção', 'Caractere inválido detectado na descrição. Favor verificar.', Mensagem::TIPO_WARNING,'10000');
+            echo $oMsg->getRender();
+
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
     }
 
     public function beforeUpdate() {
         parent::beforeUpdate();
 
-        $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+        $sDescProd = $this->Model->getDesc_novo_prod();
+        if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_¬¨]/', $sDescProd)) {
 
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
+            $oMsg = new Mensagem('Atenção', 'Caractere inválido detectado na descrição. Favor verificar.', Mensagem::TIPO_WARNING,'70000');
+            echo $oMsg->getRender();
+
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
     }
 
     public function antesAlterar($sParametros = null) {

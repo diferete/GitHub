@@ -795,7 +795,7 @@ function calcNewproj(idPlan,
 }
 
 /**
- * funcao para valores do dimensional da entraga de novos projetos
+ * funcao para valores do dimensional da entrada de novos projetos
  */
 function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
         idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice,
@@ -1216,11 +1216,11 @@ function buscaCNPJ(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
 /**
  * funçao para chamar json com dados do CNPJ
  */
-function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
-    if (sCNPJ !== '') {
+function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
+    if (sEmpcod !== '') {
         $.ajax({
             type: 'REQUEST',
-            url: "https://www.receitaws.com.br/v1/cnpj/" + sCNPJ,
+            url: "https://www.receitaws.com.br/v1/cnpj/" + sEmpcod,
             contentType: 'application/json',
             dataType: 'jsonp',
             success: function (data) {
@@ -1234,7 +1234,7 @@ function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
                     if ($.isNumeric(numero)) {
                         numero = numero;
                     } else {
-                        numero = '';
+                        numero = '0';
                     }
                     var empdes = data.nome;
                     var empfant = data.fantasia;
@@ -1248,11 +1248,10 @@ function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
                     var complemento = data.complemento;
                     var nr = numero;
 
-                    var ids = idEmpdes + ',' + idEmpfant + ',' + idEmpfone + ',' + idEmail + ',' + idCep + ',' + idMunicipio + ',' + idEndereco + ',' + idUf + ',' + idBairro + ',' + idComplemento + ',' + idNr;
-                    var valores = sCNPJ + ',' + empdes + ',' + empfant + ',' + empfone + ',' + email + ',' + cep + ',' + municipio + ',' + endereco + ',' + uf + ',' + bairro + ',' + complemento + ',' + nr;
-                    requestAjax("", sClasse, 'getCNPJ', valores + ',' + ids);
+                    var ids = idCNPJ + '|' + idEmpdes + '|' + idEmpfant + '|' + idEmpfone + '|' + idEmail + '|' + idCep + '|' + idMunicipio + '|' + idEndereco + '|' + idUf + '|' + idBairro + '|' + idComplemento + '|' + idNr;
+                    var valores = sEmpcod + '|' + empdes + '|' + empfant + '|' + empfone + '|' + email + '|' + cep + '|' + municipio + '|' + endereco + '|' + uf + '|' + bairro + '|' + complemento + '|' + nr;
 
-
+                    requestAjax("", sClasse, 'getCNPJ', valores + '|' + ids);
                 }
             },
             error: function (error) {
