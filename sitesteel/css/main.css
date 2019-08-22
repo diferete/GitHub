@@ -131,7 +131,7 @@ a:not([href]):not([tabindex]):hover {
 .section2{
     padding:10px;
     padding-bottom: 1px;
-    background: #e31d1a !important;
+    background: #4e008a !important;
 }
 .section-header {
     color: #fff;
@@ -214,6 +214,20 @@ a:not([href]):not([tabindex]):hover {
     -moz-transition: all 0.5s ease-in-out;
     -webkit-transition: all 0.5s ease-in-out;
 }
+.btn-header {
+    position: relative;
+    z-index: 1;
+    border-radius: 4px;
+    margin-top: 20px;
+    background-color:#cb0015;
+}
+.btn-header:hover {
+    color: #fff;
+    background-color: #4e008a;
+    transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+}
 .btn-border {
     color: #fff;
     background-color: transparent;
@@ -224,6 +238,17 @@ a:not([href]):not([tabindex]):hover {
     border: 2px solid #4e008a;
     color: #fff;
     background-color: #4676fa;
+}
+.btn-story{
+    color: #fff;
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 4px;
+}
+.btn-story:hover {
+    border: 2px solid #e31d1a;
+    color: #fff;
+    background-color: #e31d1a;
 }
 .btn-lg {
     padding: 14px 33px;
@@ -1105,7 +1130,7 @@ button:focus {
   14. Download App
    ========================================================================== */
 #download {
-    background: #4e008a;
+    background: #e31d1a;
 }
 #download .section-title {
     color: #fff;
@@ -1416,7 +1441,7 @@ button:focus {
 }
 #subscribe .sub_btn {
     border: none;
-    line-height: 44px;
+    line-height: 50px;
     margin: 0;
     font-size: 15px;
     text-transform: uppercase;

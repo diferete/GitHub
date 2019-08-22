@@ -40,8 +40,9 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         $oSitLista->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA);
         
         $oCliente = new CampoConsulta('Cliente','emp_razaosocial');
+        $oCliente->setBTruncate(true);
         
-        $oRefencia = new CampoConsulta('Referencia','referencia');
+        $oRefencia = new CampoConsulta('Referência','referencia');
         
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL,1);
         $oRefFiltro = new Filtro($oRefencia, Filtro::CAMPO_TEXTO_IGUAL,2);
@@ -65,6 +66,7 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         $oSitListaFiltro->addItemSelect('Todos', 'Todos');
         $oSitListaFiltro->addItemSelect('Espera', 'Espera');
         $oSitListaFiltro->addItemSelect('Liberado', 'Liberado');
+        $oSitListaFiltro->addItemSelect('Finalizado', 'Finalizado');
         $oSitListaFiltro->setBInline(true);
         
         $oDataFiltro = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE,2,2,2,2,true);
@@ -97,7 +99,7 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         //addItemDropdown($sLabelAcao, $sClasse, $sMetodo, $sParametro, $bHiden, $sParamAdicional, $bNewAba, $sNomeModal, $bModal, $sTitulo, $bMultiSelect,$bSel)
         $this->addDropdown($oDrop1,$oDrop2);
         
-        $this->addCampos($oBotaoModal,$oOp,$oSitLista,$oTempRev,$oSituacao,$oData,$oRefencia,$oCodigo,$oProdes,$oPeso,$oCliente);
+        $this->addCampos($oBotaoModal,$oOp,$oPeso,$oSitLista,$oTempRev,$oSituacao,$oData,$oRefencia,$oCodigo,$oProdes,$oCliente);
         $this->getTela()->setiAltura(700);
         
        // $this->setBScrollInf(true);

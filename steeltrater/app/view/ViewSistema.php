@@ -94,7 +94,8 @@ class ViewSistema extends View {
                 . '<script src="biblioteca/assets/vendor/jquery/jquery.js"></script>'
                 . '<script type="text/javascript"  src="biblioteca/datatables/media/js/jquery.dataTables.js"></script>'
                 . '<script type="text/javascript"  src="biblioteca/datatables/extensions/Select/js/dataTables.select.min.js"></script> '
-                . '<script type="text/javascript"  src="biblioteca/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>'
+                . '<script type="text/javascript"  src="biblioteca/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>'                
+                . '<script type="text/javascript" src="biblioteca/datatables/extensions/FixedColumns/js/dataTables.fixedColumns.min.js"></script>'
                 . '<!-- Datepicker-->'
                 . '<link href="biblioteca/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>'
                 . '<!-- Select2 -->'
@@ -120,7 +121,7 @@ class ViewSistema extends View {
                 . 'Breakpoints();'
                 . '</script>'
                 . '</head>'
-                . '<body style=" min-width: 1024px !important;"><!--class="site-menubar-unfold" data-auto-menubar="false"-->'
+                . '<body style=" min-width: 412px !important;"><!--class="site-menubar-unfold" data-auto-menubar="false"-->'
                 . '<script>'
                 . '   var classeBusca;'
                 . '    var metodoBusca;'
@@ -221,7 +222,7 @@ class ViewSistema extends View {
                 . '          </li>'
                  
                 . ' <li class="dropdown dropdown-fw dropdown-mega"> '
-                .'<a type="button" href="http://177.84.0.34:8080/DelsoftXPRO/servlet/loginerp?" target="_blank" ><i class="icon wb-calendar" aria-hidden="true"></i><i class="icon wb-users" aria-hidden="true"></i>&nbsp  Nfe/ Fiscal/ Contábil    </a>'
+                .'<a type="button" href="http://177.84.0.34:8080/DelsoftX/servlet/loginerp?" target="_blank" ><i class="icon wb-calendar" aria-hidden="true"></i><i class="icon wb-users" aria-hidden="true"></i>&nbsp  Nfe/ Fiscal/ Contábil    </a>'
                 . ' </li> <!--fim acesso modulos-->'
                     
                 /* .'          <li class="dropdown dropdown-fw dropdown-mega">'

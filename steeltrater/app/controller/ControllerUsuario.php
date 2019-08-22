@@ -113,7 +113,7 @@
          
          $tempo_transcorrido = (strtotime($agora)-strtotime($dataSalva)); 
          //tempo em segundos
-          if($tempo_transcorrido >= 28800) {
+          if($tempo_transcorrido >= 528800) {
               if(isset($_SESSION["ultimoAcesso"])){
               $this->msgSessaoInvalida();
               }

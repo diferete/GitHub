@@ -45,6 +45,7 @@ class ControllerSTEEL_PCP_prodMatReceita extends Controller {
         }else{
           $this->Persistencia->adicionaFiltro('prod',$aCamposChave['prod']);
           $this->Persistencia->adicionaFiltro('prodfinal',$aCamposChave['prodFinal']);
+          $this->Persistencia->adicionaFiltro('desativa','Sim',0, Persistencia::DIFERENTE);
           $iCout = $this->Persistencia->getCount();
           if ($iCout==0){
               $oModal = new Modal('Atenção!', 'Não há vínculo do produto com o Material e sua Receita, prossiga até a tela de cadastro.', Modal::TIPO_AVISO,TRUE,TRUE,TRUE);

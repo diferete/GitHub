@@ -887,11 +887,11 @@ class Grid {
                 . '"scrollX": true,'
                 . '"searching": false,'
                 . '"select": true,'
-                . '"paging":         false,'
+                . '"paging": false,'
                 . '"order":false,'
                 . '"info": false,'
                 . ' fixedColumns:   {'
-                . '      leftColumns: 2'
+                . '      leftColumns: 0'
                 . '  },'
                 . 'columnDefs: [ {'
                 . 'orderable: false,'
@@ -964,10 +964,10 @@ class Grid {
             $sRetorno = "$('#" . $this->getSRenderTo() . "control').append('" . $sGrid . "');";
 
             echo $sRetorno;
-
-            $fp = fopen("bloco1.txt", "w");
-            fwrite($fp, $sRetorno);
-            fclose($fp);
+            /*
+              $fp = fopen("bloco1.txt", "w");
+              fwrite($fp, $sRetorno);
+              fclose($fp); */
         }
         //gera resize
         echo "$( '#" . $this->getSId() . "resize' ).removeClass('col-lg-12').addClass('col-lg-5');";

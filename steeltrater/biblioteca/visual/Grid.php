@@ -49,6 +49,8 @@ class Grid {
     private $bFocoCampo;
     private $sNomeGrid;
     private $bDesativaRetornoConsulta;
+    private $iLeftColunaFixa;
+    private $iRightColunaFixa;
 
     /**
      * Construtor da classe Grid 
@@ -58,7 +60,7 @@ class Grid {
      *  @param string $sTelaMuitoPequena Define o valor para telas de celulares pequenos
      *
      */
-    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 400, $iLarguraGrid = 1800) {
+    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 400, $iLarguraGrid = 1800, $iLeftColunaFixa = 1, $iRightColunaFixa = 0) {
         $this->sId = Base::getId();
         $this->aColunas = array();
         $this->aBotoes = array();
@@ -76,10 +78,28 @@ class Grid {
         $this->aCampos = array();
         $this->setBUsaCarrGrid(false);
         $this->setILarguraGrid($iLarguraGrid);
+        $this->setILeftColunaFixa($iLeftColunaFixa);
+        $this->setIRightColunaFixa($iRightColunaFixa);
         $this->setBGridResponsivo(TRUE);
         $this->setBUsaKeypress(true);
         $this->setBMostraFiltro(false);
         $this->setSNomeGrid('paramGrid');
+    }
+
+    function getIRightColunaFixa() {
+        return $this->iRightColunaFixa;
+    }
+
+    function setIRightColunaFixa($iRightColunaFixa) {
+        $this->iRightColunaFixa = $iRightColunaFixa;
+    }
+
+    function getILeftColunaFixa() {
+        return $this->iLeftColunaFixa;
+    }
+
+    function setILeftColunaFixa($iLeftColunaFixa) {
+        $this->iLeftColunaFixa = $iLeftColunaFixa;
     }
 
     function getBDesativaRetornoConsulta() {
@@ -627,7 +647,7 @@ class Grid {
                         . '}'
                         /*  . 'if(val.length <= 1){'
                           . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
-                        . '}'*/
+                          . '}' */
                         . '});'
                         . '});';
             }
@@ -648,8 +668,11 @@ class Grid {
         $sGrid .= '<div class="label-dark" style="margin-top:10px;"><span class="label label-dark">' . $this->getSTituloConsulta() . '</span></div>';
 
         $sGrid .= '<div class="containerTable">';
+        if ($this->getILeftColunaFixa() != 1 || $this->getIRightColunaFixa() != 0) {
+            $this->setBGridResponsivo(true);
+        }
         $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
-        //$sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
+
         $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
                 . '<thead><tr role ="row"><th style="width: 20px;"><button type="button" id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox"></button></th>';
         //monta o cabeçalho baseado nos campos do cria consulta
@@ -734,7 +757,9 @@ class Grid {
                     . '$("#' . $this->getSId() . '-botcarr").click(function(){' . $sEventoCarr . '});'
                     . '</script>';
         }
-
+        if ($this->getILeftColunaFixa() != 1 || $this->getIRightColunaFixa() != 0) {
+            $this->setBGridResponsivo(true);
+        }
         $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
         $sGrid .= '<span name="paramGrid" id="' . $this->getAbaSel() . '' . $this->getSNomeGrid() . '" style="display:none;">' . $this->getSId() . '</span>'
@@ -745,12 +770,13 @@ class Grid {
         $sGrid .= '</div>';
 
 
-        //renderiza campos abaixo do grid
-        //renderiza os campos
-        $sConteudo = $this->oLayout->getRender();
-        $sGrid .= $sConteudo;
+        //renderiza campos abaixo do grid  id="' . $this->getSId() . '-pesquisa"
+        //renderiza os campos   '<form id="' . $this->getSId() . '-formGrid>"'. $this->oLayout->getRender().'</form>';
 
-
+        if ($this->oLayout->getRender() !== null) {
+            $sConteudo = '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-formgridbelow" style=" position: relative;  background-color: #e6e9ea;  border: 1px solid #eee">' . $this->oLayout->getRender() . '</form>';
+            $sGrid .= $sConteudo;
+        }
         $sGrid .= '</div>';
 
         //verifica se tem botao do tipo modal no grid
@@ -886,11 +912,12 @@ class Grid {
                 . '"scrollX": true,'
                 . '"searching": false,'
                 . '"select": true,'
-                . '"paging":         false,'
+                . '"paging": false,'
                 . '"order":false,'
                 . '"info": false,'
                 . ' fixedColumns:   {'
-                . '      leftColumns: 2'
+                . '      leftColumns: ' . $this->getILeftColunaFixa() . ','
+                . '      righColumns:' . $this->getIRightColunaFixa() . ''
                 . '  },'
                 . 'columnDefs: [ {'
                 . 'orderable: false,'
@@ -963,10 +990,10 @@ class Grid {
             $sRetorno = "$('#" . $this->getSRenderTo() . "control').append('" . $sGrid . "');";
 
             echo $sRetorno;
-
-            $fp = fopen("bloco1.txt", "w");
-            fwrite($fp, $sRetorno);
-            fclose($fp);
+            /*
+              $fp = fopen("bloco1.txt", "w");
+              fwrite($fp, $sRetorno);
+              fclose($fp); */
         }
         //gera resize
         echo "$( '#" . $this->getSId() . "resize' ).removeClass('col-lg-12').addClass('col-lg-5');";

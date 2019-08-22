@@ -19,6 +19,7 @@ class ViewDELX_PRO_Produtos extends View {
         $this->setUsaAcaoVisualizar(true);
 
         //$this->getTela()->setiAltura(400);
+        $this->getTela()->setILeftColunaFixa(2);
         $this->getTela()->setILarguraGrid(2300);
         $this->getTela()->setBGridResponsivo(false);
 

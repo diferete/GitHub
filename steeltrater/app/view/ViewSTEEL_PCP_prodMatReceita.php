@@ -22,10 +22,24 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         
         $oProdFinal = new CampoConsulta('Produto.Final','STEEL_PCP_pesqArame.pro_descricao');
         
+        $oDesativa = new CampoConsulta('Desativa','desativa');
+        $oDesativa->addComparacao('Sim', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA,false);
+        $oDesativa->setBComparacaoColuna(true);
+        
         $oFilProdCod = new Filtro($oProCod, Filtro::CAMPO_TEXTO, 3);
         $oFilSeqMat = new Filtro($oSeqMat, Filtro::CAMPO_TEXTO,3);
         $oFilProdFinal = new Filtro($oProdFinal, Filtro::CAMPO_TEXTO,3);
-        $this->addFiltro($oFilSeqMat,$oFilProdCod,$oFilProdFinal);
+        
+        $oFilDesativa = new Filtro($oDesativa, Filtro::CAMPO_SELECT,3,3,3,3);
+        $oFilDesativa->addItemSelect('Todos','Todos');
+        $oFilDesativa->addItemSelect('Não','Não');
+        $oFilDesativa->addItemSelect('Sim','Sim');
+        $oFilDesativa->setBInline(true);
+        
+        $this->addFiltro($oFilSeqMat,$oFilProdCod,$oFilProdFinal,$oFilDesativa);
+        
+        
+        
         
         $this->setUsaAcaoExcluir(true);
         $this->setUsaAcaoAlterar(true);
@@ -34,7 +48,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
 
         $this->setBScrollInf(TRUE);
         $this->getTela()->setBUsaCarrGrid(true);
-        $this->addCampos($oSeqMat,$oProCod ,$oProDes,$oMatDes, $oRecDes,$oProdFinal);
+        $this->addCampos($oSeqMat,$oDesativa,$oProCod ,$oProDes,$oMatDes, $oRecDes,$oProdFinal);
         
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir',Dropdown::TIPO_SUCESSO);
@@ -212,6 +226,17 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         
         $oNrPpap = new Campo('Nr.','nrppap', Campo::TIPO_TEXTO,1);
         
+        $oDiv = new campo('Desativar receita','div1', Campo::DIVISOR_VERMELHO,12,12,12,12);
+        $oDiv->setApenasTela(true);
+        
+        $oDesativa = new Campo('Desativa receita','desativa', Campo::CAMPO_SELECTSIMPLE,3);
+        $oDesativa->addItemSelect('Não','Não');
+        $oDesativa->addItemSelect('Sim','Sim');
+        
+        $oObsDesativa = new campo('Observação para desativação','obsdesativa', Campo::TIPO_TEXTAREA,8);
+        
+        
+        
         $oAbaFioMaquina = new AbaTabPanel('FIO MÁQUINA');
         
         $oFioDurezaSol = new Campo('Dureza.Solicitada(HRB)','fioDurezaSol', Campo::TIPO_DECIMAL,2);
@@ -233,9 +258,9 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
                             array($oDiamFinalMin,$oDiamFinalMax));
    
         $oTab->addItems($oAbaPadrao,$oAbaFioMaquina);
-        $this->addCampos($oSeqMat, array($oCodigo,$oProdes),$oLabel1,array($oMatCod, $oMatdes),$oLabel1,
+        $this->addCampos($oSeqMat,array($oCodigo,$oProdes),$oLabel1,array($oMatCod, $oMatdes),$oLabel1,
                 array($oRecCod, $oRecdes),$oLabel1,array($oCodigoFinal,$oProdesFinal),$oLabel1, 
-                $oLabel1,array($oTratReven,$oPpap,$oNrPpap),$oLabel1,$oTab,$oLabel1,$oObs);
+                $oLabel1,array($oTratReven,$oPpap,$oNrPpap),$oLabel1,$oTab,$oLabel1,$oObs,$oDiv,$oLabel1,$oDesativa,$oObsDesativa);
     }
     
     public function RelItensPPAP(){        

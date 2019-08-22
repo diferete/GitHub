@@ -2005,9 +2005,6 @@ class Controller {
             $sRender .= ' if (idTr!==""){$("#' . $aDadosAtualizar[0] . ' #"+idTr+"").focus();'
                     . ' $("#' . $aDadosAtualizar[0] . ' #"+idTr+"").addClass("selected");}';
 
-
-
-
             echo $sRender;
             $sDadosSummary = $this->getDadosFoot();
             $sSummary = '$("#' . $aDadosAtualizar[0] . '-summary > tbody > tr").empty();'

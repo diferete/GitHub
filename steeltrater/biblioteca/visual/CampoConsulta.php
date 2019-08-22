@@ -25,6 +25,7 @@ class CampoConsulta {
     private $bOrderBy;
     private $sNomeGrid;
     private $bTime;
+    private $bTruncate; //define se o campo será reduzido com opção truncar ex 'metalbo ind...'
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -57,6 +58,7 @@ class CampoConsulta {
     const COR_ROXO = 'tr-roxo';
     const COR_ROSA = 'tr-rosa';
     const COR_LARANJA = 'tr-laranja';
+    const COR_PADRAO = 'tr-padrao';
     //constantes responsáveis pelos background cores
     const COL_VERMELHO = 'tr-bk-vermelha';
     const COL_AZUL = 'tr-bk-azul';
@@ -276,6 +278,14 @@ class CampoConsulta {
         $this->Tipo = $Tipo;
     }
 
+    function getBTruncate() {
+        return $this->bTruncate;
+    }
+
+    function setBTruncate($bTruncate) {
+        $this->bTruncate = $bTruncate;
+    }
+
     /**
      * Método responsavel por realizar a coloração de linhas/colunas do grid de acordo com
      * o modo de comparação escolhida
@@ -302,6 +312,10 @@ class CampoConsulta {
      * Retorna o render do campo consulta
      */
     public function getRender($sClasse, $xValor, $sParam = null) {
+
+        if ($this->getBTruncate()) {
+            $sClasse .= ' truncate';
+        }
 
         $aComparacao = $this->getAComparacao();
         foreach ($aComparacao as $key => $aValue) {

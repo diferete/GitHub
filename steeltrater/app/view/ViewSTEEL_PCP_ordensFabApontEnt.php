@@ -39,6 +39,10 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         $aDados = $this->getAParametrosExtras();
         $aFornosRadio = $aDados[1];
         
+        $oOuser = Fabrica::FabricarController('MET_TEC_Usuario');
+        $oOuser->Persistencia->adicionaFiltro('usucodigo',$_SESSION['codUser']);
+        $oOuserDados = $oOuser->Persistencia->consultarWhere();
+        
         $this->setBOcultaBotTela(true);
         $this->setBOcultaFechar(true);
         
@@ -50,9 +54,7 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         $oOp->addValidacao(false, Validacao::TIPO_STRING,'','1','100');
         $oOp->setClasseBusca('STEEL_PCP_ordensFabListaPesq');
         $oOp->setSCampoRetorno('op', $this->getTela()->getId());
-        $oOp->setBFocus(true);
-        
-       
+        $oOp->setBFocus(true);       
         
         $oBtnPesqOp = new Campo('Pesquisar','btn1', Campo::TIPO_BOTAOSMALL);
         $oBtnPesqOp->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
@@ -79,10 +81,17 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         
         $oFornoCod = new campo('','fornocod', Campo::TIPO_TEXTO,1);
         $oFornoCod->setBOculto(true);
-        $oFornoDes=new Campo('Forno','fornodes', Campo::TIPO_TEXTO,2);
+        $oFornoDes=new Campo('','fornodes', Campo::TIPO_TEXTO,2);
+        $oFornoDes->setBOculto(true);
         
+        $oTurno = new campo('Turno','turnoSteel', Campo::CAMPO_SELECTSIMPLE,2,2,2,2);
+        $oTurno->addItemSelect('Turno A','Turno A');
+        $oTurno->addItemSelect('Turno B','Turno B');
+        $oTurno->addItemSelect('Turno C','Turno C');
+        $oTurno->addItemSelect('Turno D','Turno D');
+        $oTurno->setSValor($oOuserDados->getTurnoSteel());
         //-----------------------combo dos fornos---------------------------
-         $oFornoChoice = new campo('FORNO PARA APONTAMENTO <span class="badge badge-warning">Somente mudar se necessário</span>','fornoCombo', Campo::CAMPO_SELECTSIMPLE,8,8,8,8);
+         $oFornoChoice = new campo('FORNO PARA APONTAMENTO ','fornoCombo', Campo::CAMPO_SELECTSIMPLE,3,3,3,3);
         foreach ($aFornosRadio as $keyForno => $oValueForno) {
             $oFornoChoice->addItemSelect($oValueForno->getFornocod(),$oValueForno->getFornodes());
         }
@@ -130,9 +139,8 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         $oBtnInserir = new Campo('Inserir','',  Campo::TIPO_BOTAOSMALL_SUB,1);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId()); 
         
-        //adiciona os eventos ao sair do campo op e do botao pesquisar
-         $sEventoOp = 'var OpSteel =  $("#'.$oOp->getId().'").val();if(OpSteel !==""){requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_ordensFabApontEnt","consultaOpApont",'
-                 . '"'.$oCliente->getId().','.$oOpCliente->getId().','.$oProcod->getId().','.$oProdes->getId().'");$("#'.$oBtnInserir->getId().'").click();}'
+        //adiciona os eventos ao sair do campo op e do botao pesquisar //
+         $sEventoOp = 'var OpSteel =  $("#'.$oOp->getId().'").val();if(OpSteel !==""){$("#'.$oBtnInserir->getId().'").click();}'
                  . 'else{$("#'.$oCliente->getId().'").val(""); $("#'.$oOpCliente->getId().'").val(""); $("#'.$oProcod->getId().'").val("");$("#'.$oProdes->getId().'").val("");                                           };';
          $oBtnPesqOp->getOBotao()->addAcao($sEventoOp);
          $oOp->addEvento(Campo::EVENTO_SAIR,$sEventoOp);
@@ -155,6 +163,7 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
          $oProcodDesGrid = new CampoConsulta('Produto','prodes');
          $oProcodDesGrid->setILargura(300);
          $oFornoDesGrid = new CampoConsulta('Forno','fornodes');
+         $oSteelTurno = new CampoConsulta('Turno','turnoSteel');
          $oDataEntGrid = new CampoConsulta('Data Ent','dataent_forno', CampoConsulta::TIPO_DATA);
          $oHoraEntGrid = new CampoConsulta('Hora Ent','horaent_forno', CampoConsulta::TIPO_TIME);
          $oSituaca = new CampoConsulta('Situação','situacao');
@@ -164,7 +173,7 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
          $oSituaca->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
          
          
-         $oGridEnt->addCampos($oBotaoExcluir,$oOpGrid,$oProcodDesGrid,$oFornoDesGrid,$oDataEntGrid,$oHoraEntGrid,$oSituaca,$oUserNameG);
+         $oGridEnt->addCampos($oBotaoExcluir,$oOpGrid,$oProcodDesGrid,$oFornoDesGrid,$oSteelTurno,$oDataEntGrid,$oHoraEntGrid,$oSituaca,$oUserNameG);
          $oGridEnt->setSController('STEEL_PCP_ordensFabApontEnt');
          $oGridEnt->addParam('op', '0');
          $oGridEnt->getOGrid()->setIAltura(500);
@@ -172,7 +181,7 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
        
         $sAcao = 'requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_ordensFabApontEnt","inserirApont",'
                  . '"'.$this->getTela()->getId().','. $oGridEnt->getId().','.$oOp->getId().','
-                . ''.$oFornoChoice->getId().','.$oFornoCod->getId().','.$oFornoDes->getId().'");';
+                . ''.$oFornoChoice->getId().','.$oFornoCod->getId().','.$oFornoDes->getId().','.$oTurno->getId().'");';
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
@@ -187,17 +196,11 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         $oBtnAtualizar->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
         $oBtnAtualizar->getOBotao()->addAcao($sAcaoAtualizar);
         
-        $this->addCampos($oFornoChoice,$oLinha,array($oOp,$oBtnPesqOp,$oSeq),
-                array($oCliente,$oOpCliente,$oCodUser,$oUserNome),array($oProcod,$oProdes,$oFornoDes,$oFornoCod),array($oBtnInserir,$oBtnAtualizar),$oGridEnt);
-        
-        
-        
-       
-        
+        $this->addCampos(array($oFornoChoice,$oTurno,$oCodUser,$oUserNome),$oLinha,array($oOp,$oBtnPesqOp,$oSeq),
+                array($oBtnInserir,$oBtnAtualizar,$oFornoDes,$oFornoCod),$oGridEnt);
      
-        
-       
-    }
+        //$oCliente,$oOpCliente,$oProcod,$oProdes,
+     }
     
      public function consultaApontGrid() {
         $oGridApont = new Grid("");
@@ -213,6 +216,7 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
          $oProcodDesGrid = new CampoConsulta('Produto','prodes');
          $oProcodDesGrid->setILargura(300);
          $oFornoDesGrid = new CampoConsulta('Forno','fornodes');
+         $oSteelTurno = new CampoConsulta('Turno','turnoSteel');
          $oDataEntGrid = new CampoConsulta('Data Ent','dataent_forno', CampoConsulta::TIPO_DATA);
          $oHoraEntGrid = new CampoConsulta('Hora Ent','horaent_forno', CampoConsulta::TIPO_TIME);
          $oSituaca = new CampoConsulta('Situação','situacao');
@@ -221,7 +225,7 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
          $oSituaca->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
          $oSituaca->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
         
-         $oGridApont->addCampos($oBotaoExcluir,$oOp,$oProcodDesGrid,$oFornoDesGrid,$oDataEntGrid,$oHoraEntGrid,$oSituaca,$oUserNameG);
+         $oGridApont->addCampos($oBotaoExcluir,$oOp,$oProcodDesGrid,$oFornoDesGrid,$oSteelTurno,$oDataEntGrid,$oHoraEntGrid,$oSituaca,$oUserNameG);
 
         $aCampos = $oGridApont->getArrayCampos();
         return $aCampos;

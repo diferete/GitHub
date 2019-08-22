@@ -16,6 +16,7 @@ class Botao {
     private $requestAjax; //Somente o request ajax deste "carinha", segundo o Avanei
     private $sStyleBotao;
     private $sNomeModal;
+    private $iMarginTop;
 
     const TIPO_PADRAO = 0;
     const TIPO_ADICIONAR = 1;
@@ -58,6 +59,15 @@ class Botao {
         $this->addAcao($sAcao);
         $this->setRequestAjax($sAcao);
         $this->sStyleBotao = Botao::TIPO_SUCCESS;
+        $this->setIMarginTop(0);
+    }
+
+    function getIMarginTop() {
+        return $this->iMarginTop;
+    }
+
+    function setIMarginTop($iMarginTop) {
+        $this->iMarginTop = $iMarginTop;
     }
 
     function getSNomeModal() {
@@ -296,7 +306,7 @@ class Botao {
                  */
                 break;
             case self::TIPO_SMALL_SUB:
-                $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1  btn-acao-grid" style="margin-top:0px;">'
+                $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1  btn-acao-grid" style="margin-top:' . $this->getIMarginTop() . 'px;">'
                         . '<button type="button" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form btn-outline " id="' . $this->getId() . '" data-target="#' . $this->getSNomeModal() . '" data-toggle="modal"' . $this->setDesativado($this->getBDesativado()) . '>'
                         . '<span><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
@@ -321,7 +331,7 @@ class Botao {
                         . '</div>';
                 break;
             case self::TIPO_SMALL:
-                $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1  btn-acao-grid" style="margin-top:0px;">'
+                $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1  btn-acao-grid" style="margin-top:' . $this->getIMarginTop() . 'px;">'
                         . '<a href="javascript:void(0)" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form ladda-button" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . ' data-target="#' . $this->getSNomeModal() . '" data-toggle="modal">'
                         . '<i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</a>'
                         . '</input>'

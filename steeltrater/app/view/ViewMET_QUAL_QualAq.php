@@ -39,7 +39,9 @@ class ViewMET_QUAL_QualAq extends View {
         $oTipoMel = new CampoConsulta('TipoMelhoria', 'tipmelhoria', CampoConsulta::TIPO_LARGURA);
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
+		
         $oFilTit = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 10, 10, 12, 12);
+		$oFilTit->setBQuebraLinha(true);
 
         $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFilEmp->setSClasseBusca('DELX_FIL_Empresa');

@@ -32,19 +32,20 @@ class ViewMET_QUAL_Contencao extends View {
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oSeq->setILargura(30);
 
-        $oPlan = new CampoConsulta('Análise', 'plano');
+        $oPlan = new CampoConsulta('Ação', 'plano');
         $oPlan->setILargura(500);
 
         $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
+        $oDataAponta = new CampoConsulta('Apontamento', 'dtaponta', CampoConsulta::TIPO_DATA);
 
-        $oUsunome = new CampoConsulta('Responsável', 'usunome');
+        $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
         $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oUsunome, $oAnexo);
+        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
@@ -66,12 +67,13 @@ class ViewMET_QUAL_Contencao extends View {
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oSeq->setILargura(30);
 
-        $oPlan = new CampoConsulta('Análise', 'plano');
+        $oPlan = new CampoConsulta('Ação', 'plano');
         $oPlan->setILargura(500);
 
         $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
+        $oDataAponta = new CampoConsulta('Apontamento', 'dtaponta', CampoConsulta::TIPO_DATA);
 
-        $oUsunome = new CampoConsulta('Responsável', 'usunome');
+        $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
         $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
@@ -79,7 +81,7 @@ class ViewMET_QUAL_Contencao extends View {
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
 
-        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oUsunome, $oAnexo);
+        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
     }
 
     public function criaTela() {
@@ -107,7 +109,7 @@ class ViewMET_QUAL_Contencao extends View {
         $oSeq = new Campo('Sequência', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeq->setBCampoBloqueado(true);
 
-        $oPlano = new Campo('Análise', 'plano', Campo::TIPO_TEXTAREA, 12);
+        $oPlano = new Campo('Ação', 'plano', Campo::TIPO_TEXTAREA, 12);
         $oPlano->setILinhasTextArea(5);
         $oPlano->setICaracter(500);
 
@@ -119,7 +121,7 @@ class ViewMET_QUAL_Contencao extends View {
         $oResp->setSIdHideEtapa($this->getSIdHideEtapa());
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
-        $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oRespNome = new Campo('Quem', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oRespNome->setSIdPk($oResp->getId());
         $oRespNome->setClasseBusca('MET_TEC_Usuario');
         $oRespNome->addCampoBusca('usucodigo', '', '');

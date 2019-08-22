@@ -300,7 +300,12 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
      public function mostraTelaRelOpEmitida($renderTo, $sMetodo = '') {        
         parent::mostraTelaRelatorio($renderTo, 'RelOpSteel2');              
         
-    }  
+    } 
+    
+    public function mostraTelaRelOpFat($renderTo, $sMetodo = '') {        
+        parent::mostraTelaRelatorio($renderTo, 'RelOpFat');              
+        
+    } 
     
     /**
      *  Gera xls do relatorio de ordem de produção
@@ -714,8 +719,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $this->Persistencia->adicionaFiltro('op',$aOp[1]);
         $oDados = $this->Persistencia->consultarWhere();
         $sSituacao = $oDados->getSituacao();
-        if($sSituacao == 'Finalizado'){
-            $oModal = new Modal('Atenção!','Não é possível alterar a OP '.$aOp[1].', por que ela está finalizada!', Modal::TIPO_AVISO, false, true);
+        if($sSituacao !== 'Aberta'){
+            $oModal = new Modal('Atenção!','Não é possível alterar a OP '.$aOp[1].', por que ela está em processo!', Modal::TIPO_AVISO, false, true);
             echo $oModal->getRender();
             $this->setBDesativaBotaoPadrao(true);
         }else{
@@ -887,6 +892,16 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
        
         return $aDadosFat;
     }
+    
+    public function mostraTelaRelOpSteelNaoApont($renderTo, $sMetodo = '') {        
+        parent::mostraTelaRelatorio($renderTo, 'RelOpSteelNaoApont');              
+    }  
+    
+    public function mostraTelaRelFaturamento($renderTo, $sMetodo = '') {    
+        $parame = $this->Persistencia->buscaMovimento();
+        $this->View->setAParametrosExtras($parame);
+        parent::mostraTelaRelatorio($renderTo, 'RelFaturamento');     
+    }  
 }
    
    

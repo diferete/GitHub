@@ -602,7 +602,7 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
     $pdf->MultiCell(206, 5, 'Ação Nº' . $row['seq'] . ' = ' . $row['plano'], 1, 'L');
 
     $pdf = quebraPagina($pdf->GetY(), $pdf);
-
+    
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(25, 5, "Quem:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
@@ -617,9 +617,8 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(25, 5, "Quando:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(40, 5, $row['datafim'], 1, 1, 'C');
-
+ 
     $pdf = quebraPagina($pdf->GetY(), $pdf);
-
 
     $pdf->MultiCell(206, 5, 'Obs. Final = ' . $row['obsfim'], 1, 'L');
     // $iAlturaAcao = $pdf->GetY();

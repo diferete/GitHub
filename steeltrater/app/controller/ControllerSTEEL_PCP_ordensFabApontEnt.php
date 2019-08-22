@@ -110,27 +110,35 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             $oModal = new Modal('Atenção!', 'Ordem de produção cancelada!', Modal::TIPO_AVISO, false);
             echo $oModal->getRender();
             
-             $oLimpa = new Base();
-             $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-             echo $msg; 
+            echo '$("#' . $aIds[2] . '" ).val("");';
+            echo '$("#' . $aIds[2] . '" ).focus();';
+            echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+            echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+            echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+            echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");';
              exit();
         }
         if ($oDadosOp->getOp() == null) {
                 $oMensagem = new Mensagem('Atenção!', 'Ordem de produção não foi localizada!', Mensagem::TIPO_WARNING);
                 echo $oMensagem->getRender();
-                $oLimpa = new Base();
-                $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-                $msg .='$("#' . $aIds[2] . '" ).focus();';
-                echo $msg; 
+                echo '$("#' . $aIds[2] . '" ).val("");';
+                echo '$("#' . $aIds[2] . '" ).focus();';
+                echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+                echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+                echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+                echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");'; 
                 exit();
             }
        
         if($iCont > 0){
               $oMensagem = new Modal('Atenção!', 'Entrada da ordem de produção nº' . $aCampos['op'] . ' já está apontada!', Modal::TIPO_INFO);
-              echo $oMensagem->getRender();
-              $oLimpa = new Base();
-              $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-              echo $msg; 
+               echo $oMensagem->getRender();
+               echo '$("#' . $aIds[2] . '" ).val("");';
+                echo '$("#' . $aIds[2] . '" ).focus();';
+                echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+                echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+                echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+                echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");'; 
               exit();
         }else{
        
@@ -152,10 +160,12 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             echo $oMensagem->getRender();
             $oLimpa = new Base();
             $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-            $msg .='$("#' . $aIds[2] . '" ).focus();';
+            
             echo 'requestAjax("' . $aIds[0] . '-form","STEEL_PCP_ordensFabApontEnt","getDadosGrid","' . $aIds[1] . '","consultaApontGrid");';
-            echo $msg;
-            echo '$("#'. $aIds[3] .'>option[value='.$aCampos['fornocod'].']" ).attr("selected", true);';
+            echo '$("#' . $aIds[2] . '" ).val("");';
+            echo '$("#' . $aIds[2] . '" ).focus();';
+            echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+            echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
             echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
             echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");';
         }

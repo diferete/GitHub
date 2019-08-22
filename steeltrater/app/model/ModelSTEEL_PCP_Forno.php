@@ -12,6 +12,7 @@ class ModelSTEEL_PCP_Forno {
     private $fornocod;
     private $fornodes;
     private $fornosigla;
+    private $tipoOrdem;
     private $cookfornocod;
     private $cookfornodes;
     
@@ -57,4 +58,12 @@ class ModelSTEEL_PCP_Forno {
         $this->fornosigla = $fornosigla;
     }
 
+    function getTipoOrdem() {
+        return $this->tipoOrdem;
+    }
+
+    function setTipoOrdem($tipoOrdem) {
+        $this->tipoOrdem = $tipoOrdem;
+    }
+    
 }

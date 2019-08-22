@@ -149,8 +149,8 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oDataEnt->setSValor(date('d/m/Y'));
        //-------------------------------------------------------------------------------------------
         $oFrete = new campo('Frete','PDV_PedidoTipoFreteCodigo', Campo::TIPO_SELECT,4);
-        $oFrete->addItemSelect('1','CIF (POR CONTA DO EMITENTE)'); 
         $oFrete->addItemSelect('2','FOB (POR CONTA DO DESTINATARIO/REMETENTE)'); 
+        $oFrete->addItemSelect('1','CIF (POR CONTA DO EMITENTE)'); 
         $oFrete->addItemSelect('3','POR CONTA DE TERCEIRO');
         $oFrete->addItemSelect('4','SEM COBRANÇA DE FRETE');
         //------------------------------------------------------------------------------------------
@@ -195,14 +195,18 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oPesoLiquido = new Campo('Peso Líquido','PDV_PedidoPesoLiquido', Campo::TIPO_DECIMAL,2,2,2,2);
         $oPesoLiquido->setBCampoBloqueado(true);
         
+        $oVolumes = new Campo('Qt.Volumes','PDV_PedidoVolumes', Campo::TIPO_DECIMAL,2,2,2,2);
+        $oVolumes->setBCampoBloqueado(true);
+        
+        
         $this->addCampos(
                 array($oFilial,$oUseEmiss,$oDataEmiss,$oDataDig,$oNrCarga,$oPedSit,$oPedAprov),
                 $oLabel,$oLabel,
                 array($oOpBase,$oEmp_codigo,$oEmp_des),
                 $oLabel,
                 array($oMovCod,$oMov_des),$oLabel,
-                array($oTabPreco,$oTabPrecoDesc,$oDataEnt,$oMarca),$oLabel,
-                array($oFrete,$oEspecie,$oPesoBruto,$oPesoLiquido),$oAcao
+                array($oTabPreco,$oTabPrecoDesc,$oDataEnt,$oMarca,$oEspecie),$oLabel,
+                array($oFrete,$oPesoBruto,$oPesoLiquido,$oVolumes),$oAcao
                );
     }
 

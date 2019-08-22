@@ -134,8 +134,24 @@ class ViewMET_TEC_Usuario extends View {
         
         $oCodSisMetalbo = new campo('Cód.Metalbo','codsismetalbo', Campo::TIPO_TEXTO,2);
         
+        $oLinha = new Campo('','linha1', Campo::TIPO_LINHA,12);
+        $oLinha->setApenasTela(true);
+        
+        $oTurnoSteel = new campo('Turno SteelTrater','turnoSteel', Campo::CAMPO_SELECTSIMPLE,3,3,3,3);
+        $oTurnoSteel->addItemSelect('Nenhum','Nenhum');
+        $oTurnoSteel->addItemSelect('Turno A','Turno A');
+        $oTurnoSteel->addItemSelect('Turno B','Turno B');
+        $oTurnoSteel->addItemSelect('Turno C','Turno C');
+        $oTurnoSteel->addItemSelect('Turno D','Turno D');
 
-        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), array($oUserNome, $oSobrenome), array($oUsuFone, $oUsuRamal, $oUsuEmail), array($oCodSetor, $oFilcgc), array($oUsutipo, $oOfficeCod), array($oUsuimagem, $oNomeDelsoft), $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv,$oCodSisMetalbo);
+        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit),$oLinha, 
+                array($oUserNome, $oSobrenome),$oLinha, 
+                array($oUsuFone, $oUsuRamal, $oUsuEmail),$oLinha, 
+                array($oCodSetor, $oFilcgc),$oLinha, 
+                array($oUsutipo, $oOfficeCod),$oLinha, 
+                array($oUsuimagem, $oNomeDelsoft),$oLinha,$oLinha, 
+                $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv,$oLinha,
+                array($oCodSisMetalbo,$oTurnoSteel));
     }
 
 }

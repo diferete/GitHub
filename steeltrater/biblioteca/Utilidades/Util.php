@@ -14,22 +14,22 @@ class Util {
     const MASCARA_FONE = '(##) ####-####';
     const MASCARA_CEP = '#####-###';
     const MASCARA_NCM = '####.##.##-###';
-    
-    function maskNew($val, $mask){
-    $maskared = '';
-    $k = 0;
-    for($i = 0; $i<=strlen($mask)-1; $i++){
-       if($mask[$i] == '#'){
-       if(isset($val[$k]))
-       $maskared .= $val[$k++];
+
+    function maskNew($val, $mask) {
+        $maskared = '';
+        $k = 0;
+        for ($i = 0; $i <= strlen($mask) - 1; $i++) {
+            if ($mask[$i] == '#') {
+                if (isset($val[$k]))
+                    $maskared .= $val[$k++];
+            }
+            else {
+                if (isset($mask[$i]))
+                    $maskared .= $mask[$i];
+            }
+        }
+        return $maskared;
     }
-    else{
-    if(isset($mask[$i]))
-    $maskared .= $mask[$i];
-    }
-    }
-    return $maskared;
-  }
 
     public function getHoraAtual() {
         $h = (float) (date('H') * 3600);
@@ -170,6 +170,13 @@ class Util {
         return number_format($valor, $iQtdDecimais, ",", ".");
     }
 
+    public static function formataSqlDecimal($valor) {
+        $iValor = bcdiv($valor, 1, 2);
+        $aDecimais = explode('.', $iValor);
+        $sValor = $aDecimais[0] . ',' . $aDecimais[1];
+        return $sValor;
+    }
+
     public static function removeAcentos($sString) {
 
         $sTabAcento = array(
@@ -287,14 +294,18 @@ class Util {
      * @param string $sData Recebe string data para converter
      * */
     public static function converteData($sData) {
-        $data = explode('-', $sData);
-        $d = $data[2];
-        $m = $data[1];
-        $a = $data[0];
+        if (strlen($sData) > 10) {
+            return $sData;
+        } else {
+            $data = explode('-', $sData);
+            $d = $data[2];
+            $m = $data[1];
+            $a = $data[0];
 
-        $sDataConvert = $d . "/" . $m . "/" . $a;
+            $sDataConvert = $d . "/" . $m . "/" . $a;
 
-        return $sDataConvert;
+            return $sDataConvert;
+        }
     }
 
     /**
@@ -309,6 +320,21 @@ class Util {
         return $sReturn;
     }
 
+    /**
+     * arruma valores para salvar no banco
+     */
+    public static function ValorSql($valor) {
+        $verificaPonto = ".";
+        if (strpos("[" . $valor . "]", "$verificaPonto")):
+            $valor = str_replace('.', '', $valor);
+            $valor = str_replace(',', '.', $valor);
+        else:
+            $valor = str_replace(',', '.', $valor);
+        endif;
+
+        return $valor;
+    }
+
     public static function formataHora($sHora) {
         if ($sHora == null || $sHora == '') {
             return $sHora;
@@ -318,7 +344,7 @@ class Util {
             $h = $hora[0];
             $m = $hora[1];
 
-            $sHoraConvert = $h . ":" . $m ;
+            $sHoraConvert = $h . ":" . $m;
             return $sHoraConvert;
         }
     }

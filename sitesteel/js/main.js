@@ -155,3 +155,21 @@
 
 }(jQuery));
 
+
+//Função baseada na API do IBGE Brasil para busca dos municípios por estado para criar select no form de envio de e-mail
+function getES() {
+    //Captura valor númerico do código do estado
+    var uf = $("#msg_estado").val();
+    //Json que recebe os dados com os nomes dos múnicípios do estado selecionado
+    $.getJSON('https://servicodados.ibge.gov.br/api/v1/localidades/estados/' + uf + '/municipios', function (result) {
+        //Variavel alimentada com o HTML criando os options do select de Cidades
+        //Valor padrão do primeiro item do select usado como "legenda" do campo
+        var htmlSelect = '<option value="0" disabled selected>Selecione a Cidade</option>';
+        //For each utilizado para alimentar HTML do select com os options contendo nomes das cidades
+        result.forEach(function (es) {
+            htmlSelect = htmlSelect + '<option value="' + es['nome'] + '">' + es['nome'] + '</option>';
+        });
+        //Limpa e cria append do HTML do select de cidades
+        $("#cidade").empty().append(htmlSelect);
+    });
+}

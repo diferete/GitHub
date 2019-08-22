@@ -20,6 +20,11 @@ class ModelSTEEL_PCP_GerenciaApont {
     private $datasaida_forno;
     private $horasaida_forno;
     private $situacao;
+    private $coduser;
+    private $usernome;
+    private $codusersaida;
+    private $usernomesaida;
+    private $turnoSteel;
 
     function getOp() {
         return $this->op;
@@ -109,4 +114,44 @@ class ModelSTEEL_PCP_GerenciaApont {
         $this->situacao = $situacao;
     }
 
+    function getCoduser() {
+        return $this->coduser;
+    }
+
+    function getUsernome() {
+        return $this->usernome;
+    }
+
+    function getCodusersaida() {
+        return $this->codusersaida;
+    }
+
+    function getUsernomesaida() {
+        return $this->usernomesaida;
+    }
+
+    function getTurnoSteel() {
+        return $this->turnoSteel;
+    }
+
+    function setCoduser($coduser) {
+        $this->coduser = $coduser;
+    }
+
+    function setUsernome($usernome) {
+        $this->usernome = $usernome;
+    }
+
+    function setCodusersaida($codusersaida) {
+        $this->codusersaida = $codusersaida;
+    }
+
+    function setUsernomesaida($usernomesaida) {
+        $this->usernomesaida = $usernomesaida;
+    }
+
+    function setTurnoSteel($turnoSteel) {
+        $this->turnoSteel = $turnoSteel;
+    }
+    
 }

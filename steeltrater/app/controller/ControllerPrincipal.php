@@ -30,9 +30,10 @@ class ControllerPrincipal extends Controller{
                 $bExecuta=true;
             }else{
                 $bExecuta =$this->validaSessao();
-            }
+              
+             }
              
-            if($bExecuta || $_REQUEST['metodo'] == 'logaSistema' || $_REQUEST['redefinesenha'] || ($_REQUEST['classe'] == 'Mobile' && $_REQUEST['metodo'] == 'getRequisicao') ){
+            if($bExecuta || $_REQUEST['metodo'] == 'logaSistema' || $_REQUEST['redefinesenha'] || ($_REQUEST['classe'] == 'Mobile' && $_REQUEST['metodo'] == 'getRequisicao')||($_REQUEST['classe'] == 'MET_TEC_Mobile' && $_REQUEST['metodo'] == 'getRequisicao') ){
                 $bExecuta = true;
                 
                 $sClasse = $_REQUEST['classe'];
@@ -60,6 +61,7 @@ class ControllerPrincipal extends Controller{
         if($bExecuta){
             //cria a instância do objeto
             $oRequest = Fabrica::FabricarController($sClasse);
+            
             
             if(is_numeric($iCodigoClasse) && $oRequest){
                 $oRequest->setCodigoRotina($iCodigoClasse);

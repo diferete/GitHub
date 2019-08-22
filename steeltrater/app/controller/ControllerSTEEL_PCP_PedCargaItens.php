@@ -605,8 +605,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         //função que seta os valores padrões 
         $this->setaPadraoItem();
 //---------------INICIALMENTE VERIFICA SE É RETRABALHO SEM COBRANÇA SER FOR ENTRA E DA UM EXIT----------------------------------
-        if($oPevCabDados->getPDV_PedidoTipoMovimentoCodigo()=='304'||$oDadosOp->getRetrabalho()=='Sim S/Cobrança'){
-            $oMensagem = new Mensagem('Atenção','Carga de retrabalho sem cobrança!', Mensagem::TIPO_INFO,'7000');
+        if($oPevCabDados->getPDV_PedidoTipoMovimentoCodigo()=='304'||$oDadosOp->getRetrabalho()=='Sim S/Cobrança' || $oDadosOp->getRetrabalho()=='Retorno não Ind.' ){
+            $oMensagem = new Mensagem('Atenção','Carga de retrabalho sem cobrança ou não industrializado!', Mensagem::TIPO_INFO,'7000');
             echo $oMensagem->getRender();
             
                         //inicialmente colocamos o retorno----------------------------------------------------------------------------------
@@ -632,7 +632,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             //seta valores específicos do retorno da mercadoria
             $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
             $this->Model->setPDV_PedidoItemGeraFinanceiro('N');
-            $this->Model->setPDV_PedidoItemConsideraVenda('S');
+            $this->Model->setPDV_PedidoItemConsideraVenda('N');//CONSIDERA VENDA IGUAL A N LINHA 635
 
             //gera o valor total
             $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -798,6 +798,9 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                            }
                     }else{
                         $sInfAdicional .= 'Sua NF - '.$oDadosOp->getDocumento();
+                        if($oDadosOp->getXPed()!==null){
+                         $sInfAdicional .= ' OD '.$oDadosOp->getXPed();
+                        }
                     }
                     $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
                     break;
@@ -1078,7 +1081,9 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                            }
             }else{
                 $sInfAdicional .= 'Sua NF '.$oDadosOp->getDocumento();
-                
+                if($oDadosOp->getXPed()!==null){
+                  $sInfAdicional .= ' OD '.$oDadosOp->getXPed();
+                 }
             }
             $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
             //gera o insert do retorno
@@ -1426,6 +1431,9 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                  $sInfAdicional .= ' Sua NF-> '.$oDadosOp->getDocumento();
             }*/
             $sInfAdicional .= 'Sua OC-'.$oDadosOp->getDocumento();
+            if($oDadosOp->getXPed()!==null){
+                $sInfAdicional .= ' Pedido '.$oDadosOp->getXPed();
+              }
             $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
             //gera o insert do retorno
              //Filtros para reload

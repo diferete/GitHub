@@ -51,7 +51,7 @@ $pdf->Cell(0,5,'','T',1,'L');
         $dtfinal= $_REQUEST['datafinal'];
         
      //Pega dados que passados pelo usuário na tela de relatório
-     
+     $sRetrabalho = $_REQUEST['retrabalho'];
      $sSituacao=$_REQUEST['situa'];
      $iEmpCodigo=$_REQUEST['emp_codigo'];
      $sEmpDescricao=$_REQUEST['emp_razaosocial'];
@@ -87,22 +87,37 @@ $pdf->Cell(0,5,'','T',1,'L');
                if($iEmpCodigo!==''){
                   $sSqli.=" and emp_codigo='".$iEmpCodigo."' ";
                }
+               if($sRetrabalho!='Incluir'){
+                    $sSqli.=" and retrabalho='".$sRetrabalho."' ";
+               }else{
+                   $sSqli.=" and retrabalho<>'Retorno não Ind.' "; 
+               }
+               
         $sSqli.="order by dataent_forno2";
           
    $dadosRela = $PDO->query($sSqli);
    
    //Filtros escolhidos
    $pdf->SetFont('Arial','B',10);
-   $pdf->Cell(35,10,'Filtros escolhidos:', '',0, 'L',0);
+   $pdf->Cell(32,10,'Filtros escolhidos:', '',0, 'L',0);
    
+   if($sFornodes==null){
+       $sFornodes='Todos';
+   }   
+   if($iEmpCodigo==null){
+       $iEmpCodigo='Todos';
+       $sEmpDescricao='Todos';
+   }      
    
-   $pdf->SetFont('Arial','',10);
-   $pdf->Cell(30,10,'Data de entrada: '.$dtinicial.
-           '         Data saída: '.$dtfinal.
-           '         Forno: '.$sFornodes.
-           '         Situação: '.$sSituacao, '',1, 'L',0);
-   $pdf->SetFont('Arial','',10);
-   $pdf->Cell(30,10,'Cliente: '.$iEmpCodigo.
+   $pdf->SetFont('Arial','',9);
+   $pdf->Cell(50,10,'Data inicial: '.$dtinicial.
+           '   Data final: '.$dtfinal.
+           '   Forno: '.$sFornodes.
+           '   Situação: '.$sSituacao.
+           '   Retrabalho: '.$sRetrabalho.
+           ' ', '',1, 'L',0);
+   $pdf->SetFont('Arial','',9);
+   $pdf->Cell(30,5,'Cliente: '.$iEmpCodigo.
            '         Razão Social: '.$sEmpDescricao, '',1, 'L',0);
    
    //$pdf->SetFont('Arial','',9);
@@ -116,19 +131,19 @@ $pdf->Cell(0,5,'','T',1,'L');
    
    //Títulos do relatório
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(8,5,'OP: ', 'B,T,L',0, 'L',0);
+   $pdf->Cell(6,5,'OP: ', 'B,T,L',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(10, 5, $row['op'] ,'B,T',0,'L');
+   $pdf->Cell(14, 5, $row['op'] ,'B,T',0,'L');
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(14,5,'FORNO: ', 'B,T,L',0, 'L',0);
+   $pdf->Cell(12,5,'FORNO: ', 'B,T,L',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(14, 5, $row['fornodes'] ,'B,R,T',0,'L');
+   $pdf->Cell(30, 5, $row['fornodes'] ,'B,R,T',0,'L');
    
    $pdf->SetFont('Arial','B',8);
    $pdf->Cell(17,5,'PRODUTO: ', 'B,T,L',0, 'C',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(136, 5, $row['prodes'] ,'B,R,T',1,'L');
+   $pdf->Cell(120, 5, $row['prodes'] ,'B,R,T',1,'L');
    
    $pdf->SetFont('Arial','B',8);
    $pdf->Cell(19,5,'DATA ENT: ', 'B,T,L',0, 'L',0);
@@ -156,34 +171,34 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->Cell(22, 5, $row['situacao'] ,'B,R,T',1,'L');
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(16,5,'CLIENTE:', 'B,L',0, 'L',0);
+   $pdf->Cell(16,5,'CLIENTE:', 'B,L,T',0, 'L',0);
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(78, 5, $row['emp_razaosocial'],'B,R',0,'L');
+   $pdf->Cell(100, 5, $row['emp_razaosocial'],'B,R,T',0,'L');
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(18,5,'DATA OP:', 'B',0, 'L',0);
+   $pdf->Cell(18,5,'DATA OP:', 'B,T',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(20, 5, $row['data'],'B,R',0,'L');
+   $pdf->Cell(20, 5, $row['data'],'B,R,T',0,'L');
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(10,5,'NOTA:', 'B',0, 'L',0);
+   $pdf->Cell(10,5,'NOTA:', 'B,T',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(11, 5, $row['documento'],'B,R',0,'L');
+   $pdf->Cell(11, 5, $row['documento'],'B,R,T',0,'L');
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(10,5,'PESO:', 'B',0, 'L',0);
+   $pdf->Cell(10,5,'PESO:', 'B,T',0, 'L',0);
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(14, 5, number_format($row['peso'], 2, ',', '.'),'B,R',0,'L');
+   $pdf->Cell(14, 5, number_format($row['peso'], 2, ',', '.'),'B,R,T',1,'L');
    
-   $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(6,5,'QT:', 'B',0, 'L',0);
-   $pdf->SetFont('Arial','',8);
-   $pdf->Cell(16, 5, number_format($row['quant'], 2, ',', '.'),'B,R',1,'L');
+   //$pdf->SetFont('Arial','B',8);
+  // $pdf->Cell(6,5,'QT:', 'B',0, 'L',0);
+  // $pdf->SetFont('Arial','',8);
+  // $pdf->Cell(16, 5, number_format($row['quant'], 2, ',', '.'),'B,R',1,'L');
    
    $pdf->Cell(100,5,'', '',1, '',0);
 
    $Pesototal=($row['peso']+$Pesototal);
-   $Quanttotal=($row['quant']+$Quanttotal);
+  // $Quanttotal=($row['quant']+$Quanttotal);
    
    }
    
@@ -192,8 +207,8 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->SetFont('Arial','',9);
    $pdf->Cell(100, 2, '','',1,'C');
    
-   $pdf->SetFont('Arial','B',10);
-   $pdf->Cell(100, 8, 'Quant. Total: '.number_format($Quanttotal, 2, ',', '.'),'',1,'J');
+  // $pdf->SetFont('Arial','B',10);
+  // $pdf->Cell(100, 8, 'Quant. Total: '.number_format($Quanttotal, 2, ',', '.'),'',1,'J');
    
    $pdf->SetFont('Arial','B',10);
    $pdf->Cell(99, 8, 'Peso Total: '.number_format($Pesototal, 2, ',', '.'),'',0,'J');

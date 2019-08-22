@@ -1371,7 +1371,10 @@ class Persistencia {
 
         $bExecuta = $statement->execute();
         $aErro = $statement->errorInfo();
-     
+       /*  $fp = fopen("bloco1.txt", "w");
+        fwrite($fp, $sSql);
+        fclose($fp);*/
+
         return array($bExecuta, $aErro[2]);
     }
 
@@ -1738,6 +1741,9 @@ class Persistencia {
     public function consultarWhere() {
 
         $sSql = $this->getSqlSelect() . $this->getStringWhere();
+       /* $fp = fopen("bloco1.txt", "w");
+        fwrite($fp, $sSql);
+        fclose($fp);*/
 
         $result = $this->getObjetoSql($sSql);
 
@@ -1825,9 +1831,9 @@ class Persistencia {
         $sSql .= $this->getSWhereManual(); //define partes do where manualmente
         $sSql .= $this->getStringGroupBy() . $this->getStringOrderBy() . $this->getStringLimit();
 
-      /*  $fp = fopen("bloco1.txt", "w");
+        $fp = fopen("bloco1.txt", "w");
         fwrite($fp, $sSql);
-        fclose($fp);  */
+        fclose($fp);  
 
         $result = $this->getObjetoSql($sSql);
 

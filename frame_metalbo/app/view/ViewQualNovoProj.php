@@ -16,8 +16,6 @@ class ViewQualNovoProj extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
 
-        $this->getTela()->setBGridResponsivo(true);
-
         $oData = new CampoConsulta('Data', 'dtimp', CampoConsulta::TIPO_DATA);
         $oData->setILargura(50);
 
