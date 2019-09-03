@@ -17,7 +17,7 @@ class ControllerQualNovoProjRep extends Controller {
         parent::beforeInsert();
 
         $sDescProd = $this->Model->getDesc_novo_prod();
-        if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_¬¨]/', $sDescProd)) {
+        if (preg_match('/[\'^£$%&*()}{@#~?><>|=_¬¨]/', $sDescProd)) {
 
             $oMsg = new Mensagem('Atenção', 'Caractere inválido detectado na descrição. Favor verificar.', Mensagem::TIPO_WARNING,'10000');
             echo $oMsg->getRender();
@@ -40,7 +40,7 @@ class ControllerQualNovoProjRep extends Controller {
         parent::beforeUpdate();
 
         $sDescProd = $this->Model->getDesc_novo_prod();
-        if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_¬¨]/', $sDescProd)) {
+        if (preg_match('/[\'^£$%&*()}{@#~?><>|=_¬¨]/', $sDescProd)) {
 
             $oMsg = new Mensagem('Atenção', 'Caractere inválido detectado na descrição. Favor verificar.', Mensagem::TIPO_WARNING,'70000');
             echo $oMsg->getRender();

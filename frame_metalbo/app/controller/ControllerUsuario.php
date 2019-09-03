@@ -97,7 +97,7 @@ class ControllerUsuario extends Controller {
         $cache_limiter = session_cache_limiter();
 
         /* define o prazo do cache em 600 minutos */
-        session_cache_expire(600);
+        session_cache_expire(10000);
         $cache_expire = session_cache_expire();
         session_set_cookie_params(99999999);
         session_start();

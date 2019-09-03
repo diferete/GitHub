@@ -345,7 +345,7 @@ class ViewQualRnc extends View {
         $oTabNF->addCampos(
                 array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
 
-        $oTabProd->addCampos($oAplicacao, array(/* $oCodigo, $oProdes, */$oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
+        $oTabProd->addCampos($oAplicacao, array($oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
 
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao, $oReclamacao));

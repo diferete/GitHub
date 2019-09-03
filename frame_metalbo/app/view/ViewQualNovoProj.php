@@ -103,8 +103,6 @@ class ViewQualNovoProj extends View {
 
         $this->addCampos($oNr, $oSitProj, $oSitVendas, $oSitCli, $oSitGeral, $oData, $oEmpDes, $oRepNome, $oDescProdNew, $oQuantPc);
 
-
-
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY, Dropdown::ICON_POSITIVO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aprovar projeto', 'QualNovoProj', 'msAprovaProj', '', false, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Reprovar projeto', 'QualNovoProj', 'msgReprovaProj', '', false, '');

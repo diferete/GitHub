@@ -395,7 +395,6 @@ if ($sEmailRequest == 'S') {
     //enviar e-mail vendas
     $oEmail->addDestinatario($aRowMail['usuemail']);
 
-    //provisório para ir cópia para avanei
     $oEmail->addAnexo('app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
