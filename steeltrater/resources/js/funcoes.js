@@ -1006,6 +1006,7 @@ function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
 
     if (forca == 's' && same == 's') {
 
+
         $('#' + idBotao + '').prop('disabled', false);
 
     } else {
@@ -1116,11 +1117,6 @@ function mensagemSlide(tipo, msg, titulo, timeout) {
 function expandeField(id) {
     $('#' + id + '').removeClass("expanded").addClass("collapsed");
     $('#' + id + ' >div').css("display", "none");
-}
-
-function buscaCNPJ(cnpj, campo, classe) {
-    var campoVal = cnpj + ',' + campo;
-    requestAjax("", classe, 'getCNPJ', campoVal);
 }
 
 function buscaRespVenda(idCod, idVenda, nomeVenda, classe) {

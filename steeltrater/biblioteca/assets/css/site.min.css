@@ -1,8 +1,10 @@
 .site-navbar {
+    height: 10px;
     background-color: #fff
 }
 
 .site-navbar .navbar-header {
+    text-align: center;
     color: #fff;
     background-color: transparent
 }
@@ -1868,7 +1870,7 @@ screen and (min-width:1200px) and (min-width:768px) {
 
 .site-menubar-unfold .site-menu-category {
     padding: 0 24px;
-    margin-top: 20px;
+    /*margin-top: 20px;*/
     font-size: 15px;
     line-height: 46px;
     color: #f3f7f9;

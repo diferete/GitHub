@@ -16,11 +16,16 @@ class ViewQualAq extends View {
         parent::criaConsulta();
 
         $this->getTela()->setIAltura(400);
-
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
+        $this->setUsaAcaoVisualizar(true);
+        $this->setUsaAcaoExcluir(false);
         $this->getTela()->setBMostraFiltro(true);
+        $this->getTela()->setILarguraGrid(2300);
+        $this->getTela()->setBGridResponsivo(false);
 
         $oTitulo = new CampoConsulta('Título', 'titulo', CampoConsulta::TIPO_LARGURA, 300);
-       
+
         $oFilcgc = new CampoConsulta('Cnpj', 'EmpRex.filcgc');
 
         $oNr = new CampoConsulta('AQ', 'nr');
@@ -39,7 +44,7 @@ class ViewQualAq extends View {
         $oTipoMel = new CampoConsulta('TipoMelhoria', 'tipmelhoria', CampoConsulta::TIPO_LARGURA);
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
-        
+
         $oFilTit = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 10, 10, 12, 12);
         $oFilTit->setBQuebraLinha(true);
 
@@ -116,10 +121,6 @@ class ViewQualAq extends View {
 
         $this->addCampos($oNr, $oSit, $oTitulo, $oDataFim, $oTipoAcao, $oOrigem, $oTipoMel, $oFilcgc);
 
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
-        $this->setUsaAcaoVisualizar(true);
-        $this->setUsaAcaoExcluir(false);
 
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
@@ -349,7 +350,7 @@ class ViewQualAq extends View {
         $oObsCancela->addValidacao(false, Validacao::TIPO_STRING, 'É necessário informar este campo!', '10', '1000');
         $oObsCancela->setILinhasTextArea(5);
 
-        $oBtnInserir = new Campo('Cancelar Aq', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $oBtnInserir = new Campo('Cancelar Aq', '', Campo::TIPO_BOTAOSMALL_SUB, 2);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         //id do grid
 

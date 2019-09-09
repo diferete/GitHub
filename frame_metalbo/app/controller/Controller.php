@@ -2873,7 +2873,6 @@ class Controller {
         $this->View->getTela()->getRender();
     }
 
-
     /**
      * Método para cria a tela do painel financeiro
      */
@@ -4094,7 +4093,7 @@ class Controller {
                         $sValor = str_replace("'", "\'", $sValor);
                         $sValor = str_replace("\r", "", $sValor);
                     }
-
+                    $sValor = rtrim($sValor);
                     $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
                     echo $sRetorno;
                 }
@@ -4385,6 +4384,17 @@ class Controller {
      */
     public function afterCriaTela() {
         
+    }
+
+    /**
+
+     * Método para retornar array com os campos da tela via $_REQUEST[]     
+     */
+    public function retornaArrayCamposTela() {
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        return $aCamposChave;
     }
 
 }

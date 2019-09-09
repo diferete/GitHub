@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class ModelChamadoTi {
+class ModelMET_TEC_Chamados {
 
     private $nr;
     private $filcgc;

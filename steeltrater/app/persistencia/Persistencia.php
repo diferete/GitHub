@@ -1045,7 +1045,13 @@ class Persistencia {
                 $sTabela = "CAST(" . $sTabela . " AS DATE)";
             }
 
-            $sWhere .= $sTabela . self::$TIPO_COMPARACAO[$aAtual['comparacao']] . $sValor;
+            $bIsNumeric = $this->numericSql($sValor);
+
+            if ($bIsNumeric) {
+                $sWhere .= $sTabela . self::$TIPO_COMPARACAO[$aAtual['comparacao']] . $sValor;
+            } else {
+                $sWhere .= $sTabela . self::$TIPO_COMPARACAO[$aAtual['comparacao']] . $sValor . ' COLLATE Latin1_General_CI_AI ';
+            }
         }
 
         if ($this->getSqlWhere()) {
@@ -1054,6 +1060,15 @@ class Persistencia {
         }
 
         return $sWhere;
+    }
+
+    public function numericSql($sValor) {
+        $aValores = explode(',', $sValor);
+        $bIsNumeric = true;
+        foreach ($aValores as $key => $value) {
+            $bIsNumeric = is_numeric(preg_replace('/[^0-9]/', '', $value));
+        }
+        return $bIsNumeric;
     }
 
     /**
@@ -1371,9 +1386,10 @@ class Persistencia {
 
         $bExecuta = $statement->execute();
         $aErro = $statement->errorInfo();
-       /*  $fp = fopen("bloco1.txt", "w");
+
+        $fp = fopen("bloco1.txt", "w");
         fwrite($fp, $sSql);
-        fclose($fp);*/
+        fclose($fp);
 
         return array($bExecuta, $aErro[2]);
     }
@@ -1394,6 +1410,15 @@ class Persistencia {
         $aErro = $statement->errorInfo();
 
         return $obj;
+    }
+
+    public function consultaSqlAssoc($sSql) {
+        $statement = $this->preparaSql($sSql);
+        $statement->execute();
+        $array = $statement->fetch(PDO::FETCH_ASSOC);
+        $aErro = $statement->errorInfo();
+
+        return $array;
     }
 
     /**
@@ -1546,9 +1571,9 @@ class Persistencia {
         //chama funcoes necessários após inserir diretamente na persistencia
         $this->afterInsert($aCamposValores);
 
-        /*$fp = fopen("bloco1.txt", "w");
+        /* $fp = fopen("bloco1.txt", "w");
           fwrite($fp, $sSql);
-          fclose($fp);*/
+          fclose($fp); */
 
         return $this->executaSql($sSql);
     }
@@ -1741,9 +1766,6 @@ class Persistencia {
     public function consultarWhere() {
 
         $sSql = $this->getSqlSelect() . $this->getStringWhere();
-       /* $fp = fopen("bloco1.txt", "w");
-        fwrite($fp, $sSql);
-        fclose($fp);*/
 
         $result = $this->getObjetoSql($sSql);
 
@@ -1831,9 +1853,12 @@ class Persistencia {
         $sSql .= $this->getSWhereManual(); //define partes do where manualmente
         $sSql .= $this->getStringGroupBy() . $this->getStringOrderBy() . $this->getStringLimit();
 
-        $fp = fopen("bloco1.txt", "w");
-        fwrite($fp, $sSql);
-        fclose($fp);  
+        /*
+          $fp = fopen("bloco1.txt", "w");
+          fwrite($fp, $sSql);
+          fclose($fp);
+         * 
+         */
 
         $result = $this->getObjetoSql($sSql);
 

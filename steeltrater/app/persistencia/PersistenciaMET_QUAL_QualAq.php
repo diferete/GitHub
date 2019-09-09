@@ -138,7 +138,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
     }
 
     public function buscaDadosAq($aDados) {
-        $sSql = "select * from MET_QUAL_qualaq where filcgc = " . $aDados['DELX_FIL_Empresa_fil_codigo'] . " and nr = " . $aDados['nr'];
+        $sSql = "select * from MET_QUAL_qualaq where filcgc = '" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and nr = '" . $aDados['nr']."'";
         $oRow = $this->consultaSql($sSql);
 
         return $oRow;

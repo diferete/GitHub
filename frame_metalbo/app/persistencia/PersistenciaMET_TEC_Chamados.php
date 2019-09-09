@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class PersistenciaChamadoTi extends Persistencia {
+class PersistenciaMET_TEC_Chamados extends Persistencia {
 
     public function __construct() {
         parent::__construct();
@@ -39,9 +39,10 @@ class PersistenciaChamadoTi extends Persistencia {
         $this->adicionaRelacionamento('anexo3', 'anexo3');
 
 
-        if ($_SESSION['codsetor'] != 2 || $_SESSION['filcgc'] != '75483040000211') {
+        if ($_SESSION['codsetor'] != 2 || $_SESSION['filcgc'] != '75483040000211' || $_SESSION['repoffice'] != '') {
             $this->adicionaFiltro('setor', $_SESSION['codsetor']);
             $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
+            $this->adicionaFiltro('repoffice', $_SESSION['repofficedes']);
         }
 
         $this->setSTop('50');
@@ -84,6 +85,31 @@ class PersistenciaChamadoTi extends Persistencia {
                 . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
+    }
+
+    public function somaSit() {
+        $sSql = "select COUNT(*) as cont from MET_TEC_Chamados where situaca = 'AGUARDANDO'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalAg = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from MET_TEC_Chamados where situaca = 'INICIADO'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalIni = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from MET_TEC_Chamados where situaca = 'FINALIZADO'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalFim = $oRow->cont;
+
+        $sSql = "select COUNT(*) as cont from MET_TEC_Chamados where situaca = 'CANCELADO'";
+        $oRow = $this->consultaSql($sSql);
+        $sTotalCanc = $oRow->cont;
+
+        $aTotal['AGUARDANDO'] = $sTotalAg;
+        $aTotal['INICIADO'] = $sTotalIni;
+        $aTotal['FINALIZADO'] = $sTotalFim;
+        $aTotal['CANCELADO'] = $sTotalCanc;
+
+        return $aTotal;
     }
 
 }

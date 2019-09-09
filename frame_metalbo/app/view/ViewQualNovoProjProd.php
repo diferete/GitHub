@@ -18,6 +18,10 @@ class ViewQualNovoProjProd extends View {
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBGridResponsivo(true);
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaDropdown(true);
 
         $oData = new CampoConsulta('Data', 'dtimp', CampoConsulta::TIPO_DATA);
         $oData->setILargura(60);
@@ -59,14 +63,6 @@ class ViewQualNovoProjProd extends View {
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(20);
 
-
-
-
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoIncluir(false);
-
-        $this->setUsaDropdown(true);
 
         $oDrop1 = new Dropdown('Produto', Dropdown::TIPO_PRIMARY);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Cadastro de produto', 'QualNovoProjProd', 'TelaCadProd', '', true, '');

@@ -202,7 +202,7 @@ class Botao {
                         . '<div class="btn-acao-grid" style="margin:10px 0px 30px 0px;float: right">'
                         . '<div class="btn-group" aria-label="Default button group" role="group">'
                         . '<button type="button" class="btn btn-outline btn-success" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
-                        . '<span><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</span>'
+                        . '<span><i class="icon wb-check" title="Inserir" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
                         . ' </div>'
                         . ' </div>'

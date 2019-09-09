@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class ViewChamadoTi extends View {
+class ViewMET_TEC_Chamados extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
@@ -26,12 +26,15 @@ class ViewChamadoTi extends View {
             $oBotaoModal->setBHideTelaAcao(true);
             $oBotaoModal->setILargura(15);
             $oBotaoModal->setSTitleAcao('Gerencia Chamados');
-            $oBotaoModal->addAcao('ChamadoTi', 'criaTelaModalApontaChamado', 'criaModalApontaChamado');
+            $oBotaoModal->addAcao('MET_TEC_Chamados', 'criaTelaModalApontaChamado', 'criaModalApontaChamado');
             $this->addModais($oBotaoModal);
         }
 
         $oNr = new CampoConsulta('Nr.', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(5);
+        if ($sFiltroSetor == 2) {
+            $oNr->setSOperacao('personalizado');
+        }
 
         $oFilcgc = new CampoConsulta('CNPJ', 'filcgc', CampoConsulta::TIPO_TEXTO);
 
@@ -65,37 +68,41 @@ class ViewChamadoTi extends View {
 
         $oUsuFim = new CampoConsulta('Usu.Fim', 'usunomefim', CampoConsulta::TIPO_TEXTO);
 
+        $oProblema = new Campo('Problema apresentando', 'problema', Campo::TIPO_TEXTAREA, 6);
+        $oProblema->setILinhasTextArea(6);
+        $oProblema->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oProblema->setBCampoBloqueado(true);
 
-        if ($sFiltroSetor == 2) {
-            $oProblema = new Campo('Problema apresentando', 'problema', Campo::TIPO_TEXTAREA, 6);
-            $oProblema->setILinhasTextArea(6);
-            $oProblema->setSCorFundo(Campo::FUNDO_AMARELO);
-            $oProblema->setBCampoBloqueado(true);
+        $oObsFim = new Campo('Obs. Final', 'obsfim', Campo::TIPO_TEXTAREA, 6);
+        $oObsFim->setILinhasTextArea(6);
+        $oObsFim->setSCorFundo(Campo::FUNDO_VERDE);
+        $oObsFim->setBCampoBloqueado(true);
 
-            $oObsFim = new Campo('Obs. Fim', 'obsfim', Campo::TIPO_TEXTAREA, 6);
-            $oObsFim->setILinhasTextArea(6);
-            $oObsFim->setSCorFundo(Campo::FUNDO_VERDE);
-            $oObsFim->setBCampoBloqueado(true);
+        $this->addCamposGrid($oProblema, $oObsFim);
 
-            $this->addCamposGrid($oProblema, $oObsFim);
-
-            $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
-                    . 'requestAjax("","ChamadoTi","carregaProb","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oProblema->getId() . '"+",' . $oObsFim->getId() . ',"+"");');
-        }
+        $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
+                . 'requestAjax("","MET_TEC_Chamados","carregaProb","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oProblema->getId() . '"+",' . $oObsFim->getId() . ',"+"");');
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12);
 
-        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
 
 
-        $oFilSit = new Filtro($oTipo, Filtro::CAMPO_SELECT, 1, 1, 12, 12);
+        $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 1, 1, 12, 12);
         $oFilSit->addItemSelect('Todos', 'Todos');
-        $oFilSit->addItemSelect('1', 'HARDWARE');
-        $oFilSit->addItemSelect('2', 'SOFTWARE');
-        $oFilSit->addItemSelect('3', 'SERVIÇOS');
-        $oFilSit->setSLabel('');
+        $oFilSit->addItemSelect('AGUARDANDO', 'AGUARDANDO');
+        $oFilSit->addItemSelect('INICIADO', 'INICIADO');
+        $oFilSit->addItemSelect('FINALIZADO', 'FINALIZADO');
+        $oFilSit->addItemSelect('CANCELADO', 'CANCELADO');
+        $oFilSit->setSLabel('Situação');
 
-        $this->addFiltro($oFilNr, $oFilEmp, $oFilSit);
+        $oFilTipo = new Filtro($oTipo, Filtro::CAMPO_SELECT, 1, 1, 12, 12);
+        $oFilTipo->addItemSelect('Todos', 'Todos');
+        $oFilTipo->addItemSelect('1', 'HARDWARE');
+        $oFilTipo->addItemSelect('2', 'SOFTWARE');
+        $oFilTipo->addItemSelect('3', 'SERVIÇOS');
+
+        $this->addFiltro($oFilNr, $oFilEmp, $oFilTipo, $oFilSit);
 
         $oDrop = new Dropdown('Cancelar', Dropdown::TIPO_ERRO, Dropdown::ICON_ERRO);
         $oDrop->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar chamado', $this->getController(), 'criaTelaModalCancelaChamado', '', false, '', false, 'criaTelaModalCancelaChamado', true, 'Cancelar chamado');
@@ -151,7 +158,7 @@ class ViewChamadoTi extends View {
         $oSetor->setBCampoBloqueado(true);
         $oSetor->setSValor($_SESSION['codsetor']);
 
-        $oLinha = new Campo('Dados a inserir', 'linha1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oLinha = new Campo('Dados a inserir', 'linha1', Campo::DIVISOR_VERMELHO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
 
         $oTipo = new Campo('Tipo', 'tipo', Campo::TIPO_SELECT, 2, 2, 12, 12);
@@ -160,7 +167,7 @@ class ViewChamadoTi extends View {
         $oTipo->addItemSelect('3', 'SERVIÇOS');
 
 
-        $oSubTipoCod = new Campo('Cód. Subtipo', 'subtipo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oSubTipoCod = new Campo('Cód. Subtipo', 'subtipo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
 
         $oSubTipo = new Campo('Subtipo', 'subtipo_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubTipo->setSIdPk($oSubTipoCod->getId());
@@ -173,9 +180,9 @@ class ViewChamadoTi extends View {
         $oSubTipoCod->setSCampoRetorno('subtipo', $this->getTela()->getId());
         $oSubTipoCod->addCampoBusca('subtipo_nome', $oSubTipo->getId(), $this->getTela()->getId());
 
-        $oAnexo1 = new Campo('Anexo 1', 'anexo1', Campo::TIPO_UPLOAD, 1, 1, 12, 12);
-        $oAnexo2 = new Campo('Anexo 2', 'anexo2', Campo::TIPO_UPLOAD, 1, 1, 12, 12);
-        $oAnexo3 = new Campo('Anexo 3', 'anexo3', Campo::TIPO_UPLOAD, 1, 1, 12, 12);
+        $oAnexo1 = new Campo('Anexo 1', 'anexo1', Campo::TIPO_UPLOAD, 3, 3, 12, 12);
+        $oAnexo2 = new Campo('Anexo 2', 'anexo2', Campo::TIPO_UPLOAD, 3, 3, 12, 12);
+        $oAnexo3 = new Campo('Anexo 3', 'anexo3', Campo::TIPO_UPLOAD, 3, 3, 12, 12);
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oProblema->setILinhasTextArea(3);
@@ -185,7 +192,7 @@ class ViewChamadoTi extends View {
         $oSituaca->setSValor('AGUARDANDO');
 
         $oTabGeral->addCampos(array($oTipo, $oSubTipoCod, $oSubTipo), $oProblema, $oSituaca);
-        $oTabAnexos->addCampos(array($oAnexo1, $oAnexo2, $oAnexo3));
+        $oTabAnexos->addCampos($oAnexo1, $oAnexo2, $oAnexo3);
         $oTab->addItems($oTabGeral, $oTabAnexos);
         $this->addCampos(array($oNr, $oFilcgc, $oUsuCod, $oUsuNome, $oSetor, $oRepOffice, $oDataCad, $oHoraCad), $oLinha, $oTab);
     }
@@ -273,6 +280,7 @@ class ViewChamadoTi extends View {
 
         $oObsFim = new Campo('O que foi feito', 'obsfim', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oObsFim->setILinhasTextArea(3);
+        $oObsFim->setBFocus(true);
         $oObsFim->addValidacao(false, Validacao::TIPO_STRING, '', '5');
 
         //botão inserir os dados

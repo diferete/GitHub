@@ -349,6 +349,16 @@ class Util {
         }
     }
 
+    public static function getDataOtem() {
+        $dia = date("d") - 1;
+        $mes = date("m");
+        $ano = date("Y");
+
+
+        date_default_timezone_set('America/Sao_Paulo');
+        return date($dia . '/' . $mes . '/' . $ano);
+    }
+
 }
 
 ?>

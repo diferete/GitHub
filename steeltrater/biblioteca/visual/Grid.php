@@ -49,8 +49,6 @@ class Grid {
     private $bFocoCampo;
     private $sNomeGrid;
     private $bDesativaRetornoConsulta;
-    private $iLeftColunaFixa;
-    private $iRightColunaFixa;
 
     /**
      * Construtor da classe Grid 
@@ -60,7 +58,7 @@ class Grid {
      *  @param string $sTelaMuitoPequena Define o valor para telas de celulares pequenos
      *
      */
-    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 400, $iLarguraGrid = 1800, $iLeftColunaFixa = 1, $iRightColunaFixa = 0) {
+    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 400, $iLarguraGrid = 1800) {
         $this->sId = Base::getId();
         $this->aColunas = array();
         $this->aBotoes = array();
@@ -78,28 +76,10 @@ class Grid {
         $this->aCampos = array();
         $this->setBUsaCarrGrid(false);
         $this->setILarguraGrid($iLarguraGrid);
-        $this->setILeftColunaFixa($iLeftColunaFixa);
-        $this->setIRightColunaFixa($iRightColunaFixa);
         $this->setBGridResponsivo(TRUE);
         $this->setBUsaKeypress(true);
         $this->setBMostraFiltro(false);
         $this->setSNomeGrid('paramGrid');
-    }
-
-    function getIRightColunaFixa() {
-        return $this->iRightColunaFixa;
-    }
-
-    function setIRightColunaFixa($iRightColunaFixa) {
-        $this->iRightColunaFixa = $iRightColunaFixa;
-    }
-
-    function getILeftColunaFixa() {
-        return $this->iLeftColunaFixa;
-    }
-
-    function setILeftColunaFixa($iLeftColunaFixa) {
-        $this->iLeftColunaFixa = $iLeftColunaFixa;
     }
 
     function getBDesativaRetornoConsulta() {
@@ -668,9 +648,6 @@ class Grid {
         $sGrid .= '<div class="label-dark" style="margin-top:10px;"><span class="label label-dark">' . $this->getSTituloConsulta() . '</span></div>';
 
         $sGrid .= '<div class="containerTable">';
-        if ($this->getILeftColunaFixa() != 1 || $this->getIRightColunaFixa() != 0) {
-            $this->setBGridResponsivo(true);
-        }
         $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
 
         $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
@@ -757,9 +734,7 @@ class Grid {
                     . '$("#' . $this->getSId() . '-botcarr").click(function(){' . $sEventoCarr . '});'
                     . '</script>';
         }
-        if ($this->getILeftColunaFixa() != 1 || $this->getIRightColunaFixa() != 0) {
-            $this->setBGridResponsivo(true);
-        }
+
         $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
         $sGrid .= '<span name="paramGrid" id="' . $this->getAbaSel() . '' . $this->getSNomeGrid() . '" style="display:none;">' . $this->getSId() . '</span>'
@@ -916,8 +891,7 @@ class Grid {
                 . '"order":false,'
                 . '"info": false,'
                 . ' fixedColumns:   {'
-                . '      leftColumns: ' . $this->getILeftColunaFixa() . ','
-                . '      righColumns:' . $this->getIRightColunaFixa() . ''
+                . '      leftColumns: 0'
                 . '  },'
                 . 'columnDefs: [ {'
                 . 'orderable: false,'

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Classe responsável pelas operações de modelo de dados do objeto
  * Login
@@ -6,8 +7,9 @@
  * @author Avanei Martendal
  * @since 18/09/2015
  */
-class ModelMET_TEC_Login{
-    private $logincodigo; 
+class ModelMET_TEC_Login {
+
+    private $logincodigo;
     private $login;
     private $loginsenha;
     private $loginbloqueado;
@@ -31,7 +33,16 @@ class ModelMET_TEC_Login{
     private $officesolrel;
     private $officecotrel;
     private $usunomeDelsoft;
-    
+    private $codsetor;
+
+    function getCodsetor() {
+        return $this->codsetor;
+    }
+
+    function setCodsetor($codsetor) {
+        $this->codsetor = $codsetor;
+    }
+
     function getUsunomeDelsoft() {
         return $this->usunomeDelsoft;
     }
@@ -40,7 +51,6 @@ class ModelMET_TEC_Login{
         $this->usunomeDelsoft = $usunomeDelsoft;
     }
 
-        
     function getOfficesolrel() {
         return $this->officesolrel;
     }
@@ -57,7 +67,6 @@ class ModelMET_TEC_Login{
         $this->officecotrel = $officecotrel;
     }
 
-        
     function getSenhaProvisoria() {
         return $this->senhaProvisoria;
     }
@@ -66,7 +75,6 @@ class ModelMET_TEC_Login{
         $this->senhaProvisoria = $senhaProvisoria;
     }
 
-        
     function getUsubloqueado() {
         return $this->usubloqueado;
     }
@@ -75,7 +83,6 @@ class ModelMET_TEC_Login{
         $this->usubloqueado = $usubloqueado;
     }
 
-        
     function getOfficedes() {
         return $this->officedes;
     }
@@ -84,7 +91,6 @@ class ModelMET_TEC_Login{
         $this->officedes = $officedes;
     }
 
-        
     function getUsusalvasenha() {
         return $this->ususalvasenha;
     }
@@ -93,7 +99,6 @@ class ModelMET_TEC_Login{
         $this->ususalvasenha = $ususalvasenha;
     }
 
-    
     function getOfficecabsol() {
         return $this->officecabsol;
     }
@@ -126,7 +131,6 @@ class ModelMET_TEC_Login{
         $this->officecabcotiten = $officecabcotiten;
     }
 
-        
     function getFilcgc() {
         return $this->filcgc;
     }
@@ -135,7 +139,6 @@ class ModelMET_TEC_Login{
         $this->filcgc = $filcgc;
     }
 
-        
     function getRepcods() {
         return $this->repcods;
     }
@@ -144,7 +147,6 @@ class ModelMET_TEC_Login{
         $this->repcods = $repcods;
     }
 
-        
     function getUsutipo() {
         return $this->usutipo;
     }
@@ -153,7 +155,6 @@ class ModelMET_TEC_Login{
         $this->usutipo = $usutipo;
     }
 
-        
     function getDirrel() {
         return $this->dirrel;
     }
@@ -162,7 +163,6 @@ class ModelMET_TEC_Login{
         $this->dirrel = $dirrel;
     }
 
-            
     function getOfficecod() {
         return $this->officecod;
     }
@@ -170,7 +170,7 @@ class ModelMET_TEC_Login{
     function setOfficecod($officecod) {
         $this->officecod = $officecod;
     }
-    
+
     function getUsuemail() {
         return $this->usuemail;
     }
@@ -179,7 +179,6 @@ class ModelMET_TEC_Login{
         $this->usuemail = $usuemail;
     }
 
-        
     function getLogincodigo() {
         return $this->logincodigo;
     }
@@ -219,6 +218,7 @@ class ModelMET_TEC_Login{
     function setLoginnome($loginnome) {
         $this->loginnome = $loginnome;
     }
+
     function getUsuimagem() {
         return $this->usuimagem;
     }
@@ -235,14 +235,8 @@ class ModelMET_TEC_Login{
         $this->usuimagemPerfil = $usuimagemPerfil;
     }
 
-
-
-
-
-
-
-    
 }
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

@@ -6,10 +6,10 @@
  * and open the template in the editor.
  */
 
-class ControllerChamadoTi extends Controller {
+class ControllerMET_TEC_Chamados extends Controller {
 
     public function __construct() {
-        $this->carregaClassesMvc('ChamadoTi');
+        $this->carregaClassesMvc('MET_TEC_Chamados');
     }
 
     public function antesAlterar($sParametros = null) {
@@ -34,8 +34,7 @@ class ControllerChamadoTi extends Controller {
 
     public function afterInsert() {
         parent::afterInsert();
-        $aCampos = array();
-        parse_str($_REQUEST['campos'], $aCampos);
+        $aCampos = $this->retornaArrayCamposTela();
 
         $aChave['nr'] = $aCampos['nr'];
         $aChave['filcgc'] = $aCampos['filcgc'];
@@ -78,7 +77,6 @@ class ControllerChamadoTi extends Controller {
         // Para
         $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
-        $oEmail->addDestinatarioCopia('jose@metalbo.com.br');
         if ($oDados->anexo1 != '') {
             $oEmail->addAnexo('Uploads/' . $oDados->anexo1 . '', utf8_decode($oDados->anexo1));
         }
@@ -165,7 +163,7 @@ class ControllerChamadoTi extends Controller {
         parse_str($_REQUEST['campos'], $aCampos);
         $aRetorno = $this->Persistencia->iniciaChamado($aCampos);
         if ($aRetorno[0]) {
-            $oMsg = new Modal('Atenção', 'Chamado foi iniciado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+            $oMsg = new Modal('Tudo certo', 'Chamado foi iniciado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
             echo "$('#criaModalApontaChamado-btn').click();";
             echo $oMsg->getRender();
         } else {
@@ -178,15 +176,20 @@ class ControllerChamadoTi extends Controller {
     public function apontaChamadoFinaliza() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-        $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
-        if ($aRetorno[0]) {
-            $oMsg = new Modal('Atenção', 'Chamado foi finalizado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
-            echo "$('#criaModalApontaChamado-btn').click();";
-            echo $oMsg->getRender();
+        if ($aCampos['obsfim'] == '') {
+            $oMensagem = new Mensagem('Atenção', 'Preencha o campo OBSERVAÇÃO!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
         } else {
-            $oMsg = new Modal('Atenção', 'Erro ao tentar finalizar o chamado', Modal::TIPO_AVISO, false, true, false);
-            echo "$('#criaModalApontaChamado-btn').click();";
-            echo $oMsg->getRender();
+            $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
+            if ($aRetorno[0]) {
+                $oMsg = new Modal('Tudo certo', 'Chamado foi finalizado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+                echo "$('#criaModalApontaChamado-btn').click();";
+                echo $oMsg->getRender();
+            } else {
+                $oMsg = new Modal('Atenção', 'Erro ao tentar finalizar o chamado', Modal::TIPO_AVISO, false, true, false);
+                echo "$('#criaModalApontaChamado-btn').click();";
+                echo $oMsg->getRender();
+            }
         }
     }
 
@@ -226,7 +229,7 @@ class ControllerChamadoTi extends Controller {
         parse_str($_REQUEST['campos'], $aCampos);
         $aRetorno = $this->Persistencia->cancelaChamado($aCampos);
         if ($aRetorno[0]) {
-            $oMsg = new Modal('Atenção', 'Chamado foi cancelado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+            $oMsg = new Modal('Tudo certo', 'Chamado foi cancelado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
             echo "$('#" . $aDados[1] . "-btn').click();";
             echo $oMsg->getRender();
         } else {
@@ -234,6 +237,24 @@ class ControllerChamadoTi extends Controller {
             echo "$('#" . $aDados[1] . "-btn').click();";
             echo $oMsg->getRender();
         }
+    }
+
+    /**
+     * Monta Wizard linha do tempo OnClick para Gerenciar Projetos
+     * */
+    public function calculoPersonalizado($sParametros = null) {
+        parent::calculoPersonalizado($sParametros);
+
+
+        $aTotal = $this->Persistencia->somaSit();
+
+        $sResulta = '<div style="color:black !important">Aguardando: ' . $aTotal['AGUARDANDO'] . ''
+                . '<span style="color:blue !important">&nbsp;&nbsp;&nbsp;  Iniciados: ' . $aTotal['INICIADO'] . '</span>'
+                . '<span style="color:green !important">&nbsp;&nbsp;&nbsp;  Finalizados: ' . $aTotal['FINALIZADO'] . '</span>'
+                . '<span style="color:red !important">&nbsp;&nbsp;&nbsp;  Cancelados: ' . $aTotal['CANCELADO'] . '</span>'
+                . '</div>';
+
+        return $sResulta;
     }
 
 }
