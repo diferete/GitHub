@@ -70,7 +70,7 @@ $pdf->Cell(0,5,'','T',1,'L');
           if($sRetrabalho!='Incluir'){
               $sSqli.=" and retrabalho='".$sRetrabalho."' ";
           }else{
-              $sSqli.=" and retrabalho<>'Retorno não Ind.' "; 
+              $sSqli.=" and retrabalho <> 'Retorno não Ind.' and retrabalho <> 'OP origem retrabalho' "; 
           }
           
    $dadosRela = $PDO->query($sSqli);

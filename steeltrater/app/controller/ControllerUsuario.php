@@ -95,8 +95,8 @@
         session_cache_limiter('private');
         $cache_limiter = session_cache_limiter();
 
-        /* define o prazo do cache em 600 minutos */
-        session_cache_expire(600);
+        /* define o prazo do cache em 10000 minutos */
+        session_cache_expire(10000);
         $cache_expire = session_cache_expire();  
         session_set_cookie_params(99999999); 
         session_start();
@@ -113,7 +113,7 @@
          
          $tempo_transcorrido = (strtotime($agora)-strtotime($dataSalva)); 
          //tempo em segundos
-          if($tempo_transcorrido >= 528800) {
+          if($tempo_transcorrido >= 1057600) {
               if(isset($_SESSION["ultimoAcesso"])){
               $this->msgSessaoInvalida();
               }

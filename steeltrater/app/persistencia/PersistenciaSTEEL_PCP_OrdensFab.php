@@ -220,5 +220,12 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         
     }
     
+    /**
+     * Muda a situação para origem retrabalho
+     */
+    public function origemRetrabalho($sOp){
+        $sSql = "update STEEL_PCP_OrdensFab set retrabalho='OP origem retrabalho' where op='$sOp' ";
+        $aRetorno = $this->executaSql($sSql);
+    }
     
 }

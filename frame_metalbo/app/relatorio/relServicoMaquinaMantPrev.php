@@ -8,6 +8,8 @@ $sUserRel = $_REQUEST['userRel'];
 $sData = date('d/m/Y');
 $sHora = date('H:i');
 $sSit ='';
+
+if(!isset($_REQUEST['dataini'])){
 $sNr1 = $_SERVER['QUERY_STRING'];
 $aNr1 = explode('&', $sNr1);
 $aNr2 = array();
@@ -21,6 +23,17 @@ foreach ($aNr1 as $key){
         $sSit = substr($key, 4);
     }
 }
+}else{
+    $sDataIni = $_REQUEST['dataini'];
+    $sDataFin = $_REQUEST['datafinal'];
+    $sResp = $_REQUEST['resp'];
+    $sSeq = $_REQUEST['MET_Maquinas_seq']; 
+    $sMaqTip = $_REQUEST['MET_Maquinas_maqtip'];
+    $sSetor = $_REQUEST['MET_Maquinas_codsetor']; 
+    $sSit = $_REQUEST['sitmp'];
+    $sCodMaq = $_REQUEST['codmaq'];
+}
+
 
 class PDF extends FPDF {
 
@@ -70,6 +83,11 @@ $pdf->Ln(3);
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
+//Entra no Foreach caso relatório tela
+if(!isset($aNr2)){
+    $aNr2[1] = 'i';
+}
+
 foreach ($aNr2 as $sNr){
 
     $sql = "select tbmanutmp.filcgc, tbmanutmp.nr, tbmanutmp.codmaq, tbmanutmp.codsetor, descsetor, tbitensmp.codsit, servico, ciclo, resp, dias, tbitensmp.sitmp,
@@ -84,8 +102,27 @@ foreach ($aNr2 as $sNr){
             tbservmp on tbitensmp.codsit = tbservmp.codsit 
             left outer join
             metmaq on tbitensmp.codmaq = metmaq.cod ";
-if($sNr!=' '){
+    
+if($sNr!='i'&&$sNr!=' '){
     $sql.=" where tbmanutmp.nr = '" . $sNr . "' "; 
+}
+if(isset($sDataIni)){
+    $sql.=" where tbitensmp.databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
+}
+if(isset($sCodMaq) && $sCodMaq!=''){
+    $sql.=" and tbmanutmp.codmaq = '" . $sCodMaq . "'"; 
+}
+if(isset($sResp) && $sResp!=''){
+    $sql.=" and tbservmp.resp = '" . $sResp . "'"; 
+}
+if(isset($sSeq) && $sSeq!=''){
+    $sql.=" and metmaq.seq = '" . $sSeq . "'";
+}
+if(isset($sMaqTip) && $sMaqTip!=' '){
+    $sql.=" and metmaq.maqtip = '" . $sMaqTip . "'";
+}
+if(isset($sSetor) && $sSetor!=''){
+    $sql.=" and metmaq.codsetor = '" . $sSetor . "'";
 }
 if($sSit == 'ABERTOS'){
     $sql.=" and tbitensmp.sitmp = 'ABERTO' "; 
@@ -93,8 +130,6 @@ if($sSit == 'ABERTOS'){
 if($sSit == 'FINALIZADOS'){
     $sql.=" and tbitensmp.sitmp = 'FINALIZADO' "; 
 }
-
-
     $sth = $PDO->query($sql);
 
 $iN = 0;
@@ -107,7 +142,6 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Ln(5);
         $pdf->Cell(199, 1, '', 'T', 1, 'L');
         $pdf->SetFont('arial', 'B', 9);
-      //  $pdf->Cell(30, 5, 'Filcgc', 'R,L,B,T', 0, 'L');
         $pdf->Cell(15, 5, 'Nr', 'R,L,B,T', 0, 'L');
         $pdf->Cell(15, 5, 'Maquina', 'R,L,B,T', 0, 'L');
         $pdf->Cell(77, 5, 'Descrição', 'R,L,B,T', 0, 'L');
@@ -116,7 +150,6 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(199, 0, '', "B", 1, 'L');
         
         $pdf->SetFont('arial', '', 9);
-     //   $pdf->Cell(30, 5, $row['filcgc'], 'R,L,B,T', 0, 'L');
         $pdf->Cell(15, 5, $row['nr'], 'R,L,B,T', 0, 'L');
         $pdf->Cell(15, 5, $row['codmaq'], 'R,L,B,T', 0, 'L');
         $pdf->Cell(77, 5, $row['maquina'], 'R,L,B,T', 0, 'L');
@@ -131,17 +164,17 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFont('arial', 'B', 8);
         $pdf->Cell(15, 5, 'Código:', 'L,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(10, 5, $row['codsit'], 'R,B,T', 0, 'L');
+        $pdf->Cell(9, 5, $row['codsit'], 'R,B,T', 0, 'L');
         
         $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(15, 5, 'Serviço:','L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(163, 5, $row['servico'], 'R,B,T', 1, 'L');
+        $pdf->Cell(12, 5, 'Serviço:','L,B,T', 0, 'L');
+        $pdf->SetFont('arial', '', 7);
+        $pdf->Cell(167, 5, rtrim($row['oqfazer']).' '.rtrim($row['servico']), 'R,B,T', 1, 'L');
         
         $pdf->SetFont('arial', 'B', 8);
         $pdf->Cell(15, 5, 'Ciclo:', 'L,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(10, 5, $row['ciclo'], 'R,B,T', 0, 'L');
+        $pdf->Cell(9, 5, $row['ciclo'], 'R,B,T', 0, 'L');
         
         $pdf->SetFont('arial', 'B', 8);
         $pdf->Cell(15, 5, 'Dias:', 'L,B,T', 0, 'L');
@@ -151,7 +184,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFont('arial', 'B', 8);
         $pdf->Cell(20, 5, 'Responsável:', 'L,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(57, 5, $row['resp'], 'R,B,T', 0, 'L');
+        $pdf->Cell(58, 5, $row['resp'], 'R,B,T', 0, 'L');
         
         $pdf->SetFont('arial', 'B', 8);
         $pdf->Cell(15, 5, 'Situação:', 'L,B,T', 0, 'L');

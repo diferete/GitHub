@@ -67,18 +67,22 @@ class ControllerMET_ItensManPrev extends Controller {
 
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
+        
         $aparam1 = explode(',', $this->getParametros());
         $aparam = $this->View->getAParametrosExtras();
+       
         if (count($aparam) > 0) {
             $this->Persistencia->adicionaFiltro('filcgc', $aparam[0]);
             $this->Persistencia->adicionaFiltro('nr', $aparam[1]);
-            $this->Persistencia->adicionaFiltro('codmaq', $aparam[2]);
+            $this->Persistencia->adicionaFiltro('codmaq', $aparam[2]);                  
             $this->Persistencia->setChaveIncremento(false);
+            $this->adidicionaFiltroSet();
         } else {
             $this->Persistencia->adicionaFiltro('filcgc', $aparam1[0]);
             $this->Persistencia->adicionaFiltro('nr', $aparam1[1]);
-            $this->Persistencia->adicionaFiltro('codmaq', $this->Model->getCodmaq());
+            $this->Persistencia->adicionaFiltro('codmaq', $this->Model->getCodmaq()); 
             $this->Persistencia->setChaveIncremento(true);
+            $this->adidicionaFiltroSet();
         }
     }
 
@@ -129,12 +133,31 @@ class ControllerMET_ItensManPrev extends Controller {
             echo $oModal->getRender();
             exit();
         }
+        
+        $this->verificaServicoMaquina();
+        
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
         return $aRetorno;
     }
 
+     public function verificaServicoMaquina(){
+         
+        $sDados = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sDados, $aCamposChave);
+        
+        $bBol = $this->Persistencia->verificaCampoValido($aCamposChave['codsit'], $aCamposChave['MET_ServicoMaquina_servico']);
+        
+        if (!$bBol||$aCamposChave['MET_ServicoMaquina_servico']=='') {
+            $oModal = new Modal('Atenção', 'Serviço Incorreto! Selecione novamente o serviço!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }   
+    }
+    
+    
     /*
      * Mensagem de finalização do serviço
      */
@@ -192,6 +215,7 @@ class ControllerMET_ItensManPrev extends Controller {
         $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
         $this->Persistencia->adicionaFiltro('codmaq', $oDados->getCodmaq());
         $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
+        $this->adidicionaFiltroSet();
         $this->getDadosConsulta($aDados[1], TRUE, null);
     }
 
@@ -200,8 +224,59 @@ class ControllerMET_ItensManPrev extends Controller {
         //Adiciona filtro apenas no cria consulta da tela detalhe
         if (($_REQUEST['metodo'] == 'acaoTelaDetalhe') || ($_REQUEST['metodo'] == 'acaoDetalheIten')) {
             $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
+            $this->adidicionaFiltroSet();
         }
         $this->Persistencia->atualizaDataAntesdaConsulta();
     }
+    
+    public function antesCarregaDetalhe($aCampos) {
+        parent::antesCarregaDetalhe($aCampos);
         
+         echo  "$('#" . $aCampos[8][1] . "').prop('readonly', true);";
+         echo  "$('#" . $aCampos[9][1] . "').prop('readonly', true);";
+         echo  "$('#" . $aCampos[8][1] . "-btn').prop('disabled', true);";
+         
+         return $aCampos;
+    }
+    
+    public function beforeUpdate() {
+        parent::beforeUpdate();
+        
+        $aIds = $_REQUEST['parametros'];
+        $aIds2 = explode(',', $aIds['parametros[']);
+        
+        echo  "$('#" . $aIds2[4] . "').prop('readonly', false);";
+        echo  "$('#" . $aIds2[3] . "').prop('readonly', false);";
+        echo  "$('#" . $aIds2[3] . "-btn').attr('disabled', false);";
+        
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+    
+    public function camposGrid($sDados){
+        $aDados = explode(',',$sDados);
+        $aDad = explode('=', $aDados[1]);
+        $aDad2 = explode('&', $aDad[2]);
+        
+        //busca a descrição do serviço passando seq/nr
+        $sDes = $this->Persistencia->buscaDescricao($aDad[3],$aDad2[0]);
+        $sOqf = $this->Persistencia->buscaOqueFazer($aDad[3],$aDad2[0]);
+        echo '$("#'.$aDados[2].'").val("'.$sDes.'");';
+        echo '$("#'.$aDados[3].'").val("'.$sOqf.'");';
+    }
+    
+    public function adidicionaFiltroSet(){
+         $sCodSet = $_SESSION['codsetor'];
+            if($sCodSet=='2'){
+            }else if($sCodSet=='12'){
+                $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'MANUTENCAO');
+            }else if($sCodSet=='29'){
+                $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'MECANICA');                
+            }else{
+                $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'OPERADOR');
+            }
+    }
+    
 }

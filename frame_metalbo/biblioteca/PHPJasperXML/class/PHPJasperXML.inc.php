@@ -710,13 +710,13 @@ $data->hyperlinkReferenceExpression=trim(str_replace(array(" ",'"'),"",$data->hy
             $this->pointer[]=array("type"=>"Barcode","barcodetype"=>$barcodemethod,"x"=>$x,"y"=>$y,"width"=>$width,"height"=>$height,'textposition'=>$textposition,'code'=>$code,'modulewidth'=>$modulewidth);
                             
                     /*
-                     	<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" 
-                     * xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" 
+                     	<jr:barbecue xmlns:jr="https://jasperreports.sourceforge.net/jasperreports/components" 
+                     * xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports/components https://jasperreports.sourceforge.net/xsd/components.xsd" 
                      * type="2of7" drawText="false" checksumRequired="false">
 					<jr:codeExpression><![CDATA["1234"]]></jr:codeExpression>
 				</jr:barbecue>
-                     * <jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" 
-                     * xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+                     * <jr:Code128 xmlns:jr="https://jasperreports.sourceforge.net/jasperreports/components" 
+                     * xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports/components https://jasperreports.sourceforge.net/xsd/components.xsd"
                      *  textPosition="bottom">
 					<jr:codeExpression><![CDATA[]]></jr:codeExpression>
 				</jr:Code128>
@@ -734,7 +734,7 @@ $data->hyperlinkReferenceExpression=trim(str_replace(array(" ",'"'),"",$data->hy
       // type="2of7" drawText="false" checksumRequired="false"
        /*
         * 				
-        * <jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="2of7" drawText="false" checksumRequired="false">
+        * <jr:barbecue xmlns:jr="https://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports/components https://jasperreports.sourceforge.net/xsd/components.xsd" type="2of7" drawText="false" checksumRequired="false">
                     <jr:codeExpression><![CDATA["1234"]]></jr:codeExpression>
 		</jr:barbecue>
 
@@ -4969,7 +4969,7 @@ foreach($this->arrayVariable as $name=>$value){
 
     }
 //wrote by huzursuz at mailinator dot com on 02-Feb-2009 04:44
-//http://hk.php.net/manual/en/function.get-object-vars.php
+//https://hk.php.net/manual/en/function.get-object-vars.php
     public function xmlobj2arr($Data) {
         if (is_object($Data)) {
             foreach (get_object_vars($Data) as $key => $val)

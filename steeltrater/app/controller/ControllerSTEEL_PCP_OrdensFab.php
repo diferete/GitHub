@@ -634,6 +634,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         }
         
         if($aRetorno[0]){
+        //muda a situação da op original para OP origem retrabalho
+        $this->Persistencia->origemRetrabalho($aCamposChave['op']);
         $oMensagem = new Mensagem('Atenção!','A OP '.$aCamposChave['op'].' foi colocada em Retrabalho com sucesso!', Mensagem::TIPO_SUCESSO);
         echo $oMensagem->getRender();
         echo"$('#".$aDados[1]."-pesq').click();"; 

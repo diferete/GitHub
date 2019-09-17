@@ -72,13 +72,18 @@ class ControllerQualNovoProjVenda extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-
+        $bSit = $this->Persistencia->verifSituacao($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        
+        if($bSit){
         $bComercial = $this->Persistencia->verifInfCom($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
         if ($bComercial) {
             $oMensagem = new Modal('Aprovar projeto', 'Deseja liberar o projeto nº' . $aCamposChave['nr'] . ' para o representante?', Modal::TIPO_AVISO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","aprovaProj","' . $sDados . '");');
         } else {
             $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não está com as definições comerciais informadas, preço e prazo de entrega!', Modal::TIPO_ERRO, false, true, true);
+        }
+        }else{
+            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não pode ser liberado para representante!', Modal::TIPO_ERRO, false, true, true);
         }
 
 
@@ -117,7 +122,8 @@ class ControllerQualNovoProjVenda extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
-
+        
+        
         $aRetorno = $this->Persistencia->verifProjProjVenda($aCamposChave);
 
         if ($aRetorno == false) {
@@ -168,7 +174,6 @@ class ControllerQualNovoProjVenda extends Controller {
                         . '<tr><td><b>Prazo:</b></td><td><span style="color:#006400">' . $oAprov->prazoentregautil . ' dias úteis a partir da aprovação do cliente</span></td></tr>'
                         . '<tr><td><b>Observação vendas/Motivo reprovação:</b></td><td>' . $aObs['Financeiro'] . '</td></tr>'
                         . '</table><br/><br/>'
-                        . '<b style="color:red; font-weight:900;font-size:18px;">SE NÃO APROVADO PELO CLIENTE EM ATÉ 60 DIAS O PROJETO IRÁ EXPIRAR E SERÁ CANCELADO</b>'
                         . '<a href="sistema.metalbo.com.br">Clique aqui para acessar a entrada de projeto!</a>'
                         . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 
@@ -203,15 +208,23 @@ class ControllerQualNovoProjVenda extends Controller {
      */
 
     public function msgRetProj($sDados) {
-        $aDados = explode(', ', $sDados);
+        $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-
+        
+        $bSit = $this->Persistencia->verifSituacao2($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        
+        if($bSit){
+        
         $oMensagem = new Modal('Retornar para projetos', 'Deseja retornar o projeto nº' . $aCamposChave['nr'] . ' para o projetos? --ATENÇÃO SERÁ RETORNADO TODAS AS SITUAÇÕES!', Modal::TIPO_AVISO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("", "' . $sClasse . '", "retProjetos", "' . $sDados . '");');
-
+        
+        }else{
+            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não pode ser retornado!', Modal::TIPO_ERRO, false, true, true);
+        }
+        
         echo $oMensagem->getRender();
     }
 
@@ -323,12 +336,15 @@ class ControllerQualNovoProjVenda extends Controller {
         );
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-
-
-
-        $oMensagem = new Modal('Reprovar projeto', 'Deseja reprovar o projeto nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","ReprovaProj","' . $sDados . '");');
-
+        
+        $bSit = $this->Persistencia->verifSituacao($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+        
+        if($bSit){
+            $oMensagem = new Modal('Reprovar projeto', 'Deseja reprovar o projeto nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","ReprovaProj","' . $sDados . '");');
+        }else{
+            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não pode ser reprovado!', Modal::TIPO_ERRO, false, true, true);
+        }
 
         echo $oMensagem->getRender();
     }

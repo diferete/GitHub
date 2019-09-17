@@ -16,11 +16,11 @@ class ViewQualRnc extends View {
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
 
-        $oCliente = new CampoConsulta('Cliente', 'empdes', CampoConsulta::TIPO_LARGURA);
+        $oCliente = new CampoConsulta('Cliente', 'empdes', CampoConsulta::TIPO_TEXTO);
 
-        $oUser = new CampoConsulta('Usuário', 'usunome', CampoConsulta::TIPO_LARGURA);
+        $oUser = new CampoConsulta('Usuário', 'usunome', CampoConsulta::TIPO_TEXTO);
 
-        $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_LARGURA);
+        $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_TEXTO);
 
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
 
@@ -31,7 +31,7 @@ class ViewQualRnc extends View {
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
 
 
-        $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
+        $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_TEXTO);
         $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oSit->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
         $oSit->addComparacao('Env.Exp', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
@@ -41,7 +41,7 @@ class ViewQualRnc extends View {
         $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
         $oSit->setBComparacaoColuna(true);
 
-        $oReclamacao = new CampoConsulta('Reclamação', 'reclamacao', CampoConsulta::TIPO_LARGURA);
+        $oReclamacao = new CampoConsulta('Reclamação', 'reclamacao', CampoConsulta::TIPO_TEXTO);
         $oReclamacao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
         $oReclamacao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
         $oReclamacao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
@@ -50,7 +50,7 @@ class ViewQualRnc extends View {
         $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
         $oReclamacao->setBComparacaoColuna(true);
 
-        $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_LARGURA);
+        $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
@@ -301,7 +301,7 @@ class ViewQualRnc extends View {
         $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
 
 
-        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 2);
+        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB,1,1,12,12);
         $oBotConf->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
 
         $sAcao = 'insereProd($("#' . $oProCod->getId() . '").val(),'

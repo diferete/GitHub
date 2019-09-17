@@ -17,7 +17,8 @@ class PersistenciaMET_ItensManPrevConsulta extends Persistencia{
         $this->adicionaRelacionamento('nr','nr', true);
         $this->adicionaRelacionamento('seq','seq', true, true, true);
         $this->adicionaRelacionamento('codmaq','codmaq');
-        $this->adicionaRelacionamento('maquina','maquina', false, false, false);
+        $this->adicionaRelacionamento('codmaq','MET_Maquinas.cod',false,false,false);
+        $this->adicionaRelacionamento('maquina','MET_Maquinas.maquina',false,false,false);
         $this->adicionaRelacionamento('codsit','MET_ServicoMaquina.codsit',false, false, false);
         $this->adicionaRelacionamento('codsit','codsit');
         $this->adicionaRelacionamento('servico','servico',false, false, false);
@@ -34,6 +35,7 @@ class PersistenciaMET_ItensManPrevConsulta extends Persistencia{
         $this->adicionaOrderBy('seq',1);
     
         $this->adicionaJoin('MET_ServicoMaquina');
+        $this->adicionaJoin('MET_Maquinas', null,1, 'codmaq','cod');
         
     }   
     

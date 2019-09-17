@@ -606,4 +606,14 @@ class PersistenciaMET_TEC_MigraWinX extends Persistencia {
             
     }
     }
+    
+    /**
+     * arruma as ncm
+     */
+    
+    public function ncmDelX(){
+        $sSql = "update PRO_PRODUTO set PRO_Ncm = rtrim(PRO_Ncm)+'000' 
+         where PRO_GrupoCodigo in(12,13,2) and LEN(pro_ncm)=11";
+        $this->executaSql($sSql);
+    }
 }

@@ -45,13 +45,13 @@ class ViewSTEEL_PCP_GerenFat extends View{
          $oGridFatDiario->addCabGridView('Movimento');
          $oGridFatDiario->addCabGridView('Valor');
          $oGridFatDiario->addLinhasGridView(1,'Peso total de retorno de industrialização');
-         $oGridFatDiario->addLinhasGridView(1, '1000 Kg');
+         $oGridFatDiario->addLinhasGridView(1, '0 Kg');
          $oGridFatDiario->addLinhasGridView(2,'Valor total de faturamento');
-         $oGridFatDiario->addLinhasGridView(2, 'R$ 100.000,00');
+         $oGridFatDiario->addLinhasGridView(2, 'R$ 0');
          $oGridFatDiario->addLinhasGridView(3,'Valor serviço');
-         $oGridFatDiario->addLinhasGridView(3, 'R$ 50.000,00');
+         $oGridFatDiario->addLinhasGridView(3, 'R$ 0');
          $oGridFatDiario->addLinhasGridView(4,'Valor insumo');
-         $oGridFatDiario->addLinhasGridView(4, 'R$ 50.000,00');
+         $oGridFatDiario->addLinhasGridView(4, 'R$ 0');
         
         
          $oGridFatPeso = new Campo('Fat. Peso','fatPeso', Campo::TIPO_GRIDVIEW,6,6,12,12);
@@ -60,13 +60,13 @@ class ViewSTEEL_PCP_GerenFat extends View{
          $oGridFatPeso->addCabGridView('Movimento');
          $oGridFatPeso->addCabGridView('Valor');
          $oGridFatPeso->addLinhasGridView(1,'Peso total de retorno de industrialização');
-         $oGridFatPeso->addLinhasGridView(1, '1000 Kg');
+         $oGridFatPeso->addLinhasGridView(1, '0 Kg');
          $oGridFatPeso->addLinhasGridView(2,'Valor total de faturamento');
-         $oGridFatPeso->addLinhasGridView(2, 'R$ 100.000,00');
+         $oGridFatPeso->addLinhasGridView(2, 'R$ 0');
          $oGridFatPeso->addLinhasGridView(3,'Valor serviço');
-         $oGridFatPeso->addLinhasGridView(3, 'R$ 50.000,00');
+         $oGridFatPeso->addLinhasGridView(3, 'R$ 0');
          $oGridFatPeso->addLinhasGridView(4,'Valor insumo');
-         $oGridFatPeso->addLinhasGridView(4, 'R$ 50.000,00');
+         $oGridFatPeso->addLinhasGridView(4, 'R$ 0');
          
         
         
@@ -75,13 +75,13 @@ class ViewSTEEL_PCP_GerenFat extends View{
          $oGridFatPesoAcabado->addCabGridView('Movimento produtos acabados');
          $oGridFatPesoAcabado->addCabGridView('Valor');
          $oGridFatPesoAcabado->addLinhasGridView(1,'Peso total de retorno de industrialização');
-         $oGridFatPesoAcabado->addLinhasGridView(1, '1000 Kg');
+         $oGridFatPesoAcabado->addLinhasGridView(1, '0 Kg');
          $oGridFatPesoAcabado->addLinhasGridView(2,'Valor total de faturamento');
-         $oGridFatPesoAcabado->addLinhasGridView(2, 'R$ 100.000,00');
+         $oGridFatPesoAcabado->addLinhasGridView(2, 'R$ 0');
          $oGridFatPesoAcabado->addLinhasGridView(3,'Valor serviço');
-         $oGridFatPesoAcabado->addLinhasGridView(3, 'R$ 50.000,00');
+         $oGridFatPesoAcabado->addLinhasGridView(3, 'R$ 0');
          $oGridFatPesoAcabado->addLinhasGridView(4,'Valor insumo');
-         $oGridFatPesoAcabado->addLinhasGridView(4, 'R$ 50.000,00');
+         $oGridFatPesoAcabado->addLinhasGridView(4, 'R$ 0');
         
         
          $oGridFatPesoFio = new Campo('Fat. PesoFio','fatPesoFio', Campo::TIPO_GRIDVIEW,6,6,12,12);
@@ -89,13 +89,13 @@ class ViewSTEEL_PCP_GerenFat extends View{
          $oGridFatPesoFio->addCabGridView('Movimento Fio Máquina');
          $oGridFatPesoFio->addCabGridView('Valor');
          $oGridFatPesoFio->addLinhasGridView(1,'Peso total de retorno de industrialização');
-         $oGridFatPesoFio->addLinhasGridView(1, '1000 Kg');
+         $oGridFatPesoFio->addLinhasGridView(1, '0 Kg');
          $oGridFatPesoFio->addLinhasGridView(2,'Valor total de faturamento');
-         $oGridFatPesoFio->addLinhasGridView(2, 'R$ 100.000,00');
+         $oGridFatPesoFio->addLinhasGridView(2, 'R$ 0');
          $oGridFatPesoFio->addLinhasGridView(3,'Valor serviço');
-         $oGridFatPesoFio->addLinhasGridView(3, 'R$ 50.000,00');
+         $oGridFatPesoFio->addLinhasGridView(3, 'R$ 0');
          $oGridFatPesoFio->addLinhasGridView(4,'Valor insumo');
-         $oGridFatPesoFio->addLinhasGridView(4, 'R$ 50.000,00');
+         $oGridFatPesoFio->addLinhasGridView(4, 'R$ 0');
          
          
          $this->getTela()->setSAcaoShow('requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_GerenFat",'

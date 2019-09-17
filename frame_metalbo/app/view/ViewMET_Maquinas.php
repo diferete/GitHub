@@ -17,20 +17,21 @@ class ViewMET_Maquinas extends View {
         $aDado2 = $aDados[1];
         $aCodSetor = $aDado2[0];
         $aDesSetor = $aDado2[1];
-        $aDado3 = $aDados[2];
+        // $aDado3 = $aDados[2];
+        $aDado4 = $aDados[3];
 
         $oCodmaq = new CampoConsulta('Cod', 'cod');
         $oNr = new CampoConsulta('Maquina', 'maquina');
         $oMaqtip = new CampoConsulta('Tip.', 'maqtip');
         $oNomeclatura = new CampoConsulta('Nomeclatura', 'nomeclatura');
         $oSeq = new CampoConsulta('Célula', 'seq');
-        $oTipManut = new CampoConsulta('Tipo Manutenção', 'tipmanut');
+        //   $oTipManut = new CampoConsulta ('Tipo Manutenção','tipmanut');
         $oSetor = new CampoConsulta('Setor', 'codsetor');
 
         $oMaquinaFiltro = new Filtro($oNr, Filtro::CAMPO_TEXTO, 3);
 
         //Filtro de células
-        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 2, 2, 2, 2);
+        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 1, 1, 1, 1);
         $oFiltroSeq->addItemSelect('', 'Todas Células');
         foreach ($aDado1 as $key) {
             $val = (int) $key['seq'];
@@ -47,28 +48,35 @@ class ViewMET_Maquinas extends View {
             $iCont++;
         }
         $oFiltroSetor->setSLabel('');
-
-        //Filtro tipo Manutenção
-        $oTipManutFiltro = new Filtro($oTipManut, Filtro::CAMPO_SELECT, 3, 3, 3, 3);
-        $oTipManutFiltro->addItemSelect('', 'Todos Tipos de Manutenção');
-        foreach ($aDado3 as $key2) {
-            $oTipManutFiltro->addItemSelect($key2['tipmanut'], $key2['tipmanut']);
+        /*
+          //Filtro tipo Manutenção
+          $oTipManutFiltro= new Filtro($oTipManut, Filtro::CAMPO_SELECT, 2,2,2,2);
+          $oTipManutFiltro->addItemSelect('', 'Todos Tipos de Manutenção');
+          foreach ($aDado3 as $key2){
+          $oTipManutFiltro->addItemSelect($key2['tipmanut'], $key2['tipmanut']);
+          }
+          $oTipManutFiltro->setSLabel('');
+         */
+        //Filtro tipo Categoria
+        $oCategoriaFiltro = new Filtro($oMaqtip, Filtro::CAMPO_SELECT, 2, 2, 2, 2);
+        $oCategoriaFiltro->addItemSelect('', 'Todas Categorias');
+        foreach ($aDado4 as $key3) {
+            $oCategoriaFiltro->addItemSelect($key3['maqtip'], $key3['maqtip']);
         }
-        $oTipManutFiltro->setSLabel('');
+        $oCategoriaFiltro->setSLabel('');
 
         $oFiltroCodMaq = new Filtro($oCodmaq, Filtro::CAMPO_TEXTO, 1, 1, 1, 1);
-
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(false);
-        $this->addFiltro($oFiltroCodMaq, $oMaquinaFiltro, $oFiltroSeq, $oTipManutFiltro, $oFiltroSetor);
+        $this->addFiltro($oFiltroCodMaq, $oMaquinaFiltro, $oFiltroSeq/* ,$oTipManutFiltro */, $oCategoriaFiltro, $oFiltroSetor);
 
         $this->getTela()->setBMostraFiltro(true);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
-        $this->addCampos($oCodmaq, $oNr, $oMaqtip, $oNomeclatura, $oSeq, $oTipManut, $oSetor);
+        $this->addCampos($oCodmaq, $oNr, $oMaqtip, $oNomeclatura, $oSeq, /* $oTipManut, */ $oSetor);
     }
 
     public function criaTela() {

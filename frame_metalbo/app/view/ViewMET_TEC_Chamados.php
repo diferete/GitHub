@@ -168,6 +168,8 @@ class ViewMET_TEC_Chamados extends View {
 
 
         $oSubTipoCod = new Campo('Cód. Subtipo', 'subtipo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSubTipoCod->addValidacao(false, Validacao::TIPO_STRING,'Campo obrigatório');
+        $oSubTipoCod->setBFocus(true);
 
         $oSubTipo = new Campo('Subtipo', 'subtipo_nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubTipo->setSIdPk($oSubTipoCod->getId());

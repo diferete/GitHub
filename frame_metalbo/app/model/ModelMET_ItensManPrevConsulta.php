@@ -10,11 +10,11 @@
 class ModelMET_ItensManPrevConsulta {
     
     private $MET_ServicoMaquina;
+    private $MET_Maquinas;
     private $filcgc;
     private $nr;
     private $seq;
     private $codmaq;
-    private $maquina;
     private $codsit;
     private $servico;
     private $sitmp;
@@ -26,6 +26,17 @@ class ModelMET_ItensManPrevConsulta {
     private $obs;
     private $oqfazer;
     
+    function getMET_Maquinas() {
+        if (!isset($this->MET_Maquinas)) {
+            $this->MET_Maquinas = Fabrica::FabricarModel('MET_Maquinas');
+        }
+        return $this->MET_Maquinas;
+    }
+
+    function setMET_Maquinas($MET_Maquinas) {
+        $this->MET_Maquinas = $MET_Maquinas;
+    }
+        
     function getServico() {
         return $this->servico;
     }
@@ -67,10 +78,6 @@ class ModelMET_ItensManPrevConsulta {
 
     function getCodmaq() {
         return $this->codmaq;
-    }
-
-    function getMaquina() {
-        return $this->maquina;
     }
 
     function getCodsit() {
@@ -119,10 +126,6 @@ class ModelMET_ItensManPrevConsulta {
 
     function setCodmaq($codmaq) {
         $this->codmaq = $codmaq;
-    }
-
-    function setMaquina($maquina) {
-        $this->maquina = $maquina;
     }
 
     function setCodsit($codsit) {

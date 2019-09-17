@@ -85,9 +85,6 @@ class ViewMenu extends View {
         }
     }
 
-    /**
-     * Método que realiza a criação dos campos da tela de consulta
-     */
 }
 
 ?>

@@ -106,7 +106,7 @@ while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $sPq3 = $row['pq3'];
     $sPq4 = $row['pq4'];
     $sPq5 = $row['pq5'];
-    if($row['anexo1']!=''){
+    if ($row['anexo1'] != '') {
         $iCon++;
     }
 }
@@ -195,9 +195,9 @@ $pdf->Rect(2, 41, 206, 5);
 $pdf->Rect(2, 46, 206, 5);
 
 $pdf->Ln(1);
-if($iCon>0){
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(103, 5, "- Possui Anexo Ação Qualidade", 0, 1, 'L');
+if ($iCon > 0) {
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(103, 5, "- Possui Anexo Ação Qualidade", 0, 1, 'L');
 }
 $pdf->Ln(1);
 //############################### Conteção/Abrangência #######################################
@@ -231,22 +231,22 @@ if ($existeContencao['total'] > 0) {
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->MultiCell(206, 5, 'Análise = ' . $rowContencao['plano'], 1, 'L');
         $iAlturaAcao = $pdf->GetY();
-        if($rowContencao['anexoplan1']!=''){
+        if ($rowContencao['anexoplan1'] != '') {
             $iConCont++;
         }
     }
 }
 
 $pdf->Ln(1);
-if($iConCont>0){
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(103, 5, "- Possui Anexo Contenção/Abrangência", 0, 1, 'L');
+if ($iConCont > 0) {
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(103, 5, "- Possui Anexo Contenção/Abrangência", 0, 1, 'L');
 }
 $pdf->Ln(1);
 
 //############################### Correção #######################################
 $iConCorre = 0;
-$sCorr ="";
+$sCorr = "";
 
 $sSqlContencao = "select COUNT(*) as total "
         . "from MET_QUAL_Correcao "
@@ -276,18 +276,18 @@ if ($existeCorrecao['total'] > 0) {
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->MultiCell(206, 5, 'Ação efetuada = ' . $rowCorrecao['plano'], 1, 'L');
         $iAlturaAcao = $pdf->GetY();
-        
-        if($rowCorrecao['anexoplan1']!=''){
+
+        if ($rowCorrecao['anexoplan1'] != '') {
             $iConCorre++;
-            $sCorr = $sCorr.$iConCorre.", ";
+            $sCorr = $sCorr . $iConCorre . ", ";
         }
     }
 }
 
 $pdf->Ln(1);
-if($iConCorre>0){
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(103, 5, "As ações de correção ".$sCorr."contém anexo", 0, 1, 'L');
+if ($iConCorre > 0) {
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(103, 5, "As ações de correção " . $sCorr . "contém anexo", 0, 1, 'L');
 }
 $pdf->Ln(1);
 
@@ -635,12 +635,12 @@ $sSql = "select seq,plano,sitfim,convert(varchar,dataprev,103) as dataprev,usuno
         . " from tbacaoqualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' and tipo <> 'Eficiência' order by seq";
 $dadosEf = $PDO->query($sSql);
 while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
-    
+
     $pdf->SetFont('Arial', 'B', 8);
     $pdf->MultiCell(206, 5, 'Ação Nº' . $row['seq'] . ' = ' . $row['plano'], 1, 'L');
 
     $pdf = quebraPagina($pdf->GetY(), $pdf);
-    
+
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(25, 5, "Quem:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
@@ -655,9 +655,8 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(25, 5, "Quando:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(40, 5, $row['datafim'], 1, 1, 'C');
- 
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
 
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
 
     $pdf->MultiCell(206, 5, 'Obs. Final = ' . $row['obsfim'], 1, 'L');
     // $iAlturaAcao = $pdf->GetY();
@@ -771,18 +770,18 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
             $pdf = quebraPagina($pdf->GetY(), $pdf);
         }
     }
-    
-    if($row['anexoplan1']!='' || $row['anexofim']){
-       $iConPlan++;
-       $sPlanAx = $sPlanAx.$row['seq'].", ";
+
+    if ($row['anexoplan1'] != '' || $row['anexofim']) {
+        $iConPlan++;
+        $sPlanAx = $sPlanAx . $row['seq'] . ", ";
     }
     $pdf->Ln(1);
 }
 
 $pdf->Ln(1);
-if($iConPlan>0){
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(103, 5, "- Os planos de ação ".$sPlanAx." contém anexo.", 0, 1, 'L');
+if ($iConPlan > 0) {
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(103, 5, "- Os planos de ação " . $sPlanAx . " contém anexo.", 0, 1, 'L');
 }
 $pdf->Ln(1);
 

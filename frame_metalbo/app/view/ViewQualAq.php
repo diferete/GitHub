@@ -234,7 +234,7 @@ class ViewQualAq extends View {
 
         $oEquipeEmail = new Campo('E-mails', 'emailEquip', Campo::TIPO_TAGS, 6, 6, 12, 12);
 
-        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 2);
+        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBotConf->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
         $sAcao = 'getUserEmail($("#' . $oCodUser->getId() . '").val(),'
                 . '"' . $oEquipe->getId() . '",'

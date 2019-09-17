@@ -42,6 +42,8 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oQuant = new CampoConsulta('Quantidade', 'quant', CampoConsulta::TIPO_DECIMAL);
         $oPeso = new CampoConsulta('Peso', 'peso', CampoConsulta::TIPO_DECIMAL);
         $oRetrabalho = new CampoConsulta('Retr.', 'retrabalho', CampoConsulta::TIPO_TEXTO);
+        
+        $oOp_retrabalho = new CampoConsulta('Op.Retrabalho','op_retrabalho');
         $oSituacao = new CampoConsulta('Situação', 'situacao');
         $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
@@ -94,6 +96,8 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oFilRec->setSClasseBusca('STEEL_PCP_Receitas');
         $oFilRec->setSCampoRetorno('cod', $this->getTela()->getSId());
         $oFilRec->setSIdTela($this->getTela()->getSId());
+        
+        $oOFilOpret = new Filtro($oOp_retrabalho, Filtro::CAMPO_TEXTO_IGUAL,2,2,2,2);
 
         $this->addFiltro($oOpFiltro, $oCodigoFiltro, $oDescricaoFiltro, $oFilEmpresa, 
                 $oDocFiltro, $oTipoAcaoFiltro, $oFiltroReferencia,
@@ -503,12 +507,13 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oField1 = new FieldSet('Retrabalho');
 
-        $oRetrabalho = new Campo('Retrabalho', 'retrabalho', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3, 3);
+        $oRetrabalho = new Campo('Retrabalho', 'retrabalho', Campo::CAMPO_SELECTSIMPLE, 4, 4, 4, 4, 4);
         $oRetrabalho->setSValor('Não');
         $oRetrabalho->addItemSelect('Não', 'Não');
         $oRetrabalho->addItemSelect('Sim', 'Sim');
         $oRetrabalho->addItemSelect('Sim S/Cobrança', 'Sim S/Cobrança');
         $oRetrabalho->addItemSelect('Retorno não Ind.', 'Retorno não Ind.');
+        $oRetrabalho->addItemSelect('OP origem retrabalho', 'OP origem retrabalho *Não entra estoque');
 
         $oOpRet = new Campo('Op Origem Retra.', 'op_retrabalho', Campo::TIPO_TEXTO, 2);
         $oOpRet->setBCampoBloqueado(false);
@@ -590,8 +595,9 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oRetrabalho->addItemSelect('Sim', 'Sim');
         $oRetrabalho->addItemSelect('Sim S/Cobrança', 'Sim S/Cobrança');
         $oRetrabalho->addItemSelect('Retorno não Ind.', 'Retorno não Ind.');
+        $oRetrabalho->addItemSelect('OP origem retrabalho', 'OP origem retrabalho *Não entra estoque');
 
-        $sLabe2 = new campo('<h5 style="color:red">* Ops de retorno não industrializado não somam no estoque apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
+        $sLabe2 = new campo('<h5 style="color:red">* Ops de retorno não industrializado não somam no estoque apenas se escolher a opção retorno não ind. Ops que originam retrabalho interno não entram no estoque.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
         $sLabe2->setApenasTela(true);
         $sLabe2->setIMarginTop(3);
 

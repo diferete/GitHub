@@ -14,10 +14,12 @@ class ControllerMET_TEC_MigraWinX extends Controller {
 
     public function migraProd($sDados) {
         $this->Persistencia->migraProd($sDados);
+        $this->Persistencia->ncmDelX();
     }
 
     public function migraProdGeral($sDados) {
         $this->Persistencia->migraProdGeral($sDados);
+        $this->Persistencia->ncmDelX();
     }
 
 }

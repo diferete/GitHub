@@ -79,9 +79,9 @@ $pdf->Cell(0,5,'','T',1,'L');
                }
                if($sSituacao!=='Todas'){
                if ($sSituacao=='Processo'){
-                 $sSqli.=" and STEEL_PCP_ordensFab.situacao='Processo' ";
+                 $sSqli.=" and STEEL_PCP_ordensFabApont.situacao='Processo' ";
                  } else {
-                 $sSqli.=" and STEEL_PCP_ordensFab.situacao='Finalizado' ";
+                 $sSqli.=" and STEEL_PCP_ordensFabApont.situacao='Finalizado' ";
                  }
                }
                if($iEmpCodigo!==''){

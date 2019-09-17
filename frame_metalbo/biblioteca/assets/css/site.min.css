@@ -11765,3 +11765,12 @@ h4.example-title {
         -ms-overflow-style: -ms-autohiding-scrollbar
     }
 }
+
+.info-set{
+    padding: 22px 10px 1px 20px !important;
+}
+
+.btn-grid{
+    text-align: center !important;
+    padding: 6px 2px 6px 2px !important;
+}

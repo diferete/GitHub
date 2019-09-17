@@ -206,11 +206,11 @@ class Campo {
 
         switch ($this->iTipo) {
             case self::TIPO_BOTAOSMALL:
-                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL, '');
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
                 break;
             case self::TIPO_BOTAOSMALL_SUB:
-                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL_SUB, '');
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL_SUB,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
 
                 break;

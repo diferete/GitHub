@@ -21,12 +21,11 @@ class PersistenciaMET_Maquinas extends Persistencia{
         $this->adicionaRelacionamento('tipmanut', 'tipmanut');
         $this->adicionaRelacionamento('sitmaq', 'sitmaq');
         $this->adicionaRelacionamento('codsetor', 'codsetor');
-        
-        $this->adicionaOrderBy('cod',0);
-        
         $this->adicionaFiltro('sitmaq', 'ATIVA');
         
         $this->setSTop(50);
+        
+        $this->adicionaOrderBy('cod',0);
         
     }
     
@@ -60,9 +59,21 @@ class PersistenciaMET_Maquinas extends Persistencia{
         return $aRow;
     }
     
-    public function buscaDadosTipManut(){
+    public function buscaDadosResp(){
         
-        $sSql = "select tipmanut from metmaq where tipmanut is not null group by tipmanut";       
+        $sSql = "select resp from tbservmp group by resp";       
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI]= $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+    
+    public function buscaDadosMaqTip(){
+        $sSql = "select maqtip from metmaq group by maqtip";       
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();

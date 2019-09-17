@@ -29,6 +29,7 @@ class PersistenciaMET_ItensManPrev extends Persistencia{
         $this->adicionaRelacionamento('userfinal','userfinal');
         $this->adicionaRelacionamento('obs','obs');
         $this->adicionaRelacionamento('oqfazer','oqfazer');
+        $this->adicionaRelacionamento('fezmanut','fezmanut');
         
         $this->setSTop('500');
         $this->adicionaOrderBy('seq',1);
@@ -84,10 +85,10 @@ class PersistenciaMET_ItensManPrev extends Persistencia{
         
         $sSql = "insert into tbitensmp 
             (filcgc, nr,seq, codmaq, tbitensmp.codsit, sitmp, dias, databert,
-            userinicial, datafech, userfinal, obs, oqfazer)
+            userinicial, datafech, userfinal, oqfazer, fezmanut)
             select  filcgc, nr,
             (select max(seq) as maximo from tbitensmp where nr = '".$aDados['nr']."' and filcgc = '".$aDados['filcgc']."' and sitmp = 'ABERTO')+1,
-            codmaq, tbitensmp.codsit, sitmp, ciclo, GETDATE(), userinicial, datafech, userfinal, obs, oqfazer
+            codmaq, tbitensmp.codsit, sitmp, ciclo, GETDATE(), userinicial, datafech, userfinal, oqfazer, 'SIM'
             from tbitensmp left outer join  tbservmp on tbservmp.codsit = tbitensmp.codsit 
             where seq = '".$aDados['seq']."' and nr = '".$aDados['nr']."' and filcgc = '".$aDados['filcgc']."'  
             update tbitensmp set sitmp = 'FINALIZADO', datafech = '".$sData."', userfinal = '".$sUsuário."'  "
@@ -116,4 +117,35 @@ class PersistenciaMET_ItensManPrev extends Persistencia{
         return $aRetorno;
         
     }
+    
+    public function verificaCampoValido($iCodSit, $sDesc){
+        
+        $sSql = "select servico from tbservmp where codsit = '".$iCodSit."' ";       
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_ASSOC);
+        $sServico = $oRow['servico'];
+        if(strcasecmp($sServico,$sDesc)==0){
+            return true;
+        } else{
+            return false;
+        }
+        
+    }
+    
+    public function buscaDescricao($sSeq, $sNr){
+        $sSql = "select servico from tbservmp where codsit = (select codsit from tbitensmp where nr = '".$sNr."' and seq = '".$sSeq."')";       
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_ASSOC);
+        $sServico = $oRow['servico'];
+        return $sServico;
+    }
+    
+    public function buscaOqueFazer($sSeq, $sNr){
+        $sSql = "select oqfazer from tbitensmp where nr = '".$sNr."' and seq = '".$sSeq."'";       
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_ASSOC);
+        $sOqueFazer = $oRow['oqfazer'];
+        return $sOqueFazer;
+    }
+    
 }

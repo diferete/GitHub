@@ -21,7 +21,7 @@
  * @category   PHPExcel
  * @package    PHPExcel_Shared_OLE
  * @copyright  Copyright (c) 2006 - 2007 Christian Schmidt
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+ * @license    https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version 1.7.6, 2011-02-27
  */
 
@@ -159,7 +159,7 @@ class PHPExcel_Shared_OLE_ChainedBlockStream
 	public function stream_eof()
 	{
 		$eof = $this->pos >= strlen($this->data);
-		// Workaround for bug in PHP 5.0.x: http://bugs.php.net/27508
+		// Workaround for bug in PHP 5.0.x: https://bugs.php.net/27508
 		if (version_compare(PHP_VERSION, '5.0', '>=') &&
 			version_compare(PHP_VERSION, '5.1', '<')) {
 
