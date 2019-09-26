@@ -43,6 +43,7 @@ class Botao {
     const TIPO_REL = 18;
     const TIPO_DETALHE = 19;
     const TIPO_REMOVER_TELAGRID = 20;
+    const TIPO_BOTAOSIMPLES = 21;
     //define o estilo do botão small
     const TIPO_DEFAULT = 'btn-default';
     const TIPO_WARNING = 'btn-warning';
@@ -56,7 +57,7 @@ class Botao {
      * @param type $iTipo
      * @param type $sAcao
      */
-    function __construct($sTexto, $iTipo = self::TIPO_PADRAO, $sAcao = "", $sTelaGrande = '3', $sTelaMedia = '6', $sTelaPequena = '12', $sTelaMuitoPequena = '12') {
+    function __construct($sTexto, $iTipo = self::TIPO_PADRAO, $sAcao = "", $sTelaGrande = '2', $sTelaMedia = '2', $sTelaPequena = '12', $sTelaMuitoPequena = '12') {
         $this->id = Base::getId();
         $this->setSTexto($sTexto);
         $this->setITipo($iTipo);
@@ -247,12 +248,7 @@ class Botao {
                         . ' </div>'
                         . ' </div>'
                         . '</div>';
-                /* '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 btn-acao-grid" style="float: right">'
-                  . '<button  title="Confirmar" type="button" class="btn btn-success btn-sm margin-btn" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
-                  . '<span><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</span>'
-                  . '</button>'
-                  . '</div>';
-                 */
+
                 break;
             case self::TIPO_FECHAR:
                 $sBotao = '<div>'
@@ -264,14 +260,7 @@ class Botao {
                         . ' </div>'
                         . ' </div>'
                         . '</div>';
-                /* '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2  btn-acao-grid" style="float: right">'
-                  . '<button title="Fechar" type="button" class="btn btn-danger btn-sm margin-btn" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
-                  . '<span><i class="icon wb-close" aria-hidden="true"></i></span>'
-                  . '</button>'
-                  . '</div>'
-                  . '<script>'
-                  . '</script>';
-                 */
+
                 break;
             case self::TIPO_LIMPAR:
                 $sBotao = '<div>'
@@ -283,12 +272,7 @@ class Botao {
                         . ' </div>'
                         . ' </div>'
                         . '</div>';
-                /* '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-2  btn-acao-grid" style="float: right">'
-                  . '<button  title="Limpar" type="button" class="btn btn-default btn-sm margin-btn" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
-                  . '<span><i class="icon wb-reply" aria-hidden="true"></i> ' . $this->sTexto . '</span>'
-                  . '</button>'
-                  . '</div>';
-                 */
+
                 break;
             case self::TIPO_PROXIMO:
                 $sBotao = '<div>'
@@ -300,13 +284,7 @@ class Botao {
                         . ' </div>'
                         . ' </div>'
                         . '</div>';
-                /* '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12  btn-acao-grid" style="float: right">'
-                  . '<button  title="Próximo" type="button" class="btn btn-primary btn-sm margin-btn " id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
 
-                  . '</button>'
-                  . '</div>';
-                 * 
-                 */
                 break;
             case self::TIPO_VOLTAR:
                 $sBotao = '<div>'
@@ -318,13 +296,7 @@ class Botao {
                         . ' </div>'
                         . ' </div>'
                         . '</div>';
-                /* '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12  btn-acao-grid" style="float: right">'
-                  . '<button title="Voltar" style="" type="button" class="btn btn-block btn-warning btn-sm " id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
 
-                  . '</button>'
-                  . '</div>';
-                 * 
-                 */
                 break;
             case self::TIPO_CONCLUIRDET:
                 $sBotao = '<div>'
@@ -336,14 +308,6 @@ class Botao {
                         . ' </div>'
                         . ' </div>'
                         . '</div>';
-                /*
-                  '<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12  btn-acao-grid" style="float: right">'
-                  . '<button style="" type="button" class="btn btn-primary margin-btn btn-sm" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
-
-                  . '</button>'
-                  . '</div>';
-                 * 
-                 */
                 break;
             case self::TIPO_PESQUISAR:
                 $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="margin-top: 22px; margin-rigth:0px;left:-8px;z-index:2" >'
@@ -425,6 +389,16 @@ class Botao {
                         . '<span><i class="icon wb-trash" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
                         . '</div>';
+                break;
+            case self::TIPO_BOTAOSIMPLES:
+                $sBotao = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '  btn-acao-grid" style="margin-top:' . $this->getIMarginTop() . 'px;">'
+                        . '<button type="button" class="btn ' . $this->getSStyleBotao() . ' btn btn-block btn-success " id="' . $this->getId() . '" data-target="#' . $this->getSNomeModal() . '" data-toggle="modal"' . $this->setDesativado($this->getBDesativado()) . '>'
+                        . '<span><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</span>'
+                        . '</button>'
+                        . '</div>'
+                        . '<script>'
+                        . '' . $this->getAAcao() . ''
+                        . '</script>';
                 break;
         }
         return $sBotao;
