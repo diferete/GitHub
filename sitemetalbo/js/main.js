@@ -158,7 +158,7 @@
 //Função baseada na API do IBGE Brasil para busca dos municípios por estado para criar select no form de envio de e-mail
 function getES() {
     //Captura valor númerico do código do estado
-    var uf = $("#msg_estado").val();
+    var uf = $("#uf").val();
     //Json que recebe os dados com os nomes dos múnicípios do estado selecionado
     $.getJSON('https://servicodados.ibge.gov.br/api/v1/localidades/estados/' + uf + '/municipios', function (result) {
         //Variavel alimentada com o HTML criando os options do select de Cidades
@@ -172,3 +172,90 @@ function getES() {
         $("#cidade").empty().append(htmlSelect);
     });
 }
+
+$.getJSON("https://sistema.metalbo.com.br/index.php?classe=NoticiaSite&metodo=getFeed&filcgc=metalbo", function (data) {
+    var html = '';
+    data.forEach(function (o) {
+        html = html + '<div class="col-lg-4 col-md-4 col-sm-6">'
+                + '<div class="blog-item-wrapper">'
+                + '<div class="blog-item-img">'
+                + '</div>'
+                + '<div class="blog-item-text"> '
+                + '<h3>'
+                + '<span>' + (o['titulo']) + '</span>'
+                + '</h3>'
+                + '<hr class="lines">'
+                + '<div class="meta-tags">'
+                + '<span class="date"><i class="lnr lnr-calendar-full"></i>' + (o['data']) + '</span>'
+                + '</div>'
+                + '<p>' + (o['texto']) + '</p>'
+                + '</div>'
+                + '</div>'
+                + '</div>';
+    });
+    setTimeout(function () {
+        $("#loading").remove();
+        $("#divFeed").append(html);
+    }, 3000);
+
+});
+
+
+/*
+ $(function () {
+ $("#selEstado").hide();
+ $("#toggler").on("click", function () {
+ $("#repImg, #selEstado").toggle("5000");
+ });
+ });
+ */
+/*
+$("#nome").one("click", function mensagemAlert() {
+    var campo = $("#nome").val();
+    if (campo == '') {
+        var sTit = "Caro usuário!";
+        var sMsg = "A Metalbo trabalha diretamente com Representantes para suas vendas por isso solicitamos entre em contato com eles para fazer suas COTAÇÕES e ORÇAMENTOS. Acesse a área de Representantes no site, clique em 'SELECIONE SEU ESTADO(UF)' e encontre o Representante que pode lhe atender ;)."
+        sweetAlert(sTit, sMsg, "info");
+    }
+});*/
+
+
+$(document).ready(function () {
+    $("#estado").change(function () {
+        var uf = $("#estado").val();
+        $("#modalrep").empty();
+        $.getJSON("https://sistema.metalbo.com.br/index.php?classe=BuscaRepSite&metodo=buscaRep" + "&uf=" + uf, function (result) {
+            var modal = '';
+            result.forEach(function (dados) {
+                modal = modal + '<div class="pricing-table">'
+                        + '<div class="blog-item-wrapper">'
+                        + '<div class="blog-item-img">'
+                        + '<a href="single-post.html">'
+                        + '</a>'
+                        + '</div>'
+                        + '<div class="blog-item-text">'
+                        + '<h5>' + (dados['nome']) + '</span></h5>'
+                        + '<hr>'
+                        + '<div class="meta-tags">'
+                        + '<span>' + (dados['estado']) + '</span>'
+                        + '</div>'
+                        + '<p>'
+                        + (dados['endereco']) + '<br/>'
+                        + (dados['bairro']) + ' - ' + (dados['cidade']) + '<br/>'
+                        + (dados['ufrep']) + ' - ' + (dados['pais']) + '<br/>'
+                        + 'CEP ' + (dados['cep']) + '<br/>'
+                        + 'Fone <a style="color:black !important" href ="tel:' + (dados['fone1']) + '">' + (dados['fone1']) + '</a><br/>'
+                        + 'Fone 2 <a style="color:black !important" href ="tel:' + (dados['fone2']) + '">' + (dados['fone2']) + '<br/>'
+                        + 'Email <a style="color:red" href="mailto:' + (dados['email1']) + '">' + (dados['email1']) + '</a><br/>'
+                        + '</p>'
+                        + '<a href="https://' + (dados['website']) + '" target="new" class="modal-site">' + (dados['website']) + '</a>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '<br/>';
+            });
+            $("#modalrep").append(modal);
+            $("#callbtn").trigger("click");
+        });
+    });
+});

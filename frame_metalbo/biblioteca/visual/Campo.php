@@ -120,9 +120,13 @@ class Campo {
     const DIVISOR_DARK = 35;
     const TIPO_TAGS = 36;
     const TIPO_SELECTTAGS = 37;
+    const TIPO_BOTAOSIMPLES = 38;
+    
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
+   
+    
     const EVENTO_SAIR = 'blur';
     const EVENTO_CHANGE = 'change';
     const EVENTO_FOCUS = 'focus';
@@ -148,6 +152,7 @@ class Campo {
     const TITULO_DARK = 'dark';
     const TITULO_DANGER = 'danger';
     const TITULO_WARNING = 'warning';
+    
 
     /**
      * Construtor da classe Campo 
@@ -211,6 +216,11 @@ class Campo {
                 break;
             case self::TIPO_BOTAOSMALL_SUB:
                 $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL_SUB,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
+                $this->sId = $this->getOBotao()->getId();
+
+                break;
+            case self::TIPO_BOTAOSIMPLES:
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_BOTAOSIMPLES,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
 
                 break;
@@ -1767,6 +1777,9 @@ class Campo {
                 $sCampo = $this->getOBotao()->getRender();
                 break;
             case self::TIPO_BOTAOSMALL_SUB:
+                $sCampo = $this->getOBotao()->getRender();
+                break;
+            case self::TIPO_BOTAOSIMPLES:
                 $sCampo = $this->getOBotao()->getRender();
                 break;
             case self::TIPO_GRID:

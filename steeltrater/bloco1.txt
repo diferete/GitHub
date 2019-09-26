@@ -1,2 +1,2 @@
-insert into MET_TEC_sessao(usucodigo,usunome,usuidsessao,usustatus,usudata,usuhora,usulastacesso)
-      values(46,'Alexandre de Souza','lrjcof7e4obdv1lipa3oav3k55','Ativo','12/09/2019','2019-9-12 10:18:23','2019-9-12 10:18:23');
+update MET_TEC_sessao set usulastacesso = '2019-9-26 09:04:50' 
+            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'n4u99mlniefovkabn7ql5f4t36'

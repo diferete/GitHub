@@ -4390,7 +4390,7 @@ class Controller {
 
      * Método para retornar array com os campos da tela via $_REQUEST[]     
      */
-    public function retornaArrayCamposTela() {
+    public function getArrayCampostela() {
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);

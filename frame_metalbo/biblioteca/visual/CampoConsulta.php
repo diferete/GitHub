@@ -76,9 +76,9 @@ class CampoConsulta {
     const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
     const ICONE_FLAG = 'btn-xs btn btn-pure btn-dark icon wb-flag';
     const ICONE_EDIT = 'btn-xs btn btn-pure btn-primary icon wb-clipboard';
-    const ICONE_BOTAOPRIMARY = 'btn btn-primary btn-sm ladda-button btn-grid';
-    const ICONE_BOTAOSUCCES = 'btn btn-success btn-sm ladda-button btn-grid';
-    const ICONE_BOTAODANGER = 'btn btn-danger btn-sm ladda-button btn-grid';
+    const ICONE_BOTAOPRIMARY = 'btn btn-primary btn-xs ladda-button btn-grid';
+    const ICONE_BOTAOSUCCES = 'btn btn-success btn-xs ladda-button btn-grid';
+    const ICONE_BOTAODANGER = 'btn btn-danger btn-xs ladda-button btn-grid';
 
     /**
      *  Método construtor que passa o label e o nome do campo no model
@@ -362,7 +362,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                   
                 }
                 $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">' . $xValor . '</td>';
                 break;
@@ -372,7 +372,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:14px !important';
+                  
                 }
                 $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">R$ ' . number_format($xValor, 2, ',', '.') . '</td>';
                 break;
@@ -382,7 +382,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:14px !important';
+                   
                 }
                 $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">' . number_format($xValor, 2, ',', '.') . '</td>';
                 break;
@@ -392,7 +392,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:14px !important';
+                  
                 }
                 if ($xValor == '01/01/1970') {
                     $xValor = '';
@@ -405,7 +405,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                   
                 }
                 $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'uploads/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
                 break;
@@ -415,7 +415,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                    
                 }
                 $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><span class="badge badge-dark">' . $xValor . '</span></td>';
                 break;
@@ -425,7 +425,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                  
                 }
                 $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><span class="badge badge-default">' . $xValor . '</span></td>';
                 break;
@@ -435,7 +435,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                   
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -449,7 +449,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:14px !important';
+                   
                 }
                 $sTime = substr($xValor, 0, -8);
                 $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">' . $sTime . '</td>';
@@ -460,7 +460,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                  
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -487,7 +487,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                   
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -518,7 +518,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                  
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -547,7 +547,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                   
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -576,7 +576,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                   
                 }
 
                 $xValor = str_replace("\n", " ", $xValor);
@@ -633,7 +633,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                    $sFontSize = 'font-size:12px !important';
+                  
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);

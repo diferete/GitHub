@@ -186,6 +186,7 @@ class ViewSolPed extends View {
 
         $oAtencao = new Campo('Atenção à seleção', '', Campo::TIPO_BADGE, 1);
         $oAtencao->setSEstiloBadge(Campo::BADGE_DANGER);
+        $oAtencao->setITamFonteBadge(18);
         $oAtencao->setApenasTela(true);
 
 

@@ -241,7 +241,7 @@
                         <div class="pricing-table table-left">
                             <img src="img/representantes/rep.jpg" alt="" style="max-width: 100%;height:100%;" />
                             <div class="pricing-details">
-                                <span>ENCONTRE SEU REPRESENTANTE!</span>
+                                <span>ENCONTRE UM REPRESENTANTE!</span>
                                 <p>A maneira mais rápida e prática de fazer suas cotações... 
                                     Selecione seu estado no campo abaixo para encontrar o representante mais próximo de você!
                                 </p>
@@ -249,7 +249,7 @@
                                     <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-lg-4"></div>
-                                            <select id="estado" class="col-lg-12 form-control-sm">
+                                            <select id="estado" style="border: 2px solid red !important;" class="col-lg-12 form-control-sm">
                                                 <option value="0" selected>Selecione o seu Estado (UF)</option>
                                                 <option value="AC">Acre</option>
                                                 <option value="AL">Alagoas</option>
@@ -294,7 +294,7 @@
                             <img src="img/representantes/metalbosp.png" class="rep-img"/>
                             <div class="pricing-details">
                                 <span>VENDAS SÃO PAULO</span>
-                                <p>Atendendo Acre, Amapá, Amazonas, Distrito Federal, Espírito Santo, Goiás, Pará, Rio de Janeiro, Rondônia, Roraima, São Paulo e Tocantis.</p>
+                                <p>Atendendo <strong>Acre, Amapá, Amazonas, Distrito Federal, Espírito Santo, Goiás, Pará, Rio de Janeiro, Rondônia, Roraima, São Paulo e Tocantis</strong>.</p>
                             </div>
                             <div class="plan-button">
                                 <a href="http://metalbosp.com.br" target="new" class="btn btn-common">metalbosp.com.br</a>
@@ -383,7 +383,7 @@
         <section id="features" class="section" data-stellar-background-ratio="0.2">
             <div class="container">
                 <div class="section-header">          
-                    <h2 class="section-title">Fique por dentro das novidades da Metalbo acessando nosso informativo!</h2>
+                    <h2 class="section-title">Fique por dentro das novidades da Metalbo acessando nosso Facebook!</h2>
                 </div>
             </div>
         </section>
@@ -492,7 +492,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" placeholder="Nome" id="name" class="form-control"   name="nome" required data-error="Por favor entre com seu nome">
+                                                <input type="text" placeholder="Nome" id="nome" class="form-control"   name="nome" required data-error="Por favor entre com seu nome">
                                                 <div class="help-block with-errors"></div>
                                             </div>                                 
                                         </div>
@@ -502,15 +502,27 @@
                                                 <div class="help-block with-errors"></div>
                                             </div> 
                                         </div>
+                                        <!-- <div class="col-md-4">
+                                             <div class="form-group">
+                                                 <input type="text" placeholder="Assunto" id="assunto" class="form-control" name="assunto" required data-error="Informe um assunto">
+                                                 <div class="help-block with-errors"></div>
+                                             </div>
+                                         </div>-->
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input type="text" placeholder="Assunto" id="msg_subject" class="form-control" name="assunto" required data-error="Informe um assunto">
-                                                <div class="help-block with-errors"></div>
+                                                <select id="assunto" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Selecione o Assunto</option>
+                                                    <option value="1">Cotações</option>                                                    
+                                                    <option value="2">Apresentações</option>
+                                                    <option value="3">NFe</option>
+                                                    <option value="4">Compras</option>
+                                                    <option value="5">Outros</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <select id="msg_estado" onchange="getES()" class="col-lg-12 form-control-sm">
+                                                <select id="uf" onchange="getES()" class="col-lg-12 form-control-sm">
                                                     <option value="0" disabled selected>Selecione o Estado</option>
                                                     <option value="12">Acre</option>
                                                     <option value="27">Alagoas</option>
@@ -541,7 +553,8 @@
                                                     <option value="17">Tocantins</option>
                                                 </select>
                                             </div>
-                                        </div><div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <select id="cidade" class="col-lg-12 form-control-sm">
                                                     <option value="0" disabled selected>Selecione a Cidade</option>
@@ -556,7 +569,7 @@
                                         </div>-->
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <textarea   placeholder="Digite sua mensagem" id="message" class="form-control"  name ="mensagem" rows="11" data-error="Digite sua mensagem" required></textarea>
+                                                <textarea   placeholder="Digite sua mensagem" id="mensagem" class="form-control"  name ="mensagem" rows="11" data-error="Digite sua mensagem" required></textarea>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                             <div class="submit-button text-center">
@@ -585,7 +598,7 @@
 
         <footer>          
             <div class="row">
-                <div class="col-md-3 mobile-footer" style="padding:0px !important;"> 
+                <div class="col-md-4 mobile-footer col-4-footer" > 
                     <h3>Endereço</h3>
                     Metalbo Indústria de Fixadores Metálicos LTDA.<br>
                     Rodovia SC-426 Trevo BR-470, 3207 <br>
@@ -595,13 +608,13 @@
                     Fone: 55 (47) 3544-8400 <br>
                 </div><br> 
 
-                <div class="col-md-3 mobile-footer" style="padding:0px !important;"> 
+                <!--<div class="col-md-3 mobile-footer" style="padding:0px !important;"> 
                     <h3>Contatos</h3>
                     <strong>Geral:  </strong><a href="mailto:contato@metalbo.com.br">contato@metalbo.com.br</a><br/>
                     <strong>Comercial: </strong><a href="mailto:contato@metalbo.com.br">contato@metalbo.com.br</a><br/>
                     <strong>Nfe: </strong><a href="mailto:nfe@metalbo.com.br">nfe@metalbo.com.br</a><br/>
                     <strong>Compras: </strong><a href="mailto:compras@metalbo.com.br">compras@metalbo.com.br</a><br/>
-                </div><br> 
+                </div><br>-->
 
                 <div class="col-md-3 mobile-footer" > 
                     <h3>Sites </h3>
@@ -695,122 +708,6 @@
                                 map: map
                             });
                         }
-
-
-
-                        /*
-                         var myap;
-                         var defult = new google.maps.LatLng(-27.285984, -49.782527);
-                         var mapCoordinates = new google.maps.LatLng(-27.285984, -49.782527);
-                         
-                         
-                         var markers = [];
-                         var image = new google.maps.MarkerImage(
-                         'img/map-marker.png',
-                         new google.maps.Size(84, 70),
-                         new google.maps.Point(0, 0),
-                         new google.maps.Point(60, 60)
-                         );
-                         
-                         function addMarker() {
-                         markers.push(new google.maps.Marker({
-                         position: defult,
-                         raiseOnDrag: false,
-                         icon: image,
-                         map: map,
-                         draggable: false
-                         }));
-                         
-                         }
-                         
-                         function initialize() {
-                         var mapOptions = {
-                         backgroundColor: "#fff",
-                         zoom: 8,
-                         disableDefaultUI: true,
-                         center: mapCoordinates,
-                         zoomControl: false,
-                         scaleControl: false,
-                         scrollwheel: false,
-                         disableDoubleClickZoom: true,
-                         mapTypeId: google.maps.MapTypeId.ROADMAP,
-                         styles: [{
-                         "featureType": "landscape.natural",
-                         "elementType": "geometry.fill",
-                         "stylers": [{
-                         "color": "#ffffff"
-                         }]
-                         }, {
-                         "featureType": "landscape.man_made",
-                         "stylers": [{
-                         "color": "#ffffff"
-                         }, {
-                         "visibility": "off"
-                         }]
-                         }, {
-                         "featureType": "water",
-                         "stylers": [{
-                         "color": "#80C8E5"
-                         }, {
-                         "saturation": 0
-                         }]
-                         }, {
-                         "featureType": "road.arterial",
-                         "elementType": "geometry",
-                         "stylers": [{
-                         "color": "#999999"
-                         }]
-                         }, {
-                         "elementType": "labels.text.stroke",
-                         "stylers": [{
-                         "visibility": "off"
-                         }]
-                         }, {
-                         "elementType": "labels.text",
-                         "stylers": [{
-                         "color": "#333333"
-                         }]
-                         }
-                         
-                         , {
-                         "featureType": "road.local",
-                         "stylers": [{
-                         "color": "#dedede"
-                         }]
-                         }, {
-                         "featureType": "road.local",
-                         "elementType": "labels.text",
-                         "stylers": [{
-                         "color": "#666666"
-                         }]
-                         }, {
-                         "featureType": "transit.station.bus",
-                         "stylers": [{
-                         "saturation": -57
-                         }]
-                         }, {
-                         "featureType": "road.highway",
-                         "elementType": "labels.icon",
-                         "stylers": [{
-                         "visibility": "off"
-                         }]
-                         }, {
-                         "featureType": "poi",
-                         "stylers": [{
-                         "visibility": "off"
-                         }]
-                         }
-                         
-                         ]
-                         
-                         };
-                         map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
-                         addMarker();
-                         
-                         }
-                         google.maps.event.addDomListener(window, 'load', initialize);
-                         */
-
                         $("#validaletter").hide();
                         $("#validaSucesso").hide();
                         $("#validaBackphp").hide();

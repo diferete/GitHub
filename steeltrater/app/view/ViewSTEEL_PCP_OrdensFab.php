@@ -268,7 +268,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oProdFinal->setSCampoRetorno('pro_codigo', $this->getTela()->getId());
         $oProdFinal->addCampoBusca('pro_descricao', $oProdFinalDes->getId(), $this->getTela()->getId());
         //pesquisa produto material receita 
-        $oBtnPesqOp = new Campo('Pesquisar Prod/Mat/Receita', 'btn1', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
+        $oBtnPesqOp = new Campo('Pesquisar Prod/Mat/Receita', 'btn1', Campo::TIPO_BOTAOSMALL, 2, 2, 12, 12);
         $oBtnPesqOp->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
         $oBtnPesqOp->setApenasTela(true);
         //evento para buscar pela referencia            
@@ -361,7 +361,8 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oLinha = new Campo('', 'linha', Campo::TIPO_LINHA, 12);
         $oLinha->setApenasTela(true);
 
-        $oQuant = new Campo('Quant{Peso ou CT}', 'quant', Campo::TIPO_DECIMAL, 2);
+        $oQuant = new Campo('Quant{Peso ou CT}', 'quant', Campo::TIPO_DECIMAL_COMPOSTO, 2);
+        $oQuant->setICasaDecimal(4);
         $oQuant->setSValor('0,00');
         $oQuant->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);

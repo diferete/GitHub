@@ -298,17 +298,22 @@ class ViewQualNovoProj extends View {
 
 
 
-        $oLabel1 = new Campo('Requisitos analisados', 'label1', Campo::TIPO_LABEL, 3);
-        $oLabel1->setIMarginTop(15);
+        $oLabel1 = new Campo('Requisitos analisados', 'label1', Campo::TIPO_BADGE, 3);
+        $oLabel1->setSEstiloBadge(Campo::BADGE_PRIMARY);
+        $oLabel1->setITamMarginTopBadge(22);
+        $oLabel1->setITamFonteBadge(18);
+        $oLabel1->setApenasTela(true);
 
-        $oLabel2 = new Campo('Valor', 'label2', Campo::TIPO_LABEL, 3);
-        $oLabel2->setIMarginTop(15);
+        $oLabel2 = new Campo('Valores', 'label2', Campo::TIPO_BADGE, 3);
+        $oLabel2->setSEstiloBadge(Campo::BADGE_SUCCESS);
+        $oLabel2->setITamMarginTopBadge(22);
+        $oLabel2->setITamFonteBadge(18);
+        $oLabel2->setApenasTela(true);
 
         $oLabel3 = new campo('Planejamento e desenvolvimento do projeto', 'label3', Campo::TIPO_LABEL, 3);
         $oVlrDesenProj = new Campo('', 'vlrDesenProj', Campo::TIPO_TEXTO, 1);
         $oVlrDesenProj->setIMarginTop(2);
         $oVlrDesenProj->setSValor('0');
-
 
         $oLabel4 = new campo('Ferramental', 'label4', Campo::TIPO_LABEL, 3);
         $oVlrFerra = new campo('', 'vlrFerramen', Campo::TIPO_TEXTO, 1);

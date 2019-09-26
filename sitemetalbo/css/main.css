@@ -2076,3 +2076,13 @@ and (orientation: landscape) {
 #hero-area3 .banner_bottom_btn i:hover {
     color: #4676fa;
 }
+.col-4-footer{
+    padding:0px !important;
+    color: white;
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-left: 15px;
+    margin-bottom: 30px;
+    text-align: center;
+}

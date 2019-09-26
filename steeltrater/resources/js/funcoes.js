@@ -394,8 +394,8 @@ function entradaCodigo(idVlrUnit) {
  * @param {type} t
  * @returns {@var;d|@var;t|s|String}
  */
-function numeroParaMoeda(n, c, d, t)
-{
+function numeroParaMoeda(n, c, d, t) {
+    console.log(n, c);
     c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
@@ -811,7 +811,7 @@ function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDi
 
         requestAjax("", sClasse, 'getDadosProdSimilar', campoValSim);
     }
-    }
+}
 
 
 /**
@@ -830,11 +830,11 @@ function dimenProd(codProd, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, id
                 + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
         requestAjax("", sClasse, 'buscaDadosProd', campoVal);
     }
-    }
+}
 
 function PDFDimen(campoVal, sClasse) {
     requestAjax("", sClasse, 'geraPDF', campoVal);
-    }
+}
 
 function NewProjRep(idQt) {
 
@@ -1139,7 +1139,7 @@ function insereProd(proCod, proDes, quant, quantNConf, idProdTag, idProCod, idPr
  * Máscaras em campo decimal
  */
 
-function maskDecimal(idCampo) {
+function maskDecimal(idCampo, c) {
 
     var valor = $('#' + idCampo + '').val();
 
@@ -1147,7 +1147,8 @@ function maskDecimal(idCampo) {
         $('#' + idCampo + '').val('0');
     }
     valor = moedaParaNumero(valor);
-    $('#' + idCampo + '').val(numeroParaMoeda(valor));
+    console.log(c);
+    $('#' + idCampo + '').val(numeroParaMoeda(valor, c));
 }
 
 /**

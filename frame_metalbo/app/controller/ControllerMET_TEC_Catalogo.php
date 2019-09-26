@@ -60,6 +60,7 @@ class ControllerMET_TEC_Catalogo extends Controller {
         $_REQUEST['dadosUF'] = $_REQUEST['dadosUF'];
         $sReturn = require 'app/relatorio/PDFCart.php';
         
+        
         echo json_encode($sReturn);
         
     }

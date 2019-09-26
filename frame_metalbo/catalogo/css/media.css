@@ -1370,9 +1370,9 @@
         top: auto;
         height: 45px;
     }
-    .prodtb-i .prodtb-i-info {
+    .prodtb-i .quant-prod {
         top: auto;
-        height: 45px;
+        height: 35px;
         border-left: none;
     }
     .prodtb-i .prodtb-i-action {
@@ -1546,7 +1546,7 @@
         width: auto;
         float: none;
     }
-    .prodtb-i .prodtb-i-info {
+    .prodtb-i .quant-prod {
         padding: 2px 0px 0 20px;
         right: 140px;
     }

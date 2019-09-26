@@ -11,7 +11,7 @@ class ViewAutPrecoItem extends View{
     public function criaConsulta() {
         parent::criaConsulta();
         
-      
+   
         
         $oId= new CampoConsulta('id', 'id',  CampoConsulta::TIPO_TEXTO);
         $oTipo = new CampoConsulta('Tipo', 'tipo', CampoConsulta::TIPO_TEXTO);

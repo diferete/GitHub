@@ -5,6 +5,7 @@ $("#contactForm").validator().on("submit", function (event) {
         formError();
         submitMSG(false, "Preencha os campos do formulário!");
     } else {
+        alert('we in, boys');
         // everything looks good!
         event.preventDefault();
         submitForm();
@@ -14,101 +15,130 @@ $("#contactForm").validator().on("submit", function (event) {
 
 function submitForm() {
     // Initiate Variables With Form Content
-    var name = $("#name").val();
+    var nome = $("#nome").val();
     var email = $("#email").val();
-    var msg_subject = $("#msg_subject").val();
-    var message = $("#message").val();
-    var msg_estado = $("#msg_estado").val();
+    var assunto = $("#assunto").val();
+    var mensagem = $("#mensagem").val();
+    var uf = $("#uf").val();
     var cidade = $("#cidade").val();
 
-    switch (msg_estado) {
+    switch (uf) {
         case '12':
-            msg_estado = 'Acre';
+            uf = 'Acre';
             break;
         case '27':
-            msg_estado = 'Alagoas';
+            uf = 'Alagoas';
             break;
         case '16':
-            msg_estado = 'Amapá';
+            uf = 'Amapá';
             break;
         case '13':
-            msg_estado = 'Amazonas';
+            uf = 'Amazonas';
             break;
         case '29':
-            msg_estado = 'Bahia';
+            uf = 'Bahia';
             break;
         case '23':
-            msg_estado = 'Ceará';
+            uf = 'Ceará';
             break;
         case '53':
-            msg_estado = 'Distrito Federal';
+            uf = 'Distrito Federal';
             break;
         case '32':
-            msg_estado = 'Espírito Santo';
+            uf = 'Espírito Santo';
             break;
         case '52':
-            msg_estado = 'Goiás';
+            uf = 'Goiás';
             break;
         case '21':
-            msg_estado = 'Maranhão';
+            uf = 'Maranhão';
             break;
         case '51':
-            msg_estado = 'Mato Grosso';
+            uf = 'Mato Grosso';
             break;
         case '50':
-            msg_estado = 'Mato Grosso do Sul';
+            uf = 'Mato Grosso do Sul';
             break;
         case '31':
-            msg_estado = 'Minas Gerais';
+            uf = 'Minas Gerais';
             break;
         case '41':
-            msg_estado = 'Paraná';
+            uf = 'Paraná';
             break;
         case '25':
-            msg_estado = 'Paraíba';
+            uf = 'Paraíba';
             break;
         case '15':
-            msg_estado = 'Pará';
+            uf = 'Pará';
             break;
         case '26':
-            msg_estado = 'Pernambuco';
+            uf = 'Pernambuco';
             break;
         case '22':
-            msg_estado = 'Piauí';
+            uf = 'Piauí';
             break;
         case '33':
-            msg_estado = 'Rio de Janeiro';
+            uf = 'Rio de Janeiro';
             break;
         case '24':
-            msg_estado = 'Rio Grande do Norte';
+            uf = 'Rio Grande do Norte';
             break;
         case '43':
-            msg_estado = 'Rio Grande do Sul';
+            uf = 'Rio Grande do Sul';
             break;
         case '11':
-            msg_estado = 'Rondônia';
+            uf = 'Rondônia';
             break;
         case '14':
-            msg_estado = 'Roraima';
+            uf = 'Roraima';
             break;
         case '42':
-            msg_estado = 'Santa Catarina';
+            uf = 'Santa Catarina';
             break;
         case '28':
-            msg_estado = 'Sergipe';
+            uf = 'Sergipe';
             break;
         case '35':
-            msg_estado = 'São Paulo';
+            uf = 'São Paulo';
             break;
         case '17':
-            msg_estado = 'Tocantins';
+            uf = 'Tocantins';
             break;
     }
+
+    switch (assunto) {
+        case '1':
+            assunto = 'Cotações';
+            break;
+        case '2':
+            assunto = 'Apresentações';
+            break;
+        case '3':
+            assunto = 'NFe';
+            break;
+        case '4':
+            assunto = 'Compras';
+            break;
+        case '5':
+            assunto = 'Outros';
+            break;
+        default:
+            break;
+    }
+
+
+
+    console.log(nome + ' nome');
+    console.log(email + ' e-mail');
+    console.log(assunto + ' assunto');
+    console.log(uf + ' estado');
+    console.log(cidade + ' cidade');    
+    console.log(mensagem + ' mensagem');
 
     $.ajax({
         type: "POST",
         url: "php/form-process.php",
-        data: "name=" + name + "&email=" + email + "&msg_subject=" + msg_subject + "&message=" + message + "&msg_estado=" + msg_estado + "&cidade=" + cidade,
+        data: "nome=" + nome + "&email=" + email + "&assunto=" + assunto + "&mensagem=" + mensagem + "&uf=" + uf + "&cidade=" + cidade,
         success: function (text) {
             if (text == "success") {
                 formSuccess();
@@ -135,10 +165,11 @@ function formError() {
 function submitMSG(valid, msg) {
     if (valid) {
         var msgClasses = "h3 text-center tada animated text-success";
+        $("#msgSubmit").removeClass().addClass(msgClasses).text( msg);
     } else {
         var msgClasses = "h3 text-center text-danger";
+        $("#msgSubmit").removeClass().addClass(msgClasses).text('Por favor preencha esses campos: ' + msg);
     }
-    $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
 }
 
 
@@ -181,92 +212,3 @@ function mensagemErro(sTitulo, sMensagem) {
 
 
 
-
-$.getJSON("https://sistema.metalbo.com.br/index.php?classe=NoticiaSite&metodo=getFeed&filcgc=metalbo", function (data) {
-    var html = '';
-    data.forEach(function (o) {
-        html = html + '<div class="col-lg-4 col-md-4 col-sm-6">'
-                + '<div class="blog-item-wrapper">'
-                + '<div class="blog-item-img">'
-                + '</div>'
-                + '<div class="blog-item-text"> '
-                + '<h3>'
-                + '<span>' + (o['titulo']) + '</span>'
-                + '</h3>'
-                + '<hr class="lines">'
-                + '<div class="meta-tags">'
-                + '<span class="date"><i class="lnr lnr-calendar-full"></i>' + (o['data']) + '</span>'
-                + '</div>'
-                + '<p>' + (o['texto']) + '</p>'
-                + '</div>'
-                + '</div>'
-                + '</div>';
-    });
-    setTimeout(function () {
-        $("#loading").remove();
-        $("#divFeed").append(html);
-    }, 3000);
-
-});
-
-
-/*
- $(function () {
- $("#selEstado").hide();
- $("#toggler").on("click", function () {
- $("#repImg, #selEstado").toggle("5000");
- });
- });
- */
-
-$("#name").one("click", function mensagemAlert() {
-    var campo = $("#name").val();
-    if (campo == '') {
-        var sTit = "Caro usuário!";
-        var sMsg = "Antes de entrar em contato, dê uma olhadinha na nossa área de Representantes. Clique em SELECIONE SEU ESTADO(UF) e encontre o Representante por estado, mais próximo de você para fazer suas COTAÇÕES e ORÇAMENTOS ;)"
-        sweetAlert(sTit, sMsg, "info");
-    }
-});
-
-
-
-
-$(document).ready(function () {
-    $("#estado").change(function () {
-        var uf = $("#estado").val();
-        $("#modalrep").empty();
-        $.getJSON("https://sistema.metalbo.com.br/index.php?classe=BuscaRepSite&metodo=buscaRep" + "&uf=" + uf, function (result) {
-            var modal = '';
-            result.forEach(function (dados) {
-                modal = modal + '<div class="pricing-table">'
-                        + '<div class="blog-item-wrapper">'
-                        + '<div class="blog-item-img">'
-                        + '<a href="single-post.html">'
-                        + '</a>'
-                        + '</div>'
-                        + '<div class="blog-item-text">'
-                        + '<h5>' + (dados['nome']) + '</span></h5>'
-                        + '<hr>'
-                        + '<div class="meta-tags">'
-                        + '<span>' + (dados['estado']) + '</span>'
-                        + '</div>'
-                        + '<p>'
-                        + (dados['endereco']) + '<br/>'
-                        + (dados['bairro']) + ' - ' + (dados['cidade']) + '<br/>'
-                        + (dados['ufrep']) + ' - ' + (dados['pais']) + '<br/>'
-                        + 'CEP ' + (dados['cep']) + '<br/>'
-                        + 'Fone <a style="color:black !important" href ="tel:' + (dados['fone1']) + '">' + (dados['fone1']) + '</a><br/>'
-                        + 'Fone 2 <a style="color:black !important" href ="tel:' + (dados['fone2']) + '">' + (dados['fone2']) + '<br/>'
-                        + 'Email <a style="color:red" href="mailto:' + (dados['email1']) + '">' + (dados['email1']) + '</a><br/>'
-                        + '</p>'
-                        + '<a href="https://' + (dados['website']) + '" target="new" class="modal-site">' + (dados['website']) + '</a>'
-                        + '</div>'
-                        + '</div>'
-                        + '</div>'
-                        + '<br/>';
-            });
-            $("#modalrep").append(modal);
-            $("#callbtn").trigger("click");
-        });
-    });
-});
