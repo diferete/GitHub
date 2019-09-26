@@ -152,7 +152,7 @@ class Campo {
     const TITULO_DARK = 'dark';
     const TITULO_DANGER = 'danger';
     const TITULO_WARNING = 'warning';
-    
+
 
     /**
      * Construtor da classe Campo 
@@ -1782,6 +1782,7 @@ class Campo {
             case self::TIPO_BOTAOSIMPLES:
                 $sCampo = $this->getOBotao()->getRender();
                 break;
+                ;
             case self::TIPO_GRID:
                 $sCampo = $this->getOGrid()->getRender();
                 break;
@@ -2135,4 +2136,5 @@ class Campo {
     }
 
 }
+
 ?>

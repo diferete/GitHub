@@ -96,8 +96,8 @@ class ControllerUsuario extends Controller {
         session_cache_limiter('private');
         $cache_limiter = session_cache_limiter();
 
-        /* define o prazo do cache em 600 minutos */
-        session_cache_expire(10000);
+        /* define o prazo do cache em 10000 minutos */
+        session_cache_expire(100000);
         $cache_expire = session_cache_expire();
         session_set_cookie_params(99999999);
         session_start();
@@ -114,7 +114,7 @@ class ControllerUsuario extends Controller {
 
             $tempo_transcorrido = (strtotime($agora) - strtotime($dataSalva));
             //tempo em segundos
-            if ($tempo_transcorrido >= 28800) {
+            if ($tempo_transcorrido >= 10576000) {
                 if (isset($_SESSION["ultimoAcesso"])) {
                     $this->msgSessaoInvalida();
                 }
