@@ -15,6 +15,7 @@ class Grid {
     private $sController; //controle para pegar os dados
     private $aBotoes;
     private $bConsulta;
+    private $bBtnConsulta;
     private $sTituloConsulta; //monta o nome da pesquisa quando é mostrado o grid como consulta
     private $sRenderHide;
     private $aDropdown; //array onde estarão dropdowns disponiveis para renderização
@@ -80,6 +81,14 @@ class Grid {
         $this->setBUsaKeypress(true);
         $this->setBMostraFiltro(false);
         $this->setSNomeGrid('paramGrid');
+    }
+
+    function getBBtnConsulta() {
+        return $this->bBtnConsulta;
+    }
+
+    function setBBtnConsulta($bBtnConsulta) {
+        $this->bBtnConsulta = $bBtnConsulta;
     }
 
     function getBDesativaRetornoConsulta() {
@@ -777,38 +786,48 @@ class Grid {
             ($oBotao->getITipo() == 16) ? $sVizualizar = $oBotao->getId() : $sVizualizar;
         }
 
-        //fecha a pesquisa se necessário
-        if ($this->getBConsulta()) {
-            $sGrid .= ' </div>';
-            //monta evento do retorno
-            $sEventoRetorno = ' $("#' . $this->getSId() . ' tbody").on("dblclick", "tr", function () {'
-                    . ' var campoRet = $(this).find(".consultaCampo").html();'
-                    . '$("#' . $this->getSId() . 'form").remove();'
-                    . '$("#' . $this->getSCampoRetorno() . '").val(campoRet);'
-                    . '$("#' . $this->getSRenderHide() . '").toggle();'
-                    . '$("#' . $this->getSCampoRetorno() . '").focus();'
-                    . '$("#' . $this->getSCampoRetorno() . '").blur();'
-                    . '} );';
-
-            $sEnter = '$("#' . $this->getSId() . ' tbody").keypress(function(e) { '
-                    . 'if(e.which == 13) { '
-                    . ' $("#' . $this->getSId() . ' tbody .selected").each(function(){ '
-                    . '  var chaveRet = $(this).find(".consultaCampo").html(); '
-                    . '$("#' . $this->getSId() . 'form").remove();'
-                    . '$("#' . $this->getSCampoRetorno() . '").val(chaveRet);'
-                    . '$("#' . $this->getSRenderHide() . '").toggle();'
-                    . '$("#' . $this->getSCampoRetorno() . '").focus();'
-                    . '$("#' . $this->getSCampoRetorno() . '").blur();'
-                    . '                  }); '
-                    . '               } '
-                    . '             });';
-            $sEventoRetorno .= $sEnter;
-            if ($this->getBDesativaRetornoConsulta() == true) {
-                $sEventoRetorno = '';
-            }
-        }
+        
         //monta string duplo clique
         $dbClick = '';
+        //fecha a pesquisa se necessário
+        if ($this->getBConsulta()) {
+            if ($this->getBBtnConsulta()) {
+                $dbClick = ' $("#' . $this->getSId() . ' tbody").on("dblclick", "tr", function () {'
+                        . '$("#' . $sAlterarId . '").prop("disabled", false);'
+                        . '$(this).removeClass("selected");'
+                        . '$(this).addClass("selected");'
+                        . '$("#' . $sAlterarId . '").click();'
+                        . '} );';
+            } else {
+                $sGrid .= ' </div>';
+                //monta evento do retorno
+                $sEventoRetorno = ' $("#' . $this->getSId() . ' tbody").on("dblclick", "tr", function () {'
+                        . ' var campoRet = $(this).find(".consultaCampo").html();'
+                        . '$("#' . $this->getSId() . 'form").remove();'
+                        . '$("#' . $this->getSCampoRetorno() . '").val(campoRet);'
+                        . '$("#' . $this->getSRenderHide() . '").toggle();'
+                        . '$("#' . $this->getSCampoRetorno() . '").focus();'
+                        . '$("#' . $this->getSCampoRetorno() . '").blur();'
+                        . '} );';
+
+                $sEnter = '$("#' . $this->getSId() . ' tbody").keypress(function(e) { '
+                        . 'if(e.which == 13) { '
+                        . ' $("#' . $this->getSId() . ' tbody .selected").each(function(){ '
+                        . '  var chaveRet = $(this).find(".consultaCampo").html(); '
+                        . '$("#' . $this->getSId() . 'form").remove();'
+                        . '$("#' . $this->getSCampoRetorno() . '").val(chaveRet);'
+                        . '$("#' . $this->getSRenderHide() . '").toggle();'
+                        . '$("#' . $this->getSCampoRetorno() . '").focus();'
+                        . '$("#' . $this->getSCampoRetorno() . '").blur();'
+                        . '}); '
+                        . '} '
+                        . '});';
+                $sEventoRetorno .= $sEnter;
+                if ($this->getBDesativaRetornoConsulta() == true) {
+                    $sEventoRetorno = '';
+                }
+            }
+        }
         if (!$this->getBConsulta()) {
             $dbClick = ' $("#' . $this->getSId() . ' tbody").on("dblclick", "tr", function () {'
                     . '$("#' . $sAlterarId . '").prop("disabled", false);'

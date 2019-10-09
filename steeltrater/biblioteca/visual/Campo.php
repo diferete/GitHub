@@ -81,7 +81,6 @@ class Campo {
     private $iTamMarginTopBadge = 25;
     private $sTituloGridPainel;
     private $sCorTituloGridPainel;
-    private $iCasaDecimal;
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -122,11 +121,12 @@ class Campo {
     const TIPO_TAGS = 36;
     const TIPO_SELECTTAGS = 37;
     const TIPO_BOTAOSIMPLES = 38;
-    const TIPO_DECIMAL_COMPOSTO = 39;
     
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
+   
+    
     const EVENTO_SAIR = 'blur';
     const EVENTO_CHANGE = 'change';
     const EVENTO_FOCUS = 'focus';
@@ -152,6 +152,7 @@ class Campo {
     const TITULO_DARK = 'dark';
     const TITULO_DANGER = 'danger';
     const TITULO_WARNING = 'warning';
+
 
     /**
      * Construtor da classe Campo 
@@ -193,7 +194,6 @@ class Campo {
         $this->setSClasseUp('Upload');
         $this->setSMetodoUp('Upload');
         $this->setSCorTituloGridPainel(Campo::TITULO_DARK);
-        $this->setICasaDecimal(2);
 
 
         $this->aItemsSelect = array();
@@ -211,17 +211,20 @@ class Campo {
 
         switch ($this->iTipo) {
             case self::TIPO_BOTAOSMALL:
-                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL, '', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
                 break;
             case self::TIPO_BOTAOSMALL_SUB:
-                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL_SUB, '', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL_SUB,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
+
                 break;
             case self::TIPO_BOTAOSIMPLES:
-                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_BOTAOSIMPLES, '', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_BOTAOSIMPLES,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
+
                 break;
+
             case self::TIPO_GRID:
                 $this->oGrid = new Grid($sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena, $iAltGrid);
                 $this->oGrid->setSTituloConsulta($sLabel);
@@ -233,14 +236,6 @@ class Campo {
                 $this->setApenasTela(true);
                 break;
         }
-    }
-
-    function getICasaDecimal() {
-        return $this->iCasaDecimal;
-    }
-
-    function setICasaDecimal($iCasaDecimal) {
-        $this->iCasaDecimal = $iCasaDecimal;
     }
 
     function getSCorTituloGridPainel() {
@@ -1559,20 +1554,6 @@ class Campo {
                         . '</script>'
                         . $this->getRenderEventos();
                 break;
-            case self::TIPO_DECIMAL_COMPOSTO:
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
-                        //  .'<label for="input-money ">'.$this->getLabel().'</label>'
-                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
-                        . '</div>'
-                        . '</div>'
-                        . '<script>'
-                        . '$("#' . $this->getId() . '").blur(function(){maskDecimal("' . $this->getId() . '","' . $this->getICasaDecimal() . '")});'
-                        . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
-                        . '</script>'
-                        . $this->getRenderEventos();
-                break;
             case self::TIPO_SELECT:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
@@ -1801,6 +1782,7 @@ class Campo {
             case self::TIPO_BOTAOSIMPLES:
                 $sCampo = $this->getOBotao()->getRender();
                 break;
+                ;
             case self::TIPO_GRID:
                 $sCampo = $this->getOGrid()->getRender();
                 break;

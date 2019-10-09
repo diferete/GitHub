@@ -68,7 +68,7 @@ class ControllerQualNovoProjRep extends Controller {
 
         if ($this->Model->getSitgeralproj() != 'Representante') {
             $aOrdem = explode('=', $sChave);
-            $oMensagem = new Modal('Atenção!', 'A entrada de projeto nº' . $this->Model->getNr() . ' não pode ser modificada somente visualizada!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Atenção!', 'A entrada de projeto nº ' . $this->Model->getNr() . ' não pode ser modificada somente visualizada!', Modal::TIPO_ERRO, false, true, true);
             $this->setBDesativaBotaoPadrao(true);
             echo $oMensagem->getRender();
             //exit();
@@ -96,7 +96,7 @@ class ControllerQualNovoProjRep extends Controller {
             $oMensagem = new Modal('Liberação para projetos', 'Deseja liberar a entrada de projeto nº' . $aCamposChave['nr'] . ' para o setor de projetos?', Modal::TIPO_AVISO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","liberaProj","' . $sDados . '");');
         } else {
-            $oMensagem = new Modal('Atenção', 'A entrada de projeto nº' . $aCamposChave['nr'] . ' já está liberado para o setor de projetos da Metalbo!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'A entrada de projeto nº ' . $aCamposChave['nr'] . ' já está liberado para o setor de projetos da Metalbo!', Modal::TIPO_AVISO, false, true, true);
         }
 
         echo $oMensagem->getRender();
@@ -113,12 +113,12 @@ class ControllerQualNovoProjRep extends Controller {
         $bExecuta = $this->Persistencia->liberaProj($aCamposChave);
 
         if ($bExecuta) {
-            $oMensagem = new Mensagem('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' foi liberado com sucesso para o setor de projetos da Metalbo!', Modal::TIPO_SUCESSO);
+            $oMensagem = new Mensagem('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' foi liberado com sucesso para o setor de projetos da Metalbo!', Modal::TIPO_SUCESSO);
             echo $oMensagem->getRender();
             $this->EnvProjMetalbo($sChave);
             echo"$('#" . $aDados[1] . "-pesq').click();";
         } else {
-            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não foi liberado!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' não foi liberado!', Modal::TIPO_AVISO, false, true, true);
             echo $oMensagem->getRender();
             echo"$('#" . $aDados[1] . "-pesq').click();";
         }
@@ -137,7 +137,7 @@ class ControllerQualNovoProjRep extends Controller {
         if ($bSit == true) {
             $this->EnvProjMetalbo($sChave);
         } else {
-            $oMensagem = new Modal('Atenção', 'A entrada de projeto nº' . $aCamposChave['nr'] . ' ainda não foi liberado!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'A entrada de projeto nº ' . $aCamposChave['nr'] . ' ainda não foi liberado!', Modal::TIPO_AVISO, false, true, true);
             echo $oMensagem->getRender();
         }
     }

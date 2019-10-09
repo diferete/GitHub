@@ -56,7 +56,7 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         $oOp->setSCampoRetorno('op', $this->getTela()->getId());
         $oOp->setBFocus(true);       
         
-        $oBtnPesqOp = new Campo('Pesquisar','btn1', Campo::TIPO_BOTAOSMALL);
+        $oBtnPesqOp = new Campo('Pesquisar','btn1', Campo::TIPO_BOTAOSMALL,1,1,1,1);
         $oBtnPesqOp->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
         
         $oSeq = new Campo('','seq', Campo::TIPO_TEXTO,1);
@@ -89,6 +89,7 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
         $oTurno->addItemSelect('Turno B','Turno B');
         $oTurno->addItemSelect('Turno C','Turno C');
         $oTurno->addItemSelect('Turno D','Turno D');
+        $oTurno->addItemSelect('Geral','Geral');
         $oTurno->setSValor($oOuserDados->getTurnoSteel());
         //-----------------------combo dos fornos---------------------------
          $oFornoChoice = new campo('FORNO PARA APONTAMENTO ','fornoCombo', Campo::CAMPO_SELECTSIMPLE,3,3,3,3);

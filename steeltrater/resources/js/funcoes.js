@@ -394,8 +394,7 @@ function entradaCodigo(idVlrUnit) {
  * @param {type} t
  * @returns {@var;d|@var;t|s|String}
  */
-function numeroParaMoeda(n, c, d, t) {
-    console.log(n, c);
+function numeroParaMoeda(n, c, d, t){
     c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
@@ -1147,7 +1146,6 @@ function maskDecimal(idCampo, c) {
         $('#' + idCampo + '').val('0');
     }
     valor = moedaParaNumero(valor);
-    console.log(c);
     $('#' + idCampo + '').val(numeroParaMoeda(valor, c));
 }
 

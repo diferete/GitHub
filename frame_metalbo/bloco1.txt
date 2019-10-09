@@ -1,2 +1,2 @@
-update tbsessao set usulastacesso = '2019-9-26 14:13:04' 
-            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'n4u99mlniefovkabn7ql5f4t36'
+update tbsessao set usulastacesso = '2019-10-9 16:06:28' 
+            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'ife8q82im3aeqivqffdmneli63'

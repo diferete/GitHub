@@ -25,7 +25,17 @@ class ModelSTEEL_PCP_ordensFabApontEnt {
     private $codusersaida;
     private $usernomesaida;
     private $turnoSteel;
+    private $turnoSteelSaida;
     
+    function getTurnoSteelSaida() {
+        return $this->turnoSteelSaida;
+    }
+
+    function setTurnoSteelSaida($turnoSteelSaida) {
+        $this->turnoSteelSaida = $turnoSteelSaida;
+    }
+
+        
     function getTurnoSteel() {
         return $this->turnoSteel;
     }

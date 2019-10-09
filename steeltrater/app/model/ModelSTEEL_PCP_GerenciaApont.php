@@ -25,6 +25,15 @@ class ModelSTEEL_PCP_GerenciaApont {
     private $codusersaida;
     private $usernomesaida;
     private $turnoSteel;
+    private $turnoSteelSaida;
+    
+    function getTurnoSteelSaida() {
+        return $this->turnoSteelSaida;
+    }
+
+    function setTurnoSteelSaida($turnoSteelSaida) {
+        $this->turnoSteelSaida = $turnoSteelSaida;
+    }
 
     function getOp() {
         return $this->op;

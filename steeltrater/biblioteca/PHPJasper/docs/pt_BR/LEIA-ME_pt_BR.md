@@ -52,10 +52,10 @@ Apresento para vocês **JasperReports** a melhor solução open source que exist
 
 ## Opcional
 
-* [Mysql JDBC Driver](http://dev.mysql.com/downloads/connector/j/) (se você pretende usar esse tipo de banco de dados)
+* [Mysql JDBC Driver](https://dev.mysql.com/downloads/connector/j/) (se você pretende usar esse tipo de banco de dados)
 * [PostgreSQL JDBC Driver](https://jdbc.postgresql.org/download.html) (se você pretende usar esse tipo de banco de dados)
 * [Microsoft JDBC Drivers](https://www.microsoft.com/en-US/download/details.aspx?id=11774) (se você pretende usar esse tipo de banco de dados)
-* [Jaspersoft Studio](http://community.jaspersoft.com/project/jaspersoft-studio) (para escrever e compilar seus relatórios)
+* [Jaspersoft Studio](https://community.jaspersoft.com/project/jaspersoft-studio) (para escrever e compilar seus relatórios)
 
 ### Instalando o Java(JDK)
 
@@ -78,7 +78,7 @@ Para instalar no (centOS/Fedora) faça o seguinte:
 
     # yum install java-1.8.0-openjdk.x86_64
 
-Para instalar no Windows visite o link-> [JDK](http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html) e veja qual a versão mais apropriada para o seu Sistema Operacional.
+Para instalar no Windows visite o link-> [JDK](https://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html) e veja qual a versão mais apropriada para o seu Sistema Operacional.
 
 Agora rode novamente o comando `javac -version` e veja se deu tudo certo.
 
@@ -86,7 +86,7 @@ Agora rode novamente o comando `javac -version` e veja se deu tudo certo.
 
 ## Instalando a biblioteca PHPJasper
 
-Instale o [Composer](http://getcomposer.org), e rode o comando:
+Instale o [Composer](https://getcomposer.org), e rode o comando:
 
 ```
 composer require geekcom/phpjasper
@@ -218,7 +218,7 @@ $jasper->process(
 
 **Nota 2:**
 
-Para a lista completa de idiomas suportados veja o link [Supported Locales](http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html)
+Para a lista completa de idiomas suportados veja o link [Supported Locales](https://www.oracle.com/technetwork/java/javase/java8locales-2095355.html)
 
 ### Relatórios com banco de dados MSSQL
 
@@ -321,7 +321,7 @@ Para mais exemplos: [PHPJasper Examples](https://github.com/PHPJasper/examples)
 
 ### MySQL
 
-Incluímos o [MySQL connector](http://dev.mysql.com/downloads/connector/j/) (v5.1.39) na pasta `/src/JasperStarter/jdbc/`
+Incluímos o [MySQL connector](https://dev.mysql.com/downloads/connector/j/) (v5.1.39) na pasta `/src/JasperStarter/jdbc/`
 
 ### PostgreSQL
 
@@ -338,7 +338,7 @@ Depende da complexidade do seu relatório.
 
 ## Agradecimentos
 
-[Cenote GmbH](http://www.cenote.de/) pelo [JasperStarter](https://bitbucket.org/cenote/jasperstarter/) tool.
+[Cenote GmbH](https://www.cenote.de/) pelo [JasperStarter](https://bitbucket.org/cenote/jasperstarter/) tool.
 
 [JetBrains](https://www.jetbrains.com/) pelo [PhpStorm](https://www.jetbrains.com/phpstorm/) e seu grande apoio.
 

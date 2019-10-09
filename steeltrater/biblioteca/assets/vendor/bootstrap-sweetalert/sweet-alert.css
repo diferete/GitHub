@@ -749,7 +749,7 @@
     border-color: #f8d486;
   }
   100% {
-    border-color: #f8bb86;
+    border-color: #ff8400;
   }
 }
 @-o-keyframes pulseWarning {
@@ -757,7 +757,7 @@
     border-color: #f8d486;
   }
   100% {
-    border-color: #f8bb86;
+    border-color: #ff8400;
   }
 }
 @keyframes pulseWarning {
@@ -765,7 +765,7 @@
     border-color: #f8d486;
   }
   100% {
-    border-color: #f8bb86;
+    border-color: #ff8400;
   }
 }
 .pulseWarning {
@@ -778,7 +778,7 @@
     background-color: #f8d486;
   }
   100% {
-    background-color: #f8bb86;
+    background-color: #ff8400;
   }
 }
 @-o-keyframes pulseWarningIns {
@@ -786,7 +786,7 @@
     background-color: #f8d486;
   }
   100% {
-    background-color: #f8bb86;
+    background-color: #ff8400;
   }
 }
 @keyframes pulseWarningIns {
@@ -794,7 +794,7 @@
     background-color: #f8d486;
   }
   100% {
-    background-color: #f8bb86;
+    background-color: #ff8400;
   }
 }
 .pulseWarningIns {

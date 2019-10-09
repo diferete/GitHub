@@ -91,7 +91,7 @@ Unicode Data for SHY:
 // the hyphenateText() method, but this requires either an
 // hyphenation pattern array of a hyphenation pattern TEX file.
 // You can download hyphenation TEX patterns from:
-// http://www.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/
+// https://www.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/
 
 // EXAMPLE:
 

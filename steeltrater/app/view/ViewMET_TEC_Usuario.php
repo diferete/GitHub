@@ -143,6 +143,7 @@ class ViewMET_TEC_Usuario extends View {
         $oTurnoSteel->addItemSelect('Turno B','Turno B');
         $oTurnoSteel->addItemSelect('Turno C','Turno C');
         $oTurnoSteel->addItemSelect('Turno D','Turno D');
+        $oTurnoSteel->addItemSelect('Geral','Geral');
 
         $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit),$oLinha, 
                 array($oUserNome, $oSobrenome),$oLinha, 

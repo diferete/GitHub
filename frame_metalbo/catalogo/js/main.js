@@ -1683,3 +1683,7 @@ function verificaCarrinho(cod) {
         return 'false';
     }
 }
+
+$(document).ready(function () {
+    document.body.style.zoom = "90%";
+}); 

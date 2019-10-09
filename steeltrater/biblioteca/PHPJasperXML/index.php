@@ -6,7 +6,7 @@ echo <<< EOF
 <image src="simitlogo.jpg"><br>
 Developer: Ng Jey Ruey (jeyruey@gmail.com)<br>
 Project Leader: KS Tan (kstan@simit.com.my)<br>
-Organization: <a href='http://www.simit.com.my'>Sim IT Sdn Bhd</a><br>
+Organization: <a href='https://www.simit.com.my'>Sim IT Sdn Bhd</a><br>
     <h1>PHP Jasper XML ($version) Example</h1><br>
 	
     <p><B>Example:</B></p>

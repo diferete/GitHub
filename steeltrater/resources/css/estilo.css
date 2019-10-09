@@ -175,21 +175,21 @@ table{
   }*/
 
 .fundo_amarelo{
-    background:#FFF8DC;
+    background:#FFF8DC !important;
 }
 .fundo_azul{
-    background:#ADD8E6;
+    background:#ADD8E6 !important;
 }
 .fundo_verde{
-    background:#F0FFF0;
+    background:#F0FFF0 !important;
 }
 
 .fundo_money{
-    background:#C1CDC1;
+    background:#C1CDC1 !important;
 }
 
 .fundo_vermelho{
-    background: #FFC2B3;
+    background: #FFC2B3 !important;
 }
 
 .cor_vermelho{

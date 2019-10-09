@@ -200,25 +200,27 @@ class ControllerCadCliRep extends Controller {
     }
 
     public function getCNPJ($sDados) {
-        $aDados = explode('|', $sDados);
+        $aDados = explode('*', $sDados);
+        $aDadosEMP = explode('|',$aDados[0]);
+        $aIdCampos = explode('|',$aDados[1]);  
         if ($aDados[0] != '') {
             $sRet = $this->Persistencia->buscaCNPJ($aDados[0]);
             if ($sRet == false) {
                 $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
             } else {
-                $sSetValorCampos = '$("#' . $aDados[12] . '").val("' . $aDados[0] . '");'
-                        . '$("#' . $aDados[13] . '").val("' . $aDados[1] . '");'
-                        . '$("#' . $aDados[14] . '").val("' . $aDados[2] . '");'
-                        . '$("#' . $aDados[15] . '").val("' . $aDados[3] . '");'
-                        . '$("#' . $aDados[16] . '").val("' . $aDados[4] . '");'
-                        . '$("#' . $aDados[17] . '").val("' . $aDados[5] . '");'
-                        . '$("#' . $aDados[18] . '").val("' . $aDados[6] . '");'
-                        . '$("#' . $aDados[19] . '").val("' . $aDados[7] . '");'
-                        . '$("#' . $aDados[20] . '").val("' . $aDados[8] . '");'
-                        . '$("#' . $aDados[21] . '").val("' . $aDados[9] . '");'
-                        . '$("#' . $aDados[22] . '").val("' . $aDados[10] . '");'
-                        . '$("#' . $aDados[23] . '").val("' . $aDados[11] . '");';
+                $sSetValorCampos = '$("#' . $aIdCampos[0] . '").val("' . $aDadosEMP[0] . '");'
+                        . '$("#' . $aIdCampos[1] . '").val("' . $aDadosEMP[1] . '");'
+                        . '$("#' . $aIdCampos[2] . '").val("' . $aDadosEMP[2] . '");'
+                        . '$("#' . $aIdCampos[3] . '").val("' . $aDadosEMP[3] . '");'
+                        . '$("#' . $aIdCampos[4] . '").val("' . $aDadosEMP[4] . '");'
+                        . '$("#' . $aIdCampos[5] . '").val("' . $aDadosEMP[5] . '");'
+                        . '$("#' . $aIdCampos[6] . '").val("' . $aDadosEMP[6] . '");'
+                        . '$("#' . $aIdCampos[7] . '").val("' . $aDadosEMP[7] . '");'
+                        . '$("#' . $aIdCampos[8] . '").val("' . $aDadosEMP[8] . '");'
+                        . '$("#' . $aIdCampos[9] . '").val("' . $aDadosEMP[9] . '");'
+                        . '$("#' . $aIdCampos[10] . '").val("' . $aDadosEMP[10] . '");'
+                        . '$("#' . $aIdCampos[11] . '").val("' . $aDadosEMP[11] . '");';
                 echo $sSetValorCampos;
                 $oMensagem = new Mensagem('Sucesso', 'Busca efetuada com sucesso!', Mensagem::TIPO_SUCESSO);
                 echo $oMensagem->getRender();

@@ -30,6 +30,7 @@ class PersistenciaSTEEL_PCP_GerenciaApont extends Persistencia {
         $this->adicionaRelacionamento('codusersaida', 'codusersaida');
         $this->adicionaRelacionamento('usernomesaida', 'usernomesaida');
         $this->adicionaRelacionamento('turnoSteel', 'turnoSteel');
+        $this->adicionaRelacionamento('turnoSteelSaida', 'turnoSteelSaida');
 
         $this->setSTop('100');
         $this->adicionaOrderBy('op', 1);

@@ -172,6 +172,35 @@ class ViewSTEEL_PCP_OrdensFab extends View {
             }
         }
 
+       
+        
+        $oDataemi = new campo('Emissão','dataemidoc', Campo::TIPO_DATA,2,2,2,2);
+        //$oDataemi->setSValor(date('d/m/Y'));
+        if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
+            if (method_exists($oDados, 'getNfsdtemiss')) {
+                $oDataemi->setSValor(date('d/m/Y', strtotime($oDados->getNfsdtemiss())));//
+             }
+        } else {
+            if (method_exists($oDados, 'getDataemidoc')) {
+                $oDataemi->setSValor(date('d/m/Y', strtotime($oDados->getDataemidoc())));
+            }
+        }  
+        
+         
+        
+        $oSerie = new campo('Série','serie_nf', Campo::TIPO_TEXTO,1,1,1,1);
+        //$oSerie->setSValor('1');
+        if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
+            if (method_exists($oDados, 'getNfsnfser')) {
+                $oSerie->setSValor($oDados->getNfsnfser());
+            }
+        } else {
+            if (method_exists($oDados, 'getNfnro')) {
+                $oSerie->setSValor($oDados->getNfser());
+            }
+        } 
+       
+        
         $oTipo = new Campo('Tipo OP', 'tipoOrdem', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
         $oTipo->addItemSelect('P', 'Padrão - Tempera');
         $oTipo->addItemSelect('F', 'Fio Máquina - Industrialização');
@@ -268,7 +297,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oProdFinal->setSCampoRetorno('pro_codigo', $this->getTela()->getId());
         $oProdFinal->addCampoBusca('pro_descricao', $oProdFinalDes->getId(), $this->getTela()->getId());
         //pesquisa produto material receita 
-        $oBtnPesqOp = new Campo('Pesquisar Prod/Mat/Receita', 'btn1', Campo::TIPO_BOTAOSMALL, 2, 2, 12, 12);
+        $oBtnPesqOp = new Campo('Busca receita', 'btn1', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
         $oBtnPesqOp->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
         $oBtnPesqOp->setApenasTela(true);
         //evento para buscar pela referencia            
@@ -280,8 +309,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
 
         //referencia do produto do cliente
-        $oReferencia = new campo('Referência do Cliente <span class="badge badge-success">Ativado busca</span>'
-                . '<span class="badge badge-warning">Para Metalbo não necessário informar</span>', 'referencia', Campo::TIPO_TEXTO, 6, 6, 6, 6);
+        $oReferencia = new campo('Referência  <span class="badge badge-warning">Para Metalbo não necessário informar</span>', 'referencia', Campo::TIPO_TEXTO, 6, 6, 6, 6);
         $oReferencia->setSCorFundo(Campo::FUNDO_AMARELO);
         //$oReferencia->addValidacao(false, Validacao::TIPO_STRING);
         if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
@@ -361,8 +389,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oLinha = new Campo('', 'linha', Campo::TIPO_LINHA, 12);
         $oLinha->setApenasTela(true);
 
-        $oQuant = new Campo('Quant{Peso ou CT}', 'quant', Campo::TIPO_DECIMAL_COMPOSTO, 2);
-        $oQuant->setICasaDecimal(4);
+        $oQuant = new Campo('Quant{Peso ou CT}', 'quant', Campo::TIPO_DECIMAL, 2);
         $oQuant->setSValor('0,00');
         $oQuant->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
@@ -394,6 +421,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oValorUnit = new campo('Valor Unitário', 'vlrNfEntUnit', Campo::TIPO_DECIMAL, 1);
         $oValorUnit->setSValor('0,00');
+        //$oValorUnit->setICasaDecimal(4);
         if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
             if (method_exists($oDados, 'getVlrNfEntUnit')) {
                 $oValorUnit->setSValor(number_format($oDados->getVlrNfEntUnit(), 2, ',', '.'));
@@ -403,9 +431,16 @@ class ViewSTEEL_PCP_OrdensFab extends View {
                 $oValorUnit->setSValor(number_format($oDados->getVlrUnit(), 2, ',', '.'));
             }
         }
+        
+                    
+        
+        
+        
+        
 
         $oValorEnt = new campo('Valor Total', 'vlrNfEnt', Campo::TIPO_DECIMAL, 1);
         $oValorEnt->setSValor('0,00');
+        //$oValorEnt->setICasaDecimal(4);
         $oValorEnt->setBCampoBloqueado(true);
         if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
             if (method_exists($oDados, 'getVlrNfEnt')) {
@@ -538,7 +573,9 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oField2->addCampos($oPendencia, $oPendenciaObs);
 
 
-        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, array($oDocumento, $oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oXPed, $nItemPed, $oNrcert), $oField1, $oField2);
+        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, 
+                array($oDocumento,$oDataemi,$oSerie),$oLinha,
+                array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oXPed, $nItemPed, $oNrcert), $oField1, $oField2);
     }
 
     /*
@@ -681,15 +718,24 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oRetrabalho->addItemSelect('Sim', 'Sim');
         $oRetrabalho->addItemSelect('Sim S/Cobrança', 'Sim S/Cobrança');
         $oRetrabalho->addItemSelect('Retorno não Ind.', 'Retorno não Ind.');
-
+        
         $sLabe2 = new campo('<h5 style="color:red">* Ops de retorno não industrializado não entram apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
         $sLabe2->setApenasTela(true);
         $sLabe2->setIMarginTop(3);
 
+        $oListaEtapa = new campo('Lista apontamentos da etapa do processo','listaEtapa', Campo::TIPO_CHECK,6,6,6,6);
+        
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
+        
+        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2,2,2,2);
+        $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
+        $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","relatorioExcelApontamentos");';
+        $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel), $oLinha1, $oRetrabalho, $sLabe2);
+        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel), $oLinha1, $oRetrabalho, $sLabe2 ,$oListaEtapa, $oLinha1,$oXls);
+
+     //   $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel), $oLinha1, $oRetrabalho, $sLabe2);
     }
 
     public function criaModalAponta() {
@@ -765,10 +811,41 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oDiv1->setApenasTela(true);
 
         $sLinha = new Campo('', 'label', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        
+        //grid para carregar inicio do processo
+         $oGridInicioProcesso = new Campo('Etapas do processo','apontInicio', Campo::TIPO_GRIDVIEW,12,12,12,12);
+         $oGridInicioProcesso->setSTituloGridPainel('Etapas do processo');
+         $oGridInicioProcesso->setSCorTituloGridPainel(Campo::TITULO_DANGER);
+         $oGridInicioProcesso->addCabGridView('Etapa');
+         $oGridInicioProcesso->addCabGridView('Tratamento');
+         $oGridInicioProcesso->addCabGridView('Forno/Trefila');
+         $oGridInicioProcesso->addCabGridView('DataEnt');
+        // $oGridInicioProcesso->addCabGridView('HoraEnt');
+         $oGridInicioProcesso->addCabGridView('UserEnt');
+         $oGridInicioProcesso->addCabGridView('Situação');
+         $oGridInicioProcesso->addCabGridView('DataSaida');
+        // $oGridInicioProcesso->addCabGridView('HoraSaida');
+         $oGridInicioProcesso->addCabGridView('UserSaída');
+        
+        $oEtapasLanc = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEtapas');
+        $aDadosEtapa = $oEtapasLanc->Persistencia->consultaEtapaApontada($oDados->getOp());
+        
+        foreach ($aDadosEtapa as $key => $aValue) {
+            $oGridInicioProcesso->addLinhasGridView($key,$aValue['opseq']);
+            $oGridInicioProcesso->addLinhasGridView($key, $aValue['tratdes']);
+            $oGridInicioProcesso->addLinhasGridView($key, $aValue['fornodes']);
+            $oGridInicioProcesso->addLinhasGridView($key, $aValue['dataent_forno']);
+          //  $oGridInicioProcesso->addLinhasGridView($key, substr($aValue['horaent_forno'],0,-8));//substr($oDadosOp->getHoraent_forno(), 0, -8)
+            $oGridInicioProcesso->addLinhasGridView($key, $aValue['usernome']);
+            $oGridInicioProcesso->addLinhasGridView($key, $aValue['situacao']);
+            $oGridInicioProcesso->addLinhasGridView($key, $aValue['datasaida_forno']);
+          //  $oGridInicioProcesso->addLinhasGridView($key, substr($aValue['horasaida_forno'],0,-8));
+            $oGridInicioProcesso->addLinhasGridView($key, $aValue['usernomesaida']); 
+        }
+         
 
 
-
-        $this->addCampos(array($oOp, $oForno, $oCod, $oDes), $oDiv, $sLinha, array($oDtEnt, $oHoEnt, $oUserE), $sLinha, $oDiv1, $sLinha, array($oDtSai, $oHoSai, $oUserS));
+        $this->addCampos(array($oOp, $oForno, $oCod, $oDes), $oDiv, $sLinha, array($oDtEnt, $oHoEnt, $oUserE), $sLinha, $oGridInicioProcesso,$oDiv1, $sLinha, array($oDtSai, $oHoSai, $oUserS));
     }
 
     public function criaModalFat($aOp) {

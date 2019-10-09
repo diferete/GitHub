@@ -30,6 +30,7 @@ class PersistenciaSTEEL_PCP_ordensFabApontEnt extends Persistencia {
         $this->adicionaRelacionamento('codusersaida','codusersaida');
         $this->adicionaRelacionamento('usernomesaida','usernomesaida');
         $this->adicionaRelacionamento('turnoSteel', 'turnoSteel');
+        $this->adicionaRelacionamento('turnoSteelSaida','turnoSteelSaida');
 
         $this->setSTop('500');
         $this->adicionaOrderBy('seq', 1);
@@ -45,7 +46,8 @@ class PersistenciaSTEEL_PCP_ordensFabApontEnt extends Persistencia {
         $sSql ="insert into STEEL_PCP_ordensFabApont (op,seq,fornocod,fornodes,procod,prodes,dataent_forno,horaent_forno,situacao,coduser,usernome,turnoSteel)"
                 . " values(".$oDadosOp->getOp().",".$iSeq.","
                 . " ".$aCampos['fornocod'].",'".$aCampos['fornodes']."','".$oDadosOp->getProdFinal()."',"
-                . "'".$oDadosOp->getProdesFinal()."','".$sData."','".$sHora."','Processo','".$aCampos['coduser']."','".$aCampos['usernome']."','".$aCampos['turnoSteel']."');";
+                . "'".$oDadosOp->getProdesFinal()."','".$sData."','".$sHora."','Processo','".$aCampos['coduser']."',"
+                . "'".$aCampos['usernome']."','".$aCampos['turnoSteel']."');";
         $aRetorno = $this->executaSql($sSql);
         
         //muda a situacao da op para em processo
@@ -58,7 +60,7 @@ class PersistenciaSTEEL_PCP_ordensFabApontEnt extends Persistencia {
     
     public function deletarOp($aOpseq){
         
-        $sSql="delete from STEEL_PCP_ordensFabApont where op='".$aOpseq['op']."'and seq='".$aOpseq['seq']."'   ";
+        $sSql="delete from STEEL_PCP_ordensFabApont where op='".$aOpseq['op']."' and seq='".$aOpseq['seq']."'   ";
         $aRetorno = $this->executaSql($sSql);
        
         return $aRetorno;        

@@ -48,7 +48,8 @@ class ControllerSTEEL_PCP_ordensFabApontSaida extends Controller {
         $sClasse = $this->getNomeClasse();
         $this->Persistencia->adicionaFiltro('op', $aCamposChave['op']);
         $oOpAtual = $this->Persistencia->consultarWhere();
-
+        
+       
         if ($oOpAtual->getSituacao() !== 'Processo') {
             $oMensagem = new Modal('Atenção!', 'O apontamento da OP nº' . $aCamposChave['op'] . ' não pode ser finalizada, somente é possível finalizar apontamentos em processo!', Modal::TIPO_AVISO, false, true, true);
             echo $oMensagem->getRender();
@@ -84,6 +85,51 @@ class ControllerSTEEL_PCP_ordensFabApontSaida extends Controller {
         }
        
     }
+    
+    /*      
+     * Finaliza a OP
+     */
+    public function finalizaOPTurnoSaida($sDados) {
+        
+        $aId = explode(',', $sDados);
+        
+        $aCamposTela = $this->getArrayCampostela();
+        
+         $oOuser = Fabrica::FabricarController('MET_TEC_Usuario');
+        $oOuser->Persistencia->adicionaFiltro('usucodigo',$_SESSION['codUser']);
+        $oOuserDados = $oOuser->Persistencia->consultarWhere();
+        if($oOuserDados->getTurnoSteel()==null||$oOuserDados->getTurnoSteel()=='Nenhum'||$oOuserDados->getTurnoSteel()==''){
+           $oMensagem = new Modal('Atenção!', 'O usuário não tem cadastro de turno, cadastre um turno para o usuário!', Modal::TIPO_AVISO, false, true, true);
+            echo $oMensagem->getRender();
+            exit();
+        }
+        
+        $this->Persistencia->adicionaFiltro('op', $aCamposTela['op']);
+        $oOpAtual = $this->Persistencia->consultarWhere();
+        
+        if ($oOpAtual->getSituacao() !== 'Processo') {
+            $oMensagem = new Modal('Atenção!', 'O apontamento da OP nº' . $aCamposTela['op'] . ' não pode ser finalizada, somente é possível finalizar apontamentos em processo!', Modal::TIPO_AVISO, false, true, true);
+            echo $oMensagem->getRender();
+            exit();
+        }
+        
+        
+        //chama o método na persistencia
+        $aRetorno = $this->Persistencia->finalizarOPTurno($aCamposTela);
+
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('Atenção!', 'O apontamento da OP ' . $aCamposTela['op'] . ' foi finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+            echo"$('#".$aId[0]."-pesq').click();"; 
+            echo "$('#modalApontaFinalizarSemEtapa-btn').click();"; 
+        } else {
+            $oMensagem = new Mensagem('Erro!', 'O apontamento da OP ' . $aCamposTela['op'] . ' não foi finalizado com sucesso! >>>>' . $aRetorno[1], Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+            
+        }
+       
+    }
+    
     /*
      * Mengagem que chama posteriormente o método
      * para retornar o apontamento para Processo
@@ -154,14 +200,30 @@ class ControllerSTEEL_PCP_ordensFabApontSaida extends Controller {
                 }}
                 $this->Persistencia->adicionaFiltro('fornocod',$sForno);
              }
-            
-            
-            
-             
-           
+          }
+          
+           /**
+    * Modal apontamentos
+    */
+     public function criaTelaModalApontaFinalizar($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $aChave = explode('&', $aDados[2]);
+        $aOp= explode('=', $aChave[0]);
+        $aOpEtapa = explode('=', $aChave[1]);
+        
+        $oOpApont = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
+        $oOpApont->Persistencia->adicionaFiltro('op',$aOp[1]);
+        $oDadosApont = $oOpApont->Persistencia->consultarWhere();
+        
+        echo '$("#modalApontaFinalizarSemEtapa-modal >").remove();';
+        
+        $this->View->criaTelaModalApontaFinalizar($oDadosApont);
+        //busca lista pela op
 
+        $this->View->getTela()->setSRender($aDados[0] . '-modal');
 
-
-            
+        //renderiza a tela
+        $this->View->getTela()->getRender();
     }
 }    

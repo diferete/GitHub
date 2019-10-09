@@ -3962,9 +3962,6 @@ class Controller {
         if ($oCampo->getITipo() == 29) {
             $xValor = number_format($xValor, 2, ',', '.');
         }
-        if ($oCampo->getITipo() == 39) {
-            $xValor = number_format($xValor, $oCampo->getICasaDecimal(), ',', '.');
-        }
 
         if ($oCampo->getITipo() == 0) {
             if ($xValor !== '') {

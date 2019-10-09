@@ -65,6 +65,7 @@ class Botao {
         $this->setRequestAjax($sAcao);
         $this->sStyleBotao = Botao::TIPO_SUCCESS;
         $this->setIMarginTop(0);
+
         $this->setSTelaGrande($sTelaGrande);
         $this->setSTelaMedia($sTelaMedia);
         $this->setSTelaPequena($sTelaPequena);
@@ -308,6 +309,17 @@ class Botao {
                         . ' </div>'
                         . ' </div>'
                         . '</div>';
+
+                break;
+            case self::TIPO_SMALL_SUB:
+                $sBotao = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '  btn-acao-grid" style="margin-top:' . $this->getIMarginTop() . 'px;">'
+                        . '<button type="button" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form btn-outline " id="' . $this->getId() . '" data-target="#' . $this->getSNomeModal() . '" data-toggle="modal"' . $this->setDesativado($this->getBDesativado()) . '>'
+                        . '<span><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</span>'
+                        . '</button>'
+                        . '</div>'
+                        . '<script>'
+                        . '' . $this->getAAcao() . ''
+                        . '</script>';
                 break;
             case self::TIPO_PESQUISAR:
                 $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="margin-top: 22px; margin-rigth:0px;left:-8px;z-index:2" >'
@@ -329,16 +341,6 @@ class Botao {
                         . '<a href="javascript:void(0)" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form ladda-button" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . ' data-target="#' . $this->getSNomeModal() . '" data-toggle="modal">'
                         . '<i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</a>'
                         . '</input>'
-                        . '</div>'
-                        . '<script>'
-                        . '' . $this->getAAcao() . ''
-                        . '</script>';
-                break;
-            case self::TIPO_SMALL_SUB:
-                $sBotao = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '  btn-acao-grid" style="margin-top:' . $this->getIMarginTop() . 'px;">'
-                        . '<button type="button" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form btn-outline " id="' . $this->getId() . '" data-target="#' . $this->getSNomeModal() . '" data-toggle="modal"' . $this->setDesativado($this->getBDesativado()) . '>'
-                        . '<span><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</span>'
-                        . '</button>'
                         . '</div>'
                         . '<script>'
                         . '' . $this->getAAcao() . ''

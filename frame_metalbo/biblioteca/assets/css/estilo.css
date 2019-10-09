@@ -15,7 +15,7 @@
     margin-top: 20px;
 }
 .btn-acao-grid{
-    padding: 2px !important;
+    padding: 2px 5px 0 0 !important;
 
 }
 .margin-btn{
@@ -80,7 +80,7 @@
 }
 .tr-bk-verde{
     color: white;
-    background-color: #006f00;
+    background-color: #0f5539;
 }
 .tr-bk-azul{
     color: white;

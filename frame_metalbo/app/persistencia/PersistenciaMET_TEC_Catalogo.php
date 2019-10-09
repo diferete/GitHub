@@ -293,8 +293,8 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         $aRetorno = array();
         $aDadosRet = array();
         while ($oRowDB = $result->fetch(PDO::FETCH_OBJ)) {
-            $aDadosRet['cod'] = $oRowDB->subcod;
-            $aDadosRet['desc'] = $oRowDB->subdes;
+            $aDadosRet['cod'] = trim($oRowDB->subcod);
+            $aDadosRet['desc'] = trim($oRowDB->subdes);
             $aRetorno[] = $aDadosRet;
         }
         return $aRetorno;
@@ -306,8 +306,8 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         $aRetorno = array();
         $aDadosRet = array();
         while ($oRowDB = $result->fetch(PDO::FETCH_OBJ)) {
-            $aDadosRet['cod'] = $oRowDB->famcod;
-            $aDadosRet['desc'] = $oRowDB->famdes;
+            $aDadosRet['cod'] = trim($oRowDB->famcod);
+            $aDadosRet['desc'] = trim($oRowDB->famdes);
             $aRetorno[] = $aDadosRet;
         }
         return $aRetorno;
@@ -319,8 +319,8 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         $aRetorno = array();
         $aDadosRet = array();
         while ($oRowDB = $result->fetch(PDO::FETCH_OBJ)) {
-            $aDadosRet['cod'] = $oRowDB->famsub;
-            $aDadosRet['desc'] = $oRowDB->famsdes;
+            $aDadosRet['cod'] = trim($oRowDB->famsub);
+            $aDadosRet['desc'] = trim($oRowDB->famsdes);
             $aRetorno[] = $aDadosRet;
         }
         return $aRetorno;

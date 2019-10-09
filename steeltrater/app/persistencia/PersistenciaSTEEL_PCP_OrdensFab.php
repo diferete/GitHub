@@ -82,6 +82,8 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $this->adicionaRelacionamento('rnc','rnc');
         $this->adicionaRelacionamento('opantes','opantes');
         
+        $this->adicionaRelacionamento('dataemidoc', 'dataemidoc');
+        $this->adicionaRelacionamento('serie_nf', 'serie_nf');
       
         
         $this->adicionaOrderBy('op',1);

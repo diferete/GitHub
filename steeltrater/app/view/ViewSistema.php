@@ -96,7 +96,6 @@ class ViewSistema extends View {
                 . '<script type="text/javascript"src="biblioteca/datatables/media/js/jquery.dataTables.js"></script>'
                 . '<script type="text/javascript"src="biblioteca/datatables/extensions/Select/js/dataTables.select.min.js"></script> '
                 . '<script type="text/javascript"src="biblioteca/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script>'
-                . '<script type="text/javascript" src="biblioteca/datatables/extensions/FixedColumns/js/dataTables.fixedColumns.min.js"></script>'
                 . '<!-- Datepicker-->'
                 . '<link href="biblioteca/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>'
                 . '<!-- Select2 -->'

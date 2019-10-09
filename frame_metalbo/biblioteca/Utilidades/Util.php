@@ -281,11 +281,13 @@ class Util {
      * */
     public static function limpaString($sString) {
 
-        $sStringLimpa = str_replace("\n", " ", $sString);
-        $sStringLimpa1 = str_replace("'", "\'", $sStringLimpa);
-        $sStringLimpa2 = str_replace("\r", "", $sStringLimpa1);
+        $sString = str_replace("\n", " ", $sString);
+        $sString = str_replace("'", "\'", $sString);
+        $sString = str_replace("\r", "", $sString);
+        $sString = rtrim($sString);
+        $sString = ltrim($sString);
 
-        return $sStringLimpa2;
+        return $sString;
     }
 
     /**

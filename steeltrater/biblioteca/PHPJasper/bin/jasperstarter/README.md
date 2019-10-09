@@ -168,7 +168,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-   http://www.apache.org/licenses/LICENSE-2.0
+   https://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -176,14 +176,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-[jasperstater.cenote.de]:http://jasperstarter.cenote.de/
-[JasperReports]:http://community.jaspersoft.com/project/jasperreports-library
-[Maven]:http://maven.apache.org/
-[Sourceforge]:http://sourceforge.net/projects/jasperstarter/
-[bitbucket.org/cenote/jasperstarter]:http://bitbucket.org/cenote/jasperstarter
-[review]:http://sourceforge.net/projects/jasperstarter/reviews
-[discussion]:http://sourceforge.net/p/jasperstarter/discussion/
+[jasperstater.cenote.de]:https://jasperstarter.cenote.de/
+[JasperReports]:https://community.jaspersoft.com/project/jasperreports-library
+[Maven]:https://maven.apache.org/
+[Sourceforge]:https://sourceforge.net/projects/jasperstarter/
+[bitbucket.org/cenote/jasperstarter]:https://bitbucket.org/cenote/jasperstarter
+[review]:https://sourceforge.net/projects/jasperstarter/reviews
+[discussion]:https://sourceforge.net/p/jasperstarter/discussion/
 [Issuetracker]:https://cenote-issues.atlassian.net/browse/JAS
-[Usage]:http://jasperstarter.sourceforge.net/usage.html
+[Usage]:https://jasperstarter.sourceforge.net/usage.html
 [Issues]:https://cenote-issues.atlassian.net/browse/JAS
 [Changes]:changes.html

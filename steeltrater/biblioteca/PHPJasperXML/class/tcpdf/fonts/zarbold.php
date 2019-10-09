@@ -1,7 +1,7 @@
 <?php
 /* 		Mohammad Ali Golkar
 		m.a.golkar@gmail.com
-		http://www.30minonline.com
+		https://www.30minonline.com
 		LICENSE : GPLv2	*/
 $type='TrueTypeUnicode';
 $name='ZarBold';
