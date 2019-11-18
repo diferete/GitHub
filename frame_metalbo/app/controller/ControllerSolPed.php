@@ -17,14 +17,13 @@ class ControllerSolPed extends Controller {
     /**
      * Método para carregar o representante
       public function carregaRep($sDados){
-        $aDados = explode(',', $sDados);
+      $aDados = explode(',', $sDados);
       if($aDados[2]<>''){
       $aRetorno =$this->Persistencia->buscaRep($aDados[2]);
       echo"$('#".$aDados[0]."').val('".$aRetorno[0]."');"
       ."$('#".$aDados[1]."').val('".$aRetorno[1]."');";
-        }
+      }
       } */
-    
     public function antesDeCriarTela($sParametros = null) {
         parent::antesDeCriarTela($sParametros);
 
@@ -270,6 +269,62 @@ class ControllerSolPed extends Controller {
 
 
         echo $sRetorno;
+    }
+
+    public function geraAnexoSolEmail($sDados) {
+        $aDados = explode(',', $sDados);
+        $sNR[] = $aDados[3];
+        $sChave = htmlspecialchars_decode($sNR[0]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $sParametros = $this->getSget();
+        $aParametros = explode('&', $sParametros);
+
+        $aParam = array();
+        foreach ($aParametros as $key => $value) {
+            $aItems = explode('=', $value);
+            $aParam[$aItems[0]] = $aItems[1];
+        }
+
+        $_REQUEST['st'] = $this->beforeRel($sDados);
+        $_REQUEST['nr'] = $aCamposChave['nr'];
+        $_REQUEST['tabcab'] = $aParam['tabcab'];
+        $_REQUEST['itencab'] = $aParam['itencab'];
+        $_REQUEST['imgrel'] = $aParam['imgrel'];
+        $_REQUEST['output'] = 'email';
+        $_REQUEST['dir'] = $_SESSION['diroffice'];
+        $_REQUEST['logo'] = 'comlogo';
+
+        require 'app/relatorio/solvenda.php';
+    }
+
+    public function geraAnexoSolEmailSLogo($sDados) {
+        $aDados = explode(',', $sDados);
+        $sNR[] = $aDados[3];
+        $sChave = htmlspecialchars_decode($sNR[0]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $sParametros = $this->getSget();
+        $aParametros = explode('&', $sParametros);
+
+        $aParam = array();
+        foreach ($aParametros as $key => $value) {
+            $aItems = explode('=', $value);
+            $aParam[$aItems[0]] = $aItems[1];
+        }
+
+        $_REQUEST['st'] = $this->beforeRel($sDados);
+        $_REQUEST['nr'] = $aCamposChave['nr'];
+        $_REQUEST['tabcab'] = $aParam['tabcab'];
+        $_REQUEST['itencab'] = $aParam['itencab'];
+        $_REQUEST['imgrel'] = $aParam['imgrel'];
+        $_REQUEST['output'] = 'email';
+        $_REQUEST['dir'] = $_SESSION['diroffice'];
+        $_REQUEST['logo'] = 'semlogo';
+
+        require 'app/relatorio/solvenda.php';
     }
 
 }

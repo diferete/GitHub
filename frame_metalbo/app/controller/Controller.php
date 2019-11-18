@@ -2984,6 +2984,10 @@ class Controller {
                 $msg = "" . $oLimpa->limpaForm($sForm) . ""
                         . "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
                 echo $msg;
+                
+                //chama método após limpar os forms dos campos
+                $this->afterResetForm($aDados);
+                
                 //verifica se o campo precisa ser fechado após dar um confirma
                 if ($this->View->getTela()->getBFecharTelaIncluir()) {
                     //BASE PARA FECHAR

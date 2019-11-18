@@ -55,7 +55,7 @@ class Config {
       const PORTA_BD = 1433;
       const USER_BD = 'sa';
       const NOME_BD = 'rex_maquinas';
-      const HOST_BD = 'Metalbobase02';
+      const HOST_BD = 'MetalboServer';
       const PASS_BD = 'M@quinas@321';
 
 

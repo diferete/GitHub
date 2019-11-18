@@ -36,7 +36,7 @@ class ViewQualContencao extends View {
         $oPlan->setILargura(500);
 
         $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
-        $oDataAponta = new CampoConsulta('Apontamento','dtaponta', CampoConsulta::TIPO_DATA);
+        $oDataAponta = new CampoConsulta('Apontamento', 'dtaponta', CampoConsulta::TIPO_DATA);
 
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
@@ -46,7 +46,7 @@ class ViewQualContencao extends View {
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
         $this->getOGridDetalhe()->setSNomeGrid('detalheContecao');
-        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
+        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
@@ -71,7 +71,7 @@ class ViewQualContencao extends View {
         $oPlan->setILargura(500);
 
         $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
-        $oDataAponta = new CampoConsulta('Apontamento','dtaponta', CampoConsulta::TIPO_DATA);
+        $oDataAponta = new CampoConsulta('Apontamento', 'dtaponta', CampoConsulta::TIPO_DATA);
 
         $oUsunome = new CampoConsulta('Responsável', 'usunome');
 
@@ -81,7 +81,7 @@ class ViewQualContencao extends View {
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
         $this->getTela()->setSNomeGrid('detalheContencao');
-        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
+        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
     }
 
     public function criaTela() {
@@ -135,6 +135,7 @@ class ViewQualContencao extends View {
         $oTipo = new Campo('Tipo ação', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTipo->setSValor($aValor[3]);
         $oTipo->setBCampoBloqueado(true);
+        
         if ($aValor[3] == 'Ação Preventiva') {
             $oTipo->setSCorFundo(Campo::FUNDO_VERDE);
             $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);

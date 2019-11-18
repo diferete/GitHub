@@ -15,11 +15,21 @@ class ControllerUpload extends Controller {
         if (isset($_FILES)) {
             foreach ($_FILES as $oAtual) {
                 if (isset($oAtual)) {
+                    $aParametros = explode(',', $_REQUEST['parametros']);
+
                     $oArquivo['CAMPO'] = $_REQUEST['nome'];
 
-                    //Captura raiz do servidor, concatenando pasta do projeto e url de upload
-                    // $oArquivo['DIRETORIO'] = $_SERVER['DOCUMENT_ROOT'].Config::PROJ_FOLDER . '/Uploads/';
-                    $oArquivo['DIRETORIO'] = 'Uploads/';
+                    if ($aParametros[0]) {
+                        $sRetorno = $this->verificaDiretorio($aParametros);
+                        if ($sRetorno == 'criado' || $sRetorno == 'existe') {
+                            $oArquivo['DIRETORIO'] = $aParametros[0] . '/';
+                        }
+                    } else {
+
+                        //Captura raiz do servidor, concatenando pasta do projeto e url de upload
+                        // $oArquivo['DIRETORIO'] = $_SERVER['DOCUMENT_ROOT'].Config::PROJ_FOLDER . '/Uploads/';
+                        $oArquivo['DIRETORIO'] = 'Uploads/';
+                    }
 
                     //Caputura nome do arquivo a ser feito upload
                     $oArquivo['NOME'] = $oAtual['name'];
@@ -30,9 +40,13 @@ class ControllerUpload extends Controller {
                     //Captura extensão do arquivo
                     $oArquivo['EXTENSAO'] = pathinfo($oArquivo['NOME'], PATHINFO_EXTENSION);
 
-                    //Cria novo nome, junto com a extensão
-                    $oArquivo['NOME_NOVO'] = md5(date("d_m_y_h_i_s")) . '.' . $oArquivo['EXTENSAO'];
-
+                    if ($aParametros[1]) {
+                        //Cria novo nome, junto com a extensão
+                        $oArquivo['NOME_NOVO'] = date("d-m-Y_h-i ") . $oArquivo['NOME'];
+                    } else {
+                        //Cria novo nome, junto com a extensão
+                        $oArquivo['NOME_NOVO'] = md5(date("d_m_y_h_i_s")) . '.' . $oArquivo['EXTENSAO'];
+                    }
                     //Concatena pasta diretorio, juntamente com novo nome do arquivo   
                     $oArquivo['DIR_NOME'] = $oArquivo['DIRETORIO'] . $oArquivo['NOME_NOVO'];
 
@@ -47,13 +61,21 @@ class ControllerUpload extends Controller {
                     $sRetorno = json_encode(['uploaded' => 'true', 'nome' => $oArquivo['NOME_NOVO'], 'campo' => $oArquivo['CAMPO']]);
 
                     echo $sRetorno;
-                    
                 } else {
                     echo '0';
                 }
             }
         } else {
             echo '0';
+        }
+    }
+
+    function verificaDiretorio($aParametros) {
+        if (!is_dir($aParametros[0])) {
+            mkdir($aParametros[0], 0755);
+            return 'criado';
+        } else {
+            return 'existe';
         }
     }
 

@@ -74,6 +74,11 @@
     font-size: 11px !important;
 }
 
+.tb-bk-darkgray{
+    color: white;
+    background-color:darkgray;
+}
+
 .tr-bk-vermelha{
     color: white;
     background-color:#F00;

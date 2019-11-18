@@ -43,7 +43,7 @@ class PersistenciaQualAq extends Persistencia {
         $this->adicionaRelacionamento('obscancela', 'obscancela');
         $this->adicionaRelacionamento('usucancela', 'usucancela');
 
-        $this->adicionaFiltro('filcgc', '75483040000211');
+        $this->adicionaFiltro('filcgc',$_SESSION['filcgc']);
 
         $this->adicionaJoin('EmpRex');
 

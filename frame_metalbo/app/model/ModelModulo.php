@@ -2,7 +2,7 @@
 class ModelModulo{
     private $modcod;
     private $modescricao;
-    
+
     function getModcod() {
         return $this->modcod;
     }

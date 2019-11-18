@@ -131,6 +131,7 @@ class ViewMET_TEC_Chamados extends View {
 
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setBCampoBloqueado(true);
+        $oNr->setBOculto(true);
 
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oFilcgc->setBCampoBloqueado(true);

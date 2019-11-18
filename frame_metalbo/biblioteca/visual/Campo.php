@@ -82,6 +82,8 @@ class Campo {
     private $sTituloGridPainel;
     private $sCorTituloGridPainel;
     private $iCasaDecimal;
+    private $bNomeArquivo;
+    private $sDiretorio;
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -134,6 +136,8 @@ class Campo {
     const EVENTO_FOCUS = 'focus';
     const EVENTO_KEYUP = 'keyup';
     const EVENTO_ENTER = 'enter';
+    const EVENTO_CLICK = 'click';
+    
     const BADGE_SUCCESS = 'label-success';
     const BADGE_WARNING = 'label-warning';
     const BADGE_DANGER = 'label-danger';
@@ -196,6 +200,7 @@ class Campo {
         $this->setSMetodoUp('Upload');
         $this->setSCorTituloGridPainel(Campo::TITULO_DARK);
         $this->setICasaDecimal(2);
+        $this->setBNomeArquivo(false);
 
 
         $this->aItemsSelect = array();
@@ -235,6 +240,22 @@ class Campo {
                 $this->setApenasTela(true);
                 break;
         }
+    }
+
+    function getBNomeArquivo() {
+        return $this->bNomeArquivo;
+    }
+
+    function getSDiretorio() {
+        return $this->sDiretorio;
+    }
+
+    function setBNomeArquivo($bNomeArquivo) {
+        $this->bNomeArquivo = $bNomeArquivo;
+    }
+
+    function setSDiretorio($sDiretorio) {
+        $this->sDiretorio = $sDiretorio;
     }
 
     function getICasaDecimal() {
@@ -1663,7 +1684,7 @@ class Campo {
                         . $this->getExtensoes($this->getSExtensaoPermitidas())
                         . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
                         . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
-                        . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '", ' // url do arquivo php, que fara a cópia para o server
+                        . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '&parametros=' . $this->getSDiretorio() . ',' . $this->getBNomeArquivo() . '", ' // url do arquivo php, que fara a cópia para o server
                         . 'overwriteInitial: true, '
                         . 'initialCaption: "Selecione um arquivo...", '
                         . 'uploadAsync: true, '
@@ -2119,8 +2140,8 @@ class Campo {
                 break;
             case self::CAMPO_SELECTSIMPLE://margin-top:8px;
                 $sCampo = '<div style="" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
-                        . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'                        
+                        . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<select name="' . $this->getNome() . '" class="form-control input-sm" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
 
                 foreach ($this->getAItemsSelect() as $key => $svalue) {

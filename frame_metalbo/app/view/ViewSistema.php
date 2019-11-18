@@ -340,6 +340,7 @@ class ViewSistema extends View {
                 . '<h6 class="media-heading">Setor: ' . $sSetor . '</h6>'
                 . '<h6 class="media-heading">Login: ' . $_SESSION['loginUser'] . '</h6>'
                 . '<h6 class="media-heading">Código: ' . $_SESSION['codUser'] . '</h6>'
+                . '<h6 class="media-heading">Email: ' . $_SESSION['email'] . '</h6>'
                 . $sRep
                 . '</div>'
                 . '</div>'

@@ -11,6 +11,15 @@ class ModelMET_CAD_Funcionarios {
     private $numcad;
     private $nomfun;
     private $cpf;
+    private $cargo;
+
+    function getCargo() {
+        return $this->cargo;
+    }
+
+    function setCargo($cargo) {
+        $this->cargo = $cargo;
+    }
 
     function getNumcad() {
         return $this->numcad;

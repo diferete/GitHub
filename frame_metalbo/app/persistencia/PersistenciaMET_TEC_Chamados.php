@@ -39,17 +39,26 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->adicionaRelacionamento('anexo3', 'anexo3');
 
 
-        if ($_SESSION['codsetor'] != 2 || $_SESSION['filcgc'] != '75483040000211' || $_SESSION['repoffice'] != '') {
+        if ($_SESSION['codsetor'] != 2) {
             $this->adicionaFiltro('setor', $_SESSION['codsetor']);
-            $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
-            $this->adicionaFiltro('repoffice', $_SESSION['repofficedes']);
+            if ($_SESSION['filcgc'] != '75483040000211') {
+                $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
+                if ($_SESSION['repoffice'] != '') {
+                    $this->adicionaFiltro('repoffice', $_SESSION['repofficedes']);
+                }
+            }
         }
-
         $this->setSTop('50');
         $this->adicionaOrderBy('nr', 1);
     }
 
     public function buscaDadosChamado($aDados) {
+        $sSql = "select * from MET_TEC_Chamados where filcgc = '" . $aDados['filcgc'] . "' and usucod = '" . $aDados['usucod'] . "' and setor = '" . $aDados['setor'] . "' and datacad = '" . $aDados['datacad'] . "' and horacad = '" . $aDados['horacad'] . "' and tipo = '" . $aDados['tipo'] . "' and subtipo = '" . $aDados['subtipo'] . "' and problema = '" . $aDados['problema'] . "'";
+        $oDados = $this->consultaSql($sSql);
+        return $oDados;
+    }
+
+    public function buscaProblema($aDados) {
         $sSql = 'select * from MET_TEC_Chamados where nr = ' . $aDados['nr'] . ' and filcgc = ' . $aDados['filcgc'];
         $oDados = $this->consultaSql($sSql);
         return $oDados;
