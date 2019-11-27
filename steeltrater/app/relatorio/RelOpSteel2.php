@@ -49,7 +49,7 @@ $pdf->Cell(0,5,'','T',1,'L');
 
 
 //Inicio
-     
+     $sRetrabalho = $_REQUEST['retrabalho'];
      $sSituacao=$_REQUEST['situa'];
      $iEmpCodigo=$_REQUEST['emp_codigo'];
      //busca os dados do banco
@@ -62,22 +62,34 @@ $pdf->Cell(0,5,'','T',1,'L');
           if($sSituacao!=='Todas'){
               $sSqli.=" and situacao='".$sSituacao."' ";
           }else{
-              $sSqli.=" and situacao<>'Cancelada' ";
+              $sSqli.=" and situacao not in ('Cancelada','Retornado') ";
           }
           if($iEmpCodigo!==''){
               $sSqli.=" and emp_codigo='".$iEmpCodigo."' ";
+          }
+          if($sRetrabalho!='Incluir'){
+              $sSqli.=" and retrabalho='".$sRetrabalho."' ";
+          }else{
+              $sSqli.=" and retrabalho <> 'Retorno não Ind.' and retrabalho <> 'OP origem retrabalho' "; 
           }
           
    $dadosRela = $PDO->query($sSqli);
    
    //Filtros escolhidos
-   $pdf->SetFont('Arial','B',12);
-   $pdf->Cell(50,10,'Filtros escolhidos:', '',0, 'L',0);
+   $pdf->SetFont('Arial','B',10);
+   $pdf->Cell(35, 10,'Filtros escolhidos:', '',0, 'L',0);
    
-   $pdf->SetFont('Arial','',10);
-   $pdf->Cell(30,10,'Data inicial: '.$dtinicial.
-           '         Data final: '.$dtfinal.
-           '         Situação: '.$sSituacao, '',1, 'L',0);
+   if($iEmpCodigo==null){
+       $iEmpCodigo = 'Todos';
+   }
+   $pdf->SetFont('Arial','',9);
+   $pdf->Cell(50,10,'Data inicial: '.$dtinicial.
+           '   Data final: '.$dtfinal.
+           '   Empresa: '.$iEmpCodigo.
+           '   Situação: '.$sSituacao.
+           '   Retrabalho: '.$sRetrabalho.
+           ' ', '',1, 'L',0);
+   
    
    
    //$pdf->SetFont('Arial','',9);
@@ -86,16 +98,16 @@ $pdf->Cell(0,5,'','T',1,'L');
    
    //Títulos do relatório
    $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(8,5,'OP', 'B,R,L,T',0, 'C',0);
+   $pdf->Cell(12,5,'OP', 'B,R,L,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
    $pdf->Cell(15,5,'Prod.', 'B,R,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(100,5,'Descrição', 'B,R,T',0, 'C',0);
+   $pdf->Cell(110,5,'Descrição', 'B,R,T',0, 'C',0);
    
-   $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(14,5,'Quant.', 'B,R,T',0, 'C',0);
+   //$pdf->SetFont('Arial','B',9);
+   //$pdf->Cell(14,5,'Quant.', 'B,R,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
    $pdf->Cell(14,5,'Peso', 'B,R,T',0, 'C',0);
@@ -119,35 +131,32 @@ $pdf->Cell(0,5,'','T',1,'L');
    
   
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(8, 6, $row['op'],'L,B',0,'C');
+   $pdf->Cell(12, 6, $row['op'],'L,B,T',0,'C');
        
    $pdf->SetFont('Arial','',8);
-   $pdf->Cell(15, 6, $row['prod'],'L,B',0,'L');
+   $pdf->Cell(15, 6, $row['prod'],'L,B,T',0,'L');
        
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(100, 6, $row['prodes'],'L,B',0,'L');
+   $pdf->Cell(110, 6, $row['prodes'],'L,B,T',0,'L');
+   
+  // $pdf->SetFont('Arial','',7);
+  // $pdf->Cell(14, 6, number_format($row['quant'], 2, ',', '.'),'L,B',0,'R');
    
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(14, 6, number_format($row['quant'], 2, ',', '.'),'L,B',0,'R');
-   
-   $pdf->SetFont('Arial','',7);
-   $pdf->Cell(14, 6, number_format($row['peso'], 2, ',', '.'),'L,B',0,'R');
-   
- //  $pdf->SetFont('Arial','',8);
- //  $pdf->Cell(34, 6, $row['opcliente'],'L,B',0,'R');
+   $pdf->Cell(14, 6, number_format($row['peso'], 2, ',', '.'),'L,B,T',0,'R');
        
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(18, 6, $row['data'],'L,B',0,'C');
+   $pdf->Cell(18, 6, $row['data'],'L,B,T',0,'C');
    
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(18, 6, $row['dataprev'],'L,B',0,'C');
+   $pdf->Cell(18, 6, $row['dataprev'],'L,B,T',0,'C');
    
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(15, 6, $row['situacao'],'L,B,R',1,'C');
+   $pdf->Cell(15, 6, $row['situacao'],'L,B,R,T',1,'C');
   
    
    $Pesototal=($row['peso']+$Pesototal);
-   $Quanttotal=($row['quant']+$Quanttotal);
+   //$Quanttotal=($row['quant']+$Quanttotal);
    }
 
    $pdf->Cell(50,5,'','B',1,'L');
@@ -155,8 +164,8 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->SetFont('Arial','',9);
    $pdf->Cell(100, 2, '','',1,'C');
    
-   $pdf->SetFont('Arial','B',10);
-   $pdf->Cell(100, 8, 'Quant. Total: '.number_format($Quanttotal, 2, ',', '.'),'',1,'J');
+   //$pdf->SetFont('Arial','B',10);
+   //$pdf->Cell(100, 8, 'Quant. Total: '.number_format($Quanttotal, 2, ',', '.'),'',1,'J');
    
    $pdf->SetFont('Arial','B',10);
    $pdf->Cell(99, 8, 'Peso Total: '.number_format($Pesototal, 2, ',', '.'),'',0,'J');

@@ -77,17 +77,37 @@ class ModelSTEEL_PCP_OrdensFab {
     
     private $rnc;
     
-    private $opAntes;
+    private $opantes;
     
-    function getOpAntes() {
-        return $this->opAntes;
+    private $dataemidoc;
+    private $serie_nf;
+    
+    function getDataemidoc() {
+        return $this->dataemidoc;
     }
 
-    function setOpAntes($opAntes) {
-        $this->opAntes = $opAntes;
+    function getSerie_nf() {
+        return $this->serie_nf;
     }
 
-                
+    function setDataemidoc($dataemidoc) {
+        $this->dataemidoc = $dataemidoc;
+    }
+
+    function setSerie_nf($serie_nf) {
+        $this->serie_nf = $serie_nf;
+    }
+
+     
+    function getOpantes() {
+        return $this->opantes;
+    }
+
+    function setOpantes($opantes) {
+        $this->opantes = $opantes;
+    }
+
+                    
     function getRnc() {
         return $this->rnc;
     }

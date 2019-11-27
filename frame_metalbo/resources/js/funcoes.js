@@ -394,8 +394,7 @@ function entradaCodigo(idVlrUnit) {
  * @param {type} t
  * @returns {@var;d|@var;t|s|String}
  */
-function numeroParaMoeda(n, c, d, t)
-{
+function numeroParaMoeda(n, c, d, t) {
     c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
@@ -795,7 +794,7 @@ function calcNewproj(idPlan,
 }
 
 /**
- * funcao para valores do dimensional da entraga de novos projetos
+ * funcao para valores do dimensional da entrada de novos projetos
  */
 function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
         idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice,
@@ -809,10 +808,31 @@ function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDi
                 + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ','
                 + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass + ',' + codProCod + ',' + idDiamMat;
 
-        console.log(campoValSim);
-
         requestAjax("", sClasse, 'getDadosProdSimilar', campoValSim);
     }
+}
+
+
+/**
+ * funcao para valores do dimensional da entraga de novos projetos
+ */
+function dimenProd(codProd, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
+        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice,
+        idAcab, idMat, idClass, sClasse) {
+    if (codProd == '') {
+        return;
+    } else {
+
+        var campoVal = codProd + ',' + idChMin + ',' + idChMax + ',' + idAltMin + ',' + idAltMax + ',' + idDiamFmin + ',' + idDiamFmax + ','
+                + idCompMin + ',' + idCompMax + ',' + idDiamPmin + ',' + idDiamPmax + ',' + idDiamExMin + ',' + idDiamExMax + ',' + idCompPrMin + ','
+                + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ','
+                + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
+        requestAjax("", sClasse, 'buscaDadosProd', campoVal);
+    }
+}
+
+function PDFDimen(campoVal, sClasse) {
+    requestAjax("", sClasse, 'geraPDF', campoVal);
 }
 
 function NewProjRep(idQt) {
@@ -1118,7 +1138,7 @@ function insereProd(proCod, proDes, quant, quantNConf, idProdTag, idProCod, idPr
  * Máscaras em campo decimal
  */
 
-function maskDecimal(idCampo) {
+function maskDecimal(idCampo, c) {
 
     var valor = $('#' + idCampo + '').val();
 
@@ -1126,7 +1146,7 @@ function maskDecimal(idCampo) {
         $('#' + idCampo + '').val('0');
     }
     valor = moedaParaNumero(valor);
-    $('#' + idCampo + '').val(numeroParaMoeda(valor));
+    $('#' + idCampo + '').val(numeroParaMoeda(valor, c));
 }
 
 /**
@@ -1195,11 +1215,11 @@ function buscaCNPJ(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
 /**
  * funçao para chamar json com dados do CNPJ
  */
-function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
-    if (sCNPJ !== '') {
+function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
+    if (sEmpcod !== '') {
         $.ajax({
             type: 'REQUEST',
-            url: "https://www.receitaws.com.br/v1/cnpj/" + sCNPJ,
+            url: "https://www.receitaws.com.br/v1/cnpj/" + sEmpcod,
             contentType: 'application/json',
             dataType: 'jsonp',
             success: function (data) {
@@ -1213,7 +1233,7 @@ function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
                     if ($.isNumeric(numero)) {
                         numero = numero;
                     } else {
-                        numero = '';
+                        numero = '0';
                     }
                     var empdes = data.nome;
                     var empfant = data.fantasia;
@@ -1227,23 +1247,16 @@ function cnpjBusca(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
                     var complemento = data.complemento;
                     var nr = numero;
 
-                    var ids = idEmpdes + ',' + idEmpfant + ',' + idEmpfone + ',' + idEmail + ',' + idCep + ',' + idMunicipio + ',' + idEndereco + ',' + idUf + ',' + idBairro + ',' + idComplemento + ',' + idNr;
-                    var valores = sCNPJ + ',' + empdes + ',' + empfant + ',' + empfone + ',' + email + ',' + cep + ',' + municipio + ',' + endereco + ',' + uf + ',' + bairro + ',' + complemento + ',' + nr;
-                    requestAjax("", sClasse, 'getCNPJ', valores + ',' + ids);
+                    var ids = idCNPJ + '|' + idEmpdes + '|' + idEmpfant + '|' + idEmpfone + '|' + idEmail + '|' + idCep + '|' + idMunicipio + '|' + idEndereco + '|' + idUf + '|' + idBairro + '|' + idComplemento + '|' + idNr;
+                    var valores = sEmpcod + '|' + empdes + '|' + empfant + '|' + empfone + '|' + email + '|' + cep + '|' + municipio + '|' + endereco + '|' + uf + '|' + bairro + '|' + complemento + '|' + nr;
 
-
+                    requestAjax("", sClasse, 'getCNPJ', valores + '*' + ids);
                 }
             },
             error: function (error) {
                 mensagemSlide('error', 'Erro ao tentar buscar CNPJ!', 'Busca CNPJ');
             }
-
         });
-
     }
 }
 
-/*function fetchdata() {
- alert('got here');
- setInterval(fetchdata, 5000);
- }*/

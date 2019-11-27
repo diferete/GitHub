@@ -38,7 +38,7 @@ Well, everything. JasperReports is a powerful tool for **reporting** and **BI**.
 
 > The JasperReports Library is the world's most popular open source reporting engine. It is entirely written in Java and it is able to use data coming from any kind of data source and produce pixel-perfect documents that can be viewed, printed or exported in a variety of document formats including HTML, PDF, Excel, OpenOffice and Word.
 
-It is recommended using [Jaspersoft Studio](http://community.jaspersoft.com/project/jaspersoft-studio) to build your reports, connect it to your datasource (ex: MySQL, POSTGRES), loop thru the results and output it to PDF, XLS, DOC, RTF, ODF, etc.
+It is recommended using [Jaspersoft Studio](https://community.jaspersoft.com/project/jaspersoft-studio) to build your reports, connect it to your datasource (ex: MySQL, POSTGRES), loop thru the results and output it to PDF, XLS, DOC, RTF, ODF, etc.
 
 *Some examples of what you can do:*
 
@@ -46,7 +46,7 @@ It is recommended using [Jaspersoft Studio](http://community.jaspersoft.com/proj
 * Reports
 * Listings
 
-Package to generate reports with [JasperReports 6.3.1](http://community.jaspersoft.com/project/jaspersoft-studio/releases) library through [JasperStarter v3.1.0](https://bitbucket.org/cenote/jasperstarter) command-line tool.
+Package to generate reports with [JasperReports 6.3.1](https://community.jaspersoft.com/project/jaspersoft-studio/releases) library through [JasperStarter v3.1.0](https://bitbucket.org/cenote/jasperstarter) command-line tool.
 
 ## Requirements
 
@@ -55,10 +55,10 @@ Package to generate reports with [JasperReports 6.3.1](http://community.jasperso
 
 ## Optional
 
-* [Mysql JDBC Driver](http://dev.mysql.com/downloads/connector/j/) (If you want to use a database)
+* [Mysql JDBC Driver](https://dev.mysql.com/downloads/connector/j/) (If you want to use a database)
 * [PostgreSQL JDBC Driver](https://jdbc.postgresql.org/download.html) (If you want to use a database)
 * [Microsoft JDBC Drivers](https://www.microsoft.com/en-US/download/details.aspx?id=11774) (If you want to use a database)
-* [Jaspersoft Studio](http://community.jaspersoft.com/project/jaspersoft-studio) (to draw and compile your reports)
+* [Jaspersoft Studio](https://community.jaspersoft.com/project/jaspersoft-studio) (to draw and compile your reports)
 
 ### Java(JDK)
 
@@ -81,7 +81,7 @@ To install on: (centOS/Fedora)
 
     # yum install java-1.8.0-openjdk.x86_64
 
-To install on windows visit the link-> [JDK](http://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html) and look for the most appropriate version for your system.
+To install on windows visit the link-> [JDK](https://www.oracle.com/technetwork/pt/java/javase/downloads/jdk8-downloads-2133151.html) and look for the most appropriate version for your system.
 
 Now run the `javac -version` again and check if the output is ok.
 
@@ -89,7 +89,7 @@ Now run the `javac -version` again and check if the output is ok.
 
 ## Installation
 
-Install [Composer](http://getcomposer.org) if you don't have it.
+Install [Composer](https://getcomposer.org) if you don't have it.
 ```
 composer require geekcom/phpjasper
 ```
@@ -222,7 +222,7 @@ $jasper->process(
 
 **Note 2:**
 
-For a complete list of locales see [Supported Locales](http://www.oracle.com/technetwork/java/javase/java8locales-2095355.html)
+For a complete list of locales see [Supported Locales](https://www.oracle.com/technetwork/java/javase/java8locales-2095355.html)
 
 ### Using MSSQL DataBase
 
@@ -325,7 +325,7 @@ Please check the repository of examples for more [PHPJasper Examples](https://gi
 
 ### MySQL
 
-We ship the [MySQL connector](http://dev.mysql.com/downloads/connector/j/) (v5.1.39) in the `/src/JasperStarter/jdbc/` directory.
+We ship the [MySQL connector](https://dev.mysql.com/downloads/connector/j/) (v5.1.39) in the `/src/JasperStarter/jdbc/` directory.
 
 ### PostgreSQL
 
@@ -344,7 +344,7 @@ I have a report that generates a *Invoice* with a DB connection, images and mult
 
 ## Thanks
 
-[Cenote GmbH](http://www.cenote.de/) for the [JasperStarter](http://jasperstarter.sourceforge.net/) tool.
+[Cenote GmbH](https://www.cenote.de/) for the [JasperStarter](https://jasperstarter.sourceforge.net/) tool.
 
 [JetBrains](https://www.jetbrains.com/) for the [PhpStorm](https://www.jetbrains.com/phpstorm/) and all great tools.
 

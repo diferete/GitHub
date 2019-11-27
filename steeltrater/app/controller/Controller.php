@@ -2005,9 +2005,6 @@ class Controller {
             $sRender .= ' if (idTr!==""){$("#' . $aDadosAtualizar[0] . ' #"+idTr+"").focus();'
                     . ' $("#' . $aDadosAtualizar[0] . ' #"+idTr+"").addClass("selected");}';
 
-
-
-
             echo $sRender;
             $sDadosSummary = $this->getDadosFoot();
             $sSummary = '$("#' . $aDadosAtualizar[0] . '-summary > tbody > tr").empty();'
@@ -2853,12 +2850,14 @@ class Controller {
 
         //seta ids da tela 
         $this->View->setSIdsTelas($aDados);
-        if ($aDados[6] == 'acaoVisualizar') {
+        if ($aDados[6] == 'acaoVisualizar' || $aDados[7] == 'acaoVisualizar') {
             $this->View->setSRotina(View::ACAO_VISUALIZAR);
         } else {
             $this->View->setSRotina(View::ACAO_INCLUIR);
         }
         $this->antesDeCriarTela();
+
+        $this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
         //define o retorno somente do form
@@ -4088,13 +4087,13 @@ class Controller {
                         //altera valor de / para tipo dataSql
                         $sValorCampo = Util::converteData($sValor);
                         //setValor no campo data
-                        $sValor = date('d/m/Y', strtotime($sValorCampo));
+                        $sValor = $sValorCampo;
                     } else {
                         $sValor = str_replace("\n", " ", $sValor);
                         $sValor = str_replace("'", "\'", $sValor);
                         $sValor = str_replace("\r", "", $sValor);
                     }
-
+                    $sValor = rtrim($sValor);
                     $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
                     echo $sRetorno;
                 }
@@ -4385,6 +4384,17 @@ class Controller {
      */
     public function afterCriaTela() {
         
+    }
+
+    /**
+
+     * Método para retornar array com os campos da tela via $_REQUEST[]     
+     */
+    public function getArrayCampostela() {
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        return $aCamposChave;
     }
 
 }

@@ -623,14 +623,60 @@
 
                     <div class="panel-body"><!--conteúdo das tabs-->
                         <div class="nav-tabs-horizontal nav-tabs-inverse">
-                       
+
                             <div class="tab-content padding-top-15" id="tabmenucont">
                                 <div class="tab-pane active" id="tabmenu-1control" role="tabpanel"> <!--NAO PODE REMOVER INÍCIO DA MARCAÇÃO-->
-                                    <div  class="dropzone" id="meuId">  
-                                        <div class="fallback"> 
-                                            <input name="fileToUpload" type="file" multiple  /> 
-                                        </div> 
+
+
+
+                                    <div class="col-sm-6 col-lg-4">
+                                        <!-- Example Multi Balue -->
+                                        <div class="example-wrap">
+                                            <h4 class="example-title">Multi-Balue</h4>
+                                            <p>Add <code>multiple</code> to create a multi select2.</p>
+                                            <div class="example">
+                                                <select class="form-control select2-hidden-accessible" multiple="" data-plugin="select2" tabindex="-1" aria-hidden="true">
+                                                    <option value="CT">Connecticut</option>
+                                                    <option value="DE">Delaware</option>
+                                                    <option value="FL">Florida</option>
+                                                    <option value="GA">Georgia</option>
+                                                    <option value="IN">Indiana</option>
+                                                    <option value="ME">Maine</option>
+                                                    <option value="MD">Maryland</option>
+                                                    <option value="MA">Massachusetts</option>
+                                                    <option value="MI">Michigan</option>
+                                                    <option value="NH">New Hampshire</option>
+                                                    <option value="NJ">New Jersey</option>
+                                                    <option value="NY">New York</option>
+                                                    <option value="NC">North Carolina</option>
+                                                    <option value="OH">Ohio</option>
+                                                    <option value="PA">Pennsylvania</option>
+                                                    <option value="RI">Rhode Island</option>
+                                                    <option value="SC">South Carolina</option>
+                                                    <option value="VT">Vermont</option>
+                                                    <option value="VA">Virginia</option>
+                                                    <option value="WV">West Virginia</option>
+                                                </select>
+                                                <span class="select2 select2-container select2-container--default select2-container--below" dir="ltr">
+                                                    <span class="selection">
+                                                        <span class="select2-selection select2-selection--multiple" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false" tabindex="-1">
+                                                            <ul class="select2-selection__rendered">
+                                                                <li class="select2-search select2-search--inline ms-hover">
+                                                                    <input class="select2-search__field" type="search" tabindex="0" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" placeholder="" style="width: 0.75em;">
+                                                                </li>
+                                                            </ul>
+                                                        </span>
+                                                    </span>
+                                                    <span class="dropdown-wrapper" aria-hidden="true">
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!-- End Example Multi Balue -->
                                     </div>
+
+
+
                                     <script>
                                         $("div#meuId").dropzone({url: "http://localhost/frame_metalbo/index.php?classe=Upload&metodo=Upload",
                                             addRemoveLinks: true});

@@ -151,6 +151,44 @@ class PersistenciaQualNovoProjVenda extends Persistencia {
     }
 
     /**
+     * Verifica situação de vendas
+     * @param type $sCnpj
+     * @param type $sNr
+     * @return boolean
+     */
+    public function verifSituacao($sCnpj, $sNr) {
+        $sSql = "select sitvendas from tbqualNovoProjeto where filcgc ='" . $sCnpj . "' and nr ='" . $sNr . "' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $sSitVendas = $oRow->sitvendas;
+        
+        if ($sSitVendas == 'Aprovado') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    /**
+     * Verifica situação de cliente
+     * @param type $sCnpj
+     * @param type $sNr
+     * @return boolean
+     */
+    public function verifSituacao2($sCnpj, $sNr) {
+        $sSql = "select sitcliente from tbqualNovoProjeto where filcgc ='" . $sCnpj . "' and nr ='" . $sNr . "' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $sSitCliente = $oRow->sitcliente;
+        
+        if ($sSitCliente == 'Aguardando') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    
+    /**
      * Aprova o projeto em vendas
      * @param type $aDados monta a chave primária
      * @return type valor booleano do estatus do update

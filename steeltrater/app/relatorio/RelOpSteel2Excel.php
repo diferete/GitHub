@@ -35,6 +35,7 @@ $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A1', 'RELATÓRIO DAS ORDENS DE PRODUÇÃO');
 
      //Situação e produto escolhido
+     $sRetrabalho = $_REQUEST['retrabalho'];
      $sSituacao=$_REQUEST['situa'];
      $iEmpCodigo=$_REQUEST['emp_codigo'];
      
@@ -45,14 +46,51 @@ $objPHPExcel->setActiveSheetIndex(0)
               situacao 
               from STEEL_PCP_OrdensFab 
               where data between '".$dtinicial."' and '".$dtfinal."'";
-          if($sSituacao!=='Todas'){
+              if($sSituacao!=='Todas'){
+              $sSqli.=" and situacao='".$sSituacao."' ";
+                }else{
+                    $sSqli.=" and situacao not in ('Cancelada','Retornado') ";
+                }
+                if($iEmpCodigo!==''){
+                    $sSqli.=" and emp_codigo='".$iEmpCodigo."' ";
+                }
+                if($sRetrabalho!='Incluir'){
+                    $sSqli.=" and retrabalho='".$sRetrabalho."' ";
+                }else{
+                    $sSqli.=" and retrabalho<>'Retorno não Ind.' "; 
+                }
+     
+     
+     /*     if($sSituacao!=='Todas'){
               $sSqli.=" and situacao='".$sSituacao."' ";
           }else{
-              $sSqli.=" and situacao<>'Cancelada' ";
+              $sSqli.=" and situacao not in ('Cancelada','Retornado') ";
           }
           if($iEmpCodigo!==''){
               $sSqli.=" and emp_codigo='".$iEmpCodigo."' ";
           }
+          if($sRetrabalho!='Incluir'){
+              $sSqli.=" and retrabalho='".$sRetrabalho."' ";
+          }
+          if($iEmpCodigo==null){
+              $iEmpCodigo = 'Todos';
+          }else{
+              $sSqli.=" and retrabalho<>'Retorno não Ind.' "; 
+          }
+          /*if($sSituacao!=='Todas'){
+              $sSqli.=" and situacao='".$sSituacao."' ";
+          }else{
+              $sSqli.=" and situacao not in ('Cancelada','Retornado') ";
+          }
+          if($iEmpCodigo!==''){
+              $sSqli.=" and emp_codigo='".$iEmpCodigo."' ";
+          }
+          if($sRetrabalho!='Incluir'){
+              $sSqli.=" and retrabalho='".$sRetrabalho."' ";
+          }else{
+              $sSqli.=" and retrabalho<>'Retorno não Ind.' "; 
+          }*/
+          
           
    $dadosRela = $PDO->query($sSqli);
    
@@ -72,16 +110,22 @@ $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('D3', "$dtinicial" )
             ->setCellValue('C4', 'Data Final' )
             ->setCellValue('D4', "$dtfinal" )
+            ->setCellValue('E3', 'Empresa' )
+            ->setCellValue('F3', "$iEmpCodigo" )
+            ->setCellValue('E4', 'Retrabalho' )
+            ->setCellValue('F4', "$sRetrabalho" )
+        
+        
         //titulos
             ->setCellValue('A5', 'OP' )
             ->setCellValue('B5', 'Prod' )
             ->setCellValue('C5', 'Descrição' )
-            ->setCellValue('D5', 'Quant' )
-            ->setCellValue('E5', 'Peso' )
-            ->setCellValue('F5', 'OpCliente' )
-            ->setCellValue('G5', 'Data' )
-            ->setCellValue('H5', 'Data Prev' )
-            ->setCellValue('I5', 'Situação' )        
+         //   ->setCellValue('D5', 'Quant' )
+            ->setCellValue('D5', 'Peso' )
+        //    ->setCellValue('E5', 'OpCliente' )
+            ->setCellValue('E5', 'Data' )
+            ->setCellValue('F5', 'Data Prev' )
+            ->setCellValue('G5', 'Situação' )        
         ;
   $ik=6;
   $iPesototal=0;
@@ -92,42 +136,44 @@ while($row = $dadosRela->fetch(PDO::FETCH_ASSOC)){
     $prodes=$row['prodes'];
     $iQuant=number_format($row['quant'], 2, ',', '.');
     $iPeso=number_format($row['peso'], 2, ',', '.');
+    $iPeso2=$row['peso'];
     $opcliente=$row['opcliente'];
     $dataop=$row['data'];
     $dataprev=$row['dataprev'];
     $situac=$row['situacao'];
-    $iPesototal=$iPesototal+$iPeso;
+    $iPesototal=$iPesototal+$iPeso2;
     $iQuantidadetotal=$iQuantidadetotal+$iQuant;
     $objPHPExcel->setActiveSheetIndex(0)
         ->setCellValue('A'.($ik), "$op" ) //concatenação de variável indice/ Pulando Linha
         ->setCellValue('B'.($ik), "$prod" )
         ->setCellValue('C'.($ik), "$prodes" )
-        ->setCellValue('D'.($ik), "$iQuant" )
-        ->setCellValue('E'.($ik), "$iPeso" )
-        ->setCellValue('F'.($ik), "$opcliente" )
-        ->setCellValue('G'.($ik), "$dataop" )
-        ->setCellValue('H'.($ik), "$dataprev" )
-        ->setCellValue('I'.($ik), "$situac" )
+      //  ->setCellValue('D'.($ik), "$iQuant" )
+        ->setCellValue('D'.($ik), "$iPeso" )
+       // ->setCellValue('E'.($ik), "$opcliente" )
+        ->setCellValue('E'.($ik), "$dataop" )
+        ->setCellValue('F'.($ik), "$dataprev" )
+        ->setCellValue('G'.($ik), "$situac" )
                
     ;
 $ik++;
 }
 //pesos
+$iPesototal = number_format($iPesototal, 2, ',', '.');
  $objPHPExcel->setActiveSheetIndex(0)
-        ->setCellValue('A'.($ik), 'Quant.Total' ) 
-        ->setCellValue('B'.($ik), "$iQuantidadetotal" )
-        ->setCellValue('A'.($ik+1), 'Peso Total' )
-        ->setCellValue('B'.($ik+1), "$iPesototal" );
+       // ->setCellValue('A'.($ik), 'Quant.Total' ) 
+       // ->setCellValue('B'.($ik), "$iQuantidadetotal" )
+        ->setCellValue('A'.($ik), 'Peso Total' )
+        ->setCellValue('B'.($ik), "$iPesototal" );
 // Podemos configurar diferentes larguras paras as colunas como padrão
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(30);
 $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(60);
+// $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(15);
 $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(15);
-$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(15);
 
 // Podemos renomear o nome das planilha atual, lembrando que um único arquivo pode ter várias planilhas
 $objPHPExcel->getActiveSheet()->setTitle('Relatório OP');

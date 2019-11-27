@@ -72,10 +72,15 @@ class Campo {
     private $iMarginTop;
     private $bDesativado; //se true o botão estará bloqueado para o click
     private $sFont;
-    private $sClasseUp;//define a classe do campo upload
+    private $sClasseUp; //define a classe do campo upload
     private $sMetodoUp; //define o método para upload
     private $sTituloModal;
     private $sNomeModal;
+    private $iTamanhoLabel; //define de 1 ate o 7 qual o tamanho do label
+    private $iTamFonteBadge;
+    private $iTamMarginTopBadge = 25;
+    private $sTituloGridPainel;
+    private $sCorTituloGridPainel;
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -108,18 +113,20 @@ class Campo {
     const CAMPO_SELECTSIMPLE = 28;
     const TIPO_DECIMAL = 29;
     const TIPO_HISTORICO = 30;
-    
     const DIVISOR_SUCCESS = 31;
     const DIVISOR_VERMELHO = 32;
     const DIVISOR_INFO = 33;
     const DIVISOR_WARNING = 34;
     const DIVISOR_DARK = 35;
-    
     const TIPO_TAGS = 36;
+    const TIPO_SELECTTAGS = 37;
+    const TIPO_BOTAOSIMPLES = 38;
     
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
+   
+    
     const EVENTO_SAIR = 'blur';
     const EVENTO_CHANGE = 'change';
     const EVENTO_FOCUS = 'focus';
@@ -141,6 +148,11 @@ class Campo {
     const GRIDVIEW_CORSUCCESS = 'success';
     const GRIDVIEW_CORINFO = 'info';
     const FONT_BOLD = 'bold';
+    const TITULO_SUCCESS = 'success';
+    const TITULO_DARK = 'dark';
+    const TITULO_DANGER = 'danger';
+    const TITULO_WARNING = 'warning';
+
 
     /**
      * Construtor da classe Campo 
@@ -181,6 +193,8 @@ class Campo {
         $this->setIMarginTop(0);
         $this->setSClasseUp('Upload');
         $this->setSMetodoUp('Upload');
+        $this->setSCorTituloGridPainel(Campo::TITULO_DARK);
+
 
         $this->aItemsSelect = array();
         $this->aItensRadio = array();
@@ -192,15 +206,21 @@ class Campo {
         $this->aCabGridView = array(); //define cabeçalhos do grid vies
         $this->aLinhasGridView = array(); //define as linhas dos grids
         $this->aValorGridView = array();
-        
+        $this->sTamanhoLabel = 5;
+
 
         switch ($this->iTipo) {
             case self::TIPO_BOTAOSMALL:
-                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL, '');
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
                 break;
             case self::TIPO_BOTAOSMALL_SUB:
-                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL_SUB, '');
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL_SUB,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
+                $this->sId = $this->getOBotao()->getId();
+
+                break;
+            case self::TIPO_BOTAOSIMPLES:
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_BOTAOSIMPLES,'', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
 
                 break;
@@ -217,7 +237,59 @@ class Campo {
                 break;
         }
     }
-    
+
+    function getSCorTituloGridPainel() {
+        return $this->sCorTituloGridPainel;
+    }
+
+    function setSCorTituloGridPainel($sCorTituloGridPainel) {
+        $this->sCorTituloGridPainel = $sCorTituloGridPainel;
+    }
+
+    function getSTituloGridPainel() {
+        return $this->sTituloGridPainel;
+    }
+
+    function setSTituloGridPainel($sTituloGridPainel) {
+        $this->sTituloGridPainel = $sTituloGridPainel;
+    }
+
+    function getITamFonteBadge() {
+        return $this->iTamFonteBadge;
+    }
+
+    function getITamMarginTopBadge() {
+        return $this->iTamMarginTopBadge;
+    }
+
+    /**
+     * Define o tamanho do fonte nos inteiros de 5 - 30
+     * @param type $iTamFonteBadge
+     */
+    function setITamFonteBadge($iTamFonteBadge) {
+        $this->iTamFonteBadge = $iTamFonteBadge;
+    }
+
+    /**
+     * Define o tamanho da margim top nos inteiros de 5 - 30
+     * @param type $iTamMarginTopBadge
+     */
+    function setITamMarginTopBadge($iTamMarginTopBadge) {
+        $this->iTamMarginTopBadge = $iTamMarginTopBadge;
+    }
+
+    function getITamanhoLabel() {
+        return $this->iTamanhoLabel;
+    }
+
+    /**
+     * Define o tamanho do label nos inteiros de 1 - 7
+     * @param type $iTamanhoLabel
+     */
+    function setITamanhoLabel($iTamanhoLabel) {
+        $this->iTamanhoLabel = $iTamanhoLabel;
+    }
+
     function getSNomeModal() {
         return $this->sNomeModal;
     }
@@ -226,7 +298,6 @@ class Campo {
         $this->sNomeModal = $sNomeModal;
     }
 
-        
     function getSTituloModal() {
         return $this->sTituloModal;
     }
@@ -235,7 +306,6 @@ class Campo {
         $this->sTituloModal = $sTituloModal;
     }
 
-        
     function getBNCM() {
         return $this->bNCM;
     }
@@ -244,7 +314,6 @@ class Campo {
         $this->bNCM = $bNCM;
     }
 
-    
     function getSClasseUp() {
         return $this->sClasseUp;
     }
@@ -261,7 +330,7 @@ class Campo {
         $this->sMetodoUp = $sMetodoUp;
     }
 
-        function getSFont() {
+    function getSFont() {
         return $this->sFont;
     }
 
@@ -1277,7 +1346,6 @@ class Campo {
         }
     }
 
-    
     public function setExtensoesPermitidas() {
         $aExtensoes = func_get_args();
         $iCount = 0;
@@ -1361,11 +1429,11 @@ class Campo {
     public function getRender() {
         switch ($this->iTipo) {
             case self::TIPO_DATA:
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<label class="control-label" for="input-date">' . $this->getLabel() . '</label>'
                         . '<div class="input-group date" id="' . $this->getId() . '-group" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . ' >'
                         . '<span class="input-group-addon"' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '><i class="icon wb-calendar"></i></span>'
-                        . '<input style="font-size:12px;" type="text" id="' . $this->getId() . '" style="margin-top:' . $this->getIMarginTop() . 'px;" name="' . $this->getNome() . '" class="form-control" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '<input style="font-size:12px;" type="text" id="' . $this->getId() . '"  name="' . $this->getNome() . '" class="form-control" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . '<script>'
@@ -1387,7 +1455,7 @@ class Campo {
                 break;
             case self::TIPO_TEXTO:
                 $sCampo = //'<div class="form-group">'
-                        '<div style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        '<div id="' . $this->getId() . '-campo"  style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
@@ -1427,7 +1495,7 @@ class Campo {
                 }
                 if ($this->getBOculto()) {
                     $sCampo .= '<script>'
-                            . '$("#' . $this->getId() . '").hide();'
+                            . '$("#' . $this->getId() . '-campo").hide();'
                             . '</script>';
                 }
                 if ($this->getBTime()) {
@@ -1435,7 +1503,7 @@ class Campo {
                             . '$("#' . $this->getId() . ' ").mask("99:99");'
                             . '</script>';
                 }
-                if($this->getBNCM()){
+                if ($this->getBNCM()) {
                     $sCampo .= '<script>'
                             . '$("#' . $this->getId() . ' ").mask("9999.99.99-999");'
                             . '</script>';
@@ -1511,6 +1579,31 @@ class Campo {
                         . $this->getRenderEventos()
                         . '</div>';
                 break;
+            case self::TIPO_SELECTTAGS:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'
+                        . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
+                        . '<select name="' . $this->getNome() . '" class="form-control select2-hidden-accessible" multiple="" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                foreach ($this->getAItemsSelect() as $key => $svalue) {
+                    $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
+                }
+                //verifica se há valor para renderizar o default do select
+                if ($this->getSValor() != NULL) {
+                    $sTrigger = '$("#' . $this->getId() . '").val("' . $this->getSValor() . '").trigger("change");';
+                }
+                $sCampo .= '</div>'
+                        . '</select>'
+                        . '</div>  '
+                        . '<script>'
+                        . '$("#' . $this->getId() . '").select2({'
+                        . '  placeholder: "' . $this->getSPlaceHolder() . '",'
+                        . '  allowClear: false'
+                        . '});'
+                        . $sTrigger
+                        . '</script> '
+                        . $this->getRenderEventos()
+                        . '</div>';
+                break;
             case self::TIPO_RADIO:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="radio-group">'
@@ -1549,7 +1642,7 @@ class Campo {
                         . $this->getExtensoes($this->getSExtensaoPermitidas())
                         . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
                         . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
-                        . 'uploadUrl: "index.php?classe='.$this->getSClasseUp().'&metodo='.$this->getSMetodoUp().'&nome=' . $this->getNome() . '", ' // url do arquivo php, que fara a cópia para o server
+                        . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '", ' // url do arquivo php, que fara a cópia para o server
                         . 'overwriteInitial: true, '
                         . 'initialCaption: "Selecione um arquivo...", '
                         . 'uploadAsync: true, '
@@ -1686,6 +1779,10 @@ class Campo {
             case self::TIPO_BOTAOSMALL_SUB:
                 $sCampo = $this->getOBotao()->getRender();
                 break;
+            case self::TIPO_BOTAOSIMPLES:
+                $sCampo = $this->getOBotao()->getRender();
+                break;
+                ;
             case self::TIPO_GRID:
                 $sCampo = $this->getOGrid()->getRender();
                 break;
@@ -1721,27 +1818,24 @@ class Campo {
                         . '<div class="form-group"> '
                         . '  <select class="form-control" multiple="" id="' . $this->getId() . 'select"> '
                         . '  </select> '
-                      //  .'<h6 style="margin-top:1px"><a href="#"> Pesquisar...</a></h6>'
-                       //------------------------------------------------------------------------
-                       
+                        //  .'<h6 style="margin-top:1px"><a href="#"> Pesquisar...</a></h6>'
+                        //------------------------------------------------------------------------
                         . '<div id="' . $this->getId() . '-refreshPainel" class="panel " style="margin-bottom: 0px !important;margin-top: 1px !important;">'
                         . '<div class="panel-heading" style="height:22px;">'
                         . '<div class="panel-title"><div style="float: right"><a href="#" id="' . $this->getId() . '-refresh" style="margin-right:5px;">Atualizar</a><a class="panel-action icon wb-refresh" data-toggle="panel-refresh" data-load-type="round-circle" data-load-callback="customRefreshCallback" aria-hidden="true"></a></div></div>'
-                        .'<script>'
-                          .'$( "#' . $this->getId() . '-refreshPainel").hide();'
-                          . '$( "#' . $this->getId() . '-refresh").click(function(){'
-                            . ' requestAjax("","' . $this->getClasseBusca() . '","getDadosBuscaCampo",$("#' . $this->getId() . '").val()+",' . $sCampoBuscaDesc . ',' . $sCampoBuscaPk . ',' . $this->getId() . 'select",false,true);'
-                          .'});'
-                        
-                        .'</script>'
+                        . '<script>'
+                        . '$( "#' . $this->getId() . '-refreshPainel").hide();'
+                        . '$( "#' . $this->getId() . '-refresh").click(function(){'
+                        . ' requestAjax("","' . $this->getClasseBusca() . '","getDadosBuscaCampo",$("#' . $this->getId() . '").val()+",' . $sCampoBuscaDesc . ',' . $sCampoBuscaPk . ',' . $this->getId() . 'select",false,true);'
+                        . '});'
+                        . '</script>'
                         . '</div>'
                         . '</div>'
-                        
-                        
+
+
                         //-----------------------------------------------------------------------
                         . '</div> '
-                       //----------------------------------------------------
-                        
+                        //----------------------------------------------------
                         . '</span> '
                         . '<script>'
                         . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
@@ -1750,7 +1844,7 @@ class Campo {
                         . '  $("#' . $this->getId() . 'select").hide();'
                         . '  $("#' . $this->getId() . '").keyup(function(){'
                         . '  $("#' . $this->getId() . 'select").show();'
-                        .'   $( "#' . $this->getId() . '-refreshPainel").show();'
+                        . '   $( "#' . $this->getId() . '-refreshPainel").show();'
                         . 'var val=0;'
                         . 'val =$(this).val(); '
                         . 'if(val.length > 3){     '
@@ -1774,7 +1868,7 @@ class Campo {
                         . '$("#' . $this->getId() . '").val(texto); '
                         . '});'
                         . '$("#' . $this->getId() . 'select").blur(function(){'
-                        .'$( "#' . $this->getId() . '-refreshPainel").hide();'
+                        . '$( "#' . $this->getId() . '-refreshPainel").hide();'
                         . '$(this).hide(); '
                         . 'var revalida = $("#' . $this->getSIdPk() . '").attr("name");'
                         //.'alert("nome revalida é "+revalida);'
@@ -1790,7 +1884,7 @@ class Campo {
                 break;
             case self::TIPO_BUSCADOBANCOPK:
                 $sBtnSmall = ($this->getITamanho() == Campo::TAMANHO_PEQUENO) ? 'btn-sm' : '';
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                $sCampo = '<div id="' . $this->getId() . '-campo" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '   <label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" autocomplete="off" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
@@ -1809,50 +1903,51 @@ class Campo {
                         . $this->getAcaoExitCampoBanco()
                         . '</script>'
                         . $this->getRenderEventos();
-                        if ($this->getBCNPJ()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . '").mask("99.999.999/9999-99");'
-                                   . '</script>';
-                       }
-                       if ($this->getBCPF()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . ' ").mask("999.999.999-99");'
-                                   . '</script>';
-                       }
-                       if ($this->getBCEP()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . '  ").mask("99.999-999");'
-                                   . '</script>';
-                       }
-                       if ($this->getBFone()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . '  ").mask("(99) 9999-9999");'
-                                   . '</script>';
-                       }
-                       if ($this->getBOculto()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . '").hide();'
-                                   . '</script>';
-                       }
-                       if ($this->getBTime()) {
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . ' ").mask("99:99");'
-                                   . '</script>';
-                       }
-                       if($this->getBNCM()){
-                           $sCampo .= '<script>'
-                                   . '$("#' . $this->getId() . ' ").mask("9999.99.99-999");'
-                                   . '</script>';
-                       }  //7318.24.00-000
-                       break;
+                if ($this->getBCNPJ()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '").mask("99.999.999/9999-99");'
+                            . '</script>';
+                }
+                if ($this->getBCPF()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("999.999.999-99");'
+                            . '</script>';
+                }
+                if ($this->getBCEP()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '  ").mask("99.999-999");'
+                            . '</script>';
+                }
+                if ($this->getBFone()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '  ").mask("(99) 9999-9999");'
+                            . '</script>';
+                }
+                if ($this->getBOculto()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '-campo").hide();'
+                            . '</script>';
+                }
+                if ($this->getBTime()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("99:99");'
+                            . '</script>';
+                }
+                if ($this->getBNCM()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("9999.99.99-999");'
+                            . '</script>';
+                }  //7318.24.00-000
+                break;
             case self::TIPO_BADGE:
-                $sCampo = '<div style="margin-top:0px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                $sCampo = '<div style="margin-top:' . $this->getITamMarginTopBadge() . 'px; font-size:' . $this->getITamFonteBadge() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<span id="' . $this->getId() . '" name="' . $this->getNome() . '" class="label label-round ' . $this->getSEstiloBadge() . '">' . $this->getLabel() . '</span> '
                         . '</div>';
                 break;
             case self::TIPO_GRIDVIEW:
                 $aLinhasGrid = array_unique($this->aLinhasGridView);
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<div class="label-' . $this->getSCorTituloGridPainel() . '"><span class="label label-' . $this->getSCorTituloGridPainel() . '">' . $this->getSTituloGridPainel() . '</span></div>'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '    <table class="table table-condensed"  style="color:#101010; margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '"> '
                         . '<thead>   '
@@ -1894,8 +1989,8 @@ class Campo {
                         . '</div>';
                 break;
             case self::TIPO_LABEL:
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<h5 style="margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '" style="margin-top: 30px;"><b>' . $this->getLabel() . '</b></h5>'
+                $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<h' . $this->getITamanhoLabel() . ' id="' . $this->getId() . '" style="margin-top: 30px;"><b>' . $this->getLabel() . '</b></h' . $this->getITamanhoLabel() . '>'
                         . '</div>';
                 break;
             case self::TIPO_LINHA:

@@ -1045,7 +1045,13 @@ class Persistencia {
                 $sTabela = "CAST(" . $sTabela . " AS DATE)";
             }
 
-            $sWhere .= $sTabela . self::$TIPO_COMPARACAO[$aAtual['comparacao']] . $sValor;
+            $bIsNumeric = $this->numericSql($sValor);
+
+            if ($bIsNumeric) {
+                $sWhere .= $sTabela . self::$TIPO_COMPARACAO[$aAtual['comparacao']] . $sValor;
+            } else {
+                $sWhere .= $sTabela . self::$TIPO_COMPARACAO[$aAtual['comparacao']] . $sValor . ' COLLATE Latin1_General_CI_AI ';
+            }
         }
 
         if ($this->getSqlWhere()) {
@@ -1054,6 +1060,15 @@ class Persistencia {
         }
 
         return $sWhere;
+    }
+
+    public function numericSql($sValor) {
+        $aValores = explode(',', $sValor);
+        $bIsNumeric = true;
+        foreach ($aValores as $key => $value) {
+            $bIsNumeric = is_numeric(preg_replace('/[^0-9]/', '', $value));
+        }
+        return $bIsNumeric;
     }
 
     /**

@@ -56,7 +56,6 @@ class Filtro {
      */
     public function __construct($oCampoConsulta, $iTipoCampo, $sTelaGrande = '2', $sTelaMedia = '2', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $bQuebraLinha) {
         $this->Id = Base::getId();
-        
         $this->sLabel = $oCampoConsulta->getSLabel();
         $this->sNome = $oCampoConsulta->getSNome();
 
@@ -67,7 +66,7 @@ class Filtro {
         $this->sTelaGrande = $sTelaGrande;
         $this->sTelaMedia = $sTelaMedia;
         $this->sTelaPequena = $sTelaPequena;
-        $this->sTelaMuitoPequena = $sTelaMuitoPequena;        
+        $this->sTelaMuitoPequena = $sTelaMuitoPequena;
         $this->bQuebraLinha = $bQuebraLinha;
         $this->aFiltroValor = array();
         $this->aItemsSelect = array();

@@ -20,8 +20,8 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Shared
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
+ * @license    https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.6, 2011-02-27
  */
 
@@ -31,7 +31,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Shared
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Shared_String
 {
@@ -309,7 +309,7 @@ class PHPExcel_Shared_String
 		}
 
 		// Sometimes iconv_substr('A', 0, 1, 'UTF-8') just returns false in PHP 5.2.0
-		// we cannot use iconv in that case either (http://bugs.php.net/bug.php?id=37773)
+		// we cannot use iconv in that case either (https://bugs.php.net/bug.php?id=37773)
 		if (!@iconv_substr('A', 0, 1, 'UTF-8')) {
 			self::$_isIconvEnabled = false;
 			return false;
@@ -505,14 +505,14 @@ class PHPExcel_Shared_String
 	 *
 	 * Can handle both BOM'ed data and un-BOM'ed data.
 	 * Assumes Big-Endian byte order if no BOM is available.
-	 * This function was taken from http://php.net/manual/en/function.utf8-decode.php
+	 * This function was taken from https://php.net/manual/en/function.utf8-decode.php
 	 * and $bom_be parameter added.
 	 *
 	 * @param   string  $str  UTF-16 encoded data to decode.
 	 * @return  string  UTF-8 / ISO encoded data.
 	 * @access  public
 	 * @version 0.2 / 2010-05-13
-	 * @author  Rasmus Andersson {@link http://rasmusandersson.se/}
+	 * @author  Rasmus Andersson {@link https://rasmusandersson.se/}
 	 * @author vadik56
 	 */
 	public static function utf16_decode( $str, $bom_be=true ) {

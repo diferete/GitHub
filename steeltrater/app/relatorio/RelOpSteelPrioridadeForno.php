@@ -31,6 +31,7 @@ $useRel= $_REQUEST['userRel'];
 
 $oDesForno = $_REQUEST['fornoDes'];
 $oCodForno = $_REQUEST['fornoCod'];
+$obsTela = $_REQUEST['obs'];
 //Inserção do cabeçalho
 $pdf->Cell(37,12,$pdf->Image($sLogo, $pdf->GetX(), $pdf->GetY(), 45),0,0,'J');
 
@@ -50,8 +51,8 @@ $pdf->Cell(0,3,'','T',1,'L');
      //busca os dados do banco
      $PDO = new PDO("sqlsrv:server=".Config::HOST_BD.",".Config::PORTA_BD."; Database=".Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
      $sSqli = "select STEEL_PCP_ordensFabLista.op, STEEL_PCP_ordensFabLista.situacao, prioridade, 
-               tempForno, prod, STEEL_PCP_ordensFab.prodes, peso, emp_razaosocial,
-               STEEL_PCP_ordensFabLista.nrcarga
+               tempForno, prod, referencia, STEEL_PCP_ordensFab.prodes, peso, emp_razaosocial,
+               STEEL_PCP_ordensFabLista.nrcarga,seqmat
                from STEEL_PCP_ordensFabLista left join STEEL_PCP_ordensFab on
                STEEL_PCP_ordensFabLista.op = STEEL_PCP_ordensFab.op
                where STEEL_PCP_ordensFabLista.fornocod = '".$oCodForno."' and STEEL_PCP_ordensFabLista.situacao = 'Liberado'
@@ -71,8 +72,6 @@ $pdf->Cell(0,3,'','T',1,'L');
    */
    $peso=0;
    
-   while($row = $dadosRela->fetch(PDO::FETCH_ASSOC)){
-   
    //Títulos do relatório
    $pdf->SetFont('Arial','B',8);
    $pdf->Cell(12,4,'Priorid.', '',0, 'L',0);
@@ -87,13 +86,15 @@ $pdf->Cell(0,3,'','T',1,'L');
    $pdf->Cell(15,4,'Produto', '',0, 'L',0);
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(62,4,'Descrição', '',0, 'L',0);
+   $pdf->Cell(78,4,'Descrição', '',0, 'L',0);
    
    $pdf->SetFont('Arial','B',8);
    $pdf->Cell(14,4,'Peso', '',0, 'L',0);
    
    $pdf->SetFont('Arial','B',8);
-   $pdf->Cell(50,4,'Cliente', '',1, 'L',0);
+   $pdf->Cell(44,4,'Cliente', '',1, 'L',0);
+   
+   while($row = $dadosRela->fetch(PDO::FETCH_ASSOC)){
    
    $pdf->SetFont('Arial','',7);
    $pdf->Cell(12,4,$row['prioridade'], '',0, 'L',0);
@@ -105,16 +106,16 @@ $pdf->Cell(0,3,'','T',1,'L');
    $pdf->Cell(14,4,$row['op'], '',0, 'L',0);
    
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(15,4,$row['prod'], '',0, 'L',0);
+   $pdf->Cell(15,4,$row['referencia'], '',0, 'L',0);
    
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(62,4,$row['prodes'], '',0, 'L',0);
+   $pdf->Cell(78,4,$row['prodes'], '',0, 'L',0);
    
    $pdf->SetFont('Arial','',7);
    $pdf->Cell(14,4,number_format($row['peso'], 2, ',', '.'), '',0, 'L',0);
    
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(50,4,$row['emp_razaosocial'], '',1, 'L',0);   
+   $pdf->Cell(44,4,$row['emp_razaosocial'], '',1, 'L',0);   
    
    $sSqliItens = "select tratdes, temperatura 
                   from STEEL_PCP_Tratamentos left outer join STEEL_PCP_ordensFAbItens on 
@@ -122,18 +123,26 @@ $pdf->Cell(0,3,'','T',1,'L');
                   where STEEL_PCP_ordensFabItens.op ='".$row['op']."'"; 
           
    $dadosItens = $PDO->query($sSqliItens);
+   
+   $sSqlProdMatReceita = "select * from steel_pcp_prodmatreceita where seqmat ='".$row['seqmat']."'";
+   $dadosProdMatReceita = $PDO->query($sSqlProdMatReceita);
+   $dadosProdMatReceitaItens = $dadosProdMatReceita->fetch(PDO::FETCH_OBJ); 
       
    while($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)){
        
        $pdf->SetFont('Arial','',7);
-       $pdf->Cell(50,4,$rowItens['tratdes'], '',0, 'L',0);
+       if($rowItens['tratdes']=='REVENIR'){
+          $pdf->Cell(50,4,$rowItens['tratdes'].' '.$dadosProdMatReceitaItens->tratrevencomp, '',0, 'L',0);
+       }else{
+          $pdf->Cell(50,4,$rowItens['tratdes'], '',0, 'L',0); 
+       }
    
        $pdf->SetFont('Arial','',7);
        $pdf->Cell(14,4,number_format($rowItens['temperatura'], 0, ',', '.'), '',0, 'L',0);
        
    }
    $pdf->SetFont('Arial','B',7);
-   $pdf->Cell(5,4,'Número da carga:'.number_format($row['nrcarga'], 0, ',', '.'), '',0, 'L',0);
+   $pdf->Cell(5,4,' Carga:'.number_format($row['nrcarga'], 0, ',', '.'), '',0, 'L',0);
    $pdf->Cell(0,4,'', '',1, 'L',0);
    
   
@@ -143,7 +152,9 @@ $pdf->Cell(0,3,'','T',1,'L');
 //Fim  
    }
    $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(200,3,'Peso Total:  '.$peso, '',1, 'L',0);
+   $pdf->Cell(200,3,'Peso Total:  '.number_format($peso, 2, ',', '.'), '',1, 'L',0);//number_format($row['tempForno'], 0, ',', '.')
+   $pdf->Ln(5);
+   $pdf->MultiCell(200, 5,'Observação: '. $obsTela,1, 'J');
    
 $pdf->Output('I','RelOpSteelPrioridadeForno.pdf');
  Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE 

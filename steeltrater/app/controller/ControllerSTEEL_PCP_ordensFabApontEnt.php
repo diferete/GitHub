@@ -104,33 +104,50 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
         $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
         $oOp->Persistencia->adicionaFiltro('op',$aCampos['op']);
         $oDadosOp = $oOp->Persistencia->consultarWhere();
+        //verifica se usuário está sem cadastro
+        $oOuser = Fabrica::FabricarController('MET_TEC_Usuario');
+        $oOuser->Persistencia->adicionaFiltro('usucodigo',$_SESSION['codUser']);
+        $oOuserDados = $oOuser->Persistencia->consultarWhere();
+        if($oOuserDados->getTurnoSteel()==null||$oOuserDados->getTurnoSteel()=='Nenhum'||$oOuserDados->getTurnoSteel()==''){
+           $oMensagem = new Modal('Atenção!', 'O usuário não tem cadastro de turno, cadastre um turno para o usuário!', Modal::TIPO_AVISO, false, true, true);
+            echo $oMensagem->getRender();
+            exit();
+        }
         //valida situações da op
         //verifica se op = cancelada
         if ($oDadosOp->getSituacao() == 'Cancelada') {
             $oModal = new Modal('Atenção!', 'Ordem de produção cancelada!', Modal::TIPO_AVISO, false);
             echo $oModal->getRender();
             
-             $oLimpa = new Base();
-             $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-             echo $msg; 
+            echo '$("#' . $aIds[2] . '" ).val("");';
+            echo '$("#' . $aIds[2] . '" ).focus();';
+            echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+            echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+            echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+            echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");';
              exit();
         }
         if ($oDadosOp->getOp() == null) {
                 $oMensagem = new Mensagem('Atenção!', 'Ordem de produção não foi localizada!', Mensagem::TIPO_WARNING);
                 echo $oMensagem->getRender();
-                $oLimpa = new Base();
-                $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-                $msg .='$("#' . $aIds[2] . '" ).focus();';
-                echo $msg; 
+                echo '$("#' . $aIds[2] . '" ).val("");';
+                echo '$("#' . $aIds[2] . '" ).focus();';
+                echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+                echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+                echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+                echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");'; 
                 exit();
             }
        
         if($iCont > 0){
               $oMensagem = new Modal('Atenção!', 'Entrada da ordem de produção nº' . $aCampos['op'] . ' já está apontada!', Modal::TIPO_INFO);
-              echo $oMensagem->getRender();
-              $oLimpa = new Base();
-              $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-              echo $msg; 
+               echo $oMensagem->getRender();
+               echo '$("#' . $aIds[2] . '" ).val("");';
+                echo '$("#' . $aIds[2] . '" ).focus();';
+                echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+                echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+                echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+                echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");'; 
               exit();
         }else{
        
@@ -152,16 +169,101 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             echo $oMensagem->getRender();
             $oLimpa = new Base();
             $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
-            $msg .='$("#' . $aIds[2] . '" ).focus();';
+            
             echo 'requestAjax("' . $aIds[0] . '-form","STEEL_PCP_ordensFabApontEnt","getDadosGrid","' . $aIds[1] . '","consultaApontGrid");';
-            echo $msg;
-            echo '$("#'. $aIds[3] .'>option[value='.$aCampos['fornocod'].']" ).attr("selected", true);';
+            echo '$("#' . $aIds[2] . '" ).val("");';
+            echo '$("#' . $aIds[2] . '" ).focus();';
+            echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+            echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
             echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
             echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");';
         }
        }
     }
 
+        /**
+     * Método responsável para inserir apontamento das estapas
+     * @param type $sDados
+     */
+    public function inserirApontEtapa($sDados) {
+        $aIds = explode(',', $sDados);
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        //verificar se of existe ou se já está cancelada
+        $this->Persistencia->adicionaFiltro('op',$aCampos['op']);
+        $iCont = $this->Persistencia->getCount();
+        //VERIFICA SE EXISTE ESSA 
+        $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op',$aCampos['op']);
+        $oDadosOp = $oOp->Persistencia->consultarWhere();
+        //valida situações da op
+        //verifica se op = cancelada
+        if ($oDadosOp->getSituacao() == 'Cancelada') {
+            $oModal = new Modal('Atenção!', 'Ordem de produção cancelada!', Modal::TIPO_AVISO, false);
+            echo $oModal->getRender();
+            
+            echo '$("#' . $aIds[2] . '" ).val("");';
+            echo '$("#' . $aIds[2] . '" ).focus();';
+            echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+            echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+            echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+            echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");';
+             exit();
+        }
+        if ($oDadosOp->getOp() == null) {
+                $oMensagem = new Mensagem('Atenção!', 'Ordem de produção não foi localizada!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+                echo '$("#' . $aIds[2] . '" ).val("");';
+                echo '$("#' . $aIds[2] . '" ).focus();';
+                echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+                echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+                echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+                echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");'; 
+                exit();
+            }
+       
+        if($iCont > 0){
+              $oMensagem = new Mensagem('Atenção!', 'Entrada da ordem de produção nº' . $aCampos['op'] . ' já está apontada!', Mensagem::TIPO_INFO);
+              echo $oMensagem->getRender();
+              echo '$("#' . $aIds[7] . '" ).click();';
+              echo '$("#' . $aIds[2] . '" ).focus();';
+              echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+              echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+              echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+              echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");'; 
+              exit();
+        }else{
+       
+        $aRetorno = $this->Persistencia->inserirApont($aCampos,$oDadosOp);
+        //baixa da lista
+        $oLista = Fabrica::FabricarController('STEEL_PCP_ordensFabLista');
+        $aRetornoLista=$oLista->baixaLista($aCampos,'Processo');
+        if($aRetornoLista[0]){
+            $oMensagemLista = new Mensagem('Lista de prioridades!','Essa ordem de produção foi baixada na lista de prioridades!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagemLista->getRender();
+        }else{
+            $oMensagemLista = new Mensagem('Lista de prioridades!','Ocorreu um erro ao baixar a lista de prioridades! '.$aRetornoLista[1], Mensagem::TIPO_SUCESSO);
+            echo $oMensagemLista->getRender();
+        }
+        
+        
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('Sucesso!', 'Entrada da ordem de produção nº' . $aCampos['op'] . '', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+            $oLimpa = new Base();
+            $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
+            
+            echo '$("#' . $aIds[7] . '" ).click();';
+            echo '$("#' . $aIds[2] . '" ).focus();';
+            echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+            echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+            echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
+            echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");';
+        }
+       }
+    }
+    
+    
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
 

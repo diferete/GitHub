@@ -47,7 +47,7 @@ class PersistenciaSTEEL_PCP_GeraCertificado extends Persistencia{
         $this->adicionaRelacionamento('nrcert','nrcert');
         
         $this->adicionaOrderBy('op',1);
-        $this->setSTop('300');
+        $this->setSTop('200');
     }
     /**
      * Coloca certificado na op passando o objeto certificado onde terá op e certificado

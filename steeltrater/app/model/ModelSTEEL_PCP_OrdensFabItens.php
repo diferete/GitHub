@@ -19,7 +19,141 @@ class ModelSTEEL_PCP_OrdensFabItens{
     private $temperatura;
     private $tempo;
     private $resfriamento;
-    
+    private $STEEL_PCP_Tratamentos;
+    private $fornocod;
+    private $fornodes;
+    private $dataent_forno;
+    private $horaent_forno;
+    private $datasaida_forno;
+    private $horasaida_forno;
+    private $situacao;
+    private $coduser;
+    private $usernome;
+    private $codusersaida;
+    private $usernomesaida;
+    private $turnoSteel;
+    private $turnoSteelSaida;
+
+
+    function getTurnoSteelSaida() {
+        return $this->turnoSteelSaida;
+    }
+
+    function setTurnoSteelSaida($turnoSteelSaida) {
+        $this->turnoSteelSaida = $turnoSteelSaida;
+    }
+
+        
+    function getFornocod() {
+        return $this->fornocod;
+    }
+
+    function getFornodes() {
+        return $this->fornodes;
+    }
+
+    function getDataent_forno() {
+        return $this->dataent_forno;
+    }
+
+    function getHoraent_forno() {
+        return $this->horaent_forno;
+    }
+
+    function getDatasaida_forno() {
+        return $this->datasaida_forno;
+    }
+
+    function getHorasaida_forno() {
+        return $this->horasaida_forno;
+    }
+
+    function getSituacao() {
+        return $this->situacao;
+    }
+
+    function getCoduser() {
+        return $this->coduser;
+    }
+
+    function getUsernome() {
+        return $this->usernome;
+    }
+
+    function getCodusersaida() {
+        return $this->codusersaida;
+    }
+
+    function getUsernomesaida() {
+        return $this->usernomesaida;
+    }
+
+    function getTurnoSteel() {
+        return $this->turnoSteel;
+    }
+
+    function setFornocod($fornocod) {
+        $this->fornocod = $fornocod;
+    }
+
+    function setFornodes($fornodes) {
+        $this->fornodes = $fornodes;
+    }
+
+    function setDataent_forno($dataent_forno) {
+        $this->dataent_forno = $dataent_forno;
+    }
+
+    function setHoraent_forno($horaent_forno) {
+        $this->horaent_forno = $horaent_forno;
+    }
+
+    function setDatasaida_forno($datasaida_forno) {
+        $this->datasaida_forno = $datasaida_forno;
+    }
+
+    function setHorasaida_forno($horasaida_forno) {
+        $this->horasaida_forno = $horasaida_forno;
+    }
+
+    function setSituacao($situacao) {
+        $this->situacao = $situacao;
+    }
+
+    function setCoduser($coduser) {
+        $this->coduser = $coduser;
+    }
+
+    function setUsernome($usernome) {
+        $this->usernome = $usernome;
+    }
+
+    function setCodusersaida($codusersaida) {
+        $this->codusersaida = $codusersaida;
+    }
+
+    function setUsernomesaida($usernomesaida) {
+        $this->usernomesaida = $usernomesaida;
+    }
+
+    function setTurnoSteel($turnoSteel) {
+        $this->turnoSteel = $turnoSteel;
+    }
+
+        
+    function getSTEEL_PCP_Tratamentos() {
+        if(!isset($this->STEEL_PCP_Tratamentos)){
+            $this->STEEL_PCP_Tratamentos = Fabrica::FabricarModel('STEEL_PCP_Tratamentos');
+        }
+        
+        return $this->STEEL_PCP_Tratamentos;
+    }
+
+    function setSTEEL_PCP_Tratamentos($STEEL_PCP_Tratamentos) {
+        $this->STEEL_PCP_Tratamentos = $STEEL_PCP_Tratamentos;
+    }
+
+        
     function getReceita_seq() {
         return $this->receita_seq;
     }

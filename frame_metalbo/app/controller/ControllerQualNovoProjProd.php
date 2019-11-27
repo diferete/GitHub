@@ -380,8 +380,8 @@ class ControllerQualNovoProjProd extends Controller {
         }
     }
 
-    public function geraEtapaProcesso($renderTo, $sMetodo = '') {
-        parent::acaoMostraRelatorio($renderTo, 'geraEtapaProcesso');
+    public function geraEtapaProcesso() {
+        require 'app/relatorio/geraEtapaProcesso.php';
     }
 
     public function getDadosProdSimilar($sDados) {

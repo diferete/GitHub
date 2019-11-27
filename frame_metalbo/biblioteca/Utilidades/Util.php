@@ -13,6 +13,23 @@ class Util {
     const MASCARA_CNPJ = '##.###.###/####-##';
     const MASCARA_FONE = '(##) ####-####';
     const MASCARA_CEP = '#####-###';
+    const MASCARA_NCM = '####.##.##-###';
+
+    function maskNew($val, $mask) {
+        $maskared = '';
+        $k = 0;
+        for ($i = 0; $i <= strlen($mask) - 1; $i++) {
+            if ($mask[$i] == '#') {
+                if (isset($val[$k]))
+                    $maskared .= $val[$k++];
+            }
+            else {
+                if (isset($mask[$i]))
+                    $maskared .= $mask[$i];
+            }
+        }
+        return $maskared;
+    }
 
     public function getHoraAtual() {
         $h = (float) (date('H') * 3600);
@@ -264,11 +281,13 @@ class Util {
      * */
     public static function limpaString($sString) {
 
-        $sStringLimpa = str_replace("\n", " ", $sString);
-        $sStringLimpa1 = str_replace("'", "\'", $sStringLimpa);
-        $sStringLimpa2 = str_replace("\r", "", $sStringLimpa1);
+        $sString = str_replace("\n", " ", $sString);
+        $sString = str_replace("'", "\'", $sString);
+        $sString = str_replace("\r", "", $sString);
+        $sString = rtrim($sString);
+        $sString = ltrim($sString);
 
-        return $sStringLimpa2;
+        return $sString;
     }
 
     /**
@@ -330,6 +349,18 @@ class Util {
             $sHoraConvert = $h . ":" . $m;
             return $sHoraConvert;
         }
+    }
+
+   public static function getDataOtem() {
+         $dia = date("d");
+         $mes = date("m");
+         $ano = date("Y");
+         
+        $sDate = date("d/m/Y", mktime(0, 0, 0, $mes, $dia-1, $ano));
+         
+         
+        date_default_timezone_set('America/Sao_Paulo');
+        return $sDate;//date($dia.'/'.$mes.'/'.$ano);
     }
 
 }

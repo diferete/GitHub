@@ -17,6 +17,7 @@ class PersistenciaSTEEL_PCP_Forno extends Persistencia {
         $this->adicionaRelacionamento('fornocod', 'fornocod', true, true,true);
         $this->adicionaRelacionamento('fornodes', 'fornodes');
         $this->adicionaRelacionamento('fornosigla', 'fornosigla');
+        $this->adicionaRelacionamento('tipoOrdem', 'tipoOrdem');
         $this->adicionaRelacionamento('cookfornocod','cookfornocod',false,false);
         $this->adicionaRelacionamento('cookfornodes','cookfornodes',false,false);
         

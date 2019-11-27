@@ -304,8 +304,8 @@ class ControllerQualRncVenda extends Controller {
                         . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
                         . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
-                        . '<tr><td><b>Valor: R$</b></td><td> ' . $oRow->valor . ' </td></tr>'
-                        . '<tr><td><b>Peso: </b></td><td> ' . $oRow->peso . ' </td></tr>'
+                        . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->valor, 2, ',', '.') . ' </td></tr>'
+                        . '<tr><td><b>Peso: </b></td><td> ' . number_format($oRow->peso, 2, ',', '.') . ' </td></tr>'
                         . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
                         . '</table><br/><br/>'
@@ -326,16 +326,16 @@ class ControllerQualRncVenda extends Controller {
                 echo $oMensagem3->getRender();
             } else {
                 if ($aRet[0] == 'Env.Qual') {
-                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('duda@metalbo.com.br');
+                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    $oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
-                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
-                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('josiani@metalbo.com.br');
+                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    $oEmail->addDestinatario('josiani@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/rnc/Rnc' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RNC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc']));
@@ -424,8 +424,8 @@ class ControllerQualRncVenda extends Controller {
                         . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
                         . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
-                        . '<tr><td><b>Valor: R$</b></td><td> ' . $oRow->valor . ' </td></tr>'
-                        . '<tr><td><b>Peso: </b></td><td> ' . $oRow->peso . ' </td></tr>'
+                        . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->valor, 2, ',', '.') . ' </td></tr>'
+                        . '<tr><td><b>Peso: </b></td><td> ' . number_format($oRow->peso, 2, ',', '.') . ' </td></tr>'
                         . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
                         . '<tr><td><b>Observação de Vendas: </b></td><td> ' . $oRow->obs_aponta . ' </td></tr>'
@@ -530,8 +530,8 @@ class ControllerQualRncVenda extends Controller {
                         . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
                         . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
-                        . '<tr><td><b>Valor: R$</b></td><td> ' . $oRow->valor . ' </td></tr>'
-                        . '<tr><td><b>Peso: </b></td><td> ' . $oRow->peso . ' </td></tr>'
+                        . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->valor, 2, ',', '.') . ' </td></tr>'
+                        . '<tr><td><b>Peso: </b></td><td> ' . number_format($oRow->peso, 2, ',', '.') . ' </td></tr>'
                         . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
                         . '<tr><td><b>MOTIVO DO RETORNO: </b></td><td> ' . $aDadosModal['motivo'] . ' </td></tr>'

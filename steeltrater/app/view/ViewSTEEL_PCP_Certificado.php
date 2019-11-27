@@ -20,6 +20,7 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oOpcliente = new CampoConsulta('OP_Cli', 'opcliente');
         //$oEmpCod = new CampoConsulta('Empresa', 'empcod');
         $oEmpDes = new CampoConsulta('Cliente', 'empdes');
+        $oEmpDes->setBTruncate(true);
         $oProduto = new CampoConsulta('Produto', 'prodes');
         $oDataEnsaio = new CampoConsulta('Data Ensaio', 'dataensaio', CampoConsulta::TIPO_DATA);
         $oPeso = new CampoConsulta('Peso', 'peso');
@@ -153,8 +154,8 @@ class ViewSTEEL_PCP_Certificado extends View {
         
         $oCodProd = new Campo('Produto', 'procod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oCodProd->setSCorFundo(Campo::FUNDO_MONEY);
-        $oCodProd->addValidacao(false, Validacao::TIPO_INTEIRO);
-       // $oCodProd->setBCampoBloqueado(TRUE);
+       // $oCodProd->addValidacao(false, Validacao::TIPO_INTEIRO);
+        $oCodProd->setBCampoBloqueado(TRUE);
         if(method_exists($oDadosOp, 'getProd')) 
          {$oCodProd->setSValor($oDadosOp->getProd());
          $oCodProd->setBCampoBloqueado(TRUE);
@@ -162,7 +163,7 @@ class ViewSTEEL_PCP_Certificado extends View {
         
         $oProduto = new Campo('Descrição', 'prodes', Campo::TIPO_TEXTO, 4, 3, 12, 12);
         $oProduto->setSCorFundo(Campo::FUNDO_MONEY);
-        $oProduto->addValidacao(false, Validacao::TIPO_STRING);
+       // $oProduto->addValidacao(false, Validacao::TIPO_STRING);
         if(method_exists($oDadosOp, 'getProdes')) 
          {$oProduto->setSValor($oDadosOp->getProdes());
          $oProduto->setBCampoBloqueado(TRUE);
@@ -269,8 +270,16 @@ class ViewSTEEL_PCP_Certificado extends View {
         
         //conclusão
         $oConclusao = new campo('Conclusão','conclusao', Campo::TIPO_TEXTAREA,10);
+        
+        // $xValor = str_replace("<br>", "&#10", $xValor);
+        //        $xValor = str_replace("\r", "", $xValor);
         if(method_exists($oDadosOp, 'getSeqmat')){
-            $oConclusao->setSValor(''.$oDadosProdMat->getObs().'  '.$oDadosOp->getObs().'   Foram atingidas suas especificações conforme solicitado no documento de remessa.');
+            $sReceitaObs = str_replace("\n", " ", $oDadosProdMat->getObs());
+            
+            $sOpObs = str_replace("\n", " ", $oDadosOp->getObs());
+            
+            
+            $oConclusao->setSValor(''.$sReceitaObs.'  '.$sOpObs.'   Foram atingidas suas especificações conforme solicitado no documento de remessa.');
         }
         
         
@@ -395,6 +404,9 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oSupEscala->addItemSelect('HRB','HRB');
         $oSupEscala->addItemSelect('HRA','HRA');
         $oSupEscala->addItemSelect('HB','HB');
+        if($oDadosCert->getSuperEscala()!==null){
+            $oSupEscala->setSValor($oDadosCert->getSuperEscala());
+        }
         
         $oNucDurMin = new Campo('Dur.NucMin','durezaNucMin', Campo::TIPO_DECIMAL,2);
         if($oDadosCert->getDurezaNucMin()!==null){
@@ -413,6 +425,9 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oNucEscala->addItemSelect('HRB','HRB');
         $oNucEscala->addItemSelect('HRA','HRA');
         $oNucEscala->addItemSelect('HB','HB');
+        if($oDadosCert->getNucEscala()!==null){
+            $oNucEscala->setSValor($oDadosCert->getNucEscala());
+        }
         
         $oCamDurMin = new Campo('Exp.CamadaMin','expCamadaMin', Campo::TIPO_TESTE,2);
         if($oDadosCert->getExpCamadaMin()!==null){
@@ -431,6 +446,9 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oInsEneg->addItemSelect('Tolerável', 'Tolerável');
         $oInsEneg->addItemSelect('Ruim', 'Ruim');
         $oInsEneg->addItemSelect('Não Aplicável', 'Não Aplicável');
+        if($oDadosCert->getInspeneg()!==null){
+            $oInsEneg->setSValor($oDadosCert->getInspeneg());
+        }
         
         $oDataEmi=new Campo('Emissão','dataemissao', Campo::TIPO_TEXTO,1);
         $oDataEmi->setSValor(date('d/m/Y'));

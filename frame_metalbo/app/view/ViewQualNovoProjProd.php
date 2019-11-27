@@ -18,6 +18,10 @@ class ViewQualNovoProjProd extends View {
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBGridResponsivo(true);
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaDropdown(true);
 
         $oData = new CampoConsulta('Data', 'dtimp', CampoConsulta::TIPO_DATA);
         $oData->setILargura(60);
@@ -60,14 +64,6 @@ class ViewQualNovoProjProd extends View {
         $oSitGeral->setILargura(20);
 
 
-        $this->addCampos($oNr, $oData, $oSitCli, $oSitGeral, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli);
-
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoIncluir(false);
-
-        $this->setUsaDropdown(true);
-
         $oDrop1 = new Dropdown('Produto', Dropdown::TIPO_PRIMARY);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Cadastro de produto', 'QualNovoProjProd', 'TelaCadProd', '', true, '');
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Detalhamento de projeto', 'QualNovoProjDet', 'TelaCadEtapa', '', true, '');
@@ -106,6 +102,8 @@ class ViewQualNovoProjProd extends View {
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","QualNovoProjProd","renderTempo",chave+",qualnovoprojprodtempo");');
+
+        $this->addCampos($oNr, $oData, $oSitCli, $oSitGeral, $oRespProj, $oRespVenda, $oNovoProd, $oObsCli);
     }
 
     public function criaTelaProd() {
@@ -357,7 +355,7 @@ class ViewQualNovoProjProd extends View {
 
         $oReqproblem_obs = new Campo('', 'reqproblem_obs', Campo::TIPO_TEXTO, 6, 6, 12, 12);
         $oReqproblem_obs->setSCorFundo(Campo::FUNDO_VERDE);
-        $oReqproblem_obs->setIMarginTop(44);
+        $oReqproblem_obs->setIMarginTop(22);
 
         $oComen = new Campo('Comentários', 'comem', Campo::TIPO_TEXTAREA, 8, 8, 12, 12);
 
@@ -389,7 +387,11 @@ class ViewQualNovoProjProd extends View {
         $oEmpdes->setSValor($oDados->empdes);
         $oEmpdes->setBCampoBloqueado(true);
 
-        $oProduto = new campo('Produto', 'desc_novo_prod', Campo::TIPO_TEXTO, 12);
+        $oProcod = new Campo('Cód.', 'procod', Campo::TIPO_TEXTO, 1);
+        $oProcod->setSValor($oDados->procod);
+        $oProcod->setBCampoBloqueado(true);
+
+        $oProduto = new campo('Produto', 'desc_novo_prod', Campo::TIPO_TEXTO, 11);
         $oProduto->setSValor($oDados->desc_novo_prod);
         $oProduto->setBCampoBloqueado(true);
 
@@ -424,7 +426,7 @@ class ViewQualNovoProjProd extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
         $this->addCampos(
-                array($oNr, $oEmpcod, $oEmpdes), $oProduto, array($oProcessos, $oProcessos2, $oProcessos5, $oProcessos4), array($oProcessos1, $oProcessos3, $oProcessos6, $oProcessos7), array($oProcessos10, $oProcessos8, $oProcessos9, $oProcessos12), array($oProcessos11, $oProcessos15, $oProcessos13), array($oProcessos17, $oProcessos16, $oProcessos14), array($oBtnInserir, $oFilcgc));
+                array($oNr, $oEmpcod, $oEmpdes), array($oProcod, $oProduto), array($oProcessos, $oProcessos2, $oProcessos5, $oProcessos4), array($oProcessos1, $oProcessos3, $oProcessos6, $oProcessos7), array($oProcessos10, $oProcessos8, $oProcessos9, $oProcessos12), array($oProcessos11, $oProcessos15, $oProcessos13), array($oProcessos17, $oProcessos16, $oProcessos14), array($oBtnInserir, $oFilcgc));
     }
 
 }

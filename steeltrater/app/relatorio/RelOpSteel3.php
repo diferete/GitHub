@@ -69,7 +69,7 @@ foreach ($aOps as $key => $aOp) {
             convert(varchar,dataprev,103) as dataprev,
             seqMat,
             retrabalho,
-            op_retrabalho, prodFinal,prodesFinal,tipoOrdem,referencia
+            op_retrabalho, prodFinal,prodesFinal,tipoOrdem,referencia,tipoOrdem
             from STEEL_PCP_ordensFab left outer join STEEL_PCP_receitas 
             on STEEL_PCP_ordensFab.receita = STEEL_PCP_receitas.cod
             where op =".$aOp." ";
@@ -101,12 +101,12 @@ foreach ($aOps as $key => $aOp) {
     if ($row['retrabalho']=='Sim'){
         $pdf->Cell(110,8,'ORDEM DE PRODUÇÃO - RETRABALHO',1,0,'C',0);
         //código que imprime o código de barras
-        $pdf->Code39(165,$pdf->GetY()+1,$row['op'],1,5);
+        $pdf->Code39(155,$pdf->GetY()+1,$row['op'],1,5);
         $pdf->Cell(52,8,' ','L,B,T,R',1,'C');    
     }else{
         $pdf->Cell(110,8,'ORDEM DE PRODUÇÃO',1,0,'C',0);
         //código que imprime o código de barras
-        $pdf->Code39(165,$pdf->GetY()+1,$row['op'],1,5);
+        $pdf->Code39(155,$pdf->GetY()+1,$row['op'],1,5);
         $pdf->Cell(52,8,' ','L,B,T,R',1,'C');    
     }   
     
@@ -323,19 +323,19 @@ foreach ($aOps as $key => $aOp) {
                                on STEEL_PCP_forno.fornocod = STEEL_PCP_fornoProd.fornocod 
                                where prod = ".$row['prod']." ";
                 } else{
-                    $sSqlForno="select fornosigla  from STEEL_PCP_forno";
+                    $sSqlForno="select fornosigla  from STEEL_PCP_forno where tipoOrdem = '".$row['tipoOrdem']."'";
                 }
                 $dadosForno=$PDO->query($sSqlForno);
                 
-                $iComp=15; //Altera o comprimento que mostra os campos dos fornos trazidos no select
+                $iComp=16; //Altera o comprimento que mostra os campos dos fornos trazidos no select
                 $iCont=1;
                 while($rowForno = $dadosForno->fetch(PDO::FETCH_ASSOC)){
                 $pdf->SetFont('Arial','B',9);
-                $pdf->Cell($iComp, 5, $rowForno['fornosigla'].'(   )','B',0,'L');
+                $pdf->Cell($iComp, 5, $rowForno['fornosigla'].'(   ) ','B',0,'L');
                 $iCont++;
                 }
                 $ConTotal=($iCont*$iComp);
-                $iCompri=189-$ConTotal;
+                $iCompri=190-$ConTotal;
                 $pdf->Cell($iCompri, 5, '','B,R',1,'L');
                 
                 

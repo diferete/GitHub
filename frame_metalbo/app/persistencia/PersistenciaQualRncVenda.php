@@ -71,6 +71,8 @@ class PersistenciaQualRncVenda extends Persistencia {
         $this->adicionaRelacionamento('usuapontavenda', 'usuapontavenda');
 
         $this->adicionaRelacionamento('obs_aponta', 'obs_aponta');
+        
+        $this->adicionaRelacionamento('tagexcecao', 'tagexcecao');
 
         $this->adicionaJoin('Pessoa');
 

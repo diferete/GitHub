@@ -16,8 +16,6 @@ class ViewQualNovoProj extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
 
-        $this->getTela()->setBGridResponsivo(true);
-
         $oData = new CampoConsulta('Data', 'dtimp', CampoConsulta::TIPO_DATA);
         $oData->setILargura(50);
 
@@ -88,11 +86,11 @@ class ViewQualNovoProj extends View {
         $oFSitProj->addItemSelect('Reprovado', 'Reprovado');
         $oFSitProj->addItemSelect('Cód. enviado', 'Cód. enviado');
         $oFSitProj->setSLabel('');
-        
+
         $oFSitGeralProj = new Filtro($oSitGeral, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFSitGeralProj->addItemSelect('Todos', 'Todos Geral');
         $oFSitGeralProj->addItemSelect('Em execução', 'Em execução');
-        $oFSitGeralProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');        
+        $oFSitGeralProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');
         $oFSitGeralProj->addItemSelect('Lib.Projetos', 'Lib.Projetos');
         $oFSitGeralProj->addItemSelect('Finalizado', 'Finalizado');
         $oFSitGeralProj->addItemSelect('Aprovado', 'Aprovado');
@@ -104,8 +102,6 @@ class ViewQualNovoProj extends View {
         $this->addFiltro($oFSitProj,$oFSitGeralProj, $oFilNr, $oFilData, $oFilEmpDes, $oFilDescProdNew);
 
         $this->addCampos($oNr, $oSitProj, $oSitVendas, $oSitCli, $oSitGeral, $oData, $oEmpDes, $oRepNome, $oDescProdNew, $oQuantPc);
-
-
 
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY, Dropdown::ICON_POSITIVO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aprovar projeto', 'QualNovoProj', 'msAprovaProj', '', false, '');
@@ -260,15 +256,13 @@ class ViewQualNovoProj extends View {
         $oEquipamento->addItemSelect('Não', 'Não');
 
         $oEquipEvidencia = new campo('Evidência', 'equip_corresp_evid', Campo::TIPO_TEXTO, 5);
-        $oEquipEvidencia->setIMarginTop(7);
-
+      
         $oMatPrima = new Campo('Temos matéria prima correspondente', 'mat_prima', Campo::TIPO_SELECT, 3);
         $oMatPrima->addItemSelect('Sim', 'Sim');
         $oMatPrima->addItemSelect('Não', 'Não');
 
         $oEquipMatPrima = new campo('Evidência', 'mat_prima_evid', Campo::TIPO_TEXTO, 5);
-        $oEquipMatPrima->setIMarginTop(7);
-
+       
         //estudo_proc
 
         $oEstudoProc = new Campo('Requer estudo de processo', 'estudo_proc', Campo::TIPO_SELECT, 3);
@@ -276,8 +270,7 @@ class ViewQualNovoProj extends View {
         $oEstudoProc->addItemSelect('Não', 'Não');
 
         $oEstudoEvid = new Campo('Evidência', 'estudo_proc_evid', Campo::TIPO_TEXTO, 5);
-        $oEstudoEvid->setIMarginTop(7);
-
+     
         //prod_sim
         $oProdSimilar = new Campo('Existe produto similar?', 'prod_sim', Campo::TIPO_SELECT, 3);
         $oProdSimilar->addItemSelect('Sim', 'Sim');
@@ -285,16 +278,14 @@ class ViewQualNovoProj extends View {
         //prod_sim_evid
 
         $oProdSimilarEvid = new Campo('Evidência', 'prod_sim_evid', Campo::TIPO_TEXTO, 5);
-        $oProdSimilarEvid->setIMarginTop(7);
-
+      
         //desen_ferram
         $oDesenFerram = new Campo('Precisa desenvolver ferramental?', 'desen_ferram', Campo::TIPO_SELECT, 3);
         $oDesenFerram->addItemSelect('Sim', 'Sim');
         $oDesenFerram->addItemSelect('Não', 'Não');
         //desen_ferram_evid
         $oDesenFerramEvid = new Campo('Evidência', 'desen_ferram_evid', Campo::TIPO_TEXTO, 5);
-        $oDesenFerramEvid->setIMarginTop(7);
-
+      
         $oObs_viavel = new Campo('Observação', 'sol_viavel_obs', Campo::TIPO_TEXTAREA, 8);
 
         $oViavel = new Campo('A solicitação é considerada viável operacionalmente?', 'sol_viavel', Campo::TIPO_RADIO, 6);
@@ -307,17 +298,22 @@ class ViewQualNovoProj extends View {
 
 
 
-        $oLabel1 = new Campo('Requisitos analisados', 'label1', Campo::TIPO_LABEL, 3);
-        $oLabel1->setIMarginTop(15);
+        $oLabel1 = new Campo('Requisitos analisados', 'label1', Campo::TIPO_BADGE, 3);
+        $oLabel1->setSEstiloBadge(Campo::BADGE_PRIMARY);
+        $oLabel1->setITamMarginTopBadge(22);
+        $oLabel1->setITamFonteBadge(18);
+        $oLabel1->setApenasTela(true);
 
-        $oLabel2 = new Campo('Valor', 'label2', Campo::TIPO_LABEL, 3);
-        $oLabel2->setIMarginTop(15);
+        $oLabel2 = new Campo('Valores', 'label2', Campo::TIPO_BADGE, 3);
+        $oLabel2->setSEstiloBadge(Campo::BADGE_SUCCESS);
+        $oLabel2->setITamMarginTopBadge(22);
+        $oLabel2->setITamFonteBadge(18);
+        $oLabel2->setApenasTela(true);
 
         $oLabel3 = new campo('Planejamento e desenvolvimento do projeto', 'label3', Campo::TIPO_LABEL, 3);
         $oVlrDesenProj = new Campo('', 'vlrDesenProj', Campo::TIPO_TEXTO, 1);
         $oVlrDesenProj->setIMarginTop(2);
         $oVlrDesenProj->setSValor('0');
-
 
         $oLabel4 = new campo('Ferramental', 'label4', Campo::TIPO_LABEL, 3);
         $oVlrFerra = new campo('', 'vlrFerramen', Campo::TIPO_TEXTO, 1);

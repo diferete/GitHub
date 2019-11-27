@@ -17,5 +17,19 @@ class PersistenciaMET_CadastroMaquinas extends Persistencia{
         $this->adicionaRelacionamento('tipdes', 'tipdes');
         
         $this->adicionaOrderBy('tipcod',0);
+        
     }
+    
+    public function buscaDadosTipMaq(){
+        $sSql = "select tipdes from tbtipmaq";       
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI]= $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+    
 }

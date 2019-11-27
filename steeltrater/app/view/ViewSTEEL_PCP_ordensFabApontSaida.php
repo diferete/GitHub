@@ -25,6 +25,18 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
         $oBotaoModal = new CampoConsulta('','apontar', CampoConsulta::TIPO_MODAL);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
+        //-----------------------------------------------------------------------
+        
+         $oBotaoFinalizarOp = new CampoConsulta('---', 'finalizarOp', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_BOTAOSUCCES );
+         $oBotaoFinalizarOp->setBHideTelaAcao(true);
+         $oBotaoFinalizarOp->setILargura(20);
+        // $oBotaoFinalizar->setILargura(15);
+         $oBotaoFinalizarOp->setSTitleAcao('Finalizar!');
+         $oBotaoFinalizarOp->addAcao('STEEL_PCP_OrdensFabApontSaida', 'criaTelaModalApontaFinalizar', 'modalApontaFinalizarSemEtapa');
+         $oBotaoFinalizarOp->setSTituloBotaoModal('--FINALIZAR--');
+         $this->addModais($oBotaoFinalizarOp);
+        
+        //------------------------------------------------------------------------
         
         $oOp = new CampoConsulta('OP', 'op');
         $oProdes = new CampoConsulta('Produto', 'prodes');
@@ -80,7 +92,7 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
         $this->addDropdown($oDrop1);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oBotaoFinalizar,$oOp,$oProdes,$oDtent,$oHentr,$oDtsaid,$oHsaida,$oFornoCod,$oForno,$oSituaca,$oSeq);
+        $this->addCampos($oBotaoFinalizarOp,$oOp,$oProdes,$oDtent,$oHentr,$oDtsaid,$oHsaida,$oFornoCod,$oForno,$oSituaca,$oSeq);
     
         //busca o forno padrao 
         $oUserForno = Fabrica::FabricarController('STEEL_PCP_fornoUser');
@@ -99,5 +111,53 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
         $this->getTela()->setAParametros($aParam1);
         
         }
+        
+      //criaTelaModalApontaFinalizar
+    public function criaTelaModalApontaFinalizar($oApontDados) {
+        parent::criaModal();
+        
+        $this->setBTela(true);
+        
+        
+         //busca os dados do usuário
+        $oOuser = Fabrica::FabricarController('MET_TEC_Usuario');
+        $oOuser->Persistencia->adicionaFiltro('usucodigo',$_SESSION['codUser']);
+        $oOuserDados = $oOuser->Persistencia->consultarWhere();
+        
+        $oTurno = new campo('Turno final','turnoSteel', Campo::CAMPO_SELECTSIMPLE,3,3,3,3);
+        $oTurno->addItemSelect('Turno A','Turno A');
+        $oTurno->addItemSelect('Turno B','Turno B');
+        $oTurno->addItemSelect('Turno C','Turno C');
+        $oTurno->addItemSelect('Turno D','Turno D');
+        $oTurno->addItemSelect('Geral','Geral');
+        $oTurno->setSValor($oApontDados->getTurnoSteel());
+
+        $oOp = new Campo('OP', 'op', Campo::TIPO_TEXTO, 2,2,2,2);
+        $oOp->setSValor($oApontDados->getOp());
+        $oOp->setBCampoBloqueado(true);
+        
+        $oCodUser = new campo('CodUser','coduser', Campo::TIPO_TEXTO,1,1,1,1);
+        $oCodUser->setSValor($_SESSION['codUser']);
+        $oCodUser->setBCampoBloqueado(true);
+        //$oCodUser->setBOculto(true);
+        
+        $oUserNome = new campo('Usuário','usernome', Campo::TIPO_TEXTO,4,4,4,4);
+        $oUserNome->setSValor($_SESSION['nome']);
+        $oUserNome->setBCampoBloqueado(true);
+        
+        $oLinha = new campo('','linha', Campo::TIPO_LINHA,12,12,12,12);
+        $oDiv = new campo('* Verifique o turno de saída','div1', Campo::DIVISOR_VERMELHO,12,12,12,12);
+        
+        //botao inserir apontamento
+        $oBtnInserir = new Campo('Finaliza etapa','',  Campo::TIPO_BOTAOSMALL_SUB,5,5,5,5);
+        
+         $sAcao = 'requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_ordensFabApontSaida","finalizaOPTurnoSaida",'
+                 . '"'.$this->getTela()->getId().',,");';
+         $oBtnInserir->getOBotao()->addAcao($sAcao);
+        
+        $this->addCampos(array($oOp,$oCodUser,$oUserNome),
+                $oLinha,$oDiv,$oLinha,$oTurno,$oLinha,$oBtnInserir);
+        
+    }
 
 }

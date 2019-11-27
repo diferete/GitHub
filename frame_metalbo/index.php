@@ -23,7 +23,7 @@ require_once($sPath . '/includes/Fabrica.php');
 require_once($sPath . '/biblioteca/Utilidades/Util.php');
 require_once($sPath . '/biblioteca/Utilidades/ToolsXML.php');
 require_once($sPath . '/biblioteca/Utilidades/Email.php');
-require_once ($sPath . '/biblioteca/phpexcel/Classes/PHPExcel.php');
+require_once($sPath . '/biblioteca/phpexcel/Classes/PHPExcel.php');
 require_once($sPath . '/includes/Conexao.php');
 
 require_once($sPath . '/' . Config::APP_FOLDER . '/controller/Controller.php');

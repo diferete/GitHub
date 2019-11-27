@@ -42,9 +42,10 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         
         $oForDes = new CampoConsulta('Forno', 'fornodes');
         $oCliente = new CampoConsulta('Cliente','STEEL_PCP_ordensFab.emp_razaosocial');
+        $oCliente->setBTruncate(true);
         $oNrCarta = new campoConsulta('Carg','nrCarga');
         
-       
+        $oPeso = new CampoConsulta('Peso','STEEL_PCP_ordensFab.peso', CampoConsulta::TIPO_DECIMAL);
        
         //filtro situação da lista 
         $oSitListaFiltro = new Filtro($oSit, Filtro::CAMPO_SELECT,2,2,2,2);
@@ -53,6 +54,7 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         $oSitListaFiltro->addItemSelect('Espera', 'Espera');
         $oSitListaFiltro->addItemSelect('Liberado', 'Liberado');
         $oSitListaFiltro->addItemSelect('Processo', 'Processo');
+        $oSitListaFiltro->addItemSelect('Finalizado', 'Finalizado');
         $oSitListaFiltro->setSValor('Espera');
         $oSitListaFiltro->setBInline(true);
         
@@ -95,10 +97,16 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         
         $aInicial[0]='situacao,Espera';
         $this->getTela()->setAParametros($aInicial);
-        $this->getTela()->setiAltura(1000);
+        $this->getTela()->setiAltura(400);
         
-        $this->addCampos($oPrioridade,$oBotaoModal,$oTempFor,$oOp,$oSit,$oProduto,$oProdes,$oForDes,$oNrCarta,$oCliente,$oNr);
-    }
+        $this->addCampos($oPrioridade,$oBotaoModal,$oTempFor,$oOp,$oSit,$oProduto,$oProdes,$oPeso,$oForDes,$oNrCarta,$oCliente,$oNr);
+    
+        //campo abaixo do grid
+         $oObsRel = new Campo('Observação para o relatório','obs', Campo::TIPO_TEXTAREA,8);
+         $oObsRel->setILinhasTextArea(3);
+         $this->addCamposGrid($oObsRel);
+        
+        }
 
     public function criaTela() {
         parent::criaTela();

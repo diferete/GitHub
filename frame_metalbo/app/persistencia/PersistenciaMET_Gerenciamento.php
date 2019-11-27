@@ -28,7 +28,7 @@ class PersistenciaMET_Gerenciamento extends Persistencia{
         $this->adicionaOrderBy('nr',1);
         
         $this->adicionaJoin('MET_Maquinas',null,1,'codmaq','cod');
-        $this->adicionaJoin('MET_Setores');
+        $this->adicionaJoin('Setor');
        
     }
       
@@ -41,5 +41,76 @@ class PersistenciaMET_Gerenciamento extends Persistencia{
         
     }
     
+    public function verificaQuantMaqAber($iCodMaq){
+        
+        $sSql = "select count (codmaq) as total from tbmanutmp where codmaq = '".$iCodMaq."' and sitmp = 'ABERTO'";       
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        return ((int) $oRow->total);
+        
+    }
+    
+    public function verificaCampoValido($iCodMaq, $sDesc){
+        
+        $sSql = "select maquina from metmaq where cod= '".$iCodMaq."' ";       
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_ASSOC);
+        $sMaquina = $oRow['maquina'];
+        if(strcasecmp($sMaquina,$sDesc)==0){
+            return true;
+        } else{
+            return false;
+        }
+        
+    }
+    
+    public function totalAbertoVencidos($iNr){
+        
+        if($iNr!=null && $iNr!=0){
+        $sSql = "select  count (sitmp) as numero,resp
+                from   tbitensmp left outer join    
+                tbservmp on tbitensmp.codsit =   tbservmp.codsit 
+                where sitmp <> 'FINALIZADO' and
+                dias<0 and nr = '".$iNr."'
+                group by resp";      
+        }else{        
+        $sSql = "select  count (sitmp) as numero,resp
+                from   tbitensmp left outer join    
+                tbservmp on tbitensmp.codsit =   tbservmp.codsit 
+                where sitmp <> 'FINALIZADO' and
+                dias<0
+                group by resp";   
+        }
+        
+        $oRow = array();
+        $result = $this->getObjetoSql($sSql);
+        while ($aRow = $result->fetch(PDO::FETCH_ASSOC)){
+            $oRow[$aRow['resp']] = $aRow['numero'];         
+        } 
+        
+        return ($oRow);
+        
+    }
+    
+      public function buscaNrServNeg(){
+        
+        $sSql = "select nr from tbitensmp 
+                left outer join    
+                tbservmp on tbitensmp.codsit = tbservmp.codsit 
+                where sitmp <> 'FINALIZADO' 
+                and dias<0
+                group by nr";      
+        
+        $oRow = array();
+        $result = $this->getObjetoSql($sSql);
+        $i =0;
+        while ($aRow = $result->fetch(PDO::FETCH_OBJ)){
+            $oRow[$i] = $aRow->nr;    
+            $i++;
+        } 
+        
+        return ($oRow);
+        
+    }
     
 }

@@ -49,6 +49,10 @@ class PersistenciaSTEEL_PCP_prodMatReceita extends Persistencia {
         $this->adicionaRelacionamento('prodfinal','prodfinal');
         $this->adicionaRelacionamento('prodfinal', 'STEEL_PCP_pesqArame.pro_codigo', false,false);
         
+        $this->adicionaRelacionamento('desativa','desativa');
+        
+        $this->adicionaRelacionamento('obsdesativa', 'obsdesativa');
+        
         $this->setSTop('10');
         $this->adicionaOrderBy('seqmat', 1);
         $this->adicionaJoin('DELX_PRO_Produtos', null,1, 'prod','pro_codigo');

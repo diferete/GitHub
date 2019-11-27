@@ -53,6 +53,15 @@ class ModelQualRnc {
     private $repcod;
     private $obs_aponta;
     private $produtos;
+    private $tagexcecao;
+
+    function getTagexcecao() {
+        return $this->tagexcecao;
+    }
+
+    function setTagexcecao($tagexcecao) {
+        $this->tagexcecao = $tagexcecao;
+    }
 
     function getDevolucao() {
         return $this->devolucao;

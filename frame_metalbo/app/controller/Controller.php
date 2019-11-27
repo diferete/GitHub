@@ -389,6 +389,9 @@ class Controller {
                             if ($oCampoTela->getITipo() == 29) { //campo decimal
                                 $xValorCampo = $this->ValorSql($xValorCampo);
                             }
+                            if ($oCampoTela->getITipo() == 39) { //campo decimal
+                                $xValorCampo = $this->ValorSql($xValorCampo);
+                        }
                         }
                         break;
                     case is_array($oCampoTela):
@@ -397,7 +400,10 @@ class Controller {
                                 if ($CampoArray->getITipo() == 29) { //campo decimal
                                     $xValorCampo = $this->ValorSql($xValorCampo);
                                 }
+                                if ($CampoArray->getITipo() == 39) { //campo decimal
+                                    $xValorCampo = $this->ValorSql($xValorCampo);
                             }
+                        }
                         }
 
                         break;
@@ -409,15 +415,21 @@ class Controller {
                                         if ($oFsCampo1->getITipo() == 29) {
                                             $xValorCampo = $this->ValorSql($xValorCampo);
                                         }
+                                        if ($oFsCampo1->getITipo() == 39) { //campo decimal
+                                            $xValorCampo = $this->ValorSql($xValorCampo);
                                     }
+                                }
                                 }
                             } else {
                                 if ($sNomeCampo == $oFsCampo->getNome()) {
                                     if ($oFsCampo->getITipo() == 29) {//campo decimal
                                         $xValorCampo = $this->ValorSql($xValorCampo);
                                     }
+                                    if ($oFsCampo->getITipo() == 39) { //campo decimal
+                                        $xValorCampo = $this->ValorSql($xValorCampo);
                                 }
                             }
+                        }
                         }
                         break;
                     case is_a($oCampoTela, 'TabPanel'):
@@ -429,8 +441,11 @@ class Controller {
                                             if ($AbaCampo1->getITipo() == 29) { //campo decimal
                                                 $xValorCampo = $this->ValorSql($xValorCampo);
                                             }
+                                            if ($AbaCampo1->getITipo() == 39) { //campo decimal
+                                                $xValorCampo = $this->ValorSql($xValorCampo);
                                         }
                                     }
+                                }
                                 }
                                 //verifica se é campo dentro do tab
                                 if (is_a($AbaCampo, 'Campo')) {
@@ -438,7 +453,10 @@ class Controller {
                                         if ($AbaCampo->getITipo() == 29) { //campo decimal
                                             $xValorCampo = $this->ValorSql($xValorCampo);
                                         }
+                                        if ($AbaCampo->getITipo() == 39) { //campo decimal
+                                            $xValorCampo = $this->ValorSql($xValorCampo);
                                     }
+                                }
                                 }
                                 //verifica se é fieldset
                                 if (is_a($oCampoTela, 'FieldSet')) {
@@ -449,18 +467,24 @@ class Controller {
                                                     if ($oFsCampo1->getITipo() == 29) { //campo decimal
                                                         $xValorCampo = $this->ValorSql($xValorCampo);
                                                     }
+                                                    if ($oFsCampo1->getITipo() == 39) { //campo decimal
+                                                        $xValorCampo = $this->ValorSql($xValorCampo);
                                                 }
+                                            }
                                             }
                                         } else {
                                             if ($sNomeCampo == $oFsCampo->getNome()) {
                                                 if ($oFsCampo->getITipo() == 29) { //campo decimal
                                                     $xValorCampo = $this->ValorSql($xValorCampo);
                                                 }
+                                                if ($oFsCampo->getITipo() == 39) { //campo decimal
+                                                    $xValorCampo = $this->ValorSql($xValorCampo);
                                             }
                                         }
                                     }
                                 }
                             }
+                        }
                         }
                         break;
                 }
@@ -1060,12 +1084,13 @@ class Controller {
             $this->carregaDadosGridDetalhe($oCampo);
         } else {
             //carrega o valor do campo
-
-            if (method_exists($oCampo, 'setSValor') && !($oCampo->getApenasTela())) {
-                $this->carregaValorCampo($oCampo);
-            } else if (is_a($oCampo, 'FieldSet')) {
-                foreach ($oCampo->getACampos() as $oCampo) {
+            if ($oCampo->getITipo() != 41) {
+                if (method_exists($oCampo, 'setSValor') && !($oCampo->getApenasTela())) {
                     $this->carregaValorCampo($oCampo);
+                } else if (is_a($oCampo, 'FieldSet')) {
+                    foreach ($oCampo->getACampos() as $oCampo) {
+                        $this->carregaValorCampo($oCampo);
+                    }
                 }
             }
         }
@@ -1587,6 +1612,11 @@ class Controller {
             $this->View->getTela()->setSCampoConsulta($aDados[2]);
             $this->View->getTela()->setSCampoRetorno($aDados[3]);
             $bDesativaAcao = $this->View->getBDesativaAcaoConsulta();
+            if (isset($aDados[4])) {
+                $bDesativaAcao = false;
+                $this->View->getTela()->setBBtnConsulta(true);
+                
+            }
             if ($bDesativaAcao) {
                 $this->View->setUsaAcaoAlterar(false);
                 $this->View->setUsaAcaoExcluir(false);
@@ -2004,9 +2034,6 @@ class Controller {
 
             $sRender .= ' if (idTr!==""){$("#' . $aDadosAtualizar[0] . ' #"+idTr+"").focus();'
                     . ' $("#' . $aDadosAtualizar[0] . ' #"+idTr+"").addClass("selected");}';
-
-
-
 
             echo $sRender;
             $sDadosSummary = $this->getDadosFoot();
@@ -2853,12 +2880,14 @@ class Controller {
 
         //seta ids da tela 
         $this->View->setSIdsTelas($aDados);
-        if ($aDados[6] == 'acaoVisualizar') {
+        if ($aDados[6] == 'acaoVisualizar' || $aDados[7] == 'acaoVisualizar') {
             $this->View->setSRotina(View::ACAO_VISUALIZAR);
         } else {
             $this->View->setSRotina(View::ACAO_INCLUIR);
         }
         $this->antesDeCriarTela();
+
+        $this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
         //define o retorno somente do form
@@ -2955,6 +2984,10 @@ class Controller {
                 $msg = "" . $oLimpa->limpaForm($sForm) . ""
                         . "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
                 echo $msg;
+                
+                //chama método após limpar os forms dos campos
+                $this->afterResetForm($aDados);
+                
                 //verifica se o campo precisa ser fechado após dar um confirma
                 if ($this->View->getTela()->getBFecharTelaIncluir()) {
                     //BASE PARA FECHAR
@@ -3963,6 +3996,9 @@ class Controller {
         if ($oCampo->getITipo() == 29) {
             $xValor = number_format($xValor, 2, ',', '.');
         }
+        if ($oCampo->getITipo() == 39) {
+            $xValor = number_format($xValor, $oCampo->getICasaDecimal(), ',', '.');
+        }
 
         if ($oCampo->getITipo() == 0) {
             if ($xValor !== '') {
@@ -4088,13 +4124,13 @@ class Controller {
                         //altera valor de / para tipo dataSql
                         $sValorCampo = Util::converteData($sValor);
                         //setValor no campo data
-                        $sValor = date('d/m/Y', strtotime($sValorCampo));
+                        $sValor = $sValorCampo;
                     } else {
                         $sValor = str_replace("\n", " ", $sValor);
                         $sValor = str_replace("'", "\'", $sValor);
                         $sValor = str_replace("\r", "", $sValor);
                     }
-
+                    $sValor = rtrim($sValor);
                     $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
                     echo $sRetorno;
                 }
@@ -4385,6 +4421,17 @@ class Controller {
      */
     public function afterCriaTela() {
         
+    }
+
+    /**
+
+     * Método para retornar array com os campos da tela via $_REQUEST[]     
+     */
+    public function getArrayCampostela() {
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        return $aCamposChave;
     }
 
 }

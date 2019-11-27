@@ -101,6 +101,10 @@ class ViewCadCliRep extends View {
         $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpcod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '11', '14');
 
+        $oCNPJ = new Campo('cnpj', 'cnpj', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oCNPJ->setBOculto(true);
+        $oCNPJ->setBCampoBloqueado(true);
+
         $oEmpDes = new campo('Razão social', 'empdes', Campo::TIPO_TEXTO, 7, 7, 12, 12);
         $oEmpDes->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpDes->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '45');
@@ -147,6 +151,7 @@ class ViewCadCliRep extends View {
             $oEmpcod->setBFocus(true);
         }
         $sAcaoExit = 'cnpjBusca($("#' . $oEmpcod->getId() . '").val(),'
+                . '"' . $oCNPJ->getId() . '",'
                 . '"' . $oEmpDes->getId() . '",'
                 . '"' . $oEmpFant->getId() . '",'
                 . '"' . $oEmpFone->getId() . '",'
@@ -240,7 +245,7 @@ class ViewCadCliRep extends View {
         $oEmpObs->setILinhasTextArea(5);
         $oEmpObs->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '1000');
 
-        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
+        $this->addCampos($oFieldInf, array($oEmpcod,$oCNPJ, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
     }
 
 }

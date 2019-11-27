@@ -56,7 +56,7 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
         $this->adicionaRelacionamento('dataNotaRetorno', 'dataNotaRetorno');
         
         
-        $this->setSTop('300');
+        $this->setSTop('200');
         $this->adicionaOrderBy('nrcert', 1);
     }
     
@@ -75,14 +75,23 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
      * Atualiza o certificado referente a sua nota fiscal
      */
     public function atualizaNotaCertificado(){
+        //limpa notas canceladas
+        $this->limpaCancelada();
+        
         $sSql = "select * from steel_pcp_certificado where notasteel is null or notasteel = 0";
         $result = $this->getObjetoSql($sSql);
 
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
             //busca a carga
             $sCarga = $this->buscaCarga($oRowBD->op);
+            //busca ordem de produção
+            $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+            $oOp->Persistencia->adicionaFiltro('op',$oRowBD->op);
+            $oOpDados = $oOp->Persistencia->consultarWhere();
+            //busca sequencia do item na carta
+            $sSeqCarga = $this->buscaSeqCarga($sCarga,$oRowBD->op);
             //busca a nota fiscal
-            $aNota =$this->buscaNota($sCarga,$oRowBD->procod);
+            $aNota =$this->buscaNota($sCarga,$oOpDados->getProdFinal(),$sSeqCarga);
             //gera update 
             $this->updateNotaCert($oRowBD->nrcert,$aNota);
            }
@@ -91,7 +100,7 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
      * Busca nota fiscal
      * @param type $sNrCarga
      */
-    public function buscaNota($sNrCarga,$sProcod){
+    public function buscaNota($sNrCarga,$sProcod,$sSeqCarga){
        $sSql = "select NFS_NotaFiscalNumero,NFS_NotaFiscalDataEmissao 
                 from nfs_notafiscalitem left outer join NFS_NOTAFISCAL
                 on nfs_notafiscalitem.NFS_NotaFiscalFilial = NFS_NOTAFISCAL.NFS_NotaFiscalFilial
@@ -99,6 +108,8 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
                 where nfs_notafiscalitempedidocodigo = '".$sNrCarga."' and nfs_notafiscalcancelada = 'N'
                 and nfs_notafiscalitem.NFS_NotaFiscalFilial ='8993358000174'
                 and nfs_notafiscalitemproduto = '".$sProcod."'
+                and NFS_NotaFiscalItemPedidoItemSe ='".$sSeqCarga."'
+                and NFS_NotaFiscalSituacao <>'X'
                 group by NFS_NotaFiscalNumero,NFS_NotaFiscalDataEmissao  "; 
        
        $result = $this->getObjetoSql($sSql);
@@ -131,5 +142,29 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         
         return $oRow->nrcarga;
+    }
+    
+    /**
+     * busca seq na carca
+     */
+    public function buscaSeqCarga($sCarga,$sOp){
+        $sSql = "select pdv_pedidoitemseq from STEEL_PCP_CargaInsumoServ 
+                where op ='".$sOp."'
+                and pdv_pedidocodigo ='".$sCarga."'
+                and pdv_insserv ='RETORNO' ";
+        $result = $this->getObjetoSql($sSql);
+        
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        
+        return $oRow->pdv_pedidoitemseq;
+    }
+    
+    public function limpaCancelada(){
+        $sSql = "select * from NFS_NOTAFISCAL where nfs_notafiscalcancelada = 'S' and NFS_NotaFiscalFilial ='8993358000174' ";
+        $result = $this->getObjetoSql($sSql);
+        while ($oRow = $result->fetch(PDO::FETCH_OBJ)){
+            $sSqlExec ="update STEEL_PCP_certificado set notasteel = 0 where notasteel = '".$oRow->nfs_notafiscalnumero."' ";
+            $this->executaSql($sSqlExec);
+        }
     }
 }

@@ -97,7 +97,7 @@ class ControllerUsuario extends Controller {
         $cache_limiter = session_cache_limiter();
 
         /* define o prazo do cache em 600 minutos */
-        session_cache_expire(600);
+        session_cache_expire(100000);
         $cache_expire = session_cache_expire();
         session_set_cookie_params(99999999);
         session_start();
@@ -114,7 +114,7 @@ class ControllerUsuario extends Controller {
 
             $tempo_transcorrido = (strtotime($agora) - strtotime($dataSalva));
             //tempo em segundos
-            if ($tempo_transcorrido >= 28800) {
+            if ($tempo_transcorrido >= 150000000) {
                 if (isset($_SESSION["ultimoAcesso"])) {
                     $this->msgSessaoInvalida();
                 }
@@ -128,6 +128,21 @@ class ControllerUsuario extends Controller {
             return false;
         }
     }
+	
+	    /**
+     * Método que retorna a mensagem de erro para os casos em que a sessão
+     * não for validada
+     * 
+     * @return string String contendo o conteúdo que será renderizado para formar
+     *                a mensagem de erro
+     */
+    public function msgSessaoInvalida() {
+        //$sMsg = "Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!";
+            $oMensagem = new Modal('Sessão Expirada!', 'Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","Usuario","acaoLogout","");');
+            echo $oMensagem->getRender();
+        }
+
 
     /**
      * Método que retorna a mensagem de erro para os casos em que a sessão
@@ -135,7 +150,7 @@ class ControllerUsuario extends Controller {
      * 
      * @return string String contendo o conteúdo que será renderizado para formar
      *                a mensagem de erro
-     */
+     *
     public function msgSessaoInvalida() {
 
         if (isset($_SESSION['sessao'])) {
@@ -181,6 +196,7 @@ class ControllerUsuario extends Controller {
 
         echo $htmlReLog;
     }
+	*/
 
     /**
      * Método que captura e retorna o horário atual para que possa ser atrubuído

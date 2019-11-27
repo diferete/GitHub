@@ -10,7 +10,7 @@ class ViewQualCausa extends View {
 
     function criaGridDetalhe() {
         parent::criaGridDetalhe();
- 
+
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
@@ -181,9 +181,6 @@ class ViewQualCausa extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBotConf->setApenasTela(true);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBotConf->getOBotao()->setBDesativado(true);
-        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    
@@ -191,7 +188,11 @@ class ViewQualCausa extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos($oDivisor1, array($oMatPrimaDes, $oMetodoDes, $oMaoDeObraDes, $oEquipamentoDes, $oMeioAmbienteDes, $oMedidaDes), $oBtnInsereCausa, $oDivisor, array($oCausaDes), array($oPq1, $oPq2, $oPq3, $oPq4, $oPq5), array($oBotConf, $oFilcgc, $oNr, $oSeq));
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->addCampos($oDivisor1, array($oMatPrimaDes, $oMetodoDes, $oMaoDeObraDes, $oEquipamentoDes, $oMeioAmbienteDes, $oMedidaDes), $oBtnInsereCausa, $oDivisor, array($oCausaDes), array($oPq1, $oPq2, $oPq3, $oPq4, $oPq5), array($oFilcgc, $oNr, $oSeq));
+        } else {
+            $this->addCampos($oDivisor1, array($oMatPrimaDes, $oMetodoDes, $oMaoDeObraDes, $oEquipamentoDes, $oMeioAmbienteDes, $oMedidaDes), $oBtnInsereCausa, $oDivisor, array($oCausaDes), array($oPq1, $oPq2, $oPq3, $oPq4, $oPq5), array($oBotConf, $oFilcgc, $oNr, $oSeq));
+        }
 
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }

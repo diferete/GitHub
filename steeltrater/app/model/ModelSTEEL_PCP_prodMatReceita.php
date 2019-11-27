@@ -41,8 +41,28 @@ class ModelSTEEL_PCP_prodMatReceita {
    private $prodfinal;
    
    private $STEEL_PCP_pesqArame;
-  
    
+   private $desativa;
+   
+   private $obsdesativa;
+   
+   function getDesativa() {
+       return $this->desativa;
+   }
+
+   function getObsdesativa() {
+       return $this->obsdesativa;
+   }
+
+   function setDesativa($desativa) {
+       $this->desativa = $desativa;
+   }
+
+   function setObsdesativa($obsdesativa) {
+       $this->obsdesativa = $obsdesativa;
+   }
+
+      
     function getSTEEL_PCP_pesqArame() {
         if(!isset($this->STEEL_PCP_pesqArame)){
             $this->STEEL_PCP_pesqArame = Fabrica::FabricarModel('STEEL_PCP_pesqArame');

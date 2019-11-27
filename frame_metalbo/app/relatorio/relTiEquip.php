@@ -22,24 +22,6 @@ class PDF extends FPDF {
 
 }
 
-/* class PDF_AutoPrint extends PDF_JavaScript {
-
-  function AutoPrint($printer = '') {
-  // Open the print dialog
-  if ($printer) {
-  $printer = str_replace('\\', '\\\\', $printer);
-  $script = "var pp = getPrintParams();";
-  $script .= "pp.interactive = pp.constants.interactionLevel.full;";
-  $script .= "pp.printerName = '$printer'";
-  $script .= "print(pp);";
-  } else {
-  $script = 'print(true);';
-  $this->IncludeJS($script);
-  }
-  }
-
-  } */
-
 $pdf = new PDF('P', 'mm', 'A4');
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
@@ -64,7 +46,6 @@ $pdf->Cell(120, 10, 'Relatorio de Equipamentos TI', 0, 1, 'L');
 $pdf->Ln(10);
 
 $pdf->SetFont('Arial', '', 9);
-//$pdf->Cell(40, 5, 'Empresa:', 0, 1, 'L');
 $pdf->Cell(40, 5, 'Usuário: ' . $sUserRel, 0, 1, 'L');
 $pdf->Cell(30, 5, 'Data: ' . $sData, 0, 0, 'L');
 $pdf->Cell(30, 5, 'Hora: ' . $sHora, 0, 1, 'L');
@@ -76,6 +57,8 @@ $sSetorCod = $_REQUEST['Setor_codsetor'];
 $sOffice = $_REQUEST['office'];
 $sLicWind = $_REQUEST['equiplicenca'];
 $oSistema = $_REQUEST['equipsistema'];
+$oIp = $_REQUEST['ip'];
+$oSituac = $_REQUEST['situaca'];
 
 $pdf->SetY(45);
 
@@ -86,7 +69,7 @@ $sql = "select * from tbtiequipamento
             left outer join MetCad_Setores
             on (tbtiequipamento.codsetor =  MetCad_Setores.codsetor) ";
 
-if (($sEqpTipo !== '') || ($sSetorCod !== '') || ($oSistema !== 'N/A')) {
+if (($sEqpTipo !== '') || ($sSetorCod !== '')) {
     $sql .= " where ";
 
     if (($sEqpTipo !== '') && ($sSetorCod == '')) {
@@ -106,15 +89,28 @@ if (($sEqpTipo !== '') || ($sSetorCod !== '') || ($oSistema !== 'N/A')) {
             $sql .= " and equiplicenca = '" . $sLicWind . "' ";
         }
     }
-    if (($oSistema !== 'N/A') && (($sEqpTipo !== '') || ($sSetorCod !== ''))) {
+    if ($oSistema !== 'N/A') {
         $sql .= " and equipsistema = '" . $oSistema . "' ";
+    }
+}
+if (($oIp == 'N') && ($sEqpTipo == '') && ($sSetorCod == '')) {
+    $sql .= " where ipfixo = 'DHCP'";
+} else if (($oIp == 'S') && ($sEqpTipo == '') && ($sSetorCod == '')) {
+    $sql .= " where ipfixo <> 'DHCP' and ipfixo <> '' ";
+} else if ($oIp == 'S') {
+    $sql .= " and ipfixo <> 'DHCP' and ipfixo <> '' ";
+} else if ($oIp == 'N') {
+    $sql .= " and ipfixo = 'DHCP'";
+}
+if (($oSituac != 'Todas')) {
+    if (($oIp == 'Todos') && ($sEqpTipo == '') && ($sSetorCod == '')) {
+        $sql .= " where situaca = '" . $oSituac . "'";
     } else {
-        $sql .= " equipsistema = '" . $oSistema . "' ";
+        $sql .= " and situaca = '" . $oSituac . "'";
     }
 }
 
 $sql .= " order by tbtiequipamento.codsetor,equipcod,office,equiplicenca ";
-// where tbtiequipamento.eqtipcod = '".$oEqpTipo."' and tbtiequipamento.codsetor = '".$oSetorCod."'";
 $sth = $PDO->query($sql);
 
 
@@ -208,11 +204,16 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(20, 5, $row['equipmac'], 0, 1);
 
     $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(10, 4, 'Key:', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(64, 4, $row['numlic'], 0, 1);
+
+    $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(22, 5, 'Obs:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
     $pdf->MultiCell(150, 5, $row['obs'], 0, 1);
 
-    $pdf->Cell(0, 5, "", "B", 1, 'C');
+    $pdf->Cell(0, 1, "", "B", 1, 'C');
 
     $icontaQnt++;
     if ($sEqpTipo == '1') {

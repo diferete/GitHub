@@ -41,6 +41,8 @@ class PersistenciaMET_TEC_Usuario extends Persistencia{
         $this->adicionaRelacionamento('usunomeDelsoft', 'usunomeDelsoft');
         
         $this->adicionaRelacionamento('codsismetalbo', 'codsismetalbo');
+        
+        $this->adicionaRelacionamento('turnoSteel','turnoSteel');
        
         $this->adicionaJoin('MET_TEC_UsuTipo');
         $this->adicionaJoin('MET_CAD_Setores');

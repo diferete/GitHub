@@ -80,13 +80,18 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $this->adicionaRelacionamento('pendenciasobs','pendenciasobs');
         
         $this->adicionaRelacionamento('rnc','rnc');
-        $this->adicionaRelacionamento('opAntes','opAntes');
+        $this->adicionaRelacionamento('opantes','opantes');
+        
+        $this->adicionaRelacionamento('dataemidoc', 'dataemidoc');
+        $this->adicionaRelacionamento('serie_nf', 'serie_nf');
+      
         
         $this->adicionaOrderBy('op',1);
         $this->setSTop('100');
         
+    
+        
     }
-   
     
     /**
      * Cancela a ordem de produção
@@ -138,8 +143,11 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
      */
     
     public function nrCarga($sOp,$sNrCarga){
+         $sSql="update STEEL_PCP_OrdensFab set situacao='Retornado' where op='".$sOp."'   ";
+         $this->executaSql($sSql);
+         
          $sSql="update STEEL_PCP_OrdensFab set nrCarga='".$sNrCarga."' where op='".$sOp."'   ";
-        $aRetorno = $this->executaSql($sSql);
+         $aRetorno = $this->executaSql($sSql);
         
         return $aRetorno;
     }
@@ -149,7 +157,10 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
      */
     
     public function limpaCarga($sOp){
-         $sSql="update STEEL_PCP_OrdensFab set nrCarga='Sem carga' where op='".$sOp."'   ";
+        $sSql="update STEEL_PCP_OrdensFab set situacao='Finalizado' where op='".$sOp."'   ";
+         $this->executaSql($sSql);
+         
+         $sSql="update STEEL_PCP_OrdensFab set nrCarga='Sem Carga' where op='".$sOp."'   ";
         $aRetorno = $this->executaSql($sSql);
         
         return $aRetorno;
@@ -198,4 +209,25 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         
         return $aRetorno;
     }
+    
+    public function buscaMovimento(){
+          
+        $sql = "select * from NFS_TIPOMOVIMENTO where NFS_TipoMovimentoCodigo>=300 order by NFS_TipoMovimentoCodigo desc";
+        $result = $this->getObjetoSql($sql);
+        $aRetorno = array();
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $aRetorno[$row['nfs_tipomovimentocodigo']] = $row['nfs_tipomovimentodescricao'];
+        }
+        return $aRetorno;
+        
+    }
+    
+    /**
+     * Muda a situação para origem retrabalho
+     */
+    public function origemRetrabalho($sOp){
+        $sSql = "update STEEL_PCP_OrdensFab set retrabalho='OP origem retrabalho' where op='$sOp' ";
+        $aRetorno = $this->executaSql($sSql);
+    }
+    
 }

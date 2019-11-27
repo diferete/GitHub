@@ -240,36 +240,30 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
     }
 
     public function alteraHora($sValor, $aCamposChave) {
-        $sSituaca = $this->buscaSituaca($aCamposChave);
         $dHoje = date('Y-m-d');
 
-        if ($sSituaca != 'Saída') {
+        $sSqlDados = "select * from MET_PORT_Transito"
+                . " where nr = '" . $aCamposChave['nr'] . "'";
+        $oDados = $this->consultaSql($sSqlDados);
 
-            $sSqlDados = "select * from MET_PORT_Transito"
-                    . " where nr = '" . $aCamposChave['nr'] . "'";
-            $oDados = $this->consultaSql($sSqlDados);
+        if ($oDados->datachegou == $dHoje) {
+            $sIdCarga = $this->buscaIdcarga($aCamposChave);
 
-            if ($oDados->datachegou == $dHoje) {
-                $sIdCarga = $this->buscaIdcarga($aCamposChave);
-
-                if ($sIdCarga != null && $sIdCarga != '') {
-                    $sSql = "update MET_PORT_Transito set horachegou ='" . $sValor . "' where nr='" . $aCamposChave['nr'] . "'";
-                    $aRetorno = $this->executaSql($sSql);
-                    if ($aRetorno) {
-                        $sSqlHoraCarga = "update MetExp_Carga set horaent ='" . $sValor . "' where idcarga='" . $sIdCarga . "'";
-                        $this->executaSql($sSqlHoraCarga);
-                    }
+            if ($sIdCarga != null && $sIdCarga != '') {
+                $sSql = "update MET_PORT_Transito set horachegou ='" . $sValor . "' where nr='" . $aCamposChave['nr'] . "'";
+                $aRetorno = $this->executaSql($sSql);
+                if ($aRetorno) {
+                    $sSqlHoraCarga = "update MetExp_Carga set horaent ='" . $sValor . "' where idcarga='" . $sIdCarga . "'";
+                    $this->executaSql($sSqlHoraCarga);
                 }
-
-                return $aRetorno;
             } else {
                 $sSql = "update MET_PORT_Transito set horachegou ='" . $sValor . "' where nr='" . $aCamposChave['nr'] . "'";
                 $aRetorno = $this->executaSql($sSql);
-                return $aRetorno;
             }
         } else {
-            return false;
+            $aRetorno = false;
         }
+        return $aRetorno;
     }
 
     public function excluirRegistro($aDados) {

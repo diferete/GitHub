@@ -300,7 +300,12 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
      public function mostraTelaRelOpEmitida($renderTo, $sMetodo = '') {        
         parent::mostraTelaRelatorio($renderTo, 'RelOpSteel2');              
         
-    }  
+    } 
+    
+    public function mostraTelaRelOpFat($renderTo, $sMetodo = '') {        
+        parent::mostraTelaRelatorio($renderTo, 'RelOpFat');              
+        
+    } 
     
     /**
      *  Gera xls do relatorio de ordem de produção
@@ -629,6 +634,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         }
         
         if($aRetorno[0]){
+        //muda a situação da op original para OP origem retrabalho
+        $this->Persistencia->origemRetrabalho($aCamposChave['op']);
         $oMensagem = new Mensagem('Atenção!','A OP '.$aCamposChave['op'].' foi colocada em Retrabalho com sucesso!', Mensagem::TIPO_SUCESSO);
         echo $oMensagem->getRender();
         echo"$('#".$aDados[1]."-pesq').click();"; 
@@ -714,8 +721,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $this->Persistencia->adicionaFiltro('op',$aOp[1]);
         $oDados = $this->Persistencia->consultarWhere();
         $sSituacao = $oDados->getSituacao();
-        if($sSituacao == 'Finalizado'){
-            $oModal = new Modal('Atenção!','Não é possível alterar a OP '.$aOp[1].', por que ela está finalizada!', Modal::TIPO_AVISO, false, true);
+        if($sSituacao !== 'Aberta'){
+            $oModal = new Modal('Atenção!','Não é possível alterar a OP '.$aOp[1].', por que ela está em processo!', Modal::TIPO_AVISO, false, true);
             echo $oModal->getRender();
             $this->setBDesativaBotaoPadrao(true);
         }else{
@@ -887,6 +894,46 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
        
         return $aDadosFat;
     }
+    
+    public function mostraTelaRelOpSteelNaoApont($renderTo, $sMetodo = '') {        
+        parent::mostraTelaRelatorio($renderTo, 'RelOpSteelNaoApont');              
+    }  
+    
+    public function mostraTelaRelFaturamento($renderTo, $sMetodo = '') {    
+        $parame = $this->Persistencia->buscaMovimento();
+        $this->View->setAParametrosExtras($parame);
+        parent::mostraTelaRelatorio($renderTo, 'RelFaturamento');     
+    }  
+    
+    public function relatorioExcelApontamentos(){ //indicadorExpedicaoXls
+        //Explode string parametros
+        $sDados = $_REQUEST['campos'];
+        
+        $sCampos = htmlspecialchars_decode($sDados);
+                
+        $sCampos.= $this->getSget();
+        
+        $aRel = explode(',', $sRel);
+       
+        $sSistema ="app/relatorio";
+        $sRelatorio = 'RelOpSteelFornoExcel.php?';
+        
+        $sCampos.='&output=email';
+        $oMensagem = new Mensagem("Aguarde","Seu excel está sendo processado", Mensagem::TIPO_INFO);
+        echo $oMensagem->getRender();
+        
+        $oWindow =// 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "Relatório", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");'; 
+                'var win = window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'","MsgWindow","width=500,height=100,left=375,top=330");'
+                    .'setTimeout(function () { win.close();}, 30000);';
+        echo $oWindow;
+         
+        
+        
+        $oMenSuccess = new Mensagem("Sucesso","Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
+        echo $oMenSuccess->getRender();
+       
+    } 
+
 }
    
    

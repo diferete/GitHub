@@ -52,8 +52,8 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
         });
 
     });
-   
-    
+
+
     if (bscroll == true) {
         //alert(metodo);  
         dadosPesq[countPesq] = chavescroll + '|' + 'scroll';
@@ -394,8 +394,7 @@ function entradaCodigo(idVlrUnit) {
  * @param {type} t
  * @returns {@var;d|@var;t|s|String}
  */
-function numeroParaMoeda(n, c, d, t)
-{
+function numeroParaMoeda(n, c, d, t){
     c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
@@ -516,12 +515,12 @@ function calcMod(idQuant, idCxNormal) {
 
     var quantidade = moedaParaNumero($('#' + idQuant + '').val()); //   $('#'+idQuant+'').val();
     quantidade = quantidade * 100;
-    console.log(quantidade);
+
     var caixaNormal = moedaParaNumero($('#' + idCxNormal + '').val());//$('#'+idCxNormal+'').val();
     caixaNormal = caixaNormal * 100;
-    console.log(caixaNormal);
+
     var modulo = quantidade % caixaNormal;
-    console.log(modulo);
+
     if (modulo > 0) {
 
         return true;
@@ -663,7 +662,7 @@ function dataAtual(idData, dataAtual) {
     //  alert(nova_data2);
 
     if (nova_data1 > nova_data2) {
-        console.log('entrou');
+
         return false;
     } else
     {
@@ -795,206 +794,45 @@ function calcNewproj(idPlan,
 }
 
 /**
+ * funcao para valores do dimensional da entrada de novos projetos
+ */
+function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
+        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice,
+        idAcab, idMat, idClass, sClasse, codProCod, idDiamMat) {
+    if (codProdSimilar == '') {
+        return;
+    } else {
+
+        var campoValSim = codProdSimilar + ',' + idChMin + ',' + idChMax + ',' + idAltMin + ',' + idAltMax + ',' + idDiamFmin + ',' + idDiamFmax + ','
+                + idCompMin + ',' + idCompMax + ',' + idDiamPmin + ',' + idDiamPmax + ',' + idDiamExMin + ',' + idDiamExMax + ',' + idCompPrMin + ','
+                + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ','
+                + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass + ',' + codProCod + ',' + idDiamMat;
+
+        requestAjax("", sClasse, 'getDadosProdSimilar', campoValSim);
+    }
+}
+
+
+/**
  * funcao para valores do dimensional da entraga de novos projetos
  */
-function dimenNewProj(idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
-        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice, idAcab) {
+function dimenProd(codProd, idChMin, idChMax, idAltMin, idAltMax, idDiamFmin, idDiamFmax, idCompMin, idCompMax, idDiamPmin, idDiamPmax,
+        idDiamExMin, idDiamExMax, idCompPrMin, idCompPrMax, idCompHmin, idCompHmax, idDiamHmin, idDiamHmax, idCanecoMin, idCanecoMax, idAngHelice,
+        idAcab, idMat, idClass, sClasse) {
+    if (codProd == '') {
+        return;
+    } else {
 
-
-    var ChMin = $('#' + idChMin + '').val();
-    if (ChMin == '') {
-        $('#' + idChMin + '').val('0');
+        var campoVal = codProd + ',' + idChMin + ',' + idChMax + ',' + idAltMin + ',' + idAltMax + ',' + idDiamFmin + ',' + idDiamFmax + ','
+                + idCompMin + ',' + idCompMax + ',' + idDiamPmin + ',' + idDiamPmax + ',' + idDiamExMin + ',' + idDiamExMax + ',' + idCompPrMin + ','
+                + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ','
+                + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass;
+        requestAjax("", sClasse, 'buscaDadosProd', campoVal);
     }
-    ChMin = moedaParaNumero(ChMin);
-    $('#' + idChMin + '').val(numeroParaMoeda(ChMin));
+}
 
-
-    var ChMax = $('#' + idChMax + '').val();
-    if (ChMax == '') {
-        $('#' + idChMax + '').val('0');
-    }
-    ChMax = moedaParaNumero(ChMax);
-    $('#' + idChMax + '').val(numeroParaMoeda(ChMax));
-
-
-    var AltMin = $('#' + idAltMin + '').val();
-    if (AltMin == '') {
-        $('#' + idAltMin + '').val('0');
-    }
-    AltMin = moedaParaNumero(AltMin);
-    $('#' + idAltMin + '').val(numeroParaMoeda(AltMin));
-
-
-
-    var AltMax = $('#' + idAltMax + '').val();
-    if (AltMax == '') {
-        $('#' + idAltMax + '').val('0');
-    }
-    AltMax = moedaParaNumero(AltMax);
-    $('#' + idAltMax + '').val(numeroParaMoeda(AltMax));
-
-
-
-    var DiamFmin = $('#' + idDiamFmin + '').val();
-    if (DiamFmin == '') {
-        $('#' + idDiamFmin + '').val('0');
-    }
-    DiamFmin = moedaParaNumero(DiamFmin);
-    $('#' + idDiamFmin + '').val(numeroParaMoeda(DiamFmin));
-
-
-
-    var DiamFmax = $('#' + idDiamFmax + '').val();
-    if (DiamFmax == '') {
-        $('#' + idDiamFmax + '').val('0');
-    }
-    DiamFmax = moedaParaNumero(DiamFmax);
-    $('#' + idDiamFmax + '').val(numeroParaMoeda(DiamFmax));
-
-
-
-    var CompMin = $('#' + idCompMin + '').val();
-    if (CompMin == '') {
-        $('#' + idCompMin + '').val('0');
-    }
-    CompMin = moedaParaNumero(CompMin);
-    $('#' + idCompMin + '').val(numeroParaMoeda(CompMin));
-
-
-
-    var CompMax = $('#' + idCompMax + '').val();
-    if (CompMax == '') {
-        $('#' + idCompMax + '').val('0');
-    }
-    CompMax = moedaParaNumero(CompMax);
-    $('#' + idCompMax + '').val(numeroParaMoeda(CompMax));
-
-
-
-    var DiamPmin = $('#' + idDiamPmin + '').val();
-    if (DiamPmin == '') {
-        $('#' + idDiamPmin + '').val('0');
-    }
-    DiamPmin = moedaParaNumero(DiamPmin);
-    $('#' + idDiamPmin + '').val(numeroParaMoeda(DiamPmin));
-
-
-
-    var DiamPmax = $('#' + idDiamPmax + '').val();
-    if (DiamPmax == '') {
-        $('#' + idDiamPmax + '').val('0');
-    }
-    DiamPmax = moedaParaNumero(DiamPmax);
-    $('#' + idDiamPmax + '').val(numeroParaMoeda(DiamPmax));
-
-
-
-    var DiamExMin = $('#' + idDiamExMin + '').val();
-    if (DiamExMin == '') {
-        $('#' + idDiamExMin + '').val('0');
-    }
-    DiamExMin = moedaParaNumero(DiamExMin);
-    $('#' + idDiamExMin + '').val(numeroParaMoeda(DiamExMin));
-
-
-
-    var DiamExMax = $('#' + idDiamExMax + '').val();
-    if (DiamExMax == '') {
-        $('#' + idDiamExMax + '').val('0');
-    }
-    DiamExMax = moedaParaNumero(DiamExMax);
-    $('#' + idDiamExMax + '').val(numeroParaMoeda(DiamExMax));
-
-
-
-    var CompPrMin = $('#' + idCompPrMin + '').val();
-    if (CompPrMin == '') {
-        $('#' + idCompPrMin + '').val('0');
-    }
-    CompPrMin = moedaParaNumero(CompPrMin);
-    $('#' + idCompPrMin + '').val(numeroParaMoeda(CompPrMin));
-
-
-
-    var CompPrMax = $('#' + idCompPrMax + '').val();
-    if (CompPrMax == '') {
-        $('#' + idCompPrMax + '').val('0');
-    }
-    CompPrMax = moedaParaNumero(CompPrMax);
-    $('#' + idCompPrMax + '').val(numeroParaMoeda(CompPrMax));
-
-
-
-    var CompHmin = $('#' + idCompHmin + '').val();
-    if (CompHmin == '') {
-        $('#' + idCompHmin + '').val('0');
-    }
-    CompHmin = moedaParaNumero(CompHmin);
-    $('#' + idCompHmin + '').val(numeroParaMoeda(CompHmin));
-
-
-
-    var CompHmax = $('#' + idCompHmax + '').val();
-    if (CompHmax == '') {
-        $('#' + idCompHmax + '').val('0');
-    }
-    CompHmax = moedaParaNumero(CompHmax);
-    $('#' + idCompHmax + '').val(numeroParaMoeda(CompHmax));
-
-
-
-    var DiamHmin = $('#' + idDiamHmin + '').val();
-    if (DiamHmin == '') {
-        $('#' + idDiamHmin + '').val('0');
-    }
-    DiamHmin = moedaParaNumero(DiamHmin);
-    $('#' + idDiamHmin + '').val(numeroParaMoeda(DiamHmin));
-
-
-
-    var DiamHmax = $('#' + idDiamHmax + '').val();
-    if (DiamHmax == '') {
-        $('#' + idDiamHmax + '').val('0');
-    }
-    DiamHmax = moedaParaNumero(DiamHmax);
-    $('#' + idDiamHmax + '').val(numeroParaMoeda(DiamHmax));
-
-
-
-    var CanecoMin = $('#' + idCanecoMin + '').val();
-    if (CanecoMin == '') {
-        $('#' + idCanecoMin + '').val('0');
-    }
-    CanecoMin = moedaParaNumero(CanecoMin);
-    $('#' + idCanecoMin + '').val(numeroParaMoeda(CanecoMin));
-
-
-
-    var CanecoMax = $('#' + idCanecoMax + '').val();
-    if (CanecoMax == '') {
-        $('#' + idCanecoMax + '').val('0');
-    }
-    CanecoMax = moedaParaNumero(CanecoMax);
-    $('#' + idCanecoMax + '').val(numeroParaMoeda(CanecoMax));
-
-
-
-    var AngHelice = $('#' + idAngHelice + '').val();
-    if (AngHelice == '') {
-        $('#' + idAngHelice + '').val('0');
-    }
-    AngHelice = moedaParaNumero(AngHelice);
-    $('#' + idAngHelice + '').val(numeroParaMoeda(AngHelice));  //Acab
-
-
-
-    var Acab = $('#' + idAcab + '').val();
-    if (Acab == '') {
-        $('#' + idAcab + '').val('0');
-    }
-    Acab = moedaParaNumero(Acab);
-    $('#' + idAcab + '').val(numeroParaMoeda(Acab));
-
+function PDFDimen(campoVal, sClasse) {
+    requestAjax("", sClasse, 'geraPDF', campoVal);
 }
 
 function NewProjRep(idQt) {
@@ -1084,7 +922,7 @@ function strongPass() {
  */
 
 function callRequestRedefine() {
-    console.log('chegou');
+
     //chama classe para alterar a senha
     requestAjax('frm-redefini', 'User', 'redefinePasswdLogin');
 }
@@ -1092,7 +930,7 @@ function callRequestRedefine() {
  * gera força de senha para redefinição da senha dentro do sistema
  */
 function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
-    console.log(idBotao);
+
 
     var Pass1Val = $('#' + idPass1 + '').val();
     var Pass2Val = $('#' + idPass2 + '').val();
@@ -1166,12 +1004,12 @@ function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
     }
 
     if (forca == 's' && same == 's') {
-        console.log('entrou');
+
 
         $('#' + idBotao + '').prop('disabled', false);
 
     } else {
-        console.log('nao entrou');
+
         $('#' + idBotao + '').prop('disabled', true);
     }
 }
@@ -1186,8 +1024,7 @@ function verifLoteMin(sIdLote, sIdQt) {
     var loteqt = moedaParaNumero($('#' + sIdLote + '').val());
     var qt = moedaParaNumero($('#' + sIdQt + '').val());
 
-    console.log(loteqt);
-    console.log(qt);
+
 
     if (loteqt !== 0) {
         if (loteqt > qt) {
@@ -1211,7 +1048,7 @@ function cepBusca(sCep, sIdMunin, sIdEnd, sUf, sBairro) {
     if (sCep !== '') {
         mensagemSlide('info', 'Buscando Cep nos correios....', 'Busca de Cep');
         $.getJSON("https://viacep.com.br/ws/" + sCep + "/json/", function (data) {
-            console.log(data);
+
             if (data.erro !== true) {
                 $('#' + sIdMunin + '').val(data.localidade);
                 $('#' + sIdEnd + '').val(data.logradouro);
@@ -1247,7 +1084,12 @@ function cepBusca(sCep, sIdMunin, sIdEnd, sUf, sBairro) {
 /**
  * Mensagem pesquisa
  */
-function mensagemSlide(tipo, msg, titulo) {
+function mensagemSlide(tipo, msg, titulo, timeout) {
+    if (timeout != '') {
+        var time = timeout;
+    } else {
+        var time = "5000";
+    }
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -1258,7 +1100,7 @@ function mensagemSlide(tipo, msg, titulo) {
         "onclick": null,
         "showDuration": "300",
         "hideDuration": "1000",
-        "timeOut": "5000",
+        "timeOut": time,
         "extendedTimeOut": "1000",
         "showEasing": "swing",
         "hideEasing": "linear",
@@ -1276,11 +1118,6 @@ function expandeField(id) {
     $('#' + id + ' >div').css("display", "none");
 }
 
-function buscaCNPJ(cnpj, campo, classe) {
-    var campoVal = cnpj + ',' + campo;
-    requestAjax("", classe, 'getCNPJ', campoVal);
-}
-
 function buscaRespVenda(idCod, idVenda, nomeVenda, classe) {
     var idsCampos = idCod + ',' + idVenda + ',' + nomeVenda;
     requestAjax("", classe, 'getRespVenda', idsCampos);
@@ -1292,19 +1129,24 @@ function getUserEmail(codUser, idNome, idEmail, idCod, classe) {
     requestAjax("", classe, 'getUserEmail', dados);
 }
 
+function insereProd(proCod, proDes, quant, quantNConf, idProdTag, idProCod, idProDes, idQuant, idQuantNConf, classe) {
+    var dados = proCod + ';' + proDes + ';' + quant + ';' + quantNConf + ';' + idProdTag + ';' + idProCod + ';' + idProDes + ';' + idQuant + ';' + idQuantNConf;
+    requestAjax("", classe, 'insereProd', dados);
+}
+
 /**
  * Máscaras em campo decimal
  */
 
-function maskDecimal(idCampo){
-    
+function maskDecimal(idCampo, c) {
+
     var valor = $('#' + idCampo + '').val();
-    
+
     if (valor == '') {
-       $('#' + idCampo + '').val('0');
+        $('#' + idCampo + '').val('0');
     }
     valor = moedaParaNumero(valor);
-    $('#' + idCampo + '').val(numeroParaMoeda(valor));
+    $('#' + idCampo + '').val(numeroParaMoeda(valor, c));
 }
 
 /**
@@ -1315,50 +1157,112 @@ function maskDecimal(idCampo){
  * @returns {undefined}
  */
 function precoNfEntradaSteel(idQuant, idUnit, idTot) {
-   // console.log('chegamos');
-     var Quant = moedaParaNumero($('#' + idQuant + '').val());
+    // console.log('chegamos');
+    var Quant = moedaParaNumero($('#' + idQuant + '').val());
     //console.log(Quantidade);
     var Unit = moedaParaNumero($('#' + idUnit + '').val());
-    
-    var total = Quant*Unit;
-    
 
-     $('#' + idTot + '').val(numeroParaMoeda(total));
+    var total = Quant * Unit;
+
+
+    $('#' + idTot + '').val(numeroParaMoeda(total));
 
 }
 
 
-function precoMontagemCarta(idRetornoQt,idRetornoVlr,idRetornoTotal,idInsumoQt,idInsumoVlr,idInsumoTotal,
-idServicoQt,idServicoVlr,idServicoTotal){
+function precoMontagemCarta(idRetornoQt, idRetornoVlr, idRetornoTotal, idInsumoQt, idInsumoVlr, idInsumoTotal,
+        idServicoQt, idServicoVlr, idServicoTotal) {
     //calculo do retorno
     var QtRet = moedaParaNumero($('#' + idRetornoQt + '').val());
-    
-    var  VlrRet = moedaParaNumero($('#' + idRetornoVlr + '').val());
-    
-    var totalRetorno = QtRet*VlrRet;
-    
 
-     $('#' + idRetornoTotal + '').val(numeroParaMoeda(totalRetorno));
-     
-     
-     //calculo do insumo
+    var VlrRet = moedaParaNumero($('#' + idRetornoVlr + '').val());
+
+    var totalRetorno = QtRet * VlrRet;
+
+
+    $('#' + idRetornoTotal + '').val(numeroParaMoeda(totalRetorno));
+
+
+    //calculo do insumo
     var QtInsumo = moedaParaNumero($('#' + idInsumoQt + '').val());
-    
+
     var VlrInsumo = moedaParaNumero($('#' + idInsumoVlr + '').val());
-    
-    var totalInsumo = QtInsumo*VlrInsumo;
-    
-     $('#' + idInsumoTotal + '').val(numeroParaMoeda(totalInsumo));
-     //calculo do serviço
-     
-     var QtServico = moedaParaNumero($('#' + idServicoQt + '').val());
-   
+
+    var totalInsumo = QtInsumo * VlrInsumo;
+
+    $('#' + idInsumoTotal + '').val(numeroParaMoeda(totalInsumo));
+    //calculo do serviço
+
+    var QtServico = moedaParaNumero($('#' + idServicoQt + '').val());
+
     var VlrServico = moedaParaNumero($('#' + idServicoVlr + '').val());
-    
-    var totalServico = QtServico*VlrServico;
-    
-     $('#' + idServicoTotal + '').val(numeroParaMoeda(totalServico));
-     
-     
-     
+
+    var totalServico = QtServico * VlrServico;
+
+    $('#' + idServicoTotal + '').val(numeroParaMoeda(totalServico));
+
 }
+
+
+function buscaCNPJ(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
+    var campoVal = sCNPJ + ',' + idEmpdes + ',' + idEmpfant + ',' + idEmpfone + ',' + idEmail + ',' + idCep + ',' + idMunicipio + ',' + idEndereco + ',' + idUf + ',' + idBairro + ',' + idComplemento + ',' + idUf + ',' + idNr;
+
+    requestAjax("", sClasse, 'getCNPJ', campoVal);
+}
+
+
+
+/**
+ * funçao para chamar json com dados do CNPJ
+ */
+function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
+    if (sEmpcod !== '') {
+        $.ajax({
+            type: 'REQUEST',
+            url: "https://www.receitaws.com.br/v1/cnpj/" + sEmpcod,
+            contentType: 'application/json',
+            dataType: 'jsonp',
+            success: function (data) {
+                if (data.status == 'ERROR') {
+                    mensagemSlide('warning', data.message, data.status);
+                } else {
+                    mensagemSlide('info', 'Buscando dados do CNPJ!', 'Aguarde!');
+
+                    var fone = data.telefone.split('/');
+                    var numero = data.numero;
+                    if ($.isNumeric(numero)) {
+                        numero = numero;
+                    } else {
+                        numero = '0';
+                    }
+                    var empdes = data.nome;
+                    var empfant = data.fantasia;
+                    var empfone = fone[0].replace(/[^\d]+/g, '');
+                    var email = data.email;
+                    var cep = data.cep.replace(/[^\d]+/g, '');
+                    var municipio = data.municipio;
+                    var endereco = data.logradouro;
+                    var uf = data.uf;
+                    var bairro = data.bairro;
+                    var complemento = data.complemento;
+                    var nr = numero;
+
+                    var ids = idCNPJ + '|' + idEmpdes + '|' + idEmpfant + '|' + idEmpfone + '|' + idEmail + '|' + idCep + '|' + idMunicipio + '|' + idEndereco + '|' + idUf + '|' + idBairro + '|' + idComplemento + '|' + idNr;
+                    var valores = sEmpcod + '|' + empdes + '|' + empfant + '|' + empfone + '|' + email + '|' + cep + '|' + municipio + '|' + endereco + '|' + uf + '|' + bairro + '|' + complemento + '|' + nr;
+
+                    requestAjax("", sClasse, 'getCNPJ', valores + '|' + ids);
+                }
+            },
+            error: function (error) {
+                mensagemSlide('error', 'Erro ao tentar buscar CNPJ!', 'Busca CNPJ');
+            }
+
+        });
+
+    }
+}
+
+/*function fetchdata() {
+ alert('got here');
+ setInterval(fetchdata, 5000);
+ }*/

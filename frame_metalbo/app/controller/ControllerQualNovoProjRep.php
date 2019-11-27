@@ -16,23 +16,47 @@ class ControllerQualNovoProjRep extends Controller {
     public function beforeInsert() {
         parent::beforeInsert();
 
-        $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+        $sDescProd = $this->Model->getDesc_novo_prod();
+        if (preg_match('/[\'^£$%&*()}{@#~?><>|=_¬¨]/', $sDescProd)) {
 
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
+            $oMsg = new Mensagem('Atenção', 'Caractere inválido detectado na descrição. Favor verificar.', Mensagem::TIPO_WARNING, '70000');
+            echo $oMsg->getRender();
+
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
     }
 
     public function beforeUpdate() {
         parent::beforeUpdate();
 
-        $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+        $sDescProd = $this->Model->getDesc_novo_prod();
+        if (preg_match('/[\'^£$%&*()}{@#~?><>|=_¬¨]/', $sDescProd)) {
 
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
+            $oMsg = new Mensagem('Atenção', 'Caractere inválido detectado na descrição. Favor verificar.', Mensagem::TIPO_WARNING,'70000');
+            echo $oMsg->getRender();
+
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
     }
 
     public function antesAlterar($sParametros = null) {
@@ -44,11 +68,17 @@ class ControllerQualNovoProjRep extends Controller {
 
         if ($this->Model->getSitgeralproj() != 'Representante') {
             $aOrdem = explode('=', $sChave);
-            $oMensagem = new Modal('Atenção!', 'A entrada de projeto nº' . $this->Model->getNr() . ' não pode ser modificada somente visualizada!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Atenção!', 'A entrada de projeto nº ' . $this->Model->getNr() . ' não pode ser modificada somente visualizada!', Modal::TIPO_ERRO, false, true, true);
             $this->setBDesativaBotaoPadrao(true);
             echo $oMensagem->getRender();
             //exit();
         }
+
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
     }
 
     //mensagem para liberar para a metalbo
@@ -66,7 +96,7 @@ class ControllerQualNovoProjRep extends Controller {
             $oMensagem = new Modal('Liberação para projetos', 'Deseja liberar a entrada de projeto nº' . $aCamposChave['nr'] . ' para o setor de projetos?', Modal::TIPO_AVISO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","liberaProj","' . $sDados . '");');
         } else {
-            $oMensagem = new Modal('Atenção', 'A entrada de projeto nº' . $aCamposChave['nr'] . ' já está liberado para o setor de projetos da Metalbo!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'A entrada de projeto nº ' . $aCamposChave['nr'] . ' já está liberado para o setor de projetos da Metalbo!', Modal::TIPO_AVISO, false, true, true);
         }
 
         echo $oMensagem->getRender();
@@ -83,12 +113,12 @@ class ControllerQualNovoProjRep extends Controller {
         $bExecuta = $this->Persistencia->liberaProj($aCamposChave);
 
         if ($bExecuta) {
-            $oMensagem = new Mensagem('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' foi liberado com sucesso para o setor de projetos da Metalbo!', Modal::TIPO_SUCESSO);
+            $oMensagem = new Mensagem('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' foi liberado com sucesso para o setor de projetos da Metalbo!', Modal::TIPO_SUCESSO);
             echo $oMensagem->getRender();
             $this->EnvProjMetalbo($sChave);
             echo"$('#" . $aDados[1] . "-pesq').click();";
         } else {
-            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não foi liberado!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' não foi liberado!', Modal::TIPO_AVISO, false, true, true);
             echo $oMensagem->getRender();
             echo"$('#" . $aDados[1] . "-pesq').click();";
         }
@@ -107,7 +137,7 @@ class ControllerQualNovoProjRep extends Controller {
         if ($bSit == true) {
             $this->EnvProjMetalbo($sChave);
         } else {
-            $oMensagem = new Modal('Atenção', 'A entrada de projeto nº' . $aCamposChave['nr'] . ' ainda não foi liberado!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'A entrada de projeto nº ' . $aCamposChave['nr'] . ' ainda não foi liberado!', Modal::TIPO_AVISO, false, true, true);
             echo $oMensagem->getRender();
         }
     }
@@ -156,8 +186,8 @@ class ControllerQualNovoProjRep extends Controller {
 
         $oEmail->limpaDestinatariosAll();
 
-        /*
-        // Para        
+
+        // Para
         $aEmails = array();
         $aEmails[] = $_SESSION['email'];
         foreach ($aEmails as $sEmail) {
@@ -170,10 +200,9 @@ class ControllerQualNovoProjRep extends Controller {
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
         }
-         * 
-         */
 
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -325,7 +354,7 @@ class ControllerQualNovoProjRep extends Controller {
         }
 
 
-        $sEmail .= '<b style="color:red; font-weight:900;font-size:18px;">SE NÃO APROVADO EM ATÉ 60 DIAS O PROJETO IRÁ EXPIRAR E SERÁ CANCELADO</b>';
+        $sEmail .= '<b style="color:red; font-weight:900;font-size:18px;">SE NÃO APROVADO PELO EM ATÉ 60 DIAS O PROJETO IRÁ EXPIRAR E SERÁ CANCELADO</b>';
         $sEmail .= '<br/><b>E-mail enviado automaticamente, favor não responder!</b>';
 
 
@@ -655,6 +684,27 @@ class ControllerQualNovoProjRep extends Controller {
 
         $aDados = $this->Persistencia->buscaRespEscritório($sDados);
         $this->View->setAParametrosExtras($aDados);
+
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
+    }
+
+    public function getRespVenda($sDados) {
+        $aDados = explode(',', $sDados);
+        $iString = strlen($aDados[0]);
+        if ($iString <= 4) {
+            $aRet = $this->Persistencia->buscaRespVenda($aDados[0]);
+            echo '$("#' . $aDados[1] . '").val("' . $aRet[0] . '");';
+            echo '$("#' . $aDados[2] . '").val("' . $aRet[1] . '");';
+            exit;
+        } else {
+            $oMsg = new Mensagem('Erro', 'Código de representante inválido! Se seu código não aparecer para seleção, notifique o TI da Metalbo ', Mensagem::TIPO_WARNING);
+            echo $oMsg->getRender();
+            exit;
+        }
     }
 
 }

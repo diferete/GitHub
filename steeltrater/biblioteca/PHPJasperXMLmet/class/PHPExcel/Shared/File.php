@@ -20,8 +20,8 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Shared
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
+ * @license    https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version    1.7.6, 2011-02-27
  */
 
@@ -31,7 +31,7 @@
  *
  * @category   PHPExcel
  * @package    PHPExcel_Shared
- * @copyright  Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @copyright  Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Shared_File
 {
@@ -106,7 +106,7 @@ class PHPExcel_Shared_File
 	public static function sys_get_temp_dir()
 	{
 		// sys_get_temp_dir is only available since PHP 5.2.1
-		// http://php.net/manual/en/function.sys-get-temp-dir.php#94119
+		// https://php.net/manual/en/function.sys-get-temp-dir.php#94119
 
 		if ( !function_exists('sys_get_temp_dir')) {
 			if ($temp = getenv('TMP') ) {

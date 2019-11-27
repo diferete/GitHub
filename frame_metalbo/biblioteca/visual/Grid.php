@@ -15,6 +15,7 @@ class Grid {
     private $sController; //controle para pegar os dados
     private $aBotoes;
     private $bConsulta;
+    private $bBtnConsulta;
     private $sTituloConsulta; //monta o nome da pesquisa quando é mostrado o grid como consulta
     private $sRenderHide;
     private $aDropdown; //array onde estarão dropdowns disponiveis para renderização
@@ -80,6 +81,14 @@ class Grid {
         $this->setBUsaKeypress(true);
         $this->setBMostraFiltro(false);
         $this->setSNomeGrid('paramGrid');
+    }
+
+    function getBBtnConsulta() {
+        return $this->bBtnConsulta;
+    }
+
+    function setBBtnConsulta($bBtnConsulta) {
+        $this->bBtnConsulta = $bBtnConsulta;
     }
 
     function getBDesativaRetornoConsulta() {
@@ -602,7 +611,7 @@ class Grid {
         }
         if (!empty($this->aFiltro)) {
             $sFiltro = ' <div class="row" id="' . $this->getSId() . '-filtros" style="' . $this->getBMostraFiltro() . ' background-color: whitesmoke">'
-                    . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 10px 15px 10px 70px;  background-color: #e6e9ea;  border: 1px solid #eee">'
+                    . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 10px 15px 10px 70px;  background-color: #f9f9f9;  border: 1px solid #fff">'
                     . '<div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">'//ribbon ribbon-clip ribbon-reverse ribbon-primary
                     . '<a href="javascript:void(0)" id ="' . $this->getSId() . '-pesq">'
                     . '<span class="ribbon-inner" >'
@@ -627,7 +636,7 @@ class Grid {
                         . '}'
                         /*  . 'if(val.length <= 1){'
                           . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
-                        . '}'*/
+                          . '}' */
                         . '});'
                         . '});';
             }
@@ -649,7 +658,7 @@ class Grid {
 
         $sGrid .= '<div class="containerTable">';
         $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
-        //$sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
+
         $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
                 . '<thead><tr role ="row"><th style="width: 20px;"><button type="button" id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox"></button></th>';
         //monta o cabeçalho baseado nos campos do cria consulta
@@ -747,10 +756,11 @@ class Grid {
 
         //renderiza campos abaixo do grid  id="' . $this->getSId() . '-pesquisa"
         //renderiza os campos   '<form id="' . $this->getSId() . '-formGrid>"'. $this->oLayout->getRender().'</form>';
-        $sConteudo = '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-formgridbelow" style=" position: relative; padding: 10px 15px 10px 70px;  background-color: #e6e9ea;  border: 1px solid #eee">' . $this->oLayout->getRender() . '</form>';
-        $sGrid .= $sConteudo;
 
-
+        if ($this->oLayout->getRender() !== null) {
+            $sConteudo = '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-formgridbelow" style=" position: relative;  background-color: #e6e9ea;  border: 1px solid #eee">' . $this->oLayout->getRender() . '</form>';
+            $sGrid .= $sConteudo;
+        }
         $sGrid .= '</div>';
 
         //verifica se tem botao do tipo modal no grid
@@ -776,38 +786,48 @@ class Grid {
             ($oBotao->getITipo() == 16) ? $sVizualizar = $oBotao->getId() : $sVizualizar;
         }
 
-        //fecha a pesquisa se necessário
-        if ($this->getBConsulta()) {
-            $sGrid .= ' </div>';
-            //monta evento do retorno
-            $sEventoRetorno = ' $("#' . $this->getSId() . ' tbody").on("dblclick", "tr", function () {'
-                    . ' var campoRet = $(this).find(".consultaCampo").html();'
-                    . '$("#' . $this->getSId() . 'form").remove();'
-                    . '$("#' . $this->getSCampoRetorno() . '").val(campoRet);'
-                    . '$("#' . $this->getSRenderHide() . '").toggle();'
-                    . '$("#' . $this->getSCampoRetorno() . '").focus();'
-                    . '$("#' . $this->getSCampoRetorno() . '").blur();'
-                    . '} );';
-
-            $sEnter = '$("#' . $this->getSId() . ' tbody").keypress(function(e) { '
-                    . 'if(e.which == 13) { '
-                    . ' $("#' . $this->getSId() . ' tbody .selected").each(function(){ '
-                    . '  var chaveRet = $(this).find(".consultaCampo").html(); '
-                    . '$("#' . $this->getSId() . 'form").remove();'
-                    . '$("#' . $this->getSCampoRetorno() . '").val(chaveRet);'
-                    . '$("#' . $this->getSRenderHide() . '").toggle();'
-                    . '$("#' . $this->getSCampoRetorno() . '").focus();'
-                    . '$("#' . $this->getSCampoRetorno() . '").blur();'
-                    . '                  }); '
-                    . '               } '
-                    . '             });';
-            $sEventoRetorno .= $sEnter;
-            if ($this->getBDesativaRetornoConsulta() == true) {
-                $sEventoRetorno = '';
-            }
-        }
+        
         //monta string duplo clique
         $dbClick = '';
+        //fecha a pesquisa se necessário
+        if ($this->getBConsulta()) {
+            if ($this->getBBtnConsulta()) {
+                $dbClick = ' $("#' . $this->getSId() . ' tbody").on("dblclick", "tr", function () {'
+                        . '$("#' . $sAlterarId . '").prop("disabled", false);'
+                        . '$(this).removeClass("selected");'
+                        . '$(this).addClass("selected");'
+                        . '$("#' . $sAlterarId . '").click();'
+                        . '} );';
+            } else {
+                $sGrid .= ' </div>';
+                //monta evento do retorno
+                $sEventoRetorno = ' $("#' . $this->getSId() . ' tbody").on("dblclick", "tr", function () {'
+                        . ' var campoRet = $(this).find(".consultaCampo").html();'
+                        . '$("#' . $this->getSId() . 'form").remove();'
+                        . '$("#' . $this->getSCampoRetorno() . '").val(campoRet);'
+                        . '$("#' . $this->getSRenderHide() . '").toggle();'
+                        . '$("#' . $this->getSCampoRetorno() . '").focus();'
+                        . '$("#' . $this->getSCampoRetorno() . '").blur();'
+                        . '} );';
+
+                $sEnter = '$("#' . $this->getSId() . ' tbody").keypress(function(e) { '
+                        . 'if(e.which == 13) { '
+                        . ' $("#' . $this->getSId() . ' tbody .selected").each(function(){ '
+                        . '  var chaveRet = $(this).find(".consultaCampo").html(); '
+                        . '$("#' . $this->getSId() . 'form").remove();'
+                        . '$("#' . $this->getSCampoRetorno() . '").val(chaveRet);'
+                        . '$("#' . $this->getSRenderHide() . '").toggle();'
+                        . '$("#' . $this->getSCampoRetorno() . '").focus();'
+                        . '$("#' . $this->getSCampoRetorno() . '").blur();'
+                        . '}); '
+                        . '} '
+                        . '});';
+                $sEventoRetorno .= $sEnter;
+                if ($this->getBDesativaRetornoConsulta() == true) {
+                    $sEventoRetorno = '';
+                }
+            }
+        }
         if (!$this->getBConsulta()) {
             $dbClick = ' $("#' . $this->getSId() . ' tbody").on("dblclick", "tr", function () {'
                     . '$("#' . $sAlterarId . '").prop("disabled", false);'
@@ -886,11 +906,11 @@ class Grid {
                 . '"scrollX": true,'
                 . '"searching": false,'
                 . '"select": true,'
-                . '"paging":         false,'
+                . '"paging": false,'
                 . '"order":false,'
                 . '"info": false,'
                 . ' fixedColumns:   {'
-                . '      leftColumns: 2'
+                . '      leftColumns: 0'
                 . '  },'
                 . 'columnDefs: [ {'
                 . 'orderable: false,'
@@ -963,10 +983,10 @@ class Grid {
             $sRetorno = "$('#" . $this->getSRenderTo() . "control').append('" . $sGrid . "');";
 
             echo $sRetorno;
-
-            $fp = fopen("bloco1.txt", "w");
-            fwrite($fp, $sRetorno);
-            fclose($fp);
+            /*
+              $fp = fopen("bloco1.txt", "w");
+              fwrite($fp, $sRetorno);
+              fclose($fp); */
         }
         //gera resize
         echo "$( '#" . $this->getSId() . "resize' ).removeClass('col-lg-12').addClass('col-lg-5');";

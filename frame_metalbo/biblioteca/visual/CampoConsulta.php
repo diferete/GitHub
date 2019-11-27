@@ -26,6 +26,9 @@ class CampoConsulta {
     private $sNomeGrid;
     private $bTime;
     private $bTruncate; //define se o campo será reduzido com opção truncar ex 'metalbo ind...'
+    private $iTamanhoFonte;
+    private $sTituloBotaoModal;
+    private $sDiretorioManual;
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -70,10 +73,14 @@ class CampoConsulta {
     const COL_BLACK = 'tr-bk-black';
     const COL_MARROM = 'tr-bk-marrom';
     const COL_PADRAO = 'tr-bk-padrao';
+    const COL_DKGRAY = 'tb-bk-darkgray';
     //ícone campos consulta acao
     const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
     const ICONE_FLAG = 'btn-xs btn btn-pure btn-dark icon wb-flag';
     const ICONE_EDIT = 'btn-xs btn btn-pure btn-primary icon wb-clipboard';
+    const ICONE_BOTAOPRIMARY = 'btn btn-primary btn-xs ladda-button btn-grid';
+    const ICONE_BOTAOSUCCES = 'btn btn-success btn-xs ladda-button btn-grid';
+    const ICONE_BOTAODANGER = 'btn btn-danger btn-xs ladda-button btn-grid';
 
     /**
      *  Método construtor que passa o label e o nome do campo no model
@@ -92,6 +99,7 @@ class CampoConsulta {
         $this->setBCampoIcone(false);
         $this->sTipoBotao = $IconeBotao;
         $this->setSNomeGrid('paramGrid');
+        $this->setSDiretorioManual('uploads');
 
         if ($this->Tipo == 9) {
             $this->setBCampoIcone(true);
@@ -109,6 +117,22 @@ class CampoConsulta {
         }
     }
 
+    function getSDiretorioManual() {
+        return $this->sDiretorioManual;
+    }
+
+    function setSDiretorioManual($sDiretorioManual) {
+        $this->sDiretorioManual = $sDiretorioManual;
+    }
+
+    function getITamanhoFonte() {
+        return $this->iTamanhoFonte;
+    }
+
+    function setITamanhoFonte($iTamanhoFonte) {
+        $this->iTamanhoFonte = $iTamanhoFonte;
+    }
+
     /**
      * Adiciona a classe e o método para a ação do botão
      * 
@@ -120,6 +144,14 @@ class CampoConsulta {
         $this->aAcao['classe'] = $sClasse;
         $this->aAcao['metodo'] = $sMetodo;
         $this->aAcao['modalNome'] = $sTitulo;
+    }
+
+    function getSTituloBotaoModal() {
+        return $this->sTituloBotaoModal;
+    }
+
+    function setSTituloBotaoModal($sTituloBotaoModal) {
+        $this->sTituloBotaoModal = $sTituloBotaoModal;
     }
 
     function getSNomeGrid() {
@@ -336,47 +368,117 @@ class CampoConsulta {
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
-                $sCampo = '<td class="' . $sClasse . ' tr-font" >' . $xValor . '</td>';
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">' . $xValor . '</td>';
                 break;
             case self::TIPO_MONEY:
-                $sCampo = '<td class="' . $sClasse . '" >R$ ' . number_format($xValor, 2, ',', '.') . '</td>';
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">R$ ' . number_format($xValor, 2, ',', '.') . '</td>';
                 break;
             case self::TIPO_DECIMAL:
-                $sCampo = '<td class="' . $sClasse . '" >' . number_format($xValor, 2, ',', '.') . '</td>';
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">' . number_format($xValor, 2, ',', '.') . '</td>';
                 break;
             case self::TIPO_DATA:
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
                 if ($xValor == '01/01/1970') {
                     $xValor = '';
                 }
-                $sCampo = '<td class="' . $sClasse . '" >' . $xValor . '</td>';
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">' . $xValor . '</td>';
                 break;
             case self::TIPO_DOWNLOAD:
-                $sCampo = '<td class="' . $sClasse . '" ><a href=\\\'uploads/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'' . $this->getSDiretorioManual() . '/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
                 break;
             case self::TIPO_DESTAQUE1:
-                $sCampo = '<td class="' . $sClasse . '" ><span class="badge badge-dark">' . $xValor . '</span></td>';
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><span class="badge badge-dark">' . $xValor . '</span></td>';
                 break;
             case self::TIPO_DESTAQUE2:
-                $sCampo = '<td class="' . $sClasse . '" ><span class="badge badge-default">' . $xValor . '</span></td>';
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><span class="badge badge-default">' . $xValor . '</span></td>';
                 break;
             case self::TIPO_LARGURA:
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style="width:' . $this->getILarguraFixa() . 'px !important; white-space: nowrap;" >' . $xValor . '</td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="width:' . $this->getILarguraFixa() . 'px !important; white-space: nowrap;' . $sFontSize . '" >' . $xValor . '</td>';
 
                 break;
             case self::TIPO_TIME:
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
                 $sTime = substr($xValor, 0, -8);
-                $sCampo = '<td class="' . $sClasse . ' tr-font" >' . $sTime . '</td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">' . $sTime . '</td>';
                 break;
             case self:: TIPO_ACAO:
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-warning btn-xs">+</i></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-warning btn-xs">+</i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'
@@ -391,12 +493,19 @@ class CampoConsulta {
 
                 break;
             case self:: TIPO_EXCLUIR:
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-danger btn-xs"><i class="icon wb-trash" aria-hidden="true"></i></i></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-danger btn-xs"><i class="icon wb-trash" aria-hidden="true"></i></i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'
@@ -415,12 +524,19 @@ class CampoConsulta {
 
 
             case self:: TIPO_FINALIZAR:
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-success btn-xs"><i class="icon fa-check" aria-hidden="true"></i></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-success btn-xs"><i class="icon fa-check" aria-hidden="true"></i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'
@@ -437,12 +553,19 @@ class CampoConsulta {
                 break;
 
             case self:: TIPO_MODAL:
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" ><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '" data-target="#' . $this->aAcao['modalNome'] . '" data-toggle="modal"></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '" data-target="#' . $this->aAcao['modalNome'] . '" data-toggle="modal">' . $this->getSTituloBotaoModal() . '</button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'
@@ -459,6 +582,13 @@ class CampoConsulta {
                 break;
 
             case self::TIPO_EDIT:
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
 
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -471,7 +601,7 @@ class CampoConsulta {
                         $xValor = substr($xValor, 0, -8);
                     }
                 }
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" value="' . $xValor . '" id="' . $sIdInput . '"/></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;' . $sFontSize . '" ><input type="text" style="width:100%" value="' . $xValor . '" id="' . $sIdInput . '"/></td>';
                 $sCampo .= '<script>'
                         . 'var vlrInput;'
                         . '$("#' . $sIdInput . '").focusin(function(e) {'
@@ -509,12 +639,18 @@ class CampoConsulta {
                 break;
 
             case self::TIPO_EDITDECIMAL:
-
+                $iFontSize = $this->getITamanhoFonte();
+                $sFontSize = '';
+                if ($iFontSize != '' && $iFontSize != null) {
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                } else {
+                    
+                }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sIdInput = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;" ><input type="text" style="width:100%" class="fundo_amarelo" value="' . number_format($xValor, 2, ',', '.') . '" id="' . $sIdInput . '"/></td>'; //number_format($xValor, 2, ',', '.')
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style=" width:10px; border:0;' . $sFontSize . '" ><input type="text" style="width:100%" class="fundo_amarelo" value="' . number_format($xValor, 2, ',', '.') . '" id="' . $sIdInput . '"/></td>'; //number_format($xValor, 2, ',', '.')
                 $sCampo .= '<script>'
                         . 'var vlrInput;'
                         . '$("#' . $sIdInput . '").focusin(function(e) { '

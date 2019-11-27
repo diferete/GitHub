@@ -19,7 +19,7 @@ I'll choose open source license for this project, however the type of license is
 [Installation]
 1. Download and extract this project into you website root directory (I assume /var/www)
 2. Import sampledb.sql into mysql database, in this project we assume your username=root, password=mysql, database = phpjasperxml. If you use difference user/password/database, you shall change setting in sample1.php and sample2.php.
-3. With your favorite web browser, browse into http://localhost/PHPJasperXML/index.php, test report you like.
+3. With your favorite web browser, browse into https://localhost/PHPJasperXML/index.php, test report you like.
 4. Finish.
 
 
@@ -29,7 +29,7 @@ I'll choose open source license for this project, however the type of license is
 3. Due to this project still at initial stage, to documentation is ready yet. However for those familiar with PHP and iReport should have no problem for using this class.
 
 [Join Development]
-1. Currently there is no any external programmer join into this project yet. If you feel interested into this project and willing to give your hand, simply create a topic in this forum: http://www.extraknowledge.org/forum/. Please take note this project use FPDF heavily.
+1. Currently there is no any external programmer join into this project yet. If you feel interested into this project and willing to give your hand, simply create a topic in this forum: https://www.extraknowledge.org/forum/. Please take note this project use FPDF heavily.
 
 
 

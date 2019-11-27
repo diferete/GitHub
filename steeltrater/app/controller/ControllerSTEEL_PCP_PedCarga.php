@@ -206,11 +206,20 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
             echo '$("#' . $aId[4] . '").val("304");';
         }
         
+        if($oDados->getRetrabalho()=='Retorno não Ind.'){
+            $oMensagem = new Mensagem('Atenção!','Retorno não industrializado!', Mensagem::TIPO_INFO,'9000');
+            echo $oMensagem->getRender();
+            echo '$("#' . $aId[4] . '").val("312");';
+        }
+        
          if($oDados->getTipoOrdem()=='A'){
             $oMensagem = new Mensagem('Atenção!','Ordem de produção de venda!', Mensagem::TIPO_INFO,'9000');
             echo $oMensagem->getRender();
             echo '$("#' . $aId[4] . '").val("300");';
-        }
+         }
+         
+         
+        
         
         $oTab = Fabrica::FabricarController('STEEL_PCP_TabCabPreco');
         $oTab->Persistencia->adicionaFiltro('emp_codigo',$oDados->getEmp_codigo());

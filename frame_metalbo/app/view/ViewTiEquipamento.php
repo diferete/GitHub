@@ -56,7 +56,7 @@ class ViewTiEquipamento extends View {
         $oFilTipo->setSCampoRetorno('eqtipdescricao', $this->getTela()->getSId());
         $oFilTipo->setSIdTela($this->getTela()->getSId());
 
-        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 4, 4, 12, 12);
+        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12);
         $oFilSetor->setSClasseBusca('Setor');
         $oFilSetor->setSCampoRetorno('descsetor', $this->getTela()->getSId());
         $oFilSetor->setSIdTela($this->getTela()->getSId());
@@ -64,8 +64,12 @@ class ViewTiEquipamento extends View {
         $oFilHostName = new Filtro($oHostname, Filtro::CAMPO_TEXTO, 3, 4, 12, 12);
         $oFilUsuario = new Filtro($oUsuario, Filtro::CAMPO_TEXTO, 2, 4, 12, 12);
         $oFilIp = new Filtro($oIp, Filtro::CAMPO_TEXTO, 2, 4, 12, 12);
+        
+        $oFiltroCod = new Filtro($oEquipCod, Filtro::CAMPO_INTEIRO,1,1,12,12);
+        
+        $oFilMod = new Filtro($oModelo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
-        $this->addFiltro($oFilTipo, $oFilSetor, $oFiltro1, $oFilFab, $oFilHostName, $oFilUsuario, $oFilIp);
+        $this->addFiltro($oFiltroCod, $oFilTipo, $oFilSetor, $oFilMod, $oFiltro1, $oFilFab, $oFilHostName, $oFilUsuario, $oFilIp);
 
         $this->setBScrollInf(FALSE);
         $this->setUsaAcaoExcluir(false);
@@ -184,9 +188,9 @@ class ViewTiEquipamento extends View {
 
         $oFieldNetwork = new FieldSet('Network');
 
-        $oHostName = new Campo('HostName', 'equiphostname', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oMac = new Campo('Mac Addres', 'equipmac', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oIp = new Campo('Ip Fixo', 'ipfixo', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oHostName = new Campo('HostName', 'equiphostname', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oMac = new Campo('Mac Addres', 'equipmac', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oIp = new Campo('Ip Fixo', 'ipfixo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oIp->setSValor('DHCP');
 
         $oFieldNetwork->addCampos(array($oHostName, $oMac, $oIp));
@@ -212,7 +216,7 @@ class ViewTiEquipamento extends View {
     public function relTiEquip() {
         parent::criaTelaRelatorio();
 
-        $this->setTituloTela('Relatório de Equiupamentos de TI');
+        $this->setTituloTela('Relatório de Equipamentos de TI');
         $this->setBTela(true);
 
         $oTipoEquip = new Campo('Equipamento', 'TiEquipamentoTipo.eqtipcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -233,7 +237,7 @@ class ViewTiEquipamento extends View {
         $oLicensa->addItemSelect('Ativado', 'Ativado');
         $oLicensa->addItemSelect('Aguardando', 'Aguardando');
         
-        $oSistema = new Campo('Sistema Operacional', 'equipsistema', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oSistema = new Campo('Sistema Operacional', 'equipsistema', Campo::TIPO_SELECT, 4, 4, 12, 12);
         $oSistema->addItemSelect('N/A', 'N/A');
         $oSistema->addItemSelect('Windows Xp', 'Windows Xp');
         $oSistema->addItemSelect('Windows 7', 'Windows 7');
@@ -247,7 +251,20 @@ class ViewTiEquipamento extends View {
         $oSistema->addItemSelect('Windows Server 2012', 'Windows Server 2012');
         $oSistema->addItemSelect('Windows Server 2016', 'Windows Server 2016');
         
-        $this->addCampos($oTipoEquip, $oSetorCod, $oSistema, $oLicensa, $oOffice);
+        $oIpFixo = new Campo('IP Fixo', 'ip', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oIpFixo->addItemSelect('Todos', 'Todos');
+        $oIpFixo->addItemSelect('S', 'Sim');
+        $oIpFixo->addItemSelect('N', 'DHCP');
+        
+        $oSituaca = new Campo('Situação do Equipamento', 'situaca', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oSituaca->addItemSelect('Todas', 'Todas');
+        $oSituaca->addItemSelect('A', 'Ativado');
+        $oSituaca->addItemSelect('D', 'Desativado');
+        
+        $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha1->setApenasTela(true);
+        
+        $this->addCampos($oTipoEquip, $oSetorCod, $oLinha1, $oSituaca, $oLinha1, $oSistema, $oLinha1, array($oLicensa, $oOffice), $oLinha1, $oIpFixo);
     }
 
 }

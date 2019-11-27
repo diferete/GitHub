@@ -9,7 +9,7 @@
 *
 * Note: Script requires the PEAR Archive_Tar package be installed:
 *
-* @see http://pear.php.net/package/Archive_Tar
+* @see https://pear.php.net/package/Archive_Tar
 */
 
 // name and directory of package
@@ -44,7 +44,7 @@ if($_GET['op'] == "download") {
 		
 	// create the download url
   $webDir  = substr($_SERVER['PHP_SELF'], 0, -18);
-  $urlPath = "http://".$_SERVER['HTTP_HOST'].$webDir."/downloads";
+  $urlPath = "https://".$_SERVER['HTTP_HOST'].$webDir."/downloads";
   
   // redirect to download url
 	header("Location: $urlPath/$tarName");

@@ -120,7 +120,7 @@ class ControllerSolFat extends Controller{
         $oPersOd->retsit($oDados->getFatod(),$aCamposChave['empcnpj']);
        
         //Atualiza o Grid
-       // $this->getDadosConsulta($aDados[1],false,null);
+        //$this->getDadosConsulta($aDados[1],false,null);
          $oMensagemErro = new Modal('Sucesso','Solicitação '.$aCamposChave['fatsol'].' retornada com sucesso!',  Modal::TIPO_SUCESSO,false,true,true);
          echo $oMensagemErro->getRender();
          echo"$('#".$aDados[1]."-pesq').click();";

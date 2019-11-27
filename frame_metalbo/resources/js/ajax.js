@@ -98,6 +98,38 @@ function requestAjax(idForm, classe, metodo, sparametros, aIdCampos, bDesativaCa
 
 
 }
+
+/**
+ * 
+ *FUNCAO TESTE PARA APLICATIVOS
+ */
+
+function requestAjaxMobile(idForm, classe, metodo, sparametros, aIdCampos, bDesativaCarrega, idPos, ordenacao) {
+    var myJSon = {
+            "classe":"Login", 
+            "metodo":"validaMobLogin", 
+            "dados":{"usuario":"avanei@rexmaquinas.com.br",
+                     "senha":"souP@lmeiras@4321"},
+            "usucodigo":"",
+            "usutoken":""
+            };
+    $.ajax({
+    url: 'http://localhost/frame_metalbo/index.php?classe=MobileMetalbo&metodo=getRequisicao',
+    type: 'POST',
+    dataType: 'json',
+    data: JSON.stringify(myJSon),
+    success: function(data)
+        {
+           console.log(data); 
+          
+        },
+          error: function () {
+              alert('Error no resposta');
+          }
+   });
+}
+
+
 /**
  * 
  * @param {type} bCarregando

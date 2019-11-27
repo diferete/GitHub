@@ -36,6 +36,17 @@ class ModelMET_TEC_Usuario{
     
     private $codsismetalbo;
     
+    private $turnoSteel;
+    
+    function getTurnoSteel() {
+        return $this->turnoSteel;
+    }
+
+    function setTurnoSteel($turnoSteel) {
+        $this->turnoSteel = $turnoSteel;
+    }
+
+        
     function getOfficecod() {
         return $this->officecod;
     }

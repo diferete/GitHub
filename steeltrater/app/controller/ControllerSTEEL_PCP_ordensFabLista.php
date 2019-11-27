@@ -180,6 +180,10 @@ class ControllerSTEEL_PCP_ordensFabLista extends Controller {
      public function acaoMostraRelEspecifico($sDados) {
        parent::acaoMostraRelEspecifico($sDados);
        $aDados = explode(',', $sDados);
+       
+        $sChave =htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave,$aCamposChave);
             
         $sParam ='fornoCod='.$aDados[2].'';
         $sSistema ="app/relatorio";
@@ -189,7 +193,7 @@ class ControllerSTEEL_PCP_ordensFabLista extends Controller {
         $oDadosForno = $oForno->Persistencia->consultarWhere();
         $oDes = 'fornoDes='.$oDadosForno->getFornodes();
         
-        $sCampos.= $sParam.'&'.$oDes.$this->getSget();
+        $sCampos.= $sParam.'&'.$oDes.'&obs='.$aCamposChave['obs'].$this->getSget();
         
        $sCampos.='&output=tela';
        $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "'.$sCampos.'", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';

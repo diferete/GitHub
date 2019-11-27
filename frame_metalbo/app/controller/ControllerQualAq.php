@@ -283,7 +283,7 @@ class ControllerQualAq extends Controller {
                 . '<div id="titulolinhatempo">'
                 . '<h3 class="panel-title">Linha do Tempo da AQ</h3></br>'
                 . '</div>'
-                . '<div class="pearls row" id="qualaqtempo">'
+                . '<div class="pearls pearls-xs row" id="qualaqtempo">'
                 . '</div>';
 
         return $sResulta;

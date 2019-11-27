@@ -19,7 +19,11 @@ class ControllerDELX_PRO_Subgrupo extends Controller {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
         if (count($aCampos) > 0) {
-            $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aCampos['pro_grupocodigo']);
+           if(isset($aCampos['pro_grupocodigofin'])){
+             $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aCampos['pro_grupocodigo'],0, Persistencia::ENTRE,$aCampos['pro_grupocodigofin']); 
+          }else{
+             $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aCampos['pro_grupocodigo']);   
+          }
         }
     }
     
@@ -33,5 +37,6 @@ class ControllerDELX_PRO_Subgrupo extends Controller {
         }
         
     }
-
+    
+    
 }

@@ -172,9 +172,11 @@ class ControllerCadCliRepRec extends Controller {
       echo $oMensagem->getRender();
       }
       } */
+
+
     /* Mensagem para gerar cadastro 
      */
-    
+
     public function msgRet($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -182,8 +184,14 @@ class ControllerCadCliRepRec extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
-        $oMensagem = new Modal('Retornar para o representante', 'Deseja retornar o cadastro para o representante?', Modal::TIPO_AVISO, true, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","RetRep","' . $sDados . '");');
+        $sSit = $this->Persistencia->getSit($aCamposChave['nr']);
+
+        if ($sSit != 'Liberado') {
+            $oMensagem = new Mensagem('Atenção', 'Cadastro não está em situação de ser retornado', Mensagem::TIPO_WARNING);
+        } else {
+            $oMensagem = new Modal('Retornar para o representante', 'Deseja retornar o cadastro para o representante?', Modal::TIPO_AVISO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","RetRep","' . $sDados . '");');
+        }
         echo $oMensagem->getRender();
     }
 
@@ -195,16 +203,69 @@ class ControllerCadCliRepRec extends Controller {
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        $sClasse = $this->getNomeClasse();
 
         $aRetorno = $this->Persistencia->retRep($aCamposChave);
 
         if ($aRetorno[0] == true) {
-            $oMensagem = new Modal('Retornado com sucesso', '', Modal::TIPO_SUCESSO, false, true, true);
+            $oMensagem = new Mensagem('Retornado com sucesso', '', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
             echo"$('#" . $aDados[1] . "-pesq').click();";
+            $this->emailRetRep($sDados);
         } else {
             $oMensagem = new Modal('Não foi possível retornar o cadastro', '', Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function emailRetRep($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+
+        $oEmail->setEnvioSMTP();
+        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
+        $oEmail->setServidor('smtp.terra.com.br');
+        $oEmail->setPorta(587);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario('metalboweb@metalbo.com.br');
+        $oEmail->setSenha('Metalbo@@50');
+        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+
+        $this->Persistencia->adicionafiltro('nr', $aCamposChave['nr']);
+        $oRow = $this->Persistencia->consultarWhere();
+
+
+        $oEmail->setAssunto(utf8_decode('Cadastro de Cliente Nº' . $oRow->getNr() . ''));
+        $oEmail->setMensagem(utf8_decode('CLIENTE Nº ' . $oRow->getNr() . ' FOI RETORNADO PELO SETOR DE VENDAS ' . $oRow->getUsucodigo() . '<hr><br/>'
+                        . '<b>Representante:  ' . $_SESSION['nome'] . '<br/>'
+                        . '<b>Escritório:  ' . $oRow->getOfficedes() . '<br/>'
+                        . '<b>Hora:  ' . $oRow->getHoralib() . '<br/>'
+                        . '<b>Data do Cadastro:  ' . $oRow->getEmpdtcad() . '<br/><br/><br/>'
+                        . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
+                        . '<tr><td><b>Cnpj:</b></td><td>' . $oRow->getEmpcod() . '</td></tr>'
+                        . '<tr><td><b>Razão Social:</b></td><td>' . $oRow->getEmpdes() . '</td></tr>'
+                        . '<tr><td><b>Nome Fantasia:</b></td><td>' . $oRow->getEmpfant() . '</td></tr>'
+                        . '<tr><td><b>Observação:</b></td><td>' . $oRow->getEmpobs() . '</td></tr> '
+                        . '</table><br/><br/> '
+                        . '<a href="sistema.metalbo.com.br">Clique aqui para acessar o cadastro!</a>'
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+
+        $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave['nr']);
+        $oEmail->limpaDestinatariosAll();
+        $oEmail->addDestinatario($sEmail);
+
+
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }

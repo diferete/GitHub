@@ -76,6 +76,14 @@ class Campo {
     private $sMetodoUp; //define o método para upload
     private $sTituloModal;
     private $sNomeModal;
+    private $iTamanhoLabel; //define de 1 ate o 7 qual o tamanho do label
+    private $iTamFonteBadge;
+    private $iTamMarginTopBadge = 25;
+    private $sTituloGridPainel;
+    private $sCorTituloGridPainel;
+    private $iCasaDecimal;
+    private $bNomeArquivo;
+    private $sDiretorio;
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -114,14 +122,22 @@ class Campo {
     const DIVISOR_WARNING = 34;
     const DIVISOR_DARK = 35;
     const TIPO_TAGS = 36;
+    const TIPO_SELECTTAGS = 37;
+    const TIPO_BOTAOSIMPLES = 38;
+    const TIPO_DECIMAL_COMPOSTO = 39;
+    const TIPO_BOTAO_MOSTRACONSULTA = 41;
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
+   
+    
     const EVENTO_SAIR = 'blur';
     const EVENTO_CHANGE = 'change';
     const EVENTO_FOCUS = 'focus';
     const EVENTO_KEYUP = 'keyup';
     const EVENTO_ENTER = 'enter';
+    const EVENTO_CLICK = 'click';
+    
     const BADGE_SUCCESS = 'label-success';
     const BADGE_WARNING = 'label-warning';
     const BADGE_DANGER = 'label-danger';
@@ -138,6 +154,10 @@ class Campo {
     const GRIDVIEW_CORSUCCESS = 'success';
     const GRIDVIEW_CORINFO = 'info';
     const FONT_BOLD = 'bold';
+    const TITULO_SUCCESS = 'success';
+    const TITULO_DARK = 'dark';
+    const TITULO_DANGER = 'danger';
+    const TITULO_WARNING = 'warning';
 
     /**
      * Construtor da classe Campo 
@@ -178,6 +198,10 @@ class Campo {
         $this->setIMarginTop(0);
         $this->setSClasseUp('Upload');
         $this->setSMetodoUp('Upload');
+        $this->setSCorTituloGridPainel(Campo::TITULO_DARK);
+        $this->setICasaDecimal(2);
+        $this->setBNomeArquivo(false);
+
 
         $this->aItemsSelect = array();
         $this->aItensRadio = array();
@@ -189,19 +213,22 @@ class Campo {
         $this->aCabGridView = array(); //define cabeçalhos do grid vies
         $this->aLinhasGridView = array(); //define as linhas dos grids
         $this->aValorGridView = array();
+        $this->sTamanhoLabel = 5;
 
 
         switch ($this->iTipo) {
             case self::TIPO_BOTAOSMALL:
-                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL, '');
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL, '', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
                 break;
             case self::TIPO_BOTAOSMALL_SUB:
-                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL_SUB, '');
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_SMALL_SUB, '', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
                 $this->sId = $this->getOBotao()->getId();
-
                 break;
-
+            case self::TIPO_BOTAOSIMPLES:
+                $this->oBotao = new Botao($this->getLabel(), Botao::TIPO_BOTAOSIMPLES, '', $sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena);
+                $this->sId = $this->getOBotao()->getId();
+                break;
             case self::TIPO_GRID:
                 $this->oGrid = new Grid($sTelaGrande, $sTelaMedia, $sTelaPequena, $sTelaMuitoPequena, $iAltGrid);
                 $this->oGrid->setSTituloConsulta($sLabel);
@@ -213,6 +240,82 @@ class Campo {
                 $this->setApenasTela(true);
                 break;
         }
+    }
+
+    function getBNomeArquivo() {
+        return $this->bNomeArquivo;
+    }
+
+    function getSDiretorio() {
+        return $this->sDiretorio;
+    }
+
+    function setBNomeArquivo($bNomeArquivo) {
+        $this->bNomeArquivo = $bNomeArquivo;
+    }
+
+    function setSDiretorio($sDiretorio) {
+        $this->sDiretorio = $sDiretorio;
+    }
+
+    function getICasaDecimal() {
+        return $this->iCasaDecimal;
+    }
+
+    function setICasaDecimal($iCasaDecimal) {
+        $this->iCasaDecimal = $iCasaDecimal;
+    }
+
+    function getSCorTituloGridPainel() {
+        return $this->sCorTituloGridPainel;
+    }
+
+    function setSCorTituloGridPainel($sCorTituloGridPainel) {
+        $this->sCorTituloGridPainel = $sCorTituloGridPainel;
+    }
+
+    function getSTituloGridPainel() {
+        return $this->sTituloGridPainel;
+    }
+
+    function setSTituloGridPainel($sTituloGridPainel) {
+        $this->sTituloGridPainel = $sTituloGridPainel;
+    }
+
+    function getITamFonteBadge() {
+        return $this->iTamFonteBadge;
+    }
+
+    function getITamMarginTopBadge() {
+        return $this->iTamMarginTopBadge;
+    }
+
+    /**
+     * Define o tamanho do fonte nos inteiros de 5 - 30
+     * @param type $iTamFonteBadge
+     */
+    function setITamFonteBadge($iTamFonteBadge) {
+        $this->iTamFonteBadge = $iTamFonteBadge;
+    }
+
+    /**
+     * Define o tamanho da margim top nos inteiros de 5 - 30
+     * @param type $iTamMarginTopBadge
+     */
+    function setITamMarginTopBadge($iTamMarginTopBadge) {
+        $this->iTamMarginTopBadge = $iTamMarginTopBadge;
+    }
+
+    function getITamanhoLabel() {
+        return $this->iTamanhoLabel;
+    }
+
+    /**
+     * Define o tamanho do label nos inteiros de 1 - 7
+     * @param type $iTamanhoLabel
+     */
+    function setITamanhoLabel($iTamanhoLabel) {
+        $this->iTamanhoLabel = $iTamanhoLabel;
     }
 
     function getSNomeModal() {
@@ -1354,11 +1457,11 @@ class Campo {
     public function getRender() {
         switch ($this->iTipo) {
             case self::TIPO_DATA:
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<label class="control-label" for="input-date">' . $this->getLabel() . '</label>'
                         . '<div class="input-group date" id="' . $this->getId() . '-group" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . ' >'
                         . '<span class="input-group-addon"' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '><i class="icon wb-calendar"></i></span>'
-                        . '<input style="font-size:12px;" type="text" id="' . $this->getId() . '" style="margin-top:' . $this->getIMarginTop() . 'px;" name="' . $this->getNome() . '" class="form-control" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '<input style="font-size:12px;" type="text" id="' . $this->getId() . '"  name="' . $this->getNome() . '" class="form-control" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . '<script>'
@@ -1380,7 +1483,7 @@ class Campo {
                 break;
             case self::TIPO_TEXTO:
                 $sCampo = //'<div class="form-group">'
-                        '<div id="' . $this->getId() . '-campo" style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        '<div id="' . $this->getId() . '-campo"  style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
@@ -1479,6 +1582,20 @@ class Campo {
                         . '</script>'
                         . $this->getRenderEventos();
                 break;
+            case self::TIPO_DECIMAL_COMPOSTO:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        //  .'<label for="input-money ">'.$this->getLabel().'</label>'
+                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'
+                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '</div>'
+                        . '</div>'
+                        . '<script>'
+                        . '$("#' . $this->getId() . '").blur(function(){maskDecimal("' . $this->getId() . '","' . $this->getICasaDecimal() . '")});'
+                        . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
+                        . '</script>'
+                        . $this->getRenderEventos();
+                break;
             case self::TIPO_SELECT:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
@@ -1498,6 +1615,31 @@ class Campo {
                         . '$("#' . $this->getId() . '").select2({'
                         . '  placeholder: "' . $this->getSPlaceHolder() . '",'
                         . '  allowClear: true'
+                        . '});'
+                        . $sTrigger
+                        . '</script> '
+                        . $this->getRenderEventos()
+                        . '</div>';
+                break;
+            case self::TIPO_SELECTTAGS:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'
+                        . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
+                        . '<select name="' . $this->getNome() . '" class="form-control select2-hidden-accessible" multiple="" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                foreach ($this->getAItemsSelect() as $key => $svalue) {
+                    $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
+                }
+                //verifica se há valor para renderizar o default do select
+                if ($this->getSValor() != NULL) {
+                    $sTrigger = '$("#' . $this->getId() . '").val("' . $this->getSValor() . '").trigger("change");';
+                }
+                $sCampo .= '</div>'
+                        . '</select>'
+                        . '</div>  '
+                        . '<script>'
+                        . '$("#' . $this->getId() . '").select2({'
+                        . '  placeholder: "' . $this->getSPlaceHolder() . '",'
+                        . '  allowClear: false'
                         . '});'
                         . $sTrigger
                         . '</script> '
@@ -1542,7 +1684,7 @@ class Campo {
                         . $this->getExtensoes($this->getSExtensaoPermitidas())
                         . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
                         . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
-                        . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '", ' // url do arquivo php, que fara a cópia para o server
+                        . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '&parametros=' . $this->getSDiretorio() . ',' . $this->getBNomeArquivo() . '", ' // url do arquivo php, que fara a cópia para o server
                         . 'overwriteInitial: true, '
                         . 'initialCaption: "Selecione um arquivo...", '
                         . 'uploadAsync: true, '
@@ -1677,6 +1819,9 @@ class Campo {
                 $sCampo = $this->getOBotao()->getRender();
                 break;
             case self::TIPO_BOTAOSMALL_SUB:
+                $sCampo = $this->getOBotao()->getRender();
+                break;
+            case self::TIPO_BOTAOSIMPLES:
                 $sCampo = $this->getOBotao()->getRender();
                 break;
             case self::TIPO_GRID:
@@ -1836,13 +1981,14 @@ class Campo {
                 }  //7318.24.00-000
                 break;
             case self::TIPO_BADGE:
-                $sCampo = '<div style="margin-top:25px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                $sCampo = '<div style="margin-top:' . $this->getITamMarginTopBadge() . 'px; font-size:' . $this->getITamFonteBadge() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<span id="' . $this->getId() . '" name="' . $this->getNome() . '" class="label label-round ' . $this->getSEstiloBadge() . '">' . $this->getLabel() . '</span> '
                         . '</div>';
                 break;
             case self::TIPO_GRIDVIEW:
                 $aLinhasGrid = array_unique($this->aLinhasGridView);
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<div class="label-' . $this->getSCorTituloGridPainel() . '"><span class="label label-' . $this->getSCorTituloGridPainel() . '">' . $this->getSTituloGridPainel() . '</span></div>'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '    <table class="table table-condensed"  style="color:#101010; margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '"> '
                         . '<thead>   '
@@ -1884,8 +2030,8 @@ class Campo {
                         . '</div>';
                 break;
             case self::TIPO_LABEL:
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<h5 style="margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '" style="margin-top: 30px;"><b>' . $this->getLabel() . '</b></h5>'
+                $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<h' . $this->getITamanhoLabel() . ' id="' . $this->getId() . '" style="margin-top: 30px;"><b>' . $this->getLabel() . '</b></h' . $this->getITamanhoLabel() . '>'
                         . '</div>';
                 break;
             case self::TIPO_LINHA:
@@ -1992,10 +2138,10 @@ class Campo {
                         . '</script> '
                         . '</div>  ';
                 break;
-            case self::CAMPO_SELECTSIMPLE:
-                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
-                        . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
+            case self::CAMPO_SELECTSIMPLE://margin-top:8px;
+                $sCampo = '<div style="" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'                        
+                        . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<select name="' . $this->getNome() . '" class="form-control input-sm" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
 
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
@@ -2011,6 +2157,7 @@ class Campo {
                         . '<script>'
                         . $sTrigger
                         . '</script> '
+                        . $this->getRenderEventos()
                         . '</div>  ';
                 break;
             case self::TIPO_TAGS:
@@ -2022,8 +2169,23 @@ class Campo {
                         . '<script>'
                         . '$("#' . $this->getId() . '").tagsInput();'
                         . '</script>';
-
-
+                break;
+            case self::TIPO_BOTAO_MOSTRACONSULTA:
+                $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '  btn-acao-grid" style="margin-top:' . $this->getIMarginTop() . 'px;">'
+                        . '<button type="button" class="btn btn btn-block btn-success " id="' . $this->getId() . '-btn" data-target="#' . $this->getSNomeModal() . '" data-toggle="modal">'
+                        . '<span><i aria-hidden="true"></i>' . $this->getLabel() . '</span>'
+                        . '</button>'
+                        . '</div>'
+                        . '<script>'
+                        . ' $("#' . $this->getId() . '-btn").click(function(){'
+                        . '$("#tabmenusuperior > li").each(function(){'
+                        . 'if($(this).hasClass("active")){'
+                        . 'abaSelecionada = $(this).attr("id");'
+                        . '}'
+                        . '}); '
+                        . ' $("#' . $this->getSIdTela() . '").hide();requestAjax("' . $this->getSIdTela() . '-form","' . $this->getClasseBusca() . '","mostraConsulta",""+abaSelecionada+",' . $this->getSIdTela() . ',' . $this->getSCampoRetorno() . ',' . $this->getId() . ',false");'
+                        . '}); '
+                        . '</script>';
                 break;
         }
         return $sCampo;
