@@ -33,7 +33,13 @@ class ViewMET_ISO_Documentos extends View {
 
     public function criaTela() {
         parent::criaTela();
-
+        
+        
+        $oTab = new TabPanel();
+        $oTabDigital = new AbaTabPanel('Cópias digitais');
+        $oTabDigital->setBActive(true);
+        $oTabFisica = new AbaTabPanel('Cópias físicas');
+        $this->addLayoutPadrao('Aba');
 
         $oDados = $this->getAParametrosExtras();
         $sAcaoRotina = $this->getSRotina();
@@ -47,11 +53,15 @@ class ViewMET_ISO_Documentos extends View {
         $oUser->setSValor($_SESSION['nome']);
 
         $oDoc = new Campo('Documento', 'documento', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-
-
-        $oFieldDig = new FieldSet('Cópias digitais');
-
+        $oDoc->addValidacao(false, Validacao::TIPO_STRING,'Campo obrigatório',5);
+       
 ///////////////////////////////////////////////////////////// CÓPIAS DIGITAIS //////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        $oCopiasDigitais = new Campo('Selecionar setores com as cópias DIGITAIS disponíveis e preencher a quantidade', 'digitais', Campo::TIPO_BADGE,6,6,12,12);
+        $oCopiasDigitais->setSEstiloBadge(Campo::BADGE_PRIMARY);
+        $oCopiasDigitais->setApenasTela(true);
+        $oCopiasDigitais->setITamFonteBadge(20);
+        
         $oDig_Direcao_Quant = new Campo('Quantidade', 'dig_direcao_quant', Campo::TIPO_TEXTO, 1, 1, 6, 6);
         $oDig_Direcao_Quant->addValidacao(false, Validacao::TIPO_INTEIRO, 'Campo obrigatório', 1);
         if ($oDados->dig_direcao_quant == null) {
@@ -320,8 +330,12 @@ class ViewMET_ISO_Documentos extends View {
         $oDig_Prada_Galvano->addEvento(Campo::EVENTO_CLICK, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_Documentos","toggle","' . $oDig_Prada_Galvano_Quant->getId() . ',' . $oDados->dig_prada_galvano_quant . '");');
 
         //////////////////////////////////////////////////////////// CÓPIAS FÍSICAS ///////////////////////////////////////////////////////////////////////////////////////////////////
-        $oFieldFis = new FieldSet('Cópias físicas');
-
+        
+        $oCopiasFisicas = new Campo('Selecionar setores com as cópias FÍSICAS disponíveis e preencher a quantidade', 'fisicas', Campo::TIPO_BADGE,6,6,12,12);
+        $oCopiasFisicas->setApenasTela(true);
+        $oCopiasFisicas->setITamFonteBadge(20);
+        
+        
         $oFis_Direcao_Quant = new Campo('Quantidade', 'fis_direcao_quant', Campo::TIPO_TEXTO, 1, 1, 6, 6);
         $oFis_Direcao_Quant->addValidacao(false, Validacao::TIPO_INTEIRO, 'Campo obrigatório', 1);
         if ($oDados->fis_direcao_quant == null) {
@@ -598,7 +612,7 @@ class ViewMET_ISO_Documentos extends View {
         $this->addEtapa($oEtapas);
         
         
-        $oFieldDig->addCampos(
+        $oTabDigital->addCampos($oCopiasDigitais,
                 array($oDig_Direcao, $oDig_Direcao_Quant, $oDig_Gestao_Qualidade, $oDig_Gestao_Qualidade_Quant, $oDig_Vendas, $oDig_Vendas_Quant, $oDig_Projetos, $oDig_Projetos_Quant),
                 array($oDig_Plan_Producao, $oDig_Plan_Producao_Quant, $oDig_Compras, $oDig_Compras_Quant,$oDig_Almoxarifado,$oDig_Almoxarifado_Quant,$oDig_Rh,$oDig_Rh_Quant),
                 array($oDig_Ti,$oDig_Ti_Quant,$oDig_Expedicao,$oDig_Expedicao_Quant,$oDig_Embalagem,$oDig_Embalagem_Quant,$oDig_Seguranca,$oDig_Seguranca_Quant),
@@ -608,8 +622,7 @@ class ViewMET_ISO_Documentos extends View {
                 array($oDig_Expedicao_Expo,$oDig_Expedicao_Expo_Quant,$oDig_Ferramentaria,$oDig_Ferramentaria_Quant,$oDig_Manutencao,$oDig_Manutencao_Quant,$oDig_Nylon,$oDig_Nylon_Quant),
                 array($oDig_Ete,$oDig_Ete_Quant,$oDig_Steeltrater,$oDig_Steeltrater_Quant,$oDig_Salt_Spray,$oDig_Salt_Spray_Quant,$oDig_JL_Galvano,$oDig_JL_Galvano_Quant),
                 array($oDig_Prada_Galvano,$oDig_Prada_Galvano_Quant));
-        $oFieldDig->setOculto(true);
-        $oFieldFis->addCampos(
+        $oTabFisica->addCampos($oCopiasFisicas,
                 array($oFis_Direcao, $oFis_Direcao_Quant, $oFis_Gestao_Qualidade, $oFis_Gestao_Qualidade_Quant, $oFis_Vendas, $oFis_Vendas_Quant, $oFis_Projetos, $oFis_Projetos_Quant),
                 array($oFis_Plan_Producao, $oFis_Plan_Producao_Quant, $oFis_Compras, $oFis_Compras_Quant,$oFis_Almoxarifado,$oFis_Almoxarifado_Quant,$oFis_Rh,$oFis_Rh_Quant),
                 array($oFis_Ti,$oFis_Ti_Quant,$oFis_Expedicao,$oFis_Expedicao_Quant,$oFis_Embalagem,$oFis_Embalagem_Quant,$oFis_Seguranca,$oFis_Seguranca_Quant),
@@ -619,7 +632,7 @@ class ViewMET_ISO_Documentos extends View {
                 array($oFis_Expedicao_Expo,$oFis_Expedicao_Expo_Quant,$oFis_Ferramentaria,$oFis_Ferramentaria_Quant,$oFis_Manutencao,$oFis_Manutencao_Quant,$oFis_Nylon,$oFis_Nylon_Quant),
                 array($oFis_Ete,$oFis_Ete_Quant,$oFis_Steeltrater,$oFis_Steeltrater_Quant,$oFis_Salt_Spray,$oFis_Salt_Spray_Quant,$oFis_JL_Galvano,$oFis_JL_Galvano_Quant),
                 array($oFis_Prada_Galvano,$oFis_Prada_Galvano_Quant));
-        $oFieldFis->setOculto(true);
+        $oTab->addItems($oTabDigital,$oTabFisica);
         
         
        
@@ -634,9 +647,9 @@ class ViewMET_ISO_Documentos extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
             
-            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oDoc), $oFieldDig, $oFieldFis, $oAcao);
+            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oDoc), $oTab, $oAcao);
         } else {
-            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oDoc), $oFieldDig, $oFieldFis);
+            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oDoc), $oTab);
         }
     }
 

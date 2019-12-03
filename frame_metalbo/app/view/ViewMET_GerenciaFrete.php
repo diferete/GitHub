@@ -11,6 +11,9 @@ class ViewMET_GerenciaFrete extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $this->getTela()->setBMostraFiltro(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $aDados = $this->getAParametrosExtras();
 
         $oBotaoContPag = new CampoConsulta('Contas a Pagar', 'ContPag', CampoConsulta::TIPO_FINALIZAR);
@@ -60,10 +63,6 @@ class ViewMET_GerenciaFrete extends View {
         $oFiltroSitu->setSLabel('');
 
         $this->addFiltro($oFiltroCnpj, $oFiltroConh, $oFiltroNota, $oFiltroTipo, $oFiltroSitu);
-
-        $this->getTela()->setBMostraFiltro(true);
-
-        $this->setBScrollInf(false);
 
         $this->addCampos($oBotaoContPag, $oNr, $oCnpj, $oEmpDes, $oNrCon, $oNrFat, $oNrNot, $oTotalKg, $oTotalNf, $oFracaoFrete, $oValSer, $oCodTipo, $oSit, $oDat, $oUser);
     }
@@ -153,8 +152,8 @@ class ViewMET_GerenciaFrete extends View {
         $oGridFrete->setSController('MET_GerenciaFrete');
         $oGridFrete->addParam('seqfrete', '0');
 
-        $oGridFrete->getOGrid()->setBUsaCarrGrid(false);
         $oGridFrete->getOGrid()->setIAltura(300);
+        $oGridFrete->getOGrid()->setBUsaCarrGrid(false);
         $oGridFrete->getOGrid()->setBNaoUsaScroll(true);
         $oGridFrete->getOGrid()->setBScrollInfTelaGrid(true);
         $oGridFrete->getOGrid()->setSScrollInfCampo('criaConsultaGridFrete');
@@ -239,7 +238,13 @@ class ViewMET_GerenciaFrete extends View {
         $oL = new Campo('', 'tes', Campo::TIPO_LINHABRANCO);
         $oL->setApenasTela(true);
 
-        $this->addCampos(array($oNrFat, $oCnpj), $oL, array($oNrNot, $oNrCon, $oCodtip), $oL, array($oDatainicial, $oDatafinal), $bTipo);
+        //para mostrar a parte de imprimir a planilha no excel
+        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
+        $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
+        $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_GerenciaFrete","relatorioExcelFrete");';
+        $oXls->getOBotao()->addAcao($sAcaoLib);
+
+        $this->addCampos(array($oNrFat, $oCnpj), $oL, array($oNrNot, $oNrCon, $oCodtip), $oL, array($oDatainicial, $oDatafinal), $bTipo, $oXls);
     }
 
 }

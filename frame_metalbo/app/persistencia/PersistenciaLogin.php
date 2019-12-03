@@ -237,6 +237,13 @@ class PersistenciaLogin extends Persistencia {
         $aRetorno = $this->executaSql($sSql);
     }
 
+    public function buscaDadosUser($sDados) {
+        $sSql = 'select descsetor from MetCad_Setores where codsetor = ' . $sDados;
+
+        $oRetorno = $this->consultaSql($sSql);
+        return $oRetorno;
+    }
+
 }
 
 /* 

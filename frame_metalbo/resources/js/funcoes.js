@@ -1134,6 +1134,10 @@ function insereProd(proCod, proDes, quant, quantNConf, idProdTag, idProCod, idPr
     requestAjax("", classe, 'insereProd', dados);
 }
 
+function addCorrida(corrida, idCorrida, idCorridas, classe) {
+    var dados = idCorridas + ',' + corrida + ',' + idCorrida;
+    requestAjax("", classe, 'adicionaCorrida', dados);
+}
 /**
  * Máscaras em campo decimal
  */

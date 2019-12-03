@@ -12,8 +12,8 @@ class PersistenciaMET_ISO_Treinamentos extends Persistencia {
         parent::__construct();
 
         $this->setTabela('MET_ISO_Treinamentos');
-        $this->adicionaRelacionamento('nr', 'nr');
-        $this->adicionaRelacionamento('filcgc', 'filcgc');
+        $this->adicionaRelacionamento('nr', 'nr', true, true, true);
+        $this->adicionaRelacionamento('filcgc', 'filcgc', true, true);
         $this->adicionaRelacionamento('cracha', 'cracha');
         $this->adicionaRelacionamento('situacao', 'situacao');
         $this->adicionaRelacionamento('nome', 'nome');
@@ -29,6 +29,12 @@ class PersistenciaMET_ISO_Treinamentos extends Persistencia {
         $sSql = 'select nomfun,cargo,sit,setor from tbfunc where numcad = ' . $aDados['cracha'];
         $oDados = $this->consultaSql($sSql);
         return $oDados;
+    }
+
+    public function deletaDependencias($aDados) {
+
+        $sSql = "delete from MET_ISO_RegistroTreinamento where nr =" . $aDados[1] . "  and filcgc = " . $aDados[0];
+        $this->executaSql($sSql);
     }
 
 }

@@ -8,8 +8,6 @@
  * @since 18/09/2015
  */
 class ControllerLogin extends Controller {
-    
-    
     /*
      * Método construtor 
      */
@@ -39,6 +37,7 @@ class ControllerLogin extends Controller {
         $this->carregaModel();
         $aLogaSistema = $this->Persistencia->logarSistema();
         if ($aLogaSistema[0]) {
+            $oDados = $this->Persistencia->buscaDadosUser($this->Model->getCodsetor());
             //vai montar a estrutura inicial do sistema 
             $_SESSION["codUser"] = $this->Model->getLogincodigo();
             $_SESSION["loginUser"] = $this->Model->getLogin();
@@ -55,6 +54,7 @@ class ControllerLogin extends Controller {
             $_SESSION['filcgc'] = $this->Model->getFilcgc();
             $_SESSION['usutipo'] = $this->Model->getUsutipo();
             $_SESSION['codsetor'] = $this->Model->getCodsetor();
+            $_SESSION['descsetor'] = $oDados->descsetor;
 
             $_SESSION['officecabsol'] = $this->Model->getOfficecabsol();
             $_SESSION['officecabsoliten'] = $this->Model->getOfficecabsoliten();

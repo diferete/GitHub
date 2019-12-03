@@ -98,30 +98,57 @@ class ViewMET_ISO_FuncDesc extends View {
         $aParam = $this->getAParametrosExtras();
         $this->criaGridDetalhe();
 
+
+        $oSetor = new Campo('Setor', 'setor', Campo::TIPO_TEXTO, 1, 1, 1, 1);
+        $oSetor->setSValor($aParam[2]);
+        $oSetor->setBOculto(true);
+        $oSetor->setApenasTela(true);
+
         $oFilcgc = new Campo('Emp', 'filcgc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oFilcgc->setSValor($aParam[0]);
         $oFilcgc->setBCampoBloqueado(true);
+        $oFilcgc->setBOculto(true);
 
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setSValor($aParam[1]);
         $oNr->setBCampoBloqueado(true);
+        $oNr->setBOculto(true);
 
         $oUsuario = new Campo('User', 'usuario', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUsuario->setSValor($_SESSION['nome']);
         $oUsuario->setBCampoBloqueado(true);
+        $oUsuario->setBOculto(true);
 
         $oSeq = new Campo('Seq', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeq->setBCampoBloqueado(true);
+        $oSeq->setBOculto(true);
 
-        $oDescricao = new Campo('Descrição da Funcção', 'descricao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oCodFuncao = new Campo('Cód. Função', 'codfuncao', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oCodFuncao->setSIdHideEtapa($this->getSIdHideEtapa());
+        $oCodFuncao->setApenasTela(true);
+
+        $oDescFuncao = new Campo('Descrição da função', 'descricao', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oDescFuncao->setSIdPk($oCodFuncao->getId());
+        $oDescFuncao->setClasseBusca('MET_RH_FuncaoSetor');
+        $oDescFuncao->addCampoBusca('codfunc', '', '');
+        $oDescFuncao->addCampoBusca('descfunc', '', '');
+        $oDescFuncao->setSIdTela($this->getTela()->getid());
+        $oDescFuncao->setITamanho(Campo::TAMANHO_PEQUENO);
+
+        $oCodFuncao->setClasseBusca('MET_RH_FuncaoSetor');
+        $oCodFuncao->setSCampoRetorno('codfunc', $this->getTela()->getId());
+        $oCodFuncao->addCampoBusca('descfunc', $oDescFuncao->getId(), $this->getTela()->getId());
 
         $oRevisao = new Campo('Revisao', 'revisao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oRevisao->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oRevisao->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+        
 
         $oDataRevisao = new Campo('data', 'data_revisao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataRevisao->setSValor(date('d-m-Y'));
         $oDataRevisao->setBOculto(true);
 
-        $oObs = new Campo('Obs.', 'observacao', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
+        $oObs = new Campo('Obs.', 'observacao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObs->setILinhasTextArea(3);
 
         $oEscExigida = new Campo('Esc. Exigida', 'esc_exigida', Campo::TIPO_SELECT, 2, 2, 12, 12);
@@ -151,7 +178,7 @@ class ViewMET_ISO_FuncDesc extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oNr, $oFilcgc, $oUsuario, $oSeq, $oDataRevisao), array($oDescricao, $oEscExigida, $oEscRecomendada), $oArquivo, $oRevisao, $oObs, $oBotConf);
+        $this->addCampos(array($oNr, $oFilcgc, $oUsuario, $oSeq, $oDataRevisao), array(/* $oDescricao, */$oSetor, $oCodFuncao, $oDescFuncao, $oEscExigida, $oEscRecomendada), array($oArquivo, $oRevisao), $oObs, $oBotConf);
         $this->addCamposFiltroIni($oNr, $oFilcgc);
     }
 

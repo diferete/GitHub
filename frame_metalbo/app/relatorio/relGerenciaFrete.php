@@ -131,8 +131,12 @@ if($bTip){
     $iTotalKg = 0;
     $iTotalNotas = 0;
     $iTotalServ = 0;
+    $iTotalServVenda = 0;
+    $iTotalServCompra = 0;
     $iVenda = 0;
     $iCompra = 0;
+    $iTotalMedSevNot = 0;
+    $iTotalPorcMedPrecKg = 0;
     
     $iN = 0;
     while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
@@ -162,19 +166,30 @@ if($bTip){
         if($row['codtipo']==1){
             $pdf->Cell(20, 5, 'Venda', 'R,B,T', 0, 'L');
             $iVenda++;
+            $iTotalServVenda = $iTotalServVenda + $row['valorserv'];
         }else{
             $pdf->Cell(20, 5, 'Compra', 'R,B,T', 0, 'L'); 
             $iCompra++;
+            $iTotalServCompra = $iTotalServCompra + $row['valorserv'];
         }
         $pdf->SetFont('arial', '', 8);
         $pdf->Cell(25, 5, $row['dataem'], 'R,B,T', 1, 'L');
               
         //Contadores
         $iQntTotal++;
-        $iTotalKg = $iTotalKg + number_format($row['totakg'],2);
+        $iTotalKg = $iTotalKg + $row['totakg'];
         $iTotalNotas = $iTotalNotas + $row['totalnf'];
-        $iTotalServ = $iTotalServ +  number_format($row['valorserv'],2);
-      
+        $iTotalServ = $iTotalServ +  $row['valorserv'];
+        if($row['totalnf']!=0){
+            $iTotalMedSevNot = $iTotalMedSevNot + ($row['valorserv']/$row['totalnf']);
+        }else{
+            $iTotalMedSevNot = $iTotalMedSevNot + ($row['valorserv']);
+        }
+        if($row['totakg']!=0){
+            $iTotalPorcMedPrecKg = $iTotalPorcMedPrecKg + ($row['totalnf']/$row['totakg']);
+        }else{
+            $iTotalPorcMedPrecKg = $iTotalPorcMedPrecKg + ($row['totalnf']);   
+        }
         $pdf = quebraPagina($pdf->GetY()+15, $pdf, $row);
     }
     $pdf->Ln(5);
@@ -184,17 +199,36 @@ if($bTip){
     $pdf->SetFont('arial', '', 9);
     $pdf->Cell(50, 5, 'Notas: ' . $iQntTotal, '', 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(50, 5, 'Valor dos Serviços(R$): ' . number_format($iTotalServ,2,',','.'), '', 1, 'L');
+    $pdf->Cell(70, 5, 'Valor dos Serviços Compra(R$): ' . number_format($iTotalServCompra,2,',','.'), '', 1, 'L');
     $pdf->Ln(2);
     $pdf->SetFont('arial', '', 9);
     $pdf->Cell(50, 5, 'Quantidade de Venda: ' . $iVenda, '', 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(50, 5, 'Valor das notas(R$): ' . number_format($iTotalNotas,2,',','.'), '', 1, 'L');
+    $pdf->Cell(70, 5, 'Valor dos Serviços Venda(R$): ' . number_format($iTotalServVenda,2,',','.'), '', 0, 'L');
     $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(50, 5, 'Valor total das notas(R$): ' . number_format($iTotalNotas,2,',','.'), '', 1, 'L');
     $pdf->Ln(2);
+    $pdf->SetFont('arial', '', 9);
     $pdf->Cell(50, 5, 'Quantidade de Compra: ' . $iCompra, '', 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(40, 5, 'Peso(Kg): ' . $iTotalKg, '', 0, 'L');
+    $pdf->Cell(70, 5, 'Valor dos Serviços Total(R$): ' . number_format($iTotalServ,2,',','.'), '', 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(40, 5, 'Total de Peso(Kg): ' . $iTotalKg, '', 1, 'L');
+    $pdf->Ln(2);
+    if($iQntTotal==0||$iQntTotal==null){
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(40, 5, 'Total Valor Médio Preço/Kg(R$): ' . '0', '', 1, 'L');
+        $pdf->Ln(2);
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(40, 5, 'Total Valor Médio (valor serviço/valor nota): ' .'0'.' % ', '', 1, 'L');
+    }else{
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(40, 5, 'Total Valor Médio Preço/Kg(R$): ' . number_format($iTotalPorcMedPrecKg/$iQntTotal,2), '', 1, 'L');
+        $pdf->Ln(2);
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(40, 5, 'Total Valor Médio (valor serviço/valor nota): ' . number_format(($iTotalMedSevNot*100)/$iQntTotal,2).' % ', '', 1, 'L');
+    }
+    
 //Resumido
 }else{
     
@@ -236,7 +270,6 @@ if($bTip){
             $pdf->SetFont('arial', 'B', 9);
             $pdf->Cell(23, 5, 'Data Emissão', 'L,B,T,R', 1, 'L');
             $iN++;
-            
          }
                 
         $pdf->SetFont('arial', '', 9);
@@ -250,7 +283,11 @@ if($bTip){
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(23, 5, $row['dataem'], 'R,B,T', 1, 'L');
         
-        $array[$row['empdes']] = number_format($row['TotalGeral'],2,',','.');
+        if(isset($array[$row['empdes']])){
+            $array[$row['empdes']] = number_format($array[$row['empdes']] + $row['TotalGeral'],2,',','.');
+        }else{
+            $array[$row['empdes']] = number_format($row['TotalGeral'],2,',','.');
+        }
         $pdf = quebraPagina($pdf->GetY()+15, $pdf, null);
     }
     
@@ -259,7 +296,7 @@ if($bTip){
     //Colunm diagram
     $pdf->SetFont('Arial', 'BIU', 12);
     $pdf->Cell(0, 5, 'Gráfico do total geral por transportadora', 0, 1);
-    $pdf->Ln(8);
+    $pdf->Ln(30);
     $valX = $pdf->GetX();
     $valY = $pdf->GetY();
 
@@ -277,7 +314,7 @@ if($bTip){
     if(isset($array)){
     $iTam2 = count($array);
 
-    $pdf->PieChart(195, 200, $array, '%l : %v (%p)', null, 0, 10);
+    $pdf->PieChart(200, 200, $array, '%l : %v (%p)', null, 0, 10);
     }
 }
 
