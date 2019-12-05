@@ -20,8 +20,8 @@
  *
  * @category	PHPExcel
  * @package		PHPExcel_Calculation
- * @copyright	Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
- * @license		https://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
+ * @copyright	Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
+ * @license		http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt	LGPL
  * @version		1.7.6, 2011-02-27
  */
 
@@ -57,7 +57,7 @@ define('SQRT2PI', 2.5066282746310005024157652848110452530069867406099);
  *
  * @category	PHPExcel
  * @package		PHPExcel_Calculation
- * @copyright	Copyright (c) 2006 - 2011 PHPExcel (https://www.codeplex.com/PHPExcel)
+ * @copyright	Copyright (c) 2006 - 2011 PHPExcel (http://www.codeplex.com/PHPExcel)
  */
 class PHPExcel_Calculation_Statistical {
 
@@ -473,7 +473,7 @@ class PHPExcel_Calculation_Statistical {
 	private static function _inverse_ncdf($p) {
 		//	Inverse ncdf approximation by Peter J. Acklam, implementation adapted to
 		//	PHP by Michael Nickerson, using Dr. Thomas Ziegler's C implementation as
-		//	a guide. https://home.online.no/~pjacklam/notes/invnorm/index.html
+		//	a guide. http://home.online.no/~pjacklam/notes/invnorm/index.html
 		//	I have not checked the accuracy of this implementation. Be aware that PHP
 		//	will truncate the coeficcients to 14 digits.
 
@@ -588,7 +588,7 @@ class PHPExcel_Calculation_Statistical {
 		//	tail area of P; Z is accurate to about 1 part in 10**16.
 		//
 		//	This is a PHP version of the original FORTRAN code that can
-		//	be found at https://lib.stat.cmu.edu/apstat/
+		//	be found at http://lib.stat.cmu.edu/apstat/
 		$split1 = 0.425;
 		$split2 = 5;
 		$const1 = 0.180625;
@@ -1310,7 +1310,7 @@ class PHPExcel_Calculation_Statistical {
 	 *	Returns the smallest value for which the cumulative binomial distribution is greater
 	 *	than or equal to a criterion value
 	 *
-	 *	See https://support.microsoft.com/kb/828117/ for details of the algorithm used
+	 *	See http://support.microsoft.com/kb/828117/ for details of the algorithm used
 	 *
 	 *	@param	float		$trials			number of Bernoulli trials
 	 *	@param	float		$probability	probability of a success on each trial
@@ -2063,7 +2063,7 @@ class PHPExcel_Calculation_Statistical {
 	 *
 	 * @todo	Try implementing P J Acklam's refinement algorithm for greater
 	 *			accuracy if I can get my head round the mathematics
-	 *			(as described at) https://home.online.no/~pjacklam/notes/invnorm/
+	 *			(as described at) http://home.online.no/~pjacklam/notes/invnorm/
 	 */
 	public static function LOGINV($probability, $mean, $stdDev) {
 		$probability	= PHPExcel_Calculation_Functions::flattenSingleValue($probability);

@@ -8,7 +8,7 @@
 
      This file can be distributed under the license you can find at :
 
-                       https://www.pchart.net/license
+                       http://www.pchart.net/license
 
      You can find the whole class documentation on the pChart web site.
  */

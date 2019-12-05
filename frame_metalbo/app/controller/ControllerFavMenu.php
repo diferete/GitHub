@@ -22,7 +22,7 @@ class ControllerFavMenu extends Controller{
             $sMenuId = $avalue[0].'-fav';
             $sString.='<li role="presentation" id="menu-'.$sMenuId.'">'
           .'                <a href="javascript:void(0)" title="Abre a tela '.$avalue[1].'"  onclick="verificaTab(\\\'menu-'.$sMenuId.'\\\',\\\''.$sMenuId.'\\\',\\\''.$avalue[2].'\\\',\\\''.$avalue[3].'\\\',\\\'tabmenu-'.$sMenuId.'\\\'); "role="menuitem">'
-          .'                  <span class="icon fa-star-o"></span>'.$avalue[1].'<span title="Deleta favorito" onclick="requestAjax(\\\'menu-'.$sMenuId.'\\\',\\\'FavMenu\\\',\\\'msgdeletaFav\\\',\\\''.utf8_encode($avalue[2]).','.utf8_encode($avalue[3]).',\\\');" class="icon wb-trash pull-right"></span></a>'
+          .'                  <span class="icon fa-star-o"></span>'.$avalue[1].'<span title="Deleta favorito" onclick="requestAjax(\\\'menu-'.$sMenuId.'\\\',\\\'FavMenu\\\',\\\'msgdeletaFav\\\',\\\''.utf8_encode($avalue[2]).','.utf8_encode($avalue[3]).',\\\');" class="icon wb-trash pull-right fav-red"></span></a>'
           .'              </li>';
         }
        }else{
@@ -30,7 +30,7 @@ class ControllerFavMenu extends Controller{
             $sMenuId = $avalue[0].'-fav';
             $sString.='<li role="presentation" id="menu-'.$sMenuId.'" >'
           .'                <a href="javascript:void(0)" title="Abre a tela '.$avalue[1].'"  onclick="verificaTab(\'menu-'.$sMenuId.'\',\''.$sMenuId.'\',\''.$avalue[2].'\',\''.$avalue[3].'\',\'tabmenu-'.$sMenuId.'\'); "role="menuitem"> '
-          .'                  <span class="icon fa-star-o"></span>'.$avalue[1].'<span title="Deleta favorito" onclick="requestAjax(\'menu-'.$sMenuId.'\',\'FavMenu\',\'msgdeletaFav\',\''.utf8_encode($avalue[2]).','.utf8_encode($avalue[3]).',\');" class="icon wb-trash pull-right"></span></a> '
+          .'                  <span class="icon fa-star-o"></span>'.$avalue[1].'<span title="Deleta favorito" onclick="requestAjax(\'menu-'.$sMenuId.'\',\'FavMenu\',\'msgdeletaFav\',\''.utf8_encode($avalue[2]).','.utf8_encode($avalue[3]).',\');" class="icon wb-trash pull-right fav-red"></span></a> '
           .'              </li>';
         } 
        }

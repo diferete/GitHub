@@ -6,7 +6,7 @@
 //
 // Description : Alternative configuration file for TCPDF.
 // Author      : Nicola Asuni - Tecnick.com LTD - Manor Coach House, Church Hill, Aldershot, Hants, GU12 4RQ, UK - www.tecnick.com - info@tecnick.com
-// License     : GNU-LGPL v3 (https://www.gnu.org/copyleft/lesser.html)
+// License     : GNU-LGPL v3 (http://www.gnu.org/copyleft/lesser.html)
 // -------------------------------------------------------------------
 // Copyright (C) 2004-2012  Nicola Asuni - Tecnick.com LTD
 //
@@ -23,7 +23,7 @@
 // See the GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with TCPDF.  If not, see <https://www.gnu.org/licenses/>.
+// along with TCPDF.  If not, see <http://www.gnu.org/licenses/>.
 //
 // See LICENSE.TXT file for more information.
 //============================================================+
@@ -65,14 +65,14 @@ if (isset($_SERVER['HTTP_HOST']) AND (!empty($_SERVER['HTTP_HOST']))) {
 	if(isset($_SERVER['HTTPS']) AND (!empty($_SERVER['HTTPS'])) AND strtolower($_SERVER['HTTPS'])!='off') {
 		$k_path_url = 'https://';
 	} else {
-		$k_path_url = 'https://';
+		$k_path_url = 'http://';
 	}
 	$k_path_url .= $_SERVER['HTTP_HOST'];
 	$k_path_url .= str_replace( '\\', '/', substr(K_PATH_MAIN, (strlen($_SERVER['DOCUMENT_ROOT']) - 1)));
 }
 
 /**
- * URL path to tcpdf installation folder (https://localhost/tcpdf/).
+ * URL path to tcpdf installation folder (http://localhost/tcpdf/).
  * By default it is automatically calculated but you can also set it as a fixed string to improve performances..
  */
 define ('K_PATH_URL', $k_path_url);

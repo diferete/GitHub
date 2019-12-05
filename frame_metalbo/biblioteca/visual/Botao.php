@@ -206,21 +206,21 @@ class Botao {
     public function getRender() {
         switch ($this->iTipo) {
             case self::TIPO_ADICIONAR:
-                $sBotao = '<button title="Adicionar registro" type="button" class="btn btn-icon btn-default btn-outline" name ="' . $this->getId() . '"  id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
+                $sBotao = '<button title="Adicionar registro" type="button" class="btn btn-icon btn-add-reg btn-default btn-outline" name ="' . $this->getId() . '"  id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
                         . '<span><i class="icon wb-plus-circle" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
                         . '<script>'
                         . '</script>';
                 break;
             case self::TIPO_ALTERAR:
-                $sBotao = '<button  title="Alterar registro" type="button" class="btn btn-icon btn-default btn-outline" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
+                $sBotao = '<button  title="Alterar registro" type="button" class="btn btn-icon btn-edit-reg btn-default btn-outline" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
                         . '<span><i class="icon wb-pencil" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
                         . '<script>'
                         . '</script>';
                 break;
             case self::TIPO_REMOVER:
-                $sBotao = '<button  title="Remover registro" type="button" class="btn btn-icon btn-default btn-outline" id="' . $this->getId() . '"  ' . $this->setDesativado($this->getBDesativado()) . ' >'
+                $sBotao = '<button  title="Remover registro" type="button" class="btn btn-icon btn-default btn-del-reg btn-outline" id="' . $this->getId() . '"  ' . $this->setDesativado($this->getBDesativado()) . ' >'
                         . '<span><i class="icon wb-trash" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
                         . '<script>'
@@ -234,7 +234,7 @@ class Botao {
                         . '</script>';
                 break;
             case self::TIPO_FILTRO:
-                $sBotao = '<button title="Habilita pesquisa" type="button" class="btn btn-icon btn-default btn-outline" id="' . $this->getId() . '" >'
+                $sBotao = '<button title="Habilita pesquisa" type="button" class="btn btn-icon btn-default btn-filtro-reg btn-outline" id="' . $this->getId() . '" >'
                         . '<span><i class="icon wb-search" aria-hidden="true"></i></span>'
                         . '</div>';
                 break;

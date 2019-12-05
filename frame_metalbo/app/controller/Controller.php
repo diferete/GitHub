@@ -391,7 +391,7 @@ class Controller {
                             }
                             if ($oCampoTela->getITipo() == 39) { //campo decimal
                                 $xValorCampo = $this->ValorSql($xValorCampo);
-                        }
+                            }
                         }
                         break;
                     case is_array($oCampoTela):
@@ -402,8 +402,8 @@ class Controller {
                                 }
                                 if ($CampoArray->getITipo() == 39) { //campo decimal
                                     $xValorCampo = $this->ValorSql($xValorCampo);
+                                }
                             }
-                        }
                         }
 
                         break;
@@ -417,8 +417,8 @@ class Controller {
                                         }
                                         if ($oFsCampo1->getITipo() == 39) { //campo decimal
                                             $xValorCampo = $this->ValorSql($xValorCampo);
+                                        }
                                     }
-                                }
                                 }
                             } else {
                                 if ($sNomeCampo == $oFsCampo->getNome()) {
@@ -427,9 +427,9 @@ class Controller {
                                     }
                                     if ($oFsCampo->getITipo() == 39) { //campo decimal
                                         $xValorCampo = $this->ValorSql($xValorCampo);
+                                    }
                                 }
                             }
-                        }
                         }
                         break;
                     case is_a($oCampoTela, 'TabPanel'):
@@ -443,9 +443,9 @@ class Controller {
                                             }
                                             if ($AbaCampo1->getITipo() == 39) { //campo decimal
                                                 $xValorCampo = $this->ValorSql($xValorCampo);
+                                            }
                                         }
                                     }
-                                }
                                 }
                                 //verifica se é campo dentro do tab
                                 if (is_a($AbaCampo, 'Campo')) {
@@ -455,8 +455,8 @@ class Controller {
                                         }
                                         if ($AbaCampo->getITipo() == 39) { //campo decimal
                                             $xValorCampo = $this->ValorSql($xValorCampo);
+                                        }
                                     }
-                                }
                                 }
                                 //verifica se é fieldset
                                 if (is_a($oCampoTela, 'FieldSet')) {
@@ -469,8 +469,8 @@ class Controller {
                                                     }
                                                     if ($oFsCampo1->getITipo() == 39) { //campo decimal
                                                         $xValorCampo = $this->ValorSql($xValorCampo);
+                                                    }
                                                 }
-                                            }
                                             }
                                         } else {
                                             if ($sNomeCampo == $oFsCampo->getNome()) {
@@ -479,12 +479,12 @@ class Controller {
                                                 }
                                                 if ($oFsCampo->getITipo() == 39) { //campo decimal
                                                     $xValorCampo = $this->ValorSql($xValorCampo);
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
                         }
                         break;
                 }
@@ -2984,10 +2984,10 @@ class Controller {
                 $msg = "" . $oLimpa->limpaForm($sForm) . ""
                         . "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
                 echo $msg;
-                
+
                 //chama método após limpar os forms dos campos
                 $this->afterResetForm($aDados);
-                
+
                 //verifica se o campo precisa ser fechado após dar um confirma
                 if ($this->View->getTela()->getBFecharTelaIncluir()) {
                     //BASE PARA FECHAR

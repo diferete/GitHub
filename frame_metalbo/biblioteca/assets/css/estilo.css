@@ -244,3 +244,19 @@ fieldset{
 .btn-checkbox:hover{
     background-color: #82ae9c9e;
 }
+.fav-red{
+    color: red !important;
+}
+
+.btn-add-reg{
+    color: #0f5539 !important;
+}
+.btn-edit-reg{
+    color: #007eff !important;
+}
+.btn-del-reg{
+    color: red !important;
+}
+.btn-filtro-reg{
+    color:#5a015a !important;
+}

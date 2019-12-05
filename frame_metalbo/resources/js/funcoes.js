@@ -1134,9 +1134,9 @@ function insereProd(proCod, proDes, quant, quantNConf, idProdTag, idProCod, idPr
     requestAjax("", classe, 'insereProd', dados);
 }
 
-function addCorrida(corrida, idCorrida, idCorridas, classe) {
-    var dados = idCorridas + ',' + corrida + ',' + idCorrida;
-    requestAjax("", classe, 'adicionaCorrida', dados);
+function addColaborador(nome, idNome, idNomes, classe) {
+    var dados = idNomes + ',' + nome + ',' + idNome;
+    requestAjax("", classe, 'adicionaColaborador', dados);
 }
 /**
  * Máscaras em campo decimal

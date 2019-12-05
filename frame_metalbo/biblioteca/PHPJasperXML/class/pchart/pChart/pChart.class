@@ -4,7 +4,7 @@
      Copyright (C) 2008 Jean-Damien POGOLOTTI
      Version  1.27d last updated on 09/30/08
 
-     https://pchart.sourceforge.net
+     http://pchart.sourceforge.net
 
      This program is free software: you can redistribute it and/or modify
      it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
      GNU General Public License for more details.
 
      You should have received a copy of the GNU General Public License
-     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
      Class initialisation :
       pChart($XSize,$YSize)

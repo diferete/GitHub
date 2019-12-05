@@ -22,15 +22,15 @@ class ControllerMET_QUAL_Rnc extends Controller {
         echo $script;
     }
 
-      public function buscaDadoscodmat($sDados) {
+    public function buscaDadoscodmat($sDados) {
         $aIdCampos = explode(',', $sDados);
         $aDados = $this->getArrayCampostela();
         $oRetorno = $this->Persistencia->buscaDadoscodmat($aDados['codmat']);
-        $script =  "$('#" . $aIdCampos[0] . "').val('" . $oRetorno->prodes . "');";
+        $script = "$('#" . $aIdCampos[0] . "').val('" . $oRetorno->prodes . "');";
 
         echo $script;
     }
-    
+
     public function acaoMostraRelEspecifico($renderTo, $sMetodo = '') {
         parent::acaoMostraRelEspecifico($renderTo, $sMetodo);
 
@@ -41,9 +41,9 @@ class ControllerMET_QUAL_Rnc extends Controller {
         $sSistema = "app/relatorio";
         $sRelatorio = 'documentoRNC.php?' . $sDados;
 
-        $sCampos.= $this->getSget();
+        $sCampos .= $this->getSget();
 
-        $sCampos.='&output=tela';
+        $sCampos .= '&output=tela';
         $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
         echo $oWindow;
     }
@@ -74,7 +74,7 @@ class ControllerMET_QUAL_Rnc extends Controller {
     public function acaoFinalizaRnc($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
-        $aCamposChave = array();       
+        $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
         $oRetorno = $this->Persistencia->buscaDados($aCamposChave);
@@ -93,24 +93,18 @@ class ControllerMET_QUAL_Rnc extends Controller {
             }
         }
     }
- public function adicionaCorrida($sDados) {
+
+    public function adicionaColaborador($sDados) {
         $aDados = explode(',', $sDados);
-
-        $bRetorno = $this->Persistencia->buscaCorrida($aDados[1]);
-
 
         $script = '$("#' . $aDados[0] . '_tag").val("' . $aDados[1] . '");'
                 . '$("#' . $aDados[0] . '_tag").focus();'
                 . '$("#' . $aDados[2] . '").focus();'
+                . '$("#' . $aDados[0] . '_tag").focus();'
                 . '$("#' . $aDados[2] . '").focus();';
 
         echo $script;
         echo '$("#' . $aDados[2] . '").val("");';
-        if ($bRetorno == false) {
-            $oMsg = new Mensagem('Atenção', 'Corrida não encontrada no sistema', Modal::TIPO_AVISO);
-            echo $oMsg->getRender();
-        }
     }
-    
-    
+
 }
