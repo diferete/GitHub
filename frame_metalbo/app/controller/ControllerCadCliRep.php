@@ -17,15 +17,33 @@ class ControllerCadCliRep extends Controller {
         $sCNPJ = $this->Model->getCnpj();
         $sEmpcod = $this->Model->getEmpcod();
 
+
         if ($sCNPJ != $sEmpcod) {
-            
-            $oMsg = new Mensagem('Erro ao tentar inserir', 'Verifique o número do CNPJ', Mensagem::TIPO_WARNING);
-            echo $oMsg->getRender();
-            
-            $aRetorno = array();
-            $aRetorno[0] = false;
-            $aRetorno[1] = '';
-            return $aRetorno;
+            if ($sCNPJ == '') {
+
+                $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
+                $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
+                $this->Model->setEmpend(Util::removeAcentos($this->Model->getEmpend()));
+
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+
+
+                $oMsg = new Mensagem('Atenção preenchimento manual', 'Verifique o número do CNPJ antes de liberar cadastro!', Mensagem::TIPO_WARNING,10000);
+                echo $oMsg->getRender();
+
+                return $aRetorno;
+            } else {
+
+                $oMsg = new Mensagem('Erro ao tentar inserir', 'Verifique o número do CNPJ.', Mensagem::TIPO_WARNING);
+                echo $oMsg->getRender();
+
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
         } else {
             $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
             $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
@@ -44,15 +62,33 @@ class ControllerCadCliRep extends Controller {
         $sCNPJ = $this->Model->getCnpj();
         $sEmpcod = $this->Model->getEmpcod();
 
-        if ($sCNPJ != $sEmpcod) {
 
-            $oMsg = new Mensagem('Erro ao tentar inserir', 'Verifique o número do CNPJ', Mensagem::TIPO_WARNING);
-            echo $oMsg->getRender();
-            
-            $aRetorno = array();
-            $aRetorno[0] = false;
-            $aRetorno[1] = '';
-            return $aRetorno;
+        if ($sCNPJ != $sEmpcod) {
+            if ($sCNPJ == '') {
+
+                $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
+                $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
+                $this->Model->setEmpend(Util::removeAcentos($this->Model->getEmpend()));
+
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+
+
+                $oMsg = new Mensagem('Atenção preenchimento manual', 'Verifique o número do CNPJ antes de liberar cadastro!', Mensagem::TIPO_WARNING,10000);
+                echo $oMsg->getRender();
+
+                return $aRetorno;
+            } else {
+
+                $oMsg = new Mensagem('Erro ao tentar inserir', 'Verifique o número do CNPJ.', Mensagem::TIPO_WARNING);
+                echo $oMsg->getRender();
+
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
         } else {
             $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
             $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
@@ -201,8 +237,8 @@ class ControllerCadCliRep extends Controller {
 
     public function getCNPJ($sDados) {
         $aDados = explode('*', $sDados);
-        $aDadosEMP = explode('|',$aDados[0]);
-        $aIdCampos = explode('|',$aDados[1]);  
+        $aDadosEMP = explode('|', $aDados[0]);
+        $aIdCampos = explode('|', $aDados[1]);
         if ($aDados[0] != '') {
             $sRet = $this->Persistencia->buscaCNPJ($aDados[0]);
             if ($sRet == false) {

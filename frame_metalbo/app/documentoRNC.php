@@ -236,7 +236,7 @@ $pdf->Cell(40, 7, 'DATA', 'T,R,L', 1, 'C', 1);
 
 foreach ($aUsers as $key) {
     $pdf->Cell(164, 7, 'Colaborador (' . $key . '):', 1, 0, 'L', 1);
-    $pdf->Cell(40, 7, 'DATA:', 1, 1, 'L', 1);   
+    $pdf->Cell(40, 7, 'DATA:', 1, 1, 'L', 1);
 }
 $pdf->Ln(1);
 $pdf->Cell(164, 7, 'LÍDER DO SETOR CAUSADOR (' . $row['respcausa'] . '):', 1, 0, 'L', 1);
