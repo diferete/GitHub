@@ -29,6 +29,7 @@ class CampoConsulta {
     private $iTamanhoFonte;
     private $sTituloBotaoModal;
     private $sDiretorioManual;
+    private $bColOculta;
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -318,6 +319,14 @@ class CampoConsulta {
         $this->bTruncate = $bTruncate;
     }
 
+    function getBColOculta() {
+        return $this->bColOculta;
+    }
+
+    function setBColOculta($bColOculta) {
+        $this->bColOculta = $bColOculta;
+    }
+
     /**
      * Método responsavel por realizar a coloração de linhas/colunas do grid de acordo com
      * o modo de comparação escolhida
@@ -375,17 +384,23 @@ class CampoConsulta {
                 } else {
                     
                 }
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">' . $xValor . '</td>';
+                if ($this->getBColOculta()) {
+                    $sDisplay = 'display:none;';
+                }
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sDisplay . '' . $sFontSize . '">' . $xValor . '</td>';
                 break;
             case self::TIPO_MONEY:
                 $iFontSize = $this->getITamanhoFonte();
                 $sFontSize = '';
-                if ($iFontSize != '' && $iFontSize != null) {
+                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
                     
                 }
-                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">R$ ' . number_format($xValor, 2, ',', '.') . '</td>';
+                if ($this->getBColOculta()) {
+                    $sDisplay = 'display:none;';
+                }
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sDisplay . '' . $sFontSize . '">R$ ' . number_format($xValor, 2, ',', '.') . '</td>';
                 break;
             case self::TIPO_DECIMAL:
                 $iFontSize = $this->getITamanhoFonte();

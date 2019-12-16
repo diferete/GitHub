@@ -28,8 +28,6 @@ class ViewQualRncVenda extends View {
 
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
 
-
-
 ////////////////////////////////////////////// COLUNAS DE SITUAÇÃO /////////////////////////////////////////////////////////////////////////////
 
         $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
@@ -56,8 +54,6 @@ class ViewQualRncVenda extends View {
         $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
         $oDevolucao->setBComparacaoColuna(true);
-
-
 
 ////////////////////////////////////////////// DROPDOWNS //////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -91,16 +87,21 @@ class ViewQualRncVenda extends View {
 
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
-        $oAnaliseSetor = new Campo('Análise aprensentada pelo setor responsável', '', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
+        $oAnaliseSetor = new Campo('Análise aprensentada pelo setor responsável', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oAnaliseSetor->setILinhasTextArea(6);
         $oAnaliseSetor->setSCorFundo(Campo::FUNDO_AMARELO);
         $oAnaliseSetor->setBCampoBloqueado(true);
 
+        $oProblema = new Campo('Erro descrito pelo Representante', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oProblema->setILinhasTextArea(6);
+        $oProblema->setSCorFundo(Campo::FUNDO_MONEY);
+        $oProblema->setBCampoBloqueado(true);
 
-        $this->addCamposGrid($oAnaliseSetor, $oLinhaWhite);
+
+        $this->addCamposGrid($oProblema, $oAnaliseSetor, $oLinhaWhite);
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
-                . 'requestAjax("","QualRncVenda","carregaAnalise","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oAnaliseSetor->getId() . '"+","+"");');
+                . 'requestAjax("","QualRncVenda","carregaAnalise","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oAnaliseSetor->getId() . ',' . $oProblema->getId() . '"+","+"");');
 
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaAcaoAlterar(false);
@@ -253,7 +254,7 @@ class ViewQualRncVenda extends View {
         $oTab->addItems($oTabGeral, $oTabNF, $oTabProd, $oTabAnexos);
 
         $this->addCampos(
-                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf,$oTagExcecao), $ln, $oTab);
+                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf, $oTagExcecao), $ln, $oTab);
     }
 
     /**
@@ -284,10 +285,16 @@ class ViewQualRncVenda extends View {
         $oReclamacao->addItenRadio('Representante', 'Representante');
         $oReclamacao->addItenRadio('Cliente', 'Cliente');
 
+        $oGDevolucao = new Campo('Gerou devolução?', 'divisor2', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
+        $oGDevolucao->setApenasTela(true);
 
         $oDevolucao = new Campo('Devolução', 'devolucao', Campo::TIPO_RADIO, 6, 6, 12, 12);
-        $oDevolucao->addItenRadio('Aceita', 'Aceita');
-        $oDevolucao->addItenRadio('Recusada', 'Recusada');
+        $oDevolucao->addItenRadio('Aceita', 'Sim');
+        $oDevolucao->addItenRadio('Recusada', 'Não');
+
+        $oNfDevolucao = new Campo('NF Devolução', 'nfdevolucao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oValorDevolucaoSIPI = new Campo('NF s/ IPI', 'nfsIpi', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oValorFrete = new Campo('Frete', 'valorfrete', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
         $oLinha1 = new Campo('', 'linha1', Campo::TIPO_LINHA, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
@@ -309,7 +316,7 @@ class ViewQualRncVenda extends View {
         $this->setBTela(true);
 
 
-        $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oTipoRnc, array($oReclamacao, $oDevolucao), $oLinha1, $oObs_aponta, $oBtnInserir);
+        $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oTipoRnc, array($oReclamacao), $oGDevolucao, array($oDevolucao), array($oNfDevolucao, $oValorDevolucaoSIPI, $oValorFrete), $oLinha1, $oObs_aponta, $oBtnInserir);
     }
 
     /**

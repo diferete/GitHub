@@ -18,6 +18,7 @@ class PersistenciaMET_RH_FuncaoSetor extends Persistencia {
         $this->adicionaRelacionamento('codsetor', 'codsetor', true);
         $this->adicionaRelacionamento('codfuncao', 'codfuncao', true);
         $this->adicionaRelacionamento('descfuncao', 'descfuncao');
+        $this->adicionaRelacionamento('descsetor', 'descsetor');
     }
 
 }

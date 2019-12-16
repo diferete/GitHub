@@ -19,7 +19,9 @@ class ModelMET_ISO_Treinamentos {
     private $data_cad;
     private $usuario;
     private $updates;
-    
+    private $grau_escolaridade;
+    private $tagEscolaridade;
+
     function getNr() {
         return $this->nr;
     }
@@ -64,6 +66,14 @@ class ModelMET_ISO_Treinamentos {
         return $this->updates;
     }
 
+    function getGrau_escolaridade() {
+        return $this->grau_escolaridade;
+    }
+
+    function getTagEscolaridade() {
+        return $this->tagEscolaridade;
+    }
+
     function setNr($nr) {
         $this->nr = $nr;
     }
@@ -106,6 +116,14 @@ class ModelMET_ISO_Treinamentos {
 
     function setUpdates($updates) {
         $this->updates = $updates;
+    }
+
+    function setGrau_escolaridade($grau_escolaridade) {
+        $this->grau_escolaridade = $grau_escolaridade;
+    }
+
+    function setTagEscolaridade($tagEscolaridade) {
+        $this->tagEscolaridade = $tagEscolaridade;
     }
 
 }

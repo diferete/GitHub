@@ -43,7 +43,34 @@ class ControllerQualRncVenda extends Controller {
 
         $sAnalise = Util::limpaString($oAnalise->apontamento);
 
-        echo '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
+        if ($sAnalise == '') {
+            $sAnalise = Util::limpaString($oAnalise->obs_aponta);
+        }
+
+        switch ($oAnalise->tagsetor) {
+            case 3:
+                $sSetor = 'Expedição';
+                break;
+            case 5:
+                $sSetor = 'Embalagem';
+                break;
+            case 25:
+                $sSetor = 'Qualidade';
+                break;
+            default:
+                $sSetor = 'Vendas';
+                break;
+        }
+
+        $sProblema = $oAnalise->aplicacao . ' -  ' . Util::limpaString($oAnalise->naoconf);
+
+        $sScriptLabel = '$("label[for=' . $aDados[2] . ']").text("Análise aprensentada pelo setor responsável - ' . $sSetor . ':");';
+        $sScriptDados = '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
+        $sProblemas = '$("#' . $aDados[3] . '").val("' . $sProblema . '");';
+
+        echo $sScriptLabel;
+        echo $sScriptDados;
+        echo $sProblemas;
     }
 
     public function limpaUploads($aIds) {
@@ -363,10 +390,17 @@ class ControllerQualRncVenda extends Controller {
         if ($aCampos['reclamacao'] == '' || $aCampos['reclamacao'] == null) {
             $oMsg = new Mensagem('Atenção', 'Selecione o TIPO da RNC segundo análise!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
+            exit();
         }
         if ($aCampos['devolucao'] == '' || $aCampos['devolucao'] == null) {
             $oMsg = new Mensagem('Atenção', 'Selecione o status da DEVOLUÇÃO segundo análise!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
+            exit();
+        }
+        if ($aCampos['devolucao'] == 'Aceita' && ($aCampos['nfdevolucao'] == '' || $aCampos['nfsIpi'] == '' || $aCampos['valorfrete'] == '' )) {
+            $oMsg = new Mensagem('Atenção', 'Preencha os campos: NF Devolução, NF s/ IPI e Frete.', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+            exit();
         } else {
             $aRetorno = $this->Persistencia->apontaReclamacao($aCamposChave);
 

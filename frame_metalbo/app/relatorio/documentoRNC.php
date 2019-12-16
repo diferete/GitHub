@@ -56,10 +56,12 @@ $pdf->SetXY($x, $y + 5);
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
-$sql = "select prodes, * from MET_QUAL_Rnc
-            left outer join widl.prod01
-            on  widl.prod01.procod = MET_QUAL_Rnc.codprod 
-            where nr = " . $sNr . " and filcgc = " . $sFilcgc . "";
+$sql = "select MET_QUAL_Prob_Rnc.descprobl,prodes, * from MET_QUAL_Rnc "
+        . "left outer join widl.prod01 "
+        . "on  widl.prod01.procod = MET_QUAL_Rnc.codprod "
+        . "left outer join MET_QUAL_Prob_Rnc "
+        . "on MET_QUAL_Rnc.codprobl = MET_QUAL_Prob_Rnc.codprobl "
+        . "where nr = " . $sNr . " and filcgc = " . $sFilcgc . "";
 
 $sth = $PDO->query($sql);
 
@@ -112,10 +114,10 @@ $pdf->Cell(51, 6, $row['lote'], 1, 0, 'C', 1);
 $pdf->Cell(102, 6, $row['userf'], 1, 1, 'C', 1);
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(102, 5, 'QUANT.PÇS DO LOTE', 1, 0, 'L', 1);
-$pdf->Cell(102, 5, 'QUANT.NÃO CONFORME', 1, 1, 'L', 1);
+$pdf->Cell(102, 5, 'QUANT.PÇS NÃO CONFORME', 1, 1, 'L', 1);
 $pdf->SetFont('Arial', '', 8);
-$pdf->Cell(102, 6, $row['qtlote'], 1, 0, 'C', 1);
-$pdf->Cell(102, 6, $row['qtloternc'], 1, 1, 'C', 1);
+$pdf->Cell(102, 6, number_format($row['qtlote'],0, ',','.'), 1, 0, 'C', 1);
+$pdf->Cell(102, 6, number_format($row['qtloternc'],0, ',','.'), 1, 1, 'C', 1);
 
 $pdf->Ln(3);
 
@@ -126,7 +128,7 @@ $pdf->SetFont('Arial', 'B', 8);
 $pdf->SetFillColor(255);
 $pdf->Cell(30, 6, 'PROBLEMA:', 'T', 0, 'L', 1);
 $pdf->SetFont('Arial', '', 8);
-$pdf->MultiCell(174, 6, $row['desccausa'], 'B,T', 1, 'L', 1);
+$pdf->MultiCell(174, 6, $row['descprobl'], 'B,T', 1, 'L', 1);
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(30, 6, 'FORNECEDOR:', 'B,T', 0, 'L', 1);
 $pdf->SetFont('Arial', '', 8);
@@ -236,7 +238,7 @@ $pdf->Cell(40, 7, 'DATA', 'T,R,L', 1, 'C', 1);
 
 foreach ($aUsers as $key) {
     $pdf->Cell(164, 7, 'Colaborador (' . $key . '):', 1, 0, 'L', 1);
-    $pdf->Cell(40, 7, 'DATA:', 1, 1, 'L', 1);   
+    $pdf->Cell(40, 7, 'DATA:', 1, 1, 'L', 1);
 }
 $pdf->Ln(1);
 $pdf->Cell(164, 7, 'LÍDER DO SETOR CAUSADOR (' . $row['respcausa'] . '):', 1, 0, 'L', 1);

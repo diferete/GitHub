@@ -819,7 +819,7 @@ class Controller {
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
-        };
+        }
         //renderiza a tela
         $this->View->getTela()->getRender();
     }
@@ -839,6 +839,7 @@ class Controller {
         $sChave = htmlspecialchars_decode($aDados[0]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
+        $this->antesVisualizar($aDados);
         //cria a tela
         $this->View->criaTela();
         //adiciona onde será renderizado
@@ -1615,7 +1616,6 @@ class Controller {
             if (isset($aDados[4])) {
                 $bDesativaAcao = false;
                 $this->View->getTela()->setBBtnConsulta(true);
-                
             }
             if ($bDesativaAcao) {
                 $this->View->setUsaAcaoAlterar(false);
@@ -4231,6 +4231,13 @@ class Controller {
      * Método antes de incluir
      */
     public function antesIncluir($sParametros = null) {
+        
+    }
+
+    /**
+     * Método que pode ser sobescrito antes da visualização
+     */
+    public function antesVisualizar($sParametros = null) {
         
     }
 

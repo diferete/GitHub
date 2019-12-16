@@ -32,6 +32,30 @@ class ControllerMET_TEC_Chamados extends Controller {
         }
     }
 
+    public function beforeInsert() {
+        parent::beforeInsert();
+
+        $str = str_replace(array("\r", "\n"), " ", $this->Model->getProblema());
+        $this->Model->setProblema($str);
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function beforeUpdate() {
+        parent::beforeUpdate();
+
+        $str = str_replace(array("\r", "\n"), " ", $this->Model->getProblema());
+        $this->Model->setProblema($str);
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
     public function afterInsert() {
         parent::afterInsert();
         $aCampos = $this->getArrayCampostela();
@@ -93,8 +117,11 @@ class ControllerMET_TEC_Chamados extends Controller {
             $aRetorno[1] = '';
             return $aRetorno;
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+
+            $oMensagem2 = new Mensagem('E-mail', 'O setor de TI foi notificado com sucesso!', Mensagem::TIPO_SUCESSO, 10000);
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
+            echo $oMensagem2->getRender();
 
             $aRetorno = array();
             $aRetorno[0] = false;
@@ -178,9 +205,16 @@ class ControllerMET_TEC_Chamados extends Controller {
         } else {
             $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
             if ($aRetorno[0]) {
-                $oMsg = new Modal('Tudo certo', 'Chamado foi finalizado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
-                echo "$('#criaModalApontaChamado-btn').click();";
-                echo $oMsg->getRender();
+                $bRetorno = $this->EnviaEmailFinalizaChamado($aCampos);
+                if ($bRetorno) {
+                    $oMsg = new Modal('Tudo certo', 'Chamado foi finalizado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+                    echo "$('#criaModalApontaChamado-btn').click();";
+                    echo $oMsg->getRender();
+                } else {
+                    $oMsg = new Modal('Atenção', 'Erro ao tentar enviar e-mail de finalização do chamado', Modal::TIPO_AVISO, false, true, false);
+                    echo "$('#criaModalApontaChamado-btn').click();";
+                    echo $oMsg->getRender();
+                }
             } else {
                 $oMsg = new Modal('Atenção', 'Erro ao tentar finalizar o chamado', Modal::TIPO_AVISO, false, true, false);
                 echo "$('#criaModalApontaChamado-btn').click();";
@@ -251,6 +285,68 @@ class ControllerMET_TEC_Chamados extends Controller {
                 . '</div>';
 
         return $sResulta;
+    }
+
+    public function EnviaEmailFinalizaChamado($aDados) {
+        $oDados = $this->Persistencia->buscaDadosEmailChamado($aDados);
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor('smtp.terra.com.br');
+        $oEmail->setPorta(587);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario('metalboweb@metalbo.com.br');
+        $oEmail->setSenha('Metalbo@@50');
+        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
+
+        if ($oDados->repoffice != null) {
+            $sAssunto = $oDados->repoffice;
+        } else {
+            $sAssunto = $oDados->filcgc;
+        }
+
+        switch ($oDados->tipo) {
+            case 1:
+                $sTipo = 'HARDWARE';
+                break;
+            case 2:
+                $sTipo = 'SOFTWARE';
+                break;
+            case 3:
+                $sTipo = 'SERVIÇOS';
+                break;
+        }
+
+        $oEmail->setAssunto(utf8_decode('CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
+        $oEmail->setMensagem(utf8_decode('<b style="color:#0f5539; font-weight:900;font-size:18px;">SEU CHAMADO FOI FINALIZADO<br/>'
+                        . '<b>Usuário:</b> ' . $oDados->usunome . '<br/><br/><br/>'
+                        . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
+                        . '<tr><td><b>Tipo:</b></td><td>' . $sTipo . '</td></tr>'
+                        . '<tr><td><b>Subtipo:</b></td><td>' . $oDados->subtipo_nome . '</td></tr>'
+                        . '<tr><td><b>Problema:</b></td><td>' . $oDados->problema . '</td></tr>'
+                        . '<tr><td><b>O que foi feito:</b></td><td>' . $oDados->obsfim . '</td></tr>'
+                        . '</table><br/><br/>'
+                        . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+        $oEmail->limpaDestinatariosAll();
+
+        // Para
+        $oEmail->addDestinatario($oDados->email);
+        $oEmail->addDestinatarioCopia('alexandre@metalbo.com.br');
+        $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
+
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('E-mail', 'O usuário foi notificado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+            $bRetorno = true;
+        } else {
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+            $bRetorno = false;
+        }
+        sleep(3);
+        return $bRetorno;
     }
 
 }

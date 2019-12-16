@@ -13,6 +13,7 @@ class ModelMET_RH_FuncaoSetor {
     private $codsetor;
     private $codfuncao;
     private $descfuncao;
+    private $descsetor;
 
     function getNr() {
         return $this->nr;
@@ -34,6 +35,10 @@ class ModelMET_RH_FuncaoSetor {
         return $this->descfuncao;
     }
 
+    function getDescsetor() {
+        return $this->descsetor;
+    }
+
     function setNr($nr) {
         $this->nr = $nr;
     }
@@ -52,6 +57,10 @@ class ModelMET_RH_FuncaoSetor {
 
     function setDescfuncao($descfuncao) {
         $this->descfuncao = $descfuncao;
+    }
+
+    function setDescsetor($descsetor) {
+        $this->descsetor = $descsetor;
     }
 
 }

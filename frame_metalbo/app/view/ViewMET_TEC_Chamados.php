@@ -37,6 +37,8 @@ class ViewMET_TEC_Chamados extends View {
         }
 
         $oFilcgc = new CampoConsulta('CNPJ', 'filcgc', CampoConsulta::TIPO_TEXTO);
+        $oFilcgc->addComparacao('75483040000211', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_DKGRAY, CampoConsulta::MODO_LINHA);
+        $oFilcgc->setBComparacaoColuna(true);
 
         $oSit = new CampoConsulta('Sit.', 'situaca', CampoConsulta::TIPO_TEXTO);
         $oSit->addComparacao('AGUARDANDO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_LINHA);
@@ -191,6 +193,7 @@ class ViewMET_TEC_Chamados extends View {
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oProblema->setILinhasTextArea(3);
+        $oProblema->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 10, 1000);
 
         $oSituaca = new Campo('', 'situaca');
         $oSituaca->setBOculto(true);

@@ -21,15 +21,18 @@ class ControllerMET_GerenciaFrete extends Controller {
 
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
-                
         $oEmp = $this->Persistencia->buscaEmpresas();
         $this->View->setAParametrosExtras($oEmp);
-        
     }
-    
+
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
+        $oEmp = $this->Persistencia->buscaEmpresas();
+        $this->View->setAParametrosExtras($oEmp);
+    }
 
+    public function antesVisualizar($sParametros = null) {
+        parent::antesVisualizar($sParametros);
         $oEmp = $this->Persistencia->buscaEmpresas();
         $this->View->setAParametrosExtras($oEmp);
     }
@@ -41,28 +44,28 @@ class ControllerMET_GerenciaFrete extends Controller {
         $aDados = explode(',', $sDados);
 
         $oRow = $this->Persistencia->consultaDados($aCamposChave);
-        
-        $this->Persistencia->adicionaFiltro('nr',$aCamposChave['nr']);
+
+        $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
         $sVal = $this->Persistencia->consultarWhere();
 
-    if($sVal->getNrnotaoc() == $aCamposChave['nrnotaoc']){
-        if($oRow->nfsvlrtot!=0){
+        if ($sVal->getNrnotaoc() == $aCamposChave['nrnotaoc']) {
+            if ($oRow->nfsvlrtot != 0) {
+                echo"$('#" . $aDados[0] . "').val('" . $oRow->nfsvlrtot . "');";
+            }
+            if ($oRow->pesonota != 0) {
+                echo "$('#" . $aDados[1] . "').val('" . $oRow->pesonota . "');";
+            }
+            if ($oRow->fracaofrete != 0) {
+                echo "$('#" . $aDados[2] . "').val('" . $oRow->fracaofrete . "');";
+            }
+        } else {
             echo"$('#" . $aDados[0] . "').val('" . $oRow->nfsvlrtot . "');";
-        }
-        if($oRow->pesonota!=0){
             echo "$('#" . $aDados[1] . "').val('" . $oRow->pesonota . "');";
-        }
-        if($oRow->fracaofrete!=0){
             echo "$('#" . $aDados[2] . "').val('" . $oRow->fracaofrete . "');";
         }
-    }else{
-            echo"$('#" . $aDados[0] . "').val('" . $oRow->nfsvlrtot . "');";
-            echo "$('#" . $aDados[1] . "').val('" . $oRow->pesonota . "');";
-            echo "$('#" . $aDados[2] . "').val('" . $oRow->fracaofrete . "');";
-    }
-    echo "$('#" . $aDados[1] . "').focus();";
-    echo "$('#" . $aDados[0] . "').focus();";
-    echo  '$("#gerenciafrete_valorserv").focus();';
+        echo "$('#" . $aDados[1] . "').focus();";
+        echo "$('#" . $aDados[0] . "').focus();";
+        echo '$("#gerenciafrete_valorserv").focus();';
     }
 
     public function calculoFracaoFrete($sDados) {
@@ -83,9 +86,7 @@ class ControllerMET_GerenciaFrete extends Controller {
         $aDados = explode(',', $sDados);
 
         $aCodTip = $this->Persistencia->retornaCodTipo($aCamposChave);
-        if ((($aCodTip[0]['codtipo'] == 1) && ($aCamposChave['codtipo'] == 1 )) 
-                || ((($aCodTip[1]['codtipo'] == 2) 
-                        || ($aCodTip[0]['codtipo'] == 2)) && ($aCamposChave['codtipo'] == 2))||$aCamposChave['cnpj']== '4353469003504') {
+        if ((($aCodTip[0]['codtipo'] == 1) && ($aCamposChave['codtipo'] == 1 )) || ((($aCodTip[1]['codtipo'] == 2) || ($aCodTip[0]['codtipo'] == 2)) && ($aCamposChave['codtipo'] == 2)) || $aCamposChave['cnpj'] == '4353469003504') {
             
         } else {
             if (($aCamposChave['codtipo']) == 1) {
@@ -110,13 +111,6 @@ class ControllerMET_GerenciaFrete extends Controller {
 
         $this->carregaDadosConsulta($aDados[0], $aCamposChave, $oRow, $aDados[1]);
 
-        /*  $htmlSelect = "";
-          forEach ($oRow as $aA) {
-          $htmlSelect = $htmlSelect . ' <option value="' . $aA['seq'] . '">' .
-          'Seq ' . $aA['seq'] . 'Total frete ' . $aA['totalfrete'] . ' Frete Mínimo ' . $aA['freteminimo'] . '</option>';
-          }
-
-          echo '$("#' . $sDados . '").empty().append(\'' . $htmlSelect . '\');'; */
     }
 
     /**
@@ -129,17 +123,28 @@ class ControllerMET_GerenciaFrete extends Controller {
     public function carregaDadosConsulta($sIdGrid, $aCamposChave, $oRow, $iIdSeq) {
 
         $htmlSelectG = "";
-        
+
         forEach ($oRow as $aA) {
 
             $sIdtr = Base::getId();
-            
-            if ((number_format($aA['totalfrete'], 0) == number_format(str_replace(',', '.', $aCamposChave['valorserv']), 0 ))||
-                    number_format($aA['freteminimo'], 0) == number_format(str_replace(',', '.', $aCamposChave['valorserv']), 0 )) {
-                $htmlSelectG .= '<tr id="' . $sIdtr . '"  tabindex="0" class= "tr-azul dbclick" style="font-size:small;">'; //abre a linha azul
+
+            if ((number_format($aA['totalfrete'], 0) == number_format(str_replace(',', '.', $aCamposChave['valorserv']), 0)) ||
+                    number_format($aA['freteminimo'], 0) == number_format(str_replace(',', '.', $aCamposChave['valorserv']), 0)) {
+                if($aCamposChave[seqregra]==$aA['seq']){
+                    $htmlSelectG .= '<tr id="' . $sIdtr . '"  tabindex="0" class= "tr-azul dbclick selected" style="font-size:small;">'; //abre a linha azul
+                } else{
+                    $htmlSelectG .= '<tr id="' . $sIdtr . '"  tabindex="0" class= "tr-azul dbclick" style="font-size:small;">'; //abre a linha azul
+                }
             } else {
-                $htmlSelectG .= '<tr id="' . $sIdtr . '" tabindex="0" role="row" class="odd dbclick" style="font-size:small;">'; //abre a linha
+                if($aCamposChave[seqregra]==$aA['seq']){
+                    $htmlSelectG .= '<tr id="' . $sIdtr . '" tabindex="0" role="row" class="odd dbclick selected" style="font-size:small;">'; //abre a linha
+                } else {
+                    $htmlSelectG .= '<tr id="' . $sIdtr . '" tabindex="0" role="row" class="odd dbclick" style="font-size:small;">'; //abre a linha
+                }
             }
+            
+            
+            
 
             $htmlSelectG .= '<script>'
                     . '$("#' . $sIdtr . '").keydown(function(e) { '
@@ -161,11 +166,10 @@ class ControllerMET_GerenciaFrete extends Controller {
             $htmlSelectG .= '<td class=" tr-font" style="">' . number_format($aA['totalfrete'], 2) . '</td>';
             $htmlSelectG .= '<td class=" tr-font" style="">' . number_format($aA['freteminimo'], 2) . '</td>';
             $htmlSelectG .= '<td class="hidden chave">' . $aA['seq'] . '</td>'; ///colocar valor chave
-
             //Script que passa o valor da sequencia e o id do campo oculto
             $htmlSelectG .= '<script>'
                     . '$("#' . $sIdtr . '").click(function(){'
-                    . 'requestAjax("", "MET_GerenciaFrete","isereDadosModel","' . $aA['seq'] . ','.$iIdSeq.'");});'
+                    . 'requestAjax("", "MET_GerenciaFrete","isereDadosModel","' . $aA['seq'] . ',' . $iIdSeq . '");});'
                     . '</script>';
             $htmlSelectG .= '</tr>';
         }
@@ -201,161 +205,155 @@ class ControllerMET_GerenciaFrete extends Controller {
         $aDados = explode(',', $sDados);
         echo "$('#" . $aDados[1] . "').val(" . $aDados[0] . ");";
     }
-    
+
     /**
      * Mostra tela relatório de Frete
      * @param type $renderTo
      * @param type $sMetodo
      */
-    public function mostraTelaRelGerenciaFrete($renderTo, $sMetodo = '') {   
+    public function mostraTelaRelGerenciaFrete($renderTo, $sMetodo = '') {
         $oEmp = $this->Persistencia->buscaEmpresas();
         $this->View->setAParametrosExtras($oEmp);
-        parent::mostraTelaRelatorio($renderTo, 'relGerenciaFrete');              
-    }  
-    
+        parent::mostraTelaRelatorio($renderTo, 'relGerenciaFrete');
+    }
+
     /**
      * Método que inicializa função botão contas a pagar
      * @param type $sDados
      */
-    public function msgLibPag($sDados){
+    public function msgLibPag($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        $this->Persistencia->adicionaFiltro('nr',$aCamposChave['nr']);
+        $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
         $oVal = $this->Persistencia->consultarWhere();
-       
-        if($oVal->getSit() == "E"){
+
+        if ($oVal->getSit() == "E") {
             $oModal = new Modal('Atenção', 'Apenas conhecimentos aprovados podem ser pagos!', Modal::TIPO_AVISO);
             echo $oModal->getRender();
             exit();
-        }else{
-            $oModalS = new Modal('Atenção', 'Deseja gerar o financeiro do conhecimento Nº'.$oVal->getNr().', com o valor de R$'.number_format($oVal->getValorserv(),2), Modal::TIPO_INFO, true, true, true);
-            $oModalS->setSBtnConfirmarFunction('requestAjax("","MET_GerenciaFrete","geraFinanceiro","' .$aCamposChave['nr']. '");');
+        } else {
+            $oModalS = new Modal('Atenção', 'Deseja gerar o financeiro do conhecimento Nº' . $oVal->getNr() . ', com o valor de R$' . number_format($oVal->getValorserv(), 2), Modal::TIPO_INFO, true, true, true);
+            $oModalS->setSBtnConfirmarFunction('requestAjax("","MET_GerenciaFrete","geraFinanceiro","' . $aCamposChave['nr'] . '");');
             echo $oModalS->getRender();
         }
-        
     }
-    
+
     /*
      * Método que retorna a parcela e gera o financeiro
      */
-    public function geraFinanceiro($sDados){
-        $this->Persistencia->adicionaFiltro('nr',$sDados);
+
+    public function geraFinanceiro($sDados) {
+        $this->Persistencia->adicionaFiltro('nr', $sDados);
         $oVal = $this->Persistencia->consultarWhere();
-        
+
         $sParcela = $this->Persistencia->getParcelaFrete($oVal);
-        
     }
-    
-    
+
     //Método que preenche os campos do form depois de dar o resetform
     public function afterResetForm($sDados) {
         parent::afterResetForm($sDados);
-       
-      echo  '$("#gerenciafrete_cnpj").val("' . $this->Model->getCnpj() . '").trigger("change");'; 
-      echo  '$("#gerenciafrete_codtip").val("' . $this->Model->getCodtipo() . '").trigger("change");'; 
-      echo  ' $("#gerenciafrete_nrfat").val("' . $this->Model->getNrfat() . '");';
-      echo  ' $("#gerenciafrete_dataem").val("' . $this->Model->getDataem() . '");';
-      echo  '$("#gerenciafrete_grid > tbody > tr").remove();';
-      echo  '$("#gerenciafrete_nrconhe").focus();';
+
+        echo '$("#gerenciafrete_cnpj").val("' . $this->Model->getCnpj() . '").trigger("change");';
+        echo '$("#gerenciafrete_codtip").val("' . $this->Model->getCodtipo() . '").trigger("change");';
+        echo ' $("#gerenciafrete_nrfat").val("' . $this->Model->getNrfat() . '");';
+        echo ' $("#gerenciafrete_dataem").val("' . $this->Model->getDataem() . '");';
+        echo '$("#gerenciafrete_grid > tbody > tr").remove();';
+        echo '$("#gerenciafrete_nrconhe").focus();';
     }
 
     //Método antes de inserir verifica linha selecionada conforme a situação
     public function beforeInsert() {
-       parent::beforeInsert();
-       
-       if($this->Model->getSeqregra()=="" && $this->Model->getSit()!="E"){
+        parent::beforeInsert();
+
+        if ($this->Model->getSeqregra() == "" && $this->Model->getSit() != "E") {
             $oModal = new Modal('Atenção', 'Selecione uma linha de resultado de cálculo!', Modal::TIPO_ERRO);
             echo $oModal->getRender();
             exit();
-       }
-       //Verifica se não existe conhecimento repetido
-       $this->verificaConhecimento();
-       
-       //Verifica a vírgula nos valores
-       if(stristr($this->Model->getTotalnf(), ',')){
+        }
+        //Verifica se não existe conhecimento repetido
+        $this->verificaConhecimento();
+
+        //Verifica a vírgula nos valores
+        if (stristr($this->Model->getTotalnf(), ',')) {
             $this->Model->setTotalnf(Util::ValorSql($this->Model->getTotalnf()));
-       }
-       if(stristr($this->Model->getTotakg(), ',')){
+        }
+        if (stristr($this->Model->getTotakg(), ',')) {
             $this->Model->setTotakg(Util::ValorSql($this->Model->getTotakg()));
-       }
-       
-       
-       
-       $aRetorno = array();
-       $aRetorno[0] = true;
-       $aRetorno[1] = '';
-       return $aRetorno;
-       
+        }
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
     }
-   
-   //Verifica se não existe conhecimento repetido
-   public function verificaConhecimento(){
-       $sDados = $_REQUEST['campos'];
-       $sChave = htmlspecialchars_decode($sDados);
-       $aCamposChave = array();
-       parse_str($sChave, $aCamposChave);
-  
-       if($this->Persistencia->verificaConhec($aCamposChave)>0){
+
+    //Verifica se não existe conhecimento repetido
+    public function verificaConhecimento() {
+        $sDados = $_REQUEST['campos'];
+        $sChave = htmlspecialchars_decode($sDados);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        if ($this->Persistencia->verificaConhec($aCamposChave) > 0) {
             $oModal = new Mensagem('Atenção', 'Conhecimento digitado já foi inserido!', Mensagem::TIPO_ERROR);
             echo $oModal->getRender();
             exit();
-       }
-   }
-   
-   //Método antes de alterar verifica linha selecionada conforme a situação
-   public function beforeUpdate() {
-       parent::beforeUpdate();
-       
-       if($this->Model->getSeqregra()=="" && $this->Model->getSit()!="E"){
+        }
+    }
+
+    //Método antes de alterar verifica linha selecionada conforme a situação
+    public function beforeUpdate() {
+        parent::beforeUpdate();
+
+        if ($this->Model->getSeqregra() == "" && $this->Model->getSit() != "E") {
             $oModal = new Modal('Atenção', 'Selecione uma linha de resultado de cálculo!', Modal::TIPO_ERRO);
             echo $oModal->getRender();
             exit();
-       }
-       
-       //Verifica a vírgula nos valores
-       if(stristr($this->Model->getTotalnf(), ',')){
+        }
+
+        //Verifica a vírgula nos valores
+        if (stristr($this->Model->getTotalnf(), ',')) {
             $this->Model->setTotalnf(Util::ValorSql($this->Model->getTotalnf()));
-       }
-       if(stristr($this->Model->getTotakg(), ',')){
+        }
+        if (stristr($this->Model->getTotakg(), ',')) {
             $this->Model->setTotakg(Util::ValorSql($this->Model->getTotakg()));
-       }
-       
-       $aRetorno = array();
-        $aRetorno[0]=true;
-        $aRetorno[1]='';
+        }
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
         return $aRetorno;
-   }
-   
+    }
+
     /**
      *  Gera xls do relatorio de frete
-   */  
-    public function relatorioExcelFrete(){ 
+     */
+    public function relatorioExcelFrete() {
         //Explode string parametros
         $sDados = $_REQUEST['campos'];
-        
+
         $sCampos = htmlspecialchars_decode($sDados);
-                
-        $sCampos.= $this->getSget();
-        
+
+        $sCampos .= $this->getSget();
+
         $aRel = explode(',', $sRel);
-       
-        $sSistema ="app/relatorio";
+
+        $sSistema = "app/relatorio";
         $sRelatorio = 'relGerenciaFreteExcel.php?';
-        
-        $sCampos.='&output=email';
-        $oMensagem = new Mensagem("Aguarde","Seu excel está sendo processado", Mensagem::TIPO_INFO);
+
+        $sCampos .= '&output=email';
+        $oMensagem = new Mensagem("Aguarde", "Seu excel está sendo processado", Mensagem::TIPO_INFO);
         echo $oMensagem->getRender();
-        
-        $oWindow ='var win = window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'","MsgWindow","width=500,height=100,left=375,top=330");'
-                    .'setTimeout(function () { win.close();}, 30000);';
+
+        $oWindow = 'var win = window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '","MsgWindow","width=500,height=100,left=375,top=330");'
+                . 'setTimeout(function () { win.close();}, 30000);';
         echo $oWindow;
-         
-        
-        $oMenSuccess = new Mensagem("Sucesso","Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
+
+
+        $oMenSuccess = new Mensagem("Sucesso", "Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
         echo $oMenSuccess->getRender();
-       
-    }    
-   
+    }
+
 }

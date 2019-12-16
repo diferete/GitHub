@@ -46,6 +46,19 @@ class ModelMET_QUAL_Rnc {
     private $MET_QUAL_Prob_Rnc;
     private $Pessoa;
     private $empdes;
+    private $descprod;    
+    
+    
+    function getDescprod() {
+        return $this->descprod;
+    }
+
+    function setDescprod($descprod) {
+        $this->descprod = $descprod;
+    }
+
+       
+    
     
     function getPessoa() {
      if (!isset($this->Pessoa)) {
@@ -87,6 +100,7 @@ class ModelMET_QUAL_Rnc {
         $this->MET_QUAL_Prob_Rnc = $MET_QUAL_Prob_Rnc;
     }
 
+    
     function getNr() {
         return $this->nr;
     }

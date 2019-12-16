@@ -17,10 +17,11 @@ class ViewMET_RH_FuncaoSetor extends View{
         $oNr = new CampoConsulta('Nr', 'nr');
         $oFilcgc = new CampoConsulta('Emp.', 'filcgc');
         $oSetor = new CampoConsulta('Setor', 'codsetor');
-        $oCodFunc = new CampoConsulta('Cod.Func.', 'codfunc');
-        $oDescFunc = new CampoConsulta('Desc.Func.', 'descfunc');
+        $oCodFunc = new CampoConsulta('Cod.Setor', 'descsetor');
+        $oCodcFunc = new CampoConsulta('Cod.Func.', 'codfuncao');
+        $oDescFunc = new CampoConsulta('Desc.Func.', 'descfuncao');
         
-        $this->addCampos($oNr,$oFilcgc,$oSetor,$oCodFunc,$oDescFunc);
+        $this->addCampos($oNr,$oFilcgc,$oSetor,$oCodFunc,$oCodcFunc,$oDescFunc);
         
     }
     

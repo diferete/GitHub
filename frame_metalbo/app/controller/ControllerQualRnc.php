@@ -290,10 +290,11 @@ class ControllerQualRnc extends Controller {
         $sProd = $aDados[0] . ' - ' . $aDados[1] . ' - ' . $aDados[2] . ' - ' . $aDados[3];
 
 
-        $sProduto = '$("#' . $aDados[4] . '_tag").val("' . $sProd . '");'
-                . '$("#' . $aDados[4] . '_tag").focus();'
-                . '$("#' . $aDados[5] . '").focus();'
-                . '$("#' . $aDados[5] . '").focus();';
+        $sProduto = "$('#" . $aDados[4] . "_tag').val('" . $sProd . "');"
+                . "$('#" . $aDados[4] . "_tag').focus();"
+                . "$('#" . $aDados[5] . "').focus();"
+                . "$('#" . $aDados[4] . "_tag').focus();"
+                . "$('#" . $aDados[5] . "').focus();";
         echo $sProduto;
         $this->limpaCampos($aDados);
     }

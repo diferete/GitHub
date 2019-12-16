@@ -26,6 +26,9 @@ class ViewMET_QUAL_Rnc extends View {
         $oCodProbl = new CampoConsulta('Cod Problema', 'codprobl');
         $otipornc = new CampoConsulta('Tipo', 'tipornc');
         $oEmpDes = new CampoConsulta('Empresa', 'Pessoa.empdes');
+        $oCodProd = new CampoConsulta('Cód.Prod.', 'codprod');
+        $oDescprod = new CampoConsulta('Descrição', 'descprod');
+
 
         $oSit = new CampoConsulta('Situação', 'sit');
         $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
@@ -40,11 +43,13 @@ class ViewMET_QUAL_Rnc extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Cancelar', 'MET_QUAL_Rnc', 'acaoCancelaRnc', '', false, '');
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO);
         $oFilCnpj = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO);
+        $oFiltroDescP = new Filtro($oDescprod, Filtro::CAMPO_TEXTO);
+        $oFilCodProd = new Filtro($oCodProd, Filtro::CAMPO_TEXTO);
 
 
-        $this->addFiltro($oFiltroNr, $oFilCnpj);
+        $this->addFiltro($oFiltroNr, $oFilCnpj, $oFilCodProd, $oFiltroDescP);
         $this->addDropdown($oDrop1, $oDrop2);
-        $this->addCampos($oNr, $oFilcgc, $oEmpDes, $oNome, $otipornc, $oSit, $oDatabert, $oCodProbl);
+        $this->addCampos($oNr, $oFilcgc, $oEmpDes, $oNome, $otipornc, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod);
     }
 
     public function criaTela() {
@@ -114,10 +119,31 @@ class ViewMET_QUAL_Rnc extends View {
         $oDivisor3 = new Campo(' Dados do Problema', 'dadorec', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor3->setApenasTela(true);
         //*codprod
-        $oCodProd = new Campo('Cód.Prod.', 'codprod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        /* $oCodProd = new Campo('Cód.Prod.', 'codprod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
-        $oProdDes = new campo('Desc.Prod', 'prodes', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oProdDes->setApenasTela(true);
+          $oProdDes = new campo('Desc.Prod', 'descprod', Campo::TIPO_TEXTO, 3, 3, 12, 12); */
+
+        //campo código do produto
+        $oCodProd = new Campo('Codigo', 'codprod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oCodProd->setSIdHideEtapa($this->getSIdHideEtapa());
+        $oCodProd->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oCodProd->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
+
+
+        //campo descrição do produto adicionando o campo de busca
+        $oProdDes = new Campo('Produto', 'descprod', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oProdDes->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oProdDes->setSIdPk($oCodProd->getId());
+        $oProdDes->setClasseBusca('Produto');
+        $oProdDes->addCampoBusca('procod', '', '');
+        $oProdDes->addCampoBusca('prodes', '', '');
+        $oProdDes->setSIdTela($this->getTela()->getid());
+
+        //declarando no campo código a classe de busca, campo chave e campo de retorno
+        $oCodProd->setClasseBusca('Produto');
+        $oCodProd->setSCampoRetorno('procod', $this->getTela()->getId());
+        $oCodProd->addCampoBusca('prodes', $oProdDes->getId(), $this->getTela()->getId());
+
 
         $oCodmat = new Campo('Cód.Mat.Prima', 'codmat', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
@@ -130,7 +156,7 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oCodProblDes->setSIdPk($oCodProbl->getId());
         $oCodProblDes->setClasseBusca('MET_QUAL_Prob_Rnc');
-        $oCodProblDes->setSValor('MATERIAL ERRADO');
+        $oCodProblDes->setSValor('Material Errado');
         $oCodProblDes->addCampoBusca('codprobl', '', '');
         $oCodProblDes->addCampoBusca('descprobl', '', '');
         $oCodProblDes->setSIdTela($this->getTela()->getid());
@@ -147,9 +173,9 @@ class ViewMET_QUAL_Rnc extends View {
 
         $olote = new Campo('Lote', 'lote', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
-        $oqtlote = new Campo('Qt.Lote', 'qtlote', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oqtlote = new Campo('Qt.Lote', 'qtlote', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
-        $oqtloternc = new Campo('Qt.Defeito', 'qtloternc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oqtloternc = new Campo('Qt.Defeito', 'qtloternc', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
         $oLn = new Campo('', 'linha1', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLn->setApenasTela(true);
@@ -214,8 +240,7 @@ class ViewMET_QUAL_Rnc extends View {
                 . '"' . $this->getController() . '")';
         $oBotConf->getOBotao()->addAcao($sAcao);
         $oBotConf->setApenasTela(true);
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         $ocodsetor2 = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $ocodsetor2->setApenasTela(true);
@@ -235,6 +260,9 @@ class ViewMET_QUAL_Rnc extends View {
         $oturno02->addItemSelect('Geral', 'Geral');
         $oturno02->addItemSelect('1.ºTurno', '1.ºTurno');
         $oturno02->addItemSelect('2.ºTurno', '2.ºTurno');
+        $oturno02->addItemSelect('1º e 2º-Turno', '1º e 2º-Turno');
+        $oturno02->addItemSelect('1ºTurno e Geral ', '1ºTurno e Geral');
+        $oturno02->addItemSelect('2ºTurno e Geral', '2ºTurno e Geral');
 
         $oRespcausa = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oRespcausa->setApenasTela(true);
@@ -286,9 +314,10 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oCorrida02 = new Campo('Corrida / Material', 'corrida', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oCorrida02->addItemSelect('AÇO SAE 1004', 'AÇO SAE 1004');
+        $oCorrida02->addItemSelect('AÇO SAE 1006', 'AÇO SAE 1006');
         $oCorrida02->addItemSelect('AÇO SAE PA03', 'AÇO SAE PA03');
         $oCorrida02->addItemSelect('AÇO SAE 10B22/PL22', 'AÇO SAE 10B22/PL22');
-        $oCorrida02->addItemSelect('AÇO SAE 10B30/PL30', 'AÇO SAE 10B30/PL30');
+        $oCorrida02->addItemSelect('AÇO SAE 10B30/PL30', 'AÇO SAE 10B30/PL30	');
         $oCorrida02->addItemSelect('AÇO SAE 10B21', 'AÇO SAE 10B21');
         $oCorrida02->addItemSelect('AÇO SAE 1018', 'AÇO SAE 1018');
         $oCorrida02->addItemSelect('AÇO SAE PL41', 'AÇO SAE PL41');
@@ -296,10 +325,10 @@ class ViewMET_QUAL_Rnc extends View {
         $oCorrida02->addItemSelect('AÇO SAE 5135', 'AÇO SAE 5135');
         $oCorrida02->addItemSelect('AÇO SAE 1045', 'AÇO SAE 1045');
         $oCorrida02->addItemSelect('AÇO SAE 4140', 'AÇO SAE 4140');
-        $oCorrida02->addItemSelect('VF 800', 'VF 800');
+        $oCorrida02->addItemSelect('VF 800', '  VF 800');
         $oCorrida02->addItemSelect('M2', 'M2');
         $oCorrida02->addItemSelect('H13', 'H13');
-        $oCorrida02->addItemSelect('AÇO SAE 1015', 'AÇO SAE 1015');
+        $oCorrida02->addItemSelect('AÇO SAE 1015', '  AÇO SAE 1015');
         $oCorrida02->addItemSelect('AÇO SAE 1018', 'AÇO SAE 1018');
 
 

@@ -71,7 +71,7 @@ class PersistenciaQualRncVenda extends Persistencia {
         $this->adicionaRelacionamento('usuapontavenda', 'usuapontavenda');
 
         $this->adicionaRelacionamento('obs_aponta', 'obs_aponta');
-        
+
         $this->adicionaRelacionamento('tagexcecao', 'tagexcecao');
 
         $this->adicionaJoin('Pessoa');
@@ -82,9 +82,9 @@ class PersistenciaQualRncVenda extends Persistencia {
     /**
      * Método que busca os dados para montar o e-mail de encaminhamento para análise.
      */
-    public function buscaDadosRnc($sDados) {
+    public function buscaDadosRnc($aDados) {
         $sSql = "select * from tbrncqual"
-                . " where filcgc = '" . $sDados['filcgc'] . "' and nr = '" . $sDados['nr'] . "'";
+                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $oResult = $this->consultaSql($sSql);
         return $oResult;
     }
@@ -260,14 +260,24 @@ class PersistenciaQualRncVenda extends Persistencia {
 
         $sObs = Util::limpaString($aCampos['obs_aponta']);
 
-        $sSql = "update tbrncqual "
-                . "set situaca = 'Apontada', "
-                . "reclamacao = '" . $aCampos['reclamacao'] . "', "
-                . "devolucao = '" . $aCampos['devolucao'] . "', "
-                . "obs_aponta = '" . $sObs . "', "
-                . "usuapontavenda = '" . $_SESSION['nome'] . "' "
-                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-        $aRetorno = $this->executaSql($sSql);
+        if ($aCampos['devolucao'] == 'Aceita') {
+            if ($aCampos['nfdevolucao'] == '' || $aCampos['nfdevolucao'] == '' || $aCampos['nfdevolucao'] == '') {
+                $oMsg = new Mensagem('Atenção', 'Verifique os seguintes campos: NF Devolução, NF s/ IPI e Frete', Mensagem::TIPO_ERROR);
+                echo $oMsg->getRender();
+            } else {
+                $sSql = "update tbrncqual "
+                        . "set situaca = 'Apontada', "
+                        . "reclamacao = '" . $aCampos['reclamacao'] . "', "
+                        . "devolucao = '" . $aCampos['devolucao'] . "', "
+                        . "obs_aponta = '" . $sObs . "', "
+                        . "usuapontavenda = '" . $_SESSION['nome'] . "', "
+                        . "nfdevolucao = '" . $aCampos['nfdevolucao'] . "', "
+                        . "nfsIpi = '" . $aCampos['nfsIpi'] . "', "
+                        . "valorfrete = '" . $aCampos['valorfrete'] . "' "
+                        . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+                $aRetorno = $this->executaSql($sSql);
+            }
+        }
         return $aRetorno;
     }
 

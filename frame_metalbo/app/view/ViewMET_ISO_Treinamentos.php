@@ -17,12 +17,18 @@ class ViewMET_ISO_Treinamentos extends View {
 
 
         $oNr = new CampoConsulta('Nr.', 'nr');
+        $oNr->setSOperacao('personalizado');
         $oFilcgc = new CampoConsulta('Empresa', 'filcgc');
         $oCracha = new CampoConsulta('Crachá', 'cracha');
         $oNome = new CampoConsulta('Colaborador', 'nome');
         $oSit = new CampoConsulta('Sit', 'situacao');
         $oSetor = new CampoConsulta('Setor', 'descsetor');
         $oFuncao = new CampoConsulta('Função', 'funcao');
+
+        $oTagEsc = new CampoConsulta('...', 'tagEscolaridade');
+        $oTagEsc->addComparacao('I', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_LINHA);
+        $oTagEsc->setBColOculta(true);
+        $oTagEsc->setILargura(12);
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_INTEIRO);
         $oFilFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_INTEIRO);
@@ -33,17 +39,17 @@ class ViewMET_ISO_Treinamentos extends View {
         $oFilSetor->setSClasseBusca('Setor');
         $oFilSetor->setSCampoRetorno('descsetor', $this->getTela()->getSId());
         $oFilSetor->setSIdTela($this->getTela()->getSId());
-        
+
         $oFilFuncao = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12);
         $oFilFuncao->setSClasseBusca('MET_RH_FuncaoSetor');
         $oFilFuncao->setSCampoRetorno('descfunc', $this->getTela()->getSId());
         $oFilFuncao->setSIdTela($this->getTela()->getSId());
-        
 
 
-        $this->addFiltro($oFilNr, $oFilFilcgc, $oFilCracha,$oFilSetor,$oFilFuncao);
 
-        $this->addCampos($oNr, $oFilcgc, $oCracha, $oNome, $oSetor, $oFuncao, $oSit);
+        $this->addFiltro($oFilNr, $oFilFilcgc, $oFilCracha, $oFilSetor, $oFilFuncao);
+
+        $this->addCampos($oNr, $oFilcgc, $oCracha, $oNome, $oSetor, $oFuncao, $oSit, $oTagEsc);
     }
 
     public function criaTela() {
@@ -60,13 +66,21 @@ class ViewMET_ISO_Treinamentos extends View {
         $oUser = new Campo('Usuário', 'usuario', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUser->setSValor($_SESSION['nome']);
 
-        $oCracha = new Campo('Crachá', 'cracha', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        /////////////////////////////////////////////
+        $oCracha = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        //$oCracha->setSCorFundo(Campo::FUNDO_MONEY);
 
-        $oNome = new Campo('Colaborador', 'nome', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oNome = new Campo('Colaborador', 'nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oNome->setSIdPk($oCracha->getId());
+        $oNome->setClasseBusca('MET_CAD_Funcionarios');
+        $oNome->addCampoBusca('numcad', '', '');
+        $oNome->addCampoBusca('nomfun', '', '');
+        $oNome->setSIdTela($this->getTela()->getid());
 
-        $oSit = new Campo('Sit', 'situacao', Campo::CAMPO_SELECTSIMPLE, 1, 1, 12, 12);
-        $oSit->addItemSelect('Ativo', 'Ativo');
-        $oSit->addItemSelect('Inativo', 'Inativo');
+        $oCracha->setClasseBusca('MET_CAD_Funcionarios');
+        $oCracha->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oCracha->addCampoBusca('nomfun', $oNome->getId(), $this->getTela()->getId());
+        //////////////////////////////////////////////
 
         $oCodSetor = new Campo('', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oCodSetor->setApenasTela(true);
@@ -83,11 +97,22 @@ class ViewMET_ISO_Treinamentos extends View {
         $oCodSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oCodSetor->addCampoBusca('descsetor', $oDescSetor->getId(), $this->getTela()->getId());
 
-
-
         $oFuncao = new Campo('Função', 'funcao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
-        $oCracha->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_Treinamentos","buscaDadosFunc","' . $oNome->getId() . ',' . $oSit->getId() . ',' . $oDescSetor->getId() . ',' . $oFuncao->getId() . '");');
 
+        $oSit = new Campo('Sit', 'situacao', Campo::CAMPO_SELECTSIMPLE, 1, 1, 12, 12);
+        $oSit->addItemSelect('Ativo', 'Ativo');
+        $oSit->addItemSelect('Inativo', 'Inativo');
+
+        $oDivisor1 = new Campo('Condições da escolaridade', 'divisor1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor1->setApenasTela(true);
+
+        $oGrauEsc = new Campo('Escolaridade', 'grau_escolaridade', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+
+        $oTagEsc = new Campo('...', 'tagEscolaridade', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oTagEsc->setBOculto(true);
+
+        $oCracha->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_Treinamentos","buscaDadosFunc","' . $oNome->getId() . ',' . $oSit->getId() . ',' . $oDescSetor->getId() . ',' . $oFuncao->getId() . ',' . $oGrauEsc->getId() . ',' . $oTagEsc->getId() . '");');
+        $oNome->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_Treinamentos","buscaDadosFunc","' . $oNome->getId() . ',' . $oSit->getId() . ',' . $oDescSetor->getId() . ',' . $oFuncao->getId() . ',' . $oGrauEsc->getId() . ',' . $oTagEsc->getId() . '");');
 
 
         $oEtapas = new FormEtapa(2, 2, 12, 12);
@@ -106,9 +131,9 @@ class ViewMET_ISO_Treinamentos extends View {
             } else {
                 $oAcao->setSValor('alterar');
             }$this->setSIdControleUpAlt($oAcao->getId());
-            $this->addCampos(array($oNr, $oFilcgc, $oUser), $oCracha, array($oNome, $oDescSetor, $oFuncao, $oSit), $oAcao);
+            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oSit, $oTagEsc), $oAcao);
         } else {
-            $this->addCampos(array($oNr, $oFilcgc, $oUser), $oCracha, array($oNome, $oDescSetor, $oFuncao, $oSit));
+            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oTagEsc, $oSit));
         }
     }
 

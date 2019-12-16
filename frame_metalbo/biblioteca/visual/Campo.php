@@ -2107,13 +2107,13 @@ class Campo {
                 $sCampo .= '</div>'
                         . '</select>'
                         . '</div>  '
-                        /*  .'<script>'
-                          .'$("#'.$this->getId().'").select2({'
+                        . '<script>'
+                        /* .'$("#'.$this->getId().'").select2({'
                           .'  placeholder: "'.$this->getSPlaceHolder().'",'
                           .'  allowClear: true'
-                          .'});'
-                          .$sTrigger
-                          .'</script> ' */
+                          .'});' */
+                        . $sTrigger
+                        . '</script> '
                         . $this->getRenderEventos()
                         . '</div>';
                 break;

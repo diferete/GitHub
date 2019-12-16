@@ -28,7 +28,7 @@ class ControllerMET_RH_FuncaoSetor extends Controller{
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
         if (count($aCampos) > 0) {
-            $this->Persistencia->adicionaFiltro('grucod', $aCampos['grucod']);
+            $this->Persistencia->adicionaFiltro('codsetor', $aCampos['setor']);
         }
     }
 }

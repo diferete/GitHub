@@ -40,4 +40,10 @@ class ControllerModulo extends Controller {
         }
     }
 
+    public function teste() {
+        $this->Persistencia->teste();
+        $omsg = new Mensagem('Acabou', 'acabou', Mensagem::TIPO_SUCESSO);
+        echo $omsg->getRender();
+    }
+
 }

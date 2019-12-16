@@ -57,7 +57,7 @@ class ViewMET_ISO_Documentos extends View {
        
 ///////////////////////////////////////////////////////////// CÓPIAS DIGITAIS //////////////////////////////////////////////////////////////////////////////////////////////////////
         
-        $oCopiasDigitais = new Campo('Selecionar setores com as cópias DIGITAIS disponíveis e preencher a quantidade', 'digitais', Campo::TIPO_BADGE,6,6,12,12);
+        $oCopiasDigitais = new Campo('Selecionar setores com as cópias <b style="font-weight:600">DIGITAIS</b> disponíveis e preencher a quantidade', 'digitais', Campo::TIPO_BADGE,6,6,12,12);
         $oCopiasDigitais->setSEstiloBadge(Campo::BADGE_PRIMARY);
         $oCopiasDigitais->setApenasTela(true);
         $oCopiasDigitais->setITamFonteBadge(20);
@@ -331,7 +331,7 @@ class ViewMET_ISO_Documentos extends View {
 
         //////////////////////////////////////////////////////////// CÓPIAS FÍSICAS ///////////////////////////////////////////////////////////////////////////////////////////////////
         
-        $oCopiasFisicas = new Campo('Selecionar setores com as cópias FÍSICAS disponíveis e preencher a quantidade', 'fisicas', Campo::TIPO_BADGE,6,6,12,12);
+        $oCopiasFisicas = new Campo('Selecionar setores com as cópias <b style="font-weight:600">FÍSICAS</b> disponíveis e preencher a quantidade', 'fisicas', Campo::TIPO_BADGE,6,6,12,12);
         $oCopiasFisicas->setApenasTela(true);
         $oCopiasFisicas->setITamFonteBadge(20);
         
