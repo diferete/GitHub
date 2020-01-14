@@ -13,7 +13,9 @@ class ModelMET_ISO_RegistroTreinamento {
     private $seq;
     private $usuario;
     private $data_treinamento;
+    private $cod_treinamento;
     private $titulo_treinamento;
+    private $revisao;
     private $anexo_treinamento;
     private $observacao;
 
@@ -37,8 +39,16 @@ class ModelMET_ISO_RegistroTreinamento {
         return $this->data_treinamento;
     }
 
+    function getCod_treinamento() {
+        return $this->cod_treinamento;
+    }
+
     function getTitulo_treinamento() {
         return $this->titulo_treinamento;
+    }
+
+    function getRevisao() {
+        return $this->revisao;
     }
 
     function getAnexo_treinamento() {
@@ -69,8 +79,16 @@ class ModelMET_ISO_RegistroTreinamento {
         $this->data_treinamento = $data_treinamento;
     }
 
+    function setCod_treinamento($cod_treinamento) {
+        $this->cod_treinamento = $cod_treinamento;
+    }
+
     function setTitulo_treinamento($titulo_treinamento) {
         $this->titulo_treinamento = $titulo_treinamento;
+    }
+
+    function setRevisao($revisao) {
+        $this->revisao = $revisao;
     }
 
     function setAnexo_treinamento($anexo_treinamento) {

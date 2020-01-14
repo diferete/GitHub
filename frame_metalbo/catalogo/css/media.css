@@ -1565,6 +1565,8 @@
     .prodtb-i .prodtb-i-buy span {
         width: 60px;
         margin: 0px 0 10px -30px;
+        bottom: 80%;
+        left: 50%;
     }
     /* Catalog */
 }

@@ -28,7 +28,12 @@ class ViewMET_ISO_Treinamentos extends View {
         $oTagEsc = new CampoConsulta('...', 'tagEscolaridade');
         $oTagEsc->addComparacao('I', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_LINHA);
         $oTagEsc->setBColOculta(true);
-        $oTagEsc->setILargura(12);
+
+        $oTagTreinamento = new CampoConsulta('Necessita Trenamento?', 'tagTreinamento');
+        $oTagTreinamento->addComparacao('S', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, true, 'Sim');
+        $oTagTreinamento->addComparacao('N', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Não');
+        $oTagTreinamento->setBComparacaoColuna(true);
+
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_INTEIRO);
         $oFilFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_INTEIRO);
@@ -44,12 +49,20 @@ class ViewMET_ISO_Treinamentos extends View {
         $oFilFuncao->setSClasseBusca('MET_RH_FuncaoSetor');
         $oFilFuncao->setSCampoRetorno('descfunc', $this->getTela()->getSId());
         $oFilFuncao->setSIdTela($this->getTela()->getSId());
+        
+        $oFilTreinamento = new Filtro($oTagTreinamento, Filtro::CAMPO_SELECT,2,2,12,12);
+        $oFilTreinamento->addItemSelect('Todos', 'Todos');
+        $oFilTreinamento->addItemSelect('S', 'Sim');
+        $oFilTreinamento->addItemSelect('N', 'Não');
 
 
 
-        $this->addFiltro($oFilNr, $oFilFilcgc, $oFilCracha, $oFilSetor, $oFilFuncao);
+        $this->addFiltro($oFilNr, $oFilFilcgc, $oFilCracha, $oFilSetor, $oFilFuncao,$oFilTreinamento);
 
-        $this->addCampos($oNr, $oFilcgc, $oCracha, $oNome, $oSetor, $oFuncao, $oSit, $oTagEsc);
+        $this->addCampos($oNr, $oFilcgc, $oCracha, $oNome, $oSetor, $oFuncao, $oSit, $oTagTreinamento, $oTagEsc);
+
+        $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
+                . 'requestAjax("' . $this->getTela()->getSId() . '-form","MET_ISO_Treinamentos","renderTreinamento",chave+",treinamentoTempo");');
     }
 
     public function criaTela() {
@@ -65,6 +78,10 @@ class ViewMET_ISO_Treinamentos extends View {
 
         $oUser = new Campo('Usuário', 'usuario', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUser->setSValor($_SESSION['nome']);
+
+        $oDataCad = new Campo('...', 'data_cad', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataCad->setBOculto(true);
+        $oDataCad->setSValor(date('d-m-Y'));
 
         /////////////////////////////////////////////
         $oCracha = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
@@ -131,9 +148,9 @@ class ViewMET_ISO_Treinamentos extends View {
             } else {
                 $oAcao->setSValor('alterar');
             }$this->setSIdControleUpAlt($oAcao->getId());
-            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oSit, $oTagEsc), $oAcao);
+            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oSit, $oTagEsc), $oAcao);
         } else {
-            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oTagEsc, $oSit));
+            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oTagEsc, $oSit));
         }
     }
 

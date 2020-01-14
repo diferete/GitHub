@@ -33,7 +33,8 @@ class ControllerMET_ISO_Treinamentos extends Controller {
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
 
-        $this->Persistencia->updateEscolaridade();
+        $this->Persistencia->updateEscolaridade();        
+        $this->Persistencia->updateTreinamentos();
     }
 
     public function buscaDadosFunc($sDados) {
@@ -89,15 +90,89 @@ class ControllerMET_ISO_Treinamentos extends Controller {
         parent::calculoPersonalizado($sParametros);
 
 
-        $oFuncao = $this->Persistencia->somaFunc();
+        $aDados = $this->Persistencia->somaFunc();
 
-        $sResulta = '<div style="color:black !important">Total de Registros: ' . $oFuncao . ''
-                . '<span style="color:blue !important">&nbsp;&nbsp;&nbsp;  Iniciados: ' . $oFuncao . '</span>'
-                . '<span style="color:green !important">&nbsp;&nbsp;&nbsp;  Finalizados: ' . $oFuncao . '</span>'
-                . '<span style="color:red !important">&nbsp;&nbsp;&nbsp;  Cancelados: ' . $oFuncao . '</span>'
+        $sResulta = '<div style="color:black !important">Total de Registros: ' . $aDados['total'] . '';
+        if ($aDados['totalInc'] > 0) {
+            $sResulta .= '<span style="color:#ff6600 !important">&nbsp;&nbsp;&nbsp; Grau de Escolaridade Incompatível com função: ' . $aDados['totalInc'] . '</span>';
+        }
+        $sResulta .= '<div id="titulolinhatempo">'
+                . '<h3 class="panel-title"></h3></br>'
+                . '</div>'
+                . '<div class="pearls pearls-xs row" id="treinamentoTempo">'
                 . '</div>';
 
         return $sResulta;
+    }
+
+    /**
+     * Gerencia estilo de cores do wizard conforme status do projeto
+     * */
+    public function renderTreinamento($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[0]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        if ($aDados[0] == '') {
+            echo '$("#treinamentoTempo").empty();';
+            echo '$("#titulolinhatempo").empty();';
+        } else {
+            $aRetorno = $this->Persistencia->buscaTreinamentos($aCamposChave);
+
+            $sLinha = '';
+
+            if ($aRetorno != '') {
+                foreach ($aRetorno as $key => $value) {
+                    /*
+                     * $aTreinamento[0] -> Revisao Geral do Documento
+                     * $aTreinamento[1] -> Nome do Documento a ser passado treinamento
+                     * $aTreinamento[2] -> Revisao do Documento que foi passado o treinamento
+                     * */
+                    $aTreinamento = explode(',', $value);
+
+                    if ($aTreinamento[0] != $aTreinamento[2]) {
+                        $sClasseTreinamento = 'current';
+                        $sEstiloTreinamento = 'border-color:orange;color:orange';
+                        $sTreinamento = $aTreinamento[1];
+
+                        $sLinha = $sLinha . '<div id="0" class="pearl ' . $sClasseTreinamento . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                                . '<div class="pearl-icon" style="' . $sEstiloTreinamento . '">'
+                                . '<i class="icon wb-close" aria-hidden="true"></i>'
+                                . '</div>'
+                                . '<span class="pearl-title" style="font-size:12px">' . $sTreinamento . '</span>'
+                                . '</div>';
+                    }
+                    if ($aTreinamento[0] == $aTreinamento[2]) {
+                        $sClasseTreinamento = 'current';
+                        $sEstiloTreinamento = 'border-color:green;color:green';
+                        $sTreinamento = $aTreinamento[1];
+
+                        $sLinha = $sLinha . '<div id="0" class="pearl ' . $sClasseTreinamento . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                                . '<div class="pearl-icon" style="' . $sEstiloTreinamento . '">'
+                                . '<i class="icon wb-check" aria-hidden="true"></i>'
+                                . '</div>'
+                                . '<span class="pearl-title" style="font-size:12px">' . $sTreinamento . '</span>'
+                                . '</div>';
+                    }
+                }
+            }
+
+
+
+            $sRender = '$("#treinamentoTempo").empty();';
+            $sRender .= '$("#treinamentoTempo").append(\'' . $sLinha . '\');';
+            echo $sRender;
+            //coloca o titulo
+            echo '$("#titulolinhatempo").empty();';
+            $sTitulo = '<h3 class="panel-title">Treinamentos por funcionario</h3></br>';
+            echo '$("#titulolinhatempo").append(\'' . $sTitulo . '\');';
+        }
+    }
+
+    public function updateTreinamentos() {
+
+        $this->Persistencia->updateTreinamentos();
     }
 
 }

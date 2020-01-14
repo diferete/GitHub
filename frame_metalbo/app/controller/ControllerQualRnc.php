@@ -12,6 +12,10 @@ class ControllerQualRnc extends Controller {
         $this->carregaClassesMvc('QualRnc');
     }
 
+    public function relReclamacaoCliente($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'relReclamacaoCliente');
+    }
+
     public function antesDeCriarTela($sParametros = null) {
         parent::antesDeCriarTela($sParametros);
 
@@ -75,6 +79,42 @@ class ControllerQualRnc extends Controller {
             $this->setBDesativaBotaoPadrao(true);
             echo $oMensagem->getRender();
         }
+    }
+
+    public function carregaAnalise($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[1]);
+        $aAnalise = array();
+        parse_str($sChave, $aAnalise);
+
+        $oAnalise = $this->Persistencia->buscaDadosRnc($aAnalise);
+
+
+        $sAnalise = Util::limpaString($oAnalise->obs_aponta);
+
+
+        switch ($oAnalise->tagsetor) {
+            case 3:
+                $sSetor = 'Expedição';
+                break;
+            case 5:
+                $sSetor = 'Embalagem';
+                break;
+            case 25:
+                $sSetor = 'Qualidade';
+                break;
+            default:
+                $sSetor = 'Vendas';
+                break;
+        }
+
+        $sProblema = $oAnalise->aplicacao . ' -  ' . Util::limpaString($oAnalise->naoconf);
+
+        $sScriptDados = '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
+        $sProblemas = '$("#' . $aDados[3] . '").val("' . $sProblema . '");';
+
+        echo $sScriptDados;
+        echo $sProblemas;
     }
 
     public function buscaNf($sDados) {

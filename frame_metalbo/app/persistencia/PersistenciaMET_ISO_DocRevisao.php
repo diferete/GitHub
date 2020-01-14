@@ -31,12 +31,17 @@ class PersistenciaMET_ISO_DocRevisao extends Persistencia {
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno->documento;
     }
-    
+
     public function deletaDocumento($sFilcgc, $sNr, $sSeq) {
         //deletar planos existentes
         $sDelete = "delete from MET_ISO_DocRevisao where filcgc = '" . $sFilcgc . "' and nr ='" . $sNr . "' and seq = '" . $sSeq . "' ";
         $aDelete = $this->executaSql($sDelete);
         return $aDelete;
+    }
+
+    public function updateRevisaoDocumentos($aDados) {
+        $sSql = "update MET_ISO_Documentos set revisao = " . $aDados['revisao'] . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
+        $this->executaSql($sSql);
     }
 
 }

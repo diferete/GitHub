@@ -16,6 +16,7 @@ class ViewMET_TEC_Chamados extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(true);
+        $this->setAcaoFecharTela(true);
 
         $this->setUsaFiltro(true);
         $sFiltroSetor = $_SESSION['codsetor'];
@@ -109,12 +110,18 @@ class ViewMET_TEC_Chamados extends View {
         $oDrop = new Dropdown('Cancelar', Dropdown::TIPO_ERRO, Dropdown::ICON_ERRO);
         $oDrop->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar chamado', $this->getController(), 'criaTelaModalCancelaChamado', '', false, '', false, 'criaTelaModalCancelaChamado', true, 'Cancelar chamado');
 
-        $this->addDropdown($oDrop);
+        $oDrop1 = new Dropdown('E-mail', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail de NOTIFICAÇÃO', 'MET_TEC_Chamados', 'reenviaEmailTi', '', false, '');
+
+
+        $oDrop2 = new Dropdown('E-mail', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail de FINALIZAÇÃO', 'MET_TEC_Chamados', 'reenviaEmailFinaliza', '', false, '');
 
         if ($sFiltroSetor == 2) {
+            $this->addDropdown($oDrop, $oDrop2);
             $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
         } else {
-
+            $this->addDropdown($oDrop, $oDrop1);
             $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
         }
     }
@@ -224,8 +231,9 @@ class ViewMET_TEC_Chamados extends View {
         $oSolicitante->setBCampoBloqueado(true);
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oProblema->setSValor($oDados->getProblema());
+        $oProblema->setSValor(Util::limpaString($oDados->getProblema()));
         $oProblema->setBCampoBloqueado(true);
+        $oProblema->setILinhasTextArea(5);
 
         $oDataInicio = new Campo('Data Início', 'datainicio', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataInicio->setSValor(date('d/m/Y'));
@@ -270,8 +278,9 @@ class ViewMET_TEC_Chamados extends View {
         $oSolicitante->setBCampoBloqueado(true);
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oProblema->setSValor($oDados->getProblema());
+        $oProblema->setSValor(Util::limpaString($oDados->getProblema()));
         $oProblema->setBCampoBloqueado(true);
+        $oProblema->setILinhasTextArea(5);
 
         $oDataFim = new Campo('Data Início', 'datafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataFim->setSValor(date('d/m/Y'));
@@ -320,7 +329,7 @@ class ViewMET_TEC_Chamados extends View {
         $oSolicitante->setBCampoBloqueado(true);
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oProblema->setSValor($oDados->getProblema());
+        $oProblema->setSValor(Util::limpaString($oDados->getProblema()));
         $oProblema->setBCampoBloqueado(true);
 
         $oDataFim = new Campo('Data Início', 'datafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);

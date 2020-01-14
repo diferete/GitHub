@@ -77,6 +77,8 @@ class PersistenciaQualRncVenda extends Persistencia {
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
+        
+        $this->setSTop(50);
     }
 
     /**
@@ -260,25 +262,46 @@ class PersistenciaQualRncVenda extends Persistencia {
 
         $sObs = Util::limpaString($aCampos['obs_aponta']);
 
-        if ($aCampos['devolucao'] == 'Aceita') {
-            if ($aCampos['nfdevolucao'] == '' || $aCampos['nfdevolucao'] == '' || $aCampos['nfdevolucao'] == '') {
-                $oMsg = new Mensagem('Atenção', 'Verifique os seguintes campos: NF Devolução, NF s/ IPI e Frete', Mensagem::TIPO_ERROR);
-                echo $oMsg->getRender();
-            } else {
-                $sSql = "update tbrncqual "
-                        . "set situaca = 'Apontada', "
-                        . "reclamacao = '" . $aCampos['reclamacao'] . "', "
-                        . "devolucao = '" . $aCampos['devolucao'] . "', "
-                        . "obs_aponta = '" . $sObs . "', "
-                        . "usuapontavenda = '" . $_SESSION['nome'] . "', "
-                        . "nfdevolucao = '" . $aCampos['nfdevolucao'] . "', "
-                        . "nfsIpi = '" . $aCampos['nfsIpi'] . "', "
-                        . "valorfrete = '" . $aCampos['valorfrete'] . "' "
-                        . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-                $aRetorno = $this->executaSql($sSql);
-            }
+        $oDados = $this->buscaDadosRnc($aDados);
+
+        $sSql = "update tbrncqual "
+                . "set situaca = 'Apontada', "
+                . "reclamacao = '" . $aCampos['reclamacao'] . "', "
+                . "devolucao = '" . $aCampos['devolucao'] . "', "
+                . "obs_aponta = '" . $sObs . "', "
+                . "usuapontavenda = '" . $_SESSION['nome'] . "', "
+                . "nfdevolucao = '" . $aCampos['nfdevolucao'] . "', "
+                . "nfsIpi = '" . $aCampos['nfsIpi'] . "', "
+                . "valorfrete = '" . $aCampos['valorfrete'] . "' ";
+        if ($oDados->tagsetor == null) {
+            $sSql .= ",tagsetor = 34 ";
         }
+        $sSql .= "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetorno = $this->executaSql($sSql);
+
+
         return $aRetorno;
+    }
+
+    public function apontaNFReclamacao($aDados) {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+
+        if ($aCampos['nfdevolucao'] == '' || $aCampos['nfdevolucao'] == '' || $aCampos['nfdevolucao'] == '') {
+            $oMsg = new Mensagem('Atenção', 'Preencha os seguintes campos: NF Devolução, NF s/ IPI e Frete', Mensagem::TIPO_ERROR, 10000);
+            echo $oMsg->getRender();
+        } else {
+            $sSql = "update tbrncqual "
+                    . "set nfdevolucao = '" . $aCampos['nfdevolucao'] . "', "
+                    . "nfsIpi = '" . $aCampos['nfsIpi'] . "', "
+                    . "valorfrete = '" . $aCampos['valorfrete'] . "' "
+                    . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+            $aRetorno = $this->executaSql($sSql);
+
+
+            return $aRetorno;
+        }
     }
 
     public function retornaRep($aDados) {

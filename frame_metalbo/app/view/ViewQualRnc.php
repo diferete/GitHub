@@ -77,6 +77,25 @@ class ViewQualRnc extends View {
         $this->addFiltro($oFilNr, $oFilCli);
         $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
+        $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
+
+        $oAnaliseVendas = new Campo('Resposta apresentada pelo setor de Vendas', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oAnaliseVendas->setILinhasTextArea(6);
+        $oAnaliseVendas->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oAnaliseVendas->setBCampoBloqueado(true);
+
+        $oProblema = new Campo('Problema descrito pelo Representante', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oProblema->setILinhasTextArea(6);
+        $oProblema->setSCorFundo(Campo::FUNDO_MONEY);
+        $oProblema->setBCampoBloqueado(true);
+
+
+        $this->addCamposGrid($oProblema, $oAnaliseVendas, $oLinhaWhite);
+
+        $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
+                . 'requestAjax("","QualRnc","carregaAnalise","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oAnaliseVendas->getId() . ',' . $oProblema->getId() . '"+","+"");');
+
+
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoExcluir(false);
@@ -301,7 +320,7 @@ class ViewQualRnc extends View {
         $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
 
 
-        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB,1,1,12,12);
+        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBotConf->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
 
         $sAcao = 'insereProd($("#' . $oProCod->getId() . '").val(),'
@@ -399,6 +418,70 @@ class ViewQualRnc extends View {
 
 
         $this->addCampos(array($oFilcgc, $oNr), $oObs_fim, $oBtnInserir);
+    }
+
+    public function relReclamacaoCliente() {
+        parent::criaTelaRelatorio();
+
+        $this->setTituloTela('Relatório de Reclamações de Clientes');
+        $this->setBTela(true);
+
+
+        $oDivisor1 = new Campo('Situações por Setor', 'divisor1', Campo::DIVISOR_INFO, 12, 12, 12, 12);
+        $oDivisor1->setApenasTela(TRUE);
+
+
+        $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataIni->setSValor(Util::getPrimeiroDiaMes());
+        $oDataIni->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oDataFin = new Campo('Data Final', 'datafim', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataFin->setSValor(Util::getDataAtual());
+        $oDataFin->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oSetorAnalise = new campo('Setor da análise', 'tagsetor', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oSetorAnalise->addItemSelect('', 'Todos');
+        $oSetorAnalise->addItemSelect('34', 'Vendas');
+        $oSetorAnalise->addItemSelect('25', 'Qualidade');
+        $oSetorAnalise->addItemSelect('3', 'Expedição');
+        $oSetorAnalise->addItemSelect('5', 'Embalagem');
+
+        $oSituaca = new campo('Situação Geral', 'situaca', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oSituaca->addItemSelect('', 'Todas');
+        $oSituaca->addItemSelect('Aguardando', 'Aguardando');
+        $oSituaca->addItemSelect('Liberada', 'Liberada');
+        $oSituaca->addItemSelect('Apontada', 'Apontada');
+        $oSituaca->addItemSelect('Finalizada', 'Finalizada');
+
+        $oReclamacao = new campo('Status da Reclamação', 'reclamacao', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oReclamacao->addItemSelect('', 'Todas');
+        $oReclamacao->addItemSelect('Aguardando', 'Aguardando');
+        $oReclamacao->addItemSelect('Em análise', 'Em análise');
+        $oReclamacao->addItemSelect('Interna', 'Interna');
+        $oReclamacao->addItemSelect('Cliente', 'Cliente');
+        $oReclamacao->addItemSelect('Representante', 'Representante');
+        $oReclamacao->addItemSelect('Transportadora', 'Transportadora');
+
+        $oDevolucao = new campo('Devolução', 'devolucao', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oDevolucao->addItemSelect('', 'Todas');
+        $oDevolucao->addItemSelect('Aguardando', 'Aguardando');
+        $oDevolucao->addItemSelect('Aceita', 'Aceita');
+        $oDevolucao->addItemSelect('Recusada', 'Recusada');
+
+        $oDivisor2 = new Campo('Situações Gerais', 'divisor2', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
+        $oDivisor2->setApenasTela(TRUE);
+
+        $olinha = new Campo('', 'linha1', Campo::TIPO_LINHABRANCO);
+        $olinha->setApenasTela(true);
+
+//        /EXCEL
+//        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
+//        $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
+//
+//        $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relProjXls");';
+//        $oXls->getOBotao()->addAcao($sAcaoLib);
+
+        $this->addCampos(array($oDataIni, $oDataFin), $oDivisor1, $oSetorAnalise, $oDivisor2, array($oSituaca, $oReclamacao, $oDevolucao), $olinha/*, $oXls*/);
     }
 
 }

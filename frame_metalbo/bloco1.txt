@@ -1,1 +1,2 @@
-update MET_ISO_Treinamentos set tagescolaridade = 'I' where nome = 'LEANDRO DA SILVEIRA' and funcao = 'AUX. DE EMBALAGEM' and cracha =1822
+update tbsessao set usulastacesso = '2020-1-14 10:57:04' 
+            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = '3rukn6c6snsqqv8qehcojorcn7'

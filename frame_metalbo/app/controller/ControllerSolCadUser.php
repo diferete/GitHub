@@ -44,16 +44,15 @@ class ControllerSolCadUser extends Controller{
       $oEmail->setMailer();
       /*testes*/
       $oEmail->setEnvioSMTP();
-      //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-      $oEmail->setServidor('smtp.terra.com.br');
-      $oEmail->setPorta(587);
+      $oEmail->setServidor(Config::SERVER_SMTP);
+      $oEmail->setPorta(Config::PORT_SMTP);
       $oEmail->setAutentica(true);
-      $oEmail->setUsuario('metalboweb@metalbo.com.br');
-      $oEmail->setSenha('Metalbo@@50');
-      $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'),utf8_decode('Relatórios Web Metalbo'));
+      $oEmail->setUsuario(Config::EMAIL_SENDER);
+      $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+      $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER),utf8_decode('Relatórios Web Metalbo'));
       
       $oEmail->setAssunto(utf8_decode('Nova solicitação de usuário do sistema'));
-       $oEmail->setMensagem(utf8_decode('Nova solicitação de usuário '.$aCamposChave['nomeSol'].'<br/>'
+      $oEmail->setMensagem(utf8_decode('Nova solicitação de usuário '.$aCamposChave['nomeSol'].'<br/>'
               . '<table border=1 cellspacing=0 cellpadding=2 width="100%"><tr><td><b>Nome:</b></td><td>'.$aCamposChave['nomeSol'].'</td></tr>'
               . '<tr><td><b>Sobrenome:</b></td><td>'.$aCamposChave['sobrenomeSol'].'</td></tr>'
               . '<tr><td><b>Login:</b></td><td>'.$aCamposChave['loginSol'].'</td></tr> '

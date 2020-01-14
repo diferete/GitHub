@@ -89,7 +89,24 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $oData->setSValor(date('d-m-Y'));
         $oData->setBOculto(true);
 
-        $oTitulo = new Campo('Treinamento', 'titulo_treinamento', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oCodTitulo = new Campo('...', 'cod_treinamento', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oCodTitulo->setSIdHideEtapa($this->getSIdHideEtapa());
+        $oCodTitulo->setBOculto(true);
+
+        $oTitulo = new Campo('Treinamento', 'titulo_treinamento', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oTitulo->setSIdPk($oCodTitulo->getId());
+        $oTitulo->setClasseBusca('MET_ISO_Documentos');
+        $oTitulo->addCampoBusca('nr', '', '');
+        $oTitulo->addCampoBusca('documento', '', '');
+        $oTitulo->setSIdTela($this->getTela()->getid());
+        $oTitulo->setITamanho(Campo::TAMANHO_PEQUENO);
+
+        $oCodTitulo->setClasseBusca('MET_ISO_Documentos');
+        $oCodTitulo->setSCampoRetorno('nr', $this->getTela()->getId());
+        $oCodTitulo->addCampoBusca('documento', $oTitulo->getId(), $this->getTela()->getId());
+
+        $oRevisao = new Campo('Revisao', 'revisao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oRevisao->setBCampoBloqueado(true);
 
         $oObs = new Campo('Observação', 'observacao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObs->setILinhasTextArea(3);
@@ -105,8 +122,9 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
+        $oTitulo->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_RegistroTreinamento","buscaDadosDocumento","' . $oCodTitulo->getId() . ',' . $oTitulo->getId() . ',' . $oRevisao->getId() . '");');
 
-        $this->addCampos(array($oNr, $oFilcgc, $oSeq, $oUsuario, $oData, $oColaborador), array($oTitulo, $oAnexo), $oObs, $oBotConf);
+        $this->addCampos(array($oNr, $oFilcgc, $oSeq, $oUsuario, $oData, $oColaborador), array($oCodTitulo, $oTitulo, $oRevisao, $oAnexo), $oObs, $oBotConf);
         $this->addCamposFiltroIni($oNr, $oFilcgc);
     }
 

@@ -49,7 +49,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
             }
         }
         $this->setSTop('50');
-        $this->adicionaOrderBy('nr', 1);
+        $this->adicionaOrderBy('datacad', 1);
     }
 
     public function buscaDadosChamado($aDados) {
@@ -61,11 +61,11 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
     public function buscaDadosEmailChamado($aDados) {
         $sSql = "select * from MET_TEC_Chamados where nr = '" . $aDados['nr'] . "' and filcgc = '" . $aDados['filcgc'] . "'";
         $oDados = $this->consultaSql($sSql);
-        
-        $sSqlEmail = "select usuemail from tbusuario where usucodigo = ".$oDados->usucod;
+
+        $sSqlEmail = "select usuemail from tbusuario where usucodigo = " . $oDados->usucod;
         $oConsulta = $this->consultaSql($sSqlEmail);
         $oDados->email = $oConsulta->usuemail;
-        
+
         return $oDados;
     }
 

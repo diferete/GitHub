@@ -69,13 +69,7 @@ class ViewQualRncVenda extends View {
 
         $oDropDown2 = new Dropdown('Apontamentos', Dropdown::TIPO_AVISO);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar reclamação', 'QualRncVenda', 'criaTelaModalApontamento', '', false, '', false, 'criaTelaModalApontamento', true, 'Apontar reclamação');
-        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'criaTelaModalAccReclamacao', '', false, '1', false, 'criaTelaModalAccReclamacao', true, 'Aceitar Devolução');
-        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Recusar devolução', 'QualRncVenda', 'criaTelaModalRecReclamacao', '', false, '2', false, 'criaTelaModalRecReclamacao', true, 'Recusar Devolução');        
-        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Transportadora', 'QualRncVenda', 'criaTelaModalApontaTransportadora', '', false, '2', false, 'criaTelaModalApontaTransportadora', true, 'Transportadora');
-        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Representante', 'QualRncVenda', 'criaTelaModalApontaRepresentante', '', false, '2', false, 'criaTelaModalApontaRepresentante', true, 'Representante');
-        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Aceitar devolução', 'QualRncVenda', 'verifSitReclamacao', '', false, 'Aceitar');
-        //$oDropDown2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Recusar devolução', 'QualRncVenda', 'verifSitReclamacao', '', false, 'Recusar');
-
+     
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
 
@@ -92,7 +86,7 @@ class ViewQualRncVenda extends View {
         $oAnaliseSetor->setSCorFundo(Campo::FUNDO_AMARELO);
         $oAnaliseSetor->setBCampoBloqueado(true);
 
-        $oProblema = new Campo('Erro descrito pelo Representante', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oProblema = new Campo('Problema descrito pelo Representante', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oProblema->setILinhasTextArea(6);
         $oProblema->setSCorFundo(Campo::FUNDO_MONEY);
         $oProblema->setBCampoBloqueado(true);
@@ -257,9 +251,6 @@ class ViewQualRncVenda extends View {
                 array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf, $oTagExcecao), $ln, $oTab);
     }
 
-    /**
-     * Cria modal para notificar em caso de erro do representante 
-     */
     public function criaModalApontamento($sDados) {
         parent::criaModal();
 
@@ -317,6 +308,38 @@ class ViewQualRncVenda extends View {
 
 
         $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oTipoRnc, array($oReclamacao), $oGDevolucao, array($oDevolucao), array($oNfDevolucao, $oValorDevolucaoSIPI, $oValorFrete), $oLinha1, $oObs_aponta, $oBtnInserir);
+    }
+
+    public function criaModalApontamentoNF($sDados) {
+        parent::criaModal();
+
+        $oDados = $this->getAParametrosExtras();
+
+        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
+        $oFilcgc->setSValor($oDados->getFilcgc());
+        $oFilcgc->setBCampoBloqueado(true);
+        $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr->setSValor($oDados->getNr());
+        $oNr->setBCampoBloqueado(true);
+
+        $oNfDevolucao = new Campo('NF Devolução', 'nfdevolucao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oValorDevolucaoSIPI = new Campo('NF s/ IPI', 'nfsIpi', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oValorFrete = new Campo('Frete', 'valorfrete', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+
+        $oBtnInserir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        //id do grid
+
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaNFReclamacao","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+
+        $oBtnInserir->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->setBTela(true);
+
+
+        $this->addCampos(array($oFilcgc, $oNr), array($oNfDevolucao, $oValorDevolucaoSIPI, $oValorFrete), $oBtnInserir);
     }
 
     /**

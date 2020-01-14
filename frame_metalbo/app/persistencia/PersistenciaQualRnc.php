@@ -79,6 +79,8 @@ class PersistenciaQualRnc extends Persistencia {
         }
 
         $this->adicionaOrderBy('nr', 1);
+        
+        $this->setSTop(50);
     }
 
     public function consultaNf($sNfnro) {
@@ -165,5 +167,11 @@ class PersistenciaQualRnc extends Persistencia {
         return $aRetorno;
     }
 
+    public function buscaDadosRnc($aDados) {
+        $sSql = "select * from tbrncqual"
+                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $oResult = $this->consultaSql($sSql);
+        return $oResult;
+    }
 
 }

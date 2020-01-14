@@ -143,7 +143,7 @@ $pdf->SetFont('arial', '', 10);
 $pdf->Cell(38, 5, $row['cidcep'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(18, 5, "Bairro:", 0, 0, 'L');
+$pdf->Cell(13, 5, "Bairro:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(78, 5, $row['empendbair'], 0, 1, 'L');
 
@@ -163,7 +163,7 @@ $pdf->SetFont('arial', '', 10);
 $pdf->Cell(38, 5, $row['celular'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(18, 5, "E-mail:", 0, 0, 'L');
+$pdf->Cell(13, 5, "E-mail:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(28, 5, $row['email'], 0, 1, 'L');
 
@@ -323,7 +323,7 @@ $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, $row['usunome_fim'], 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(26, 5, "Obs Venda:", 0, 1, 'L');
+$pdf->Cell(26, 5, "Obs Rep.:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['obs_fim'], 0, 'L');
 
@@ -393,7 +393,8 @@ if ($sEmailRequest == 'S') {
 
 
     //enviar e-mail vendas
-    $oEmail->addDestinatario($aRowMail['usuemail']);
+    //$oEmail->addDestinatario($aRowMail['usuemail']);
+    $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
     $oEmail->addAnexo('app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc));
     $aRetorno = $oEmail->sendEmail();

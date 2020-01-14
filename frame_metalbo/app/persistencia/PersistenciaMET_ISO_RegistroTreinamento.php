@@ -18,7 +18,9 @@ class PersistenciaMET_ISO_RegistroTreinamento extends Persistencia {
         $this->adicionaRelacionamento('seq', 'seq', true, true, true);
         $this->adicionaRelacionamento('usuario', 'usuario');
         $this->adicionaRelacionamento('data_treinamento', 'data_treinamento');
+        $this->adicionaRelacionamento('cod_treinamento', 'cod_treinamento');
         $this->adicionaRelacionamento('titulo_treinamento', 'titulo_treinamento');
+        $this->adicionaRelacionamento('revisao', 'revisao');
         $this->adicionaRelacionamento('anexo_treinamento', 'anexo_treinamento', false, true, false, 3);
         $this->adicionaRelacionamento('observacao', 'observacao');
 
@@ -30,6 +32,12 @@ class PersistenciaMET_ISO_RegistroTreinamento extends Persistencia {
         $sDelete = "delete MET_ISO_RegistroTreinamento where filcgc = '" . $sFilcgc . "' and nr ='" . $sNr . "' and seq = '" . $sSeq . "' ";
         $aDelete = $this->executaSql($sDelete);
         return $aDelete;
+    }
+
+    public function buscaDadosDocumento($aDados) {
+        $sSql = "select revisao from MET_ISO_Documentos where nr = " . $aDados['cod_treinamento'] . " and filcgc = " . $aDados['filcgc'];
+        $oRetorno = $this->consultaSql($sSql);
+        return $oRetorno;
     }
 
 }

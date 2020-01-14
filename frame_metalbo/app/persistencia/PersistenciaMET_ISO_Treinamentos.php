@@ -25,6 +25,7 @@ class PersistenciaMET_ISO_Treinamentos extends Persistencia {
         $this->adicionaRelacionamento('updates', 'updates');
         $this->adicionaRelacionamento('grau_escolaridade', 'grau_escolaridade');
         $this->adicionaRelacionamento('tagEscolaridade', 'tagEscolaridade');
+        $this->adicionaRelacionamento('tagTreinamento', 'tagTreinamento');
     }
 
     public function buscaDadosColaborador($aDados) {
@@ -88,6 +89,35 @@ class PersistenciaMET_ISO_Treinamentos extends Persistencia {
         $aCount['total'] = $iCountTotal;
         $aCount['totalInc'] = $iCountInc;
         return $aCount;
+    }
+
+    public function buscaTreinamentos($aDados) {
+        $sSql = "select * from MET_ISO_RegistroTreinamento where nr =" . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
+        $aTreinamentos = array();
+        $result = $this->getObjetoSql($sSql);
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            $sSqlRevisao = "select revisao from MET_ISO_Documentos where nr =" . $oRowBD->cod_treinamento . " and filcgc = " . $oRowBD->filcgc;
+            $oObjeto = $this->consultaSql($sSqlRevisao);
+            array_push($aTreinamentos, $oObjeto->revisao . ',' . $oRowBD->titulo_treinamento . ',' . $oRowBD->revisao);
+        }
+        return $aTreinamentos;
+    }
+
+    public function updateTreinamentos() {
+        $sSql = "select * from MET_ISO_RegistroTreinamento";
+        $aTreinamentos = array();
+        $result = $this->getObjetoSql($sSql);
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            $sSqlRevisao = "select * from MET_ISO_Documentos where nr =" . $oRowBD->cod_treinamento . " and filcgc = " . $oRowBD->filcgc;
+            $oObjeto = $this->consultaSql($sSqlRevisao);
+            if ($oRowBD->revisao != $oObjeto->revisao) {
+                $sSqlUpdate = "update MET_ISO_Treinamentos set tagTreinamento ='S' where nr = " . $oRowBD->nr . " and filcgc = " . $oRowBD->filcgc;
+                $this->executaSql($sSqlUpdate);
+            } else {
+                $sSqlUpdate = "update MET_ISO_Treinamentos set tagTreinamento ='N' where nr = " . $oRowBD->nr . " and filcgc = " . $oRowBD->filcgc;
+                $this->executaSql($sSqlUpdate);
+            }
+        }
     }
 
 }

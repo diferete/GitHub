@@ -21,6 +21,7 @@ class ModelMET_ISO_Treinamentos {
     private $updates;
     private $grau_escolaridade;
     private $tagEscolaridade;
+    private $tagTreinamento;
 
     function getNr() {
         return $this->nr;
@@ -74,6 +75,10 @@ class ModelMET_ISO_Treinamentos {
         return $this->tagEscolaridade;
     }
 
+    function getTagTreinamento() {
+        return $this->tagTreinamento;
+    }
+
     function setNr($nr) {
         $this->nr = $nr;
     }
@@ -124,6 +129,10 @@ class ModelMET_ISO_Treinamentos {
 
     function setTagEscolaridade($tagEscolaridade) {
         $this->tagEscolaridade = $tagEscolaridade;
+    }
+
+    function setTagTreinamento($tagTreinamento) {
+        $this->tagTreinamento = $tagTreinamento;
     }
 
 }

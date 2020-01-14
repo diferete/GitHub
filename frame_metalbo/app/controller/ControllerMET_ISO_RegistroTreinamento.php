@@ -125,4 +125,14 @@ class ControllerMET_ISO_RegistroTreinamento extends Controller {
         echo '$("#' . $aDados[2] . '").val("' . $oDados->getObservacao() . '");';
     }
 
+    public function buscaDadosDocumento($sDados) {
+        $aIdCampos = explode(',', $sDados);
+        $aDados = $this->getArrayCampostela();
+
+        $oRetorno = $this->Persistencia->buscaDadosDocumento($aDados);
+
+        $script = '$("#' . $aIdCampos[2] . '").val("' . $oRetorno->revisao . '");';
+        echo $script;
+    }
+
 }

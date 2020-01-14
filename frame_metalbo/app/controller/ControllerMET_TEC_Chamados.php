@@ -61,6 +61,12 @@ class ControllerMET_TEC_Chamados extends Controller {
         $aCampos = $this->getArrayCampostela();
 
         $oDados = $this->Persistencia->buscaDadosChamado($aCampos);
+
+        if ($oDados->repoffice != null) {
+            $sAssunto = $oDados->repoffice;
+        } else {
+            $sAssunto = $oDados->filcgc;
+        }
         switch ($oDados->tipo) {
             case 1:
                 $sTipo = 'HARDWARE';
@@ -76,14 +82,14 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
-        $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' EMPRESA ' . $aCampos['filcgc']));
+        $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
         $oEmail->setMensagem(utf8_decode('Novo chamado:<br/>'
                         . '<b>Usuário:</b> ' . $aCampos['usunome'] . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
@@ -118,8 +124,8 @@ class ControllerMET_TEC_Chamados extends Controller {
             return $aRetorno;
         } else {
 
-            $oMensagem2 = new Mensagem('E-mail', 'O setor de TI foi notificado com sucesso!', Mensagem::TIPO_SUCESSO, 10000);
-            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Mensagem::TIPO_WARNING);
+            $oMensagem2 = new Mensagem('E-mail', 'SEU REGISTRO FOI INSERIDO!', Mensagem::TIPO_SUCESSO, 20000);
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, saia e tente utilize o botão: E-MAIL -> REENVIAR E-MAIL', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
             echo $oMensagem2->getRender();
 
@@ -293,12 +299,12 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
         if ($oDados->repoffice != null) {
             $sAssunto = $oDados->repoffice;
@@ -347,6 +353,150 @@ class ControllerMET_TEC_Chamados extends Controller {
         }
         sleep(3);
         return $bRetorno;
+    }
+
+    public function reenviaEmailFinaliza($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oDados = $this->Persistencia->buscaDadosEmailChamado($aCamposChave);
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
+
+        if ($oDados->situaca != 'FINALIZADO') {
+            $oMensagem = new Modal('E-mail', 'O chamado ainda não foi FINALIZADO!', Modal::TIPO_AVISO);
+            echo $oMensagem->getRender();
+        } else {
+            if ($oDados->repoffice != null) {
+                $sAssunto = $oDados->repoffice;
+            } else {
+                $sAssunto = $oDados->filcgc;
+            }
+
+            switch ($oDados->tipo) {
+                case 1:
+                    $sTipo = 'HARDWARE';
+                    break;
+                case 2:
+                    $sTipo = 'SOFTWARE';
+                    break;
+                case 3:
+                    $sTipo = 'SERVIÇOS';
+                    break;
+            }
+
+            $oEmail->setAssunto(utf8_decode('CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
+            $oEmail->setMensagem(utf8_decode('<b style="color:#0f5539; font-weight:900;font-size:18px;">SEU CHAMADO FOI FINALIZADO<br/>'
+                            . '<b>Usuário:</b> ' . $oDados->usunome . '<br/><br/><br/>'
+                            . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
+                            . '<tr><td><b>Tipo:</b></td><td>' . $sTipo . '</td></tr>'
+                            . '<tr><td><b>Subtipo:</b></td><td>' . $oDados->subtipo_nome . '</td></tr>'
+                            . '<tr><td><b>Problema:</b></td><td>' . $oDados->problema . '</td></tr>'
+                            . '<tr><td><b>O que foi feito:</b></td><td>' . $oDados->obsfim . '</td></tr>'
+                            . '</table><br/><br/>'
+                            . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+            $oEmail->limpaDestinatariosAll();
+
+
+
+            // Para
+            $oEmail->addDestinatario($oDados->email);
+            $oEmail->addDestinatarioCopia('alexandre@metalbo.com.br');
+            $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
+
+            $aRetorno = $oEmail->sendEmail();
+            if ($aRetorno[0]) {
+                $oMensagem = new Modal('Tudo certo', 'O setor de TI foi notificado com sucesso!', Modal::TIPO_SUCESSO, false, true, false);
+                echo $oMensagem->getRender();
+            } else {
+                $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+                echo $oMensagem->getRender();
+            }
+        }
+    }
+
+    public function reenviaEmailTi($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oDados = $this->Persistencia->buscaDadosEmailChamado($aCamposChave);
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
+
+        if ($oDados->situaca != 'AGUARDANDO') {
+            $oMensagem = new Modal('E-mail', 'O chamado já foi ' . $oDados->situaca . '!', Modal::TIPO_AVISO);
+            echo $oMensagem->getRender();
+        } else {
+            if ($oDados->repoffice != null) {
+                $sAssunto = $oDados->repoffice;
+            } else {
+                $sAssunto = $oDados->filcgc;
+            }
+
+            switch ($oDados->tipo) {
+                case 1:
+                    $sTipo = 'HARDWARE';
+                    break;
+                case 2:
+                    $sTipo = 'SOFTWARE';
+                    break;
+                case 3:
+                    $sTipo = 'SERVIÇOS';
+                    break;
+            }
+
+            $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
+            $oEmail->setMensagem(utf8_decode('Novo chamado:<br/>'
+                            . '<b>Usuário:</b> ' . $oDados->usunome . '<br/><br/><br/>'
+                            . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
+                            . '<tr><td><b>Tipo:</b></td><td>' . $sTipo . '</td></tr>'
+                            . '<tr><td><b>Subtipo:</b></td><td>' . $oDados->subtipo_nome . '</td></tr>'
+                            . '<tr><td><b>Problema:</b></td><td>' . $oDados->problema . '</td></tr>'
+                            . '<tr><td><b>O que foi feito:</b></td><td>' . $oDados->obsfim . '</td></tr>'
+                            . '</table><br/><br/>'
+                            . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+            $oEmail->limpaDestinatariosAll();
+
+
+            $oEmail->addDestinatario('alexandre@metalbo.com.br');
+            $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
+            if ($oDados->anexo1 != '') {
+                $oEmail->addAnexo('Uploads/' . $oDados->anexo1 . '', utf8_decode($oDados->anexo1));
+            }
+            if ($oDados->anexo2 != '') {
+                $oEmail->addAnexo('Uploads/' . $oDados->anexo2 . '', utf8_decode($oDados->anexo2));
+            }
+            if ($oDados->anexo3 != '') {
+                $oEmail->addAnexo('Uploads/' . $oDados->anexo3 . '', utf8_decode($oDados->anexo3));
+            }
+
+            $aRetorno = $oEmail->sendEmail();
+            if ($aRetorno[0]) {
+                $oMensagem = new Modal('Tudo certo', 'O setor de TI foi notificado com sucesso!', Modal::TIPO_SUCESSO, false, true, false);
+                echo $oMensagem->getRender();
+            } else {
+                $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+                echo $oMensagem->getRender();
+            }
+        }
     }
 
 }

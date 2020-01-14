@@ -118,13 +118,12 @@ class ControllerCadCliRepRec extends Controller {
       $oEmail->setMailer();
 
       $oEmail->setEnvioSMTP();
-      //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-      $oEmail->setServidor('smtp.terra.com.br');
-      $oEmail->setPorta(587);
-      $oEmail->setAutentica(true);
-      $oEmail->setUsuario('metalboweb@metalbo.com.br');
-      $oEmail->setSenha('Metalbo@@50');
-      $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+      $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
       $this->Persistencia->adicionafiltro('nr', $sNr);
       $oRow = $this->Persistencia->consultarWhere();
@@ -227,13 +226,12 @@ class ControllerCadCliRepRec extends Controller {
         $oEmail->setMailer();
 
         $oEmail->setEnvioSMTP();
-        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $this->Persistencia->adicionafiltro('nr', $aCamposChave['nr']);
         $oRow = $this->Persistencia->consultarWhere();

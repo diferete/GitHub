@@ -18,7 +18,7 @@ class Config {
     const PROJ_FOLDER = 'frame_avanei';
     const APP_FOLDER = 'app'; //sistemas
     const LIB_FOLDER = 'biblioteca'; //componentes
-//    const EXTJS_FOLDER = '/ext-4.2.1.883'; //pasta da biblioteca extjs
+    //const EXTJS_FOLDER = '/ext-4.2.1.883'; //pasta da biblioteca extjs
     //const JASPER_FOLDER = '/PHPJasperXML'; //pasta da biblioteca de relatório JasperXML
     const MAIL_FOLDER = '/PHPMailer'; //pasta da biblioteca de envio de emails
     const REPORT_FOLDER = '/relatorio'; //pasta onde se encontram os modelos XML dos relatórios
@@ -28,6 +28,10 @@ class Config {
     const ARQ_FOLDER_JS = '/js'; //funções do sistema        
     const ARQ_FOLDER_TEMP = 'temp'; //arquivos temporários de upload
     const JASPER_FOLDER = '/PHPJasperXMLmet';
+    const EMAIL_SENDER = 'metalboweb@metalbo.com.br';
+    const PASWRD_EMAIL_SENDER = 'Metalbo@@50';
+    const SERVER_SMTP = 'smtp.terra.com.br';
+    const PORT_SMTP = 587;
 
     /*
      * Configurações da conexão com o banco de dados
@@ -48,31 +52,29 @@ class Config {
     const BD_FIREBIRD = 4;
     const BD_ORACLE = 5;
     const BD_SQLSERVER = 6;
-
-
+    const TIPO_BD = self::BD_SQLSERVER;
     
+    const PORTA_BD = 1433;
+    const USER_BD = 'sa';
+    const NOME_BD = 'rex_maquinas';
+    const HOST_BD = 'MetalboServer';
+    const PASS_BD = 'M@quinas@321';
+
+
+    /*
       const TIPO_BD = self::BD_SQLSERVER;
       const PORTA_BD = 1433;
       const USER_BD = 'sa';
       const NOME_BD = 'rex_maquinas';
-      const HOST_BD = 'MetalboServer';
-      const PASS_BD = 'M@quinas@321';
-
-
-    /*
-    const TIPO_BD = self::BD_SQLSERVER;
-    const PORTA_BD = 1433;
-    const USER_BD = 'sa';
-    const NOME_BD = 'rex_maquinas';
-    const HOST_BD = 'metalbobase';
-    const PASS_BD = 'Met@lbo@4321';
+      const HOST_BD = 'metalbobase';
+      const PASS_BD = 'Met@lbo@4321';
      * 
      */
-      
-      
-      
-      
-      
+
+
+
+
+
     /*
      * Configurações de nomes de elementos do sistema
      */

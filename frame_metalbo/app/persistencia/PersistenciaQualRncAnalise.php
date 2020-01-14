@@ -76,6 +76,8 @@ class PersistenciaQualRncAnalise extends Persistencia {
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
+        
+        $this->setSTop(50);
 
         if ($_SESSION['codsetor'] == 3) {
             $this->adicionaFiltro('tagsetor', '3');

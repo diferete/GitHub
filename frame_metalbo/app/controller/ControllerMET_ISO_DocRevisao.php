@@ -66,7 +66,11 @@ class ControllerMET_ISO_DocRevisao extends Controller {
     }
 
     public function afterInsert() {
-        parent::afterInsert();
+        parent::afterInsert();        
+        
+        $aCampos = $this->getArrayCampostela();
+        
+        $this->Persistencia->updateRevisaoDocumentos($aCampos);
 
 
         foreach ($_REQUEST['parametros'] as $key => $value) {
@@ -83,6 +87,10 @@ class ControllerMET_ISO_DocRevisao extends Controller {
 
     public function afterUpdate() {
         parent::afterInsert();
+        
+        $aCampos = $this->getArrayCampostela();
+        
+        $this->Persistencia->updateRevisaoDocumentos($aCampos);
 
         foreach ($_REQUEST['parametros'] as $key => $value) {
             $aDados = explode(',', $value);
