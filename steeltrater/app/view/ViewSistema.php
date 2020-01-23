@@ -184,7 +184,7 @@ class ViewSistema extends View {
                   .'</a>'
                   .'</li>'
                  */
-                . '<!--INICIA O MENU SUPERIOR-->'
+                 . '<!--INICIA O MENU SUPERIOR-->'
                 . '<li class="dropdown dropdown-fw dropdown-mega"> '
                 . '<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="fade" role="button">'
                 . '<i class="icon fa-stack-overflow" aria-hidden="true">'
@@ -352,7 +352,7 @@ class ViewSistema extends View {
                 . '<h6 class="media-heading">Login: ' . $_SESSION['loginUser'] . '</h6>'
                 . '<h6 class="media-heading">Setor: ' . $sSetor . '</h6>'
                 . '<h6 class="media-heading">Código: ' . $_SESSION['codUser'] . '</h6>'
-                . '<h6 class="media-heading">Email: ' . $_SESSION['email'] . '</h6>'
+				. '<h6 class="media-heading">Email: ' . $_SESSION['email'] . '</h6>'
                 . $sRep
                 . '</div>'
                 . '</div>'

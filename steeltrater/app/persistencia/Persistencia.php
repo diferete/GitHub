@@ -2201,7 +2201,7 @@ class Persistencia {
     public function afterInsert($aCampos) {
         
     }
-    
+
     /**
      * arruma valores para salvar no banco
      */

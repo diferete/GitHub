@@ -819,7 +819,7 @@ class Controller {
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
-        };
+        }
         //renderiza a tela
         $this->View->getTela()->getRender();
     }
@@ -839,6 +839,7 @@ class Controller {
         $sChave = htmlspecialchars_decode($aDados[0]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
+        $this->antesVisualizar($aDados);
         //cria a tela
         $this->View->criaTela();
         //adiciona onde será renderizado
@@ -3057,6 +3058,10 @@ class Controller {
             $aRetorno = $this->afterInsert();
             $this->Persistencia->commit();
         }
+
+        if ($aRetorno[0]) {
+            $aRetorno = $this->afterInsertDetalhe();
+        }
         //instancia a classe mensagem
         if ($aRetorno[0]) {
             $oMsg = new Mensagem('INSERIDO COM SUCESSO', 'Seu registro foi inserido!', Mensagem::TIPO_SUCESSO);
@@ -3133,6 +3138,10 @@ class Controller {
             $this->Persistencia->commit();
 
             $aRetorno = $this->afterCommitUpdate();
+        }
+
+        if ($aRetorno[0]) {
+            $aRetorno = $this->afterAlterarDetalhe();
         }
 
         //instancia a classe mensagem
@@ -4234,6 +4243,13 @@ class Controller {
     }
 
     /**
+     * Método que pode ser sobescrito antes da visualização
+     */
+    public function antesVisualizar($sParametros = null) {
+        
+    }
+
+    /**
      * Método para ser sobescrito
      */
     public function antesExcluir($sParametros = null) {
@@ -4431,6 +4447,20 @@ class Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         return $aCamposChave;
+    }
+
+    public function afterInsertDetalhe() {
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function afterAlterarDetalhe() {
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
     }
 
 }
