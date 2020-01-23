@@ -53,7 +53,6 @@ class Config {
     const BD_ORACLE = 5;
     const BD_SQLSERVER = 6;
     
-    
     const TIPO_BD = self::BD_SQLSERVER;
     const PORTA_BD = 1433;
     const USER_BD = 'sa';
@@ -71,10 +70,6 @@ class Config {
       const PASS_BD = 'Met@lbo@4321';
      * 
      */
-
-
-
-
 
     /*
      * Configurações de nomes de elementos do sistema

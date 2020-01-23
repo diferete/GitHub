@@ -1,2 +1,1 @@
-update MET_TEC_sessao set usulastacesso = '2019-12-3 18:24:44' 
-            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'gk33nd4kuaqbblg80fl66u5v74'
+Sessão:in6nbroed0r17kujt9318976r2 sessao do banco:in6nbroed0r17kujt9318976r2

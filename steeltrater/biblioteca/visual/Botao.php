@@ -65,7 +65,6 @@ class Botao {
         $this->setRequestAjax($sAcao);
         $this->sStyleBotao = Botao::TIPO_SUCCESS;
         $this->setIMarginTop(0);
-
         $this->setSTelaGrande($sTelaGrande);
         $this->setSTelaMedia($sTelaMedia);
         $this->setSTelaPequena($sTelaPequena);
@@ -207,21 +206,21 @@ class Botao {
     public function getRender() {
         switch ($this->iTipo) {
             case self::TIPO_ADICIONAR:
-                $sBotao = '<button title="Adicionar registro" type="button" class="btn btn-icon btn-default btn-outline" name ="' . $this->getId() . '"  id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
+                $sBotao = '<button title="Adicionar registro" type="button" class="btn btn-icon btn-add-reg btn-default btn-outline" name ="' . $this->getId() . '"  id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
                         . '<span><i class="icon wb-plus-circle" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
                         . '<script>'
                         . '</script>';
                 break;
             case self::TIPO_ALTERAR:
-                $sBotao = '<button  title="Alterar registro" type="button" class="btn btn-icon btn-default btn-outline" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
+                $sBotao = '<button  title="Alterar registro" type="button" class="btn btn-icon btn-edit-reg btn-default btn-outline" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . '>'
                         . '<span><i class="icon wb-pencil" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
                         . '<script>'
                         . '</script>';
                 break;
             case self::TIPO_REMOVER:
-                $sBotao = '<button  title="Remover registro" type="button" class="btn btn-icon btn-default btn-outline" id="' . $this->getId() . '"  ' . $this->setDesativado($this->getBDesativado()) . ' >'
+                $sBotao = '<button  title="Remover registro" type="button" class="btn btn-icon btn-default btn-del-reg btn-outline" id="' . $this->getId() . '"  ' . $this->setDesativado($this->getBDesativado()) . ' >'
                         . '<span><i class="icon wb-trash" aria-hidden="true"></i>' . $this->sTexto . '</span>'
                         . '</button>'
                         . '<script>'
@@ -235,7 +234,7 @@ class Botao {
                         . '</script>';
                 break;
             case self::TIPO_FILTRO:
-                $sBotao = '<button title="Habilita pesquisa" type="button" class="btn btn-icon btn-default btn-outline" id="' . $this->getId() . '" >'
+                $sBotao = '<button title="Habilita pesquisa" type="button" class="btn btn-icon btn-default btn-filtro-reg btn-outline" id="' . $this->getId() . '" >'
                         . '<span><i class="icon wb-search" aria-hidden="true"></i></span>'
                         . '</div>';
                 break;
@@ -309,17 +308,6 @@ class Botao {
                         . ' </div>'
                         . ' </div>'
                         . '</div>';
-
-                break;
-            case self::TIPO_SMALL_SUB:
-                $sBotao = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '  btn-acao-grid" style="margin-top:' . $this->getIMarginTop() . 'px;">'
-                        . '<button type="button" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form btn-outline " id="' . $this->getId() . '" data-target="#' . $this->getSNomeModal() . '" data-toggle="modal"' . $this->setDesativado($this->getBDesativado()) . '>'
-                        . '<span><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</span>'
-                        . '</button>'
-                        . '</div>'
-                        . '<script>'
-                        . '' . $this->getAAcao() . ''
-                        . '</script>';
                 break;
             case self::TIPO_PESQUISAR:
                 $sBotao = '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="margin-top: 22px; margin-rigth:0px;left:-8px;z-index:2" >'
@@ -341,6 +329,16 @@ class Botao {
                         . '<a href="javascript:void(0)" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form ladda-button" id="' . $this->getId() . '" ' . $this->setDesativado($this->getBDesativado()) . ' data-target="#' . $this->getSNomeModal() . '" data-toggle="modal">'
                         . '<i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</a>'
                         . '</input>'
+                        . '</div>'
+                        . '<script>'
+                        . '' . $this->getAAcao() . ''
+                        . '</script>';
+                break;
+            case self::TIPO_SMALL_SUB:
+                $sBotao = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '  btn-acao-grid" style="margin-top:' . $this->getIMarginTop() . 'px;">'
+                        . '<button type="button" class="btn ' . $this->getSStyleBotao() . ' btn-sm btn-form btn-outline " id="' . $this->getId() . '" data-target="#' . $this->getSNomeModal() . '" data-toggle="modal"' . $this->setDesativado($this->getBDesativado()) . '>'
+                        . '<span><i class="icon wb-check" aria-hidden="true"></i>' . $this->sTexto . '</span>'
+                        . '</button>'
                         . '</div>'
                         . '<script>'
                         . '' . $this->getAAcao() . ''

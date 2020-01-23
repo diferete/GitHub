@@ -57,7 +57,7 @@
     color: #0039FF;
 }
 .tr-amarelo{
-    color: #E19D12;
+    color: #ffff00;
 }
 .tr-roxo{
     color: #990099;
@@ -66,12 +66,17 @@
     color: #FF6EB4;
 }
 .tr-laranja{
-    color: #E19D12;
+    color: #ff6600;
 }
 
 
 .tr-font{
     font-size: 11px !important;
+}
+
+.tb-bk-darkgray{
+    color: white;
+    background-color:darkgray;
 }
 
 .tr-bk-vermelha{
@@ -80,15 +85,14 @@
 }
 .tr-bk-verde{
     color: white;
-    background-color: #006f00;
+    background-color: #0f5539;
 }
 .tr-bk-azul{
     color: white;
     background-color: #0039FF;
 }
 .tr-bk-amarelo{
-    color: white;
-    background-color: #E6E600;
+    background-color: #ffff00;
 }
 .tr-bk-roxo{
     color: white;
@@ -100,7 +104,7 @@
 }
 .tr-bk-laranja{
     color: white;
-    background-color: #E19D12;
+    background-color: #ff6600;
 }
 
 .tr-bk-black{
@@ -238,4 +242,20 @@ fieldset{
 }
 .btn-checkbox:hover{
     background-color: #82ae9c9e;
+}
+.fav-red{
+    color: red !important;
+}
+
+.btn-add-reg{
+    color: #0f5539 !important;
+}
+.btn-edit-reg{
+    color: #007eff !important;
+}
+.btn-del-reg{
+    color: red !important;
+}
+.btn-filtro-reg{
+    color:#5a015a !important;
 }

@@ -83,12 +83,6 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/persistencia/PersistenciaCadCliRep.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerCadCliRep.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/index.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/view/ViewMET_TEC_Chamados.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerMET_TEC_Chamados.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
