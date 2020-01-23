@@ -135,6 +135,9 @@ class ViewSTEEL_PCP_GerenciaApont extends View{
         $oTurnoEnt->addItemSelect('Turno D','Turno D');
         $oTurnoEnt->addItemSelect('Geral','Geral');
         
+        $oCorrida = new campo('Corrida','corrida', Campo::TIPO_TEXTO,4,4,4,4);
+        $oCorrida->addEvento(Campo::EVENTO_ENTER, 'if(event.which == 13){event.preventDefault();}');
+        
         $oTurnoSaida = new campo('Turno Saída','turnoSteelSaida', Campo::CAMPO_SELECTSIMPLE,2,2,2,2);
         $oTurnoSaida->addItemSelect('Turno A','Turno A');
         $oTurnoSaida->addItemSelect('Turno B','Turno B');
@@ -146,7 +149,7 @@ class ViewSTEEL_PCP_GerenciaApont extends View{
         $oLinha1->setApenasTela(true);
         
         $oFieldE = new FieldSet('Entrada');
-        $oFieldE->addCampos( array($oUserEntcodigo,$oUserEntdes),$oLinha1,array($oDataEnt,$oHoraEnt, $oTurnoEnt));
+        $oFieldE->addCampos(array($oUserEntcodigo,$oUserEntdes),$oLinha1,array($oDataEnt,$oHoraEnt, $oTurnoEnt),$oCorrida);
         $oFieldE->setOculto(FALSE);
         
         $oFieldS = new FieldSet('Saída');
@@ -214,7 +217,7 @@ class ViewSTEEL_PCP_GerenciaApont extends View{
          $oGridEnt->setApenasTela(true);
          
         $oBtnAtualizar = new Campo('Atualizar','',  Campo::TIPO_BOTAOSMALL_SUB,1);
-        $oBtnAtualizar->getOBotao()->setId('btn_atualizarApontEtapaSteel');
+        $oBtnAtualizar->getOBotao()->setId('btn_atualizarApontEtapaSteelGeren');
         $sAcaoAtualizar = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFabItens",'
                 . '"getDadosGrid","' . $oGridEnt->getId() . '","gridApontaEtapaGeren");';
         $oBtnAtualizar->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
@@ -225,11 +228,12 @@ class ViewSTEEL_PCP_GerenciaApont extends View{
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         $sBuscaProd ='var recod = $("#'.$oOp->getId().'").val();if(recod!==""){'
-                . 'requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_OrdensFab","buscaProduto","'.$oCodProd->getId().','.$oDesProd->getId().'");}';
+                . 'requestAjax("'.$this->getTela()->getId().'-form","STEEL_PCP_OrdensFab",'
+                . '"buscaProduto","'.$oCodProd->getId().','.$oDesProd->getId().'");$("#btn_atualizarApontEtapaSteelGeren").click();}';
         
         $oOp->addEvento(Campo::EVENTO_SAIR, $sBuscaProd);    
         
-        $oOp->addEvento(Campo::EVENTO_FOCUS, $sAcaoAtualizar); 
+       // $oOp->addEvento(Campo::EVENTO_FOCUS, $sAcaoAtualizar); 
         $oOp->setBFocus(true);
         
         $this->addCampos(array($oOp,$oSeq,$oCodProd,$oDesProd), $oLinha1, array($oCodForno,$oDesForno),$oLinha1, $oFieldE,$oLinha1, $oBtnAtualizar, $oGridEnt, $oFieldS, $oSituacao);

@@ -645,7 +645,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oEmp_codigo->addCampoBusca('emp_razaosocial', $oEmp_des->getId(), $this->getTela()->getId());
 
         //para mostrar a parte de imprimir a planilha no excel
-        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
+        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2,2,2,2);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","relatorioExcelOp");';
         $oXls->getOBotao()->addAcao($sAcaoLib);

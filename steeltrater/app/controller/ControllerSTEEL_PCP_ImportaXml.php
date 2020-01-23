@@ -301,6 +301,7 @@ class ControllerSTEEL_PCP_ImportaXml extends Controller{
                 $this->Model->setOpSteel('0');
                 $this->Model->setXPed((string)$xPed);
                 $this->Model->setNItemPed((string)$nItemPed);
+                $this->Model->setDataemidoc($dEmi);   //$dEmi
                 //seta o ncm
                 $iCarac = strlen($NCM);
                 

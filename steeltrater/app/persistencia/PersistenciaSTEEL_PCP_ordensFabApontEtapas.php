@@ -12,7 +12,7 @@ class PersistenciaSTEEL_PCP_ordensFabApontEtapas extends Persistencia{
     public function __construct() {
         parent::__construct();
         
-         $this->setTabela('STEEL_PCP_ordensFabItens');
+        $this->setTabela('STEEL_PCP_ordensFabItens');
         
         $this->adicionaRelacionamento('op', 'op',true,true);
         $this->adicionaRelacionamento('opseq', 'opseq',true,true,true);
@@ -24,6 +24,10 @@ class PersistenciaSTEEL_PCP_ordensFabApontEtapas extends Persistencia{
         $this->adicionaRelacionamento('temperatura', 'temperatura');
         $this->adicionaRelacionamento('tempo', 'tempo');
         $this->adicionaRelacionamento('resfriamento', 'resfriamento');
+        $this->adicionaRelacionamento('dataent_forno', 'dataent_forno');
+        $this->adicionaRelacionamento('horaent_forno', 'horaent_forno');
+        $this->adicionaRelacionamento('datasaida_forno', 'datasaida_forno');
+        $this->adicionaRelacionamento('horasaida_forno', 'horasaida_forno');
         
         $this->adicionaOrderBy('op',1);
         $this->setSTop('500');
@@ -31,7 +35,50 @@ class PersistenciaSTEEL_PCP_ordensFabApontEtapas extends Persistencia{
         
     }
     
-     public function deletarOp($aOpseq){
+    public function getDadosGridPesDados($sDados){
+        $sSql="SELECT  TOP 500 steel_pcp_ordensfabapont.op AS 'steel_pcp_ordensfabapont.op',
+                steel_pcp_ordensfabapont.seq AS 'steel_pcp_ordensfabapont.seq',
+                steel_pcp_ordensfabapont.fornocod AS 'steel_pcp_ordensfabapont.fornocod',
+                steel_pcp_ordensfabapont.fornodes AS 'steel_pcp_ordensfabapont.fornodes',
+                steel_pcp_ordensfabapont.procod AS 'steel_pcp_ordensfabapont.procod',
+                steel_pcp_ordensfabapont.prodes AS 'steel_pcp_ordensfabapont.prodes',
+                steel_pcp_ordensfabapont.dataent_forno AS 'steel_pcp_ordensfabapont.dataent_forno',
+                steel_pcp_ordensfabapont.horaent_forno AS 'steel_pcp_ordensfabapont.horaent_forno',
+                steel_pcp_ordensfabapont.datasaida_forno AS 'steel_pcp_ordensfabapont.datasaida_forno',
+                steel_pcp_ordensfabapont.horasaida_forno AS 'steel_pcp_ordensfabapont.horasaida_forno',
+                steel_pcp_ordensfabapont.situacao AS 'steel_pcp_ordensfabapont.situacao',
+                steel_pcp_ordensfabapont.coduser AS 'steel_pcp_ordensfabapont.coduser',
+                steel_pcp_ordensfabapont.usernome AS 'steel_pcp_ordensfabapont.usernome',
+                steel_pcp_ordensfabapont.codusersaida AS 'steel_pcp_ordensfabapont.codusersaida',
+                steel_pcp_ordensfabapont.usernomesaida AS 'steel_pcp_ordensfabapont.usernomesaida',
+                steel_pcp_ordensfabapont.turnosteel AS 'steel_pcp_ordensfabapont.turnosteel',
+                steel_pcp_ordensfabapont.turnosteelsaida AS 'steel_pcp_ordensfabapont.turnosteelsaida',
+                steel_pcp_ordensfabapont.corrida AS 'steel_pcp_ordensfabapont.corrida',
+                steel_pcp_ordensfabapont.processoativo AS 'steel_pcp_ordensfabapont.processoativo' 
+                FROM steel_pcp_ordensfabapont 
+                WHERE steel_pcp_ordensfabapont.situacao = 'Processo' 
+                COLLATE Latin1_General_CI_AI  
+                AND steel_pcp_ordensfabapont.fornocod = '12'
+                AND steel_pcp_ordensfabapont.processoativo = 'SIM' 
+                COLLATE Latin1_General_CI_AI  
+                ORDER BY steel_pcp_ordensfabapont.seq  DESC;";
+        
+               $result = $this->getObjetoSql($sSql);
+        
+                while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+                   
+                    $oEtapasGeren = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEtapasGeren');
+                    $oModel = $oEtapasGeren->Persistencia->getNewModel();
+
+                    $oEtapasGeren->Persistencia->carregaModelBanco($oModel, $oRowBD);
+
+                    //adiciona o objeto atual ao array de retorno
+                    $aRetorno[] = $oModel;
+                }
+                return $aRetorno;
+    }
+
+        public function deletarOp($aOpseq){
         
         $sSql="delete from STEEL_PCP_ordensFabApont where op='".$aOpseq['op']."'  ";
         $aRetorno = $this->executaSql($sSql);
@@ -58,6 +105,13 @@ class PersistenciaSTEEL_PCP_ordensFabApontEtapas extends Persistencia{
                 
         $aRetorno = $this->executaSql($sSql);
         
+         //atualiza o forno em que a etapa está
+        $sSqlForno = "update STEEL_PCP_ordensFabApont
+                    set processoAtivo ='NÃO'
+                    where op = '".$sOp."'";
+                
+        $aRetornoT = $this->executaSql($sSqlForno);
+        
         return $aRetorno;    
     }
     
@@ -77,6 +131,14 @@ class PersistenciaSTEEL_PCP_ordensFabApontEtapas extends Persistencia{
                     ";
                 
         $aRetorno = $this->executaSql($sSql);
+        
+         //atualiza o forno em que a etapa está
+        $sSqlForno = "update STEEL_PCP_ordensFabApont
+                    set processoAtivo ='SIM'
+                    where op = '".$sOp."'";
+                
+        $aRetornoT = $this->executaSql($sSqlForno);
+        
         
         return $aRetorno;    
     }

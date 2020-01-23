@@ -25,7 +25,7 @@ class ViewSTEEL_PCP_PedCarga extends View {
         $oSit = new CampoConsulta('Situacao', 'PDV_PedidoSituacao');
         $oSit->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA,true,'ABERTO');
         $oSit->addComparacao('O', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA,true,'APROVADO');
-        $oSit->addComparacao('T', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA,true,'FATURADO');
+        $oSit->addComparacao('T', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA,CampoConsulta::MODO_COLUNA,true,'FATURADO');
         $oSit->addComparacao('C', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA,true,'CANCELADO');
         $oApr = new CampoConsulta('Aprovacao', 'PDV_PedidoAprovacao');
         

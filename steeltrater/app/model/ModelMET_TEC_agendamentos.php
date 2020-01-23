@@ -16,6 +16,38 @@ class ModelMET_TEC_agendamentos {
     private $agendamento;
     private $intervalominuto;
     
+    private $ultresultado;
+    private $dtultresultado;
+    private $horaExec;
+    
+    function getUltresultado() {
+        return $this->ultresultado;
+    }
+
+    function setUltresultado($ultresultado) {
+        $this->ultresultado = $ultresultado;
+    }
+
+        
+    function getDtultresultado() {
+        return $this->dtultresultado;
+    }
+
+    
+    function setDtultresultado($dtultresultado) {
+        $this->dtultresultado = $dtultresultado;
+    }
+
+        
+    
+    function getHoraExec() {
+        return $this->horaExec;
+    }
+
+    function setHoraExec($horaExec) {
+        $this->horaExec = $horaExec;
+    }
+
     function getIntervalominuto() {
         return $this->intervalominuto;
     }

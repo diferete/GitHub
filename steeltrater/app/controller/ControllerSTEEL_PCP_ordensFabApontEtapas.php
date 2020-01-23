@@ -56,6 +56,7 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
                 . '<td>'.substr($oDadosOp->getHoraent_forno(), 0, -8).'</td>'
                 . '<td class="tr-bk-'.$sCorFundo.'">'.$oDadosOp->getSituacao().'</td>'
                 . '<td>'.$oDadosOp->getUsernome().'</td>'
+                . '<td class="tr-bk-amarelo">'.$oDadosOp->getCorrida().'</td>'
                 . '</tr> <script>$("#' . $aDados[0]. '-btn").click(function(){ '
                 . 'requestAjax("","STEEL_PCP_ordensFabApontEtapas","msgExcluirApontamento","' .$aDados[0]. ','.$aCamposChave['op'].','.$aDados[1].'","consultaApontGrid");'
                 . ' }); </script>';  
@@ -66,9 +67,24 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
         
         
     }
+    
+    /**
+     * Busca 
+     * @param type $sParametros
+     */
+    public function getDadosGridPes($sDados){
+        $aCamposTela = $this->getArrayCampostela();
+        
+        $aDados = $this->Persistencia->getDadosGridPesDados($sDados);
+        
+        foreach ($array as $key => $value) {
+            
+        }
+    }
 
-    
-    
+
+
+
     public function antesDeMostrarTela($sParametros = null) {
         parent::antesDeMostrarTela($sParametros);
 
@@ -86,6 +102,8 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
         $oFornoSel = $oFornos->Persistencia->getArrayModel();
         
         $aForno[]=$oFornoSel;
+        
+        $aForno[]=$sParametros;
 
         $this->View->setAParametrosExtras($aForno);
     }
@@ -167,7 +185,7 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
             echo $oMensagem->getRender();
              //carrega os dados no grid
             //echo '$("#'.$aDados[0].' > tbody >").remove();'; 
-            echo '$("#' . $aDados[2] . '" ).click();';
+            echo '$("#btn_atualizarApontEtapaSteel" ).click();';
             
         } else {
             $oMensagem = new Mensagem('Erro!', 'A OP ' . $aCamposChave['op'] . ' não foi excluída com sucesso! >>>>' . $aRetorno[1], Mensagem::TIPO_ERROR);
@@ -185,6 +203,23 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
         $aOp= explode('=', $aChave[0]);
         $aOpEtapa = explode('=', $aChave[1]);
         
+        //se a tela aponta iniciar verifica se a OP está apontada na tabela de cima
+        if($aDados[0]=='modalApontaIniciar'){
+            $oApontOpMaster = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
+            $oApontOpMaster->Persistencia->adicionaFiltro('op',$aOp[1]);
+            $iTotal = $oApontOpMaster->Persistencia->getCount();
+            if($iTotal ==0){
+               $oModal = new Modal('Atenção!','Está OP não foi iniciada, aponte o início do apontamento na tela superior!', Modal::TIPO_AVISO, false, true, true);
+                echo $oModal->getRender();
+                echo'$("#modalApontaIniciar-btn").click();'; 
+                exit();
+            }
+        }
+        
+        
+        //limpa a modal
+        echo'$("#modalApontaIniciar-modal >").remove();';
+        
         $oApontOp = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
         $oApontOp->Persistencia->adicionaFiltro('op',$aOp[1]);
         $oApontOp->Persistencia->adicionaFiltro('opseq',$aOpEtapa[1]);
@@ -195,6 +230,7 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
            $oModal = new Modal('Atenção!','OP com situação '.$oDados->getSituacao().', não é possível iniciar o apontamento!', Modal::TIPO_AVISO, false, true, true);
            echo $oModal->getRender();
            echo'$("#modalApontaIniciar-btn").click();';
+           echo'$("#modalApontaIniciarGeren-btn").click();';
            exit();
         }
         
@@ -245,8 +281,11 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
         //-------------------------------------------------------------------
         
         $this->View->setAParametrosExtras($oDados);
+        
+        //pega todos os campos 
+        $aCamposTela = $this->getArrayCampostela();
 
-        $this->View->criaModalApontaIniciar($aForno,$aDados[1]);
+        $this->View->criaModalApontaIniciar($aForno,$aDados[1],$aDados[0],$aCamposTela);
         //busca lista pela op
 
         $this->View->getTela()->setSRender($aDados[0] . '-modal');
@@ -265,13 +304,30 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
          $aCamposChave = array();
          parse_str($sChave, $aCamposChave);
          
+         if($aCamposChave['fornocod']==''||$aCamposChave['fornocod']==null){
+             $oMensagem = new Mensagem('Atenção!','VERIFIQUE FORNO/TREFILA SELECIONADO', Mensagem::TIPO_ERROR);
+             echo $oMensagem->getRender();
+             exit();
+         }
+         if($aCamposChave['fornodes']==''||$aCamposChave['fornodes']==null){
+             $oMensagem = new Mensagem('Atenção!','VERIFIQUE FORNO/TREFILA SELECIONADO', Mensagem::TIPO_ERROR);
+             echo $oMensagem->getRender();
+             exit(); 
+         }
+         
+         /* set fornocod = '".$aCampos['fornocod']."', 
+                    fornodes = '".$aCampos['fornodes']."', */
          
          $oEtapaApont = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
          $aRetorno = $oEtapaApont->Persistencia->apontaIniciarEtapa($aCamposChave);
          
          echo'$("#modalApontaIniciar-btn").click();';
-        // $oEtapaApont->getDadosConsulta($aDados[1], true, null);
-         $oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
+         echo'$("#modalApontaIniciarGeren-btn").click();';
+         echo'$("#btn_atualizarApontEtapaSteel").click();';
+         echo'$("#btn_atualizarApontEtapaSteelGeren").click();';
+        
+         
+        // $oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
       }
     
    /**
@@ -314,7 +370,8 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
                 echo $oModal->getRender();
                 $oEtapaApont = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
                 $_REQUEST['campos'] ='op='.$aOp[1];
-                $oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
+                //$oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
+                echo'$("#btn_atualizarApontEtapaSteel").click();';
                 exit(); 
             }
         }
@@ -325,12 +382,66 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
                 echo $oModal->getRender();
                 $oEtapaApont = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
                 $_REQUEST['campos'] ='op='.$aOp[1];
-                $oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
+                //$oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
+                echo'$("#btn_atualizarApontEtapaSteel").click();';
                 exit(); 
             }
         }
      }
      
+      /**
+    * Retorna apontamento
+    */
+   public function retornaApontamentoGeren($sDados){
+         $aDados = explode(',', $sDados);
+         $aChave = explode('&', $aDados[2]);
+         $aOp= explode('=', $aChave[0]);
+         $aOpEtapa = explode('=', $aChave[1]);
+         
+         //verifica se na tabela STEEL_PCP_OrdensFabApont a situação não está como finalizado
+         $oOrdensFabApont = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
+         $oOrdensFabApont->Persistencia->adicionaFiltro('op',$aOp[1]);
+         $oOrdensFabApontDados = $oOrdensFabApont->Persistencia->consultarWhere();
+         
+         $oApontOp = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
+         $oApontOp->Persistencia->adicionaFiltro('op',$aOp[1]);
+         $oApontOp->Persistencia->adicionaFiltro('opseq',$aOpEtapa[1]);
+        
+         $oDados = $oApontOp->Persistencia->consultarWhere();
+         //verifica caso nao tenha situacao nao retorna
+         if($oDados->getSituacao()==null){
+           $oModal = new Modal('Atenção!','Não há situação definida para retornar!', Modal::TIPO_AVISO, false, true, true);
+           echo $oModal->getRender();
+           exit(); 
+         }
+        //verifica a situacao, caso seja finalizado ou processo avisa e fecha a tela
+        if($oDados->getSituacao()=='Processo'){
+            $aRetorno = $this->Persistencia->limpaApontProcesso($aOp[1],$aOpEtapa[1]);
+            if($aRetorno[0]){
+                $oModal = new Modal('Sucesso!','Etapa retornado com sucesso!', Modal::TIPO_SUCESSO, false, true, true);
+                echo $oModal->getRender();
+                $oEtapaApont = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
+                $_REQUEST['campos'] ='op='.$aOp[1];
+                //$oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
+                echo'$("#btn_atualizarApontEtapaSteel").click();';
+                echo'$("#btn_atualizarApontEtapaSteelGeren").click();';
+                exit(); 
+            }
+        }
+        if($oDados->getSituacao()=='Finalizado'){
+            $aRetorno = $this->Persistencia->retornaApontFinalizar($aOp[1],$aOpEtapa[1]);
+            if($aRetorno[0]){
+                $oModal = new Modal('Sucesso!','Etapa retornado com sucesso!', Modal::TIPO_SUCESSO, false, true, true);
+                echo $oModal->getRender();
+                $oEtapaApont = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
+                $_REQUEST['campos'] ='op='.$aOp[1];
+                //$oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
+                echo'$("#btn_atualizarApontEtapaSteel").click();';
+                echo'$("#btn_atualizarApontEtapaSteelGeren").click();';
+                exit(); 
+            }
+        }
+     }
       /**
      * Método para inserir apontamento
      */
@@ -342,12 +453,38 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
          parse_str($sChave, $aCamposChave);
          
          
+       
+         
+         
          $oEtapaApont = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
+         $oEtapaApont->Persistencia->adicionaFiltro('op',$aCamposChave['op']);
+         $oEtapaApont->Persistencia->adicionaFiltro('opseq',$aCamposChave['opseq']);
+         $oDadosItens = $oEtapaApont->Persistencia->consultarWhere();
+         //se for trefila valida diametro
+         if($oDadosItens->getSTEEL_PCP_Tratamentos()->getTratcod()==20){
+             if ($aCamposChave['diamMin']==null || $aCamposChave['diamMin']=='' || 
+                     $aCamposChave['diamMin']=='0,0000'||$aCamposChave['diamMin']=='0'){
+                     $oMensagem = new Mensagem('ATENÇÃO!', 'DIÂMETRO DEVE SER APONTADO!', Mensagem::TIPO_ERROR);
+                     echo $oMensagem->getRender();
+                     exit();
+                 
+             }
+             if ($aCamposChave['diamMax']==null || $aCamposChave['diamMax']=='' || 
+                     $aCamposChave['diamMax']=='0,0000'||$aCamposChave['diamMax']=='0'){
+                     $oMensagem = new Mensagem('ATENÇÃO!', 'DIÂMETRO DEVE SER APONTADO!', Mensagem::TIPO_ERROR);
+                     echo $oMensagem->getRender();
+                     exit();
+             }
+         }
+         
+         
          $aRetorno = $oEtapaApont->Persistencia->apontaFinalizaEtapa($aCamposChave);
          
          echo'$("#modalApontaFinalizar-btn").click();';
-        // $oEtapaApont->getDadosConsulta($aDados[1], true, null);
-         $oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
+         echo'$("#modalApontaFinalizarGeren-btn").click();';
+        
+         echo'$("#btn_atualizarApontEtapaSteel").click();';
+         echo'$("#btn_atualizarApontEtapaSteelGeren").click();';
          
          //verifica se é o último apontamento
          $iEtapaFim = $this->Persistencia->verificaEtapaFinalizada($aCamposChave['op']);
@@ -373,6 +510,8 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
         $oApontOp->Persistencia->adicionaFiltro('op',$aOp[1]);
         $oApontOp->Persistencia->adicionaFiltro('opseq',$aOpEtapa[1]);
         
+        echo'$("#modalApontaFinalizar-modal >").remove();';
+        
         $oDados = $oApontOp->Persistencia->consultarWhere();
         //verifica a situacao, caso seja finalizado ou processo avisa e fecha a tela
         if($oDados->getSituacao()=='Processo'){
@@ -384,12 +523,14 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
                 $oModal = new Modal('Atenção!','OP tem etapas com situação em Processo!', Modal::TIPO_AVISO, false, true, true);
                 echo $oModal->getRender();
                 echo'$("#modalApontaFinalizar-btn").click();';
+                echo'$("#modalApontaFinalizarGeren-btn").click();';
                 exit(); 
             }
         }else{
            $oModal = new Modal('Atenção!','OP com situação '.$oDados->getSituacao().', não é possível finalizar o apontamento!', Modal::TIPO_AVISO, false, true, true);
            echo $oModal->getRender();
            echo'$("#modalApontaFinalizar-btn").click();';
+           echo'$("#modalApontaFinalizarGeren-btn").click();';
            exit(); 
         } 
        
@@ -413,8 +554,9 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
         //-------------------------------------------------------------------
         
         $this->View->setAParametrosExtras($oDados);
+        $aCamposTela = $this->getArrayCampostela();
 
-        $this->View->criaTelaModalApontaFinalizar($aForno,$aDados[1]);
+        $this->View->criaTelaModalApontaFinalizar($aForno,$aDados[1], $aDados[0],$aCamposTela);
         //busca lista pela op
 
         $this->View->getTela()->setSRender($aDados[0] . '-modal');
@@ -467,7 +609,7 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('Atenção!', 'O apontamento da OP ' . $aCamposChave['op'] . ' foi finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
-            echo"$('#".$aDados[7]."').click();"; 
+            echo '$("#btn_atualizarApontEtapaSteel" ).click();'; 
         } else {
             $oMensagem = new Mensagem('Erro!', 'O apontamento da OP ' . $aCamposChave['op'] . ' não foi finalizado com sucesso! >>>>' . $aRetorno[1], Mensagem::TIPO_ERROR);
             echo $oMensagem->getRender();
@@ -511,13 +653,42 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller{
           
             $oMensagem = new Mensagem('Atenção!', 'O apontamento da OP ' . $aCamposChave['op'] . ' foi retornado para Processo!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
-            echo"$('#".$aDados[7]."').click();"; 
+            echo"$('#btn_atualizarApontEtapaSteel').click();"; 
         } else {
             $oMensagem = new Mensagem('Erro!', 'O apontamento da OP ' . $aCamposChave['op'] . ' não foi retornado para Processo! >>>>' . $aRetorno[1], Mensagem::TIPO_ERROR);
             echo $oMensagem->getRender();
             
         }
         
+    }
+    
+     public function telaApontaEtapasNoGrid($sDados) {
+
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        
+        $this->antesDeMostrarTela($aCamposChave);
+        
+        //$this->View->setAParametrosExtras($aCamposChave);
+      
+        //cria a tela
+        $this->View->criaTela();
+
+        //adiciona onde será renderizado
+        $this->View->getTela()->setSRender($aDados[0]);
+        //adiciona tela que será dado um show 
+        $this->View->getTela()->setSRenderHide($aDados[1]);
+        //carregar campos tela
+       // $this->carregaCamposTela($sChave);
+        //adiciona botoes padrão
+        if (!$this->getBDesativaBotaoPadrao()) {
+            $this->View->addBotaoPadraoTela('');
+        }
+        //renderiza a tela
+        $this->View->getTela()->getRender();
     }
 }
 

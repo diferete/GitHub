@@ -21,7 +21,7 @@ class ViewMET_TEC_Mobile extends View{
        $oCampo1 = new Campo('Nome','nome', Campo::TIPO_TEXTO,2,2,2,2);
        
        $oBotao = new Campo('Chamar classe','', Campo::TIPO_BOTAOSMALL_SUB,2);
-       $sAcao ='requestAjaxMobile("'.$this->getTela()->getId().'-form","MobileMetalbo","getRequisicao");'; 
+       $sAcao ='requestAjaxMobile("'.$this->getTela()->getId().'-form","MET_TEC_Mobile","getRequisicao");'; 
        $oBotao->addAcaoBotao($sAcao);
        $oBotao->setApenasTela(true);
        

@@ -28,7 +28,13 @@ class ViewSTEEL_PCP_GerenFat extends View{
         $oDataIni->setIMarginTop(10);
         $oDataFim = new Campo('Data final','datafin', Campo::TIPO_DATA,4,4,6,6);
         $oDataFim->setIMarginTop(10);
-        $oDataFim->setSValor(Util::getUltimoDiaMes());
+        $dia = date("d");
+        if($dia==1){
+           $oDataFim->setSValor(Util::getPrimeiroDiaMes()); 
+        }else{
+           $oDataFim->setSValor(Util::getDataOtem());
+        }
+        
         
         $oBtnPesqOp = new Campo('Atualizar dados','btnPesq', Campo::TIPO_BOTAOSMALL);
         $oBtnPesqOp->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);

@@ -45,5 +45,33 @@ class ControllerSTEEL_PCP_OrdensFabItens extends Controller{
     }
     
     
+    public function antesDeCriarConsulta($sParametros = null) {
+        parent::antesDeCriarConsulta($sParametros);
+        
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        
+        //$oDadosEnt = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
+        //busca o apontamento da ordem de producao
+        $oDadosEnt = Fabrica::FabricarController('STEEL_PCP_ordensFab');
+        $oDadosEnt->Persistencia->adicionaFiltro('op',$aCamposChave['op']);
+        $oDadosOp = $oDadosEnt->Persistencia->consultarWhere();
+        
+         //verifica se há op apontada
+        if($oDadosOp->getOp()==null){
+             $oMensagem = new Mensagem('Ordem de produção não encontrada!', 'Não será listado as etapas do processo.', Mensagem::TIPO_WARNING, 5000);
+             //echo $oMensagem->getRender();
+            $this->Persistencia->adicionaFiltro('op','0'); 
+        }else{
+        if(isset($aCamposChave['op'])){
+            if($aCamposChave['op']!==''){
+               $this->Persistencia->adicionaFiltro('op',$aCamposChave['op']); 
+               }
+              }
+             } 
+    }
+    
+    
 }
 

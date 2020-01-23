@@ -1,19 +1,8 @@
 <?php
-
-class ModelMET_TEC_Modulo {
-
+class ModelMET_TEC_Modulo{
     private $modcod;
     private $modescricao;
-    private $vlrUnit;
-
-    function getVlrUnit() {
-        return $this->vlrUnit;
-    }
-
-    function setVlrUnit($vlrUnit) {
-        $this->vlrUnit = $vlrUnit;
-    }
-
+    
     function getModcod() {
         return $this->modcod;
     }
@@ -30,8 +19,8 @@ class ModelMET_TEC_Modulo {
         $this->modescricao = $modescricao;
     }
 
-}
 
+}
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

@@ -30,6 +30,8 @@ class ViewSTEEL_PCP_ordensFabApontEtapasGeren extends View{
         
         $oUser = new CampoConsulta('Usuário','usernome');
         
+        $oProcessoAtivo = new CampoConsulta('Somente processo', 'processoativo');
+        
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL, 2);
         $oSitFiltro = new Filtro($oSituaca2, Filtro::CAMPO_SELECT, 2,2,12,12);
         $oSitFiltro->addItemSelect('Processo', 'Processo');
@@ -42,7 +44,13 @@ class ViewSTEEL_PCP_ordensFabApontEtapasGeren extends View{
             $oFornoChoice->addItemSelect($oValueForno->getFornocod(),$oValueForno->getFornodes());
         }
         
-        $this->addFiltro($oOpFiltro,$oSitFiltro,$oFornoChoice);
+        $oFiltroProcesso = new Filtro($oProcessoAtivo, Filtro::CAMPO_SELECT, 5,5,5,5);
+        $oFiltroProcesso->addItemSelect('SIM', 'Sim');
+        $oFiltroProcesso->addItemSelect('NAO', 'Não');
+        $oFiltroProcesso->addItemSelect('Todos', 'Todos');
+        $oFiltroProcesso->setBInline(true);
+        
+        $this->addFiltro($oOpFiltro,$oSitFiltro,$oFornoChoice,$oFiltroProcesso);
         /**
          * analisa se temos o cookie para o forno
          */
@@ -56,6 +64,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapasGeren extends View{
          */
         $aInicial[]='situacao,Processo';
         $aInicial[]='fornocod,'.$sForno;
+        $aInicial[]='processoativo,SIM';
         $this->getTela()->setAParametros($aInicial);
         $this->getTela()->setBMostraFiltro(true);
        
@@ -71,7 +80,36 @@ class ViewSTEEL_PCP_ordensFabApontEtapasGeren extends View{
         $this->addDropdown($oDrop1);
         
         
-        $this->addCampos($oOp,$oProduto,$oForno,$oTurno,$oDataEnt,$oHoraEnt,$oSituacao,$oUser);
+        $this->addCampos($oOp,$oProduto,$oForno,$oTurno,$oDataEnt,$oHoraEnt,$oSituacao,$oUser,$oProcessoAtivo);
        
+    }
+    
+    public function gridApontaEtapaGeren() {
+        $oGridEnt = new Grid("");
+        
+        $oBotaoCarregarOps = new CampoConsulta('Carregar','carregarOps', CampoConsulta::TIPO_FINALIZAR);
+        $oBotaoCarregarOps->setSTitleAcao('Carregar dados para lançar!');
+        $oBotaoCarregarOps->addAcao('STEEL_PCP_ordensFabApontEtapasGeren','carregaDadosOps'); 
+        $oBotaoCarregarOps->setBHideTelaAcao(true);
+        $oBotaoCarregarOps->setILargura(30);
+        
+        $oOpGridPes = new CampoConsulta('Op','op');
+        $oProdutoGridPes = new CampoConsulta('Produto','prodes');
+        $oFornoGridPes = new CampoConsulta('Forno','fornodes');
+       
+        $oTurnoGridPes = new CampoConsulta('Turno','turnoSteel');
+        $oDataEntGridPes = new CampoConsulta('Data Ent','dataent_forno', CampoConsulta::TIPO_DATA);
+        $oHoraEntGridPes = new CampoConsulta('Hora Ent','horaent_forno', CampoConsulta::TIPO_TIME);
+        $oSituacaoGridPes = new CampoConsulta('Situação','situacao');
+        $oSituacaoGridPes->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oSituacaoGridPes->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
+        $oSituacaoGridPes->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+        
+        $oGridEnt->addCampos($oBotaoCarregarOps,$oOpGridPes,$oProdutoGridPes,$oFornoGridPes,
+                $oTurnoGridPes,$oDataEntGridPes,$oHoraEntGridPes,
+                $oSituacaoGridPes);
+
+        $aCampos = $oGridEnt->getArrayCampos();
+        return $aCampos;
     }
 }

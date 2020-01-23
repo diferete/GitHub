@@ -14,7 +14,7 @@ class PDF extends FPDF {
 }
 
 $pdf = new PDF('P','mm','A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
-$pdf->AddPage(); // ADICIONA UMA PAGINA
+$pdf->AddPage('L'); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 
 $pdf->SetXY(5,5); // DEFINE O X E O Y NA PAGINA
@@ -54,7 +54,7 @@ $pdf->Cell(0,5,'','T',1,'L');
      $iEmpCodigo=$_REQUEST['emp_codigo'];
      //busca os dados do banco
      $PDO = new PDO("sqlsrv:server=".Config::HOST_BD.",".Config::PORTA_BD."; Database=".Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-     $sSqli = "select op,prod,prodes,quant,
+     $sSqli = "select op,prod,prodes,prodesfinal,quant,
               peso,opcliente,convert(varchar,data,103) as data,convert(varchar,dataprev,103) as dataprev,
               situacao 
               from STEEL_PCP_OrdensFab 
@@ -104,7 +104,10 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->Cell(15,5,'Prod.', 'B,R,T',0, 'C',0);
    
    $pdf->SetFont('Arial','B',9);
-   $pdf->Cell(110,5,'Descrição', 'B,R,T',0, 'C',0);
+   $pdf->Cell(95,5,'Descrição', 'B,R,T',0, 'C',0);
+   
+   $pdf->SetFont('Arial','B',9);
+   $pdf->Cell(95,5,'Descrição Final', 'B,R,T',0, 'C',0);
    
    //$pdf->SetFont('Arial','B',9);
    //$pdf->Cell(14,5,'Quant.', 'B,R,T',0, 'C',0);
@@ -137,7 +140,10 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->Cell(15, 6, $row['prod'],'L,B,T',0,'L');
        
    $pdf->SetFont('Arial','',7);
-   $pdf->Cell(110, 6, $row['prodes'],'L,B,T',0,'L');
+   $pdf->Cell(95, 6, $row['prodes'],'L,B,T',0,'L');
+   
+   $pdf->SetFont('Arial','',7);
+   $pdf->Cell(95, 6, $row['prodesfinal'],'L,B,T',0,'L');
    
   // $pdf->SetFont('Arial','',7);
   // $pdf->Cell(14, 6, number_format($row['quant'], 2, ',', '.'),'L,B',0,'R');

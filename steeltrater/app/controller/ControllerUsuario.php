@@ -106,6 +106,17 @@ class ControllerUsuario extends Controller {
             $sessao_Id = $this->Persistencia->getIdSessao($_SESSION['codUser'], $_SESSION['nome'], $sid);
         }
 
+        //verifica e grava sessao
+        if (isset($_SESSION['sessao'])) {
+            $fp = fopen("bloco1.txt", "w");
+            fwrite($fp, 'Sessão:' . $_SESSION['sessao'] . ' sessao do banco:' . $sessao_Id);
+            fclose($fp);
+        } else {
+            $fp = fopen("bloco1.txt", "w");
+            fwrite($fp, 'Sem sessão!!!!');
+            fclose($fp);
+        }
+
         if (isset($_SESSION['sessao']) && $_SESSION['sessao'] === $sessao_Id) {
             //vamos verificar o tempo discorrido
             date_default_timezone_set('America/Sao_Paulo');
@@ -116,7 +127,7 @@ class ControllerUsuario extends Controller {
             //tempo em segundos
             if ($tempo_transcorrido >= 10576000) {
                 if (isset($_SESSION["ultimoAcesso"])) {
-                    $this->msgSessaoInvalida();
+                    $this->msgSessaoInvalida($tempo_transcorrido);
                 }
             }
 
@@ -136,51 +147,65 @@ class ControllerUsuario extends Controller {
      * @return string String contendo o conteúdo que será renderizado para formar
      *                a mensagem de erro
      */
-    public function msgSessaoInvalida() {
-
-        if (isset($_SESSION['sessao'])) {
-            $oMensagem = new Modal('Sessão Expirada!', 'Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!', Modal::TIPO_ERRO, false, true, true);
-            $oMensagem->setSBtnConfirmarFunction('requestAjax("","Usuario","acaoLogout","");');
-            echo $oMensagem->getRender();
-        } else {
-            $this->msgHtmlSessaoInvalida();
-        }
+    public function msgSessaoInvalida($tempo) {
+        //$sMsg = "Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!";
+        $oMensagem = new Modal('Sessão Expirada!', 'Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!' . $tempo, Modal::TIPO_ERRO, false, true, true);
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("","Usuario","acaoLogout","");');
+        echo $oMensagem->getRender();
     }
 
-    public function msgHtmlSessaoInvalida() {
+    /**
+     * Método que retorna a mensagem de erro para os casos em que a sessão
+     * não for validada
+     * 
+     * @return string String contendo o conteúdo que será renderizado para formar
+     *                a mensagem de erro
+     *
+      public function msgSessaoInvalida() {
 
-        $cssStyleBtn = 'padding: 6px 15px;'
-                . 'font-size: 14px;'
-                . 'line-height: 1.57142857;'
-                . 'border-radius: 3px;'
-                . 'cursor: pointer;'
-                . 'display: block;'
-                . 'color: #fff;'
-                . 'background-color: #46be8a;'
-                . 'border: 1px solid transparent;'
-                . 'position: absolute;'
-                . 'margin-top: 50px;'
-                . 'left: 50%;'
-                . 'transform: translateX(-50%) translateY(-50%);';
+      if (isset($_SESSION['sessao'])) {
+      $oMensagem = new Modal('Sessão Expirada!', 'Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!', Modal::TIPO_ERRO, false, true, true);
+      $oMensagem->setSBtnConfirmarFunction('requestAjax("","Usuario","acaoLogout","");');
+      echo $oMensagem->getRender();
+      } else {
+      $this->msgHtmlSessaoInvalida();
+      }
+      }
 
-        $cssStyleDiv = 'padding: 50px 40px 100px 50px;'
+      public function msgHtmlSessaoInvalida() {
+
+      $cssStyleBtn = 'padding: 6px 15px;'
+      . 'font-size: 14px;'
+      . 'line-height: 1.57142857;'
+      . 'border-radius: 3px;'
+      . 'cursor: pointer;'
+      . 'display: block;'
+      . 'color: #fff;'
+      . 'background-color: #46be8a;'
+      . 'border: 1px solid transparent;'
+      . 'position: absolute;'
+      . 'margin-top: 50px;'
+      . 'left: 50%;'
+      . 'transform: translateX(-50%) translateY(-50%);';
+
+      $cssStyleDiv = 'padding: 50px 40px 100px 50px;'
                 . 'margin: 100px 700px 200px 700px;'
                 . 'box-shadow: 0 0 5px grey;'
-                . 'position: relative;'
-                . 'text-align: center!important;';
+      . 'position: relative;'
+      . 'text-align: center!important;';
 
-        $cssBody = 'background-image: url(https://drive.google.com/uc?export=view=&id=1Tfk4MwDDl1jPEhw2K8D2mWPDbDQqelD8");';
+      $cssBody = 'background-image: url(https://drive.google.com/uc?export=view=&id=1Tfk4MwDDl1jPEhw2K8D2mWPDbDQqelD8");';
 
-        $htmlReLog = '<body style="' . $cssBody . '">'
-                . '<div style="' . $cssStyleDiv . '">'
-                . '<h2 style="margin:10px;font-family: Roboto, sans-serif;"> Sessão Expirada!</h2>'
-                . '<p style="margin:10px;font-family: Roboto, sans-serif;"> Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!'
-                . '<a href="https://sistema.metalbo.com.br/"><input style="' . $cssStyleBtn . '"  type="button" value="Clique aqui!" /></a>'
-                . '</div>'
-                . '</body>';
+      $htmlReLog = '<body style="' . $cssBody . '">'
+      . '<div style="' . $cssStyleDiv . '">'
+      . '<h2 style="margin:10px;font-family: Roboto, sans-serif;"> Sessão Expirada!</h2>'
+      . '<p style="margin:10px;font-family: Roboto, sans-serif;"> Sua sessão não é mais válida, talvez ficou muito tempo osciosa ou foi desconectada, você será direcionado para efetuar novo login!'
+      . '<a href="https://sistema.metalbo.com.br/"><input style="' . $cssStyleBtn . '"  type="button" value="Clique aqui!" /></a>'
+      . '</div>'
+      . '</body>';
 
-        echo $htmlReLog;
-    }
+      echo $htmlReLog;
+      }
 
     /**
      * Método que captura e retorna o horário atual para que possa ser atrubuído

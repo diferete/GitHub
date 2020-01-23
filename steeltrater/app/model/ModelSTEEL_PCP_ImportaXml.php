@@ -29,7 +29,18 @@ class ModelSTEEL_PCP_ImportaXml {
     private $opCliente;
     private $xPed;
     private $nItemPed;
+    private $dataemidoc;
     
+    
+    function getDataemidoc() {
+        return $this->dataemidoc;
+    }
+
+    function setDataemidoc($dataemidoc) {
+        $this->dataemidoc = $dataemidoc;
+    }
+
+        
 
     function getXPed() {
         return $this->xPed;
