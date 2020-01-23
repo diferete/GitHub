@@ -61,13 +61,17 @@ $aSomaValorTotal = array();
 
 foreach ($aItens as $key => $aValue) {
 
-    $valor = $aValue['quant'];
+
     $sValorTot = number_format($aValue['quant'] * $aValue['precoItem'], 2, ',', '.');
     if ($sValorTot == 0) {
         array_push($aSomaValorTotal, '0.00');
     } else {
         $sValorTot = Util::ValorSql($sValorTot);
         array_push($aSomaValorTotal, $sValorTot);
+    }
+
+    if ($aValue['quant'] == '') {
+        $aValue['quant'] = 0;
     }
 
     //$pdf->Cell(203, 1, " ", 'T', 1, 'L');
@@ -113,12 +117,12 @@ foreach ($aItens as $key => $aValue) {
     $pdf->Ln(1);
 
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(20, 5, "Qnt. Cento: ", 'B', 0, 'L');
+    $pdf->Cell(21, 5, "Qnt. Cento: ", 'B', 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(23, 5, $aValue['quant'], 'B', 0, 'L');
 
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(25, 5, "Qnt. Peças: ", 'B', 0, 'L');
+    $pdf->Cell(21, 5, "Qnt. Peças: ", 'B', 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(24, 5, $aValue['quant'] * 100, 'B', 0, 'L');
 
@@ -134,7 +138,7 @@ foreach ($aItens as $key => $aValue) {
     $pdf->Ln(1);
 }
 
-$totalPedido = '';
+$totalPedido = '0,00';
 $cont = 0;
 foreach ($aSomaValorTotal as $key => $value) {
     $totalPedido = $aSomaValorTotal[$cont] + $totalPedido;
@@ -149,7 +153,7 @@ $pdf->SetFillColor(255, 255, 153);
 $pdf->Cell(30, 5, '     R$ ' . number_format($totalPedido, 2, ',', '.'), 0, 1, 'L', 1);
 $pdf->Ln(2);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->SetTextColor(255,0,0);
+$pdf->SetTextColor(255, 0, 0);
 $pdf->Cell(0, 5, "¹,² : Valores médios, sem descontos. Os valores podem mudar no momento do pedido devido a descontos dados pelos representantes.", 0, 1, 'C');
 $pdf->Ln(2);
 

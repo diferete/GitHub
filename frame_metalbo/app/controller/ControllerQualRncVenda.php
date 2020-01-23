@@ -506,11 +506,10 @@ class ControllerQualRncVenda extends Controller {
 
         // Para
         $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
-        //$oEmail->addDestinatario($sEmail);
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+        $oEmail->addDestinatario($sEmail);
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
-        //$oEmail->addDestinatarioCopia($_SESSION['email']);
+        $oEmail->addDestinatarioCopia($_SESSION['email']);
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {

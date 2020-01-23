@@ -56,6 +56,7 @@ class PersistenciaCadCliRep extends Persistencia {
 
         $this->adicionaRelacionamento('empnr', 'empnr');
         $this->adicionaRelacionamento('cnpj', 'cnpj');
+        $this->adicionaRelacionamento('codIBGE', 'codIBGE');
 
         if (isset($_SESSION['repoffice'])) {
 

@@ -41,13 +41,14 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
 
         if ($_SESSION['codsetor'] != 2) {
             $this->adicionaFiltro('setor', $_SESSION['codsetor']);
-            if ($_SESSION['filcgc'] != '75483040000211') {
-                $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
-                if ($_SESSION['repoffice'] != '') {
-                    $this->adicionaFiltro('repoffice', $_SESSION['repofficedes']);
-                }
-            }
         }
+        if ($_SESSION['filcgc'] != '75483040000211') {
+            $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
+        }
+        if ($_SESSION['repoffice'] != '') {
+            $this->adicionaFiltro('repoffice', $_SESSION['repofficedes']);
+        }
+        
         $this->setSTop('50');
         $this->adicionaOrderBy('datacad', 1);
     }

@@ -25,7 +25,6 @@ class ControllerUpload extends Controller {
                             $oArquivo['DIRETORIO'] = $aParametros[0] . '/';
                         }
                     } else {
-
                         //Captura raiz do servidor, concatenando pasta do projeto e url de upload
                         // $oArquivo['DIRETORIO'] = $_SERVER['DOCUMENT_ROOT'].Config::PROJ_FOLDER . '/Uploads/';
                         $oArquivo['DIRETORIO'] = 'Uploads/';

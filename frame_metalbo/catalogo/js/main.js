@@ -1675,11 +1675,8 @@ function verificaCarrinho(cod) {
         var result = $('#cart-list > li#' + cod + '-cartItem').text().split('|');
         var carrinho = ['true', result[1]];
 
-        console.log(result);
-        console.log(carrinho);
         return carrinho;
     } else {
-        console.log('false');
         return 'false';
     }
 }

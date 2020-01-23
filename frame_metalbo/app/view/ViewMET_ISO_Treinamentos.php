@@ -14,8 +14,9 @@ class ViewMET_ISO_Treinamentos extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
-
+        
+        $this->getTela()->setSId('GridTreinamentos');
+        
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setSOperacao('personalizado');
         $oFilcgc = new CampoConsulta('Empresa', 'filcgc');

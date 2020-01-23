@@ -145,7 +145,9 @@ class ViewCadCliRep extends View {
         $oBairro = new campo('Bairro', 'empendbair', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oBairro->addValidacao(false, Validacao::TIPO_STRING, 'Bairro inválido', '2', '25');
         $oBairro->setSCorFundo(Campo::FUNDO_MONEY);
-
+        
+        $oCodIBGE = new Campo('...', 'codIBGE', Campo::TIPO_TEXTO,1,1,12,12);
+        $oCodIBGE->setBOculto(true);
 
         if ($sAcao == 'acaoIncluir') {
             $oEmpcod->setBFocus(true);
@@ -163,6 +165,7 @@ class ViewCadCliRep extends View {
                 . '"' . $oBairro->getId() . '",'
                 . '"' . $oComplemento->getId() . '",'
                 . '"' . $oEmpnr->getId() . '",'
+                . '"' . $oCodIBGE->getId() . '",'
                 . '"' . $this->getController() . '")';
 
 
@@ -200,7 +203,7 @@ class ViewCadCliRep extends View {
         $oFieldEnd = new FieldSet('Endereço');
 
 
-        $oFieldEnd->addCampos(array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr));
+        $oFieldEnd->addCampos(array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr),$oCodIBGE);
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');

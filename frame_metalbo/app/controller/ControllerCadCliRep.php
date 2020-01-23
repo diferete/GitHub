@@ -30,7 +30,7 @@ class ControllerCadCliRep extends Controller {
                 $aRetorno[1] = '';
 
 
-                $oMsg = new Mensagem('Atenção preenchimento manual', 'Verifique o número do CNPJ antes de liberar cadastro!', Mensagem::TIPO_WARNING,10000);
+                $oMsg = new Mensagem('Atenção preenchimento manual', 'Verifique o número do CNPJ antes de liberar cadastro!', Mensagem::TIPO_WARNING, 10000);
                 echo $oMsg->getRender();
 
                 return $aRetorno;
@@ -75,7 +75,7 @@ class ControllerCadCliRep extends Controller {
                 $aRetorno[1] = '';
 
 
-                $oMsg = new Mensagem('Atenção preenchimento manual', 'Verifique o número do CNPJ antes de liberar cadastro!', Mensagem::TIPO_WARNING,10000);
+                $oMsg = new Mensagem('Atenção preenchimento manual', 'Verifique o número do CNPJ antes de liberar cadastro!', Mensagem::TIPO_WARNING, 10000);
                 echo $oMsg->getRender();
 
                 return $aRetorno;
@@ -220,8 +220,8 @@ class ControllerCadCliRep extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
 
-//        $aUserPlano = $this->Persistencia->buscaEmailVenda($sNr);
-//        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+        //$aUserPlano = $this->Persistencia->buscaEmailVenda($sNr);
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
 
         if ($aRetorno[0]) {
@@ -237,8 +237,8 @@ class ControllerCadCliRep extends Controller {
         $aDados = explode('*', $sDados);
         $aDadosEMP = explode('|', $aDados[0]);
         $aIdCampos = explode('|', $aDados[1]);
-        if ($aDados[0] != '') {
-            $sRet = $this->Persistencia->buscaCNPJ($aDados[0]);
+        if ($aDadosEMP[0] != '') {
+            $sRet = $this->Persistencia->buscaCNPJ($aDadosEMP[0]);
             if ($sRet == false) {
                 $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
@@ -262,6 +262,8 @@ class ControllerCadCliRep extends Controller {
                     $oMsg = new Mensagem('Atenção', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP', Mensagem::TIPO_ERROR, '10000');
                     echo $oMsg->getRender();
                 }
+
+                echo 'buscaIBGE("CadCliRep","' . Util::removeAcentos($aDadosEMP[6]) . '","' . $aDadosEMP[8] . '","' . $aIdCampos[12] . '");';
             }
         } else {
             exit;
@@ -281,6 +283,12 @@ class ControllerCadCliRep extends Controller {
             echo $oMsg->getRender();
             exit;
         }
+    }
+
+    public function codigoIBGE($sDados, $teste) {
+        $aDados = explode('|', $sDados);
+        $script = '$("#' . $aDados[1] . '").val(' . $aDados[0] . ');';
+        echo $script;
     }
 
 }

@@ -3058,6 +3058,10 @@ class Controller {
             $aRetorno = $this->afterInsert();
             $this->Persistencia->commit();
         }
+
+        if ($aRetorno[0]) {
+            $aRetorno = $this->afterInsertDetalhe();
+        }
         //instancia a classe mensagem
         if ($aRetorno[0]) {
             $oMsg = new Mensagem('INSERIDO COM SUCESSO', 'Seu registro foi inserido!', Mensagem::TIPO_SUCESSO);
@@ -3134,6 +3138,10 @@ class Controller {
             $this->Persistencia->commit();
 
             $aRetorno = $this->afterCommitUpdate();
+        }
+
+        if ($aRetorno[0]) {
+            $aRetorno = $this->afterAlterarDetalhe();
         }
 
         //instancia a classe mensagem
@@ -4439,6 +4447,20 @@ class Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         return $aCamposChave;
+    }
+
+    public function afterInsertDetalhe() {
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function afterAlterarDetalhe() {
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
     }
 
 }

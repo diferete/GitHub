@@ -393,8 +393,8 @@ if ($sEmailRequest == 'S') {
 
 
     //enviar e-mail vendas
-    //$oEmail->addDestinatario($aRowMail['usuemail']);
-    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+    $oEmail->addDestinatario($aRowMail['usuemail']);
+    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
     $oEmail->addAnexo('app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc));
     $aRetorno = $oEmail->sendEmail();

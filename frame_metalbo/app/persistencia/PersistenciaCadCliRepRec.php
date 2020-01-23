@@ -56,6 +56,7 @@ class PersistenciaCadCliRepRec extends Persistencia {
         $this->adicionaRelacionamento('comer', 'comer');
         $this->adicionaRelacionamento('transp', 'transp');
         $this->adicionaRelacionamento('usucadvenda', 'usucadvenda');
+        $this->adicionaRelacionamento('codIBGE', 'codIBGE');
 
         $this->adicionaOrderBy('nr', 1);
         $this->setSTop(50);
@@ -630,7 +631,9 @@ null/*,null,null,null,null*/)
 ";
 
         $aRetorno = $this->executaSql($sSql);
-
+        if ($aRetorno[0]) {
+            $this->cadastraIBGE($oCliente);
+        }
         return $aRetorno;
     }
 
@@ -737,6 +740,42 @@ null/*,null,null,null,null*/)
         $oSit = $this->consultaSql($sSql);
 
         return $oSit->situaca;
+    }
+
+    public function cadastraIBGE($oCliente) {
+        $sSql = "select COUNT(*) as total from widl.CID01 where cidcep = " . $oCliente->getCidcep();
+        $oCadIBGE = $this->consultaSql($sSql);
+
+        if ($oCadIBGE->total > 0) {
+            
+        } else {
+            $sSqlInsert = "insert into widl.CID01 "
+                    . "(cidcep,cidnome,cidaltitud,ciddist,cidrua,estcod,regcod,cidservico,cidisepisc,cidnuseq,"
+                    . "cidtplogr,cidnmrua,cidIBGE,MicroRegia,cidRestrit,cidDIPAM,cidSIAFI,cidDIME,CidTOM,cidDiasEnt "
+                    . ")values("
+                    . "'" . $oCliente->getCidcep() . "',"
+                    . "'" . $oCliente->getEmpmunicipio() . "',"
+                    . "0,"
+                    . "0,"
+                    . "'" . $oCliente->getEmpend() . "',"
+                    . "'" . $oCliente->getUf() . "',"
+                    . "1,"
+                    . "'',"
+                    . "'',"
+                    . "0,"
+                    . "'',"
+                    . "'',"
+                    . "'" . $oCliente->getCodIBGE() . "',"
+                    . "NULL,"
+                    . "NULL,"
+                    . "NULL,"
+                    . "NULL,"
+                    . "NULL,"
+                    . "NULL,"
+                    . "NULL)";
+
+            $this->executaSql($sSqlInsert);
+        }
     }
 
 }
