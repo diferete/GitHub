@@ -46,4 +46,9 @@ class ControllerModulo extends Controller {
         echo $omsg->getRender();
     }
 
+    public function testaAgendamento($sDados) {
+
+        echo 'alert(' . $sDados . ');';
+    }
+
 }

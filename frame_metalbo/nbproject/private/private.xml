@@ -83,6 +83,10 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerModulo.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/persistencia/PersistenciaMET_TEC_agendamentos.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerMET_TEC_agendamentos.php</file>
+        </group>
     </open-files>
 </project-private>
