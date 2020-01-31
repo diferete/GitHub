@@ -50,6 +50,7 @@ class Grid {
     private $bFocoCampo;
     private $sNomeGrid;
     private $bDesativaRetornoConsulta;
+    private $bFiltroDetalhe;
 
     /**
      * Construtor da classe Grid 
@@ -81,6 +82,15 @@ class Grid {
         $this->setBUsaKeypress(true);
         $this->setBMostraFiltro(false);
         $this->setSNomeGrid('paramGrid');
+        $this->setBFiltroDetalhe(false);
+    }
+
+    function getBFiltroDetalhe() {
+        return $this->bFiltroDetalhe;
+    }
+
+    function setBFiltroDetalhe($bFiltroDetalhe) {
+        $this->bFiltroDetalhe = $bFiltroDetalhe;
     }
 
     function getBBtnConsulta() {
@@ -539,6 +549,10 @@ class Grid {
         }
     }
 
+    public function addFiltroDetalhe($oFiltro) {
+        $this->aFiltro[] = $oFiltro;
+    }
+
     /**
      * Método que retorna renderizaçao de telas modais
      */
@@ -610,8 +624,13 @@ class Grid {
             $sBotao .= $sModal . '</div></div>';
         }
         if (!empty($this->aFiltro)) {
-            $sFiltro = ' <div class="row" id="' . $this->getSId() . '-filtros" style="' . $this->getBMostraFiltro() . ' background-color: whitesmoke">'
-                    . '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 10px 15px 10px 70px;  background-color: #f9f9f9;  border: 1px solid #fff">'
+            if ($this->getBFiltroDetalhe()) {
+                $sFiltro = ' <div class="row" id="' . $this->getSId() . '-filtros"  style="margin-top: 20px !important;background-color: #e8e8e8">';
+                $sFiltro .= '<div style=" position: relative; padding: 10px 15px 50px 70px;">';
+            } else {
+                $sFiltro = ' <div class="row" id="' . $this->getSId() . '-filtros" style="' . $this->getBMostraFiltro() . ' background-color: whitesmoke">';
+            }
+            $sFiltro .= '<form class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="' . $this->getSId() . '-pesquisa" style=" position: relative; padding: 10px 15px 10px 70px;  background-color: #f9f9f9;  border: 1px solid #fff">'
                     . '<div class="ribbon ribbon-clip ribbon-reverse ribbon-dark">'//ribbon ribbon-clip ribbon-reverse ribbon-primary
                     . '<a href="javascript:void(0)" id ="' . $this->getSId() . '-pesq">'
                     . '<span class="ribbon-inner" >'
@@ -643,8 +662,11 @@ class Grid {
             $sFiltro .= '$("#' . $this->getSId() . '-pesq").click(function(){'
                     . '    sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
                     . ' });'
-                    . '</script>'
-                    . '</div>';
+                    . '</script>';
+            if ($this->getBFiltroDetalhe()) {
+                $sFiltro .= '</div>';
+            }
+            $sFiltro .= '</div>';
         }
 
 

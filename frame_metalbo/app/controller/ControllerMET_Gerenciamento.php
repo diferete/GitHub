@@ -2,7 +2,6 @@
 
 /*
  * Implementa a classe controler
- * 
  * @author Cleverton Hoffmann
  * @since 24/08/2018
  */
@@ -43,7 +42,7 @@ class ControllerMET_Gerenciamento extends Controller {
         $oCodSetor = $this->Persistencia->consultaCodSetor($iCodMaq);
 
         $this->Model->setCodsetor($oCodSetor->codsetor);
-
+        
         $this->verificaNrPorMaquina($iCodMaq);
         $this->verificaCampoMaquina();
 
@@ -62,7 +61,7 @@ class ControllerMET_Gerenciamento extends Controller {
         $iCountMq = $this->Persistencia->verificaQuantMaqAber($iCodMaq);
         
         if ($iCountMq != 0) {
-            $oModal = new Modal('Atenção', 'Já existe uma Manutenção Preventiva aberta para a máquina! \n Altere a máquina selecionada!', Modal::TIPO_ERRO);
+            $oModal = new Modal('Atenção', 'Já existe uma Manutenção Preventiva aberta para a máquina! \n Altere a máquina selecionada! \n OU \nVolte a tela inicial de Gerenciamento selecione TODOS RESPONSÁVEIS e clique em Buscar', Modal::TIPO_ERRO);
             echo $oModal->getRender();
             exit();
         }      
@@ -216,7 +215,25 @@ class ControllerMET_Gerenciamento extends Controller {
     
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
+        $oItens = Fabrica::FabricarController('MET_ItensManPrev');
+        $oItens->Persistencia->atualizaDataAntesdaConsulta();
         $this->buscaCelulas();
+        $oDados = $_REQUEST['parametrosCampos'];
+        $aValores = $oDados['parametrosCampos[7'];
+        if($aValores=='sitmp|FINALIZADO'){
+            $this->Persistencia->limpaFiltro();
+            $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO'); 
+        }else{
+            $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');   
+        }
+        $sValoresS = $oDados['parametrosCampos[3'];
+        if($sValoresS!='|TODOS'){
+            $this->Persistencia->limpaFiltro();
+            $this->Persistencia->setSqlWhere('nr in ('.$this->Persistencia->retornaTexMaqPorSetor($sValoresS).')');
+        }else{
+            $this->Persistencia->limpaFiltro();
+        }
+        
     }
     
 }

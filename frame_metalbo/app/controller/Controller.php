@@ -2948,7 +2948,7 @@ class Controller {
         $aCamposTela = $this->View->getTela()->getCampos();
         $this->carregaModel($aCamposTela);
 
-        if ($this->View->getBGravaHistorico() == true) {
+        if ($this->View->getBGravaHistoricoInserir() == true) {
             $this->gravaHistorico('Inserir');
         }
 
@@ -3344,7 +3344,7 @@ class Controller {
         //traz lista campos
         $aCamposTela = $this->View->getTela()->getCampos();
 
-        if ($this->View->getBGravaHistorico() == true) {
+        if ($this->View->getBGravaHistoricoAlterar() == true) {
             $this->gravaHistorico('Alterar');
         }
 
@@ -3621,9 +3621,8 @@ class Controller {
 
             $this->View->criaTela();
 
-            if ($this->View->getBGravaHistorico() == true) {
-                $aItem = explode('=', $sChaveAtual);
-                $this->gravaHistorico('Excluir', $aItem[1]);
+            if ($this->View->getBGravaHistoricoExcluir() == true) {
+                $this->gravaHistorico('Excluir', $sChaveAtual);
             }
 
             $aRetorno = $this->beforeDelete();
@@ -4382,34 +4381,56 @@ class Controller {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
+        $aChave = $this->Persistencia->getChaveArray();
+
+        $sStringItems = '';
+
+        foreach ($aChave as $value) {
+            if (array_key_exists($value->getNomeBanco(), $aCampos)) {
+                if ($sStringItems == '') {
+                    $sStringItems = $value->getNomeBanco() . ': ' . $aCampos[$value->getNomeBanco()];
+                } else {
+                    $sStringItems = $sStringItems . ' ' . $value->getNomeBanco() . ': ' . $aCampos[$value->getNomeBanco()];
+                }
+            }
+        }
 
         if ($sAcao == 'Alterar') {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setFilcgc($_SESSION['filcgc']);
+            $oHist->Model->setUsucodigo($_SESSION['codUser']);
+            $oHist->Model->setUsunome($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
             $oHist->Model->setHistorico($aCampos['historico']);
+            $oHist->Model->setAcao('Alterado registro: ' . $sStringItems);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
         if ($sAcao == 'Inserir') {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setFilcgc($_SESSION['filcgc']);
+            $oHist->Model->setUsucodigo($_SESSION['codUser']);
+            $oHist->Model->setUsunome($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
             $oHist->Model->setHistorico($aCampos['historico']);
+            $oHist->Model->setAcao('Inserido registro: ' . $sStringItems);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
         if ($sAcao == 'Excluir') {
-            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setUsuario($_SESSION['nome']);
+            $sStringItems = $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+            $oHist->Model->setFilcgc($_SESSION['filcgc']);
+            $oHist->Model->setUsucodigo($_SESSION['codUser']);
+            $oHist->Model->setUsunome($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico('Exclusão do item ' . $sDados);
+            $oHist->Model->setHistorico();
+            $oHist->Model->setAcao('Exclusão do item ' . $sDados);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }

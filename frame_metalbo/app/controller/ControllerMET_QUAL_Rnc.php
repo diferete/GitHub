@@ -121,5 +121,8 @@ class ControllerMET_QUAL_Rnc extends Controller {
         echo '$("#' . $aDados[2] . '").val("");';
     }
     
+    public function relQualRNC($renderTo, $sMetodo = '') {   
+        parent::mostraTelaRelatorio($renderTo, 'relQualRNC');              
+    }  
     
 }

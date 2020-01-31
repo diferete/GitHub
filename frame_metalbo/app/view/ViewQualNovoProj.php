@@ -315,6 +315,7 @@ class ViewQualNovoProj extends View {
         $oVlrDesenProj->setIMarginTop(2);
         $oVlrDesenProj->setSValor('0');
 
+
         $oLabel4 = new campo('Ferramental', 'label4', Campo::TIPO_LABEL, 3);
         $oVlrFerra = new campo('', 'vlrFerramen', Campo::TIPO_TEXTO, 1);
         $oVlrFerra->setIMarginTop(2);

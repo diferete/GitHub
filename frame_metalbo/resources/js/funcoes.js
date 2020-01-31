@@ -1283,3 +1283,4 @@ function buscaIBGE(sClasse, municipio, ufIBGE, idCampo) {
         requestAjax("", sClasse, 'codigoIBGE', codIBGE[0] + '|' + idCampo);
     });
 }
+

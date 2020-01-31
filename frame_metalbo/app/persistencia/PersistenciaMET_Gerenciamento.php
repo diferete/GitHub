@@ -24,12 +24,11 @@ class PersistenciaMET_Gerenciamento extends Persistencia{
         $this->adicionaRelacionamento('userabert','userabert');
         $this->adicionaRelacionamento('userfecho','userfecho');
         $this->adicionaRelacionamento('datafech','datafech');
-        
+        //Where que adiciona filtro para mostrar máquinas que tem cadastradas para o setor responsável do usuário do sistema.
+    //    $this->setSqlWhere('nr in ('.$this->retornaTexMaqPorSetor().')');
         $this->adicionaOrderBy('nr',1);
-        
         $this->adicionaJoin('MET_Maquinas',null,1,'codmaq','cod');
         $this->adicionaJoin('Setor');
-       
     }
       
     public function consultaCodSetor($iCodMaq){
@@ -93,13 +92,25 @@ class PersistenciaMET_Gerenciamento extends Persistencia{
     }
     
       public function buscaNrServNeg(){
-        
+          
         $sSql = "select nr from tbitensmp 
                 left outer join    
                 tbservmp on tbitensmp.codsit = tbservmp.codsit 
                 where sitmp <> 'FINALIZADO' 
-                and dias<0
-                group by nr";      
+                and dias<0";
+               
+        $sCodSet = $_SESSION['codsetor'];
+        
+            if($sCodSet=='2'){
+            }else if($sCodSet=='12'){
+                $sSql.=" and tbservmp.resp = 'MANUTENCAO'";  
+            }else if($sCodSet=='29'){     
+                $sSql.=" and tbservmp.resp = 'MECANICA'";  
+            }else{
+                $sSql.=" and tbservmp.resp = 'OPERADOR'";  
+            }
+            
+        $sSql.=" group by nr";      
         
         $oRow = array();
         $result = $this->getObjetoSql($sSql);
@@ -111,6 +122,49 @@ class PersistenciaMET_Gerenciamento extends Persistencia{
         
         return ($oRow);
         
+    }
+    
+    /*
+     * Função que retorna as nr das máquinas que tem serviço cadastrado por responsável - MANUTENÇÃO ELÉTRICA, MECÂNICA e OPERADOR
+     */
+    public function retornaTexMaqPorSetor($sResp){
+          
+        $sSql = "select tbmanutmp.nr from tbmanutmp 
+		left outer join  
+		tbitensmp on tbmanutmp.nr = tbitensmp.nr
+		left outer join    
+                tbservmp on tbitensmp.codsit = tbservmp.codsit 
+                where (tbitensmp.sitmp <> 'FINALIZADO'  ";
+               
+        $sCodSet = $_SESSION['codsetor'];
+        
+        if($sResp==null){
+            if($sCodSet=='2'){
+            }else if($sCodSet=='12'){
+                $sSql.=" and tbservmp.resp = 'MANUTENCAO'";  
+            }else if($sCodSet=='29'){     
+                $sSql.=" and tbservmp.resp = 'MECANICA'";  
+            }else{
+                $sSql.=" and tbservmp.resp = 'OPERADOR'";  
+            }
+        }else if($sResp=='|MANUTENCAO'){
+                $sSql.=" and tbservmp.resp = 'MANUTENCAO'";  
+            }else if($sResp=='|MECANICA'){     
+                $sSql.=" and tbservmp.resp = 'MECANICA'";  
+            }else if($sResp=='|OPERADOR'){
+                $sSql.=" and tbservmp.resp = 'OPERADOR'";  
+            }
+
+        $sSql.=") or tbitensmp.nr is null group by tbmanutmp.nr ";      
+        
+        $result = $this->getObjetoSql($sSql);
+        $i =0;
+        $oRow = array();
+        while ($aRow = $result->fetch(PDO::FETCH_OBJ)){
+            $oRow[$i] = $aRow->nr;    
+            $i++;
+        } 
+        return implode($oRow,',');
     }
     
 }

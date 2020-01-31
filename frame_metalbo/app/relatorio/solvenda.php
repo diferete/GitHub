@@ -21,7 +21,7 @@ class PDF extends FPDF {
         $this->SetFont('Arial', '', 7); // seta fonte no rodape
         $this->Cell(190, 7, 'Página ' . $this->PageNo() . ' de {nb}', 0, 1, 'C'); // paginação
 
-       if ($_REQUEST['output'] == 'email') {
+        if ($_REQUEST['output'] == 'email') {
             $this->SetFont('Arial', '', 8); // seta fonte no rodape
             $this->Cell(180, 1, 'Metalbo Indústria de Fixadores Metálicos LTDA.', 0, 0, 'R');
             $this->Image('biblioteca/assets/images/metalbo-preta.png', 180, 286, 20);
@@ -170,12 +170,12 @@ $pdf->SetY(117);
 $iAlturaRet = 122; // Y (altura) INICIAL DOS DADOS 
 $l = 5; // ALTURA DA LINHA
 
-        $pdf->Cell(9, 5, 'Seq', 0, 0, 'L');
-        $pdf->Cell(18, 5, 'Código', 0, 0, 'L');
-        $pdf->Cell(115, 5, 'Descrição', 0, 0, 'L');
-        $pdf->Cell(20, 5, 'Qt Cto', 0, 0, 'L');
-        $pdf->Cell(20, 5, 'R$');
-        $pdf->Cell(20, 5, 'R$ Total', 0, 1, 'L');
+$pdf->Cell(9, 5, 'Seq', 0, 0, 'L');
+$pdf->Cell(18, 5, 'Código', 0, 0, 'L');
+$pdf->Cell(115, 5, 'Descrição', 0, 0, 'L');
+$pdf->Cell(20, 5, 'Qt Cto', 0, 0, 'L');
+$pdf->Cell(20, 5, 'R$');
+$pdf->Cell(20, 5, 'R$ Total', 0, 1, 'L');
 /**
  * Select dos dados
  */
@@ -261,15 +261,14 @@ if ($_REQUEST['output'] == 'email') {
 if ($_REQUEST['output'] == 'email') {
     $oEmail = new Email();
     $oEmail->setMailer();
-    /* testes */
     $oEmail->setEnvioSMTP();
-    //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-    $oEmail->setServidor('smtp.terra.com.br');
-    $oEmail->setPorta(587);
+    $oEmail->setServidor(Config::SERVER_SMTP);
+    $oEmail->setPorta(Config::PORT_SMTP);
     $oEmail->setAutentica(true);
-    $oEmail->setUsuario('metalboweb@metalbo.com.br');
-    $oEmail->setSenha('Metalbo@@50');
-    $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+    $oEmail->setUsuario(Config::EMAIL_SENDER);
+    $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+    $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
     $oEmail->setAssunto(utf8_decode('Solicitação de venda nº' . $iNr));
     $oEmail->setMensagem(utf8_decode('Anexo solicitação de venda nº' . $iNr));
@@ -290,7 +289,7 @@ if ($_REQUEST['output'] == 'email') {
     if ($aRetorno[0]) {
         $oCot = Fabrica::FabricarPersistencia('SolPed');
         //$oCot->confirmaEnvioEmail($iNr,$sTabCab);
-        $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+        //$oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
         echo $oMensagem->getRender();
         echo"$('#" . $aDados[1] . "-pesq').click();";
     } else {

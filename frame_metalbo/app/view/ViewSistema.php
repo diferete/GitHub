@@ -147,7 +147,7 @@ class ViewSistema extends View {
                   .'<i class="icon wb-search" aria-hidden="true"></i>'
                   .'</button>' */
                 . '</div>'
-                . '<div class="navbar-container container-fluid" >'
+                . '<div class="navbar-container container-fluid">'
                 . '<!-- Navbar Collapse -->'
                 . '<div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">'
                 . '<!-- Navbar Toolbar -->'

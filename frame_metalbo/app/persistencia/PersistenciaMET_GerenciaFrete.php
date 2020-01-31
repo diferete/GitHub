@@ -32,6 +32,7 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
         $this->adicionaRelacionamento('usuario', 'usuario');
         $this->adicionaRelacionamento('obsfinal', 'obsfinal');
         $this->adicionaRelacionamento('dataem', 'dataem');
+        $this->adicionaRelacionamento('datafn', 'datafn');
 
         $this->adicionaOrderBy('nr', 1);
         $this->adicionaJoin('Pessoa', null, 1, 'cnpj', 'empcod');
@@ -104,20 +105,20 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
      * @param type $aValores
      * @return type
      */
-    public function retornaCodTipo($aValores) {
-
-        $sSql = " select codtipo from tbfrete where cnpj = '" . $aValores['cnpj'] . "' group by codtipo";
-
-        $result = $this->getObjetoSql($sSql);
-
-        $iI = 0;
-        while ($key = $result->fetch(PDO::FETCH_ASSOC)) {
-            $aRow1[$iI] = $key;
-            $iI++;
-        }
-
-        return $aRow1;
-    }
+//    public function retornaCodTipo($aValores) {
+//
+//        $sSql = " select codtipo from tbfrete where cnpj = '" . $aValores['cnpj'] . "' group by codtipo";
+//
+//        $result = $this->getObjetoSql($sSql);
+//
+//        $iI = 0;
+//        while ($key = $result->fetch(PDO::FETCH_ASSOC)) {
+//            $aRow1[$iI] = $key;
+//            $iI++;
+//        }
+//
+//        return $aRow1;
+//    }
 
     /**
      * Realiza a consulta e execução de cálculos de frete
@@ -203,7 +204,7 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                 coalesce( taxa,0),2)/imposto,2)  as freteminimo
                 from tbfrete left outer join tbnt#
                 on tbfrete.cnpj = tbnt#.cnpj
-                where  tbfrete.cnpj = " . $aValores['cnpj'] . " and codtipo = " . $aValores['codtipo'] . "";
+                where  tbfrete.cnpj = " . $aValores['cnpj'] . " ";
 
                 $result = $PDOnew->query($sSql1);
             }
@@ -225,7 +226,7 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                     coalesce(  nfsvlrtot  *gris,0) ,2)  AS totalfrete
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where  tbfrete.cnpj = " . $aValores['cnpj'] . " and codtipo = " . $aValores['codtipo'] . "";
+                    where  tbfrete.cnpj = " . $aValores['cnpj'] . " ";
                 $result = $PDOnew->query($sSql1);
             }
 
@@ -267,7 +268,7 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                     coalesce(  nfsvlrtot  *gris,0),2)/ imposto ,2) as totalfrete, '' as freteminimo
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where  tbfrete.cnpj = " . $aValores['cnpj'] . " and codtipo = " . $aValores['codtipo'] . "";
+                    where  tbfrete.cnpj = " . $aValores['cnpj'] . "";
                 $result = $PDOnew->query($sSql1);
             }
 

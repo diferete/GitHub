@@ -12,8 +12,8 @@ class viewRepOffice extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-        
-        
+
+
         $this->setaTiluloConsulta('Consulta escritórios de representações');
 
 

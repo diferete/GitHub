@@ -135,7 +135,6 @@ class ViewQualContencao extends View {
         $oTipo = new Campo('Tipo ação', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTipo->setSValor($aValor[3]);
         $oTipo->setBCampoBloqueado(true);
-        
         if ($aValor[3] == 'Ação Preventiva') {
             $oTipo->setSCorFundo(Campo::FUNDO_VERDE);
             $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);

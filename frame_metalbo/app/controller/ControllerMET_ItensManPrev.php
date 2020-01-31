@@ -14,7 +14,7 @@ class ControllerMET_ItensManPrev extends Controller {
     }
 
     /**
-     * Cria tela
+     * Cria tela 
      * @param type $sDados
      * @param type $sCampos
      */
@@ -142,6 +142,9 @@ class ControllerMET_ItensManPrev extends Controller {
         return $aRetorno;
     }
 
+    /**
+     * Verifica serviços por máquinas
+     */
      public function verificaServicoMaquina(){
          
         $sDados = htmlspecialchars_decode($_REQUEST['campos']);
@@ -161,7 +164,6 @@ class ControllerMET_ItensManPrev extends Controller {
     /*
      * Mensagem de finalização do serviço
      */
-
     public function msgFinalizaServ($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -188,7 +190,6 @@ class ControllerMET_ItensManPrev extends Controller {
     /*
      * Finaliza a o Serviço
      */
-
     public function finalizaServ($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -232,6 +233,7 @@ class ControllerMET_ItensManPrev extends Controller {
     public function antesCarregaDetalhe($aCampos) {
         parent::antesCarregaDetalhe($aCampos);
         
+        //Habilita a inserção de dados nos campos dos IDs
          echo  "$('#" . $aCampos[8][1] . "').prop('readonly', true);";
          echo  "$('#" . $aCampos[9][1] . "').prop('readonly', true);";
          echo  "$('#" . $aCampos[8][1] . "-btn').prop('disabled', true);";
@@ -245,6 +247,7 @@ class ControllerMET_ItensManPrev extends Controller {
         $aIds = $_REQUEST['parametros'];
         $aIds2 = explode(',', $aIds['parametros[']);
         
+        //Desabilita a inserção de dados nos campos dos IDs
         echo  "$('#" . $aIds2[4] . "').prop('readonly', false);";
         echo  "$('#" . $aIds2[3] . "').prop('readonly', false);";
         echo  "$('#" . $aIds2[3] . "-btn').attr('disabled', false);";
@@ -255,6 +258,10 @@ class ControllerMET_ItensManPrev extends Controller {
         return $aRetorno;
     }
     
+    /**
+     * Busca os dados do Serviço e o que fazer
+     * @param type $sDados
+     */
     public function camposGrid($sDados){
         $aDados = explode(',',$sDados);
         $aDad = explode('=', $aDados[1]);
@@ -267,6 +274,9 @@ class ControllerMET_ItensManPrev extends Controller {
         echo '$("#'.$aDados[3].'").val("'.$sOqf.'");';
     }
     
+    /**
+     * Adiciona filtro por responsável pela Manutenção Preventiva
+     */
     public function adidicionaFiltroSet(){
          $sCodSet = $_SESSION['codsetor'];
             if($sCodSet=='2'){

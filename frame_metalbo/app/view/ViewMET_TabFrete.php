@@ -26,9 +26,13 @@ class ViewMET_TabFrete extends View {
         $oTaxa = new CampoConsulta('Taxa','taxa', CampoConsulta::TIPO_DECIMAL);
         $oImposto = new CampoConsulta('Imposto','imposto', CampoConsulta::TIPO_DECIMAL);
         
+        $oFiltroCnpj = new Filtro($oCnpj, Filtro::CAMPO_TEXTO_IGUAL, 2);
         $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 2);
+        $oFiltroEmpDes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 2);
+        $oFiltroCodtip = new Filtro($oCodtip, Filtro::CAMPO_INTEIRO, 2);
+        $oFiltroRef = new Filtro($oRef, Filtro::CAMPO_TEXTO, 2);
 
-        $this->addFiltro($oFiltroSeq);
+        $this->addFiltro($oFiltroCnpj,$oFiltroSeq,$oFiltroEmpDes,$oFiltroCodtip,$oFiltroRef);
         
         $this->setBScrollInf(true);
         

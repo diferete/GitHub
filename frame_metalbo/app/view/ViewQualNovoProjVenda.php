@@ -271,13 +271,13 @@ class ViewQualNovoProjVenda extends View {
         $oLabel1->setITamMarginTopBadge(22);
         $oLabel1->setITamFonteBadge(18);
         $oLabel1->setApenasTela(true);
-               
+
         $oLabel2 = new Campo('Valores', 'label2', Campo::TIPO_BADGE, 3);
         $oLabel2->setSEstiloBadge(Campo::BADGE_SUCCESS);
         $oLabel2->setITamMarginTopBadge(22);
         $oLabel2->setITamFonteBadge(18);
         $oLabel2->setApenasTela(true);
-        
+
         $oLabel3 = new campo('Planejamento e desenvolvimento do projeto', 'label3', Campo::TIPO_LABEL, 3);
         $oVlrDesenProj = new Campo('', 'vlrDesenProj', Campo::TIPO_TEXTO, 1);
         $oVlrDesenProj->setIMarginTop(2);

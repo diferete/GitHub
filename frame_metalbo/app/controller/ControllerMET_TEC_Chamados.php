@@ -87,6 +87,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail->setAutentica(true);
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
         $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
@@ -304,6 +305,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail->setAutentica(true);
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
         if ($oDados->repoffice != null) {
@@ -370,6 +372,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail->setAutentica(true);
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
         if ($oDados->situaca != 'FINALIZADO') {
@@ -439,6 +442,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail->setAutentica(true);
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
         if ($oDados->situaca != 'AGUARDANDO') {

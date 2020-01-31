@@ -44,6 +44,8 @@ class ViewMET_GerenciaFrete extends View {
         $oSit->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, true, 'APROVADO');
         $oSit->addComparacao('E', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, true, 'ESPERA');
         $oUser = new CampoConsulta('Usuário','usuario');
+        $oDatEm = new CampoConsulta('Emissão','dataem', CampoConsulta::TIPO_DATA);
+        $oDatVenc = new CampoConsulta('Vencimento','datafn', CampoConsulta::TIPO_DATA);
         
         $oFiltroCnpj = new Filtro($oCnpj, Filtro::CAMPO_SELECT, 3,3,3,3);
         $oFiltroCnpj->addItemSelect('', 'Todas Empresas');
@@ -55,20 +57,23 @@ class ViewMET_GerenciaFrete extends View {
         
         $oFiltroConh = new Filtro($oNrCon,Filtro::CAMPO_TEXTO, 1);
         $oFiltroNota = new Filtro($oNrNot,Filtro::CAMPO_TEXTO, 1);
+        $oFiltroFat = new Filtro($oNrFat,Filtro::CAMPO_INTEIRO, 1);
+        $oFiltroDtEmFat = new Filtro($oDatEm,Filtro::CAMPO_TEXTO, 1);
+        $oFiltroDtVnFat = new Filtro($oDatVenc,Filtro:: CAMPO_TEXTO, 1);
         $oFiltroTipo = new Filtro($oCodTipo,Filtro::CAMPO_SELECT, 1);
         $oFiltroTipo->addItemSelect('', 'Todos tipos');
         $oFiltroTipo->addItemSelect('1', 'VENDA');
         $oFiltroTipo->addItemSelect('2', 'COMPRA');
         $oFiltroTipo->setSLabel('');
-        $oFiltroSitu = new Filtro($oSit,Filtro::CAMPO_SELECT, 2);
+        $oFiltroSitu = new Filtro($oSit,Filtro::CAMPO_SELECT, 1);
         $oFiltroSitu->addItemSelect('', 'Todas situações');
         $oFiltroSitu->addItemSelect('A', 'APROVADO');
         $oFiltroSitu->addItemSelect('E', 'ESPERA');
         $oFiltroSitu->setSLabel('');
         
-        $this->addFiltro($oFiltroCnpj,$oFiltroConh,$oFiltroNota,$oFiltroTipo,$oFiltroSitu);
+        $this->addFiltro($oFiltroCnpj,$oFiltroConh,$oFiltroNota, $oFiltroTipo, $oFiltroFat, $oFiltroDtEmFat, $oFiltroDtVnFat,$oFiltroSitu);
         
-        $this->addCampos($oBotaoContPag, $oNr,$oCnpj,$oEmpDes,$oNrCon,$oNrFat,$oNrNot,$oTotalKg,$oTotalNf,$oFracaoFrete,$oValSer,$oCodTipo,$oSit,$oDat,$oUser);
+        $this->addCampos($oBotaoContPag, $oNr,$oCnpj,$oEmpDes,$oNrCon,$oNrFat,$oNrNot,$oTotalKg,$oTotalNf,$oFracaoFrete,$oValSer,$oCodTipo,$oDatEm,$oDatVenc,$oSit,$oDat,$oUser);
         
     }
     
@@ -145,7 +150,8 @@ class ViewMET_GerenciaFrete extends View {
         $oSit->addItemSelect('E', 'Espera');
         
         $oObs = new Campo('Obs.Final','obsfinal', Campo::TIPO_TEXTAREA, 8);
-        
+        $oObs->setId('gerenciafrete_obs');
+                
         $oGridFrete = new Campo('Resultado Cálculos Frete','gridFrete', Campo::TIPO_GRID,12,12,12,12,180);
         $oSequencia = new CampoConsulta('Sequencia','seq');
         $oReferencia = new CampoConsulta('Referência','ref');
@@ -174,12 +180,16 @@ class ViewMET_GerenciaFrete extends View {
         $oL = new Campo('','tes', Campo::TIPO_LINHABRANCO);
         $oL->setApenasTela(true);
         
-        $sDataEm = new Campo('Data','dataem', Campo::TIPO_DATA, 2);
-        $sDataEm->addValidacao(false);
+        $sDataEm = new Campo('Data de Emissão','dataem', Campo::TIPO_DATA, 2);
         $sDataEm->setId('gerenciafrete_dataem');
+        $sDataEm->addValidacao(false);
         
-        $this->addCampos(array($oNr, $oCnpj,$oNrFat,$sDataEm,$oCodtip),$oL,
-                array($oNrCon,$oNrNot,$oTotalNf, $oTotalKg,$oFracaoFrete, $oValSer,$oSit),$oL, $oSeqReg, $oGridFrete, $oL, array($oDat,$oHora,$oUser),$oL, $oObs);
+        $sDataFn = new Campo('Data de Vencimento','datafn', Campo::TIPO_DATA, 2);
+        $sDataFn->setId('gerenciafrete_datafn');
+        $sDataFn->addValidacao(false);
+        
+        $this->addCampos(array($oNr, $oCnpj,$oNrFat,$sDataEm,$sDataFn),$oL,
+                array($oCodtip, $oNrCon,$oNrNot,$oTotalNf, $oTotalKg,$oFracaoFrete, $oValSer,$oSit),$oL, $oSeqReg, $oGridFrete, $oL, array($oDat,$oHora,$oUser),$oL, $oObs);
         
     }
     

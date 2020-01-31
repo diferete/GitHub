@@ -4,7 +4,7 @@
 require('../../biblioteca/graficos/Grafico.php');
 //require '../../biblioteca/pdfjs/pdf_js.php';
 include("../../includes/Config.php");
-
+date_default_timezone_set('America/Sao_Paulo');
 $sUserRel = $_REQUEST['userRel'];
 $sData = date('d/m/Y');
 $sHora = date('H:i');
@@ -13,6 +13,7 @@ if (isset($_REQUEST['det'])){
 }else{
     $bTip = false;
 }
+$NomeArquivo = 'Rel-';
 $dDatini = $_REQUEST['dataini'];
 $dDatfin = $_REQUEST['datafinal'];
 $sNrFat = $_REQUEST['nrfat'];
@@ -101,7 +102,7 @@ $sAuxCnpj = '';
 if($bTip){
     
     
-    $sql = "select nr,tbgerecfrete.cnpj,empdes,
+    $sql = "select nr,tbgerecfrete.cnpj,empdes,convert (varchar,datafn,103) as datafn,
             nrconhe,nrfat,nrnotaoc,totakg,totalnf,valorserv,convert (varchar,data,103) as data,sit,usuario,
             convert (varchar,dataem,103) as dataem, codtipo
             from tbgerecfrete left outer join widl.EMP01
@@ -157,23 +158,25 @@ if($bTip){
         $pdf->SetFont('arial', '', 8);
         $pdf->Cell(22, 5, $row['nrnotaoc'], 'R,B,T,L', 0, 'L');
         $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(25, 5, number_format($row['totakg'],2), 'R,B,T', 0, 'L');
+        $pdf->Cell(20, 5, number_format($row['totakg'],2), 'R,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(25, 5, number_format($row['totalnf'],2,',','.'), 'R,B,T', 0, 'L');
+        $pdf->Cell(20, 5, number_format($row['totalnf'],2,',','.'), 'R,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(25, 5, number_format($row['valorserv'],2), 'R,B,T,L', 0, 'L');
+        $pdf->Cell(20, 5, number_format($row['valorserv'],2), 'R,B,T,L', 0, 'L');
         $pdf->SetFont('arial', '', 8);
         if($row['codtipo']==1){
-            $pdf->Cell(20, 5, 'Venda', 'R,B,T', 0, 'L');
+            $pdf->Cell(15, 5, 'Venda', 'R,B,T', 0, 'L');
             $iVenda++;
             $iTotalServVenda = $iTotalServVenda + $row['valorserv'];
         }else{
-            $pdf->Cell(20, 5, 'Compra', 'R,B,T', 0, 'L'); 
+            $pdf->Cell(15, 5, 'Compra', 'R,B,T', 0, 'L'); 
             $iCompra++;
             $iTotalServCompra = $iTotalServCompra + $row['valorserv'];
         }
         $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(25, 5, $row['dataem'], 'R,B,T', 1, 'L');
+        $pdf->Cell(20, 5, $row['dataem'], 'R,B,T', 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(25, 5, $row['datafn'], 'R,B,T', 1, 'L');
               
         //Contadores
         $iQntTotal++;
@@ -191,6 +194,7 @@ if($bTip){
             $iTotalPorcMedPrecKg = $iTotalPorcMedPrecKg + ($row['totalnf']);   
         }
         $pdf = quebraPagina($pdf->GetY()+15, $pdf, $row);
+        $NomeArquivo = rtrim($row['nrfat']).'-'.rtrim($row['cnpj']).'-'.rtrim($row['empdes']);
     }
     $pdf->Ln(5);
     $pdf->SetFont('arial', 'B', 9);
@@ -232,7 +236,7 @@ if($bTip){
 //Resumido
 }else{
     
-    $sql = "select nrfat,tbgerecfrete.cnpj,empdes,
+    $sql = "select nrfat,tbgerecfrete.cnpj,empdes,convert (varchar,datafn,103) as datafn,
             round(SUM(valorserv),2) as TotalGeral, convert (varchar,dataem,103) as dataem
             from tbgerecfrete left outer join widl.EMP01
             on tbgerecfrete.cnpj = widl.EMP01.empcod";
@@ -253,7 +257,7 @@ if($bTip){
         $sql.=" and nrconhe = '" . $sNrCon . "'";
     } 
     
-    $sql.=" group by tbgerecfrete.cnpj,empdes,nrfat,dataem";
+    $sql.=" group by tbgerecfrete.cnpj,empdes,nrfat,dataem,datafn";
       
     $sth = $PDO->query($sql);
     $iN = 0;
@@ -264,11 +268,13 @@ if($bTip){
             $pdf->SetFont('arial', 'B', 9);
             $pdf->Cell(28, 5, 'CNPJ','L,B,T', 0, 'L'); 
             $pdf->SetFont('arial', 'B', 9);
-            $pdf->Cell(105, 5, 'Empresa', 'L,B,T', 0, 'L'); 
+            $pdf->Cell(78, 5, 'Empresa', 'L,B,T', 0, 'L'); 
             $pdf->SetFont('arial', 'B', 9);
             $pdf->Cell(25, 5, 'Total Geral', 'L,B,T', 0, 'L');
             $pdf->SetFont('arial', 'B', 9);
-            $pdf->Cell(23, 5, 'Data Emissão', 'L,B,T,R', 1, 'L');
+            $pdf->Cell(23, 5, 'Data Emissão', 'L,B,T', 0, 'L');
+            $pdf->SetFont('arial', 'B', 9);
+            $pdf->Cell(27, 5, 'Data Vencimento', 'L,B,T,R', 1, 'L');
             $iN++;
          }
                 
@@ -277,11 +283,13 @@ if($bTip){
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(28, 5, $row['cnpj'], 'R,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(105, 5, $row['empdes'], 'R,B,T', 0, 'L');
+        $pdf->Cell(78, 5, $row['empdes'], 'R,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(25, 5, number_format($row['TotalGeral'],2,',','.'), 'R,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(23, 5, $row['dataem'], 'R,B,T', 1, 'L');
+        $pdf->Cell(23, 5, $row['dataem'], 'R,B,T', 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(27, 5, $row['datafn'], 'R,B,T', 1, 'L');
         
         if(isset($array[$row['empdes']])){
             $array[$row['empdes']] = number_format($array[$row['empdes']] + $row['TotalGeral'],2,',','.');
@@ -289,6 +297,7 @@ if($bTip){
             $array[$row['empdes']] = number_format($row['TotalGeral'],2,',','.');
         }
         $pdf = quebraPagina($pdf->GetY()+15, $pdf, null);
+        $NomeArquivo = rtrim($row['nrfat']).'-'.rtrim($row['cnpj']).'-'.rtrim($row['empdes']);
     }
     
     $pdf->AddPage();
@@ -317,8 +326,10 @@ if($bTip){
     $pdf->PieChart(200, 200, $array, '%l : %v (%p)', null, 0, 10);
     }
 }
-
-$pdf->Output('I', 'relGerenciaFrete.pdf');
+if($sCnpj==null){
+    $NomeArquivo = "Relatorio de Frete";
+}
+$pdf->Output('I', $NomeArquivo.'.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
 
 //Função que quebra página em uma dada altura do PDF
@@ -354,14 +365,16 @@ function cabecalho($pdf, $row){
             $pdf->SetFont('arial', 'B', 8);
             $pdf->Cell(22, 5, 'Nota', 'L,B,T', 0, 'L');
             $pdf->SetFont('arial', 'B', 8);
-            $pdf->Cell(25, 5, 'Total Kg', 'L,B,T', 0, 'L');
+            $pdf->Cell(20, 5, 'Total Kg', 'L,B,T', 0, 'L');
             $pdf->SetFont('arial', 'B', 8);
-            $pdf->Cell(25, 5, 'Total R$', 'L,B,T,R', 0, 'L');
+            $pdf->Cell(20, 5, 'Total R$', 'L,B,T,R', 0, 'L');
             $pdf->SetFont('arial', 'B', 8);
-            $pdf->Cell(25, 5, 'Valor Serviço', 'L,B,T,R', 0, 'L');
+            $pdf->Cell(20, 5, 'Valor Serviço', 'L,B,T,R', 0, 'L');
             $pdf->SetFont('arial', 'B', 8);
-            $pdf->Cell(20, 5, 'Tipo', 'L,B,T,R', 0, 'L');
+            $pdf->Cell(15, 5, 'Tipo', 'L,B,T,R', 0, 'L');
             $pdf->SetFont('arial', 'B', 8);
-            $pdf->Cell(25, 5, 'Dt. Emissão', 'L,B,T,R', 1, 'L');
+            $pdf->Cell(20, 5, 'Dt. Emissão', 'L,B,T,R', 0, 'L');
+            $pdf->SetFont('arial', 'B', 8);
+            $pdf->Cell(25, 5, 'Dt. Vencimento', 'L,B,T,R', 1, 'L');
             return $pdf;
 }

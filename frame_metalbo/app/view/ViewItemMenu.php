@@ -33,7 +33,6 @@ class ViewItemMenu extends View {
         $oIteclasseG = new CampoConsulta('Classe', 'iteclasse');
         $oIteMetodoG = new CampoConsulta('Metodo', 'itemetodo');
         $oIteOrdemG = new CampoConsulta('Ordem', 'iteordem');
-        
         $this->addCamposDetalhe(/* $oModCodG,$oModDesG, */$oMenuG, $oMenuDesG, $oIteCodigoG, $oItenDes, $oIteclasseG, $oIteMetodoG, $oIteOrdemG);
         $this->addGriTela($this->getOGridDetalhe());
     }

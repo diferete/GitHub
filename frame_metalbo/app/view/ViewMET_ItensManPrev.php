@@ -17,11 +17,11 @@ class ViewMET_ItensManPrev extends View {
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
-        $this->getOGridDetalhe()->setIAltura(200);
+        $this->getOGridDetalhe()->setIAltura(100);
         $this->getOGridDetalhe()->setSNomeGrid('itensManPrev');
         
        // $this->getOGridDetalhe()->setBGridResponsivo(false);
-
+        
         $oBotaoFinalizar = new CampoConsulta('Finalizar', 'teste', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoFinalizar->setILargura(15);
         $oBotaoFinalizar->setSTitleAcao('Finalizar item!');
@@ -146,10 +146,13 @@ class ViewMET_ItensManPrev extends View {
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oNr->setBCampoBloqueado(true);
         $oNr->setSValor($aValor[1]);
+        $oNr->setBOculto(true);
 
         $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oFilcgc->setBCampoBloqueado(true);
         $oFilcgc->setSValor($aValor[0]);
+        $oFilcgc->setBOculto(true);
+
 
         $oCodmaq = new Campo('Cod.Maq.', 'codmaq', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oCodmaq->setSValor($aValor[2]);
@@ -195,6 +198,7 @@ class ViewMET_ItensManPrev extends View {
         $oCodSit->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
         $oQueFazer = new Campo('O que fazer', 'oqfazer', Campo::CAMPO_SELECTSIMPLE, 5, 5, 12, 12);
+        $oQueFazer->addItemSelect('', '');
         $oQueFazer->addItemSelect('AJUSTE', 'AJUSTE');
         $oQueFazer->addItemSelect('ENGRAXE', 'ENGRAXE');
         $oQueFazer->addItemSelect('LIMPAR', 'LIMPAR');
@@ -214,7 +218,7 @@ class ViewMET_ItensManPrev extends View {
         $oQueFazer->addItemSelect('VERIFICAR FOLGAS', 'VERIFICAR FOLGAS');
         $oQueFazer->addItemSelect('VERIFICAR NECESSIDADE DE TROCA', 'VERIFICAR NECESSIDADE DE TROCA');
         $oQueFazer->addItemSelect('VERIFICAR VAZAMENTO', 'VERIFICAR VAZAMENTO');
-        //$oQueFazer->setApenasTela(true);
+        $oQueFazer->addValidacao(false, Validacao::TIPO_STRING);
 
         $oSitmp = new Campo('Situação', 'sitmp', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oSitmp->setSValor('ABERTO');
@@ -233,7 +237,7 @@ class ViewMET_ItensManPrev extends View {
         $oL = new Campo('', '', Campo::TIPO_LINHA, 12, 12, 12, 12);
 
         //NOVO-------------------------------------------------------------------------------------------
-        $oBotConf = new Campo('INSERIR', '', Campo::TIPO_BOTAOSMALL, 1);
+        $oBotConf = new Campo('INSERIR', '', Campo::TIPO_BOTAOSMALL, 1,1,2,2);
         $oBotConf->setIMarginTop(6);
         if ($sAcaoRotina == 'acaoVisualizar') {
             $oBotConf->getOBotao()->setBDesativado(true);
@@ -255,10 +259,11 @@ class ViewMET_ItensManPrev extends View {
       //  $oFezManut->setITamanho(Campo::TAMANHO_GRANDE);
         
         if ($sAcaoRotina == 'acaoVisualizar') {
-            $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes), array($oDatabert, $oUserinic, $oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), $oObs, $oFezManut);
+            $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes, $oDatabert, $oUserinic, $oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), $oObs, $oFezManut);
         }else{
-            $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes), array($oDatabert, $oUserinic, $oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), array($oObs),array($oFezManut, $oBotConf));
+            $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes, $oDatabert, $oUserinic, $oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), array($oObs),array($oFezManut, $oBotConf));
         }
+     
         
         //-novo-----------------------------------------
         $this->addCamposFiltroIni($oFilcgc, $oNr, $oCodmaq);

@@ -201,6 +201,7 @@ class Campo {
         $this->setSCorTituloGridPainel(Campo::TITULO_DARK);
         $this->setICasaDecimal(2);
         $this->setBNomeArquivo(false);
+        $this->setICaracter('10000');
 
 
         $this->aItemsSelect = array();
@@ -1345,10 +1346,9 @@ class Campo {
 
             $sRetorno = ' initialPreview: ['; //Incio InitialPreview
 
-            if (($Extensao == 'PNG') || ($Extensao == 'png') || ($Extensao == 'gif') || ($Extensao == 'GIF') || ($Extensao == 'jpg') || ($Extensao == 'JPG')) {
+            if (($Extensao == 'PNG') || ($Extensao == 'png') || ($Extensao == 'gif') || ($Extensao == 'GIF') || ($Extensao == 'jpg') || ($Extensao == 'JPG') || ($Extensao == 'jpeg') || ($Extensao == 'JPEG')) {
                 $sRetorno .= '"<img src=\\\'uploads/' . $ArquivoDir . '\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'>"';
             }
-
 
             if (($Extensao == 'pdf') || ($Extensao == 'PDF')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/pdf.png\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';

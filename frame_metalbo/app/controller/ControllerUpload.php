@@ -41,7 +41,7 @@ class ControllerUpload extends Controller {
 
                     if ($aParametros[1]) {
                         //Cria novo nome, junto com a extensão
-                        $oArquivo['NOME_NOVO'] = date("d-m-Y_h-i ") . $oArquivo['NOME'];
+                        $oArquivo['NOME_NOVO'] = date("d-m-Y_h-i ") . Util::removeAcentos($oArquivo['NOME']);
                     } else {
                         //Cria novo nome, junto com a extensão
                         $oArquivo['NOME_NOVO'] = md5(date("d_m_y_h_i_s")) . '.' . $oArquivo['EXTENSAO'];

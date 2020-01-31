@@ -326,6 +326,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         return $aRetorno;
     }
 
+
     function buscaCarrinho($aDados) {
 
 

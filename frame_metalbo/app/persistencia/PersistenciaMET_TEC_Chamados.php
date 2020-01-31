@@ -39,6 +39,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->adicionaRelacionamento('anexo3', 'anexo3');
 
 
+        
         if ($_SESSION['codsetor'] != 2) {
             $this->adicionaFiltro('setor', $_SESSION['codsetor']);
         }
@@ -48,7 +49,6 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         if ($_SESSION['repoffice'] != '') {
             $this->adicionaFiltro('repoffice', $_SESSION['repofficedes']);
         }
-        
         $this->setSTop('50');
         $this->adicionaOrderBy('datacad', 1);
     }

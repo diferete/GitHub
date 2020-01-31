@@ -42,7 +42,7 @@ class ControllerQualNovoProjRep extends Controller {
         $sDescProd = $this->Model->getDesc_novo_prod();
         if (preg_match('/[\'^£$%&*()}{@#~?><>|=_¬¨]/', $sDescProd)) {
 
-            $oMsg = new Mensagem('Atenção', 'Caractere inválido detectado na descrição. Favor verificar.', Mensagem::TIPO_WARNING,'70000');
+            $oMsg = new Mensagem('Atenção', 'Caractere inválido detectado na descrição. Favor verificar.', Mensagem::TIPO_WARNING, '70000');
             echo $oMsg->getRender();
 
             $aRetorno = array();
@@ -155,13 +155,13 @@ class ControllerQualNovoProjRep extends Controller {
 
         $oEmail = new Email();
         $oEmail->setMailer();
-
         $oEmail->setEnvioSMTP();
         $oEmail->setServidor(Config::SERVER_SMTP);
         $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $oDadosProj = $this->Persistencia->buscaDadosEmail($aCamposChave);
@@ -319,13 +319,13 @@ class ControllerQualNovoProjRep extends Controller {
 
         $oEmail = new Email();
         $oEmail->setMailer();
-
         $oEmail->setEnvioSMTP();
         $oEmail->setServidor(Config::SERVER_SMTP);
         $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         //monta o foreach para envio dos e-mails 
@@ -534,13 +534,13 @@ class ControllerQualNovoProjRep extends Controller {
 
         $oEmail = new Email();
         $oEmail->setMailer();
-
         $oEmail->setEnvioSMTP();
         $oEmail->setServidor(Config::SERVER_SMTP);
         $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $oAprov = $this->Persistencia->buscaProposta($aDadosP);

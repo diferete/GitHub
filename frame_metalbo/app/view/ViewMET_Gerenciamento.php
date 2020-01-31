@@ -26,21 +26,27 @@ class ViewMET_Gerenciamento extends View {
         foreach ($aDado5 as $key){
             $oNr->addComparacao ($key, CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
         }
+        
         $oNr->setSOperacao('personalizado');
         $oCodmaq = new CampoConsulta('Cod.Maq.', 'codmaq');
         $oDesMaq = new CampoConsulta('Maquina', 'MET_Maquinas.maquina');
         $oCodsetor = new CampoConsulta('Cod.Setor', 'codsetor');
         $oSetDes = new CampoConsulta('Setor', 'Setor.descsetor');
         $oSitmp = new CampoConsulta('Situação', 'sitmp');
-        $oDatabert = new CampoConsulta('DataAbert.', 'databert', CampoConsulta::TIPO_DATA);
-        $oUserabert = new CampoConsulta('UsuarioAbert.', 'userabert');
         $oSeq = new CampoConsulta('Célula', 'MET_Maquinas.seq');
         $oSetor = new CampoConsulta('Setor', 'MET_Maquinas.codsetor');
         $oCategoria = new CampoConsulta('Categoria', 'MET_Maquinas.maqtip');
+        $oResp = new CampoConsulta('Resp', '');
+        $oResp->setBColOculta(true);
         
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1);
         $oFiltroCodMaquina = new Filtro($oCodmaq, Filtro::CAMPO_TEXTO_IGUAL, 1);
         $oFiltroDesMaquina = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 2);
+        $oFiltroSituacao = new Filtro($oSitmp, Filtro::CAMPO_SELECT, 1,1,1,1);
+        $oFiltroSituacao->setSValor('ABERTO');
+        $oFiltroSituacao->addItemSelect('ABERTO', 'Situação Aberto');
+        $oFiltroSituacao->addItemSelect('FINALIZADO', 'Situação Finalizado');
+        $oFiltroSituacao->setSLabel('');
         
         //Filtro de células
         $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 2,2,2,2);
@@ -52,7 +58,7 @@ class ViewMET_Gerenciamento extends View {
         $oFiltroSeq->setSLabel('');
         
         //Filtro tipo Categoria
-        $oCategoriaFiltro= new Filtro($oCategoria, Filtro::CAMPO_SELECT, 2,2,2,2);
+        $oCategoriaFiltro= new Filtro($oCategoria, Filtro::CAMPO_SELECT, 1,1,1,1);
         $oCategoriaFiltro->addItemSelect('', 'Todas Categorias');
         foreach ($aDado4 as $key3){
             $oCategoriaFiltro->addItemSelect($key3['maqtip'], $key3['maqtip']);
@@ -60,7 +66,7 @@ class ViewMET_Gerenciamento extends View {
         $oCategoriaFiltro->setSLabel('');
         
         //Filtro de Setor
-        $oFiltroSetor = new Filtro($oSetor, Filtro::CAMPO_SELECT, 3,3,3,3);
+        $oFiltroSetor = new Filtro($oSetor, Filtro::CAMPO_SELECT, 2,2,2,2);
         $oFiltroSetor->addItemSelect('', 'Todos Setores');
         $iCont = 0;
         foreach ($aCodSetor as $key1){
@@ -69,15 +75,22 @@ class ViewMET_Gerenciamento extends View {
         }
         $oFiltroSetor->setSLabel('');
         
+        $oFiltroResp = new Filtro($oResp, Filtro::CAMPO_SELECT, 2,2,2,2);
+        $oFiltroResp->addItemSelect('TODOS', 'TODOS RESPONSÁVEIS');
+        $oFiltroResp->addItemSelect('MECANICA', 'MECÂNICA');
+        $oFiltroResp->addItemSelect('MANUTENCAO', 'ELÉTRICA');
+        $oFiltroResp->addItemSelect('OPERADOR', 'OPERADOR');
+        $oFiltroResp->setSLabel('');
+        
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoIncluir(true);
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oFiltroNr, $oFiltroCodMaquina, $oFiltroDesMaquina, $oFiltroSeq,$oCategoriaFiltro, $oFiltroSetor);
+        $this->addFiltro($oFiltroNr, $oFiltroCodMaquina, $oFiltroDesMaquina, $oFiltroResp, $oFiltroSeq,$oCategoriaFiltro, $oFiltroSetor,$oFiltroSituacao);
         
         $this->getTela()->setBMostraFiltro(true);
 
-        $this->setBScrollInf(TRUE);
+      //  $this->setBScrollInf(TRUE);
         $this->addCampos($oNr, $oCodmaq, $oDesMaq, $oSeq, $oCategoria, $oCodsetor, $oSetDes, $oSitmp);
         
         $this->setUsaDropdown(true);
@@ -96,7 +109,7 @@ class ViewMET_Gerenciamento extends View {
         parent::criaTela();
 
         $sAcaoRotina = $this->getSRotina();
-
+        
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor('75483040000211');
         $oFilcgc->setBCampoBloqueado(true);
@@ -146,7 +159,7 @@ class ViewMET_Gerenciamento extends View {
         $oEtapas->addItemEtapas('Serviço Manutenção Preventiva', false, $this->addIcone(Base::ICON_CONFIRMAR));
 
         $this->addEtapa($oEtapas);
-
+        
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
 
             //monta campo de controle para inserir ou alterar
@@ -164,6 +177,14 @@ class ViewMET_Gerenciamento extends View {
             $this->addCampos(array($oFilcgc, $oNr,
                 $oDatabert, $oUserabert), $oSitmp, array($oCodmaq, $oMaq_des));
         }
+        
+//        $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
+//        $oAcao->setApenasTela(true);
+//        $oAcao->setSValor('alterar');
+//        $this->setSIdControleUpAlt($oAcao->getId());
+//        $this->addCampos(array($oFilcgc, $oNr,
+//        $oDatabert, $oUserabert), $oSitmp, array($oCodmaq, $oMaq_des), $oAcao);
+        
     }
     
     public function relServicoMaquinaMantPrev() {

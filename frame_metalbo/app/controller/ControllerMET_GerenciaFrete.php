@@ -21,6 +21,7 @@ class ControllerMET_GerenciaFrete extends Controller {
 
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
+
         $oEmp = $this->Persistencia->buscaEmpresas();
         $this->View->setAParametrosExtras($oEmp);
     }
@@ -85,20 +86,20 @@ class ControllerMET_GerenciaFrete extends Controller {
         parse_str($sChave, $aCamposChave);
         $aDados = explode(',', $sDados);
 
-        $aCodTip = $this->Persistencia->retornaCodTipo($aCamposChave);
-        if ((($aCodTip[0]['codtipo'] == 1) && ($aCamposChave['codtipo'] == 1 )) || ((($aCodTip[1]['codtipo'] == 2) || ($aCodTip[0]['codtipo'] == 2)) && ($aCamposChave['codtipo'] == 2)) || $aCamposChave['cnpj'] == '4353469003504') {
-            
-        } else {
-            if (($aCamposChave['codtipo']) == 1) {
-                $oModal = new Modal('Atenção', 'Selecione campo de Compras!', Modal::TIPO_ERRO);
-                echo $oModal->getRender();
-                exit();
-            } else {
-                $oModal = new Modal('Atenção', 'Selecione campo de Vendas!', Modal::TIPO_ERRO);
-                echo $oModal->getRender();
-                exit();
-            }
-        }
+//        $aCodTip = $this->Persistencia->retornaCodTipo($aCamposChave);
+//        if ((($aCodTip[0]['codtipo'] == 1) && ($aCamposChave['codtipo'] == 1 )) || ((($aCodTip[1]['codtipo'] == 2) || ($aCodTip[0]['codtipo'] == 2)) && ($aCamposChave['codtipo'] == 2)) || $aCamposChave['cnpj'] == '4353469003504') {
+//            
+//        } else {
+//            if (($aCamposChave['codtipo']) == 1) {
+//                $oModal = new Modal('Atenção', 'Selecione campo de Compras!', Modal::TIPO_ERRO);
+//                echo $oModal->getRender();
+//                exit();
+//            } else {
+//                $oModal = new Modal('Atenção', 'Selecione campo de Vendas!', Modal::TIPO_ERRO);
+//                echo $oModal->getRender();
+//                exit();
+//            }
+//        }
 
         //Validações campos vazios
         if (($aCamposChave['fracaofrete']) == 0) {
@@ -110,7 +111,7 @@ class ControllerMET_GerenciaFrete extends Controller {
         $oRow = $this->Persistencia->consultaDadosFormulas($aCamposChave);
 
         $this->carregaDadosConsulta($aDados[0], $aCamposChave, $oRow, $aDados[1]);
-
+        
     }
 
     /**
@@ -130,11 +131,12 @@ class ControllerMET_GerenciaFrete extends Controller {
 
             if ((number_format($aA['totalfrete'], 0) == number_format(str_replace(',', '.', $aCamposChave['valorserv']), 0)) ||
                     number_format($aA['freteminimo'], 0) == number_format(str_replace(',', '.', $aCamposChave['valorserv']), 0)) {
-                if($aCamposChave[seqregra]==$aA['seq']){
+              //  if($aCamposChave[seqregra]==$aA['seq']){
                     $htmlSelectG .= '<tr id="' . $sIdtr . '"  tabindex="0" class= "tr-azul dbclick selected" style="font-size:small;">'; //abre a linha azul
-                } else{
-                    $htmlSelectG .= '<tr id="' . $sIdtr . '"  tabindex="0" class= "tr-azul dbclick" style="font-size:small;">'; //abre a linha azul
-                }
+                    echo "$('#" . $iIdSeq . "').val(" . $aA['seq'] . ");";
+              //  } else{
+              //      $htmlSelectG .= '<tr id="' . $sIdtr . '"  tabindex="0" class= "tr-azul dbclick" style="font-size:small;">'; //abre a linha azul
+              //  }
             } else {
                 if($aCamposChave[seqregra]==$aA['seq']){
                     $htmlSelectG .= '<tr id="' . $sIdtr . '" tabindex="0" role="row" class="odd dbclick selected" style="font-size:small;">'; //abre a linha
@@ -195,6 +197,8 @@ class ControllerMET_GerenciaFrete extends Controller {
         $sNrReg = 'var nrReg = $("#' . $sIdGrid . ' > tbody > tr").length ;'
                 . ' $("#' . $sIdGrid . '-nrReg").text(nrReg+" registros listados do total de ' . count($oRow) . '. Clique para carregar!"); ';
         echo $sNrReg;
+        
+        echo '$("#gerenciafrete_obs").focus();';
     }
 
     /**
@@ -259,6 +263,7 @@ class ControllerMET_GerenciaFrete extends Controller {
         echo '$("#gerenciafrete_codtip").val("' . $this->Model->getCodtipo() . '").trigger("change");';
         echo ' $("#gerenciafrete_nrfat").val("' . $this->Model->getNrfat() . '");';
         echo ' $("#gerenciafrete_dataem").val("' . $this->Model->getDataem() . '");';
+        echo ' $("#gerenciafrete_datafn").val("' . $this->Model->getDatafn() . '");';
         echo '$("#gerenciafrete_grid > tbody > tr").remove();';
         echo '$("#gerenciafrete_nrconhe").focus();';
     }
@@ -355,5 +360,5 @@ class ControllerMET_GerenciaFrete extends Controller {
         $oMenSuccess = new Mensagem("Sucesso", "Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
         echo $oMenSuccess->getRender();
     }
-
+    
 }

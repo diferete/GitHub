@@ -57,6 +57,9 @@ class ViewMET_ISO_Documentos extends View {
         $oDoc = new Campo('Documento', 'documento', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oDoc->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 5);
 
+        $oRevisao = new Campo('', 'revisao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oRevisao->setBOculto(true);
+
 ///////////////////////////////////////////////////////////// CÓPIAS DIGITAIS //////////////////////////////////////////////////////////////////////////////////////////////////////
 
         $oCopiasDigitais = new Campo('Selecionar setores com as cópias <b style="font-weight:600">DIGITAIS</b> disponíveis e preencher a quantidade', 'digitais', Campo::TIPO_BADGE, 6, 6, 12, 12);
@@ -631,9 +634,9 @@ class ViewMET_ISO_Documentos extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
 
-            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oDoc), $oTab, $oAcao);
+            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oRevisao), array($oDoc), $oTab, $oAcao);
         } else {
-            $this->addCampos(array($oNr, $oFilcgc, $oUser), array($oDoc), $oTab);
+            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oRevisao), array($oDoc), $oTab);
         }
     }
 

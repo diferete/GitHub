@@ -34,11 +34,17 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $this->addCamposGridDetalhe($oObs);
         $this->getOGridDetalhe()->setIAltura(300);
 
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA);
+
+        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO);
+
         $this->getOGridDetalhe()->setSEventoClick('var chave=""; $("#' . $this->getOGridDetalhe()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'var idCampos ="' . $oObs->getId() . '";'
                 . 'requestAjax("","MET_ISO_RegistroTreinamento","carregaObs","' . $this->getOGridDetalhe()->getSId() . '"+","+chave+","+idCampos+"");');
 
         $this->addCamposDetalhe($oNr, $oFilcgc, $oSeq, $oData, $oTitTreinamento, $oAnexo);
+        $this->addFiltrosDetalhe($oFilData, $oFilSeq);
+        $this->getOGridDetalhe()->setBFiltroDetalhe(true);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
