@@ -217,7 +217,7 @@ $pdf->Ln(5);
 Assim tenho a informação do montante de peças não conformes geradas no processo. 
 Se possivel conseguir o peso separado por setor causador e correção.*/
 
-$sql3 = "select tipornc ,sum  (qtloternc * propesprat ) as PesoNconforme ,decisaornc
+$sql3 = "select tipornc ,sum  (qtloternc/100 * propesprat ) as PesoNconforme ,decisaornc
 from Met_Qual_rnc left outer join widl.PROD01 
 on Met_Qual_rnc.codprod = widl.PROD01.procod  
 where tipornc ='Processo'  and databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
@@ -257,7 +257,7 @@ $pdf->Ln(5);
 Assim tenho a informação do montante de peças não conformes geradas no processo. 
 Se possivel conseguir o peso separado por setor causador e correção.*/
 
-$sql4 = "select  descset02,sum  (qtloternc * propesprat ) as PesoNconforme ,decisaornc  
+$sql4 = "select  descset02,sum  (qtloternc/100 * propesprat ) as PesoNconforme ,decisaornc  
 from Met_Qual_rnc left outer join widl.PROD01 
 on Met_Qual_rnc.codprod = widl.PROD01.procod  
 where tipornc <> 'Fornecedor' and descset02 is not null and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
@@ -302,7 +302,7 @@ $pdf->Ln(5);
  Peso da peça X quantidade do lote, para ter a informação do peso do lote devolvido. Se possivel conseguir o peso separado por setor causador e correção.*/
 
 $sql5 = "select tipornc , fornec,decisaornc,
-        sum  (qtloternc * propesprat ) as PesoNconforme , sum  (qtlote * propesprat ) as PesoLote  
+        sum  (qtloternc/100 * propesprat ) as PesoNconforme , sum  (qtlote/100 * propesprat ) as PesoLote  
         from Met_Qual_rnc left outer join widl.PROD01 
         on Met_Qual_rnc.codprod = widl.PROD01.procod  
         where tipornc ='Fornecedor' and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
