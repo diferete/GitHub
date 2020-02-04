@@ -22,7 +22,7 @@ class ViewMET_CAD_Users extends View {
         $this->setUsaAcaoVisualizar(false);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
-        
+
         $this->getTela()->setBMostraFiltro(true);
 
         $oFilcgc = new CampoConsulta('Empresa', 'empcnpj', CampoConsulta::TIPO_TEXTO);
@@ -32,9 +32,9 @@ class ViewMET_CAD_Users extends View {
         $oCracha = new CampoConsulta('Crachá', 'cracha', CampoConsulta::TIPO_TEXTO);
         $oCodSetor = new CampoConsulta('Cód. Setor', 'codsetor', CampoConsulta::TIPO_TEXTO);
 
-        $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_INTEIRO, 1, 1, 12, 12);
-        $oFilFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
-        $oFilNome = new Filtro($oUsuNome, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_INTEIRO, 1, 1, 12, 12, false);
+        $oFilFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilNome = new Filtro($oUsuNome, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
 
         $this->addFiltro($oFilCracha, $oFilFilcgc, $oFilNome);

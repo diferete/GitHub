@@ -13,7 +13,7 @@ class ControllerMET_VENDA_ExpItemSol extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $this->View->setAParametrosExtras($aChave);
     }
 

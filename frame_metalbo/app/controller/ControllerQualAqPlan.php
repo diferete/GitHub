@@ -35,7 +35,7 @@ class ControllerQualAqPlan extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $this->View->setAParametrosExtras($aChave);
     }
 

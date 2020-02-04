@@ -28,10 +28,10 @@ class ViewMET_Maquinas extends View {
         //   $oTipManut = new CampoConsulta ('Tipo Manutenção','tipmanut');
         $oSetor = new CampoConsulta('Setor', 'codsetor');
 
-        $oMaquinaFiltro = new Filtro($oNr, Filtro::CAMPO_TEXTO, 3);
+        $oMaquinaFiltro = new Filtro($oNr, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
         //Filtro de células
-        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 1, 1, 1, 1);
+        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFiltroSeq->addItemSelect('', 'Todas Células');
         foreach ($aDado1 as $key) {
             $val = (int) $key['seq'];
@@ -40,7 +40,7 @@ class ViewMET_Maquinas extends View {
         $oFiltroSeq->setSLabel('');
 
         //Filtro de Setor
-        $oFiltroSetor = new Filtro($oSetor, Filtro::CAMPO_SELECT, 3, 3, 3, 3);
+        $oFiltroSetor = new Filtro($oSetor, Filtro::CAMPO_SELECT, 3, 3, 12, 12, false);
         $oFiltroSetor->addItemSelect('', 'Todos Setores');
         $iCont = 0;
         foreach ($aCodSetor as $key1) {
@@ -50,7 +50,7 @@ class ViewMET_Maquinas extends View {
         $oFiltroSetor->setSLabel('');
         /*
           //Filtro tipo Manutenção
-          $oTipManutFiltro= new Filtro($oTipManut, Filtro::CAMPO_SELECT, 2,2,2,2);
+          $oTipManutFiltro= new Filtro($oTipManut, Filtro::CAMPO_SELECT, 2,2,12,12, false);
           $oTipManutFiltro->addItemSelect('', 'Todos Tipos de Manutenção');
           foreach ($aDado3 as $key2){
           $oTipManutFiltro->addItemSelect($key2['tipmanut'], $key2['tipmanut']);
@@ -58,14 +58,14 @@ class ViewMET_Maquinas extends View {
           $oTipManutFiltro->setSLabel('');
          */
         //Filtro tipo Categoria
-        $oCategoriaFiltro = new Filtro($oMaqtip, Filtro::CAMPO_SELECT, 2, 2, 2, 2);
+        $oCategoriaFiltro = new Filtro($oMaqtip, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oCategoriaFiltro->addItemSelect('', 'Todas Categorias');
         foreach ($aDado4 as $key3) {
             $oCategoriaFiltro->addItemSelect($key3['maqtip'], $key3['maqtip']);
         }
         $oCategoriaFiltro->setSLabel('');
 
-        $oFiltroCodMaq = new Filtro($oCodmaq, Filtro::CAMPO_TEXTO, 1, 1, 1, 1);
+        $oFiltroCodMaq = new Filtro($oCodmaq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);

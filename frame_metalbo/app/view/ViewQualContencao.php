@@ -22,7 +22,7 @@ class ViewQualContencao extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao');
+        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao','');
         $oBotaoModal->setSNomeGrid('detalheContencao');
         $this->addModaisDetalhe($oBotaoModal);
 
@@ -41,7 +41,7 @@ class ViewQualContencao extends View {
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
@@ -57,7 +57,7 @@ class ViewQualContencao extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao');
+        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao','');
         $oBotaoModal->setSNomeGrid('detalheContencao');
         $this->addModais($oBotaoModal);
 
@@ -76,7 +76,7 @@ class ViewQualContencao extends View {
         $oUsunome = new CampoConsulta('Responsável', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 

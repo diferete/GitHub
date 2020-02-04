@@ -23,7 +23,7 @@ class ViewPoliFab extends View {
 
         $oFab = new CampoConsulta('Razão', 'fabdes');
 
-        $oFiltro1 = new Filtro($oFab, Campo::TIPO_TEXTO, 3);
+        $oFiltro1 = new Filtro($oFab, Campo::TIPO_TEXTO, 3, 3, 12, 12, false);
         $this->addFiltro($oFiltro1);
 
         $this->addCampos($oFabcod, $oCnpj, $oFab);

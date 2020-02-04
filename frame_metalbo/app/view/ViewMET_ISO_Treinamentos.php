@@ -14,9 +14,9 @@ class ViewMET_ISO_Treinamentos extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-        
+
         $this->getTela()->setSId('GridTreinamentos');
-        
+
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setSOperacao('personalizado');
         $oFilcgc = new CampoConsulta('Empresa', 'filcgc');
@@ -27,7 +27,7 @@ class ViewMET_ISO_Treinamentos extends View {
         $oFuncao = new CampoConsulta('Função', 'funcao');
 
         $oTagEsc = new CampoConsulta('...', 'tagEscolaridade');
-        $oTagEsc->addComparacao('I', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_LINHA);
+        $oTagEsc->addComparacao('I', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_LINHA, false, null);
         $oTagEsc->setBColOculta(true);
 
         $oTagTreinamento = new CampoConsulta('Necessita Trenamento?', 'tagTreinamento');
@@ -36,29 +36,29 @@ class ViewMET_ISO_Treinamentos extends View {
         $oTagTreinamento->setBComparacaoColuna(true);
 
 
-        $oFilNr = new Filtro($oNr, Filtro::CAMPO_INTEIRO);
-        $oFilFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_INTEIRO);
-        $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_TEXTO);
+        $oFilNr = new Filtro($oNr, Filtro::CAMPO_INTEIRO, 1, 1, 12, 12, false);
+        $oFilFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_INTEIRO, 2, 2, 12, 12, false);
+        $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
 
-        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12);
+        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, false);
         $oFilSetor->setSClasseBusca('Setor');
         $oFilSetor->setSCampoRetorno('descsetor', $this->getTela()->getSId());
         $oFilSetor->setSIdTela($this->getTela()->getSId());
 
-        $oFilFuncao = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12);
+        $oFilFuncao = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, false);
         $oFilFuncao->setSClasseBusca('MET_RH_FuncaoSetor');
         $oFilFuncao->setSCampoRetorno('descfunc', $this->getTela()->getSId());
         $oFilFuncao->setSIdTela($this->getTela()->getSId());
-        
-        $oFilTreinamento = new Filtro($oTagTreinamento, Filtro::CAMPO_SELECT,2,2,12,12);
+
+        $oFilTreinamento = new Filtro($oTagTreinamento, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFilTreinamento->addItemSelect('Todos', 'Todos');
         $oFilTreinamento->addItemSelect('S', 'Sim');
         $oFilTreinamento->addItemSelect('N', 'Não');
 
 
 
-        $this->addFiltro($oFilNr, $oFilFilcgc, $oFilCracha, $oFilSetor, $oFilFuncao,$oFilTreinamento);
+        $this->addFiltro($oFilNr, $oFilFilcgc, $oFilCracha, $oFilSetor, $oFilFuncao, $oFilTreinamento);
 
         $this->addCampos($oNr, $oFilcgc, $oCracha, $oNome, $oSetor, $oFuncao, $oSit, $oTagTreinamento, $oTagEsc);
 

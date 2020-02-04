@@ -38,7 +38,7 @@ class PersistenciaItemMenu extends Persistencia{
         
         $result = $this->getObjetoSql($sSql);
         while ($row = $result->fetch(PDO::FETCH_OBJ)){
-            $aSubMenu ='';
+            $aSubMenu = array();
             $aSubMenu[] = $row->itedescricao;
             $aSubMenu[] = $row->iteclasse;
             $aSubMenu[] = $row->itemetodo;

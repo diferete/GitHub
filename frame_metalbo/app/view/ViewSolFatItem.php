@@ -8,7 +8,7 @@
 class ViewSolFatItem extends View{
     
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
         
          /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO

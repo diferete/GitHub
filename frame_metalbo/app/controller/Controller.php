@@ -346,7 +346,7 @@ class Controller {
         $aCampos = explode('&', $sCampos);
         foreach ($aCampos as $sCampoAtual) {
             $aCampoAtual = explode('=', $sCampoAtual);
-            $this->setValorModel($this->Model, $aCampoAtual[0], $aCampoAtual[1]);
+            $this->setValorModel($this->Model, $aCampoAtual[0], $aCampoAtual[1], $aCamposTela);
         }
     }
 
@@ -815,7 +815,7 @@ class Controller {
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[2]);
         //carregar campos tela
-        $this->carregaCamposTela($sChave);
+        $this->carregaCamposTela($sChave, false);
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
@@ -2811,7 +2811,7 @@ class Controller {
 
 
         //carrega o model
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
 
         $this->adicionaFiltrosExtras();
@@ -2841,7 +2841,7 @@ class Controller {
         //adiciona filtro da chave primária
         $this->parametros = $sCampos;
         //carrega o model
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
         $this->adicionaFiltrosExtras();
         //adiciona o filtro da sequencia do detalhe
@@ -2949,7 +2949,7 @@ class Controller {
         $this->carregaModel($aCamposTela);
 
         if ($this->View->getBGravaHistoricoInserir() == true) {
-            $this->gravaHistorico('Inserir');
+            $this->gravaHistorico('Inserir', null);
         }
 
         $aRetorno = $this->beforeInsert();
@@ -3109,7 +3109,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
             }
         }
 
@@ -3345,7 +3345,7 @@ class Controller {
         $aCamposTela = $this->View->getTela()->getCampos();
 
         if ($this->View->getBGravaHistoricoAlterar() == true) {
-            $this->gravaHistorico('Alterar');
+            $this->gravaHistorico('Alterar', null);
         }
 
         $this->Persistencia->iniciaTransacao();
@@ -3354,7 +3354,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), null, null);
             }
         }
         $this->Model = $this->Persistencia->consultar();

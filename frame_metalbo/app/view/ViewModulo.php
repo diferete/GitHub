@@ -27,7 +27,7 @@ class ViewModulo extends View {
 
 
 
-        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4);
+        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oModuloF);
         $this->addDropdown($oDrop3);
         $this->addCampos($oCodigo, $oModulo);
@@ -35,8 +35,8 @@ class ViewModulo extends View {
 
     function criaTela() {
         parent::criaTela();
-        
-        
+
+
         $this->setBGravaHistoricoExcluir(true);
         $this->setBGravaHistoricoAlterar(true);
 
@@ -50,7 +50,7 @@ class ViewModulo extends View {
 
         $oModDescricao = new Campo('Descrição', 'modescricao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oModDescricao->addValidacao(false, Validacao::TIPO_STRING, '', '2', '15');
-        
+
         $this->addCampos(array($oModCod, $oModDescricao));
     }
 

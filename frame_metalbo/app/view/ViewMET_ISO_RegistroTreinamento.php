@@ -13,7 +13,7 @@ class ViewMET_ISO_RegistroTreinamento extends View {
     }
 
     public function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
 
         $oNr = new CampoConsulta('Nr', 'nr');
         $oFilcgc = new CampoConsulta('Emp.', 'filcgc');
@@ -34,9 +34,9 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $this->addCamposGridDetalhe($oObs);
         $this->getOGridDetalhe()->setIAltura(300);
 
-        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA);
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA, 1, 1, 12, 12, false);
 
-        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO);
+        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
         $this->getOGridDetalhe()->setSEventoClick('var chave=""; $("#' . $this->getOGridDetalhe()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'var idCampos ="' . $oObs->getId() . '";'

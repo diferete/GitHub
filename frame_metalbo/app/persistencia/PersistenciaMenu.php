@@ -33,7 +33,7 @@ class PersistenciaMenu extends Persistencia{
                 WHERE modcod =".$sModulo." order by menordem";
            $result = $this->getObjetoSql($sSql);
            while($row = $result->fetch(PDO::FETCH_OBJ)){
-           $aMenu ='';
+           $aMenu = array();
            $aMenu[] = $row->mendes;
            $aMenu[] = $row->mencodigo;
            $aRetorno[] = $aMenu;

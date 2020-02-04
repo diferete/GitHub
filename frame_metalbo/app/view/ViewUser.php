@@ -28,8 +28,8 @@ class ViewUser extends View {
         $UsuSobrenome->setILargura(100);
 
         $oUsuSit = new CampoConsulta('Situação Cad.', 'ususit', CampoConsulta::TIPO_LARGURA, 5);
-        $oUsuSit->addComparacao('Cadastro Completo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
-        $oUsuSit->addComparacao('Aguardando cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
+        $oUsuSit->addComparacao('Cadastro Completo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oUsuSit->addComparacao('Aguardando cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
         $oUsuSit->setILargura(50);
 
         $oUsuLogin = new CampoConsulta('Login', 'usulogin', CampoConsulta::TIPO_LARGURA, 5);
@@ -37,10 +37,10 @@ class ViewUser extends View {
 
         $oUsuRep = new CampoConsulta('OfficeRep', 'RepOffice.officedes', CampoConsulta::TIPO_LARGURA, 5);
         $oUsuRep->setILargura(50);
-        
-        $FiltroCodigo = new Filtro($oUsucodigo, Filtro::CAMPO_TEXTO, 1);
-        $FiltroUser = new Filtro($oUsunome, Filtro::CAMPO_TEXTO, 3);
-        $oFiltroRep = new Filtro($oUsuRep, Filtro::CAMPO_TEXTO, 3);
+
+        $FiltroCodigo = new Filtro($oUsucodigo, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $FiltroUser = new Filtro($oUsunome, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $oFiltroRep = new Filtro($oUsuRep, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
 
 
@@ -76,8 +76,8 @@ class ViewUser extends View {
         $oUsuEmail = new Campo('Email', 'usuemail', Campo::TIPO_TEXTO, 4);
         $oUsuEmail->setITamanho(Campo::TAMANHO_PEQUENO);
         $oUsuEmail->addValidacao(false, Validacao::TIPO_EMAIL);
-        
-        $oUsuSenhaEmail = new Campo('Senha e-mail metalbo', 'senhaemail', Campo::TIPO_TEXTO,2);
+
+        $oUsuSenhaEmail = new Campo('Senha e-mail metalbo', 'senhaemail', Campo::TIPO_TEXTO, 2);
         $oUsuSenhaEmail->setITamanho(Campo::TAMANHO_PEQUENO);
 
         $UsuLogin = new Campo('Login', 'usulogin', Campo::TIPO_TEXTO, 4);
@@ -127,7 +127,7 @@ class ViewUser extends View {
 
         $oSenhaProv = new campo('Senha provisória', 'senhaProvisoria', Campo::TIPO_CHECK, 4);
 
-        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), array($oUserNome, $oSobrenome), array($oUsuFone, $oUsuRamal), array($oUsuEmail,$oUsuSenhaEmail), array($oCodSetor, $oFilcgc), array($oUsutipo, $oOfficeCod), array($oUsuimagem, $oNomeDelsoft), $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv);
+        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), array($oUserNome, $oSobrenome), array($oUsuFone, $oUsuRamal), array($oUsuEmail, $oUsuSenhaEmail), array($oCodSetor, $oFilcgc), array($oUsutipo, $oOfficeCod), array($oUsuimagem, $oNomeDelsoft), $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv);
     }
 
 }

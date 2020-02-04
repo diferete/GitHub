@@ -27,16 +27,16 @@ class ViewMET_ServicoMaquina extends View {
         $oData = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
         $oHora = new CampoConsulta('Hora', 'hora');
 
-        $oTipFiltro = new Filtro($oSit, Filtro::CAMPO_TEXTO_IGUAL, 1);
-        $oDesTipFiltro = new Filtro($oTipDes, Filtro::CAMPO_SELECT, 4, 4, 12, 12);
+        $oTipFiltro = new Filtro($oSit, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
+        $oDesTipFiltro = new Filtro($oTipDes, Filtro::CAMPO_SELECT, 4, 4, 12, 12, false);
         $oDesTipFiltro->addItemSelect('', 'TODAS CATEGORIAS');
         foreach ($aDado1 as $key) {
             $oDesTipFiltro->addItemSelect($key['tipdes'], $key['tipdes']);
         }
         $oDesTipFiltro->setSLabel('');
 
-        $oDescricaoFiltro = new Filtro($oServ, Filtro::CAMPO_TEXTO, 3);
-        $oResponsavelFiltro = new Filtro($oResp, Filtro::CAMPO_SELECT, 2);
+        $oDescricaoFiltro = new Filtro($oServ, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $oResponsavelFiltro = new Filtro($oResp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oResponsavelFiltro->addItemSelect('', 'TODOS OS RESPONSÁVEIS');
         $oResponsavelFiltro->addItemSelect('ENCARREGADO DA PRODUCAO', 'ENCARREGADO DA PRODUCAO');
         $oResponsavelFiltro->addItemSelect('MANUTENCAO', 'MANUTENCAO');
@@ -47,7 +47,7 @@ class ViewMET_ServicoMaquina extends View {
         $oResponsavelFiltro->addItemSelect('LIDER', 'LIDER');
         $oResponsavelFiltro->addItemSelect('SOLDADOR', 'SOLDADOR');
         $oResponsavelFiltro->setSLabel('');
-        //  $oUsuarioFiltro = new Filtro($oUser, Filtro::CAMPO_TEXTO,2);
+        //  $oUsuarioFiltro = new Filtro($oUser, Filtro::CAMPO_TEXTO,2,2,12,12, false);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);

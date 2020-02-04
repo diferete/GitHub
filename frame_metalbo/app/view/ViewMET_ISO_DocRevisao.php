@@ -13,7 +13,7 @@ class ViewMET_ISO_DocRevisao extends View {
     }
 
     public function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_TEXTO);
         $oFilcgc = new CampoConsulta('Emp.', 'filcgc', CampoConsulta::TIPO_TEXTO);

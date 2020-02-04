@@ -27,29 +27,30 @@ class ViewMET_QUAL_Rnc extends View {
         $otipornc = new CampoConsulta('Tipo', 'tipornc');
         $oEmpDes = new CampoConsulta('Empresa', 'Pessoa.empdes');
         $oCodProd = new CampoConsulta('Cód.Prod.', 'codprod');
-        $oDescprod = new CampoConsulta('Descrição','descprod');
-        
+        $oDescprod = new CampoConsulta('Descrição', 'descprod');
+
 
         $oSit = new CampoConsulta('Situação', 'sit');
-        $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
-        $oSit->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+        $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
+        $oSit->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
         //$oSit->setBComparacaoColuna(true);
 
         $oDrop1 = new Dropdown('Visualizar', Dropdown::TIPO_PRIMARY);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar RNC', 'MET_QUAL_Rnc', 'acaoMostraRelEspecifico', 'TODOS', false, 'documentoRNC', false, '', false, '', true);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar RNC', 'MET_QUAL_Rnc', 'acaoMostraRelEspecifico', 'TODOS', false, 'documentoRNC', false, '', false, '', true, false);
 
         $oDrop2 = new Dropdown('Ações', Dropdown::TIPO_SUCESSO);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'MET_QUAL_Rnc', 'acaoFinalizaRnc', '', false, '');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Cancelar', 'MET_QUAL_Rnc', 'acaoCancelaRnc', '', false, '');
-        $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO);
-        $oFilCnpj = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO);
-        $oFiltroDescP = new Filtro($oDescprod, Filtro::CAMPO_TEXTO); 
-        $oFilCodProd = new Filtro($oCodProd, Filtro::CAMPO_TEXTO);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'MET_QUAL_Rnc', 'acaoFinalizaRnc', '', false, '', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Cancelar', 'MET_QUAL_Rnc', 'acaoCancelaRnc', '', false, '', false, '', false, '', false, false);
+        
+        $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilCnpj = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $oFiltroDescP = new Filtro($oDescprod, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $oFilCodProd = new Filtro($oCodProd, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
 
-        $this->addFiltro($oFiltroNr, $oFilCnpj, $oFilCodProd,$oFiltroDescP);
+        $this->addFiltro($oFiltroNr, $oFilCnpj, $oFilCodProd, $oFiltroDescP);
         $this->addDropdown($oDrop1, $oDrop2);
-        $this->addCampos($oNr, $oFilcgc, $oEmpDes, $oNome, $otipornc, $oSit, $oDatabert, $oCodProbl,$oCodProd ,$oDescprod);
+        $this->addCampos($oNr, $oFilcgc, $oEmpDes, $oNome, $otipornc, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod);
     }
 
     public function criaTela() {
@@ -121,8 +122,8 @@ class ViewMET_QUAL_Rnc extends View {
         //*codprod
         /* $oCodProd = new Campo('Cód.Prod.', 'codprod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
-        $oProdDes = new campo('Desc.Prod', 'descprod', Campo::TIPO_TEXTO, 3, 3, 12, 12);*/
-        
+          $oProdDes = new campo('Desc.Prod', 'descprod', Campo::TIPO_TEXTO, 3, 3, 12, 12); */
+
         //campo código do produto
         $oCodProd = new Campo('Codigo', 'codprod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCodProd->setSIdHideEtapa($this->getSIdHideEtapa());
@@ -139,12 +140,12 @@ class ViewMET_QUAL_Rnc extends View {
         $oProdDes->addCampoBusca('prodes', '', '');
         $oProdDes->setSIdTela($this->getTela()->getid());
 
-          //declarando no campo código a classe de busca, campo chave e campo de retorno
+        //declarando no campo código a classe de busca, campo chave e campo de retorno
         $oCodProd->setClasseBusca('Produto');
         $oCodProd->setSCampoRetorno('procod', $this->getTela()->getId());
-        $oCodProd->addCampoBusca('prodes',   $oProdDes->getId(), $this->getTela()->getId());
-        
-        
+        $oCodProd->addCampoBusca('prodes', $oProdDes->getId(), $this->getTela()->getId());
+
+
         $oCodmat = new Campo('Cód.Mat.Prima', 'codmat', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $oProdDes2 = new campo('Desc.Mat.Prima', 'prodes', Campo::TIPO_TEXTO, 3, 3, 12, 12);
@@ -240,7 +241,7 @@ class ViewMET_QUAL_Rnc extends View {
                 . '"' . $this->getController() . '")';
         $oBotConf->getOBotao()->addAcao($sAcao);
         $oBotConf->setApenasTela(true);
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         $ocodsetor2 = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $ocodsetor2->setApenasTela(true);
@@ -263,7 +264,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oturno02->addItemSelect('1º e 2º-Turno', '1º e 2º-Turno');
         $oturno02->addItemSelect('1ºTurno e Geral ', '1ºTurno e Geral');
         $oturno02->addItemSelect('2ºTurno e Geral', '2ºTurno e Geral');
-		
+
         $oRespcausa = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oRespcausa->setApenasTela(true);
         $oRespcausa->setBOculto(true);
@@ -299,8 +300,8 @@ class ViewMET_QUAL_Rnc extends View {
         $oDecisao->addItemSelect('Sucatear', 'Sucatear');
         $oDecisao->addItemSelect('Retrabalhar e Reinspecionar', 'Retrabalhar e Reinspecionar');
         $oDecisao->addItemSelect('Aprovar com Desvio', 'Aprovar com Desvio');
-		$oDecisao->addItemSelect('Outros', 'Outros');
-		
+        $oDecisao->addItemSelect('Outros', 'Outros');
+
         $oDecisaornc = new Campo('Decisão Obs', 'descdescirnc', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oDecisaornc->setILinhasTextArea(3);
 
@@ -354,38 +355,38 @@ class ViewMET_QUAL_Rnc extends View {
 
         $this->addCampos(array($oNr, $oFilcgc, $oUsunome, $oDatabert, $ohoraini), array($otipornc, $oOp, $oCodProd, $oProdDes, $olote, $oqtlote, $oqtloternc), $oLn, $oTab);
     }
-    
-     public function relQualRNC() {
+
+    public function relQualRNC() {
         parent::criaTelaRelatorio();
 
         $this->setTituloTela('Relatório Geral de Não Conformidade');
         $this->setBTela(true);
-       
+
         $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDatainicial->setSValor(Util::getPrimeiroDiaMes());
         $oDatainicial->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
         $oDatafinal = new Campo('Data Final', 'datafinal', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDatafinal->setSValor(Util::getDataAtual());
         $oDatafinal->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
-        
-        $oCodTip = new Campo('Tipo', 'tipornc', Campo::TIPO_SELECT,1,1,1,1);
+
+        $oCodTip = new Campo('Tipo', 'tipornc', Campo::TIPO_SELECT, 1, 1, 1, 1);
         $oCodTip->addItemSelect('Todos', 'Todos');
         $oCodTip->addItemSelect('Processo', 'Processo');
         $oCodTip->addItemSelect('Fornecedor', 'Fornecedor');
-        
+
         $oSit = new Campo('Situação das RNCs', 'sitmp', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oSit->addItemSelect('Todos', 'Todos');
         $oSit->addItemSelect('Aguardando', 'Aguardando');
         $oSit->addItemSelect('Finalizada', 'Finalizada');
-        
+
         $oTipo = new Campo('Tipo Fixador', 'tipfix', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oTipo->addItemSelect('Todos', 'Todos');
         $oTipo->addItemSelect('Porca', 'Porca');
         $oTipo->addItemSelect('Parafuso', 'Parafuso');
-        
+
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
-        
+
         $this->addCampos(array($oCodTip, $oTipo, $oSit), $oLinha1, array($oDatainicial, $oDatafinal));
     }
 

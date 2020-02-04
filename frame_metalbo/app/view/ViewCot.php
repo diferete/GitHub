@@ -23,12 +23,12 @@ class ViewCot extends View {
 
 
         $oEmail = new CampoConsulta('Email', 'email', CampoConsulta::TIPO_TEXTO);
-        $oEmail->addComparacao('NV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
-        $oEmail->addComparacao('EV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oEmail->addComparacao('NV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oEmail->addComparacao('EV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oEmail->setBComparacaoColuna(true);
 
         $oNrVenda = new CampoConsulta('Nº Sol', 'nrvenda', CampoConsulta::TIPO_TEXTO);
-        $oNrVenda->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oNrVenda->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oNrVenda->setBComparacaoColuna(true);
 
         $oData = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
@@ -36,8 +36,8 @@ class ViewCot extends View {
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Gerar Solicitação de venda', 'Cot', 'geraSolMsg', '', false, '');
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_COPIAR) . 'Gerar copia', 'Cot', 'msgCopiaCot', '', false, '');
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Gerar Solicitação de venda', 'Cot', 'geraSolMsg', '', false, '', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_COPIAR) . 'Gerar copia', 'Cot', 'msgCopiaCot', '', false, '', false, '', false, '', false, false);
 
         if (isset($_SESSION['cotvenda']) && $_SESSION['cotvenda'] !== '') {
             $sCotVenda = $_SESSION['cotvenda'];
@@ -46,23 +46,23 @@ class ViewCot extends View {
         }
 
         $oDrop2 = new Dropdown('Visualizar', Dropdown::TIPO_PRIMARY);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . '');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar sem logo', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . ',slogo');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'Cot', 'acaoMostraRelXls', '', false, 'cotacaoxls');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . '', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar sem logo', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . ',slogo', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'Cot', 'acaoMostraRelXls', '', false, 'cotacaoxls', false, '', false, '', false, false);
         //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'Cot', 'enviaEmail', '', false, '' . $sCotVenda . ',email,Cot,envMailCot');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'Cot', 'geraAnexoCotEmail', '', false, $sCotVenda, false, '', false, '', true);       
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'Cot', 'geraAnexoCotEmailSLogo', '', false, $sCotVenda, false, '', false, '', true);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'Cot', 'geraAnexoCotEmail', '', false, $sCotVenda, false, '', false, '', true, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'Cot', 'geraAnexoCotEmailSLogo', '', false, $sCotVenda, false, '', false, '', true, false);
         //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . ',email,Cot,envMailCot,slogo');
         //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Estoque', 'ConsultaEstoque', 'acaoMostraTelaEstoque', '', false, $_SESSION['officecabcotiten'], true, 'Consulta Estoques de Cotação');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'Cot', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'Cot', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep', false, '', false, '', false, false);
         $this->addDropdown($oDrop2); //geraExcelSol*/
 
 
-        $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1);
-        $oFilCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3);
-        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2);
+        $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
+        $oFilCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
 
-        $oFilCnpj = new Filtro($oCnpj, Filtro::CAMPO_BUSCADOBANCOPK, 2);
+        $oFilCnpj = new Filtro($oCnpj, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilCnpj->setSClasseBusca('Pessoa');
         $oFilCnpj->setSCampoRetorno('empcod', $this->getTela()->getSId());
         $oFilCnpj->setSIdTela($this->getTela()->getSId());

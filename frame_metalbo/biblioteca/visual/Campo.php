@@ -129,15 +129,12 @@ class Campo {
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
-   
-    
     const EVENTO_SAIR = 'blur';
     const EVENTO_CHANGE = 'change';
     const EVENTO_FOCUS = 'focus';
     const EVENTO_KEYUP = 'keyup';
     const EVENTO_ENTER = 'enter';
     const EVENTO_CLICK = 'click';
-    
     const BADGE_SUCCESS = 'label-success';
     const BADGE_WARNING = 'label-warning';
     const BADGE_DANGER = 'label-danger';
@@ -1223,7 +1220,7 @@ class Campo {
         $oCampoFormBusca->setSValorBusca($this->getNome());
 
 
-        $oCampoFormBusca->addCampoBusca($aCampoBusca[0]);
+        $oCampoFormBusca->addCampoBusca($aCampoBusca[0], null, null);
         $this->setSRetornoBusca($oCampoFormBusca->getId());
         //verifica se há valor inicial que deve ser carregado
         if ($this->getSValorCampoBusca() != null) {

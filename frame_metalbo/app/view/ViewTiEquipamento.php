@@ -47,27 +47,27 @@ class ViewTiEquipamento extends View {
 
         $this->addCampos($oEquipCod, $oTipoEquip, $oSetor, $oFabricante, $oModelo, $oSistema, $oHostname, $oUsuario, $oIp, $oSituaca);
 
-        $oFiltro1 = new Filtro($oSistema, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
+        $oFiltro1 = new Filtro($oSistema, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
-        $oFilFab = new Filtro($oFabricante, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
+        $oFilFab = new Filtro($oFabricante, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
 
-        $oFilTipo = new Filtro($oTipoEquip, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12);
+        $oFilTipo = new Filtro($oTipoEquip, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, false);
         $oFilTipo->setSClasseBusca('TiEquipamentoTipo');
         $oFilTipo->setSCampoRetorno('eqtipdescricao', $this->getTela()->getSId());
         $oFilTipo->setSIdTela($this->getTela()->getSId());
 
-        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12);
+        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, false);
         $oFilSetor->setSClasseBusca('Setor');
         $oFilSetor->setSCampoRetorno('descsetor', $this->getTela()->getSId());
         $oFilSetor->setSIdTela($this->getTela()->getSId());
 
-        $oFilHostName = new Filtro($oHostname, Filtro::CAMPO_TEXTO, 3, 4, 12, 12);
-        $oFilUsuario = new Filtro($oUsuario, Filtro::CAMPO_TEXTO, 2, 4, 12, 12);
-        $oFilIp = new Filtro($oIp, Filtro::CAMPO_TEXTO, 2, 4, 12, 12);
-        
-        $oFiltroCod = new Filtro($oEquipCod, Filtro::CAMPO_INTEIRO,1,1,12,12);
-        
-        $oFilMod = new Filtro($oModelo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilHostName = new Filtro($oHostname, Filtro::CAMPO_TEXTO, 3, 4, 12, 12, false);
+        $oFilUsuario = new Filtro($oUsuario, Filtro::CAMPO_TEXTO, 2, 4, 12, 12, false);
+        $oFilIp = new Filtro($oIp, Filtro::CAMPO_TEXTO, 2, 4, 12, 12, false);
+
+        $oFiltroCod = new Filtro($oEquipCod, Filtro::CAMPO_INTEIRO, 1, 1, 12, 12, false);
+
+        $oFilMod = new Filtro($oModelo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->addFiltro($oFiltroCod, $oFilTipo, $oFilSetor, $oFilMod, $oFiltro1, $oFilFab, $oFilHostName, $oFilUsuario, $oFilIp);
 
@@ -226,7 +226,7 @@ class ViewTiEquipamento extends View {
         $oSetorCod = new Campo('Setor', 'Setor.codsetor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSetorCod->setClasseBusca('Setor');
         $oSetorCod->addCampoBusca('descsetor', null, $this->getTela()->getId());
-        
+
         $oOffice = new Campo('Licença Office', 'office', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oOffice->addItemSelect('Todos', 'Todos');
         $oOffice->addItemSelect('A', 'Ativado');
@@ -236,7 +236,7 @@ class ViewTiEquipamento extends View {
         $oLicensa->addItemSelect('Todos', 'Todos');
         $oLicensa->addItemSelect('Ativado', 'Ativado');
         $oLicensa->addItemSelect('Aguardando', 'Aguardando');
-        
+
         $oSistema = new Campo('Sistema Operacional', 'equipsistema', Campo::TIPO_SELECT, 4, 4, 12, 12);
         $oSistema->addItemSelect('N/A', 'N/A');
         $oSistema->addItemSelect('Windows Xp', 'Windows Xp');
@@ -250,20 +250,20 @@ class ViewTiEquipamento extends View {
         $oSistema->addItemSelect('Windows Server 2008', 'Windows Server 2008');
         $oSistema->addItemSelect('Windows Server 2012', 'Windows Server 2012');
         $oSistema->addItemSelect('Windows Server 2016', 'Windows Server 2016');
-        
+
         $oIpFixo = new Campo('IP Fixo', 'ip', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oIpFixo->addItemSelect('Todos', 'Todos');
         $oIpFixo->addItemSelect('S', 'Sim');
         $oIpFixo->addItemSelect('N', 'DHCP');
-        
+
         $oSituaca = new Campo('Situação do Equipamento', 'situaca', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oSituaca->addItemSelect('Todas', 'Todas');
         $oSituaca->addItemSelect('A', 'Ativado');
         $oSituaca->addItemSelect('D', 'Desativado');
-        
+
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
-        
+
         $this->addCampos($oTipoEquip, $oSetorCod, $oLinha1, $oSituaca, $oLinha1, $oSistema, $oLinha1, array($oLicensa, $oOffice), $oLinha1, $oIpFixo);
     }
 

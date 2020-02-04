@@ -22,9 +22,9 @@ class ViewEan extends View {
         $oQt = new CampoConsulta('Peças', 'pcs', CampoConsulta::TIPO_LARGURA, 20);
 
 
-        $oFiltroDes = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 4);
-        $oFiltroProcod = new Filtro($oProcod, Filtro::CAMPO_TEXTO_IGUAL, 2);
-        $oFiltroEan = new Filtro($oEan, Filtro::CAMPO_TEXTO_IGUAL);
+        $oFiltroDes = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $oFiltroProcod = new Filtro($oProcod, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+        $oFiltroEan = new Filtro($oEan, Filtro::CAMPO_TEXTO_IGUAL, 4, 4, 12, 12, false);
 
         $this->addCampos($oEan, $oQt, $oProcod, $oProdes);
         $this->addFiltro($oFiltroProcod, $oFiltroEan, $oFiltroDes);
