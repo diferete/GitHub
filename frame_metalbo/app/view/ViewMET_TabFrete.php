@@ -43,7 +43,7 @@ class ViewMET_TabFrete extends View {
         parent::criaTela();
 
         $oCnpj = new Campo('CNPJ', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 2, 2);
-        $oCnpj->addValidacao(false);
+        $oCnpj->addValidacao(false, Validacao::TIPO_STRING);
 
         $oEmpDes = new campo('Empresa', 'Pessoa.empdes', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
         $oEmpDes->setSIdPk($oCnpj->getId());
@@ -51,7 +51,7 @@ class ViewMET_TabFrete extends View {
         $oEmpDes->addCampoBusca('empcod', '', '');
         $oEmpDes->addCampoBusca('empdes', '', '');
         $oEmpDes->setSIdTela($this->getTela()->getid());
-        $oEmpDes->addValidacao(false);
+        $oEmpDes->addValidacao(false, Validacao::TIPO_STRING);
 
         $oCnpj->setClasseBusca('Pessoa');
         $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
@@ -62,32 +62,32 @@ class ViewMET_TabFrete extends View {
         $oCodtip = new Campo('Tipo', 'codtipo', Campo::TIPO_SELECT, 2);
         $oCodtip->addItemSelect('1', 'Venda');
         $oCodtip->addItemSelect('2', 'Compra');
-        $oCodtip->addValidacao(false);
+        $oCodtip->addValidacao(false, Validacao::TIPO_STRING);
 
         $oRef = new Campo('Referência', 'ref', Campo::TIPO_TEXTO, 2);
-        $oRef->addValidacao(false);
+        $oRef->addValidacao(false, Validacao::TIPO_STRING);
 
         $oTaxMin = new Campo('Taxa Min', 'taxamin', Campo::TIPO_DECIMAL, 2);
-        $oTaxMin->addValidacao(false);
+        $oTaxMin->addValidacao(false, Validacao::TIPO_STRING);
         $oFreteValor = new Campo('Frete Valor', 'fretevalor', Campo::TIPO_DECIMAL_COMPOSTO, 2);
         $oFreteValor->setICasaDecimal(5);
-        $oFreteValor->addValidacao(false);
+        $oFreteValor->addValidacao(false, Validacao::TIPO_STRING);
         $oFretePeso = new Campo('Frete Peso', 'fretepeso', Campo::TIPO_DECIMAL_COMPOSTO, 2);
         $oFretePeso->setICasaDecimal(4);
-        $oFretePeso->addValidacao(false);
+        $oFretePeso->addValidacao(false, Validacao::TIPO_STRING);
         $oPedagio = new Campo('Pedagio', 'pedagio', Campo::TIPO_DECIMAL, 2);
-        $oPedagio->addValidacao(false);
+        $oPedagio->addValidacao(false, Validacao::TIPO_STRING);
         $oTaxa2 = new Campo('Taxa2', 'taxa2', Campo::TIPO_DECIMAL, 2);
-        $oTaxa2->addValidacao(false);
+        $oTaxa2->addValidacao(false, Validacao::TIPO_STRING);
         $oTas = new Campo('Tas', 'tas', Campo::TIPO_DECIMAL, 2);
-        $oTas->addValidacao(false);
+        $oTas->addValidacao(false, Validacao::TIPO_STRING);
         $oGris = new Campo('Gris', 'gris', Campo::TIPO_DECIMAL_COMPOSTO, 2);
         $oGris->setICasaDecimal(4);
-        $oGris->addValidacao(false);
+        $oGris->addValidacao(false, Validacao::TIPO_STRING);
         $oTaxa = new Campo('Taxa', 'taxa', Campo::TIPO_DECIMAL, 2);
-        $oTaxa->addValidacao(false);
+        $oTaxa->addValidacao(false, Validacao::TIPO_STRING);
         $oImposto = new Campo('Imposto', 'imposto', Campo::TIPO_DECIMAL, 2);
-        $oImposto->addValidacao(false);
+        $oImposto->addValidacao(false, Validacao::TIPO_STRING);
 
         $oL = new Campo('', 'tes', Campo::TIPO_LINHABRANCO);
         $oL->setApenasTela(true);

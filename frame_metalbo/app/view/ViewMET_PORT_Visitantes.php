@@ -55,7 +55,7 @@ class ViewMET_PORT_Visitantes extends View {
         $oDataChegou = new CampoConsulta('Dt. Chegada', 'datachegou', CampoConsulta::TIPO_DATA);
 
         $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_EDIT);
-        $oHoraChegou->addAcao('MET_PORT_Visitantes', 'gravaHora');
+        $oHoraChegou->addAcao('MET_PORT_Visitantes', 'gravaHora', '', '');
         $oHoraChegou->setBTime(true);
 
         $oDataEntra = new CampoConsulta('Dt. Entrada', 'dataentrou', CampoConsulta::TIPO_DATA);
