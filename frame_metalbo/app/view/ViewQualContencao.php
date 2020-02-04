@@ -13,8 +13,7 @@ class ViewQualContencao extends View {
     }
 
     function criaGridDetalhe() {
-        $aIdsTela = $this->getSIdsTelas();
-        parent::criaGridDetalhe($aIdsTela[6]);
+        parent::criaGridDetalhe($sIdAba);
 
         $this->getOGridDetalhe()->setIAltura(200);
 

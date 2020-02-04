@@ -5,6 +5,8 @@ require('../../biblioteca/graficos/Grafico.php');
 //require '../../biblioteca/pdfjs/pdf_js.php';
 include("../../includes/Config.php");
 
+date_default_timezone_set('America/Sao_Paulo');
+
 $sUserRel = $_REQUEST['userRel'];
 $sData = date('d/m/Y');
 $sHora = date('H:i');
@@ -62,7 +64,7 @@ $pdf->SetFont('Arial', 'B', 16);
 
 //cabeçalho
 $pdf->SetMargins(3, 0, 3);
-
+$pdf->SetTextColor(0,50,0);
 $pdf->SetFont('Arial', 'B', 15);
 // Move to the right
 $pdf->Cell(45);
@@ -137,15 +139,19 @@ if($sSit == 'ABERTOS'){
 if($sSit == 'FINALIZADOS'){
     $sql.=" and tbitensmp.sitmp = 'FINALIZADO' "; 
 }
+
+$sql.=" ORDER BY tbmanutmp.nr, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
+        DAY(tbitensmp.databert) ";
+
     $sth = $PDO->query($sql);
 
 $iN = 0;
-$iN1 = 0;
+$iCod = 0;
 while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     if($iN != $row['codmaq']) {
         
         $pdf = quebraPagina($pdf->GetY()+15, $pdf);
-        
+        $pdf->SetTextColor(0,0,255);
         $pdf->Ln(5);
         $pdf->Cell(199, 1, '', 'T', 1, 'L');
         $pdf->SetFont('arial', 'B', 9);
@@ -162,62 +168,60 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(77, 5, $row['maquina'], 'R,L,B,T', 0, 'L');
         $pdf->Cell(20, 5, $row['codsetor'], 'R,L,B,T', 0, 'L');
         $pdf->Cell(76, 5, $row['descsetor'], 'R,L,B,T', 1, 'L');
-        $pdf->Cell(199, 5, '', '', 1, 'L');
+        
         $iN = $row['codmaq'];
+        $iCod= 0;
     }
-    
+     //   if($row['codsit']!=null){
+        $pdf = quebraPagina($pdf->GetY()+5, $pdf);
+        
+        if($iCod!= $row['codsit']){
+        
         $pdf = quebraPagina($pdf->GetY()+15, $pdf);
-        
-        $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(15, 5, 'Código:', 'L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(9, 5, $row['codsit'], 'R,B,T', 0, 'L');
-        
-        $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(12, 5, 'Serviço:','L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 7);
-        $pdf->Cell(167, 5, rtrim($row['oqfazer']).' '.rtrim($row['servico']), 'R,B,T', 1, 'L');
-        
-        $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(15, 5, 'Ciclo:', 'L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(9, 5, $row['ciclo'], 'R,B,T', 0, 'L');
-        
-        $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(15, 5, 'Dias:', 'L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(10, 5, $row['dias'], 'R,B,T', 0, 'L');
-        
-        $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(20, 5, 'Responsável:', 'L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(58, 5, $row['resp'], 'R,B,T', 0, 'L');
-        
-        $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(15, 5, 'Situação:', 'L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(20, 5, $row['sitmp'], 'R,B,T', 0, 'L');
-        
+            
+        $pdf->Cell(199, 3, '', '', 1, 'L');
+        $pdf->SetTextColor(0,100,0);    
+        $pdf->SetFont('arial', 'B', 7);
+        $pdf->Cell(8, 4, 'CÓD.', 'B', 0, 'L');
+        $pdf->Cell(151, 4, 'SERVIÇO','B', 0, 'L');
+        $pdf->Cell(10, 4, 'CICLO', 'B', 0, 'L');
+        $pdf->Cell(34, 4, 'RESPONSÁVEL', 'B', 1, 'L');
+        $pdf->SetFont('arial', 'B', 7);
+        $pdf->Cell(8, 5, $row['codsit'], 'B', 0, 'L');
+        $pdf->Cell(151, 5, rtrim($row['oqfazer']).' '.rtrim($row['servico']), 'B', 0, 'L');
         $pdf->SetFont('arial', 'B', 9);
-        $pdf->Cell(23, 5, 'Data Abertura:', 'L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(18, 5,$row['databert'], 'R,B,T', 1, 'L');  
+        $pdf->Cell(10, 5, $row['ciclo'], 'B', 0, 'L');
+        $pdf->Cell(34, 5, $row['resp'], 'B', 1, 'L'); 
+        $pdf->SetTextColor(0,0,0);              
+        $pdf->Ln(1);
         
-        $pdf->SetFont('arial', 'B', 9);
-        $pdf->Cell(25, 5, 'Usuário Inicial:', 'L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(53, 5, $row['userinicial'], 'R,B,T', 0, 'L');  
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(24, 5, 'Situação', 'L,B,T', 0, 'L');
+        $pdf->Cell(23, 5, 'Dias Restantes', 'L,B,T', 0, 'L');
+        $pdf->Cell(33, 5, 'Data Abertura', 'L,B,T', 0, 'L');
+        $pdf->Cell(45, 5, 'Usuário Inicial', 'L,B,T', 0, 'L');
+        $pdf->Cell(33, 5, 'Data Fechamento','L,B,T', 0, 'L');
+        $pdf->Cell(45, 5, 'Usuário Final', 'L,B,T,R', 1, 'L');
         
-        $pdf->SetFont('arial', 'B', 9);
-        $pdf->Cell(25, 5, 'Usuário Final:', 'L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(54, 5, $row['userfinal'], 'R,B,T', 0, 'L');  
+        $pdf = quebraPagina($pdf->GetY()+10, $pdf);
         
-        $pdf->SetFont('arial', 'B', 9);
-        $pdf->Cell(28, 5, 'Data Fechamento:','L,B,T', 0, 'L');
-        $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(18, 5, $row['datafech'], 'R,B,T', 1, 'L');  
-        $pdf->Cell(199, 5, '', '', 1, 'L');
+        $iCod = $row['codsit'];
+        }
+        
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(24, 5, $row['sitmp'], 'B,L', 0, 'L');
+        $pdf->Cell(23, 5, $row['dias'], 'B', 0, 'L');
+        $pdf->Cell(33, 5,$row['databert'], 'B', 0, 'L');  
+        $pdf->Cell(45, 5, $row['userinicial'], 'B', 0, 'L');
+        $pdf->Cell(33, 5, $row['datafech'], 'B', 0, 'L');
+        $pdf->Cell(45, 5, $row['userfinal'], 'B,R', 1, 'L'); 
+
+        if(strlen($row['obs'])>3){
+            $pdf->SetFont('arial', 'B', 8);
+            $pdf->Cell(8, 5,'OBS:', 'B,L', 0, 'L');
+            $pdf->SetFont('arial', '', 8);
+            $pdf->Cell(195, 5,$row['obs'], 'B,R', 1, 'L'); 
+        }
         
         $iCont++;
         
@@ -232,7 +236,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
             }
             $iContFin++;
         }
-        
+       // }
 }
 }
 $pdf = quebraPagina($pdf->GetY()+35, $pdf);
@@ -269,7 +273,7 @@ Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
 
 //Função que quebra página em uma dada altura do PDF
 function quebraPagina($i, $pdf) {
-    if ($i >= 270) {    // 275 é o tamanho da página
+    if ($i >= 278) {    // 275 é o tamanho da página
         $pdf->AddPage();   // adiciona se ultrapassar o limite da página
         $pdf->SetY(10);
     }
