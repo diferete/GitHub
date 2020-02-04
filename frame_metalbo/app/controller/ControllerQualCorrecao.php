@@ -85,7 +85,7 @@ class ControllerQualCorrecao extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $sTipoAcao = $this->Persistencia->buscaTipoAcao($aChave);
         $aCampos = $aChave;
         $aCampos[3] = $sTipoAcao;

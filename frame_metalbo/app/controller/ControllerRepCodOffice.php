@@ -13,7 +13,7 @@ class ControllerRepCodOffice extends Controller{
     
     
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         
      /*   $oModelMenu = Fabrica::FabricarModel('Menu');
         $oPersMenu = Fabrica::FabricarPersistencia('Menu');

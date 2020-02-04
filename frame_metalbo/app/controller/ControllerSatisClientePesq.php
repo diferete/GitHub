@@ -15,7 +15,7 @@ class ControllerSatisClientePesq extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
 
 
 

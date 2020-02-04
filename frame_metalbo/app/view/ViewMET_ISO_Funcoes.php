@@ -25,8 +25,8 @@ class ViewMET_ISO_Funcoes extends View {
 
         $oDescSetor = new CampoConsulta('Setor', 'descsetor', CampoConsulta::TIPO_TEXTO);
 
-        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12);
-        $oFilSetor = new Filtro($oDescSetor, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilSetor = new Filtro($oDescSetor, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilSetor);
 
         $this->addCampos($oNr, $oFilcgc, $oCodSetor, $oDescSetor);

@@ -26,7 +26,7 @@ class ViewMET_ISO_Documentos extends View {
 
         $oRevisao = new CampoConsulta('Revisão Atual', 'revisao');
 
-        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12);
+        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12,false);
 
         $this->addFiltro($oFilNr);
 

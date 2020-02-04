@@ -43,42 +43,42 @@ class ViewQualNovoProjProd extends View {
         $oObsCli->setILargura(200);
 
         $oSitCli = new CampoConsulta('SitCliente', 'sitcliente', CampoConsulta::TIPO_TEXTO);
-        $oSitCli->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA);
-        $oSitCli->addComparacao('Enviado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
-        $oSitCli->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
-        $oSitCli->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
-        $oSitCli->addComparacao('Expirado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_COLUNA);
+        $oSitCli->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitCli->addComparacao('Enviado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitCli->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitCli->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitCli->addComparacao('Expirado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
         $oSitCli->setBComparacaoColuna(true);
         $oSitCli->setILargura(20);
 
         $oSitGeral = new CampoConsulta('SitGeral', 'sitgeralproj', CampoConsulta::TIPO_TEXTO);
-        $oSitGeral->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Lib.Projetos', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Lib.Cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Em execução', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Produzido', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
-        $oSitGeral->addComparacao('Faturado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA);
+        $oSitGeral->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Lib.Projetos', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Lib.Cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Em execução', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Produzido', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Faturado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(20);
 
 
         $oDrop1 = new Dropdown('Produto', Dropdown::TIPO_PRIMARY);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Cadastro de produto', 'QualNovoProjProd', 'TelaCadProd', '', true, '');
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Detalhamento de projeto', 'QualNovoProjDet', 'TelaCadEtapa', '', true, '');
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Controle e verificação de projeto', 'QualNovoProjVerif', 'TelaCadVerif', '', true, '');
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Cadastro de produto', 'QualNovoProjProd', 'TelaCadProd', '', true, '', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Detalhamento de projeto', 'QualNovoProjDet', 'TelaCadEtapa', '', true, '', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Controle e verificação de projeto', 'QualNovoProjVerif', 'TelaCadVerif', '', true, '', false, '', false, '', false, false);
 
         $oDrop2 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO, Dropdown::ICON_POSITIVO);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Liberar código', 'QualNovoProjProd', 'msgLibCod', '', false, '');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Listagem de processos', 'QualNovoProjProd', 'criaTelaModalSeqProc', '', false, '', false, 'criaTelaModalSeqProc', true, 'Listagem de processos');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Liberar código', 'QualNovoProjProd', 'msgLibCod', '', false, '', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Listagem de processos', 'QualNovoProjProd', 'criaTelaModalSeqProc', '', false, '', false, 'criaTelaModalSeqProc', true, 'Listagem de processos', false, false);
 
         $oDrop3 = new Dropdown('E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Reenvia código', 'QualNovoProjProd', 'reenviaCodigo', '', false, '');
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Reenvia código', 'QualNovoProjProd', 'reenviaCodigo', '', false, '', false, '', false, '', false, false);
 
         $this->addDropdown($oDrop1, $oDrop2, $oDrop3);
 
-        $oFSitProj = new Filtro($oSitGeral, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
+        $oFSitProj = new Filtro($oSitGeral, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFSitProj->addItemSelect('Todos', 'Todos');
         $oFSitProj->addItemSelect('Em execução', 'Em execução');
         $oFSitProj->addItemSelect('Lib.Cadastro', 'Lib.Cadastro');
@@ -90,10 +90,10 @@ class ViewQualNovoProjProd extends View {
 
         //TelaCadVerif
 
-        $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
+        $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
         $oFiltroNr->setSLabel('Número');
 
-        $oFiltroProd = new Filtro($oNovoProd, Filtro::CAMPO_TEXTO, 8, 8, 12, 12);
+        $oFiltroProd = new Filtro($oNovoProd, Filtro::CAMPO_TEXTO, 8, 8, 12, 12, false);
         $oFiltroProd->setSLabel('Descrição');
         $this->addFiltro($oFSitProj, $oFiltroNr, $oFiltroProd);
 
@@ -159,7 +159,7 @@ class ViewQualNovoProjProd extends View {
         $oMaterial = new campo('Material', 'material', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $oDiamMat = new Campo('Bitola Mat.', 'metmat', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
-        $oDiamMat->setSCorFundo(Campo::FUNDO_AMARELO);        
+        $oDiamMat->setSCorFundo(Campo::FUNDO_AMARELO);
         $oDiamMat->setSValor('0');
 
         $oClasse = new campo('Classe', 'classe', Campo::TIPO_TEXTO, 2, 2, 12, 12);

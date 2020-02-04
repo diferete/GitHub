@@ -22,12 +22,12 @@ class ViewProduto extends View {
         $oProdes = new CampoConsulta('Descrição', 'prodes', CampoConsulta::TIPO_LARGURA, 20);
 
         $oProBloq = new CampoConsulta('Bloqueado', 'probloqpro');
-        $oProBloq->addComparacao('S', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+        $oProBloq->addComparacao('S', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
 
         $oUn = new CampoConsulta('Unidade', 'pround', CampoConsulta::TIPO_LARGURA, 20);
 
-        $FiltroProcod = new Filtro($oProcod, Filtro::CAMPO_TEXTO_IGUAL, 2);
-        $FiltroProdes = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 3);
+        $FiltroProcod = new Filtro($oProcod, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+        $FiltroProdes = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoExcluir(false);
@@ -88,27 +88,43 @@ class ViewProduto extends View {
 
         $oGrupo = new Campo('Grupo 1', 'grupo', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oGrupo->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oGrupo->setClasseBusca('GrupoProd');
+        $oGrupo->setSCampoRetorno('grucod', $this->getTela()->getId());
 
         $oGrupo1 = new Campo('Grupo 2', 'grupo1', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oGrupo1->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oGrupo1->setClasseBusca('GrupoProd');
+        $oGrupo1->setSCampoRetorno('grucod', $this->getTela()->getId());
 
         $oSubGrupo = new Campo('Sub Grupo Inicial', 'subgrupo', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oSubGrupo->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oSubGrupo->setClasseBusca('SubGrupoProd');
+        $oSubGrupo->setSCampoRetorno('subcod', $this->getTela()->getId());
 
         $oSubGrupo1 = new Campo('Sub Grupo Final', 'subgrupo1', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oSubGrupo1->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oSubGrupo1->setClasseBusca('SubGrupoProd');
+        $oSubGrupo1->setSCampoRetorno('subcod', $this->getTela()->getId());
 
         $oFamilia = new Campo('Família Inicial', 'familia', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oFamilia->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oFamilia->setClasseBusca('FamProd');
+        $oFamilia->setSCampoRetorno('famcod', $this->getTela()->getId());
 
         $oFamilia1 = new Campo('Família Final', 'familia1', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oFamilia1->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oFamilia1->setClasseBusca('FamProd');
+        $oFamilia1->setSCampoRetorno('famcod', $this->getTela()->getId());
 
         $oSubFam = new Campo('Sub Família Inicial', 'subfamilia', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oSubFam->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oSubFam->setClasseBusca('FamSub');
+        $oSubFam->setSCampoRetorno('famsub', $this->getTela()->getId());
 
         $oSubFam1 = new Campo('Sub Família Final', 'subfamilia1', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oSubFam1->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oSubFam1->setClasseBusca('FamSub');
+        $oSubFam1->setSCampoRetorno('famsub', $this->getTela()->getId());
 
 //        $oCodigo = new Campo('Código','codigo', Campo::TIPO_BUSCADOBANCOPK,2);
 //        $oCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -116,9 +132,14 @@ class ViewProduto extends View {
         $oCodigo = new Campo('Código', 'codigo', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
 
+        $oParam = new Campo('...', 'param', Campo::TIPO_TEXTO);
+        $oParam->setSValor('relProduto');
+        $oParam->setApenasTela(true);
+        $oParam->setBOculto(true);
+
         //$oBotConf = new Campo('Buscar','',  Campo::TIPO_BOTAOSMALL);
         $oFieldSetFiltros = new FieldSet('Filtros');
-        $oFieldSetFiltros->addCampos(array($oGrupo, $oGrupo1, $oSubGrupo, $oSubGrupo1), array($oFamilia, $oFamilia1, $oSubFam, $oSubFam1));
+        $oFieldSetFiltros->addCampos(array($oGrupo, $oGrupo1, $oSubGrupo, $oSubGrupo1), array($oFamilia, $oFamilia1, $oSubFam, $oSubFam1), $oParam);
         $oFieldSetFiltros->setOculto(true);
 
         $this->addCampos($oFieldSetFiltros, array($oCodigo));

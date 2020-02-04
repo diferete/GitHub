@@ -10,61 +10,69 @@
 class ViewMET_ItensManPrev extends View {
 
     function criaGridDetalhe() {
-        
+
         $aIdsTela = $this->getSIdsTelas();
         parent::criaGridDetalhe($aIdsTela[6]);
-        
+
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
         $this->getOGridDetalhe()->setIAltura(100);
         $this->getOGridDetalhe()->setSNomeGrid('itensManPrev');
-        
-       // $this->getOGridDetalhe()->setBGridResponsivo(false);
-        
+
+        // $this->getOGridDetalhe()->setBGridResponsivo(false);
+
         $oBotaoFinalizar = new CampoConsulta('Finalizar', 'teste', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoFinalizar->setILargura(15);
         $oBotaoFinalizar->setSTitleAcao('Finalizar item!');
-        $oBotaoFinalizar->addAcao('MET_ItensManPrev', 'msgFinalizaServ');
+        $oBotaoFinalizar->addAcao('MET_ItensManPrev', 'msgFinalizaServ', '', '');
         $oBotaoFinalizar->setBHideTelaAcao(true);
         $oBotaoFinalizar->setILargura(30);
         $oBotaoFinalizar->setSNomeGrid('itensManPrev');
 
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oSeq->setILargura(15);
+
         $oCodmaq = new CampoConsulta('Cod.Maq.', 'codmaq');
         $oCodmaq->setILargura(15);
+
         $oCodSit = new CampoConsulta('Cod.Serviço', 'MET_ServicoMaquina.codsit');
         $oCodSit->setILargura(15);
 
-       // $oServ1 = new Campo('Serviço', 'MET_ServicoMaquina.servico');
-        
-        $oServ = new Campo('Serviço', 'ser', Campo::TIPO_TEXTO,10,10,10,10);
+        // $oServ1 = new Campo('Serviço', 'MET_ServicoMaquina.servico');
+
+        $oServ = new Campo('Serviço', 'ser', Campo::TIPO_TEXTO, 10, 10, 10, 10);
         $oServ->setSCorFundo(Campo::FUNDO_AMARELO);
         $oServ->setBCampoBloqueado(true);
-        
+
         $oSitmp = new CampoConsulta('Situação', 'sitmp');
-        $oSitmp->addComparacao('ABERTO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
-        $oSitmp->addComparacao('FINALIZADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA);
+        $oSitmp->addComparacao('ABERTO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitmp->addComparacao('FINALIZADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oSitmp->setILargura(15);
+
         $oDias = new CampoConsulta('Dias Restantes', 'dias');
         $oDias->setILargura(15);
+
         $oDatabert = new CampoConsulta('DataAbert.', 'databert', CampoConsulta::TIPO_DATA);
         $oDatabert->setILargura(15);
+
         $oUserinic = new CampoConsulta('Usuario Inicial.', 'userinicial');
         $oUserinic->setILargura(15);
+
         $oDatafech = new CampoConsulta('DataFech', 'datafech', CampoConsulta::TIPO_DATA);
+
         $oUserfinal = new CampoConsulta('Usuario Final', 'userfinal');
-        $oQueFazer = new Campo('O que fazer', 'oqfaz', Campo::TIPO_TEXTO,2,2,2,2);
+
+        $oQueFazer = new Campo('O que fazer', 'oqfaz', Campo::TIPO_TEXTO, 2, 2, 2, 2);
         $oQueFazer->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQueFazer->setBCampoBloqueado(true);
 
-        $this->getOGridDetalhe()->setSEventoClick('var chave=""; $("#'.$this->getOGridDetalhe()->getSId().' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
-                . 'requestAjax("","MET_ItensManPrev","camposGrid","'.$this->getOGridDetalhe()->getSId().'"+","+chave+","+"'.$oServ->getId().'"+","+"'.$oQueFazer->getId().'");');
-        
+        $this->getOGridDetalhe()->setSEventoClick('var chave=""; $("#' . $this->getOGridDetalhe()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
+                . 'requestAjax("","MET_ItensManPrev","camposGrid","' . $this->getOGridDetalhe()->getSId() . '"+","+chave+","+"' . $oServ->getId() . '"+","+"' . $oQueFazer->getId() . '");');
+
         $this->getOGridDetalhe()->addCamposGrid(array($oQueFazer, $oServ));
-        
-        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 2);
+
+        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);
@@ -72,48 +80,55 @@ class ViewMET_ItensManPrev extends View {
         $this->setUsaAcaoVisualizar(true);
         $this->addFiltro($oFiltroSeq);
 
-        $this->addCamposDetalhe($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit,/* $oServ,*/ $oSitmp, $oDias, $oDatabert, $oUserinic/*, $oDatafech, $oUserfinal , $oObs */);
-        
+        $this->addCamposDetalhe($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+
         $this->addGriTela($this->getOGridDetalhe());
-        
     }
 
     public function criaConsulta() {
         parent::criaConsulta();
-        
+
         $this->getTela()->setSNomeGrid('itensManPrev');
-        
-      //  $this->getTela()->setBGridResponsivo(false);
+
+        //  $this->getTela()->setBGridResponsivo(false);
 
         $oBotaoFinalizar = new CampoConsulta('Finalizar', 'teste', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoFinalizar->setSTitleAcao('Finalizar item!');
-        $oBotaoFinalizar->addAcao('MET_ItensManPrev', 'msgFinalizaServ');
+        $oBotaoFinalizar->addAcao('MET_ItensManPrev', 'msgFinalizaServ', '', '');
         $oBotaoFinalizar->setBHideTelaAcao(true);
         $oBotaoFinalizar->setILargura(30);
         $oBotaoFinalizar->setSNomeGrid('itensManPrev');
-        
+
         $oSeq = new CampoConsulta('Seq.', 'seq');
+
         $oCodmaq = new CampoConsulta('Cod.Maq.', 'codmaq');
+
         $oCodSit = new CampoConsulta('Cod.Serviço', 'MET_ServicoMaquina.codsit');
-       
-        $oServ = new Campo('Serviço', 'MET_ServicoMaquina.servico', Campo::TIPO_TEXTO,5);
+
+        $oServ = new Campo('Serviço', 'MET_ServicoMaquina.servico', Campo::TIPO_TEXTO, 5);
+
         $oSitmp = new CampoConsulta('Situação', 'sitmp');
-        $oSitmp->addComparacao('ABERTO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
-        $oSitmp->addComparacao('FINALIZADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA);
+        $oSitmp->addComparacao('ABERTO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitmp->addComparacao('FINALIZADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+
         $oDias = new CampoConsulta('Dias Restantes', 'dias');
-        $oDias->addComparacao('0', CampoConsulta::COMPARACAO_MENOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oDias->addComparacao('0', CampoConsulta::COMPARACAO_MENOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+
         $oDatabert = new CampoConsulta('DataAbert.', 'databert', CampoConsulta::TIPO_DATA);
+
         $oUserinic = new CampoConsulta('Usuario Inicial.', 'userinicial');
+
         $oDatafech = new CampoConsulta('DataFech', 'datafech', CampoConsulta::TIPO_DATA);
+
         $oUserfinal = new CampoConsulta('Usuario Final', 'userfinal');
         // $oObs = new CampoConsulta ('obs','obs');
-        
-        $this->getTela()->setSEventoClick('var chave=""; $("#'.$this->getTela()->getSId().' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
-                . 'requestAjax("","MET_ItensManPrev","camposGrid","'.$this->getTela()->getSId().'"+","+chave+","+"'.$oServ->getId().'");');
-        
+
+        $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
+                . 'requestAjax("","MET_ItensManPrev","camposGrid","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oServ->getId() . '");');
+
         $this->getTela()->addCamposGrid($oServ);
 
-        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 2);
+        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);
@@ -122,8 +137,7 @@ class ViewMET_ItensManPrev extends View {
         $this->addFiltro($oFiltroSeq);
 
         $this->setBScrollInf(TRUE);
-        $this->addCampos($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /*$oServ,*/ $oSitmp, $oDias, $oDatabert, $oUserinic/*, $oDatafech, $oUserfinal , $oObs */);
-        
+        $this->addCampos($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
     }
 
     public function criaTela() {
@@ -170,8 +184,7 @@ class ViewMET_ItensManPrev extends View {
         $oCodSit->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodSit->addValidacao(true, Validacao::TIPO_STRING);
         $oCodSit->setSCampoRetorno('codsit', $this->getTela()->getId());
-       // $oCodSit->setBCampoBloqueado(true);
-
+        // $oCodSit->setBCampoBloqueado(true);
         //campo descrição da maquina adicionando o campo de busca
         $oServ = new Campo('Serviço', 'MET_ServicoMaquina.servico', Campo::TIPO_BUSCADOBANCO, 8, 8, 12, 12);
         $oServ->setSIdPk($oCodSit->getId());
@@ -180,8 +193,7 @@ class ViewMET_ItensManPrev extends View {
         $oServ->addCampoBusca('servico', '', '');
         $oServ->setSIdTela($this->getTela()->getId());
         $oServ->addValidacao(true, Validacao::TIPO_STRING);
-       // $oServ->setBCampoBloqueado(true);
-
+        // $oServ->setBCampoBloqueado(true);
         //declarando no campo código a classe de busca, campo chave e campo de retorno
         $oCodSit->setClasseBusca('MET_ServicoMaquina');
         $oCodSit->setSCampoRetorno('codsit', $this->getTela()->getId());
@@ -237,7 +249,7 @@ class ViewMET_ItensManPrev extends View {
         $oL = new Campo('', '', Campo::TIPO_LINHA, 12, 12, 12, 12);
 
         //NOVO-------------------------------------------------------------------------------------------
-        $oBotConf = new Campo('INSERIR', '', Campo::TIPO_BOTAOSMALL, 1,1,2,2);
+        $oBotConf = new Campo('INSERIR', '', Campo::TIPO_BOTAOSMALL, 1, 1, 2, 2);
         $oBotConf->setIMarginTop(6);
         if ($sAcaoRotina == 'acaoVisualizar') {
             $oBotConf->getOBotao()->setBDesativado(true);
@@ -254,19 +266,19 @@ class ViewMET_ItensManPrev extends View {
         //-----------------------------------------------------------------------------------------------
         $oFezManut = new Campo('Realizou Tarefa', 'fezmanut', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oFezManut->setSValor('SIM');
-        $oFezManut->addItemSelect('SIM', 'SIM'); 
-        $oFezManut->addItemSelect('NAO', 'NAO'); 
-      //  $oFezManut->setITamanho(Campo::TAMANHO_GRANDE);
-        
+        $oFezManut->addItemSelect('SIM', 'SIM');
+        $oFezManut->addItemSelect('NAO', 'NAO');
+        //  $oFezManut->setITamanho(Campo::TAMANHO_GRANDE);
+
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes, $oDatabert, $oUserinic, $oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), $oObs, $oFezManut);
-        }else{
-            $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes, $oDatabert, $oUserinic, $oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), array($oObs),array($oFezManut, $oBotConf));
+        } else {
+            $this->addCampos(array($oNr, $oFilcgc, $oCodmaq, $oMaqDes, $oDatabert, $oUserinic, $oSitmp), $oL, array($oSeq, $oCodSit, $oServ), array($oQueFazer, $oDias, $oResponsavel), array($oObs), array($oFezManut, $oBotConf));
         }
-     
-        
+
+
         //-novo-----------------------------------------
         $this->addCamposFiltroIni($oFilcgc, $oNr, $oCodmaq);
     }
-    
+
 }

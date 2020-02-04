@@ -39,7 +39,7 @@ class PersistenciaModUsuario extends Persistencia{
          $sSql.=" order by tbmodusuario.modordem ";
          $result = $this->getObjetoSql($sSql);
          while ($row = $result->fetch(PDO::FETCH_OBJ)){
-             $aqt ='';
+             $aqt = array();
              $aqt[] = $row->modescricao;
              $aqt[] = $row->modcod;
              $aRet[] = $aqt;

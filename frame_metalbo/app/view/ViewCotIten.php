@@ -15,7 +15,7 @@ class ViewCotIten extends View {
     }
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
@@ -47,12 +47,12 @@ class ViewCotIten extends View {
         $oSeq = new CampoConsulta('Seq', 'seq');
         $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
         $oVlrUnit = new CampoConsulta('Vlr. Unit.', 'vlrunit', Campo::TIPO_MONEY);
-        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oVlrUnit->setBComparacaoColuna(true);
         $oVlrTot = new CampoConsulta('Vlr. Total.', 'vlrtot', Campo::TIPO_MONEY);
         $oVlrTot->setSOperacao('soma');
         $oVlrTot->setSTituloOperacao('Total: R$');
-        $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
+        $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, null);
         $oVlrTot->setBComparacaoColuna(true);
         $oDisp = new CampoConsulta('Disp.', 'pdfdisp');
         $oDisp->setILargura(30);

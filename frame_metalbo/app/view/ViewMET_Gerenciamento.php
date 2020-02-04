@@ -24,7 +24,7 @@ class ViewMET_Gerenciamento extends View {
 
         $oNr = new CampoConsulta('Nr', 'nr');
         foreach ($aDado5 as $key) {
-            $oNr->addComparacao($key, CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+            $oNr->addComparacao($key, CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
         }
 
         $oNr->setSOperacao('personalizado');
@@ -39,17 +39,17 @@ class ViewMET_Gerenciamento extends View {
         $oResp = new CampoConsulta('Resp', '');
         $oResp->setBColOculta(true);
 
-        $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1);
-        $oFiltroCodMaquina = new Filtro($oCodmaq, Filtro::CAMPO_TEXTO_IGUAL, 1);
-        $oFiltroDesMaquina = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 2);
-        $oFiltroSituacao = new Filtro($oSitmp, Filtro::CAMPO_SELECT, 1, 1, 1, 1);
+        $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFiltroCodMaquina = new Filtro($oCodmaq, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
+        $oFiltroDesMaquina = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFiltroSituacao = new Filtro($oSitmp, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFiltroSituacao->setSValor('ABERTO');
         $oFiltroSituacao->addItemSelect('ABERTO', 'Situação Aberto');
         $oFiltroSituacao->addItemSelect('FINALIZADO', 'Situação Finalizado');
         $oFiltroSituacao->setSLabel('');
 
         //Filtro de células
-        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 2, 2, 2, 2);
+        $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFiltroSeq->addItemSelect('', 'Todas Células');
         foreach ($aDado1 as $key) {
             $val = (int) $key['seq'];
@@ -58,7 +58,7 @@ class ViewMET_Gerenciamento extends View {
         $oFiltroSeq->setSLabel('');
 
         //Filtro tipo Categoria
-        $oCategoriaFiltro = new Filtro($oCategoria, Filtro::CAMPO_SELECT, 1, 1, 1, 1);
+        $oCategoriaFiltro = new Filtro($oCategoria, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oCategoriaFiltro->addItemSelect('', 'Todas Categorias');
         foreach ($aDado4 as $key3) {
             $oCategoriaFiltro->addItemSelect($key3['maqtip'], $key3['maqtip']);
@@ -66,7 +66,7 @@ class ViewMET_Gerenciamento extends View {
         $oCategoriaFiltro->setSLabel('');
 
         //Filtro de Setor
-        $oFiltroSetor = new Filtro($oSetor, Filtro::CAMPO_SELECT, 2, 2, 2, 2);
+        $oFiltroSetor = new Filtro($oSetor, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFiltroSetor->addItemSelect('', 'Todos Setores');
         $iCont = 0;
         foreach ($aCodSetor as $key1) {
@@ -75,7 +75,7 @@ class ViewMET_Gerenciamento extends View {
         }
         $oFiltroSetor->setSLabel('');
 
-        $oFiltroResp = new Filtro($oResp, Filtro::CAMPO_SELECT, 2, 2, 2, 2);
+        $oFiltroResp = new Filtro($oResp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFiltroResp->addItemSelect('TODOS', 'TODOS RESPONSÁVEIS');
         $oFiltroResp->addItemSelect('MECANICA', 'MECÂNICA');
         $oFiltroResp->addItemSelect('MANUTENCAO', 'ELÉTRICA');
@@ -95,9 +95,9 @@ class ViewMET_Gerenciamento extends View {
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'TODOS', $this->getController(), 'acaoMostraRelEspecifico', 'TODOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'ABERTOS', $this->getController(), 'acaoMostraRelEspecifico', 'ABERTOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'FINALIZADOS', $this->getController(), 'acaoMostraRelEspecifico', 'FINALIZADOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'TODOS', 'MET_Gerenciamento', 'acaoMostraRelEspecifico', 'TODOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'ABERTOS', 'MET_Gerenciamento', 'acaoMostraRelEspecifico', 'ABERTOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'FINALIZADOS', 'MET_Gerenciamento', 'acaoMostraRelEspecifico', 'FINALIZADOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
         $this->addDropdown($oDrop1);
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '

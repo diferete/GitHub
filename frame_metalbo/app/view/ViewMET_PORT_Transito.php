@@ -18,18 +18,18 @@ class ViewMET_PORT_Transito extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
         $this->getTela()->setBGridResponsivo(false);
-        
+
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
-        
+
         $oExcluir = new Dropdown('Excluir', Dropdown::TIPO_AVISO, Dropdown::ICON_PADRAO);
-        $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Transito', 'excluirRegistro', '', false, '', false, '', false, '');
-        
+        $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Transito', 'excluirRegistro', '', false, '', false, '', false, '', false, false);
+
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Aponta movimentações do veículo!');
-        $oBotaoModal->addAcao('MET_PORT_Transito', 'criaTelaModalApontamentoTransito', 'criaModalApontamentoTransito');
+        $oBotaoModal->addAcao('MET_PORT_Transito', 'criaTelaModalApontamentoTransito', 'criaModalApontamentoTransito', '');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -50,9 +50,9 @@ class ViewMET_PORT_Transito extends View {
         $oMotivo->addComparacao('7', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Outro');
 
         $oSituaca = new CampoConsulta('Sit.', 'situaca', CampoConsulta::TIPO_TEXTO);
-        $oSituaca->addComparacao('Entrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
-        $oSituaca->addComparacao('Saída', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
-        $oSituaca->addComparacao('Chegada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oSituaca->addComparacao('Entrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
+        $oSituaca->addComparacao('Saída', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oSituaca->addComparacao('Chegada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oSituaca->setBComparacaoColuna(true);
 
         $oDataChegou = new CampoConsulta('Dt. Chegada', 'datachegou', CampoConsulta::TIPO_DATA);
@@ -68,13 +68,13 @@ class ViewMET_PORT_Transito extends View {
         $oDataSaida = new CampoConsulta('Dt. Saída', 'datasaiu', CampoConsulta::TIPO_DATA);
 
         ///////////////////////////////////Filtros///////////////////////////////
-        $oFilPlaca = new Filtro($oPlaca, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
+        $oFilPlaca = new Filtro($oPlaca, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
-        $oFilNR = new Filtro($oNr, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12);
+        $oFilNR = new Filtro($oNr, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12, false);
 
-        $oFilEmpresa = new Filtro($oEmpresa, Filtro::CAMPO_TEXTO, 5, 5, 12, 12);
+        $oFilEmpresa = new Filtro($oEmpresa, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
 
-        $oFilMotivo = new Filtro($oMotivo, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
+        $oFilMotivo = new Filtro($oMotivo, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFilMotivo->addItemSelect('Todos', 'Todos');
         $oFilMotivo->addItemSelect('1', 'Coleta');
         $oFilMotivo->addItemSelect('2', 'Entrega Mat.P.');
@@ -85,7 +85,7 @@ class ViewMET_PORT_Transito extends View {
         $oFilMotivo->addItemSelect('7', 'Outro');
         $oFilMotivo->setSLabel('Motivo');
 
-        $oFilSituaca = new Filtro($oSituaca, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
+        $oFilSituaca = new Filtro($oSituaca, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFilSituaca->addItemSelect('Todos', 'Todos');
         $oFilSituaca->addItemSelect('Chegada', 'Chegada');
         $oFilSituaca->addItemSelect('Entrada', 'Entrada');
@@ -93,7 +93,7 @@ class ViewMET_PORT_Transito extends View {
         $oFilSituaca->setSLabel('Situação');
 
         $this->addDropdown($oExcluir);
-        $this->addFiltro($oFilNR, $oFilPlaca, $oFilEmpresa, $oFilMotivo,$oFilSituaca);
+        $this->addFiltro($oFilNR, $oFilPlaca, $oFilEmpresa, $oFilMotivo, $oFilSituaca);
         $this->addCampos($oBotaoModal, $oNr, $oEmpresa, $oPlaca, $oSituaca, $oMotivo, $oDataChegou, $oHoraChegou, $oDataEntra, $oHoraEntrou, $oDataSaida, $oHoraSaida);
     }
 
@@ -360,7 +360,7 @@ class ViewMET_PORT_Transito extends View {
         $oMotivo->addItemSelect('5', 'Serviços');
         $oMotivo->addItemSelect('6', 'Visita');
         $oMotivo->addItemSelect('7', 'Outro');
-        
+
         $oCnpj = new Campo('CNPJ', 'empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
         //$oCnpj->addValidacao(false, Validacao::TIPO_STRING, '', '12');
@@ -375,16 +375,16 @@ class ViewMET_PORT_Transito extends View {
         $oCnpj->setClasseBusca('Pessoa');
         $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
-        
-        $oSituacao = new Campo('Situação','situacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
+
+        $oSituacao = new Campo('Situação', 'situacao', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oSituacao->addItemSelect('', 'Todas');
         $oSituacao->addItemSelect('Chegada', 'Chegada');
         $oSituacao->addItemSelect('Entrada', 'Entrada');
         $oSituacao->addItemSelect('Saída', 'Saída');
-        
+
         $oL = new Campo('', '', Campo::TIPO_LINHABRANCO);
-        
-        $this->addCampos(array($oMotivo, $oDataIni, $oDataFin),$oL, array($oCnpj,$oEmpresa),$oL, $oSituacao);
+
+        $this->addCampos(array($oMotivo, $oDataIni, $oDataFin), $oL, array($oCnpj, $oEmpresa), $oL, $oSituacao);
     }
 
 }

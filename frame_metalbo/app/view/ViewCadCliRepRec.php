@@ -28,18 +28,18 @@ class ViewCadCliRepRec extends View {
         $oUsuCadVenda = new CampoConsulta('UsuCad', 'usucadvenda');
 
         $oSituaca = new CampoConsulta('Situação', 'situaca');
-        $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
-        $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
-        $oSituaca->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_LINHA);
+        $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
+        $oSituaca->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_LINHA, false, null);
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Movimentações', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Gerar cadastro', 'CadCliRepRec', 'msgCadastro', '', false, '');
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Retornar para Representante', 'CadCliRepRec', 'msgRet', '', false, '');
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Gerar cadastro', 'CadCliRepRec', 'msgCadastro', '', false, '', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Retornar para Representante', 'CadCliRepRec', 'msgRet', '', false, '', false, '', false, '', false, false);
 
         //filtros 
-        $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
-        $oFiltroUsuCad = new Filtro($oUsuCadVenda, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
+        $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $oFiltroUsuCad = new Filtro($oUsuCadVenda, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFiltroEmpdes, $oFiltroUsuCad);
 
         $this->addDropdown($oDrop1);
@@ -154,10 +154,10 @@ class ViewCadCliRepRec extends View {
         $oCarteira->addItemSelect('1', 'SIMPLES');
         $oCarteira->addValidacao(FALSE, Validacao::TIPO_STRING, 'Campo obrigatório');
 
-        $oComer = new campo('Cliente', 'comer', Campo::TIPO_CHECK, 1,1,12,12);
+        $oComer = new campo('Cliente', 'comer', Campo::TIPO_CHECK, 1, 1, 12, 12);
         $oComer->setSValor(true);
-        
-        $oTransp = new campo('Transportadora', 'transp', Campo::TIPO_CHECK, 1,1,12,12);
+
+        $oTransp = new campo('Transportadora', 'transp', Campo::TIPO_CHECK, 1, 1, 12, 12);
         $oFieldEnd = new FieldSet('Endereço');
 
         $oCidCep = new campo('Cep *(Somente N°)', 'cidcep', Campo::TIPO_TEXTO, 2, 2, 12, 12);
@@ -195,9 +195,7 @@ class ViewCadCliRepRec extends View {
         $oCidCep->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
         $oFieldEnd->addCampos(
-                array($oCidCep, $oUf, $oMunicipio), 
-                array($oBairro, $oEmpEnd), 
-                array($oComplemento, $oEmpnr));
+                array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr));
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');

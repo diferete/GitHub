@@ -69,7 +69,7 @@ class ControllerQualCausa extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $aCampos = $aChave;
         $this->View->setAParametrosExtras($aCampos);
     }
@@ -96,8 +96,7 @@ class ControllerQualCausa extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sDados);
-        $aParam = explode(',', $sDados);
+        parent::acaoLimpar($sForm, $sDados);
 
         //verifica se está como 
         $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';

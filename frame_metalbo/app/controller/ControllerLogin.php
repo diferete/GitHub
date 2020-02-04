@@ -34,7 +34,7 @@ class ControllerLogin extends Controller {
     public function logaSistema() {
         $params = array();
         parse_str($_REQUEST['campos'], $params);
-        $this->carregaModel();
+        $this->carregaModel($params);
         $aLogaSistema = $this->Persistencia->logarSistema();
         if ($aLogaSistema[0]) {
             $oDados = $this->Persistencia->buscaDadosUser($this->Model->getCodsetor());
