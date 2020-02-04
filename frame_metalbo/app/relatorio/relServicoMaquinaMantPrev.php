@@ -263,11 +263,11 @@ $col1=array (0,255,0);
 $col2=array (255,0,0);
 $col3=array (255,255,0);
 $col4=array (0,69,255);
-
+if(array_sum($aData)!=0){
 $pdf->SetXY(70, $valY);
 $pdf->PieChart(135, 200, $aData, '%l : %v  (%p)', array($col1,$col2,$col3,$col4));
 $pdf->SetXY($valX, $valY + 50);
-
+}
 $pdf->Output('I', 'relServicoMaquinaMantPrev.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
 
