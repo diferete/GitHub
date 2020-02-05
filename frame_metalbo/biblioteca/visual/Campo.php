@@ -1452,7 +1452,6 @@ class Campo {
     }
 
     public function getRender() {
-        $teste = '';
         switch ($this->iTipo) {
             case self::TIPO_DATA:
                 $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'

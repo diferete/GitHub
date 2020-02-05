@@ -1,2 +1,1 @@
-update tbsessao set usulastacesso = '2020-2-5 11:56:18' 
-            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'ibc0kh4061bqjlr24o3513uqrh'
+DELETE FROM tbmenu WHERE tbmenu.modcod = '17' AND tbmenu.mencodigo = '2'
