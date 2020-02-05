@@ -386,7 +386,7 @@ class ControllerQualNovoProjProd extends Controller {
     public function getDadosProdSimilar($sDados) {
         $aDados = explode(',', $sDados);
 
-        $oObj = $this->Persistencia->getCadDim($aDados[25]);
+        $oObj = $this->Persistencia->getCadDim($aDados[26]);
 
         $array = (array) $oObj;
         $sCount = 0;

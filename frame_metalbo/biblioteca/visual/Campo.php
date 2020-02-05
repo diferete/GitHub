@@ -1452,6 +1452,7 @@ class Campo {
     }
 
     public function getRender() {
+        $teste = '';
         switch ($this->iTipo) {
             case self::TIPO_DATA:
                 $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
@@ -1850,7 +1851,7 @@ class Campo {
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input class="form-control ' . $this->getTamanho($this->getITamanho()) . '" type="text" autocomplete="off" name="' . $this->getNome() . '" ' . $this->getTamanho($this->getITamanho()) . '" placeholder = "Pesquisar.." ' // IMPORTANTE!!!! REVER ID
-                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '<span class="block" > '
                         . '<div class="form-group"> '
