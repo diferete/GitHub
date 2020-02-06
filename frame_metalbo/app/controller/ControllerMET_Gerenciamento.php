@@ -192,9 +192,15 @@ class ControllerMET_Gerenciamento extends Controller {
         $sNr = $aDados[0];
 
         $aTotal = $this->Persistencia->totalAbertoVencidos($sNr);
-
+        $this->Persistencia->adicionaFiltro('nr', $sNr);
+        $this->Persistencia->consultarWhere();
+        $iCodMaq = $this->Persistencia->Model->getCodmaq();
+        if($iCodMaq!=null){
+            $iCodMaq = 'Maq = '.$iCodMaq;
+        }
+        
         $sResulta = '<div id="titulolinhatempo">'
-                  . '<h3 class="panel-title">Serviços em Atraso</h3>'
+                  . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas '.$iCodMaq.'</h1>'
                   . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
                   . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
                   . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['MANUTENCAO'] . ''
@@ -203,7 +209,7 @@ class ControllerMET_Gerenciamento extends Controller {
         echo '$("#titulolinhatempo").empty();';
         
         $sTitulo = '<div id="titulolinhatempo">'
-                  . '<h3 class="panel-title">Serviços em Atraso</h3>'
+                  . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas '.$iCodMaq.'</h1>'
                   . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
                   . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
                   . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['MANUTENCAO'] . ''
@@ -219,21 +225,45 @@ class ControllerMET_Gerenciamento extends Controller {
         $oItens->Persistencia->atualizaDataAntesdaConsulta();
         $this->buscaCelulas();
         $oDados = $_REQUEST['parametrosCampos'];
-        $aValores = $oDados['parametrosCampos[7'];
-        if($aValores=='sitmp|FINALIZADO'){
-            $this->Persistencia->limpaFiltro();
-            $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO'); 
-        }else{
-            $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');   
-        }
-        $sValoresS = $oDados['parametrosCampos[3'];
-        if($sValoresS!='|TODOS'){
-            $this->Persistencia->limpaFiltro();
-            $this->Persistencia->setSqlWhere('nr in ('.$this->Persistencia->retornaTexMaqPorSetor($sValoresS).')');
-        }else{
-            $this->Persistencia->limpaFiltro();
-        }
+
+        $sNr = explode('|',$oDados['parametrosCampos[0'])[1];
+        $sCodMaq = explode('|',$oDados['parametrosCampos[1'])[1];
+        $sMaq = explode('|',$oDados['parametrosCampos[2'])[1];
+        $sRes = explode('|',$oDados['parametrosCampos[3'])[1];
+        $sSeq = explode('|',$oDados['parametrosCampos[4'])[1];
+        $sMaqTip = explode('|',$oDados['parametrosCampos[5'])[1];
+        $sCodSet = explode('|',$oDados['parametrosCampos[6'])[1];
+        $sSit = explode('|',$oDados['parametrosCampos[7'])[1];
         
+            if($sMaq==''){
+            $this->Persistencia->limpaFiltro();
+            }
+            if($sNr!=''){
+                $this->Persistencia->adicionaFiltro('nr', $sNr);
+            }else{
+                $this->Persistencia->setSqlWhere('nr in ('.$this->Persistencia->retornaTexMaqPorSetor($sRes).') ');
+            }
+            if($sCodMaq!=''){
+                $this->Persistencia->adicionaFiltro('codmaq', $sCodMaq); 
+            }
+//            if($sMaq!=''){
+//                $this->Persistencia->adicionaFiltro('MET_Maquinas.maquina', $sMaq); 
+//            }
+            if($sSeq!=''){
+                $this->Persistencia->adicionaFiltro('MET_Maquinas.seq', $sSeq); 
+            }
+            if($sMaqTip!=''){
+                $this->Persistencia->adicionaFiltro('MET_Maquinas.maqtip', $sMaqTip); 
+            }
+            if($sCodSet!=''){
+                $this->Persistencia->adicionaFiltro('MET_Maquinas.codsetor', $sCodSet); 
+            }
+            if($sSit=='FINALIZADO'){
+                $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO'); 
+            }else{
+                $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');   
+            }
+
     }
     
 }
