@@ -81,6 +81,8 @@ class ViewMET_Gerenciamento extends View {
         $oFiltroResp->addItemSelect('MANUTENCAO', 'ELÉTRICA');
         $oFiltroResp->addItemSelect('OPERADOR', 'OPERADOR');
         $oFiltroResp->setSLabel('');
+        $oFiltroResp->setSValor('');
+        $oFiltroResp->setBCampoBloqueado(true);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);

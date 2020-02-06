@@ -41,7 +41,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oDrop2 = new Dropdown('Ações', Dropdown::TIPO_SUCESSO);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'MET_QUAL_Rnc', 'acaoFinalizaRnc', '', false, '', false, '', false, '', false, false);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Cancelar', 'MET_QUAL_Rnc', 'acaoCancelaRnc', '', false, '', false, '', false, '', false, false);
-        
+
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
         $oFilCnpj = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oFiltroDescP = new Filtro($oDescprod, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
@@ -362,6 +362,25 @@ class ViewMET_QUAL_Rnc extends View {
         $this->setTituloTela('Relatório Geral de Não Conformidade');
         $this->setBTela(true);
 
+        //campo código do produto
+        $oCodProd = new Campo('Codigo', 'codprod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCodProd->setSIdHideEtapa($this->getSIdHideEtapa());
+        $oCodProd->setITamanho(Campo::TAMANHO_PEQUENO);
+
+        //campo descrição do produto adicionando o campo de busca
+        $oProdDes = new Campo('Produto', 'descprod', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oProdDes->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oProdDes->setSIdPk($oCodProd->getId());
+        $oProdDes->setClasseBusca('Produto');
+        $oProdDes->addCampoBusca('procod', '', '');
+        $oProdDes->addCampoBusca('prodes', '', '');
+        $oProdDes->setSIdTela($this->getTela()->getid());
+
+        //declarando no campo código a classe de busca, campo chave e campo de retorno
+        $oCodProd->setClasseBusca('Produto');
+        $oCodProd->setSCampoRetorno('procod', $this->getTela()->getId());
+        $oCodProd->addCampoBusca('prodes', $oProdDes->getId(), $this->getTela()->getId());
+
         $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDatainicial->setSValor(Util::getPrimeiroDiaMes());
         $oDatainicial->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
@@ -387,7 +406,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $this->addCampos(array($oCodTip, $oTipo, $oSit), $oLinha1, array($oDatainicial, $oDatafinal));
+        $this->addCampos(array($oCodProd, $oProdDes), $oLinha1, array($oCodTip, $oTipo, $oSit), $oLinha1, array($oDatainicial, $oDatafinal));
     }
 
 }

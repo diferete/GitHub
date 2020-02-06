@@ -14,6 +14,8 @@ $sDataIni = $_REQUEST['dataini'];
 $sDataFin = $_REQUEST['datafinal'];
 $sTipRnc = $_REQUEST['tipornc'];
 $sTipFix = $_REQUEST['tipfix'];
+$sCodProd = $_REQUEST['codprod'];
+$sDesProd = $_REQUEST['descprod'];
 
 class PDF extends FPDF {
 
@@ -76,13 +78,17 @@ $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $sSit, 0, 1, 'L');
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(25, 5, 'Data Inicial: ', 0, 0, 'L');
+$pdf->Cell(20, 5, 'Data Inicial: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $sDataIni, 0, 0, 'L');
+$pdf->Cell(20, 5, $sDataIni, 0, 0, 'L');
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(25, 5, 'Data Final: ', 0, 0, 'L');
+$pdf->Cell(20, 5, 'Data Final: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $sDataFin, 0, 1, 'L');
+$pdf->Cell(20, 5, $sDataFin, 0, 0, 'L');
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(30, 5, 'Produto Cod-Des: ', 0, 0, 'L');
+$pdf->SetFont('arial', '', 8);
+$pdf->Cell(30, 5, $sCodProd.' - '.$sDesProd, 0, 1, 'L');
 
 $pdf->Cell(203, 2, '', 'B', 1, 'L');  
 $pdf->Cell(203, 1, '', 'B', 1, 'L'); 
@@ -107,6 +113,9 @@ if ($sTipFix=="Porca"){
     $sql.=" and grucod in(12)";
 }else if($sTipFix=="Parafuso"){
     $sql.=" and grucod in(13)";
+}
+if($sCodProd!=''){
+    $sql.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
 }
 
 $sth = $PDO->query($sql);
@@ -140,6 +149,9 @@ if ($sTipFix=="Porca"){
     $sql1.=" and grucod in(12)";
 }else if($sTipFix=="Parafuso"){
     $sql1.=" and grucod in(13)";
+}
+if($sCodProd!=''){
+    $sql1.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
 }
 
 $sql1.=" group by sit ";
@@ -187,6 +199,9 @@ $sql2.=" and tipornc = '".$sTipRnc."'";
 if($sSit!='Todos'){
 $sql2.=" and sit = '".$sSit."'";
 }
+if($sCodProd!=''){
+    $sql2.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+}
 $sql2.= " group by grucod";
 
 $sth2 = $PDO->query($sql2);
@@ -229,6 +244,9 @@ if ($sTipFix=="Porca"){
 }else if($sTipFix=="Parafuso"){
     $sql3.=" and grucod in(13)";
 }
+if($sCodProd!=''){
+    $sql3.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+}
 $sql3.=" group by tipornc,decisaornc";
 
 $sth3 = $PDO->query($sql3);
@@ -268,6 +286,9 @@ if ($sTipFix=="Porca"){
     $sql4.=" and grucod in(12)";
 }else if($sTipFix=="Parafuso"){
     $sql4.=" and grucod in(13)";
+}
+if($sCodProd!=''){
+    $sql4.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
 }
 $sql4.=" group by descset02,decisaornc";
 
@@ -315,6 +336,9 @@ if ($sTipFix=="Porca"){
 }else if($sTipFix=="Parafuso"){
     $sql5.=" and grucod in(13)";
 }            
+if($sCodProd!=''){
+    $sql5.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+}
 $sql5.=" group by tipornc,fornec,decisaornc";
 
 $sth5 = $PDO->query($sql5);
@@ -359,7 +383,10 @@ if ($sTipFix=="Porca"){
     $sql6.=" and grucod in(12)";
 }else if($sTipFix=="Parafuso"){
     $sql6.=" and grucod in(13)";
-}           
+}  
+if($sCodProd!=''){
+    $sql6.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+}
 
 $sql6.=" group by tipornc ";
 
@@ -402,6 +429,9 @@ if ($sTipFix=="Porca"){
 }else if($sTipFix=="Parafuso"){
     $sql7.=" and grucod in(13)";
 }          
+if($sCodProd!=''){
+    $sql7.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+}
 $sql7.=" and tipornc <> 'Fornecedor' and descset02 is not null group by descset02 ";
 
 $sth7 = $PDO->query($sql7);
