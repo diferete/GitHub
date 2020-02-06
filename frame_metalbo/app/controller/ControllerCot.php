@@ -143,6 +143,7 @@ class ControllerCot extends Controller {
 
         $sCampos = '&tabcab=' . $sTabCab;
         $sCampos .= '&itencab=' . $sTabIten;
+        $sCampos .= '&repcod=' . $_SESSION['repoffice'];
 
 
         //busca a imagem padrão dos relatórios
@@ -232,7 +233,8 @@ class ControllerCot extends Controller {
         $_REQUEST['output'] = 'email';
         $_REQUEST['dir'] = $_SESSION['diroffice'];
         $_REQUEST['logo'] = 'comlogo';
-        
+        $_REQUEST['repcod'] = $_SESSION['repoffice'];
+
         require 'app/relatorio/cotacao.php';
     }
 
@@ -259,6 +261,7 @@ class ControllerCot extends Controller {
         $_REQUEST['output'] = 'email';
         $_REQUEST['dir'] = $_SESSION['diroffice'];
         $_REQUEST['logo'] = 'semlogo';
+        $_REQUEST['repcod'] = $_SESSION['repoffice'];
 
         require 'app/relatorio/cotacao.php';
     }

@@ -16,19 +16,45 @@ if ($_REQUEST['output'] == 'email') {
 class PDF extends FPDF {
 
     function Footer() { // Cria rodapé
-        $this->SetXY(15, 278);
+        $sRepCod = $_REQUEST['repcod'];
+        $this->SetXY(15, 274);
         $this->Ln(); //quebra de linha
         $this->SetFont('Arial', '', 7); // seta fonte no rodape
         $this->Cell(190, 7, 'Página ' . $this->PageNo() . ' de {nb}', 0, 1, 'C'); // paginação
-
+        $sRepDados = retornaArrayCabRepres($sRepCod);
+        $x = $this->GetX();
+        $y = $this->GetY();
         if ($_REQUEST['output'] == 'email') {
-            $this->SetFont('Arial', '', 8); // seta fonte no rodape
-            $this->Cell(180, 1, 'Metalbo Indústria de Fixadores Metálicos LTDA.', 0, 0, 'R');
-            $this->Image('biblioteca/assets/images/metalbo-preta.png', 180, 286, 20);
+            $this->SetFont('Arial', '', 10); // seta fonte no rodape
+            $this->Cell(80, 5, $sRepDados->nome, 0, 1, 'L');
+            $this->SetFont('Arial', '', 8);
+            $this->Cell(80, 3, $sRepDados->email1, 0, 0, 'L');
+            $this->SetXY($x + 70, $y);
+            $this->SetFont('Arial', '', 8);
+            $this->Cell(50, 5, 'FONE: ' . $sRepDados->fone1, 0, 1, 'L');
+            $this->SetFont('Arial', '', 8);
+            $this->SetX($x + 70);
+            $this->Cell(50, 3, 'FONE: ' . $sRepDados->fone2, 0, 0, 'L');
+            $this->SetXY($x + 100, $y + 3);
+            $this->SetFont('Arial', '', 9);
+            $this->Cell(83, 5, 'Metalbo Indústria de Fixadores Metálicos LTDA.', 0, 0, 'R');
+            $this->Image('biblioteca/assets/images/metalbo-preta.png', 185, 286, 20);
         } else {
-            $this->SetFont('Arial', '', 8); // seta fonte no rodape
-            $this->Cell(180, 1, 'Metalbo Indústria de Fixadores Metálicos LTDA.', 0, 0, 'R');
-            $this->Image('../../biblioteca/assets/images/metalbo-preta.png', 180, 286, 20);
+
+            $this->SetFont('Arial', '', 10); // seta fonte no rodape
+            $this->Cell(80, 5, $sRepDados->nome, 0, 1, 'L');
+            $this->SetFont('Arial', '', 8);
+            $this->Cell(80, 3, $sRepDados->email1, 0, 0, 'L');
+            $this->SetXY($x + 70, $y);
+            $this->SetFont('Arial', '', 8);
+            $this->Cell(50, 5, 'FONE: ' . $sRepDados->fone1, 0, 1, 'L');
+            $this->SetX($x + 70);
+            $this->SetFont('Arial', '', 8);
+            $this->Cell(50, 3, 'FONE: ' . $sRepDados->fone2, 0, 0, 'L');
+            $this->SetXY($x + 100, $y + 3);
+            $this->SetFont('Arial', '', 9);
+            $this->Cell(83, 5, 'Metalbo Indústria de Fixadores Metálicos LTDA.', 0, 0, 'R');
+            $this->Image('../../biblioteca/assets/images/metalbo-preta.png', 185, 286, 20);
         }
     }
 
@@ -287,7 +313,7 @@ if ($_REQUEST['output'] == 'email') {
     }
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
-        $oCot = Fabrica::FabricarPersistencia('SolPed');
+        //$oCot = Fabrica::FabricarPersistencia('SolPed');
         //$oCot->confirmaEnvioEmail($iNr,$sTabCab);
         //$oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
         echo $oMensagem->getRender();
@@ -296,4 +322,16 @@ if ($_REQUEST['output'] == 'email') {
         $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
         echo $oMensagem->getRender();
     }
+}
+/*
+ * Função que retorna um array do nome, email e número de telefone dos representantes
+ */
+
+function retornaArrayCabRepres($sRepCod) {
+
+    $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+    $sSql = "select nome,email1, fone1, fone2 from tbrepsite where repcodoffice=" . $sRepCod . " group by nome, email1, fone1, fone2";
+    $row = $PDO->query($sSql);
+    $rowTotal = $row->fetch(PDO::FETCH_OBJ);
+    return $rowTotal;
 }

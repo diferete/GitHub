@@ -212,7 +212,7 @@ class ControllerSolPed extends Controller {
     }
 
     /**
-     * Retorna dados para get de relatórios
+     * Retorna dados para get de relatórios 
      */
     public function getSget() {
         parent::getSget();
@@ -223,6 +223,7 @@ class ControllerSolPed extends Controller {
 
         $sCampos = '&tabcab=' . $sTabCab;
         $sCampos .= '&itencab=' . $sTabIten;
+        $sCampos .= '&repcod=' . $_SESSION['repoffice'];
 
         //busca a imagem padrão dos relatórios
         $oRepOffice = Fabrica::FabricarPersistencia('RepOffice');
@@ -294,6 +295,7 @@ class ControllerSolPed extends Controller {
         $_REQUEST['output'] = 'email';
         $_REQUEST['dir'] = $_SESSION['diroffice'];
         $_REQUEST['logo'] = 'comlogo';
+        $_REQUEST['repcod'] = $_SESSION['repoffice'];
 
         require 'app/relatorio/solvenda.php';
     }
@@ -322,6 +324,7 @@ class ControllerSolPed extends Controller {
         $_REQUEST['output'] = 'email';
         $_REQUEST['dir'] = $_SESSION['diroffice'];
         $_REQUEST['logo'] = 'semlogo';
+        $_REQUEST['repcod'] = $_SESSION['repoffice'];
 
         require 'app/relatorio/solvenda.php';
     }

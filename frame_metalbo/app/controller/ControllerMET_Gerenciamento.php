@@ -235,9 +235,7 @@ class ControllerMET_Gerenciamento extends Controller {
         $sCodSet = explode('|',$oDados['parametrosCampos[6'])[1];
         $sSit = explode('|',$oDados['parametrosCampos[7'])[1];
         
-            if($sMaq==''){
             $this->Persistencia->limpaFiltro();
-            }
             if($sNr!=''){
                 $this->Persistencia->adicionaFiltro('nr', $sNr);
             }else{
@@ -246,9 +244,12 @@ class ControllerMET_Gerenciamento extends Controller {
             if($sCodMaq!=''){
                 $this->Persistencia->adicionaFiltro('codmaq', $sCodMaq); 
             }
-//            if($sMaq!=''){
-//                $this->Persistencia->adicionaFiltro('MET_Maquinas.maquina', $sMaq); 
-//            }
+            if($sMaq!=''){
+//                
+//          $this->Persistencia->adicionaFiltro('maquina', $sMaq); 
+//                
+//                                
+            }
             if($sSeq!=''){
                 $this->Persistencia->adicionaFiltro('MET_Maquinas.seq', $sSeq); 
             }
