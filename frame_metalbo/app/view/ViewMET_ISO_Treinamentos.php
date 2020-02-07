@@ -71,6 +71,7 @@ class ViewMET_ISO_Treinamentos extends View {
 
         $sAcaoRotina = $this->getSRotina();
 
+        $oDados = $this->getAParametrosExtras();
 
         $oNr = new Campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
@@ -131,6 +132,21 @@ class ViewMET_ISO_Treinamentos extends View {
 
         $oCracha->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_Treinamentos","buscaDadosFunc","' . $oNome->getId() . ',' . $oSit->getId() . ',' . $oDescSetor->getId() . ',' . $oFuncao->getId() . ',' . $oGrauEsc->getId() . ',' . $oTagEsc->getId() . '");');
         $oNome->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_Treinamentos","buscaDadosFunc","' . $oNome->getId() . ',' . $oSit->getId() . ',' . $oDescSetor->getId() . ',' . $oFuncao->getId() . ',' . $oGrauEsc->getId() . ',' . $oTagEsc->getId() . '");');
+
+
+
+        $oExp1A = new Campo('Quantidade', 'dig_direcao_quant', Campo::TIPO_TEXTO, 1, 1, 6, 6);
+        $oExp1A->addValidacao(false, Validacao::TIPO_INTEIRO, 'Campo obrigatório', 1);
+        if ($oDados->dig_direcao_quant == null) {
+            $oExp1A->setBOculto(true);
+        }
+        $oDig_Direcao = new Campo('Direção', 'dig_direcao', Campo::TIPO_CHECK, 1, 1, 6, 6);
+        $oDig_Direcao->addEvento(Campo::EVENTO_CLICK, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_Documentos","toggle","' . $oExp1A->getId() . ',' . $oDados->dig_direcao_quant . '");');
+
+
+
+
+
 
 
         $oEtapas = new FormEtapa(2, 2, 12, 12);

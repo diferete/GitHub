@@ -34,7 +34,7 @@ class ControllerMET_ISO_DocRevisao extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sDados);
+        parent::acaoLimpar($sForm, $sCampos);
         $aParam = explode(',', $sDados);
 
         //verifica se está como 
