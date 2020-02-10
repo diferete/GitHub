@@ -28,7 +28,8 @@ class PDF extends FPDF {
             $this->SetFont('Arial', '', 10); // seta fonte no rodape
             $this->Cell(80, 5, $sRepDados->nome, 0, 1, 'L');
             $this->SetFont('Arial', '', 8);
-            $this->Cell(80, 3, $sRepDados->email1, 0, 0, 'L');
+            $this->Cell(80, 2, $sRepDados->email1, 0, 1, 'L');
+            $this->Cell(80, 3, $sRepDados->email2, 0, 1, 'L');
             $this->SetXY($x + 70, $y);
             $this->SetFont('Arial', '', 8);
             $this->Cell(50, 5, 'FONE: ' . $sRepDados->fone1, 0, 1, 'L');
@@ -44,7 +45,8 @@ class PDF extends FPDF {
             $this->SetFont('Arial', '', 10); // seta fonte no rodape
             $this->Cell(80, 5, $sRepDados->nome, 0, 1, 'L');
             $this->SetFont('Arial', '', 8);
-            $this->Cell(80, 3, $sRepDados->email1, 0, 0, 'L');
+            $this->Cell(80, 2, $sRepDados->email1, 0, 1, 'L');
+            $this->Cell(80, 3, $sRepDados->email2, 0, 1, 'L');
             $this->SetXY($x + 70, $y);
             $this->SetFont('Arial', '', 8);
             $this->Cell(50, 5, 'FONE: ' . $sRepDados->fone1, 0, 1, 'L');
@@ -330,7 +332,7 @@ if ($_REQUEST['output'] == 'email') {
 function retornaArrayCabRepres($sRepCod) {
 
     $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-    $sSql = "select nome,email1, fone1, fone2 from tbrepsite where repcodoffice=" . $sRepCod . " group by nome, email1, fone1, fone2";
+    $sSql = "select nome,email1,email2, fone1, fone2 from tbrepsite where repcodoffice=" . $sRepCod . " group by nome, email1,email2, fone1, fone2";
     $row = $PDO->query($sSql);
     $rowTotal = $row->fetch(PDO::FETCH_OBJ);
     return $rowTotal;

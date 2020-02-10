@@ -804,23 +804,23 @@ class Controller {
         $sChave = htmlspecialchars_decode($aDados[0]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-//procedimentos antes de criar a tela
+        //procedimentos antes de criar a tela
         $this->antesAlterar($aDados);
-//cria a tela
+        //cria a tela
         $this->View->criaTela();
-//
+        //
         $this->View->getTela()->setAbaSel($aDados[3]);
-//adiciona onde será renderizado
+        //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[1]);
-//adiciona tela que será dado um show 
+        //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[2]);
-//carregar campos tela
+        //carregar campos tela
         $this->carregaCamposTela($sChave, false);
-//adiciona botoes padrão
+        //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
         }
-//renderiza a tela
+        //renderiza a tela
         $this->View->getTela()->getRender();
     }
 
@@ -3999,7 +3999,7 @@ class Controller {
     public function carregaValorCampo($oCampo) {
         $xValor = str_replace("\n", "<br>", $this->getValorModel($this->Model, $oCampo->getNome()));
         $xValor = str_replace("'", "\'", $xValor);
-//verifica se é decimal
+        //verifica se é decimal
         if ($oCampo->getITipo() == 29) {
             $xValor = number_format($xValor, 2, ',', '.');
         }
@@ -4009,11 +4009,11 @@ class Controller {
 
         if ($oCampo->getITipo() == 0) {
             if ($xValor !== '') {
-//valida tipo de data 
+                //valida tipo de data 
                 if (Util::ValidaData($xValor)) {
-//altera valor de / para tipo dataSql
+                    //altera valor de / para tipo dataSql
                     $xValorCampo = Util::dataMysql($xValor);
-//setValor no campo data
+                    //setValor no campo data
                     $oCampo->setSValor(date('d/m/Y', strtotime($xValorCampo)));
                 } else {
                     $oCampo->setSValor(date('d/m/Y', strtotime($xValor)));
@@ -4027,9 +4027,9 @@ class Controller {
             if ($oCampo->getITipo() == 1) {
                 if ($xValor !== '') {
                     if (Util::ValidaData(Util::converteData($xValor))) {
-//altera valor de / para tipo dataSql
+                        //altera valor de / para tipo dataSql
                         $xValorCampo = Util::converteData($xValor);
-//setValor no campo data
+                        //setValor no campo data
                         $oCampo->setSValor($xValorCampo);
                     } else {
                         $oCampo->setSValor($xValor);
