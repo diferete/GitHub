@@ -17,6 +17,8 @@ class ControllerMET_CadastroMaquinas extends Controller {
         $aParame = array();
         $aParame1 = $this->Persistencia->buscaDadosTipMaq();
         $aParame[0] = $aParame1;
+        $oControllerMaquina = Fabrica::FabricarController('MET_Maquinas');
+        $aParame[1] = $oControllerMaquina->Persistencia->buscaDadosSetor();
         return $aParame;
     }
 

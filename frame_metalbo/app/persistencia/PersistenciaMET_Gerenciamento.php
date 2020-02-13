@@ -99,7 +99,7 @@ class PersistenciaMET_Gerenciamento extends Persistencia {
         if ($sCodSet == '2') {
             
         } else if ($sCodSet == '12') {
-            $sSql .= " and tbservmp.resp = 'MANUTENCAO'";
+            $sSql .= " and tbservmp.resp = 'ELETRICA'";
         } else if ($sCodSet == '29') {
             $sSql .= " and tbservmp.resp = 'MECANICA'";
         } else {
@@ -120,7 +120,7 @@ class PersistenciaMET_Gerenciamento extends Persistencia {
     }
 
     /*
-     * Função que retorna as nr das máquinas que tem serviço cadastrado por responsável - MANUTENÇÃO ELÉTRICA, MECÂNICA e OPERADOR
+     * Função que retorna as nr das máquinas que tem serviço cadastrado por responsável - MANUTENÇÃO ELÉTRICA, MECÂNICA, OPERADOR E LIDER  
      */
 
     public function retornaTexMaqPorSetor($sResp) {
@@ -138,14 +138,14 @@ class PersistenciaMET_Gerenciamento extends Persistencia {
             if ($sCodSet == '2') {
                 
             } else if ($sCodSet == '12') {
-                $sSql .= " and tbservmp.resp = 'MANUTENCAO'";
+                $sSql .= " and tbservmp.resp = 'ELETRICA'";
             } else if ($sCodSet == '29') {
                 $sSql .= " and tbservmp.resp = 'MECANICA'";
             } else {
                 $sSql .= " and tbservmp.resp = 'OPERADOR'";
             }
-        } else if ($sResp == 'MANUTENCAO') {
-            $sSql .= " and tbservmp.resp = 'MANUTENCAO'";
+        } else if ($sResp == 'ELETRICA') {
+            $sSql .= " and tbservmp.resp = 'ELETRICA'";
         } else if ($sResp == 'MECANICA') {
             $sSql .= " and tbservmp.resp = 'MECANICA'";
         } else if ($sResp == 'OPERADOR') {

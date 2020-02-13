@@ -203,7 +203,7 @@ class ControllerMET_Gerenciamento extends Controller {
                   . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas '.$iCodMaq.'</h1>'
                   . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
                   . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
-                  . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['MANUTENCAO'] . ''
+                  . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['ELETRICA'] . ''
                   . '</div>';
 
         echo '$("#titulolinhatempo").empty();';
@@ -212,7 +212,7 @@ class ControllerMET_Gerenciamento extends Controller {
                   . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas '.$iCodMaq.'</h1>'
                   . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
                   . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
-                  . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['MANUTENCAO'] . ''
+                  . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['ELETRICA'] . ''
                   . '</div>';
         echo '$("#titulolinhatempo").append(\'' . $sTitulo . '\');';
         
