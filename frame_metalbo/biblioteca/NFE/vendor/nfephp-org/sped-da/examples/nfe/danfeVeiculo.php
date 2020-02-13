@@ -1,27 +1,25 @@
 <?php
-
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
-require '../../biblioteca/NFE/vendor/autoload.php';
-//include '../../biblioteca/fpdf/fpdf.php';
+require_once '../../bootstrap.php';
 
 use NFePHP\DA\NFe\Danfe;
 
-$xml = file_get_contents(__DIR__ . '/xml/42200275483040000211550020003244391673717673.xml');
+$xml = file_get_contents(__DIR__ . '/fixtures/mod55-nfe-veiculo.xml');
+$logo = 'data://text/plain;base64,'. base64_encode(file_get_contents(__DIR__ . '/../images/logo.jpg'));
 
 try {
     $danfe = new Danfe($xml);
-    $danfe->debugMode(false);
+    $danfe->debugMode(true);
     $danfe->creditsIntegratorFooter('WEBNFe Sistemas - http://www.webenf.com.br');
-    //$danfe->monta($logo);
-     $pdf = $danfe->render();
+    $danfe->monta($logo);
+    $pdf = $danfe->render();
     //o pdf porde ser exibido como view no browser
     //salvo em arquivo
     //ou setado para download forçado no browser 
     //ou ainda gravado na base de dados
     header('Content-Type: application/pdf');
     echo $pdf;
-    //header('Content-Type: application/pdf');
-} catch (InvalidArgumentException $e) {
+} catch (\Exception $e) {
     echo "Ocorreu um erro durante o processamento :" . $e->getMessage();
-}
+}    
