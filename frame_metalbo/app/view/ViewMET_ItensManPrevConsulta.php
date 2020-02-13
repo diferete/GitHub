@@ -104,8 +104,9 @@ class ViewMET_ItensManPrevConsulta extends View {
         $oFiltroResp = new Filtro($oResp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFiltroResp->addItemSelect('', 'TODOS RESPONSÁVEIS');
         $oFiltroResp->addItemSelect('MECANICA', 'MECÂNICA');
-        $oFiltroResp->addItemSelect('MANUTENCAO', 'ELÉTRICA');
+        $oFiltroResp->addItemSelect('ELETRICA', 'ELÉTRICA');
         $oFiltroResp->addItemSelect('OPERADOR', 'OPERADOR');
+        $oFiltroResp->addItemSelect('LIDER', 'LIDER');
         $oFiltroResp->setSLabel('');
 
         $this->addFiltro($oFiltroSeq, $oFiltroCodMaq, $oFiltroServico, $oFiltroResp, $oFiltroSituacao, $oFiltroSeq1/* , $oTipManutFiltro */, $oCategoriaFiltro, $oFiltroSetor);

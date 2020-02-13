@@ -78,8 +78,9 @@ class ViewMET_Gerenciamento extends View {
         $oFiltroResp = new Filtro($oResp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFiltroResp->addItemSelect('TODOS', 'TODOS RESPONSÁVEIS');
         $oFiltroResp->addItemSelect('MECANICA', 'MECÂNICA');
-        $oFiltroResp->addItemSelect('MANUTENCAO', 'ELÉTRICA');
+        $oFiltroResp->addItemSelect('ELETRICA', 'ELÉTRICA');
         $oFiltroResp->addItemSelect('OPERADOR', 'OPERADOR');
+        $oFiltroResp->addItemSelect('LIDER', 'LIDER');
         $oFiltroResp->setSLabel('');
         $oFiltroResp->setSValor('');
         $oFiltroResp->setBCampoBloqueado(true);
@@ -179,12 +180,6 @@ class ViewMET_Gerenciamento extends View {
                 $oDatabert, $oUserabert), $oSitmp, array($oCodmaq, $oMaq_des));
         }
 
-//        $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
-//        $oAcao->setApenasTela(true);
-//        $oAcao->setSValor('alterar');
-//        $this->setSIdControleUpAlt($oAcao->getId());
-//        $this->addCampos(array($oFilcgc, $oNr,
-//        $oDatabert, $oUserabert), $oSitmp, array($oCodmaq, $oMaq_des), $oAcao);
     }
 
     public function relServicoMaquinaMantPrev() {
@@ -201,18 +196,14 @@ class ViewMET_Gerenciamento extends View {
         $this->setTituloTela('Relatório dos Itens da Manutenção Preventiva');
         $this->setBTela(true);
 
-        //      $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-
         $oCodmaq = new Campo('Codigo', 'codmaq', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        //  $oCodmaq->addValidacao(false, Validacao::TIPO_INTEIRO);
-        //campo descrição da maquina adicionando o campo de busca
         $oMaq_des = new Campo('Maquina', 'MET_Maquinas.maquina', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oMaq_des->setSIdPk($oCodmaq->getId());
         $oMaq_des->setClasseBusca('MET_Maquinas');
         $oMaq_des->addCampoBusca('cod', '', '');
         $oMaq_des->addCampoBusca('maquina', '', '');
         $oMaq_des->setSIdTela($this->getTela()->getId());
-        //  $oMaq_des->addValidacao(false, Validacao::TIPO_STRING);
+        
         //declarando no campo código a classe de busca, campo chave e campo de retorno
         $oCodmaq->setClasseBusca('MET_Maquinas');
         $oCodmaq->setSCampoRetorno('cod', $this->getTela()->getId());
@@ -268,13 +259,29 @@ class ViewMET_Gerenciamento extends View {
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
+        
+        $oDiasRest = new Campo('Dias Restantes', 'dias', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oDiasRest->addItemSelect('----', 'TODOS');
+        $oDiasRest->addItemSelect('0', '0 dias');
+        $oDiasRest->addItemSelect('1', '1 dias');
+        $oDiasRest->addItemSelect('3', '3 dias');
+        $oDiasRest->addItemSelect('5', '5 dias');
+        $oDiasRest->addItemSelect('7', '7 dias');
+        $oDiasRest->addItemSelect('15', '15 dias');
+        $oDiasRest->addItemSelect('30', '30 dias');
+        $oDiasRest->addItemSelect('60', '60 dias');
+        $oDiasRest->addItemSelect('90', '90 dias');
+        $oDiasRest->addItemSelect('120', '120 dias');
+        $oDiasRest->addItemSelect('166', '166 dias');
+        $oDiasRest->addItemSelect('180', '180 dias');
+        $oDiasRest->addItemSelect('365', '365 dias');
 
         //adiciona os evento ao sair do campo codmaq
         $sEventoOp = 'var CodMaq =  $("#' . $oCodmaq->getId() . '").val();if(CodMaq !==""){requestAjax("' . $this->getTela()->getId() . '-form","MET_Gerenciamento","consultaDadosMaquina",'
                 . '"' . $oFiltroSeq->getId() . ',' . $oCategoriaFiltro->getId() . ',' . $oFiltroSetor->getId() . '");}';
         $oCodmaq->addEvento(Campo::EVENTO_SAIR, $sEventoOp);
 
-        $this->addCampos(array($oCodmaq, $oMaq_des), $oLinha1, array($oFiltroSeq, $oRespFiltro, $oSitmp), $oLinha1, array($oCategoriaFiltro, $oFiltroSetor), $oLinha1, array($oDatainicial, $oDatafinal));
+        $this->addCampos(array($oCodmaq, $oMaq_des), $oLinha1, array($oFiltroSeq, $oRespFiltro, $oSitmp), $oLinha1, array($oCategoriaFiltro, $oFiltroSetor), $oLinha1, array($oDatainicial, $oDatafinal, $oDiasRest));
     }
 
 }

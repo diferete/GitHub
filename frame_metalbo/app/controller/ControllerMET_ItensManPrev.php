@@ -100,7 +100,7 @@ class ControllerMET_ItensManPrev extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sForm, $sCampos);
+        parent::acaoLimpar($sDados);
         $aParam = explode(',', $sDados);
 
         //verifica se está como 
@@ -281,7 +281,7 @@ class ControllerMET_ItensManPrev extends Controller {
          $sCodSet = $_SESSION['codsetor'];
             if($sCodSet=='2'){
             }else if($sCodSet=='12'){
-                $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'MANUTENCAO');
+                $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'ELETRICA');
             }else if($sCodSet=='29'){
                 $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'MECANICA');                
             }else{

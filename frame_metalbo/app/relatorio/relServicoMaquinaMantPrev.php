@@ -11,7 +11,8 @@ $sUserRel = $_REQUEST['userRel'];
 $sData = date('d/m/Y');
 $sHora = date('H:i');
 $sSit ='';
-
+$sFilcgc = '75483040000211';
+$sDias = '----';
 if(!isset($_REQUEST['dataini'])){
 $sNr1 = $_SERVER['QUERY_STRING'];
 $aNr1 = explode('&', $sNr1);
@@ -35,7 +36,9 @@ foreach ($aNr1 as $key){
     $sSetor = $_REQUEST['MET_Maquinas_codsetor']; 
     $sSit = $_REQUEST['sitmp'];
     $sCodMaq = $_REQUEST['codmaq'];
+    $sDias = $_REQUEST['dias'];
 }
+
 
 
 class PDF extends FPDF {
@@ -104,19 +107,24 @@ foreach ($aNr2 as $sNr){
             tbitensmp.userfinal, obs, oqfazer, maquina, maqtip, convert(varchar,tbitensmp.databert,103) as databert  
             from tbmanutmp
             left outer join 
-            tbitensmp on tbmanutmp.nr = tbitensmp.nr 
+            tbitensmp on tbmanutmp.filcgc = tbitensmp.filcgc
+	    and  tbmanutmp.nr = tbitensmp.nr
             left outer join 
             MetCad_Setores on MetCad_Setores.codsetor = tbmanutmp.codsetor 
             left outer join 
             tbservmp on tbitensmp.codsit = tbservmp.codsit 
             left outer join
-            metmaq on tbitensmp.codmaq = metmaq.cod ";
+            metmaq on tbitensmp.codmaq = metmaq.cod";
     
+if($sFilcgc!=' '){
+    $sql.=" where tbmanutmp.filcgc = '" . $sFilcgc . "' "; 
+}    
+$sql.=" and tbmanutmp.databert > '01/01/2010' ";
 if($sNr!='i'&&$sNr!=' '){
-    $sql.=" where tbmanutmp.nr = '" . $sNr . "' "; 
+    $sql.=" and tbmanutmp.nr = '" . $sNr . "' "; 
 }
 if(isset($sDataIni)){
-    $sql.=" where tbitensmp.databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
+    $sql.=" and tbitensmp.databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
 }
 if(isset($sCodMaq) && $sCodMaq!=''){
     $sql.=" and tbmanutmp.codmaq = '" . $sCodMaq . "'"; 
@@ -138,6 +146,9 @@ if($sSit == 'ABERTOS'){
 }
 if($sSit == 'FINALIZADOS'){
     $sql.=" and tbitensmp.sitmp = 'FINALIZADO' "; 
+}
+if($sDias!='----'){
+    $sql.=" and tbitensmp.dias <= " . $sDias . " "; 
 }
 
 $sql.=" ORDER BY tbmanutmp.nr, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),

@@ -12,14 +12,17 @@ class ViewMET_ServicoMaquina extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        //   $this->getTela()->setBGridResponsivo(false);
-
         $aDados = $this->getAParametrosExtras();
         $aDado1 = $aDados[0];
+        $aDado2 = $aDados[1];
+        $aCodSetor = $aDado2[0];
+        $aDesSetor = $aDado2[1];
 
         $oSit = new CampoConsulta('CodSit', 'codsit');
         $oTip = new CampoConsulta('TipCod', 'tipcod');
         $oTipDes = new CampoConsulta('DesTip', 'MET_CadastroMaquinas.tipdes');
+        $oCodSetor = new CampoConsulta('Cod.', 'Setor.codsetor');
+        $oDSetor = new CampoConsulta('Setor', 'Setor.descsetor');
         $oServ = new CampoConsulta('Serviço', 'servico');
         $oCiclo = new CampoConsulta('Ciclo', 'ciclo');
         $oResp = new CampoConsulta('Responsável', 'resp');
@@ -38,27 +41,40 @@ class ViewMET_ServicoMaquina extends View {
         $oDescricaoFiltro = new Filtro($oServ, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oResponsavelFiltro = new Filtro($oResp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oResponsavelFiltro->addItemSelect('', 'TODOS OS RESPONSÁVEIS');
-        $oResponsavelFiltro->addItemSelect('ENCARREGADO DA PRODUCAO', 'ENCARREGADO DA PRODUCAO');
-        $oResponsavelFiltro->addItemSelect('MANUTENCAO', 'MANUTENCAO');
+      //  $oResponsavelFiltro->addItemSelect('ENCARREGADO DA PRODUCAO', 'ENCARREGADO DA PRODUCAO');
+        $oResponsavelFiltro->addItemSelect('ELETRICA', 'ELETRICA');
         $oResponsavelFiltro->addItemSelect('OPERADOR', 'OPERADOR');
-        $oResponsavelFiltro->addItemSelect('MANUTENCAO - PARAFUSOS', 'MANUTENCAO - PARAFUSOS');
-        $oResponsavelFiltro->addItemSelect('MANUTENCAO - EMBALAGEM', 'MANUTENCAO - EMBALAGEM');
+      //  $oResponsavelFiltro->addItemSelect('MANUTENCAO - PARAFUSOS', 'MANUTENCAO - PARAFUSOS');
+     //   $oResponsavelFiltro->addItemSelect('MANUTENCAO - EMBALAGEM', 'MANUTENCAO - EMBALAGEM');
         $oResponsavelFiltro->addItemSelect('MECANICA', 'MECANICA');
         $oResponsavelFiltro->addItemSelect('LIDER', 'LIDER');
-        $oResponsavelFiltro->addItemSelect('SOLDADOR', 'SOLDADOR');
+       // $oResponsavelFiltro->addItemSelect('SOLDADOR', 'SOLDADOR');
         $oResponsavelFiltro->setSLabel('');
-        //  $oUsuarioFiltro = new Filtro($oUser, Filtro::CAMPO_TEXTO,2,2,12,12, false);
+
+        //Filtro de Setor
+        $oFiltroSetor = new Filtro($oCodSetor, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFiltroSetor->addItemSelect('', 'Todos Setores');
+        $iCont = 0;
+        foreach ($aCodSetor as $key1) {
+            $oFiltroSetor->addItemSelect($key1, $key1 . ' - ' . $aDesSetor[$iCont]);
+            $iCont++;
+        }
+        $oFiltroSetor->setSLabel('');
 
         $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoAlterar(true);
-        $this->setUsaAcaoIncluir(true);
+        if($_SESSION['codUser']=='81'||$_SESSION['codSetor']=='2'){
+            $this->setUsaAcaoAlterar(true);
+            $this->setUsaAcaoIncluir(true);
+        }else{
+            $this->setUsaAcaoAlterar(false);
+            $this->setUsaAcaoIncluir(false);
+        }
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oTipFiltro, $oDesTipFiltro, $oDescricaoFiltro, $oResponsavelFiltro/* ,$oUsuarioFiltro */);
+        $this->addFiltro($oTipFiltro, $oDesTipFiltro, $oDescricaoFiltro, $oResponsavelFiltro, $oFiltroSetor);
 
         $this->getTela()->setBMostraFiltro(true);
 
-        //$this->setBScrollInf(TRUE);
-        $this->addCampos($oSit/* $oTip */, $oTipDes, $oServ, $oCiclo, $oResp/* , $oUser, $oData, $oHora */);
+        $this->addCampos($oSit, $oTipDes, $oServ, $oCiclo, $oResp, $oCodSetor, $oDSetor);
     }
 
     public function criaTela() {
@@ -83,20 +99,17 @@ class ViewMET_ServicoMaquina extends View {
         $oCiclo->addItemSelect('365', '365 dias');
         $oCiclo->addItemSelect('730', '730 dias');
         $oCiclo->addItemSelect('1095', '1095 dias');
-        //$oCiclo->addValidacao(false, Validacao::TIPO_INTEIRO);
 
         $oResp = new Campo('Responsável', 'resp', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oResp->addItemSelect('', '');
         $oResp->addItemSelect('ENCARREGADO DA PRODUCAO', 'ENCARREGADO DA PRODUCAO');
-        $oResp->addItemSelect('MANUTENCAO', 'MANUTENCAO');
+        $oResp->addItemSelect('ELETRICA', 'ELETRICA');
         $oResp->addItemSelect('OPERADOR', 'OPERADOR');
         $oResp->addItemSelect('MANUTENCAO - PARAFUSOS', 'MANUTENCAO - PARAFUSOS');
         $oResp->addItemSelect('MANUTENCAO - EMBALAGEM', 'MANUTENCAO - EMBALAGEM');
         $oResp->addItemSelect('MECANICA', 'MECANICA');
         $oResp->addItemSelect('LIDER', 'LIDER');
         $oResp->addItemSelect('SOLDADOR', 'SOLDADOR');
-        //$oResp->addValidacao(false, Validacao::TIPO_STRING);
-
 
         $oData = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oData->setBCampoBloqueado(true);
@@ -113,6 +126,7 @@ class ViewMET_ServicoMaquina extends View {
         $oTip = new Campo('TipCod', 'tipcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oTip->setSValor('1');
         $oTip->addValidacao(false, Validacao::TIPO_STRING);
+        $oTip->setBFocus(true);
 
         //campo descrição do maquina o campo de busca
         $oMaq_des = new Campo('Tipo Maquina', 'tipdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
@@ -130,8 +144,31 @@ class ViewMET_ServicoMaquina extends View {
         $oTip->setClasseBusca('MET_CadastroMaquinas');
         $oTip->setSCampoRetorno('tipcod', $this->getTela()->getId());
         $oTip->addCampoBusca('tipdes', $oMaq_des->getId(), $this->getTela()->getId());
+        
+        $oSetor = new campo('Setor', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSetor->setBFocus(true);
+        
+        $oSetorDes = new Campo('Descrição', 'descsetor', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oSetorDes->setSIdPk($oSetor->getId());
+        $oSetorDes->setClasseBusca('Setor');
+        $oSetorDes->addCampoBusca('codsetor', '', '');
+        $oSetorDes->addCampoBusca('descsetor', '', '');
+        $oSetorDes->setSIdTela($this->getTela()->getid());
+        $oSetorDes->addValidacao(false, Validacao::TIPO_STRING);
+        $oSetorDes->setApenasTela(true);
+        $oSetorDes->setBCampoBloqueado(true);
 
-        $this->addCampos(array($oSit, $oUser, $oData, $oHora), array($oTip, $oMaq_des), array($oSer), array($oCiclo, $oResp));
+        $oSetor->setClasseBusca('Setor');
+        $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
+        $oSetor->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
+        
+        $oSitua = new Campo('Situação', 'sit', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oSitua->addItemSelect('ABERTO', 'ABERTO');
+        $oSitua->addItemSelect('BLOQUEADO', 'BLOQUEADO');
+
+        $oSer->setBFocus(true);
+        
+        $this->addCampos(array($oSit, $oUser, $oData, $oHora), array($oTip, $oMaq_des),array($oSetor, $oSetorDes), array($oSer), array($oCiclo, $oResp, $oSitua));
     }
 
 }

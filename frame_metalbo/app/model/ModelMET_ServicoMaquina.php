@@ -11,7 +11,7 @@ class ModelMET_ServicoMaquina {
     
     private $codsit;
     private $tipcod;
-    private $tipdes;
+    private $codsetor;
     private $servico;
     private $ciclo;
     private $resp;
@@ -19,6 +19,24 @@ class ModelMET_ServicoMaquina {
     private $data;
     private $hora;
     private $MET_CadastroMaquinas;
+    private $Setor;
+    private $sit;
+    
+    function getSit() {
+        return $this->sit;
+    }
+
+    function setSit($sit) {
+        $this->sit = $sit;
+    }
+
+    function getCodsetor() {
+        return $this->codsetor;
+    }
+
+    function setCodsetor($codsetor) {
+        $this->codsetor = $codsetor;
+    }
     
     function getMET_CadastroMaquinas() {
         if(!isset($this->MET_CadastroMaquinas)){
@@ -31,14 +49,17 @@ class ModelMET_ServicoMaquina {
         $this->MET_CadastroMaquinas = $MET_CadastroMaquinas;
     }
     
-    function getTipdes() {
-        return $this->tipdes;
+    function getSetor() {
+        if(!isset($this->Setor)){
+            $this->Setor = Fabrica::FabricarModel('Setor');
+        }
+        return $this->Setor;
     }
 
-    function setTipdes($tipdes) {
-        $this->tipdes = $tipdes;
-    }    
-    
+    function setSetor($Setor) {
+        $this->Setor = $Setor;
+    }
+
     function getCodsit() {
         return $this->codsit;
     }
