@@ -1,3 +1,2 @@
 delete tbsessao 
             where usucodigo = '46' 
-            and usunome = 'Alexandre de Souza'
