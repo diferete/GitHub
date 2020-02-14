@@ -24,10 +24,10 @@ class ViewDELX_PRO_Produtotipograde extends View {
 
         $oGradeObrigatorio = new CampoConsulta('Obrigatório', 'pro_produtotipogradeobrigatori', CampoConsulta::TIPO_TEXTO);
 
-        $oFilCod = new Filtro($oCodigo, Filtro::CAMPO_TEXTO);
-        $oFilGradeCOd = new Filtro($oTipoGradeCod, Filtro::CAMPO_TEXTO);
+        $oFilCod = new Filtro($oCodigo, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilGradeCOd = new Filtro($oTipoGradeCod, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
-        $this->addFiltro($oFilCod,$oFilGradeCOd);
+        $this->addFiltro($oFilCod, $oFilGradeCOd);
         $this->addCampos($oCodigo, $oTipoGradeCod, $oGradeBloq, $oGradeObrigatorio);
     }
 

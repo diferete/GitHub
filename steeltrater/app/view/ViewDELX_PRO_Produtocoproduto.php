@@ -18,9 +18,9 @@ class ViewDELX_PRO_Produtocoproduto extends View {
         $oCodigo = new CampoConsulta('Código', 'pro_codigo', CampoConsulta::TIPO_TEXTO);
         $oCoProCod = new CampoConsulta('Co-Prod.Cod.', 'pro_coprodutocodigo', CampoConsulta::TIPO_TEXTO);
 
-        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO);
-        $oFilCodigo = new Filtro($oCodigo, Filtro::CAMPO_TEXTO);
-        $oFilCoProCod = new Filtro($oCoProCod, Filtro::CAMPO_TEXTO);
+        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilCodigo = new Filtro($oCodigo, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilCoProCod = new Filtro($oCoProCod, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
         $this->addFiltro($oFilSeq, $oFilCodigo, $oFilCoProCod);
         $this->addCampos($oSeq, $oCodigo, $oCoProCod);

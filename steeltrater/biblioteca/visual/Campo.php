@@ -1222,7 +1222,7 @@ class Campo {
         $oCampoFormBusca->setSValorBusca($this->getNome());
 
 
-        $oCampoFormBusca->addCampoBusca($aCampoBusca[0]);
+        $oCampoFormBusca->addCampoBusca($aCampoBusca[0],$sIdCampoRetorno, $sIdTela);
         $this->setSRetornoBusca($oCampoFormBusca->getId());
         //verifica se há valor inicial que deve ser carregado
         if ($this->getSValorCampoBusca() != null) {

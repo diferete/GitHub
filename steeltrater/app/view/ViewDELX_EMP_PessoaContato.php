@@ -22,8 +22,8 @@ class ViewDELX_EMP_PessoaContato extends View {
         $oCel = new CampoConsulta('Celular', 'emp_contatocelular');
         $oEmail = new CampoConsulta('Email', 'emp_contatoemail');
         $oNasc = new CampoConsulta('Nascimento', 'emp_contatodatanascimento');
-        $oDescricaofiltro = new Filtro($oNome, Filtro::CAMPO_TEXTO, 5);
-        
+        $oDescricaofiltro = new Filtro($oNome, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
+
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
@@ -32,7 +32,7 @@ class ViewDELX_EMP_PessoaContato extends View {
         $this->addFiltro($oDescricaofiltro);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oCod,$oSeq,$oTipo,$oNome,$oCargo,$oTele,$oFax,$oCel,$oEmail,$oNasc);
+        $this->addCampos($oCod, $oSeq, $oTipo, $oNome, $oCargo, $oTele, $oFax, $oCel, $oEmail, $oNasc);
     }
 
     public function criaTela() {
@@ -48,8 +48,8 @@ class ViewDELX_EMP_PessoaContato extends View {
         $oCel = new Campo('Celular', 'emp_contatocelular', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oEmail = new Campo('Email', 'emp_contatoemail', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oNasc = new Campo('Nascimento', 'emp_contatodatanascimento', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        
-        $this->addCampos(array($oCod,$oSeq,$oTipo,$oNome,$oCargo),array($oTele,$oFax,$oCel,$oEmail,$oNasc));
+
+        $this->addCampos(array($oCod, $oSeq, $oTipo, $oNome, $oCargo), array($oTele, $oFax, $oCel, $oEmail, $oNasc));
     }
 
 }

@@ -30,11 +30,11 @@ class ViewDELX_PRO_Produtocodbarra extends View {
         $oCodBarraNUsa = new CampoConsulta('Usa Cod.Barra', 'pro_codigobarranaousa', CampoConsulta::TIPO_TEXTO);
 
         $oCodBarraTipo = new CampoConsulta('Tipo', 'pro_codigobarratipo', CampoConsulta::TIPO_TEXTO);
-        
-        $oFilCodigo = new Filtro($oCodigo, Filtro::CAMPO_TEXTO);
-        $oFilCodBarra = new Filtro($oCodBarra, Filtro::CAMPO_TEXTO);
-        
-        $this->addFiltro($oFilCodigo,$oFilCodBarra);
+
+        $oFilCodigo = new Filtro($oCodigo, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilCodBarra = new Filtro($oCodBarra, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
+        $this->addFiltro($oFilCodigo, $oFilCodBarra);
         $this->addCampos($oCodigo, $oCodBarra, $oCodBarraDes, $oCodBarraUn, $oCodBarraGrade, $oCodBarraNUsa, $oCodBarraQt, $oCodBarraTipo);
     }
 

@@ -9,7 +9,7 @@
 
 class ViewSTEEL_PCP_OrdensFab extends View {
 
-     public function criaConsulta() {
+    public function criaConsulta() {
         parent::criaConsulta();
 
         $this->getTela()->setBGridResponsivo(false);
@@ -18,14 +18,14 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Analisar apontamentos!');
-        $oBotaoModal->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalAponta', 'modalAponta');
+        $oBotaoModal->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalAponta', 'modalAponta', '');
         $this->addModais($oBotaoModal);
 
         $oBotaoFat = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_FLAG);
         $oBotaoFat->setBHideTelaAcao(true);
         $oBotaoFat->setILargura(15);
         $oBotaoFat->setSTitleAcao('Itens que vão para nota fiscal!');
-        $oBotaoFat->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalFat', 'modalFat');
+        $oBotaoFat->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalFat', 'modalFat', '');
         $this->addModais($oBotaoFat);
 
         $oEmpCod = new CampoConsulta('Cnpj', 'emp_codigo');
@@ -42,27 +42,27 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oQuant = new CampoConsulta('Quantidade', 'quant', CampoConsulta::TIPO_DECIMAL);
         $oPeso = new CampoConsulta('Peso', 'peso', CampoConsulta::TIPO_DECIMAL);
         $oRetrabalho = new CampoConsulta('Retr.', 'retrabalho', CampoConsulta::TIPO_TEXTO);
-        
-        $oOp_retrabalho = new CampoConsulta('Op.Retrabalho','op_retrabalho');
+
+        $oOp_retrabalho = new CampoConsulta('Op.Retrabalho', 'op_retrabalho');
         $oSituacao = new CampoConsulta('Situação', 'situacao');
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
-        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
-        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
 
         $oDocumento = new CampoConsulta('NotaEnt', 'documento');
         $oTipOrdem = new CampoConsulta('Tipo', 'tipoOrdem');
 
         $oNrCarga = new campoconsulta('NºCarga', 'nrCarga');
 
-      //  $oOpAntes = new CampoConsulta('Op anterior', 'opantes');
-        
-        $oReceita = new campoconsulta('Receita','receita');
+        //  $oOpAntes = new CampoConsulta('Op anterior', 'opantes');
 
-        $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL, 1);
-        $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 2);
-        $oDescricaoFiltro = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 3);
-       
-        $oDocFiltro = new Filtro($oDocumento, Filtro::CAMPO_TEXTO_IGUAL, 1);
+        $oReceita = new campoconsulta('Receita', 'receita');
+
+        $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
+        $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+        $oDescricaoFiltro = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+
+        $oDocFiltro = new Filtro($oDocumento, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
 
         $oTipoAcaoFiltro = new Filtro($oRetrabalho, Filtro::CAMPO_SELECT, 3, 2, 12, 12, true);
         $oTipoAcaoFiltro->addItemSelect('Todos', 'Todos');
@@ -71,19 +71,19 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oTipoAcaoFiltro->setSLabel('');
         $oTipoAcaoFiltro->setBInline(true);
 
-        $oFiltroReferencia = new Filtro($oReferencia, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2);
+        $oFiltroReferencia = new Filtro($oReferencia, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
 
-        $oFilEmpresa = new Filtro($oEmpCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFilEmpresa = new Filtro($oEmpCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilEmpresa->setSClasseBusca('DELX_CAD_Pessoa');
         $oFilEmpresa->setSCampoRetorno('emp_codigo', $this->getTela()->getSId());
         $oFilEmpresa->setSIdTela($this->getTela()->getSId());
-        
-        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12);
+
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
 
 
-     //   $oOpAntesFiltro = new Filtro($oOpAntes, Filtro::CAMPO_TEXTO_IGUAL, 2);
+        //   $oOpAntesFiltro = new Filtro($oOpAntes, Filtro::CAMPO_TEXTO_IGUAL, 2,2,12,12,false);
 
-        $oFiltroSit = new Filtro($oSituacao, Filtro::CAMPO_SELECT, 3, 2, 12, 12,true);
+        $oFiltroSit = new Filtro($oSituacao, Filtro::CAMPO_SELECT, 3, 2, 12, 12, true);
         $oFiltroSit->addItemSelect('Todos', 'Todos');
         $oFiltroSit->addItemSelect('Aberta', 'Aberta');
         $oFiltroSit->addItemSelect('Processo', 'Processo');
@@ -91,17 +91,15 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oFiltroSit->addItemSelect('Retornado', 'Retornado');
         $oFiltroSit->setSLabel('');
         $oFiltroSit->setBInline(true);
-        
-        $oFilRec = new Filtro($oReceita, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+
+        $oFilRec = new Filtro($oReceita, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilRec->setSClasseBusca('STEEL_PCP_Receitas');
         $oFilRec->setSCampoRetorno('cod', $this->getTela()->getSId());
         $oFilRec->setSIdTela($this->getTela()->getSId());
-        
-        $oOFilOpret = new Filtro($oOp_retrabalho, Filtro::CAMPO_TEXTO_IGUAL,2,2,2,2);
 
-        $this->addFiltro($oOpFiltro, $oCodigoFiltro, $oDescricaoFiltro, $oFilEmpresa, 
-                $oDocFiltro, $oTipoAcaoFiltro, $oFiltroReferencia,
-                $oFilRec,$oFilData,$oFiltroSit);
+        $oOFilOpret = new Filtro($oOp_retrabalho, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+
+        $this->addFiltro($oOpFiltro, $oCodigoFiltro, $oDescricaoFiltro, $oFilEmpresa, $oDocFiltro, $oTipoAcaoFiltro, $oFiltroReferencia, $oFilRec, $oFilData, $oFiltroSit);
 
         $this->setUsaAcaoExcluir(FALSE);
         $this->setUsaAcaoVisualizar(true);
@@ -109,19 +107,20 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
 
-        $this->addCampos($oOp, $oBotaoModal, $oBotaoFat, $oSituacao, $oNrCarga, $Pendencia, $oData, $oCodigo, $oReferencia, $oProdes, $oPeso, $oRetrabalho, $oDocumento,$oReceita, $oTipOrdem);
+        $this->addCampos($oOp, $oBotaoModal, $oBotaoFat, $oSituacao, $oNrCarga, $Pendencia, $oData, $oCodigo, $oReferencia, $oProdes, $oPeso, $oRetrabalho, $oDocumento, $oReceita, $oTipOrdem);
 
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecifico', '', false, 'OpSteel1', false, '', false, '', true);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecifico', '', false, 'OpSteel1', false, '', false, '', true, false);
+
         $oDrop2 = new Dropdown('Açao', Dropdown::TIPO_DARK);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Cancelar OP', 'STEEL_PCP_OrdensFab', 'msgCancelaOp', '', false, '');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar para Aberta', 'STEEL_PCP_OrdensFab', 'msgAbertaOp', '', false, '');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Cancelar OP', 'STEEL_PCP_OrdensFab', 'msgCancelaOp', '', false, '', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar para Aberta', 'STEEL_PCP_OrdensFab', 'msgAbertaOp', '', false, '', false, '', false, '', false, false);
 
 
         $oDrop3 = new Dropdown('Retrabalho', Dropdown::TIPO_AVISO);
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Colocar em Retrabalho', 'STEEL_PCP_OrdensFab', 'msgRetrabalhoOp', '', false, '');
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Colocar em Retrabalho', 'STEEL_PCP_OrdensFab', 'msgRetrabalhoOp', '', false, '', false, '', false, '', false, false);
 
         $this->addDropdown($oDrop1, $oDrop2, $oDrop3);
         $this->getTela()->setiAltura(750);
@@ -172,23 +171,23 @@ class ViewSTEEL_PCP_OrdensFab extends View {
             }
         }
 
-       
-        
-        $oDataemi = new campo('Emissão','dataemidoc', Campo::TIPO_DATA,2,2,2,2);
+
+
+        $oDataemi = new campo('Emissão', 'dataemidoc', Campo::TIPO_DATA, 2, 2, 2, 2);
         //$oDataemi->setSValor(date('d/m/Y'));
         if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
             if (method_exists($oDados, 'getNfsdtemiss')) {
-                $oDataemi->setSValor(date('d/m/Y', strtotime($oDados->getNfsdtemiss())));//
-             }
+                $oDataemi->setSValor(date('d/m/Y', strtotime($oDados->getNfsdtemiss()))); //
+            }
         } else {
             if (method_exists($oDados, 'getDataemidoc')) {
                 $oDataemi->setSValor(date('d/m/Y', strtotime($oDados->getDataemidoc())));
             }
-        }  
-        
-         
-        
-        $oSerie = new campo('Série','serie_nf', Campo::TIPO_TEXTO,1,1,1,1);
+        }
+
+
+
+        $oSerie = new campo('Série', 'serie_nf', Campo::TIPO_TEXTO, 1, 1, 1, 1);
         //$oSerie->setSValor('1');
         if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
             if (method_exists($oDados, 'getNfsnfser')) {
@@ -198,9 +197,9 @@ class ViewSTEEL_PCP_OrdensFab extends View {
             if (method_exists($oDados, 'getNfnro')) {
                 $oSerie->setSValor($oDados->getNfser());
             }
-        } 
-       
-        
+        }
+
+
         $oTipo = new Campo('Tipo OP', 'tipoOrdem', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
         $oTipo->addItemSelect('P', 'Padrão - Tempera');
         $oTipo->addItemSelect('F', 'Fio Máquina - Industrialização');
@@ -323,7 +322,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         }
         $oReferencia->addEvento(Campo::EVENTO_SAIR, $sEventoReferencia);
 
-      //  $oOpAntes = new Campo('Op sistema anterior', 'opantes', Campo::TIPO_TEXTO, 3, 3, 3, 3);
+        //  $oOpAntes = new Campo('Op sistema anterior', 'opantes', Campo::TIPO_TEXTO, 3, 3, 3, 3);
 
         $oGridMat = new campo('Produto/Material/Receita', 'gridMat', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
         $oGridMat->getOGrid()->setAbaSel($this->getSIdAbaSelecionada());
@@ -431,12 +430,12 @@ class ViewSTEEL_PCP_OrdensFab extends View {
                 $oValorUnit->setSValor(number_format($oDados->getVlrUnit(), 2, ',', '.'));
             }
         }
-        
-                    
-        
-        
-        
-        
+
+
+
+
+
+
 
         $oValorEnt = new campo('Valor Total', 'vlrNfEnt', Campo::TIPO_DECIMAL, 1);
         $oValorEnt->setSValor('0,00');
@@ -573,9 +572,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oField2->addCampos($oPendencia, $oPendenciaObs);
 
 
-        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, 
-                array($oDocumento,$oDataemi,$oSerie),$oLinha,
-                array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oXPed, $nItemPed, $oNrcert), $oField1, $oField2);
+        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, array($oDocumento, $oDataemi, $oSerie), $oLinha, array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oXPed, $nItemPed, $oNrcert), $oField1, $oField2);
     }
 
     /*
@@ -635,7 +632,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oRetrabalho->addItemSelect('Retorno não Ind.', 'Retorno não Ind.');
         $oRetrabalho->addItemSelect('OP origem retrabalho', 'OP origem retrabalho *Não entra estoque');
 
-        $sLabe2 = new campo('<h5 style="color:red">* Ops de retorno não industrializado não somam no estoque apenas se escolher a opção retorno não ind. Ops que originam retrabalho interno não entram no estoque.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
+        $sLabe2 = new campo('<h5 style="color:red">* OPs de retorno não industrializado não somam no estoque apenas se escolher a opção retorno não ind. OPs que originam retrabalho interno não entram no estoque.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
         $sLabe2->setApenasTela(true);
         $sLabe2->setIMarginTop(3);
 
@@ -645,7 +642,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oEmp_codigo->addCampoBusca('emp_razaosocial', $oEmp_des->getId(), $this->getTela()->getId());
 
         //para mostrar a parte de imprimir a planilha no excel
-        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2,2,2,2);
+        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","relatorioExcelOp");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
@@ -718,24 +715,24 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oRetrabalho->addItemSelect('Sim', 'Sim');
         $oRetrabalho->addItemSelect('Sim S/Cobrança', 'Sim S/Cobrança');
         $oRetrabalho->addItemSelect('Retorno não Ind.', 'Retorno não Ind.');
-        
-        $sLabe2 = new campo('<h5 style="color:red">* Ops de retorno não industrializado não entram apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
+
+        $sLabe2 = new campo('<h5 style="color:red">* OPs de retorno não industrializado não entram apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
         $sLabe2->setApenasTela(true);
         $sLabe2->setIMarginTop(3);
 
-        $oListaEtapa = new campo('Lista apontamentos da etapa do processo','listaEtapa', Campo::TIPO_CHECK,6,6,6,6);
-        
+        $oListaEtapa = new campo('Lista apontamentos da etapa do processo', 'listaEtapa', Campo::TIPO_CHECK, 6, 6, 6, 6);
+
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
-        
-        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2,2,2,2);
+
+        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","relatorioExcelApontamentos");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel), $oLinha1, $oRetrabalho, $sLabe2 ,$oListaEtapa, $oLinha1,$oXls);
+        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
 
-     //   $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel), $oLinha1, $oRetrabalho, $sLabe2);
+        //   $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel), $oLinha1, $oRetrabalho, $sLabe2);
     }
 
     public function criaModalAponta() {
@@ -811,41 +808,41 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oDiv1->setApenasTela(true);
 
         $sLinha = new Campo('', 'label', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
-        
+
         //grid para carregar inicio do processo
-         $oGridInicioProcesso = new Campo('Etapas do processo','apontInicio', Campo::TIPO_GRIDVIEW,12,12,12,12);
-         $oGridInicioProcesso->setSTituloGridPainel('Etapas do processo');
-         $oGridInicioProcesso->setSCorTituloGridPainel(Campo::TITULO_DANGER);
-         $oGridInicioProcesso->addCabGridView('Etapa');
-         $oGridInicioProcesso->addCabGridView('Tratamento');
-         $oGridInicioProcesso->addCabGridView('Forno/Trefila');
-         $oGridInicioProcesso->addCabGridView('DataEnt');
+        $oGridInicioProcesso = new Campo('Etapas do processo', 'apontInicio', Campo::TIPO_GRIDVIEW, 12, 12, 12, 12);
+        $oGridInicioProcesso->setSTituloGridPainel('Etapas do processo');
+        $oGridInicioProcesso->setSCorTituloGridPainel(Campo::TITULO_DANGER);
+        $oGridInicioProcesso->addCabGridView('Etapa');
+        $oGridInicioProcesso->addCabGridView('Tratamento');
+        $oGridInicioProcesso->addCabGridView('Forno/Trefila');
+        $oGridInicioProcesso->addCabGridView('DataEnt');
         // $oGridInicioProcesso->addCabGridView('HoraEnt');
-         $oGridInicioProcesso->addCabGridView('UserEnt');
-         $oGridInicioProcesso->addCabGridView('Situação');
-         $oGridInicioProcesso->addCabGridView('DataSaida');
+        $oGridInicioProcesso->addCabGridView('UserEnt');
+        $oGridInicioProcesso->addCabGridView('Situação');
+        $oGridInicioProcesso->addCabGridView('DataSaida');
         // $oGridInicioProcesso->addCabGridView('HoraSaida');
-         $oGridInicioProcesso->addCabGridView('UserSaída');
-        
+        $oGridInicioProcesso->addCabGridView('UserSaída');
+
         $oEtapasLanc = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEtapas');
         $aDadosEtapa = $oEtapasLanc->Persistencia->consultaEtapaApontada($oDados->getOp());
-        
+
         foreach ($aDadosEtapa as $key => $aValue) {
-            $oGridInicioProcesso->addLinhasGridView($key,$aValue['opseq']);
+            $oGridInicioProcesso->addLinhasGridView($key, $aValue['opseq']);
             $oGridInicioProcesso->addLinhasGridView($key, $aValue['tratdes']);
             $oGridInicioProcesso->addLinhasGridView($key, $aValue['fornodes']);
             $oGridInicioProcesso->addLinhasGridView($key, $aValue['dataent_forno']);
-          //  $oGridInicioProcesso->addLinhasGridView($key, substr($aValue['horaent_forno'],0,-8));//substr($oDadosOp->getHoraent_forno(), 0, -8)
+            //  $oGridInicioProcesso->addLinhasGridView($key, substr($aValue['horaent_forno'],0,-8));//substr($oDadosOp->getHoraent_forno(), 0, -8)
             $oGridInicioProcesso->addLinhasGridView($key, $aValue['usernome']);
             $oGridInicioProcesso->addLinhasGridView($key, $aValue['situacao']);
             $oGridInicioProcesso->addLinhasGridView($key, $aValue['datasaida_forno']);
-          //  $oGridInicioProcesso->addLinhasGridView($key, substr($aValue['horasaida_forno'],0,-8));
-            $oGridInicioProcesso->addLinhasGridView($key, $aValue['usernomesaida']); 
+            //  $oGridInicioProcesso->addLinhasGridView($key, substr($aValue['horasaida_forno'],0,-8));
+            $oGridInicioProcesso->addLinhasGridView($key, $aValue['usernomesaida']);
         }
-         
 
 
-        $this->addCampos(array($oOp, $oForno, $oCod, $oDes), $oDiv, $sLinha, array($oDtEnt, $oHoEnt, $oUserE), $sLinha, $oGridInicioProcesso,$oDiv1, $sLinha, array($oDtSai, $oHoSai, $oUserS));
+
+        $this->addCampos(array($oOp, $oForno, $oCod, $oDes), $oDiv, $sLinha, array($oDtEnt, $oHoEnt, $oUserE), $sLinha, $oGridInicioProcesso, $oDiv1, $sLinha, array($oDtSai, $oHoSai, $oUserS));
     }
 
     public function criaModalFat($aOp) {
@@ -999,7 +996,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oRetrabalho->addItemSelect('Sim S/Cobrança', 'Sim S/Cobrança');
         $oRetrabalho->addItemSelect('Retorno não Ind.', 'Retorno não Ind.');
 
-        $sLabe2 = new campo('<h5 style="color:red">* Ops de retorno não industrializado não entram apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
+        $sLabe2 = new campo('<h5 style="color:red">* OPs de retorno não industrializado não entram apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
         $sLabe2->setApenasTela(true);
         $sLabe2->setIMarginTop(3);
 
@@ -1032,7 +1029,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
     public function RelFaturamento() {
         parent::criaTelaRelatorio();
-              
+
         //Relatório Faturamento
         $this->setTituloTela('Relatório de faturamento');
         $this->setBTela(true);
@@ -1063,27 +1060,27 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oEmp_codigo->setSCampoRetorno('emp_codigo', $this->getTela()->getId());
         $oEmp_codigo->addCampoBusca('emp_razaosocial', $oEmp_des->getId(), $this->getTela()->getId());
 
-        
-        $oCodigo = new Campo('Produto','prod',Campo::TIPO_BUSCADOBANCOPK,2);
-        
+
+        $oCodigo = new Campo('Produto', 'prod', Campo::TIPO_BUSCADOBANCOPK, 2);
+
         //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto Descrição','DELX_PRO_Produtos.pro_descricao',Campo::TIPO_BUSCADOBANCO, 4);
+        $oProdes = new Campo('Produto Descrição', 'DELX_PRO_Produtos.pro_descricao', Campo::TIPO_BUSCADOBANCO, 4);
         $oProdes->setSIdPk($oCodigo->getId());
         $oProdes->setClasseBusca('DELX_PRO_Produtos');
-        $oProdes->addCampoBusca('pro_codigo', '','');
-        $oProdes->addCampoBusca('pro_descricao', '','');
+        $oProdes->addCampoBusca('pro_codigo', '', '');
+        $oProdes->addCampoBusca('pro_descricao', '', '');
         $oProdes->setSIdTela($this->getTela()->getId());
-        
+
         //declarando no campo código a classe de busca, campo chave e campo de retorno
         $oCodigo->setClasseBusca('DELX_PRO_Produtos');
-        $oCodigo->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
-        $oCodigo->addCampoBusca('pro_descricao',$oProdes->getId(),  $this->getTela()->getId());
-        
-        
+        $oCodigo->setSCampoRetorno('pro_codigo', $this->getTela()->getId());
+        $oCodigo->addCampoBusca('pro_descricao', $oProdes->getId(), $this->getTela()->getId());
+
+
         //Grupo
         $oGrupoCod = new Campo('Grupo', 'pro_grupocodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oGrupoCod->setSValor(0);
-        $oGrupoCod->addEvento(Campo::EVENTO_SAIR,'if($("#' . $oGrupoCod->getId() . '").val()==""){$("#' . $oGrupoCod->getId() . '").val("0")}');
+        $oGrupoCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oGrupoCod->getId() . '").val()==""){$("#' . $oGrupoCod->getId() . '").val("0")}');
         //-----------------------------------------------------------
 
         $oGrupoDes = new Campo('Descrição', 'DELX_PRO_Grupo.pro_grupodescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -1102,7 +1099,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oSubGrupoCod = new Campo('Sub.Grupo', 'pro_subgrupocodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubGrupoCod->setSValor(0);
-        $oSubGrupoCod->addEvento(Campo::EVENTO_SAIR,'if($("#' . $oSubGrupoCod->getId() . '").val()==""){$("#' . $oSubGrupoCod->getId() . '").val("0")}');
+        $oSubGrupoCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubGrupoCod->getId() . '").val()==""){$("#' . $oSubGrupoCod->getId() . '").val("0")}');
 
         $oSubGrupoDes = new Campo('Descrição', 'DELX_PRO_Subgrupo.pro_subgrupodescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubGrupoDes->setSIdPk($oSubGrupoCod->getId());
@@ -1121,7 +1118,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oFamiliaCod = new Campo('Família', 'pro_familiacodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFamiliaCod->setSValor(0);
-        $oFamiliaCod->addEvento(Campo::EVENTO_SAIR,'if($("#' . $oFamiliaCod->getId() . '").val()==""){$("#' . $oFamiliaCod->getId() . '").val("0")}');
+        $oFamiliaCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oFamiliaCod->getId() . '").val()==""){$("#' . $oFamiliaCod->getId() . '").val("0")}');
 
         $oFamiliaDes = new Campo('Descrição', 'DELX_PRO_Familia.pro_familiadescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oFamiliaDes->setSIdPk($oFamiliaCod->getId());
@@ -1140,7 +1137,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oSubFamiliaCod = new Campo('Sub.Fam', 'pro_subfamiliacodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubFamiliaCod->setSValor(0);
-        $oSubFamiliaCod->addEvento(Campo::EVENTO_SAIR,'if($("#' . $oSubFamiliaCod->getId() . '").val()==""){$("#' . $oSubFamiliaCod->getId() . '").val("0")}');
+        $oSubFamiliaCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubFamiliaCod->getId() . '").val()==""){$("#' . $oSubFamiliaCod->getId() . '").val("0")}');
 
         $oSubFamiliaDes = new Campo('Descrição', 'DELX_PRO_Subfamilia.pro_subfamiliadescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubFamiliaDes->setSIdPk($oSubFamiliaCod->getId());
@@ -1155,13 +1152,11 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oSubFamiliaCod->addCampoBusca('pro_subfamiliadescricao', $oSubFamiliaDes->getId(), $this->getTela()->getId());
 
         //-------------------------------------------------------------------------
-        
         //FINAL
-        
         //Grupo
         $oGrupoCodFin = new Campo('GrupoFinal', 'pro_grupocodigofin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oGrupoCodFin->setSValor(99999);
-        $oGrupoCodFin->addEvento(Campo::EVENTO_SAIR,'if($("#' . $oGrupoCodFin->getId() . '").val()==""){$("#' . $oGrupoCodFin->getId() . '").val("99999")}');
+        $oGrupoCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oGrupoCodFin->getId() . '").val()==""){$("#' . $oGrupoCodFin->getId() . '").val("99999")}');
         //-----------------------------------------------------------
 
         $oGrupoDesFin = new Campo('DescriçãoFinal', 'pro_grupodescricaofin', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -1180,7 +1175,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oSubGrupoCodFin = new Campo('Sub.GrupoFinal', 'pro_subgrupocodigofin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubGrupoCodFin->setSValor(99999);
-        $oSubGrupoCodFin->addEvento(Campo::EVENTO_SAIR,'if($("#' . $oSubGrupoCodFin->getId() . '").val()==""){$("#' . $oSubGrupoCodFin->getId() . '").val("99999")}');
+        $oSubGrupoCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubGrupoCodFin->getId() . '").val()==""){$("#' . $oSubGrupoCodFin->getId() . '").val("99999")}');
 
         $oSubGrupoDesFin = new Campo('DescriçãoFinal', 'pro_subgrupodescricaofin', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubGrupoDesFin->setSIdPk($oSubGrupoCodFin->getId());
@@ -1198,7 +1193,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oFamiliaCodFin = new Campo('Família', 'pro_familiacodigofin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFamiliaCodFin->setSValor(99999);
-        $oFamiliaCodFin->addEvento(Campo::EVENTO_SAIR,'if($("#' . $oFamiliaCodFin->getId() . '").val()==""){$("#' . $oFamiliaCodFin->getId() . '").val("99999")}');
+        $oFamiliaCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oFamiliaCodFin->getId() . '").val()==""){$("#' . $oFamiliaCodFin->getId() . '").val("99999")}');
 
         $oFamiliaDesFin = new Campo('Descrição', 'pro_familiadescricaofin', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oFamiliaDesFin->setSIdPk($oFamiliaCodFin->getId());
@@ -1216,7 +1211,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oSubFamiliaCodFin = new Campo('Sub.Fam', 'pro_subfamiliacodigofin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubFamiliaCodFin->setSValor(99999);
-        $oSubFamiliaCodFin->addEvento(Campo::EVENTO_SAIR,'if($("#' . $oSubFamiliaCodFin->getId() . '").val()==""){$("#' . $oSubFamiliaCodFin->getId() . '").val("99999")}');
+        $oSubFamiliaCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubFamiliaCodFin->getId() . '").val()==""){$("#' . $oSubFamiliaCodFin->getId() . '").val("99999")}');
 
         $oSubFamiliaDesFin = new Campo('Descrição', 'pro_subfamiliadescricaofin', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubFamiliaDesFin->setSIdPk($oSubFamiliaCodFin->getId());
@@ -1232,34 +1227,31 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         //-------------------------------------------------------------------------
         //FIM FINAL
-        
-        $oTipoMovimento = new Campo('Tipo Movimento', 'nfs_tipomovimentocodigo', Campo::TIPO_SELECTTAGS, 8,8,8,8);
+
+        $oTipoMovimento = new Campo('Tipo Movimento', 'nfs_tipomovimentocodigo', Campo::TIPO_SELECTTAGS, 8, 8, 8, 8);
         foreach ($aDados as $key => $oValue) {
-            $oTipoMovimento->addItemSelect($key,$key.' - '.$oValue);
+            $oTipoMovimento->addItemSelect($key, $key . ' - ' . $oValue);
         }
         //define se marca somente vendas
-        $oSomenteVenda = new Campo('Lista somente produtos que gera financeiro (Retorno e Insumo por exemplo)','sVenda', Campo::TIPO_CHECK,12,12,12,12);
+        $oSomenteVenda = new Campo('Lista somente produtos que gera financeiro (Retorno e Insumo por exemplo)', 'sVenda', Campo::TIPO_CHECK, 12, 12, 12, 12);
         $oSomenteVenda->setBValorCheck(true);
-        
-        $oListarProdutos = new Campo('Listar itens da nota','sIten', Campo::TIPO_CHECK,12,12,12,12);
-        
+
+        $oListarProdutos = new Campo('Listar itens da nota', 'sIten', Campo::TIPO_CHECK, 12, 12, 12, 12);
+
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
-        
+
         $oNotaFiscal = new Campo('Nota Fiscal', 'documento', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
         $oField1 = new FieldSet('Geral');
         $oField1->setOculto(false);
-        $oField1->addCampos($oLinha1, array($oDatainicial, $oDatafinal),$oLinha1, array($oEmp_codigo, $oEmp_des),$oLinha1, array($oCodigo, $oProdes),$oLinha1, $oNotaFiscal,$oLinha1);
-        
+        $oField1->addCampos($oLinha1, array($oDatainicial, $oDatafinal), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oCodigo, $oProdes), $oLinha1, $oNotaFiscal, $oLinha1);
+
         $oField2 = new FieldSet('Grupos Famílias');
         $oField2->setOculto(true);
-        $oField2->addCampos(array($oGrupoCod, $oGrupoDes, $oGrupoCodFin, $oGrupoDesFin),
-                            array($oSubGrupoCod, $oSubGrupoDes, $oSubGrupoCodFin, $oSubGrupoDesFin),
-                   $oLinha1,array($oFamiliaCod, $oFamiliaDes, $oFamiliaCodFin, $oFamiliaDesFin), 
-                            array($oSubFamiliaCod, $oSubFamiliaDes, $oSubFamiliaCodFin, $oSubFamiliaDesFin));
+        $oField2->addCampos(array($oGrupoCod, $oGrupoDes, $oGrupoCodFin, $oGrupoDesFin), array($oSubGrupoCod, $oSubGrupoDes, $oSubGrupoCodFin, $oSubGrupoDesFin), $oLinha1, array($oFamiliaCod, $oFamiliaDes, $oFamiliaCodFin, $oFamiliaDesFin), array($oSubFamiliaCod, $oSubFamiliaDes, $oSubFamiliaCodFin, $oSubFamiliaDesFin));
 
-        $this->addCampos($oField1,$oField2, $oLinha1,$oTipoMovimento,$oSomenteVenda,$oListarProdutos);
+        $this->addCampos($oField1, $oField2, $oLinha1, $oTipoMovimento, $oSomenteVenda, $oListarProdutos);
     }
 
 }
