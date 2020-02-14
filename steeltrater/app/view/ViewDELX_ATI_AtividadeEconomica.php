@@ -15,8 +15,8 @@ class ViewDELX_ATI_AtividadeEconomica extends View {
         $oCod = new CampoConsulta('Código', 'ati_codigo');
         $oDes = new CampoConsulta('Descrição', 'ati_descricao');
         $oCla = new CampoConsulta('Cod.Class', 'ati_atividadeeconomicacodclass');
-        $oDescricaofiltro = new Filtro($oDes, Filtro::CAMPO_TEXTO, 5);
-        
+        $oDescricaofiltro = new Filtro($oDes, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
+
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);

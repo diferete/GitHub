@@ -19,8 +19,8 @@ class ViewDELX_PRO_Produtosimilar extends View {
         $oCodSimilar = new CampoConsulta('Cod.Similar', 'pro_similarcodigo', CampoConsulta::TIPO_TEXTO);
         $oSimilarObs = new CampoConsulta('Obs.', 'pro_similarobservacao', CampoConsulta::TIPO_TEXTO);
 
-        $oFilCod = new Filtro($oCodigo, Filtro::CAMPO_TEXTO);
-        $oFilCodSim = new Filtro($oCodSimilar, Filtro::CAMPO_TEXTO);
+        $oFilCod = new Filtro($oCodigo, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilCodSim = new Filtro($oCodSimilar, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
         $this->addFiltro($oFilCod, $oFilCodSim);
         $this->addCampos($oCodigo, $oCodSimilar, $oSimilarObs);

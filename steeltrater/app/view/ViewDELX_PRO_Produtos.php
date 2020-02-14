@@ -51,25 +51,25 @@ class ViewDELX_PRO_Produtos extends View {
         $oPesoBruto = new CampoConsulta('Peso bruto', 'pro_pesobruto', CampoConsulta::TIPO_DECIMAL);
 
 
-        $oCodigofiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12);
+        $oCodigofiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12, false);
         $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, true);
 
-        $oFilGrupo = new Filtro($oGrupoCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFilGrupo = new Filtro($oGrupoCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilGrupo->setSClasseBusca('DELX_PRO_Grupo');
         $oFilGrupo->setSCampoRetorno('pro_grupocodigo', $this->getTela()->getSId());
         $oFilGrupo->setSIdTela($this->getTela()->getSId());
 
-        $oFilSubGrupo = new Filtro($oSubGrupoCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFilSubGrupo = new Filtro($oSubGrupoCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilSubGrupo->setSClasseBusca('DELX_PRO_Subgrupo');
         $oFilSubGrupo->setSCampoRetorno('pro_subgrupocodigo', $this->getTela()->getSId());
         $oFilSubGrupo->setSIdTela($this->getTela()->getSId());
 
-        $oFilFamilia = new Filtro($oFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFilFamilia = new Filtro($oFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilFamilia->setSClasseBusca('DELX_PRO_Familia');
         $oFilFamilia->setSCampoRetorno('pro_familiacodigo', $this->getTela()->getSId());
         $oFilFamilia->setSIdTela($this->getTela()->getSId());
 
-        $oFilSubFamilia = new Filtro($oSubFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFilSubFamilia = new Filtro($oSubFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilSubFamilia->setSClasseBusca('DELX_PRO_Subfamilia');
         $oFilSubFamilia->setSCampoRetorno('pro_subfamiliacodigo', $this->getTela()->getSId());
         $oFilSubFamilia->setSIdTela($this->getTela()->getSId());
@@ -361,7 +361,7 @@ class ViewDELX_PRO_Produtos extends View {
         $oMetrosCub = new Campo('Metros Cub.', 'pro_volumem3', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $oFormula = new Campo('Formula do Calculo', 'pro_dimensoesgradeformula', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
-        $oFormula->setILinhasTextArea(8);       
+        $oFormula->setILinhasTextArea(8);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

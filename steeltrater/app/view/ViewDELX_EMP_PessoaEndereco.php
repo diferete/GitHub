@@ -35,7 +35,7 @@ class ViewDELX_EMP_PessoaEndereco extends View {
         $this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setILarguraGrid(3000);
 
-        $oDescricaofiltro = new Filtro($oLogr, Filtro::CAMPO_TEXTO, 4);
+        $oDescricaofiltro = new Filtro($oLogr, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
 
 
 

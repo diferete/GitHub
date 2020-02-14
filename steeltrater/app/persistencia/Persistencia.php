@@ -1821,7 +1821,7 @@ class Persistencia {
                     //se o campo atual for autoincremento busca o valor para gravação
                     if ($oCampoBanco->getAutoIncremento()) {
                         $sValor = $this->getIncremento($oCampoBanco->getNomeBanco());
-                        Controller::setValorModel($this->Model, $oCampoBanco->getNomeModel(), $sValor);
+                        Controller::setValorModel($this->Model, $oCampoBanco->getNomeModel(), $sValor,$aCamposTela);
                     } else {
                         $sValor = Controller::getValorModel($this->Model, $oCampoBanco->getNomeModel());
                     }
@@ -2201,7 +2201,7 @@ class Persistencia {
     public function afterInsert($aCampos) {
         
     }
-
+    
     /**
      * arruma valores para salvar no banco
      */

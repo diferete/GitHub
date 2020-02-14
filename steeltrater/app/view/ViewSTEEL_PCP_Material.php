@@ -17,7 +17,7 @@ class ViewSTEEL_PCP_Material extends View {
         $oDes = new CampoConsulta('Material','matdes');
 
         
-        $oFilDes = new Filtro($oDes, Filtro::CAMPO_TEXTO, 2);
+        $oFilDes = new Filtro($oDes, Filtro::CAMPO_TEXTO, 2,2,12,12,false);
         $this->addFiltro($oFilDes);
         
         $this->setUsaAcaoExcluir(true);

@@ -22,8 +22,8 @@ class ViewDELX_FIS_Cnae extends View {
 
         $oCnaeDes = new CampoConsulta('Descrição', 'fis_cnaedescricao', CampoConsulta::TIPO_TEXTO);
 
-        $oFilCNAECod = new Filtro($oCnaeCod, Filtro::CAMPO_TEXTO);
-        $oFilCNAEDes = new Filtro($oCnaeDes, Filtro::CAMPO_TEXTO);
+        $oFilCNAECod = new Filtro($oCnaeCod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilCNAEDes = new Filtro($oCnaeDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->addFiltro($oFilCNAECod, $oFilCNAEDes);
         $this->addCampos($oCnaeCod, $oCnaeDes);
@@ -31,10 +31,10 @@ class ViewDELX_FIS_Cnae extends View {
 
     public function criaTela() {
         parent::criaTela();
-        
-        $oCnaeCod = new Campo('Cod.Cnae', 'fis_cnaecodigo', Campo::TIPO_TEXTO,1,1,12,12);
 
-        $oCnaeDes = new Campo('Descrição', 'fis_cnaedescricao', Campo::TIPO_TEXTAREA,4,4,12,12);
+        $oCnaeCod = new Campo('Cod.Cnae', 'fis_cnaecodigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+
+        $oCnaeDes = new Campo('Descrição', 'fis_cnaedescricao', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
         $oCnaeDes->setILinhasTextArea(3);
 
         $this->addCampos($oCnaeCod, $oCnaeDes);

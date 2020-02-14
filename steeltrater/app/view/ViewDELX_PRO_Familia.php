@@ -16,7 +16,7 @@ class ViewDELX_PRO_Familia extends View {
         $oSubgrupo = new CampoConsulta('Sub.Grupo', 'pro_subgrupocodigo');
         $oFamilia = new CampoConsulta('Família', 'pro_familiacodigo');
         $oSubfamilia = new CampoConsulta('Descrição', 'pro_familiadescricao');
-        $oDescricaofiltro = new Filtro($oSubfamilia, Filtro::CAMPO_TEXTO,7);
+        $oDescricaofiltro = new Filtro($oSubfamilia, Filtro::CAMPO_TEXTO, 7, 7, 12, 12, false);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);

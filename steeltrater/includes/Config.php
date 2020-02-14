@@ -28,10 +28,6 @@ class Config {
     const ARQ_FOLDER_JS = '/js'; //funções do sistema        
     const ARQ_FOLDER_TEMP = 'temp'; //arquivos temporários de upload
     const JASPER_FOLDER = '/PHPJasperXML';
-    const EMAIL_SENDER = 'metalboweb@metalbo.com.br';
-    const PASWRD_EMAIL_SENDER = 'Metalbo@@50';
-    const SERVER_SMTP = 'smtp.terra.com.br';
-    const PORT_SMTP = 587;
 
     /*
      * Configurações da conexão com o banco de dados
@@ -56,28 +52,9 @@ class Config {
     const TIPO_BD = self::BD_SQLSERVER;
     const PORTA_BD = 1433;
     const USER_BD = 'sa';
-    const NOME_BD = 'METALBOBASE';
+    const NOME_BD = 'metalbobase';
     const HOST_BD = 'MetalboServer';
     const PASS_BD = 'M@quinas@321';
-
-
-    /*
-      const TIPO_BD = self::BD_SQLSERVER;
-      const PORTA_BD = 1433;
-      const USER_BD = 'sa';
-      const NOME_BD = 'PROTOT';
-      const HOST_BD = 'metalbobase';
-      const PASS_BD = 'Met@lbo@4321';
-     * 
-     */
-
-    /*
-     * Configurações de nomes de elementos do sistema
-     */
-    const SISTEMA = 'containerSistema';
-    const TOPOSISTEMA = 'containerTopo';
-    const TABPANEL = 'containerTelas';
-    const REGION_MENU = 'containerMenu';
 
 }
 
