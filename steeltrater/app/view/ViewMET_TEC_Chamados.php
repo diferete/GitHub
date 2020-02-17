@@ -112,7 +112,6 @@ class ViewMET_TEC_Chamados extends View {
         if ($sFiltroSetor == 2) {
             $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
         } else {
-
             $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
         }
     }
