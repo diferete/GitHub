@@ -958,9 +958,9 @@ class Persistencia {
             if ($iOrigemFiltro === 0) {
                 //captura o nome da tabela do campo atual
                 if ($aAtual['tabelaCampo'] != "") {
-                    $sTabelaCampo = '"' . $aAtual['tabelaCampo'] . '"';
+                    $sTabelaCampo = $aAtual['tabelaCampo'];
                 } else {
-                    $sTabelaCampo = '"' . $this->getTabelaCampo($aAtual['campo']) . '"';
+                    $sTabelaCampo = $this->getTabelaCampo($aAtual['campo']);
                 }
 
                 //verifica se o valor é do tipo data
