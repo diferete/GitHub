@@ -958,9 +958,9 @@ class Persistencia {
             if ($iOrigemFiltro === 0) {
                 //captura o nome da tabela do campo atual
                 if ($aAtual['tabelaCampo'] != "") {
-                    $sTabelaCampo = $aAtual['tabelaCampo'];
+                    $sTabelaCampo = '"' . $aAtual['tabelaCampo'] . '"';
                 } else {
-                    $sTabelaCampo = $this->getTabelaCampo($aAtual['campo']);
+                    $sTabelaCampo = '"' . $this->getTabelaCampo($aAtual['campo']) . '"';
                 }
 
                 //verifica se o valor é do tipo data
@@ -1821,7 +1821,7 @@ class Persistencia {
                     //se o campo atual for autoincremento busca o valor para gravação
                     if ($oCampoBanco->getAutoIncremento()) {
                         $sValor = $this->getIncremento($oCampoBanco->getNomeBanco());
-                        Controller::setValorModel($this->Model, $oCampoBanco->getNomeModel(), $sValor,null);
+                        Controller::setValorModel($this->Model, $oCampoBanco->getNomeModel(), $sValor, null);
                     } else {
                         $sValor = Controller::getValorModel($this->Model, $oCampoBanco->getNomeModel());
                     }

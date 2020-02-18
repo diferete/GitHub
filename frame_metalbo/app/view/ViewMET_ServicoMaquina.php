@@ -171,4 +171,64 @@ class ViewMET_ServicoMaquina extends View {
         $this->addCampos(array($oSit, $oUser, $oData, $oHora), array($oTip, $oMaq_des),array($oSetor, $oSetorDes), array($oSer), array($oCiclo, $oResp, $oSitua));
     }
 
+    public function relServicosMant() {
+        parent::criaTelaRelatorio();
+
+        $aDados = $this->getAParametrosExtras();
+        $aDado1 = $aDados[0];
+        $aDado2 = $aDados[1];
+        $aCodSetor = $aDado2[0];
+        $aDesSetor = $aDado2[1];
+        $aDado3 = $aDados[2];
+        $aDado4 = $aDados[3];
+        
+        $this->setTituloTela('Relatório dos Serviços da Manutenção Preventiva Cadastrados no Sistema');
+        $this->setBTela(true);
+
+        //Filtro de Setor
+        $oFiltroSetor = new Campo('Setor', 'MET_Maquinas.codsetor', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
+        $oFiltroSetor->addItemSelect('', 'Todos Setores');
+        $iCont = 0;
+        foreach ($aCodSetor as $key1) {
+            $oFiltroSetor->addItemSelect($key1, $key1 . ' - ' . $aDesSetor[$iCont]);
+            $iCont++;
+        }
+        $oFiltroSetor->addValidacao(true, Validacao::TIPO_STRING);
+
+        //Filtro tipo Manutenção
+        $oRespFiltro = new Campo('Responsável', 'resp', Campo::CAMPO_SELECTSIMPLE, 2, 2, 2, 2);
+        $oRespFiltro->addItemSelect('', 'Todos');
+        foreach ($aDado3 as $key2) {
+            $oRespFiltro->addItemSelect($key2['resp'], $key2['resp']);
+        }
+        $oRespFiltro->addValidacao(true, Validacao::TIPO_STRING);
+        
+        $oTip = new Campo('TipCod', 'tipcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oTip->setBFocus(true);
+
+        //campo descrição do maquina o campo de busca
+        $oMaq_des = new Campo('Tipo Maquina', 'tipdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oMaq_des->setSIdPk($oTip->getId());
+        $oMaq_des->setClasseBusca('MET_CadastroMaquinas');
+        $oMaq_des->addCampoBusca('tipcod', '', '');
+        $oMaq_des->addCampoBusca('tipdes', '', '');
+        $oMaq_des->setSIdTela($this->getTela()->getId());
+        $oMaq_des->setApenasTela(true);
+        $oMaq_des->setBCampoBloqueado(true);
+
+        //declarar o campo descrição maquina
+        $oTip->setClasseBusca('MET_CadastroMaquinas');
+        $oTip->setSCampoRetorno('tipcod', $this->getTela()->getId());
+        $oTip->addCampoBusca('tipdes', $oMaq_des->getId(), $this->getTela()->getId());
+
+        $oSitua = new Campo('Situação', 'sit', Campo::CAMPO_SELECTSIMPLE, 1, 1, 12, 12);
+        $oSitua->addItemSelect('ABERTO', 'ABERTO');
+        $oSitua->addItemSelect('BLOQUEADO', 'BLOQUEADO');
+        
+        $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha1->setApenasTela(true);
+        
+        $this->addCampos(array($oTip, $oMaq_des),$oLinha1, array($oRespFiltro, $oSitua), $oLinha1, array($oFiltroSetor));
+    }    
+    
 }

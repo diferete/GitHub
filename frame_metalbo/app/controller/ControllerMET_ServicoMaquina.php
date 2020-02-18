@@ -28,11 +28,11 @@ class ControllerMET_ServicoMaquina extends Controller {
     public function afterUpdate() {
         parent::afterUpdate();
         
-//        $sSit = $this->Model->getSit();
-//        $CodSit = $this->Model->getCodsit();
-//        if($sSit=='BLOQUEADO'){
-//        $this->Persistencia->FinanizaServico($CodSit);
-//        }
+        $sSit = $this->Model->getSit();
+        $CodSit = $this->Model->getCodsit();
+        if($sSit=='BLOQUEADO'){
+        $this->Persistencia->FinanizaServico($CodSit);
+        }
         
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -41,4 +41,15 @@ class ControllerMET_ServicoMaquina extends Controller {
         
     }
 
+    public function mostraTelaRelServicos($renderTo, $sMetodo = '') {   
+        $this->buscaCelulas2();
+        parent::mostraTelaRelatorio($renderTo, 'relServicosMant');              
+    }  
+    
+    public function buscaCelulas2(){
+        $oControllerMaquina = Fabrica::FabricarController('MET_Maquinas');
+        $aParame = $oControllerMaquina->buscaDados();
+        $this->View->setAParametrosExtras($aParame);
+    }
+    
 }
