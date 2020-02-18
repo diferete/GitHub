@@ -1,5 +1,5 @@
 <?php
-
+ 
 /**
  * Class responsável pela acao de persistencia 
  * 
@@ -48,7 +48,7 @@ class PersistenciaQualContencao extends Persistencia {
     public function apontaContencao() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-        $aCampos['apontamento'] = $this->preparaString($aCampos['apontamento']);
+        $aCampos['obsfim'] = $this->preparaString($aCampos['obsfim']);
 
         $sSql = "update MET_QUAL_Contencao set dtaponta = '" . $aCampos['dtaponta'] . "',"
                 . "apontamento = '" . $aCampos['apontamento'] . "', situaca = 'Finalizado'"

@@ -27,8 +27,6 @@ class ControllerPnlFinan extends Controller{
         $aCampos[] = $oModelPessoa->getEmpdes();
         $aCampos[] = $aChave[2];
         
-       
-        
         $this->View->setAParametrosExtras($aCampos);
         
        
@@ -41,6 +39,8 @@ class ControllerPnlFinan extends Controller{
             $sEmpcod=$value[0];
             $sCnpj = $value[1];
         }
+        
+        $this->Persistencia->adicionaFiltro('empcod',$sCnpj);
         
         $iTotal = $this->Persistencia->somaTitulos();
         $iAtraso = $this->Persistencia->somaTitAtraso();

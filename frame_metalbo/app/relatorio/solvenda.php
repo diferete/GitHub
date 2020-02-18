@@ -1,201 +1,172 @@
 <?php
 
 // Diretórios
-if ($_REQUEST['output'] == 'email') {
-    include 'biblioteca/fpdf/fpdf.php';
-    include("../../includes/Config.php");
-    include("../../includes/Fabrica.php");
-    include("../../biblioteca/Utilidades/Email.php");
-} else {
-    include '../../biblioteca/fpdf/fpdf.php';
-    include("../../includes/Config.php");
-    include("../../includes/Fabrica.php");
-    include("../../biblioteca/Utilidades/Email.php");
-}
+require '../../biblioteca/fpdf/fpdf.php'; 
+include("../../includes/Config.php"); 
 
 class PDF extends FPDF {
-
-    function Footer() { // Cria rodapé
-        $this->SetXY(15, 278);
+    function Footer(){ // Cria rodapé
+        $this->SetXY(15,278);
         $this->Ln(); //quebra de linha
-        $this->SetFont('Arial', '', 7); // seta fonte no rodape
-        $this->Cell(190, 7, 'Página ' . $this->PageNo() . ' de {nb}', 0, 1, 'C'); // paginação
-
-       if ($_REQUEST['output'] == 'email') {
-            $this->SetFont('Arial', '', 8); // seta fonte no rodape
-            $this->Cell(180, 1, 'Metalbo Indústria de Fixadores Metálicos LTDA.', 0, 0, 'R');
-            $this->Image('biblioteca/assets/images/metalbo-preta.png', 180, 286, 20);
-        } else {
-            $this->SetFont('Arial', '', 8); // seta fonte no rodape
-            $this->Cell(180, 1, 'Metalbo Indústria de Fixadores Metálicos LTDA.', 0, 0, 'R');
-            $this->Image('../../biblioteca/assets/images/metalbo-preta.png', 180, 286, 20);
-        }
+        $this->SetFont('Arial','',7); // seta fonte no rodape
+        $this->Cell(190,7,'Página '.$this->PageNo().' de {nb}',0,1,'C'); // paginação
+       
+        $this->Image('../../biblioteca/assets/images/metalbo-preta.png',180,286,20);
+       
     }
-
 }
-
-$pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
+$pdf = new PDF('P','mm','A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
+
 //SETAR O TÍTULO DA PÁGINA
-$iNr = $_REQUEST['nr'];
-$sTabCab = $_REQUEST['tabcab'];
-$sTabIten = $_REQUEST['itencab'];
-$sDiretorio = $_REQUEST['dir'];
-if (isset($_REQUEST['logo'])) {
-    $sLogo = $_REQUEST['logo'];
-} else {
-    $sLogo = '';
-}
-$sImgRel = $_REQUEST['imgrel'];
-
-
-$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sSql = "  select " . $sTabCab . ".NR,CNPJ,CLIENTE,widl.emp01.empfone,
+      $nrHeader = $_REQUEST['nr'];
+      $sTabCab =  $_REQUEST['tabcab'];
+      $sTabIten = $_REQUEST['itencab'];
+       if(isset($_REQUEST['logo'])){
+           $sLogo = $_REQUEST['logo'];
+      }else{
+           $sLogo = '';
+      }
+      if(isset($_REQUEST['imgrel'])){
+          $sImgRel = $_REQUEST['imgrel'];
+      }else{
+          $sImgRel =''; 
+      }
+      
+      $PDO = new PDO("sqlsrv:server=".Config::HOST_BD.",".Config::PORTA_BD."; Database=".Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+      $sSql = "  select ".$sTabCab.".NR,CNPJ,CLIENTE,widl.emp01.empfone,
             CODPGT,CPGT,ODCOMPRA,
-            TRANSCNPJ,TRANSP,CODREP,REP,convert(varchar," . $sTabCab . ".DATA,103)as data,OBS,
+            TRANSCNPJ,TRANSP,CODREP,REP,convert(varchar,".$sTabCab.".DATA,103)as data,OBS,
             CONVERT(varchar,DTENT,103)as dtent,contato,cidnome,estcod,frete
-            from " . $sTabCab . " left outer join widl.EMP01
-            on " . $sTabCab . ".CNPJ = widl.EMP01.empcod left outer join widl.CID01
+            from ".$sTabCab." left outer join widl.EMP01
+            on ".$sTabCab.".CNPJ = widl.EMP01.empcod left outer join widl.CID01
             on widl.EMP01.cidcep = widl.CID01.cidcep
-            where " . $sTabCab . ".NR =" . $iNr;
-$dadoscab = $PDO->query($sSql);
-while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
-    $nrsol = $row["NR"];
-    $cnpj = $row["CNPJ"];
-    $cliente = $row["CLIENTE"];
-    $empfone = $row["empfone"];
-    $codpgt = $row["CODPGT"];
-    $condpag = $row["CPGT"];
-    $odcompra = $row["ODCOMPRA"];
-    $transcnpj = $row["TRANSCNPJ"];
-    $transp = $row["TRANSP"];
-    $codrep = $row["CODREP"];
-    $rep = $row["REP"];
-    $data = $row["data"];
-    $obs = $row["OBS"];
-    $cidnome = $row["cidnome"];
-    $estcod = $row["estcod"];
-    $dtent = $row["dtent"];
-    $contato = $row["contato"];
-    $frete = $row["frete"];
-}
+            where ".$sTabCab.".NR =".$nrHeader;
+      $dadoscab = $PDO->query($sSql);
+      while($row = $dadoscab->fetch(PDO::FETCH_ASSOC)){
+          $nrsol = $row["NR"];
+          $cnpj = $row["CNPJ"];
+          $cliente = $row["CLIENTE"];
+          $empfone = $row["empfone"];
+          $codpgt = $row["CODPGT"];
+          $condpag = $row["CPGT"];
+          $odcompra = $row["ODCOMPRA"];
+          $transcnpj = $row["TRANSCNPJ"];
+          $transp = $row["TRANSP"];
+          $codrep = $row["CODREP"];
+          $rep = $row["REP"];
+          $data = $row["data"];
+          $obs = $row["OBS"];
+          $cidnome = $row["cidnome"];
+          $estcod = $row["estcod"];
+          $dtent = $row["dtent"];
+          $contato = $row["contato"];
+          $frete = $row["frete"];
+      }
 
-$pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
-//seta as margens
-$pdf->SetMargins(2, 10, 2);
-$pdf->Rect(2, 32, 206, 50);
+        $pdf->SetXY(10,10); // DEFINE O X E O Y NA PAGINA
+        //seta as margens
+        $pdf->SetMargins(2,10,2); 
+        $pdf->Rect(2,32,206,50);  
+        
+       if($sLogo !=='semlogo'){
+       // $pdf->Image('../../biblioteca/assets/images/logoemp.png',3,10,40); // INSERE UMA LOGOMARCA NO PONTO X = 11, Y = 11, E DE TAMANHO 40.
+           if($sImgRel!==''){
+           $pdf->Image('../../Uploads/'.$sImgRel,3,10,40);
+           }else{
+             $pdf->Image('../../biblioteca/assets/images/logoemp.png',3,10,40);  
+           }
+           
+       }
+       
+        $pdf->SetFont('Arial','B',16);
+      
+        $pdf->Cell(190,18,'SOLICITAÇÃO DE VENDA Nº '.$nrHeader.'',0,1,'C');
+        $pdf->Ln(5);
+        //cliente
+        $pdf->SetFont('arial','',9);
+        $pdf->Cell(30,5,"Cliente:",0,0,'L');
+        $pdf->Cell(30,5,$cnpj,0,0,'L');
+        $pdf->Cell(130,5,$cliente,0,1,'L');
+        //cidade
+        $pdf->Cell(30,5,"Cidade:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(50,5,$cidnome,0,0,'L');
+        //estado
+        $pdf->Cell(20,5,"Estado:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(50,5,$estcod,0,1,'L');
+        //telefone
+        $pdf->Cell(30,5,"Telefone:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(50,5,$empfone,0,1,'L');
+        //Ordem de compra
+        $pdf->Cell(30,5,"Ordem de compra:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(50,5,$odcompra,0,1,'L');
+       //transportadora
+        $pdf->Cell(30,5,"Transportadora:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(30,5,$transcnpj,0,0,'L');
+        //estado
+        $pdf->Cell(80,5,$transp,0,1,'L');
+        //frete
+        $pdf->Cell(30,5,"Frete:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(50,5,$frete,0,1,'L');
+         //representante
+        $pdf->Cell(30,5,"Representante:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(15,5,$codrep,0,0,'L');
+        //estado
+        $pdf->Cell(80,5,$rep,0,1,'L');
+        //data emissao
+        $pdf->Cell(30,5,"Data Emissão:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(50,5,$data,0,0,'L');
+        $pdf->Cell(20,5,"Cond. Pgto:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(30,5,$condpag,0,1,'L');
+        //data de entrega
+        $pdf->Cell(30,5,"Data Faturamento:",0,0,'L');
+        $pdf->setFont('arial','',9);
+        $pdf->Cell(50,5,$dtent,0,1,'L');
+        $pdf->Ln(5);
+        //observação
+        $pdf->Rect(2,82,206,34); 
+        $pdf->Cell(60,5,"Obs",0,1,'L');
+        $pdf->MultiCell(190,7,$obs,0,'J');
+        
 
-if ($_REQUEST['output'] == 'email') {
-    if ($sLogo != 'semlogo') {
-        if ($sImgRel != '') {
-            $pdf->Image('Uploads/' . $sImgRel, 3, 10, 40);
-        } else {
-            $pdf->Image('biblioteca/assets/images/logomet.png', 3, 10, 40);
-        }
-    }
-} else {
-    if ($sLogo != 'semlogo') {
-        if ($sImgRel != '') {
-            $pdf->Image('../../Uploads/' . $sImgRel, 3, 10, 40);
-        } else {
-            $pdf->Image('../../biblioteca/assets/images/logomet.png', 3, 10, 40);
-        }
-    }
-}
-
-
-$pdf->SetFont('Arial', 'B', 16);
-
-$pdf->Cell(190, 18, 'SOLICITAÇÃO DE VENDA Nº ' . $iNr . '', 0, 1, 'C');
-$pdf->Ln(5);
-//cliente
-$pdf->SetFont('arial', '', 9);
-$pdf->Cell(30, 5, "Cliente:", 0, 0, 'L');
-$pdf->Cell(30, 5, $cnpj, 0, 0, 'L');
-$pdf->Cell(130, 5, $cliente, 0, 1, 'L');
-//cidade
-$pdf->Cell(30, 5, "Cidade:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(50, 5, $cidnome, 0, 0, 'L');
-//estado
-$pdf->Cell(20, 5, "Estado:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(50, 5, $estcod, 0, 1, 'L');
-//telefone
-$pdf->Cell(30, 5, "Telefone:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(50, 5, $empfone, 0, 1, 'L');
-//Ordem de compra
-$pdf->Cell(30, 5, "Ordem de compra:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(50, 5, $odcompra, 0, 1, 'L');
-//transportadora
-$pdf->Cell(30, 5, "Transportadora:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(30, 5, $transcnpj, 0, 0, 'L');
-//estado
-$pdf->Cell(80, 5, $transp, 0, 1, 'L');
-//frete
-$pdf->Cell(30, 5, "Frete:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(50, 5, $frete, 0, 1, 'L');
-//representante
-$pdf->Cell(30, 5, "Representante:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(15, 5, $codrep, 0, 0, 'L');
-//estado
-$pdf->Cell(80, 5, $rep, 0, 1, 'L');
-//data emissao
-$pdf->Cell(30, 5, "Data Emissão:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(50, 5, $data, 0, 0, 'L');
-$pdf->Cell(20, 5, "Cond. Pgto:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(30, 5, $condpag, 0, 1, 'L');
-//data de entrega
-$pdf->Cell(30, 5, "Data Faturamento:", 0, 0, 'L');
-$pdf->setFont('arial', '', 9);
-$pdf->Cell(50, 5, $dtent, 0, 1, 'L');
-$pdf->Ln(5);
-//observação
-$pdf->Rect(2, 82, 206, 34);
-$pdf->Cell(60, 5, "Obs", 0, 1, 'L');
-$pdf->MultiCell(190, 7, $obs, 0, 'J');
-
-
-/* * ********************** CABEÇALHO DA TABELA ************************* */
+/************************ CABEÇALHO DA TABELA **************************/
 //define a altura inicial dos dados
 $pdf->SetY(117);
 $iAlturaRet = 122; // Y (altura) INICIAL DOS DADOS 
-$l = 5; // ALTURA DA LINHA
+$l=5; // ALTURA DA LINHA
 
-        $pdf->Cell(9, 5, 'Seq', 0, 0, 'L');
-        $pdf->Cell(18, 5, 'Código', 0, 0, 'L');
-        $pdf->Cell(115, 5, 'Descrição', 0, 0, 'L');
-        $pdf->Cell(20, 5, 'Qt Cto', 0, 0, 'L');
-        $pdf->Cell(20, 5, 'R$');
-        $pdf->Cell(20, 5, 'R$ Total', 0, 1, 'L');
-/**
- * Select dos dados
- */
-$nrItens = $iNr;
-$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-//gera o somatório
-$sSql = "select sum(VLRTOT)as total,sum(coalesce(quant*propesprat,0))as peso,
+ $pdf->Cell(0,5,"Seq.    Código       Descrição                             "
+        . "                                                                           Qt.Cto            Unit                Total               Entrega",1,1,'L');
+ /**
+  * Select dos dados
+  */
+  $nrItens = $_REQUEST['nr'];
+  $PDO = new PDO("sqlsrv:server=".Config::HOST_BD.",".Config::PORTA_BD."; Database=".Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+ //gera o somatório
+  $sSql="select sum(VLRTOT)as total,sum(coalesce(quant*propesprat,0))as peso,
 sum(VLRTOT+(VLRTOT*10/100))as totalipi 
-from " . $sTabIten . " inner join widl.prod01(nolock) 
-on " . $sTabIten . ".CODIGO = widl.prod01.procod   
-where NR =" . $nrItens;
-$row = $PDO->query($sSql);
-$rowTotal = $row->fetch(PDO::FETCH_OBJ);
-$total = $rowTotal->total;
-$totalPeso = $rowTotal->peso;
-$totalipi = $rowTotal->totalipi;
-
-$sSql = "select seq,CODIGO,DESCRICAO,QUANT,VLRUNIT,VLRTOT,pdfdisp from " . $sTabIten . " where NR =" . $nrItens . " order by seq";
-$dadosItens = $PDO->query($sSql);
-while ($row = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
+from ".$sTabIten." inner join widl.prod01(nolock) 
+on ".$sTabIten.".CODIGO = widl.prod01.procod   
+where NR =".$nrItens;
+  $row= $PDO->query($sSql);
+  $rowTotal = $row->fetch(PDO::FETCH_OBJ);
+  $total =$rowTotal->total;
+  $totalPeso = $rowTotal->peso;
+  $totalipi = $rowTotal->totalipi;
+  
+  $sSql = "select seq,CODIGO,DESCRICAO,QUANT,VLRUNIT,VLRTOT,pdfdisp from ".$sTabIten." where NR =".$nrItens." order by seq";
+ $dadosItens = $PDO->query($sSql);
+ while ($row = $dadosItens->fetch(PDO::FETCH_ASSOC)){
     $seq = $row['seq'];
     $codigo = $row['CODIGO'];
     $descricao = $row['DESCRICAO'];
@@ -203,98 +174,48 @@ while ($row = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     $vlrunit = $row['VLRUNIT'];
     $vlrtot = $row['VLRTOT'];
     $disp = $row['pdfdisp'];
+   
+   if($iAlturaRet + $l >= 275){    // 275 é o tamanho da página
 
-    $pdf->setFont('arial', '', 8);
-    if ($iAlturaRet + $l >= 275) {    // 275 é o tamanho da página
         $pdf->AddPage();   // adiciona se ultrapassar o limite da página
         $iAlturaRet = 10;  // Altura na segunda página
-        $pdf->Rect(2, $iAlturaRet, 206, 5);
-        $pdf->Cell(9, 5, 'Seq', 0, 0, 'L');
-        $pdf->Cell(18, 5, 'Código', 0, 0, 'L');
-        $pdf->Cell(115, 5, 'Descrição', 0, 0, 'L');
-        $pdf->Cell(20, 5, 'Qt Cto', 0, 0, 'L');
-        $pdf->Cell(20, 5, 'R$');
-        $pdf->Cell(20, 5, 'R$ Total', 0, 1, 'L');
-        $iAlturaRet = $iAlturaRet + 5;
+        $pdf->Rect(2,$iAlturaRet,206,5); 
+        $pdf->Cell(0,5,"Seq.    Código       Descrição                             "
+        . "                                                                           Qt.Cto            Unit                Total               Entrega",1,1,'L');
+        $iAlturaRet = $iAlturaRet+5; 
+    } 
+    $pdf->Cell(9,5,$seq,0,0,'L');
+    $pdf->Cell(18,5,$codigo,0,0,'L');
+    $pdf->Cell(105,5,$descricao,0,0,'L');
+    $pdf->Cell(20,5,number_format($quant, 2, ',', '.'),0,0,'L');
+    $pdf->Cell(20,5,number_format($vlrunit, 2, ',', '.'),0,0,'L');
+    $pdf->Cell(20,5,number_format($vlrtot, 2, ',', '.'),0,0,'L');
+    $pdf->Cell(18,5,$disp,0,1,'L');
+    $pdf->Rect(2,$iAlturaRet,206,5);
+    $iAlturaRet = $iAlturaRet+5;
+ }
+ //totalizadores
+    $pdf->Ln(5);
+    $pdf->Cell(10,5,"Peso:",0,0,'L');
+    $pdf->Cell(20,5,number_format($totalPeso, 2, ',', '.'),0,0,'L');
+    $pdf->Cell(115,5,"",0,0,'L');
+    $pdf->Cell(28,5,"Total Produtos: R$",0,0,'L');
+    $pdf->Cell(20,5,number_format($total, 2, ',', '.'),0,1,'L');
+    
+    $pdf->Cell(145,5,"",0,0,'L');
+    $pdf->Cell(28,5,"Total c/ipi:         R$",0,0,'L');
+    $pdf->Cell(20,5,number_format($totalipi, 2, ',', '.'),0,1,'L');
+    
+    if(isset($_REQUEST['st'])){
+     $pdf->Cell(145,5,"",0,0,'L');
+     $pdf->Cell(28,5,"Total St:            R$",0,0,'L');
+     $pdf->Cell(20,5,$_REQUEST['st'],0,0,'L');   
     }
-    $pdf->Cell(9, 5, $seq, 0, 0, 'L');
-    $pdf->Cell(18, 5, $codigo, 0, 0, 'L');
-    $pdf->Cell(115, 5, $descricao, 0, 0, 'L');
-    $pdf->Cell(20, 5, number_format($quant, 2, ',', '.'), 0, 0, 'L');
-    $pdf->Cell(20, 5, number_format($vlrunit, 2, ',', '.'), 0, 0, 'L');
-    $pdf->Cell(20, 5, number_format($vlrtot, 2, ',', '.'), 0, 0, 'L');
-    $pdf->Cell(18, 5, $disp, 0, 1, 'L');
-    $pdf->Rect(2, $iAlturaRet, 206, 5);
-    $iAlturaRet = $iAlturaRet + 5;
-}
-//totalizadores
-$pdf->setFont('arial', '', 9);
-$pdf->Ln(5);
-$pdf->Cell(10, 5, "Peso:", 0, 0, 'L');
-$pdf->Cell(20, 5, number_format($totalPeso, 2, ',', '.'), 0, 0, 'L');
-$pdf->Cell(115, 5, "", 0, 0, 'L');
-$pdf->Cell(28, 5, "Total Produtos: R$", 0, 0, 'L');
-$pdf->Cell(20, 5, number_format($total, 2, ',', '.'), 0, 1, 'L');
 
-$pdf->Cell(145, 5, "", 0, 0, 'L');
-$pdf->Cell(28, 5, "Total c/ipi:         R$", 0, 0, 'L');
-$pdf->Cell(20, 5, number_format($totalipi, 2, ',', '.'), 0, 1, 'L');
-
-if (isset($sSt)) {
-    $pdf->Cell(145, 5, "", 0, 0, 'L');
-    $pdf->Cell(28, 5, "Total St:            R$", 0, 0, 'L');
-    $pdf->Cell(20, 5, $sSt, 0, 0, 'L');
-}
-
-if ($_REQUEST['output'] == 'email') {
-    if ($sDiretorio == null) {
-        $pdf->Output('F', 'app/relatorio/representantes/solvenda' . $iNr . '.pdf'); // GERA O PDF NA TELA
-    } else {
-        $pdf->Output('F', 'app/relatorio/representantes/' . $sDiretorio . '/solvenda' . $iNr . '.pdf'); // GERA O PDF NA TELA
-    }
-    Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
-} else {
-    $pdf->Output('I', 'solvenda' . $iNr . '.pdf');
-    Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
-}
-
-if ($_REQUEST['output'] == 'email') {
-    $oEmail = new Email();
-    $oEmail->setMailer();
-    /* testes */
-    $oEmail->setEnvioSMTP();
-    //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-    $oEmail->setServidor('smtp.terra.com.br');
-    $oEmail->setPorta(587);
-    $oEmail->setAutentica(true);
-    $oEmail->setUsuario('metalboweb@metalbo.com.br');
-    $oEmail->setSenha('Metalbo@@50');
-    $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
-
-    $oEmail->setAssunto(utf8_decode('Solicitação de venda nº' . $iNr));
-    $oEmail->setMensagem(utf8_decode('Anexo solicitação de venda nº' . $iNr));
-    $oEmail->limpaDestinatariosAll();
-
-    // Para
-    $aEmails = array();
-    $aEmails[] = $_SESSION['email'];
-    foreach ($aEmails as $sEmail) {
-        $oEmail->addDestinatario($sEmail);
-    }
-    if ($sDiretorio == null) {
-        $oEmail->addAnexo('app/relatorio/representantes/solvenda' . $iNr . '.pdf', utf8_decode('Solicitação nº' . $iNr));
-    } else {
-        $oEmail->addAnexo('app/relatorio/representantes/' . $sDiretorio . '/solvenda' . $iNr . '.pdf', utf8_decode('Solicitação nº' . $iNr));
-    }
-    $aRetorno = $oEmail->sendEmail();
-    if ($aRetorno[0]) {
-        $oCot = Fabrica::FabricarPersistencia('SolPed');
-        //$oCot->confirmaEnvioEmail($iNr,$sTabCab);
-        $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
-        echo $oMensagem->getRender();
-        echo"$('#" . $aDados[1] . "-pesq').click();";
-    } else {
-        $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
-        echo $oMensagem->getRender();
-    }
+if($_REQUEST['output']=='email'){
+$pdf->Output('F','representantes/'.$_REQUEST['dir'].'/solvenda'.$_REQUEST['nr'].'.pdf'); // GERA O PDF NA TELA
+  Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
+}else{
+  $pdf->Output('I','solvenda'.$_REQUEST['nr'].'.pdf');
+  Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
 }

@@ -101,10 +101,22 @@ class ViewUser extends View {
 
         $oFilcgc = new Campo('Empresa Padrão', 'filcgc', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oFilcgc->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
+
+        $oFildes = new Campo('Empresa', 'fildes', Campo::TIPO_BUSCADOBANCO, 4);
+        $oFildes->setSIdPk($oFilcgc->getId());
+        $oFildes->setClasseBusca('PoliCadMaq');
+        $oFildes->addCampoBusca('codmaq', '', '');
+        $oFildes->addCampoBusca('maquina', '', '');
+        $oFildes->setSIdTela($this->getTela()->getid());
+        $oFildes->setApenasTela(true);
+
+
         $oFilcgc->setClasseBusca('EmpRex');
         $oFilcgc->setSCampoRetorno('filcgc', $this->getTela()->getId());
+        $oFilcgc->addCampoBusca('fildes', $oFildes->getId(), $this->getTela()->getId());
 
         $oOfficeCod = new Campo('Escritório Rep.', 'RepOffice.officecod', Campo::TIPO_BUSCADOBANCOPK, 2);
+
         $oOfficeCod->setClasseBusca('RepOffice');
         $oOfficeCod->setSCampoRetorno('officecod', $this->getTela()->getId());
 

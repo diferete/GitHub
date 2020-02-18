@@ -10,6 +10,8 @@ class ViewTransp extends View {
       public function criaConsulta() {
         parent::criaConsulta();
         
+        $this->getTela()->setIAltura(600);
+        
         $oEmpoCod = new CampoConsulta('Código','empcod');
         $oEmpDes = new CampoConsulta('Empresa', 'empdes');
         $oEmpSit = new CampoConsulta('Situação','empativo');

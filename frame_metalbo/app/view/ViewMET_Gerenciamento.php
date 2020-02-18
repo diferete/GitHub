@@ -41,6 +41,11 @@ class ViewMET_Gerenciamento extends View {
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1);
         $oFiltroCodMaquina = new Filtro($oCodmaq, Filtro::CAMPO_TEXTO_IGUAL, 1);
         $oFiltroDesMaquina = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 2);
+        $oFiltroSituacao = new Filtro($oSitmp, Filtro::CAMPO_SELECT, 1,1,1,1);
+        $oFiltroSituacao->setSValor('ABERTO');
+        $oFiltroSituacao->addItemSelect('ABERTO', 'Situação Aberto');
+        $oFiltroSituacao->addItemSelect('FINALIZADO', 'Situação Finalizado');
+        $oFiltroSituacao->setSLabel('');
         
         //Filtro de células
         $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 2,2,2,2);
@@ -73,7 +78,7 @@ class ViewMET_Gerenciamento extends View {
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoIncluir(true);
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oFiltroNr, $oFiltroCodMaquina, $oFiltroDesMaquina, $oFiltroSeq,$oCategoriaFiltro, $oFiltroSetor);
+        $this->addFiltro($oFiltroNr, $oFiltroCodMaquina, $oFiltroDesMaquina, $oFiltroSeq,$oCategoriaFiltro, $oFiltroSetor,$oFiltroSituacao);
         
         $this->getTela()->setBMostraFiltro(true);
 

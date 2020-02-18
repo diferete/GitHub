@@ -1572,65 +1572,28 @@
 
 @media only screen and (max-width : 320px) {
 
-    .chosen-container-multi .chosen-choices{
-        width: 125% !important;
-    }
-    .section-filter .section-filter-select select.chosen-select{
-        opacity: 1;
-    }
 }
 
 
-@media only screen and (max-width : 320px) {
+@media only screen and (min-width : 320px) {
 
-    .chosen-container-multi .chosen-choices{
-        width: 125% !important;
-    }
-    .section-filter .section-filter-select select.chosen-select{
-        opacity: 1;
-    }
 }
 
-@media only screen and (max-width : 480px) {
+@media only screen and (min-width : 480px) {
 
-    .chosen-container-multi .chosen-choices{
-        width: 125% !important;
-    }
-    .section-filter .section-filter-select select.chosen-select{
-        opacity: 1;
-    }
 }
 
-@media only screen and (max-width : 769px) {
+@media only screen and (min-width : 769px) {
 
-    .chosen-container-multi .chosen-choices{
-        width: 125% !important;
-    }
-    .section-filter .section-filter-select select.chosen-select{
-        opacity: 1;
-    }
 }
 
-@media only screen and (max-width : 992px) {
+@media only screen and (min-width : 992px) {
 
-    .chosen-container-multi .chosen-choices{
-        width: 125% !important;
-    }
-    .section-filter .section-filter-select select.chosen-select{
-        opacity: 1;
-    }
 }
 
-@media only screen and (max-width : 1200px) {
+@media only screen and (min-width : 1200px) {
 
-    .chosen-container-multi .chosen-choices{
-        width: 125% !important;
-    }
-    .section-filter .section-filter-select select.chosen-select{
-        opacity: 1;
-    }
 }
-
 
 
 

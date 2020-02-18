@@ -13,6 +13,8 @@ class ViewPnlFinan extends View{
     
     public function criaTela() {
         parent::criaTela();
+        
+        
         $aValor = $this->getAParametrosExtras();
         $oCnpj = new Campo('Cliente','',  Campo::TIPO_TEXTO,2);
         $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -33,7 +35,7 @@ class ViewPnlFinan extends View{
         
         
         
-        $oGrid = new Campo('Títulos a receber','rec', Campo::TIPO_GRID,12,12,12,12,250);
+        $oGrid = new Campo('Títulos a receber','rec', Campo::TIPO_GRID,12,12,12,12,400);
         $oDataEmiss = new CampoConsulta('Emissão', 'recdtemiss', CampoConsulta::TIPO_DATA);
         $oSerie = new CampoConsulta('Documento','recdocto');
         $oVenc = new CampoConsulta('Vencimento', 'recprdtpro', CampoConsulta::TIPO_DATA);
@@ -53,12 +55,6 @@ class ViewPnlFinan extends View{
         $oFieldAberto = new FieldSet('Títulos em aberto');
         $oFieldAberto->addCampos(array($oGrid));
         
-        
-        
-        
-        
-         
-       
         
         $this->addCampos(array($oCnpj,$oEmpDes),$oFieldAberto,$oNr);
     }

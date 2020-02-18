@@ -13,4 +13,4 @@ class PersistenciaModulo extends Persistencia {
         $this->adicionaOrderBy('modcod', 1);
     }
 
-    }
+}

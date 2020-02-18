@@ -55,7 +55,6 @@ class PersistenciaCadCliRep extends Persistencia {
         $this->adicionaRelacionamento('transp', 'transp');
 
         $this->adicionaRelacionamento('empnr', 'empnr');
-        $this->adicionaRelacionamento('cnpj', 'cnpj');
 
         if (isset($_SESSION['repoffice'])) {
 
@@ -118,7 +117,7 @@ class PersistenciaCadCliRep extends Persistencia {
         return $aEmail;
     }
 
-    public function buscaRespEscritorio($sDados) {
+    public function buscaRespEscritório($sDados) {
         $sSql = "select officeresp from tbrepoffice where officecod =" . $_SESSION['repoffice'];
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);

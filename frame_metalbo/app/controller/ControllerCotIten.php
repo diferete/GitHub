@@ -231,5 +231,62 @@ class ControllerCotIten extends Controller {
         }
         $this->getDadosConsulta($sDados, TRUE, null);
     }
+    
+      public function beforeInsert() {
+        parent::beforeInsert();
+
+        $this->atualizaDescricao();
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+    
+    public function beforeUpdate() {
+        parent::beforeUpdate();
+    
+        $this->atualizaDescricao();
+        
+        $aRetorno = array();
+        $aRetorno[0]=true;
+        $aRetorno[1]='';
+        return $aRetorno;
+    }
+
+    public function atualizaDescricao() {
+
+        //verifica descricao do produto
+        $oProduto = Fabrica::FabricarController('Produto'); //Instancia a MVC da classe e fabrica ela
+        $oProduto->Persistencia->adicionaFiltro('procod', $this->Model->getCodigo()); //Adiciona filtro na classe
+        $oDados = $oProduto->Persistencia->consultarWhere(); //Retorna o select
+        $this->Model->setDescricao($oDados->getProdes()); //Seta a descrição
+    }
+    
+    public function calculoPersonalizado($sParametros = null,$aParam=null) {
+        parent::calculoPersonalizado($sParametros);
+        
+        
+        if($aParam !==null){
+        foreach ($aParam as $key => $value) {
+            $sNr=$value[0];
+            $sNrvlr = $value[1];
+            $this->Persistencia->adicionaFiltro('nr',$sNrvlr);
+        }
+        }else{
+            $this->Persistencia->adicionaFiltro('nr', $this->Model->getNr());
+        }
+        
+        
+        $sValor = $this->Persistencia->getSoma('vlrtot');
+        $iContaItem = $this->Persistencia->getCount();
+        
+        
+         $xResult = '<span class=""><b>Total R$:</b> '.number_format($sValor, 2,',','.').'</span> <br /> '
+                .'<span class=""><b>Total Itens:</b> '.$iContaItem.'</span>';
+               // .'<span class="cor_verde"><b>Média de Faturamento:</b>R$ '.number_format($iMedia, 2,',','.').'</span> | ';
+                
+        return $xResult;
+    }
 
 }

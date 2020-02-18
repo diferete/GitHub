@@ -6,6 +6,7 @@
  * @author Fernando Salla
  * @since 28/06/2012
  */
+
 class ControllerMenu extends Controller {
 
     function __construct() {
@@ -61,26 +62,19 @@ class ControllerMenu extends Controller {
             ++$iCont;
         }
         $sMsg = '<div class="example-wrap" id="perfilPrincipal">'
-                . '<div class="example example-well">'
-                . '<div class="page-header text-center">'
-                . '<h1 class="page-title">Bem-vindo, ' . $_SESSION["nome"] . '!</h1>'
-                . '<p class="page-description"><a target="_blank" href="https://www.metalbo.com.br">www.metalbo.com.br</a></br>'
-                . '<a target="_blank" href="https://facebook.com/metalbo.oficial"> '
-                . '<button type="button" class="btn btn-labeled btn-xs social-facebook">'
-                . '<span class="btn-label"><i class="icon bd-facebook" aria-hidden="true"></i></span>Facebook</button>'
-                . '</a>'
-                . '</br>'
-                . '</br>'
-                . '<a target="_blank" href="https://www.youtube.com/channel/UCO6rJtl4ePqsWRTztRFkE5w">'
-                . '<button type="button" class="btn btn-labeled btn-xs social-youtube">'
-                . '<span class="btn-label"><i class="icon bd-youtube" aria-hidden="true"></i></span>Treinamentos</button>'
-                . '</a>'
-                . '</br>'
-                . '</br><img class="img-circle img-bordered img-bordered-primary" width="150" height="150" src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1"></p>'
-                . '</div>'
-                . '</div>'
-                . '</div>'
-        ;
+                . '   <div class="example example-well">'
+                . '     <div class="page-header text-center">'
+                . '       <h1 class="page-title">Bem vindo, ' . $_SESSION["nome"] . '!</h1>'
+                . '       <p class="page-description">'
+                . '        <a target="_blank" href="https://www.metalbo.com.br">www.metalbo.com.br</a></br> '
+                . '       <a target="_blank" href="https://facebook.com/metalbo.oficial"> <button type="button" class="btn btn-labeled btn-xs social-facebook"> '
+                . '<span class="btn-label"><i class="icon bd-facebook" aria-hidden="true"></i></span>Facebook</button></a></br></br>'
+                . '             <img class="img-circle img-bordered img-bordered-primary" width="150" height="150" '
+                . '             src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1"> '
+                . '       </p>'
+                . '     </div>'
+                . '   </div>'
+                . ' </div>';
         echo "$('#tabmenucont').empty(); $('#tabmenusuperior').empty();$('#menu').empty();$('#menu').append('" . $sEstruturaMenu . "'); ";
         echo "$('#tabmenucont').append('" . $sMsg . "');";
     }

@@ -14,14 +14,10 @@ class ViewMET_CON_Dimen extends View {
 
     public function criaTela() {
         parent::criaTela();
-    }
 
-    public function relDimenRep() {
-        parent::criaTelaRelatorio();
-
-        $this->setTituloTela('Dimensionais');
         $this->setBTela(true);
-
+        $this->setBOcultaBotTela(true);
+        $this->setBOcultaFechar(true);
 
         $oProcod = new campo('Código', 'procod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oProcod->setApenasTela(true);

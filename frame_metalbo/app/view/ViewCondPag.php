@@ -28,7 +28,7 @@ class ViewCondPag extends View {
         $this->addFiltro($oFiltroCpgCod, $oFiltroCpgDes);
         $this->addCampos($oCpgCod, $oCpgDes);
        
-        $this->setBScrollInf(false);
+        $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoAlterar(false);

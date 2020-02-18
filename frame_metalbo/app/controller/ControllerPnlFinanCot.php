@@ -42,6 +42,8 @@ class ControllerPnlFinanCot extends Controller{
             $sCnpj = $value[1];
         }
         
+        $this->Persistencia->adicionaFiltro('empcod',$sCnpj);
+        
         $iTotal = $this->Persistencia->somaTitulos();
         $iAtraso = $this->Persistencia->somaTitAtraso();
         $iMedia = $this->Persistencia->mediaFat($sCnpj);

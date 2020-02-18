@@ -16,13 +16,8 @@ class ViewQualAq extends View {
         parent::criaConsulta();
 
         $this->getTela()->setIAltura(400);
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
-        $this->setUsaAcaoVisualizar(true);
-        $this->setUsaAcaoExcluir(false);
+
         $this->getTela()->setBMostraFiltro(true);
-        $this->getTela()->setILarguraGrid(2300);
-        $this->getTela()->setBGridResponsivo(false);
 
         $oTitulo = new CampoConsulta('Título', 'titulo', CampoConsulta::TIPO_LARGURA, 300);
 
@@ -44,9 +39,7 @@ class ViewQualAq extends View {
         $oTipoMel = new CampoConsulta('TipoMelhoria', 'tipmelhoria', CampoConsulta::TIPO_LARGURA);
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
-
         $oFilTit = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 10, 10, 12, 12);
-        $oFilTit->setBQuebraLinha(true);
 
         $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFilEmp->setSClasseBusca('EmpRex');
@@ -112,13 +105,19 @@ class ViewQualAq extends View {
         $oDrop4 = new Dropdown('Impressão e Emails', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop4->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Vizualizar ação da qualidade', 'QualAq', 'acaoMostraRelConsulta', '', false, 'AqImp');
         $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu e-mail', 'QualAq', 'geraPdfQualAq', '', false, 'AqImp', false, '', false, '', true);
+        //$oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'QualAq', 'envMailGrid2', '', false, 'AqImp,email,MET_QUAL_QualAq,envMailQual');
         $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para todos os envolvidos', 'QualAq', 'geraPdfQualAqTodos', '', false, 'AqImp', false, '', false, '', true);
+        //$oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para todos envolvidos', 'QualAq', 'envMailGrid', '', false, 'AqImp,email,MET_QUAL_QualAq,envMailAll');
 
 
         $this->addDropdown(/* $oDrop1, */ $oDrop3, $oDrop4);
 
         $this->addCampos($oNr, $oSit, $oTitulo, $oDataFim, $oTipoAcao, $oOrigem, $oTipoMel, $oFilcgc);
 
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
+        $this->setUsaAcaoVisualizar(true);
+        $this->setUsaAcaoExcluir(false);
 
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
@@ -232,7 +231,7 @@ class ViewQualAq extends View {
 
         $oEquipeEmail = new Campo('E-mails', 'emailEquip', Campo::TIPO_TAGS, 6, 6, 12, 12);
 
-        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 2);
         $oBotConf->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
         $sAcao = 'getUserEmail($("#' . $oCodUser->getId() . '").val(),'
                 . '"' . $oEquipe->getId() . '",'
@@ -348,7 +347,7 @@ class ViewQualAq extends View {
         $oObsCancela->addValidacao(false, Validacao::TIPO_STRING, 'É necessário informar este campo!', '10', '1000');
         $oObsCancela->setILinhasTextArea(5);
 
-        $oBtnInserir = new Campo('Cancelar Aq', '', Campo::TIPO_BOTAOSMALL_SUB, 2);
+        $oBtnInserir = new Campo('Cancelar Aq', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         //id do grid
 

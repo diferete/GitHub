@@ -104,7 +104,6 @@ class ViewConsultaEstoque extends View{
          $oGridProdutos->setSController('ConsultaEstoque');
          $oGridProdutos->addParam('procod','0');
        
-         
          $oGridEstoque = new Campo('Estoques','estoque', Campo::TIPO_GRIDVIEW,3,3,3,3);
          $oGridEstoque->addCabGridView('Almoxarifado');
          $oGridEstoque->addCabGridView('Quantidade');
@@ -133,8 +132,6 @@ class ViewConsultaEstoque extends View{
          $oOf->setSCampoRetorno('op',$this->getTela()->getId());
          $oOf->setSParamBuscaPk($oCodigo->getId());
          
-        
-             
          $oFildEmb = new FieldSet('Embalagem');
          $oFildEmb->setOculto(false);
           
@@ -151,15 +148,9 @@ class ViewConsultaEstoque extends View{
          
          $oFildEmb->addCampos($oGridEmb);
           
-          
-          
-         
          $oGridProdutos->getOGrid()->setSEventoClick('var chave=""; $("#'.$oGridProdutos->getId().' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); $("#'.$oCodigo->getId().'").val(chave.substr(7,(chave.length - 1))); '  //str.replace("Microsoft", "W3Schools")
                  . 'requestAjax("","ConsultaEstoque","geraEstoque","'.$oGridEstoque->getId().'"+","+chave+","+"'.$oPedAberto->getId().'"+","+"'.$oSaldoPed->getId().'"+","+"'.$oOf->getId().'"+","+"'.$oGridEmb->getId().'");');
-         
         
-        
-         
          $sAcaoCarregaItens = '$("#'.$oCodigo->getId().'").val("");requestAjax("'.$this->getTela()->getId().'-form","ConsultaEstoque","getDadosGrid","'.$oGridProdutos->getId().'","criaConsultaGridEstoque");';
          $oBtnCarregar->addAcaoBotao($sAcaoCarregaItens); 
          if($sDadosSolCot!==''){

@@ -13,17 +13,17 @@ class ViewQualContencao extends View {
     }
 
     function criaGridDetalhe() {
-        $aIdsTela = $this->getSIdsTelas();
-        parent::criaGridDetalhe($aIdsTela[6]);
+        parent::criaGridDetalhe();
 
         $this->getOGridDetalhe()->setIAltura(200);
+
+        $sAcaoRotina = $this->getSRotina();
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
         $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao');
-        $oBotaoModal->setSNomeGrid('detalheContencao');
         $this->addModaisDetalhe($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -32,33 +32,32 @@ class ViewQualContencao extends View {
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oSeq->setILargura(30);
 
-        $oPlan = new CampoConsulta('Ação', 'plano');
+        $oPlan = new CampoConsulta('Análise', 'plano');
         $oPlan->setILargura(500);
 
         $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
-        $oDataAponta = new CampoConsulta('Apontamento', 'dtaponta', CampoConsulta::TIPO_DATA);
 
-        $oUsunome = new CampoConsulta('Quem', 'usunome');
+        $oUsunome = new CampoConsulta('Responsável', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
         $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-        $this->getOGridDetalhe()->setSNomeGrid('detalheContecao');
-        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
+        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oUsunome, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $sAcaoRotina = $this->getSRotina();
+
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
         $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao');
-        $oBotaoModal->setSNomeGrid('detalheContencao');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -67,11 +66,10 @@ class ViewQualContencao extends View {
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oSeq->setILargura(30);
 
-        $oPlan = new CampoConsulta('Ação', 'plano');
+        $oPlan = new CampoConsulta('Análise', 'plano');
         $oPlan->setILargura(500);
 
         $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
-        $oDataAponta = new CampoConsulta('Apontamento', 'dtaponta', CampoConsulta::TIPO_DATA);
 
         $oUsunome = new CampoConsulta('Responsável', 'usunome');
 
@@ -80,8 +78,8 @@ class ViewQualContencao extends View {
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-        $this->getTela()->setSNomeGrid('detalheContencao');
-        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
+
+        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oUsunome, $oAnexo);
     }
 
     public function criaTela() {
@@ -109,7 +107,7 @@ class ViewQualContencao extends View {
         $oSeq = new Campo('Sequência', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeq->setBCampoBloqueado(true);
 
-        $oPlano = new Campo('Ação', 'plano', Campo::TIPO_TEXTAREA, 12);
+        $oPlano = new Campo('Análise', 'plano', Campo::TIPO_TEXTAREA, 12);
         $oPlano->setILinhasTextArea(5);
         $oPlano->setICaracter(500);
 
@@ -135,7 +133,6 @@ class ViewQualContencao extends View {
         $oTipo = new Campo('Tipo ação', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTipo->setSValor($aValor[3]);
         $oTipo->setBCampoBloqueado(true);
-        
         if ($aValor[3] == 'Ação Preventiva') {
             $oTipo->setSCorFundo(Campo::FUNDO_VERDE);
             $oDivisor = new Campo('Tela com preenchimento OPCIONAL, Ação Preventiva não necessita preenchimento.', 'divisor1', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
@@ -151,7 +148,9 @@ class ViewQualContencao extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBotConf->setIMarginTop(6);
-
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotConf->getOBotao()->setBDesativado(true);
+        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    
@@ -160,14 +159,7 @@ class ViewQualContencao extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        if ($sAcaoRotina == 'acaoVisualizar') {
-
-            $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo));
-        } else {
-
-            $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
-        }
-
+        $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }
 
@@ -198,13 +190,13 @@ class ViewQualContencao extends View {
         $oDataFim->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oDataFim->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oApontamento = new Campo('Observação final', 'apontamento', Campo::TIPO_TEXTAREA, 8, 8, 8, 8);
-        $oApontamento->setICaracter(1000);
+        $oObsFim = new Campo('Observação final', 'apontamento', Campo::TIPO_TEXTAREA, 8, 8, 8, 8);
+        $oObsFim->setICaracter(1000);
         if ($oDados->getApontamento() != null) {
-            $oApontamento->setSValor(Util::limpaString($oDados->getApontamento()));
+            $oObsFim->setSValor(Util::limpaString($oDados->getApontamento()));
         }
-        $oApontamento->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oApontamento->setILinhasTextArea(3);
+        $oObsFim->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oObsFim->setILinhasTextArea(3);
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -218,7 +210,7 @@ class ViewQualContencao extends View {
         $oBtnNormal->getOBotao()->addAcao($sAcaoRet);
         $oBtnNormal->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
 
-        $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), array($oDataFim), $oLinha, array($oApontamento, $oBtnInserir, $oBtnNormal));
+        $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), array($oDataFim), $oLinha, array($oObsFim, $oBtnInserir, $oBtnNormal));
     }
 
 }

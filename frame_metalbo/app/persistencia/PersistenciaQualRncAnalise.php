@@ -70,8 +70,6 @@ class PersistenciaQualRncAnalise extends Persistencia {
         $this->adicionaRelacionamento('obs_aponta', 'obs_aponta');
         $this->adicionaRelacionamento('produtos', 'produtos');
         $this->adicionaRelacionamento('tagsetor', 'tagsetor');
-        
-        $this->adicionaRelacionamento('tagexcecao', 'tagexcecao');
 
         $this->adicionaJoin('Pessoa');
 
@@ -130,30 +128,22 @@ class PersistenciaQualRncAnalise extends Persistencia {
         return $oRow;
     }
 
-    public function buscaEmails($aDados) {
-        $sSql = "select resp_venda_cod,usucodigo "
+    public function buscaEmailVenda($aDados) {
+        $sSql = "select resp_venda_cod "
                 . "from tbrncqual "
                 . "where filcgc ='" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "' ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $codVenda = $oRow->resp_venda_cod;
-        $codRep = $oRow->usucodigo;
 
         //busca email venda
         $sSql = "select usuemail "
                 . "from tbusuario where usucodigo ='" . $codVenda . "' ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $aEmail[0] = $oRow->usuemail;
+        $sEmail = $oRow->usuemail;
 
-         //busca email venda
-        $sSql = "select usuemail "
-                . "from tbusuario where usucodigo ='" . $codRep . "' ";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        $aEmail[1] = $oRow->usuemail;
-        
-        return $aEmail;
+        return $sEmail;
     }
 
     public function verifSit($aDados) {

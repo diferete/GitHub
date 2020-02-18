@@ -24,27 +24,17 @@ class ControllerQualRnc extends Controller {
 
     public function beforeInsert() {
         parent::beforeInsert();
-
         $oLote = $this->Model->getLote();
         $oOp = $this->Model->getOp();
-        $oTag = $this->Model->getTagexcecao();
 
-        if ($oTag == null) {
-            if (($oLote == '' || $oOp == '') || ($oLote == null || $oOp == null)) {
-                $oMsg = new Modal('Atenção', 'Favor preencer os campos de LOTE e ORDEM DE PRODUÇÃO, solicitar com o Cliente!', Modal::TIPO_AVISO, FALSE, TRUE, FALSE);
-                echo $oMsg->getRender();
+        if (($oLote == '' || $oOp == '') || ($oLote == null || $oOp == null)) {
+            $oMsg = new Modal('Atenção', 'Favor preencer os campos de LOTE e ORDEM DE PRODUÇÃO, solicitar com o Cliente!', Modal::TIPO_AVISO, FALSE, TRUE, FALSE);
+            echo $oMsg->getRender();
 
-                $aRetorno = array();
-                $aRetorno[0] = false;
-                $aRetorno[1] = '';
-                return $aRetorno;
-            } else {
-
-                $aRetorno = array();
-                $aRetorno[0] = true;
-                $aRetorno[1] = '';
-                return $aRetorno;
-            }
+            $aRetorno = array();
+            $aRetorno[0] = false;
+            $aRetorno[1] = '';
+            return $aRetorno;
         } else {
             $aRetorno = array();
             $aRetorno[0] = true;

@@ -1,7 +1,8 @@
 <?php
 
 // Diretórios
-require '../../biblioteca/pdfjs/pdf_js.php';
+require('../../biblioteca/graficos/Grafico.php');
+//require '../../biblioteca/pdfjs/pdf_js.php';
 include("../../includes/Config.php");
 
 $sUserRel = $_REQUEST['userRel'];
@@ -48,7 +49,7 @@ class PDF extends FPDF {
 
 }
 
-$pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
+$pdf = new PDF_Grafico('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 
@@ -88,6 +89,12 @@ if(!isset($aNr2)){
     $aNr2[1] = 'i';
 }
 
+$aServMaqAbertAtrasados = 0;
+$aServMaqFinalAtrasados = 0;
+
+$iCont = 0;
+$iContAbe = 0;
+$iContFin = 0;
 foreach ($aNr2 as $sNr){
 
     $sql = "select tbmanutmp.filcgc, tbmanutmp.nr, tbmanutmp.codmaq, tbmanutmp.codsetor, descsetor, tbitensmp.codsit, servico, ciclo, resp, dias, tbitensmp.sitmp,
@@ -133,7 +140,7 @@ if($sSit == 'FINALIZADOS'){
     $sth = $PDO->query($sql);
 
 $iN = 0;
-$iCont = 0;
+$iN1 = 0;
 while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     if($iN != $row['codmaq']) {
         
@@ -158,7 +165,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(199, 5, '', '', 1, 'L');
         $iN = $row['codmaq'];
     }
-        
+    
         $pdf = quebraPagina($pdf->GetY()+15, $pdf);
         
         $pdf->SetFont('arial', 'B', 8);
@@ -211,8 +218,51 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(18, 5, $row['datafech'], 'R,B,T', 1, 'L');  
         $pdf->Cell(199, 5, '', '', 1, 'L');
+        
+        $iCont++;
+        
+        if($row['sitmp']=='ABERTO'){
+            if($row['dias']<0){
+                $aServMaqAbertAtrasados++;
+            }
+            $iContAbe++;
+        }else{
+            if($row['dias']<0 && $row['sitmp']=='FINALIZADO'){
+                $aServMaqFinalAtrasados++;
+            }
+            $iContFin++;
+        }
+        
 }
 }
+$pdf = quebraPagina($pdf->GetY()+35, $pdf);
+$pdf->Ln(5);
+$pdf->SetFont('Arial', 'BIU', 12);
+$pdf->Cell(0, 5, '1 - Total de Serviços', 0, 1);
+$pdf->Ln(5);
+$valX = $pdf->GetX();
+$valY = $pdf->GetY();
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(28, 5, 'Total de Serviços: '.$iCont,'', 1, 'L');
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(28, 5, 'Total Serviços Abertos: '.$iContAbe,'', 1, 'L');
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(28, 5, 'Total Serviços Finalizados: '.$iContFin,'', 1, 'L');
+//$pdf->SetFont('arial', 'B', 9);
+//$pdf->Cell(28, 5, 'Serviços Abertos Atrasados: '.$aServMaqAbertAtrasados,'', 0, 'L');
+    $aData = array('Serviços Abertos em Dia' => ($iContAbe-$aServMaqAbertAtrasados),
+                    'Serviços Abertos Atrasados' => $aServMaqAbertAtrasados,
+                    'Serviços Finalizados em Dia' => ($iContFin-$aServMaqFinalAtrasados),
+                    'Serviços Finalizados Atrasados' => $aServMaqFinalAtrasados);
+
+$col1=array (0,255,0);
+$col2=array (255,0,0);
+$col3=array (255,255,0);
+$col4=array (0,69,255);
+
+$pdf->SetXY(70, $valY);
+$pdf->PieChart(135, 200, $aData, '%l : %v  (%p)', array($col1,$col2,$col3,$col4));
+$pdf->SetXY($valX, $valY + 50);
 
 $pdf->Output('I', 'relServicoMaquinaMantPrev.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  

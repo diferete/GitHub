@@ -26,7 +26,7 @@ if ($sEmailRequest == 'S') {
 class PDF extends FPDF {
 
     function Footer() { // Cria rodapé
-        $this->SetXY(15, 285);
+        $this->SetXY(15, 278);
         $this->Ln(); //quebra de linha
         $this->SetFont('Arial', '', 7); // seta fonte no rodape
         $this->Cell(190, 7, 'Página ' . $this->PageNo() . ' de {nb}', 0, 1, 'C'); // paginação
@@ -54,7 +54,7 @@ if ($sEmailRequest == 'S') {
 $pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
-$pdf->SetAutoPageBreak(true, 2);
+
 $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 
 
@@ -85,7 +85,7 @@ $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
                 case when comer = 'true' then 'x' else '' end as comer,
                 widl.emp01.cidcep,nf,convert(varchar,datanf,103)as datanf,
                 odcompra,pedido,valor,peso,lote,op,naoconf,produtos,aplicacao,
-                quant,quantnconf,usuaponta,apontamento,devolucao,reclamacao,resp_venda_nome,obs_aponta,obs_fim,usunome_fim,
+                quant,quantnconf,usuaponta,apontamento,devolucao,reclamacao,resp_venda_nome,obs_aponta,
                 case when disposicao = '1' then 'x' else '' end as aceitar,
                 case when disposicao = '2' then 'x' else '' end as recusar
                 from tbrncqual left outer join widl.EMP01
@@ -94,7 +94,7 @@ $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
 $dadoscab = $PDO->query($sSql);
 $row = $dadoscab->fetch(PDO::FETCH_ASSOC);
 //cabeçalho
-$pdf->SetMargins(3, 5, 3);
+$pdf->SetMargins(3, 0, 3);
 $pdf->Rect(2, 10, 38, 18);
 
 $aProdutos = explode(';', $row['produtos']);
@@ -227,7 +227,7 @@ $pdf->Cell(50, 5, '(' . $row['recusar'] . ') Reprovar', 0, 1, 'L');
 
 $pdf->Ln(5);
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Dados do produto", 0, 1, 'L');
+$pdf->Cell(30, 5, "Dados produto:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
 
@@ -268,12 +268,13 @@ if ($aProdutos[0] != '') {
 }
 
 
-
 $pdf->Ln(5);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Análise da RC:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
+$iAltura = $pdf->GetY();
+$pdf->Rect(2, $iAltura, 206, 35);
 
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
@@ -287,12 +288,13 @@ $pdf->Cell(30, 5, "Análise da não conformidade:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['apontamento'], 0, 'L');
 
-
-
 $pdf->Ln(18);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Análise do setor de Vendas:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
+
+$iAltura = $pdf->GetY();
+$pdf->Rect(2, $iAltura, 206, 40);
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Responsável:", 0, 0, 'L');
@@ -309,23 +311,6 @@ $pdf->Cell(26, 5, "Obs Venda:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['obs_aponta'], 0, 'L');
 
-
-
-$pdf->Ln(18);
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Observação final do Representante:", 0, 1, 'L');
-$pdf->SetFont('arial', '', 10);
-
-
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(26, 5, "Representante:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, $row['usunome_fim'], 0, 1, 'L');
-
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(26, 5, "Obs Venda:", 0, 1, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->MultiCell(205, 5, $row['obs_fim'], 0, 'L');
 
 if ($sEmailRequest == 'S') {
     $pdf->Output('F', 'app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf'); // GERA O PDF NA TELA
@@ -376,8 +361,8 @@ if ($sEmailRequest == 'S') {
                     . '<tr><td><b>Data da NF.:</b></td><td> ' . $aRow['data'] . ' </td></tr>'
                     . '<tr><td><b>Od. de compra:</b></td><td> ' . $aRow['odcompra'] . ' </td></tr>'
                     . '<tr><td><b>Pedido Nº:</b></td><td> ' . $aRow['pedido'] . ' </td></tr>'
-                    . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($aRow['valor'], 2, ',', '.') . ' </td></tr>'
-                    . '<tr><td><b>Peso:</b></td><td> ' . number_format($aRow['peso'], 2, ',', '.') . ' </td></tr>'
+                    . '<tr><td><b>Valor: R$</b></td><td> ' . $aRow['valor'] . ' </td></tr>'
+                    . '<tr><td><b>Peso:</b></td><td> ' . $aRow['peso'] . ' </td></tr>'
                     . '<tr><td><b>Aplicação: </b></td><td> ' . $aRow['aplicacao'] . '</td></tr>'
                     . '<tr><td><b>Não conformidade:</b></td><td> ' . $aRow['naoconf'] . ' </td></tr>'
                     . '</table><br/><br/>'
@@ -395,6 +380,7 @@ if ($sEmailRequest == 'S') {
     //enviar e-mail vendas
     $oEmail->addDestinatario($aRowMail['usuemail']);
 
+    //provisório para ir cópia para avanei
     $oEmail->addAnexo('app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
@@ -404,6 +390,5 @@ if ($sEmailRequest == 'S') {
         $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo ou tente reenviar o e-mail! ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
         echo $oMensagem->getRender();
     }
-    return $aRetorno;
 }
-
+return $aRetorno;

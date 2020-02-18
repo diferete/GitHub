@@ -14,11 +14,12 @@ class ControllerMET_ServicoMaquina extends Controller {
     
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
-
         $this->buscaCelulas();
-        
     }
     
+    /**
+     * Busca dados para passagem de parâmetros
+     */
     public function buscaCelulas(){
         $oControllerCadastroMaquina = Fabrica::FabricarController('MET_CadastroMaquinas');
         $aParame = $oControllerCadastroMaquina->buscaDados();

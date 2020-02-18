@@ -162,9 +162,8 @@ class ViewQualRncAnalise extends View {
 
         $oNf = new Campo('Nota fiscal', 'nf', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNf->setSCorFundo(Campo::FUNDO_MONEY);
-        $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', 2, 2, 12, 12);
 
-        $oTagExcecao = new Campo(' <- Exceção, inserir sem LOTE', 'tagexcecao', Campo::TIPO_CHECK, 2, 2, 12, 12);
+        $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', 2, 2, 12, 12);
 
         $oDataNf = new Campo('Data.Nf', 'datanf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
@@ -219,7 +218,7 @@ class ViewQualRncAnalise extends View {
 
 
         $this->addCampos(
-                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf, $oTagExcecao), $ln, $oTab);
+                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
     }
 
     /**
@@ -239,7 +238,7 @@ class ViewQualRncAnalise extends View {
 
         $oApontamento = new campo('Apontar análise', 'apontamento', Campo::TIPO_TEXTAREA, 12);
         $oApontamento->setILinhasTextArea(8);
-        $oApontamento->addValidacao(false, Validacao::TIPO_STRING, '', '2', '999');
+        $oApontamento->addValidacao(false, Validacao::TIPO_STRING, '', '2','999');
 
         $oUsuAponta = new campo('Usuário', 'usuaponta', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oUsuAponta->setSValor($_SESSION['nome']);

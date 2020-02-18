@@ -11,8 +11,8 @@ class ViewCot extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-
-
+        $this->getTela()->setIAltura(600);
+        
         $oNr = new CampoConsulta('Cotação', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(50);
         $oCnpj = new CampoConsulta('Cnpj', 'cnpj', CampoConsulta::TIPO_TEXTO);
@@ -49,13 +49,11 @@ class ViewCot extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . '');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar sem logo', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . ',slogo');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'Cot', 'acaoMostraRelXls', '', false, 'cotacaoxls');
-        //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'Cot', 'enviaEmail', '', false, '' . $sCotVenda . ',email,Cot,envMailCot');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'Cot', 'geraAnexoCotEmail', '', false, $sCotVenda, false, '', false, '', true);       
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'Cot', 'geraAnexoCotEmailSLogo', '', false, $sCotVenda, false, '', false, '', true);
-        //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . ',email,Cot,envMailCot,slogo');
-        //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Estoque', 'ConsultaEstoque', 'acaoMostraTelaEstoque', '', false, $_SESSION['officecabcotiten'], true, 'Consulta Estoques de Cotação');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . ',email,Cot,envMailCot');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'Cot', 'acaoMostraRelConsulta', '', false, '' . $sCotVenda . ',email,Cot,envMailCot,slogo');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Estoque', 'ConsultaEstoque', 'acaoMostraTelaEstoque', '', false, $_SESSION['officecabcotiten'], true, 'Consulta Estoques de Cotação');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'Cot', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep');
-        $this->addDropdown($oDrop2); //geraExcelSol*/
+        $this->addDropdown($oDrop1, $oDrop2); //geraExcelSol*/
 
 
         $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1);
@@ -70,10 +68,8 @@ class ViewCot extends View {
         $this->addCampos($oNr, $oCnpj, $oCliente, $oOdCompra, $oEmail, $oNrVenda, $oData);
         $this->addFiltro($oFilSolNr, $oFilCliente, $oFilCnpj, $oFilData);
         $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoVisualizar(false);
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoIncluir(false);
-        $this->setBScrollInf(false);
+        $this->setUsaAcaoVisualizar(true);
+        $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
     }
 
@@ -147,7 +143,7 @@ class ViewCot extends View {
         $oRep->setITamanho(Campo::TAMANHO_PEQUENO);
         $oRep->setBCampoBloqueado(true);
         //evento para carrega o rep
-        $oCodPag->addEvento(Campo::EVENTO_SAIR, 'var oCnpj=$("#' . $oCnpj->getId() . '").val(); requestAjax("","Cot","carregaRep","' . $oCodRed->getId() . ',' . $oRep->getId() . ',"+oCnpj+"","");');
+        $oCodPagDes->addEvento(Campo::EVENTO_SAIR, 'var oCnpj=$("#' . $oCnpj->getId() . '").val(); requestAjax("","Cot","carregaRep","' . $oCodRed->getId() . ',' . $oRep->getId() . ',"+oCnpj+"","");');
 
         $oTransp = new Campo('Cod. Transp', 'transcnpj', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oTransp->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -165,7 +161,7 @@ class ViewCot extends View {
         $oTransp->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oTransp->addCampoBusca('empdes', $oTranspDes->getId(), $this->getTela()->getId());
 
-        $oFrete = new Campo('Frete', 'frete', Campo::TIPO_SELECT, 2);
+        $oFrete = new Campo('Frete', 'frete', Campo::CAMPO_SELECTSIMPLE, 2);
         $oFrete->addItemSelect('CIF', 'CIF');
         $oFrete->addItemSelect('FOB', 'FOB');
 
@@ -175,13 +171,15 @@ class ViewCot extends View {
         $oObs->setSValor(' ');
         $oObs->setICaracter(300);
 
-        $oQtExata = new Campo('Quantidade exata', 'qtexata', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oQtExata = new Campo('Quantidade exata', 'qtexata', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
         $oQtExata->addItemSelect('N', 'CLIENTE NÃO SOLICITA QUANTIDADES EXATAS');
         $oQtExata->addItemSelect('S', 'CLIENTE SOLICITA QUANTIDADE EXATAS');
 
-        $oAtencao = new Campo('Atenção à seleção', '', Campo::TIPO_BADGE, 1);
+        $oAtencao = new Campo('Atenção à seleção', '', Campo::TIPO_BADGE, 2, 2, 2, 2);
         $oAtencao->setSEstiloBadge(Campo::BADGE_DANGER);
         $oAtencao->setApenasTela(true);
+        $oAtencao->setITamFonteBadge(20);
+        $oAtencao->setITamMarginTopBadge(20);
 
         $oDataEnt = new Campo('Data entrega', 'dtent', Campo::TIPO_DATA, 2);
         $oDataEnt->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -190,9 +188,7 @@ class ViewCot extends View {
                 . 'if($("#' . $oDataEnt->getId() . '").val()=="") { '
                 . ' return { valid: false, message: "Data não pode ser em branco!" };'
                 . '}else{return { valid: true };};';
-        if ($sAcaoRotina != 'acaoVisualizar') {
-            $oDataEnt->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
-        }
+        $oDataEnt->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
 
         $oEtapas = new FormEtapa(2, 2, 2, 2);
         $oEtapas->addItemEtapas('Inserir Cotação!', true, $this->addIcone(Base::ICON_EDITAR));
@@ -233,7 +229,12 @@ class ViewCot extends View {
         $oEmail = new Campo('', 'email', Campo::TIPO_TEXTO, 1);
         $oEmail->setSValor('NV');
         $oEmail->setBOculto(true);
-
+        
+        $oLb = new Campo('','linhaB', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLb->setApenasTela(true);
+        
+        $oL = new Campo('','linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
+        $oL->setApenasTela(true);
 
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
             //monta campo de controle para inserir ou alterar
@@ -246,9 +247,10 @@ class ViewCot extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
 
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRed, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oAcao, $oSituaca);
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns, $oConsemail),$oL, array($oCnpj, $oEmpresa),$oL, array($oCodPag, $oCodPagDes),$oL, array($oOd, $oCodRed, $oRep),$oL, Array($oQtExata, $oAtencao),$oL, $oFrete, $oL, array($oTransp, $oTranspDes), $oL, array($oDataEnt, $oContato, $oEmail), $oL, $oObs, $oAcao, $oSituaca);
         } else {
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRed, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oSituaca);
+
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns, $oConsemail),$oL, array($oCnpj, $oEmpresa),$oL, array($oCodPag, $oCodPagDes),$oL, array($oOd, $oCodRed, $oRep),$oL, Array($oQtExata, $oAtencao),$oL, $oFrete, $oL, array($oTransp, $oTranspDes), $oL, array($oDataEnt, $oContato, $oEmail), $oL, $oObs, $oSituaca);
         }
     }
 

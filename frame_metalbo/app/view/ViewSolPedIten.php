@@ -20,6 +20,8 @@ class ViewSolPedIten extends View{
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
        
+        $aValor = $this->getAParametrosExtras();
+        
         $this->getOGridDetalhe()->setIAltura(300);
         $oNr = new CampoConsulta('Nrº','nr');
         $oCodigo = new CampoConsulta('Código','codigo');
@@ -31,6 +33,8 @@ class ViewSolPedIten extends View{
         $oVlrUnit = new CampoConsulta('Vlr. Unit.','vlrunit',  Campo::TIPO_MONEY);
         $oQuant = new CampoConsulta('Qt.', 'quant',CampoConsulta::TIPO_DECIMAL);
         $oVlrTot = new CampoConsulta('Vlr. Total.','vlrtot',  Campo::TIPO_MONEY);
+        $oVlrTot->setSOperacao('personalizado');
+        $oVlrTot->setSTituloOperacao('Total: R$');
         
         $oDisp = new CampoConsulta('Disp.','pdfdisp');
         $oDisp->setILargura(30);
@@ -38,12 +42,16 @@ class ViewSolPedIten extends View{
         $this->addCamposDetalhe($oSeq,$oCodigo,$oDesc,$oQuant,$oVlrUnit,$oVlrTot,$oDisp,$oNr);
         $this->addGriTela($this->getOGridDetalhe());
         
+        $aParam[]='nr,' . $aValor[2];
+        $this->getOGridDetalhe()->setAParametros($aParam);
+        
     }
     
     public function criaConsulta() {
         parent::criaConsulta();
-        
        
+        $aValor = $this->getAParametrosExtras();
+        
         $oNr = new CampoConsulta('Nº','nr');
         $oCodigo = new CampoConsulta('Código','codigo');
         $oDesc = new CampoConsulta('Descrição','descricao');
@@ -53,7 +61,7 @@ class ViewSolPedIten extends View{
         $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oVlrUnit->setBComparacaoColuna(true);
         $oVlrTot = new CampoConsulta('Vlr. Total.','vlrtot',  Campo::TIPO_MONEY);
-        $oVlrTot->setSOperacao('soma');
+        $oVlrTot->setSOperacao('personalizado');
         $oVlrTot->setSTituloOperacao('Total: R$');
         $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
         $oVlrTot->setBComparacaoColuna(true);
@@ -61,6 +69,8 @@ class ViewSolPedIten extends View{
         $oDisp = new CampoConsulta('Disp.','pdfdisp');
         $oDisp->setILargura(30);
         $this->addCampos($oSeq,$oCodigo,$oDesc,$oQuant,$oVlrUnit,$oVlrTot,$oDisp,$oNr);
+        
+       
     }
     
     public function criaTela() {
@@ -68,6 +78,7 @@ class ViewSolPedIten extends View{
         
         //cria o grid de itens
         $this->criaGridDetalhe();
+        
         //traz os valores de cnpj razão e número da solicitação
         $aValor = $this->getAParametrosExtras();
         
@@ -77,6 +88,7 @@ class ViewSolPedIten extends View{
         $oNr->setSValor($aValor[2]);
         $oNr->setBCampoBloqueado(true);
         $oNr->setBOculto(true);
+        
         //carrega campos de empcod
         $oEmpCod = new Campo('', 'empcodIten', Campo::TIPO_TEXTO,1);
         $oEmpCod->setBCampoBloqueado(true);
@@ -104,7 +116,7 @@ class ViewSolPedIten extends View{
         $oCodigo->addValidacao(false, Validacao::TIPO_STRING);
         
         //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto','descricao',Campo::TIPO_BUSCADOBANCO, 3);
+        $oProdes = new Campo('Produto','descricao',Campo::TIPO_BUSCADOBANCO, 4);
         $oProdes->setITamanho(Campo::TAMANHO_PEQUENO);
         $oProdes->setSIdPk($oCodigo->getId());
         $oProdes->setClasseBusca('Produto');
@@ -118,7 +130,7 @@ class ViewSolPedIten extends View{
         $oCodigo->addCampoBusca('prodes',$oProdes->getId(),  $this->getTela()->getId());
         
         //campo quantidade setanto o valor inicial como zero
-        $oQuant = new Campo('Quant','quant',  Campo::TIPO_TEXTO,1);
+        $oQuant = new Campo('Quantidade','quant',  Campo::TIPO_TEXTO,1);
         $oQuant->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQuant->setSValor('0');
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
@@ -131,7 +143,7 @@ class ViewSolPedIten extends View{
         $oPrcBruto->setSValor('0');
         
         //campo valor unitário
-        $oVlrUnit = new Campo('VlrUnit','vlrunit', Campo::TIPO_TEXTO,1);
+        $oVlrUnit = new Campo('Valor Unitário','vlrunit', Campo::TIPO_TEXTO,1);
         $oVlrUnit->setITamanho(true);
         $oVlrUnit->setBCampoBloqueado(TRUE);
         $oVlrUnit->setSValor('0');
@@ -161,12 +173,12 @@ class ViewSolPedIten extends View{
         $oDescExtra2->setSCorFundo(Campo::FUNDO_AMARELO);
         
         //campo que gera a sequencia da ordem de compra
-        $oSeqOd = new Campo('SeqOd','seqod',  Campo::TIPO_TEXTO,1);
+        $oSeqOd = new Campo('Seq.Od.','seqod',  Campo::TIPO_TEXTO,1);
         $oSeqOd->setITamanho(Campo::TAMANHO_PEQUENO);
         $oSeqOd->setSValor('0');
         
         //campo observação do produto
-        $oObsProd = new Campo('ObsProduto','obsprod', Campo::TIPO_TEXTO,3);
+        $oObsProd = new Campo('Obs.Produto','obsprod', Campo::TIPO_TEXTO,3);
         $oObsProd->setITamanho(Campo::TAMANHO_PEQUENO);
         $oObsProd->setSCorFundo(Campo::FUNDO_MONEY);
         $oObsProd->setSValor(' ');
@@ -188,8 +200,7 @@ class ViewSolPedIten extends View{
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId()); 
         //id do grid
         $sGrid=$this->getOGridDetalhe()->getSId();
-        
-      
+              
        //id form,id incremento,id do grid, id focus,    
         $sAcao =$sAcao ='convItenSolRep($("#'.$oVlrUnit->getId().'").val(),"'.$oVlrUnit->getId().'",$("#'.$oVlrTot->getId().'").val(),"'.$oVlrTot->getId().'",$("#'.$oPrcBruto->getId().'").val(),"'.$oPrcBruto->getId().'");requestAjax("'.$this->getTela()->getId().'-form","'.$this->getController().'","acaoDetalheIten","'.$this->getTela()->getId().'-form,'.$oSeq->getId().','.$sGrid.','.$oCodigo->getId().'","'.$oNr->getSValor().','.$oChkTodos->getId().','.$oObsProd->getId().','.$oDesconto->getId().'");';
       
@@ -198,8 +209,9 @@ class ViewSolPedIten extends View{
         $this->getTela()->setAcaoConfirmar($sAcao);
         
         //traz o preço por kg
-        $oPrecoKg = new Campo('Preço Kg','',  Campo::TIPO_BADGE,1);
-        $oPrecoKg->setSEstiloBadge(Campo::BADGE_DANGER);
+        $oPrecoKg = new Campo('Preço Kg: 0,00','',  Campo::TIPO_LABEL,3,3,3,3);
+        $oPrecoKg->setITamanhoLabel(3);
+        $oPrecoKg->setIMarginTop(15);
         //fieldset que contém o controle da embalagem
         $oFieldEmb = new FieldSet('Embalagem');
         
@@ -212,12 +224,12 @@ class ViewSolPedIten extends View{
         $oAguardMaster = new Campo('Aguardando','',  Campo::TIPO_BADGE,1);
         
         //campo que retorna a sugestão de quantidade para fechar a embalagem master
-        $oQtSugMaster = new Campo('QtSug', 'qtsug', Campo::TIPO_TEXTO,1);
+        $oQtSugMaster = new Campo('Qtd.Sug', 'qtsug', Campo::TIPO_TEXTO,1);
         $oQtSugMaster->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtSugMaster->setBCampoBloqueado(true);
         
         //campo que retorna a quantidade de caixas master
-        $oQtCaixaMaster = new Campo('QtCaixas', 'qtcaixa', Campo::TIPO_TEXTO,1);
+        $oQtCaixaMaster = new Campo('Qtd.Caixas', 'qtcaixa', Campo::TIPO_TEXTO,1);
         $oQtCaixaMaster->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtCaixaMaster->setBCampoBloqueado(true);
         
@@ -240,12 +252,12 @@ class ViewSolPedIten extends View{
         $oAguardNormal = new Campo('Aguardando','',  Campo::TIPO_BADGE,1);
         
         //campo que mostra a quantidade sugerida normal
-        $oQtSugNormal = new Campo('QtSugerida', 'qtsugnormal', Campo::TIPO_TEXTO,1);
+        $oQtSugNormal = new Campo('Qtd.Sugerida', 'qtsugnormal', Campo::TIPO_TEXTO,1);
         $oQtSugNormal->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtSugNormal->setBCampoBloqueado(true);
         
         //campo para mostrar quantidade de caixas normais
-        $oQtCaixaNormal = new Campo('QtCaixas', 'qtcaixanormal', Campo::TIPO_TEXTO,1);
+        $oQtCaixaNormal = new Campo('Qtd.Caixas', 'qtcaixanormal', Campo::TIPO_TEXTO,1);
         $oQtCaixaNormal->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtCaixaNormal->setBCampoBloqueado(true);
         
@@ -268,8 +280,10 @@ class ViewSolPedIten extends View{
         $oLiberadoEmbalagem->setApenasTela(true);
         $oLiberadoEmbalagem->setBCampoBloqueado(true);
         $oLiberadoEmbalagem->setITamanho(Campo::TAMANHO_PEQUENO);
+        
         //se o valor é negado não libera as quantidades, se o valor é liberado deixa passar
         $oLiberadoEmbalagem->setSValor('Negado');
+        
         //traz o peso para cálculos necessários
         $oPesoProduto = new Campo('','peso', Campo::TIPO_TEXTO,1);
         $oPesoProduto->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -394,8 +408,17 @@ class ViewSolPedIten extends View{
       
         $oVlrUnit->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '100', '', '', $sValidaPrcKg, Validacao::TRIGGER_SAIR);
         
+        $oLb = new Campo('','linhaB', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLb->setApenasTela(true);
+        
+        $oL = new Campo('','linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
+        $oL->setApenasTela(true);
+        
+        $oFieldDes = new FieldSet('Descontos');
+        $oFieldDes->addCampos(array($oDesconto,$oTratamento,$oDescExtra1,$oDescExtra2));
+        
          //adiciona os campos na tela
-        $this->addCampos(array($oCodigo,$oProdes,$oQuant,$oPrcBruto,$oVlrUnit,$oDesconto,$oTratamento,$oDescExtra1,$oDescExtra2),array($oSeqOd,$oObsProd,$oChkTodos,$oVlrTot,$oBtnInserir,$oPrecoKg,$oNr,$oSeq),$oFieldEmb,$oFieldLib);
+        $this->addCampos(array($oCodigo,$oProdes,$oQuant,$oVlrUnit,$oPrcBruto), $oL, array($oFieldDes), $oL, $oL, array($oSeqOd,$oObsProd,$oChkTodos,$oVlrTot,$oBtnInserir,$oPrecoKg,$oNr,$oSeq),$oFieldEmb,$oFieldLib);
     
         //campos para serem filtros iniciais no grid
         
@@ -425,6 +448,8 @@ class ViewSolPedIten extends View{
         
        $this->getTela()->addBotDet($oBotaoEnt);
        $this->getTela()->addBotDet($oBotaoDesm);
+       
+       
     }
     
     public function addeventoConc() {

@@ -1,5 +1,5 @@
 <?php
-
+ 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -43,7 +43,7 @@ class PersistenciaQualAq extends Persistencia {
         $this->adicionaRelacionamento('obscancela', 'obscancela');
         $this->adicionaRelacionamento('usucancela', 'usucancela');
 
-        $this->adicionaFiltro('filcgc',$_SESSION['filcgc']);
+        $this->adicionaFiltro('filcgc', '75483040000211');
 
         $this->adicionaJoin('EmpRex');
 

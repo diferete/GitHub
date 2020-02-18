@@ -23,7 +23,6 @@ $objPHPExcel = new PHPExcel();
 $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 $objPHPExcel->getActiveSheet()->getStyle('A2:P2')->getFont()->setBold(true);
 
-
 // Criamos as colunas
 $objPHPExcel->setActiveSheetIndex(0)
         ->mergeCells('A1:P1')

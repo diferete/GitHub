@@ -16,7 +16,6 @@ class PersistenciaMET_CAD_Funcionarios extends Persistencia {
         $this->adicionaRelacionamento('numcad', 'numcad');
         $this->adicionaRelacionamento('nomfun', 'nomfun');
         $this->adicionaRelacionamento('cpf', 'cpf');
-        $this->adicionaRelacionamento('cargo', 'cargo');
        
         $this->setSTop(50);
     }

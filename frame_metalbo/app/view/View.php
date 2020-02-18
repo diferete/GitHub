@@ -93,7 +93,7 @@ abstract class View {
     private $bGravaHistorico;
     private $sIdsTelas;
     private $bOcultaFechar;
-
+    
     function getBOcultaFechar() {
         return $this->bOcultaFechar;
     }
@@ -1038,6 +1038,7 @@ abstract class View {
         if ($this->getUsaAcaoAlterar()) {
             $sAcao = ' $("#' . $this->getTela()->getSId() . 'consulta tbody .selected").each(function(){'
                     . 'var chave = $(this).find(".chave").html();'
+                    . 'if(chave == undefined){return;}'
                     . ' $("#' . $this->getTela()->getSId() . 'consulta").hide();requestAjax("","' . $sClasse . '","' . $sMetodoAlt . '",chave +",' . $sTab . ',' . $this->getTela()->getSId() . ',' . $sRenderTo . '");'
                     . '});';
             $oBtnEdit = new Botao('', Botao::TIPO_ALTERAR, $sAcao);
@@ -1047,6 +1048,7 @@ abstract class View {
         if ($this->getUsaAcaoExcluir()) {
             $sAcao = ' $("#' . $this->getTela()->getSId() . 'consulta tbody .selected").each(function(){'
                     . 'var chave = $(this).find(".chave").html();'
+                    . 'if(chave == undefined){return;}'
                     . 'requestAjax("","' . $sClasse . '","' . $sMetodoExc . '",chave +",' . $this->getTela()->getSId() . ',' . $sIdGrid . ',' . $sRenderTo . '");'
                     . '});';
             $oBtnDelete = new Botao('', Botao::TIPO_REMOVER, $sAcao);
@@ -1057,6 +1059,7 @@ abstract class View {
             //carrega tela de vizualização
             $sAcao = ' $("#' . $this->getTela()->getSId() . 'consulta tbody .selected").each(function(){'
                     . 'var chave = $(this).find(".chave").html();'
+                    . 'if(chave == undefined){return;}'
                     . ' $("#' . $this->getTela()->getSId() . 'consulta").hide();requestAjax("","' . $sClasse . '","' . $sMetodoViz . '",chave +",' . $sTab . ',' . $this->getTela()->getSId() . '");'
                     . '});';
             $oBtnViz = new Botao('', Botao::TIPO_VIZUALIZAR, $sAcao);

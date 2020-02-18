@@ -136,7 +136,7 @@ class ControllerSolFat extends Controller{
         
         
         /*
- $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item?', Modal::TIPO_ERRO, true, true, true);
+         $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item?', Modal::TIPO_ERRO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","'.$sClasse.'","acaoExcluirRegistro","'.$sDados.'");');
         //$oMensagem->setSBtnCancelarFunction('alert("Cancelouuu")');
         echo $oMensagem->getRender();         */

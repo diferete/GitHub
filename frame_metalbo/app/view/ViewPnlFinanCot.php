@@ -31,9 +31,7 @@ class ViewPnlFinanCot extends View{
         $oEmpDes->setSValor($aValor[1]);
         $oEmpDes->addEvento(Campo::EVENTO_SAIR, '$("#'.$oNr->getId().'").focus();');
         
-        
-        
-        $oGrid = new Campo('Títulos a receber','rec', Campo::TIPO_GRID,12,12,12,12,250);
+        $oGrid = new Campo('Títulos a receber','rec', Campo::TIPO_GRID,12,12,12,12,400);
         
         $oDataEmiss = new CampoConsulta('Emissão', 'recdtemiss', CampoConsulta::TIPO_DATA);
         

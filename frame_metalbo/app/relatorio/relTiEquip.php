@@ -1,7 +1,8 @@
 <?php
 
 // Diretórios
-require '../../biblioteca/pdfjs/pdf_js.php';
+require('../../biblioteca/graficos/Grafico.php');
+//require '../../biblioteca/pdfjs/pdf_js.php';
 include("../../includes/Config.php");
 
 $sUserRel = $_REQUEST['userRel'];
@@ -22,7 +23,7 @@ class PDF extends FPDF {
 
 }
 
-$pdf = new PDF('P', 'mm', 'A4');
+$pdf = new PDF_Grafico('P', 'mm', 'A4');
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 
@@ -89,35 +90,36 @@ if (($sEqpTipo !== '') || ($sSetorCod !== '')) {
             $sql .= " and equiplicenca = '" . $sLicWind . "' ";
         }
     }
-    if ($oSistema !== 'N/A') {
+    if($oSistema !== 'N/A'){
         $sql .= " and equipsistema = '" . $oSistema . "' ";
     }
 }
-if (($oIp == 'N') && ($sEqpTipo == '') && ($sSetorCod == '')) {
+if(($oIp == 'N')&&($sEqpTipo == '')&&($sSetorCod == '')){
     $sql .= " where ipfixo = 'DHCP'";
-} else if (($oIp == 'S') && ($sEqpTipo == '') && ($sSetorCod == '')) {
+} else if(($oIp == 'S')&&($sEqpTipo == '')&&($sSetorCod == '')){
     $sql .= " where ipfixo <> 'DHCP' and ipfixo <> '' ";
-} else if ($oIp == 'S') {
+} else if($oIp == 'S'){
     $sql .= " and ipfixo <> 'DHCP' and ipfixo <> '' ";
-} else if ($oIp == 'N') {
+}else if($oIp == 'N'){
     $sql .= " and ipfixo = 'DHCP'";
 }
-if (($oSituac != 'Todas')) {
-    if (($oIp == 'Todos') && ($sEqpTipo == '') && ($sSetorCod == '')) {
-        $sql .= " where situaca = '" . $oSituac . "'";
-    } else {
-        $sql .= " and situaca = '" . $oSituac . "'";
-    }
+if(($oSituac!='Todas')){
+if(($oIp=='Todos')&&($sEqpTipo == '')&&($sSetorCod == '')){
+    $sql .= " where situaca = '" . $oSituac . "'";   
+}else {
+    $sql .= " and situaca = '" . $oSituac . "'";   
+}
 }
 
 $sql .= " order by tbtiequipamento.codsetor,equipcod,office,equiplicenca ";
 $sth = $PDO->query($sql);
 
-
 $iContaAltura = $pdf->GetY();
 $icontaQnt = 0;
 $icontLicOff = 0;
 $icontLicWind = 0;
+$aEquipamentos = array();
+$aQuantEquipamentosSetor = array();
 
 while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 
@@ -152,7 +154,19 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFont('arial', '', 8);
         $pdf->SetY(45);
     }
-
+    if($row['situaca']=='A'){
+    if(isset($aEquipamentos[$row['eqtipdescricao']])){
+        $aEquipamentos[$row['eqtipdescricao']] = $aEquipamentos[$row['eqtipdescricao']]+1;
+    }else{
+        $aEquipamentos[$row['eqtipdescricao']] = 1;
+    }
+    
+    if(isset($aQuantEquipamentosSetor[$row['descsetor']])){
+        $aQuantEquipamentosSetor[$row['descsetor']] = $aQuantEquipamentosSetor[$row['descsetor']]+1;
+    }else{
+        $aQuantEquipamentosSetor[$row['descsetor']] = 1;
+    }
+    }
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(5, 5, 'Nr:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
@@ -202,7 +216,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(22, 5, 'MAC address:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
     $pdf->Cell(20, 5, $row['equipmac'], 0, 1);
-
+    
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(10, 4, 'Key:', 0, 0, 'L');
     $pdf->SetFont('arial', '', 9);
@@ -217,12 +231,12 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 
     $icontaQnt++;
     if ($sEqpTipo == '1') {
-        if ($row['equiplicenca'] == 'Ativado') {
-            $icontLicWind++;
-        }
-        if ($row['office'] == 'A') {
-            $icontLicOff++;
-        }
+    if ($row['equiplicenca'] == 'Ativado') {
+        $icontLicWind++;
+    }
+    if ($row['office'] == 'A') {
+        $icontLicOff++;
+    }
     }
     $pdf->Ln(2);
     $iContaAltura = $pdf->GetY() + 10;
@@ -233,16 +247,66 @@ $pdf->Cell(50, 5, 'Quantidade de Equipamentos:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->MultiCell(150, 5, $icontaQnt, 0, 1);
 if ($sEqpTipo == '1') {
-    $pdf->SetFont('arial', 'B', 9);
-    $pdf->Cell(40, 5, 'Office ativado:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 9);
-    $pdf->MultiCell(150, 5, $icontLicOff, 0, 1);
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(40, 5, 'Office ativado:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->MultiCell(150, 5, $icontLicOff, 0, 1);
 
-    $pdf->SetFont('arial', 'B', 9);
-    $pdf->Cell(40, 5, 'Windows Ativado:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 9);
-    $pdf->MultiCell(150, 5, $icontLicWind, 0, 1);
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(40, 5, 'Windows Ativado:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->MultiCell(150, 5, $icontLicWind, 0, 1);
 }
+
+$pdf->AddPage();
+$pdf->Ln(10);
+//Colunm diagram
+$pdf->SetFont('Arial', 'BIU', 12);
+$pdf->Cell(0, 5, '1 - Gráfico quantidade de Equipamentos ativados por Tipo', 0, 1);
+$pdf->Ln(8);
+$valX = $pdf->GetX();
+$valY = $pdf->GetY();
+
+/* 
+ * Largura do Campo do Gráfico
+ * Altura do Campo Gráfico
+ * Array de dados
+ * %1 = texto
+ * %v = valor
+ * (%p) = porcentagem
+ * Array de corres do Gráfico
+ * Comprimento máximo das Barras de 1 á 3 e 0 como padrão
+ * Quantidade de Divisões
+ */
+$iTam = count($aEquipamentos);
+
+//$pdf->ColunmDiagram(100, 150,$aEquipamentos, '%l : %v (%p)', null, 0, 5);
+$pdf->BarDiagram(195, $iTam*8, $aEquipamentos, '%l : %v (%p)', null, 0, 10);
+
+$pdf->AddPage();
+$pdf->Ln(10);
+//Colunm diagram
+$pdf->SetFont('Arial', 'BIU', 12);
+$pdf->Cell(0, 5, '2 - Gráfico quantidade de Equipamentos ativados por Setor', 0, 1);
+$pdf->Ln(8);
+$valX = $pdf->GetX();
+$valY = $pdf->GetY();
+
+/* 
+ * Largura do Campo do Gráfico
+ * Altura do Campo Gráfico
+ * Array de dados
+ * %1 = texto
+ * %v = valor
+ * (%p) = porcentagem
+ * Array de corres do Gráfico
+ * Comprimento máximo das Barras de 1 á 3 e 0 como padrão
+ * Quantidade de Divisões
+ */
+$iTam2 = count($aQuantEquipamentosSetor);
+
+$pdf->BarDiagram(195, $iTam2*8, $aQuantEquipamentosSetor, '%l : %v (%p)', null, 0, 10);
+
 //number_format($quant, 2, ',', '.')
 $pdf->Output('I', 'Relatório Equip.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  

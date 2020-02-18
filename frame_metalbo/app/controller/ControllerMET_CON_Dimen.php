@@ -80,8 +80,4 @@ class ControllerMET_CON_Dimen extends Controller {
         }
     }
 
-    public function relDimenRep($renderTo, $sMetodo = '') {
-        parent::mostraTelaRelatorio($renderTo, 'relDimenRep');
-    }
-
 }

@@ -54,15 +54,6 @@ class ModelQualRncAnalise {
     private $obs_aponta;
     private $produtos;
     private $tagsetor;
-    private $tagexcecao;
-
-    function getTagexcecao() {
-        return $this->tagexcecao;
-    }
-
-    function setTagexcecao($tagexcecao) {
-        $this->tagexcecao = $tagexcecao;
-    }
 
     function getTagsetor() {
         return $this->tagsetor;

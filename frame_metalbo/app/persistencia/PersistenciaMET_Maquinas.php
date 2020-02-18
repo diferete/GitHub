@@ -21,7 +21,7 @@ class PersistenciaMET_Maquinas extends Persistencia{
         $this->adicionaRelacionamento('tipmanut', 'tipmanut');
         $this->adicionaRelacionamento('sitmaq', 'sitmaq');
         $this->adicionaRelacionamento('codsetor', 'codsetor');
-        $this->adicionaFiltro('sitmaq', 'ATIVA');
+        $this->adicionaFiltro('sitmaq', 'ATIVA'); //Mostra só as máquinas ativas
         
         $this->setSTop(50);
         

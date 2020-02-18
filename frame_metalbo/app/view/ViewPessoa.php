@@ -38,6 +38,7 @@ class ViewPessoa extends View {
         $this->addFiltro($FiltroEmpcod, $FiltroEmpdes);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
+        $this->setBScrollInf(TRUE);
     }
 
     public function criaTela() {

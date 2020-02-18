@@ -26,8 +26,7 @@ class PersistenciaMET_ServicoMaquina extends Persistencia{
         $this->adicionaRelacionamento('hora','hora');
         
         $this->adicionaOrderBy('codsit',0);
-       //  $this->adicionaOrderBy('tipcod',0);
-          $this->adicionaOrderBy('servico',0);
+        $this->adicionaOrderBy('servico',0);
         $this->adicionaJoin('MET_CadastroMaquinas');
         
     }

@@ -2,7 +2,6 @@
 
 /*
  * Implementa a classe controler
- * 
  * @author Cleverton Hoffmann
  * @since 24/08/2018
  */
@@ -216,7 +215,17 @@ class ControllerMET_Gerenciamento extends Controller {
     
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
+        $oItens = Fabrica::FabricarController('MET_ItensManPrev');
+        $oItens->Persistencia->atualizaDataAntesdaConsulta();
         $this->buscaCelulas();
+        $oDados = $_REQUEST['parametrosCampos'];
+        $aValores = $oDados['parametrosCampos[6'];
+        if($aValores=='sitmp|FINALIZADO'){
+            $this->Persistencia->limpaFiltro();
+            $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO');  
+        }else{
+            $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');    
+        }
     }
     
 }

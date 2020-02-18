@@ -27,14 +27,15 @@ class ControllerPrincipal extends Controller {
                 $bExecuta = true;
             } else
             if ($_REQUEST['classe'] == 'SolCadUser' || $_REQUEST['classe'] == 'Agendamentos' || $_REQUEST['classe'] == 'BuscaRepSite' ||
-                    $_REQUEST['classe'] == 'NoticiaSite' ||
-                    $_REQUEST['classe'] == 'MovFornoSteel' || $_REQUEST['classe'] == 'MET_TEC_Catalogo') {
+                    $_REQUEST['classe'] == 'NoticiaSite' || 
+                    $_REQUEST['classe'] == 'MovFornoSteel' || $_REQUEST['classe'] == 'UploadCurr' ) {
                 $bExecuta = true;
             } else {
                 $bExecuta = $this->validaSessao();
             }
 
-            if ($bExecuta || $_REQUEST['metodo'] == 'logaSistema' || $_REQUEST['redefinesenha'] || ($_REQUEST['classe'] == 'Mobile' && $_REQUEST['metodo'] == 'getRequisicao') || ($_REQUEST['classe'] == 'MobileMetalbo' && $_REQUEST['metodo'] == 'getRequisicao')) {
+            if ($bExecuta || $_REQUEST['metodo'] == 'logaSistema' || $_REQUEST['redefinesenha'] 
+                    || ($_REQUEST['classe'] == 'Mobile' && $_REQUEST['metodo'] == 'getRequisicao')||($_REQUEST['classe'] == 'MobileMetalbo' && $_REQUEST['metodo'] == 'getRequisicao')) {
                 $bExecuta = true;
 
                 $sClasse = $_REQUEST['classe'];

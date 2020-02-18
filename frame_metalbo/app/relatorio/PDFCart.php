@@ -6,10 +6,6 @@ $aDados = explode(',', $sDados);
 $sEmail = $_REQUEST['email'];
 $aDadosUF = explode(',', $_REQUEST['dadosUF']);
 
-date_default_timezone_set('America/Sao_Paulo');
-$data = date('d/m/Y');
-$hora = date('H:i:s');
-
 require 'biblioteca/fpdf/fpdf.php';
 include '../includes/Config.php';
 include '../includes/Fabrica.php';
@@ -46,7 +42,7 @@ $pdf->Cell(45);
 $pdf->Cell(100, 10, 'Itens do carrinho', 0, 0, 'C');
 
 $pdf->SetFont('Arial', '', 10);
-$pdf->MultiCell(45, 4, 'Data: ' . $data . '                Hora: ' . $hora . '', 0, 'J');
+$pdf->MultiCell(45, 4, 'Data: ' . date('d/m/Y') . '                Hora: ' . date('H:i:s') . '', 0, 'J');
 
 $pdf->Ln(10);
 
@@ -70,10 +66,10 @@ foreach ($aItens as $key => $aValue) {
         array_push($aSomaValorTotal, $sValorTot);
     }
 
-    //$pdf->Cell(203, 1, " ", 'T', 1, 'L');
-
+    $pdf->Cell(203, 1, " ", 'T', 1, 'L');
+    
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(14, 5, "Código: ", 0, 0, 'L');
+    $pdf->Cell(14, 6, "Código: ", 0, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(20, 5, $aValue['procod'], 0, 0, 'L');
 
@@ -81,44 +77,33 @@ foreach ($aItens as $key => $aValue) {
     $pdf->Cell(19, 5, "Descrição: ", 0, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(150, 5, $aValue['prodes'], 0, 1, 'L');
-
-    $pdf->Ln(3);
+    
+    $pdf->Ln(1);
 
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(15, 5, "Classe: ", 0, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(28, 5, $aValue['classe'], 0, 0, 'L');
+    
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(32, 5, "Quant. Cx. Normal: ", 0, 0, 'L');
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->Cell(17, 5, ' '.$aValue['cxnormal'], 0, 0, 'L');
 
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(50, 5, "Qnt. Mínima/Pçs. Cx. Normal: ", 0, 0, 'L');
+    $pdf->Cell(32, 5, "Quant. Cx. Master: ", 0, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
-    $pdf->SetFillColor(230, 255, 242);
-    $pdf->Cell(17, 5, ' ' . $aValue['cxnormal'], 0, 0, 'C', 1);
-
-    $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(38, 5, "Qnt. Pçs. Cx. Master: ", 0, 0, 'L');
-    $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(18, 5, ' ' . $aValue['cxmaster'], 0, 0, 'L');
-
-    $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(18, 5, "Qnt. Saco: ", 0, 0, 'L');
-    $pdf->SetFont('Arial', '', 10);
-    if ($aValue['saco'] != 'N/A') {
-        $pdf->SetFillColor(255, 204, 204);
-        $pdf->Cell(15, 5, ' ' . $aValue['saco'], 0, 1, 'L', 1);
-    } else {
-        $pdf->Cell(15, 5, ' ' . $aValue['saco'], 0, 1, 'L');
-    }
+    $pdf->Cell(25, 5, ' '.$aValue['cxmaster'], 0, 1, 'L');
 
     $pdf->Ln(1);
-
+    
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(20, 5, "Qnt. Cento: ", 'B', 0, 'L');
+    $pdf->Cell(25, 5, "Quant. Cento: ", 'B', 0, 'L');
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(23, 5, $aValue['quant'], 'B', 0, 'L');
+    $pdf->Cell(18, 5, $aValue['quant'], 'B', 0, 'L');
 
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(25, 5, "Qnt. Peças: ", 'B', 0, 'L');
+    $pdf->Cell(25, 5, "Quant. Peças: ", 'B', 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(24, 5, $aValue['quant'] * 100, 'B', 0, 'L');
 
@@ -128,7 +113,7 @@ foreach ($aItens as $key => $aValue) {
     $pdf->Cell(25, 5, 'R$ ' . $aValue['preco'], 'B', 0, 'L');
 
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(30, 5, "Total do item¹: ", 'B', 0, 'L');
+    $pdf->Cell(30, 5, "Total do item: ", 'B', 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(29, 5, 'R$ ' . number_format($sValorTot, 2, ',', '.'), 'B', 1, 'L');
     $pdf->Ln(1);
@@ -143,15 +128,10 @@ foreach ($aSomaValorTotal as $key => $value) {
 
 
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(170, 5, "Total do pedido²:", 0, 0, 'R');
+$pdf->Cell(169, 5, "Total do pedido:", 0, 0, 'R');
 $pdf->SetFont('Arial', '', 10);
-$pdf->SetFillColor(255, 255, 153);
-$pdf->Cell(30, 5, '     R$ ' . number_format($totalPedido, 2, ',', '.'), 0, 1, 'L', 1);
-$pdf->Ln(2);
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->SetTextColor(255,0,0);
-$pdf->Cell(0, 5, "¹,² : Valores médios, sem descontos. Os valores podem mudar no momento do pedido devido a descontos dados pelos representantes.", 0, 1, 'C');
-$pdf->Ln(2);
+$pdf->Cell(30, 5, '     R$ ' . number_format($totalPedido, 2, ',', '.'), 0, 1, 'L');
+$pdf->Ln(5);
 
 if ($sEmail != '') {
     $nr = rand();

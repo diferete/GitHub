@@ -4,7 +4,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ */ 
 
 class ControllerQualContencao extends Controller {
 
@@ -196,8 +196,7 @@ class ControllerQualContencao extends Controller {
                 echo 'requestAjax("' . $aDados[0] . '","QualContencao","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
                 $sRetorno = "$('#" . $aDados[2] . "').fileinput('clear');";
                 echo $sRetorno;
-                $sFecha = "$('#modalApontaContencao-btn').click();";
-                echo $sFecha;
+                echo '$(#modalApontaContencao-btn).click();';
             } else {
                 $oMensagem = new Modal('Problema', 'Problemas ao finalizar' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
             }
