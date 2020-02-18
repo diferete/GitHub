@@ -9,7 +9,7 @@
 class ViewMET_QUAL_QualCausa extends View {
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
@@ -85,7 +85,7 @@ class ViewMET_QUAL_QualCausa extends View {
 
         /*
           $oOcorrencia = new CampoConsulta('Ocorrência 6M', 'ocorrencia', CampoConsulta::TIPO_DESTAQUE1);
-          $oOcorrencia->addComparacao('1', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+          $oOcorrencia->addComparacao('1', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, '');
          */
 
         $this->addCampos($oNr, $oSeq, $oCausaDesc/* , $oOcorrencia */);

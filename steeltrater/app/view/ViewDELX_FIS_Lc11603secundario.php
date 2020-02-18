@@ -27,9 +27,9 @@ class ViewDELX_FIS_Lc11603secundario extends View {
 
         $oPercentual = new CampoConsulta('Percentual', 'fis_lc11603secundariopercentua');
 
-        $oFilCodPrincipal = new Filtro($oCodPrincipal, Filtro::CAMPO_TEXTO);
-        $oFilCodSecundario = new Filtro($oCodSecundario, Filtro::CAMPO_TEXTO);
-        $oFilSecDesc = new Filtro($oSecDescricao, Filtro::CAMPO_TEXTO);
+        $oFilCodPrincipal = new Filtro($oCodPrincipal, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilCodSecundario = new Filtro($oCodSecundario, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilSecDesc = new Filtro($oSecDescricao, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->addFiltro($oFilCodPrincipal, $oFilCodSecundario, $oFilSecDesc);
         $this->addCampos($oCodPrincipal, $oCodSecundario, $oSecDescricao, $oServico, $oPercentual);

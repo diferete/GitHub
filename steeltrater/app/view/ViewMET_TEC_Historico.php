@@ -28,10 +28,10 @@ class ViewMET_TEC_Historico extends View {
 
         $oClasse = new CampoConsulta('Classe', 'classe');
 
-        
-        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_INTEIRO,2,2,12,12);
-        $oFilClasse = new Filtro($oClasse, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
-        $oFilUsuario = new Filtro($oUsuario, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+
+        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_INTEIRO, 2, 2, 12, 12, false);
+        $oFilClasse = new Filtro($oClasse, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilUsuario = new Filtro($oUsuario, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
 
         $this->addFiltro($oFilSeq, $oFilClasse, $oFilUsuario);
@@ -46,21 +46,21 @@ class ViewMET_TEC_Historico extends View {
 
         $oUsuario = new Campo('Usuário', 'usuario', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oUsuario->setBCampoBloqueado(true);
-        
+
         $oData = new Campo('Data', 'data', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oData->setBCampoBloqueado(true);
-        
+
         $oHora = new Campo('Hora', 'hora', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oHora->setBCampoBloqueado(true);
-        
+
         $oClasse = new Campo('Classe', 'classe', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oClasse->setBCampoBloqueado(true);
-        
-        $oHistorico = new Campo('Alterações', 'historico', Campo::TIPO_HISTORICO,5,5,12,12);
+
+        $oHistorico = new Campo('Alterações', 'historico', Campo::TIPO_HISTORICO, 5, 5, 12, 12);
         $oHistorico->setILinhasTextArea(4);
         $oHistorico->setBCampoBloqueado(true);
 
-        $this->addCampos(array($oSeq, $oData, $oHora), array($oClasse, $oUsuario),$oHistorico);
+        $this->addCampos(array($oSeq, $oData, $oHora), array($oClasse, $oUsuario), $oHistorico);
     }
 
 }

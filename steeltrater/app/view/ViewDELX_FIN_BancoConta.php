@@ -22,9 +22,9 @@ class ViewDELX_FIN_BancoConta extends View {
         $oUltChe = new CampoConsulta('Ult.Cheque', 'fin_bancocontaultimocheque');
         $oLayChe = new CampoConsulta('Lay.Cheque', 'fin_bancocontalaycheque');
         $oFilial = new CampoConsulta('Conta Filial', 'fin_bancocontafilial');
-        //$oDescricaofiltro = new Filtro($oCidade, Filtro::CAMPO_TEXTO, 5);
-        //$oCodigofiltro = new Filtro($oCodcidade,Filtro::CAMPO_TEXTO_IGUAL,3);
-        //$oEstadofiltro = new Filtro($oEstado, Filtro::CAMPO_TEXTO, 2);
+//        $oDescricaofiltro = new Filtro($oCidade, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
+//        $oCodigofiltro = new Filtro($oCodcidade, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12, false);
+//        $oEstadofiltro = new Filtro($oEstado, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
@@ -33,7 +33,7 @@ class ViewDELX_FIN_BancoConta extends View {
         //$this->addFiltro($oCodigofiltro,$oDescricaofiltro, $oEstadofiltro);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oCod,$oNum,$oAge,$oRem,$oCob,$oPag,$oChe,$oUltChe,$oLayChe,$oFilial);
+        $this->addCampos($oCod, $oNum, $oAge, $oRem, $oCob, $oPag, $oChe, $oUltChe, $oLayChe, $oFilial);
     }
 
     public function criaTela() {
@@ -50,7 +50,7 @@ class ViewDELX_FIN_BancoConta extends View {
         $oLayChe = new Campo('Lay.Cheque', 'fin_bancocontalaycheque', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilial = new Campo('Conta Filial', 'fin_bancocontafilial', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $this->addCampos(array($oCod,$oNum,$oAge,$oRem,$oCob),array($oPag,$oChe,$oUltChe,$oLayChe,$oFilial));
+        $this->addCampos(array($oCod, $oNum, $oAge, $oRem, $oCob), array($oPag, $oChe, $oUltChe, $oLayChe, $oFilial));
     }
 
 }

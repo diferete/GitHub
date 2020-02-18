@@ -22,7 +22,7 @@ class ControllerMET_QUAL_QualCausa extends Controller {
     public function criaPainelCausa($sDados, $sCampos) {
         $aDados = explode(',', $sDados);
         $aCampos = explode(',', $sCampos);
-         if ($aDados[6] != '') {
+        if ($aDados[6] != '') {
             $this->View->setSRotina($aDados[6]);
         }
         $this->pkDetalhe($aCampos);
@@ -34,7 +34,7 @@ class ControllerMET_QUAL_QualCausa extends Controller {
         $this->View->getTela()->setBSomanteForm(true);
         //seta o controler na view
         $this->View->setTelaController($this->View->getController());
-        $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe(), $this->getSMetodoDetalhe(),$aDados[6]);
+        $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe(), $this->getSMetodoDetalhe(), $aDados[6]);
         //carrega campos 
         $oDiagramaCausa = Fabrica::FabricarController('MET_QUAL_DiagramaCausa');
         $oDiagramaCausa->Persistencia->adicionaFiltro('filcgc', $aCampos[0]);
@@ -69,7 +69,7 @@ class ControllerMET_QUAL_QualCausa extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $aCampos = $aChave;
         $this->View->setAParametrosExtras($aCampos);
     }

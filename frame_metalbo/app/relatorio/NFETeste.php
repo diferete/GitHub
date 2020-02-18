@@ -1,26 +1,30 @@
 <?php
 
+require 'biblioteca\NFE\vendor\autoload.php';
+
 use NFePHP\NFe\Make;
 
-$nfe = new Make();
+$nfe = new Make;
 
 $std = new \stdClass();
-$std->versao = '3.10';
+
+$std->versao = '4.00';
+$std->Id = null;
+$std->pk_nItem = '';
 $nfe->taginfNFe($std);
 
 $std = new \stdClass();
-$std->cUF = 35;
+$std->cUF = 35; //coloque um código real e válido
 $std->cNF = '80070008';
 $std->natOp = 'VENDA';
-$std->indPag = 0;
 $std->mod = 55;
 $std->serie = 1;
-$std->nNF = 2;
-$std->dhEmi = '2018-02-06T20:48:00-02:00';
-$std->dhSaiEnt = '2018-02-06T20:48:00-02:00';
+$std->nNF = 10;
+$std->dhEmi = '2018-07-27T20:48:00-02:00';
+$std->dhSaiEnt = '2018-07-27T20:48:00-02:00';
 $std->tpNF = 1;
 $std->idDest = 1;
-$std->cMunFG = 3518800;
+$std->cMunFG = 3506003; //Código de município precisa ser válido
 $std->tpImp = 1;
 $std->tpEmis = 1;
 $std->cDV = 2;
@@ -28,53 +32,55 @@ $std->tpAmb = 2; // Se deixar o tpAmb como 2 você emitirá a nota em ambiente d
 $std->finNFe = 1;
 $std->indFinal = 0;
 $std->indPres = 0;
-$std->procEmi = '3.10.31';
+$std->procEmi = '0';
 $std->verProc = 1;
 $nfe->tagide($std);
 
 $std = new \stdClass();
-$std->xNome = 'Empresa teste';
-$std->IE = '6564344535';
+$std->xNome = 'METALBO';
+$std->IE = '251886603';
 $std->CRT = 3;
-$std->CNPJ = '78767865000156';
+$std->CNPJ = '75483040000211';
 $nfe->tagemit($std);
 
 $std = new \stdClass();
 $std->xLgr = "Rua Teste";
 $std->nro = '203';
 $std->xBairro = 'Centro';
-$std->cMun = '4317608';
-$std->xMun = 'Porto Alegre';
-$std->UF = 'RS';
-$std->CEP = '955500-000';
+$std->cMun = 3506003; //Código de município precisa ser válido e igual o  cMunFG
+$std->xMun = 'Bauru';
+$std->UF = 'SP';
+$std->CEP = '80045190';
 $std->cPais = '1058';
 $std->xPais = 'BRASIL';
 $nfe->tagenderEmit($std);
 
 $std = new \stdClass();
 $std->xNome = 'Empresa destinatário teste';
-$std->indIEDest = 1;
-$std->IE = '6564344535';
-$std->CNPJ = '78767865000156';
+$std->indIEDest = 2;
+$std->IE = '251886603';
+$std->CNPJ = '75483040000211';
 $nfe->tagdest($std);
 
 $std = new \stdClass();
 $std->xLgr = "Rua Teste";
 $std->nro = '203';
 $std->xBairro = 'Centro';
-$std->cMun = '4317608';
-$std->xMun = 'Porto Alegre';
-$std->UF = 'RS';
-$std->CEP = '955500-000';
+$std->cMun = '3506003';
+$std->xMun = 'Bauru';
+$std->UF = 'SP';
+$std->CEP = '80045190';
 $std->cPais = '1058';
 $std->xPais = 'BRASIL';
 $nfe->tagenderDest($std);
 
 $std = new \stdClass();
 $std->item = 1;
+$std->cEAN = 'SEM GTIN';
+$std->cEANTrib = 'SEM GTIN';
 $std->cProd = '0001';
-$std->xProd = "Produto teste";
-$std->NCM = '66554433';
+$std->xProd = 'Produto teste';
+$std->NCM = '84669330';
 $std->CFOP = '5102';
 $std->uCom = 'PÇ';
 $std->qCom = '1.0000';
@@ -96,7 +102,7 @@ $std->item = 1;
 $std->orig = 0;
 $std->CST = '00';
 $std->modBC = 0;
-$std->vBC = 0.20;
+$std->vBC = '0.20';
 $std->pICMS = '18.0000';
 $std->vICMS = '0.04';
 $nfe->tagICMS($std);
@@ -123,10 +129,21 @@ $std->item = 1;
 $std->vCOFINS = 0;
 $std->vBC = 0;
 $std->pCOFINS = 0;
+
 $nfe->tagCOFINSST($std);
 
 $std = new \stdClass();
-$std->vBC = 0.20;
+$std->item = 1;
+$std->CST = '01';
+$std->vBC = 0;
+$std->pCOFINS = 0;
+$std->vCOFINS = 0;
+$std->qBCProd = 0;
+$std->vAliqProd = 0;
+$nfe->tagCOFINS($std);
+
+$std = new \stdClass();
+$std->vBC = '0.20';
 $std->vICMS = 0.04;
 $std->vICMSDeson = 0.00;
 $std->vBCST = 0.00;
@@ -159,55 +176,104 @@ $std->pesoB = 11.00;
 $nfe->tagvol($std);
 
 $std = new \stdClass();
-$std->nFat = '100';
+$std->nFat = '002';
 $std->vOrig = 100;
 $std->vLiq = 100;
 $nfe->tagfat($std);
 
 $std = new \stdClass();
-$std->nDup = '100';
-$std->dVenc = '2017-08-22';
+$std->nDup = '001';
+$std->dVenc = date('Y-m-d');
 $std->vDup = 11.03;
 $nfe->tagdup($std);
+
+$std = new \stdClass();
+$std->vTroco = 0;
+$nfe->tagpag($std);
+
+$std = new \stdClass();
+$std->indPag = 0;
+$std->tPag = "01";
+$std->vPag = 10.99;
+$std->indPag = 0;
+$nfe->tagdetPag($std);
 
 $xml = $nfe->getXML(); // O conteúdo do XML fica armazenado na variável $xml
 
 
 $config = [
-    "atualizacao" => "2018-02-06 06:01:21",
-    "tpAmb" => 2, // Se deixar o tpAmb como 2 você emitirá a nota em ambiente de homologação(teste) e as notas fiscais aqui não tem valor fiscal
-    "razaosocial" => "Empresa teste",
-    "siglaUF" => "RS",
-    "cnpj" => "78767865000156",
-    "schemes" => "PL_008i2",
-    "versao" => "3.10",
-    "tokenIBPT" => "AAAAAAA"
+    "atualizacao" => date('Y-m-d h:i:s'),
+    "tpAmb" => 2,
+    "razaosocial" => "RAZAO SOCIAL DO EMISSOR",
+    "cnpj" => "99999999999999", // PRECISA SER VÁLIDO
+    "ie" => '999999999999', // PRECISA SER VÁLIDO
+    "siglaUF" => "SP",
+    "schemes" => "PL_009_V4",
+    "versao" => '4.00',
+    "tokenIBPT" => "AAAAAAA",
+    "CSC" => "GPB0JBWLUR6HWFTVEAS6RJ69GPCROFPBBB8G",
+    "CSCid" => "000002",
+    "aProxyConf" => [
+        "proxyIp" => "",
+        "proxyPort" => "",
+        "proxyUser" => "",
+        "proxyPass" => ""
+    ]
 ];
 
 $configJson = json_encode($config);
-$certificadoDigital = file_get_contents('certificado.pfx');
 
-$tools = new NFePHP\NFe\Tools($configJson, NFePHP\Common\Certificate::readPfx($certificadoDigital, 'senha do certificado'));
-$xmlAssinado = $tools->signNFe($xml); // O conteúdo do XML assinado fica armazenado na variável $xmlAssinado
+$certificadoDigital = file_get_contents('biblioteca\NFE\vendor\nfephp-org\sped-nfe\console\cacerts\metalboInvalido.pfx'); // inválido
+//$certificadoDigital = file_get_contents('biblioteca\NFE\vendor\nfephp-org\sped-nfe\console\cacerts\metalbo.pfx');
 
-
-$idLote = str_pad(100, 15, '0', STR_PAD_LEFT); // Identificador do lote
-$resp = $tools->sefazEnviaLote([$xmlAssinado], $idLote);
-
-$st = new NFePHP\NFe\Common\Standardize();
-$std = $st->toStd($resp);
-if ($std->cStat != 103) {
-    //erro registrar e voltar
-    exit("[$std->cStat] $std->xMotivo");
+$tools = new NFePHP\NFe\Tools($configJson, NFePHP\Common\Certificate::readPfx($certificadoDigital, 'M@quinas')); // inválido
+//$tools = new NFePHP\NFe\Tools($configJson, NFePHP\Common\Certificate::readPfx($certificadoDigital, 'Metalbo@@@'));
+try {
+    $xmlAssinado = $tools->signNFe($xml); // O conteúdo do XML assinado fica armazenado na variável $xmlAssinado
+} catch (\Exception $e) {
+    //aqui você trata possíveis exceptions da assinatura
+    exit($e->getMessage());
 }
-$recibo = $std->infRec->nRec; // Vamos usar a variável $recibo para consultar o status da nota
 
+////////////////////////////////////////retorno do xml para visualizar////////////////////////
+$fp = fopen("bloco1.txt", "w");
+fwrite($fp, $xmlAssinado);
+fclose($fp);
+//////////////////////////////////////////////////////////////////////////////////////////////
+try {
+    $idLote = str_pad(100, 15, '0', STR_PAD_LEFT); // Identificador do lote
+    //$resp = $tools->sefazEnviaLote([$xmlAssinado], $idLote);
 
-$protocolo = $tools->sefazConsultaRecibo($recibo);
+    $st = new NFePHP\NFe\Common\Standardize();
+    $std = $st->toStd($resp);
+    if ($std->cStat != 103) {
+        //erro registrar e voltar
+        exit("[$std->cStat] $std->xMotivo");
+    }
+    $recibo = $std->infRec->nRec; // Vamos usar a variável $recibo para consultar o status da nota
+} catch (\Exception $e) {
+    //aqui você trata possiveis exceptions do envio
+    exit($e->getMessage());
+}
 
+try {
+    $protocolo = $tools->sefazConsultaRecibo($recibo);
+} catch (\Exception $e) {
+    //aqui você trata possíveis exceptions da consulta
+    exit($e->getMessage());
+}
 
-$protocol = new NFePHP\NFe\Factories\Protocol();
-$xmlProtocolado = $protocol->add($xmlAssinado,$protocolo);
+use NFePHP\NFe\Complements;
 
+$request = $xmlAssinado;
+$response = $protocolo;
 
-file_put_contents('nota.xml',$xmlProtocolado);
+try {
+    $xmlProtocolado = Complements::toAuthorize($request, $response);
+    header('Content-type: text/xml; charset=UTF-8');
+    //echo $xmlProtocolado;
+} catch (\Exception $e) {
+    echo "Erro: " . $e->getMessage();
+}
+
+file_put_contents('nota.xml', $xmlProtocolado);

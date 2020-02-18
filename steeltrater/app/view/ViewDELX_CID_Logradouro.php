@@ -17,9 +17,9 @@ class ViewDELX_CID_Logradouro extends View {
         $oRua = new CampoConsulta('Rua', 'cid_logradourorua');
         $oCidade = new CampoConsulta('Cidade', 'cid_logradourobairro');
         $oCidadecodigo = new CampoConsulta('Cod.Cidade', 'cid_logradourocidadecodigo');
-        $oCepfiltro = new Filtro($oCep, Filtro::CAMPO_TEXTO, 2);
-        $oRuafiltro = new Filtro($oRua, Filtro::CAMPO_TEXTO, 5);
-        $oCidadefiltro = new Filtro($oCidade, Filtro::CAMPO_TEXTO, 3);
+        $oCepfiltro = new Filtro($oCep, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oRuafiltro = new Filtro($oRua, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
+        $oCidadefiltro = new Filtro($oCidade, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
 
         $this->setUsaAcaoExcluir(false);

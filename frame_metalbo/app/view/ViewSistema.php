@@ -14,6 +14,7 @@ class ViewSistema extends View {
      */
 
     function retornaTelaInicial() {
+
         $telaInicial = 'window.location = "index.php?classe=Sistema&metodo=getTelaInicial";';
         return $telaInicial;
     }
@@ -115,8 +116,7 @@ class ViewSistema extends View {
                 . 'Breakpoints();'
                 . '</script>'
                 . '</head>'
-                . '<body id="body">'
-                . '<!--class="site-menubar-unfold" data-auto-menubar="false"-->'
+                . '<body id="body"><!--class="site-menubar-unfold" data-auto-menubar="false"-->'
                 . '<script>'
                 . 'var classeBusca;'
                 . 'var metodoBusca;'
