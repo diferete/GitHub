@@ -73,7 +73,7 @@ class ControllerCadCliRepRec extends Controller {
                 echo $oMensagem->getRender();
             }
         } else {
-            $oMensagem = new Modal('Erro ao inserir cadastro', 'Relate o problema para o setor de Tecnologia da Informação!' . $aRetorno[1], Modal::TIPO_ERRO, false, true);
+            $oMensagem = new Modal('Erro ao inserir cadastro', 'Relate o problema para o setor de Tecnologia da Informação!', Modal::TIPO_ERRO, false, true);
             echo $oMensagem->getRender();
         }
     }

@@ -34,12 +34,17 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $this->addCamposGridDetalhe($oObs);
         $this->getOGridDetalhe()->setIAltura(300);
 
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA, 1, 1, 12, 12, false);
+
+        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
         $this->getOGridDetalhe()->setSEventoClick('var chave=""; $("#' . $this->getOGridDetalhe()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'var idCampos ="' . $oObs->getId() . '";'
                 . 'requestAjax("","MET_ISO_RegistroTreinamento","carregaObs","' . $this->getOGridDetalhe()->getSId() . '"+","+chave+","+idCampos+"");');
 
-        $this->addCamposDetalhe($oNr, $oFilcgc, $oSeq, $oData, $oTitTreinamento, $oAnexo);        
+        $this->addCamposDetalhe($oNr, $oFilcgc, $oSeq, $oData, $oTitTreinamento, $oAnexo);
+        $this->addFiltrosDetalhe($oFilData, $oFilSeq);
+        $this->getOGridDetalhe()->setBFiltroDetalhe(true);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
@@ -80,13 +85,14 @@ class ViewMET_ISO_RegistroTreinamento extends View {
 
         $oColaborador = new Campo('Colaborador', 'colaborador', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oColaborador->setApenasTela(true);
+        $oColaborador->setSValor();
         $oColaborador->setSCorFundo(Campo::FUNDO_AMARELO);
         $oColaborador->setSValor($aParam[2]);
         $oColaborador->setBCampoBloqueado(true);
 
         $oData = new Campo('Data', 'data_treinamento', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        date_default_timezone_set('America/Sao_Paulo');
-        $oData->setSValor(date('d/m/Y'));
+        //date_default_timezone_set('America/Sao_Paulo');
+        $oData->setSValor(date('d-m-Y'));
         $oData->setBOculto(true);
 
         $oCodTitulo = new Campo('...', 'cod_treinamento', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
@@ -100,7 +106,6 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $oTitulo->addCampoBusca('documento', '', '');
         $oTitulo->setSIdTela($this->getTela()->getid());
         $oTitulo->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oTitulo->addValidacao(false, Validacao::TIPO_STRING);
 
         $oCodTitulo->setClasseBusca('MET_ISO_Documentos');
         $oCodTitulo->setSCampoRetorno('nr', $this->getTela()->getId());

@@ -15,7 +15,7 @@ class ViewMET_PROD_Produtos extends View {
 
         $oCodigo = new CampoConsulta('Código', 'pro_codigo');
         $oDescricao = new CampoConsulta('Descrição', 'pro_descricao');
-        $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
+        $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 5);
         $oUnidademedida = new CampoConsulta('Unidade de Medida', 'pro_unidademedida');
 
 
@@ -39,7 +39,7 @@ class ViewMET_PROD_Produtos extends View {
         $oUnidademedida = new Campo('Un', 'pro_unidademedida', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oUnidademedida->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $this->addCampos(array($oCodigo, $oDescricao, $oUnidademedida));
+        $this->addCampos(array($oCodigo, $oDescricao,$oUnidademedida));
     }
 
 }

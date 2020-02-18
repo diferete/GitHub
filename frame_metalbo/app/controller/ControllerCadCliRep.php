@@ -286,7 +286,7 @@ class ControllerCadCliRep extends Controller {
         }
     }
 
-    public function codigoIBGE($sDados) {
+    public function codigoIBGE($sDados, $teste) {
         $aDados = explode('|', $sDados);
         $script = '$("#' . $aDados[1] . '").val(' . $aDados[0] . ');';
         echo $script;

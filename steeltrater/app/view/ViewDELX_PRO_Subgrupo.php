@@ -15,7 +15,7 @@ class ViewDELX_PRO_Subgrupo extends View {
         $oCodigo = new CampoConsulta('Grupo', 'pro_grupocodigo');
         $oSubgrupo = new CampoConsulta('Sub.Grupo', 'pro_subgrupocodigo');
         $oDescricao = new CampoConsulta('Descrição', 'pro_subgrupodescricao');
-        $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 7, 7, 12, 12, false);
+        $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 7);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
@@ -34,7 +34,7 @@ class ViewDELX_PRO_Subgrupo extends View {
         $oSubgrupo = new Campo('Sub.Grupo', 'pro_subgrupocodigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDescricao = new Campo('Descrição', 'pro_subgrupodescricao', Campo::TIPO_TEXTO, 5, 5, 12, 12);
 
-        $this->addCampos(array($oCodigo, $oSubgrupo, $oDescricao));
+        $this->addCampos (array($oCodigo, $oSubgrupo, $oDescricao));
     }
 
 }

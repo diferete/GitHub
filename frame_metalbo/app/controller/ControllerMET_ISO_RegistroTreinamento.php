@@ -33,7 +33,7 @@ class ControllerMET_ISO_RegistroTreinamento extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sForm, $sDados);
+        parent::acaoLimpar($sDados);
         $aParam = explode(',', $sDados);
 
         //verifica se está como 

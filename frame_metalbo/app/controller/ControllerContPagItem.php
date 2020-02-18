@@ -71,7 +71,7 @@ class ControllerContPagItem extends Controller{
     }
     
     public function acaoLimpar($sForm,$sDados) {
-        parent::acaoLimpar($sForm, $sCampos);
+        parent::acaoLimpar($sDados);
         $aParam = explode(',', $sDados);
         
         $sScript = '$("#'.$sForm.'").each (function(){ this.reset();});';

@@ -15,18 +15,18 @@ class ViewMET_TEC_Sequencia extends View {
         $oSeqTab = new CampoConsulta('Sequencia Tabela', 'tec_sequenciatabela');
         $oSeqFil = new CampoConsulta('Sequencia Filial', 'tec_sequenciafilial');
         $oSeq = new CampoConsulta('Sequencia Número', 'tec_sequencianumero');
-
-        $oDescricaofiltro = new Filtro($oSeqTab, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
-        $oCodigofiltro = new Filtro($oSeqFil, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12, false);
+        
+        $oDescricaofiltro = new Filtro($oSeqTab, Filtro::CAMPO_TEXTO, 5);
+        $oCodigofiltro = new Filtro($oSeqFil,Filtro::CAMPO_TEXTO_IGUAL,3);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oCodigofiltro, $oDescricaofiltro);
+        $this->addFiltro($oCodigofiltro,$oDescricaofiltro);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oSeqTab, $oSeqFil, $oSeq);
+        $this->addCampos($oSeqTab,$oSeqFil, $oSeq);
     }
 
     public function criaTela() {
@@ -36,7 +36,7 @@ class ViewMET_TEC_Sequencia extends View {
         $oSeqFil = new Campo('Sequencia Filial', 'tec_sequenciafilial', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
         $oSeq = new Campo('Sequencia Número', 'tec_sequencianumero', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
 
-        $this->addCampos(array($oSeqTab, $oSeqFil, $oSeq));
+        $this->addCampos(array($oSeqTab,$oSeqFil, $oSeq)); 
     }
 
 }

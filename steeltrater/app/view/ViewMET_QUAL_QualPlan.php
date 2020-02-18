@@ -13,7 +13,7 @@ class ViewMET_QUAL_QualPlan extends View {
     }
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe($sIdAba);
+        parent::criaGridDetalhe();
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
@@ -24,7 +24,7 @@ class ViewMET_QUAL_QualPlan extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('MET_QUAL_QualPlan', 'criaTelaModalAponta', 'modalAponta','');
+        $oBotaoModal->addAcao('MET_QUAL_QualPlan', 'criaTelaModalAponta', 'modalAponta');
         $this->addModaisDetalhe($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -32,7 +32,7 @@ class ViewMET_QUAL_QualPlan extends View {
         $oSeq = new CampoConsulta('Seq.', 'seq');
 
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oPlano = new CampoConsulta('Plano', 'Plano');
 
@@ -57,7 +57,7 @@ class ViewMET_QUAL_QualPlan extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('MET_QUAL_QualPlan', 'criaTelaModalAponta', 'modalAponta','');
+        $oBotaoModal->addAcao('MET_QUAL_QualPlan', 'criaTelaModalAponta', 'modalAponta');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -71,7 +71,7 @@ class ViewMET_QUAL_QualPlan extends View {
         $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
 
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
@@ -89,7 +89,7 @@ class ViewMET_QUAL_QualPlan extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta','');
+        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta');
 
         $oNr = new CampoConsulta('Nr.', 'nr');
 
@@ -102,7 +102,7 @@ class ViewMET_QUAL_QualPlan extends View {
         $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
 
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
@@ -172,7 +172,7 @@ class ViewMET_QUAL_QualPlan extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBotConf->setIMarginTop(6);
-        if ($sAcaoRotina == 'acaoVisualizar') {
+        if($sAcaoRotina == 'acaoVisualizar') {
             $oBotConf->getOBotao()->setBDesativado(true);
         }
         $sGrid = $this->getOGridDetalhe()->getSId();
@@ -287,4 +287,4 @@ class ViewMET_QUAL_QualPlan extends View {
         $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), array($oDataFim, $oAnexoFim), $oDivisor, array($oProcedimento, $oIT, $oPlanoControle), array($oFluxograma, $oPPAP, $oContexto), array($oPreventiva, $oFuncao, $oTreinamentos), $oLinha, array($oObsFim, $oBtnInserir, $oBtnNormal));
     }
 
-}
+    }

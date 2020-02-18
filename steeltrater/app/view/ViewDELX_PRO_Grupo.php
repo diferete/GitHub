@@ -14,7 +14,7 @@ class ViewDELX_PRO_Grupo extends View {
 
         $oCodigo = new CampoConsulta('Grupo', 'pro_grupocodigo');
         $oGrupo = new CampoConsulta('Descrição', 'pro_grupodescricao');
-        $oDescricaofiltro = new Filtro($oGrupo, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
+        $oDescricaofiltro = new Filtro($oGrupo, Filtro::CAMPO_TEXTO,5);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);

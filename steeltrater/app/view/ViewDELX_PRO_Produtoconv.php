@@ -17,12 +17,12 @@ class ViewDELX_PRO_Produtoconv extends View {
 
         $oConvCod = new CampoConsulta('Conversor', 'pro_convcodigo', CampoConsulta::TIPO_TEXTO);
         $oConvUn = new CampoConsulta('Un.Conversão', 'pro_convunidade', CampoConsulta::TIPO_TEXTO);
-
-        $oFilConvCod = new Filtro($oConvCod, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
-        $oFilConvUn = new Filtro($oConvUn, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
-
-        $this->addFiltro($oFilConvCod, $oFilConvUn);
-        $this->addCampos($oConvCod, $oConvUn);
+        
+        $oFilConvCod = new Filtro($oConvCod, Filtro::CAMPO_TEXTO);
+        $oFilConvUn = new Filtro($oConvUn, Filtro::CAMPO_TEXTO);
+        
+        $this->addFiltro($oFilConvCod,$oFilConvUn);
+        $this->addCampos($oConvCod,$oConvUn);
     }
 
     public function criaTela() {
@@ -65,7 +65,9 @@ class ViewDELX_PRO_Produtoconv extends View {
         $oProCod->setClasseBusca('DELX_PRO_Produtos');
         $oProCod->setSCampoRetorno('pro_codigo', $this->getTela()->getid());
 
-        $this->addCampos($oConvCod, array($oUnidadeMedCod, $oUnidadeMedDes), $oFatorConv, $oConvPadrao, $oConvPesoBt, $oConvPesoLq, $oProCod);
+        $this->addCampos($oConvCod, 
+                array($oUnidadeMedCod, $oUnidadeMedDes), 
+                $oFatorConv, $oConvPadrao, $oConvPesoBt, $oConvPesoLq, $oProCod);
     }
 
 }

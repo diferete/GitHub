@@ -22,7 +22,7 @@ class ControllerUpload extends Controller {
                     if ($aParametros[0]) {
                         $sRetorno = $this->verificaDiretorio($aParametros);
                         if ($sRetorno == 'criado' || $sRetorno == 'existe') {
-                            $oArquivo['DIRETORIO'] = 'Uploads/' . $aParametros[0] . '/';
+                            $oArquivo['DIRETORIO'] = $aParametros[0] . '/';
                         }
                     } else {
                         //Captura raiz do servidor, concatenando pasta do projeto e url de upload
@@ -70,8 +70,8 @@ class ControllerUpload extends Controller {
     }
 
     function verificaDiretorio($aParametros) {
-        if (!is_dir('Uploads/' . $aParametros[0])) {
-            mkdir('Uploads/' . $aParametros[0], 0755);
+        if (!is_dir($aParametros[0])) {
+            mkdir($aParametros[0], 0755);
             return 'criado';
         } else {
             return 'existe';

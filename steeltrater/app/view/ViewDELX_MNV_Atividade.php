@@ -29,7 +29,7 @@ class ViewDELX_MNV_Atividade extends View {
        // $this->getTela()->setBGridResponsivo(false);
        // $this->getTela()->setILarguraGrid(2000);
 
-        // $oDescricaofiltro = new Filtro($oDescri, Filtro::CAMPO_TEXTO, 4,4,12,12,false);
+        // $oDescricaofiltro = new Filtro($oDescri, Filtro::CAMPO_TEXTO, 4);
 
 
         $this->setUsaAcaoExcluir(false);

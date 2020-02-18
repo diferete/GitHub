@@ -29,8 +29,8 @@ class ViewMET_QUAL_QualAq extends View {
         $oDataFim = new CampoConsulta('Dt.Implantação', 'dtimp', CampoConsulta::TIPO_DATA);
 
         $oSit = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_DESTAQUE2);
-        $oSit->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
-        $oSit->addComparacao('Iniciada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, '');
+        $oSit->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSit->addComparacao('Iniciada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
 
         $oOrigem = new CampoConsulta('Origem', 'origem', CampoConsulta::TIPO_LARGURA);
 
@@ -38,12 +38,12 @@ class ViewMET_QUAL_QualAq extends View {
 
         $oTipoMel = new CampoConsulta('TipoMelhoria', 'tipmelhoria', CampoConsulta::TIPO_LARGURA);
 
-        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
+        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
+		
+        $oFilTit = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 10, 10, 12, 12);
+		$oFilTit->setBQuebraLinha(true);
 
-        $oFilTit = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 10, 10, 12, 12, false);
-        $oFilTit->setBQuebraLinha(true);
-
-        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFilEmp->setSClasseBusca('DELX_FIL_Empresa');
         $oFilEmp->setSCampoRetorno('fil_codigo', $this->getTela()->getSId());
         $oFilEmp->setSIdTela($this->getTela()->getSId());
@@ -54,13 +54,13 @@ class ViewMET_QUAL_QualAq extends View {
         $oFilEmp->addItemSelect('Todos', 'Todos');
         $oFilEmp->setSLabel('Empresa');
 
-        $oTipoAcaoFiltro = new Filtro($oTipoAcao, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oTipoAcaoFiltro = new Filtro($oTipoAcao, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oTipoAcaoFiltro->addItemSelect('Todos', 'Todos');
         $oTipoAcaoFiltro->addItemSelect('Ação Corretiva', 'Ação Corretiva');
         $oTipoAcaoFiltro->addItemSelect('Ação Preventiva', 'Ação Preventiva');
         $oTipoAcaoFiltro->setSLabel('Ação');
 
-        $oOrigemFiltro = new Filtro($oOrigem, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oOrigemFiltro = new Filtro($oOrigem, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oOrigemFiltro->addItemSelect('Todos', 'Todos');
         $oOrigemFiltro->addItemSelect('Sugestão de funcionário', 'Sugestão de funcionário');
         $oOrigemFiltro->addItemSelect('Análise crítica do SGQ', 'Análise crítica do SGQ');
@@ -71,14 +71,14 @@ class ViewMET_QUAL_QualAq extends View {
         $oOrigemFiltro->addItemSelect('Produto não conforme', 'Produto não conforme');
         $oOrigemFiltro->setSLabel('Origem');
 
-        $oTipoMelFiltro = new Filtro($oTipoMel, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oTipoMelFiltro = new Filtro($oTipoMel, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oTipoMelFiltro->addItemSelect('Todos', 'Todos');
         $oTipoMelFiltro->addItemSelect('Produto', 'Produto');
         $oTipoMelFiltro->addItemSelect('Processo', 'Processo');
         $oTipoMelFiltro->addItemSelect('Ambiente', 'Ambiente');
         $oTipoMelFiltro->setSLabel('Tipo');
 
-        $oSitFiltro = new Filtro($oSit, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oSitFiltro = new Filtro($oSit, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oSitFiltro->addItemSelect('Todos', 'Todos');
         $oSitFiltro->addItemSelect('Aberta', 'Aberta');
         $oSitFiltro->addItemSelect('Iniciada', 'Iniciada');
@@ -97,17 +97,17 @@ class ViewMET_QUAL_QualAq extends View {
          */
 
         $oDrop3 = new Dropdown('Movimentação', Dropdown::TIPO_DARK);
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Iniciar ação da qualidade', 'MET_QUAL_QualAq', 'startAq', '', false, '', false, '', false, '', false, false);
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Iniciar ação da qualidade', 'MET_QUAL_QualAq', 'startAq', '', false, '');
         //$oDrop3->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Finalizar ação da qualidade', 'MET_QUAL_QualAq', 'msgFechaAq', '', false, ''); //msgAbreAq
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DESBLOQUEADO) . 'Reabrir ação da qualidade', 'MET_QUAL_QualAq', 'msgAbreAq', '', false, '', false, '', false, '', false, false);
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar ação da qualidade', 'MET_QUAL_QualAq', 'criaModalCancelaAq', '', false, '', false, 'criaTelaModalCancelaAq', true, 'Cancelar Aq', false, false);
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Ata de reunião', 'MET_QUAL_Ata', 'acaoMostraTelaApontdiv', '', true, '', false, '', false, '', false, false);
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DESBLOQUEADO) . 'Reabrir ação da qualidade', 'MET_QUAL_QualAq', 'msgAbreAq', '', false, '');
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar ação da qualidade', 'MET_QUAL_QualAq', 'criaModalCancelaAq', '', false, '', false, 'criaTelaModalCancelaAq', true, 'Cancelar Aq');
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Ata de reunião', 'MET_QUAL_Ata', 'acaoMostraTelaApontdiv', '', true, '');
 
         $oDrop4 = new Dropdown('Impressão e Emails', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
-        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Vizualizar ação da qualidade', 'MET_QUAL_QualAq', 'acaoMostraRelConsulta', '', false, 'AqImp', false, '', false, '', false, false);
-        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu e-mail', 'MET_QUAL_QualAq', 'geraPdfQualAq', '', false, 'AqImp', false, '', false, '', true, false);
+        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Vizualizar ação da qualidade', 'MET_QUAL_QualAq', 'acaoMostraRelConsulta', '', false, 'AqImp');
+        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu e-mail', 'MET_QUAL_QualAq', 'geraPdfQualAq', '', false, 'AqImp', false, '', false, '', true);
         //$oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'MET_QUAL_QualAq', 'envMailGrid2', '', false, 'AqImp,email,MET_QUAL_QualAq,envMailQual');
-        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para todos os envolvidos', 'MET_QUAL_QualAq', 'geraPdfQualAqTodos', '', false, 'AqImp', false, '', false, '', true, false);
+        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para todos os envolvidos', 'MET_QUAL_QualAq', 'geraPdfQualAqTodos', '', false, 'AqImp', false, '', false, '', true);
         //$oDrop4->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para todos envolvidos', 'MET_QUAL_QualAq', 'envMailGrid', '', false, 'AqImp,email,MET_QUAL_QualAq,envMailAll');
 
 

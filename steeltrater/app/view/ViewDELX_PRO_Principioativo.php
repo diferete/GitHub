@@ -14,8 +14,8 @@ class ViewDELX_PRO_Principioativo extends View {
         $oPrincAtivoSeq = new CampoConsulta('Seq.', 'pro_principioativoseq');
         $oPrincAtivoDesc = new CampoConsulta('Descrição', 'pro_principioativodescricao');
 
-        $oFilSeq = new Filtro($oPrincAtivoSeq, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oFilDesc = new Filtro($oPrincAtivoDesc, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $oFilSeq = new Filtro($oPrincAtivoSeq, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilDesc = new Filtro($oPrincAtivoDesc, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
 
         $this->addFiltro($oFilSeq, $oFilDesc);
         $this->addCampos($oPrincAtivoSeq, $oPrincAtivoDesc);
@@ -26,7 +26,7 @@ class ViewDELX_PRO_Principioativo extends View {
 
         $oPrincAtivoSeq = new Campo('Seq.', 'pro_principioativoseq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oPrincAtivoSeq->setBCampoBloqueado(true);
-
+        
         $oPrincAtivoDesc = new Campo('Descrição', 'pro_principioativodescricao', Campo::TIPO_TEXTO, 4, 4, 12, 12);
 
         $this->addCampos($oPrincAtivoSeq, $oPrincAtivoDesc);

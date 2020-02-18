@@ -39,8 +39,6 @@ class ViewMET_ItensManPrev extends View {
         $oCodSit = new CampoConsulta('Cod.Serviço', 'MET_ServicoMaquina.codsit');
         $oCodSit->setILargura(15);
 
-        // $oServ1 = new Campo('Serviço', 'MET_ServicoMaquina.servico');
-
         $oServ = new Campo('Serviço', 'ser', Campo::TIPO_TEXTO, 10, 10, 10, 10);
         $oServ->setSCorFundo(Campo::FUNDO_AMARELO);
         $oServ->setBCampoBloqueado(true);
@@ -59,10 +57,6 @@ class ViewMET_ItensManPrev extends View {
         $oUserinic = new CampoConsulta('Usuario Inicial.', 'userinicial');
         $oUserinic->setILargura(15);
 
-        $oDatafech = new CampoConsulta('DataFech', 'datafech', CampoConsulta::TIPO_DATA);
-
-        $oUserfinal = new CampoConsulta('Usuario Final', 'userfinal');
-
         $oQueFazer = new Campo('O que fazer', 'oqfaz', Campo::TIPO_TEXTO, 2, 2, 2, 2);
         $oQueFazer->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQueFazer->setBCampoBloqueado(true);
@@ -80,7 +74,7 @@ class ViewMET_ItensManPrev extends View {
         $this->setUsaAcaoVisualizar(true);
         $this->addFiltro($oFiltroSeq);
 
-        $this->addCamposDetalhe($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        $this->addCamposDetalhe($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, $oSitmp, $oDias, $oDatabert, $oUserinic);
 
         $this->addGriTela($this->getOGridDetalhe());
     }

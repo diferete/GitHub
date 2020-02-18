@@ -258,7 +258,7 @@ class Controller {
             if ($oCampoBanco->getPersiste() && $oCampoBanco->getChave()) {
                 $oCampo = $this->View->getTela()->getCampoByName($oCampoBanco->getNomeModel());
                 if (isset($oCampo)) {
-                    $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $oCampo->getValor(), $aCamposTela);
+                    $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $oCampo->getValor());
                 }
             }
         }
@@ -286,7 +286,7 @@ class Controller {
         foreach ($this->Persistencia->getListaRelacionamento() as $oCampoBanco) {
             if ($oCampoBanco->getPersiste() && isset($aCamposModel[$sCampoModel . "." . $oCampoBanco->getNomeModel()])) {
                 $xValor = $aCamposModel[$sCampoModel . "." . $oCampoBanco->getNomeModel()];
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor);
 
                 if ($xValor !== null && $xValor !== "" && $xValor !== 0) {
                     $iCamposValor++;
@@ -346,7 +346,7 @@ class Controller {
         $aCampos = explode('&', $sCampos);
         foreach ($aCampos as $sCampoAtual) {
             $aCampoAtual = explode('=', $sCampoAtual);
-            $this->setValorModel($this->Model, $aCampoAtual[0], $aCampoAtual[1], $aCamposTela);
+            $this->setValorModel($this->Model, $aCampoAtual[0], $aCampoAtual[1]);
         }
     }
 
@@ -815,11 +815,11 @@ class Controller {
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[2]);
         //carregar campos tela
-        $this->carregaCamposTela($sChave, $bDesabilita);
+        $this->carregaCamposTela($sChave);
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
-        }
+        };
         //renderiza a tela
         $this->View->getTela()->getRender();
     }
@@ -846,7 +846,7 @@ class Controller {
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[2]);
         //carregar campos tela
-        $this->carregaCamposTela($sChave, $bDesabilita);
+        $this->carregaCamposTela($sChave);
         //adiciona botoes padrão
         $this->View->addBotaoPadraoTela('');
         //renderiza a tela
@@ -933,7 +933,7 @@ class Controller {
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[1]);
         //carregar campos tela
-        $this->carregaCamposTela($sChave, $bDesabilita);
+        $this->carregaCamposTela($sChave);
         //adiciona botoes padrão
         $this->View->addBotaoPadraoTela('');
         //renderiza a tela
@@ -1615,6 +1615,7 @@ class Controller {
             if (isset($aDados[4])) {
                 $bDesativaAcao = false;
                 $this->View->getTela()->setBBtnConsulta(true);
+                
             }
             if ($bDesativaAcao) {
                 $this->View->setUsaAcaoAlterar(false);
@@ -2568,9 +2569,11 @@ class Controller {
                     . ".append('<option value=\'$sValorFiltro\'>$sRetorno</option>')"
                     . ".val('whatever');"
                     . "$('#select2-" . $sCampoRetorno . "-container')"
-                    . ".empty()"
-                    . ".html('$sRetorno')"
-                    . ".attr({title:'$sRetorno'});";
+                    . "        .empty()"
+                    . "        .html('$sRetorno')"
+                    . "        .attr({"
+                    . "            title:'$sRetorno'"
+                    . "         });";
             echo $sRender;
         } else {
             $sRender = "$('#" . $sCampoRetorno . "')"
@@ -2580,9 +2583,11 @@ class Controller {
                     . ".append('<option value=\'\'></option>')"
                     . ".val('whatever');"
                     . "$('#select2-" . $sCampoRetorno . "-container')"
-                    . ".empty()"
-                    . ".html('')"
-                    . ".attr({title:''});";
+                    . "        .empty()"
+                    . "        .html('')"
+                    . "        .attr({"
+                    . "            title:''"
+                    . "         });";
 
             $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
             $sRender .= $sMsgErro->getRender();
@@ -2618,7 +2623,7 @@ class Controller {
 
             $xValor = $this->getValorModel($this->Model, $sNomeModel);
 
-            $this->setValorModel($this->ControllerDetalhe->Model, $sNomeClasse . "." . $sNomeModel, $xValor, $aCamposTela);
+            $this->setValorModel($this->ControllerDetalhe->Model, $sNomeClasse . "." . $sNomeModel, $xValor);
             $this->ControllerDetalhe->Persistencia->adicionaFiltro($sNomeBanco, $xValor);
         }
 
@@ -2806,7 +2811,7 @@ class Controller {
 
 
         //carrega o model
-        $this->carregaModel($aCamposTela);
+        $this->carregaModel();
 
 
         $this->adicionaFiltrosExtras();
@@ -2836,7 +2841,7 @@ class Controller {
         //adiciona filtro da chave primária
         $this->parametros = $sCampos;
         //carrega o model
-        $this->carregaModel($aCamposTela);
+        $this->carregaModel();
 
         $this->adicionaFiltrosExtras();
         //adiciona o filtro da sequencia do detalhe
@@ -3100,7 +3105,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
             }
         }
 
@@ -3283,7 +3288,7 @@ class Controller {
 
             $xValor = $this->View->getRotina() === View::ROTINA_INCLUIR ? $oUltimo->$sNomeBanco : $this->getValorModel($this->Model, $sNomeModel);
 
-            $this->setValorModel($this->ControllerDetalhe->Model, $sNomeClasse . "." . $sNomeModel, $xValor, $aCamposTela);
+            $this->setValorModel($this->ControllerDetalhe->Model, $sNomeClasse . "." . $sNomeModel, $xValor);
             $this->ControllerDetalhe->Persistencia->adicionaFiltro($sNomeBanco, $xValor);
         }
 
@@ -3341,7 +3346,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
             }
         }
         $this->Model = $this->Persistencia->consultar();
@@ -3720,7 +3725,7 @@ class Controller {
 
             $xValor = $this->getValorModel($this->Model, $sNomeModel);
 
-            $this->setValorModel($this->ControllerDetalhe->Model, $sNomeClasse . "." . $sNomeModel, $xValor, $aCamposTela);
+            $this->setValorModel($this->ControllerDetalhe->Model, $sNomeClasse . "." . $sNomeModel, $xValor);
             $this->ControllerDetalhe->Persistencia->adicionaFiltro($sNomeBanco, $xValor);
         }
 

@@ -40,20 +40,15 @@ class ControllerModulo extends Controller {
         }
     }
 
-//    public function teste() {
-//        $this->Persistencia->teste();
-//        $omsg = new Mensagem('Acabou', 'acabou', Mensagem::TIPO_SUCESSO);
-//        echo $omsg->getRender();
-//    }
+    public function teste() {
+        $this->Persistencia->teste();
+        $omsg = new Mensagem('Acabou', 'acabou', Mensagem::TIPO_SUCESSO);
+        echo $omsg->getRender();
+    }
 
     public function testaAgendamento($sDados) {
 
         echo 'alert(' . $sDados . ');';
-    }
-
-    public function teste() {
-        $oWindow = 'window.open("app/relatorio/DANFE.php", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
-        echo $oWindow;
     }
 
 }

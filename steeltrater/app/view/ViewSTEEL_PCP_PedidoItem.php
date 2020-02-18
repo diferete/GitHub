@@ -19,7 +19,7 @@ class ViewSTEEL_PCP_PedidoItem extends View {
         $oPedIteReg = new CampoConsulta('Regra', 'PDV_PedidoItemIRegra');
         $oPedIteCal = new CampoConsulta('Calculo', 'PDV_PedidoItemIBCalculo');
         $oPedIteVal = new CampoConsulta('Valor', 'PDV_PedidoItemIValor');
-        $oPedfiltro = new Filtro($oPed, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12, false);
+        $oPedfiltro = new Filtro($oPed,Filtro::CAMPO_TEXTO_IGUAL,3);
 
 
         $this->setUsaAcaoExcluir(false);
@@ -29,11 +29,12 @@ class ViewSTEEL_PCP_PedidoItem extends View {
         $this->addFiltro($oPedfiltro);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oPed, $oPedCod, $oPedIteSeq, $oPedIteImp, $oPedIteReg, $oPedIteCal, $oPedIteVal);
+        $this->addCampos($oPed,$oPedCod,$oPedIteSeq,$oPedIteImp,$oPedIteReg,$oPedIteCal,$oPedIteVal);
     }
 
     public function criaTela() {
         parent::criaTela();
+
     }
 
 }

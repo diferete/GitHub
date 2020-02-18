@@ -17,7 +17,7 @@ class ViewDELX_PRO_Subfamilia extends View {
         $oFamilia = new CampoConsulta('Família', 'pro_familiacodigo');
         $oSubfamilia = new CampoConsulta('Sub.Família', 'pro_subfamiliacodigo');
         $oDescricao = new CampoConsulta('Descrição', 'pro_subfamiliadescricao');
-        $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 7, 7, 12, 12, false);
+        $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO,7);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
@@ -39,7 +39,7 @@ class ViewDELX_PRO_Subfamilia extends View {
         $oSubfamilia = new Campo('Sub.Família', 'pro_subfamiliacodigo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oDescricao = new Campo('Descrição', 'pro_subfamiliadescricao', Campo::TIPO_TEXTO, 5, 5, 12, 12);
 
-        $this->addCampos(array($oCodigo, $oSubgrupo, $oFamilia, $oSubfamilia, $oDescricao));
+        $this->addCampos(array($oCodigo, $oSubgrupo, $oFamilia, $oSubfamilia,$oDescricao));
     }
 
 }

@@ -1,1 +1,2 @@
-Sessão:k68egquo7cjl8r1fps5rn96v8c sessao do banco:k68egquo7cjl8r1fps5rn96v8c
+update MET_TEC_sessao set usulastacesso = '2019-10-15 17:47:51' 
+            where usucodigo ='81' and usunome = 'Cleverton Hoffmann' and usuidsessao = 'f6kh6r01c32tk07ph5e455k367'

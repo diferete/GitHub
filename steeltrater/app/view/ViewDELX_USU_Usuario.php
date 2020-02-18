@@ -10,7 +10,7 @@ class ViewDELX_USU_Usuario extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
+        
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoIncluir(false);
@@ -23,8 +23,8 @@ class ViewDELX_USU_Usuario extends View {
         $oUsuStatus = new CampoConsulta('Status', 'usu_status');
         $oUsuLogaSistema = new CampoConsulta('Loga Sis.', 'usu_logasistema');
 
-        $oEmpCodFil = new Filtro($oEmpCod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oUsuCodFil = new Filtro($oUsuNome, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oEmpCodFil = new Filtro($oEmpCod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oUsuCodFil = new Filtro($oUsuNome, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
 
 

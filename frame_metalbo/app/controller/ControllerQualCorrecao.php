@@ -63,7 +63,7 @@ class ControllerQualCorrecao extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sForm, $sCampos);
+        parent::acaoLimpar($sDados);
         $aParam = explode(',', $sDados);
 
         //verifica se está como 

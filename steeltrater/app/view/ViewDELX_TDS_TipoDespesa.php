@@ -24,8 +24,8 @@ class ViewDELX_TDS_TipoDespesa extends View {
         $oVia = new CampoConsulta('Contr.Viagem', 'tds_controleviagem');
         $oDsc = new CampoConsulta('GrupoDescr.', 'tds_grupodescricao');
         $oDpd = new CampoConsulta('Tp.Desp.ValorDoc.Sup.', 'tds_tipodespesavaldocsup');
-        $oDescricaofiltro = new Filtro($oDes, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
-
+        $oDescricaofiltro = new Filtro($oDes, Filtro::CAMPO_TEXTO, 5);
+        
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
@@ -34,7 +34,7 @@ class ViewDELX_TDS_TipoDespesa extends View {
         $this->addFiltro($oDescricaofiltro);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oCod, $oDes, $oIna, $oCon, $oTip, $oGru, $oFlu, $oOpe, $oCla, $oVia, $oDsc, $oDpd);
+        $this->addCampos($oCod,$oDes,$oIna,$oCon,$oTip,$oGru,$oFlu,$oOpe,$oCla,$oVia,$oDsc,$oDpd);
     }
 
     public function criaTela() {
@@ -54,7 +54,7 @@ class ViewDELX_TDS_TipoDespesa extends View {
         $oDsc = new Campo('GrupoDescr.', 'tds_grupodescricao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDpd = new Campo('Tp.Desp.ValorDoc.Sup.', 'tds_tipodespesavaldocsup', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
-        $this->addCampos(array($oCod, $oDes, $oIna, $oCon, $oTip, $oGru), array($oFlu, $oOpe, $oCla, $oVia, $oDsc, $oDpd));
+        $this->addCampos(array($oCod,$oDes,$oIna,$oCon,$oTip,$oGru), array($oFlu,$oOpe,$oCla,$oVia,$oDsc,$oDpd));
     }
 
 }
