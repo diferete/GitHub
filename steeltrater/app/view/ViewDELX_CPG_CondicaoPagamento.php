@@ -31,12 +31,12 @@ class ViewDELX_CPG_CondicaoPagamento extends View {
         $oDatfv = new CampoConsulta('DataFixaVenc.', 'cpg_datafixavencimento', CampoConsulta::TIPO_DATA);
         $oVeppc = new CampoConsulta('TipoVenc.Princ.Ped.Comp.', 'cpg_tipovenctoprincpedcompra');
         $oValmp = new CampoConsulta('ValorMin.Parc.', 'cpg_valorminimoparcela');
-        
+
         $this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setILarguraGrid(2500);
 
-        $oDescricaofiltro = new Filtro($oDescri, Filtro::CAMPO_TEXTO, 4);
-        
+        $oDescricaofiltro = new Filtro($oDescri, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+
 
 
         $this->setUsaAcaoExcluir(false);
@@ -46,10 +46,8 @@ class ViewDELX_CPG_CondicaoPagamento extends View {
         $this->addFiltro($oDescricaofiltro);
 
         $this->setBScrollInf(false);
-        
-        $this->addCampos($oCodigo,$oDescri,$oParcel,$oAcresc,$oTaxtabped,
-                $oTpcond,$oAcaofe,$oDiapav,$oTexpav,$oPerdes,$oBasven,
-                $oPramcp,$oVencpr,$oMarcon,$oDiafiv,$oCupom,$oDatfv,$oVeppc,$oValmp);
+
+        $this->addCampos($oCodigo, $oDescri, $oParcel, $oAcresc, $oTaxtabped, $oTpcond, $oAcaofe, $oDiapav, $oTexpav, $oPerdes, $oBasven, $oPramcp, $oVencpr, $oMarcon, $oDiafiv, $oCupom, $oDatfv, $oVeppc, $oValmp);
     }
 
     public function criaTela() {
@@ -76,10 +74,7 @@ class ViewDELX_CPG_CondicaoPagamento extends View {
         $oValmp = new Campo('ValorMin.Parc.', 'cpg_valorminimoparcela', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
 
-        $this->addCampos(array($oCodigo,$oDescri,$oParcel,$oAcresc,$oTaxtabped), 
-                array($oTpcond,$oAcaofe,$oDiapav,$oTexpav,$oPerdes),
-                array($oBasven,$oPramcp,$oVencpr,$oMarcon,$oDiafiv),
-                array($oCupom,$oDatfv,$oVeppc,$oValmp));
+        $this->addCampos(array($oCodigo, $oDescri, $oParcel, $oAcresc, $oTaxtabped), array($oTpcond, $oAcaofe, $oDiapav, $oTexpav, $oPerdes), array($oBasven, $oPramcp, $oVencpr, $oMarcon, $oDiafiv), array($oCupom, $oDatfv, $oVeppc, $oValmp));
     }
 
 }

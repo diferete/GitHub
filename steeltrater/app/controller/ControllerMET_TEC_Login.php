@@ -29,7 +29,7 @@ class ControllerMET_TEC_Login extends Controller{
    public function logaSistema(){
        $params = array();
        parse_str($_REQUEST['campos'], $params);
-       $this->carregaModel();
+       $this->carregaModel($aCamposTela);
        $aLogaSistema = $this->Persistencia->logarSistema();
        if ($aLogaSistema[0]){
           //vai montar a estrutura inicial do sistema 

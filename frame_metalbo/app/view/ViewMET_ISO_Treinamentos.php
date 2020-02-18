@@ -16,6 +16,8 @@ class ViewMET_ISO_Treinamentos extends View {
         parent::criaConsulta();
 
         $this->getTela()->setSId('GridTreinamentos');
+        
+        $this->setUsaAcaoVisualizar(true);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setSOperacao('personalizado');
@@ -71,6 +73,7 @@ class ViewMET_ISO_Treinamentos extends View {
 
         $sAcaoRotina = $this->getSRotina();
 
+        $oDados = $this->getAParametrosExtras();
 
         $oNr = new Campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
@@ -132,6 +135,34 @@ class ViewMET_ISO_Treinamentos extends View {
         $oCracha->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_Treinamentos","buscaDadosFunc","' . $oNome->getId() . ',' . $oSit->getId() . ',' . $oDescSetor->getId() . ',' . $oFuncao->getId() . ',' . $oGrauEsc->getId() . ',' . $oTagEsc->getId() . '");');
         $oNome->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_Treinamentos","buscaDadosFunc","' . $oNome->getId() . ',' . $oSit->getId() . ',' . $oDescSetor->getId() . ',' . $oFuncao->getId() . ',' . $oGrauEsc->getId() . ',' . $oTagEsc->getId() . '");');
 
+        $oLinhaBranco = new Campo('', 'linha', Campo::TIPO_LINHA, 1, 1, 12, 12);
+        $oLinhaBranco->setApenasTela(true);
+
+        $oExp1A = new Campo('Exp. min. 1 ano', 'experiencia1a', Campo::TIPO_SELECT, 2, 2, 6, 6);
+        $oExp1A->addItemSelect('Não se aplica a função', 'Não se aplica a função');
+        $oExp1A->addItemSelect('Atende', 'Atende');
+        $oExp1A->addItemSelect('Avaliação Pendente', 'Avaliação Pendente');
+        $oExp1A->addItemSelect('Não atende', 'Não atende');
+
+        $oExp2A = new Campo('Exp. min. 2 anos', 'experiencia2a', Campo::TIPO_SELECT, 2, 2, 6, 6);
+        $oExp2A->addItemSelect('Não se aplica a função', 'Não se aplica a função');
+        $oExp2A->addItemSelect('Atende', 'Atende');
+        $oExp2A->addItemSelect('Avaliação Pendente', 'Avaliação Pendente');
+        $oExp2A->addItemSelect('Não atende', 'Não atende');
+
+        $oHabLider = new Campo('Hab. liderança', 'hablideranca', Campo::TIPO_SELECT, 2, 2, 6, 6);
+        $oHabLider->addItemSelect('Não se aplica a função', 'Não se aplica a função');
+        $oHabLider->addItemSelect('Atende', 'Atende');
+        $oHabLider->addItemSelect('Avaliação Pendente', 'Avaliação Pendente');
+        $oHabLider->addItemSelect('Não atende', 'Não atende');
+
+        $oSemExp = new Campo('Sem experiência exigigda', 'semexperiencia', Campo::TIPO_SELECT, 2, 2, 6, 6);
+        $oSemExp->addItemSelect('Não se aplica a função', 'Não se aplica a função');
+        $oSemExp->addItemSelect('Atende', 'Atende');
+        $oSemExp->addItemSelect('Avaliação Pendente', 'Avaliação Pendente');
+        $oSemExp->addItemSelect('Não atende', 'Não atende');
+
+
 
         $oEtapas = new FormEtapa(2, 2, 12, 12);
         $oEtapas->addItemEtapas('Colaborador', true, $this->addIcone(Base::ICON_EDITAR));
@@ -149,9 +180,9 @@ class ViewMET_ISO_Treinamentos extends View {
             } else {
                 $oAcao->setSValor('alterar');
             }$this->setSIdControleUpAlt($oAcao->getId());
-            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oSit, $oTagEsc), $oAcao);
+            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oSit, $oTagEsc), $oLinhaBranco, array($oExp1A, $oExp2A, $oHabLider, $oSemExp), $oAcao);
         } else {
-            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oTagEsc, $oSit));
+            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oTagEsc, $oSit), $oLinhaBranco, array($oExp1A, $oExp2A, $oHabLider, $oSemExp));
         }
     }
 

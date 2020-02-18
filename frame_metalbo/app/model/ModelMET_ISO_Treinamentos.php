@@ -18,10 +18,13 @@ class ModelMET_ISO_Treinamentos {
     private $funcao;
     private $data_cad;
     private $usuario;
-    private $updates;
     private $grau_escolaridade;
     private $tagEscolaridade;
     private $tagTreinamento;
+    private $experiencia2a;
+    private $experiencia1a;
+    private $hablideranca;
+    private $semexperiencia;
 
     function getNr() {
         return $this->nr;
@@ -63,10 +66,6 @@ class ModelMET_ISO_Treinamentos {
         return $this->usuario;
     }
 
-    function getUpdates() {
-        return $this->updates;
-    }
-
     function getGrau_escolaridade() {
         return $this->grau_escolaridade;
     }
@@ -77,6 +76,22 @@ class ModelMET_ISO_Treinamentos {
 
     function getTagTreinamento() {
         return $this->tagTreinamento;
+    }
+
+    function getExperiencia2a() {
+        return $this->experiencia2a;
+    }
+
+    function getExperiencia1a() {
+        return $this->experiencia1a;
+    }
+
+    function getHablideranca() {
+        return $this->hablideranca;
+    }
+
+    function getSemexperiencia() {
+        return $this->semexperiencia;
     }
 
     function setNr($nr) {
@@ -119,10 +134,6 @@ class ModelMET_ISO_Treinamentos {
         $this->usuario = $usuario;
     }
 
-    function setUpdates($updates) {
-        $this->updates = $updates;
-    }
-
     function setGrau_escolaridade($grau_escolaridade) {
         $this->grau_escolaridade = $grau_escolaridade;
     }
@@ -133,6 +144,22 @@ class ModelMET_ISO_Treinamentos {
 
     function setTagTreinamento($tagTreinamento) {
         $this->tagTreinamento = $tagTreinamento;
+    }
+
+    function setExperiencia2a($experiencia2a) {
+        $this->experiencia2a = $experiencia2a;
+    }
+
+    function setExperiencia1a($experiencia1a) {
+        $this->experiencia1a = $experiencia1a;
+    }
+
+    function setHablideranca($hablideranca) {
+        $this->hablideranca = $hablideranca;
+    }
+
+    function setSemexperiencia($semexperiencia) {
+        $this->semexperiencia = $semexperiencia;
     }
 
 }

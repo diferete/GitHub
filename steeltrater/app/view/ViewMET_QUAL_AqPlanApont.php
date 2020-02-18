@@ -43,7 +43,7 @@ class ViewMET_QUAL_AqPlanApont extends View {
         $oDataRealiz = new CampoConsulta('Data realizada', 'datafim', CampoConsulta::TIPO_DATA);
 
         $oSit = new CampoConsulta('Situação', 'sitfim');
-        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oEfi = new CampoConsulta('Nr.Ef', 'nrefi');
 
@@ -111,7 +111,7 @@ class ViewMET_QUAL_AqPlanApont extends View {
         $oDaPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
         $oDataRealiz = new CampoConsulta('Data realizada', 'datafim', CampoConsulta::TIPO_DATA);
         $oSit = new CampoConsulta('Situação', 'sitfim');
-        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
         $oEfi = new CampoConsulta('Nr.Ef', 'nrefi');
 
         $oGridAq->addCampos($oSeq);

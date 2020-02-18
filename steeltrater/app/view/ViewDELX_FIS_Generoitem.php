@@ -23,8 +23,8 @@ class ViewDELX_FIS_Generoitem extends View {
 
         $oGeneroItemDes = new CampoConsulta('Descrição', 'fis_generoitemdescricao', CampoConsulta::TIPO_TEXTO);
 
-        $oFilGeneroItemCod = new Filtro($oGeneroItemCod, Filtro::CAMPO_TEXTO);
-        $oFilGeneroItemDes = new Filtro($oGeneroItemDes, Filtro::CAMPO_TEXTO);
+        $oFilGeneroItemCod = new Filtro($oGeneroItemCod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilGeneroItemDes = new Filtro($oGeneroItemDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->addFiltro($oFilGeneroItemCod, $oFilGeneroItemDes);
         $this->addCampos($oGeneroItemCod, $oGeneroItemDes);
@@ -33,9 +33,9 @@ class ViewDELX_FIS_Generoitem extends View {
     public function criaTela() {
         parent::criaTela();
 
-        $oGeneroItemCod = new Campo('Cod.Genero Item', 'fis_generoitemcodigo', Campo::TIPO_TEXTO,1,1,12,12);
+        $oGeneroItemCod = new Campo('Cod.Genero Item', 'fis_generoitemcodigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
-        $oGeneroItemDes = new Campo('Descrição', 'fis_generoitemdescricao', Campo::TIPO_TEXTAREA,8,8,12,12);
+        $oGeneroItemDes = new Campo('Descrição', 'fis_generoitemdescricao', Campo::TIPO_TEXTAREA, 8, 8, 12, 12);
         $oGeneroItemDes->setILinhasTextArea(3);
 
         $this->addCampos($oGeneroItemCod, $oGeneroItemDes);

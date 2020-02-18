@@ -71,7 +71,7 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         $aDadosPesoGeralMensal = $this->Persistencia->geraGerenProd($aDadosParam);
         //separa por tipo de op tempera
         $aDadosParam['busca'] ='ProdTotal';
-         $aDadosParam['dataini'] = $aCamposChave['dataini'];
+        $aDadosParam['dataini'] = $aCamposChave['dataini'];
         $aDadosParam['datafin'] = $aCamposChave['datafin'];
         $aDadosParam['tipoOp'] = 'P';
         $aDadosPesoTemperaMensal = $this->Persistencia->geraGerenProd($aDadosParam);

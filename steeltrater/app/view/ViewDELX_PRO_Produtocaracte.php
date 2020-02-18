@@ -22,8 +22,8 @@ class ViewDELX_PRO_Produtocaracte extends View {
 
         $oVlrCaracte = new CampoConsulta('Vlr.Caracte', 'pro_produtocaractevalor', CampoConsulta::TIPO_TEXTO);
 
-        $oFilProCod = new Filtro($oProCodigo, Filtro::CAMPO_TEXTO);
-        $oFilProCaracteristica = new Filtro($oProCaracteristica, Filtro::CAMPO_TEXTO);
+        $oFilProCod = new Filtro($oProCodigo, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilProCaracteristica = new Filtro($oProCaracteristica, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->addFiltro($oFilProCod, $oFilProCaracteristica);
         $this->addCampos($oProCodigo, $oProCaracteristica, $oVlrCaracte);
@@ -39,12 +39,12 @@ class ViewDELX_PRO_Produtocaracte extends View {
         $oProCaracteristica->setSCampoRetorno('pro_caracteristicacodigo', $this->getTela()->getid());
 
         $oVlrCaracte = new Campo('Vlr.Caracte', 'pro_produtocaractevalor', Campo::TIPO_TEXTO);
-        
-        $oVlrDensidade = new Campo('Vlr é densidade', 'pro_produtocaractedensidade', Campo::TIPO_SELECT,2,2,12,12);
-        $oVlrDensidade->addItemSelect('N', 'Não');
-        $oVlrDensidade->addItemSelect('S', 'Sim');        
 
-        $this->addCampos($oProCodigo, $oProCaracteristica, $oVlrCaracte,$oVlrDensidade);
+        $oVlrDensidade = new Campo('Vlr é densidade', 'pro_produtocaractedensidade', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oVlrDensidade->addItemSelect('N', 'Não');
+        $oVlrDensidade->addItemSelect('S', 'Sim');
+
+        $this->addCampos($oProCodigo, $oProCaracteristica, $oVlrCaracte, $oVlrDensidade);
     }
 
 }

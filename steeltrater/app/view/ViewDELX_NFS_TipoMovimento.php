@@ -14,7 +14,7 @@ class ViewDELX_NFS_TipoMovimento extends View {
 
         $oCod = new CampoConsulta('Código', 'nfs_tipomovimentocodigo');
         $oDes = new CampoConsulta('Descrição', 'nfs_tipomovimentodescricao');
-        $oDescricaofiltro = new Filtro($oDes, Filtro::CAMPO_TEXTO, 4);
+        $oDescricaofiltro = new Filtro($oDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
 
 
         $this->setUsaAcaoExcluir(false);

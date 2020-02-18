@@ -17,7 +17,7 @@ class ViewSTEEL_PCP_PedidoImposto extends View {
         $oImpCod = new CampoConsulta('ImpostoCod', 'pdv_pedidoimpostocodigo');
         $oImpCal = new CampoConsulta('Imp.Calc.', 'PDV_PedidoImpostoBCalculo');
         $oImpVal = new CampoConsulta('Imp.Val..', 'PDV_PedidoImpostoValor');
-        $oPedfiltro = new Filtro($oPed,Filtro::CAMPO_TEXTO_IGUAL,3);
+        $oPedfiltro = new Filtro($oPed, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12, false);
 
 
         $this->setUsaAcaoExcluir(false);
@@ -27,12 +27,11 @@ class ViewSTEEL_PCP_PedidoImposto extends View {
         $this->addFiltro($oPedfiltro);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oPed,$oCod,$oImpCod,$oImpCal,$oImpVal);
+        $this->addCampos($oPed, $oCod, $oImpCod, $oImpCal, $oImpVal);
     }
 
     public function criaTela() {
         parent::criaTela();
-
     }
 
 }

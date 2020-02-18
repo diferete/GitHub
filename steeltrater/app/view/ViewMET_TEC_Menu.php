@@ -61,18 +61,18 @@ class ViewMET_TEC_Menu extends View {
      */
     function criaConsulta() {
         parent::criaConsulta();
-        
+
         $this->getTela()->setILarguraGrid(1200);
 
         $oModulo = new CampoConsulta('Módulo', 'MET_TEC_Modulo.modcod');
 
         $oModDes = new CampoConsulta('Módulo', 'MET_TEC_Modulo.modescricao');
-        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO);
+        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $oMenuCod = new CampoConsulta('Cód. Menu', 'mencodigo');
 
         $oMenDes = new CampoConsulta('Descrição', 'mendes');
-        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO);
+        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $oMenOrdem = new CampoConsulta('Ordem', 'menordem');
 

@@ -284,7 +284,7 @@ class ControllerMET_ItensManPrev extends Controller {
                 $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'ELETRICA');
             }else if($sCodSet=='29'){
                 $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'MECANICA');                
-            }else if($sCodSet=='14'){
+            }else{
                 $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'OPERADOR');
             }
     }
