@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<architect-project version="1.0" appversion="1.0.6">
+ <project-name>ModelagemManuTPreventiva</project-name>
+ <print-settings numCopies="1" zoom="1.0" pageNumbersPrinted="true" orientation="1" paperWidth="612.0" paperHeight="792.0" leftBorder="50.0" rightBorder="50.0" topBorder="50.0" bottomBorder="50.0" />
+ <project-data-sources>
+  <data-source id="DS0">
+   <property key="Logical" value="Modelo de Dados" />
+  </data-source>
+ </project-data-sources>
+ <source-databases>
+ </source-databases>
+ <target-database id="ppdb" dbcs-ref="DS0">
+  <table id="TAB1" populated="true" UUID="3fdaa072-dd07-4990-a4c3-9f4b7b1c6a04" name="tbmanutmp" objectType="TABLE" physicalName="tbmanutmp" >
+   <remarks></remarks>
+   <folder id="FOLTAB11" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL2" populated="true" UUID="904123b3-1492-4bb2-8510-aad2cede4ce2" autoIncrement="false" autoIncrementSequenceName="tbmanutmp_filcgc_seq" defaultValue="" name="filcgc" nullable="0" physicalName="filcgc" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL3" populated="true" UUID="420105c9-74a7-44eb-ac5a-4f44f2b6334d" autoIncrement="false" autoIncrementSequenceName="tbmanutmp_nr_seq" defaultValue="" name="nr" nullable="0" physicalName="nr" precision="0" primaryKeySeq="1" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL4" populated="true" UUID="3e79e0b8-fad2-41c9-b649-d5989f2361e2" autoIncrement="false" autoIncrementSequenceName="tbmanutmp_codsetor_seq" defaultValue="" name="codsetor" nullable="0" physicalName="codsetor" precision="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL5" populated="true" UUID="64279d89-18ff-44b0-878b-9baef1825683" autoIncrement="false" autoIncrementSequenceName="metmaq_codmaq_seq_1" defaultValue="" name="codmaq" nullable="0" physicalName="codmaq" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL6" populated="true" UUID="ac71bf85-b521-496b-b895-0b28e734d007" autoIncrement="false" autoIncrementSequenceName="tbmanutmp_sitmp_seq" defaultValue="" name="sitmp" nullable="0" physicalName="sitmp" precision="40" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL7" populated="true" UUID="916644e4-2493-4e5e-b172-4b8862f322de" autoIncrement="false" autoIncrementSequenceName="tbmanutmp_userabert_seq" defaultValue="" name="userabert" nullable="0" physicalName="userabert" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL8" populated="true" UUID="a16c7eb4-cb48-4a64-a585-3b76dacee6f4" autoIncrement="false" autoIncrementSequenceName="tbmanutprevent_dti_seq" defaultValue="" name="databert" nullable="0" physicalName="databert" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+     <remarks></remarks>
+    </column>
+    <column id="COL9" populated="true" UUID="1f643f55-b443-45c0-b474-a3c175373bfe" autoIncrement="false" autoIncrementSequenceName="tbmanutprevent_dtf_seq" defaultValue="" name="datafech" nullable="0" physicalName="datafech" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+     <remarks></remarks>
+    </column>
+    <column id="COL10" populated="true" UUID="27507ee3-04a9-4c10-94f2-96ccdd3e2553" autoIncrement="false" autoIncrementSequenceName="tbmanutmp_userfech_seq" defaultValue="" name="userfech" nullable="0" physicalName="userfech" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB13" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB12" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB14" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX11" populated="true" UUID="e8da586c-2c02-4985-8ae8-03cf4bc42b59" clustered="false" name="tbmanutmp_pk" physicalName="tbmanutprevent_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC12" populated="true" UUID="69660847-d945-497d-a555-30e6bf8092a3" ascendingOrDescending="UNSPECIFIED" column-ref="COL2" name="filcgc" physicalName="filcgc" />
+     <index-column id="IDC13" populated="true" UUID="cbf7a4c7-5e7f-488c-8739-f1f9191d6729" ascendingOrDescending="UNSPECIFIED" column-ref="COL3" name="nr" physicalName="nr" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB14" populated="true" UUID="b1b4ebde-3586-48df-ab6e-410224f1f1a3" name="metmaq" objectType="TABLE" physicalName="metmaq" >
+   <remarks></remarks>
+   <folder id="FOLTAB141" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL15" populated="true" UUID="3bc74262-7a6d-42ac-9943-44f8c010060c" autoIncrement="false" autoIncrementSequenceName="metmaq_codmaq_seq_1" defaultValue="" name="codmaq" nullable="0" physicalName="codmaq" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB143" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB142" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB144" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX16" populated="true" UUID="a532d32e-9abb-4c16-8f0f-243e09648e22" clustered="false" name="metmaq_pk" physicalName="metmaq_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC17" populated="true" UUID="fa1016f7-01d8-4cc5-8f9d-5e9949338aa4" ascendingOrDescending="UNSPECIFIED" column-ref="COL15" name="codmaq" physicalName="codmaq" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB18" populated="true" UUID="3b8ef8e7-35db-4f0d-b9ef-b8f406085931" name="MetCad_Setores" objectType="TABLE" physicalName="MetCad_Setores" >
+   <remarks></remarks>
+   <folder id="FOLTAB181" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL19" populated="true" UUID="6b25feb8-d253-481e-8657-7bd41936952f" autoIncrement="false" autoIncrementSequenceName="MetCad_Setores_codsetor_seq" defaultValue="" name="codsetor" nullable="0" physicalName="codsetor" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB183" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB182" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB184" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX20" populated="true" UUID="69f1f786-4564-4fa9-a2a2-ed5a6f544fb6" clustered="false" name="MetCad_Setores_pk" physicalName="MetCad_Setores_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC21" populated="true" UUID="96598934-98db-4a85-a68e-88f9d72206d9" ascendingOrDescending="UNSPECIFIED" column-ref="COL19" name="codsetor" physicalName="codsetor" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB22" populated="true" UUID="d66cc718-2994-4110-bf81-305bc1036ad9" name="tbservmp" objectType="TABLE" physicalName="tbservmp" >
+   <remarks></remarks>
+   <folder id="FOLTAB221" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL23" populated="true" UUID="4a7f65b0-87b2-46c2-96b5-bef7d32d7745" autoIncrement="false" autoIncrementSequenceName="tbservmp_codsit_seq" defaultValue="" name="codsit" nullable="0" physicalName="codsit" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL24" populated="true" UUID="82cb0d25-dbc9-4f61-9443-d60a6d2bbe25" autoIncrement="false" autoIncrementSequenceName="tbservmp_tipocod_seq" defaultValue="" name="tipcod" nullable="0" physicalName="tipocod" precision="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL25" populated="true" UUID="f02422e6-3f00-4bef-b32f-4bb13e1f97db" autoIncrement="false" autoIncrementSequenceName="tbmanutverifmp_situacao_seq" defaultValue="" name="servico" nullable="0" physicalName="servico" precision="150" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL26" populated="true" UUID="85a6f5b0-34ee-47ae-a8bc-7786ced922f9" autoIncrement="false" autoIncrementSequenceName="tbservmp_ciclo_seq" defaultValue="" name="ciclo" nullable="0" physicalName="ciclo" precision="45" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL27" populated="true" UUID="f49eacf9-459e-47b6-8cb4-02846a139c13" autoIncrement="false" autoIncrementSequenceName="tbservmp_resp_seq" defaultValue="" name="resp" nullable="0" physicalName="resp" precision="60" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL28" populated="true" UUID="5b746d47-c5e2-4cc9-8322-5586d2786162" autoIncrement="false" autoIncrementSequenceName="tbservmp_usercad_seq" defaultValue="" name="usercad" nullable="0" physicalName="usercad" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL29" populated="true" UUID="c2940706-e51d-429a-8f3c-147efc02e232" autoIncrement="false" autoIncrementSequenceName="tbservmp_data_seq" defaultValue="" name="data" nullable="0" physicalName="data" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+     <remarks></remarks>
+    </column>
+    <column id="COL30" populated="true" UUID="0d3384e1-870b-43f2-aeb6-24be52f5f236" autoIncrement="false" autoIncrementSequenceName="tbservmp_hora_seq" defaultValue="" name="hora" nullable="0" physicalName="hora" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="92" userDefinedTypeUUID="10d6960f-169d-47c2-860a-37341342b1d5" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB223" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB222" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB224" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX31" populated="true" UUID="8e4804da-e195-4593-8711-e3a64f860aaa" clustered="false" name="tbservmp_pk" physicalName="tbmanutverifmp_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC32" populated="true" UUID="267d479e-4f40-40e6-9702-65e9c2e98278" ascendingOrDescending="UNSPECIFIED" column-ref="COL23" name="codsit" physicalName="codsit" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB33" populated="true" UUID="c21d2e63-3136-453c-9d83-cf62ad04ed87" name="tbitensmp" objectType="TABLE" physicalName="tbitensmp" >
+   <remarks></remarks>
+   <folder id="FOLTAB331" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL34" populated="true" UUID="4cb46a22-d51e-496d-b863-9c9335bf99d3" autoIncrement="false" autoIncrementSequenceName="tbitensmp_filcgc_seq" defaultValue="" name="filcgc" nullable="0" physicalName="filcgc" precision="0" primaryKeySeq="0" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL35" populated="true" UUID="feccc762-801a-44b9-9d1e-0af48590a787" autoIncrement="false" autoIncrementSequenceName="tbitensmp_nr_seq" defaultValue="" name="nr" nullable="0" physicalName="nr" precision="0" primaryKeySeq="1" referenceCount="2" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL36" populated="true" UUID="32cd05ad-21d5-416e-952f-55af589cc2b7" autoIncrement="false" autoIncrementSequenceName="tbitensmp_seq_seq" defaultValue="" name="seq" nullable="0" physicalName="seq" precision="0" primaryKeySeq="2" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL37" populated="true" UUID="1b99c236-a50e-410d-8fb0-0a07d90c011c" autoIncrement="false" autoIncrementSequenceName="tbitensmp_codmaq_seq" defaultValue="" name="codmaq" nullable="0" physicalName="codmaq" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL38" populated="true" UUID="fa4931dc-2f2c-4627-9020-6498286d58ed" autoIncrement="false" autoIncrementSequenceName="tbitensmp_codsit_seq" defaultValue="" name="codsit" nullable="0" physicalName="codsit" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL39" populated="true" UUID="275db58e-e144-4e2a-8415-da47c04dbd47" autoIncrement="false" autoIncrementSequenceName="tbitensmp_sitmp_seq" defaultValue="" name="sitmp" nullable="0" physicalName="sitmp" precision="40" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL40" populated="true" UUID="79fc851f-9abe-40a7-ab08-734375d67c16" autoIncrement="false" autoIncrementSequenceName="tbitensmp_dias _seq" defaultValue="" name="dias " nullable="0" physicalName="dias " precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL41" populated="true" UUID="4a4a50f9-442e-4867-8979-bf5407b770f2" autoIncrement="false" autoIncrementSequenceName="tbmanutprevent_dti_seq" defaultValue="" name="databert" nullable="0" physicalName="databert" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+     <remarks></remarks>
+    </column>
+    <column id="COL42" populated="true" UUID="735c0f98-e359-4c39-aaf5-b6c0c523f5ae" autoIncrement="false" autoIncrementSequenceName="tbmanutprevent_usertarefa_seq" defaultValue="" name="userinicial" nullable="0" physicalName="userinicial" precision="60" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL43" populated="true" UUID="0e09c506-f03a-47de-abf2-3267fe0171a4" autoIncrement="false" autoIncrementSequenceName="tbmanutprevent_dtf_seq" defaultValue="" name="datafech" nullable="0" physicalName="datafech" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="91" userDefinedTypeUUID="ee349be3-6af2-46e1-b305-975f5354b009" >
+     <remarks></remarks>
+    </column>
+    <column id="COL44" populated="true" UUID="3bbc81d3-3919-499b-8aee-711c9f3e5f44" autoIncrement="false" autoIncrementSequenceName="tbitensmp_userfinal_seq" defaultValue="" name="userfinal" nullable="0" physicalName="userfinal" precision="40" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL45" populated="true" UUID="b606dffc-f50b-45ee-96fb-059a67fad123" autoIncrement="false" autoIncrementSequenceName="tbitensmp_obs_seq" defaultValue="" name="obs" nullable="0" physicalName="obs" precision="500" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL46" populated="true" UUID="d636f7ba-0abb-441e-bbd1-ba9d64c910c0" autoIncrement="false" autoIncrementSequenceName="tbitensmp_oqfazer_seq" defaultValue="" name="oqfazer" nullable="0" physicalName="oqfazer" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB333" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB332" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB334" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX47" populated="true" UUID="66c669a2-7db3-4085-801f-a84a6970c530" clustered="false" name="tbitensmp_pk" physicalName="tbmanut_itensprevent_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC48" populated="true" UUID="528a1f48-e1ed-4833-b5ce-f9df8b13cd3c" ascendingOrDescending="UNSPECIFIED" column-ref="COL34" name="filcgc" physicalName="filcgc" />
+     <index-column id="IDC49" populated="true" UUID="c22e63a4-14e5-4d62-baf4-adb66a2bed8f" ascendingOrDescending="UNSPECIFIED" column-ref="COL35" name="nr" physicalName="nr" />
+     <index-column id="IDC50" populated="true" UUID="bdde30c1-a48b-40c5-a3cc-8dcfd642120e" ascendingOrDescending="UNSPECIFIED" column-ref="COL36" name="seq" physicalName="seq" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB51" populated="true" UUID="f494d402-8b2a-43dc-b9bd-491199c520e8" name="tbtipmaq" objectType="TABLE" physicalName="tbtipmaq" >
+   <remarks></remarks>
+   <folder id="FOLTAB511" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL52" populated="true" UUID="6d627c0b-3bc2-422a-b444-753128edc13f" autoIncrement="false" autoIncrementSequenceName="tbtipmaq_tipcod_seq" defaultValue="" name="tipcod" nullable="0" physicalName="tipcod" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    <column id="COL53" populated="true" UUID="082d1209-5fff-4b3b-b853-cf181b6c8c82" autoIncrement="false" autoIncrementSequenceName="tbtipmaq_tipdes_seq" defaultValue="" name="tipdes" nullable="0" physicalName="tipdes" precision="50" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB513" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB512" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB514" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX54" populated="true" UUID="b9ad7a25-7ef8-4596-8158-62a4bb8f0364" clustered="false" name="tbtipmaq_pk" physicalName="tbtipomaq_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC55" populated="true" UUID="4981ec39-a565-40d0-b204-39e7721a0ccc" ascendingOrDescending="UNSPECIFIED" column-ref="COL52" name="tipcod" physicalName="tipcod" />
+    </index>
+   </folder>
+  </table>
+  <relationships>
+   <relationship id="REL56" populated="true" UUID="19e3b397-9ca4-4d4e-883c-1d127c46f2ec" deferrability="7" deleteRule="3" fk-table-ref="TAB33" fkCardinality="7" identifying="true" name="tbmanutmp_tbitensmp_fk" physicalName="tbmanutmp_tbitensmp_fk" pk-table-ref="TAB1" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP57" populated="true" UUID="bb680f71-3280-431b-a62b-556da3dae1fb" fk-column-ref="COL34" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL2" />
+    <column-mapping id="CMP58" populated="true" UUID="d1d6fb95-0ddc-4a9f-bf64-613ce9376b0c" fk-column-ref="COL35" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL3" />
+   </relationship>
+   <relationship id="REL59" populated="true" UUID="8cc9f260-9154-420e-9fd9-62b80a133b4d" deferrability="7" deleteRule="3" fk-table-ref="TAB1" fkCardinality="7" identifying="false" name="metmaq_tbmanutmp_fk" physicalName="metmaq_tbmanutmp_fk" pk-table-ref="TAB14" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP60" populated="true" UUID="927031ef-c813-499b-8ff6-b8fd13b99485" fk-column-ref="COL5" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL15" />
+   </relationship>
+   <relationship id="REL61" populated="true" UUID="842657ea-ef46-435e-903b-b3419a134c1b" deferrability="7" deleteRule="3" fk-table-ref="TAB1" fkCardinality="7" identifying="false" name="MetCad_Setores_tbmanutmp_fk" physicalName="MetCad_Setores_tbmanutmp_fk" pk-table-ref="TAB18" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP62" populated="true" UUID="6df9b464-230f-4346-a421-632fc7edcb31" fk-column-ref="COL4" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL19" />
+   </relationship>
+   <relationship id="REL63" populated="true" UUID="5a666a5c-9e7a-4ab5-bdb9-b0c282514ede" deferrability="7" deleteRule="3" fk-table-ref="TAB33" fkCardinality="7" identifying="true" name="tbservmp_tbmanut_itensprevent_fk" physicalName="tbservmp_tbmanut_itensprevent_fk" pk-table-ref="TAB22" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP64" populated="true" UUID="a11c2783-d775-4d63-a833-1cba404489fe" fk-column-ref="COL38" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL23" />
+   </relationship>
+   <relationship id="REL65" populated="true" UUID="4e176086-ca54-4071-8880-cfc5c1508080" deferrability="7" deleteRule="3" fk-table-ref="TAB22" fkCardinality="7" identifying="true" name="tbtipomaq_tbservmp_fk" physicalName="tbtipomaq_tbservmp_fk" pk-table-ref="TAB51" pkCardinality="2" updateRule="3" >
+    <column-mapping id="CMP66" populated="true" UUID="458da064-d35b-4520-a082-e741b600b9f1" fk-column-ref="COL24" name="Column Mapping" physicalName="Column Mapping" pk-column-ref="COL52" />
+   </relationship>
+  </relationships>
+ </target-database>
+ <ddl-generator type="ca.sqlpower.architect.ddl.SQLServer2005DDLGenerator" allow-connection="true"> </ddl-generator>
+ <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
+ <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
+ <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+  <table-pane table-ref="TAB1" x="53" y="453" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB14" x="290" y="427" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB18" x="284" y="551" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB22" x="342" y="83" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB33" x="59" y="173" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB51" x="648" y="77" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-link relationship-ref="REL65" pkConnection="0.17543859649122806" fkConnection="0.6950354609929078" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL63" pkConnection="0.8439716312056738" fkConnection="0.1990521327014218" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+  <table-link relationship-ref="REL56" pkConnection="0.12365591397849462" fkConnection="0.9476439790575916" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="72"/>
+  <table-link relationship-ref="REL59" pkConnection="0.2388888888888889" fkConnection="0.3076923076923077" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="20"/>
+  <table-link relationship-ref="REL61" pkConnection="0.0" fkConnection="1.0" rLineColor="0x000000" pkLabelText="" fkLabelText="" orientation="18"/>
+ </play-pen>
+ <critic-manager>
+  <critic-grouping platformType="Generic" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PrimaryKeyCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.RelationshipMappingTypeCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.EmptyRelationshipCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.AlphaNumericSequenceNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetDefaultOnColumnWithNoDefaultCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SetNullOnNonNullableColumnCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DuplicateNameCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="DB2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.DB2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="H2" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.H2UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="HSQLDB" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.HSQLDBUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="MySQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLCommentCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.MySQLUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="Oracle" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OraclePhysicalNameCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleReservedWordsCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.OracleUnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="PostgreSQL" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.PostgreSQLReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerUnsupportedFeaturesCritic" severity="ERROR"/>
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServerReservedWordsCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2000" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2000UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+  <critic-grouping platformType="SQL Server 2005" enabled="true">
+   <critic-settings class="ca.sqlpower.architect.ddl.critic.impl.SQLServer2005UnsupportedFeaturesCritic" severity="ERROR"/>
+  </critic-grouping>
+ </critic-manager>
+ <profiles topNCount="10">
+  </profiles>
+  <olap>
+  </olap>
+  <olap-gui>
+  </olap-gui>
+</architect-project>

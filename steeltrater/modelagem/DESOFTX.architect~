@@ -107,6 +107,49 @@
     </index>
    </folder>
   </table>
+  <table id="TAB30" populated="true" UUID="a134d0ce-4912-405f-8db9-5ba6ae1422a0" name="EMP_PESSOA" objectType="TABLE" physicalName="EMP_PESSOA" >
+   <remarks></remarks>
+   <folder id="FOLTAB301" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL31" populated="true" UUID="902da0d9-d82d-41e9-af61-c39b68575c71" autoIncrement="false" autoIncrementSequenceName="EMP_PESSOA_EMP_Codigo_seq" defaultValue="" name="EMP_Codigo" nullable="0" physicalName="EMP_Codigo" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL32" populated="true" UUID="4409b0f1-6e1b-4f2d-afdb-acf481ca33d0" autoIncrement="false" autoIncrementSequenceName="EMP_PESSOA_EMP_RazaoSocial_seq" defaultValue="" name="EMP_RazaoSocial" nullable="0" physicalName="EMP_RazaoSocial" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL33" populated="true" UUID="109e0a2e-8010-4c90-9615-e57133c38aa3" autoIncrement="false" autoIncrementSequenceName="EMP_PESSOA_EMP_Fantasia_seq" defaultValue="" name="EMP_Fantasia" nullable="0" physicalName="EMP_Fantasia" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    <column id="COL34" populated="true" UUID="7483075e-59c4-47f4-8408-e817f672cf2c" autoIncrement="false" autoIncrementSequenceName="EMP_PESSOA_EMP_ConsumidorFinal_seq" defaultValue="" name="EMP_ConsumidorFinal" nullable="0" physicalName="EMP_ConsumidorFinal" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB303" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB302" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB304" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX35" populated="true" UUID="86e03c40-3255-4116-9e3e-31b4bcc99f10" clustered="false" name="EMP_Codigo" physicalName="EMP_Codigo" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC36" populated="true" UUID="44cfb98e-53e2-4507-8fd8-bc595b3403c7" ascendingOrDescending="UNSPECIFIED" column-ref="COL31" name="EMP_Codigo" physicalName="EMP_Codigo" />
+    </index>
+   </folder>
+  </table>
+  <table id="TAB37" populated="true" UUID="c29e37c6-95fa-4f17-a159-c8560fc54bbe" name="PRO_PRODUTO" objectType="TABLE" physicalName="PRO_PRODUTO" >
+   <remarks></remarks>
+   <folder id="FOLTAB371" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL38" populated="true" UUID="0a202a0c-19ec-4e6a-9668-4845f4306fe0" autoIncrement="false" autoIncrementSequenceName="PRO_PRODUTO_PRO_Codigo_seq" defaultValue="" name="PRO_Codigo" nullable="0" physicalName="PRO_Codigo" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB373" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB372" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB374" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX39" populated="true" UUID="3cc4062a-740d-4cd5-acbd-8879910f8438" clustered="false" name="PRO_PRODUTO_pk" physicalName="PRO_PRODUTO_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC40" populated="true" UUID="9f3dc7b1-e8d9-4daf-8627-289b974cf161" ascendingOrDescending="UNSPECIFIED" column-ref="COL38" name="PRO_Codigo" physicalName="PRO_Codigo" />
+    </index>
+   </folder>
+  </table>
   <relationships>
   </relationships>
  </target-database>
@@ -116,6 +159,8 @@
  <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="93" y="64" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB13" x="392" y="68" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB30" x="739" y="69" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB37" x="78" y="325" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">

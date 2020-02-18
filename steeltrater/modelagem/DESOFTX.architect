@@ -133,6 +133,23 @@
     </index>
    </folder>
   </table>
+  <table id="TAB37" populated="true" UUID="c29e37c6-95fa-4f17-a159-c8560fc54bbe" name="PRO_PRODUTO" objectType="TABLE" physicalName="PRO_PRODUTO" >
+   <remarks></remarks>
+   <folder id="FOLTAB371" populated="true" name="Columns" physicalName="Columns" type="1">
+    <column id="COL38" populated="true" UUID="0a202a0c-19ec-4e6a-9668-4845f4306fe0" autoIncrement="false" autoIncrementSequenceName="PRO_PRODUTO_PRO_Codigo_seq" defaultValue="" name="PRO_Codigo" nullable="0" physicalName="PRO_Codigo" precision="0" primaryKeySeq="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+     <remarks></remarks>
+    </column>
+    </folder>
+    <folder id="FOLTAB373" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3">
+    </folder>
+    <folder id="FOLTAB372" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2">
+    </folder>
+    <folder id="FOLTAB374" populated="true" name="Indices" physicalName="Indices" type="4">
+    <index id="IDX39" populated="true" UUID="3cc4062a-740d-4cd5-acbd-8879910f8438" clustered="false" name="PRO_PRODUTO_pk" physicalName="PRO_PRODUTO_pk" primaryKeyIndex="true" unique="false" >
+     <index-column id="IDC40" populated="true" UUID="9f3dc7b1-e8d9-4daf-8627-289b974cf161" ascendingOrDescending="UNSPECIFIED" column-ref="COL38" name="PRO_Codigo" physicalName="PRO_Codigo" />
+    </index>
+   </folder>
+  </table>
   <relationships>
   </relationships>
  </target-database>
@@ -143,6 +160,7 @@
   <table-pane table-ref="TAB1" x="93" y="64" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB13" x="392" y="68" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB30" x="739" y="69" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
+  <table-pane table-ref="TAB37" x="32" y="257" bgColor="0xeeeeee" fgColor="0x000000" rounded="false" dashed="false"/>
  </play-pen>
  <critic-manager>
   <critic-grouping platformType="Generic" enabled="true">
