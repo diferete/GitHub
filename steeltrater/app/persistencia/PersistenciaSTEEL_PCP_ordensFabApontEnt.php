@@ -31,6 +31,8 @@ class PersistenciaSTEEL_PCP_ordensFabApontEnt extends Persistencia {
         $this->adicionaRelacionamento('usernomesaida','usernomesaida');
         $this->adicionaRelacionamento('turnoSteel', 'turnoSteel');
         $this->adicionaRelacionamento('turnoSteelSaida','turnoSteelSaida');
+        $this->adicionaRelacionamento('corrida', 'corrida');
+        $this->adicionaRelacionamento('processoAtivo', 'processoAtivo');
 
         $this->setSTop('500');
         $this->adicionaOrderBy('seq', 1);
@@ -43,11 +45,11 @@ class PersistenciaSTEEL_PCP_ordensFabApontEnt extends Persistencia {
         
         $iSeq = $this->getIncremento('seq');
         
-        $sSql ="insert into STEEL_PCP_ordensFabApont (op,seq,fornocod,fornodes,procod,prodes,dataent_forno,horaent_forno,situacao,coduser,usernome,turnoSteel)"
+        $sSql ="insert into STEEL_PCP_ordensFabApont (op,seq,fornocod,fornodes,procod,prodes,dataent_forno,horaent_forno,situacao,coduser,usernome,turnoSteel,corrida)"
                 . " values(".$oDadosOp->getOp().",".$iSeq.","
                 . " ".$aCampos['fornocod'].",'".$aCampos['fornodes']."','".$oDadosOp->getProdFinal()."',"
                 . "'".$oDadosOp->getProdesFinal()."','".$sData."','".$sHora."','Processo','".$aCampos['coduser']."',"
-                . "'".$aCampos['usernome']."','".$aCampos['turnoSteel']."');";
+                . "'".$aCampos['usernome']."','".$aCampos['turnoSteel']."','".$aCampos['corrida']."');";
         $aRetorno = $this->executaSql($sSql);
         
         //muda a situacao da op para em processo

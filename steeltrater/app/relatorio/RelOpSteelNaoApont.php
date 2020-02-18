@@ -68,8 +68,10 @@ if (!$bCheck1) {
 } else {
     //busca os dados do banco
     $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-    $sSqli = "select * from STEEL_PCP_ordensFabApont 
-              where codusersaida is null and situacao in('Finalizado','Retornado')";
+    $sSqli = "select * from STEEL_PCP_ordensFabApont left outer join STEEL_PCP_ordensFab
+			  on STEEL_PCP_ordensFabApont.op = STEEL_PCP_ordensFab.op
+              where codusersaida is null 
+              and STEEL_PCP_ordensFab.situacao in('Finalizado','Retornado')";
 
     $dadosRela = $PDO->query($sSqli);
 }

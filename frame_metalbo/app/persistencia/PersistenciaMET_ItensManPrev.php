@@ -108,10 +108,9 @@ class PersistenciaMET_ItensManPrev extends Persistencia{
      */
     public function atualizaDataAntesdaConsulta(){
         
-        $sSql = "update tbitensmp set dias = ciclo - DATEDIFF(DAY, tbitensmp.databert, GETDATE()) from tbitensmp
-            left outer join  tbservmp on tbservmp.codsit = tbitensmp.codsit
-            left outer join  tbmanutmp on tbmanutmp.nr = tbitensmp.nr 
-            where tbitensmp.databert<>GETDATE() AND tbitensmp.sitmp<>'FINALIZADO' AND tbmanutmp.sitmp<>'FINALIZADO'";
+        $sSql = "update tbitensmp set dias = ciclo - DATEDIFF(DAY, databert, GETDATE()) from tbitensmp
+            left outer join  tbservmp on tbservmp.codsit = tbitensmp.codsit 
+            where databert<>GETDATE() AND sitmp<>'FINALIZADO'";
         
         $aRetorno = $this->executaSql($sSql);
         

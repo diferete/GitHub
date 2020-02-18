@@ -16,6 +16,7 @@ class ViewMET_TEC_Chamados extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(true);
+        $this->setAcaoFecharTela(true);
 
         $this->setUsaFiltro(true);
         $sFiltroSetor = $_SESSION['codsetor'];
@@ -26,7 +27,7 @@ class ViewMET_TEC_Chamados extends View {
             $oBotaoModal->setBHideTelaAcao(true);
             $oBotaoModal->setILargura(15);
             $oBotaoModal->setSTitleAcao('Gerencia Chamados');
-            $oBotaoModal->addAcao('MET_TEC_Chamados', 'criaTelaModalApontaChamado', 'criaModalApontaChamado');
+            $oBotaoModal->addAcao('MET_TEC_Chamados', 'criaTelaModalApontaChamado', 'criaModalApontaChamado', '');
             $this->addModais($oBotaoModal);
         }
 
@@ -37,18 +38,20 @@ class ViewMET_TEC_Chamados extends View {
         }
 
         $oFilcgc = new CampoConsulta('CNPJ', 'filcgc', CampoConsulta::TIPO_TEXTO);
+        $oFilcgc->addComparacao('75483040000211', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_DKGRAY, CampoConsulta::MODO_LINHA, false, null);
+        $oFilcgc->setBComparacaoColuna(true);
 
         $oSit = new CampoConsulta('Sit.', 'situaca', CampoConsulta::TIPO_TEXTO);
-        $oSit->addComparacao('AGUARDANDO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_LINHA);
-        $oSit->addComparacao('INICIADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_LINHA);
-        $oSit->addComparacao('FINALIZADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_LINHA);
-        $oSit->addComparacao('CANCELADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_LINHA);
+        $oSit->addComparacao('AGUARDANDO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_LINHA, false, null);
+        $oSit->addComparacao('INICIADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_LINHA, false, null);
+        $oSit->addComparacao('FINALIZADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSit->addComparacao('CANCELADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
         $oSit->setBComparacaoColuna(true);
 
         $oTipo = new CampoConsulta('Tipo', 'tipo', CampoConsulta::TIPO_TEXTO);
-        $oTipo->addComparacao('1', CampoConsulta::COMPARACAO_IGUAL, '', CampoConsulta::MODO_LINHA, true, 'HARDWARE');
-        $oTipo->addComparacao('2', CampoConsulta::COMPARACAO_IGUAL, '', CampoConsulta::MODO_LINHA, true, 'SOFTWARE');
-        $oTipo->addComparacao('3', CampoConsulta::COMPARACAO_IGUAL, '', CampoConsulta::MODO_LINHA, true, 'SERVIÇOS');
+        $oTipo->addComparacao('1', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_LINHA, true, 'HARDWARE');
+        $oTipo->addComparacao('2', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_LINHA, true, 'SOFTWARE');
+        $oTipo->addComparacao('3', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_LINHA, true, 'SERVIÇOS');
 
         $oSubTipo = new CampoConsulta('SubTipo', 'subtipo_nome', CampoConsulta::TIPO_TEXTO);
 
@@ -83,12 +86,11 @@ class ViewMET_TEC_Chamados extends View {
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("","MET_TEC_Chamados","carregaProb","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oProblema->getId() . '"+",' . $oObsFim->getId() . ',"+"");');
 
-        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12);
+        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
         $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
 
-
-        $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 1, 1, 12, 12);
+        $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFilSit->addItemSelect('Todos', 'Todos');
         $oFilSit->addItemSelect('AGUARDANDO', 'AGUARDANDO');
         $oFilSit->addItemSelect('INICIADO', 'INICIADO');
@@ -96,7 +98,7 @@ class ViewMET_TEC_Chamados extends View {
         $oFilSit->addItemSelect('CANCELADO', 'CANCELADO');
         $oFilSit->setSLabel('Situação');
 
-        $oFilTipo = new Filtro($oTipo, Filtro::CAMPO_SELECT, 1, 1, 12, 12);
+        $oFilTipo = new Filtro($oTipo, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFilTipo->addItemSelect('Todos', 'Todos');
         $oFilTipo->addItemSelect('1', 'HARDWARE');
         $oFilTipo->addItemSelect('2', 'SOFTWARE');
@@ -105,14 +107,20 @@ class ViewMET_TEC_Chamados extends View {
         $this->addFiltro($oFilNr, $oFilEmp, $oFilTipo, $oFilSit);
 
         $oDrop = new Dropdown('Cancelar', Dropdown::TIPO_ERRO, Dropdown::ICON_ERRO);
-        $oDrop->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar chamado', $this->getController(), 'criaTelaModalCancelaChamado', '', false, '', false, 'criaTelaModalCancelaChamado', true, 'Cancelar chamado');
+        $oDrop->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar chamado', $this->getController(), 'criaTelaModalCancelaChamado', '', false, '', false, 'criaTelaModalCancelaChamado', true, 'Cancelar chamado', false, false);
 
-        $this->addDropdown($oDrop);
+        $oDrop1 = new Dropdown('E-mail', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail de NOTIFICAÇÃO', $this->getController(), 'reenviaEmailTi', '', false, '', false, '', false, '', false, false);
+
+
+        $oDrop2 = new Dropdown('E-mail', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail de FINALIZAÇÃO', $this->getController(), 'reenviaEmailFinaliza', '', false, '', false, '', false, '', false, false);
 
         if ($sFiltroSetor == 2) {
+            $this->addDropdown($oDrop, $oDrop2);
             $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
         } else {
-
+            $this->addDropdown($oDrop, $oDrop1);
             $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
         }
     }
@@ -191,6 +199,7 @@ class ViewMET_TEC_Chamados extends View {
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oProblema->setILinhasTextArea(3);
+        $oProblema->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 10, 1000);
 
         $oSituaca = new Campo('', 'situaca');
         $oSituaca->setBOculto(true);
@@ -221,8 +230,9 @@ class ViewMET_TEC_Chamados extends View {
         $oSolicitante->setBCampoBloqueado(true);
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oProblema->setSValor($oDados->getProblema());
+        $oProblema->setSValor(Util::limpaString($oDados->getProblema()));
         $oProblema->setBCampoBloqueado(true);
+        $oProblema->setILinhasTextArea(5);
 
         $oDataInicio = new Campo('Data Início', 'datainicio', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataInicio->setSValor(date('d/m/Y'));
@@ -267,8 +277,9 @@ class ViewMET_TEC_Chamados extends View {
         $oSolicitante->setBCampoBloqueado(true);
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oProblema->setSValor($oDados->getProblema());
+        $oProblema->setSValor(Util::limpaString($oDados->getProblema()));
         $oProblema->setBCampoBloqueado(true);
+        $oProblema->setILinhasTextArea(5);
 
         $oDataFim = new Campo('Data Início', 'datafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataFim->setSValor(date('d/m/Y'));
@@ -317,7 +328,7 @@ class ViewMET_TEC_Chamados extends View {
         $oSolicitante->setBCampoBloqueado(true);
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oProblema->setSValor($oDados->getProblema());
+        $oProblema->setSValor(Util::limpaString($oDados->getProblema()));
         $oProblema->setBCampoBloqueado(true);
 
         $oDataFim = new Campo('Data Início', 'datafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);

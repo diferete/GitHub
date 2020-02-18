@@ -38,14 +38,14 @@ class ViewQualGerenProj extends View {
 
         $oDrop = new Dropdown('Agendamentos', Dropdown::TIPO_PRIMARY);
         $this->addDropdown($oDrop);
-        $oDrop->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Teste agenda', 'Agendamentos', 'atualizaEntProj', '', false, '');
+        $oDrop->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Teste agenda', 'Agendamentos', 'atualizaEntProj', '', false, '', false, '', false, '', false, false);
 
 
-        $oFilRepNome = new Filtro($oRepNome, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2);
+        $oFilRepNome = new Filtro($oRepNome, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2, false);
 
-        $oFilProdDesc = new Filtro($oProdDesc, Filtro::CAMPO_TEXTO, 2, 2, 2, 2);
+        $oFilProdDesc = new Filtro($oProdDesc, Filtro::CAMPO_TEXTO, 2, 2, 2, 2, false);
 
-        $oFRespVenda = new Filtro($oRespVenda, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2);
+        $oFRespVenda = new Filtro($oRespVenda, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2, false);
 
         $this->addFiltro($oFilProdDesc);
 

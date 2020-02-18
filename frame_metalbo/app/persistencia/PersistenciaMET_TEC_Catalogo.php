@@ -36,7 +36,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         $aRet06 = $PDOnew->exec($sSql);
 
 
-        $sSql = "insert into #MetTecCxNormal (procod,cxnormal) "
+        $sSql = "iinsert into #MetTecCxNormal (procod,cxnormal) "
                 . "select widl.prod01.procod,pcs "
                 . "from widl.prod01 "
                 . "left outer join pdftabvendas on widl.prod01.procod = pdftabvendas.codigo "
@@ -53,11 +53,12 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         if ($aDados[3] != '' && $aDados[3] != 'null') {
             $sSql .= "and famsub in (" . $aDados[3] . ") ";
         }
-        $sSql .= "and probloqpro <> 'S' "
+        $sSql .= "and tbean.inativo <> 's' "
+                . "and probloqpro <> 'S' "
                 . "and promatcod <> '' "
                 . "and pdftabvendas.preco is not null "
                 . "and widl.prod01.subcod not in(2,9,116,128,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,260,329,700,710,711) "
-                . "and caixa = 'NORMAL'";
+                . "and tbean.caixa = 'NORMAL'";
         $aRet07 = $PDOnew->exec($sSql);
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//        
@@ -79,11 +80,12 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         if ($aDados[3] != '' && $aDados[3] != 'null') {
             $sSql .= "and famsub in (" . $aDados[3] . ") ";
         }
-        $sSql .= "and probloqpro <> 'S' "
+        $sSql .= "and tbean.inativo <> 's' "
+                . "and probloqpro <> 'S' "
                 . "and promatcod <> '' "
                 . "and pdftabvendas.preco is not null "
                 . "and widl.prod01.subcod not in(2,9,116,128,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,260,329,700,710,711) "
-                . "and caixa = 'MASTER'";
+                . "and tbean.caixa = 'MASTER'";
         $aRet08 = $PDOnew->exec($sSql);
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//        
@@ -105,20 +107,21 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         if ($aDados[3] != '' && $aDados[3] != 'null') {
             $sSql .= "and famsub in (" . $aDados[3] . ") ";
         }
-        $sSql .= "and probloqpro <> 'S' "
+        $sSql .= "and tbean.inativo <> 's' "
+                . "and probloqpro <> 'S' "
                 . "and promatcod <> '' "
                 . "and pdftabvendas.preco is not null "
                 . "and widl.prod01.subcod not in(2,9,116,128,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,260,329,700,710,711) "
-                . "and caixa = 'SACO'";
+                . "and tbean.caixa = 'SACO'";
         $aRet09 = $PDOnew->exec($sSql);
 
 
 
 
 //======================================SELECT FINAL PARA TRAZER TODOS OS DADOS NECESSÁRIOS============================================================//
-        $sSql = "select cxnormal,cxmaster,saco,widl.prod01.procod,pdftabvendas.preco,prodes,pround,promatcod,ProClasseG,widl.prod05.media,"
-                . "metmat.material,prodchamin,prodchamax,prodchamin,prodchamax,prodaltmin,prodaltmax,proddiamin,proddiamax,procommin,procommax,"
-                . "prodiapmin,prodiapmax,prodiaemin,prodiaemax,procomrmin,procomrmax,comphastma,comphastmi,diamhastmi,diamhastma,pfcmin,pfcmax,proanghel "
+        $sSql = "select cxnormal,cxmaster,saco,widl.prod01.procod,pdftabvendas.preco,prodes,pround,promatcod,ProClasseG,widl.prod05.media,metmat.material,"
+                . "prodchamin,prodchamax,prodchamin,prodchamax,prodaltmin,prodaltmax,proddiamin,proddiamax,procommin,procommax,prodiapmin,prodiapmax,"
+                . "prodiaemin,prodiaemax,procomrmin,procomrmax,comphastma,comphastmi,diamhastmi,diamhastma,pfcmin,pfcmax,proanghel "
                 . "from widl.prod01 "
                 . "left outer join pdftabvendas on widl.prod01.procod = pdftabvendas.codigo "
                 . "left outer join widl.prod05 on widl.prod01.subcod = widl.prod05.subcod "
@@ -290,8 +293,8 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         $aRetorno = array();
         $aDadosRet = array();
         while ($oRowDB = $result->fetch(PDO::FETCH_OBJ)) {
-            $aDadosRet['cod'] = $oRowDB->subcod;
-            $aDadosRet['desc'] = $oRowDB->subdes;
+            $aDadosRet['cod'] = trim($oRowDB->subcod);
+            $aDadosRet['desc'] = trim($oRowDB->subdes);
             $aRetorno[] = $aDadosRet;
         }
         return $aRetorno;
@@ -303,8 +306,8 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         $aRetorno = array();
         $aDadosRet = array();
         while ($oRowDB = $result->fetch(PDO::FETCH_OBJ)) {
-            $aDadosRet['cod'] = $oRowDB->famcod;
-            $aDadosRet['desc'] = $oRowDB->famdes;
+            $aDadosRet['cod'] = trim($oRowDB->famcod);
+            $aDadosRet['desc'] = trim($oRowDB->famdes);
             $aRetorno[] = $aDadosRet;
         }
         return $aRetorno;
@@ -316,12 +319,13 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         $aRetorno = array();
         $aDadosRet = array();
         while ($oRowDB = $result->fetch(PDO::FETCH_OBJ)) {
-            $aDadosRet['cod'] = $oRowDB->famsub;
-            $aDadosRet['desc'] = $oRowDB->famsdes;
+            $aDadosRet['cod'] = trim($oRowDB->famsub);
+            $aDadosRet['desc'] = trim($oRowDB->famsdes);
             $aRetorno[] = $aDadosRet;
         }
         return $aRetorno;
     }
+
 
     function buscaCarrinho($aDados) {
 
@@ -351,13 +355,16 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         $aDadosRet = array();
         foreach ($aDados as $key => $value) {
 
+            $aItem = explode('|', $value);
+            
             $sSql = "insert into #MetTecCxNormal (procod,cxnormal) "
                     . "select widl.prod01.procod,pcs "
                     . "from widl.prod01 "
                     . "left outer join pdftabvendas on widl.prod01.procod = pdftabvendas.codigo "
                     . "left outer join metmat on widl.prod01.procod = metmat.procod "
                     . "left outer join tbean on widl.prod01.procod = tbean.codigo "
-                    . "where widl.prod01.procod =" . $value . ""
+                    . "where widl.prod01.procod =" . $aItem[0] . " "
+                    . "and tbean.inativo <> 's' "
                     . "and caixa = 'NORMAL'";
             $aRet07 = $PDOnew->exec($sSql);
 
@@ -367,7 +374,8 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
                     . "left outer join pdftabvendas on widl.prod01.procod = pdftabvendas.codigo "
                     . "left outer join metmat on widl.prod01.procod = metmat.procod "
                     . "left outer join tbean on widl.prod01.procod = tbean.codigo "
-                    . "where widl.prod01.procod =" . $value . ""
+                    . "where widl.prod01.procod =" . $aItem[0] . " "
+                    . "and tbean.inativo <> 's' "
                     . "and caixa = 'MASTER'";
             $aRet08 = $PDOnew->exec($sSql);
 
@@ -377,7 +385,8 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
                     . "left outer join pdftabvendas on widl.prod01.procod = pdftabvendas.codigo "
                     . "left outer join metmat on widl.prod01.procod = metmat.procod "
                     . "left outer join tbean on widl.prod01.procod = tbean.codigo "
-                    . "where widl.prod01.procod =" . $value . ""
+                    . "where widl.prod01.procod =" . $aItem[0] . " "
+                    . "and tbean.inativo <> 's' "
                     . "and caixa = 'SACO'";
             $aRet09 = $PDOnew->exec($sSql);
 
@@ -393,7 +402,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
                     . "left outer join #MetTecCxNormal on widl.prod01.procod = #MetTecCxNormal.procod "
                     . "left outer join #MetTecCxMaster on widl.prod01.procod = #MetTecCxMaster.procod "
                     . "left outer join #MetTecSaco on widl.prod01.procod = #MetTecSaco.procod "
-                    . "where widl.prod01.procod =" . $value;
+                    . "where widl.prod01.procod =" . $aItem[0];
 
             $result = $PDOnew->query($sSql);
 
@@ -407,6 +416,8 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
             $aDadosRet['material'] = trim($oRowDB->material);
             $aDadosRet['classe'] = trim($oRowDB->ProClasseG);
             $aDadosRet['preco'] = trim(number_format($oRowDB->preco, 2, ',', '.'));
+            $aDadosRet['quant'] = $aItem[1];
+            $aDadosRet['precoItem'] = $aItem[2];
 
             if ($oRowDB->cxnormal != 0 && $oRowDB->cxnormal != null) {
                 $aDadosRet['cxnormal'] = number_format($oRowDB->cxnormal, 0, ',', '.');

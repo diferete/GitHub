@@ -34,8 +34,12 @@ class ControllerMET_TEC_Chamados extends Controller {
 
     public function afterInsert() {
         parent::afterInsert();
-        $aCampos = $this->getArrayCampostela();
+        $aCampos = $this->retornaArrayCamposTela();
 
+        $aChave['nr'] = $aCampos['nr'];
+        $aChave['filcgc'] = $aCampos['filcgc'];
+
+        $oDados = $this->Persistencia->buscaDadosChamado($aChave);
         switch ($oDados->tipo) {
             case 1:
                 $sTipo = 'HARDWARE';
@@ -56,30 +60,31 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@metalbo.com.br');
         $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('CHAMADO NR ' . $aCampos['nr'] . ''));
+        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
-        $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $aCampos['nr'] . ' EMPRESA ' . $aCampos['filcgc']));
+        $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' EMPRESA ' . $oDados->filcgc));
         $oEmail->setMensagem(utf8_decode('Novo chamado:<br/>'
-                        . '<b>Usuário:</b> ' . $aCampos['usunome'] . '<br/><br/><br/>'
+                        . '<b>Usuário:</b> ' . $oDados->usunome . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Tipo:</b></td><td>' . $sTipo . '</td></tr>'
-                        . '<tr><td><b>Subtipo:</b></td><td>' . $aCampos['subtipo_nome'] . '</td></tr>'
-                        . '<tr><td><b>Problema:</b></td><td>' . $aCampos['problema'] . '</td></tr>'
+                        . '<tr><td><b>Subtipo:</b></td><td>' . $oDados->subtipo_nome . '</td></tr>'
+                        . '<tr><td><b>Problema:</b></td><td>' . $oDados->problema . '</td></tr>'
                         . '</table><br/><br/>'
+                        . '<a href="sistema.metalbo.com.br">Clique aqui para acessar o chamado!</a>'
                         . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
         $oEmail->limpaDestinatariosAll();
 
         // Para
         $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
-        if ($aCampos['anexo1'] != '') {
-            $oEmail->addAnexo('Uploads/' . $aCampos['anexo1'] . '', utf8_decode($aCampos['anexo1']));
+        if ($oDados->anexo1 != '') {
+            $oEmail->addAnexo('Uploads/' . $oDados->anexo1 . '', utf8_decode($oDados->anexo1));
         }
-        if ($aCampos['anexo2'] != '') {
-            $oEmail->addAnexo('Uploads/' . $aCampos['anexo2'] . '', utf8_decode($aCampos['anexo2']));
+        if ($oDados->anexo2 != '') {
+            $oEmail->addAnexo('Uploads/' . $oDados->anexo2 . '', utf8_decode($oDados->anexo2));
         }
-        if ($aCampos['anexo3'] != '') {
-            $oEmail->addAnexo('Uploads/' . $aCampos['anexo3'] . '', utf8_decode($aCampos['anexo3']));
+        if ($oDados->anexo3 != '') {
+            $oEmail->addAnexo('Uploads/' . $oDados->anexo3 . '', utf8_decode($oDados->anexo3));
         }
 
         $aRetorno = $oEmail->sendEmail();

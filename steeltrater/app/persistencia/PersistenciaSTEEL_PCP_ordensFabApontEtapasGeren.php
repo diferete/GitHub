@@ -30,6 +30,8 @@ class PersistenciaSTEEL_PCP_ordensFabApontEtapasGeren extends Persistencia{
         $this->adicionaRelacionamento('usernomesaida','usernomesaida');
         $this->adicionaRelacionamento('turnoSteel', 'turnoSteel');
         $this->adicionaRelacionamento('turnoSteelSaida','turnoSteelSaida');
+        $this->adicionaRelacionamento('corrida', 'corrida');
+        $this->adicionaRelacionamento('processoativo', 'processoativo');
         
         
 

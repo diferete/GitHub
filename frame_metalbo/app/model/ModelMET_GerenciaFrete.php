@@ -27,6 +27,15 @@ class ModelMET_GerenciaFrete {
     private $obsfinal;
     private $empdes;
     private $dataem;
+    private $datafn;
+    
+    function getDatafn() {
+        return $this->datafn;
+    }
+
+    function setDatafn($datafn) {
+        $this->datafn = $datafn;
+    }
     
     function getDataem() {
         return $this->dataem;

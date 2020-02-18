@@ -12,7 +12,7 @@ class ControllerContRecParc extends Controller{
     
     
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         
         
         $aCampos[] = $aChave[0];

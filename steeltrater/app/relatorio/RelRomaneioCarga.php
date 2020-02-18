@@ -58,19 +58,22 @@ foreach ($nCargas as $key => $aCarga) {
                 pdv_pedido.PDV_PedidoDataEmissao, 
                 pdv_pedido.PDV_PedidoSituacao, 
                 pdv_pedido.PDV_PedidoAprovacao,
-                PDV_PedidoItemSeq,
+                pdv_pedidoitem.PDV_PedidoItemSeq,
                 PDV_PedidoItemProduto,
                 PDV_PedidoItemProdutoNomeManua,
                 PDV_PedidoItemQtdPedida,
                 PDV_PedidoItemProdutoUnidadeMa,
                 PDV_PedidoItemValorUnitario,
                 PDV_PedidoItemValorTotal,
-                pro_ncm
+                pro_ncm,op
                 from pdv_pedido left outer join pdv_pedidoitem 
                 on pdv_pedido.PDV_PedidoFilial = pdv_pedidoitem.PDV_PedidoFilial
                 and pdv_pedido.PDV_PedidoCodigo = pdv_pedidoitem.PDV_PedidoCodigo left outer join PRO_PRODUTO
-                on pdv_pedidoitem.PDV_PedidoItemProduto = PRO_PRODUTO.PRO_Codigo
-                where pdv_pedido.PDV_PedidoCodigo='".$aCarga."' order by pdv_pedidoitemseq";
+                on pdv_pedidoitem.PDV_PedidoItemProduto = PRO_PRODUTO.PRO_Codigo left outer join STEEL_PCP_CargaInsumoServ
+                on pdv_pedidoitem.PDV_PedidoFilial = STEEL_PCP_CargaInsumoServ.pdv_pedidofilial
+                and pdv_pedidoitem.PDV_PedidoCodigo = STEEL_PCP_CargaInsumoServ.pdv_pedidocodigo
+                and pdv_pedidoitem.PDV_PedidoItemSeq= STEEL_PCP_CargaInsumoServ.pdv_pedidoitemseq
+                where pdv_pedido.PDV_PedidoCodigo='".$aCarga."' order by pdv_pedidoitem.pdv_pedidoitemseq";
     $dadosCarga = $PDO->query($sSql);
     
     $iConta = 0;
@@ -102,9 +105,11 @@ foreach ($nCargas as $key => $aCarga) {
     $pdf->Cell(199, 5, '','',1);
     
     $pdf->SetFont('Arial','B',8);
-    $pdf->Cell(25, 5, 'CÓDIGO','B',0,'L');
+    $pdf->Cell(20, 5, 'CÓDIGO','B',0,'L');
     $pdf->SetFont('Arial','B',8);
-    $pdf->Cell(99, 5, 'DESCRIÇÃO','B',0,'L');
+    $pdf->Cell(89, 5, 'DESCRIÇÃO','B',0,'L');
+    $pdf->SetFont('Arial','B',8);
+    $pdf->Cell(15, 5, 'OP.','B',0,'L');
     $pdf->SetFont('Arial','B',8);
     $pdf->Cell(15, 5, 'QTD.','B',0,'L');
     $pdf->SetFont('Arial','B',8);
@@ -119,9 +124,11 @@ foreach ($nCargas as $key => $aCarga) {
     $pdf = quebraPagina($pdf->GetY(),$pdf);
     
     $pdf->SetFont('Arial','B',8);
-    $pdf->Cell(25, 5, trim($rowIten['PDV_PedidoItemProduto']),'B',0,'L');
+    $pdf->Cell(20, 5, trim($rowIten['PDV_PedidoItemProduto']),'B',0,'L');
     $pdf->SetFont('Arial','',7);
-    $pdf->Cell(99, 5, $rowIten['PDV_PedidoItemProdutoNomeManua'] ,'B',0,'L');
+    $pdf->Cell(89, 5, $rowIten['PDV_PedidoItemProdutoNomeManua'] ,'B',0,'L');
+    $pdf->SetFont('Arial','',8);
+    $pdf->Cell(15, 5, $rowIten['op'] ,'B',0,'L');
     $pdf->SetFont('Arial','',8);
     $pdf->Cell(15, 5, number_format($rowIten['PDV_PedidoItemQtdPedida'], 2, ',', '.'),'B',0,'L');  
     $pdf->SetFont('Arial','',8);

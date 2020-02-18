@@ -19,11 +19,11 @@ class ViewNotEmpQual extends View {
 
         $oEmpcod = new CampoConsulta('Cnpj', 'empcod');
         $oEmpcod->setILargura(600);
-        
+
         $oEmpdes = new CampoConsulta('Empresa', 'empdes');
         $oEmpdes->setILargura(600);
-        
-        $oFiltro = new Filtro($oEmpdes, Filtro::CAMPO_TEXTO);
+
+        $oFiltro = new Filtro($oEmpdes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
 
 
 

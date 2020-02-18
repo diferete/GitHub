@@ -13,7 +13,7 @@ class ControllerMET_ISO_Documentos extends Controller {
         $this->setControllerDetalhe('MET_ISO_DocRevisao');
         $this->setSMetodoDetalhe('acaoTelaDetalhe');
     }
-    
+
     public function afterDelete() {
         parent::afterDelete();
 

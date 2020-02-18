@@ -15,7 +15,7 @@ class ControllerPnlFinanCot extends Controller{
     }
     
    public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         
         $oModelPessoa = Fabrica::FabricarModel('Pessoa');
         $oPersPessoa = Fabrica::FabricarPersistencia('Pessoa');
@@ -41,8 +41,6 @@ class ControllerPnlFinanCot extends Controller{
             $sEmpcod=$value[0];
             $sCnpj = $value[1];
         }
-        
-        $this->Persistencia->adicionaFiltro('empcod',$sCnpj);
         
         $iTotal = $this->Persistencia->somaTitulos();
         $iAtraso = $this->Persistencia->somaTitAtraso();

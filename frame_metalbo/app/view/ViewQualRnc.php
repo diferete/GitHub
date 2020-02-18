@@ -16,11 +16,11 @@ class ViewQualRnc extends View {
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
 
-        $oCliente = new CampoConsulta('Cliente', 'empdes', CampoConsulta::TIPO_LARGURA);
+        $oCliente = new CampoConsulta('Cliente', 'empdes', CampoConsulta::TIPO_TEXTO);
 
-        $oUser = new CampoConsulta('Usuário', 'usunome', CampoConsulta::TIPO_LARGURA);
+        $oUser = new CampoConsulta('Usuário', 'usunome', CampoConsulta::TIPO_TEXTO);
 
-        $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_LARGURA);
+        $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_TEXTO);
 
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
 
@@ -31,51 +31,70 @@ class ViewQualRnc extends View {
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
 
 
-        $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
-        $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
-        $oSit->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
-        $oSit->addComparacao('Env.Exp', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
-        $oSit->addComparacao('Env.Emb', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
-        $oSit->addComparacao('Env.Qual', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
-        $oSit->addComparacao('Apontada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA);
-        $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
+        $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_TEXTO);
+        $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
+        $oSit->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oSit->addComparacao('Env.Exp', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSit->addComparacao('Env.Emb', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSit->addComparacao('Env.Qual', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSit->addComparacao('Apontada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA, false, null);
+        $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA, false, null);
         $oSit->setBComparacaoColuna(true);
 
-        $oReclamacao = new CampoConsulta('Reclamação', 'reclamacao', CampoConsulta::TIPO_LARGURA);
-        $oReclamacao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
-        $oReclamacao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
-        $oReclamacao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
-        $oReclamacao->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA); 
-        $oReclamacao->addComparacao('Interna', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA);
-        $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oReclamacao = new CampoConsulta('Reclamação', 'reclamacao', CampoConsulta::TIPO_TEXTO);
+        $oReclamacao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oReclamacao->addComparacao('Em análise', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
+        $oReclamacao->addComparacao('Transportadora', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
+        $oReclamacao->addComparacao('Representante', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
+        $oReclamacao->addComparacao('Interna', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA, false, null);
+        $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
         $oReclamacao->setBComparacaoColuna(true);
 
-        $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_LARGURA);
-        $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
-        $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
-        $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA);
+        $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
+        $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->setBComparacaoColuna(true);
 
         $oDropDown = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
-        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'QualRnc', 'liberarMetalbo', '', false, 'rc', false, '', false, '', true);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'QualRnc', 'liberarMetalbo', '', false, 'rc', false, '', false, '', true, false);
 
         $oDropDown1 = new Dropdown('Finalizar Reclamação', Dropdown::TIPO_AVISO);
-        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'QualRnc', 'criaTelaModalFinaliza', '', false, '', false, 'criaTelaModalFinaliza', true, 'Finalizar Reclamação');
+        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'QualRnc', 'criaTelaModalFinaliza', '', false, '', false, 'criaTelaModalFinaliza', true, 'Finalizar Reclamação', false, false);
 
         $oDropDown2 = new Dropdown('Opções da Reclamação', Dropdown::TIPO_INFO, Dropdown::ICON_INFO);
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'QualRnc', 'acaoMostraRelConsulta', '', false, 'rc');
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail', 'QualRnc', 'reenviaEmail', '', false, '');
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'QualRnc', 'acaoMostraRelConsulta', '', false, 'rc', false, '', false, '', false, false);
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail', 'QualRnc', 'reenviaEmail', '', false, '', false, '', false, '', false, false);
 
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown2, $oDropDown1);
 
 
-        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1);
+        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
-        $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3);
+        $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
         $this->addFiltro($oFilNr, $oFilCli);
         $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+
+        $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
+
+        $oAnaliseVendas = new Campo('Resposta apresentada pelo setor de Vendas', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oAnaliseVendas->setILinhasTextArea(6);
+        $oAnaliseVendas->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oAnaliseVendas->setBCampoBloqueado(true);
+
+        $oProblema = new Campo('Problema descrito pelo Representante', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oProblema->setILinhasTextArea(6);
+        $oProblema->setSCorFundo(Campo::FUNDO_MONEY);
+        $oProblema->setBCampoBloqueado(true);
+
+
+        $this->addCamposGrid($oProblema, $oAnaliseVendas, $oLinhaWhite);
+
+        $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
+                . 'requestAjax("","QualRnc","carregaAnalise","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oAnaliseVendas->getId() . ',' . $oProblema->getId() . '"+","+"");');
+
 
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
@@ -105,12 +124,12 @@ class ViewQualRnc extends View {
         $oDevolucao->setSValor('Aguardando');
         $oDevolucao->setBCampoBloqueado(true);
         $oDevolucao->setBOculto(true);
-        
+
         $oReclamacao = new Campo('', 'reclamacao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oReclamacao->setSValor('Aguardando');
         $oReclamacao->setBCampoBloqueado(true);
-        $oReclamacao->setBOculto(true);        
-        
+        $oReclamacao->setBOculto(true);
+
         //situacao
         $oSituaca = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oSituaca->setSValor('Aguardando');
@@ -149,8 +168,6 @@ class ViewQualRnc extends View {
 
         $oDivisor3 = new Campo('Dados da Reclamação', 'dadosrec', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor3->setApenasTela(true);
-
-
 
         //responsável por vendas
         $oRespVenda = new campo('', 'resp_venda_cod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -207,6 +224,8 @@ class ViewQualRnc extends View {
         $oNf->setSCorFundo(Campo::FUNDO_MONEY);
         $oNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '2');
 
+        $oTagExcecao = new Campo(' <- Exceção, inserir sem LOTE', 'tagexcecao', Campo::TIPO_CHECK, 2, 2, 12, 12);
+
         $oDataNf = new Campo('Data.Nf', 'datanf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oDataNf->setBCampoBloqueado(true);
 
@@ -223,7 +242,6 @@ class ViewQualRnc extends View {
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","QualRnc","buscaNf","' . $oDataNf->getId() . ',' . $oValor->getId() . ',' . $oPeso->getId() . ',' . $oEmpcod->getId() . ',' . $oEmpdes->getId() . '");';
 
         $oNf->addEvento(Campo::EVENTO_SAIR, $sCallBack);
-
 
         $oLote = new Campo('Nº Lote', 'lote', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
@@ -279,7 +297,7 @@ class ViewQualRnc extends View {
 
         $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
-        $oQuanNconf = new Campo('Quant. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oQuanNconf = new Campo('Qnt. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oQuanNconf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
 
         $oProCod = new campo('Cód.', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 4, 4, 4);
@@ -302,7 +320,7 @@ class ViewQualRnc extends View {
         $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
 
 
-        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 2);
+        $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBotConf->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
 
         $sAcao = 'insereProd($("#' . $oProCod->getId() . '").val(),'
@@ -346,15 +364,15 @@ class ViewQualRnc extends View {
         $oTabNF->addCampos(
                 array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
 
-        $oTabProd->addCampos($oAplicacao, array(/* $oCodigo, $oProdes, */$oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
+        $oTabProd->addCampos($oAplicacao, array($oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
 
         $oTabAnexos->addCampos(
-                array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao,$oReclamacao));
+                array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao, $oReclamacao));
 
         $oTab->addItems($oTabGeral, $oTabNF, $oTabProd, $oTabAnexos);
 
         $this->addCampos(
-                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf), $ln, $oTab);
+                array($oNr, $oFilcgc, $oUsunome, $oOfficeDes, $oDataIns, $oHora), $oDivisor3, array($oNf, $oTagExcecao), $ln, $oTab);
 
 
 
@@ -382,7 +400,7 @@ class ViewQualRnc extends View {
 
         $oObs_fim = new campo('Obs', 'obs_fim', Campo::TIPO_TEXTAREA, 12);
         $oObs_fim->setILinhasTextArea(8);
-        $oObs_fim->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+        $oObs_fim->addValidacao(false, Validacao::TIPO_STRING, '', '5');
 
 
 
@@ -400,6 +418,70 @@ class ViewQualRnc extends View {
 
 
         $this->addCampos(array($oFilcgc, $oNr), $oObs_fim, $oBtnInserir);
+    }
+
+    public function relReclamacaoCliente() {
+        parent::criaTelaRelatorio();
+
+        $this->setTituloTela('Relatório de Reclamações de Clientes');
+        $this->setBTela(true);
+
+
+        $oDivisor1 = new Campo('Situações por Setor', 'divisor1', Campo::DIVISOR_INFO, 12, 12, 12, 12);
+        $oDivisor1->setApenasTela(TRUE);
+
+
+        $oDataIni = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataIni->setSValor(Util::getPrimeiroDiaMes());
+        $oDataIni->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oDataFin = new Campo('Data Final', 'datafim', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataFin->setSValor(Util::getDataAtual());
+        $oDataFin->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oSetorAnalise = new campo('Setor da análise', 'tagsetor', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oSetorAnalise->addItemSelect('', 'Todos');
+        $oSetorAnalise->addItemSelect('34', 'Vendas');
+        $oSetorAnalise->addItemSelect('25', 'Qualidade');
+        $oSetorAnalise->addItemSelect('3', 'Expedição');
+        $oSetorAnalise->addItemSelect('5', 'Embalagem');
+
+        $oSituaca = new campo('Situação Geral', 'situaca', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oSituaca->addItemSelect('', 'Todas');
+        $oSituaca->addItemSelect('Aguardando', 'Aguardando');
+        $oSituaca->addItemSelect('Liberada', 'Liberada');
+        $oSituaca->addItemSelect('Apontada', 'Apontada');
+        $oSituaca->addItemSelect('Finalizada', 'Finalizada');
+
+        $oReclamacao = new campo('Status da Reclamação', 'reclamacao', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oReclamacao->addItemSelect('', 'Todas');
+        $oReclamacao->addItemSelect('Aguardando', 'Aguardando');
+        $oReclamacao->addItemSelect('Em análise', 'Em análise');
+        $oReclamacao->addItemSelect('Interna', 'Interna');
+        $oReclamacao->addItemSelect('Cliente', 'Cliente');
+        $oReclamacao->addItemSelect('Representante', 'Representante');
+        $oReclamacao->addItemSelect('Transportadora', 'Transportadora');
+
+        $oDevolucao = new campo('Devolução', 'devolucao', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oDevolucao->addItemSelect('', 'Todas');
+        $oDevolucao->addItemSelect('Aguardando', 'Aguardando');
+        $oDevolucao->addItemSelect('Aceita', 'Aceita');
+        $oDevolucao->addItemSelect('Recusada', 'Recusada');
+
+        $oDivisor2 = new Campo('Situações Gerais', 'divisor2', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
+        $oDivisor2->setApenasTela(TRUE);
+
+        $olinha = new Campo('', 'linha1', Campo::TIPO_LINHABRANCO);
+        $olinha->setApenasTela(true);
+
+//        /EXCEL
+//        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
+//        $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
+//
+//        $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","QualGerenProj","relProjXls");';
+//        $oXls->getOBotao()->addAcao($sAcaoLib);
+
+        $this->addCampos(array($oDataIni, $oDataFin), $oDivisor1, $oSetorAnalise, $oDivisor2, array($oSituaca, $oReclamacao, $oDevolucao), $olinha/* , $oXls */);
     }
 
 }

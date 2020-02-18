@@ -938,7 +938,7 @@ $("#fam").change(function () {
 //=========================================================================== Início da montagem da tela =========================================================================================================//
 //Baseado no filtro, mota toda a tela que mostra os produtos
 function filtro() {
-    //valor/código do GRUPO
+//valor/código do GRUPO
     var gru = $('#gru').val();
     //valor/código do SUBGRUPO
     var subg = $('#subg').val();
@@ -947,12 +947,12 @@ function filtro() {
     //valor/código SUBFAMILIA
     var subf = $('#subf').val();
     if (gru == null) {
-        //Mostra mensagem notificando usuário sobre a necessidade de um valor no campo de filtro
+//Mostra mensagem notificando usuário sobre a necessidade de um valor no campo de filtro
         $("#filter-msg").removeClass('shake animated hidden').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
             $("#filter-msg").removeClass('shake animated');
         });
     } else {
-        //Concatena os valores de cada campo do filtro
+//Concatena os valores de cada campo do filtro
         var dados = gru + '|' + subg + '|' + fam + '|' + subf;
         //Cria variável que vai receber o HTML
         var htmlTable = '';
@@ -966,6 +966,7 @@ function filtro() {
         $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=montaFiltro" + "&dados=" + dados, function (result) {
             //Gera HTML com cada um dos itens trazidos pelo request JSON da Classe na frame
             result.forEach(function (e) {
+                var carrinho = verificaCarrinho(e['procod']);
                 //Concatena HTML gerado para o item anterior com o próximo item para formar a lista
                 htmlTable = htmlTable + '<div class="prod-items section-items prod-tb">'
                         + '<div class="prodtb-i">'
@@ -974,12 +975,22 @@ function filtro() {
                         + '<h3 class="prodtb-i-ttl">' + e['prodes'] + '</h3>'
                         + '<div class="quant-prod">'
                         + '<span class="prodtb-i-price">'
-                        + '<b>Qnt:</b>'
-                        + '<input id="' + e['procod'] + '-qnt" class="quant-prod-form" type="text" data-required="text" placeholder="x100">'
+                        + '<b>Qnt:</b>';
+                if (carrinho[0] === 'true') {
+                    htmlTable = htmlTable + '<input id="' + e['procod'] + '-qnt" class="quant-prod-form" type="text" data-required="text" placeholder="x100" value="' + carrinho[1] + '">';
+                } else {
+                    htmlTable = htmlTable + '<input id="' + e['procod'] + '-qnt" class="quant-prod-form" type="text" data-required="text" placeholder="x100" value="">';
+                }
+                htmlTable = htmlTable
                         + '</span>'
                         + '</div>'
-                        + '<p id="' + e['procod'] + '-id" name="' + e['procod'] + '" class="prodtb-i-action">'
-                        + '<a id="' + e['procod'] + '-addCart" class="prodtb-i-buy"><span>Adicionar ao carrinho</span><i id="' + e['procod'] + '-cart" class="fa fa-shopping-basket"></i></a>'
+                        + '<p id="' + e['procod'] + '-id" name="' + e['procod'] + '" class="prodtb-i-action">';
+                if (carrinho[0] === 'true') {
+                    htmlTable = htmlTable + '<a id="' + e['procod'] + '-addCart" class="prodtb-i-buy"><span class="span-active">Remover do carrinho</span><i id="' + e['procod'] + '-cart" class="fa fa-shopping-basket cart-active"></i></a>';
+                } else {
+                    htmlTable = htmlTable + '<a id="' + e['procod'] + '-addCart" class="prodtb-i-buy"><span>Adicionar ao carrinho</span><i id="' + e['procod'] + '-cart" class="fa fa-shopping-basket"></i></a>';
+                }
+                htmlTable = htmlTable
                         + '</p>'
                         + '</div>'
                         + '<div class="prodlist-i">'
@@ -1082,7 +1093,6 @@ function filtro() {
             }
 
             chkDropDown();
-
             //Contador que mostra apenas os primeiros 20 items 
             $("#prods > div").slice(20).css('display', 'none');
             //Função contador que tras a quantidade de itens escondidos para o calculo do botão "carregar mais"
@@ -1129,7 +1139,6 @@ function filtro() {
                         $('#load-msg').html('Mostrando ' + shown + ' de ' + itens + ' itens. Carregar mais...');
                     }
                 });
-
             });
         });
     }
@@ -1145,7 +1154,8 @@ $('#toTop').click(function () {
         scrollTop: 0
     }, 600);
     return false;
-});
+}
+);
 //Função para esconder o botão VOLTAR AO TOPO até que posição do scroll na página seja alcançada
 $(window).scroll(function () {
     if ($(this).scrollTop() > 200) {
@@ -1163,12 +1173,10 @@ $(window).scroll(function () {
         $('#loadMore').fadeOut("slow");
     }
 });
-
 //Loading para carregar página - GIF
 $(window).load(function () {
     $(".se-pre-con").fadeOut("slow");
 });
-
 //Adiciona um balão ao passar o mouse sobre o botão de rodapé - VOLTAR AO TOPO
 //Ver jquery-balloon.js plug-in
 $('#toTop').balloon({position: "left",
@@ -1178,7 +1186,6 @@ $('#toTop').balloon({position: "left",
         fontSize: '14px'
     }
 });
-
 //Função para limpar a página e filtro
 $('#reset').click(function () {
     $('#prods').empty();
@@ -1194,11 +1201,7 @@ $('#reset').click(function () {
     $('#subf').empty().trigger('chosen:updated');
     $('#filtro-count').empty();
     $('#cart-count').empty();
-
-
-
 });
-
 //Contador de itens ocultos 
 function countLoad() {
     var hidden = 0;
@@ -1224,18 +1227,18 @@ function removeCart(cod) {
 }
 //Baseado nos itens do #cart-list monta toda a tela do carrinho de compras
 function shoppingList() {
-    //Captura valor/texto mostrado no icone do carrinho de compras 
+//Captura valor/texto mostrado no icone do carrinho de compras 
     var text = $("#shopping-cart").text();
     //Faz verificações se existem itens no carrinho de compras
     if (text <= 0) {
-        //Para e sai da função
+//Para e sai da função
         return;
     } else {
-        //Se possui ao menos 1 item:
-        //Verifica se a lista de itens está escondida
+//Se possui ao menos 1 item:
+//Verifica se a lista de itens está escondida
         if ($('#prods').css('display') === 'none' && text > 0) {
-            //Se sim:
-            //Cria função toggle no botão de carrinho de compras, permitindo mostrar os itens do filtro e esconder o carrinho de compras
+//Se sim:
+//Cria função toggle no botão de carrinho de compras, permitindo mostrar os itens do filtro e esconder o carrinho de compras
             $('#table-prods > #send-form').hide();
             $('#waiting-msg').remove();
             $('#cart-table').empty().hide();
@@ -1243,14 +1246,14 @@ function shoppingList() {
             $('#prods').show();
             $('#filtro-count').show();
             $('#load-msg').show();
-
             chkDropDown();
+            chkQuantItem();
         }
-        //Se a lista de itens não está escondida
+//Se a lista de itens não está escondida
         else {
-            //Se sim:
-            //Cria uma função toggle no botão de carrinho de compras, permitindo mostrar o carrinho de compras e esconder de itens do filtro
-            //Cria GIF de loading enquanto o HTML do carrinho de compras é gerado
+//Se sim:
+//Cria uma função toggle no botão de carrinho de compras, permitindo mostrar o carrinho de compras e esconder de itens do filtro
+//Cria GIF de loading enquanto o HTML do carrinho de compras é gerado
             $('#cart-table').append('<span class="back"><span>C</span><span>a</span><span>r</span><span>r</span><span>e</span><span>g</span><span>a</span><span>n</span><span>d</span><span>o</span></span>').show();
             //Esconde a lista de itens do filtro
             $('#prods').hide();
@@ -1264,17 +1267,74 @@ function shoppingList() {
             var codigos = [];
             //For each para capturar itens da lista de compras
             $('#cart-list').find('li').each(function () {
-                var result = $(this).text().split('|');
-                var quant = $('#' + result[0] + '-qnt').val();
-                var string = $('#' + result[0] + '-preco').text();
+                var sResult = $(this).text();
+                var aDadosItem = sResult.split('|');
+                var string = $('#' + aDadosItem[0] + '-preco').text();
                 var preco = moedaParaNumero(string);
-                codigos.push(result[0] + '|' + quant + '|' + preco);
+                codigos.push(aDadosItem[0] + '|' + aDadosItem[1] + '|' + preco);
                 //codigos.push($(this).text());
             });
             //Json da consulta SQL com os códigos dos itens da lista de compras
             $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=montaCarrinho" + "&dados=" + codigos, function (result) {
                 //Variavel que vai ser alimentada com o HTML do carrinho de compras
-                var htmlCart = '';
+                var htmlCart = '<div id="send-form" style="text-align: center">'
+                        + '<p class="contactform-field" style="display: inline-block;margin-bottom: 10px;">'
+                        + '<label  class="contactform-label">E-mail</label>'
+                        + '<!-- NO SPACE -->'
+                        + '<span class="contactform-input" style="margin: 0 5px;width: 300px;">'
+                        + '<input class="input-email-cart" placeholder="Seu e-mail" type="text" id="email" name="email" data-required="text" data-required-email="email"></span>'
+                        + '</p>'
+                        + '<div id="UF" class="select-location-div">'
+                        + '<div >'
+                        + '<div >'
+                        + '<select id="UF-select" onchange="getES()" class="select-location">'
+                        + '<option value="0" disabled selected>Selecione o Estado</option>'
+                        + '<option value="12">Acre</option>'
+                        + '<option value="27">Alagoas</option>'
+                        + '<option value="16">Amapá</option>'
+                        + '<option value="13">Amazonas</option>'
+                        + '<option value="29">Bahia</option>'
+                        + '<option value="23">Ceará</option>'
+                        + '<option value="53">Distrito Federal</option>'
+                        + '<option value="32">Espírito Santo</option>'
+                        + '<option value="52">Goiás</option>'
+                        + '<option value="21">Maranhão</option>'
+                        + '<option value="51">Mato Grosso</option>'
+                        + '<option value="50">Mato Grosso do Sul</option>'
+                        + '<option value="31">Minas Gerais</option>'
+                        + '<option value="41">Paraná</option>'
+                        + '<option value="25">Paraíba</option>'
+                        + '<option value="15">Pará</option>'
+                        + '<option value="26">Pernambuco</option> '
+                        + '<option value="22">Piauí</option>'
+                        + '<option value="33">Rio de Janeiro</option>'
+                        + '<option value="24">Rio Grande do Norte</option>'
+                        + '<option value="43">Rio Grande do Sul</option>'
+                        + '<option value="11">Rondônia</option>'
+                        + '<option value="14">Roraima</option>'
+                        + '<option value="42">Santa Catarina</option>'
+                        + '<option value="28">Sergipe</option>'
+                        + '<option value="35">São Paulo</option>'
+                        + '<option value="17">Tocantins</option>'
+                        + '</select>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div id="ES" class="select-location-div">'
+                        + '<div >'
+                        + '<div >'
+                        + '<select id="ES-select" class="select-location">'
+                        + '<option value="0" disabled selected>Selecione a Cidade</option>'
+                        + '</select>'
+                        + '</div>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div id="send-form" style="text-align: center;margin: 0 0 10px 0;">'
+                        + '<input id="send-list" onclick="sendPdfEmail()" class="btn class-test" value="Enviar para Metalbo" type="button">'
+                        + '<input id="send-pdf" onclick="sendPdf()" class="btn class-test" value="Gerar lista" type="button">'
+                        + '</div>'
+                        + '<p id="waiting-msg" class="msg-email hidden"></p>'
+                        + '</div>';
                 //Replica função for each usada para criar itens da lista de produtos
                 result.forEach(function (e) {
                     //Concatena HTML gerado para o item anterior com o próximo item para formar a lista
@@ -1286,7 +1346,7 @@ function shoppingList() {
                             + '<div class="quant-prod">'
                             + '<span class="prodtb-i-price">'
                             + '<b>Qnt:</b>'
-                            + '<input id="' + e['procod'] + '-qnt" class="quant-prod-form" type="text" data-required="text" value="' + e['quant'] + '" placeholder="x100" disabled>'
+                            + '<input id="' + e['procod'] + '-qntCart" class="quant-prod-form" type="text" data-required="text" value="' + e['quant'] + '" placeholder="x100">'
                             + '</span>'
                             + '</div>'
                             + '<p id="' + e['procod'] + '-idCartItem" name="' + e['procod'] + '" class="prodtb-i-action">'
@@ -1359,73 +1419,18 @@ function shoppingList() {
                             + '$("#cart-count").empty().html("Você tem " + text + " item(s) no seu carrinho.");'
                             + 'back();'
                             + '});'
+                            + '$("#' + e['procod'] + '-qntCart").on("input", function () {'
+                            + 'var result = $("#cart-list > #' + e['procod'] + '-cartItem").text().split("|");'
+                            + 'var string = $("#' + e['procod'] + '-preco").text();'
+                            + 'var preco = moedaParaNumero(string);'
+                            + '$("#' + e['procod'] + '-cartItem").text(result[0] + "|" + $("#' + e['procod'] + '-qntCart").val() + "|" + preco);'
+                            + '});'
                             + '</script>'
                             + '</div>'
                             + '</div>';
                 });
                 //Limpa DIV do carrinho de compras, append HTML do carrinho de compras na DIV e mostra na tela
                 $('#cart-table').empty().append(htmlCart).show();
-
-
-                //Cria form de envio e geração do PDF
-                $('#table-prods > #cart-table').before('<div id="send-form" style="text-align: center">'
-                        + '<p class="contactform-field" style="display: inline-block;margin-bottom: 10px;">'
-                        + '<label  class="contactform-label">E-mail</label>'
-                        + '<!-- NO SPACE -->'
-                        + '<span class="contactform-input" style="margin: 0 5px;width: 300px;">'
-                        + '<input class="input-email-cart" placeholder="Seu e-mail" type="text" id="email" name="email" data-required="text" data-required-email="email"></span>'
-                        + '</p>'
-                        + '<div id="UF" class="select-location-div">'
-                        + '<div >'
-                        + '<div >'
-                        + '<select id="UF-select" onchange="getES()" class="select-location">'
-                        + '<option value="0" disabled selected>Selecione o Estado</option>'
-                        + '<option value="12">Acre</option>'
-                        + '<option value="27">Alagoas</option>'
-                        + '<option value="16">Amapá</option>'
-                        + '<option value="13">Amazonas</option>'
-                        + '<option value="29">Bahia</option>'
-                        + '<option value="23">Ceará</option>'
-                        + '<option value="53">Distrito Federal</option>'
-                        + '<option value="32">Espírito Santo</option>'
-                        + '<option value="52">Goiás</option>'
-                        + '<option value="21">Maranhão</option>'
-                        + '<option value="51">Mato Grosso</option>'
-                        + '<option value="50">Mato Grosso do Sul</option>'
-                        + '<option value="31">Minas Gerais</option>'
-                        + '<option value="41">Paraná</option>'
-                        + '<option value="25">Paraíba</option>'
-                        + '<option value="15">Pará</option>'
-                        + '<option value="26">Pernambuco</option> '
-                        + '<option value="22">Piauí</option>'
-                        + '<option value="33">Rio de Janeiro</option>'
-                        + '<option value="24">Rio Grande do Norte</option>'
-                        + '<option value="43">Rio Grande do Sul</option>'
-                        + '<option value="11">Rondônia</option>'
-                        + '<option value="14">Roraima</option>'
-                        + '<option value="42">Santa Catarina</option>'
-                        + '<option value="28">Sergipe</option>'
-                        + '<option value="35">São Paulo</option>'
-                        + '<option value="17">Tocantins</option>'
-                        + '</select>'
-                        + '</div>'
-                        + '</div>'
-                        + '</div>'
-                        + '<div id="ES" class="select-location-div">'
-                        + '<div >'
-                        + '<div >'
-                        + '<select id="ES-select" class="select-location">'
-                        + '<option value="0" disabled selected>Selecione a Cidade</option>'
-                        + '</select>'
-                        + '</div>'
-                        + '</div>'
-                        + '</div>'
-                        + '<div id="send-form" style="text-align: center;margin: 0 0 10px 0;">'
-                        + '<input id="send-list" onclick="sendPdfEmail()" class="btn class-test" value="Enviar para Metalbo" type="button">'
-                        + '<input id="send-pdf" onclick="sendPdf()" class="btn class-test" value="Gerar lista" type="button">'
-                        + '</div>'
-                        + '<p id="waiting-msg" class="msg-email hidden"></p>');
-
                 //Botão de busca do conteudo carregado na tela
                 $('#search-btn').click(function () {
                     var val = $('#search-val').val().toLowerCase();
@@ -1437,7 +1442,6 @@ function shoppingList() {
                             $(this).show();
                         }
                     });
-
                 });
                 chkDropDown();
             });
@@ -1455,8 +1459,8 @@ function home() {
         $('#prods').show();
         $('#filtro-count').show();
         $('#load-msg').show();
-
         chkDropDown();
+        chkQuantItem();
     } else {
         return;
     }
@@ -1483,7 +1487,6 @@ function limpaCart() {
             $('#load-msg').show();
             $("#shopping-cart").text(' 0');
             $('#cart-list').empty();
-
             chkDropDown();
         } else {
             $('#cart-list').find('li').each(function () {
@@ -1506,16 +1509,17 @@ function limpaCart() {
 function back() {
     var text = $("#shopping-cart").text();
     if (text > 0) {
-        //Enquanto itens no carrinho, maior que 0, para a função e retorna
+//Enquanto itens no carrinho, maior que 0, para a função e retorna
         return;
     } else {
-        //Se o carrinho foi esvaziado, executa função home()
+//Se o carrinho foi esvaziado, executa função home()
         home();
     }
 }
+
 //Função baseada na API do IBGE Brasil para busca dos municípios por estado para criar select no form de envio de e-mail
 function getES() {
-    //Captura valor númerico do código do estado
+//Captura valor númerico do código do estado
     var uf = $("#UF-select").val();
     //Json que recebe os dados com os nomes dos múnicípios do estado selecionado
     $.getJSON('https://servicodados.ibge.gov.br/api/v1/localidades/estados/' + uf + '/municipios', function (result) {
@@ -1527,20 +1531,21 @@ function getES() {
             htmlSelect = htmlSelect + '<option value="' + es['nome'] + '">' + es['nome'] + '</option>';
         });
         //Limpa e cria append do HTML do select de cidades
-        $("#ES-select").empty().append(htmlSelect);
+        $("#ES-select").empty();
+        $("#ES-select").append(htmlSelect);
     });
 }
 
 //Função para gerar o PDF com os itens do carrinho de compras
 function sendPdf() {
-    //Verifica se tem itens no carrinho
+//Verifica se tem itens no carrinho
     var text = $("#shopping-cart").text();
     if (text <= 0) {
-        //Se vazio, para a funcção
+//Se vazio, para a funcção
         return;
     } else {
-        //Se possui ao menos um item
-        //Variavel de arrey dos códigos 
+//Se possui ao menos um item
+//Variavel de arrey dos códigos 
         var codigos = [];
         //For each que alimenta array com os códigos dos itens do carrinho de compras
         $('#cart-list').find('li').each(function () {
@@ -1553,7 +1558,7 @@ function sendPdf() {
 
 //Função para gerar e enviar o PDF via e-mail para Metalbo com cópia do PDF para o usuário
 function sendPdfEmail() {
-    //Variaveis para pegar valores
+//Variaveis para pegar valores
     var text = $("#shopping-cart").text();
     //Validação do formato de e-mail
     var email = validateEmail($("#email").val());
@@ -1561,16 +1566,16 @@ function sendPdfEmail() {
     var es = $('#ES-select').val();
     //Verifica se tem itens no carrinho
     if (text <= 0) {
-        //Se não, para a função e retorna 
+//Se não, para a função e retorna 
         return;
     } else {
-        //Vefirica valores
+//Vefirica valores
         if (email == false || uf == null || es == null) {
             $("#waiting-msg").text('Oops, e-mail inválido ou informações insuficientes!').addClass('email-error').removeClass('shake animated hidden').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
                 $("#waiting-msg").removeClass('shake animated');
             });
         } else {
-            //For each que alimenta array com os códigos dos itens do carrinho de compras
+//For each que alimenta array com os códigos dos itens do carrinho de compras
             var codigos = [];
             $("#cart-list").find('li').each(function () {
                 codigos.push($(this).text());
@@ -1613,23 +1618,31 @@ function validateEmail(email) {
 
 function chkDropDown() {
 
-    //Toggle - informações extra
-    //Recarrega dropdown de dados extras abaixo da linha/grid de cada item
-    //Verifica se o dropdown possui dados
+//Toggle - informações extra
+//Recarrega dropdown de dados extras abaixo da linha/grid de cada item
+//Verifica se o dropdown possui dados
     if ($('.prodtb-i-toggle').length > 0) {
-        //Captura clique no dropdown
+//Captura clique no dropdown
         $('.prodtb-i-toggle').on('click', function () {
-            //Ao clicar, verifica se tem a classe OPENED *Aberta* 
+//Ao clicar, verifica se tem a classe OPENED *Aberta* 
             if ($(this).hasClass('opened')) {
-                //Se possui a classe, ao clicar, fecha/esconde *hide* o dropdown 
+//Se possui a classe, ao clicar, fecha/esconde *hide* o dropdown 
                 $(this).removeClass('opened').parents('.prodtb-i').find('.prodlist-i').hide();
             } else {
-                //Se não possiu a classe, ao clicar, abre/mostra *show* o dropdown
+//Se não possiu a classe, ao clicar, abre/mostra *show* o dropdown
                 $(this).addClass('opened').parents('.prodtb-i').find('.prodlist-i').show();
             }
             return false;
         });
     }
+}
+
+function chkQuantItem() {
+    $('#cart-list').find('li').each(function () {
+        var sResult = $(this).text();
+        var aDadosItem = sResult.split('|');
+        $("#" + aDadosItem[0] + "-qnt").val(aDadosItem[1]);
+    });
 }
 
 /**
@@ -1653,6 +1666,21 @@ function numeroParaMoeda(n, c, d, t)
  */
 function moedaParaNumero(valor)
 {
-    //return isNaN(valor) == false ? parseFloat(valor) :   parseFloat(valor.replace("R$","").replace(".","").replace(",","."));
+//return isNaN(valor) == false ? parseFloat(valor) :   parseFloat(valor.replace("R$","").replace(".","").replace(",","."));
     return isNaN(valor) == false ? parseFloat(valor) : parseFloat(valor.replace("R$", "").replace(".", "").replace(",", "."));
 }
+
+function verificaCarrinho(cod) {
+    if ($('#cart-list > li#' + cod + '-cartItem').length) {
+        var result = $('#cart-list > li#' + cod + '-cartItem').text().split('|');
+        var carrinho = ['true', result[1]];
+
+        return carrinho;
+    } else {
+        return 'false';
+    }
+}
+
+$(document).ready(function () {
+    document.body.style.zoom = "90%";
+}); 

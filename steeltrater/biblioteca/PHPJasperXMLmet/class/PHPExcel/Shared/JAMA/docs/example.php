@@ -156,7 +156,7 @@ to apply knowledge.
 </p> 
 
 <p>
-To learn more about the subject of magic squares you can visit the <a href='https://mathforum.org/alejandre/magic.square.html'>Drexel Math Forum on Magic Squares</a>.
+To learn more about the subject of magic squares you can visit the <a href='http://mathforum.org/alejandre/magic.square.html'>Drexel Math Forum on Magic Squares</a>.
 You can also learn more by carefully examining the <code>MagicSquareExample.php</code> source code below.
 </p>
 

@@ -283,6 +283,7 @@ class Util {
 
         $sString = str_replace("\n", " ", $sString);
         $sString = str_replace("'", "\'", $sString);
+        $sString = str_replace('"', '\"', $sString);
         $sString = str_replace("\r", "", $sString);
         $sString = rtrim($sString);
         $sString = ltrim($sString);

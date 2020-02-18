@@ -25,14 +25,17 @@ class ViewMenu extends View {
         $oModulo = new CampoConsulta('Módulo', 'Modulo.modcod');
 
         $oModDes = new CampoConsulta('Módulo', 'Modulo.modescricao');
-        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO);
 
         $oMenuCod = new CampoConsulta('Cód. Menu', 'mencodigo');
 
         $oMenDes = new CampoConsulta('Descrição', 'mendes');
-        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO);
 
         $oMenOrdem = new CampoConsulta('Ordem', 'menordem');
+
+
+
+        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
         $this->addFiltro($oFMenDes, $oFModDes);
 
@@ -52,13 +55,13 @@ class ViewMenu extends View {
         $oModCodigo = new Campo('Cód Mod', 'Modulo.modcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oModCodigo->setClasseBusca('Modulo');
         $oModCodigo->addCampoBusca('modescricao', null, $this->getTela()->getId(), Campo::TIPO_BUSCA, 4, 5, 12, 12);
-        $oModCodigo->setBFocus(true);
+        $oModCodigo->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco');
 
         $oMenCodigo = new Campo('Cód Menu', 'mencodigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oMenCodigo->setBCampoBloqueado(true);
 
         $oMenu = new Campo('Menu', 'mendes', Campo::TIPO_TEXTO, 4, 4, 12, 12);
-        $oMenu->addValidacao(true, Validacao::TIPO_STRING, 'Conteúdo Inválido!');
+        $oMenu->addValidacao(false, Validacao::TIPO_STRING, 'Conteúdo Inválido!');
 
         $oMenuOrdem = new Campo('Ordem', 'menordem', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
@@ -85,9 +88,6 @@ class ViewMenu extends View {
         }
     }
 
-    /**
-     * Método que realiza a criação dos campos da tela de consulta
-     */
 }
 
 ?>

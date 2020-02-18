@@ -26,7 +26,12 @@ class ViewSTEEL_PCP_GerenProd extends View{
         $oDataIni->setIMarginTop(10);
         $oDataFim = new Campo('Data final','datafin', Campo::TIPO_DATA,4,4,6,6);
         $oDataFim->setIMarginTop(10);
-        $oDataFim->setSValor(Util::getUltimoDiaMes());
+        $dia = date("d");
+        if($dia==1){
+           $oDataFim->setSValor(Util::getPrimeiroDiaMes()); 
+        }else{
+           $oDataFim->setSValor(Util::getDataOtem());
+        }
         
         $oBtnPesqOp = new Campo('Atualizar dados','btnPesq', Campo::TIPO_BOTAOSMALL);
         $oBtnPesqOp->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
@@ -123,7 +128,12 @@ class ViewSTEEL_PCP_GerenProd extends View{
         $oDataIni->setBCampoBloqueado(true);
         $oDataFim = new Campo('Data final','datafin', Campo::TIPO_TEXTO,3,3,3,3);
         $oDataFim->setIMarginTop(10);
-        $oDataFim->setSValor(Util::getDataOtem());
+        $dia = date("d");
+        if($dia==1){
+           $oDataFim->setSValor(Util::getPrimeiroDiaMes()); 
+        }else{
+           $oDataFim->setSValor(Util::getDataOtem());
+        }
         $oDataFim->setBCampoBloqueado(true);
         
         $oBtnPesqOp = new Campo('Atualizar dados','btnPesq', Campo::TIPO_BOTAOSMALL);

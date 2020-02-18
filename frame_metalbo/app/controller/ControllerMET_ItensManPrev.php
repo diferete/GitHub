@@ -281,10 +281,10 @@ class ControllerMET_ItensManPrev extends Controller {
          $sCodSet = $_SESSION['codsetor'];
             if($sCodSet=='2'){
             }else if($sCodSet=='12'){
-                $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'MANUTENCAO');
+                $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'ELETRICA');
             }else if($sCodSet=='29'){
                 $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'MECANICA');                
-            }else{
+            }else if($sCodSet=='14'){
                 $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'OPERADOR');
             }
     }

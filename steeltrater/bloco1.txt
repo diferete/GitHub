@@ -1,2 +1,2 @@
-update MET_TEC_sessao set usulastacesso = '2019-11-11 16:35:12' 
-            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = '8ofoil4a86k8bgat3mr6t1a2l2'
+update MET_TEC_sessao set usulastacesso = '2019-10-15 17:47:51' 
+            where usucodigo ='81' and usunome = 'Cleverton Hoffmann' and usuidsessao = 'f6kh6r01c32tk07ph5e455k367'

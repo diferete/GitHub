@@ -4,7 +4,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */ 
+ */
 
 class ControllerQualCausa extends Controller {
 
@@ -22,7 +22,7 @@ class ControllerQualCausa extends Controller {
     public function criaPainelCausa($sDados, $sCampos) {
         $aDados = explode(',', $sDados);
         $aCampos = explode(',', $sCampos);
-         if ($aDados[6] != '') {
+        if ($aDados[6] != '') {
             $this->View->setSRotina($aDados[6]);
         }
         $this->pkDetalhe($aCampos);
@@ -69,7 +69,7 @@ class ControllerQualCausa extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $aCampos = $aChave;
         $this->View->setAParametrosExtras($aCampos);
     }
@@ -96,8 +96,7 @@ class ControllerQualCausa extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sDados);
-        $aParam = explode(',', $sDados);
+        parent::acaoLimpar($sForm, $sDados);
 
         //verifica se está como 
         $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';

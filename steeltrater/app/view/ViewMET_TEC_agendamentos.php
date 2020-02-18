@@ -19,13 +19,14 @@ class ViewMET_TEC_agendamentos extends View{
         $oMetodo = new CampoConsulta('Método','metodo');
         $oData = new CampoConsulta('Data','data', CampoConsulta::TIPO_DATA);
         $oHora = new CampoConsulta('Hora','hora', CampoConsulta::TIPO_TIME);
+        $oAgendamento = new CampoConsulta('Tipo Agendamento', 'agendamento');
         
         $oNrFiltro = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL,2,2,2,2);
         $oTitFiltro = new Filtro($oTitulo, Filtro::CAMPO_TEXTO,4,4,4,4);
         
         $this->addFiltro($oNrFiltro,$oTitFiltro);
         
-        $this->addCampos($oNr,$oTitulo,$oClasse,$oMetodo,$oData,$oHora);
+        $this->addCampos($oNr,$oTitulo,$oClasse,$oMetodo,$oData,$oHora,$oAgendamento);
     }
     
     public function criaTela() {
@@ -52,16 +53,25 @@ class ViewMET_TEC_agendamentos extends View{
         $oIntervalo = new campo('Intervalo em minutos','intervalominuto', Campo::TIPO_TEXTO,2,2,2,2);
         $oIntervalo->setBTime(true);
         
-        
         $oLinha = new Campo('','linha', Campo::TIPO_LINHA,12,12,12,12);
         $oLinha->setApenasTela(true);
         
         $oLinha2 = new Campo('OBSERVAÇÕES E PARAMETROS','linha2', Campo::DIVISOR_DARK,12,12,12,12);
         $oLinha2->setApenasTela(true);
         
+        $oDiv1 = new Campo('Logs','div', Campo::DIVISOR_DARK,12, 12, 12,12);
+        $oDiv1->setApenasTela(true);
+        
+        $oDataUltResult = new campo('Data último resultado','dtultresultado', Campo::TIPO_TEXTO,3,3,3,3);
+       // $oDataUltResult->setBCampoBloqueado(true);
+        $oLog = new campo('Log útima execução','ultResultado', Campo::TIPO_TEXTAREA,8,8,8,8);
+        
         
         $this->addCampos($oNr,$oLinha,$oTitulo,$oLinha,array($oClasse,$oMetodo),
-                $oLinha,$oAgendamento,$oLinha,array($oData,$oHora,$oIntervalo),$oLinha,$oLinha2,$oLinha,$oParametros,$oLinha,$oObs);
+                $oLinha,$oAgendamento,$oLinha,array($oData,$oHora,$oIntervalo),
+                $oLinha,$oLinha2,$oLinha,$oParametros,$oLinha,$oObs,$oDiv1,
+                $oDataUltResult,$oLog
+                );
         
     }
 }

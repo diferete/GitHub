@@ -13,8 +13,48 @@ Class PersistenciaSTEEL_PCP_GerenProd extends Persistencia{
         $this->setTabela('STEEL_PCP_ordensFabApont');
     }
     
-    
-    public function geraGerenProd($aDados){
+    public function geraProdEtapas($aDados){
+        $sSqlDados =' select ';
+        //campos listados
+        if($aDados['busca'] =='ProdTotal'){
+            $sSqlDados .= " tratdes,sum(STEEL_PCP_ordensFab.peso) as pesoTotal ";
+        }
+         if($aDados['busca'] =='ProdForno'){
+            $sSqlDados .= " STEEL_PCP_ordensFabItens.fornodes,sum(STEEL_PCP_ordensFab.peso) as pesoTotal ";
+        }
+        //busca nas tabelas
+            $sSqlDados .= "  from STEEL_PCP_ordensFabItens left outer join STEEL_PCP_ordensFab
+         on STEEL_PCP_ordensFabItens.op = STEEL_PCP_ordensFab.op left outer join STEEL_PCP_tratamentos
+         on STEEL_PCP_ordensFabItens.tratamento = STEEL_PCP_tratamentos.tratcod ";
+        
+         //condições
+            $sSqlDados .= "where dataent_forno between '".$aDados['dataini']."' and '".$aDados['datafin']."' 
+					and STEEL_PCP_ordensFabItens.situacao in('Finalizado','Processo')
+		                        and retrabalho<>'Retorno não Ind.' ";
+            if(isset($aDados['tipoOp'])){
+               $sSqlDados .=" and STEEL_PCP_ordensFab.tipoOrdem IN ('".$aDados['tipoOp']."') ";   
+            }
+            if($aDados['busca'] =='ProdTotal'){
+              $sSqlDados .= " group by tratamento,tratdes";
+            }
+            if($aDados['busca'] =='ProdForno'){
+              $sSqlDados .= " group by STEEL_PCP_ordensFabItens.fornodes";   
+            }
+            
+             $result = $this->getObjetoSql($sSqlDados);
+                while($oRowBD = $result->fetch(PDO::FETCH_OBJ)){
+                    if($aDados['busca'] =='ProdForno'){
+                        $aRetorno[$oRowBD->fornodes] = $oRowBD->pesototal;
+                    }
+                    if($aDados['busca'] =='ProdTotal'){
+                        $aRetorno[$oRowBD->tratdes] = $oRowBD->pesototal;
+                    }
+                }
+            //faz o retorno dos dados
+            return $aRetorno;
+    }
+
+        public function geraGerenProd($aDados){
         $sSqlDados =' select ';
         //campos listados
         if($aDados['busca'] =='ProdTotal'){
@@ -33,7 +73,7 @@ Class PersistenciaSTEEL_PCP_GerenProd extends Persistencia{
 					and STEEL_PCP_ordensFabApont.situacao='Finalizado'  
 					and retrabalho<>'Retorno não Ind.'";
             if(isset($aDados['tipoOp'])){
-             $sSqlDados .=" and STEEL_PCP_ordensFab.tipoOrdem IN ('".$aDados['tipoOp']."') ";   
+               $sSqlDados .=" and STEEL_PCP_ordensFab.tipoOrdem IN ('".$aDados['tipoOp']."') ";   
             }
         //agrupamentos necessário
              if($aDados['busca'] =='ProdForno'){

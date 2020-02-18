@@ -31,6 +31,8 @@ class PersistenciaSTEEL_PCP_GerenciaApont extends Persistencia {
         $this->adicionaRelacionamento('usernomesaida', 'usernomesaida');
         $this->adicionaRelacionamento('turnoSteel', 'turnoSteel');
         $this->adicionaRelacionamento('turnoSteelSaida', 'turnoSteelSaida');
+        $this->adicionaRelacionamento('corrida', 'corrida');
+        $this->adicionaRelacionamento('processoAtivo', 'processoAtivo');
 
         $this->setSTop('100');
         $this->adicionaOrderBy('op', 1);

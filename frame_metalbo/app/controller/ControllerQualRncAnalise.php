@@ -90,7 +90,7 @@ class ControllerQualRncAnalise extends Controller {
         parse_str($sChave, $aCamposChave);
         $aCamposChave['id'] = $aDados[1];
 
-        
+
         $aRet = $this->Persistencia->verifSit($aCamposChave);
 
         if ($aRet[0] == true && $aRet[2] == 'Em análise' && $aRet[1] != 'Apontada') {
@@ -175,14 +175,14 @@ class ControllerQualRncAnalise extends Controller {
 
         $oEmail = new Email();
         $oEmail->setMailer();
-
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $oRow = $this->Persistencia->buscaDadosRnc($aCamposChave);
 
@@ -210,8 +210,8 @@ class ControllerQualRncAnalise extends Controller {
                         . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
                         . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
-                        . '<tr><td><b>Valor: R$</b></td><td> ' . $oRow->valor . ' </td></tr>'
-                        . '<tr><td><b>Peso: </b></td><td> ' . $oRow->peso . ' </td></tr>'
+                        . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->$oRow->valor, 2, ',', '.') . ' </td></tr>'
+                        . '<tr><td><b>Peso: </b></td><td> ' . number_format($oRow->peso, 2, ',', '.') . ' </td></tr>'
                         . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
                         . '</table><br/><br/>'
@@ -222,8 +222,9 @@ class ControllerQualRncAnalise extends Controller {
 
 
         // Para
-        $sEmail = $this->Persistencia->buscaEmailVenda($aCamposChave);
-        $oEmail->addDestinatario($sEmail);
+        $aEmail = $this->Persistencia->buscaEmails($aCamposChave);
+        $oEmail->addDestinatario($aEmail[0]);
+        $oEmail->addDestinatarioCopia($aEmail[1]);
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {

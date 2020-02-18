@@ -134,7 +134,7 @@ $valY = $pdf->GetY();
  * Comprimento máximo das Barras de 1 á 3 e 0 como padrão
  * Quantidade de Divisões
  */
-$pdf->ColunmDiagram(100, 150,$data, '%l : %v (%p)', array($col1,$col2,$col3,$col4,$col5,$col6,$col7,$col8,$col9,$col10,$col11,$col12), 0, 5);
+$pdf->ColunmDiagram(100, 150, $data, '%l : %v (%p)', array($col1,$col2,$col3,$col4,$col5,$col6,$col7,$col8,$col9,$col10,$col11,$col12), 0, 5);
 
 $pdf->Output();
 ?>

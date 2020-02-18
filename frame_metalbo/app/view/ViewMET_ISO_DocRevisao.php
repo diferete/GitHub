@@ -13,7 +13,7 @@ class ViewMET_ISO_DocRevisao extends View {
     }
 
     public function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_TEXTO);
         $oFilcgc = new CampoConsulta('Emp.', 'filcgc', CampoConsulta::TIPO_TEXTO);
@@ -60,8 +60,8 @@ class ViewMET_ISO_DocRevisao extends View {
 
     public function criaTela() {
         parent::criaTela();
-        
-        
+
+
         $aParam = $this->getAParametrosExtras();
         $this->criaGridDetalhe();
 
@@ -82,10 +82,10 @@ class ViewMET_ISO_DocRevisao extends View {
 
         $oDescricao = new Campo('Documento', 'descricao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oDescricao->setSValor($aParam[2]);
-        $oDescricao->setBCampoBloqueado(true);
         $oDescricao->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $oRevisao = new Campo('Revisao', 'revisao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oRevisao->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 1);
 
         $oDataRevisao = new Campo('data', 'data_revisao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataRevisao->setSValor(date('d-m-Y'));

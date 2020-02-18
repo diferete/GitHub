@@ -34,8 +34,8 @@ class ViewSatisClientePesqShow extends View {
         $oIndica = new CampoConsulta('Indicação', 'geralindica', CampoConsulta::TIPO_DESTAQUE1);
 
         $oEmailEnv = new CampoConsulta('Enviado', 'emailenv');
-        $oEmailEnv->addComparacao('Sim', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
-        $oEmailEnv->addComparacao('Não', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
+        $oEmailEnv->addComparacao('Sim', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oEmailEnv->addComparacao('Não', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
 
         $this->addCampos($oNr, $oSeq, $oEmpdes, $oEmail, $oComercial, $oProdReq, $oEmb, $oPrazo, $oGeralExp, $oIndica, $oEmailEnv);
     }

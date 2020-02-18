@@ -3,7 +3,7 @@
 // --------------------------------------------------------------------------------
 // License GNU/LGPL - August 2009
 // Vincent Blavet - vincent@phpconcept.net
-// https://www.phpconcept.net
+// http://www.phpconcept.net
 // --------------------------------------------------------------------------------
 // $Id: readme.txt,v 1.60 2009/09/30 20:35:21 vblavet Exp $
 // --------------------------------------------------------------------------------
@@ -27,7 +27,7 @@
 
   PclZip is a library that allow you to manage a Zip archive.
 
-  Full documentation about PclZip can be found here : https://www.phpconcept.net/pclzip
+  Full documentation about PclZip can be found here : http://www.phpconcept.net/pclzip
 
 2 - What's new
 ==============
@@ -340,7 +340,7 @@
 =============================
 
   Please publish bugs reports in SourceForge :
-    https://sourceforge.net/tracker/?group_id=40254&atid=427564
+    http://sourceforge.net/tracker/?group_id=40254&atid=427564
 
   In Version 2.x :
     - PclZip does only support file uncompressed or compressed with deflate (compression method 8)
@@ -388,13 +388,13 @@
   code using PclZip library (or a part of it), YOU MUST :
   - Indicate in the documentation (or a readme file), that your work
     uses PclZip Library, and make a reference to the author and the web site
-    https://www.phpconcept.net
+    http://www.phpconcept.net
   - Gives the ability to the final user to update the PclZip libary.
 
   I will also appreciate that you send me a mail (vincent@phpconcept.net), just to
   be aware that someone is using PclZip.
 
-  For more information about GNU/LGPL license : https://www.gnu.org
+  For more information about GNU/LGPL license : http://www.gnu.org
 
 6 - Warning
 =================
@@ -406,8 +406,8 @@
 
 7 - Documentation
 =================
-  PclZip User Manuel is available in English on PhpConcept : https://www.phpconcept.net/pclzip/man/en/index.php
-  A Russian translation was done by Feskov Kuzma : https://php.russofile.ru/ru/authors/unsort/zip/
+  PclZip User Manuel is available in English on PhpConcept : http://www.phpconcept.net/pclzip/man/en/index.php
+  A Russian translation was done by Feskov Kuzma : http://php.russofile.ru/ru/authors/unsort/zip/
 
 8 - Author
 ==========
@@ -418,4 +418,4 @@
 ==============
   If you want to contribute to the development of PclZip, please contact vincent@phpconcept.net.
   If you can help in financing PhpConcept hosting service, please go to
-  https://www.phpconcept.net/soutien.php
+  http://www.phpconcept.net/soutien.php

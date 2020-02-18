@@ -61,11 +61,20 @@ class Form {
         $this->aModal = array();
     }
     
-     /**
+    /**
      * Adiciona um botão ao vetor de botões do objeto
      * 
      * @param object $oBotao 
      */
+    function getSId() {
+        return $this->sId;
+    }
+
+    function setSId($sId) {
+        $this->sId = $sId;
+    }
+
+    
     public function addModal() {
         $aModal = func_get_args();
         foreach ($aModal as $oModal) {

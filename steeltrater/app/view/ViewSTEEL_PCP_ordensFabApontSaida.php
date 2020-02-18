@@ -118,6 +118,7 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
         
         $this->setBTela(true);
         
+       
         
          //busca os dados do usuário
         $oOuser = Fabrica::FabricarController('MET_TEC_Usuario');
@@ -130,7 +131,7 @@ class ViewSTEEL_PCP_ordensFabApontSaida extends View {
         $oTurno->addItemSelect('Turno C','Turno C');
         $oTurno->addItemSelect('Turno D','Turno D');
         $oTurno->addItemSelect('Geral','Geral');
-        $oTurno->setSValor($oApontDados->getTurnoSteel());
+        $oTurno->setSValor($oOuserDados->getTurnoSteel());
 
         $oOp = new Campo('OP', 'op', Campo::TIPO_TEXTO, 2,2,2,2);
         $oOp->setSValor($oApontDados->getOp());

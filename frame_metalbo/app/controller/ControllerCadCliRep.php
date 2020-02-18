@@ -14,14 +14,91 @@ class ControllerCadCliRep extends Controller {
 
     public function beforeInsert() {
         parent::beforeInsert();
-        $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
-        $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
-        $this->Model->setEmpend(Util::removeAcentos($this->Model->getEmpend()));
+        $sCNPJ = $this->Model->getCnpj();
+        $sEmpcod = $this->Model->getEmpcod();
 
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
+
+        if ($sCNPJ != $sEmpcod) {
+            if ($sCNPJ == '') {
+
+                $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
+                $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
+                $this->Model->setEmpend(Util::removeAcentos($this->Model->getEmpend()));
+
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+
+
+                $oMsg = new Mensagem('Atenção preenchimento manual', 'Verifique o número do CNPJ antes de liberar cadastro!', Mensagem::TIPO_WARNING, 10000);
+                echo $oMsg->getRender();
+
+                return $aRetorno;
+            } else {
+
+                $oMsg = new Mensagem('Erro ao tentar inserir', 'Verifique o número do CNPJ.', Mensagem::TIPO_WARNING);
+                echo $oMsg->getRender();
+
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
+        } else {
+            $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
+            $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
+            $this->Model->setEmpend(Util::removeAcentos($this->Model->getEmpend()));
+
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
+    }
+
+    public function beforeUpdate() {
+        parent::beforeUpdate();
+
+        $sCNPJ = $this->Model->getCnpj();
+        $sEmpcod = $this->Model->getEmpcod();
+
+
+        if ($sCNPJ != $sEmpcod) {
+            if ($sCNPJ == '') {
+
+                $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
+                $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
+                $this->Model->setEmpend(Util::removeAcentos($this->Model->getEmpend()));
+
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+
+
+                $oMsg = new Mensagem('Atenção preenchimento manual', 'Verifique o número do CNPJ antes de liberar cadastro!', Mensagem::TIPO_WARNING, 10000);
+                echo $oMsg->getRender();
+
+                return $aRetorno;
+            } else {
+
+                $oMsg = new Mensagem('Erro ao tentar inserir', 'Verifique o número do CNPJ.', Mensagem::TIPO_WARNING);
+                echo $oMsg->getRender();
+
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
+        } else {
+            $this->Model->setEmpmunicipio(Util::removeAcentos($this->Model->getEmpmunicipio()));
+            $this->Model->setEmpendbair(Util::removeAcentos($this->Model->getEmpendbair()));
+            $this->Model->setEmpend(Util::removeAcentos($this->Model->getEmpend()));
+
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
     }
 
     public function antesDeCriarTela($sParametros = null) {
@@ -80,7 +157,7 @@ class ControllerCadCliRep extends Controller {
 
         $aRetorno = $this->Persistencia->liberaMetalbo($aCamposChave);
         $sCondicao = $aRetorno[0];
-        
+
         switch ($sCondicao) {
             case 'Liberado':
                 $oMensagem = new Modal('Liberação de cadastro', 'Solicitação de cadastro nº' . $aCamposChave['nr'] . ' já foi liberada para a Metalbo, deseja REENVIAR o e-mail de notificação?', Modal::TIPO_AVISO, true, true, true);
@@ -99,17 +176,16 @@ class ControllerCadCliRep extends Controller {
     }
 
     public function enviaEmailMetalbo($sNr) {
-        $oEmail = new Email();
+       $oEmail = new Email();
         $oEmail->setMailer();
-
         $oEmail->setEnvioSMTP();
-        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER),utf8_decode('Relatórios Web Metalbo'));
 
         $this->Persistencia->adicionafiltro('nr', $sNr);
         $oRow = $this->Persistencia->consultarWhere();
@@ -145,8 +221,8 @@ class ControllerCadCliRep extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
 
-//        $aUserPlano = $this->Persistencia->buscaEmailVenda($sNr);
-//        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+        //$aUserPlano = $this->Persistencia->buscaEmailVenda($sNr);
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
         $aRetorno = $oEmail->sendEmail();
 
         if ($aRetorno[0]) {
@@ -159,24 +235,27 @@ class ControllerCadCliRep extends Controller {
     }
 
     public function getCNPJ($sDados) {
-        $aDados = explode(',', $sDados);
-        if ($aDados[0] != '') {
-            $sRet = $this->Persistencia->buscaCNPJ($aDados[0]);
+        $aDados = explode('*', $sDados);
+        $aDadosEMP = explode('|', $aDados[0]);
+        $aIdCampos = explode('|', $aDados[1]);
+        if ($aDadosEMP[0] != '') {
+            $sRet = $this->Persistencia->buscaCNPJ($aDadosEMP[0]);
             if ($sRet == false) {
                 $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
             } else {
-                $sSetValorCampos = '$("#' . $aDados[12] . '").val("' . $aDados[1] . '");'
-                        . '$("#' . $aDados[13] . '").val("' . $aDados[2] . '");'
-                        . '$("#' . $aDados[14] . '").val("' . $aDados[3] . '");'
-                        . '$("#' . $aDados[15] . '").val("' . $aDados[4] . '");'
-                        . '$("#' . $aDados[16] . '").val("' . $aDados[5] . '");'
-                        . '$("#' . $aDados[17] . '").val("' . $aDados[6] . '");'
-                        . '$("#' . $aDados[18] . '").val("' . $aDados[7] . '");'
-                        . '$("#' . $aDados[19] . '").val("' . $aDados[8] . '");'
-                        . '$("#' . $aDados[20] . '").val("' . $aDados[9] . '");'
-                        . '$("#' . $aDados[21] . '").val("' . $aDados[10] . '");'
-                        . '$("#' . $aDados[22] . '").val("' . $aDados[11] . '");';
+                $sSetValorCampos = '$("#' . $aIdCampos[0] . '").val("' . $aDadosEMP[0] . '");'
+                        . '$("#' . $aIdCampos[1] . '").val("' . $aDadosEMP[1] . '");'
+                        . '$("#' . $aIdCampos[2] . '").val("' . $aDadosEMP[2] . '");'
+                        . '$("#' . $aIdCampos[3] . '").val("' . $aDadosEMP[3] . '");'
+                        . '$("#' . $aIdCampos[4] . '").val("' . $aDadosEMP[4] . '");'
+                        . '$("#' . $aIdCampos[5] . '").val("' . $aDadosEMP[5] . '");'
+                        . '$("#' . $aIdCampos[6] . '").val("' . $aDadosEMP[6] . '");'
+                        . '$("#' . $aIdCampos[7] . '").val("' . $aDadosEMP[7] . '");'
+                        . '$("#' . $aIdCampos[8] . '").val("' . $aDadosEMP[8] . '");'
+                        . '$("#' . $aIdCampos[9] . '").val("' . $aDadosEMP[9] . '");'
+                        . '$("#' . $aIdCampos[10] . '").val("' . $aDadosEMP[10] . '");'
+                        . '$("#' . $aIdCampos[11] . '").val("' . $aDadosEMP[11] . '");';
                 echo $sSetValorCampos;
                 $oMensagem = new Mensagem('Sucesso', 'Busca efetuada com sucesso!', Mensagem::TIPO_SUCESSO);
                 echo $oMensagem->getRender();
@@ -184,6 +263,8 @@ class ControllerCadCliRep extends Controller {
                     $oMsg = new Mensagem('Atenção', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP', Mensagem::TIPO_ERROR, '10000');
                     echo $oMsg->getRender();
                 }
+
+                echo 'buscaIBGE("CadCliRep","' . Util::removeAcentos($aDadosEMP[6]) . '","' . $aDadosEMP[8] . '","' . $aIdCampos[12] . '");';
             }
         } else {
             exit;
@@ -203,6 +284,12 @@ class ControllerCadCliRep extends Controller {
             echo $oMsg->getRender();
             exit;
         }
+    }
+
+    public function codigoIBGE($sDados, $teste) {
+        $aDados = explode('|', $sDados);
+        $script = '$("#' . $aDados[1] . '").val(' . $aDados[0] . ');';
+        echo $script;
     }
 
 }

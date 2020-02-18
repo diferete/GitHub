@@ -56,6 +56,9 @@ class ControllerMET_PORT_Visitantes extends Controller {
             $aRetorno[1] = '';
             return $aRetorno;
         } else {
+
+            $this->Model->setDescmotivo(trim($this->Model->getDescmotivo()));
+
             $aRetorno = array();
             $aRetorno[0] = true;
             $aRetorno[1] = '';
@@ -190,7 +193,7 @@ class ControllerMET_PORT_Visitantes extends Controller {
         parse_str($sChave, $aCamposChave);
         $oMensagem = new Modal('Excluir', 'Deseja EXCLUIR o registro nrº' . $aCamposChave['nr'] . '?', Modal::TIPO_INFO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_PORT_Visitantes","excluiRegistro","' . $sDados . '");');
-        
+
         echo $oMensagem->getRender();
         exit;
     }

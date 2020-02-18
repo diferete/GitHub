@@ -88,8 +88,11 @@ class ControllerMobileMetalbo extends Controller{
             //se for login deixa entar na condição abaixo, mesmo que token e codigo do usuario estejam em branco
             if($Classe == 'Login' && $Metodo == 'validaMobLogin'){
                    
-                    $CampoLogin = $Dados->usuario;
-                    $CampoSenha = $Dados->senha;
+                foreach ($Dados as $oDados){
+                   $CampoLogin = $oDados->usuario;
+                   $CampoSenha = $oDados->senha; 
+                }
+                    
                     
                     //$CampoLogin = 'carlos@metalbo.com.br';
                     //$CampoSenha = 'dsl2640t';

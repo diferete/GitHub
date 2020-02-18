@@ -41,7 +41,7 @@ $objPHPExcel->setActiveSheetIndex(0)
      
      //busca os dados do banco
      $PDO = new PDO("sqlsrv:server=".Config::HOST_BD.",".Config::PORTA_BD."; Database=".Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-     $sSqli = "select op,prod,prodes,quant,
+     $sSqli = "select op,prod,prodes,prodesfinal,quant,
               peso,opcliente,convert(varchar,data,103) as data,convert(varchar,dataprev,103) as dataprev,
               situacao 
               from STEEL_PCP_OrdensFab 
@@ -57,27 +57,11 @@ $objPHPExcel->setActiveSheetIndex(0)
                 if($sRetrabalho!='Incluir'){
                     $sSqli.=" and retrabalho='".$sRetrabalho."' ";
                 }else{
-                    $sSqli.=" and retrabalho<>'Retorno não Ind.' "; 
+                    $sSqli.=" and retrabalho<>'Retorno não Ind.' and retrabalho <> 'OP origem retrabalho' "; 
                 }
      
      
-     /*     if($sSituacao!=='Todas'){
-              $sSqli.=" and situacao='".$sSituacao."' ";
-          }else{
-              $sSqli.=" and situacao not in ('Cancelada','Retornado') ";
-          }
-          if($iEmpCodigo!==''){
-              $sSqli.=" and emp_codigo='".$iEmpCodigo."' ";
-          }
-          if($sRetrabalho!='Incluir'){
-              $sSqli.=" and retrabalho='".$sRetrabalho."' ";
-          }
-          if($iEmpCodigo==null){
-              $iEmpCodigo = 'Todos';
-          }else{
-              $sSqli.=" and retrabalho<>'Retorno não Ind.' "; 
-          }
-          /*if($sSituacao!=='Todas'){
+     /* if($sSituacao!=='Todas'){
               $sSqli.=" and situacao='".$sSituacao."' ";
           }else{
               $sSqli.=" and situacao not in ('Cancelada','Retornado') ";
@@ -88,7 +72,7 @@ $objPHPExcel->setActiveSheetIndex(0)
           if($sRetrabalho!='Incluir'){
               $sSqli.=" and retrabalho='".$sRetrabalho."' ";
           }else{
-              $sSqli.=" and retrabalho<>'Retorno não Ind.' "; 
+              $sSqli.=" and retrabalho <> 'Retorno não Ind.' and retrabalho <> 'OP origem retrabalho' "; 
           }*/
           
           
@@ -120,12 +104,13 @@ $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('A5', 'OP' )
             ->setCellValue('B5', 'Prod' )
             ->setCellValue('C5', 'Descrição' )
+            ->setCellValue('D5','Descrição Final')
          //   ->setCellValue('D5', 'Quant' )
-            ->setCellValue('D5', 'Peso' )
+            ->setCellValue('E5', 'Peso' )
         //    ->setCellValue('E5', 'OpCliente' )
-            ->setCellValue('E5', 'Data' )
-            ->setCellValue('F5', 'Data Prev' )
-            ->setCellValue('G5', 'Situação' )        
+            ->setCellValue('F5', 'Data' )
+            ->setCellValue('G5', 'Data Prev' )
+            ->setCellValue('H5', 'Situação' )        
         ;
   $ik=6;
   $iPesototal=0;
@@ -134,6 +119,7 @@ while($row = $dadosRela->fetch(PDO::FETCH_ASSOC)){
     $op=$row['op'];
     $prod=$row['prod'];
     $prodes=$row['prodes'];
+    $prodesFinal =$row['prodesfinal'];
     $iQuant=number_format($row['quant'], 2, ',', '.');
     $iPeso=number_format($row['peso'], 2, ',', '.');
     $iPeso2=$row['peso'];
@@ -147,12 +133,13 @@ while($row = $dadosRela->fetch(PDO::FETCH_ASSOC)){
         ->setCellValue('A'.($ik), "$op" ) //concatenação de variável indice/ Pulando Linha
         ->setCellValue('B'.($ik), "$prod" )
         ->setCellValue('C'.($ik), "$prodes" )
+        ->setCellValue('D'.($ik), "$prodesFinal" )
       //  ->setCellValue('D'.($ik), "$iQuant" )
-        ->setCellValue('D'.($ik), "$iPeso" )
+        ->setCellValue('E'.($ik), "$iPeso" )
        // ->setCellValue('E'.($ik), "$opcliente" )
-        ->setCellValue('E'.($ik), "$dataop" )
-        ->setCellValue('F'.($ik), "$dataprev" )
-        ->setCellValue('G'.($ik), "$situac" )
+        ->setCellValue('F'.($ik), "$dataop" )
+        ->setCellValue('G'.($ik), "$dataprev" )
+        ->setCellValue('H'.($ik), "$situac" )
                
     ;
 $ik++;

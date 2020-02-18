@@ -23,14 +23,14 @@ class ViewMET_PORT_Visitantes extends View {
         $this->getTela()->setBUsaCarrGrid(true);
 
         $oExcluir = new Dropdown('Excluir', Dropdown::TIPO_AVISO, Dropdown::ICON_PADRAO);
-        $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Visitantes', 'excluirRegistro', '', false, '', false, '', false, '');
+        $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Visitantes', 'excluirRegistro', '', false, '', false, '', false, '', false, false);
 
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Aponta movimentação de Terceiros!');
-        $oBotaoModal->addAcao('MET_PORT_Visitantes', 'criaTelaModalApontamentoVisitante', 'criaModalApontamentoVisitante');
+        $oBotaoModal->addAcao('MET_PORT_Visitantes', 'criaTelaModalApontamentoVisitante', 'criaModalApontamentoVisitante', '');
         $this->addModais($oBotaoModal);
 
 
@@ -47,15 +47,15 @@ class ViewMET_PORT_Visitantes extends View {
         $oMotivo->setBComparacaoColuna(true);
 
         $oSituaca = new CampoConsulta('Sit.', 'situaca', CampoConsulta::TIPO_TEXTO);
-        $oSituaca->addComparacao('Entrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
-        $oSituaca->addComparacao('Saída', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
-        $oSituaca->addComparacao('Chegada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oSituaca->addComparacao('Entrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSituaca->addComparacao('Saída', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oSituaca->addComparacao('Chegada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oSituaca->setBComparacaoColuna(true);
 
         $oDataChegou = new CampoConsulta('Dt. Chegada', 'datachegou', CampoConsulta::TIPO_DATA);
 
         $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_EDIT);
-        $oHoraChegou->addAcao('MET_PORT_Visitantes', 'gravaHora');
+        $oHoraChegou->addAcao('MET_PORT_Visitantes', 'gravaHora', '', '');
         $oHoraChegou->setBTime(true);
 
         $oDataEntra = new CampoConsulta('Dt. Entrada', 'dataentrou', CampoConsulta::TIPO_DATA);
@@ -68,13 +68,13 @@ class ViewMET_PORT_Visitantes extends View {
 
 
         ///////////////////////////////////Filtros///////////////////////////////
-        $oFilCracha = new Filtro($oCpf, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12);
+        $oFilCracha = new Filtro($oCpf, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12, false);
 
-        $oFilNR = new Filtro($oNr, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12);
+        $oFilNR = new Filtro($oNr, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12, false);
 
-        $oFilColaborador = new Filtro($oPessoa, Filtro::CAMPO_TEXTO, 5, 5, 12, 12);
+        $oFilColaborador = new Filtro($oPessoa, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
 
-        $oFilMotivo = new Filtro($oMotivo, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
+        $oFilMotivo = new Filtro($oMotivo, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFilMotivo->addItemSelect('Todos', 'Todos');
         $oFilMotivo->addItemSelect('1', 'Serviços');
         $oFilMotivo->addItemSelect('2', 'Visita');

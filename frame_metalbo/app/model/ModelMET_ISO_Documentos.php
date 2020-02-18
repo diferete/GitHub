@@ -14,6 +14,7 @@ class ModelMET_ISO_Documentos {
     private $usuario;
     private $total_Dig;
     private $total_Fis;
+    private $revisao;
     private $dig_direcao;
     private $dig_direcao_quant;
     private $dig_gestao_qualidade;
@@ -147,22 +148,6 @@ class ModelMET_ISO_Documentos {
     private $fis_prada_galvano;
     private $fis_prada_galvano_quant;
 
-    function getTotal_Dig() {
-        return $this->total_Dig;
-    }
-
-    function getTotal_Fis() {
-        return $this->total_Fis;
-    }
-
-    function setTotal_Dig($total_Dig) {
-        $this->total_Dig = $total_Dig;
-    }
-
-    function setTotal_Fis($total_Fis) {
-        $this->total_Fis = $total_Fis;
-    }
-
     function getFilcgc() {
         return $this->filcgc;
     }
@@ -177,6 +162,18 @@ class ModelMET_ISO_Documentos {
 
     function getUsuario() {
         return $this->usuario;
+    }
+
+    function getTotal_Dig() {
+        return $this->total_Dig;
+    }
+
+    function getTotal_Fis() {
+        return $this->total_Fis;
+    }
+
+    function getRevisao() {
+        return $this->revisao;
     }
 
     function getDig_direcao() {
@@ -721,6 +718,18 @@ class ModelMET_ISO_Documentos {
 
     function setUsuario($usuario) {
         $this->usuario = $usuario;
+    }
+
+    function setTotal_Dig($total_Dig) {
+        $this->total_Dig = $total_Dig;
+    }
+
+    function setTotal_Fis($total_Fis) {
+        $this->total_Fis = $total_Fis;
+    }
+
+    function setRevisao($revisao) {
+        $this->revisao = $revisao;
     }
 
     function setDig_direcao($dig_direcao) {

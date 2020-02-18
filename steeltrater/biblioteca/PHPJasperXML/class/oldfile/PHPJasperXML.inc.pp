@@ -1226,7 +1226,7 @@ $this->variable_calculation($m);
 
 } 
 //wrote by huzursuz at mailinator dot com on 02-Feb-2009 04:44 
-//https://hk.php.net/manual/en/function.get-object-vars.php 
+//http://hk.php.net/manual/en/function.get-object-vars.php 
 public function xmlobj2arr($Data) 
 { 
 if (is_object($Data)) 

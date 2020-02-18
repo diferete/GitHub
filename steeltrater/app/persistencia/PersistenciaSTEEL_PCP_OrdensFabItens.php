@@ -41,6 +41,9 @@ class PersistenciaSTEEL_PCP_OrdensFabItens extends Persistencia{
         $this->adicionaRelacionamento('turnoSteel','turnoSteel');
         $this->adicionaRelacionamento('turnoSteelSaida','turnoSteelSaida');
         
+        $this->adicionaRelacionamento('diamMin','diamMin');
+        $this->adicionaRelacionamento('diamMax','diamMax');
+        
         
         $this->adicionaJoin('STEEL_PCP_tratamentos', null,1, 'tratamento','tratcod');
         
@@ -60,8 +63,8 @@ class PersistenciaSTEEL_PCP_OrdensFabItens extends Persistencia{
         $sSql = "update STEEL_PCP_ordensFabItens 
                     set fornocod = '".$aCampos['fornocod']."', 
                     fornodes = '".$aCampos['fornodes']."', 
-                    dataent_forno ='".$sData."',
-                    horaent_forno ='".$sHora."',
+                    dataent_forno ='".$aCampos['dataent_forno']."',
+                    horaent_forno ='".$aCampos['horaent_forno']."',
                     turnoSteel ='".$aCampos['turnoSteel']."',
                     situacao = 'Processo',
                     coduser = '".$aCampos['coduser']."',
@@ -72,6 +75,15 @@ class PersistenciaSTEEL_PCP_OrdensFabItens extends Persistencia{
                 
         $aRetorno = $this->executaSql($sSql);
         
+        //atualiza o forno em que a etapa está
+        $sSqlForno = "update STEEL_PCP_ordensFabApont
+                    set fornocod = '".$aCampos['fornocod']."', 
+                    fornodes = '".$aCampos['fornodes']."',
+                    processoAtivo ='SIM'
+                    where op = '".$aCampos['op']."'";
+                
+        $aRetornoT = $this->executaSql($sSqlForno);
+        
         return $aRetorno;
     }
     
@@ -80,18 +92,29 @@ class PersistenciaSTEEL_PCP_OrdensFabItens extends Persistencia{
         $sData = Util::getDataAtual();
         $sHora = date('H:i');
         
+        $mDiamMin = $this->ValorSql($aCampos['diamMin']);
+        $mDiamMax = $this->ValorSql($aCampos['diamMax']);
         $sSql = "   update STEEL_PCP_ordensFabItens 
-                    set datasaida_forno = '".$sData."', 
-                    horasaida_forno = '".$sHora."', 
+                    set datasaida_forno = '".$aCampos['datasaida_forno']."', 
+                    horasaida_forno = '".$aCampos['horasaida_forno']."', 
                     situacao ='Finalizado',
                     codusersaida ='".$aCampos['coduser']."',
                     usernomesaida ='".$aCampos['usernome']."',
-                    turnoSteelSaida ='".$aCampos['turnoSteelSaida']."'
+                    turnoSteelSaida ='".$aCampos['turnoSteelSaida']."',
+                    diamMin = '".$mDiamMin."',
+                    diamMax = '".$mDiamMax."'
                     where op = '".$aCampos['op']."'
                     and opseq = '".$aCampos['opseq']."'
                     ";
                 
         $aRetorno = $this->executaSql($sSql);
+        
+         //atualiza o forno em que a etapa está
+        $sSqlForno = "update STEEL_PCP_ordensFabApont
+                    set processoAtivo ='NÃO'
+                    where op = '".$aCampos['op']."'";
+                
+        $aRetornoT = $this->executaSql($sSqlForno);
         
         return $aRetorno;
     }

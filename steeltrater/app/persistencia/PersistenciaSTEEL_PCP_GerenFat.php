@@ -22,9 +22,9 @@ class PersistenciaSTEEL_PCP_GerenFat extends Persistencia{
          }
         
         //query padrão das tabelas
-        $sSqlTab =" from NFS_NOTAFISCAL left outer join NFS_NOTAFISCALITEM
+        $sSqlTab =" from NFS_NOTAFISCAL(nolock) left outer join NFS_NOTAFISCALITEM(nolock)
                       on NFS_NOTAFISCAL.NFS_NotaFiscalFilial = NFS_NOTAFISCALITEM.NFS_NotaFiscalFilial
-                      and NFS_NOTAFISCAL.NFS_NotaFiscalSeq = NFS_NOTAFISCALITEM.NFS_NotaFiscalSeq left outer join STEEL_PCP_CargaInsumoServ
+                      and NFS_NOTAFISCAL.NFS_NotaFiscalSeq = NFS_NOTAFISCALITEM.NFS_NotaFiscalSeq left outer join STEEL_PCP_CargaInsumoServ(nolock)
                       on NFS_NOTAFISCALITEM.NFS_NotaFiscalFilial = STEEL_PCP_CargaInsumoServ.pdv_pedidofilial
                       and NFS_NOTAFISCALITEM.NFS_NotaFiscalItemPedidoCodigo = STEEL_PCP_CargaInsumoServ.pdv_pedidocodigo
                       and NFS_NOTAFISCALITEM.NFS_NotaFiscalItemPedidoItemSe = STEEL_PCP_CargaInsumoServ.pdv_pedidoitemseq ";

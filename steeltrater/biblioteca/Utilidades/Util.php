@@ -352,13 +352,15 @@ class Util {
     }
 
     public static function getDataOtem() {
-        $dia = date("d") - 1;
+        $dia = date("d");
         $mes = date("m");
         $ano = date("Y");
 
+        $sDate = date("d/m/Y", mktime(0, 0, 0, $mes, $dia - 1, $ano));
+
 
         date_default_timezone_set('America/Sao_Paulo');
-        return date($dia . '/' . $mes . '/' . $ano);
+        return $sDate; //date($dia.'/'.$mes.'/'.$ano);
     }
 
 }

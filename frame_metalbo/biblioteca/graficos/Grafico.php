@@ -51,7 +51,7 @@ class PDF_Grafico extends PDF_Functions {
         $angleEnd = 0;
         $i = 0;
         foreach ($data as $val) {
-            $angle = ($val * 360) / doubleval($this->sum);
+            $angle = (floatval($val) * 360) / doubleval($this->sum);
             if ($angle != 0) {
                 $angleEnd = $angleStart + $angle;
                 $this->SetFillColor($colors[$i][0], $colors[$i][1], $colors[$i][2]);
@@ -143,7 +143,7 @@ class PDF_Grafico extends PDF_Functions {
             $val = $i * $valIndRepere;
             $xpos = $XDiag + $lRepere * $i - $this->GetStringWidth($val) / 2;
             $ypos = $YDiag + $hDiag - $margin;
-            $this->Text($xpos, $ypos+5, $val);
+            $this->Text($xpos, $ypos + 5, $val);
         }
     }
 
@@ -153,7 +153,7 @@ class PDF_Grafico extends PDF_Functions {
         $this->sum = array_sum($data);
         $this->NbVal = count($data);
         foreach ($data as $l => $val) {
-            $p = sprintf('%.2f', $val / $this->sum * 100) . '%';
+            $p = sprintf('%.2f', floatval($val) / $this->sum * 100) . '%';
             $legend = str_replace(array('%l', '%v', '%p'), array($l, $val, $p), $format);
             $this->legends[] = $legend;
             $this->wLegend = max($this->GetStringWidth($legend), $this->wLegend);
@@ -220,8 +220,8 @@ class PDF_Grafico extends PDF_Functions {
             $this->Rect($xval, $lDiag + $YDiag - $lval, $hval, $lval, 'DF');
 
             //Legend
-            $this->SetXY($xval, $lDiag+$YDiag);
-            $this->RotatedText($xval, $lDiag+$YDiag+3, $this->legends[$i], -45);
+            $this->SetXY($xval, $lDiag + $YDiag);
+            $this->RotatedText($xval, $lDiag + $YDiag + 3, $this->legends[$i], -45);
             $i++;
         }
 
@@ -232,11 +232,10 @@ class PDF_Grafico extends PDF_Functions {
             $val = $i * $valIndRepere;
             $xpos = $YDiag + $lRepere * $i - $this->GetStringWidth($val) / 2;
             $ypos = $YDiag + $hDiag - $margin;
-            $this->Text($XDiag + $hDiag+1, $YDiag + ($YDiag + $lDiag) - $xpos-2, $val);
+            $this->Text($XDiag + $hDiag + 1, $YDiag + ($YDiag + $lDiag) - $xpos - 2, $val);
         }
-                       
     }
-    
+
     /**
      * Função de rotação de texto
      * @param type $x posição x

@@ -20,7 +20,8 @@ class PersistenciaMET_TEC_Historico extends Persistencia {
         $this->adicionaRelacionamento('hora', 'hora');
         $this->adicionaRelacionamento('classe', 'classe');
         $this->adicionaRelacionamento('historico', 'historico');
-        
+        $this->adicionaRelacionamento('acao', 'acao');
+              
         $this->adicionaOrderBy('seq',1);
 
         $this->setSTop('50');

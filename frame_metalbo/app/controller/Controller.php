@@ -346,7 +346,7 @@ class Controller {
         $aCampos = explode('&', $sCampos);
         foreach ($aCampos as $sCampoAtual) {
             $aCampoAtual = explode('=', $sCampoAtual);
-            $this->setValorModel($this->Model, $aCampoAtual[0], $aCampoAtual[1]);
+            $this->setValorModel($this->Model, $aCampoAtual[0], $aCampoAtual[1], $aCamposTela);
         }
     }
 
@@ -815,11 +815,11 @@ class Controller {
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[2]);
         //carregar campos tela
-        $this->carregaCamposTela($sChave);
+        $this->carregaCamposTela($sChave, false);
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
-        };
+        }
         //renderiza a tela
         $this->View->getTela()->getRender();
     }
@@ -839,6 +839,7 @@ class Controller {
         $sChave = htmlspecialchars_decode($aDados[0]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
+        $this->antesVisualizar($aDados);
         //cria a tela
         $this->View->criaTela();
         //adiciona onde será renderizado
@@ -1615,7 +1616,6 @@ class Controller {
             if (isset($aDados[4])) {
                 $bDesativaAcao = false;
                 $this->View->getTela()->setBBtnConsulta(true);
-                
             }
             if ($bDesativaAcao) {
                 $this->View->setUsaAcaoAlterar(false);
@@ -2811,7 +2811,7 @@ class Controller {
 
 
         //carrega o model
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
 
         $this->adicionaFiltrosExtras();
@@ -2841,7 +2841,7 @@ class Controller {
         //adiciona filtro da chave primária
         $this->parametros = $sCampos;
         //carrega o model
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
         $this->adicionaFiltrosExtras();
         //adiciona o filtro da sequencia do detalhe
@@ -2948,8 +2948,8 @@ class Controller {
         $aCamposTela = $this->View->getTela()->getCampos();
         $this->carregaModel($aCamposTela);
 
-        if ($this->View->getBGravaHistorico() == true) {
-            $this->gravaHistorico('Inserir');
+        if ($this->View->getBGravaHistoricoInserir() == true) {
+            $this->gravaHistorico('Inserir', null);
         }
 
         $aRetorno = $this->beforeInsert();
@@ -3058,6 +3058,10 @@ class Controller {
             $aRetorno = $this->afterInsert();
             $this->Persistencia->commit();
         }
+
+        if ($aRetorno[0]) {
+            $aRetorno = $this->afterInsertDetalhe();
+        }
         //instancia a classe mensagem
         if ($aRetorno[0]) {
             $oMsg = new Mensagem('INSERIDO COM SUCESSO', 'Seu registro foi inserido!', Mensagem::TIPO_SUCESSO);
@@ -3105,7 +3109,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
             }
         }
 
@@ -3134,6 +3138,10 @@ class Controller {
             $this->Persistencia->commit();
 
             $aRetorno = $this->afterCommitUpdate();
+        }
+
+        if ($aRetorno[0]) {
+            $aRetorno = $this->afterAlterarDetalhe();
         }
 
         //instancia a classe mensagem
@@ -3336,8 +3344,8 @@ class Controller {
         //traz lista campos
         $aCamposTela = $this->View->getTela()->getCampos();
 
-        if ($this->View->getBGravaHistorico() == true) {
-            $this->gravaHistorico('Alterar');
+        if ($this->View->getBGravaHistoricoAlterar() == true) {
+            $this->gravaHistorico('Alterar', null);
         }
 
         $this->Persistencia->iniciaTransacao();
@@ -3346,7 +3354,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), null, null);
             }
         }
         $this->Model = $this->Persistencia->consultar();
@@ -3613,9 +3621,8 @@ class Controller {
 
             $this->View->criaTela();
 
-            if ($this->View->getBGravaHistorico() == true) {
-                $aItem = explode('=', $sChaveAtual);
-                $this->gravaHistorico('Excluir', $aItem[1]);
+            if ($this->View->getBGravaHistoricoExcluir() == true) {
+                $this->gravaHistorico('Excluir', $sChaveAtual);
             }
 
             $aRetorno = $this->beforeDelete();
@@ -4235,6 +4242,13 @@ class Controller {
     }
 
     /**
+     * Método que pode ser sobescrito antes da visualização
+     */
+    public function antesVisualizar($sParametros = null) {
+        
+    }
+
+    /**
      * Método para ser sobescrito
      */
     public function antesExcluir($sParametros = null) {
@@ -4367,34 +4381,56 @@ class Controller {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
+        $aChave = $this->Persistencia->getChaveArray();
+
+        $sStringItems = '';
+
+        foreach ($aChave as $value) {
+            if (array_key_exists($value->getNomeBanco(), $aCampos)) {
+                if ($sStringItems == '') {
+                    $sStringItems = $value->getNomeBanco() . ': ' . $aCampos[$value->getNomeBanco()];
+                } else {
+                    $sStringItems = $sStringItems . ' ' . $value->getNomeBanco() . ': ' . $aCampos[$value->getNomeBanco()];
+                }
+            }
+        }
 
         if ($sAcao == 'Alterar') {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setFilcgc($_SESSION['filcgc']);
+            $oHist->Model->setUsucodigo($_SESSION['codUser']);
+            $oHist->Model->setUsunome($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
             $oHist->Model->setHistorico($aCampos['historico']);
+            $oHist->Model->setAcao('Alterado registro: ' . $sStringItems);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
         if ($sAcao == 'Inserir') {
             $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setUsuario($_SESSION['nome']);
+            $oHist->Model->setFilcgc($_SESSION['filcgc']);
+            $oHist->Model->setUsucodigo($_SESSION['codUser']);
+            $oHist->Model->setUsunome($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
             $oHist->Model->setHistorico($aCampos['historico']);
+            $oHist->Model->setAcao('Inserido registro: ' . $sStringItems);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
         if ($sAcao == 'Excluir') {
-            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setUsuario($_SESSION['nome']);
+            $sStringItems = $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+            $oHist->Model->setFilcgc($_SESSION['filcgc']);
+            $oHist->Model->setUsucodigo($_SESSION['codUser']);
+            $oHist->Model->setUsunome($_SESSION['nome']);
             $oHist->Model->setClasse($this->getNomeClasse());
             $oHist->Model->setHora(date('H:i:s'));
             $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico('Exclusão do item ' . $sDados);
+            $oHist->Model->setHistorico();
+            $oHist->Model->setAcao('Exclusão do item ' . $sDados);
             $oHist->Persistencia->setModel($oHist->Model);
             $oHist->Persistencia->inserir();
         }
@@ -4432,6 +4468,20 @@ class Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         return $aCamposChave;
+    }
+
+    public function afterInsertDetalhe() {
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function afterAlterarDetalhe() {
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
     }
 
 }

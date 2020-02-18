@@ -26,14 +26,14 @@ class ViewSTEEL_PCP_OrdensFabItens extends View{
          $oBotaoStart->setBHideTelaAcao(true);
          $oBotaoStart->setILargura(15);
          $oBotaoStart->setSTitleAcao('Inicia etapa do apontamento!');
-         $oBotaoStart->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'criaTelaModalApontaIniciar', 'modalApontaIniciar');
+         $oBotaoStart->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'criaTelaModalApontaIniciar', 'modalApontaIniciar','formEtapasSteel-form');
          $oBotaoStart->setSTituloBotaoModal('INICIAR');
         
          $oBotaoFinalizar = new CampoConsulta('Finalizar etapa', 'finalizarEtapa', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_BOTAOPRIMARY );
          $oBotaoFinalizar->setBHideTelaAcao(true);
          $oBotaoFinalizar->setILargura(15);
          $oBotaoFinalizar->setSTitleAcao('Finaliza etapa!');
-         $oBotaoFinalizar->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'criaTelaModalApontaFinalizar', 'modalApontaFinalizar');
+         $oBotaoFinalizar->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'criaTelaModalApontaFinalizar', 'modalApontaFinalizar','formEtapasSteel-form');
          $oBotaoFinalizar->setSTituloBotaoModal('FINALIZAR');
         
          //botao que retorna um processo
@@ -48,8 +48,10 @@ class ViewSTEEL_PCP_OrdensFabItens extends View{
          $oTratamento = new CampoConsulta('Tratamento','STEEL_PCP_Tratamentos.tratdes');
          $oTratamento->setILargura(280);
          $oFornodesConsulta = new CampoConsulta('Forno/Trefila','fornodes');
+         $oTurnoEntrada = new CampoConsulta('TurnoEntrada','turnoSteel');
          $oDataEntConsulta = new CampoConsulta('Data Ent.','dataent_forno', CampoConsulta::TIPO_DATA);
          $oHoraEntConsulta = new CampoConsulta('Hora Ent.','horaent_forno', CampoConsulta::TIPO_TIME);
+         $oTurnoSaida = new CampoConsulta('Turno.Saída','turnoSteelSaida');
          $oDataSaidaConsulta = new CampoConsulta('Data Saída','datasaida_forno', CampoConsulta::TIPO_DATA);
          $oHoraSaidaConsulta = new CampoConsulta('Hora Saída','horasaida_forno', CampoConsulta::TIPO_TIME);
          
@@ -61,10 +63,13 @@ class ViewSTEEL_PCP_OrdensFabItens extends View{
          
          $oUserEntConsulta = new campoconsulta('Usuário Ent.','usernome');
          $oUserSaidaConsulta = new campoconsulta('Usuário Saída','usernomesaida');
+         
+         $oDiamMin = new CampoConsulta('DiamMin','diamMin', CampoConsulta::TIPO_DECIMAL);
+         $oDiamMax = new CampoConsulta('DiamMax','diamMax', CampoConsulta::TIPO_DECIMAL);
         
         $oGridEtapa->addCampos($oBotaoStart,$oBotaoFinalizar,$oBotaoRetornar,$oOpGrid,$oReceitaSeq,$oTratamento,$oSituacaoConsulta,
-                 $oFornodesConsulta,$oDataEntConsulta,$oHoraEntConsulta,$oUserEntConsulta,$oDataSaidaConsulta,
-                 $oHoraSaidaConsulta,$oUserSaidaConsulta);
+                 $oFornodesConsulta,$oTurnoEntrada,$oDataEntConsulta,$oHoraEntConsulta,$oUserEntConsulta,$oTurnoSaida,$oDataSaidaConsulta,
+                 $oHoraSaidaConsulta,$oUserSaidaConsulta,$oDiamMin,$oDiamMax);
 
         $aCampos = $oGridEtapa->getArrayCampos();
         return $aCampos;

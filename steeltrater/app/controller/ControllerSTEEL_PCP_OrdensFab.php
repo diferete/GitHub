@@ -471,12 +471,12 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         $this->Persistencia->adicionaFiltro('op',$aCamposChave['op']);
         $this->Model = $this->Persistencia->consultarWhere();
         
-        $this->Model->setProdes(str_replace("\n", " ",$this->Model->getProdes()));
-        $this->Model->setProdes(str_replace("'","\'",$this->Model->getProdes()));   
-        $this->Model->setProdes(str_replace("\r", "",$this->Model->getProdes()));
+        $this->Model->setProdesFinal(str_replace("\n", " ",$this->Model->getProdesFinal()));
+        $this->Model->setProdesFinal(str_replace("'","\'",$this->Model->getProdesFinal()));   
+        $this->Model->setProdesFinal(str_replace("\r", "",$this->Model->getProdesFinal()));
        
-        $sRender = "$('#".$aDados[0]."').val('".$this->Model->getProd()."');"
-             ."$('#".$aDados[1]."').val('".$this->Model->getProdes()."');";  
+        $sRender = "$('#".$aDados[0]."').val('".$this->Model->getProdFinal()."');"
+             ."$('#".$aDados[1]."').val('".$this->Model->getProdesFinal()."');";  
         
         echo $sRender;
             

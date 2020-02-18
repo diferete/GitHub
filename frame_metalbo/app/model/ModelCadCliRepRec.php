@@ -46,6 +46,15 @@ class ModelCadCliRepRec {
     private $transp;
     private $usucadvenda;
     private $empcomplemento;
+    private $codIBGE;
+
+    function getCodIBGE() {
+        return $this->codIBGE;
+    }
+
+    function setCodIBGE($codIBGE) {
+        $this->codIBGE = $codIBGE;
+    }
 
     function getEmpcomplemento() {
         return $this->empcomplemento;

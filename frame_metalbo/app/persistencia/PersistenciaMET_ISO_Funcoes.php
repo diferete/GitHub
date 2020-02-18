@@ -18,6 +18,14 @@ class PersistenciaMET_ISO_Funcoes extends Persistencia {
         $this->adicionaRelacionamento('usuario', 'usuario');
         $this->adicionaRelacionamento('codsetor', 'codsetor');
         $this->adicionaRelacionamento('descsetor', 'descsetor');
+
+        $this->adicionaOrderBy('nr', 1);
+    }
+
+    public function deletaDependencias($aDados) {
+
+        $sSql = "delete from MET_ISO_FuncDesc where nr =" . $aDados[1] . "  and filcgc = " . $aDados[0];
+        $this->executaSql($sSql);
     }
 
 }

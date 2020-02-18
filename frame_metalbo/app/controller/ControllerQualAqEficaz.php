@@ -1,5 +1,5 @@
 <?php
- 
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,7 +13,7 @@ class ControllerQualAqEficaz extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $this->View->setAParametrosExtras($aChave);
     }
 

@@ -41,6 +41,71 @@ class ModelSTEEL_PCP_Certificado {
     
     private $conclusao;
     
+    private $fioDurezaSol;
+    private $fioEsferio;
+    private $fioDescarbonetaTotal;
+    private $fioDescarbonetaParcial;
+    private $DiamFinalMin;
+    private $DiamFinalMax;
+    private $dataNotaRetorno;
+    
+    function getDataNotaRetorno() {
+        return $this->dataNotaRetorno;
+    }
+
+    function setDataNotaRetorno($dataNotaRetorno) {
+        $this->dataNotaRetorno = $dataNotaRetorno;
+    }
+
+        
+    
+    function getFioDurezaSol() {
+        return $this->fioDurezaSol;
+    }
+
+    function getFioEsferio() {
+        return $this->fioEsferio;
+    }
+
+    function getFioDescarbonetaTotal() {
+        return $this->fioDescarbonetaTotal;
+    }
+
+    function getFioDescarbonetaParcial() {
+        return $this->fioDescarbonetaParcial;
+    }
+
+    function getDiamFinalMin() {
+        return $this->DiamFinalMin;
+    }
+
+    function getDiamFinalMax() {
+        return $this->DiamFinalMax;
+    }
+
+    function setFioDurezaSol($fioDurezaSol) {
+        $this->fioDurezaSol = $fioDurezaSol;
+    }
+
+    function setFioEsferio($fioEsferio) {
+        $this->fioEsferio = $fioEsferio;
+    }
+
+    function setFioDescarbonetaTotal($fioDescarbonetaTotal) {
+        $this->fioDescarbonetaTotal = $fioDescarbonetaTotal;
+    }
+
+    function setFioDescarbonetaParcial($fioDescarbonetaParcial) {
+        $this->fioDescarbonetaParcial = $fioDescarbonetaParcial;
+    }
+
+    function setDiamFinalMin($DiamFinalMin) {
+        $this->DiamFinalMin = $DiamFinalMin;
+    }
+
+    function setDiamFinalMax($DiamFinalMax) {
+        $this->DiamFinalMax = $DiamFinalMax;
+    }    
     
     function getConclusao() {
         return $this->conclusao;

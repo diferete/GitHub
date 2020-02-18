@@ -22,7 +22,7 @@ if (!defined('PHPEXCEL_ROOT')) {
  *	@author Bartek Matosiuk
  *	@version 1.8
  *	@license PHP v3.0
- *	@see https://math.nist.gov/javanumerics/jama/
+ *	@see http://math.nist.gov/javanumerics/jama/
  */
 class PHPExcel_Shared_JAMA_Matrix {
 

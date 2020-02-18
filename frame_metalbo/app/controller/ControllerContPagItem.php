@@ -12,7 +12,7 @@ class ControllerContPagItem extends Controller{
     }
   
      public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         
         $aParam = $this->getParametros();
         

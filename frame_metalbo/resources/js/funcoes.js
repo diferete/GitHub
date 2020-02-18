@@ -1219,7 +1219,7 @@ function buscaCNPJ(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
 /**
  * funçao para chamar json com dados do CNPJ
  */
-function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
+function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, idIBGE, sClasse) {
     if (sEmpcod !== '') {
         $.ajax({
             type: 'REQUEST',
@@ -1251,10 +1251,11 @@ function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idC
                     var complemento = data.complemento;
                     var nr = numero;
 
-                    var ids = idCNPJ + '|' + idEmpdes + '|' + idEmpfant + '|' + idEmpfone + '|' + idEmail + '|' + idCep + '|' + idMunicipio + '|' + idEndereco + '|' + idUf + '|' + idBairro + '|' + idComplemento + '|' + idNr;
+                    var ids = idCNPJ + '|' + idEmpdes + '|' + idEmpfant + '|' + idEmpfone + '|' + idEmail + '|' + idCep + '|' + idMunicipio + '|' + idEndereco + '|' + idUf + '|' + idBairro + '|' + idComplemento + '|' + idNr + '|' + idIBGE;
                     var valores = sEmpcod + '|' + empdes + '|' + empfant + '|' + empfone + '|' + email + '|' + cep + '|' + municipio + '|' + endereco + '|' + uf + '|' + bairro + '|' + complemento + '|' + nr;
 
                     requestAjax("", sClasse, 'getCNPJ', valores + '*' + ids);
+
                 }
             },
             error: function (error) {
@@ -1262,5 +1263,24 @@ function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idC
             }
         });
     }
+}
+
+
+function buscaIBGE(sClasse, municipio, ufIBGE, idCampo) {
+    var municipioIBGE = municipio.replace(/\s/g, "-");
+    var codIBGE = [];
+    $.getJSON('https://servicodados.ibge.gov.br/api/v1/localidades/municipios/' + municipioIBGE + '', function (result) {
+        if ($.isArray(result)) {
+            result.forEach(function (e) {
+                if (e.microrregiao.mesorregiao.UF.sigla === ufIBGE) {
+                    codIBGE.push(e.id);
+                }
+            });
+        } else {
+            codIBGE.push(result.id);
+        }
+        console.log(codIBGE[0]);
+        requestAjax("", sClasse, 'codigoIBGE', codIBGE[0] + '|' + idCampo);
+    });
 }
 

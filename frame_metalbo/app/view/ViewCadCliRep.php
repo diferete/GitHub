@@ -27,19 +27,19 @@ class ViewCadCliRep extends View {
         $oEmpusu = new CampoConsulta('Usuário', 'empusucad');
 
         $oSituaca = new CampoConsulta('Situação', 'situaca');
-        $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
-        $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
-        $oSituaca->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_LINHA);
+        $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
+        $oSituaca->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_LINHA, false, null);
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Liberar Metalbo', 'CadCliRep', 'msgLiberaCadastro', '', false, '');
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Liberar Metalbo', 'CadCliRep', 'msgLiberaCadastro', '', false, '', false, '', false, '', false, false);
 
         $oDrop2 = new Dropdown('Endereços', Dropdown::TIPO_AVISO);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir endereços', 'CadCliRepEnd', 'acaoMostraTelaEndereço', '', true, '');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir endereços', 'CadCliRepEnd', 'acaoMostraTelaEndereço', '', true, '', false, '', false, '', false, false);
 
         //filtros 
-        $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
+        $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFiltroEmpdes);
 
         $this->addDropdown($oDrop2, $oDrop1);
@@ -101,6 +101,10 @@ class ViewCadCliRep extends View {
         $oEmpcod->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpcod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '11', '14');
 
+        $oCNPJ = new Campo('cnpj', 'cnpj', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oCNPJ->setBOculto(true);
+        $oCNPJ->setBCampoBloqueado(true);
+
         $oEmpDes = new campo('Razão social', 'empdes', Campo::TIPO_TEXTO, 7, 7, 12, 12);
         $oEmpDes->setSCorFundo(Campo::FUNDO_AMARELO);
         $oEmpDes->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5', '45');
@@ -142,11 +146,14 @@ class ViewCadCliRep extends View {
         $oBairro->addValidacao(false, Validacao::TIPO_STRING, 'Bairro inválido', '2', '25');
         $oBairro->setSCorFundo(Campo::FUNDO_MONEY);
 
+        $oCodIBGE = new Campo('...', 'codIBGE', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oCodIBGE->setBOculto(true);
 
         if ($sAcao == 'acaoIncluir') {
             $oEmpcod->setBFocus(true);
         }
         $sAcaoExit = 'cnpjBusca($("#' . $oEmpcod->getId() . '").val(),'
+                . '"' . $oCNPJ->getId() . '",'
                 . '"' . $oEmpDes->getId() . '",'
                 . '"' . $oEmpFant->getId() . '",'
                 . '"' . $oEmpFone->getId() . '",'
@@ -158,6 +165,7 @@ class ViewCadCliRep extends View {
                 . '"' . $oBairro->getId() . '",'
                 . '"' . $oComplemento->getId() . '",'
                 . '"' . $oEmpnr->getId() . '",'
+                . '"' . $oCodIBGE->getId() . '",'
                 . '"' . $this->getController() . '")';
 
 
@@ -195,7 +203,7 @@ class ViewCadCliRep extends View {
         $oFieldEnd = new FieldSet('Endereço');
 
 
-        $oFieldEnd->addCampos(array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr));
+        $oFieldEnd->addCampos(array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr), $oCodIBGE);
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');
@@ -240,7 +248,7 @@ class ViewCadCliRep extends View {
         $oEmpObs->setILinhasTextArea(5);
         $oEmpObs->addValidacao(true, Validacao::TIPO_STRING, '...', '0', '1000');
 
-        $this->addCampos($oFieldInf, array($oEmpcod, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
+        $this->addCampos($oFieldInf, array($oEmpcod, $oCNPJ, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
     }
 
 }

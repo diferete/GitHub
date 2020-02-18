@@ -90,10 +90,12 @@ abstract class View {
     private $bUsaCarrGrid;
     private $oObjTela;
     private $bOcultaBotTela; //ocultar os botões quando não é necessário
-    private $bGravaHistorico;
+    private $bGravaHistoricoExcluir;
+    private $bGravaHistoricoAlterar;
+    private $bGravaHistoricoInserir;
     private $sIdsTelas;
     private $bOcultaFechar;
-    
+
     function getBOcultaFechar() {
         return $this->bOcultaFechar;
     }
@@ -110,12 +112,28 @@ abstract class View {
         $this->sIdsTelas = $sIdsTelas;
     }
 
-    function setBGravaHistorico($bGravaHistorico) {
-        $this->bGravaHistorico = $bGravaHistorico;
+    function getBGravaHistoricoExcluir() {
+        return $this->bGravaHistoricoExcluir;
     }
 
-    function getBGravaHistorico() {
-        return $this->bGravaHistorico;
+    function getBGravaHistoricoAlterar() {
+        return $this->bGravaHistoricoAlterar;
+    }
+
+    function getBGravaHistoricoInserir() {
+        return $this->bGravaHistoricoInserir;
+    }
+
+    function setBGravaHistoricoExcluir($bGravaHistoricoExcluir) {
+        $this->bGravaHistoricoExcluir = $bGravaHistoricoExcluir;
+    }
+
+    function setBGravaHistoricoAlterar($bGravaHistoricoAlterar) {
+        $this->bGravaHistoricoAlterar = $bGravaHistoricoAlterar;
+    }
+
+    function setBGravaHistoricoInserir($bGravaHistoricoInserir) {
+        $this->bGravaHistoricoInserir = $bGravaHistoricoInserir;
     }
 
     function getBUsaCarrGrid() {
@@ -668,6 +686,17 @@ abstract class View {
 
         foreach ($aCampos as $campoAtual) {
             $this->getOGridDetalhe()->addCampos($campoAtual);
+        }
+    }
+
+    /**
+      Método para adicionar filtros no grid detalhe
+     */
+    public function addFiltrosDetalhe() {
+        $aCampos = func_get_args();
+
+        foreach ($aCampos as $campoAtual) {
+            $this->getOGridDetalhe()->addFiltroDetalhe($campoAtual);
         }
     }
 

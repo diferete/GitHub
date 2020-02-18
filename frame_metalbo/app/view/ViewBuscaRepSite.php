@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Classe que gerencia a busca de representantes por estado
  * @author: Alexandre
  * @since: 19/01/2018
@@ -8,40 +8,39 @@
  */
 
 class ViewBuscaRepSite extends View {
+
     function __construct() {
         parent::__construct();
     }
-    
-    
+
     public function criaConsulta() {
         parent:: criaConsulta();
-        
-      
-        
-        $oFilcgc = new CampoConsulta('Empresa','filcgc');
-        $oCodigo = new CampoConsulta('Código','codigo');
-        $oEstado = new CampoConsulta('Estado','estado');
-        $oNome = new CampoConsulta('Representante','nome');
-        
-        $oFiltroEstado = new Filtro($oEstado, Filtro::CAMPO_TEXTO_IGUAL,2,2,2,2);
-        $oFiltroRep = new Filtro($oNome, Filtro::CAMPO_TEXTO,4,4,12,12);
-        $this->addFiltro($oFiltroEstado,$oFiltroRep);
-        
-        $this->addCampos($oFilcgc,$oCodigo,$oEstado,$oNome);
-    
+
+
+
+        $oFilcgc = new CampoConsulta('Empresa', 'filcgc');
+        $oCodigo = new CampoConsulta('Código', 'codigo');
+        $oEstado = new CampoConsulta('Estado', 'estado');
+        $oNome = new CampoConsulta('Representante', 'nome');
+
+        $oFiltroEstado = new Filtro($oEstado, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+        $oFiltroRep = new Filtro($oNome, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $this->addFiltro($oFiltroEstado, $oFiltroRep);
+
+        $this->addCampos($oFilcgc, $oCodigo, $oEstado, $oNome);
     }
-    
+
     public function criaTela() {
         parent::criaTela();
-        
-        
-        $oFilcgc = new Campo('Empresa','filcgc', Campo::TIPO_TEXTO,2,2,12,12);
+
+
+        $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor($_SESSION['filcgc']);
         $oFilcgc->setBCampoBloqueado(true);
-        $oCodigo = new Campo('Código','codigo',Campo::TIPO_TEXTO,1,1,12,12);
+        $oCodigo = new Campo('Código', 'codigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oCodigo->setBCampoBloqueado(true);
-        
-        $oUfRep = new Campo('UF Escritório', 'ufrep', Campo::CAMPO_SELECT,3,3,12,12);
+
+        $oUfRep = new Campo('UF Escritório', 'ufrep', Campo::CAMPO_SELECT, 3, 3, 12, 12);
         $oUfRep->addItemSelect('AC', 'ACRE');
         $oUfRep->addItemSelect('AL', 'ALAGOAS');
         $oUfRep->addItemSelect('AP', 'AMAPA');
@@ -69,8 +68,8 @@ class ViewBuscaRepSite extends View {
         $oUfRep->addItemSelect('SP', 'SAO PAULO');
         $oUfRep->addItemSelect('SE', 'SERGIPE');
         $oUfRep->addItemSelect('TO', 'TOCANTINS');
-        
-        $oEstado = new Campo('Estado','estado', Campo::CAMPO_SELECT,3,3,12,12);
+
+        $oEstado = new Campo('Estado', 'estado', Campo::CAMPO_SELECT, 3, 3, 12, 12);
         $oEstado->addItemSelect('AC', 'ACRE');
         $oEstado->addItemSelect('AL', 'ALAGOAS');
         $oEstado->addItemSelect('AP', 'AMAPA');
@@ -98,32 +97,30 @@ class ViewBuscaRepSite extends View {
         $oEstado->addItemSelect('SP', 'SAO PAULO');
         $oEstado->addItemSelect('SE', 'SERGIPE');
         $oEstado->addItemSelect('TO', 'TOCANTINS');
-        
-        $oPais = new Campo('País','pais', Campo::CAMPO_SELECT,2,2,12,12);
-        $oPais->addItemSelect('BR','BRASIL');
-        $oPais->addItemSelect('AR','ARGENTINA');
-        
-        $oLogo = new Campo('Upload da Logo','logo', Campo::TIPO_UPLOAD,4,4,12,12);
-        $oNome = new Campo('Nome do Escritório','nome', Campo::TIPO_TEXTO,6,6,12,12);
-        
-        $oEndereco = new Campo('Endereço','endereco', Campo::TIPO_TEXTO,4,4,12,12);
-        $oCep = new Campo('CEP','cep', Campo::TIPO_TEXTO,2,2,12,12);
-        $oBairro = new Campo('Bairro','bairro', Campo::TIPO_TEXTO,4,4,12,12);
-        $oCidade = new Campo('Cidade','cidade', Campo::TIPO_TEXTO,3,3,12,12);
-        
-        $oFone1 = new Campo('Fone 1','fone1', Campo::TIPO_TEXTO,3,3,12,12);
-        $oFone2 = new Campo('Fone 2','fone2', Campo::TIPO_TEXTO,3,3,12,12);
-        
-        $oEmail1 = new Campo('E-mail 1','email1', Campo::TIPO_TEXTO,4,4,12,12);
-        $oEmail2 = new Campo('E-mail 2','email2', Campo::TIPO_TEXTO,4,4,12,12);
-        $oWebsite = new Campo('Site', 'website', Campo::TIPO_TEXTO,4,4,12,12);
-        
 
-        
-        
-        $this->addCampos(array($oFilcgc,$oCodigo,$oNome),array($oEstado,$oPais,$oUfRep),array($oCep,$oCidade,$oBairro,$oEndereco,),array($oFone1,$oFone2),array($oEmail1,$oEmail2),$oWebsite,$oLogo);
+        $oPais = new Campo('País', 'pais', Campo::CAMPO_SELECT, 2, 2, 12, 12);
+        $oPais->addItemSelect('BR', 'BRASIL');
+        $oPais->addItemSelect('AR', 'ARGENTINA');
 
+        $oLogo = new Campo('Upload da Logo', 'logo', Campo::TIPO_UPLOAD, 4, 4, 12, 12);
+        $oNome = new Campo('Nome do Escritório', 'nome', Campo::TIPO_TEXTO, 6, 6, 12, 12);
+
+        $oEndereco = new Campo('Endereço', 'endereco', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+        $oCep = new Campo('CEP', 'cep', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oBairro = new Campo('Bairro', 'bairro', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+        $oCidade = new Campo('Cidade', 'cidade', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+
+        $oFone1 = new Campo('Fone 1', 'fone1', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oFone2 = new Campo('Fone 2', 'fone2', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+
+        $oEmail1 = new Campo('E-mail 1', 'email1', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+        $oEmail2 = new Campo('E-mail 2', 'email2', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+        $oWebsite = new Campo('Site', 'website', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+
+
+
+
+        $this->addCampos(array($oFilcgc, $oCodigo, $oNome), array($oEstado, $oPais, $oUfRep), array($oCep, $oCidade, $oBairro, $oEndereco,), array($oFone1, $oFone2), array($oEmail1, $oEmail2), $oWebsite, $oLogo);
     }
-    
-    
+
 }

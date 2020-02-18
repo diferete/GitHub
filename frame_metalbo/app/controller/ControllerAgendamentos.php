@@ -44,12 +44,13 @@ class ControllerAgendamentos extends Controller {
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
 
         $aUserPlano = $this->Persistencia->projEmailVendaProj($oValue);
@@ -57,7 +58,7 @@ class ControllerAgendamentos extends Controller {
         foreach ($aUserPlano as $sCopia) {
             $oEmail->addDestinatarioCopia($sCopia);
         }
-        
+
 //        $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $oEmail->setAssunto(utf8_decode('Entrada de projeto nº' . $oValue->nr . ''));
@@ -87,7 +88,7 @@ class ControllerAgendamentos extends Controller {
             foreach ($aRetorno as $iKey => $oValue) {
                 $iDias = $oValue->dias;
 
-                if ($iDias = -7) {
+                if ($iDias >= -7) {
                     $this->envEmailAq($oValue);
                 }
             }
@@ -100,12 +101,13 @@ class ControllerAgendamentos extends Controller {
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
 
         $aEmail = $this->Persistencia->buscaEmailPlanoAcao($oValue);
@@ -119,9 +121,9 @@ class ControllerAgendamentos extends Controller {
         $oEmail->setMensagem(utf8_decode('PLANO DE AÇÃO Nº ' . $oValue->seq . ' ESTÁ PRESTES A EXPIRAR <hr><br/>'
                         . '<p style="margin:20px;color:red;font-weight:900;font-size:25px;">Tempo para expirar o plano de ação está menor que 7 DIAS!</p>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
-                        . '<tr><td><b>Responsável pelo plano de ação:</b></td><td>' . $oValue->usunome. '</td></tr>'
+                        . '<tr><td><b>Responsável pelo plano de ação:</b></td><td>' . $oValue->usunome . '</td></tr>'
                         . '<tr><td><b>Data prevista:</b></td><td> ' . $oValue->data . '</td></tr>'
-                        . '<tr><td><b>Empesa:</b></td><td>' .$oValue->filcgc. '</td></tr>'
+                        . '<tr><td><b>Empesa:</b></td><td>' . $oValue->filcgc . '</td></tr>'
                         . '</table><br/><br/><hr>'
                         . '<br/><b style="margin:40px;color:blue">E-mail enviado automaticamente, favor não responder!</b>'
                         . '<br/><b style="margin:40px;color:red">Você continuará recebendo e-mails até o plano de ação ser finalizado!</b>'));

@@ -13,7 +13,7 @@ class ControllerMET_ISO_DocRevisao extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe($aChave);        
+        parent::pkDetalhe($aChave);
         $aChave[2] = $this->Persistencia->getDadosDocumento($aChave);
         $this->View->setAParametrosExtras($aChave);
     }
@@ -55,7 +55,7 @@ class ControllerMET_ISO_DocRevisao extends Controller {
 
     public function antesCarregaDetalhe($aCampos) {
         parent::antesCarregaDetalhe($aCampos);
-        unset($aCampos[8]);
+        unset($aCampos[6]);
         return $aCampos;
     }
 
@@ -67,6 +67,10 @@ class ControllerMET_ISO_DocRevisao extends Controller {
 
     public function afterInsert() {
         parent::afterInsert();
+
+        $aCampos = $this->getArrayCampostela();
+
+        $this->Persistencia->updateRevisaoDocumentos($aCampos);
 
 
         foreach ($_REQUEST['parametros'] as $key => $value) {
@@ -83,6 +87,10 @@ class ControllerMET_ISO_DocRevisao extends Controller {
 
     public function afterUpdate() {
         parent::afterInsert();
+
+        $aCampos = $this->getArrayCampostela();
+
+        $this->Persistencia->updateRevisaoDocumentos($aCampos);
 
         foreach ($_REQUEST['parametros'] as $key => $value) {
             $aDados = explode(',', $value);
@@ -124,6 +132,34 @@ class ControllerMET_ISO_DocRevisao extends Controller {
         $oDados->setObservacao(str_replace('"', '\"', $oDados->getObservacao()));
 
         echo '$("#' . $aDados[2] . '").val("' . $oDados->getObservacao() . '");';
+    }
+
+    public function afterInsertDetalhe() {
+        parent::afterInsertDetalhe();
+
+        $script = 'if ($("#GridTreinamentos-pesq").length){'
+                . '$("#GridTreinamentos-pesq").click();}'
+                . 'else{};';
+        echo $script;
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function afterAlterarDetalhe() {
+        parent::afterAlterarDetalhe();
+
+        $script = 'if ($("#GridTreinamentos-pesq").length){'
+                . '$("#GridTreinamentos-pesq").click();}'
+                . 'else{};';
+        echo $script;
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
     }
 
 }

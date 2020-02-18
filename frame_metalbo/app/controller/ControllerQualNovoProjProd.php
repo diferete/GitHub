@@ -159,15 +159,14 @@ class ControllerQualNovoProjProd extends Controller {
 
         $oEmail = new Email();
         $oEmail->setMailer();
-
         $oEmail->setEnvioSMTP();
-        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $oDadosProj = $this->Persistencia->buscaDados($aCamposChave);
         $aObs = $this->Persistencia->buscaObs($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
@@ -380,14 +379,14 @@ class ControllerQualNovoProjProd extends Controller {
         }
     }
 
-    public function geraEtapaProcesso($renderTo, $sMetodo = '') {
-        parent::acaoMostraRelatorio($renderTo, 'geraEtapaProcesso');
+    public function geraEtapaProcesso() {
+        require 'app/relatorio/geraEtapaProcesso.php';
     }
 
     public function getDadosProdSimilar($sDados) {
         $aDados = explode(',', $sDados);
 
-        $oObj = $this->Persistencia->getCadDim($aDados[25]);
+        $oObj = $this->Persistencia->getCadDim($aDados[26]);
 
         $array = (array) $oObj;
         $sCount = 0;

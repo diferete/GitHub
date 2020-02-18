@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
- 
+
 class ViewQualAqEficaz extends View {
 
     public function __construct() {
@@ -36,7 +36,7 @@ class ViewQualAqEficaz extends View {
         $oResp->setSIdHideEtapa($this->getSIdHideEtapa());
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
-        $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
+        $oRespNome = new Campo('Quem', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
         $oRespNome->setSIdPk($oResp->getId());
         $oRespNome->setClasseBusca('User');
         $oRespNome->addCampoBusca('usucodigo', '', '');
@@ -49,7 +49,7 @@ class ViewQualAqEficaz extends View {
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
 
-        $oDataPrev = new Campo('Quando', 'dataprev', Campo::TIPO_DATA, 2);
+        $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2);
         $oDataPrev->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
         $oEficaz = new Campo('', 'eficaz', Campo::TIPO_TEXTO, 1);
@@ -63,7 +63,7 @@ class ViewQualAqEficaz extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz');
+        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
         $oGridAq->getOGrid()->addModal($oBotaoModal);
 
         $oSeqGrid = new CampoConsulta('Seq.', 'seq');
@@ -79,7 +79,7 @@ class ViewQualAqEficaz extends View {
         $oDataApontaGrid = new CampoConsulta('Apontamento', 'datareal', CampoConsulta::TIPO_DATA);
 
         $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
 
         $oGridAq->addCampos($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
         $oGridAq->setSController('QualAqEficaz');
@@ -97,11 +97,6 @@ class ViewQualAqEficaz extends View {
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBtnInserir->getOBotao()->setBDesativado(true);
-        }
-
-
 
         /* botão excluir */
         $sAcao = 'var chave=""; $("#' . $oGridAq->getId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
@@ -111,16 +106,18 @@ class ViewQualAqEficaz extends View {
         $oBtnDelete = new Campo('Deletar', 'btnNormal', Campo::TIPO_BOTAOSMALL, 2);
         $oBtnDelete->getOBotao()->setSStyleBotao(Botao::TIPO_DANGER);
         $oBtnDelete->getOBotao()->addAcao($sAcao);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBtnDelete->setBDesativado(true);
-        }
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHA);
 
         $sAcaoBusca = 'requestAjax("' . $this->getTela()->getId() . '-form","QualAqEficaz","getDadosGrid","' . $oGridAq->getId() . '","consultaEficaz");';
         $this->getTela()->setSAcaoShow($sAcaoBusca);
+        if ($sAcaoRotina == 'acaoVisualizar') {
 
-        $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oBtnInserir, $oEficaz), $oLinha, $oBtnDelete, $oGridAq);
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oEficaz), $oLinha, $oGridAq);
+        } else {
+
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oBtnInserir, $oEficaz), $oLinha, $oBtnDelete, $oGridAq);
+        }
     }
 
     public function consultaEficaz() {
@@ -130,7 +127,7 @@ class ViewQualAqEficaz extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz');
+        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
 
         //$this->addModaisDetalhe($oBotaoModal);
 
@@ -147,7 +144,7 @@ class ViewQualAqEficaz extends View {
         $oRespNomeGrid = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
 
         $oGridEf->addCampos($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
 

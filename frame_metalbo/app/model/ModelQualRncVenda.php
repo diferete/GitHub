@@ -54,6 +54,15 @@ class ModelQualRncVenda {
     private $obs_aponta;
     private $usuapontavenda;
     private $produtos;
+    private $tagexcecao;
+
+    function getTagexcecao() {
+        return $this->tagexcecao;
+    }
+
+    function setTagexcecao($tagexcecao) {
+        $this->tagexcecao = $tagexcecao;
+    }
 
     function getProdutos() {
         return $this->produtos;

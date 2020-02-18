@@ -12,6 +12,10 @@ class ControllerQualRnc extends Controller {
         $this->carregaClassesMvc('QualRnc');
     }
 
+    public function relReclamacaoCliente($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'relReclamacaoCliente');
+    }
+
     public function antesDeCriarTela($sParametros = null) {
         parent::antesDeCriarTela($sParametros);
 
@@ -24,17 +28,27 @@ class ControllerQualRnc extends Controller {
 
     public function beforeInsert() {
         parent::beforeInsert();
+
         $oLote = $this->Model->getLote();
         $oOp = $this->Model->getOp();
+        $oTag = $this->Model->getTagexcecao();
 
-        if (($oLote == '' || $oOp == '') || ($oLote == null || $oOp == null)) {
-            $oMsg = new Modal('Atenção', 'Favor preencer os campos de LOTE e ORDEM DE PRODUÇÃO, solicitar com o Cliente!', Modal::TIPO_AVISO, FALSE, TRUE, FALSE);
-            echo $oMsg->getRender();
+        if ($oTag == null) {
+            if (($oLote == '' || $oOp == '') || ($oLote == null || $oOp == null)) {
+                $oMsg = new Modal('Atenção', 'Favor preencer os campos de LOTE e ORDEM DE PRODUÇÃO, solicitar com o Cliente!', Modal::TIPO_AVISO, FALSE, TRUE, FALSE);
+                echo $oMsg->getRender();
 
-            $aRetorno = array();
-            $aRetorno[0] = false;
-            $aRetorno[1] = '';
-            return $aRetorno;
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            } else {
+
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
         } else {
             $aRetorno = array();
             $aRetorno[0] = true;
@@ -65,6 +79,42 @@ class ControllerQualRnc extends Controller {
             $this->setBDesativaBotaoPadrao(true);
             echo $oMensagem->getRender();
         }
+    }
+
+    public function carregaAnalise($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[1]);
+        $aAnalise = array();
+        parse_str($sChave, $aAnalise);
+
+        $oAnalise = $this->Persistencia->buscaDadosRnc($aAnalise);
+
+
+        $sAnalise = Util::limpaString($oAnalise->obs_aponta);
+
+
+        switch ($oAnalise->tagsetor) {
+            case 3:
+                $sSetor = 'Expedição';
+                break;
+            case 5:
+                $sSetor = 'Embalagem';
+                break;
+            case 25:
+                $sSetor = 'Qualidade';
+                break;
+            default:
+                $sSetor = 'Vendas';
+                break;
+        }
+
+        $sProblema = $oAnalise->aplicacao . ' -  ' . Util::limpaString($oAnalise->naoconf);
+
+        $sScriptDados = '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
+        $sProblemas = '$("#' . $aDados[3] . '").val("' . $sProblema . '");';
+
+        echo $sScriptDados;
+        echo $sProblemas;
     }
 
     public function buscaNf($sDados) {
@@ -280,10 +330,11 @@ class ControllerQualRnc extends Controller {
         $sProd = $aDados[0] . ' - ' . $aDados[1] . ' - ' . $aDados[2] . ' - ' . $aDados[3];
 
 
-        $sProduto = '$("#' . $aDados[4] . '_tag").val("' . $sProd . '");'
-                . '$("#' . $aDados[4] . '_tag").focus();'
-                . '$("#' . $aDados[5] . '").focus();'
-                . '$("#' . $aDados[5] . '").focus();';
+        $sProduto = "$('#" . $aDados[4] . "_tag').val('" . $sProd . "');"
+                . "$('#" . $aDados[4] . "_tag').focus();"
+                . "$('#" . $aDados[5] . "').focus();"
+                . "$('#" . $aDados[4] . "_tag').focus();"
+                . "$('#" . $aDados[5] . "').focus();";
         echo $sProduto;
         $this->limpaCampos($aDados);
     }

@@ -57,7 +57,7 @@
     color: #0039FF;
 }
 .tr-amarelo{
-    color: #E19D12;
+    color: #ffff00;
 }
 .tr-roxo{
     color: #990099;
@@ -66,7 +66,7 @@
     color: #FF6EB4;
 }
 .tr-laranja{
-    color: #E19D12;
+    color: #ff6600;
 }
 
 
@@ -92,8 +92,7 @@
     background-color: #0039FF;
 }
 .tr-bk-amarelo{
-    color: white;
-    background-color: #E6E600;
+    background-color: #ffff00;
 }
 .tr-bk-roxo{
     color: white;
@@ -105,7 +104,7 @@
 }
 .tr-bk-laranja{
     color: white;
-    background-color: #E19D12;
+    background-color: #ff6600;
 }
 
 .tr-bk-black{

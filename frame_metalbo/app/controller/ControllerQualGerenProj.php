@@ -150,6 +150,41 @@ class ControllerQualGerenProj extends Controller {
         parent::mostraTelaRelatorio($renderTo, 'relNovoProjeto');
     }
     
+    public function relNovoProjetoRanking() {
+   
+        //Explode string parametros
+        $sDados = $_REQUEST['campos'];
+        
+        $sCampos = htmlspecialchars_decode($sDados);
+        
+        $sCampos.= $this->getSget();
+       
+        $sSistema ="app/relatorio";
+        $sRelatorio = 'relNovoProjetoRanking.php?';
+       
+        $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "Relatório", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");'; 
+        echo $oWindow;
+
+    }
+    
+    
+    public function relNovoProjetosMes(){
+        
+        //Explode string parametros
+        $sDados = $_REQUEST['campos'];
+        
+        $sCampos = htmlspecialchars_decode($sDados);
+        
+        $sCampos.= $this->getSget();
+       
+        $sSistema ="app/relatorio";
+        $sRelatorio = 'relNovoProjetosMes.php?';
+       
+        $oWindow = 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "Relatório", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");'; 
+        echo $oWindow;
+        
+    }
+    
     public function relProjXls(){
         //Explode string parametros
         $sDados = $_REQUEST['campos'];

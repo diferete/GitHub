@@ -47,6 +47,9 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
         $this->adicionaRelacionamento('anexo2', 'anexo2');
         $this->adicionaRelacionamento('anexo3', 'anexo3');
         $this->adicionaRelacionamento('anexo4', 'anexo4');
+        $this->adicionaRelacionamento('descprod','descprod');
+   
+
         
         $this->adicionaRelacionamento('filcgc', 'Pessoa.empcod', false, false);
         $this->adicionaRelacionamento('empdes', 'empdes', false, false);
@@ -58,13 +61,12 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
         $this->adicionaOrderBy('nr',1);
     }
 
-    public function buscaDadosOp($sOp, $sFilcgc) {
+    public function buscaDadosOp($sOp) {
 
         $sSql = 'select metop.op,cod,prodes from metop  '
                 . 'left outer join  metitenop '
                 . 'on metop.op = metitenop.op '
-                . 'where metop.op  =' . $sOp . ' '
-                . 'and empcnpj= ' . $sFilcgc . '';
+                . 'where metop.op  =' . $sOp . ' ';
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno;
     }
@@ -75,6 +77,17 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
                 .' FROM WIDL.PROD01'
                 .' WHERE GRUCOD =2 '
                 . 'AND PROCOD ='. $sCodmat. ' ';             
+        $oRetorno = $this->consultaSql($sSql);
+        return $oRetorno;
+    }
+    
+    
+        public function buscaDadoscodprod($sCodprod) {
+
+        $sSql = 'select procod,prodes '
+                .' FROM WIDL.PROD01'
+                .' WHERE GRUCOD in(12,13) '
+                . 'AND PROCOD ='. $sCodprod. ' ';             
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno;
     }

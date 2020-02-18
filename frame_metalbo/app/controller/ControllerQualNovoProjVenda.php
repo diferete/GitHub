@@ -73,17 +73,17 @@ class ControllerQualNovoProjVenda extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
         $bSit = $this->Persistencia->verifSituacao($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
-        
-        if($bSit){
-        $bComercial = $this->Persistencia->verifInfCom($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
-        if ($bComercial) {
-            $oMensagem = new Modal('Aprovar projeto', 'Deseja liberar o projeto nº' . $aCamposChave['nr'] . ' para o representante?', Modal::TIPO_AVISO, true, true, true);
-            $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","aprovaProj","' . $sDados . '");');
+
+        if ($bSit) {
+            $bComercial = $this->Persistencia->verifInfCom($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
+            if ($bComercial) {
+                $oMensagem = new Modal('Aprovar projeto', 'Deseja liberar o projeto nº ' . $aCamposChave['nr'] . ' para o representante?', Modal::TIPO_AVISO, true, true, true);
+                $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","aprovaProj","' . $sDados . '");');
+            } else {
+                $oMensagem = new Modal('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' não está com as definições comerciais informadas, preço e prazo de entrega!', Modal::TIPO_ERRO, false, true, true);
+            }
         } else {
-            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não está com as definições comerciais informadas, preço e prazo de entrega!', Modal::TIPO_ERRO, false, true, true);
-        }
-        }else{
-            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não pode ser liberado para representante!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' não pode ser liberado para representante!', Modal::TIPO_ERRO, false, true, true);
         }
 
 
@@ -105,12 +105,12 @@ class ControllerQualNovoProjVenda extends Controller {
         $aRetorno = $this->Persistencia->aprovaVendaProj($aCamposChave);
 
         if ($aRetorno[0] == true) {
-            $oMensagem = new Mensagem('Atenção', 'O projeto nº' . $aRetorno[1] . ' foi encaminhado para o representante', Modal::TIPO_SUCESSO);
+            $oMensagem = new Mensagem('Atenção', 'O projeto nº ' . $aRetorno[1] . ' foi encaminhado para o representante', Modal::TIPO_SUCESSO);
             echo $oMensagem->getRender();
             $this->EnvAprov($sDados);
             echo"$('#" . $aDados[1] . "-pesq').click();";
         } else {
-            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não foi liberado', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' não foi liberado', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }
@@ -122,8 +122,8 @@ class ControllerQualNovoProjVenda extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
-        
-        
+
+
         $aRetorno = $this->Persistencia->verifProjProjVenda($aCamposChave);
 
         if ($aRetorno == false) {
@@ -148,20 +148,19 @@ class ControllerQualNovoProjVenda extends Controller {
 
         $oEmail = new Email();
         $oEmail->setMailer();
-
         $oEmail->setEnvioSMTP();
-        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $oAprov = $this->Persistencia->buscaDadosEmailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
         $aObs = $this->Persistencia->buscaObs($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
-        $oEmail->setAssunto(utf8_decode('Entrada de projeto nº' . $aCamposChave['nr'] . ''));
+        $oEmail->setAssunto(utf8_decode('Entrada de projeto nº ' . $aCamposChave['nr'] . ''));
         $oEmail->setMensagem(utf8_decode('ENTRADA DE PROJETO Nº ' . $aCamposChave['nr'] . ' FOI <span style="color:#006400"><b>APROVADO</b></span> PELO SETOR DE VENDAS.<hr><br/>'
                         . '<b>Cliente:</b> ' . $oAprov->empcod . '  ' . $oAprov->empdes . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
@@ -213,18 +212,17 @@ class ControllerQualNovoProjVenda extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-        
+
         $bSit = $this->Persistencia->verifSituacao2($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
-        
-        if($bSit){
-        
-        $oMensagem = new Modal('Retornar para projetos', 'Deseja retornar o projeto nº' . $aCamposChave['nr'] . ' para o projetos? --ATENÇÃO SERÁ RETORNADO TODAS AS SITUAÇÕES!', Modal::TIPO_AVISO, true, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("", "' . $sClasse . '", "retProjetos", "' . $sDados . '");');
-        
-        }else{
-            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não pode ser retornado!', Modal::TIPO_ERRO, false, true, true);
+
+        if ($bSit) {
+
+            $oMensagem = new Modal('Retornar para projetos', 'Deseja retornar o projeto nº ' . $aCamposChave['nr'] . ' para o projetos? --ATENÇÃO SERÁ RETORNADO TODAS AS SITUAÇÕES!', Modal::TIPO_AVISO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("", "' . $sClasse . '", "retProjetos", "' . $sDados . '");');
+        } else {
+            $oMensagem = new Modal('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' não pode ser retornado!', Modal::TIPO_ERRO, false, true, true);
         }
-        
+
         echo $oMensagem->getRender();
     }
 
@@ -276,20 +274,19 @@ class ControllerQualNovoProjVenda extends Controller {
 
         $oEmail = new Email();
         $oEmail->setMailer();
-
         $oEmail->setEnvioSMTP();
-        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $oAprov = $this->Persistencia->buscaDadosEmailRep($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
         $aObs = $this->Persistencia->buscaObs($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
-        $oEmail->setAssunto(utf8_decode('Entrada de projeto nº' . $aCamposChave['nr'] . ''));
+        $oEmail->setAssunto(utf8_decode('Entrada de projeto nº ' . $aCamposChave['nr'] . ''));
         $oEmail->setMensagem(utf8_decode('ENTRADA DE PROJETO Nº ' . $aCamposChave['nr'] . ' FOI <span style="color:#006400"><b>RETORNADO</b></span> PELO SETOR DE VENDAS.<hr><br/>'
                         . '<b>Cliente:</b> ' . $oAprov->empcod . '  ' . $oAprov->empdes . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
@@ -336,14 +333,14 @@ class ControllerQualNovoProjVenda extends Controller {
         );
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-        
+
         $bSit = $this->Persistencia->verifSituacao($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
-        
-        if($bSit){
-            $oMensagem = new Modal('Reprovar projeto', 'Deseja reprovar o projeto nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
+
+        if ($bSit) {
+            $oMensagem = new Modal('Reprovar projeto', 'Deseja reprovar o projeto nº ' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","ReprovaProj","' . $sDados . '");');
-        }else{
-            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' não pode ser reprovado!', Modal::TIPO_ERRO, false, true, true);
+        } else {
+            $oMensagem = new Modal('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' não pode ser reprovado!', Modal::TIPO_ERRO, false, true, true);
         }
 
         echo $oMensagem->getRender();
@@ -370,7 +367,7 @@ class ControllerQualNovoProjVenda extends Controller {
             echo"$('#" . $aDados[1] . "-pesq').click();";
             echo'requestAjax("","' . $sClasse . '","msgEnvReprov","' . $sDados . '");';
         } else {
-            $oMensagem = new Modal('Atenção', 'O projeto nº' . $aCamposChave['nr'] . ' foi reprovado', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'O projeto nº ' . $aCamposChave['nr'] . ' foi reprovado', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
     }
@@ -382,7 +379,7 @@ class ControllerQualNovoProjVenda extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
-        $oMensagem = new Modal('Enviar reprovação', 'Deseja enviar e-mail de reprovação do projeto nº' . $aCamposChave['nr'] . ' para os envolvidos?', Modal::TIPO_AVISO, true, true, true);
+        $oMensagem = new Modal('Enviar reprovação', 'Deseja enviar e-mail de reprovação do projeto nº ' . $aCamposChave['nr'] . ' para os envolvidos?', Modal::TIPO_AVISO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","EnvReprov","' . $sDados . '");');
 
 
@@ -420,20 +417,19 @@ class ControllerQualNovoProjVenda extends Controller {
 
         $oEmail = new Email();
         $oEmail->setMailer();
-
         $oEmail->setEnvioSMTP();
-        //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $aObs = $this->Persistencia->buscaObs($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
         $oCampos = $this->Persistencia->buscaDados($aCamposChave);
 
-        $oEmail->setAssunto(utf8_decode('Entrada de projeto nº' . $aCamposChave['nr'] . ''));
+        $oEmail->setAssunto(utf8_decode('Entrada de projeto nº ' . $aCamposChave['nr'] . ''));
         $oEmail->setMensagem(utf8_decode('ENTRADA DE PROJETO Nº ' . $aCamposChave['nr'] . ' FOI <span style="color:#FF0000"><b>REPROVADO</b></span> PELO SETOR DE VENDAS.<hr><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%">'
                         . '<tr><td><b>Descrição:</b></td><td>' . $oCampos->desc_novo_prod . '</td></tr>'

@@ -468,22 +468,6 @@ class Filtro {
                         . 'autoclose: true,'
                         . 'todayHighlight: true,'
                         . '});'
-                        . '</script>'
-                        . '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<label for="input-date">' . $this->getSLabel() . ' Final:</label>'
-                        . '<div class="input-group date form-group form-group-filter" id="' . $this->getId() . '-fim">'
-                        . '<input type="text" name="' . $this->getSNome() . '" class="form-control input-sm" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->aFiltroValor[1] . '">'
-                        . '<span class="input-group-addon"><i class="icon wb-calendar"></i></span>'
-                        . '</div>'
-                        . '</div>'
-                        . '<script>'
-                        . '$("#' . $this->getId() . '-fim").datepicker({'
-                        . 'format: "dd/mm/yyyy",'
-                        . 'todayBtn: "linked",'
-                        . 'language: "pt-BR",'
-                        . 'autoclose: true,'
-                        . 'todayHighlight: true,'
-                        . '});'
                         . '</script>';
                 if ($this->getBQuebraLinha() == true) {
                     $sCampo .= '<br /><br />';

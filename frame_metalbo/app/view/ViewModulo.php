@@ -8,7 +8,15 @@ class ViewModulo extends View {
 
     function criaConsulta() {
         parent::criaConsulta();
+
+        $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(true);
+
+
+
+        $oDrop3 = new Dropdown('Teste', Dropdown::TIPO_DARK);
+        //$oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Teste', 'Modulo', 'teste', '', false, '', false, '', false, true);
+
 
         $this->setaTiluloConsulta('Pesquisa de Módulos do Sistema');
         $oCodigo = new CampoConsulta('Modulo', 'modcod');
@@ -16,17 +24,26 @@ class ViewModulo extends View {
 
         $oModulo = new CampoConsulta('Descrição', 'modescricao');
         $oModulo->setILargura(500);
-            
-        $this->addCampos($oCodigo, $oModulo);
 
-        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4);
+
+
+        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oModuloF);
-
-        $this->setUsaAcaoVisualizar(true);
+        $this->addDropdown($oDrop3);
+        $this->addCampos($oCodigo, $oModulo);
     }
 
     function criaTela() {
         parent::criaTela();
+
+
+        $this->setBGravaHistoricoExcluir(true);
+        $this->setBGravaHistoricoAlterar(true);
+
+        $oTeste = new Campo('Cad. User', 'teste', Campo::TIPO_BOTAO_MOSTRACONSULTA, 1, 1, 12, 12);
+        $oTeste->setApenasTela(true);
+        $oTeste->setClasseBusca('User');
+        $oTeste->setSCampoRetorno('usucodigo', $this->getTela()->getId());
 
         $oModCod = new Campo('Código', 'modcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oModCod->setBCampoBloqueado(true);

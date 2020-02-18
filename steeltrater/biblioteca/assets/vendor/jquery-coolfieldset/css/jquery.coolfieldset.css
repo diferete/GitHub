@@ -1,9 +1,11 @@
 .coolfieldset, .coolfieldset.expanded{
     border:0;
-    border-top:1px solid #aaa;   
-    border-bottom:1px solid #aaa;   
+    border-top:1px solid #aaa;
+    border-bottom:1px solid #aaa;
     background-color: #e6e6e666;
 }
+
+fieldset#style137045cb8c2eb89119 {}
 
 .coolfieldset.collapsed{
     border:0;

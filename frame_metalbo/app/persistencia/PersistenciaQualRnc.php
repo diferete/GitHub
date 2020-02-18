@@ -69,6 +69,7 @@ class PersistenciaQualRnc extends Persistencia {
         $this->adicionaRelacionamento('obs_aponta', 'obs_aponta');
         $this->adicionaRelacionamento('produtos', 'produtos');
 
+        $this->adicionaRelacionamento('tagexcecao', 'tagexcecao');
 
         $this->adicionaJoin('Pessoa');
 
@@ -78,6 +79,8 @@ class PersistenciaQualRnc extends Persistencia {
         }
 
         $this->adicionaOrderBy('nr', 1);
+        
+        $this->setSTop(50);
     }
 
     public function consultaNf($sNfnro) {
@@ -164,5 +167,11 @@ class PersistenciaQualRnc extends Persistencia {
         return $aRetorno;
     }
 
+    public function buscaDadosRnc($aDados) {
+        $sSql = "select * from tbrncqual"
+                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $oResult = $this->consultaSql($sSql);
+        return $oResult;
+    }
 
 }

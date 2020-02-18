@@ -125,4 +125,32 @@ class ControllerMET_ISO_FuncDesc extends Controller {
         echo '$("#' . $aDados[2] . '").val("' . $oDados->getObservacao() . '");';
     }
 
+    public function afterInsertDetalhe() {
+        parent::afterInsertDetalhe();
+
+        $script = 'if ($("#GridTreinamentos-pesq").length){'
+                . '$("#GridTreinamentos-pesq").click();}'
+                . 'else{};';
+        echo $script;
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function afterAlterarDetalhe() {
+        parent::afterAlterarDetalhe();
+
+        $script = 'if ($("#GridTreinamentos-pesq").length){'
+                . '$("#GridTreinamentos-pesq").click();}'
+                . 'else{};';
+        echo $script;
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
 }

@@ -83,7 +83,7 @@ class ControllerPrincipal extends Controller{
              * inválida ao usuário e o redireciona para a página de login
              */
             $oControllerUsuario = Fabrica::FabricarController('Usuario');
-            $oControllerUsuario->msgSessaoInvalida();
+            $oControllerUsuario->msgSessaoInvalida('Principal....');
         }
 
         }

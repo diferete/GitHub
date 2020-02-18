@@ -39,12 +39,26 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         $aDadosParam['datafin'] = Util::getDataAtual();
         $aDadosParam['tipoOp'] = 'F';
         $aDadosPesoFio = $this->Persistencia->geraGerenProd($aDadosParam);
+        //apontamento por etapa diário
+        $aDadosParam = array();
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getDataAtual();
+        $aDadosParam['datafin'] = Util::getDataAtual();
+       // $aDadosParam['tipoOp'] = 'F';
+        $aDadosEtapa = $this->Persistencia->geraProdEtapas($aDadosParam);
+        
         
         echo '$("#'.$aDados[0].' > tbody >").remove();'; 
         //html visualizacao
         $sHtmlDiario ='             <tr><td>Produção total</td><td> '.number_format($aDadosPesoGeral['pesoTotal'], 2, ',', '.').' Kg</td></tr> '   
                       .'             <tr><td>Fornos contínuos</td><td> '.number_format($aDadosPesoTempera['pesoTotal'], 2, ',', '.').' Kg</td></tr> '   
-                      .'             <tr><td>Fio Máquina Industrialização</td><td>'.number_format($aDadosPesoFio['pesoTotal'], 2, ',', '.').' Kg</td></tr> '; 
+                      .'             <tr><td>Fio Máquina Industrialização</td><td>'.number_format($aDadosPesoFio['pesoTotal'], 2, ',', '.').' Kg</td></tr> '
+                      .'<tr><td colspan="2" align="center" style="color:red;font-size:14px;background:#f3f7f9">Produção por etapas</td></tr>';
+              foreach ($aDadosEtapa as $keyEtapa => $ValueEtapa) {
+                  $sHtmlDiario .= '<tr><td>'.$keyEtapa.'</td><td> '.number_format($ValueEtapa, 2, ',', '.').' Kg</td></tr>';
+              }
+        
+        
         echo '$("#'.$aDados[0].' > tbody").append(\''.$sHtmlDiario.'\');';
         
  //#############################################################################################################
@@ -67,12 +81,24 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         $aDadosParam['datafin'] = $aCamposChave['datafin'];
         $aDadosParam['tipoOp'] = 'F';
         $aDadosPesoFioMensal = $this->Persistencia->geraGerenProd($aDadosParam);
+        //apontamento por etapa diário
+        $aDadosParam = array();
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] =$aCamposChave['dataini'];
+        $aDadosParam['datafin'] =$aCamposChave['datafin'];
+        //$aDadosParam['tipoOp'] = 'F';
+        $aDadosEtapa = $this->Persistencia->geraProdEtapas($aDadosParam);
+        
         
         echo '$("#'.$aDados[1].' > tbody >").remove();'; 
         //html visualizacao
         $sHtmlDiario ='             <tr><td>Produção total</td><td> '.number_format($aDadosPesoGeralMensal['pesoTotal'], 2, ',', '.').' Kg</td></tr> '   
                       .'             <tr><td>Fornos contínuos</td><td> '.number_format($aDadosPesoTemperaMensal['pesoTotal'], 2, ',', '.').' Kg</td></tr> '   
-                      .'             <tr><td>Fio Máquina Industrialização</td><td>'.number_format($aDadosPesoFioMensal['pesoTotal'], 2, ',', '.').' Kg</td></tr> '; 
+                      .'             <tr><td>Fio Máquina Industrialização</td><td>'.number_format($aDadosPesoFioMensal['pesoTotal'], 2, ',', '.').' Kg</td></tr> '
+                      .'<tr><td colspan="2" align="center" style="color:red;font-size:14px;background:#f3f7f9">Produção por etapas</td></tr>';
+        foreach ($aDadosEtapa as $keyEtapa => $ValueEtapa) {
+                  $sHtmlDiario .= '<tr><td>'.$keyEtapa.'</td><td> '.number_format($ValueEtapa, 2, ',', '.').' Kg</td></tr>';
+              }
         echo '$("#'.$aDados[1].' > tbody").append(\''.$sHtmlDiario.'\');';
    //################################################################################################
         //producao diário por forno
@@ -80,12 +106,26 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         $aDadosParam['busca'] ='ProdForno';
         $aDadosParam['dataini'] = Util::getDataAtual();
         $aDadosParam['datafin'] = Util::getDataAtual();
+        $aDadosParam['tipoOp'] = 'P';
         
         $aDadosProdFornoDiario = $this->Persistencia->geraGerenProd($aDadosParam);
         $sHtmlDiario ='';
         foreach ($aDadosProdFornoDiario as $key => $value) {
            $sHtmlDiario .='             <tr><td>'.$key.' </td><td> '.number_format($value, 2, ',', '.').' Kg</td></tr> '   ; 
         }
+           $sHtmlDiario .='<tr><td colspan="2" align="center" style="color:red;font-size:14px;background:#f3f7f9">Fio Máquina Industrialização</td></tr>'; 
+        //por forno somente etapas
+        $aDadosParam = array();
+        $aDadosEtapa = array();
+        $aDadosParam['busca'] ='ProdForno';
+        $aDadosParam['dataini'] = Util::getDataAtual();
+        $aDadosParam['datafin'] = Util::getDataAtual();
+        $aDadosParam['tipoOp'] = 'F';
+        $aDadosEtapa = $this->Persistencia->geraProdEtapas($aDadosParam);
+        foreach ($aDadosEtapa as $keyEtapa => $ValueEtapa) {
+                  $sHtmlDiario .= '<tr><td>'.$keyEtapa.'</td><td> '.number_format($ValueEtapa, 2, ',', '.').' Kg</td></tr>';
+             }
+        
         echo '$("#'.$aDados[2].' > tbody >").remove();'; 
         echo '$("#'.$aDados[2].' > tbody").append(\''.$sHtmlDiario.'\');';
         
@@ -94,8 +134,9 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         
         $aDadosParam = array();
         $aDadosParam['busca'] ='ProdForno';
-         $aDadosParam['dataini'] = $aCamposChave['dataini'];
+        $aDadosParam['dataini'] = $aCamposChave['dataini'];
         $aDadosParam['datafin'] = $aCamposChave['datafin'];
+        $aDadosParam['tipoOp'] = 'P';
         
         $aDadosProdFornoMensal = $this->Persistencia->geraGerenProd($aDadosParam);
         
@@ -103,6 +144,20 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         foreach ($aDadosProdFornoMensal as $key => $value) {
            $sHtmlDiario .='             <tr><td>'.$key.' </td><td> '.number_format($value, 2, ',', '.').' Kg</td></tr> '   ; 
         }
+        $sHtmlDiario .='<tr><td colspan="2" align="center" style="color:red;font-size:14px;background:#f3f7f9">Fio Máquina Industrialização</td></tr>'; 
+        //producao por forno somente etapas
+         //por forno somente etapas
+        $aDadosParam = array();
+        $aDadosEtapa = array();
+        $aDadosParam['busca'] ='ProdForno';
+        $aDadosParam['dataini'] = $aCamposChave['dataini'];
+        $aDadosParam['datafin'] = $aCamposChave['datafin'];
+        $aDadosParam['tipoOp'] = 'F';
+        $aDadosEtapa = $this->Persistencia->geraProdEtapas($aDadosParam);
+        foreach ($aDadosEtapa as $keyEtapa => $ValueEtapa) {
+                  $sHtmlDiario .= '<tr><td>'.$keyEtapa.'</td><td> '.number_format($ValueEtapa, 2, ',', '.').' Kg</td></tr>';
+             }
+        
         echo '$("#'.$aDados[3].' > tbody >").remove();'; 
         echo '$("#'.$aDados[3].' > tbody").append(\''.$sHtmlDiario.'\');';
     }
@@ -144,7 +199,7 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
     /**
      * Public function envia e-mail administrativo 
      */
-    public function enviaEmailProdAdm($sDados){
+    public function enviaEmailProdAdm($sDados,$sOrigem){
          //tratamentos dos dados da tela
         $aDados = explode(',', $sDados);
         $aCamposChave = array();
@@ -170,12 +225,24 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         $aDadosParam['tipoOp'] = 'F';
         $aDadosPesoFio = $this->Persistencia->geraGerenProd($aDadosParam);
         
+         //apontamento por etapa diário
+        $aDadosParam = array();
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getDataOtem();
+        $aDadosParam['datafin'] = Util::getDataOtem();
+        $aDadosParam['tipoOp'] = 'F';
+        $aDadosEtapa = $this->Persistencia->geraProdEtapas($aDadosParam);
+        
         if($aDados[0]=='naoEnv'){
             echo '$("#'.$aDados[1].' > tbody >").remove();'; 
             //html visualizacao
             $sHtmlDiario ='             <tr><td>Produção total</td><td> '.number_format($aDadosPesoGeral['pesoTotal'], 2, ',', '.').' Kg</td></tr> '   
                           .'             <tr><td>Fornos contínuos</td><td> '.number_format($aDadosPesoTempera['pesoTotal'], 2, ',', '.').' Kg</td></tr> '   
-                          .'             <tr><td>Fio Máquina Industrialização</td><td>'.number_format($aDadosPesoFio['pesoTotal'], 2, ',', '.').' Kg</td></tr> '; 
+                          .'             <tr><td>Fio Máquina Industrialização</td><td>'.number_format($aDadosPesoFio['pesoTotal'], 2, ',', '.').' Kg</td></tr> '
+                          .'<tr><td colspan="2" align="center" style="color:red;font-size:14px;background:#f3f7f9">Produção por etapas</td></tr>';
+              foreach ($aDadosEtapa as $keyEtapa => $ValueEtapa) {
+                  $sHtmlDiario .= '<tr><td>'.$keyEtapa.'</td><td> '.number_format($ValueEtapa, 2, ',', '.').' Kg</td></tr>';
+              }
             echo '$("#'.$aDados[1].' > tbody").append(\''.$sHtmlDiario.'\');';
         }
        //#############################################################################################################
@@ -199,13 +266,25 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         $aDadosParam['tipoOp'] = 'F';
         $aDadosPesoFioMensal = $this->Persistencia->geraGerenProd($aDadosParam);
         
+          //apontamento por etapa 
+        $aDadosParam = array();
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getPrimeiroDiaMes();
+        $aDadosParam['datafin'] = Util::getDataOtem();
+        $aDadosParam['tipoOp'] = 'F';
+        $aDadosEtapaMensal = $this->Persistencia->geraProdEtapas($aDadosParam);
+        
         if($aDados[0]=='naoEnv'){
             echo '$("#'.$aDados[2].' > tbody >").remove();'; 
             //html visualizacao
             $sHtmlDiario ='             <tr><td>Produção total</td><td> '.number_format($aDadosPesoGeralMensal['pesoTotal'], 2, ',', '.').' Kg</td></tr> '   
                           .'             <tr><td>Fornos contínuos</td><td> '.number_format($aDadosPesoTemperaMensal['pesoTotal'], 2, ',', '.').' Kg</td></tr> '   
-                          .'             <tr><td>Fio Máquina Industrialização</td><td>'.number_format($aDadosPesoFioMensal['pesoTotal'], 2, ',', '.').' Kg</td></tr> '; 
-            echo '$("#'.$aDados[2].' > tbody").append(\''.$sHtmlDiario.'\');'; 
+                          .'             <tr><td>Fio Máquina Industrialização</td><td>'.number_format($aDadosPesoFioMensal['pesoTotal'], 2, ',', '.').' Kg</td></tr> '
+                          .'<tr><td colspan="2" align="center" style="color:red;font-size:14px;background:#f3f7f9">Produção por etapas</td></tr>';
+                            foreach ($aDadosEtapaMensal as $keyEtapa => $ValueEtapa) {
+                                $sHtmlDiario .= '<tr><td>'.$keyEtapa.'</td><td> '.number_format($ValueEtapa, 2, ',', '.').' Kg</td></tr>';
+                            }
+                           echo '$("#'.$aDados[2].' > tbody").append(\''.$sHtmlDiario.'\');'; 
         }
         
         if($aDados[0]=='EnvEmail'){
@@ -214,12 +293,16 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
            $aDadosEmail['ProdDiaria']['PesoTotal']=$aDadosPesoGeral;
            $aDadosEmail['ProdDiaria']['PesoTempera']=$aDadosPesoTempera;
            $aDadosEmail['ProdDiaria']['PesoFio']=$aDadosPesoFio;
+           $aDadosEmail['ProdDiaria']['DadosEtapa']=$aDadosEtapa;
+           
            
            $aDadosEmail['ProdMensal']['PesoTotal']=$aDadosPesoGeralMensal;
            $aDadosEmail['ProdMensal']['PesoTempera']=$aDadosPesoTemperaMensal;
            $aDadosEmail['ProdMensal']['PesoFio']=$aDadosPesoFioMensal;
+           $aDadosEmail['ProdMensal']['DadosEtapa']=$aDadosEtapaMensal;
            
-           $this->enviaEmailProducaoSteel($aDadosEmail);
+           $sRetorno = $this->enviaEmailProducaoSteel($aDadosEmail,$sOrigem);
+           return $sRetorno;
         }
         
         
@@ -228,19 +311,35 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
      * Rotina de envio de e-mails
      */
     
-    public function enviaEmailProducaoSteel($aDadosEmail){
+    public function enviaEmailProducaoSteel($aDadosEmail,$sOrigem){
+        //busca produção por etapas do dia
+        $sDadosDiario ='';
+        foreach ($aDadosEmail['ProdDiaria']['DadosEtapa'] as $key => $aDados) {
+            $sDadosDiario .= '<tr><td><b>'.$key.'</td><td><b>' . number_format($aDados,2, ',', '.') . ' kg</b></td></tr>'; 
+            
+        }
+        //busca produção por etapas do mês
+        $sDadosMensal ='';
+        foreach ($aDadosEmail['ProdMensal']['DadosEtapa'] as $keyMensal => $aDadosMensal) {
+            $sDadosMensal .= '<tr><td><b>'.$keyMensal.'</td><td><b>' . number_format($aDadosMensal,2, ',', '.') . ' kg</b></td></tr>'; 
+            
+        }
         
         $sTextoEmail = '<h3>PRODUÇÃO STEELTRATER REFERENTE AO DIA '.Util::getDataOtem().'.</h3><hr><br/>'
-                        . '<table border=1 cellspacing=0 cellpadding=2 width="50%"> '
+                        . '<table border=1 cellspacing=0 cellpadding=2 width="90%"> '
                         . '<tr><td><b>Produção total do dia '.Util::getDataOtem().'</b></td><td><b>' .number_format( $aDadosEmail['ProdDiaria']['PesoTotal']['pesoTotal'],2, ',', '.') . ' kg</b></td></tr>'
                         . '<tr><td><b>Fornos contínuos</b></td><td><b>' .number_format($aDadosEmail['ProdDiaria']['PesoTempera']['pesoTotal'],2, ',', '.') . ' kg</b></td></tr>'
                         . '<tr><td><b>Fio máquina industrialização</td><td><b>' . number_format($aDadosEmail['ProdDiaria']['PesoFio']['pesoTotal'],2, ',', '.') . ' kg</b></td></tr>'
+                        .'<tr><td colspan="2" align="center" style="color:red;font-size:14px;background:#f3f7f9">Produção por etapas do processo</td></tr>'
+                        .$sDadosDiario
                         . '</table><br/><br/><br/>';
         $sTextoEmail .='<h3>PRODUÇÃO MENSAL '.Util::getPrimeiroDiaMes().' ATÉ '.Util::getDataOtem().'.</h3><hr><br/>'
-                        . '<table border=1 cellspacing=0 cellpadding=2 width="50%"> '
+                        . '<table border=1 cellspacing=0 cellpadding=2 width="90%"> '
                         . '<tr><td><b>Produção mensal </td><td><b>' .number_format( $aDadosEmail['ProdMensal']['PesoTotal']['pesoTotal'],2, ',', '.') . ' kg</b></td></tr>'
                         . '<tr><td><b>Fornos contínuos</b></td><td><b>' .number_format($aDadosEmail['ProdMensal']['PesoTempera']['pesoTotal'],2, ',', '.') . ' kg</b></td></tr>'
                         . '<tr><td><b>Fio máquina industrialização</td><td><b>' . number_format($aDadosEmail['ProdMensal']['PesoFio']['pesoTotal'],2, ',', '.') . ' kg</b></td></tr>'
+                        .'<tr><td colspan="2" align="center" style="color:red;font-size:14px;background:#f3f7f9">Produção por etapas do processo</td></tr>'
+                        .$sDadosMensal
                         . '</table><br/><br/>'
                         . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>';
         
@@ -269,6 +368,8 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
          $aEmails[]='cristian@steeltrater.com.br';
          $aEmails[]='clovis@steeltrater.com.br';
          $aEmails[]='john@metalbo.com.br';
+		 $aEmails[]='hermes@metalbo.com.br';
+		 $aEmails[]='ivo@metalbo.com.br';
          
           foreach ($aEmails as $sEmail) {
             $oEmail->addDestinatario($sEmail);
@@ -276,11 +377,20 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
          
          $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
-            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
-            echo $oMensagem->getRender();
+            if($sOrigem=='agenda'){
+               return 'E-mail enviado!'; 
+            }else{
+               $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+               echo $oMensagem->getRender();
+            }
+            
         } else {
-            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
-            echo $oMensagem->getRender();
+            if($sOrigem=='agenda'){
+                return 'E-mail erro! '.$aRetorno[1]; 
+            }else{
+                $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+                echo $oMensagem->getRender();
+            }
         }
         
     }

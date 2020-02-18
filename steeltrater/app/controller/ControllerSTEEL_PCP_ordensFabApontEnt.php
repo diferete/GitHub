@@ -196,6 +196,17 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
         $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
         $oOp->Persistencia->adicionaFiltro('op',$aCampos['op']);
         $oDadosOp = $oOp->Persistencia->consultarWhere();
+        //verifica se temos codigo de forno setado
+        if($aCampos['fornocod']==null || $aCampos['fornocod']==''){
+            $oModal = new Modal('Atenção!', 'Usuário não possui forno/trefila vinculado ao seu usuário!', Modal::TIPO_AVISO, false);
+            echo $oModal->getRender();
+            echo '$("#' . $aIds[2] . '" ).val("");';
+            echo '$("#' . $aIds[2] . '" ).focus();';
+            echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
+            echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
+            echo '$("#' . $aIds[8] . '" ).val("");';
+            exit();
+        }
         //valida situações da op
         //verifica se op = cancelada
         if ($oDadosOp->getSituacao() == 'Cancelada') {
@@ -208,7 +219,7 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
             echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
             echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");';
-             exit();
+            exit();
         }
         if ($oDadosOp->getOp() == null) {
                 $oMensagem = new Mensagem('Atenção!', 'Ordem de produção não foi localizada!', Mensagem::TIPO_WARNING);
@@ -221,16 +232,26 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
                 echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");'; 
                 exit();
             }
+            
+        //valida corrida se op for fio máquina
+        if($oDadosOp->getTipoOrdem()=='F'){
+            if($aCampos['corrida']==''){
+               $oModal = new Modal('Atenção!','Ops de fio máquina é necessário informar sua CORRIDA.', Modal::TIPO_ERRO, false, true, false);
+               echo $oModal->getRender();
+               exit();
+            }
+        }
        
         if($iCont > 0){
               $oMensagem = new Mensagem('Atenção!', 'Entrada da ordem de produção nº' . $aCampos['op'] . ' já está apontada!', Mensagem::TIPO_INFO);
               echo $oMensagem->getRender();
-              echo '$("#' . $aIds[7] . '" ).click();';
+              echo '$("#btn_atualizarApontEtapaSteel" ).click();';
               echo '$("#' . $aIds[2] . '" ).focus();';
               echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
               echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
               echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
               echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");'; 
+              echo '$("#' . $aIds[8] . '" ).val("");';
               exit();
         }else{
        
@@ -253,12 +274,13 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
             $oLimpa = new Base();
             $msg = "" . $oLimpa->limpaForm($aIds[0]) . "";
             
-            echo '$("#' . $aIds[7] . '" ).click();';
+            echo '$("#btn_atualizarApontEtapaSteel" ).click();';
             echo '$("#' . $aIds[2] . '" ).focus();';
             echo '$("#'. $aIds[3] .'>option[value=\"'.$aCampos['fornocod'].'\"]" ).attr("selected", true);';
             echo '$("#'. $aIds[6] .'>option[value=\"'.$aCampos['turnoSteel'].'\"]" ).attr("selected", true);';
             echo '$("#' . $aIds[4] . '" ).val("'.$aCampos['fornocod'].'");';
             echo '$("#' . $aIds[5] . '" ).val("'.$aCampos['fornodes'].'");';
+            echo '$("#' . $aIds[8] . '" ).val("");';
         }
        }
     }

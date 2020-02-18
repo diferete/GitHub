@@ -276,6 +276,42 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             echo $oModal->getRender();
             exit();
         }
+        //verifica parametro referente a bloquea faturamento de op sem apontamento
+        $oOpSteel = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOpSteel->Persistencia->adicionaFiltro('op',$aCampos['op']);
+        $oOpDados = $oOpSteel->Persistencia->consultarWhere();
+        if($oOpDados->getTipoOrdem()=='P'){
+            $oSTEEL_PCP_ParametrosProd = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
+            $oSTEEL_PCP_ParametrosProd->Persistencia->adicionaFiltro('parametro','BLOQUEIA CARGA OP TÊMPERA NÃO APONTADA');
+            $oSteelDados = $oSTEEL_PCP_ParametrosProd->Persistencia->consultarWhere();
+            if($oSteelDados->getValor()=='SIM'){
+                 $oSTEEL_PCP_ordensFabApontEnt = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
+                 $oSTEEL_PCP_ordensFabApontEnt->Persistencia->adicionaFiltro('op',$aCampos['op']);
+                 $oDadosOrdensFabApontEnt= $oSTEEL_PCP_ordensFabApontEnt->Persistencia->consultarWhere();
+                 if($oDadosOrdensFabApontEnt->getSituacao()!=='Finalizado'){
+                    $oModal = new Modal('Atenção!','Ordem de produção não está com seu apontamento finalizado!', Modal::TIPO_AVISO, false,true,true);
+                    echo $oModal->getRender();
+                    exit(); 
+                 }
+             }
+        }
+        //bloqueia fio máquina não apontada
+         if($oOpDados->getTipoOrdem()=='F'){
+            $oSTEEL_PCP_ParametrosProd = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
+            $oSTEEL_PCP_ParametrosProd->Persistencia->adicionaFiltro('parametro','BLOQUEIA CARGA OP FIO NÃO APONTADA');
+            $oSteelDados = $oSTEEL_PCP_ParametrosProd->Persistencia->consultarWhere();
+            if($oSteelDados->getValor()=='SIM'){
+                 $oSTEEL_PCP_ordensFabApontEnt = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
+                 $oSTEEL_PCP_ordensFabApontEnt->Persistencia->adicionaFiltro('op',$aCampos['op']);
+                 $oDadosOrdensFabApontEnt= $oSTEEL_PCP_ordensFabApontEnt->Persistencia->consultarWhere();
+                 if($oDadosOrdensFabApontEnt->getSituacao()!=='Finalizado'){
+                    $oModal = new Modal('Atenção!','Ordem de produção não está com seu apontamento finalizado!', Modal::TIPO_AVISO, false,true,true);
+                    echo $oModal->getRender();
+                    exit(); 
+                 }
+             }
+        }
+      
         //limpa os filtros
         $this->Persistencia->limpaFiltro();
         //verifica se há validacao no lado do servidor
@@ -1411,7 +1447,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
             //seta valores específicos do retorno da mercadoria
             $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
-            $this->Model->setPDV_PedidoItemGeraFinanceiro('N');
+            $this->Model->setPDV_PedidoItemGeraFinanceiro('S');
             $this->Model->setPDV_PedidoItemConsideraVenda('S');
 
             //gera o valor total

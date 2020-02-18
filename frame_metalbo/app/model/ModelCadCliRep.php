@@ -45,6 +45,24 @@ class ModelCadCliRep {
     private $comer;
     private $transp;
     private $empcomplemento;
+    private $cnpj;
+    private $codIBGE;
+
+    function getCodIBGE() {
+        return $this->codIBGE;
+    }
+
+    function setCodIBGE($codIBGE) {
+        $this->codIBGE = $codIBGE;
+    }
+
+    function getCnpj() {
+        return $this->cnpj;
+    }
+
+    function setCnpj($cnpj) {
+        $this->cnpj = $cnpj;
+    }
 
     function getEmpcomplemento() {
         return $this->empcomplemento;

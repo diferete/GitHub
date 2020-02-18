@@ -15,14 +15,11 @@ class ViewCotIten extends View {
     }
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
-        
-        $aValor = $this->getAParametrosExtras();
-        
         $this->getOGridDetalhe()->setIAltura(300);
         $oNr = new CampoConsulta('Nrº', 'nr');
         $oCodigo = new CampoConsulta('Código', 'codigo');
@@ -33,42 +30,33 @@ class ViewCotIten extends View {
         $oSeq->setILargura(30);
         $oVlrUnit = new CampoConsulta('Vlr. Unit.', 'vlrunit', Campo::TIPO_MONEY);
         $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
-        $oVlrTot = new CampoConsulta('Vlr. Total.','vlrtot',  Campo::TIPO_MONEY);
-        $oVlrTot->setSOperacao('personalizado');
-        $oVlrTot->setSTituloOperacao('Total: R$');
-                
+        $oVlrTot = new CampoConsulta('Vlr. Total.', 'vlrtot', Campo::TIPO_MONEY);
         $oDisp = new CampoConsulta('Disp.', 'pdfdisp');
         $oDisp->setILargura(30);
-        
         $this->addCamposDetalhe($oSeq, $oCodigo, $oDesc, $oQuant, $oVlrUnit, $oVlrTot, $oDisp, $oNr);
         $this->addGriTela($this->getOGridDetalhe());
-        
-        $aParam[]='nr,' . $aValor[2];
-        $this->getOGridDetalhe()->setAParametros($aParam);
     }
 
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $aValor = $this->getAParametrosExtras();
-        
-        $oNr = new CampoConsulta('Nº','nr');
-        $oCodigo = new CampoConsulta('Código','codigo');
-        $oDesc = new CampoConsulta('Descrição','descricao');
+
+        $oNr = new CampoConsulta('Nº', 'nr');
+        $oCodigo = new CampoConsulta('Código', 'codigo');
+        $oDesc = new CampoConsulta('Descrição', 'descricao');
         $oSeq = new CampoConsulta('Seq', 'seq');
-        $oQuant = new CampoConsulta('Qt.', 'quant',CampoConsulta::TIPO_DECIMAL);
-        $oVlrUnit = new CampoConsulta('Vlr. Unit.','vlrunit',  Campo::TIPO_MONEY);
-        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
+        $oVlrUnit = new CampoConsulta('Vlr. Unit.', 'vlrunit', Campo::TIPO_MONEY);
+        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oVlrUnit->setBComparacaoColuna(true);
-        $oVlrTot = new CampoConsulta('Vlr. Total.','vlrtot',  Campo::TIPO_MONEY);
-        $oVlrTot->setSOperacao('personalizado');
+        $oVlrTot = new CampoConsulta('Vlr. Total.', 'vlrtot', Campo::TIPO_MONEY);
+        $oVlrTot->setSOperacao('soma');
         $oVlrTot->setSTituloOperacao('Total: R$');
-        $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
+        $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, null);
         $oVlrTot->setBComparacaoColuna(true);
-        
-        $oDisp = new CampoConsulta('Disp.','pdfdisp');
+        $oDisp = new CampoConsulta('Disp.', 'pdfdisp');
         $oDisp->setILargura(30);
-        $this->addCampos($oSeq,$oCodigo,$oDesc,$oQuant,$oVlrUnit,$oVlrTot,$oDisp,$oNr);
+        $this->addCampos($oSeq, $oCodigo, $oDesc, $oQuant, $oVlrUnit, $oVlrTot, $oDisp, $oNr);
     }
 
     public function criaTela() {
@@ -206,9 +194,8 @@ class ViewCotIten extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
         //traz o preço por kg
-        $oPrecoKg = new Campo('Preço Kg: 0,00','',  Campo::TIPO_LABEL,3,3,3,3);
-        $oPrecoKg->setITamanhoLabel(3);
-        $oPrecoKg->setIMarginTop(15);
+        $oPrecoKg = new Campo('Preço Kg', '', Campo::TIPO_BADGE, 1);
+        $oPrecoKg->setSEstiloBadge(Campo::BADGE_DANGER);
         //fieldset que contém o controle da embalagem
         $oFieldEmb = new FieldSet('Embalagem');
 
@@ -409,16 +396,25 @@ class ViewCotIten extends View {
           .'}'; */
         $oVlrUnit->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '100', '', '', $sValidaPrcKg, Validacao::TRIGGER_SAIR);
 
-          
-        $oL = new Campo('','linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
-        $oL->setApenasTela(true);
-        
-        $oFieldDes = new FieldSet('Descontos');
-        $oFieldDes->addCampos(array($oDesconto,$oTratamento,$oDescExtra1,$oDescExtra2));
-        
-         //adiciona os campos na tela
-        $this->addCampos(array($oCodigo,$oProdes,$oQuant,$oVlrUnit,$oPrcBruto), $oL, array($oFieldDes), $oL, $oL, array($oSeqOd,$oObsProd,$oChkTodos,$oVlrTot,$oBtnInserir,$oPrecoKg,$oNr,$oSeq),$oFieldEmb,$oFieldLib);
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //adiciona os campos na tela
+        $this->addCampos(array($oCodigo, $oProdes, $oQuant, $oPrcBruto, $oVlrUnit, $oDesconto, $oTratamento, $oDescExtra1, $oDescExtra2), array($oSeqOd, $oObsProd, $oChkTodos, $oVlrTot, $oBtnInserir, $oPrecoKg, $oNr, $oSeq), $oFieldEmb, $oFieldLib);
+
         //campos para serem filtros iniciais no grid
 
         $this->addCamposFiltroIni($oNr);

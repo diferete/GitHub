@@ -2201,6 +2201,21 @@ class Persistencia {
     public function afterInsert($aCampos) {
         
     }
+    
+    /**
+     * arruma valores para salvar no banco
+     */
+    function ValorSql($valor) {
+        $verificaPonto = ".";
+        if (strpos("[" . $valor . "]", "$verificaPonto")):
+            $valor = str_replace('.', '', $valor);
+            $valor = str_replace(',', '.', $valor);
+        else:
+            $valor = str_replace(',', '.', $valor);
+        endif;
+
+        return $valor;
+    }
 
 }
 

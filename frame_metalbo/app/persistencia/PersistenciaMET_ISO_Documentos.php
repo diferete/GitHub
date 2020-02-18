@@ -19,6 +19,7 @@ class PersistenciaMET_ISO_Documentos extends Persistencia {
         $this->adicionaRelacionamento('usuario', 'usuario');
         $this->adicionaRelacionamento('total_Dig', 'total_Dig');
         $this->adicionaRelacionamento('total_Fis', 'total_Fis');
+        $this->adicionaRelacionamento('revisao', 'revisao');
 
 
         $this->adicionaRelacionamento('dig_direcao', 'dig_direcao');

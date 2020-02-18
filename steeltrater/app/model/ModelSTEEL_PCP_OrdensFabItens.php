@@ -33,8 +33,27 @@ class ModelSTEEL_PCP_OrdensFabItens{
     private $usernomesaida;
     private $turnoSteel;
     private $turnoSteelSaida;
+    private $diamMin;
+    private $diamMax;
+    
+    
+    function getDiamMin() {
+        return $this->diamMin;
+    }
 
+    function getDiamMax() {
+        return $this->diamMax;
+    }
 
+    function setDiamMin($diamMin) {
+        $this->diamMin = $diamMin;
+    }
+
+    function setDiamMax($diamMax) {
+        $this->diamMax = $diamMax;
+    }
+
+    
     function getTurnoSteelSaida() {
         return $this->turnoSteelSaida;
     }

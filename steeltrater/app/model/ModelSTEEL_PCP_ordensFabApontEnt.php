@@ -26,7 +26,27 @@ class ModelSTEEL_PCP_ordensFabApontEnt {
     private $usernomesaida;
     private $turnoSteel;
     private $turnoSteelSaida;
+    private $corrida;
+    private $processoAtivo;
     
+    function getProcessoAtivo() {
+        return $this->processoAtivo;
+    }
+
+    function setProcessoAtivo($processoAtivo) {
+        $this->processoAtivo = $processoAtivo;
+    }
+
+        
+    function getCorrida() {
+        return $this->corrida;
+    }
+
+    function setCorrida($corrida) {
+        $this->corrida = $corrida;
+    }
+
+        
     function getTurnoSteelSaida() {
         return $this->turnoSteelSaida;
     }

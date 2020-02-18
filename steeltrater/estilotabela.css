@@ -1,3 +1,7 @@
+* {
+    font-family:Consolas
+}
+ 
 .tabelaEditavel {
     border:solid 1px;
     width:100%

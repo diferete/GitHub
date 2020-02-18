@@ -5,7 +5,7 @@
 // Begin       : 2002-08-03
 // Last Update : 2012-12-16
 // Author      : Nicola Asuni - Tecnick.com LTD - Manor Coach House, Church Hill, Aldershot, Hants, GU12 4RQ, UK - www.tecnick.com - info@tecnick.com
-// License     : https://www.tecnick.com/pagefiles/tcpdf/LICENSE.TXT GNU-LGPLv3
+// License     : http://www.tecnick.com/pagefiles/tcpdf/LICENSE.TXT GNU-LGPLv3
 // -------------------------------------------------------------------
 // Copyright (C) 2002-2012 Nicola Asuni - Tecnick.com LTD
 //
@@ -23,7 +23,7 @@
 //
 // You should have received a copy of the License
 // along with TCPDF. If not, see
-// <https://www.tecnick.com/pagefiles/tcpdf/LICENSE.TXT>.
+// <http://www.tecnick.com/pagefiles/tcpdf/LICENSE.TXT>.
 //
 // See LICENSE.TXT file for more information.
 // -------------------------------------------------------------------
@@ -33,7 +33,7 @@
 //
 // NOTE:
 //   This class was originally derived in 2002 from the Public
-//   Domain FPDF class by Olivier Plathey (https://www.fpdf.org),
+//   Domain FPDF class by Olivier Plathey (http://www.fpdf.org),
 //   but now is almost entirely rewritten and contains thousands of
 //   new lines of code and hundreds new features.
 //
@@ -45,7 +45,7 @@
 //  * font subsetting;
 //  * methods to publish some XHTML + CSS code, Javascript and Forms;
 //  * images, graphic (geometric figures) and transformation methods;
-//  * supports JPEG, PNG and SVG images natively, all images supported by GD (GD, GD2, GD2PART, GIF, JPEG, PNG, BMP, XBM, XPM) and all images supported via ImagMagick (https://www.imagemagick.org/www/formats.html)
+//  * supports JPEG, PNG and SVG images natively, all images supported by GD (GD, GD2, GD2PART, GIF, JPEG, PNG, BMP, XBM, XPM) and all images supported via ImagMagick (http://www.imagemagick.org/www/formats.html)
 //  * 1D and 2D barcodes: CODE 39, ANSI MH10.8M-1983, USD-3, 3 of 9, CODE 93, USS-93, Standard 2 of 5, Interleaved 2 of 5, CODE 128 A/B/C, 2 and 5 Digits UPC-Based Extention, EAN 8, EAN 13, UPC-A, UPC-E, MSI, POSTNET, PLANET, RMS4CC (Royal Mail 4-state Customer Code), CBC (Customer Bar Code), KIX (Klant index - Customer index), Intelligent Mail Barcode, Onecode, USPS-B-3200, CODABAR, CODE 11, PHARMACODE, PHARMACODE TWO-TRACKS, Datamatrix, QR-Code, PDF417;
 //  * JPEG and PNG ICC profiles, Grayscale, RGB, CMYK, Spot Colors and Transparencies;
 //  * automatic page header and footer management;
@@ -69,9 +69,9 @@
 // -----------------------------------------------------------
 // THANKS TO:
 //
-// Olivier Plathey (https://www.fpdf.org) for original FPDF.
+// Olivier Plathey (http://www.fpdf.org) for original FPDF.
 // Efthimios Mavrogeorgiadis (emavro@yahoo.com) for suggestions on RTL language support.
-// Klemen Vodopivec (https://www.fpdf.de/downloads/addons/37/) for Encryption algorithm.
+// Klemen Vodopivec (http://www.fpdf.de/downloads/addons/37/) for Encryption algorithm.
 // Warren Sherliker (wsherliker@gmail.com) for better image handling.
 // dullus for text Justification.
 // Bob Vincent (pillarsdotnet@users.sourceforge.net) for <li> value attribute.
@@ -105,7 +105,7 @@
 /**
  * @file
  * This is a PHP class for generating PDF documents without requiring external extensions.<br>
- * TCPDF project (https://www.tcpdf.org) was originally derived in 2002 from the Public Domain FPDF class by Olivier Plathey (https://www.fpdf.org), but now is almost entirely rewritten.<br>
+ * TCPDF project (http://www.tcpdf.org) was originally derived in 2002 from the Public Domain FPDF class by Olivier Plathey (http://www.fpdf.org), but now is almost entirely rewritten.<br>
  * <h3>TCPDF main features are:</h3>
  * <ul>
  * <li>no external libraries are required for the basic functions;</li>
@@ -115,7 +115,7 @@
  * <li>font subsetting;</li>
  * <li>methods to publish some XHTML + CSS code, Javascript and Forms;</li>
  * <li>images, graphic (geometric figures) and transformation methods;
- * <li>supports JPEG, PNG and SVG images natively, all images supported by GD (GD, GD2, GD2PART, GIF, JPEG, PNG, BMP, XBM, XPM) and all images supported via ImagMagick (https://www.imagemagick.org/www/formats.html)</li>
+ * <li>supports JPEG, PNG and SVG images natively, all images supported by GD (GD, GD2, GD2PART, GIF, JPEG, PNG, BMP, XBM, XPM) and all images supported via ImagMagick (http://www.imagemagick.org/www/formats.html)</li>
  * <li>1D and 2D barcodes: CODE 39, ANSI MH10.8M-1983, USD-3, 3 of 9, CODE 93, USS-93, Standard 2 of 5, Interleaved 2 of 5, CODE 128 A/B/C, 2 and 5 Digits UPC-Based Extention, EAN 8, EAN 13, UPC-A, UPC-E, MSI, POSTNET, PLANET, RMS4CC (Royal Mail 4-state Customer Code), CBC (Customer Bar Code), KIX (Klant index - Customer index), Intelligent Mail Barcode, Onecode, USPS-B-3200, CODABAR, CODE 11, PHARMACODE, PHARMACODE TWO-TRACKS, Datamatrix, QR-Code, PDF417;</li>
  * <li>JPEG and PNG ICC profiles, Grayscale, RGB, CMYK, Spot Colors and Transparencies;</li>
  * <li>automatic page header and footer management;</li>
@@ -148,7 +148,7 @@ require_once(dirname(__FILE__).'/config/tcpdf_config.php');
 /**
  * @class TCPDF
  * PHP class for generating PDF documents without requiring external extensions.
- * TCPDF project (https://www.tcpdf.org) has been originally derived in 2002 from the Public Domain FPDF class by Olivier Plathey (https://www.fpdf.org), but now is almost entirely rewritten.<br>
+ * TCPDF project (http://www.tcpdf.org) has been originally derived in 2002 from the Public Domain FPDF class by Olivier Plathey (http://www.fpdf.org), but now is almost entirely rewritten.<br>
  * @package com.tecnick.tcpdf
  * @brief PHP class for generating PDF documents without requiring external extensions.
  * @version 5.9.202
@@ -7900,7 +7900,7 @@ class TCPDF {
 	 * The format can be specified explicitly or inferred from the file extension.<br />
 	 * It is possible to put a link on the image.<br />
 	 * Remark: if an image is used several times, only one copy will be embedded in the file.<br />
-	 * @param $file (string) Name of the file containing the image or a '@' character followed by the image data string. To link an image without embedding it on the document, set an asterisk character before the URL (i.e.: '*https://www.example.com/image.jpg').
+	 * @param $file (string) Name of the file containing the image or a '@' character followed by the image data string. To link an image without embedding it on the document, set an asterisk character before the URL (i.e.: '*http://www.example.com/image.jpg').
 	 * @param $x (float) Abscissa of the upper-left corner (LTR) or upper-right corner (RTL).
 	 * @param $y (float) Ordinate of the upper-left corner (LTR) or upper-right corner (RTL).
 	 * @param $w (float) Width of the image in the page. If not specified or equal to zero, it is automatically calculated.
@@ -10985,7 +10985,7 @@ class TCPDF {
 										$c = $k;
 									} else {
 										// 32 bit format
-										// convert to decimal (https://www.unicode.org/faq//utf_bom.html#utf16-4)
+										// convert to decimal (http://www.unicode.org/faq//utf_bom.html#utf16-4)
 										//LEAD_OFFSET = (0xD800 - (0x10000 >> 10)) = 55232
 										//SURROGATE_OFFSET = (0x10000 - (0xD800 << 10) - 0xDC00) = -56613888
 										$c = ((55232 + ($k >> 10)) << 10) + (0xDC00 + ($k & 0x3FF)) -56613888;
@@ -11435,7 +11435,7 @@ class TCPDF {
 								$c = $k;
 							} else {
 								// 32 bit format
-								// convert to decimal (https://www.unicode.org/faq//utf_bom.html#utf16-4)
+								// convert to decimal (http://www.unicode.org/faq//utf_bom.html#utf16-4)
 								//LEAD_OFFSET = (0xD800 - (0x10000 >> 10)) = 55232
 								//SURROGATE_OFFSET = (0x10000 - (0xD800 << 10) - 0xDC00) = -56613888
 								$c = ((55232 + ($k >> 10)) << 10) + (0xDC00 + ($k & 0x3FF)) -56613888;
@@ -12784,8 +12784,8 @@ class TCPDF {
 		// set XMP data
 		$xmp = '<?xpacket begin="'.$this->unichr(0xfeff).'" id="W5M0MpCehiHzreSzNTczkc9d"?>'."\n";
 		$xmp .= '<x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 4.2.1-c043 52.372728, 2009/01/18-15:08:04">'."\n";
-		$xmp .= "\t".'<rdf:RDF xmlns:rdf="https://www.w3.org/1999/02/22-rdf-syntax-ns#">'."\n";
-		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:dc="https://purl.org/dc/elements/1.1/">'."\n";
+		$xmp .= "\t".'<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">'."\n";
+		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/">'."\n";
 		$xmp .= "\t\t\t".'<dc:format>application/pdf</dc:format>'."\n";
 		$xmp .= "\t\t\t".'<dc:title>'."\n";
 		$xmp .= "\t\t\t\t".'<rdf:Alt>'."\n";
@@ -12820,38 +12820,38 @@ class TCPDF {
 		$docmoddate .= 'T'.substr($dmdate, 8, 2).':'.substr($dmdate, 10, 2).':'.substr($dmdate, 12, 2);
 		$docmoddate .= '+'.substr($dmdate, 15, 2).':'.substr($dmdate, 18, 2);
 		$docmoddate = $this->_escapeXML($docmoddate);
-		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:xmp="https://ns.adobe.com/xap/1.0/">'."\n";
+		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/">'."\n";
 		$xmp .= "\t\t\t".'<xmp:CreateDate>'.$doccreationdate.'</xmp:CreateDate>'."\n";
 		$xmp .= "\t\t\t".'<xmp:CreatorTool>'.$this->creator.'</xmp:CreatorTool>'."\n";
 		$xmp .= "\t\t\t".'<xmp:ModifyDate>'.$docmoddate.'</xmp:ModifyDate>'."\n";
 		$xmp .= "\t\t\t".'<xmp:MetadataDate>'.$doccreationdate.'</xmp:MetadataDate>'."\n";
 		$xmp .= "\t\t".'</rdf:Description>'."\n";
-		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:pdf="https://ns.adobe.com/pdf/1.3/">'."\n";
+		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:pdf="http://ns.adobe.com/pdf/1.3/">'."\n";
 		$xmp .= "\t\t\t".'<pdf:Keywords>'.$this->_escapeXML($this->keywords).' TCPDF</pdf:Keywords>'."\n";
 		$xmp .= "\t\t\t".'<pdf:Producer>'.$this->_escapeXML($this->pdfproducer).'</pdf:Producer>'."\n";
 		$xmp .= "\t\t".'</rdf:Description>'."\n";
-		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:xmpMM="https://ns.adobe.com/xap/1.0/mm/">'."\n";
+		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/">'."\n";
 		$uuid = 'uuid:'.substr($this->file_id, 0, 8).'-'.substr($this->file_id, 8, 4).'-'.substr($this->file_id, 12, 4).'-'.substr($this->file_id, 16, 4).'-'.substr($this->file_id, 20, 12);
 		$xmp .= "\t\t\t".'<xmpMM:DocumentID>'.$uuid.'</xmpMM:DocumentID>'."\n";
 		$xmp .= "\t\t\t".'<xmpMM:InstanceID>'.$uuid.'</xmpMM:InstanceID>'."\n";
 		$xmp .= "\t\t".'</rdf:Description>'."\n";
 		if ($this->pdfa_mode) {
-			$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:pdfaid="https://www.aiim.org/pdfa/ns/id/">'."\n";
+			$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:pdfaid="http://www.aiim.org/pdfa/ns/id/">'."\n";
 			$xmp .= "\t\t\t".'<pdfaid:part>1</pdfaid:part>'."\n";
 			$xmp .= "\t\t\t".'<pdfaid:conformance>B</pdfaid:conformance>'."\n";
 			$xmp .= "\t\t".'</rdf:Description>'."\n";
 		}
 		// XMP extension schemas
-		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:pdfaExtension="https://www.aiim.org/pdfa/ns/extension/" xmlns:pdfaSchema="https://www.aiim.org/pdfa/ns/schema#" xmlns:pdfaProperty="https://www.aiim.org/pdfa/ns/property#">'."\n";
+		$xmp .= "\t\t".'<rdf:Description rdf:about="" xmlns:pdfaExtension="http://www.aiim.org/pdfa/ns/extension/" xmlns:pdfaSchema="http://www.aiim.org/pdfa/ns/schema#" xmlns:pdfaProperty="http://www.aiim.org/pdfa/ns/property#">'."\n";
 		$xmp .= "\t\t\t".'<pdfaExtension:schemas>'."\n";
 		$xmp .= "\t\t\t\t".'<rdf:Bag>'."\n";
 		$xmp .= "\t\t\t\t\t".'<rdf:li rdf:parseType="Resource">'."\n";
-		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:namespaceURI>https://ns.adobe.com/pdf/1.3/</pdfaSchema:namespaceURI>'."\n";
+		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:namespaceURI>http://ns.adobe.com/pdf/1.3/</pdfaSchema:namespaceURI>'."\n";
 		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:prefix>pdf</pdfaSchema:prefix>'."\n";
 		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:schema>Adobe PDF Schema</pdfaSchema:schema>'."\n";
 		$xmp .= "\t\t\t\t\t".'</rdf:li>'."\n";
 		$xmp .= "\t\t\t\t\t".'<rdf:li rdf:parseType="Resource">'."\n";
-		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:namespaceURI>https://ns.adobe.com/xap/1.0/mm/</pdfaSchema:namespaceURI>'."\n";
+		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:namespaceURI>http://ns.adobe.com/xap/1.0/mm/</pdfaSchema:namespaceURI>'."\n";
 		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:prefix>xmpMM</pdfaSchema:prefix>'."\n";
 		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:schema>XMP Media Management Schema</pdfaSchema:schema>'."\n";
 		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:property>'."\n";
@@ -12866,7 +12866,7 @@ class TCPDF {
 		$xmp .= "\t\t\t\t\t\t".'</pdfaSchema:property>'."\n";
 		$xmp .= "\t\t\t\t\t".'</rdf:li>'."\n";
 		$xmp .= "\t\t\t\t\t".'<rdf:li rdf:parseType="Resource">'."\n";
-		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:namespaceURI>https://www.aiim.org/pdfa/ns/id/</pdfaSchema:namespaceURI>'."\n";
+		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:namespaceURI>http://www.aiim.org/pdfa/ns/id/</pdfaSchema:namespaceURI>'."\n";
 		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:prefix>pdfaid</pdfaSchema:prefix>'."\n";
 		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:schema>PDF/A ID Schema</pdfaSchema:schema>'."\n";
 		$xmp .= "\t\t\t\t\t\t".'<pdfaSchema:property>'."\n";
@@ -12979,7 +12979,7 @@ class TCPDF {
 			$out .= ' /S /GTS_PDFA1';
 			$out .= ' /OutputCondition '.$this->_textstring('sRGB IEC61966-2.1', $oid);
 			$out .= ' /OutputConditionIdentifier '.$this->_textstring('sRGB IEC61966-2.1', $oid);
-			$out .= ' /RegistryName '.$this->_textstring('https://www.color.org', $oid);
+			$out .= ' /RegistryName '.$this->_textstring('http://www.color.org', $oid);
 			$out .= ' /Info '.$this->_textstring('sRGB IEC61966-2.1', $oid);
 			$out .= ' /DestOutputProfile '.$iccobj.' 0 R';
 			$out .= ' >>]';
@@ -13657,7 +13657,7 @@ class TCPDF {
 	/**
 	 * Converts UTF-8 strings to codepoints array.<br>
 	 * Invalid byte sequences will be replaced with 0xFFFD (replacement character)<br>
-	 * Based on: https://www.faqs.org/rfcs/rfc3629.html
+	 * Based on: http://www.faqs.org/rfcs/rfc3629.html
 	 * <pre>
 	 *    Char. number range  |        UTF-8 octet sequence
 	 *       (hexadecimal)    |              (binary)
@@ -13874,7 +13874,7 @@ class TCPDF {
 
 	/**
 	 * Converts array of UTF-8 characters to UTF16-BE string.<br>
-	 * Based on: https://www.faqs.org/rfcs/rfc2781.html
+	 * Based on: http://www.faqs.org/rfcs/rfc2781.html
 	 * <pre>
 	 *   Encoding UTF-16:
 	 *
@@ -14823,14 +14823,14 @@ class TCPDF {
 		}
 		if ($mode > 1) { // AES
 			if (!extension_loaded('mcrypt')) {
-				$this->Error('AES encryption requires mcrypt library (https://www.php.net/manual/en/mcrypt.requirements.php).');
+				$this->Error('AES encryption requires mcrypt library (http://www.php.net/manual/en/mcrypt.requirements.php).');
 			}
 			if (mcrypt_get_cipher_name(MCRYPT_RIJNDAEL_128) === false) {
 				$this->Error('AES encryption requires MCRYPT_RIJNDAEL_128 cypher.');
 			}
 			if (($mode == 3) AND !function_exists('hash')) {
 				// the Hash extension requires no external libraries and is enabled by default as of PHP 5.1.2.
-				$this->Error('AES 256 encryption requires HASH Message Digest Framework (https://www.php.net/manual/en/book.hash.php).');
+				$this->Error('AES 256 encryption requires HASH Message Digest Framework (http://www.php.net/manual/en/book.hash.php).');
 			}
 		}
 		if ($owner_pass === null) {
@@ -16188,7 +16188,7 @@ class TCPDF {
 	// BIDIRECTIONAL TEXT SECTION --------------------------
 
 	/**
-	 * Reverse the RLT substrings using the Bidirectional Algorithm (https://unicode.org/reports/tr9/).
+	 * Reverse the RLT substrings using the Bidirectional Algorithm (http://unicode.org/reports/tr9/).
 	 * @param $str (string) string to manipulate.
 	 * @param $setbom (bool) if true set the Byte Order Mark (BOM = 0xFEFF)
 	 * @param $forcertl (bool) if true forces RTL text direction
@@ -16202,7 +16202,7 @@ class TCPDF {
 	}
 
 	/**
-	 * Reverse the RLT substrings array using the Bidirectional Algorithm (https://unicode.org/reports/tr9/).
+	 * Reverse the RLT substrings array using the Bidirectional Algorithm (http://unicode.org/reports/tr9/).
 	 * @param $arr (array) array of unicode values.
 	 * @param $str (string) string to manipulate (or empty value).
 	 * @param $setbom (bool) if true set the Byte Order Mark (BOM = 0xFEFF)
@@ -16217,7 +16217,7 @@ class TCPDF {
 	}
 
 	/**
-	 * Reverse the RLT substrings using the Bidirectional Algorithm (https://unicode.org/reports/tr9/).
+	 * Reverse the RLT substrings using the Bidirectional Algorithm (http://unicode.org/reports/tr9/).
 	 * @param $ta (array) array of characters composing the string.
 	 * @param $str (string) string to process
 	 * @param $forcertl (bool) if 'R' forces RTL, if 'L' forces LTR
@@ -27359,7 +27359,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 
 	/**
 	 * Returns an array of hyphenation patterns.
-	 * @param $file (string) TEX file containing hypenation patterns. TEX pattrns can be downloaded from https://www.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/
+	 * @param $file (string) TEX file containing hypenation patterns. TEX pattrns can be downloaded from http://www.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/
 	 * @return array of hyphenation patterns
 	 * @author Nicola Asuni
 	 * @since 4.9.012 (2010-04-12)
@@ -27367,7 +27367,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 	 */
 	public function getHyphenPatternsFromTEX($file) {
 		// TEX patterns are available at:
-		// https://www.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/
+		// http://www.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/
 		$data = file_get_contents($file);
 		$patterns = array();
 		// remove comments
@@ -27393,7 +27393,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 	/**
 	 * Returns text with soft hyphens.
 	 * @param $text (string) text to process
-	 * @param $patterns (mixed) Array of hypenation patterns or a TEX file containing hypenation patterns. TEX patterns can be downloaded from https://www.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/
+	 * @param $patterns (mixed) Array of hypenation patterns or a TEX file containing hypenation patterns. TEX patterns can be downloaded from http://www.ctan.org/tex-archive/language/hyph-utf8/tex/generic/hyph-utf8/patterns/
 	 * @param $dictionary (array) Array of words to be returned without applying the hyphenation algoritm.
 	 * @param $leftmin (int) Minimum number of character to leave on the left of the word without applying the hyphens.
 	 * @param $rightmin (int) Minimum number of character to leave on the right of the word without applying the hyphens.
