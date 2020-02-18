@@ -80,7 +80,12 @@ class ViewMET_ItensManPrev extends View {
         $this->setUsaAcaoVisualizar(true);
         $this->addFiltro($oFiltroSeq);
 
-        $this->addCamposDetalhe($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        if ($_REQUEST['rotina'] == 'acaoVisualizar') {
+            $this->addCamposDetalhe($oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        } else {
+            $this->addCamposDetalhe($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        }
+
 
         $this->addGriTela($this->getOGridDetalhe());
     }
@@ -137,21 +142,26 @@ class ViewMET_ItensManPrev extends View {
         $this->addFiltro($oFiltroSeq);
 
         $this->setBScrollInf(TRUE);
-        $this->addCampos($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        if ($_REQUEST['rotina'] == 'acaoVisualizar') {
+            $this->addCampos($oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        } else {
+            $this->addCampos($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        }
     }
 
     public function criaTela() {
         parent::criaTela();
 
+        $sAcaoRotina = $this->getSRotina();
+        $_REQUEST['rotina'] = $sAcaoRotina;
+
         //novo---------------------------------------------------
-        $this->criaGridDetalhe();
+        $this->criaGridDetalhe($sAcaoRotina);
         //-------------------------------------------------------
 
         $this->getTela()->setBUsaDelGrid(false);
 
         $aValor = $this->getAParametrosExtras();
-
-        $sAcaoRotina = $this->getSRotina();
 
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);

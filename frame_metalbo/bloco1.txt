@@ -1,2 +1,3 @@
-update tbsessao set usulastacesso = '2020-2-18 13:25:44' 
-            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'k68egquo7cjl8r1fps5rn96v8c'
+update tbitensmp set dias = ciclo - DATEDIFF(DAY, databert, GETDATE()) from tbitensmp
+            left outer join  tbservmp on tbservmp.codsit = tbitensmp.codsit 
+            where databert<>GETDATE() AND sitmp<>'FINALIZADO'
