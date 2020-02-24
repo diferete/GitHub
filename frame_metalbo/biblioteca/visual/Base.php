@@ -83,6 +83,9 @@ const ICON_BOX = 'icon wb-grid-4';
 const ICON_CART ='icon wb-shopping-cart';
 const ICON_QUAL ='icon wb-book';
 
+const ICON_ARROW_UP = 'icon wb-arrow-up';
+const ICON_ARROW_DOWN = 'icon wb-arrow-down';
+
 
 /**
  * Gera um hash único baseado na hora atual que servirá de

@@ -43,6 +43,7 @@ class Filtro {
     const CAMPO_DATA_ENTRE = 6;
     const CAMPO_TEXTO_IGUAL = 7;
     const CAMPO_BUSCADOBANCOPK = 8;
+    const FILTRO_AZ = 9;
 
     /**
      * 
@@ -540,6 +541,29 @@ class Filtro {
                     $sCampo .= '<br /><br />';
                 }
 
+                break;
+
+            case self::FILTRO_AZ:
+
+                $sCampo = '<div  class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        . '<div class="form-group form-group-filter">'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'
+                        . '<label for="' . $this->getId() . '">' . $this->getSLabel() . '  </label>'
+                        . '<select name="' . $this->getSNome() . '" class="form-control selectfiltro input-sm" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                foreach ($this->getAItemsSelect() as $key => $svalue) {
+                    $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
+                }
+                $sCampo .= '<option value="Asc">A-Z</option>';
+                $sCampo .= '<option value="Desc">Z-A</option>';
+
+
+                $sCampo .= '</select>'
+                        . '</div>  '
+                        . $this->getRenderEventos()
+                        . '</div></div>';
+                if ($this->getBQuebraLinha() == true) {
+                    $sCampo .= '<br /><br />';
+                }
                 break;
         }
         return $sCampo;

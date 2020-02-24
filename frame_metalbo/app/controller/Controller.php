@@ -1769,9 +1769,9 @@ class Controller {
      * $bConsultaPorSql define se a consulta será manual = true ou false pela persistencia
      */
     public function getDadosConsulta($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false) {
-//realiza a busca dos filtros
+        //realiza a busca dos filtros
         $this->beforFiltroConsulta();
-//verifica se tem order by
+        //verifica se tem order by
         if (isset($_REQUEST['ordenacao'])) {
             $aOrdena = $_REQUEST['ordenacao'];
             $this->Persistencia->limpaOrderBy();
@@ -1797,7 +1797,7 @@ class Controller {
                 foreach ($aFiltros as $key => $aFiltroGrid) {
                     if ($aFiltroGrid[1] <> '' && $aFiltroGrid[1] <> 'scroll') {
                         if ($bReload !== TRUE) {
-//monta um array para as datas between
+                            //monta um array para as datas between
                             if ($aFiltroGrid[2] == 'entre') {
                                 $aEntre[$iCont]['campo'] = $aFiltroGrid[0];
                                 if ($aFiltroGrid[3] == 'vlrini') {
@@ -1811,34 +1811,34 @@ class Controller {
 
                                 $iCont++;
                             } else {
-//verifica se deve conter a tabela
+                                //verifica se deve conter a tabela
                                 $aCampoTabela = explode('.', $aFiltroGrid[0]);
                                 if (!isset($aCampoTabela[1])) {
                                     $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia:: LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]));
                                 } else {
                                     $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia:: LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]), "", $aCampoTabela[0]);
                                 }
-//adicionaFiltro($sCampo,$sValor,$iTipoLigacao = 0,$iTipoComparacao = 0,$sValorFim = "",$sTabelaCampo="", $sCampoType = "")
+                                //adicionaFiltro($sCampo,$sValor,$iTipoLigacao = 0,$iTipoComparacao = 0,$sValorFim = "",$sTabelaCampo="", $sCampoType = "")
                             }
                         }
                     }
-//verifica se tem filtro scroll infinito
+                    //verifica se tem filtro scroll infinito
                     if ($aFiltroGrid[1] == 'scroll') {
-//tratar qdo é chave composta
+                        //tratar qdo é chave composta
                         $aDados = explode('|', $aFiltroGrid[0]);
                         $sChave = htmlspecialchars_decode($aDados[0]);
                         $aCamposChave = array();
                         parse_str($sChave, $aCamposChave);
-//filtro tem que vir na ordem chavePk e chavePK incremental
-//pega o último valor do array e coloca como filtro menor que 
+                        //filtro tem que vir na ordem chavePk e chavePK incremental
+                        //pega o último valor do array e coloca como filtro menor que 
                         $aUlt = array_slice($aCamposChave, -1);
                         foreach ($aUlt as $key => $value) {
                             $this->Persistencia->adicionaFiltro($key, $value, Persistencia:: LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[1]));
                         }
-//tira o incremental
+                        //tira o incremental
                         array_pop($aCamposChave);
                         foreach ($aCamposChave as $key => $value) {
-//retorna campo do model
+                            //retorna campo do model
                             $aModel = explode('_', $key);
                             if (count($aModel) > 1) {
                                 $aModel = $this->scrollFilhas($aModel);
@@ -1851,7 +1851,7 @@ class Controller {
                         }
                     }
                 }
-//monta filtro between por enquanto um por grid   
+                //monta filtro between por enquanto um por grid   
                 $sCampo = '';
                 $sVlrInicial = '';
                 $sVlrFinal = '';
@@ -1870,13 +1870,13 @@ class Controller {
             }
         }
 
-//primeira posição campo no model, segunda valor, terceira tipo
+        //primeira posição campo no model, segunda valor, terceira tipo
         $this->antesDeCriarConsulta($sParametros);
 
         $aDadosAtualizar = explode(',', $sDadosReload);
         $this->View->criaConsulta();
 
-//verifica se há atributos de soma nos campos consulta
+        //verifica se há atributos de soma nos campos consulta
 
 
 
@@ -1887,12 +1887,12 @@ class Controller {
         }
 
         $aModels = $this->Persistencia->getArrayModel(); //carrega os campos da consulta
-//pega o total de linhas na querys
+        //pega o total de linhas na querys
         $iTotalReg = $this->Persistencia->getCount();
 
 
         $sDados = '';
-//verifica se foi informado posição do contador
+        //verifica se foi informado posição do contador
         /* if(isset($_REQUEST['idPos'])){
           $sTr = $_REQUEST['idPos'];
           $sTr =substr($sTr,3);
@@ -1900,13 +1900,13 @@ class Controller {
           }else{
           $iTr = 1;
           } */
-//grava primeiro id para dar o focus
+        //grava primeiro id para dar o focus
 
         foreach ($aModels as $oAtual) {
-//verifica as comparaçoes da consulta
+            //verifica as comparaçoes da consulta
             foreach ($aCampos as $campoAtual) {
                 $sNomeCampo = $campoAtual->getSNome();
-//não pegar valor se for tipo botao
+                //não pegar valor se for tipo botao
                 if ($campoAtual->getBCampoIcone() == false) {
                     $xValorCampo = str_replace("'", "\\'", $this->getValorModel($oAtual, $sNomeCampo)); // $sConteudo = str_replace("<br>", "\\n",$sConteudo);
                     $sComparacao = $campoAtual->getAComparacao();
@@ -1958,7 +1958,7 @@ class Controller {
 
             $sDados .= '<td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>'; //td do check
             $aLinha = array(); //inicializa o vetor que conterá a linha atual
-//carrega os campos que serão mostrados na consulta
+            //carrega os campos que serão mostrados na consulta
             foreach ($aCampos as $campoAtual) {
                 $xValorCampo = '';
                 $sConsulta = '';
@@ -2002,30 +2002,30 @@ class Controller {
             }
 
 
-//monta td das chaves primaria
+            //monta td das chaves primaria
             $sChave = $this->Persistencia->getChaveModel($oAtual);
             $sDados .= '<td class="hidden chave">' . $sChave . '</td>';
             $sDados .= '</tr>';
         }
-//pega o total de linhas na querys
+        //pega o total de linhas na querys
         $iTotalFiltro = $this->Persistencia->getCount();
         if ($iTotalFiltro >= $this->Persistencia->getITop()) {
             $iTotalFiltro = $this->Persistencia->getITop();
         }
-//caso pesquisa por scroll limpa os filtros*teria q limpar o filtro <
+        //caso pesquisa por scroll limpa os filtros*teria q limpar o filtro <
         if ($this->getBPesqScroll()) {
             $this->Persistencia->limpaFiltro();
         }
         $iTotalReg = $this->Persistencia->getCount();
         $this->Persistencia->limpaFiltro();
 
-//define se o $sDadosReload != null é atualização se não e nova tela
+        //define se o $sDadosReload != null é atualização se não e nova tela
         if ($sDadosReload !== NULL) {
-//pegar id da tr
+            //pegar id da tr
             $sRender = 'var idTr="";$("#' . $aDadosAtualizar[0] . 'consulta tbody .selected").each(function(){'
                     . ' idTr=$(this).attr("id");'
                     . ' });';
-//verifica se é scroll infinito
+            //verifica se é scroll infinito
             if ($bScroll !== true) {
                 $sRender .= '$("#' . $aDadosAtualizar[0] . ' > tbody > tr").remove();';
             }
@@ -2041,13 +2041,13 @@ class Controller {
                     . '$("#' . $aDadosAtualizar[0] . '-summary > tbody > tr").append(\'' . $sDadosSummary . '\');';
             echo $sSummary;
 
-//mostra contator de registros 
+            //mostra contator de registros 
 
             $sNrReg = 'var nrReg = $("#' . $aDadosAtualizar[0] . ' > tbody > tr").length ;'
                     . ' $("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de ' . $iTotalReg . '. Clique para carregar!"); ';
             echo $sNrReg;
         } else {
-//retorna os dados
+            //retorna os dados
             $aDados[0] = $sDados;
             $aDados[1] = $iTotalReg;
             $aDados[2] = $iTotalFiltro;
@@ -2069,7 +2069,7 @@ class Controller {
             $aCampos = $aCamposParam;
         } else {
             $this->View->criaConsulta();
-//verifica se há atributos de soma nos campos consulta
+            //verifica se há atributos de soma nos campos consulta
             $aCampos = $this->View->getTela()->getArrayCampos();
         }
 
@@ -2123,7 +2123,7 @@ class Controller {
         $this->Persistencia->setLimit($_REQUEST['limit']);
         $this->Persistencia->setOffset($_REQUEST['start']);
 
-//montagem dos filtros 
+        //montagem dos filtros 
         if (isset($_REQUEST['filter'])) {
             $aFiltros = json_decode($_REQUEST['filter']);
             $iTipoLigacao = Persistencia::LIGACAO_AND;
