@@ -15,16 +15,31 @@ class ControllerMET_ServicoMaquina extends Controller {
 
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
-
         $this->buscaCelulas();
     }
 
+    /**
+     * Busca dados do cadastro de tipo de máquina
+     */
     public function buscaCelulas() {
         $oControllerCadastroMaquina = Fabrica::FabricarController('MET_CadastroMaquinas');
         $aParame = $oControllerCadastroMaquina->buscaDados();
         $this->View->setAParametrosExtras($aParame);
     }
 
+    /**
+     * Busca informações da máquina para a geração do relatório
+     */
+    public function buscaCelulas2(){
+        $oControllerMaquina = Fabrica::FabricarController('MET_Maquinas');
+        $aParame = $oControllerMaquina->buscaDados();
+        $this->View->setAParametrosExtras($aParame);
+    }
+    
+    /**
+     * Método que antes de alterar verifica a situação do serviço e finaliza ele nos itens da manutenção preventiva
+     * @return string
+     */
     public function afterUpdate() {
         parent::afterUpdate();
         
@@ -41,15 +56,33 @@ class ControllerMET_ServicoMaquina extends Controller {
         
     }
 
+    /**
+     * Mostra Tela Relatório de Serviços
+     * @param type $renderTo
+     * @param type $sMetodo
+     */
     public function mostraTelaRelServicos($renderTo, $sMetodo = '') {   
         $this->buscaCelulas2();
         parent::mostraTelaRelatorio($renderTo, 'relServicosMant');              
     }  
     
-    public function buscaCelulas2(){
-        $oControllerMaquina = Fabrica::FabricarController('MET_Maquinas');
-        $aParame = $oControllerMaquina->buscaDados();
-        $this->View->setAParametrosExtras($aParame);
+    /**
+     * Adiciona Filtros antes da consulta filtrando pelo setor e responsável pela manutenção preventiva
+     * @param type $sParametros
+     */
+    public function antesDeCriarConsulta($sParametros = null) {
+        parent::antesDeCriarConsulta($sParametros);
+        if($_REQUEST['metodo']!='getDadosConsulta'){
+        $iSet = $_SESSION['codsetor'];
+        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
+            $this->Persistencia->adicionaFiltro('codsetor',$iSet);
+            $this->Persistencia->adicionaFiltro('resp', 'OPERADOR');
+        }else if($iSet== 12){
+            $this->Persistencia->adicionaFiltro('resp','ELETRICA');
+        }else if($iSet== 29){
+            $this->Persistencia->adicionaFiltro('resp','MECANICA');
+        }
+        }
     }
     
 }

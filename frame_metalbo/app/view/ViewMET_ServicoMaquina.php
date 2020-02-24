@@ -41,14 +41,9 @@ class ViewMET_ServicoMaquina extends View {
         $oDescricaoFiltro = new Filtro($oServ, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oResponsavelFiltro = new Filtro($oResp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oResponsavelFiltro->addItemSelect('', 'TODOS OS RESPONSÁVEIS');
-      //  $oResponsavelFiltro->addItemSelect('ENCARREGADO DA PRODUCAO', 'ENCARREGADO DA PRODUCAO');
         $oResponsavelFiltro->addItemSelect('ELETRICA', 'ELETRICA');
         $oResponsavelFiltro->addItemSelect('OPERADOR', 'OPERADOR');
-      //  $oResponsavelFiltro->addItemSelect('MANUTENCAO - PARAFUSOS', 'MANUTENCAO - PARAFUSOS');
-     //   $oResponsavelFiltro->addItemSelect('MANUTENCAO - EMBALAGEM', 'MANUTENCAO - EMBALAGEM');
         $oResponsavelFiltro->addItemSelect('MECANICA', 'MECANICA');
-        $oResponsavelFiltro->addItemSelect('LIDER', 'LIDER');
-       // $oResponsavelFiltro->addItemSelect('SOLDADOR', 'SOLDADOR');
         $oResponsavelFiltro->setSLabel('');
 
         //Filtro de Setor
@@ -60,9 +55,19 @@ class ViewMET_ServicoMaquina extends View {
             $iCont++;
         }
         $oFiltroSetor->setSLabel('');
+        
+        $iSet = $_SESSION['codsetor'];
+        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
+            $oFiltroSetor->setSValor($iSet);
+            $oResponsavelFiltro->setSValor('OPERADOR');
+        }else if($iSet== 12){
+            $oResponsavelFiltro->setSValor('ELETRICA');
+        }else if($iSet== 29){
+            $oResponsavelFiltro->setSValor('MECANICA');
+        }
 
         $this->setUsaAcaoExcluir(false);
-        if($_SESSION['codUser']=='81'||$_SESSION['codSetor']=='2'){
+        if($iSet== 2){
             $this->setUsaAcaoAlterar(true);
             $this->setUsaAcaoIncluir(true);
         }else{
@@ -102,14 +107,9 @@ class ViewMET_ServicoMaquina extends View {
 
         $oResp = new Campo('Responsável', 'resp', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oResp->addItemSelect('', '');
-        $oResp->addItemSelect('ENCARREGADO DA PRODUCAO', 'ENCARREGADO DA PRODUCAO');
         $oResp->addItemSelect('ELETRICA', 'ELETRICA');
         $oResp->addItemSelect('OPERADOR', 'OPERADOR');
-        $oResp->addItemSelect('MANUTENCAO - PARAFUSOS', 'MANUTENCAO - PARAFUSOS');
-        $oResp->addItemSelect('MANUTENCAO - EMBALAGEM', 'MANUTENCAO - EMBALAGEM');
         $oResp->addItemSelect('MECANICA', 'MECANICA');
-        $oResp->addItemSelect('LIDER', 'LIDER');
-        $oResp->addItemSelect('SOLDADOR', 'SOLDADOR');
 
         $oData = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oData->setBCampoBloqueado(true);

@@ -19,6 +19,7 @@ class PersistenciaMET_Gerenciamento extends Persistencia {
         $this->adicionaRelacionamento('codmaq', 'MET_Maquinas.cod', false, false, false);
         $this->adicionaRelacionamento('maquina', 'MET_Maquinas.maquina', false, false, false);
         $this->adicionaRelacionamento('codsetor', 'codsetor');
+        $this->adicionaRelacionamento('codsetor', 'Setor.codsetor', false, false, false);
         $this->adicionaRelacionamento('descsetor', 'descsetor', false, false, false);
         $this->adicionaRelacionamento('sitmp', 'sitmp');
         $this->adicionaRelacionamento('databert', 'databert');
@@ -122,7 +123,6 @@ class PersistenciaMET_Gerenciamento extends Persistencia {
     /*
      * Função que retorna as nr das máquinas que tem serviço cadastrado por responsável - MANUTENÇÃO ELÉTRICA, MECÂNICA, OPERADOR E LIDER  
      */
-
     public function retornaTexMaqPorSetor($sResp) {
 
         $sSql = "select tbmanutmp.nr from tbmanutmp 

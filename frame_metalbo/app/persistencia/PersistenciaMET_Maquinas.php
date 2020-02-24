@@ -28,7 +28,10 @@ class PersistenciaMET_Maquinas extends Persistencia{
         $this->adicionaOrderBy('cod',0);
         
     }
-    
+    /**
+     * Retorna array com dados da célula
+     * @return type
+     */
     public function buscaDadosCelula(){
         
         $sSql = "select seq from metmaq where seq!=0 group by seq order by seq";       
@@ -42,6 +45,10 @@ class PersistenciaMET_Maquinas extends Persistencia{
         return $aRow;
     }
     
+    /**
+     * Retorna array com dados do Setor
+     * @return type
+     */
     public function buscaDadosSetor(){
         
         $sSql = "select codsetor,descsetor from MetCad_Setores order by codsetor";       
@@ -59,6 +66,10 @@ class PersistenciaMET_Maquinas extends Persistencia{
         return $aRow;
     }
     
+    /**
+     * Retorna array com dados do Responsável
+     * @return type
+     */
     public function buscaDadosResp(){
         
         $sSql = "select resp from tbservmp group by resp";       
@@ -72,6 +83,10 @@ class PersistenciaMET_Maquinas extends Persistencia{
         return $aRow;
     }
     
+    /**
+     * Retorna array com dados do tipo de máquina
+     * @return type
+     */
     public function buscaDadosMaqTip(){
         $sSql = "select maqtip from metmaq group by maqtip";       
         $sth = $this->getObjetoSql($sSql);
