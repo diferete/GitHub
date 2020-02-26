@@ -9,8 +9,8 @@
 class ModelMET_FIN_VisualizaNFE {
 
     private $nfsfilcgc;
-    private $nfsnfnro;
     private $nfsnfser;
+    private $nfsnfnro;
     private $nfsnfechv;
     private $nfsdtemiss;
     private $nfsclinome;
@@ -19,12 +19,12 @@ class ModelMET_FIN_VisualizaNFE {
         return $this->nfsfilcgc;
     }
 
-    function getNfsnfnro() {
-        return $this->nfsnfnro;
-    }
-
     function getNfsnfser() {
         return $this->nfsnfser;
+    }
+
+    function getNfsnfnro() {
+        return $this->nfsnfnro;
     }
 
     function getNfsnfechv() {
@@ -43,12 +43,12 @@ class ModelMET_FIN_VisualizaNFE {
         $this->nfsfilcgc = $nfsfilcgc;
     }
 
-    function setNfsnfnro($nfsnfnro) {
-        $this->nfsnfnro = $nfsnfnro;
-    }
-
     function setNfsnfser($nfsnfser) {
         $this->nfsnfser = $nfsnfser;
+    }
+
+    function setNfsnfnro($nfsnfnro) {
+        $this->nfsnfnro = $nfsnfnro;
     }
 
     function setNfsnfechv($nfsnfechv) {

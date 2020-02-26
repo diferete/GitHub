@@ -13,16 +13,15 @@ class PersistenciaMET_FIN_VisualizaNFE extends Persistencia {
 
         $this->setTabela('widl.NFC001');
         $this->adicionaRelacionamento('nfsfilcgc', 'nfsfilcgc', true, true);
+        $this->adicionaRelacionamento('nfsnfser', 'nfsnfser', true);
         $this->adicionaRelacionamento('nfsnfnro', 'nfsnfnro', true, true);
-        $this->adicionaRelacionamento('nfsnfser', 'nfsnfser', true, true);
         $this->adicionaRelacionamento('nfsnfechv', 'nfsnfechv');
         $this->adicionaRelacionamento('nfsdtemiss', 'nfsdtemiss');
         $this->adicionaRelacionamento('nfsclinome', 'nfsclinome');
-        
+
         $this->adicionaOrderBy('nfsdtemiss', 1);
-        $this->setSTop(50);
-        
-        
+        $this->adicionaOrderBy('nfsnfnro', 1);
+        $this->setSTop(75);
     }
 
 }

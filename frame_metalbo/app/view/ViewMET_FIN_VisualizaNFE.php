@@ -34,6 +34,7 @@ class ViewMET_FIN_VisualizaNFE extends View {
 
         $oFilEMP = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFilEMP->setSLabel('');
+        $oFilEMP->addItemSelect('', 'Todas');
         $oFilEMP->addItemSelect('75483040000211', 'FILIAL');
         $oFilEMP->addItemSelect('75483040000130', 'REX');
 
