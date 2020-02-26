@@ -1606,7 +1606,7 @@ class Controller {
         $this->View->criaConsulta();
         $this->antesBuscaPk($aDados);
         $this->View->getTela()->setAbaSel($aDados[0]);
-//se posição 0 esta setada define automaticamente como pesquisa
+       //se posição 0 esta setada define automaticamente como pesquisa
         if ($aDados[1] !== null && $aDados[1] !== '') {
             $this->View->getTela()->setBConsulta(true);
             $this->View->getTela()->setSRenderHide($aDados[1]);

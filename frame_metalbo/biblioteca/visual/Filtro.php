@@ -55,7 +55,7 @@ class Filtro {
      * @param type $sTelaMuitoPequena gerencia tamanho do campo Valor de 1-12 - MANTER SEMPRE 12
      * @param type $bQuebraLinha Se TRUE, aplica quebra de linha
      */
-    public function __construct($oCampoConsulta, $iTipoCampo, $sTelaGrande = '2', $sTelaMedia = '2', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $bQuebraLinha) {
+    public function __construct($oCampoConsulta, $iTipoCampo, $sTelaGrande = '2', $sTelaMedia = '2', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $bQuebraLinha = false) {
         $this->Id = Base::getId();
         $this->sLabel = $oCampoConsulta->getSLabel();
         $this->sNome = $oCampoConsulta->getSNome();

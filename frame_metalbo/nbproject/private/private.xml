@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerModulo.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/view/ViewMET_ItensManPrev.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/resources/js/funcoes.js</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/view/ViewQualCorrecao.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/model/ModelMET_FIN_VisualizaNFE.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/view/ViewMET_FIN_VisualizaNFE.php</file>
             <file>file:/C:/wamp64/www/GitHub/frame_metalbo/index.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerMET_FIN_VisualizaNFE.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/relatorio/DANFE.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/persistencia/PersistenciaMET_FIN_VisualizaNFE.php</file>
         </group>
     </open-files>
 </project-private>

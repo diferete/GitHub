@@ -195,23 +195,23 @@ class ControllerMET_Gerenciamento extends Controller {
         $this->Persistencia->consultarWhere();
         $iCodMaq = $this->Persistencia->Model->getCodmaq();
         if ($iCodMaq != null) {
-            $iCodMaq = 'Maq = ' . $iCodMaq;
+            $iCodMaq = 'da Máquina: ' . $iCodMaq;
         }
 
         $sResulta = '<div id="titulolinhatempo">'
-                . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas ' . $iCodMaq . '</h1>'
-                . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
-                . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
-                . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['ELETRICA'] . ''
+                . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso</h1>'
+                . '<div class="cor_verde">Total de serviços Operador: ' . $aTotal['OPERADOR'] . '</div>'
+                . '<div class="cor_azul">Total de serviços Mecânica: ' . $aTotal['MECANICA'] . '</div>'
+                . 'Total de serviços Manutenção Elétrica: ' . $aTotal['ELETRICA'] . ''
                 . '</div>';
 
         echo '$("#titulolinhatempo").empty();';
 
         $sTitulo = '<div id="titulolinhatempo">'
-                . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas ' . $iCodMaq . '</h1>'
-                . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
-                . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
-                . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['ELETRICA'] . ''
+                . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso ' . $iCodMaq . '</h1>'
+                . '<div class="cor_verde">Total de serviços Operador: ' . $aTotal['OPERADOR'] . '</div>'
+                . '<div class="cor_azul">Total de serviços Mecânica: ' . $aTotal['MECANICA'] . '</div>'
+                . 'Total de serviços Manutenção Elétrica: ' . $aTotal['ELETRICA'] . ''
                 . '</div>';
         echo '$("#titulolinhatempo").append(\'' . $sTitulo . '\');';
 
@@ -227,56 +227,64 @@ class ControllerMET_Gerenciamento extends Controller {
 
         $sNr = explode('|', $oDados['parametrosCampos[0'])[1];
         $sCodMaq = explode('|', $oDados['parametrosCampos[1'])[1];
-        $sMaq = explode('|', $oDados['parametrosCampos[2'])[1];
         $sRes = explode('|', $oDados['parametrosCampos[3'])[1];
         $sSeq = explode('|', $oDados['parametrosCampos[4'])[1];
         $sMaqTip = explode('|', $oDados['parametrosCampos[5'])[1];
         $sCodSet = explode('|', $oDados['parametrosCampos[6'])[1];
         $sSit = explode('|', $oDados['parametrosCampos[7'])[1];
 
-        $this->Persistencia->limpaFiltro();
-        if ($sNr != '') {
-            $this->Persistencia->adicionaFiltro('nr', $sNr);
+        if ($_REQUEST['metodo'] != 'getDadosConsulta') {
+            $iSet = $_SESSION['codsetor'];
+            if ($iSet != 2 && $iSet != 12 && $iSet != 29) {
+                $this->Persistencia->adicionaFiltro('Setor.codsetor', $iSet);
+                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor('OPERADOR') . ') ');
+            } else if ($iSet == 12) {
+                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor('ELETRICA') . ') ');
+            } else if ($iSet == 29) {
+                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor('MECANICA') . ') ');
+            }
         } else {
-            $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor($sRes) . ') ');
-        }
-        if ($sCodMaq != '') {
-            $this->Persistencia->adicionaFiltro('codmaq', $sCodMaq);
-        }
-        if ($sMaq != '') {
-//                
-//          $this->Persistencia->adicionaFiltro('maquina', $sMaq); 
-//                
-//                                
-        }
-        if ($sSeq != '') {
-            $this->Persistencia->adicionaFiltro('MET_Maquinas.seq', $sSeq);
-        }
-        if ($sMaqTip != '') {
-            $this->Persistencia->adicionaFiltro('MET_Maquinas.maqtip', $sMaqTip);
-        }
-        if ($sCodSet != '') {
-            $this->Persistencia->adicionaFiltro('MET_Maquinas.codsetor', $sCodSet);
-        }
-        if ($sSit == 'FINALIZADO') {
-            $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO');
-        } else {
-            $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
+            $this->Persistencia->limpaFiltro();
+            if ($sNr != '') {
+                $this->Persistencia->adicionaFiltro('nr', $sNr);
+            } else {
+                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor($sRes) . ') ');
+            }
+            if ($sCodMaq != '') {
+                $this->Persistencia->adicionaFiltro('codmaq', $sCodMaq);
+            }
+            if ($sSeq != '') {
+                $this->Persistencia->adicionaFiltro('MET_Maquinas.seq', $sSeq);
+            }
+            if ($sMaqTip != '') {
+                $this->Persistencia->adicionaFiltro('MET_Maquinas.maqtip', $sMaqTip);
+            }
+            if ($sCodSet != '') {
+                $this->Persistencia->adicionaFiltro('Setor.codsetor', $sCodSet);
+            }
+            if ($sSit == 'FINALIZADO') {
+                $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO');
+            } else {
+                $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
+            }
         }
     }
 
     public function beforFiltroConsulta() {
-        $aDadosOrderBy = array();
         $sTeste = implode(',', $_REQUEST['parametrosCampos']);
         $aDados = explode(',', $sTeste);
-        $aDadosOrder = explode('|', $aDados[8]);
+        $aDadosOrder = explode('|', $aDados[2]);
         if ($aDadosOrder[1] == '') {
             return;
         } else {
-            $aDadosOrderBy['ordenacao'] = $aDadosOrder[1];
-            $aDadosOrderBy['campo'] = $aDadosOrder[0];
-            $_REQUEST['ordenacao'] = $aDadosOrderBy;
+            $this->Persistencia->limpaOrderBy();
             $this->Persistencia->setConsultaPorSql(true);
+            if ($aDadosOrder[1] == 'Asc') {
+                $iOrdena = 0;
+            } else {
+                $iOrdena = 1;
+            }
+            $this->Persistencia->adicionaOrderBy($aDadosOrder[0], $iOrdena);
         }
     }
 

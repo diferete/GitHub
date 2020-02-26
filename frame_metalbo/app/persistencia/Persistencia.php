@@ -771,7 +771,7 @@ class Persistencia {
      * 
      * Caso não sejam informados os campos de origem e destino será feito um comparativo entre as
      * tabelas a partir dos campos chave da tabela principal
-     * $sEnd coloca uma string para fazer clausulas nas ligaçoes
+     * @param string $sEnd coloca uma string para fazer clausulas nas ligaçoes 
      */
     public function adicionaJoin($sClasse, $sAlias = null, $iTipo = self::LEFT_JOIN, $xCampoOrigem = null, $xCampoDestino = null, $sEnd = null) {
         $this->aListaJoin[] = array('classe' => $sClasse,

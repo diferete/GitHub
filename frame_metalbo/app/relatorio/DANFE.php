@@ -1,20 +1,40 @@
 <?php
 
+$aDados = array();
+$aDados[0] = $_REQUEST['nfsfilcgc'];
+$aDados[1] = $_REQUEST['nfsnfnro'];
+$aDados[2] = $_REQUEST['nfsnfser'];
+
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 require '../../biblioteca/NFE/vendor/autoload.php';
-//include '../../biblioteca/fpdf/fpdf.php';
+include("../../includes/Config.php");
+include("../../includes/Fabrica.php");
 
 use NFePHP\DA\NFe\Danfe;
 
-$xml = file_get_contents(__DIR__ . '/xml/42200275483040000211550020003244391673717673.xml');
+$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+$sSql = $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss "
+        . "from widl.NFC001 "
+        . "where nfsfilcgc = '" . $aDados[0] . "' "
+        . "and nfsnfnro = '" . $aDados[1] . "' "
+        . "and nfsnfser = '" . $aDados[2] . "' ";
 
+$dadosSql = $PDO->query($sSql);
+$aDadosNF = $dadosSql->fetch(PDO::FETCH_ASSOC);
+
+$sDir = montaDir($aDadosNF, $aDados);
+
+//opendir('\\\sistema_metalbo\Sistema_Metalbo\Assinatura');
+$xml = file_get_contents($sDir);
+
+//$xml = file_get_contents(__DIR__ . '/xml/42200275483040000211550020003244391673717673.xml');
 try {
     $danfe = new Danfe($xml);
     $danfe->debugMode(false);
     $danfe->creditsIntegratorFooter('WEBNFe Sistemas - http://www.webenf.com.br');
     //$danfe->monta($logo);
-     $pdf = $danfe->render();
+    $pdf = $danfe->render();
     //o pdf porde ser exibido como view no browser
     //salvo em arquivo
     //ou setado para download forçado no browser 
@@ -24,4 +44,29 @@ try {
     //header('Content-Type: application/pdf');
 } catch (InvalidArgumentException $e) {
     echo "Ocorreu um erro durante o processamento :" . $e->getMessage();
+}
+
+function montaDir($aDadosNF, $aDados) {
+    $sDir = '\\\sistema_metalbo\Delonei\Notas\\';
+    if ($aDados[0] == '75483040000211') {
+        $sDir = $sDir . '75483040000211-FILIAL';
+    }
+    if ($aDados[0] == '75483040000130') {
+        $sDir = $sDir . '75483040000130-REX';
+    }
+    $sData = date('d/m/Y', strtotime($aDadosNF['nfsdtemiss']));
+    $aPastasDir = explode('/', $sData);
+
+    //Ano e mês
+    $sDir = $sDir . '\\' . $aPastasDir[2] . '-' . $aPastasDir[1] . '\\' . $aPastasDir[0] . '\\Proc';
+
+    $sSit = $aDadosNF['nfsnfesit'];
+    if ($sSit == 'A') {
+        $sDir = $sDir . '/' . trim($aDadosNF['nfsnfechv']) . '-nfeProc.xml';
+    }
+    if ($sSit == 'C') {
+        $sDir = $sDir . '/' . trim($aDadosNF['nfsnfechv']) . '-CancProc.xml';
+    }
+
+    return $sDir;
 }

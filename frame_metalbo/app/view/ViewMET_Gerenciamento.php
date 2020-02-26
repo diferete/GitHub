@@ -38,7 +38,7 @@ class ViewMET_Gerenciamento extends View {
 
         $oDesMaq = new CampoConsulta('Maquina', 'MET_Maquinas.maquina');
 
-        $oCodsetor = new CampoConsulta('Cod.Setor', 'codsetor');
+        //$oCodsetor = new CampoConsulta('Cod.Setor', 'Setor.codsetor');
 
         $oSetDes = new CampoConsulta('Setor', 'Setor.descsetor');
 
@@ -55,9 +55,10 @@ class ViewMET_Gerenciamento extends View {
 
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
-        $oFiltroCodMaquina = new Filtro($oCodmaq, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
-
-        $oFiltroDesMaquina = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilCodMaq = new Filtro($oCodmaq, Filtro::CAMPO_BUSCADOBANCOPK, 1, 1, 12, 12, false);
+        $oFilCodMaq->setSClasseBusca('MET_Maquinas');
+        $oFilCodMaq->setSCampoRetorno('cod', $this->getTela()->getSId());
+        $oFilCodMaq->setSIdTela($this->getTela()->getSId());
 
         $oFiltroSituacao = new Filtro($oSitmp, Filtro::CAMPO_SELECT, 1, 1, 12, 12, true);
         $oFiltroSituacao->setSValor('ABERTO');
@@ -97,17 +98,23 @@ class ViewMET_Gerenciamento extends View {
         $oFiltroResp->addItemSelect('MECANICA', 'MECÂNICA');
         $oFiltroResp->addItemSelect('ELETRICA', 'ELÉTRICA');
         $oFiltroResp->addItemSelect('OPERADOR', 'OPERADOR');
-        $oFiltroResp->addItemSelect('LIDER', 'LIDER');
         $oFiltroResp->setSLabel('');
         $oFiltroResp->setSValor('');
         $oFiltroResp->setBCampoBloqueado(true);
 
+        $iSet = $_SESSION['codsetor'];
+        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
+            $oFiltroSetor->setSValor($iSet);
+            $oFiltroResp->setSValor('OPERADOR');
+        }else if($iSet== 12){
+            $oFiltroResp->setSValor('ELETRICA');
+        }else if($iSet== 29){
+            $oFiltroResp->setSValor('MECANICA');
+        }
 
         $oFilOrdenacao = new Filtro($oDesMaq, Filtro::FILTRO_AZ, 1, 1, 12, 12, false);
-        $oFilOrdenacao->setSLabel('Ordem Desc. Máq.');
-        $oFilOrdenacao->addItemSelect('', 'Nenhum');
-
-        //  $this->setBScrollInf(TRUE);
+        $oFilOrdenacao->setSLabel('');
+        $oFilOrdenacao->addItemSelect('', 'ORDENAÇÃO');
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
@@ -120,8 +127,8 @@ class ViewMET_Gerenciamento extends View {
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","MET_Gerenciamento","calculoPersonalizado",chave+",qualaqtempo");');
 
         $this->addDropdown($oDrop1);
-        $this->addFiltro($oFiltroNr, $oFiltroCodMaquina, $oFiltroDesMaquina, $oFiltroResp, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor, $oFiltroSituacao, $oFilOrdenacao);
-        $this->addCampos($oNr, $oCodmaq, $oDesMaq, $oSeq, $oCategoria, $oCodsetor, $oSetDes, $oSitmp);
+        $this->addFiltro($oFiltroNr, $oFilCodMaq, $oFilOrdenacao, $oFiltroResp, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor, $oFiltroSituacao);
+        $this->addCampos($oNr, $oCodmaq, $oDesMaq, $oSeq, $oCategoria, $oSetor, $oSetDes, $oSitmp);
     }
 
     public function criaTela() {
