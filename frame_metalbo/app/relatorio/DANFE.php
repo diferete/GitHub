@@ -25,15 +25,15 @@ $aDadosNF = $dadosSql->fetch(PDO::FETCH_ASSOC);
 
 $sDir = montaDir($aDadosNF, $aDados);
 
-//opendir('\\\sistema_metalbo\Sistema_Metalbo\Assinatura');
 $xml = file_get_contents($sDir);
 
-//$xml = file_get_contents(__DIR__ . '/xml/42200275483040000211550020003244391673717673.xml');
+$logo = 'data://text/plain;base64,' . base64_encode(file_get_contents('../../biblioteca/assets/images/logo.jpg'));
+
 try {
     $danfe = new Danfe($xml);
     $danfe->debugMode(false);
     $danfe->creditsIntegratorFooter('WEBNFe Sistemas - http://www.webenf.com.br');
-    //$danfe->monta($logo);
+    $danfe->monta($logo);
     $pdf = $danfe->render();
     //o pdf porde ser exibido como view no browser
     //salvo em arquivo
@@ -67,6 +67,6 @@ function montaDir($aDadosNF, $aDados) {
     if ($sSit == 'C') {
         $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-CancProc.xml';
     }
-
+    
     return $sDir;
 }
