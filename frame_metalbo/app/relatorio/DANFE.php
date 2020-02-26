@@ -62,10 +62,10 @@ function montaDir($aDadosNF, $aDados) {
 
     $sSit = $aDadosNF['nfsnfesit'];
     if ($sSit == 'A') {
-        $sDir = $sDir . '/' . trim($aDadosNF['nfsnfechv']) . '-nfeProc.xml';
+        $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-nfeProc.xml';
     }
     if ($sSit == 'C') {
-        $sDir = $sDir . '/' . trim($aDadosNF['nfsnfechv']) . '-CancProc.xml';
+        $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-CancProc.xml';
     }
 
     return $sDir;
