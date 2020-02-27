@@ -70,13 +70,13 @@ class PersistenciaQualRncAnalise extends Persistencia {
         $this->adicionaRelacionamento('obs_aponta', 'obs_aponta');
         $this->adicionaRelacionamento('produtos', 'produtos');
         $this->adicionaRelacionamento('tagsetor', 'tagsetor');
-        
+
         $this->adicionaRelacionamento('tagexcecao', 'tagexcecao');
 
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
-        
+
         $this->setSTop(50);
 
         if ($_SESSION['codsetor'] == 3) {
@@ -148,13 +148,13 @@ class PersistenciaQualRncAnalise extends Persistencia {
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $aEmail[0] = $oRow->usuemail;
 
-         //busca email venda
+        //busca email rep
         $sSql = "select usuemail "
                 . "from tbusuario where usucodigo ='" . $codRep . "' ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $aEmail[1] = $oRow->usuemail;
-        
+
         return $aEmail;
     }
 

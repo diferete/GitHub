@@ -104,6 +104,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         // Para
         $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
+        $oEmail->addDestinatarioCopia('jose@metalbo.com.br');
         if ($aCampos['anexo1'] != '') {
             $oEmail->addAnexo('Uploads/' . $aCampos['anexo1'] . '', utf8_decode($aCampos['anexo1']));
         }
