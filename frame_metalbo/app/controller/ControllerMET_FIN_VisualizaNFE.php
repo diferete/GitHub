@@ -12,4 +12,5 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
         $this->carregaClassesMvc('MET_FIN_VisualizaNFE');
     }
 
+    public function enviaXML(){}
 }

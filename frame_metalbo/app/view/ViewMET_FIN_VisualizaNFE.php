@@ -21,6 +21,12 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBMostraFiltro(true);
 
+        $oBotaoEmitOf = new CampoConsulta('XML', 'xml', CampoConsulta::TIPO_ACAO);
+        $oBotaoEmitOf->setSTitleAcao('Envia XML!');
+        $oBotaoEmitOf->addAcao('MET_FIN_VisualizaNFE', 'enviaXML', '', '');
+        $oBotaoEmitOf->setBHideTelaAcao(true);
+        $oBotaoEmitOf->setILargura(5);
+
         $oFilcgc = new CampoConsulta('Emp.', 'nfsfilcgc');
         $oFilcgc->setBColOculta(true);
         $oNf = new CampoConsulta('Nr. NF', 'nfsnfnro');
@@ -39,11 +45,11 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oFilEMP->addItemSelect('75483040000130', 'REX');
 
         $oDrop1 = new Dropdown('Visualizar Danfe', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DANFE', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DANFE2', false, '', false, '', false, false);
 
         $this->addFiltro($oFilEMP, $oFilNF, $oFilCliNome);
         $this->addDropdown($oDrop1);
-        $this->addCampos($oNf, $oNfSerie, $oCliNome, $oNfDtEmiss, $oFilcgc);
+        $this->addCampos($oBotaoEmitOf, $oNf, $oNfSerie, $oCliNome, $oNfDtEmiss, $oFilcgc);
     }
 
     public function criaTela() {

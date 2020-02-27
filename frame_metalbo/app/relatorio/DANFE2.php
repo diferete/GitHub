@@ -7,9 +7,12 @@ $aDados[2] = $_REQUEST['nfsnfser'];
 
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
+
 require '../../biblioteca/NFE/vendor/autoload.php';
+
 include("../../includes/Config.php");
 include("../../includes/Fabrica.php");
+include("../../biblioteca/Utilidades/Email.php");
 
 use NFePHP\DA\NFe\Danfe;
 
@@ -40,6 +43,8 @@ try {
     //ou setado para download forçado no browser 
     //ou ainda gravado na base de dados
     header('Content-Type: application/pdf');
+    output(__dir__ . '\DANFES\DANFE-' . $aDados[1] . '.pdf', $pdf); //Salva PDF no diretório
+    header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
     echo $pdf;
 } catch (InvalidArgumentException $e) {
     echo "Ocorreu um erro durante o processamento :" . $e->getMessage();
@@ -68,4 +73,22 @@ function montaDir($aDadosNF, $aDados) {
     }
 
     return $sDir;
+}
+
+function output($name, $pdf) {
+    $f = fopen($name, 'w');
+    if (!$f) {
+        $this->error('Unable to create output file: ' . $name);
+    }
+    fwrite($f, $pdf);
+    fclose($f);
+}
+
+function verificaDiretorio($aParametros) {
+    if (!is_dir('Uploads/DANFES-PROC' . $aParametros[0])) {
+        mkdir('Uploads/' . $aParametros[0], 0755);
+        return 'criado';
+    } else {
+        return 'existe';
+    }
 }

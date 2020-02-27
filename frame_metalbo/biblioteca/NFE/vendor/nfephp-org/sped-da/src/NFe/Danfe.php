@@ -351,9 +351,9 @@ class Danfe extends Common
         $papel = 'A4',
         $logoAlign = 'C',
         $depecNumReg = '',
-        $margSup = 2,
-        $margEsq = 2,
-        $margInf = 2
+        $margSup = 5,
+        $margEsq = 5,
+        $margInf = 5
     ) {
         $this->pdf = '';
         $this->logomarca = $logo;
@@ -1193,8 +1193,8 @@ class Danfe extends Common
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');
         //####################################################################################
         //INSCRIÇÃO ESTADUAL
-        //$w = round($maxW * 0.250, 0);
-        $w = 68.7;
+        $w = round($maxW * 0.290, 0);
+        //$w = 68.7;
         $y += $h;
         $oldY += $h;
         $x = $oldX;
@@ -1224,7 +1224,7 @@ class Danfe extends Common
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');
         //CNPJ
         $x += $w;
-        //$w = ($maxW-(3 * $w));
+        $w = ($maxW-(2 * $w));
         $texto = 'CNPJ';
         $aFont = ['font'=>$this->fontePadrao, 'size'=>6, 'style'=>''];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'T', 'L', 1, '');
