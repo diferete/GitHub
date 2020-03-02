@@ -41,7 +41,6 @@ try {
     //ou ainda gravado na base de dados
     header('Content-Type: application/pdf');
     echo $pdf;
-    //header('Content-Type: application/pdf');
 } catch (InvalidArgumentException $e) {
     echo "Ocorreu um erro durante o processamento :" . $e->getMessage();
 }
@@ -67,6 +66,6 @@ function montaDir($aDadosNF, $aDados) {
     if ($sSit == 'C') {
         $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-CancProc.xml';
     }
-    
+
     return $sDir;
 }

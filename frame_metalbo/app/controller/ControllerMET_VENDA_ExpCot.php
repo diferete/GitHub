@@ -196,7 +196,7 @@ class ControllerMET_VENDA_ExpCot extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
 
-        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/cotacao' . $aNr[1] . '.pdf', utf8_decode('Cotação de venda nº' . $aNr[1]));
+        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/cotacao' . $aNr[1] . '.pdf', utf8_decode('Cotação de venda nº' . $aNr[1]. '.pdf'));
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

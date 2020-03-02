@@ -18,6 +18,7 @@ class PersistenciaMET_FIN_VisualizaNFE extends Persistencia {
         $this->adicionaRelacionamento('nfsnfechv', 'nfsnfechv');
         $this->adicionaRelacionamento('nfsdtemiss', 'nfsdtemiss');
         $this->adicionaRelacionamento('nfsclinome', 'nfsclinome');
+        $this->adicionaRelacionamento('NfsEmailEn', 'NfsEmailEn');
 
         $this->adicionaOrderBy('nfsdtemiss', 1);
         $this->adicionaOrderBy('nfsnfnro', 1);

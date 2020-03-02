@@ -197,7 +197,7 @@ class ControllerCot extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
 
-        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/cotacao' . $aNr[1] . '.pdf', utf8_decode('Cotação de venda nº' . $aNr[1]));
+        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/cotacao' . $aNr[1] . '.pdf', utf8_decode('Cotação de venda nº' . $aNr[1] . '.pdf'));
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $this->Persistencia->confirmaEnvioEmail($aDados, $aNr);

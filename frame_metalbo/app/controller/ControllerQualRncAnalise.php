@@ -186,8 +186,6 @@ class ControllerQualRncAnalise extends Controller {
 
         $oRow = $this->Persistencia->buscaDadosRnc($aCamposChave);
 
-        $oEmail->setAssunto(utf8_decode('RETORNO RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ' ' . $oRow->devolucao . ''));
-
         if ($_SESSION['codsetor'] == 3) {
             $sSetor = 'Expedição';
         }
@@ -198,6 +196,7 @@ class ControllerQualRncAnalise extends Controller {
             $sSetor = 'Qualidade';
         }
 
+        $oEmail->setAssunto(utf8_decode('RETORNO RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ' ' . $oRow->devolucao . ''));
         $oEmail->setMensagem(utf8_decode('A devolução de Nº ' . $oRow->nr . ' foi apontada pelo setor da<strong><span style="color:red"> "' . $sSetor . '" </span></strong>.<hr><br/>'
                         . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
                         . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
@@ -210,7 +209,7 @@ class ControllerQualRncAnalise extends Controller {
                         . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
                         . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
-                        . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->$oRow->valor, 2, ',', '.') . ' </td></tr>'
+                        . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->valor, 2, ',', '.') . ' </td></tr>'
                         . '<tr><td><b>Peso: </b></td><td> ' . number_format($oRow->peso, 2, ',', '.') . ' </td></tr>'
                         . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
@@ -219,7 +218,6 @@ class ControllerQualRncAnalise extends Controller {
                         . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 
         $oEmail->limpaDestinatariosAll();
-
 
         // Para
         $aEmail = $this->Persistencia->buscaEmails($aCamposChave);

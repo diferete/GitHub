@@ -16,7 +16,10 @@ class ModelCadCliRepRec {
     private $pagast;
     private $simplesNacional;
     private $empdtcad;
+    private $usucodigo;
     private $empusucad;
+    private $empmunicipio;
+    private $uf;
     private $empfant;
     private $empativo;
     private $empfone;
@@ -27,9 +30,6 @@ class ModelCadCliRepRec {
     private $empins;
     private $empobs;
     private $repcod;
-    private $usucodigo;
-    private $empmunicipio;
-    private $uf;
     private $officecod;
     private $officedes;
     private $emailNfe;
@@ -46,166 +46,19 @@ class ModelCadCliRepRec {
     private $transp;
     private $usucadvenda;
     private $empcomplemento;
+    private $cnpj;
     private $codIBGE;
 
-    function getCodIBGE() {
-        return $this->codIBGE;
+    function getNr() {
+        return $this->nr;
     }
 
-    function setCodIBGE($codIBGE) {
-        $this->codIBGE = $codIBGE;
+    function getEmpcod() {
+        return $this->empcod;
     }
 
-    function getEmpcomplemento() {
-        return $this->empcomplemento;
-    }
-
-    function setEmpcomplemento($empcomplemento) {
-        $this->empcomplemento = $empcomplemento;
-    }
-
-    function getUsucadvenda() {
-        return $this->usucadvenda;
-    }
-
-    function setUsucadvenda($usucadvenda) {
-        $this->usucadvenda = $usucadvenda;
-    }
-
-    function getComer() {
-        return $this->comer;
-    }
-
-    function getTransp() {
-        return $this->transp;
-    }
-
-    function setComer($comer) {
-        $this->comer = $comer;
-    }
-
-    function setTransp($transp) {
-        $this->transp = $transp;
-    }
-
-    function getCertcli() {
-        return $this->certcli;
-    }
-
-    function setCertcli($certcli) {
-        $this->certcli = $certcli;
-    }
-
-    function getEmpcobbco() {
-        return $this->empcobbco;
-    }
-
-    function getEmpcobcar() {
-        return $this->empcobcar;
-    }
-
-    function setEmpcobbco($empcobbco) {
-        $this->empcobbco = $empcobbco;
-    }
-
-    function setEmpcobcar($empcobcar) {
-        $this->empcobcar = $empcobcar;
-    }
-
-    function getEmpnr() {
-        return $this->empnr;
-    }
-
-    function setEmpnr($empnr) {
-        $this->empnr = $empnr;
-    }
-
-    function getResp_venda_cod() {
-        return $this->resp_venda_cod;
-    }
-
-    function getResp_venda_nome() {
-        return $this->resp_venda_nome;
-    }
-
-    function setResp_venda_cod($resp_venda_cod) {
-        $this->resp_venda_cod = $resp_venda_cod;
-    }
-
-    function setResp_venda_nome($resp_venda_nome) {
-        $this->resp_venda_nome = $resp_venda_nome;
-    }
-
-    function getSituaca() {
-        return $this->situaca;
-    }
-
-    function getDtlib() {
-        return $this->dtlib;
-    }
-
-    function getHoralib() {
-        return $this->horalib;
-    }
-
-    function setSituaca($situaca) {
-        $this->situaca = $situaca;
-    }
-
-    function setDtlib($dtlib) {
-        $this->dtlib = $dtlib;
-    }
-
-    function setHoralib($horalib) {
-        $this->horalib = $horalib;
-    }
-
-    function getEmailNfe() {
-        return $this->emailNfe;
-    }
-
-    function setEmailNfe($emailNfe) {
-        $this->emailNfe = $emailNfe;
-    }
-
-    function getOfficecod() {
-        return $this->officecod;
-    }
-
-    function getOfficedes() {
-        return $this->officedes;
-    }
-
-    function setOfficecod($officecod) {
-        $this->officecod = $officecod;
-    }
-
-    function setOfficedes($officedes) {
-        $this->officedes = $officedes;
-    }
-
-    function getUf() {
-        return $this->uf;
-    }
-
-    function setUf($uf) {
-        $this->uf = $uf;
-    }
-
-    function getEmpmunicipio() {
-        return $this->empmunicipio;
-    }
-
-    function setEmpmunicipio($empmunicipio) {
-        $this->empmunicipio = $empmunicipio;
-    }
-
-    function getUsucodigo() {
-        return $this->usucodigo;
-    }
-
-    function setUsucodigo($usucodigo) {
-        $this->usucodigo = $usucodigo;
+    function getEmpdes() {
+        return $this->empdes;
     }
 
     function getEmpfj() {
@@ -228,8 +81,20 @@ class ModelCadCliRepRec {
         return $this->empdtcad;
     }
 
+    function getUsucodigo() {
+        return $this->usucodigo;
+    }
+
     function getEmpusucad() {
         return $this->empusucad;
+    }
+
+    function getEmpmunicipio() {
+        return $this->empmunicipio;
+    }
+
+    function getUf() {
+        return $this->uf;
     }
 
     function getEmpfant() {
@@ -272,6 +137,90 @@ class ModelCadCliRepRec {
         return $this->repcod;
     }
 
+    function getOfficecod() {
+        return $this->officecod;
+    }
+
+    function getOfficedes() {
+        return $this->officedes;
+    }
+
+    function getEmailNfe() {
+        return $this->emailNfe;
+    }
+
+    function getSituaca() {
+        return $this->situaca;
+    }
+
+    function getDtlib() {
+        return $this->dtlib;
+    }
+
+    function getHoralib() {
+        return $this->horalib;
+    }
+
+    function getResp_venda_cod() {
+        return $this->resp_venda_cod;
+    }
+
+    function getResp_venda_nome() {
+        return $this->resp_venda_nome;
+    }
+
+    function getEmpnr() {
+        return $this->empnr;
+    }
+
+    function getEmpcobbco() {
+        return $this->empcobbco;
+    }
+
+    function getEmpcobcar() {
+        return $this->empcobcar;
+    }
+
+    function getCertcli() {
+        return $this->certcli;
+    }
+
+    function getComer() {
+        return $this->comer;
+    }
+
+    function getTransp() {
+        return $this->transp;
+    }
+
+    function getUsucadvenda() {
+        return $this->usucadvenda;
+    }
+
+    function getEmpcomplemento() {
+        return $this->empcomplemento;
+    }
+
+    function getCnpj() {
+        return $this->cnpj;
+    }
+
+    function getCodIBGE() {
+        return $this->codIBGE;
+    }
+
+    function setNr($nr) {
+        $this->nr = $nr;
+    }
+
+    function setEmpcod($empcod) {
+        $this->empcod = $empcod;
+    }
+
+    function setEmpdes($empdes) {
+        $this->empdes = $empdes;
+    }
+
     function setEmpfj($empfj) {
         $this->empfj = $empfj;
     }
@@ -292,8 +241,20 @@ class ModelCadCliRepRec {
         $this->empdtcad = $empdtcad;
     }
 
+    function setUsucodigo($usucodigo) {
+        $this->usucodigo = $usucodigo;
+    }
+
     function setEmpusucad($empusucad) {
         $this->empusucad = $empusucad;
+    }
+
+    function setEmpmunicipio($empmunicipio) {
+        $this->empmunicipio = $empmunicipio;
+    }
+
+    function setUf($uf) {
+        $this->uf = $uf;
     }
 
     function setEmpfant($empfant) {
@@ -336,28 +297,76 @@ class ModelCadCliRepRec {
         $this->repcod = $repcod;
     }
 
-    function getNr() {
-        return $this->nr;
+    function setOfficecod($officecod) {
+        $this->officecod = $officecod;
     }
 
-    function getEmpcod() {
-        return $this->empcod;
+    function setOfficedes($officedes) {
+        $this->officedes = $officedes;
     }
 
-    function getEmpdes() {
-        return $this->empdes;
+    function setEmailNfe($emailNfe) {
+        $this->emailNfe = $emailNfe;
     }
 
-    function setNr($nr) {
-        $this->nr = $nr;
+    function setSituaca($situaca) {
+        $this->situaca = $situaca;
     }
 
-    function setEmpcod($empcod) {
-        $this->empcod = $empcod;
+    function setDtlib($dtlib) {
+        $this->dtlib = $dtlib;
     }
 
-    function setEmpdes($empdes) {
-        $this->empdes = $empdes;
+    function setHoralib($horalib) {
+        $this->horalib = $horalib;
+    }
+
+    function setResp_venda_cod($resp_venda_cod) {
+        $this->resp_venda_cod = $resp_venda_cod;
+    }
+
+    function setResp_venda_nome($resp_venda_nome) {
+        $this->resp_venda_nome = $resp_venda_nome;
+    }
+
+    function setEmpnr($empnr) {
+        $this->empnr = $empnr;
+    }
+
+    function setEmpcobbco($empcobbco) {
+        $this->empcobbco = $empcobbco;
+    }
+
+    function setEmpcobcar($empcobcar) {
+        $this->empcobcar = $empcobcar;
+    }
+
+    function setCertcli($certcli) {
+        $this->certcli = $certcli;
+    }
+
+    function setComer($comer) {
+        $this->comer = $comer;
+    }
+
+    function setTransp($transp) {
+        $this->transp = $transp;
+    }
+
+    function setUsucadvenda($usucadvenda) {
+        $this->usucadvenda = $usucadvenda;
+    }
+
+    function setEmpcomplemento($empcomplemento) {
+        $this->empcomplemento = $empcomplemento;
+    }
+
+    function setCnpj($cnpj) {
+        $this->cnpj = $cnpj;
+    }
+
+    function setCodIBGE($codIBGE) {
+        $this->codIBGE = $codIBGE;
     }
 
 }

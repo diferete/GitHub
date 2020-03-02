@@ -306,7 +306,7 @@ if ($_REQUEST['output'] == 'email') {
         $oEmail->addDestinatario($sEmail);
     }
 
-    $oEmail->addAnexo('app/relatorio/representantes/' . $sDiretorio . '/cotacao' . $NR . '.pdf', utf8_decode('Cotação de venda nº' . $NR));
+    $oEmail->addAnexo('app/relatorio/representantes/' . $sDiretorio . '/cotacao' . $NR . '.pdf', utf8_decode('Cotação de venda nº' . $NR. '.pdf'));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         //$oCot = Fabrica::FabricarPersistencia('Cot');

@@ -12,4 +12,16 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
         $this->carregaClassesMvc('MET_FIN_VisualizaNFE');
     }
 
+    public function enviaXML($sDados) {
+        $aDados = explode(',', $sDados);
+        $aDadosDanfe = array();
+        parse_str($aDados[2], $aDadosDanfe);
+
+        $_REQUEST['nfsfilcgc'] = $aDadosDanfe['nfsfilcgc'];
+        $_REQUEST['nfsnfnro'] = $aDadosDanfe['nfsnfnro'];
+        $_REQUEST['nfsnfser'] = $aDadosDanfe['nfsnfser'];
+
+        require 'app/relatorio/DANFE2.php';
+    }
+
 }

@@ -309,9 +309,9 @@ if ($_REQUEST['output'] == 'email') {
         $oEmail->addDestinatario($sEmail);
     }
     if ($sDiretorio == null) {
-        $oEmail->addAnexo('app/relatorio/representantes/solvenda' . $iNr . '.pdf', utf8_decode('Solicitação nº' . $iNr));
+        $oEmail->addAnexo('app/relatorio/representantes/solvenda' . $iNr . '.pdf', utf8_decode('Solicitação nº' . $iNr . '.pdf'));
     } else {
-        $oEmail->addAnexo('app/relatorio/representantes/' . $sDiretorio . '/solvenda' . $iNr . '.pdf', utf8_decode('Solicitação nº' . $iNr));
+        $oEmail->addAnexo('app/relatorio/representantes/' . $sDiretorio . '/solvenda' . $iNr . '.pdf', utf8_decode('Solicitação nº' . $iNr . '.pdf'));
     }
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
