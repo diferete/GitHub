@@ -245,7 +245,7 @@ class ControllerCadCliRep extends Controller {
                 echo $oMensagem->getRender();
             } else {
                 $sSetValorCampos = '$("#' . $aIdCampos[0] . '").val("' . $aDadosEMP[0] . '");'
-                        . '$("#' . $aIdCampos[1] . '").val("' . $aDadosEMP[1] . '");'
+                        . '$("#' . $aIdCampos[1] . '").val("' . str_replace(".", "", $aDadosEMP[1]) . '");'
                         . '$("#' . $aIdCampos[2] . '").val("' . $aDadosEMP[2] . '");'
                         . '$("#' . $aIdCampos[3] . '").val("' . $aDadosEMP[3] . '");'
                         . '$("#' . $aIdCampos[4] . '").val("' . $aDadosEMP[4] . '");'

@@ -21,7 +21,10 @@ class PersistenciaCadCliRepRec extends Persistencia {
         $this->adicionaRelacionamento('pagast', 'pagast');
         $this->adicionaRelacionamento('simplesNacional', 'simplesNacional');
         $this->adicionaRelacionamento('empdtcad', 'empdtcad');
+        $this->adicionaRelacionamento('usucodigo', 'usucodigo');
         $this->adicionaRelacionamento('empusucad', 'empusucad');
+        $this->adicionaRelacionamento('empmunicipio', 'empmunicipio');
+        $this->adicionaRelacionamento('uf', 'uf');
         $this->adicionaRelacionamento('empfant', 'empfant');
         $this->adicionaRelacionamento('empativo', 'empativo');
         $this->adicionaRelacionamento('empfone', 'empfone');
@@ -29,14 +32,9 @@ class PersistenciaCadCliRepRec extends Persistencia {
         $this->adicionaRelacionamento('empend', 'empend');
         $this->adicionaRelacionamento('cidcep', 'cidcep');
         $this->adicionaRelacionamento('empendbair', 'empendbair');
-        $this->adicionaRelacionamento('empcomplemento', 'empcomplemento');
         $this->adicionaRelacionamento('empins', 'empins');
         $this->adicionaRelacionamento('empobs', 'empobs');
         $this->adicionaRelacionamento('repcod', 'repcod');
-
-        $this->adicionaRelacionamento('usucodigo', 'usucodigo');
-        $this->adicionaRelacionamento('empmunicipio', 'empmunicipio');
-        $this->adicionaRelacionamento('uf', 'uf');
         $this->adicionaRelacionamento('officecod', 'officecod');
         $this->adicionaRelacionamento('officedes', 'officedes');
 
@@ -56,6 +54,8 @@ class PersistenciaCadCliRepRec extends Persistencia {
         $this->adicionaRelacionamento('comer', 'comer');
         $this->adicionaRelacionamento('transp', 'transp');
         $this->adicionaRelacionamento('usucadvenda', 'usucadvenda');
+        $this->adicionaRelacionamento('empcomplemento', 'empcomplemento');
+        $this->adicionaRelacionamento('cnpj', 'cnpj');
         $this->adicionaRelacionamento('codIBGE', 'codIBGE');
 
         $this->adicionaOrderBy('nr', 1);

@@ -14,6 +14,7 @@ class ModelMET_FIN_VisualizaNFE {
     private $nfsnfechv;
     private $nfsdtemiss;
     private $nfsclinome;
+    private $NfsEmailEn;
 
     function getNfsfilcgc() {
         return $this->nfsfilcgc;
@@ -39,6 +40,10 @@ class ModelMET_FIN_VisualizaNFE {
         return $this->nfsclinome;
     }
 
+    function getNfsEmailEn() {
+        return $this->NfsEmailEn;
+    }
+
     function setNfsfilcgc($nfsfilcgc) {
         $this->nfsfilcgc = $nfsfilcgc;
     }
@@ -61,6 +66,10 @@ class ModelMET_FIN_VisualizaNFE {
 
     function setNfsclinome($nfsclinome) {
         $this->nfsclinome = $nfsclinome;
+    }
+
+    function setNfsEmailEn($NfsEmailEn) {
+        $this->NfsEmailEn = $NfsEmailEn;
     }
 
 }

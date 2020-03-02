@@ -52,6 +52,7 @@ class ControllerCadCliRepRec extends Controller {
 
 
         $this->Persistencia->adicionafiltro('nr', $aCamposChave['nr']);
+        $this->Persistencia->adicionafiltro('empcod', $aCamposChave['empcod']);
         $oRow = $this->Persistencia->consultarWhere();
 
         $aRetorno = $this->Persistencia->geraCadastro($oRow);

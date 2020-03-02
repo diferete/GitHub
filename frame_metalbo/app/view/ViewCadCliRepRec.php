@@ -188,6 +188,10 @@ class ViewCadCliRepRec extends View {
         $oBairro->setSCorFundo(Campo::FUNDO_MONEY);
         $oBairro->addValidacao(false, Validacao::TIPO_STRING, 'Bairro inválido', '2', '40');
 
+        $oCodIBGE = new Campo('...', 'codIBGE', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oCodIBGE->setBOculto(true);
+
+
         $sCallBack = 'cepBusca($("#' . $oCidCep->getId() . '").val(),'
                 . '"' . $oMunicipio->getId() . '","' . $oEmpEnd->getId() . '","' . $oUf->getId() . '","' . $oBairro->getId() . '")';
 
@@ -195,7 +199,7 @@ class ViewCadCliRepRec extends View {
         $oCidCep->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
         $oFieldEnd->addCampos(
-                array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr));
+                array($oCidCep, $oUf, $oMunicipio), array($oBairro, $oEmpEnd), array($oComplemento, $oEmpnr), $oCodIBGE);
 
         $oEmpIns = new Campo('Inscrição estadual *(Somente Nº)', 'empins', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oEmpIns->addValidacao(false, Validacao::TIPO_STRING, 'Inscrição inválida', '5', '18');
