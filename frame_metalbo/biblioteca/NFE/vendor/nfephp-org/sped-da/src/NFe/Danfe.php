@@ -328,7 +328,7 @@ class Danfe extends Common
     public function render()
     {
         if (empty($this->pdf)) {
-            $this->monta();
+            $this->monta($horaSaida,$dataSaida);
         }
         return $this->pdf->getPdf();
     }
@@ -346,6 +346,8 @@ class Danfe extends Common
      * @return string O ID da NFe numero de 44 digitos extraido do arquivo XML
      */
     public function monta(
+        $horaSaida,
+        $dataSaida,
         $logo = '',
         $orientacao = '',
         $papel = 'A4',
@@ -353,7 +355,7 @@ class Danfe extends Common
         $depecNumReg = '',
         $margSup = 5,
         $margEsq = 5,
-        $margInf = 5
+        $margInf = 5        
     ) {
         $this->pdf = '';
         $this->logomarca = $logo;
@@ -628,7 +630,7 @@ class Danfe extends Common
         //coloca o cabeçalho
         $y = $this->header($x, $y, $pag, $totPag);
         //coloca os dados do destinatário
-        $y = $this->destinatarioDANFE($x, $y+1);
+        $y = $this->destinatarioDANFE($x, $y+1, $horaSaida, $dataSaida);
         
         //coloca os dados do local de retirada
         if (isset($this->retirada)) {
@@ -1397,7 +1399,7 @@ class Danfe extends Common
      * @param  number $y Posição vertical canto superior
      * @return number Posição vertical final
      */
-    protected function destinatarioDANFE($x = 0, $y = 0)
+    protected function destinatarioDANFE($x = 0, $y = 0, $horaSaida, $dataSaida)
     {
         //####################################################################################
         //DESTINATÁRIO / REMETENTE
@@ -1517,7 +1519,8 @@ class Danfe extends Common
         $texto = 'DATA DA SAÍDA/ENTRADA';
         $aFont = ['font'=>$this->fontePadrao, 'size'=>6, 'style'=>''];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'T', 'L', 1, '');
-        $dSaiEnt = ! empty($this->ide->getElementsByTagName("dSaiEnt")->item(0)->nodeValue)
+        $dSaiEnt = $dataSaida;
+        /*$dSaiEnt = ! empty($this->ide->getElementsByTagName("dSaiEnt")->item(0)->nodeValue)
             ? $this->ide->getElementsByTagName("dSaiEnt")->item(0)->nodeValue
             : '';
         if ($dSaiEnt == '') {
@@ -1527,7 +1530,8 @@ class Danfe extends Common
             $aDsaient = explode('T', $dSaiEnt);
             $dSaiEnt = $aDsaient[0];
         }
-        $texto = $this->ymdTodmy($dSaiEnt);
+        $texto = $this->ymdTodmy($dSaiEnt);*/
+        $texto = $dSaiEnt;
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');
         //MUNICÍPIO
@@ -1582,7 +1586,8 @@ class Danfe extends Common
         $texto = 'HORA DA SAÍDA/ENTRADA';
         $aFont = ['font'=>$this->fontePadrao, 'size'=>6, 'style'=>''];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'T', 'L', 1, '');
-        $hSaiEnt = ! empty($this->ide->getElementsByTagName("hSaiEnt")->item(0)->nodeValue)
+        $hSaiEnt = $horaSaida;
+        /*$hSaiEnt = ! empty($this->ide->getElementsByTagName("hSaiEnt")->item(0)->nodeValue)
         ? $this->ide->getElementsByTagName("hSaiEnt")->item(0)->nodeValue
         : '';
         if ($hSaiEnt == '') {
@@ -1593,7 +1598,7 @@ class Danfe extends Common
             if ($tsDhSaiEnt != '') {
                 $hSaiEnt = date('H:i:s', $tsDhSaiEnt);
             }
-        }
+        }*/
         $texto = $hSaiEnt;
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');

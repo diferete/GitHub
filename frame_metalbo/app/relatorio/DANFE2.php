@@ -7,7 +7,6 @@ $aDados = array();
 $aDados[0] = $_REQUEST['nfsfilcgc'];
 $aDados[1] = $_REQUEST['nfsnfnro'];
 $aDados[2] = $_REQUEST['nfsnfser'];
-$idPesq = $_REQUEST['idPesq'];
 
 require '../../biblioteca/NFE/vendor/autoload.php';
 
@@ -18,7 +17,7 @@ include("../../biblioteca/Utilidades/Email.php");
 use NFePHP\DA\NFe\Danfe;
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sSql = $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc "
+$sSql = $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc, nfsdtsaida, nfshrsaida "
         . "from widl.NFC001 "
         . "where nfsfilcgc = '" . $aDados[0] . "' "
         . "and nfsnfnro = '" . $aDados[1] . "' "
@@ -37,7 +36,9 @@ try {
     $danfe = new Danfe($xml);
     $danfe->debugMode(false);
     $danfe->creditsIntegratorFooter('WEBNFe Sistemas - http://www.webenf.com.br');
-    $danfe->monta($logo);
+    $horaSaida = $aDadosNF['nfshrsaida'];
+    $dataSaida = date('d/m/Y', strtotime($aDadosNF['nfsdtsaida']));
+    $danfe->monta($horaSaida, $dataSaida, $logo);
     $pdf = $danfe->render();
     //o pdf porde ser exibido como view no browser
     //salvo em arquivo
