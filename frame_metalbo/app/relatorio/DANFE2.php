@@ -39,6 +39,7 @@ try {
     $horaSaida = $aDadosNF['nfshrsaida'];
     $dataSaida = date('d/m/Y', strtotime($aDadosNF['nfsdtsaida']));
     $danfe->monta($horaSaida, $dataSaida, $logo);
+    
     $pdf = $danfe->render();
     //o pdf porde ser exibido como view no browser
     //salvo em arquivo
