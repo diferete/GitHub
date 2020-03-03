@@ -21,6 +21,12 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBMostraFiltro(true);
 
+        $oBotaoEmitXml = new CampoConsulta('Emite', 'emitOf', CampoConsulta::TIPO_ACAO);
+        $oBotaoEmitXml->setSTitleAcao('Emite XML!');
+        $oBotaoEmitXml->addAcao('MET_FIN_VisualizaNFE', 'enviaXML', '', '');
+        $oBotaoEmitXml->setBHideTelaAcao(true);
+        $oBotaoEmitXml->setILargura(30);
+
         $oFilcgc = new CampoConsulta('Emp.', 'nfsfilcgc');
         $oFilcgc->setBColOculta(true);
         $oNf = new CampoConsulta('Nr. NF', 'nfsnfnro');
@@ -28,9 +34,11 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oCliNome = new CampoConsulta('Cliente', 'nfsclinome');
         $oNfDtEmiss = new CampoConsulta('Data Emiss.', 'nfsdtemiss', CampoConsulta::TIPO_DATA);
 
+
+
         $oNfEnvEmail = new CampoConsulta('Email', 'NfsEmailEn');
         $oNfEnvEmail->addComparacao('S', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, '');
-        
+
         $oFilEMP = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFilEMP->setSLabel('');
         $oFilEMP->addItemSelect('', 'Todas');
@@ -44,11 +52,11 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oFilData = new Filtro($oNfDtEmiss, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
 
         $oDrop1 = new Dropdown('Visualizar Danfe', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DANFE2', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DANFE', false, '', false, '', false, false);
 
         $this->addFiltro($oFilEMP, $oFilNF, $oFilCliNome, $oFilData);
         $this->addDropdown($oDrop1);
-        $this->addCampos($oNf, $oNfSerie, $oCliNome, $oNfDtEmiss, $oNfEnvEmail, $oFilcgc);
+        $this->addCampos($oBotaoEmitXml, $oNf, $oNfSerie, $oCliNome, $oNfDtEmiss, $oNfEnvEmail, $oFilcgc);
     }
 
     public function criaTela() {

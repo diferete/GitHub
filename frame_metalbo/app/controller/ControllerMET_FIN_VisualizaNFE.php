@@ -20,8 +20,10 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
         $_REQUEST['nfsfilcgc'] = $aDadosDanfe['nfsfilcgc'];
         $_REQUEST['nfsnfnro'] = $aDadosDanfe['nfsnfnro'];
         $_REQUEST['nfsnfser'] = $aDadosDanfe['nfsnfser'];
+        $_REQUEST['idPesq'] = $aDados[1];
 
-        require 'app/relatorio/DANFE2.php';
+        require 'app/relatorio/DANFE.php';
+
     }
 
 }
