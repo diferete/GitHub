@@ -32,14 +32,21 @@ $xml = file_get_contents($sDirXml);
 
 $logo = 'data://text/plain;base64,' . base64_encode(file_get_contents('../../biblioteca/assets/images/logo.jpg'));
 
+$horaSaida = $aDadosNF['nfshrsaida'];
+$dataSaida = date('d/m/Y', strtotime($aDadosNF['nfsdtsaida']));
+$dataEmiss = date('d/m/Y', strtotime($aDadosNF['nfsdtemiss']));
+$aData = explode('/', $dataSaida);
+if ($aData[2] == '1753') {
+    $dataSaida = '';
+}
+
 try {
     $danfe = new Danfe($xml);
     $danfe->debugMode(false);
     $danfe->creditsIntegratorFooter('WEBNFe Sistemas - http://www.webenf.com.br');
-    $horaSaida = $aDadosNF['nfshrsaida'];
-    $dataSaida = date('d/m/Y', strtotime($aDadosNF['nfsdtsaida']));
+
     $danfe->monta($horaSaida, $dataSaida, $logo);
-    
+
     $pdf = $danfe->render();
     //o pdf porde ser exibido como view no browser
     //salvo em arquivo
