@@ -14,16 +14,39 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
 
     public function enviaXML($sDados) {
         $aDados = explode(',', $sDados);
-        $aDadosDanfe = array();
-        parse_str($aDados[2], $aDadosDanfe);
+        $aCamposChave = array();
+        parse_str($aDados[2], $aCamposChave);
 
-        $_REQUEST['nfsfilcgc'] = $aDadosDanfe['nfsfilcgc'];
-        $_REQUEST['nfsnfnro'] = $aDadosDanfe['nfsnfnro'];
-        $_REQUEST['nfsnfser'] = $aDadosDanfe['nfsnfser'];
-        $_REQUEST['idPesq'] = $aDados[1];
+        $sRetorno = $this->Persistencia->buscaDadosNF($aCamposChave);
 
-        require 'app/relatorio/DANFE.php';
+        if ($sRetorno !== 'A') {
+            $oMsg = new Mensagem('Atenção!', 'NF não pode ser enviada pois está cancelada', Mensagem::TIPO_ERROR, 10000);
+            echo $oMsg->getRender();
+        } else {
+            $_REQUEST['nfsfilcgc'] = $aCamposChave['nfsfilcgc'];
+            $_REQUEST['nfsnfnro'] = $aCamposChave['nfsnfnro'];
+            $_REQUEST['nfsnfser'] = $aCamposChave['nfsnfser'];
+            $_REQUEST['idPesq'] = $aDados[1];
 
+            require 'app/relatorio/DANFE.php';
+        }
+    }
+
+    public function beforeMostraRelConsulta($sParametros) {
+        parent::beforeMostraRelConsulta($sParametros);
+
+        $aDados = explode(',', $sParametros);
+        $sCampos = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sCampos, $aCamposChave);
+
+        $sRetorno = $this->Persistencia->buscaDadosNF($aCamposChave);
+
+        if ($sRetorno !== 'A') {
+            $oMsg = new Mensagem('Atenção!', 'NF não pode ser visualizada pois está cancelada ou não foi autorizada', Mensagem::TIPO_ERROR, 10000);
+            echo $oMsg->getRender();
+            exit;
+        }
     }
 
 }

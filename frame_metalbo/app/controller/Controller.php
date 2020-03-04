@@ -1396,7 +1396,9 @@ class Controller {
      * @param string $sParametros String composta de método e parametros para emissão do relatório
      */
     public function acaoMostraRelConsulta($sParametros, $sRel) {
-//Explode string parametros
+
+        $Retorno = $this->beforeMostraRelConsulta($sParametros);
+        //Explode string parametros
         $aDados = explode(',', $sParametros);
 
         $sCampos = htmlspecialchars_decode($aDados[2]);
@@ -1413,7 +1415,7 @@ class Controller {
         $sCampos .= $this->beforeRel($sParametros);
 
         if ($aRel[1] != 'email') {
-//verifica se é sem logo
+            //verifica se é sem logo
             if ($aRel[1] == 'slogo') {
                 $sCampos .= '&logo=semlogo';
             }
@@ -1606,7 +1608,7 @@ class Controller {
         $this->View->criaConsulta();
         $this->antesBuscaPk($aDados);
         $this->View->getTela()->setAbaSel($aDados[0]);
-       //se posição 0 esta setada define automaticamente como pesquisa
+        //se posição 0 esta setada define automaticamente como pesquisa
         if ($aDados[1] !== null && $aDados[1] !== '') {
             $this->View->getTela()->setBConsulta(true);
             $this->View->getTela()->setSRenderHide($aDados[1]);
@@ -4457,6 +4459,13 @@ class Controller {
      * Tela para ser sobescrita após criar a tela
      */
     public function afterCriaTela() {
+        
+    }
+
+    /*
+     * Método para ser sobscrito antes de criar tela de visualização de relatório
+     * **/
+    public function beforeMostraRelConsulta($sParametros) {
         
     }
 

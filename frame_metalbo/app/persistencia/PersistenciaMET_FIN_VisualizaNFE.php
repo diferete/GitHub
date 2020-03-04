@@ -18,11 +18,26 @@ class PersistenciaMET_FIN_VisualizaNFE extends Persistencia {
         $this->adicionaRelacionamento('nfsnfechv', 'nfsnfechv');
         $this->adicionaRelacionamento('nfsdtemiss', 'nfsdtemiss');
         $this->adicionaRelacionamento('nfsclinome', 'nfsclinome');
-        $this->adicionaRelacionamento('NfsEmailEn', 'NfsEmailEn');
+        $this->adicionaRelacionamento('nfsemailen', 'nfsemailen');
+        $this->adicionaRelacionamento('nfsnfesit', 'nfsnfesit');
+
+
+        $this->adicionaFiltro('nfsemailen', '');
+        
+        //$this->adicionaFiltro('nfsdtemiss', date('d/m/Y'), Persistencia::LIGACAO_AND, Persistencia::ENTRE, date('d/m/Y'));
+        $this->adicionaFiltro('nfsdtemiss', '28/02/2020', Persistencia::LIGACAO_AND, Persistencia::ENTRE, '28/02/2020');
+
 
         $this->adicionaOrderBy('nfsdtemiss', 1);
         $this->adicionaOrderBy('nfsnfnro', 1);
-        $this->setSTop(75);
+        //$this->setSTop(75);
+    }
+
+    public function buscaDadosNf($aCamposChave) {
+        $sSql = 'select nfsnfesit from widl.NFC001 where nfsfilcgc = ' . $aCamposChave['nfsfilcgc'] . ' and nfsnfnro = ' . $aCamposChave['nfsnfnro'] . ' and nfsnfser = ' . $aCamposChave['nfsnfser'];
+        $oDadosNF = $this->consultaSql($sSql);
+
+        return $oDadosNF->nfsnfesit;
     }
 
 }

@@ -2200,7 +2200,7 @@ class Danfe extends Common
      */
     protected function impostoHelper($x, $y, $w, $h, $titulo, $campoImposto)
     {
-        $valorImposto = '0, 00';
+        $valorImposto = '0,00';
         $the_field = $this->ICMSTot->getElementsByTagName($campoImposto)->item(0);
         if (isset($the_field)) {
             $the_value = $the_field->nodeValue;
@@ -2952,7 +2952,7 @@ class Danfe extends Common
                         ",",
                         "."
                     )
-                    : '0, 00';
+                    : '0,00';
                     $this->pdf->textBox($x, $y, $w10, $h, $texto, $aFont, 'T', $alinhamento, 0, '');
                 }
                 //Valor do ICMS
@@ -2965,7 +2965,7 @@ class Danfe extends Common
                         ",",
                         "."
                     )
-                    : '0, 00';
+                    : '0,00';
                     $this->pdf->textBox($x, $y, $w11, $h, $texto, $aFont, 'T', $alinhamento, 0, '');
                 }
                 //Valor do IPI
@@ -2978,9 +2978,9 @@ class Danfe extends Common
                         ",",
                         "."
                     )
-                    :'';
+                    :'0,00';
                 } else {
-                    $texto = '';
+                    $texto = '0,00';
                 }
                 $this->pdf->textBox($x, $y, $w12, $h, $texto, $aFont, 'T', $alinhamento, 0, '');
                 // %ICMS
@@ -2993,7 +2993,7 @@ class Danfe extends Common
                         ",",
                         "."
                     )
-                    : '0, 00';
+                    : '0,00';
                     $this->pdf->textBox($x, $y, $w13, $h, $texto, $aFont, 'T', 'C', 0, '');
                 }
                 //%IPI
@@ -3006,7 +3006,7 @@ class Danfe extends Common
                         ",",
                         "."
                     )
-                    : '';
+                    : '0,00';
                 } else {
                     $texto = '';
                 }
