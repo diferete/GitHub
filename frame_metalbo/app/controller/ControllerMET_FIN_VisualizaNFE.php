@@ -20,7 +20,7 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
         $sRetorno = $this->Persistencia->buscaDadosNF($aCamposChave);
 
         if ($sRetorno !== 'A') {
-            $oMsg = new Mensagem('Atenção!', 'NF não pode ser enviada pois está cancelada', Mensagem::TIPO_ERROR, 10000);
+            $oMsg = new Mensagem('Atenção!', 'o XML da NF - ' . $aCamposChave['nfsnfnro'] . ' não pode ser enviada pois não foi autorizada', Mensagem::TIPO_ERROR, 10000);
             echo $oMsg->getRender();
         } else {
             $_REQUEST['nfsfilcgc'] = $aCamposChave['nfsfilcgc'];
@@ -43,7 +43,7 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
         $sRetorno = $this->Persistencia->buscaDadosNF($aCamposChave);
 
         if ($sRetorno !== 'A') {
-            $oMsg = new Mensagem('Atenção!', 'NF não pode ser visualizada pois está cancelada ou não foi autorizada', Mensagem::TIPO_ERROR, 10000);
+            $oMsg = new Mensagem('Atenção!', 'Danfe da NF - ' . $aCamposChave['nfsnfnro'] . ' não pode ser visualizada pois não foi autorizada', Mensagem::TIPO_ERROR, 10000);
             echo $oMsg->getRender();
             exit;
         }

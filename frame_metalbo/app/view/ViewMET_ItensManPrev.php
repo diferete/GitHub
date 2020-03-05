@@ -39,6 +39,8 @@ class ViewMET_ItensManPrev extends View {
         $oCodSit = new CampoConsulta('Cod.Serviço', 'MET_ServicoMaquina.codsit');
         $oCodSit->setILargura(15);
 
+        // $oServ1 = new Campo('Serviço', 'MET_ServicoMaquina.servico');
+
         $oServ = new Campo('Serviço', 'ser', Campo::TIPO_TEXTO, 10, 10, 10, 10);
         $oServ->setSCorFundo(Campo::FUNDO_AMARELO);
         $oServ->setBCampoBloqueado(true);
@@ -57,6 +59,10 @@ class ViewMET_ItensManPrev extends View {
         $oUserinic = new CampoConsulta('Usuario Inicial.', 'userinicial');
         $oUserinic->setILargura(15);
 
+        $oDatafech = new CampoConsulta('DataFech', 'datafech', CampoConsulta::TIPO_DATA);
+
+        $oUserfinal = new CampoConsulta('Usuario Final', 'userfinal');
+
         $oQueFazer = new Campo('O que fazer', 'oqfaz', Campo::TIPO_TEXTO, 2, 2, 2, 2);
         $oQueFazer->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQueFazer->setBCampoBloqueado(true);
@@ -74,7 +80,12 @@ class ViewMET_ItensManPrev extends View {
         $this->setUsaAcaoVisualizar(true);
         $this->addFiltro($oFiltroSeq);
 
-        $this->addCamposDetalhe($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, $oSitmp, $oDias, $oDatabert, $oUserinic);
+        if ($_REQUEST['rotina'] == 'acaoVisualizar') {
+            $this->addCamposDetalhe($oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        } else {
+            $this->addCamposDetalhe($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        }
+
 
         $this->addGriTela($this->getOGridDetalhe());
     }
@@ -131,21 +142,26 @@ class ViewMET_ItensManPrev extends View {
         $this->addFiltro($oFiltroSeq);
 
         $this->setBScrollInf(TRUE);
-        $this->addCampos($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        if ($_REQUEST['rotina'] == 'acaoVisualizar') {
+            $this->addCampos($oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        } else {
+            $this->addCampos($oBotaoFinalizar, $oSeq, $oCodmaq, $oCodSit, /* $oServ, */ $oSitmp, $oDias, $oDatabert, $oUserinic/* , $oDatafech, $oUserfinal , $oObs */);
+        }
     }
 
     public function criaTela() {
         parent::criaTela();
 
+        $sAcaoRotina = $this->getSRotina();
+        $_REQUEST['rotina'] = $sAcaoRotina;
+
         //novo---------------------------------------------------
-        $this->criaGridDetalhe();
+        $this->criaGridDetalhe($sAcaoRotina);
         //-------------------------------------------------------
 
         $this->getTela()->setBUsaDelGrid(false);
 
         $aValor = $this->getAParametrosExtras();
-
-        $sAcaoRotina = $this->getSRotina();
 
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);

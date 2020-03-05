@@ -88,7 +88,7 @@ class PersistenciaMET_ItensManPrev extends Persistencia{
             userinicial, datafech, userfinal, oqfazer, fezmanut)
             select  filcgc, nr,
             (select max(seq) as maximo from tbitensmp where nr = '".$aDados['nr']."' and filcgc = '".$aDados['filcgc']."' and sitmp = 'ABERTO')+1,
-            codmaq, tbitensmp.codsit, sitmp, ciclo, GETDATE(), userinicial, datafech, userfinal, oqfazer, 'SIM'
+            codmaq, tbitensmp.codsit, sitmp, ciclo, GETDATE(), '".$sUsuário."', datafech, userfinal, oqfazer, 'SIM'
             from tbitensmp left outer join  tbservmp on tbservmp.codsit = tbitensmp.codsit 
             where seq = '".$aDados['seq']."' and nr = '".$aDados['nr']."' and filcgc = '".$aDados['filcgc']."'  
             update tbitensmp set sitmp = 'FINALIZADO', datafech = '".$sData."', userfinal = '".$sUsuário."'  "

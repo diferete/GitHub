@@ -14,6 +14,7 @@ class ModelMET_Gerenciamento {
     private $filcgc;
     private $nr;
     private $codmaq;
+    private $maqmp;
     private $codsetor;
     private $descsetor;
     private $sitmp;
@@ -21,6 +22,14 @@ class ModelMET_Gerenciamento {
     private $userabert;
     private $userfecho;
     private $datafech;
+    
+    function getMaqmp() {
+        return $this->maqmp;
+    }
+
+    function setMaqmp($maqmp) {
+        $this->maqmp = $maqmp;
+    }
     
     function getDescsetor() {
         return $this->descsetor;
@@ -30,7 +39,6 @@ class ModelMET_Gerenciamento {
         $this->descsetor = $descsetor;
     }
     
-    ////////////////////
     function getMET_Maquinas() {
         if (!isset($this->MET_Maquinas)) {
             $this->MET_Maquinas = Fabrica::FabricarModel('MET_Maquinas');

@@ -13,6 +13,7 @@ $sHora = date('H:i');
 $sSit ='';
 $sFilcgc = '75483040000211';
 $sDias = '----';
+$bApData= false;
 if(!isset($_REQUEST['dataini'])){
 $sNr1 = $_SERVER['QUERY_STRING'];
 $aNr1 = explode('&', $sNr1);
@@ -37,6 +38,9 @@ foreach ($aNr1 as $key){
     $sSit = $_REQUEST['sitmp'];
     $sCodMaq = $_REQUEST['codmaq'];
     $sDias = $_REQUEST['dias'];
+    if(isset($_REQUEST['apdata'])){
+        $bApData = $_REQUEST['apdata'];
+    }
 }
 
 
@@ -115,15 +119,14 @@ foreach ($aNr2 as $sNr){
             tbservmp on tbitensmp.codsit = tbservmp.codsit 
             left outer join
             metmaq on tbitensmp.codmaq = metmaq.cod";
-    
+$sql.=" and tbmanutmp.databert > '01/01/2010' ";   
 if($sFilcgc!=' '){
     $sql.=" where tbmanutmp.filcgc = '" . $sFilcgc . "' "; 
 }    
-$sql.=" and tbmanutmp.databert > '01/01/2010' ";
 if($sNr!='i'&&$sNr!=' '){
     $sql.=" and tbmanutmp.nr = '" . $sNr . "' "; 
 }
-if(isset($sDataIni)){
+if(isset($sDataIni) && $bApData==true){
     $sql.=" and tbitensmp.databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
 }
 if(isset($sCodMaq) && $sCodMaq!=''){

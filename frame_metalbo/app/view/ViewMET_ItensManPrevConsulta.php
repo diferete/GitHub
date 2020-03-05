@@ -61,16 +61,6 @@ class ViewMET_ItensManPrevConsulta extends View {
         }
         $oFiltroSeq1->setSLabel('');
 
-        /*
-          //Filtro tipo Manutenção
-          $oTipManutFiltro= new Filtro($oTipManut, Filtro::CAMPO_SELECT, 3,3,3,3,true);
-          $oTipManutFiltro->addItemSelect('', 'Todos Tipos de Manutenção');
-          foreach ($aDado3 as $key2){
-          $oTipManutFiltro->addItemSelect($key2['tipmanut'], $key2['tipmanut']);
-          }
-          $oTipManutFiltro->setSLabel('');
-         */
-
         //Filtro tipo Categoria
         $oCategoriaFiltro = new Filtro($oCategoria, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oCategoriaFiltro->addItemSelect('', 'Todas Categorias');
@@ -106,7 +96,6 @@ class ViewMET_ItensManPrevConsulta extends View {
         $oFiltroResp->addItemSelect('MECANICA', 'MECÂNICA');
         $oFiltroResp->addItemSelect('ELETRICA', 'ELÉTRICA');
         $oFiltroResp->addItemSelect('OPERADOR', 'OPERADOR');
-        $oFiltroResp->addItemSelect('LIDER', 'LIDER');
         $oFiltroResp->setSLabel('');
 
         $this->addFiltro($oFiltroSeq, $oFiltroCodMaq, $oFiltroServico, $oFiltroResp, $oFiltroSituacao, $oFiltroSeq1/* , $oTipManutFiltro */, $oCategoriaFiltro, $oFiltroSetor);

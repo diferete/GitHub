@@ -36,7 +36,9 @@ class ViewMET_FIN_VisualizaNFE extends View {
 
         $oSitNf = new CampoConsulta('Situação', 'nfsnfesit');
         $oSitNf->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_PADRAO, CampoConsulta::MODO_LINHA, true, 'Autorizada');
+        $oSitNf->addComparacao('Z', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_PADRAO, CampoConsulta::MODO_LINHA, true, 'Enviando');
         $oSitNf->addComparacao('C', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, true, 'Cancelada');
+        $oSitNf->addComparacao('', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_PADRAO, CampoConsulta::MODO_COLUNA, true, 'Em processo');
         $oSitNf->setBComparacaoColuna(true);
 
 

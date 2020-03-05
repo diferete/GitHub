@@ -18,16 +18,22 @@ class PersistenciaMET_Gerenciamento extends Persistencia {
         $this->adicionaRelacionamento('codmaq', 'codmaq');
         $this->adicionaRelacionamento('codmaq', 'MET_Maquinas.cod', false, false, false);
         $this->adicionaRelacionamento('maquina', 'MET_Maquinas.maquina', false, false, false);
+        $this->adicionaRelacionamento('maqmp', 'maqmp');
         $this->adicionaRelacionamento('codsetor', 'codsetor');
+        $this->adicionaRelacionamento('codsetor', 'Setor.codsetor', false, false, false);
         $this->adicionaRelacionamento('descsetor', 'descsetor', false, false, false);
         $this->adicionaRelacionamento('sitmp', 'sitmp');
         $this->adicionaRelacionamento('databert', 'databert');
         $this->adicionaRelacionamento('userabert', 'userabert');
         $this->adicionaRelacionamento('userfecho', 'userfecho');
         $this->adicionaRelacionamento('datafech', 'datafech');
-        $this->adicionaOrderBy('nr', 1);
+        
+        $this->adicionaOrderBy('maqmp', 0);
         $this->adicionaJoin('MET_Maquinas', null, 1, 'codmaq', 'cod');
         $this->adicionaJoin('Setor');
+        $this->setSTop('75');
+       
+        
     }
 
     public function consultaCodSetor($iCodMaq) {
@@ -122,8 +128,7 @@ class PersistenciaMET_Gerenciamento extends Persistencia {
     /*
      * Função que retorna as nr das máquinas que tem serviço cadastrado por responsável - MANUTENÇÃO ELÉTRICA, MECÂNICA, OPERADOR E LIDER  
      */
-
-    public function retornaTexMaqPorSetor($sResp) {
+    public function retornaTexMaqPorSetor($sResp, $Setor) {
 
         $sSql = "select tbmanutmp.nr from tbmanutmp 
 		left outer join  
@@ -132,7 +137,11 @@ class PersistenciaMET_Gerenciamento extends Persistencia {
                 tbservmp on tbitensmp.codsit = tbservmp.codsit 
                 where (tbitensmp.sitmp <> 'FINALIZADO'  ";
 
-        $sCodSet = $_SESSION['codsetor'];
+        if($Setor==null || $Setor==''){
+            $sCodSet = $_SESSION['codsetor'];
+        }else{
+            $sCodSet = $Setor;
+        }
 
         if ($sResp == null || $sResp == '') {
             if ($sCodSet == '2') {
@@ -142,14 +151,16 @@ class PersistenciaMET_Gerenciamento extends Persistencia {
             } else if ($sCodSet == '29') {
                 $sSql .= " and tbservmp.resp = 'MECANICA'";
             } else {
-                $sSql .= " and tbservmp.resp = 'OPERADOR'";
+                $sSql .= " and tbservmp.resp = 'OPERADOR' "
+                        . " and tbservmp.codsetor = ".$sCodSet."";
             }
         } else if ($sResp == 'ELETRICA') {
             $sSql .= " and tbservmp.resp = 'ELETRICA'";
         } else if ($sResp == 'MECANICA') {
             $sSql .= " and tbservmp.resp = 'MECANICA'";
         } else if ($sResp == 'OPERADOR') {
-            $sSql .= " and tbservmp.resp = 'OPERADOR'";
+            $sSql .= " and tbservmp.resp = 'OPERADOR'"
+                    . " and tbservmp.codsetor = ".$sCodSet."";
         }
 
         $sSql .= ") or tbitensmp.nr is null group by tbmanutmp.nr ";

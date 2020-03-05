@@ -13,6 +13,10 @@ class ControllerMET_CadastroMaquinas extends Controller {
         $this->carregaClassesMvc('MET_CadastroMaquinas');
     }
 
+    /**
+     * Função que retorna array com o tipo de máquina e os setores
+     * @return type
+     */
     public function buscaDados() {
         $aParame = array();
         $aParame1 = $this->Persistencia->buscaDadosTipMaq();

@@ -819,7 +819,7 @@ class Controller {
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
-        }
+        };
         //renderiza a tela
         $this->View->getTela()->getRender();
     }
@@ -4062,7 +4062,6 @@ class Controller {
                 }
             }
         }
-
         //$this->carregaValorCamposBusca($oCampo);// VERIFICAR MUITO IMPORTANTE
     }
 
