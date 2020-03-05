@@ -49,4 +49,8 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
         }
     }
 
+    public function enviaXmlAutomatizado() {
+        require 'app/relatorio/DANFE3.php';
+    }
+
 }

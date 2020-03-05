@@ -23,7 +23,7 @@ class PersistenciaMET_FIN_VisualizaNFE extends Persistencia {
 
 
         $this->adicionaFiltro('nfsemailen', '');
-        
+
         //$this->adicionaFiltro('nfsdtemiss', date('d/m/Y'), Persistencia::LIGACAO_AND, Persistencia::ENTRE, date('d/m/Y'));
         $this->adicionaFiltro('nfsdtemiss', '28/02/2020', Persistencia::LIGACAO_AND, Persistencia::ENTRE, '28/02/2020');
 
