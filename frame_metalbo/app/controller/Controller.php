@@ -491,14 +491,14 @@ class Controller {
             }
 
 
-//data nascimento - cad. pessoas - pessoa jurídica, como o campo era oculto tentava gravar false
+            //data nascimento - cad. pessoas - pessoa jurídica, como o campo era oculto tentava gravar false
             if (/* isset($aCampos[$sNomeCampo]) && */ $aCampos[$sNomeCampo] !== "false") {
                 $xValor = $xValorCampo;
             } else {
                 $xValor = null;
             }
         }
-//if comentado por carlos      
+        //if comentado por carlos      
 //        if(($xValor !== null) || $xValor === "" || $xValor === 0){
         foreach ($aMetodos as $key => $sMetodo) {
             $sMetodoSetter = Fabrica::montaSetter($sMetodo);
@@ -747,7 +747,7 @@ class Controller {
 
         call_user_func_array(array($this->View, 'criaTela'), explode(',', $sParametrosCriaTela));
         $this->View->setRetorno($renderTo);
-        $this->View->getTela()->addListener(Base:: EVENTO_CLOSE, Base::getAcaoFechar($renderTo));
+        $this->View->getTela()->addListener(Base::EVENTO_CLOSE, Base::getAcaoFechar($renderTo));
 
         $this->mostraTela();
     }
@@ -762,32 +762,32 @@ class Controller {
      */
     public function acaoMostraTelaIncluir($renderTo) {
         $this->View->setSRotina(View::ACAO_INCLUIR);
-//monta um array, a primeira posição é da tab, o resto das consultas por ordem 
+        //monta um array, a primeira posição é da tab, o resto das consultas por ordem 
         $aRender = explode(',', $renderTo);
-//método antes de criar a tela
+        //método antes de criar a tela
         $this->antesDeCriarTela($renderTo);
-//cria a tela
+        //cria a tela
         $this->View->criaTela();
 
 
-//alimenta campos busca
+        //alimenta campos busca
         $this->antesIncluir();
-//adiciona onde será renderizado
+        //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aRender[0]);
         $this->View->getTela()->setAbaSel($aRender[2]);
-//adiciona tela que será dado um show 
+        //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aRender[1]);
-//busca campo autoincremento para passar como parametro
+        //busca campo autoincremento para passar como parametro
         $sCampoIncremento = $this->retornaAutoInc();
-//adiciona botoes padrão 
+        //adiciona botoes padrão 
 
         $this->View->addBotaoPadraoTela($sCampoIncremento);
 
-//função autoincremento
+        //função autoincremento
         $this->funcoesAutoIncremento();
-//seta o controler na view
+        //seta o controler na view
         $this->View->setTelaController($this->View->getController());
-//renderiza a tela
+        //renderiza a tela
         $this->View->getTela()->getRender();
     }
 
@@ -815,7 +815,7 @@ class Controller {
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[2]);
         //carregar campos tela
-        $this->carregaCamposTela($sChave, false);
+        $this->carregaCamposTela($sChave);
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
@@ -840,17 +840,17 @@ class Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $this->antesVisualizar($aDados);
-//cria a tela
+        //cria a tela
         $this->View->criaTela();
-//adiciona onde será renderizado
+        //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[1]);
-//adiciona tela que será dado um show 
+        //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[2]);
-//carregar campos tela
+        //carregar campos tela
         $this->carregaCamposTela($sChave);
-//adiciona botoes padrão
+        //adiciona botoes padrão
         $this->View->addBotaoPadraoTela('');
-//renderiza a tela
+        //renderiza a tela
         $this->View->getTela()->getRender();
     }
 
@@ -875,42 +875,42 @@ class Controller {
         $this->View->criaTela();
 
         if (!$bDetalhe) {
-//limpa uploads se necessário
+            //limpa uploads se necessário
             $this->limpaUploads($aDados);
             $oLimpa = new Base();
-//retorna aut incremento
+            //retorna aut incremento
             $iAutoInc = $this->retornaValuInc();
-//monta a mensagem
+            //monta a mensagem
             $msg = "" . $oLimpa->limpaForm($sForm) . ""
                     . "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
             echo $msg;
-//verifica se o campo precisa ser fechado após dar um confirma
+            //verifica se o campo precisa ser fechado após dar um confirma
             if ($this->View->getTela()->getBFecharTelaIncluir()) {
-//BASE PARA FECHAR
+                //BASE PARA FECHAR
                 $oBase = new Base();
-//provisório para fechar a tela
+                //provisório para fechar a tela
                 $msg .= "$('#" . $sForm . "-msg').append('<script>" . $oBase->fechaForm($sForm) . '' . $oBase->openGrid($sGrid) . "</script>');";
                 echo $msg;
             }
         }
-//se for detalhe muda posição da etapa
+        //se for detalhe muda posição da etapa
         if ($bDetalhe) {
             $oEtapa = new Base();
             $sNextEtapa = $oEtapa->nextEtapa($aDados[2], $aDados[3]);
             echo $sNextEtapa;
-//da um hide no form
+            //da um hide no form
             $sFormHide = $oEtapa->formhide($aDados[0]);
             echo $sFormHide;
         }
 
 
-//se for detalhe vai renderizar a tela de detalhe
+        //se for detalhe vai renderizar a tela de detalhe
         if ($bDetalhe) {
             $sClasseDetalhe = $this->getControllerDetalhe();
             $sMetodoDetalhe = $this->getSMetodoDetalhe();
-//método para capturar campos para levar para outra etapa, geralmente pk e informativos
+            //método para capturar campos para levar para outra etapa, geralmente pk e informativos
             $sCampos = implode(',', $this->montaProxEtapa());
-//passa id da etapa,id do processo,id do form,valor chavepk
+            //passa id da etapa,id do processo,id do form,valor chavepk
             echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . ',' . $aDados[7] . ',acaoVisualizar","' . $sCampos . '");';
         }
     }
@@ -926,18 +926,18 @@ class Controller {
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-//cria a tela
+        //cria a tela
         $this->View->criaTela();
 
-//adiciona onde será renderizado
+        //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[0]);
-//adiciona tela que será dado um show 
+        //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[1]);
-//carregar campos tela
+        //carregar campos tela
         $this->carregaCamposTela($sChave);
-//adiciona botoes padrão
+        //adiciona botoes padrão
         $this->View->addBotaoPadraoTela('');
-//renderiza a tela
+        //renderiza a tela
         $this->View->getTela()->getRender();
     }
 
@@ -954,17 +954,17 @@ class Controller {
         parse_str($sChave, $aCamposChave);
 
         $this->View->setAParametrosExtras($aCamposChave);
-//cria a tela
+        //cria a tela
         $this->View->criaTela();
 
-//adiciona onde será renderizado
+        //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[0]);
-//adiciona tela que será dado um show 
+        //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[1]);
 
-//adiciona botoes padrão
+        //adiciona botoes padrão
         $this->View->addBotaoApont();
-//renderiza a tela
+        //renderiza a tela
         $this->View->getTela()->getRender();
     }
 
@@ -982,7 +982,7 @@ class Controller {
 
         $this->View->criaModal();
 
-//adiciona onde será renderizado
+        //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[1] . '-modal');
 
         $this->View->getTela()->setSRender($aDados[1] . '-modal');
@@ -990,11 +990,11 @@ class Controller {
         $bSitComercial = $this->Persistencia->verifInfCom($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
         if ($sChave == 'undefined' || $bSitProj == false || $bSitComercial == false) {
-            $oMensagem = new Modal('Atenção', 'Verifique se o projeto está aprovado, também verifique se há apontamento de data e valor de venda!', Modal:: TIPO_ERRO, true, true, true);
+            $oMensagem = new Modal('Atenção', 'Verifique se o projeto está aprovado, também verifique se há apontamento de data e valor de venda!', Modal::TIPO_ERRO, true, true, true);
             echo $oMensagem->getRender();
             echo'$("#' . $aDados[1] . '-btn").click();';
         } else {
-//renderiza a tela
+            //renderiza a tela
             $this->View->getTela()->getRender();
         }
     }
@@ -1009,12 +1009,12 @@ class Controller {
 
         $aDados = explode(',', $sDados);
 
-//cria a tela
+        //cria a tela
         $this->View->criaTela();
-//adiciona onde será renderizado
+        //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[0] . 'control');
 
-//renderiza a tela
+        //renderiza a tela
         $this->View->getTela()->getRender();
     }
 
@@ -1027,25 +1027,25 @@ class Controller {
 
         $this->antesDeMostrarTela($sDados);
 
-//cria a tela
+        //cria a tela
         $this->View->criaTela();
-//adiciona onde será renderizado
+        //adiciona onde será renderizado
         $this->View->getTela()->setSRender($aDados[0] . 'control');
 
         $this->View->getTela()->setAbaSel($aDados[0]);
 
-//busca campo autoincremento para passar como parametro
+        //busca campo autoincremento para passar como parametro
         $sCampoIncremento = $this->retornaAutoInc();
 
-//função autoincremento
+        //função autoincremento
         $this->funcoesAutoIncremento();
-//funcao antes de renderizar a tela
+        //funcao antes de renderizar a tela
         $this->afterCriaTela();
 
         $this->View->addBotaoPadraoTela($sCampoIncremento);
 
 
-//renderiza a tela
+        //renderiza a tela
         $this->View->getTela()->getRender();
     }
 
@@ -1072,7 +1072,7 @@ class Controller {
      * 
      * @param object $oCampo Objeto a ter o valor carregado
      */
-//carlos rever
+    //carlos rever
     protected function carregaCampo($oCampo) {
         if (method_exists($oCampo, 'getCampos')) {
             foreach ($oCampo->getCampos() as $oCampo) {
@@ -1080,11 +1080,11 @@ class Controller {
             }
         }
 
-//carrega os registros do grid se for um objeto FormGrid
+        //carrega os registros do grid se for um objeto FormGrid
         if (is_a($oCampo, 'FormGrid')) {
             $this->carregaDadosGridDetalhe($oCampo);
         } else {
-//carrega o valor do campo
+            //carrega o valor do campo
             if ($oCampo->getITipo() != 41) {
                 if (method_exists($oCampo, 'setSValor') && !($oCampo->getApenasTela())) {
                     $this->carregaValorCampo($oCampo);
@@ -1135,13 +1135,13 @@ class Controller {
         if (method_exists($oCampo, 'getBtnBusca') && $oCampo->getBtnBusca() != null && $oCampo->getValor() != null) {
             $oController = Fabrica::FabricarController($oCampo->getClasseBusca());
 
-//montagem do filtro
+            //montagem do filtro
             $sCampoBanco = $oController->Persistencia->getNomeBanco(substr($oCampo->getNome(), strpos($oCampo->getNome(), ".") + 1));
             $iTipoLigacao = Persistencia::LIGACAO_AND;
             $iTipoComparacao = Persistencia::IGUAL;
             $oController->Persistencia->adicionaFiltro($sCampoBanco, $oCampo->getValor(), $iTipoLigacao, $iTipoComparacao);
 
-//obtem o nome da classe atual para a realização de testes
+            //obtem o nome da classe atual para a realização de testes
             $sNomeClasse = $oController->getNomeClasse();
 
             $aFiltroBusca = $oCampo->getCampoFiltroBusca();
@@ -1167,7 +1167,7 @@ class Controller {
                 }
             }
 
-//inclui os filtros adicionais definidos no controller específico
+            //inclui os filtros adicionais definidos no controller específico
             $oController->adicionaFiltrosExtras();
 
             $aModels = $oController->Persistencia->getArrayModel(); //carrega os dados 
@@ -1177,8 +1177,8 @@ class Controller {
                     $sCampo = substr($aAtual[0], strpos($aAtual[0], ".") + 1);
                     $xValor = str_replace("\n", "", $this->getValorModel($aModels[0], $sCampo));
                     $sId = $aAtual[1] != null ? $aAtual[1]->getId() : $oCampo->getId() . Base::COMPLETA_NOME_BUSCA;
-                    $this->View->getTela()->addListener(Base:: EVENTO_ANTES_MONTAR, $this->View->setValorCampo($sId, $xValor));
-                    $this->View->getTela()->addListener(Base:: EVENTO_ANTES_MONTAR, $this->View->setValorOriginalCampo($sId, $xValor));
+                    $this->View->getTela()->addListener(Base::EVENTO_ANTES_MONTAR, $this->View->setValorCampo($sId, $xValor));
+                    $this->View->getTela()->addListener(Base::EVENTO_ANTES_MONTAR, $this->View->setValorOriginalCampo($sId, $xValor));
                 }
             }
             /*
@@ -1201,7 +1201,7 @@ class Controller {
                 $sAcao = "Ext.ComponentQuery.query('#" . $oCampo->getId() . Base::COMPLETA_NOME_BTN_BUSCA . "')[0].disable(true);"
                         . "Ext.ComponentQuery.query('#" . $oCampo->getId() . Base::COMPLETA_NOME_BUSCA . "')[0].disable(true);";
 
-                $this->View->getTela()->addListener(Base:: EVENTO_MONTAR, $sAcao);
+                $this->View->getTela()->addListener(Base::EVENTO_MONTAR, $sAcao);
             }
         }
     }
@@ -1217,18 +1217,18 @@ class Controller {
         if (!isset($this->Persistencia)) {
             return false;
         }
-//captura o vetor de campos da tela
+        //captura o vetor de campos da tela
         $aCampos = $this->View->getTela()->getCampos();
 
-//busca os campos do banco que são autoincremento
+        //busca os campos do banco que são autoincremento
         $aAuto = $this->Persistencia->getAutoIncrementoArray();
 
         foreach ($aCampos as $oAtualTela) {
-//só deve executar para os objetos que forem instância da classe Campo
+            //só deve executar para os objetos que forem instância da classe Campo
             if (get_class($oAtualTela) === 'Campo') {
                 foreach ($aAuto as $oAtualBanco) {
                     if ($oAtualTela->getNome() == $oAtualBanco->getNomeModel()) {
-//$oAtualTela->setSomenteLeitura(true);
+                        //$oAtualTela->setSomenteLeitura(true);
                         if ($oAtualTela->getSValor() == null) {
                             $oAtualTela->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
                         }
@@ -1241,7 +1241,7 @@ class Controller {
                         if (is_array($oFsCampos)) {
                             foreach ($oFsCampos as $oCampoFs) {
                                 if ($oCampoFs->getNome() == $oAtualBanco->getNomeModel()) {
-//$oAtualTela->setSomenteLeitura(true);
+                                    //$oAtualTela->setSomenteLeitura(true);
                                     if ($oCampoFs->getSValor() == null) {
                                         $oCampoFs->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
                                     }
@@ -1249,7 +1249,7 @@ class Controller {
                             }
                         } else {
                             if ($oFsCampos->getNome() == $oAtualBanco->getNomeModel()) {
-//$oAtualTela->setSomenteLeitura(true);
+                                //$oAtualTela->setSomenteLeitura(true);
                                 if ($oFsCampos->getSValor() == null) {
                                     $oFsCampos->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
                                 }
@@ -1266,7 +1266,7 @@ class Controller {
                             if (is_array($oAbaCampos)) {
                                 foreach ($oAbaCampos as $oAbaCampos1) {
                                     if ($oAbaCampos1->getNome() == $oAtualBanco->getNomeModel()) {
-//$oAtualTela->setSomenteLeitura(true);
+                                        //$oAtualTela->setSomenteLeitura(true);
                                         if ($oAbaCampos1->getSValor() == null) {
                                             $oAbaCampos1->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
                                         }
@@ -1274,7 +1274,7 @@ class Controller {
                                 }
                             } else {
                                 if ($oAbaCampos->getNome() == $oAtualBanco->getNomeModel()) {
-//$oAtualTela->setSomenteLeitura(true);
+                                    //$oAtualTela->setSomenteLeitura(true);
                                     if ($oAbaCampos->getSValor() == null) {
                                         $oAbaCampos->setSValor($this->Persistencia->getIncremento($oAtualBanco->getNomeBanco(), true));
                                     }
@@ -1301,14 +1301,14 @@ class Controller {
         }
         $aReturn = array();
 
-//captura o vetor de campos da tela
+        //captura o vetor de campos da tela
         $aCampos = $this->View->getTela()->getCampos();
 
-//busca os campos do banco que são autoincremento
+        //busca os campos do banco que são autoincremento
         $aAuto = $this->Persistencia->getAutoIncrementoArray();
 
         foreach ($aCampos as $oAtualTela) {
-//só deve executar para os objetos que forem instância da classe Campo
+            //só deve executar para os objetos que forem instância da classe Campo
             if (get_class($oAtualTela) === 'Campo') {
                 foreach ($aAuto as $oAtualBanco) {
                     if ($oAtualTela->getNome() == $oAtualBanco->getNomeModel()) {
@@ -1329,7 +1329,7 @@ class Controller {
         $this->View->criaTelaGrafico();
 
         $this->View->getTela()->setClasse($this->View->getController());
-        $this->View->getTela()->addListener(Base:: EVENTO_CLOSE, Base::getAcaoFechar($sRenderTo));
+        $this->View->getTela()->addListener(Base::EVENTO_CLOSE, Base::getAcaoFechar($sRenderTo));
 
         $this->View->setRetorno($sRenderTo);
         $this->adicionaJSON($this->View->getRender());
@@ -1344,7 +1344,7 @@ class Controller {
     public function mostraCubo($sRenderTo = 'Ext.getBody()') {
         $this->View->criaCubo();
         $this->View->getTela()->setOrigemDados($this->View->getController(), 'getDadosConsulta');
-        $this->View->getTela()->addListener(Base:: EVENTO_CLOSE, Base::getAcaoFechar($sRenderTo));
+        $this->View->getTela()->addListener(Base::EVENTO_CLOSE, Base::getAcaoFechar($sRenderTo));
         $this->View->setRetorno($sRenderTo);
         $this->adicionaJSON($this->View->getRender());
         $this->confirmaJSON();
@@ -1368,7 +1368,7 @@ class Controller {
     public function mostraTelaRelatorio($renderTo, $sMetodo) {
         $this->View->$sMetodo();
         $sAcao = 'requestAjax("","' . $this->getNomeClasse() . '","acaoMostraRelatorio", "' . $sMetodo . ',"+ serializeForm("' . $this->View->getTela()->getId() . '"));';
-        $BtnRelatorio = new Botao('Vizualizar', Botao:: TIPO_REL, '');
+        $BtnRelatorio = new Botao('Vizualizar', Botao::TIPO_REL, '');
         $this->View->getTela()->setIdBtnConfirmar($BtnRelatorio->getId());
         $this->View->getTela()->setAcaoConfirmar($sAcao);
         $this->View->getTela()->addBotoes($BtnRelatorio);
@@ -1382,7 +1382,7 @@ class Controller {
     public function mostraTelaRelatorioXls($renderTo, $sMetodo) {
         $this->View->$sMetodo();
         $sAcao = 'requestAjax("","' . $this->getNomeClasse() . '","acaoGeraRelXls", "' . $sMetodo . ',"+ serializeForm("' . $this->View->getTela()->getId() . '"));';
-        $BtnRelatorio = new Botao('Gerar Excel', Botao:: TIPO_REL, '');
+        $BtnRelatorio = new Botao('Gerar Excel', Botao::TIPO_REL, '');
         $this->View->getTela()->setIdBtnConfirmar($BtnRelatorio->getId());
         $this->View->getTela()->setAcaoConfirmar($sAcao);
         $this->View->getTela()->addBotoes($BtnRelatorio);
@@ -1396,8 +1396,8 @@ class Controller {
      * @param string $sParametros String composta de método e parametros para emissão do relatório
      */
     public function acaoMostraRelConsulta($sParametros, $sRel) {
-
         $Retorno = $this->beforeMostraRelConsulta($sParametros);
+
         //Explode string parametros
         $aDados = explode(',', $sParametros);
 
@@ -1443,7 +1443,7 @@ class Controller {
      * @param string $sParametros String composta de método e parametros para emissão do relatório
      */
     public function acaoMostraRelConsultaHTML($sParametros, $sRel) {
-//Explode string parametros
+        //Explode string parametros
         $aDados = explode(',', $sParametros);
 
         $sCampos = htmlspecialchars_decode($aDados[2]);
@@ -1460,7 +1460,7 @@ class Controller {
         $sCampos .= $this->beforeRel($sParametros);
 
         if ($aRel[1] != 'email') {
-//verifica se é sem logo
+            //verifica se é sem logo
             if ($aRel[1] == 'slogo') {
                 $sCampos .= '&logo=semlogo';
             }
@@ -1488,7 +1488,7 @@ class Controller {
      * @param string $sParametros String composta de método e parametros para emissão do relatório
      */
     public function acaoMostraRelXls($sParametros, $sRel) {
-//Explode string parametros
+        //Explode string parametros
         $aDados = explode(',', $sParametros);
 
         $sCampos = htmlspecialchars_decode($aDados[2]);
@@ -1518,26 +1518,26 @@ class Controller {
     }
 
     public function acaoGeraRelXls($sParametros, $sRel) {
-//Explode string parametros
+        //Explode string parametros
         $aDados = explode(',', $sParametros);
 
         $sCampos = htmlspecialchars_decode($aDados[1]);
 
-// $sCampos .='&dir='.$_SESSION['diroffice'];
-// $sCampos.= $this->getSget();
+        // $sCampos .='&dir='.$_SESSION['diroffice'];
+        // $sCampos.= $this->getSget();
 
         $sRel = $aDados[0];
 
         $sSistema = "app/relatorio";
         $sRelatorio = $sRel . '.php?';
 
-// $sCampos.='&output=email';
+        // $sCampos.='&output=email';
         $oMensagem = new Mensagem("Aguarde", "Seu excel está sendo processado", Mensagem::TIPO_INFO);
         echo $oMensagem->getRender();
 
         $oWindow = // 'window.open("'.$sSistema.'/'.$sRelatorio.''.$sCampos.'", "Relatório", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");'; 
                 'var win = window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '","MsgWindow","width=500,height=100,left=375,top=330");';
-//   .'setTimeout(function () { win.close();}, 10000);';
+        //   .'setTimeout(function () { win.close();}, 10000);';
         echo $oWindow;
 
 
@@ -1573,11 +1573,11 @@ class Controller {
      * @param string $sParametros String composta de método e parametros para emissão do relatório
      */
     public function acaoMostraRelatorio($sParametros) {
-//abre mensagem que o relatório está sendo processado
+        //abre mensagem que o relatório está sendo processado
         $oMensagem = new Mensagem('Geração de Relatório', 'Seu relatório está sendo processado!', Mensagem::TIPO_INFO);
         echo $oMensagem->getRender();
 
-//Explode string parametros
+        //Explode string parametros
         $aDados = explode(',', $sParametros);
         $sMetodo = $aDados[0];
         $sCampos = htmlspecialchars_decode($aDados[1]);
@@ -1646,9 +1646,9 @@ class Controller {
 
         $this->setParametros($sCampoRetorno);
         $aParametrosG = $this->getParametros();
-//pega o índice como o método
+        //pega o índice como o método
         $aClasse = array_keys($aParametrosG);
-//pega o última posição do array q é o arquivo do relatório
+        //pega o última posição do array q é o arquivo do relatório
         $ClasseDetail = $aClasse[count($aClasse) - 1];
 
 
@@ -1661,18 +1661,18 @@ class Controller {
                 $this->mostraConsulta($sRenderTo, $bConsultaBusca, $sCampoRetorno, $sCampoForm, $bAdicionaAcoesPadrao, $sCamposFiltrosExtra, $sValoresFiltrosExtra, $bGridDetail = true);
 
                 $gridDetalhe = $this->View->gridDetalhe();
-                $this->View->getTela()->addListener(Base:: EVENTO_CELL_CLIQUE, $this->View->getAcaoCliqueDetail($gridDetalhe));
+                $this->View->getTela()->addListener(Base::EVENTO_CELL_CLIQUE, $this->View->getAcaoCliqueDetail($gridDetalhe));
 
                 $gridMaster = $this->View->getRender();
             }
-//carrega classe detail e monta a string
+            //carrega classe detail e monta a string
             if ($key == 1) {
                 $this->carregaClassesMvc($ClasseDetail);
                 $this->mostraConsulta($sRenderTo, $bConsultaBusca, $sCampoRetorno, $sCampoForm, $bAdicionaAcoesPadrao, $sCamposFiltrosExtra, $sValoresFiltrosExtra, $bGridDetail = true);
                 $gridDetail = $this->View->getRender();
             }
         }
-//adiciona a base
+        //adiciona a base
         $json = Base::addMasterDetail($gridMaster, $gridDetail, $sRenderTo);
         $this->adicionaJSON($json);
         $this->confirmaJSON();
@@ -1742,7 +1742,7 @@ class Controller {
      */
     public function getDadosGrid($sDadosReload, $nomeGrid) {
         $this->View->criaTela();
-//explode nome grid
+        //explode nome grid
         $aDados = explode(',', $nomeGrid);
         $nomeGrid = $aDados[0];
         $aCampos = $this->View->$nomeGrid();
@@ -1816,9 +1816,9 @@ class Controller {
                                 //verifica se deve conter a tabela
                                 $aCampoTabela = explode('.', $aFiltroGrid[0]);
                                 if (!isset($aCampoTabela[1])) {
-                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia:: LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]));
+                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]));
                                 } else {
-                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia:: LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]), "", $aCampoTabela[0]);
+                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]), "", $aCampoTabela[0]);
                                 }
                                 //adicionaFiltro($sCampo,$sValor,$iTipoLigacao = 0,$iTipoComparacao = 0,$sValorFim = "",$sTabelaCampo="", $sCampoType = "")
                             }
@@ -1835,7 +1835,7 @@ class Controller {
                         //pega o último valor do array e coloca como filtro menor que 
                         $aUlt = array_slice($aCamposChave, -1);
                         foreach ($aUlt as $key => $value) {
-                            $this->Persistencia->adicionaFiltro($key, $value, Persistencia:: LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[1]));
+                            $this->Persistencia->adicionaFiltro($key, $value, Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[1]));
                         }
                         //tira o incremental
                         array_pop($aCamposChave);
@@ -1867,7 +1867,7 @@ class Controller {
                     };
                 }
                 if (!empty($aEntre)) {
-                    $this->Persistencia->adicionaFiltro($sCampo, $sVlrInicial, Persistencia:: LIGACAO_AND, Persistencia:: ENTRE, $sVlrFinal);
+                    $this->Persistencia->adicionaFiltro($sCampo, $sVlrInicial, Persistencia::LIGACAO_AND, Persistencia::ENTRE, $sVlrFinal);
                 }
             }
         }
@@ -2189,10 +2189,10 @@ class Controller {
             }
         }
 
-//inclui os filtros adicionais definidos no controller específico
+        //inclui os filtros adicionais definidos no controller específico
         $this->adicionaFiltrosExtras();
 
-//monta a ordenação da consulta pela chave caso não tenha sido definida
+        //monta a ordenação da consulta pela chave caso não tenha sido definida
         if (sizeof($this->View->getOrderBy()) == 0) {
             foreach ($this->Persistencia->getChaveArray() as $oAtual) {
                 $this->Persistencia->adicionaOrderBy($oAtual->getNomeBanco());
@@ -2204,7 +2204,7 @@ class Controller {
             }
         }
 
-//monta o agrupamento da consulta
+        //monta o agrupamento da consulta
         foreach ($this->View->getGroupBy() as $oGroupBy) {
             $sCampoBanco = str_replace("_", ".", $oGroupBy->getNome());
             $this->Persistencia->adicionaGroupBy($sCampoBanco);
@@ -2215,7 +2215,7 @@ class Controller {
         $aDados = array(); //inicializa o vetor que conterá os dados
         foreach ($aDadosQuery as $oAtual) {
             $aLinha = array(); //inicializa o vetor que conterá a linha atual
-//carrega os campos que serão mostrados na consulta
+            //carrega os campos que serão mostrados na consulta
             foreach ($aCampos as $campoAtual) {
                 if ($campoAtual->getCamposCalculo() == null) {
                     $sCampo = $campoAtual->getNome();
@@ -2223,7 +2223,7 @@ class Controller {
                     $aLinha[str_replace('.', '_', $campoAtual->getNome())] = utf8_encode(str_replace("\n", "", $xValor));
                 }
             }
-//$aLinha['chave'] = $this->Persistencia->getChaveModel($oAtual);
+            //$aLinha['chave'] = $this->Persistencia->getChaveModel($oAtual);
 
             $aDados[] = $aLinha;
         }
@@ -2242,7 +2242,7 @@ class Controller {
         $sCampoValor = $_REQUEST['campoValor'];
         $sCampoDescricao = $_REQUEST['campoDescricao'];
 
-//montagem do filtro
+        //montagem do filtro
         $sCampoFiltro = $_REQUEST['campoFiltro'];
         $sValorFiltro = $_REQUEST['valorFiltro'];
         $aCampos = json_decode($sCampoFiltro);
@@ -2253,7 +2253,7 @@ class Controller {
             foreach ($aCampos as $ind => $campo) {
                 $sCampoBanco = $this->Persistencia->getNomeBanco($campo);
 
-//montagem dos filtros 
+                //montagem dos filtros 
                 $aTexto = explode(" ", trim($aValores[$ind]));
                 foreach ($aTexto as $value) {
                     $this->Persistencia->adicionaFiltro($sCampoBanco, $value, $iTipoLigacao, $iTipoComparacao);
@@ -2263,16 +2263,16 @@ class Controller {
         } else {
             $sCampoBanco = $this->Persistencia->getNomeBanco($sCampoFiltro);
 
-//montagem dos filtros 
+            //montagem dos filtros 
             $aTexto = explode(" ", trim($sValorFiltro));
             foreach ($aTexto as $value) {
                 $this->Persistencia->adicionaFiltro($sCampoBanco, $value, $iTipoLigacao, $iTipoComparacao);
             }
 
-//adiciona a ordenação da listagem
+            //adiciona a ordenação da listagem
             $this->Persistencia->adicionaOrderBy($sCampoBanco);
         }
-//inclui os filtros adicionais definidos no controller específico
+        //inclui os filtros adicionais definidos no controller específico
         $this->adicionaFiltrosExtras();
 
         $sMetodoPersistencia = self::METODO_ARRAY_DADOS;
@@ -2309,12 +2309,12 @@ class Controller {
      * durante a digitação do usuário
      */
     public function getDadosBuscaCampo($sDados) {
-//$sDados1 = $_REQUEST['parametros'];
+        //$sDados1 = $_REQUEST['parametros'];
         $aDados = explode(',', $sDados);
 
-//obtem o nome da classe do campo de busca (suggest)
+        //obtem o nome da classe do campo de busca (suggest)
         $sClasseBusca = substr($aDados[2], 0, strpos($aDados[2], "."));
-//obtem o nome da classe atual para a realização de testes
+        //obtem o nome da classe atual para a realização de testes
         $sNomeClasse = $this->getNomeClasse();
 
         /*
@@ -2334,7 +2334,7 @@ class Controller {
 
         $sCampoBanco = $this->Persistencia->getNomeBanco($sCampoDesc);
 
-//montagem do filtro
+        //montagem do filtro
         $sFiltro = utf8_encode($aDados[0]);
 
         $iTipoLigacao = Persistencia::LIGACAO_AND;
@@ -2346,7 +2346,7 @@ class Controller {
             $this->Persistencia->adicionaFiltro($sCampoBanco, $value, $iTipoLigacao, $iTipoComparacao);
         }
 
-//adiciona a ordenação da listagem
+        //adiciona a ordenação da listagem
         $this->Persistencia->adicionaOrderBy($sCampoBanco);
 
         $sMetodoPersistencia = self::METODO_ARRAY_DADOS;
@@ -2359,7 +2359,7 @@ class Controller {
             $aLinha[1] = str_replace("\n", "", $this->getValorModel($oAtual, $sCampoDesc));
             $aDadosSelect[] = $aLinha;
         }
-//remove os options
+        //remove os options
         $sSelect = "$('#" . $aDados[3] . " > option').remove();";
         foreach ($aDadosSelect as $key => $value) {
             $sSelect .= "$('#" . $aDados[3] . "').append($('<option>', { "
@@ -2378,10 +2378,10 @@ class Controller {
     public function getDadosBusca($sDados) {
         $aDados = explode(',', $sDados);
 
-//obtem o nome da classe atual para a realização de testes
+        //obtem o nome da classe atual para a realização de testes
         $sNomeClasse = $this->getNomeClasse();
 
-//obtem o nome da classe do campo de busca (suggest)
+        //obtem o nome da classe do campo de busca (suggest)
         $sClasseBusca = substr($aDados[2], 0, strpos($aDados[2], "."));
 
         /*
@@ -2399,7 +2399,7 @@ class Controller {
 
         $sCampoBanco = $this->Persistencia->getNomeBanco($sCampoDescricao);
 
-//montagem do filtro
+        //montagem do filtro
         $sFiltro = $aDados[4];
         $iTipoLigacao = Persistencia::LIGACAO_AND;
         $iTipoComparacao = Persistencia::CONTEM;
@@ -2409,10 +2409,10 @@ class Controller {
             $this->Persistencia->adicionaFiltro($sCampoBanco, utf8_decode($value), $iTipoLigacao, $iTipoComparacao);
         }
 
-//inclui os filtros adicionais definidos no controller específico
+        //inclui os filtros adicionais definidos no controller específico
         $this->adicionaFiltrosExtras();
 
-//adiciona a ordenação da listagem
+        //adiciona a ordenação da listagem
         $this->Persistencia->adicionaOrderBy($sCampoBanco);
 
         $sMetodoPersistencia = self::METODO_ARRAY_DADOS;
@@ -2425,17 +2425,17 @@ class Controller {
             $aLinha[1] = str_replace("\n", "", $this->getValorModel($oAtual, $sCampoDescricao));
             $aDadosSelect[] = $aLinha;
         }
-//remove os options
+        //remove os options
         $sSelect = "$('#" . $aDados[1] . " > option').remove();";
 
-//pega a primeira posição do array e coloca no campo código e no valor do campo select
+        //pega a primeira posição do array e coloca no campo código e no valor do campo select
         $aDadosInicial = $aDadosSelect[0];
-//percorre para colocar o valor inicial
+        //percorre para colocar o valor inicial
         if (count($aDadosSelect) == 1) {
             $sSelect .= "$('#" . $aDados[1] . "')"
                     . ".find('option')"
                     . ".end()"
-// .".append('<option value=\'$aDadosInicial[0]\'>$aDadosInicial[1]</option>')"
+                    // .".append('<option value=\'$aDadosInicial[0]\'>$aDadosInicial[1]</option>')"
                     . ".val('whatever');"
                     . "$('#select2-" . $aDados[1] . "-container')"
                     . "        .empty()"
@@ -2444,7 +2444,7 @@ class Controller {
                     . "            title:'$aDadosInicial[1]'"
                     . "         });"
                     . "$('#" . $aDados[0] . "').val(" . $aDadosInicial[0] . ");";
-//retira o primeiro elemento pois ja foi renderizado
+            //retira o primeiro elemento pois ja foi renderizado
             array_shift($aDadosSelect);
         }
 
@@ -2495,7 +2495,7 @@ class Controller {
         $iTipoLigacao = Persistencia::LIGACAO_AND;
         $iTipoComparacao = Persistencia::IGUAL;
         $this->Persistencia->adicionaFiltro($sCampoBanco, $sValorFiltro, $iTipoLigacao, $iTipoComparacao);
-//adiciona filtro adicionais se for necessário ou pode fazer validações
+        //adiciona filtro adicionais se for necessário ou pode fazer validações
         $this->antesValorBuscaPk();
 
 
@@ -2507,15 +2507,15 @@ class Controller {
             $sCampoRet = substr($sCampoBusca, strpos($sCampoBusca, ".") + 1);
             $sRetorno = str_replace("\n", "", $this->getValorModel($aModels[0], $sCampoRet));
 
-//monta a renderização do componente
+            //monta a renderização do componente
             $sRender = "$('#" . $sCampoRetorno . "').val('" . $sRetorno . "');";
             echo $sRender;
         } else {
 
             $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
-// $sRender.=$sMsgErro->getRender();
-// echo $sRender;
-//limpa campo descriçao
+            // $sRender.=$sMsgErro->getRender();
+            // echo $sRender;
+            //limpa campo descriçao
             $sLimpa = "$('#" . $sCampoRetorno . "').val('');";
             echo $sLimpa;
         }
@@ -2554,7 +2554,7 @@ class Controller {
         $iTipoComparacao = Persistencia::IGUAL;
         $this->Persistencia->adicionaFiltro($sCampoBanco, $sValorFiltro, $iTipoLigacao, $iTipoComparacao);
 
-//inclui os filtros adicionais definidos no controller específico
+        //inclui os filtros adicionais definidos no controller específico
         $this->adicionaFiltrosExtras();
 
         $sMetodoPersistencia = self::METODO_ARRAY_DADOS;
@@ -2563,10 +2563,10 @@ class Controller {
         if (count($aModels) > 0) {
             $sCampoRet = substr($sCampoBusca, strpos($sCampoBusca, ".") + 1);
             $sRetorno = str_replace("\n", "", $this->getValorModel($aModels[0], $sCampoRet));
-//monta a renderização do componente
+            //monta a renderização do componente
             $sRender = "$('#" . $sCampoRetorno . "')"
                     . ".find('option')"
-// .".remove()"
+                    // .".remove()"
                     . ".end()"
                     . ".append('<option value=\'$sValorFiltro\'>$sRetorno</option>')"
                     . ".val('whatever');"
@@ -2580,7 +2580,7 @@ class Controller {
         } else {
             $sRender = "$('#" . $sCampoRetorno . "')"
                     . ".find('option')"
-// .".remove()"
+                    // .".remove()"
                     . ".end()"
                     . ".append('<option value=\'\'></option>')"
                     . ".val('whatever');"
@@ -2594,7 +2594,7 @@ class Controller {
             $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
             $sRender .= $sMsgErro->getRender();
             echo $sRender;
-//$sRender = $sMsgErro->getRender();
+            //$sRender = $sMsgErro->getRender();
         }
     }
 
@@ -2605,7 +2605,7 @@ class Controller {
      * @param object $oFormGrid Objeto do tipo FormGrid
      */
     public function carregaDadosGridDetalhe($oFormGrid) {
-//carrega a chave do objeto mestre
+        //carrega a chave do objeto mestre
         $aChaveMestre = $this->Persistencia->getChaveArray();
 
         /*
@@ -2629,28 +2629,28 @@ class Controller {
             $this->ControllerDetalhe->Persistencia->adicionaFiltro($sNomeBanco, $xValor);
         }
 
-//monta a ordenação da consulta
+        //monta a ordenação da consulta
         foreach ($this->ControllerDetalhe->Persistencia->getChaveArray() as $oAtual) {
             $this->ControllerDetalhe->Persistencia->adicionaOrderBy($oAtual->getNomeBanco());
         }
 
-//caputura os campos do objeto
+        //caputura os campos do objeto
         $aCampos = $oFormGrid->getFieldSet()->getCampos();
 
-//carrega os dados do grid
+        //carrega os dados do grid
         $sMetodoPersistencia = self::METODO_ARRAY_DADOS;
         $aModels = $this->ControllerDetalhe->Persistencia->$sMetodoPersistencia();
 
-//carrega o array que conterá os registros do grid
+        //carrega o array que conterá os registros do grid
         $aDados = array();
         foreach ($aModels as $oAtual) {
             $aLinha = array(); //inicializa o vetor que conterá a linha atual
-//carrega os campos que serão mostrados na consulta
+            //carrega os campos que serão mostrados na consulta
             foreach ($aCampos as $campoAtual) {
                 if ($campoAtual->getCamposCalculo() == null) {
                     $aLinha[str_replace('.', '_', $campoAtual->getNome())] = utf8_encode(str_replace("\n", "", $this->getValorModel($oAtual, $campoAtual->getNome())));
 
-//carrega a descrição do campo tipo select quando definido o campo da descrição
+                    //carrega a descrição do campo tipo select quando definido o campo da descrição
                     if ($campoAtual->getValorTipo() === Campo::TIPO_SELECT) {
                         if ($campoAtual->getCampoDescricao() != null) {
                             $sCampoTextoCombo = $campoAtual->getCampoDescricao();
@@ -2873,14 +2873,14 @@ class Controller {
         $aDados = explode(',', $sDados);
         $aCampos = explode(',', $sCampos);
         $this->parametros = $aCampos;
-//retorno model com os dados da consulta
+        //retorno model com os dados da consulta
         $this->pkDetalhe($aCampos);
 
         $this->View->setSIdHideEtapa($aDados[4]);
 
         $this->adicionaFiltrosExtras();
 
-//seta ids da tela 
+        //seta ids da tela 
         $this->View->setSIdsTelas($aDados);
         if ($aDados[6] == 'acaoVisualizar' || $aDados[7] == 'acaoVisualizar') {
             $this->View->setSRotina(View::ACAO_VISUALIZAR);
@@ -2892,15 +2892,15 @@ class Controller {
         $this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
-//define o retorno somente do form
+        //define o retorno somente do form
         $this->View->getTela()->setBSomanteForm(true);
-//função autoincremento
-//$this->funcoesAutoIncremento();
-//adiciona botões na tela de detalhe
+        //função autoincremento
+        //$this->funcoesAutoIncremento();
+        //adiciona botões na tela de detalhe
         $this->View->adicionaBotoesDet($aDados[2], $aDados[0], $aDados[4], $aDados[5], $aDados[1]);
 
 
-//seta o controler na view
+        //seta o controler na view
         $this->View->setTelaController($this->View->getController());
         $this->View->getTela()->getRender();
     }
@@ -2916,9 +2916,9 @@ class Controller {
 
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
-//define o retorno somente do form
+        //define o retorno somente do form
         $this->View->getTela()->setBSomanteForm(true);
-//seta o controler na view
+        //seta o controler na view
         $this->View->setTelaController($this->View->getController());
         $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe());
         $this->View->getTela()->getRender();
@@ -2942,8 +2942,8 @@ class Controller {
         $sGrid = $aDados[1] . 'consulta';
         $sCampoInc = $aDados[2];
         $this->Persistencia->iniciaTransacao();
-// $this->Persistencia->lim
-//array de controle de erros
+        // $this->Persistencia->lim
+        //array de controle de erros
         $aRetorno[0] = true;
         $this->antesDeCriarTela();
         $this->View->criaTela();
@@ -2965,46 +2965,46 @@ class Controller {
             $this->Persistencia->commit();
             $this->afterCommitInsert();
         }
-//muda variável de controle para alterar
+        //muda variável de controle para alterar
         $setAlt = "$('#" . $aDados[6] . "').val('alterar');";
         echo $setAlt;
-//instancia a classe mensagem
+        //instancia a classe mensagem
         if ($aRetorno[0]) {
             $oMsg = new Mensagem('Sucesso!', 'Registro inserido com sucesso...', Mensagem::TIPO_SUCESSO);
             echo $oMsg->getRender();
-//Atualiza o Grid
-//   $this->getDadosConsulta($aDados[1],false,null);
+            //Atualiza o Grid
+            //   $this->getDadosConsulta($aDados[1],false,null);
             echo"$('#" . $aDados[1] . "-pesq').click();";
-//chama o método para zerar os campos do form se não for detalhe
+            //chama o método para zerar os campos do form se não for detalhe
             if (!$bDetalhe) {
-//limpa uploads se necessário
+                //limpa uploads se necessário
                 $this->limpaUploads($aDados);
                 $oLimpa = new Base();
-//retorna aut incremento
+                //retorna aut incremento
                 $iAutoInc = $this->retornaValuInc();
-//monta a mensagem
+                //monta a mensagem
                 $msg = "" . $oLimpa->limpaForm($sForm) . ""
                         . "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
                 echo $msg;
 
-//chama método após limpar os forms dos campos
+                //chama método após limpar os forms dos campos
                 $this->afterResetForm($aDados);
 
-//verifica se o campo precisa ser fechado após dar um confirma
+                //verifica se o campo precisa ser fechado após dar um confirma
                 if ($this->View->getTela()->getBFecharTelaIncluir()) {
-//BASE PARA FECHAR
+                    //BASE PARA FECHAR
                     $oBase = new Base();
-//provisório para fechar a tela
+                    //provisório para fechar a tela
                     $msg .= "$('#" . $sForm . "-msg').append('<script>" . $oBase->fechaForm($sForm) . '' . $oBase->openGrid($sGrid) . "</script>');";
                     echo $msg;
                 }
             }
-//se for detalhe muda posição da etapa
+            //se for detalhe muda posição da etapa
             if ($bDetalhe) {
                 $oEtapa = new Base();
                 $sNextEtapa = $oEtapa->nextEtapa($aDados[2], $aDados[3]);
                 echo $sNextEtapa;
-//da um hide no form
+                //da um hide no form
                 $sFormHide = $oEtapa->formhide($aDados[0]);
                 echo $sFormHide;
             }
@@ -3014,13 +3014,13 @@ class Controller {
             echo $oMsg->getRender();
         }
 
-//se for detalhe vai renderizar a tela de detalhe
+        //se for detalhe vai renderizar a tela de detalhe
         if ($bDetalhe) {
             $sClasseDetalhe = $this->getControllerDetalhe();
             $sMetodoDetalhe = $this->getSMetodoDetalhe();
-//método para capturar campos para levar para outra etapa, geralmente pk e informativos
+            //método para capturar campos para levar para outra etapa, geralmente pk e informativos
             $sCampos = implode(',', $this->montaProxEtapa());
-//passa id da etapa,id do processo,id do form,valor chavepk
+            //passa id da etapa,id do processo,id do form,valor chavepk
             echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . ',' . $aDados[7] . '","' . $sCampos . '");';
         }
     }
@@ -3033,18 +3033,18 @@ class Controller {
         $this->parametros = $sCampos;
         $sForm = $aDados[0];
         $sCampoInc = $aDados[1];
-//adiciona filtros extras
+        //adiciona filtros extras
         $this->adicionaFiltrosExtras();
-//necessidade de colocar novos filtros mas limpa os anteriores
+        //necessidade de colocar novos filtros mas limpa os anteriores
         $this->adicionaFiltroDet2();
 
 
         $this->Persistencia->iniciaTransacao();
 
-//array de controle de erros
+        //array de controle de erros
         $aRetorno[0] = true;
 
-//traz lista campos
+        //traz lista campos
         $this->View->criaTela();
         $aCamposTela = $this->View->getTela()->getCampos();
 
@@ -3064,18 +3064,18 @@ class Controller {
         if ($aRetorno[0]) {
             $aRetorno = $this->afterInsertDetalhe();
         }
-//instancia a classe mensagem
+        //instancia a classe mensagem
         if ($aRetorno[0]) {
             $oMsg = new Mensagem('INSERIDO COM SUCESSO', 'Seu registro foi inserido!', Mensagem::TIPO_SUCESSO);
-//chama o método para zerar os campos do form se não for detalhe
-//Limpar o form é tratado na controller filhos
+            //chama o método para zerar os campos do form se não for detalhe
+            //Limpar o form é tratado na controller filhos
             $this->acaoLimpar($sForm, $sCampos);
-//método que executa após limpar
+            //método que executa após limpar
             $this->afterResetForm($sDados);
 
-//retorna aut incremento
+            //retorna aut incremento
             $iAutoInc = $this->retornaValuInc();
-//monta a mensagem
+            //monta a mensagem
 
             $msg = "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
             echo $msg;
@@ -3085,7 +3085,7 @@ class Controller {
             echo $oFocus->focus($aDados[3]);
 
 
-//monta os filtros
+            //monta os filtros
         } else {
             $oMsg = new Mensagem('ERRO AO INSERIR', 'Seu registro não foi inserido!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
@@ -3101,9 +3101,9 @@ class Controller {
         $sForm = $aDados[0];
         $sCampoInc = $aDados[1];
         $aRetorno[0] = true;
-//adiciona filtros extras
+        //adiciona filtros extras
         $this->adicionaFiltrosExtras();
-//necessidade de colocar novos filtros mas limpa os anteriores
+        //necessidade de colocar novos filtros mas limpa os anteriores
         $this->adicionaFiltroDet2();
 
         $this->Persistencia->iniciaTransacao();
@@ -3116,10 +3116,10 @@ class Controller {
         }
 
         $this->Model = $this->Persistencia->consultar();
-//cria a tela
+        //cria a tela
         $this->View->criaTela();
 
-//traz lista campos
+        //traz lista campos
         $aCamposTela = $this->View->getTela()->getCampos();
 
         $this->carregaModel($aCamposTela);
@@ -3146,31 +3146,31 @@ class Controller {
             $aRetorno = $this->afterAlterarDetalhe();
         }
 
-//instancia a classe mensagem
+        //instancia a classe mensagem
         if ($aRetorno[0]) {
             $oMsg = new Mensagem('ALTERADO COM SUCESSO', 'Seu registro foi inserido!', Mensagem::TIPO_INFO);
-//chama o método para zerar os campos do form se não for detalhe
+            //chama o método para zerar os campos do form se não for detalhe
 
             $this->acaoLimpar($sForm, $sCampos);
 
-//funcao após limpar o form
+            //funcao após limpar o form
             $this->afterResetForm($sId);
 
-//retorna aut incremento
+            //retorna aut incremento
             $iAutoInc = $this->retornaValuInc();
-//monta a mensagem
-//$msg ="".$oLimpa->limpaFormDetail($sForm).""
+            //monta a mensagem
+            //$msg ="".$oLimpa->limpaFormDetail($sForm).""
             $msg = "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
             echo $msg;
             echo $oMsg->getRender();
             $this->getDadosConsulta($aDados[2], TRUE, null);
-//gera a atualização do grid
-//monta os filtros
+            //gera a atualização do grid
+            //monta os filtros
         } else {
             $oMsg = new Mensagem('ERRO AO INSERIR', 'Seu registro não foi inserido!', Mensagem::TIPO_ERROR);
         }
 
-//adiciona filtros extras
+        //adiciona filtros extras
         /*  $this->adicionaFiltrosExtras();
           $this->Persistencia->iniciaTransacao();
 
@@ -3218,7 +3218,7 @@ class Controller {
      * principal possa executar a inclusão
      */
     public function acaoIncluirDependencias() {
-//array de controle de erros
+        //array de controle de erros
         $aRetorno[0] = true;
 
         foreach ($this->getControllerDependente() as $oController) {
@@ -3230,13 +3230,13 @@ class Controller {
                     break;
                 }
 
-//insere o registro no banco de dados
+                //insere o registro no banco de dados
                 $aRetorno = $oController['controller']->Persistencia->inserir();
                 if (!$aRetorno[0]) {
                     break;
                 }
 
-//carrega o objeto no controlador principal
+                //carrega o objeto no controlador principal
                 $sMetodoSetter = Fabrica::montaSetter($oController['campoModelPrincipal']);
                 $this->Model->$sMetodoSetter($oController['controller']->Model);
 
@@ -3259,7 +3259,7 @@ class Controller {
      * @return array Array contendo as informações sobre a execução das operações
      */
     public function acaoIncluirDetalhe() {
-//carrega a chave do objeto mestre
+        //carrega a chave do objeto mestre
         $aChaveMestre = $this->Persistencia->getChaveArray();
 
         if ($this->View->getRotina() === View::ROTINA_INCLUIR) {
@@ -3276,7 +3276,7 @@ class Controller {
                 }
             }
 
-//busca o último registro inserido na tabela mestre 
+            //busca o último registro inserido na tabela mestre 
             $oUltimo = $this->Persistencia->getUltimo($aColunas);
         }
 
@@ -3301,22 +3301,22 @@ class Controller {
             $this->ControllerDetalhe->Persistencia->adicionaFiltro($sNomeBanco, $xValor);
         }
 
-//carrega os registros de detalhamento
+        //carrega os registros de detalhamento
         $aRecords = json_decode($_REQUEST['records'], true);
 
-//array de controle de erros
+        //array de controle de erros
         $aRetorno[0] = true;
 
-//loop de gravação dos registros secundários
+        //loop de gravação dos registros secundários
         foreach ($aRecords as $oRecord) {
-//se necessario muda o $oRecord
+            //se necessario muda o $oRecord
             $oRecord = $this->manipulaDetalhe($oRecord);
-//carrega as informações do objeto de detalhamento
+            //carrega as informações do objeto de detalhamento
             $this->carregaModelArray($oRecord, true);
 
             $aRetorno = $this->ControllerDetalhe->Persistencia->inserir();
 
-//se ocorrer erro para a execução do laço
+            //se ocorrer erro para a execução do laço
             if (!$aRetorno[0]) {
                 break;
             }
@@ -3338,11 +3338,11 @@ class Controller {
         $aRetorno[0] = true;
 
         $this->antesDeCriarTela();
-//cria a tela
+        //cria a tela
         $this->View->criaTela();
 
 
-//traz lista campos
+        //traz lista campos
         $aCamposTela = $this->View->getTela()->getCampos();
 
         if ($this->View->getBGravaHistoricoAlterar() == true) {
@@ -3355,14 +3355,14 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
             }
         }
         $this->Model = $this->Persistencia->consultar();
         $this->antesCarregarModel();
         $this->carregaModel($aCamposTela);
 
-//alterar dependências
+        //alterar dependências
         $aRetorno = $this->acaoAlterarDependencias();
 
         if ($aRetorno[0]) {
@@ -3388,37 +3388,37 @@ class Controller {
                 $sAcoesExtras = $aRetorno[2];
             }
             if (!$this->View->getBTela()) {
-//BASE PARA FECHAR
+                //BASE PARA FECHAR
                 $oBase = new Base();
-//provisório para fechar a tela
+                //provisório para fechar a tela
                 $msg .= "$('#" . $sForm . "-msg').append('<script>" . $oBase->fechaForm($sForm) . '' . $oBase->openGrid($sGrid) . "</script>');";
                 echo $msg;
             }
-//MENSAGEM SUCESSO
+            //MENSAGEM SUCESSO
             $oMsg = new Mensagem('Sucesso!', 'Seu registro foi alterado com sucesso...', Mensagem::TIPO_SUCESSO);
             echo $oMsg->getRender();
 
 
-//Atualiza o Grid se não for detalhe
-// if(!$bDetalhe){
-// echo $oBase->sendFiltro($aDados[1],  $this->View->getController());
+            //Atualiza o Grid se não for detalhe
+            // if(!$bDetalhe){
+            // echo $oBase->sendFiltro($aDados[1],  $this->View->getController());
             echo"$('#" . $aDados[1] . "-pesq').click();";
-//  }
+            //  }
 
 
             if ($bDetalhe) {
                 $oEtapa = new Base();
                 $sNextEtapa = $oEtapa->nextEtapa($aDados[2], $aDados[3]);
                 echo $sNextEtapa;
-//da um hide no form
+                //da um hide no form
                 $sFormHide = $oEtapa->formhide($aDados[0]);
                 echo $sFormHide;
-//chama o método para criar as outra tela
+                //chama o método para criar as outra tela
                 $sClasseDetalhe = $this->getControllerDetalhe();
                 $sMetodoDetalhe = $this->getSMetodoDetalhe();
-//método para capturar campos para levar para outra etapa, geralmente pk e informativos
+                //método para capturar campos para levar para outra etapa, geralmente pk e informativos
                 $sCampos = implode(',', $this->montaProxEtapa());
-//passa id da etapa,id do processo,id do form,valor chavepk,aba
+                //passa id da etapa,id do processo,id do form,valor chavepk,aba
 
                 echo 'requestAjax("","' . $sClasseDetalhe . '","' . $sMetodoDetalhe . '","' . $aDados[2] . ',' . $aDados[3] . ',' . $aDados[0] . ',' . $aDados[4] . ',' . $aDados[5] . ',' . $aDados[1] . ',' . $aDados[7] . '","' . $sCampos . '");';
             }
@@ -3427,7 +3427,6 @@ class Controller {
             $oMsg = new Mensagem('Erro!', 'Seu registro não foi alterado.', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
         }
-
         /*
          *  $msg ="$('#".$sId."-msg').append('".$oMsg->getRender()."');"
           ."".$oMsg->getSId()."();"
@@ -3440,7 +3439,7 @@ class Controller {
      * principal
      */
     public function acaoAlterarDependencias() {
-//array de controle de erros
+        //array de controle de erros
         $aRetorno[0] = true;
 
         foreach ($this->getControllerDependente() as $oController) {
@@ -3450,7 +3449,7 @@ class Controller {
                 $sMetodoGetter = Fabrica::montaGetter($oController['campoModelPrincipal']);
                 $oModel = $this->Model->$sMetodoGetter();
 
-//carrega a chave do objeto do controlador principal
+                //carrega a chave do objeto do controlador principal
                 $aChave = $oController['controller']->Persistencia->getChaveArray();
 
                 $bExiste = true;
@@ -3470,14 +3469,14 @@ class Controller {
                     }
                 }
 
-//checa se o registro já existe para alterar
+                //checa se o registro já existe para alterar
                 if ($bExiste) {
                     $aRetorno = $oController['controller']->beforeUpdate();
                     if (!$aRetorno[0]) {
                         break;
                     }
 
-//atualiza o registro no banco de dados
+                    //atualiza o registro no banco de dados
                     $aRetorno = $oController['controller']->Persistencia->alterar();
                     if (!$aRetorno[0]) {
                         break;
@@ -3493,13 +3492,13 @@ class Controller {
                         break;
                     }
 
-//insere o registro no banco de dados
+                    //insere o registro no banco de dados
                     $aRetorno = $oController['controller']->Persistencia->inserir();
                     if (!$aRetorno[0]) {
                         break;
                     }
 
-//carrega o objeto no controlador principal
+                    //carrega o objeto no controlador principal
                     $sMetodoSetter = Fabrica::montaSetter($oController['campoModelPrincipal']);
                     $this->Model->$sMetodoSetter($oController['controller']->Model);
 
@@ -3524,7 +3523,7 @@ class Controller {
         $sDados .= ',' . implode(',', $aChaves);
 
 
-        $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item (ou itens)?', Modal:: TIPO_ERRO, true, true, true);
+        $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item (ou itens)?', Modal::TIPO_ERRO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $this->getNomeClasse() . '","acaoExcluirRegDet","' . $sDados . '");');
 
         echo $oMensagem->getRender();
@@ -3555,14 +3554,14 @@ class Controller {
             }
 
             if ($aRetorno[0]) {
-//remove os registros de dependência
+                //remove os registros de dependência
                 $aRetorno = $this->acaoExcluirDependencias();
             }
 
             if (!$aRetorno[0]) {
                 break;
             }
-//se necessário adiciona filtro de reload
+            //se necessário adiciona filtro de reload
             $this->filtroReload($sChave);
 
             if ($aRetorno[0]) {
@@ -3570,7 +3569,7 @@ class Controller {
 
                 $aRetorno = $this->afterCommitDelete();
 
-// Retorna Mensagem Informando o Sucesso da Exlusão do registro
+                // Retorna Mensagem Informando o Sucesso da Exlusão do registro
                 $oMensagemSucesso = new Mensagem('Sucesso!', 'Seu registro foi deletado...', Mensagem::TIPO_SUCESSO);
                 echo $oMensagemSucesso->getRender();
                 $this->getDadosConsulta($idGrid, false, null);
@@ -3597,7 +3596,7 @@ class Controller {
         $this->antesExcluir($aCamposChave);
 
 
-        $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item?', Modal:: TIPO_ERRO, true, true, true);
+        $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item?', Modal::TIPO_ERRO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","acaoExcluirRegistro","' . $sDados . '");');
 
         echo $oMensagem->getRender();
@@ -3609,7 +3608,7 @@ class Controller {
         $aRetorno[0] = true;
         $sChave = htmlspecialchars_decode($aDados[0]);
         $aChave = explode(',', $sChave);
-//armazena parametros no param para recuperá-los se necessários
+        //armazena parametros no param para recuperá-los se necessários
         $this->parametros = $aChave;
 
 
@@ -3638,14 +3637,14 @@ class Controller {
             }
 
             if ($aRetorno[0]) {
-//remove os registros de dependência
+                //remove os registros de dependência
                 $aRetorno = $this->acaoExcluirDependencias();
             }
 
             if (!$aRetorno[0]) {
                 break;
             }
-//se necessário adiciona filtro de reload
+            //se necessário adiciona filtro de reload
             $this->filtroReload($aChave[0]);
         }
 
@@ -3654,13 +3653,13 @@ class Controller {
 
             $aRetorno = $this->afterCommitDelete();
 
-// Retorna Mensagem Informando o Sucesso da Exlusão do registro
+            // Retorna Mensagem Informando o Sucesso da Exlusão do registro
             $oMensagemSucesso = new Mensagem('Sucesso!', 'Seu registro foi deletado...', Mensagem::TIPO_SUCESSO);
             echo $oMensagemSucesso->getRender();
 
-//Atualiza o Grid
+            //Atualiza o Grid
             $this->getDadosConsulta($aDados[1], false, null);
-// echo"$('#".$aDados[1]."-pesq').click();";
+            // echo"$('#".$aDados[1]."-pesq').click();";
         } else {
             $oMensagemErro = new Mensagem('Falha', 'O registro não foi excluído!', Mensagem::TIPO_ERROR);
             echo $oMensagemErro->getRender();
@@ -3672,7 +3671,7 @@ class Controller {
      * principal
      */
     public function acaoExcluirDependencias() {
-//array de controle de erros
+        //array de controle de erros
         $aRetorno[0] = true;
 
         foreach ($this->getControllerDependente() as $oController) {
@@ -3697,7 +3696,7 @@ class Controller {
             }
 
             if ($bChaveSetada) {
-//remove o registro no banco de dados
+                //remove o registro no banco de dados
                 $aRetorno = $oController['controller']->Persistencia->excluir(true);
                 if (!$aRetorno[0]) {
                     break;
@@ -3714,7 +3713,7 @@ class Controller {
      * @return array Array contendo as informações sobre a execução das operações
      */
     public function acaoExcluirDetalhe() {
-//carrega a chave do objeto mestre
+        //carrega a chave do objeto mestre
         $aChaveMestre = $this->Persistencia->getChaveArray();
 
         /*
@@ -3751,7 +3750,7 @@ class Controller {
      * @param boolean $sReplaceBr Indica se deve substituir a tag <br> por \n
      */
     public function adicionaJSON($sConteudo, $sTipo = 'render', $sReplaceBr = true) {
-//remove possíveis quebras na string de renderização
+        //remove possíveis quebras na string de renderização
         $sConteudo = str_replace("\n\r", "", $sConteudo);
         $sConteudo = str_replace("\n", "", $sConteudo);
         $sConteudo = str_replace("\r", "", $sConteudo);
@@ -3759,7 +3758,7 @@ class Controller {
         $fp = fopen("bloco1.txt", "w");
         fwrite($fp, $sConteudo);
         fclose($fp);
-//substitui os elementos <br> contidos nos valores dos campos por \n 
+        //substitui os elementos <br> contidos nos valores dos campos por \n 
         if ($sReplaceBr) {
             $sConteudo = str_replace("<br>", "\\n", $sConteudo);
         }
@@ -3841,13 +3840,13 @@ class Controller {
             $aDados[] = array($xValor, $xConteudo);
         }
 
-//Obtem a lista da colunas de valores
+        //Obtem a lista da colunas de valores
         $aConteudo = array();
         foreach ($aDados as $key => $row) {
             $aConteudo[$key] = strtolower($row[1]);
         }
 
-//realiza a ordenação de forma crescente com base na coluna dos conteúdos
+        //realiza a ordenação de forma crescente com base na coluna dos conteúdos
         if ($bOrdena) {
             array_multisort($aConteudo, SORT_ASC, $aDados);
         }
@@ -3915,7 +3914,7 @@ class Controller {
      * Método que retorna o valor do campo autoincremento
      */
     public function retornaValuInc() {
-//busca os campos do banco que são autoincremento
+        //busca os campos do banco que são autoincremento
         $aAuto = $this->Persistencia->getAutoIncrementoArray();
         foreach ($aAuto as $key => $oAuto) {
             $iValor = $this->Persistencia->getIncremento($oAuto->getNomeBanco(), true);
@@ -3933,7 +3932,7 @@ class Controller {
      */
     public function formatacaoCondicional($Valor, $aComparativo) {
         foreach ($aComparativo as $aCompAtual) {
-// Comparação do tipo igual  
+            // Comparação do tipo igual  
             if ($aCompAtual['tipo'] == 0) {
                 if ($Valor == $aCompAtual['valor']) {
                     $aRetorno[0] = true;
@@ -3942,7 +3941,7 @@ class Controller {
                     $aRetorno[0] = false;
                 }
             }
-// Comparação do tipo maior
+            // Comparação do tipo maior
             if ($aCompAtual['tipo'] == 1) {
                 if ($Valor > $aCompAtual['valor']) {
                     $aRetorno[0] = true;
@@ -3951,7 +3950,7 @@ class Controller {
                     $aRetorno[0] = false;
                 }
             }
-// Comparação do tipo menor
+            // Comparação do tipo menor
             if ($aCompAtual['tipo'] == 2) {
                 if ($Valor < $aCompAtual['valor']) {
                     $aRetorno[0] = true;
@@ -3960,7 +3959,7 @@ class Controller {
                     $aRetorno[0] = false;
                 }
             }
-// Comparação do tipo diferente
+            // Comparação do tipo diferente
             if ($aCompAtual['tipo'] == 3) {
                 if ($Valor <> $aCompAtual['valor']) {
                     $aRetorno[0] = true;
@@ -4042,18 +4041,18 @@ class Controller {
             }
         }
 
-//setar o valor do campo busca
+        //setar o valor do campo busca
 
-        if (($oCampo->getClasseBusca() != null ) && ($oCampo->getITipo() !== Campo::TIPO_BUSCADOBANCOPK ) && ($oCampo->getITipo() !== Campo::TIPO_BUSCADOBANCO)) {
+        if (($oCampo->getClasseBusca() != null) && ($oCampo->getITipo() !== Campo::TIPO_BUSCADOBANCOPK) && ($oCampo->getITipo() !== Campo::TIPO_BUSCADOBANCO)) {
             $aCampoBusca = $oCampo->getCampoBusca(0);
             $sClasseBusca = $oCampo->getClasseBusca();
             $xValorBusca = str_replace("\n", "<br>", $this->getValorModel($this->Model, $oCampo->getClasseBusca() . '.' . $aCampoBusca[0]));
             $oCampo->setSValorCampoBusca($xValorBusca);
         }
-//se o campo for do tipo arquivo, carrega as minuaturas
+        //se o campo for do tipo arquivo, carrega as minuaturas
         if (method_exists($oCampo, 'getValorTipo') && $oCampo->getValorTipo() === Campo::TIPO_ARQUIVO) {
             if ($oCampo->getUploadMultiplo()) {
-//TODO
+                //TODO
             } else {
                 $oArquivo = $this->getModel($this->Model, $oCampo->getNome());
 
@@ -4064,7 +4063,7 @@ class Controller {
             }
         }
 
-//$this->carregaValorCamposBusca($oCampo);// VERIFICAR MUITO IMPORTANTE
+        //$this->carregaValorCamposBusca($oCampo);// VERIFICAR MUITO IMPORTANTE
     }
 
     public function pkDetalhe($aChave) {
@@ -4131,9 +4130,9 @@ class Controller {
                 }
                 if ($sValor !== 'semModel') {
                     if (Util::ValidaData(Util::converteData($sValor))) {
-//altera valor de / para tipo dataSql
+                        //altera valor de / para tipo dataSql
                         $sValorCampo = Util::converteData($sValor);
-//setValor no campo data
+                        //setValor no campo data
                         $sValor = $sValorCampo;
                     } else {
                         $sValor = str_replace("\n", " ", $sValor);
@@ -4223,7 +4222,7 @@ class Controller {
                 $sRetorno = str_replace("'", '"', $str);
             } else {
                 $sRetorno = str_replace("'", "''", $str);
-//$value = str_replace( '"', '""', $str );
+                //$value = str_replace( '"', '""', $str );
             }
         }
 
@@ -4347,7 +4346,7 @@ class Controller {
      * Método responsável para gerar mensagem de registro nao selecionado
      */
     public function msgReg($sValor) {
-        $oMensagem = new Modal('Selecione um registro', 'Clique em um registro do grid para concluir sua operação!', Modal:: TIPO_AVISO, false, true, true);
+        $oMensagem = new Modal('Selecione um registro', 'Clique em um registro do grid para concluir sua operação!', Modal::TIPO_AVISO, false, true, true);
         echo $oMensagem->getRender();
     }
 
@@ -4464,7 +4463,8 @@ class Controller {
 
     /*
      * Método para ser sobscrito antes de criar tela de visualização de relatório
-     * **/
+     * * */
+
     public function beforeMostraRelConsulta($sParametros) {
         
     }
