@@ -10,8 +10,8 @@ use NFePHP\DA\NFe\Danfe;
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
-//$sSql = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '" . date('d/m/Y') . "' and '" . date('d/m/Y') . "' and nfsnfesit = 'A' and nfsemailen <> 'S'";
-$sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '28/02/2020' and '28/02/2020' and nfsnfesit = 'A' and nfsemailen <> 'S'";
+$sSqlNF = "select top 10 nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '" . date('d/m/Y') . "' and '" . date('d/m/Y') . "' and nfsnfesit = 'A' and nfsemailen <> 'S'";
+//$sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '04/03/2020' and '04/03/2020' and nfsnfesit = 'A' and nfsemailen <> 'S'";
 $sth = $PDO->query($sSqlNF);
 while ($aRow = $sth->fetch(PDO::FETCH_ASSOC)) {
 
@@ -66,6 +66,7 @@ while ($aRow = $sth->fetch(PDO::FETCH_ASSOC)) {
     //cria log com erro de envio
     //cria log caso enviado mas erro ao alterar situação de envio
     updates($aRetorno, $aDados, $aDadosNF, $PDO);
+    sleep(5);
 }
 
 ///////////////////////////////////////////////// métodos adicionais////////////////////////////////////////////////////////
@@ -80,16 +81,12 @@ function buscaDirXML($aDadosNF, $aDados) {
     $sData = date('d/m/Y', strtotime($aDadosNF['nfsdtemiss']));
     $aPastasDir = explode('/', $sData);
 
-    //Ano e mês
+    //Dir = Ano-mês/dia
     $sDir = $sDir . '\\' . $aPastasDir[2] . '-' . $aPastasDir[1] . '\\' . $aPastasDir[0] . '\\Proc';
 
     $sSit = $aDadosNF['nfsnfesit'];
-    if ($sSit == 'A') {
-        $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-nfeProc.xml';
-    }
-    if ($sSit == 'C') {
-        $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-CancProc.xml';
-    }
+
+    $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-nfeProc.xml';
 
     return $sDir;
 }
@@ -128,6 +125,7 @@ function output($name, $pdf) {
         $f = fopen($name, 'w');
         if (!$f) {
             $this->error('Unable to create output file: ' . $name);
+            exit;
         }
         fwrite($f, $pdf);
         fclose($f);
@@ -177,12 +175,12 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
 
 function updates($aRetorno, $aDados, $aDadosNF, $PDO) {
     if ($aRetorno[0]) {
-        $sSqlTagENV = "update Widl.NFC001 set NfsEmailEn = 'S' where nfsnfnro = " . $aDados[1] . " and nfsclicgc = " . $aDadosNF['nfsclicgc'] . "";
-        $logXml = $PDO->exec($sSqlTagENV);
-        if ($logXml == false) {
-            $sSqlLogXml = "insert into MET_TEC_LogXml (filcgc,nf,datalog,horalog,logxml,tipolog)values('" . $aDados[0] . "','" . $aDados[1] . "','" . date('d-m-Y') . "','" . date('H:i') . "','ERRO SQL UPDATE SITUAÇÃO DE ENVIO EMAIL','SQL')";
-            $debug = $PDO->exec($sSqlLogXml);
-        }
+        //$sSqlTagENV = "update Widl.NFC001 set NfsEmailEn = 'S' where nfsnfnro = " . $aDados[1] . " and nfsclicgc = " . $aDadosNF['nfsclicgc'] . "";
+        //$logXml = $PDO->exec($sSqlTagENV);
+        //if ($logXml == false) {
+           // $sSqlLogXml = "insert into MET_TEC_LogXml (filcgc,nf,datalog,horalog,logxml,tipolog)values('" . $aDados[0] . "','" . $aDados[1] . "','" . date('d-m-Y') . "','" . date('H:i') . "','ERRO SQL UPDATE SITUAÇÃO DE ENVIO EMAIL','SQL')";
+           // $debug = $PDO->exec($sSqlLogXml);
+        //}
     } else {
         $sSqlLogXml = "insert into MET_TEC_LogXml (filcgc,nf,datalog,horalog,logxml,tipolog)values('" . $aDados[0] . "','" . $aDados[1] . "','" . date('d-m-Y') . "','" . date('H:i') . "','ERRO ENVIO E-MAIL: " . $aRetorno[1] . "','EMAIL')";
         $debug = $PDO->exec($sSqlLogXml);

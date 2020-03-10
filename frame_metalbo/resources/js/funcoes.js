@@ -1219,7 +1219,7 @@ function buscaCNPJ(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
 /**
  * funçao para chamar json com dados do CNPJ
  */
-function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, idIBGE, sClasse) {
+function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, idIBGE, sClasse, sNrSeq) {
     if (sEmpcod !== '') {
         $.ajax({
             type: 'REQUEST',
@@ -1252,8 +1252,9 @@ function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idC
                     var nr = numero;
 
                     var ids = idCNPJ + '|' + idEmpdes + '|' + idEmpfant + '|' + idEmpfone + '|' + idEmail + '|' + idCep + '|' + idMunicipio + '|' + idEndereco + '|' + idUf + '|' + idBairro + '|' + idComplemento + '|' + idNr + '|' + idIBGE;
-                    var valores = sEmpcod + '|' + empdes + '|' + empfant + '|' + empfone + '|' + email + '|' + cep + '|' + municipio + '|' + endereco + '|' + uf + '|' + bairro + '|' + complemento + '|' + nr;
+                    var valores = sEmpcod + '|' + empdes + '|' + empfant + '|' + empfone + '|' + email + '|' + cep + '|' + municipio + '|' + endereco + '|' + uf + '|' + bairro + '|' + complemento + '|' + nr + '|' + sNrSeq;
 
+                    console.log(valores);
                     requestAjax("", sClasse, 'getCNPJ', valores + '*' + ids);
 
                 }
@@ -1266,7 +1267,7 @@ function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idC
 }
 
 
-function buscaIBGE(sClasse, municipio, ufIBGE, idCampo) {
+function buscaIBGE(sClasse, municipio, ufIBGE, idCampo, sNrSeq) {
     var municipioIBGE = municipio.replace(/\s/g, "-");
     var codIBGE = [];
     $.getJSON('https://servicodados.ibge.gov.br/api/v1/localidades/municipios/' + municipioIBGE + '', function (result) {
@@ -1279,8 +1280,11 @@ function buscaIBGE(sClasse, municipio, ufIBGE, idCampo) {
         } else {
             codIBGE.push(result.id);
         }
-        console.log(codIBGE[0]);
-        requestAjax("", sClasse, 'codigoIBGE', codIBGE[0] + '|' + idCampo);
+
+        if (codIBGE[0] === '' || codIBGE[0] === null) {
+            codIBGE[0] = 'VAZIO';
+        }
+        requestAjax("", sClasse, 'codigoIBGE', codIBGE[0] + '|' + idCampo + '|' + sNrSeq);
     });
 }
 

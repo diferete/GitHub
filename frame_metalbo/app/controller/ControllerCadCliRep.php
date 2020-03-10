@@ -176,7 +176,7 @@ class ControllerCadCliRep extends Controller {
     }
 
     public function enviaEmailMetalbo($sNr) {
-       $oEmail = new Email();
+        $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
         $oEmail->setServidor(Config::SERVER_SMTP);
@@ -185,7 +185,7 @@ class ControllerCadCliRep extends Controller {
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
         $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER),utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $this->Persistencia->adicionafiltro('nr', $sNr);
         $oRow = $this->Persistencia->consultarWhere();
@@ -239,8 +239,8 @@ class ControllerCadCliRep extends Controller {
         $aDadosEMP = explode('|', $aDados[0]);
         $aIdCampos = explode('|', $aDados[1]);
         if ($aDadosEMP[0] != '') {
-            $sRet = $this->Persistencia->buscaCNPJ($aDadosEMP[0]);
-            if ($sRet == false) {
+            $bRet = true; //$this->Persistencia->buscaCNPJ($aDadosEMP[0]);
+            if ($bRet == false) {
                 $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
             } else {
@@ -264,7 +264,7 @@ class ControllerCadCliRep extends Controller {
                     echo $oMsg->getRender();
                 }
 
-                echo 'buscaIBGE("CadCliRep","' . Util::removeAcentos($aDadosEMP[6]) . '","' . $aDadosEMP[8] . '","' . $aIdCampos[12] . '");';
+                echo 'buscaIBGE("CadCliRep","' . Util::removeAcentos($aDadosEMP[6]) . '","' . $aDadosEMP[8] . '","' . $aIdCampos[12] . '","' . $aDadosEMP[12] . '");';
             }
         } else {
             exit;
@@ -288,7 +288,11 @@ class ControllerCadCliRep extends Controller {
 
     public function codigoIBGE($sDados) {
         $aDados = explode('|', $sDados);
-        $script = '$("#' . $aDados[1] . '").val(' . $aDados[0] . ');';
+        if ($aDados[0] == 'VAZIO') {
+            $this->Persistencia->gravaHistorico($aDados[2]);
+        }
+        $script = "$('#" . $aDados[1] . "' ).val('" . $aDados[0] . "' );";
+        echo 'console.log(' . $aDados[0] . ');';
         echo $script;
     }
 

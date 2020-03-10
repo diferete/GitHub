@@ -90,12 +90,9 @@ function buscaDirXML($aDadosNF, $aDados) {
     $sDir = $sDir . '\\' . $aPastasDir[2] . '-' . $aPastasDir[1] . '\\' . $aPastasDir[0] . '\\Proc';
 
     $sSit = $aDadosNF['nfsnfesit'];
-    if ($sSit == 'A') {
-        $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-nfeProc.xml';
-    }
-    if ($sSit == 'C') {
-        $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-CancProc.xml';
-    }
+
+    $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-nfeProc.xml';
+
 
     return $sDir;
 }

@@ -149,9 +149,6 @@ class ViewCadCliRep extends View {
         $oCodIBGE = new Campo('...', 'codIBGE', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oCodIBGE->setBOculto(true);
 
-        if ($sAcao == 'acaoIncluir') {
-            $oEmpcod->setBFocus(true);
-        }
         $sAcaoExit = 'cnpjBusca($("#' . $oEmpcod->getId() . '").val(),'
                 . '"' . $oCNPJ->getId() . '",'
                 . '"' . $oEmpDes->getId() . '",'
@@ -166,7 +163,8 @@ class ViewCadCliRep extends View {
                 . '"' . $oComplemento->getId() . '",'
                 . '"' . $oEmpnr->getId() . '",'
                 . '"' . $oCodIBGE->getId() . '",'
-                . '"' . $this->getController() . '")';
+                . '"' . $this->getController() . '",'
+                . '$("#' . $oNr->getId() . '").val())';
 
 
         $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
@@ -174,7 +172,7 @@ class ViewCadCliRep extends View {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         $oTipoPessoa = new campo('Tipo de pessoa', 'empfj', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oTipoPessoa->addItemSelect('J', 'Jurídica');  //J = jurídica F= física
+        $oTipoPessoa->addItemSelect('J', 'Jurídica');
         $oTipoPessoa->addItemSelect('F', 'Física');
         $oTipoPessoa->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!');
 
