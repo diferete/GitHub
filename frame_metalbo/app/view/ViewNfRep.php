@@ -49,9 +49,9 @@ class ViewNfRep extends View {
         $oNfDataEmi->setILargura(30);
         $oHoraEmi = new CampoConsulta('Hora', 'nfshrsaida');
         $oHoraEmi->setILargura(40);
-        $oTotal = new CampoConsulta('Total', 'nfsvlrtot', CampoConsulta::TIPO_MONEY);
-        $oTotal->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
-        $oTotal->setBComparacaoColuna(true);
+        $oTotal1 = new CampoConsulta('Total', 'nfsvlrtot', CampoConsulta::TIPO_MONEY);
+        $oTotal1->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oTotal1->setBComparacaoColuna(true);
         $oTranome = new CampoConsulta('Transportador', 'nfstranome');
         $oPeso = new CampoConsulta('Peso', 'nfspesobr', CampoConsulta::TIPO_DECIMAL);
 
@@ -78,7 +78,7 @@ class ViewNfRep extends View {
 
         $this->addCamposGrid($oOrdens, $oAllOrdem, $oLinhaWhite, $oGridItens);
 
-        $this->addCampos($oNf, $oCliCod, $oCliente, $oNfDataEmi, $oHoraEmi, $oTotal, $oPeso);
+        $this->addCampos($oNf, $oCliCod, $oCliente, $oNfDataEmi, $oHoraEmi, $oTotal1, $oPeso);
         $this->getTela()->setIAltura(180);
     }
 

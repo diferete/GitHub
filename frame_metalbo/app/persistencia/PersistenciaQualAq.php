@@ -246,7 +246,7 @@ class PersistenciaQualAq extends Persistencia {
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
             $oModel = $oRowBD;
             $aRetorno[] = $oModel;
-        }
+}
 
         return $aRetorno;
     }

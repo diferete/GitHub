@@ -23,7 +23,7 @@ class PersistenciaMET_FIN_VisualizaNFE extends Persistencia {
 
 
         //$this->adicionaFiltro('nfsemailen', '');
-    
+     
         $this->adicionaOrderBy('nfsdtemiss', 1);
         $this->adicionaOrderBy('nfsnfnro', 1);
         $this->setSTop(75);

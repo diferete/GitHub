@@ -89,5 +89,4 @@ class PersistenciaMET_TEC_agendamentos extends Persistencia {
 
         return $aRetorno;
     }
-
 }

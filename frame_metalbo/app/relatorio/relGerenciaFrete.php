@@ -283,7 +283,7 @@ if ($bTip) {
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(28, 5, $row['cnpj'], 'R,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(78, 5, trim($row['empdes']), 'R,B,T', 0, 'L');
+        $pdf->Cell(78, 5, $row['empdes'], 'R,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(25, 5, number_format($row['TotalGeral'], 2, ',', '.'), 'R,B,T', 0, 'L');
         $pdf->SetFont('arial', '', 9);
@@ -293,10 +293,8 @@ if ($bTip) {
 
         if (isset($array[$row['empdes']])) {
             $array[$row['empdes']] = number_format($array[$row['empdes']] + $row['TotalGeral'], 2, ',', '.');
-            $array[$row['empdes']] = str_replace(',', '.', str_replace('.', '', $array[$row['empdes']]));
         } else {
             $array[$row['empdes']] = number_format($row['TotalGeral'], 2, ',', '.');
-            $array[$row['empdes']] = str_replace(',', '.', str_replace('.', '', $array[$row['empdes']]));
         }
         $pdf = quebraPagina($pdf->GetY() + 15, $pdf, null);
         $NomeArquivo = rtrim($row['nrfat']) . '-' . rtrim($row['cnpj']) . '-' . rtrim($row['empdes']);

@@ -22,15 +22,16 @@ class ViewMET_Gerenciamento extends View {
 
         $this->setUsaAcaoAlterar(true);
         $this->setUsaAcaoVisualizar(true);
-       // $this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setBMostraFiltro(true);
         $this->getTela()->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
 
-        if($iSet== 2){
+        $iSet = $_SESSION['codsetor'];
+
+        if ($iSet == 2) {
             $this->setUsaAcaoIncluir(true);
             $this->setUsaAcaoExcluir(false);
-        }else{
+        } else {
             $this->setUsaAcaoIncluir(false);
             $this->setUsaAcaoExcluir(false);
         }
@@ -54,9 +55,6 @@ class ViewMET_Gerenciamento extends View {
         $oSetor = new CampoConsulta('Setor', 'MET_Maquinas.codsetor');
 
         $oCategoria = new CampoConsulta('Categoria', 'MET_Maquinas.maqtip');
-
-        $oResp = new CampoConsulta('Resp', '');
-        $oResp->setBColOculta(true);
 
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
@@ -98,23 +96,8 @@ class ViewMET_Gerenciamento extends View {
         }
         $oFiltroSetor->setSLabel('');
 
-        $oFiltroResp = new Filtro($oResp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
-        $oFiltroResp->addItemSelect('', 'TODOS RESPONSÁVEIS');
-        $oFiltroResp->addItemSelect('MECANICA', 'MECÂNICA');
-        $oFiltroResp->addItemSelect('ELETRICA', 'ELÉTRICA');
-        $oFiltroResp->addItemSelect('OPERADOR', 'OPERADOR');
-        $oFiltroResp->setSLabel('');
-        $oFiltroResp->setSValor('');
-        $oFiltroResp->setBCampoBloqueado(true);
-
-        $iSet = $_SESSION['codsetor'];
-        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
+        if ($iSet != 2 && $iSet != 12 && $iSet != 29) {
             $oFiltroSetor->setSValor($iSet);
-            $oFiltroResp->setSValor('OPERADOR');
-        }else if($iSet== 12){
-            $oFiltroResp->setSValor('ELETRICA');
-        }else if($iSet== 29){
-            $oFiltroResp->setSValor('MECANICA');
         }
 
         $this->setUsaDropdown(true);
@@ -128,9 +111,8 @@ class ViewMET_Gerenciamento extends View {
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","MET_Gerenciamento","calculoPersonalizado",chave+",qualaqtempo");');
 
         $this->addDropdown($oDrop1);
-        $this->addFiltro($oFiltroNr, $oFilCodMaq, $oFiltroResp, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor, $oFiltroSituacao);
+        $this->addFiltro($oFiltroNr, $oFilCodMaq, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor, $oFiltroSituacao);
         $this->addCampos($oNr, $oCodmaq, $oDesMaq, $oSeq, $oCategoria, $oSetor, $oSetDes, $oSitmp);
-
     }
 
     public function criaTela() {
@@ -282,7 +264,7 @@ class ViewMET_Gerenciamento extends View {
         $oDatafinal->setSValor(Util::getDataAtual());
         $oDatafinal->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
 
-        $oAplicaFiltro = new Campo('Aplica Data', 'apdata', Campo::TIPO_CHECK,1,1,1,1);
+        $oAplicaFiltro = new Campo('Aplica Data', 'apdata', Campo::TIPO_CHECK, 1, 1, 1, 1);
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
@@ -308,7 +290,7 @@ class ViewMET_Gerenciamento extends View {
                 . '"' . $oFiltroSeq->getId() . ',' . $oCategoriaFiltro->getId() . ',' . $oFiltroSetor->getId() . '");}';
         $oCodmaq->addEvento(Campo::EVENTO_SAIR, $sEventoOp);
 
-        $this->addCampos(array($oCodmaq, $oMaq_des), $oLinha1, array($oFiltroSeq, $oRespFiltro, $oSitmp), $oLinha1, array($oCategoriaFiltro, $oFiltroSetor), $oLinha1, array($oAplicaFiltro, $oDatainicial, $oDatafinal),$oLinha1, $oDiasRest);
+        $this->addCampos(array($oCodmaq, $oMaq_des), $oLinha1, array($oFiltroSeq, $oRespFiltro, $oSitmp), $oLinha1, array($oCategoriaFiltro, $oFiltroSetor), $oLinha1, array($oAplicaFiltro, $oDatainicial, $oDatafinal), $oLinha1, $oDiasRest);
     }
 
 }

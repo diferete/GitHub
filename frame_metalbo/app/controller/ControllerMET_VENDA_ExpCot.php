@@ -142,13 +142,13 @@ class ControllerMET_VENDA_ExpCot extends Controller {
         $sTabIten = $oCotIten->getTabela();
 
         $sCampos = '&tabcab=' . $sTabCab;
-        $sCampos .='&itencab=' . $sTabIten;
+        $sCampos .= '&itencab=' . $sTabIten;
 
 
         //busca a imagem padrão dos relatórios
         $oRepOffice = Fabrica::FabricarPersistencia('RepOffice');
         $sImg = $oRepOffice->imgRel(null);
-        $sCampos .='&imgrel=' . $sImg;
+        $sCampos .= '&imgrel=' . $sImg;
 
         return $sCampos;
     }

@@ -835,13 +835,13 @@ if ($sEmailRequest == 'S') {
     $oEmail = new Email();
     $oEmail->setMailer();
     $oEmail->setEnvioSMTP();
-    $oEmail->setServidor(Config::SERVER_SMTP);
-    $oEmail->setPorta(Config::PORT_SMTP);
+    //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
+    $oEmail->setServidor('smtp.terra.com.br');
+    $oEmail->setPorta(587);
     $oEmail->setAutentica(true);
-    $oEmail->setUsuario(Config::EMAIL_SENDER);
-    $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
-    $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+    $oEmail->setUsuario('metalboweb@metalbo.com.br');
+    $oEmail->setSenha('Metalbo@@50');
+    $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('Relatórios Web Metalbo'));
 
     $oEmail->setAssunto(utf8_decode('Ação da qualidade nº' . $nrAq . ' da empresa ' . $filcgcAq));
     $oEmail->setMensagem(utf8_decode('Anexo ação da qualidade nº' . $nrAq . ' da empresa ' . $filcgcAq . ' da qual você está envolvido. '
@@ -863,7 +863,7 @@ if ($sEmailRequest == 'S') {
         $oEmail->addDestinatario($_SESSION['email']);
     }
 
-    $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $filcgcAq. '.pdf'));
+    $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $filcgcAq));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

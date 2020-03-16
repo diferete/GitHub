@@ -23,7 +23,7 @@ class PersistenciaMET_TEC_ModUsuario extends Persistencia {
         if ($bInicial) {
             $sSql = "select MET_TEC_modusuario.modcod,modescricao from MET_TEC_modusuario left outer join 
                     MET_TEC_modulo on MET_TEC_modusuario.modcod = MET_TEC_modulo.modcod
-                    where usucodigo =" . $_SESSION['codUser'] . " and modordem = 1";
+                    where usucodigo =" . $_SESSION['codUser'] . " and modordem = 1 and MET_TEC_modulo.modcod not in (select modcod from MET_TEC_modulo where modApp = 'Sim') ";
             $result = $this->getObjetoSql($sSql);
             while ($row = $result->fetch(PDO::FETCH_OBJ)) {
                 $aqt = array();
@@ -34,7 +34,7 @@ class PersistenciaMET_TEC_ModUsuario extends Persistencia {
         } else {
             $sSql = "select MET_TEC_modusuario.modcod,modescricao from MET_TEC_modusuario left outer join 
                     MET_TEC_modulo on MET_TEC_modusuario.modcod = MET_TEC_modulo.modcod
-                    where usucodigo =" . $_SESSION['codUser'] . "";
+                    where usucodigo =" . $_SESSION['codUser'] . " and MET_TEC_modulo.modcod not in (select modcod from MET_TEC_modulo where modApp = 'Sim') ";
             if (isset($sModulo)) {
                 $sSql .= " and MET_TEC_modusuario.modcod =" . $sModulo . " ";
             }
@@ -50,11 +50,29 @@ class PersistenciaMET_TEC_ModUsuario extends Persistencia {
         }
     }
 
+    public function getModUserApp($sDados) {
+        $sSql = " select COUNT(*) as nr from MET_TEC_modusuario 
+                    where modcod in (select modcod from MET_TEC_modulo where modApp = 'Sim')
+                    and usucodigo ='" . $this->Model->getMET_TEC_Usuario()->getUsucodigo() . "' ";
+        $result = $this->getObjetoSql($sSql);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        return $row->nr;
+    }
+
+    /*
+     * Método que retorna o modulo inicial ou todos os módulos do usuário
+     */
+
+    public function modUserSistemaApp() {
+        $sSql = "select MET_TEC_modusuario.modcod,modescricao from MET_TEC_modusuario left outer join 
+                    MET_TEC_modulo on MET_TEC_modusuario.modcod = MET_TEC_modulo.modcod
+                    where usucodigo =" . $_SESSION['codUser'] . " and modApp = 'Sim' ";
+        $result = $this->getObjetoSql($sSql);
+        while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+            $aqt[] = $row->modescricao;
+            $aqt[] = $row->modcod;
+        }
+        return $aqt;
+    }
+
 }
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-

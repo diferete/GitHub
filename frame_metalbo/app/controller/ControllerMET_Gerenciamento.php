@@ -225,48 +225,23 @@ class ControllerMET_Gerenciamento extends Controller {
         $this->buscaCelulas();
         $oDados = $_REQUEST['parametrosCampos'];
 
-        $sNr = explode('|', $oDados['parametrosCampos[0'])[1];
-        $sCodMaq = explode('|', $oDados['parametrosCampos[1'])[1];
-        $sRes = explode('|', $oDados['parametrosCampos[2'])[1];
-        $sSeq = explode('|', $oDados['parametrosCampos[3'])[1];
-        $sMaqTip = explode('|', $oDados['parametrosCampos[4'])[1];
-        $sCodSet = explode('|', $oDados['parametrosCampos[5'])[1];
-        $sSit = explode('|', $oDados['parametrosCampos[6'])[1];
-        
-        if($_REQUEST['metodo']!='getDadosConsulta'){
+        $sSit = explode('|', $oDados['parametrosCampos[5'])[1];
+
+        if ($_REQUEST['metodo'] != 'getDadosConsulta' && $_REQUEST['metodo'] != 'getDadosScroll') {
             $iSet = $_SESSION['codsetor'];
-            if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
-                $this->Persistencia->adicionaFiltro('Setor.codsetor',$iSet);
-                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor('OPERADOR') . ') ');
-            }else if($iSet== 12){
-                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor('ELETRICA') . ') ');
-            }else if($iSet== 29){
-                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor('MECANICA') . ') ');
+            if ($iSet != 2 && $iSet != 12 && $iSet != 29) {
+                $this->Persistencia->adicionaFiltro('Setor.codsetor', $iSet);
+                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor($iSet) . ') ');
+            } else if ($iSet == 12) {
+                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor(12) . ') ');
+            } else if ($iSet == 29) {
+                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor(29) . ') ');
             }
-        }else{        
-            $this->Persistencia->limpaFiltro();
-            if ($sNr != '') {
-                $this->Persistencia->adicionaFiltro('nr', $sNr);
-            } else {
-                $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor($sRes,$sCodSet) . ') ');
-            }
-            if ($sCodMaq != '') {
-                $this->Persistencia->adicionaFiltro('codmaq', $sCodMaq);
-            }
-            if ($sCodSet != ''){
-                $this->Persistencia->adicionaFiltro('MET_Maquinas.codsetor', $sCodSet);
-            }
-            if ($sSeq != '') {
-                $this->Persistencia->adicionaFiltro('MET_Maquinas.seq', $sSeq);
-            }
-            if ($sMaqTip != '') {
-                $this->Persistencia->adicionaFiltro('MET_Maquinas.maqtip', $sMaqTip);
-            }
-            if ($sSit == 'FINALIZADO') {
-                $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO');
-            } else {
-                $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
-            }
+        }
+        if ($sSit == 'FINALIZADO') {
+            $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO');
+        } else {
+            $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
         }
     }
 

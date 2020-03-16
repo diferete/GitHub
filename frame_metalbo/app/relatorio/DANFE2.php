@@ -77,6 +77,5 @@ function buscaDirXML($aDadosNF, $aDados) {
 
     $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-nfeProc.xml';
 
-
     return $sDir;
 }

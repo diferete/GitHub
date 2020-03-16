@@ -96,7 +96,7 @@ class PersistenciaQualGerenProj extends Persistencia {
     }
 
     public function verifSitProj($aDados) {
-        $sSql = "select sitvendas,sitcliente,sitgeralproj,sitproj,dataprod
+        $sSql = "select sitvendas,sitcliente,sitgeralproj,sitproj,dataprod,valOdTer,valPedTer
                 from tbqualNovoProjeto 
                 where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $result = $this->getObjetoSql($sSql);

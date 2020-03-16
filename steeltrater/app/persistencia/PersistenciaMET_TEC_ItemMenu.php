@@ -21,6 +21,8 @@ class PersistenciaMET_TEC_ItemMenu extends Persistencia {
         $this->adicionaRelacionamento('iteordem', 'iteordem');
         $this->adicionaRelacionamento('iteclasse', 'iteclasse');
         $this->adicionaRelacionamento('itemetodo', 'itemetodo');
+        $this->adicionaRelacionamento('url', 'url');
+        $this->adicionaRelacionamento('iconApp', 'iconApp');
 
         $this->adicionaJoin('MET_TEC_Modulo');
         $this->adicionaJoin('MET_TEC_Menu');
@@ -42,6 +44,31 @@ class PersistenciaMET_TEC_ItemMenu extends Persistencia {
             $aSubMenu[] = $row->itedescricao;
             $aSubMenu[] = $row->iteclasse;
             $aSubMenu[] = $row->itemetodo;
+
+            $aRetorno[] = $aSubMenu;
+        }
+        return $aRetorno;
+    }
+
+    /*
+     * Método que retorna um array de submenus tendo como parametros o 
+     * o modulo e o menu
+     */
+
+    public function getSubMenuApp($sModcod, $sMenCodigo) {
+        $sSql = "SELECT itedescricao,iteclasse,itemetodo,iteinfo,url,iconapp
+                FROM MET_TEC_itenmenu
+                WHERE modcod =" . $sModcod . " AND mencodigo =" . $sMenCodigo . " ORDER BY iteordem";
+
+        $result = $this->getObjetoSql($sSql);
+        while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+            $aSubMenu = array();
+            $aSubMenu['itedescricao'] = $row->itedescricao;
+            $aSubMenu['iteclasse'] = $row->iteclasse;
+            $aSubMenu['itemetodo'] = $row->itemetodo;
+            $aSubMenu['iteinfo'] = $row->iteinfo;
+            $aSubMenu['url'] = $row->url;
+            $aSubMenu['iconApp'] = $row->iconapp;
             $aRetorno[] = $aSubMenu;
         }
         return $aRetorno;

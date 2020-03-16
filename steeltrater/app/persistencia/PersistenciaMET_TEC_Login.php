@@ -154,10 +154,10 @@ class PersistenciaMET_TEC_Login extends Persistencia{
      */
     public function validaMobLogin($login, $senha ){
         
-        $sSql = "SELECT COUNT(*) as qtd, usucodigo, tbusuario.codsetor, descsetor, usubloqueado, usunome, ususobrenome, usufone, usuimagem, usulogin "
-                ."FROM tbusuario left outer join MetCad_Setores on  MetCad_Setores.codsetor = tbusuario.codsetor "
+        $sSql = "SELECT COUNT(*) as qtd, usucodigo, MET_TEC_usuario.codsetor, descsetor, usubloqueado, usunome, ususobrenome, usufone, usuimagem, usulogin "
+                ."FROM MET_TEC_usuario left outer join MET_CAD_setores on  MET_CAD_setores.codsetor = MET_TEC_usuario.codsetor  "
                 ."WHERE usulogin = '".$login."' and ususenha = '".  sha1($senha)."' and usubloqueado = 'FALSE' "
-                ."group by usunome, ususobrenome, usufone, usucodigo, usubloqueado, usuimagem,  tbusuario.codsetor, descsetor, usulogin;";
+                ."group by usunome, ususobrenome, usufone, usucodigo, usubloqueado, usuimagem,  MET_TEC_usuario.codsetor, descsetor, usulogin;";
         
 
         $result = $this->getObjetoSql($sSql);
@@ -204,7 +204,7 @@ class PersistenciaMET_TEC_Login extends Persistencia{
      */
     public function atualizaToken($codigo){
         $token = Base::geraToken(25);
-        $sql = "update tbusuario set usutoken = '". $token ."' where usucodigo = ". $codigo;
+        $sql = "update MET_TEC_usuario set usutoken = '". $token ."' where usucodigo = ". $codigo;
         $retorno = $this->executaSql($sql);
         
         if($retorno[0]){

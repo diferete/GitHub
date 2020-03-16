@@ -39,7 +39,7 @@ class ViewMET_ISO_RegistroTreinamento extends View {
                 . 'var idCampos ="' . $oObs->getId() . '";'
                 . 'requestAjax("","MET_ISO_RegistroTreinamento","carregaObs","' . $this->getOGridDetalhe()->getSId() . '"+","+chave+","+idCampos+"");');
 
-        $this->addCamposDetalhe($oNr, $oFilcgc, $oSeq, $oData, $oTitTreinamento, $oAnexo);        
+        $this->addCamposDetalhe($oNr, $oFilcgc, $oSeq, $oData, $oTitTreinamento, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
 

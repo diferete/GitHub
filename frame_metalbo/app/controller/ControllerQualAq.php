@@ -570,7 +570,7 @@ class ControllerQualAq extends Controller {
             foreach ($aRetorno as $iKey => $oValue) {
                 $iDias = $oValue->dias;
                 if ($iDias >= -7) {
-                    //$this->envEmailAq($oValue);
+                    $this->envEmailAq($oValue);
                 }
             }
         }
@@ -609,7 +609,7 @@ class ControllerQualAq extends Controller {
                         . '<br/><b style="margin:40px;color:blue">E-mail enviado automaticamente, favor não responder!</b>'
                         . '<br/><b style="margin:40px;color:red">Você continuará recebendo e-mails até o plano de ação ser finalizado!</b>'));
 
-        //$aRetorno = $oEmail->sendEmail();
+        $aRetorno = $oEmail->sendEmail();
         return;
     }
 

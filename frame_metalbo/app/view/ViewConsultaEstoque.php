@@ -211,7 +211,7 @@ class ViewConsultaEstoque extends View {
         $oProdesGrid = new CampoConsulta('Descrição', 'prodes');
         $oPesoGrid = new CampoConsulta('Peso', 'propesprat', CampoConsulta::TIPO_DECIMAL);
         $oPreco = new CampoConsulta('Preço', 'tabvenda.preco', CampoConsulta::TIPO_MONEY);
-        $oPreco->addComparacao('0', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
+        $oPreco->addComparacao('0', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
 
         $oGridEstoque->addCampos($oProcodGrid);
         $oGridEstoque->addCampos($oProdesGrid);

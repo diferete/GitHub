@@ -62,11 +62,8 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oDrop1 = new Dropdown('Visualizar Danfe', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DANFE2', false, '', false, '', false, false);
 
-        $oDrop2 = new Dropdown('Envia todos', Dropdown::TIPO_DARK, Dropdown::ICON_RANDOM);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Enviar', $this->getController(), 'enviaXmlAutomatizado', '', false, '', false, '', false, '', false, true);
-
         $this->addFiltro($oFilEMP, $oFilNF, $oFilCliNome, $oFilData);
-        $this->addDropdown($oDrop1, $oDrop2);
+        $this->addDropdown($oDrop1);
         $this->addCampos($oBotaoEmitXml, $oNf, $oNfSerie, $oCliNome, $oNfDtEmiss, $oSitNf, $oNfEnvEmail, $oFilcgc);
     }
 

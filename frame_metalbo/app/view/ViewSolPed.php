@@ -59,7 +59,7 @@ class ViewSolPed extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'SolPed', 'geraAnexoSolEmailSLogo', '', false, $sSolvenda, false, '', false, '', true, false);
         //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',email,SolPed,envMailSol');
         //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',email,SolPed,envMailSol,slogo');
-        //  $oDrop2->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Estoque', 'ConsultaEstoque', 'acaoMostraTelaEstoque', '', false, $_SESSION['officecabsoliten'], true, 'Consulta Estoques de Pedido');
+      //  $oDrop2->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Estoque', 'ConsultaEstoque', 'acaoMostraTelaEstoque', '', false, $_SESSION['officecabsoliten'], true, 'Consulta Estoques de Pedido');
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'SolPed', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep', false, '', false, '', false, false);
         $this->addDropdown($oDrop2);
         //descontosrep

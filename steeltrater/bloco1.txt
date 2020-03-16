@@ -1,2 +1,1 @@
-update MET_TEC_sessao set usulastacesso = '2019-10-15 17:47:51' 
-            where usucodigo ='81' and usunome = 'Cleverton Hoffmann' and usuidsessao = 'f6kh6r01c32tk07ph5e455k367'
+Sessão:3hde4nu8s2vqbm703k7urleeks sessao do banco:3hde4nu8s2vqbm703k7urleeks

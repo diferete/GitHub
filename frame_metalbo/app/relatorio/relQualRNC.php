@@ -14,8 +14,6 @@ $sDataIni = $_REQUEST['dataini'];
 $sDataFin = $_REQUEST['datafinal'];
 $sTipRnc = $_REQUEST['tipornc'];
 $sTipFix = $_REQUEST['tipfix'];
-$sCodProd = $_REQUEST['codprod'];
-$sDesProd = $_REQUEST['descprod'];
 
 class PDF extends FPDF {
 
@@ -78,20 +76,16 @@ $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $sSit, 0, 1, 'L');
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(20, 5, 'Data Inicial: ', 0, 0, 'L');
+$pdf->Cell(25, 5, 'Data Inicial: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $sDataIni, 0, 0, 'L');
+$pdf->Cell(25, 5, $sDataIni, 0, 0, 'L');
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(20, 5, 'Data Final: ', 0, 0, 'L');
+$pdf->Cell(25, 5, 'Data Final: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $sDataFin, 0, 0, 'L');
-$pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(30, 5, 'Produto Cod-Des: ', 0, 0, 'L');
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(30, 5, $sCodProd.' - '.$sDesProd, 0, 1, 'L');
+$pdf->Cell(25, 5, $sDataFin, 0, 1, 'L');
 
-$pdf->Cell(203, 2, '', 'B', 1, 'L');  
-$pdf->Cell(203, 1, '', 'B', 1, 'L'); 
+$pdf->Cell(203, 2, '', 'B', 1, 'L');
+$pdf->Cell(203, 1, '', 'B', 1, 'L');
 $pdf->Ln(3);
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
@@ -101,21 +95,18 @@ $sql = "select count(nr) as TotalRnc from Met_Qual_rnc "
         . "left outer join widl.PROD01 
            on Met_Qual_rnc.codprod = widl.PROD01.procod";
 
-$sql.=" where databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
+$sql .= " where databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
 
-if($sTipRnc!='Todos'){
-$sql.=" and tipornc = '".$sTipRnc."'";
+if ($sTipRnc != 'Todos') {
+    $sql .= " and tipornc = '" . $sTipRnc . "'";
 }
-if($sSit!='Todos'){
-$sql.=" and sit = '".$sSit."'";
+if ($sSit != 'Todos') {
+    $sql .= " and sit = '" . $sSit . "'";
 }
-if ($sTipFix=="Porca"){
-    $sql.=" and grucod in(12)";
-}else if($sTipFix=="Parafuso"){
-    $sql.=" and grucod in(13)";
-}
-if($sCodProd!=''){
-    $sql.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+if ($sTipFix == "Porca") {
+    $sql .= " and grucod in(12)";
+} else if ($sTipFix == "Parafuso") {
+    $sql .= " and grucod in(13)";
 }
 
 $sth = $PDO->query($sql);
@@ -127,34 +118,31 @@ $pdf->Cell(50, 5, 'QUANTIDADE DE RNCs:', 0, 1, 'L');
 $pdf->Ln(2);
 $pdf->Cell(15, 5, 'Total:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 8);
-$pdf->Cell(9, 5, $row['TotalRnc'], 0, 1, 'L');    
+$pdf->Cell(9, 5, $row['TotalRnc'], 0, 1, 'L');
 
-$pdf->Cell(203, 2, '', 'B', 1, 'L');  
-$pdf->Cell(203, 1, '', 'B', 1, 'L');  
+$pdf->Cell(203, 2, '', 'B', 1, 'L');
+$pdf->Cell(203, 1, '', 'B', 1, 'L');
 $pdf->Ln(5);
 
 //2 - Quantidade de RNC aberta e fechada mensalmente 
 $sql1 = " select count(nr) as totalrnc,sit   from Met_Qual_rnc left outer join widl.PROD01 
            on Met_Qual_rnc.codprod = widl.PROD01.procod ";
 
-$sql1.=" where databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
+$sql1 .= " where databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
 
-if($sTipRnc!='Todos'){
-$sql1.=" and tipornc = '".$sTipRnc."'";
+if ($sTipRnc != 'Todos') {
+    $sql1 .= " and tipornc = '" . $sTipRnc . "'";
 }
-if($sSit!='Todos'){
-$sql1.=" and sit = '".$sSit."'";
+if ($sSit != 'Todos') {
+    $sql1 .= " and sit = '" . $sSit . "'";
 }
-if ($sTipFix=="Porca"){
-    $sql1.=" and grucod in(12)";
-}else if($sTipFix=="Parafuso"){
-    $sql1.=" and grucod in(13)";
-}
-if($sCodProd!=''){
-    $sql1.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+if ($sTipFix == "Porca") {
+    $sql1 .= " and grucod in(12)";
+} else if ($sTipFix == "Parafuso") {
+    $sql1 .= " and grucod in(13)";
 }
 
-$sql1.=" group by sit ";
+$sql1 .= " group by sit ";
 
 $sth1 = $PDO->query($sql1);
 
@@ -162,22 +150,21 @@ $pdf->SetFont('arial', 'B', 8);
 $pdf->Cell(203, 5, 'QUANTIDADE DE RNCs DE ACORDO COM A SITUAÇÃO:', '', 1, 'L');
 $pdf->Ln(2);
 
-while ($row1 = $sth1->fetch(PDO::FETCH_ASSOC)){
-    
-$pdf->SetFont('arial', 'B', 8);
-$pdf->Cell(50, 5, 'Situação:', 'B', 0, 'L');
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(50, 5, $row1['sit'], 'B', 0, 'L');     
+while ($row1 = $sth1->fetch(PDO::FETCH_ASSOC)) {
 
-$pdf->SetFont('arial', 'B', 8);
-$pdf->Cell(50, 5, 'Total RNC:', 'B', 0, 'L');
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(50, 5, $row1['totalrnc'], 'B', 1, 'L'); 
-    
+    $pdf->SetFont('arial', 'B', 8);
+    $pdf->Cell(50, 5, 'Situação:', 'B', 0, 'L');
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(50, 5, $row1['sit'], 'B', 0, 'L');
+
+    $pdf->SetFont('arial', 'B', 8);
+    $pdf->Cell(50, 5, 'Total RNC:', 'B', 0, 'L');
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(50, 5, $row1['totalrnc'], 'B', 1, 'L');
 }
 
-$pdf->Cell(203, 5, '', 'B', 1, 'L');  
-$pdf->Cell(203, 1, '', 'B', 1, 'L');  
+$pdf->Cell(203, 5, '', 'B', 1, 'L');
+$pdf->Cell(203, 1, '', 'B', 1, 'L');
 $pdf->Ln(5);
 
 //3 - Número de RNC gerada em porcas - Número de RNC gerada em Parafusos
@@ -186,23 +173,20 @@ $sql2 = " select count(nr) as totalrnc,case grucod when 12  then ' 12-Porca '
         left outer join widl.PROD01 
         on Met_Qual_rnc.codprod = widl.PROD01.procod ";
 
-if ($sTipFix=="Porca"){
-    $sql2.=" where grucod in(12) and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
-}else if($sTipFix=="Parafuso"){
-    $sql2.=" where grucod in(13) and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
-}else{
-    $sql2.=" where grucod in(12,13) and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
+if ($sTipFix == "Porca") {
+    $sql2 .= " where grucod in(12) and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
+} else if ($sTipFix == "Parafuso") {
+    $sql2 .= " where grucod in(13) and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
+} else {
+    $sql2 .= " where grucod in(12,13) and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
 }
-if($sTipRnc!='Todos'){
-$sql2.=" and tipornc = '".$sTipRnc."'";
+if ($sTipRnc != 'Todos') {
+    $sql2 .= " and tipornc = '" . $sTipRnc . "'";
 }
-if($sSit!='Todos'){
-$sql2.=" and sit = '".$sSit."'";
+if ($sSit != 'Todos') {
+    $sql2 .= " and sit = '" . $sSit . "'";
 }
-if($sCodProd!=''){
-    $sql2.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
-}
-$sql2.= " group by grucod";
+$sql2 .= " group by grucod";
 
 $sth2 = $PDO->query($sql2);
 
@@ -210,44 +194,40 @@ $pdf->SetFont('arial', 'B', 8);
 $pdf->Cell(203, 5, 'NÚMERO DE RNCs GERADAS EM PORCAS E PARAFUSOS:', '', 1, 'L');
 $pdf->Ln(2);
 
-while ($row2 = $sth2->fetch(PDO::FETCH_ASSOC)){
-    
-$pdf->SetFont('arial', 'B', 8);
-$pdf->Cell(50, 5, 'Tipo:', 'B', 0, 'L');
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(50, 5, $row2['grucod'], 'B', 0, 'L');     
+while ($row2 = $sth2->fetch(PDO::FETCH_ASSOC)) {
 
-$pdf->SetFont('arial', 'B', 8);
-$pdf->Cell(50, 5, 'Total RNC:', 'B', 0, 'L');
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(50, 5, $row2['totalrnc'], 'B', 1, 'L'); 
-    
+    $pdf->SetFont('arial', 'B', 8);
+    $pdf->Cell(50, 5, 'Tipo:', 'B', 0, 'L');
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(50, 5, $row2['grucod'], 'B', 0, 'L');
+
+    $pdf->SetFont('arial', 'B', 8);
+    $pdf->Cell(50, 5, 'Total RNC:', 'B', 0, 'L');
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(50, 5, $row2['totalrnc'], 'B', 1, 'L');
 }
 
-$pdf->Cell(203, 5, '', 'B', 1, 'L');  
-$pdf->Cell(203, 1, '', 'B', 1, 'L');  
+$pdf->Cell(203, 5, '', 'B', 1, 'L');
+$pdf->Cell(203, 1, '', 'B', 1, 'L');
 $pdf->Ln(5);
 
-/*3.1.1 - Quando for do PROCESSO considerar o peso da peça X quantidade de peças não conformes.
-Assim tenho a informação do montante de peças não conformes geradas no processo. 
-Se possivel conseguir o peso separado por setor causador e correção.*/
+/* 3.1.1 - Quando for do PROCESSO considerar o peso da peça X quantidade de peças não conformes.
+  Assim tenho a informação do montante de peças não conformes geradas no processo.
+  Se possivel conseguir o peso separado por setor causador e correção. */
 
 $sql3 = "select tipornc ,sum  (qtloternc/100 * propesprat ) as PesoNconforme ,decisaornc
 from Met_Qual_rnc left outer join widl.PROD01 
 on Met_Qual_rnc.codprod = widl.PROD01.procod  
-where tipornc ='Processo'  and databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
-if($sSit!='Todos'){
-$sql3.=" and sit = '".$sSit."'";
+where tipornc ='Processo'  and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
+if ($sSit != 'Todos') {
+    $sql3 .= " and sit = '" . $sSit . "'";
 }
-if ($sTipFix=="Porca"){
-    $sql3.=" and grucod in(12)";
-}else if($sTipFix=="Parafuso"){
-    $sql3.=" and grucod in(13)";
+if ($sTipFix == "Porca") {
+    $sql3 .= " and grucod in(12)";
+} else if ($sTipFix == "Parafuso") {
+    $sql3 .= " and grucod in(13)";
 }
-if($sCodProd!=''){
-    $sql3.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
-}
-$sql3.=" group by tipornc,decisaornc";
+$sql3 .= " group by tipornc,decisaornc";
 
 $sth3 = $PDO->query($sql3);
 
@@ -260,37 +240,33 @@ $pdf->Cell(57, 5, 'Tipo', 'B', 0, 'L');
 $pdf->Cell(77, 5, 'Peso não Conforme', 'B', 0, 'L');
 $pdf->Cell(67, 5, 'Decisão RNC', 'B', 1, 'L');
 
-while ($row3 = $sth3->fetch(PDO::FETCH_ASSOC)){
+while ($row3 = $sth3->fetch(PDO::FETCH_ASSOC)) {
 
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(57, 5, $row3['tipornc'], 'B', 0, 'L');     
-$pdf->Cell(77, 5, number_format($row3['PesoNconforme'],2,',','.'), 'B', 0, 'L');     
-$pdf->Cell(67, 5, $row3['decisaornc'], 'B', 1, 'L');   
-    
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(57, 5, $row3['tipornc'], 'B', 0, 'L');
+    $pdf->Cell(77, 5, number_format($row3['PesoNconforme'], 2, ',', '.'), 'B', 0, 'L');
+    $pdf->Cell(67, 5, $row3['decisaornc'], 'B', 1, 'L');
 }
-  
+
 $pdf->Ln(5);
 
-/*3.1.2 - Quando for do PROCESSO considerar o peso da peça X quantidade de peças não conformes.
-Assim tenho a informação do montante de peças não conformes geradas no processo. 
-Se possivel conseguir o peso separado por setor causador e correção.*/
+/* 3.1.2 - Quando for do PROCESSO considerar o peso da peça X quantidade de peças não conformes.
+  Assim tenho a informação do montante de peças não conformes geradas no processo.
+  Se possivel conseguir o peso separado por setor causador e correção. */
 
 $sql4 = "select  descset02,sum  (qtloternc/100 * propesprat ) as PesoNconforme ,decisaornc  
 from Met_Qual_rnc left outer join widl.PROD01 
 on Met_Qual_rnc.codprod = widl.PROD01.procod  
 where tipornc <> 'Fornecedor' and descset02 is not null and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
-if($sSit!='Todos'){
-$sql4.=" and sit = '".$sSit."'";
+if ($sSit != 'Todos') {
+    $sql4 .= " and sit = '" . $sSit . "'";
 }
-if ($sTipFix=="Porca"){
-    $sql4.=" and grucod in(12)";
-}else if($sTipFix=="Parafuso"){
-    $sql4.=" and grucod in(13)";
+if ($sTipFix == "Porca") {
+    $sql4 .= " and grucod in(12)";
+} else if ($sTipFix == "Parafuso") {
+    $sql4 .= " and grucod in(13)";
 }
-if($sCodProd!=''){
-    $sql4.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
-}
-$sql4.=" group by descset02,decisaornc";
+$sql4 .= " group by descset02,decisaornc";
 
 $sth4 = $PDO->query($sql4);
 
@@ -303,24 +279,23 @@ $pdf->Cell(81, 5, 'Descrição setor', 'B', 0, 'L');
 $pdf->Cell(60, 5, 'Peso não Conforme', 'B', 0, 'L');
 $pdf->Cell(60, 5, 'Decisão RNC', 'B', 1, 'L');
 
-while ($row4 = $sth4->fetch(PDO::FETCH_ASSOC)){
-    
+while ($row4 = $sth4->fetch(PDO::FETCH_ASSOC)) {
 
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(81, 5, $row4['descset02'], 'B', 0, 'L');     
-$pdf->Cell(60, 5, number_format($row4['PesoNconforme'],2,',','.'), 'B', 0, 'L');     
-$pdf->Cell(60, 5, $row4['decisaornc'], 'B', 1, 'L');   
-    
+
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(81, 5, $row4['descset02'], 'B', 0, 'L');
+    $pdf->Cell(60, 5, number_format($row4['PesoNconforme'], 2, ',', '.'), 'B', 0, 'L');
+    $pdf->Cell(60, 5, $row4['decisaornc'], 'B', 1, 'L');
 }
 
-$pdf = quebraPagina($pdf->GetY()+15, $pdf);
-$pdf->Cell(203, 5, '', 'B', 1, 'L');  
-$pdf->Cell(203, 1, '', 'B', 1, 'L');  
+$pdf = quebraPagina($pdf->GetY() + 15, $pdf);
+$pdf->Cell(203, 5, '', 'B', 1, 'L');
+$pdf->Cell(203, 1, '', 'B', 1, 'L');
 $pdf->Ln(5);
 
 /* 3.2 - Quando for FORNECEDOR preciso das duas informações: peso da peça X quantidade de peças não conformes 
- Assim tenho a informação do montante de peças não conformes geradas no processo. 
- Peso da peça X quantidade do lote, para ter a informação do peso do lote devolvido. Se possivel conseguir o peso separado por setor causador e correção.*/
+  Assim tenho a informação do montante de peças não conformes geradas no processo.
+  Peso da peça X quantidade do lote, para ter a informação do peso do lote devolvido. Se possivel conseguir o peso separado por setor causador e correção. */
 
 $sql5 = "select tipornc , fornec,decisaornc,
         sum  (qtloternc/100 * propesprat ) as PesoNconforme , sum  (qtlote/100 * propesprat ) as PesoLote  
@@ -328,18 +303,15 @@ $sql5 = "select tipornc , fornec,decisaornc,
         on Met_Qual_rnc.codprod = widl.PROD01.procod  
         where tipornc ='Fornecedor' and databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
 
-if($sSit!='Todos'){
-$sql5.=" and sit = '".$sSit."'";
+if ($sSit != 'Todos') {
+    $sql5 .= " and sit = '" . $sSit . "'";
 }
-if ($sTipFix=="Porca"){
-    $sql5.=" and grucod in(12)";
-}else if($sTipFix=="Parafuso"){
-    $sql5.=" and grucod in(13)";
-}            
-if($sCodProd!=''){
-    $sql5.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+if ($sTipFix == "Porca") {
+    $sql5 .= " and grucod in(12)";
+} else if ($sTipFix == "Parafuso") {
+    $sql5 .= " and grucod in(13)";
 }
-$sql5.=" group by tipornc,fornec,decisaornc";
+$sql5 .= " group by tipornc,fornec,decisaornc";
 
 $sth5 = $PDO->query($sql5);
 
@@ -354,41 +326,37 @@ $pdf->Cell(35, 5, 'Decisao RNC', 'B', 0, 'L');
 $pdf->Cell(30, 5, 'Peso não Conforme', 'B', 0, 'L');
 $pdf->Cell(25, 5, 'Peso Lote', 'B', 1, 'L');
 
-while ($row5 = $sth5->fetch(PDO::FETCH_ASSOC)){
+while ($row5 = $sth5->fetch(PDO::FETCH_ASSOC)) {
 
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(25, 5, $row5['tipornc'], 'B', 0, 'L');     
-$pdf->Cell(85, 5, $row5['fornec'], 'B', 0, 'L');     
-$pdf->Cell(35, 5, $row5['decisaornc'], 'B', 0, 'L');   
-$pdf->Cell(30, 5, number_format($row5['PesoNconforme'],2,',','.'), 'B', 0, 'L');   
-$pdf->Cell(25, 5, number_format($row5['PesoLote'],2,',','.'), 'B', 1, 'L');   
-    
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(25, 5, $row5['tipornc'], 'B', 0, 'L');
+    $pdf->Cell(85, 5, $row5['fornec'], 'B', 0, 'L');
+    $pdf->Cell(35, 5, $row5['decisaornc'], 'B', 0, 'L');
+    $pdf->Cell(30, 5, number_format($row5['PesoNconforme'], 2, ',', '.'), 'B', 0, 'L');
+    $pdf->Cell(25, 5, number_format($row5['PesoLote'], 2, ',', '.'), 'B', 1, 'L');
 }
 
-$pdf = quebraPagina($pdf->GetY()+15, $pdf);
-$pdf->Cell(203, 5, '', 'B', 1, 'L');  
-$pdf->Cell(203, 1, '', 'B', 1, 'L');  
+$pdf = quebraPagina($pdf->GetY() + 15, $pdf);
+$pdf->Cell(203, 5, '', 'B', 1, 'L');
+$pdf->Cell(203, 1, '', 'B', 1, 'L');
 $pdf->Ln(5);
 
-/*4 - Quantidades baseadas na origem da RNC*/
+/* 4 - Quantidades baseadas na origem da RNC */
 $sql6 = " select tipornc,count(nr) as TotalRnc from Met_Qual_rnc left outer join widl.PROD01 
         on Met_Qual_rnc.codprod = widl.PROD01.procod   ";
 
-$sql6.=" where databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
+$sql6 .= " where databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
 
-if($sSit!='Todos'){
-$sql6.=" and sit = '".$sSit."'";
+if ($sSit != 'Todos') {
+    $sql6 .= " and sit = '" . $sSit . "'";
 }
-if ($sTipFix=="Porca"){
-    $sql6.=" and grucod in(12)";
-}else if($sTipFix=="Parafuso"){
-    $sql6.=" and grucod in(13)";
-}  
-if($sCodProd!=''){
-    $sql6.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+if ($sTipFix == "Porca") {
+    $sql6 .= " and grucod in(12)";
+} else if ($sTipFix == "Parafuso") {
+    $sql6 .= " and grucod in(13)";
 }
 
-$sql6.=" group by tipornc ";
+$sql6 .= " group by tipornc ";
 
 $sth6 = $PDO->query($sql6);
 
@@ -396,43 +364,39 @@ $pdf->SetFont('arial', 'B', 8);
 $pdf->Cell(203, 5, 'QUANTIDADES BASEADAS NA ORIGEM DA RNC:', '', 1, 'L');
 $pdf->Ln(2);
 
-while ($row6 = $sth6->fetch(PDO::FETCH_ASSOC)){
-    
-$pdf->SetFont('arial', 'B', 8);
-$pdf->Cell(50, 5, 'Tipo RNC:', 'B', 0, 'L');
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(50, 5, $row6['tipornc'], 'B', 0, 'L');     
+while ($row6 = $sth6->fetch(PDO::FETCH_ASSOC)) {
 
-$pdf->SetFont('arial', 'B', 8);
-$pdf->Cell(50, 5, 'Total RNC:', 'B', 0, 'L');
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(50, 5, $row6['TotalRnc'], 'B', 1, 'L'); 
-    
+    $pdf->SetFont('arial', 'B', 8);
+    $pdf->Cell(50, 5, 'Tipo RNC:', 'B', 0, 'L');
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(50, 5, $row6['tipornc'], 'B', 0, 'L');
+
+    $pdf->SetFont('arial', 'B', 8);
+    $pdf->Cell(50, 5, 'Total RNC:', 'B', 0, 'L');
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(50, 5, $row6['TotalRnc'], 'B', 1, 'L');
 }
 
-$pdf = quebraPagina($pdf->GetY()+15, $pdf);
-$pdf->Cell(203, 5, '', 'B', 1, 'L');  
-$pdf->Cell(203, 1, '', 'B', 1, 'L');  
+$pdf = quebraPagina($pdf->GetY() + 15, $pdf);
+$pdf->Cell(203, 5, '', 'B', 1, 'L');
+$pdf->Cell(203, 1, '', 'B', 1, 'L');
 $pdf->Ln(5);
 
-/*5 - Quantidades baseadas no setor causador da RNC*/
+/* 5 - Quantidades baseadas no setor causador da RNC */
 $sql7 = " select descset02,count(nr) as TotalRnc from Met_Qual_rnc left outer join widl.PROD01 
         on Met_Qual_rnc.codprod = widl.PROD01.procod   ";
 
-$sql7.=" where databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
+$sql7 .= " where databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
 
-if($sSit!='Todos'){
-$sql7.=" and sit = '".$sSit."'";
+if ($sSit != 'Todos') {
+    $sql7 .= " and sit = '" . $sSit . "'";
 }
-if ($sTipFix=="Porca"){
-    $sql7.=" and grucod in(12)";
-}else if($sTipFix=="Parafuso"){
-    $sql7.=" and grucod in(13)";
-}          
-if($sCodProd!=''){
-    $sql7.=" and Met_Qual_rnc.codprod = '" . $sCodProd . "'";
+if ($sTipFix == "Porca") {
+    $sql7 .= " and grucod in(12)";
+} else if ($sTipFix == "Parafuso") {
+    $sql7 .= " and grucod in(13)";
 }
-$sql7.=" and tipornc <> 'Fornecedor' and descset02 is not null group by descset02 ";
+$sql7 .= " and tipornc <> 'Fornecedor' and descset02 is not null group by descset02 ";
 
 $sth7 = $PDO->query($sql7);
 
@@ -444,18 +408,17 @@ $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(100, 5, 'Descrição Setor:', 'B', 0, 'L');
 $pdf->Cell(100, 5, 'Total RNC:', 'B', 1, 'L');
 
-while ($row7 = $sth7->fetch(PDO::FETCH_ASSOC)){
+while ($row7 = $sth7->fetch(PDO::FETCH_ASSOC)) {
 
-$pdf->SetFont('arial', '', 8);
-$pdf->Cell(100, 5, $row7['descset02'], 'B', 0, 'L');     
-$pdf->Cell(100, 5, $row7['TotalRnc'], 'B', 1, 'L'); 
-    
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(100, 5, $row7['descset02'], 'B', 0, 'L');
+    $pdf->Cell(100, 5, $row7['TotalRnc'], 'B', 1, 'L');
 }
 
 $pdf->Output('I', 'relQualRNC.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
-
 //Função que quebra página em uma dada altura do PDF
+
 function quebraPagina($i, $pdf) {
     if ($i >= 270) {    // 275 é o tamanho da página
         $pdf->AddPage();   // adiciona se ultrapassar o limite da página

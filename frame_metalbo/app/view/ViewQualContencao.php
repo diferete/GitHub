@@ -21,7 +21,7 @@ class ViewQualContencao extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao','');
+        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
         $oBotaoModal->setSNomeGrid('detalheContencao');
         $this->addModaisDetalhe($oBotaoModal);
 
@@ -56,7 +56,7 @@ class ViewQualContencao extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao','');
+        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
         $oBotaoModal->setSNomeGrid('detalheContencao');
         $this->addModais($oBotaoModal);
 

@@ -819,7 +819,7 @@ class Controller {
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
-        };
+        }
         //renderiza a tela
         $this->View->getTela()->getRender();
     }

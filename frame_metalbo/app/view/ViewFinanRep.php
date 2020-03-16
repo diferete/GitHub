@@ -107,8 +107,8 @@ class ViewFinanRep extends View {
         $oValor->setILargura(100);
         $oDias = new CampoConsulta('Dias para vencer', 'dias');
         $oDias->setILargura(120);
-        $oDias->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
-        $oDias->addComparacao('0', CampoConsulta::COMPARACAO_MENOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
+        $oDias->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oDias->addComparacao('0', CampoConsulta::COMPARACAO_MENOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
         $oParc = new CampoConsulta('Parcela', 'recparnro');
         $oParc->setILargura(80);
         $oBanco = new CampoConsulta('Banco', 'bcodes');

@@ -7,6 +7,7 @@ class PersistenciaMET_TEC_Modulo extends Persistencia{
         
         $this->adicionaRelacionamento('modcod','modcod',true,true,true);
         $this->adicionaRelacionamento('modescricao', 'modescricao');
+        $this->adicionaRelacionamento('modApp','modApp');
         
         $this->adicionaOrderBy('modcod',1);
 

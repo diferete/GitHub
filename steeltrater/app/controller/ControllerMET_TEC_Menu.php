@@ -20,6 +20,12 @@
     public function getMenu($sModulo){
         return $this->Persistencia->getMenuModulo($sModulo);
     }
+     /*
+     * Método que retorna um array com os menus do sistema
+     */
+    public function getMenuApp($sModulo){
+        return $this->Persistencia->getMenuModuloApp($sModulo);
+    }
    /*
     * Método que recarrega o menu do sistema para o menu do módulo selecionado
     */
@@ -93,5 +99,7 @@
        $aRetorno[1]= $this->Model->getMET_TEC_Modulo()->getModcod();
        return $aRetorno;
    }
+   
+   
 }
 ?>

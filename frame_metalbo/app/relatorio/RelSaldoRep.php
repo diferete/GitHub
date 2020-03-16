@@ -51,22 +51,22 @@ $pdf->Cell(0, 5, "Pedido     Od                  Emissão         Entrega       
 //traz os dados 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
-$sSql = "SELECT widl.PEV01.pdvnro,widl.PEV01.pdvordcomp,convert(varchar,pdvemissao,103)as pdvemissao,"
-        . "convert(varchar,pdvdtentre,103)as pdvdtentreS,pdvdtentre,"
-        . "widl.PEV01.empcod,widl.EMP01.empdes,widl.CID01.cidnome,widl.CID01.estcod "
-        . "FROM widl.PEV01,widl.EMP01,widl.CID01 "
-        . "WHERE widl.CID01.cidcep = widl.EMP01.cidcep "
-        . "and widl.PEV01.empcod = widl.EMP01.empcod "
-        . "and widl.pev01.filcgc <> '75483040000130' "
-        . "and widl.pev01.empcod <> '75483040000211' "
-        . "AND PDVSITUACA IN ('O','T','B') "
-        . "and pdvemissao between '" . $dataini . "'  and '" . $datafim . "'";
-if ($rep != '') {
-    $sSql .= "and widl.pev01.pdvrepcod in (" . $rep . ") ";
-}
-$sSql .= "and widl.pev01.filcgc = '75483040000211' "
-        . "and pdvsituaca ='O' "
-        . "and widl.EMP01.empcod =" . $Empcod . " order by pdvdtentre " . $ordena;
+$sSql = "SELECT widl.PEV01.pdvnro,widl.PEV01.pdvordcomp,convert(varchar,pdvemissao,103)as pdvemissao,
+     convert(varchar,pdvdtentre,103)as pdvdtentreS,pdvdtentre,
+     widl.PEV01.empcod,widl.EMP01.empdes,widl.CID01.cidnome, 
+          widl.CID01.estcod
+          FROM 
+          widl.PEV01,widl.EMP01,widl.CID01
+          WHERE widl.CID01.cidcep = widl.EMP01.cidcep and widl.PEV01.empcod = widl.EMP01.empcod 
+          and widl.pev01.filcgc <> '75483040000130'
+          and widl.pev01.empcod <> '75483040000211'
+          AND PDVSITUACA IN ('O','T','B') 
+          and pdvemissao between '" . $dataini . "'  and '" . $datafim . "'
+          and widl.pev01.pdvrepcod in (" . $rep . ")  
+          and widl.pev01.filcgc = '75483040000211'
+          and pdvsituaca ='O'
+          and widl.EMP01.empcod =" . $Empcod . "
+          order by pdvdtentre " . $ordena;
 $dadosItens = $PDO->query($sSql);
 $iTotalGeral = 0;
 $iTotalSaldo = 0;
@@ -96,7 +96,7 @@ while ($row = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
 
     $sSqlDet = " select widl.pedv01.procod,pdvprodes,pdvproqtdp,pdvprovlta,pdvproipi,pdvprovlrp,pdvproqtdf, 
           case when(pdvproqtdp - pdvproqtdf)*pdvprovlta < 0 then 0 else (pdvproqtdp - pdvproqtdf)*pdvprovlta end as total, 
-	  case when (pdvproqtdp - pdvproqtdf) < 0 then 0 else (pdvproqtdp - pdvproqtdf) end as saldo, 
+		  case when (pdvproqtdp - pdvproqtdf) < 0 then 0 else (pdvproqtdp - pdvproqtdf) end as saldo, 
           case when (pdvproqtdp - pdvproqtdf)* (pdvprovlta)*0.1 < 0 then 0 else (pdvproqtdp - pdvproqtdf)* (pdvprovlta)*0.1 end as IPI, 
           case when (pdvproqtdp - pdvproqtdf)*pdvprovlta + (pdvproqtdp - pdvproqtdf)* (pdvprovlta)*0.1 < 0 then 0 else 
           (pdvproqtdp - pdvproqtdf)*pdvprovlta + (pdvproqtdp - pdvproqtdf)* (pdvprovlta)*0.1 end as TotalComIpi, 

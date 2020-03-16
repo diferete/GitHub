@@ -46,9 +46,8 @@ class ControllerModulo extends Controller {
 //        echo $omsg->getRender();
 //    }
 
-    public function testaAgendamento($sDados) {
-
-        echo 'alert(' . $sDados . ');';
+    public function testaXmlEdita() {
+        require 'app/relatorio/DANFE4.php';
     }
 
 }

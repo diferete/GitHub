@@ -154,7 +154,7 @@ if($sDias!='----'){
     $sql.=" and tbitensmp.dias <= " . $sDias . " "; 
 }
 
-$sql.=" ORDER BY tbmanutmp.nr, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
+$sql.=" ORDER BY tbmanutmp.maqmp, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
         DAY(tbitensmp.databert) ";
 
     $sth = $PDO->query($sql);

@@ -116,8 +116,8 @@ $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(102, 5, 'QUANT.PÇS DO LOTE', 1, 0, 'L', 1);
 $pdf->Cell(102, 5, 'QUANT.PÇS NÃO CONFORME', 1, 1, 'L', 1);
 $pdf->SetFont('Arial', '', 8);
-$pdf->Cell(102, 6, number_format($row['qtlote'],0, ',','.'), 1, 0, 'C', 1);
-$pdf->Cell(102, 6, number_format($row['qtloternc'],0, ',','.'), 1, 1, 'C', 1);
+$pdf->Cell(102, 6, number_format($row['qtlote'], 0, ',', '.'), 1, 0, 'C', 1);
+$pdf->Cell(102, 6, number_format($row['qtloternc'], 0, ',', '.'), 1, 1, 'C', 1);
 
 $pdf->Ln(3);
 

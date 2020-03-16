@@ -126,7 +126,6 @@ class Campo {
     const TIPO_BOTAOSIMPLES = 38;
     const TIPO_DECIMAL_COMPOSTO = 39;
     const TIPO_BOTAO_MOSTRACONSULTA = 41;
-    const TIPO_GRIDSIMPLE = 42;
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
@@ -1999,7 +1998,7 @@ class Campo {
                         . '<tbody>                 ';
                 //foreach linhas
                 foreach ($aLinhasGrid as $key => $valueLine) {
-                    $sCampo .= '  <tr style="white-space:nowrap">                  ';
+                    $sCampo .= '  <tr>                  ';
                     foreach ($this->aValorGridView as $keyvlr => $vlr) {
                         $aTd = explode('=', $vlr);
                         if ($aTd[0] == $valueLine) {
@@ -2012,36 +2011,6 @@ class Campo {
                         . '</table>     '
                         . '</div>'
                         //.'</div>'
-                        . '</div>';
-                break;
-            case self::TIPO_GRIDSIMPLE:
-                $aLinhasGrid = array_unique($this->aLinhasGridView);
-                $sCampo = '<div style="overflow-y: auto; height:400px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<div class="label-' . $this->getSCorTituloGridPainel() . '"><span class="label label-' . $this->getSCorTituloGridPainel() . '">' . $this->getSTituloGridPainel() . '</span></div>'
-                        . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '    <table  class="table-striped table-hover table table-condensed table-bordered"  style="color:#101010; margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '"> '
-                        . '<thead style="display: fixed">   '
-                        . '  <tr style="white-space:nowrap" class="' . $this->getSCorCabGridView() . '">    ';
-                foreach ($this->aCabGridView as $key => $value) {
-                    $sCampo .= '<th>' . $value . '</th> ';
-                }
-                $sCampo .= '  </tr>                 '
-                        . '</thead>                '
-                        . '<tbody>                 ';
-                //foreach linhas
-                foreach ($aLinhasGrid as $key => $valueLine) {
-                    $sCampo .= '  <tr style="white-space:nowrap">                  ';
-                    foreach ($this->aValorGridView as $keyvlr => $vlr) {
-                        $aTd = explode('=', $vlr);
-                        if ($aTd[0] == $valueLine) {
-                            $sCampo .= '<td>' . $aTd[1] . '</td>';
-                        }
-                    }
-                    $sCampo .= '  </tr> ';
-                }
-                $sCampo .= '</tbody>    '
-                        . '</table>     '
-                        . '</div>'
                         . '</div>';
                 break;
             case self:: TIPO_DOWN:

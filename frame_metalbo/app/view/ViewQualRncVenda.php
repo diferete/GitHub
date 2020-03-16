@@ -69,7 +69,7 @@ class ViewQualRncVenda extends View {
 
         $oDropDown2 = new Dropdown('Apontamentos', Dropdown::TIPO_AVISO);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar reclamação', 'QualRncVenda', 'criaTelaModalApontamento', '', false, '', false, 'criaTelaModalApontamento', true, 'Apontar reclamação', false, false);
-
+     
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
 

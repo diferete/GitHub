@@ -42,14 +42,14 @@ class ControllerMET_TEC_agendamentos extends Controller {
         foreach ($aDados as $key => $oValue) {
             $sIdAgenda = $oValue->agId;
         }
-
+		
         $oMET_FIN_VisualizaNFE = Fabrica::FabricarController('MET_FIN_VisualizaNFE');
-        $oMET_FIN_VisualizaNFE->enviaXmlAutomatizado();
+        $aRetEmail = $oMET_FIN_VisualizaNFE->enviaXmlAutomatizado();
 
 
-        $aRetorno = $this->Persistencia->setExecutaAgenda(1);
+        $aRetorno = $this->Persistencia->setExecutaAgenda($sIdAgenda);
 
-        return $aRetorno['CHEGOU'] = 'agendaNr: ' . 1;
+        return $aRetorno['CHEGOU'] = 'agendaNr: ' . $sIdAgenda;
     }
 
     /*

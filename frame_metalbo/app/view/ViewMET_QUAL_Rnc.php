@@ -73,9 +73,8 @@ class ViewMET_QUAL_Rnc extends View {
         $oUsunome->setSValor($_SESSION['nome']);
         $oUsunome->setBCampoBloqueado(true);
 
-        $ocodsetor = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $ocodsetor = new Campo('Setor Detectou', 'setor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $ocodsetor->setApenasTela(true);
-        $ocodsetor->setBOculto(true);
 
         $odescset01 = new Campo('Setor Detectou ', 'descset01', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $odescset01->setSIdPk($ocodsetor->getId());
@@ -86,11 +85,12 @@ class ViewMET_QUAL_Rnc extends View {
         $ocodsetor->setClasseBusca('Setor');
         $ocodsetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $ocodsetor->addCampoBusca('descsetor', $odescset01->getId(), $this->getTela()->getId());
+        $odescset01->setBCampoBloqueado(true);
         //busca por funcionario 
 
         $oCodUsuario = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oCodUsuario->setApenasTela(true);
-        $oCodUsuario->setBOculto(true);
+        //  $oCodUsuario->setBOculto(true);
 
         $oPessoa = new Campo('Usuário que Detectou ', 'lidercausa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12); //lidecausa
         $oPessoa->setSIdPk($oCodUsuario->getId());
@@ -98,6 +98,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oPessoa->addCampoBusca('numcad', '', '');
         $oPessoa->addCampoBusca('nomfun', '', '');
         $oPessoa->setSIdTela($this->getTela()->getid());
+        $oPessoa->setBCampoBloqueado(true);
 
         $oCodUsuario->setClasseBusca('MET_CAD_Funcionarios');
         $oCodUsuario->setSCampoRetorno('numcad', $this->getTela()->getId());

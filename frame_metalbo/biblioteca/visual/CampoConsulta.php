@@ -81,6 +81,7 @@ class CampoConsulta {
     const ICONE_EDIT = 'btn-xs btn btn-pure btn-primary icon wb-clipboard';
     const ICONE_ADICIONAR = 'btn-xs btn btn-outline btn-warning icon wb-plus';
     const ICONE_ENVIAR = 'btn-xs btn btn-outline btn-success icon wb-arrow-right';
+	
     const ICONE_BOTAOPRIMARY = 'btn btn-primary btn-xs ladda-button btn-grid';
     const ICONE_BOTAOSUCCES = 'btn btn-success btn-xs ladda-button btn-grid';
     const ICONE_BOTAODANGER = 'btn btn-danger btn-xs ladda-button btn-grid';

@@ -107,7 +107,7 @@ class ViewEmpenhoPed extends View {
         $oEmissao = new CampoConsulta('Emissão', 'pdvemissao');
         $oEmissao->setILargura(120);
         $oSit = new CampoConsulta('Situação', 'situaca');
-        $oSit->addComparacao('LIBERADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSit->addComparacao('LIBERADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oGridEmp->addCampos($oPdvnro, $oEmpdes, $oTotal, $oDataEnt, $oEmissao, $oSit);
 

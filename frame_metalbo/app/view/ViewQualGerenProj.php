@@ -5,7 +5,6 @@ class ViewQualGerenProj extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setBGridResponsivo(false);
         $this->setUsaAcaoIncluir(FALSE);
         $this->setUsaAcaoExcluir(FALSE);
         $this->setUsaAcaoAlterar(FALSE);
@@ -15,26 +14,20 @@ class ViewQualGerenProj extends View {
         $this->getTela()->setBUsaCarrGrid(true);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
-        $oNr->setILargura(20);
+
         $oNr->setSOperacao('personalizado');
 
         $oFilcgc = new CampoConsulta('filcgc', 'EmpRex.filcgc');
-        $oFilcgc->setILargura(70);
 
         $oProdDesc = new CampoConsulta('Produto', 'desc_novo_prod');
-        $oProdDesc->setILargura(520);
 
         $oRespVenda = new CampoConsulta('Resp.Venda', 'resp_venda_nome');
-        $oRespVenda->setILargura(70);
 
         $oRespProj = new CampoConsulta('Resp.Proj', 'resp_proj_nome');
-        $oRespProj->setILargura(50);
 
         $oRepNome = new CampoConsulta('Representante', 'repnome');
-        $oRepNome->setILargura(70);
 
         $oSitGeral = new CampoConsulta('Sit.Proj', 'sitgeralproj');
-        $oSitGeral->setILargura(50);
 
         $oDrop = new Dropdown('Agendamentos', Dropdown::TIPO_PRIMARY);
         $this->addDropdown($oDrop);

@@ -18,26 +18,26 @@ class ViewPoliCadMaq extends View {
         $this->getTela()->setILarguraGrid(1200);
 
         $oCodMaq = new CampoConsulta('Código Máquina', 'codmaq');
-
+        
         $oMaquina = new CampoConsulta('Descrição da Máquina', 'maquina');
-
+        
         $oFab = new CampoConsulta('Fabricante', 'PoliFab.fabdes');
-
+        
         $oModelo = new CampoConsulta('Modelo', 'modelo');
         $oModelo->setILargura(100);
-
+        
         $oResp = new CampoConsulta('Responsável', 'responsavel');
 
         $oSit = new CampoConsulta('Situação', 'ativa');
-        $oSit->addComparacao('Ativa', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oSit->addComparacao('Ativa', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oSit->setBComparacaoColuna(true);
 
-        $oSit->addComparacao('Desativada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSit->addComparacao('Desativada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oSit->setBComparacaoColuna(true);
 
-        $oFiltro1 = new Filtro($oMaquina, Campo::TIPO_TEXTO, 2, 2, 12, 12, false);
-        $oFiltro2 = new Filtro($oFab, Campo::TIPO_TEXTO, 2, 2, 12, 12, false);
-        $oFiltro3 = new Filtro($oResp, Campo::TIPO_TEXTO, 2, 2, 12, 12, false);
+        $oFiltro1 = new Filtro($oMaquina, Campo::TIPO_TEXTO, 2);
+        $oFiltro2 = new Filtro($oFab, Campo::TIPO_TEXTO, 2);
+        $oFiltro3 = new Filtro($oResp, Campo::TIPO_TEXTO, 2);
         $this->addFiltro($oFiltro1, $oFiltro2, $oFiltro3);
 
         $this->setBScrollInf(true);

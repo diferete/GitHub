@@ -16,8 +16,12 @@ class ControllerMET_TEC_ItemMenu extends Controller {
         return $this->Persistencia->getSubMenu($sModcod, $sMenCodigo);
     }
 
+    public function getItemMenuApp($sModcod, $sMenCodigo) {
+        return $this->Persistencia->getSubMenuApp($sModcod, $sMenCodigo);
+    }
+
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe($aChave);
+        parent::pkDetalhe();
 
         $oModelMenu = Fabrica::FabricarModel('MET_TEC_Menu');
         $oPersMenu = Fabrica::FabricarPersistencia('MET_TEC_Menu');
@@ -34,18 +38,6 @@ class ControllerMET_TEC_ItemMenu extends Controller {
 
 
         $this->View->setAParametrosExtras($aCampos);
-    }
-
-    public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sForm, $sDados);
-        $aParam = explode(',', $sDados);
-        // "$('#".$sId."').each (function(){ this.reset();});";
-        //verifica se está como 
-        $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';
-
-
-
-        echo $sScript;
     }
 
     public function adicionaFiltrosExtras() {
