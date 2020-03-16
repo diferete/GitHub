@@ -178,7 +178,7 @@ if ($sEmail != '') {
     $oEmail->setUsuario(Config::EMAIL_SENDER);
     $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
     $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Cotação Web Metalbo'));
 
     $oEmail->setAssunto(utf8_decode('Cotação do Catálogo Metalbo'));
     $oEmail->setMensagem(utf8_decode('Em anexo PDF com os itens.<hr><br/>'
