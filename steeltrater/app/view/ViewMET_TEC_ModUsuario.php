@@ -14,7 +14,7 @@ class ViewMET_TEC_ModUsuario extends View{
           $oModCod = new CampoConsulta('Modulo','MET_TEC_Modulo.modcod');
           $oModDes = new CampoConsulta('Modulo','MET_TEC_Modulo.modescricao');
           $oModOrdem = new CampoConsulta('Ordem','modordem');
-          $oFilUser = new Filtro($oUser, Filtro::CAMPO_TEXTO,3);
+          $oFilUser = new Filtro($oUser, Filtro::CAMPO_TEXTO,3,3,12,12,false);
           $this->addFiltro($oFilUser);
           $this->addCampos($oCodigo,$oUser,$oModCod,$oModDes,$oModOrdem);
           $this->setUsaAcaoAlterar(false);

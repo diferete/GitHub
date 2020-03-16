@@ -23,7 +23,7 @@ class ViewMET_TEC_Modulo extends View {
 
         $this->addCampos($oCodigo, $oModulo,$oModApp);
 
-        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4);
+        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4,4,12,12,false);
         $this->addFiltro($oModuloF);
 
         $this->setUsaAcaoVisualizar(true);
