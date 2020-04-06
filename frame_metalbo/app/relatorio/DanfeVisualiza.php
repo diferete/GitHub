@@ -39,7 +39,6 @@ $aData = explode('/', $dataSaida);
 if ($aData[2] == '1753') {
     $dataSaida = '';
 }
-
 try {
     $danfe = new Danfe($xml);
     $danfe->debugMode(false);

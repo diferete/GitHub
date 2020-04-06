@@ -19,6 +19,11 @@ class PersistenciaMET_TEC_LogXml extends Persistencia {
         $this->adicionaRelacionamento('horalog', 'horalog');
         $this->adicionaRelacionamento('logxml', 'logxml');
         $this->adicionaRelacionamento('tipolog', 'tipolog');
+        $this->adicionaRelacionamento('cliente', 'cliente');
+
+        //$this->adicionaOrderBy('nf', 1);
+        $this->adicionaOrderBy('datalog', 1);
+        $this->adicionaOrderBy('horalog', 1);
     }
 
     public function carregaLogXml($aDados) {

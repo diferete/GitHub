@@ -29,7 +29,7 @@ class Config {
     const ARQ_FOLDER_TEMP = 'temp'; //arquivos temporários de upload
     const JASPER_FOLDER = '/PHPJasperXMLmet';
     const EMAIL_SENDER = 'metalboweb@gmail.com';
-    const PASWRD_EMAIL_SENDER = 'M@quinas@4321';
+    const PASWRD_EMAIL_SENDER = '3BS0deAgtLu4';
     const SERVER_SMTP = 'smtp.gmail.com';
     const PORT_SMTP = 465;
     const PROTOCOLO_SMTP = 'ssl';
@@ -69,7 +69,7 @@ class Config {
       const PASS_BD  = 'Met@lbo@4321';
      * 
      */
-   
+
      
 
     /*

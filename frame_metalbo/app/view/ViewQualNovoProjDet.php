@@ -78,7 +78,7 @@ class ViewQualNovoProjDet extends View{
                 array($oLabel6,$oFerrConfPrev,$oFerrContTer,$oFerrConfResp),$oLinha2);
         $oFieldDetProj->setOculto(true);
         
-        $oFieldCrit = new FieldSet('Análise crítica do projeto');
+        $oFieldCrit = new FieldSet('Análise crítica do detalhamento do projeto');
         
         $oFerrElaboradas = new Campo('Todas as ferramentas foram elaboradas?','ferrElaboradas', Campo::TIPO_RADIO,3);
         $oFerrElaboradas->addItenRadio('Sim', 'Sim');

@@ -14,7 +14,10 @@ class ViewMET_FIN_VisualizaNFE extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaAcaoVisualizar(false);
+        $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
         $this->setUsaFiltro(true);
         $this->setBScrollInf(false);
@@ -30,6 +33,7 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oFilcgc = new CampoConsulta('Emp.', 'nfsfilcgc');
         $oFilcgc->setBColOculta(true);
         $oNf = new CampoConsulta('Nr. NF', 'nfsnfnro');
+        $oNf->setSOperacao('personalizado');
         $oNfSerie = new CampoConsulta('Série', 'nfsnfser');
         $oCliNome = new CampoConsulta('Cliente', 'nfsclinome');
         $oNfDtEmiss = new CampoConsulta('Data Emiss.', 'nfsdtemiss', CampoConsulta::TIPO_DATA);
@@ -53,6 +57,13 @@ class ViewMET_FIN_VisualizaNFE extends View {
 
         $oFilNF = new Filtro($oNf, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
 
+        $oFilSit = new Filtro($oSitNf, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
+        $oFilSit->addItemSelect('', 'Situações');
+        $oFilSit->addItemSelect('A', 'Autorizada');
+        $oFilSit->addItemSelect('Z', 'Enviando');
+        $oFilSit->addItemSelect('C', 'Cancelada');
+        $oFilSit->setSLabel('');
+
         $oFilCliNome = new Filtro($oCliNome, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
 
         $oFilData = new Filtro($oNfDtEmiss, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
@@ -60,9 +71,9 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oFilData->addFiltroValor(date('d/m/Y'));
 
         $oDrop1 = new Dropdown('Visualizar Danfe', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DANFE2', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DanfeVisualiza', false, '', false, '', false, false);
 
-        $this->addFiltro($oFilEMP, $oFilNF, $oFilCliNome, $oFilData);
+        $this->addFiltro($oFilEMP, $oFilNF, $oFilSit, $oFilCliNome, $oFilData);
         $this->addDropdown($oDrop1);
         $this->addCampos($oBotaoEmitXml, $oNf, $oNfSerie, $oCliNome, $oNfDtEmiss, $oSitNf, $oNfEnvEmail, $oFilcgc);
     }

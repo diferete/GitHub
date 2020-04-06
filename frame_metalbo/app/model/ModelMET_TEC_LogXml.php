@@ -14,6 +14,7 @@ class ModelMET_TEC_LogXml {
     private $horalog;
     private $logxml;
     private $tipolog;
+    private $cliente;
 
     function getFilcgc() {
         return $this->filcgc;
@@ -39,6 +40,10 @@ class ModelMET_TEC_LogXml {
         return $this->tipolog;
     }
 
+    function getCliente() {
+        return $this->cliente;
+    }
+
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -61,6 +66,10 @@ class ModelMET_TEC_LogXml {
 
     function setTipolog($tipolog) {
         $this->tipolog = $tipolog;
+    }
+
+    function setCliente($cliente) {
+        $this->cliente = $cliente;
     }
 
 }
