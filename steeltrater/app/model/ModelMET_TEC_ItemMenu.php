@@ -10,26 +10,7 @@ class ModelMET_TEC_ItemMenu{
     private $iteordem;
     private $iteclasse;
     private $itemetodo;
-    private $url;
-    private $iconApp;
     
-    function getUrl() {
-        return $this->url;
-    }
-
-    function getIconApp() {
-        return $this->iconApp;
-    }
-
-    function setUrl($url) {
-        $this->url = $url;
-    }
-
-    function setIconApp($iconApp) {
-        $this->iconApp = $iconApp;
-    }
-
-        
     function getMET_TEC_Menu() {
         if(!isset($this->MET_TEC_Menu)){
             $this->MET_TEC_Menu = Fabrica::FabricarModel('MET_TEC_Menu');

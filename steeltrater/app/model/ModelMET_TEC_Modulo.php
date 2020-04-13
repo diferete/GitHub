@@ -2,17 +2,7 @@
 class ModelMET_TEC_Modulo{
     private $modcod;
     private $modescricao;
-    private $modApp;
     
-    function getModApp() {
-        return $this->modApp;
-    }
-
-    function setModApp($modApp) {
-        $this->modApp = $modApp;
-    }
-
-        
     function getModcod() {
         return $this->modcod;
     }

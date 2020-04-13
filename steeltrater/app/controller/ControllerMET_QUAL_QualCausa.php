@@ -22,7 +22,7 @@ class ControllerMET_QUAL_QualCausa extends Controller {
     public function criaPainelCausa($sDados, $sCampos) {
         $aDados = explode(',', $sDados);
         $aCampos = explode(',', $sCampos);
-        if ($aDados[6] != '') {
+         if ($aDados[6] != '') {
             $this->View->setSRotina($aDados[6]);
         }
         $this->pkDetalhe($aCampos);

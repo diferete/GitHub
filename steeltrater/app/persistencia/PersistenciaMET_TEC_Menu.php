@@ -42,26 +42,6 @@ class PersistenciaMET_TEC_Menu extends Persistencia {
         return $aRetorno;
     }
 
-    /*
-     * Método que faz a consulta no banco e 
-     * retorna os menus conforme o módulo do sistema
-     * 
-     */
-
-    public function getMenuModuloApp($sModulo) {
-        $sSql = "SELECT modcod,mencodigo,mendes
-                FROM MET_TEC_menu
-                WHERE modcod =" . $sModulo . " order by menordem";
-        $result = $this->getObjetoSql($sSql);
-        while ($row = $result->fetch(PDO::FETCH_OBJ)) {
-            $aMenu = array();
-            $aMenu[] = $row->mendes;
-            $aMenu[] = $row->mencodigo;
-            $aRetorno[] = $aMenu;
-        }
-        return $aRetorno;
-    }
-
 }
 
 ?>

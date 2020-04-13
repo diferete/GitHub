@@ -20,7 +20,7 @@
     public function getMenu($sModulo){
         return $this->Persistencia->getMenuModulo($sModulo);
     }
-     /*
+   /*
      * Método que retorna um array com os menus do sistema
      */
     public function getMenuApp($sModulo){
@@ -99,7 +99,5 @@
        $aRetorno[1]= $this->Model->getMET_TEC_Modulo()->getModcod();
        return $aRetorno;
    }
-   
-   
 }
 ?>

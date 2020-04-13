@@ -15,30 +15,6 @@ class ControllerMET_TEC_ModUsuario extends Controller{
          return $this->Persistencia->modUserSistema($bInicial,$sModulo); 
     }
     
-    /**
-     * 
-     * @return string
-     */
-    public function modSistemaApp(){
-         return $this->Persistencia->modUserSistemaApp(); 
-    }
-    
-    public function beforeInsert() {
-        parent::beforeInsert();
-        
-        $iNr = $this->Persistencia->getModUserApp('');
-        
-        if($iNr > 0){
-            $oMensagem = new Mensagem('Atenção!','Já existe um módulo de aplicativo para esse usuário', Mensagem::TIPO_ERROR);
-            echo $oMensagem->getRender();
-            exit();
-        }
-        
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
     
 }
 

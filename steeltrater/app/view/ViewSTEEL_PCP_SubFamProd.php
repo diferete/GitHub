@@ -136,7 +136,7 @@ class ViewSTEEL_PCP_SubFamProd extends View {
         $oDivisor1 = new Campo('Parâmetros de Cadastro', 'divisor2', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oPRO_FamiliaTipoControle = new Campo('Tipo de controle de estoque', 'PRO_SubFamiliaTipoControle', Campo::TIPO_SELECT,1, 1, 12, 12);
+        $oPRO_FamiliaTipoControle = new Campo('Tipo de controle de estoque', 'PRO_SubFamiliaTipoControle', Campo::TIPO_SELECT, 1, 1, 12, 12);
         $oPRO_FamiliaTipoControle->addItemSelect('N', 'Nenhum');
         $oPRO_FamiliaTipoControle->addItemSelect('E', 'Estoque Total');
         $oPRO_FamiliaTipoControle->addItemSelect('F', 'Estoque Físico');
@@ -162,11 +162,7 @@ class ViewSTEEL_PCP_SubFamProd extends View {
 
 
         $this->addCampos(
-                array($oPRO_GrupoCodigo, $oPRO_GrupoCodigoDescricao), array($oPRO_SubGrupoCodigo, $oPRO_SubGrupoDescricao),
-                array($oPRO_FamiliaCodigo, $oPRO_FamiliaDescricao), array($oPRO_SubFamiliaCodigo, $oPRO_SubFamiliaDescricao),$oPRO_SubFamiliaProDescTec, $oDivisor0,
-                array($oPRO_FamTipoDespesa, $oPRO_FamDescTipoDespesa), array($oPRO_FamTipoReceita, $oPRO_FamDescTipoReceita),
-                array($oPRO_SubFamiliaProdutoBase,$oPRO_SubFamiliaSequencialProdut), $oDivisor1, 
-                array($oPRO_FamiliaTipoControle, $oPRO_FamiliaTipoCusto, $oPRO_FamiliaMovEstoque, $oPRO_FamiliaControleLote));
+                array($oPRO_GrupoCodigo, $oPRO_GrupoCodigoDescricao), array($oPRO_SubGrupoCodigo, $oPRO_SubGrupoDescricao), array($oPRO_FamiliaCodigo, $oPRO_FamiliaDescricao), array($oPRO_SubFamiliaCodigo, $oPRO_SubFamiliaDescricao), $oPRO_SubFamiliaProDescTec, $oDivisor0, array($oPRO_FamTipoDespesa, $oPRO_FamDescTipoDespesa), array($oPRO_FamTipoReceita, $oPRO_FamDescTipoReceita), array($oPRO_SubFamiliaProdutoBase, $oPRO_SubFamiliaSequencialProdut), $oDivisor1, array($oPRO_FamiliaTipoControle, $oPRO_FamiliaTipoCusto, $oPRO_FamiliaMovEstoque, $oPRO_FamiliaControleLote));
     }
 
 }

@@ -28,7 +28,7 @@ class ControllerMET_QUAL_Correcao extends Controller {
             $this->View->setSRotina($aDados[6]);
         }
 
-        $this->View->setSIdHideEtapa($aDados[4]);
+		$this->View->setSIdHideEtapa($aDados[4]);
         $this->View->criaTela();
         $this->View->getTela()->setSRender($aDados[3]);
         //define o retorno somente do form
@@ -181,7 +181,7 @@ class ControllerMET_QUAL_Correcao extends Controller {
 
         //renderiza a tela
         $this->View->getTela()->getRender();
-    }
+}
 
     public function apontaCorrecao($sDados) {
         $aDados = explode(',', $sDados);

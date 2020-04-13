@@ -91,10 +91,10 @@ class ControllerMET_TEC_Mobile extends Controller{
             //se for login deixa entar na condição abaixo, mesmo que token e codigo do usuario estejam em branco
             if($Classe == 'MET_TEC_Login' && $Metodo == 'validaMobLogin'){
                    
-                //pega login e senha digitado pelo usuário
-                   $CampoLogin = $Dados->usuario;
-                   $CampoSenha = $Dados->senha; 
-                
+                foreach ($Dados as $oDados){
+                   $CampoLogin = $oDados->usuario;
+                   $CampoSenha = $oDados->senha; 
+                }
                     
                     
                     //$CampoLogin = 'carlos@metalbo.com.br';
@@ -219,7 +219,7 @@ class ControllerMET_TEC_Mobile extends Controller{
                         //verifica se o método passado pela aplicação é existente na classe também passada pela aplicação
                         if(method_exists($oClasse, $Metodo)){
 
-                            $_SESSION['codUser']=$CampoUsuCod;    
+
                             //logo, se o método existir na classe, é executado e retorna seus respectivos dads dentro do indice "DADOS" o array $aRetorno
                             $aRetorno['DADOS'] = $oClasse->$Metodo($Dados);
                             //retorna esta classe para identificar que não ocorreu algum erro durante o percurso de dados
@@ -251,31 +251,5 @@ class ControllerMET_TEC_Mobile extends Controller{
         }
        
         echo json_encode($aRetorno); //tudo deve retornar através disso :)
-    }
-    
-    /**
-     * Retorna o Menu de um aplicativo
-     */
-    public function getMenu($Dados){
-        $aRetorno = array();
-        $aRetDados = array();
-        $oMod = Fabrica::FabricarController('MET_TEC_ModUsuario');
-        $aModulo = $oMod->modSistemaApp();
-        
-        $oMenu = Fabrica::FabricarController('MET_TEC_Menu');
-        $aMenu = $oMenu->getMenuApp($aModulo[1]);
-        
-        $oItemMenu = Fabrica::FabricarController('MET_TEC_ItemMenu');
-         foreach ($aMenu as $key => $aMenuSup) {
-             $aSub = $oItemMenu->getItemMenuApp($aModulo[1], $aMenuSup[1]);
-             foreach ($aSub as $key => $aValue) {
-                 $aRetorno[$aMenuSup[0]][$key]['title'] =$aValue['itedescricao'];
-                 $aRetorno[$aMenuSup[0]][$key]['url'] =$aValue['url'];
-                 $aRetorno[$aMenuSup[0]][$key]['ionicIcon'] =$aValue['iconApp'];
-                 
-             }
-             
-         }
-         return $aRetorno;
     }
 }
