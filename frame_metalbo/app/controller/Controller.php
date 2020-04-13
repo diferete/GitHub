@@ -3177,7 +3177,7 @@ class Controller {
           //array de controle de erros
           $aRetorno[0] = true;
 
-          $this->carregaModel();
+          $this->carregaModel($aCamposTela);
 
           $aRetorno = $this->beforeInsert();
 

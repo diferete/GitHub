@@ -243,7 +243,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
         $oDados = $this->Persistencia->consultarWhere();
 
-        if ($oDados->getSituaca() == 'AGUARDANDO' || $_SESSION['codsetor'] == 2) {
+        if (($oDados->getSituaca() == 'AGUARDANDO') || ($_SESSION['codsetor'] == 2 && $oDados->getSituaca() != 'FINALIZADO')) {
 
             $this->View->setAParametrosExtras($oDados);
 

@@ -256,7 +256,7 @@ class ControllerSolPed extends Controller {
     }
 
     public function verifBloqCred() {
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
         $sEmpcod = $this->Model->getCnpj();
         $sBloq = $this->Persistencia->retBloq($sEmpcod);
 

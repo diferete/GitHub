@@ -32,9 +32,9 @@ class ControllerLogin extends Controller {
      */
 
     public function logaSistema() {
-        $params = array();
-        parse_str($_REQUEST['campos'], $params);
-        $this->carregaModel($params);
+        $aCamposTela = array();
+        parse_str($_REQUEST['campos'], $aCamposTela);
+        $this->carregaModel($aCamposTela);
         $aLogaSistema = $this->Persistencia->logarSistema();
         if ($aLogaSistema[0]) {
             $oDados = $this->Persistencia->buscaDadosUser($this->Model->getCodsetor());

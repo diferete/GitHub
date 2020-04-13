@@ -916,7 +916,7 @@ class ViewSistema extends View {
                 . '<div class="example example-well">'
                 . '<div class="page-header text-center">'
                 . '<h1 class="page-title">Bem-vindo, ' . $_SESSION["nome"] . '!</h1>'
-                . '<p class="page-description"><a target="_blank" href="https://www.metalbo.com.br">www.metalbo.com.br</a></br>'
+                . '<p class="page-description"><a target="_blank" href="http://metalbo.com.br/">Visite nosso site</a></br>'
                 . '<a target="_blank" href="https://facebook.com/metalbo.oficial"> '
                 . '<button type="button" class="btn btn-labeled btn-xs social-facebook">'
                 . '<span class="btn-label"><i class="icon bd-facebook" aria-hidden="true"></i></span>Facebook</button>'
