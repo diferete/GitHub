@@ -19,7 +19,7 @@ while ($aRow = $sth->fetch(PDO::FETCH_ASSOC)) {
     $aDados[1] = $aRow['nfsnfnro'];
     $aDados[2] = $aRow['nfsnfser'];
 
-    $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc, nfsdtsaida, nfshrsaida, nfscliuf, nfsclicod, nfsclinome "
+    $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc, nfsdtsaida, nfshrsaida, nfstrauf, nfscliuf, nfsclicod, nfsclinome "
             . "from widl.NFC001 "
             . "where nfsfilcgc = '" . $aDados[0] . "' "
             . "and nfsnfnro = '" . $aDados[1] . "' "
@@ -35,18 +35,11 @@ while ($aRow = $sth->fetch(PDO::FETCH_ASSOC)) {
 
         $logo = 'data://text/plain;base64,' . base64_encode(file_get_contents('biblioteca/assets/images/logo.jpg'));
 
-        $horaSaida = $aDadosNF['nfshrsaida'];
-        $dataSaida = date('d/m/Y', strtotime($aDadosNF['nfsdtsaida']));
-        $dataEmiss = date('d/m/Y', strtotime($aDadosNF['nfsdtemiss']));
-        $aData = explode('/', $dataSaida);
-        if ($aData[2] == '1753') {
-            $dataSaida = '';
-        }
+        $aDadosExtras = montaDadosExtras($aDadosNF, $aDados, $PDO);
 
         $danfe = new Danfe($xml);
         $danfe->debugMode(false);
-        $danfe->creditsIntegratorFooter('WEBNFe Sistemas - http://www.webenf.com.br');
-        $danfe->monta($horaSaida, $dataSaida, $logo);
+        $danfe->monta($aDadosExtras, $logo);
         $pdf = $danfe->render();
 
         header('Content-Type: application/pdf');
@@ -225,4 +218,51 @@ function updateProc($aDadosNF, $aDados, $PDO) {
     $sql = "INSERT INTO MET_TEC_LogXml (filcgc, nf, datalog, horalog, logxml, tipolog, cliente) VALUES (:filcgc, :nf, :datalog, :horalog, :logxml, :tipolog, :cliente)";
     $stmt = $PDO->prepare($sql);
     $debug = $stmt->execute($data);
+}
+
+function montaDadosExtras($aDadosNF, $aDados, $PDO) {
+    $aDadosExtras = array();
+
+    $aDadosExtras['horaSaida'] = $aDadosNF['nfshrsaida'];
+    $aDadosExtras['dataSaida'] = date('d/m/Y', strtotime($aDadosNF['nfsdtsaida']));
+    $aDadosExtras['dataEmiss'] = date('d/m/Y', strtotime($aDadosNF['nfsdtemiss']));
+    $aData = explode('/', $aDadosExtras['dataSaida']);
+    if ($aData[2] == '1753') {
+        $aDadosExtras['dataSaida'] = '';
+    }
+    if ($aDadosNF['nfstrauf'] == 'EX') {
+        $sSqlExtras = 'select nfstrains, nfstranome, nfstraende, nfstrabair, nfstracep, nfstracid, nfspesobr, nfspesolq, nfsespecie, nfsmarca, nfsqtdvol '
+                . "from widl.NFC001 "
+                . "where nfsfilcgc = '" . $aDados[0] . "' "
+                . "and nfsnfnro = '" . $aDados[1] . "' "
+                . "and nfsnfser = '" . $aDados[2] . "' ";
+        $dadosSqlExtras = $PDO->query($sSqlExtras);
+        $aDadosSqlExtras = $dadosSqlExtras->fetch(PDO::FETCH_ASSOC);
+        $aDadosExtras['nfstranome'] = $aDadosSqlExtras['nfstranome'];
+        $aDadosExtras['nfstrains'] = $aDadosSqlExtras['nfstrains'];
+        $aDadosExtras['nfstraende'] = $aDadosSqlExtras['nfstraende'];
+        $aDadosExtras['nfstrabair'] = $aDadosSqlExtras['nfstrabair'];
+        $aDadosExtras['nfstracep'] = $aDadosSqlExtras['nfstracep'];
+        $aDadosExtras['nfstracid'] = $aDadosSqlExtras['nfstracid'];
+        $aDadosExtras['nfspesobr'] = number_format($aDadosSqlExtras['nfspesobr'], '3', ',', '.');
+        $aDadosExtras['nfspesolq'] = number_format($aDadosSqlExtras['nfspesolq'], '3', ',', '.');
+        $aDadosExtras['nfsespecie'] = $aDadosSqlExtras['nfsespecie'];
+        $aDadosExtras['nfsmarca'] = $aDadosSqlExtras['nfsmarca'];
+        $aDadosExtras['nfsqtdvol'] = number_format($aDadosSqlExtras['nfsqtdvol'], '0');
+        $aDadosExtras['nfstrauf'] = $aDadosNF['nfstrauf'];
+    } else {
+        $aDadosExtras['nfstranome'] = '';
+        $aDadosExtras['nfstrains'] = '';
+        $aDadosExtras['nfstraende'] = '';
+        $aDadosExtras['nfstrabair'] = '';
+        $aDadosExtras['nfstracep'] = '';
+        $aDadosExtras['nfstracid'] = '';
+        $aDadosExtras['nfspesobr'] = '';
+        $aDadosExtras['nfspesolq'] = '';
+        $aDadosExtras['nfsespecie'] = '';
+        $aDadosExtras['nfsmarca'] = '';
+        $aDadosExtras['nfsqtdvol'] = '';
+        $aDadosExtras['nfstrauf'] = '';
+    }
+    return $aDadosExtras;
 }

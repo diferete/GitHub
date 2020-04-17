@@ -2514,7 +2514,7 @@ class Danfe extends Common
         $texto = '';
         $pesoBruto=0;
         $pesoLiquido=0;
-        $volLenght = sizeof($volumes);
+        $volLenght = count($volumes);
         if($volLenght > 0){
             foreach ($volumes as $volume) {
             $quantidade += ! empty($volume->getElementsByTagName("qVol")->item(0)->nodeValue) ?
@@ -3408,8 +3408,8 @@ class Danfe extends Common
         $texto = "Impresso em ". date('d/m/Y') . " as " . date('H:i:s')
             . '  ' . $this->creditos;
         $this->pdf->textBox($x, $y, $w, 0, $texto, $aFont, 'T', 'L', false);
-        $texto = "Powered by NFePHP®";
-        $this->pdf->textBox($x, $y, $w, 0, $texto, $aFont, 'T', 'R', false, '');
+        //$texto = "Powered by NFePHP®";
+        //$this->pdf->textBox($x, $y, $w, 0, $texto, $aFont, 'T', 'R', false, '');
     }
 
     /**

@@ -34,7 +34,6 @@ $aDadosExtras = montaDadosExtras($aDadosNF, $aDados, $PDO);
 
 $danfe = new Danfe($xml);
 $danfe->debugMode(false);
-$danfe->creditsIntegratorFooter('WEBNFe Sistemas - http://www.webenf.com.br');
 $danfe->monta($aDadosExtras, $logo);
 $pdf = $danfe->render();
 
@@ -55,7 +54,7 @@ $aRetorno = enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO);
 //altera situação da DANFE e XML para enviado
 //cria log com erro de envio
 //cria log caso enviado mas erro ao alterar situação de envio
-//updates($aRetorno, $aDados, $aDadosNF, $PDO);
+updates($aRetorno, $aDados, $aDadosNF, $PDO);
 
 if (!$aRetorno[0]) {
     $oMsg = new Mensagem('Atenção', 'O e-mail não foi enviado, verifique a tabela de LOGS', Mensagem::TIPO_ERROR);
@@ -78,10 +77,8 @@ function buscaDirXML($aDadosNF, $aDados) {
     $sData = date('d/m/Y', strtotime($aDadosNF['nfsdtemiss']));
     $aPastasDir = explode('/', $sData);
 
-    //Ano e mês
+    //Dir = Ano-mês/dia
     $sDir = $sDir . '\\' . $aPastasDir[2] . '-' . $aPastasDir[1] . '\\' . $aPastasDir[0] . '\\Proc';
-
-    $sSit = $aDadosNF['nfsnfesit'];
 
     $sDir = $sDir . '\\' . trim($aDadosNF['nfsnfechv']) . '-nfeProc.xml';
 
@@ -124,7 +121,7 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     $oEmail->setMensagem(utf8_decode('<span>Seguem XML e DANFE referente a NF.: <b> ' . $aDados[1] . '</b></span>'
                     . '<br/><br/>'
                     . '<br/><span style="color:red;">E-mail enviado automaticamente, favor não responder!</span>'));
-    /*
+
     $oEmail->limpaDestinatariosAll();
 
     if ($aDadosNF['nfscliuf'] == 'EX') {
@@ -142,11 +139,10 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     while ($aRow = $emailContatos->fetch(PDO::FETCH_ASSOC)) {
         $oEmail->addDestinatario($aRow['empconemai']);
     }
-     * 
-     */
 
-    $oEmail->limpaDestinatariosAll();
-    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+    //$oEmail->limpaDestinatariosAll();
+    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
     //$oEmail->addDestinatario('avanei@metalbo.com.br');
     //$oEmail->addDestinatario('jose@metalbo.com.br');
     //$oEmail->addDestinatario('cleverton@metalbo.com.br');
@@ -173,6 +169,7 @@ function updates($aRetorno, $aDados, $aDadosNF, $PDO) {
         $sSqlTagENV = "update Widl.NFC001 set NfsEmailEn = 'S' where nfsnfnro = " . $aDados[1] . " " . $emp;
         $logXml = $PDO->exec($sSqlTagENV);
         if ($logXml == false) {
+            date_default_timezone_set('America/Sao_Paulo');
             $data = [
                 'filcgc' => $aDados[0],
                 'nf' => $aDados[1],
@@ -187,6 +184,7 @@ function updates($aRetorno, $aDados, $aDadosNF, $PDO) {
             $debug = $stmt->execute($data);
         }
     } else {
+        date_default_timezone_set('America/Sao_Paulo');
         $data = [
             'filcgc' => $aDados[0],
             'nf' => $aDados[1],
