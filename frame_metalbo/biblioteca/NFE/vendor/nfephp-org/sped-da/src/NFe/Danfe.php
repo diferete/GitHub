@@ -328,7 +328,7 @@ class Danfe extends Common
     public function render()
     {
         if (empty($this->pdf)) {
-            $this->monta($horaSaida,$dataSaida);
+            $this->monta($aDadosExtras);
         }
         return $this->pdf->getPdf();
     }
@@ -345,9 +345,7 @@ class Danfe extends Common
      * @param  string $papel      (Opcional) Estabelece o tamanho do papel (ex. A4)
      * @return string O ID da NFe numero de 44 digitos extraido do arquivo XML
      */
-    public function monta(
-        $horaSaida,
-        $dataSaida,
+    public function monta($aDadosExtras,
         $logo = '',
         $orientacao = '',
         $papel = 'A4',
@@ -630,7 +628,7 @@ class Danfe extends Common
         //coloca o cabeçalho
         $y = $this->header($x, $y, $pag, $totPag);
         //coloca os dados do destinatário
-        $y = $this->destinatarioDANFE($x, $y+1, $horaSaida, $dataSaida);
+        $y = $this->destinatarioDANFE($x, $y+1, $aDadosExtras);
         
         //coloca os dados do local de retirada
         if (isset($this->retirada)) {
@@ -667,7 +665,7 @@ class Danfe extends Common
         //coloca os dados dos impostos e totais da NFe
         $y = $this->imposto($x, $y+1);
         //coloca os dados do trasnporte
-        $y = $this->transporte($x, $y+1);
+        $y = $this->transporte($x, $y+1,$aDadosExtras);
         //itens da DANFE
         $nInicial = 0;
 
@@ -1399,7 +1397,7 @@ class Danfe extends Common
      * @param  number $y Posição vertical canto superior
      * @return number Posição vertical final
      */
-    protected function destinatarioDANFE($x = 0, $y = 0, $horaSaida, $dataSaida)
+    protected function destinatarioDANFE($x = 0, $y = 0, $aDadosExtras)
     {
         //####################################################################################
         //DESTINATÁRIO / REMETENTE
@@ -1519,7 +1517,7 @@ class Danfe extends Common
         $texto = 'DATA DA SAÍDA/ENTRADA';
         $aFont = ['font'=>$this->fontePadrao, 'size'=>6, 'style'=>''];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'T', 'L', 1, '');
-        $dSaiEnt = $dataSaida;
+        $dSaiEnt = $aDadosExtras['dataSaida'];
         /*$dSaiEnt = ! empty($this->ide->getElementsByTagName("dSaiEnt")->item(0)->nodeValue)
             ? $this->ide->getElementsByTagName("dSaiEnt")->item(0)->nodeValue
             : '';
@@ -1586,7 +1584,7 @@ class Danfe extends Common
         $texto = 'HORA DA SAÍDA/ENTRADA';
         $aFont = ['font'=>$this->fontePadrao, 'size'=>6, 'style'=>''];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'T', 'L', 1, '');
-        $hSaiEnt = $horaSaida;
+        $hSaiEnt = $aDadosExtras['horaSaida'];
         /*$hSaiEnt = ! empty($this->ide->getElementsByTagName("hSaiEnt")->item(0)->nodeValue)
         ? $this->ide->getElementsByTagName("hSaiEnt")->item(0)->nodeValue
         : '';
@@ -2305,7 +2303,7 @@ class Danfe extends Common
      * @param  float $y Posição vertical canto superior
      * @return float Posição vertical final
      */
-    protected function transporte($x, $y)
+    protected function transporte($x, $y, $aDadosExtras)
     {
         $oldX = $x;
         if ($this->orientacao == 'P') {
@@ -2331,7 +2329,7 @@ class Danfe extends Common
             ? $this->transporta->getElementsByTagName("xNome")->item(0)->nodeValue
             : '';
         } else {
-            $texto = '';
+            $texto = $aDadosExtras['nfstranome'];
         }
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w1, $h, $texto, $aFont, 'B', 'L', 0, '');
@@ -2352,16 +2350,16 @@ class Danfe extends Common
                 $texto = "1 - DESTINATÁRIO";
                 break;
             case 2:
-                $texto = "2-Por conta de Terceiros";
+                $texto = "2 - Por conta de Terceiros";
                 break;
             case 3:
-                $texto = "3-Próprio por conta do Rem";
+                $texto = "3 - Próprio por conta do Rem";
                 break;
             case 4:
-                $texto = "4-Próprio por conta do Dest";
+                $texto = "4 - Próprio por conta do Dest";
                 break;
             case 9:
-                $texto = "9-Sem Transporte";
+                $texto = "9 - Sem Transporte";
                 break;
         }
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
@@ -2439,7 +2437,7 @@ class Danfe extends Common
                 : '';
             }
         } else {
-            $texto = '';
+            $texto = '00.000.000/0000-00';
         }
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');
@@ -2457,7 +2455,7 @@ class Danfe extends Common
                 ? $this->transporta->getElementsByTagName("xEnder")->item(0)->nodeValue
                 : '';
         } else {
-            $texto = '';
+            $texto = $aDadosExtras['nfstraende'];
         }
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w1, $h, $texto, $aFont, 'B', 'L', 0, '');
@@ -2472,7 +2470,7 @@ class Danfe extends Common
                 ? $this->transporta->getElementsByTagName("xMun")->item(0)->nodeValue
                 : '';
         } else {
-            $texto = '';
+            $texto = $aDadosExtras['nfstracid'];
         }
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w2, $h, $texto, $aFont, 'B', 'C', 0, '');
@@ -2487,7 +2485,7 @@ class Danfe extends Common
                 ? $this->transporta->getElementsByTagName("UF")->item(0)->nodeValue
                 : '';
         } else {
-            $texto = '';
+            $texto = $aDadosExtras['nfstrauf'];
         }
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w3, $h, $texto, $aFont, 'B', 'C', 0, '');
@@ -2502,6 +2500,8 @@ class Danfe extends Common
             if (! empty($this->transporta->getElementsByTagName("IE")->item(0)->nodeValue)) {
                 $texto = $this->transporta->getElementsByTagName("IE")->item(0)->nodeValue;
             }
+        }else {
+            $texto = $aDadosExtras['nfstrains'];
         }
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'C', 0, '');
@@ -2514,7 +2514,9 @@ class Danfe extends Common
         $texto = '';
         $pesoBruto=0;
         $pesoLiquido=0;
-        foreach ($volumes as $volume) {
+        $volLenght = sizeof($volumes);
+        if($volLenght > 0){
+            foreach ($volumes as $volume) {
             $quantidade += ! empty($volume->getElementsByTagName("qVol")->item(0)->nodeValue) ?
                     $volume->getElementsByTagName("qVol")->item(0)->nodeValue : 0;
             $pesoBruto += ! empty($volume->getElementsByTagName("pesoB")->item(0)->nodeValue) ?
@@ -2548,6 +2550,12 @@ class Danfe extends Common
                 $numero = $texto;
             }
         }
+        }else{
+            $quantidade = $aDadosExtras['nfsqtdvol'];
+            $especie = $aDadosExtras['nfsespecie'];
+            $marca = $aDadosExtras['nfsmarca'];
+        }
+        
 
         //#####################################################################
         //QUANTIDADE
@@ -2578,7 +2586,7 @@ class Danfe extends Common
         $aFont = ['font'=>$this->fontePadrao, 'size'=>6, 'style'=>''];
         $this->pdf->textBox($x, $y, $w2, $h, $texto, $aFont, 'T', 'L', 1, '');
         $texto = ! empty($this->transp->getElementsByTagName("marca")->item(0)->nodeValue) ?
-                $this->transp->getElementsByTagName("marca")->item(0)->nodeValue : '';
+                $this->transp->getElementsByTagName("marca")->item(0)->nodeValue : $marca;
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w2, $h, $texto, $aFont, 'B', 'C', 0, '');
         //NUMERAÇÃO
@@ -2598,7 +2606,7 @@ class Danfe extends Common
         if (is_numeric($pesoBruto) && $pesoBruto > 0) {
             $texto = number_format($pesoBruto, 3, ",", ".");
         } else {
-            $texto = '';
+            $texto = $aDadosExtras['nfspesobr'];
         }
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w3, $h, $texto, $aFont, 'B', 'R', 0, '');
@@ -2611,7 +2619,7 @@ class Danfe extends Common
         if (is_numeric($pesoLiquido) && $pesoLiquido > 0) {
             $texto = number_format($pesoLiquido, 3, ",", ".");
         } else {
-            $texto = '';
+            $texto = $aDadosExtras['nfspesolq'];
         }
         $aFont = ['font'=>$this->fontePadrao, 'size'=>10, 'style'=>'B'];
         $this->pdf->textBox($x, $y, $w, $h, $texto, $aFont, 'B', 'R', 0, '');

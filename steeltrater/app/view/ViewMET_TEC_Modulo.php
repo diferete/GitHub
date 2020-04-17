@@ -14,14 +14,13 @@ class ViewMET_TEC_Modulo extends View {
         $this->setaTiluloConsulta('Pesquisa de Módulos do Sistema');
         $oCodigo = new CampoConsulta('Modulo', 'modcod');
         $oModulo = new CampoConsulta('Descrição', 'modescricao');
-        $oModApp = new CampoConsulta('Módulo do App','modApp');
 
-        $oDropDown = new Dropdown('Testar Email', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
-        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Testar Email', 'MET_TEC_Modulo', 'testarEmail', '', false, '',false,'',false,'',false,false);
+        $oDropDown = new Dropdown('XML', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Testar Xml', 'MET_FIN_VisualizaNFE', 'enviaXmlAutomatizado', '', false, '',false,'',false,'',false,false);
 
         $this->addDropdown($oDropDown);
 
-        $this->addCampos($oCodigo, $oModulo,$oModApp);
+        $this->addCampos($oCodigo, $oModulo);
 
         $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4,4,12,12,false);
         $this->addFiltro($oModuloF);

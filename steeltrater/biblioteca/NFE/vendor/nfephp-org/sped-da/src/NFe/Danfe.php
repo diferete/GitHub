@@ -2627,6 +2627,9 @@ class Danfe extends Common
             return "";
         }
         $valor_original = $valor_original->nodeValue;
+        if($valor_original == '0.00'){
+            return "";
+        }
         $valor = ! empty($valor_original) ? number_format($valor_original, 2, ",", ".") : '';
 
         if ($valor != "") {
@@ -3400,8 +3403,8 @@ class Danfe extends Common
         $texto = "Impresso em ". date('d/m/Y') . " as " . date('H:i:s')
             . '  ' . $this->creditos;
         $this->pdf->textBox($x, $y, $w, 0, $texto, $aFont, 'T', 'L', false);
-        $texto = "Powered by NFePHP®";
-        $this->pdf->textBox($x, $y, $w, 0, $texto, $aFont, 'T', 'R', false, '');
+        //$texto = "Powered by NFePHP®";
+        //$this->pdf->textBox($x, $y, $w, 0, $texto, $aFont, 'T', 'R', false, '');
     }
 
     /**

@@ -81,7 +81,6 @@ class CampoConsulta {
     const ICONE_EDIT = 'btn-xs btn btn-pure btn-primary icon wb-clipboard';
     const ICONE_ADICIONAR = 'btn-xs btn btn-outline btn-warning icon wb-plus';
     const ICONE_ENVIAR = 'btn-xs btn btn-outline btn-success icon wb-arrow-right';
-	
     const ICONE_BOTAOPRIMARY = 'btn btn-primary btn-xs ladda-button btn-grid';
     const ICONE_BOTAOSUCCES = 'btn btn-success btn-xs ladda-button btn-grid';
     const ICONE_BOTAODANGER = 'btn btn-danger btn-xs ladda-button btn-grid';
@@ -437,7 +436,11 @@ class CampoConsulta {
                 } else {
                     
                 }
-                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'' . $this->getSDiretorioManual() . '/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
+                if ($this->getSDiretorioManual() == 'uploads') {
+                    $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'' . $this->getSDiretorioManual() . '/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
+                } else {
+                    $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href="\\Uploads/' . $this->getSDiretorioManual() . '/' . $xValor . '"\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
+                }
                 break;
             case self::TIPO_DESTAQUE1:
                 $iFontSize = $this->getITamanhoFonte();

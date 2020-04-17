@@ -21,10 +21,6 @@ class ModelMET_ISO_Treinamentos {
     private $grau_escolaridade;
     private $tagEscolaridade;
     private $tagTreinamento;
-    private $experiencia2a;
-    private $experiencia1a;
-    private $hablideranca;
-    private $semexperiencia;
 
     function getNr() {
         return $this->nr;
@@ -78,22 +74,6 @@ class ModelMET_ISO_Treinamentos {
         return $this->tagTreinamento;
     }
 
-    function getExperiencia2a() {
-        return $this->experiencia2a;
-    }
-
-    function getExperiencia1a() {
-        return $this->experiencia1a;
-    }
-
-    function getHablideranca() {
-        return $this->hablideranca;
-    }
-
-    function getSemexperiencia() {
-        return $this->semexperiencia;
-    }
-
     function setNr($nr) {
         $this->nr = $nr;
     }
@@ -144,22 +124,6 @@ class ModelMET_ISO_Treinamentos {
 
     function setTagTreinamento($tagTreinamento) {
         $this->tagTreinamento = $tagTreinamento;
-    }
-
-    function setExperiencia2a($experiencia2a) {
-        $this->experiencia2a = $experiencia2a;
-    }
-
-    function setExperiencia1a($experiencia1a) {
-        $this->experiencia1a = $experiencia1a;
-    }
-
-    function setHablideranca($hablideranca) {
-        $this->hablideranca = $hablideranca;
-    }
-
-    function setSemexperiencia($semexperiencia) {
-        $this->semexperiencia = $semexperiencia;
     }
 
 }

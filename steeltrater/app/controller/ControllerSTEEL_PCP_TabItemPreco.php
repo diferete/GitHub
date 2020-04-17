@@ -154,7 +154,7 @@ class ControllerSTEEL_PCP_TabItemPreco extends Controller {
      * Valida se já ha um insumo, função callBack
      */
     public function callBackInsumos($sDados) {
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
         $oItems = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');
         $oItems->Persistencia->adicionaFiltro('nr', $this->Model->getNr());

@@ -180,9 +180,9 @@ class ViewMET_ISO_Treinamentos extends View {
             } else {
                 $oAcao->setSValor('alterar');
             }$this->setSIdControleUpAlt($oAcao->getId());
-            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oSit, $oTagEsc), $oLinhaBranco, array($oExp1A, $oExp2A, $oHabLider, $oSemExp), $oAcao);
+            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oSit, $oTagEsc),$oAcao);
         } else {
-            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oTagEsc, $oSit), $oLinhaBranco, array($oExp1A, $oExp2A, $oHabLider, $oSemExp));
+            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oTagEsc, $oSit));
         }
     }
 

@@ -3178,7 +3178,7 @@ class Controller {
           //array de controle de erros
           $aRetorno[0] = true;
 
-          $this->carregaModel();
+          $this->carregaModel($aCamposTela);
 
           $aRetorno = $this->beforeInsert();
 
@@ -3356,7 +3356,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
             }
         }
         $this->Model = $this->Persistencia->consultar();

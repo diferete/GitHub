@@ -16,7 +16,7 @@ class ViewMET_TEC_ItemMenu extends View{
         $this->setTitulo('Itens Menu');
     }
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
         
          /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
