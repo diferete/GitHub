@@ -8,8 +8,8 @@
 
 class ModelMET_QUAL_Rnc {
 
-    private $nr;
     private $filcgc;
+    private $nr;
     private $codprobl;
     private $databert;
     private $horaini;
@@ -56,9 +56,6 @@ class ModelMET_QUAL_Rnc {
     function setDescprod($descprod) {
         $this->descprod = $descprod;
     }
-
-       
-    
     
     function getPessoa() {
      if (!isset($this->Pessoa)) {

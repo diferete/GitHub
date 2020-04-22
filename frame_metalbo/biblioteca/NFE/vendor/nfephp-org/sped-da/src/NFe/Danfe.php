@@ -2515,7 +2515,7 @@ class Danfe extends Common
         $pesoBruto=0;
         $pesoLiquido=0;
         $volLenght = count($volumes);
-        if($volLenght > 0){
+        if($volumes->length > 0){
             foreach ($volumes as $volume) {
             $quantidade += ! empty($volume->getElementsByTagName("qVol")->item(0)->nodeValue) ?
                     $volume->getElementsByTagName("qVol")->item(0)->nodeValue : 0;

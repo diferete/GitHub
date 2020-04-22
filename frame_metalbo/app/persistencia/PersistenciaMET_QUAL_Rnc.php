@@ -12,8 +12,9 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
         parent::__construct();
         $this->setTabela('MET_QUAL_Rnc');
 
-        $this->adicionaRelacionamento('nr', 'nr', true, true, true);
         $this->adicionaRelacionamento('filcgc', 'filcgc', true, true);
+        $this->adicionaRelacionamento('nr', 'nr', true, true, true);
+        $this->adicionaRelacionamento('filcgc', 'Pessoa.empcod', false, false, false);
         $this->adicionaRelacionamento('codprobl', 'codprobl');
         $this->adicionaRelacionamento('codprobl', 'MET_QUAL_Prob_Rnc.codprobl', false, false, false);
         $this->adicionaRelacionamento('databert', 'databert');
@@ -47,18 +48,15 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
         $this->adicionaRelacionamento('anexo2', 'anexo2');
         $this->adicionaRelacionamento('anexo3', 'anexo3');
         $this->adicionaRelacionamento('anexo4', 'anexo4');
-        $this->adicionaRelacionamento('descprod', 'descprod');
+        $this->adicionaRelacionamento('descprod','descprod');
 
+         $this->adicionaRelacionamento('empdes', 'empdes', false, false);
+         $this->adicionaJoin('MET_QUAL_Prob_Rnc');  
+         $this->adicionaJoin('Pessoa', null, 1, 'filcgc', 'empcod');
 
-
-        $this->adicionaRelacionamento('filcgc', 'Pessoa.empcod', false, false);
-        $this->adicionaRelacionamento('empdes', 'empdes', false, false);
-        $this->adicionaJoin('MET_QUAL_Prob_Rnc');
-        $this->adicionaJoin('Pessoa', null, 1, 'filcgc', 'empcod');
-
-        //$this->setSTop(50);
-
-        $this->adicionaOrderBy('nr', 1);
+         $this->setSTop(25);
+        
+        $this->adicionaOrderBy('nr',1);
     }
 
     public function buscaDadosOp($sOp) {
@@ -70,26 +68,29 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno;
     }
-
-    public function buscaDadoscodmat($sCodmat) {
+    
+        public function buscaDadoscodmat($sCodmat) {
 
         $sSql = 'select procod,prodes '
-                . ' FROM WIDL.PROD01'
-                . ' WHERE GRUCOD =2 '
-                . 'AND PROCOD =' . $sCodmat . ' ';
+                .' FROM WIDL.PROD01'
+                .' WHERE GRUCOD =2 '
+                . 'AND PROCOD ='. $sCodmat. ' ';             
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno;
     }
-
-    public function buscaDadoscodprod($sCodprod) {
+    
+    
+        public function buscaDadoscodprod($sCodprod) {
 
         $sSql = 'select procod,prodes '
-                . ' FROM WIDL.PROD01'
-                . ' WHERE GRUCOD in(12,13) '
-                . 'AND PROCOD =' . $sCodprod . ' ';
+                .' FROM WIDL.PROD01'
+                .' WHERE GRUCOD in(12,13) '
+                . 'AND PROCOD ='. $sCodprod. ' ';             
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno;
     }
+    
+
 
     public function CancelaRnc($aDados) {
         $dData = date('d/m/Y');
@@ -117,7 +118,7 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
 
         return $oRetorno;
     }
-
+    
     public function buscaCorrida($sDados) {
         $sSql = "select COUNT(*) as corrida from MetQual_MovOi where corrida = '" . $sDados . "'";
         $iCorrida = $this->consultaSql($sSql);
