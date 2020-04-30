@@ -81,17 +81,6 @@ function buscaDirXML($aDadosNF, $aDados) {
     return $sDir;
 }
 
-function montaDirDANFE($sDados) {
-    $sDir = '';
-    if ($sDados == '75483040000211') {
-        $sDir = '75483040000211-FILIAL';
-    }
-    if ($sDados == '75483040000130') {
-        $sDir = '75483040000130-REX';
-    }
-    return $sDir;
-}
-
 function output($name, $pdf) {
     $f = fopen($name, 'w');
     if (!$f) {
@@ -111,7 +100,7 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     $oEmail->setUsuario(Config::EMAIL_SENDER);
     $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
     $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Envio de XML de DANFE'));
+    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Envio de XML e DANFE'));
 
     $oEmail->setAssunto(utf8_decode('XML METALBO IND. FIXADORES METALICOS LTDA'));
     $oEmail->setMensagem(utf8_decode('<span>Seguem XML e DANFE referente a NF.: <b> ' . $aDados[1] . '</b></span>'

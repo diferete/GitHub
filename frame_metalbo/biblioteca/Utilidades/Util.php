@@ -364,6 +364,26 @@ class Util {
         return $sDate; //date($dia.'/'.$mes.'/'.$ano);
     }
 
+    /**
+     * Retorna data de sexta se for segunda se não retorna data ontem
+     */
+    public function dataSextaSegunda() {
+        $dia = date("d");
+        $mes = date('m');
+        $ano = date('Y');
+        $dt = DateTime::createFromFormat('j/n/Y', "$dia/$mes/$ano");
+        $diaAtual = date_format($dt, 'N');
+
+
+
+
+        if ((date_format($dt, 'N') === '1')) {
+            return $sDate = date("d/m/Y", mktime(0, 0, 0, $mes, $dia - 3, $ano));
+        } else {
+            return $sDate = date("d/m/Y", mktime(0, 0, 0, $mes, $dia - 1, $ano));
+        }
+    }
+
 }
 
 ?>

@@ -26,11 +26,11 @@ class PersistenciaLogin extends Persistencia {
                         usubloqueado,
                         usunome,usuimagem,usuemail,officecod,codsetor,
                         usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft
-                   FROM tbusuario
-                  WHERE usulogin = '" . $this->Model->getLogin() . "' 
-                    AND ususenha='" . sha1($this->Model->getLoginsenha()) . "' 
-                    group by usunome,usucodigo,usubloqueado,usuimagem,usuemail,codsetor,
-                    officecod,usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft";
+                        FROM tbusuario
+                        WHERE usulogin = '" . $this->Model->getLogin() . "' 
+                        AND ususenha='" . sha1($this->Model->getLoginsenha()) . "' 
+                        group by usunome,usucodigo,usubloqueado,usuimagem,usuemail,codsetor,
+                        officecod,usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft";
 
         $result = $this->getObjetoSql($sSql);
 

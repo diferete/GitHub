@@ -48,44 +48,39 @@ class ControllerSTEEL_PCP_NfSaida extends Controller {
         }
     }
 
-    /* public function beforeMostraRelConsulta($sParametros) {
-      parent::beforeMostraRelConsulta($sParametros);
+    public function beforeMostraRelConsulta($sParametros) {
+        parent::beforeMostraRelConsulta($sParametros);
 
-      $aDados = explode(',', $sParametros);
-      $sCampos = htmlspecialchars_decode($aDados[2]);
-      $aCamposChave = array();
-      parse_str($sCampos, $aCamposChave);
+        $aDados = explode(',', $sParametros);
+        $sCampos = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sCampos, $aCamposChave);
 
-      $oRetorno = $this->Persistencia->buscaDadosNF($aCamposChave);
+        $oRetorno = $this->Persistencia->buscaDadosNF($aCamposChave);
 
-      if ($oRetorno->nfsnfesit !== 'A') {
-      $oMsg = new Mensagem('Atenção!', 'Danfe da NF - ' . $aCamposChave['nfsnfnro'] . ' não pode ser visualizada pois não foi autorizada', Mensagem::TIPO_ERROR, 7000);
-      echo $oMsg->getRender();
-      exit;
-      } else {
-      $sDir = '\\\sistema_metalbo\Delonei\Notas\\';
-      if ($aCamposChave['nfsfilcgc'] == '75483040000211') {
-      $sDir = $sDir . '75483040000211-FILIAL';
-      }
-      if ($aCamposChave['nfsfilcgc'] == '75483040000130') {
-      $sDir = $sDir . '75483040000130-REX';
-      }
-      $sData = date('d/m/Y', strtotime($oRetorno->nfsdtemiss));
-      $aPastasDir = explode('/', $sData);
+        if ($oRetorno->nfs_notafiscalnfesituacao !== 'A') {
+            $oMsg = new Mensagem('Atenção!', 'Danfe da NF - ' . $aCamposChave['nfs_notafiscalnumero'] . ' não pode ser visualizada pois não foi autorizada', Mensagem::TIPO_ERROR, 7000);
+            echo $oMsg->getRender();
+            exit;
+        } else {
+            $sDir = '\\\metalbobase\c$\Delsoft\DelsoftX\DelsoftNFe\nfe\8993358000174-STEELTRATER\\';
 
-      //Dir = Ano-mês/dia
-      $sDir = $sDir . '\\' . $aPastasDir[2] . '-' . $aPastasDir[1] . '\\' . $aPastasDir[0] . '\\Proc';
+            $sData = date('d/m/Y', strtotime($oRetorno->nfs_notafiscaldataemissao));
+            $aPastasDir = explode('/', $sData);
 
-      $sDir = $sDir . '\\' . trim($oRetorno->nfsnfechv) . '-nfeProc.xml';
-      if (!file_exists($sDir)) {
-      $oMsg = new Mensagem('Atenção!', 'Danfe da NF - ' . $aCamposChave['nfsnfnro'] . ' não pode ser visualizada pois XML não foi processado', Mensagem::TIPO_ERROR, 7000);
-      echo $oMsg->getRender();
-      exit;
-      } else {
+            //Ano e mês
+            $sDir = $sDir . '\\' . $aPastasDir[2] . '-' . $aPastasDir[1] . '\\' . $aPastasDir[0] . '\\Proc';
 
-      }
-      }
-      } */
+            $sDir = $sDir . '\\' . trim($oRetorno->nfs_notafiscalnfechave) . '-nfeProc.xml';
+            if (!file_exists($sDir)) {
+                $oMsg = new Mensagem('Atenção!', 'Danfe da NF - ' . $aCamposChave['nfs_notafiscalnumero'] . ' não pode ser visualizada pois XML não foi processado', Mensagem::TIPO_ERROR, 7000);
+                echo $oMsg->getRender();
+                exit;
+            } else {
+                
+            }
+        }
+    }
 
     public function enviaXmlAutomatizado() {
         require 'app/relatorio/DanfeEnvAutomatico.php';

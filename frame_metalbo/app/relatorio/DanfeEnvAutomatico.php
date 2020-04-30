@@ -137,6 +137,10 @@ function enviaXMLDanfe($DirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
         $sSqlEMP = "select empcod from widl.emp01 where empcnpj = '" . $aDadosNF['nfsclicgc'] . "'";
         $query = $PDO->query($sSqlEMP);
         $aRow = $query->fetch(PDO::FETCH_ASSOC);
+        
+        if (($aDadosNF['nfsclicod'] == '75483040000130')) {
+            $aRow['empcod'] = '75483040000130';
+        }
 
         $sSqlContatos = "select empconemai from widl.EMP0103 where empcod = '" . $aRow['empcod'] . "' and empcontip = '14'";
     }

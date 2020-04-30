@@ -34,7 +34,7 @@ class ControllerMET_TEC_Chamados extends Controller {
 
     public function afterInsert() {
         parent::afterInsert();
-        $aCampos = $this->retornaArrayCamposTela();
+        $aCampos = $this->getArrayCampostela();
 
         $aChave['nr'] = $aCampos['nr'];
         $aChave['filcgc'] = $aCampos['filcgc'];

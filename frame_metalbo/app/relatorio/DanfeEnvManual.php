@@ -131,7 +131,7 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
         $query = $PDO->query($sSqlEMP);
         $aRow = $query->fetch(PDO::FETCH_ASSOC);
 
-        if (($aDadosNF['nfsclicod'] = '75483040000130')) {
+        if (($aDadosNF['nfsclicod'] == '75483040000130')) {
             $aRow['empcod'] = '75483040000130';
         }
 
