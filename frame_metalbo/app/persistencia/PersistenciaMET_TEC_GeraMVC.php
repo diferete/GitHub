@@ -13,6 +13,21 @@ class PersistenciaMET_TEC_GeraMVC extends Persistencia {
     }
 
     /**
+     * Método que verifica a existencia da classe
+     * @param type $sNomeMVC
+     * @param type $aCamposChave
+     * @return boolean
+     */
+    public function verificaSeClasseExiste($sNomeMVC, $aCamposChave) {
+        $sDir = 'C:\\wamp64\\www\\github\\' . $aCamposChave['frame'] . '\\app\\controller\\Controller' . $sNomeMVC . '.php';
+        if (file_exists($sDir)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Método que verifica a existencia da tabela
      * @param type $sNomeTabela
      * @return boolean

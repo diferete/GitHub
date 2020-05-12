@@ -22,13 +22,6 @@ class ControllerMET_TEC_GeraMVC extends Controller {
         $sNomeMVC = $aCamposChave['nomemvc'];
         $sNomeTabela = $aCamposChave['nometabela'];
 
-        $bVerifClasseExiste = $this->verificaSeClasseExiste($sNomeMVC, $aCamposChave);
-        if ($bVerifClasseExiste) {
-            $oModal = new Modal('Atenção', 'Classe já existe, favor verificar nos diretórios!', Modal::TIPO_ERRO);
-            echo $oModal->getRender();
-            exit();
-        }
-
         //Verifica se a tabela possui uma extenção específica tipo widl.emp01 e remove widl
         if (stristr($sNomeTabela, ".") != '') {
             $sNomeTabela = explode(".", $sNomeTabela)[1];
@@ -37,19 +30,31 @@ class ControllerMET_TEC_GeraMVC extends Controller {
         //Verifica se os campos em tela estão preenchidos
         if ($sNomeMVC != '' && $sNomeTabela != '') {
 
-            $aMVC = explode('_', $sNomeMVC);
+            //Verifica se nome da classe deve ser gerada sem nomenclatura conforme definido pelo usuário
+            if (!$aCamposChave['nomclat']) {
 
-            if ($aMVC[0] == "MET" || $aMVC[0] == "STEEL") {
-                
-            } else {
-                //Acrescenta a empresa no nome das classes
-                if ($aCamposChave['frame'] == 'frame_metalbo') {
-                    $aCamposChave['nomemvc'] = "MET_" . $aCamposChave['nomemvc'];
-                    $sNomeMVC = $aCamposChave['nomemvc'];
+                $aMVC = explode('_', $sNomeMVC);
+
+                //Verifica se existe uma sigla já definida pelo usuário no nome da MVC
+                if ($aMVC[0] == "MET" || $aMVC[0] == "STEEL" || $aMVC[0] == "DELX") {
+                    
                 } else {
-                    $aCamposChave['nomemvc'] = "STEEL_" . $aCamposChave['nomemvc'];
-                    $sNomeMVC = $aCamposChave['nomemvc'];
+                    //Acrescenta a empresa no nome das classes
+                    if ($aCamposChave['frame'] == 'frame_metalbo') {
+                        $aCamposChave['nomemvc'] = "MET_" . $aCamposChave['nomemvc'];
+                        $sNomeMVC = $aCamposChave['nomemvc'];
+                    } else {
+                        $aCamposChave['nomemvc'] = "STEEL_" . $aCamposChave['nomemvc'];
+                        $sNomeMVC = $aCamposChave['nomemvc'];
+                    }
                 }
+            }
+
+            //Verifica se a classe existe
+            if ($this->Persistencia->verificaSeClasseExiste($sNomeMVC, $aCamposChave)) {
+                $oModal = new Modal('Atenção', 'Classe já existe, favor verificar nos diretórios!', Modal::TIPO_ERRO);
+                echo $oModal->getRender();
+                exit();
             }
 
             //Verifica se a tabela existe
@@ -71,15 +76,6 @@ class ControllerMET_TEC_GeraMVC extends Controller {
         }
     }
 
-    public function verificaSeClasseExiste($sNomeMVC, $aCamposChave) {
-        $sDir = 'C:\\wamp64/www/github/' . $aCamposChave['frame'] . '/app/controller/Controller' . $sNomeMVC . '.php';
-        if (!file_exists($sDir)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
     /**
      * Método que gerencia a geração das classes
      * @param type $aCampos
@@ -91,7 +87,7 @@ class ControllerMET_TEC_GeraMVC extends Controller {
         $sController = $this->estruturaCriaController($aCamposChave['nomemvc']);
         $sPersistencia = $this->estruturaCriaPersistencia($aCamposChave['nomemvc'], $aCamposChave['nometabela'], $aCampos);
         $sModel = $this->estruturaCriaModel($aCamposChave['nomemvc'], $aCampos);
-        $sView = $this->estruturaCriaView($aCamposChave['nomemvc'], $aCampos);
+        $sView = $this->estruturaCriaView($aCamposChave, $aCampos);
 
         //Chama os métodos na persistencia que cria as classes em arquivos 
         $bBol1 = $this->Persistencia->CriaArquivoController($sController, $aCamposChave);
@@ -157,7 +153,7 @@ class ControllerMET_TEC_GeraMVC extends Controller {
             $sTexto .= "\n       return \$this->" . strtolower($skey[0]) . ";";
             $sTexto .= "\n    }";
 
-            $sTexto .= "\n    function set" . ucfirst(strtolower($skey[0])) . "($" .  strtolower($skey[0]) . "){";
+            $sTexto .= "\n    function set" . ucfirst(strtolower($skey[0])) . "($" . strtolower($skey[0]) . "){";
             $sTexto .= "\n       \$this->" . strtolower($skey[0]) . " = $" . strtolower($skey[0]) . ";";
             $sTexto .= "\n    }";
         }
@@ -202,30 +198,111 @@ class ControllerMET_TEC_GeraMVC extends Controller {
 
     /**
      * Cria a estrutura texto da view
-     * @param type $sNome
+     * @param type $aCamposChave
      * @param type $aCampos
      * @return string
      */
-    public function estruturaCriaView($sNome, $aCampos) {
+    public function estruturaCriaView($aCamposChave, $aCampos) {
 
-        $sTexto = "<?php "
-                . "\r\n /*"
-                . "\n * Implementa a classe view " . $sNome
-                . "\n * @author " . $_SESSION['nome'] . ""
-                . "\n * @since " . date('d/m/Y') . ""
-                . "\n */"
-                . "\r \nclass View" . $sNome . " extends View {"
-                . "\r \n    public function __construct() {"
-                . "\n        parent::__construct();"
-                . "\n       }"
-                . "\r \n    public function criaConsulta() {"
-                . " \n        parent::criaConsulta();"
-                . "\r \n        \$this->setUsaAcaoVisualizar(true);"
-                . "\r \n}"
-                . "\r \n    public function criaTela() {"
-                . " \n        parent::criaTela();"
-                . "\r \n"
-                . "\r\n    } \n}";
+        $sNome = $aCamposChave['nomemvc'];
+        //Verifica se não deve ter campos na view
+        if ($aCamposChave['viewcamp']) {
+
+            $sTexto = "<?php "
+                    . "\r\n /*"
+                    . "\n * Implementa a classe view " . $sNome
+                    . "\n * @author " . $_SESSION['nome'] . ""
+                    . "\n * @since " . date('d/m/Y') . ""
+                    . "\n */"
+                    . "\r \nclass View" . $sNome . " extends View {"
+                    . "\r \n    public function __construct() {"
+                    . "\n        parent::__construct();"
+                    . "\n    }"
+                    . "\r \n    public function criaConsulta() {"
+                    . " \n        parent::criaConsulta();"
+                    . "\r \n        \$this->setUsaAcaoVisualizar(true);"
+                    . "\r \n    }"
+                    . "\r \n    public function criaTela() {"
+                    . " \n        parent::criaTela();"
+                    . "\r \n"
+                    . "\r\n    } \n}";
+        } else {
+
+            $sTexto = "<?php "
+                    . "\r\n /*"
+                    . "\n * Implementa a classe view " . $sNome
+                    . "\n * @author " . $_SESSION['nome'] . ""
+                    . "\n * @since " . date('d/m/Y') . ""
+                    . "\n */"
+                    . "\r \nclass View" . $sNome . " extends View {"
+                    . "\r \n    public function __construct() {"
+                    . "\n        parent::__construct();"
+                    . "\n       }"
+                    . "\r \n    public function criaConsulta() {"
+                    . " \n        parent::criaConsulta();";
+            $sTexto .= "\r \n        \$this->setUsaAcaoVisualizar(true);";
+            $sTexto .= "\r \n";
+
+            foreach ($aCampos as $skey) {
+                if ($skey[1] == 'money') {
+                    $sTexto .= "\n        \$o" . $skey[0] . " = new CampoConsulta('" . $skey[0] . "', '" . $skey[0] . "', CampoConsulta::TIPO_MONEY);";
+                } else {
+                    if ($skey[1] == 'date') {
+                        $sTexto .= "\n        \$o" . $skey[0] . " = new CampoConsulta('" . $skey[0] . "', '" . $skey[0] . "', CampoConsulta::TIPO_DATA);";
+                    } else {
+                        if ($skey[1] == 'decimal') {
+                            $sTexto .= "\n        \$o" . $skey[0] . " = new CampoConsulta('" . $skey[0] . "', '" . $skey[0] . "', CampoConsulta::TIPO_DECIMAL);";
+                        } else {
+                            $sTexto .= "\n        \$o" . $skey[0] . " = new CampoConsulta('" . $skey[0] . "', '" . $skey[0] . "', CampoConsulta::TIPO_TEXTO);";
+                        }
+                    }
+                }
+            }
+
+            $sTexto .= "\r \n        \$this->addCampos(";
+            foreach ($aCampos as $skey) {
+                if ($skey == $aCampos[0]) {
+                    $sTexto .= "\$o" . $skey[0];
+                } else {
+                    $sTexto .= ", \$o" . $skey[0];
+                }
+            }
+
+            $sTexto .= ");\r\n    }";
+
+            $sTexto .= "\r \n    public function criaTela() {"
+                    . " \n        parent::criaTela();";
+            $sTexto .= "\r \n";
+
+            foreach ($aCampos as $skey) {
+                if ($skey[1] == 'money') {
+                    $sTexto .= "\n        \$o" . $skey[0] . " = new Campo('" . $skey[0] . "', '" . $skey[0] . "', Campo::TIPO_MONEY, 1, 1, 12, 12);";
+                } else {
+                    if ($skey[1] == 'date') {
+                        $sTexto .= "\n        \$o" . $skey[0] . " = new Campo('" . $skey[0] . "', '" . $skey[0] . "', Campo::TIPO_DATA, 1, 1, 12, 12);";
+                    } else {
+                        if ($skey[1] == 'decimal') {
+                            $sTexto .= "\n        \$o" . $skey[0] . " = new Campo('" . $skey[0] . "', '" . $skey[0] . "', Campo::TIPO_DECIMAL, 1, 1, 12, 12);";
+                        } else {
+                            $sTexto .= "\n        \$o" . $skey[0] . " = new Campo('" . $skey[0] . "', '" . $skey[0] . "', Campo::TIPO_TEXTO, 1, 1, 12, 12);";
+                        }
+                    }
+                }
+            }
+
+            $sTexto .= "\r \n        \$this->addCampos(";
+            foreach ($aCampos as $skey) {
+                if ($skey == $aCampos[0]) {
+                    $sTexto .= "\$o" . $skey[0];
+                } else {
+                    $sTexto .= ", \$o" . $skey[0];
+                }
+            }
+
+            $sTexto .= ");";
+
+            $sTexto .= "\r\n    } \n}";
+        }
 
         return $sTexto;
     }
