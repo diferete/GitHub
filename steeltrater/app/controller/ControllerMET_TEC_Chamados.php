@@ -55,12 +55,13 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER),utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
         $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' EMPRESA ' . $oDados->filcgc));
         $oEmail->setMensagem(utf8_decode('Novo chamado:<br/>'

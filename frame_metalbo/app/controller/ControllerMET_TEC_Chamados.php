@@ -480,7 +480,6 @@ class ControllerMET_TEC_Chamados extends Controller {
                             . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
             $oEmail->limpaDestinatariosAll();
 
-
             $oEmail->addDestinatario('alexandre@metalbo.com.br');
             $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
             if ($oDados->anexo1 != '') {
@@ -504,4 +503,17 @@ class ControllerMET_TEC_Chamados extends Controller {
         }
     }
 
+    public function mostraTelaRelChamados($renderTo, $sMetodo = '') {
+        $this->buscaDados();
+        parent::mostraTelaRelatorio($renderTo, 'relChamados');
+    }
+        
+    public function buscaDados(){
+        $aParame[0] = $this->Persistencia->buscaDadosRep();
+        $aParame[1] = $this->Persistencia->buscaDadosSubTipo();
+        $aParame[2] = $this->Persistencia->buscaDadosEmp();
+        $aParame[3] = $this->Persistencia->buscaDadosUsuario();
+        
+        $this->View->setAParametrosExtras($aParame);
+    }
 }

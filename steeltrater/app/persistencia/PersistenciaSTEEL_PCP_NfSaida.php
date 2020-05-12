@@ -35,15 +35,15 @@ class PersistenciaSTEEL_PCP_NfSaida extends Persistencia {
     }
 
     public function somaSit() {
-        $sSql = "select COUNT(*) as cont from WIDL.NFC001 where nfsemailen <> 'S' and nfsdtemiss between '" . date('d/m/Y') . "' and '" . date('d/m/Y') . "' and nfsfilcgc = '" . $_SESSION['filcgc'] . "'";
+        $sSql = "select COUNT(*) as cont from nfs_notafiscal where nfsemailen <> 'S' and nfs_notafiscaldataemissao between '" . date('d/m/Y') . "' and '" . date('d/m/Y') . "' and nfs_notafiscalfilial = '8993358000174'";
         $oRow = $this->consultaSql($sSql);
         $sNEnvi = $oRow->cont;
 
-        $sSql = "select COUNT(*) as cont from WIDL.NFC001 where nfsemailen = 'S' and nfsdtemiss between '" . date('d/m/Y') . "' and '" . date('d/m/Y') . "' and nfsfilcgc = '" . $_SESSION['filcgc'] . "'";
+        $sSql = "select COUNT(*) as cont from nfs_notafiscal where nfsemailen = 'S' and nfs_notafiscaldataemissao between '" . date('d/m/Y') . "' and '" . date('d/m/Y') . "' and nfs_notafiscalfilial = '8993358000174'";
         $oRow = $this->consultaSql($sSql);
         $sEnv = $oRow->cont;
 
-        $sSql = "select COUNT(*) as cont from WIDL.NFC001 where nfsnfesit <> 'A' and nfsdtemiss between '" . date('d/m/Y') . "' and '" . date('d/m/Y') . "' and nfsfilcgc = '" . $_SESSION['filcgc'] . "'";
+        $sSql = "select COUNT(*) as cont from nfs_notafiscal where nfs_notafiscalnfesituacao <> 'A' and nfs_notafiscaldataemissao between '" . date('d/m/Y') . "' and '" . date('d/m/Y') . "' and nfs_notafiscalfilial = '8993358000174'";
         $oRow = $this->consultaSql($sSql);
         $sNAut = $oRow->cont;
 

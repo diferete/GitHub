@@ -132,5 +132,62 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
 
         return $aTotal;
     }
-
+    
+    public function buscaDadosRep(){
+        
+        $sSql = "select repoffice from  MET_TEC_Chamados where repoffice is not null  group by repoffice";       
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI]= $key;
+            $iI++;
+        }
+        return $aRow;
+        
+    }
+    
+    public function buscaDadosUsuario(){
+        
+        $sSql = "select usucod, usunome from MET_TEC_Chamados where usunome is not null  group by usucod, usunome";       
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI]= $key;
+            $iI++;
+        }
+        return $aRow;
+        
+    }
+    
+    public function buscaDadosEmp(){
+        
+        $sSql = "select filcgc, empdes from MET_TEC_Chamados left outer join widl.emp01 on MET_TEC_Chamados.filcgc = widl.emp01.empcod group by filcgc, empdes";       
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI]= $key;
+            $iI++;
+        }
+        return $aRow;
+        
+    }
+    
+     public function buscaDadosSubTipo(){
+        
+        $sSql = "select subtipo_nome from MET_TEC_Chamados where subtipo_nome is not null  group by subtipo_nome";       
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI]= $key;
+            $iI++;
+        }
+        return $aRow;
+        
+    }
+    
+    
 }

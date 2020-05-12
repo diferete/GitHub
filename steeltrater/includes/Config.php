@@ -28,6 +28,11 @@ class Config {
     const ARQ_FOLDER_JS = '/js'; //funções do sistema        
     const ARQ_FOLDER_TEMP = 'temp'; //arquivos temporários de upload
     const JASPER_FOLDER = '/PHPJasperXML';
+    const EMAIL_SENDER = 'metalboweb@gmail.com';
+    const PASWRD_EMAIL_SENDER = '3BS0deAgtLu4';
+    const SERVER_SMTP = 'smtp.gmail.com';
+    const PORT_SMTP = 465;
+    const PROTOCOLO_SMTP = 'ssl';
 
     /*
      * Configurações da conexão com o banco de dados
@@ -49,23 +54,24 @@ class Config {
     const BD_ORACLE = 5;
     const BD_SQLSERVER = 6;
     
-    /*
+    
     const TIPO_BD = self::BD_SQLSERVER;
     const PORTA_BD = 1433;
     const USER_BD = 'sa';
     const NOME_BD = 'METALBOBASE';
     const HOST_BD = 'MetalboServer';
     const PASS_BD = 'M@quinas@321';
-     * 
-     */
     
     
+    /*
     const TIPO_BD = self::BD_SQLSERVER;   
     const PORTA_BD = 1433;
     const USER_BD  = 'sa';
     const NOME_BD  = 'METALBOBASE';
     const HOST_BD  = 'METALBOBASE';
-    const PASS_BD  = 'Met@lbo@4321'; 
+    const PASS_BD  = 'Met@lbo@4321';
+     * 
+     */ 
 
 }
 

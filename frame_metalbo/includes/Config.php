@@ -9,8 +9,8 @@
 class Config {
 
     //configurações da empresa
-    const NOME_EMPRESA = 'Matos Construtora';
-    const SLOGAN_EMPRESA = 'Construindo para o futuro!';
+    const NOME_EMPRESA = '';
+    const SLOGAN_EMPRESA = '';
 
     /*
      * configuração de diretórios

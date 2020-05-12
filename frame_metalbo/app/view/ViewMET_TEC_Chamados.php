@@ -359,5 +359,71 @@ class ViewMET_TEC_Chamados extends View {
 
         $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, $oObsFim, array($oBtnCancela));
     }
+    
+    public function relChamados() {
+        parent::criaTelaRelatorio();
+        
+        $aDados = $this->getAParametrosExtras();
+        $aDados1 = $aDados[0];
+        $aDados2 = $aDados[1];
+        $aDados3 = $aDados[2];
+        $aDados4 = $aDados[3];
+                
+        $this->setTituloTela('Relatório de Chamados Tecnologia da Informação');
+        $this->setBTela(true);
 
+        //Empresa
+        $oEmpresa = new Campo('Empresa', 'empresa', Campo::CAMPO_SELECTSIMPLE, 4, 4, 12, 12);
+        $oEmpresa->addItemSelect('Todos', 'Todas as Empresas');
+        foreach ($aDados3 as $key3) {
+            $oEmpresa->addItemSelect($key3['filcgc'], $key3['filcgc'].' - '.$key3['empdes']);
+        }
+        
+        //SubTipo
+        $oSubTipo = new Campo('Sub.Tipo', 'subtipo_nome', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
+        $oSubTipo->addItemSelect('Todos', 'Todos SubTipos');
+        foreach ($aDados2 as $key3) {
+            $oSubTipo->addItemSelect($key3['subtipo_nome'], $key3['subtipo_nome']);
+        }
+        
+        //Usuário
+        $oUsuario = new Campo('Usuários', 'usunome', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oUsuario->addItemSelect('Todos', 'Todos Usuários');
+        foreach ($aDados4 as $key3) {
+            $oUsuario->addItemSelect($key3['usunome'], $key3['usunome']);
+        }
+        
+        $oTipo = new Campo('Tipo', 'tipo', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oTipo->addItemSelect('Todos', 'Todos Tipos');
+        $oTipo->addItemSelect('1', 'HARDWARE');
+        $oTipo->addItemSelect('2', 'SOFTWARE');
+        $oTipo->addItemSelect('3', 'SERVIÇOS');
+        
+        //Representante
+        $oRep = new Campo('Representantes', 'repr', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oRep->addItemSelect('Todos', 'Todos representantes');
+        foreach ($aDados1 as $key3) {
+            $oRep->addItemSelect($key3['repoffice'], $key3['repoffice']);
+        }
+        
+        $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDatainicial->setSValor(Util::getPrimeiroDiaMes());
+        $oDatainicial->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
+        $oDatafinal = new Campo('Data Final', 'datafinal', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDatafinal->setSValor(Util::getDataAtual());
+        $oDatafinal->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
+        
+        $oSit = new Campo('Situação', 'sit', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oSit->addItemSelect('Todos', 'Todas Situações');
+        $oSit->addItemSelect('AGUARDANDO', 'AGUARDANDO');
+        $oSit->addItemSelect('INICIADO', 'INICIADO');
+        $oSit->addItemSelect('FINALIZADO', 'FINALIZADO');
+        $oSit->addItemSelect('CANCELADO', 'CANCELADO');
+        
+        $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha1->setApenasTela(true);
+
+        $this->addCampos(array($oEmpresa, $oUsuario), $oLinha1, array($oTipo, $oSubTipo), $oLinha1, array($oRep, $oSit), $oLinha1, array($oDatainicial,$oDatafinal) );
+   
+    }
 }

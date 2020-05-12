@@ -551,15 +551,14 @@ if ($sEmailRequest == 'S') {
 
     $oEmail = new Email();
     $oEmail->setMailer();
-    /* testes */
     $oEmail->setEnvioSMTP();
-    //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-    $oEmail->setServidor('smtp.terra.com.br');
-    $oEmail->setPorta(587);
+    $oEmail->setServidor(Config::SERVER_SMTP);
+    $oEmail->setPorta(Config::PORT_SMTP);
     $oEmail->setAutentica(true);
-    $oEmail->setUsuario('laboratorio@steeltrater.com.br');
-    $oEmail->setSenha('n2w5p7k4');
-    $oEmail->setRemetente(utf8_decode('laboratorio@steeltrater.com.br'), utf8_decode('Certificados SteelTrater'));
+    $oEmail->setUsuario(Config::EMAIL_SENDER);
+    $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+    $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Certificados SteelTrater'));
 
     $oEmail->setAssunto(utf8_decode('Certificado(s) NF ' . $sNomeCert));
     $oEmail->setMensagem(utf8_decode($resp . '<br/><br/>Segue em anexo os certificados da nota fiscal  ' . $sNomeCert));

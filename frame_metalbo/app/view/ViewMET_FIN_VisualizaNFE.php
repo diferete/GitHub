@@ -66,6 +66,11 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oFilSit->addItemSelect('C', 'Cancelada');
         $oFilSit->setSLabel('');
 
+        $oFilEnvEmail = new Filtro($oNfEnvEmail, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
+        $oFilEnvEmail->addItemSelect('', 'Não Enviado');
+        $oFilEnvEmail->addItemSelect('S', 'Xml Enviado');
+        $oFilEnvEmail->setSLabel('');
+
         $oFilCliNome = new Filtro($oCliNome, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
 
         $oFilData = new Filtro($oNfDtEmiss, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
@@ -75,7 +80,7 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oDrop1 = new Dropdown('Visualizar Danfe', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DanfeVisualiza', false, '', false, '', false, false);
 
-        $this->addFiltro($oFilEMP, $oFilNF, $oFilSit, $oFilCliNome, $oFilData);
+        $this->addFiltro($oFilEMP, $oFilNF, $oFilSit,$oFilEnvEmail, $oFilCliNome, $oFilData);
         $this->addDropdown($oDrop1);
         $this->addCampos($oBotaoEmitXml, $oNf, $oNfSerie, $oCliNome, $oNfDtEmiss, $oSitNf, $oNfEnvEmail, $oFilcgc);
     }
