@@ -1288,3 +1288,14 @@ function buscaIBGE(sClasse, municipio, ufIBGE, idCampo, sNrSeq) {
     });
 }
 
+
+function testeMsg() {
+
+
+    if /*funcção ao fechar*/ ($("#notificationList").hasClass("open")) {
+
+    } else /*função ao abrir*/ {
+
+    }
+}
+

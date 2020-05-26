@@ -57,7 +57,7 @@ $aRetorno = enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO);
 updates($aRetorno, $aDados, $aDadosNF, $PDO);
 
 if (!$aRetorno[0]) {
-    $oMsg = new Mensagem('Atenção', 'O e-mail não foi enviado, verifique a tabela de LOGS', Mensagem::TIPO_ERROR);
+    $oMsg = new Mensagem('Atenção', 'O e-mail não foi enviado, verifique a tabela de LOGS', Mensagem::TIPO_ERROR, 5000, true);
 } else {
     $oMsg = new Mensagem('Sucesso', 'e-mail enviado com sucesso', Mensagem::TIPO_SUCESSO);
 }

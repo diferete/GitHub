@@ -39,15 +39,11 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->adicionaRelacionamento('anexo3', 'anexo3');
 
 
-        if ($_SESSION['codsetor'] != 2) {
-            $this->adicionaFiltro('setor', $_SESSION['codsetor']);
-        }
-
         $this->setSTop('50');
         $this->adicionaOrderBy('nr', 1);
     }
 
-     public function buscaDadosChamado($aDados) {
+    public function buscaDadosChamado($aDados) {
         $sSql = "select * from MET_TEC_Chamados where filcgc = '" . $aDados['filcgc'] . "' and usucod = '" . $aDados['usucod'] . "' and setor = '" . $aDados['setor'] . "' and datacad = '" . $aDados['datacad'] . "' and horacad = '" . $aDados['horacad'] . "' and tipo = '" . $aDados['tipo'] . "' and subtipo = '" . $aDados['subtipo'] . "' and problema = '" . $aDados['problema'] . "'";
         $oDados = $this->consultaSql($sSql);
         return $oDados;
@@ -57,7 +53,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $sSql = "select * from MET_TEC_Chamados where nr = '" . $aDados['nr'] . "' and filcgc = '" . $aDados['filcgc'] . "'";
         $oDados = $this->consultaSql($sSql);
 
-        $sSqlEmail = "select usuemail from tbusuario where usucodigo = " . $oDados->usucod;
+        $sSqlEmail = "select usuemail from MET_TEC_usuario where usucodigo = " . $oDados->usucod;
         $oConsulta = $this->consultaSql($sSqlEmail);
         $oDados->email = $oConsulta->usuemail;
 
@@ -126,62 +122,57 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
 
         return $aTotal;
     }
-    
-    public function buscaDadosRep(){
-        
-        $sSql = "select repoffice from  MET_TEC_Chamados where repoffice is not null  group by repoffice";       
+
+    public function buscaDadosRep() {
+
+        $sSql = "select repoffice from  MET_TEC_Chamados where repoffice is not null  group by repoffice";
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();
         while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $aRow[$iI]= $key;
+            $aRow[$iI] = $key;
             $iI++;
         }
         return $aRow;
-        
     }
-    
-    public function buscaDadosUsuario(){
-        
-        $sSql = "select usucod, usunome from MET_TEC_Chamados where usunome is not null  group by usucod, usunome";       
+
+    public function buscaDadosUsuario() {
+
+        $sSql = "select usucod, usunome from MET_TEC_Chamados where usunome is not null  group by usucod, usunome";
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();
         while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $aRow[$iI]= $key;
+            $aRow[$iI] = $key;
             $iI++;
         }
         return $aRow;
-        
     }
-    
-    public function buscaDadosEmp(){
-        
-        $sSql = "select filcgc, empdes from MET_TEC_Chamados left outer join widl.emp01 on MET_TEC_Chamados.filcgc = widl.emp01.empcod group by filcgc, empdes";       
+
+    public function buscaDadosEmp() {
+
+        $sSql = "select filcgc, empdes from MET_TEC_Chamados left outer join widl.emp01 on MET_TEC_Chamados.filcgc = widl.emp01.empcod group by filcgc, empdes";
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();
         while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $aRow[$iI]= $key;
+            $aRow[$iI] = $key;
             $iI++;
         }
         return $aRow;
-        
     }
-    
-     public function buscaDadosSubTipo(){
-        
-        $sSql = "select subtipo_nome from MET_TEC_Chamados where subtipo_nome is not null  group by subtipo_nome";       
+
+    public function buscaDadosSubTipo() {
+
+        $sSql = "select subtipo_nome from MET_TEC_Chamados where subtipo_nome is not null  group by subtipo_nome";
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();
         while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $aRow[$iI]= $key;
+            $aRow[$iI] = $key;
             $iI++;
         }
         return $aRow;
-        
     }
-    
 
 }

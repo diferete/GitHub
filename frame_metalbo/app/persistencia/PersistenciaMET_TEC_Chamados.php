@@ -163,7 +163,10 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
     
     public function buscaDadosEmp(){
         
-        $sSql = "select filcgc, empdes from MET_TEC_Chamados left outer join widl.emp01 on MET_TEC_Chamados.filcgc = widl.emp01.empcod group by filcgc, empdes";       
+        $sSql = "select filcgc, empdes from MET_TEC_Chamados "
+                . "left outer join widl.emp01 "
+                . "on MET_TEC_Chamados.filcgc = widl.emp01.empcod "
+                . "group by filcgc, empdes";       
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();

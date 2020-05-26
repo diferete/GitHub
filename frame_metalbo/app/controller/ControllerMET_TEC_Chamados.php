@@ -104,7 +104,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         // Para
         $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
-		$oEmail->addDestinatarioCopia('jose@metalbo.com.br');
+        $oEmail->addDestinatarioCopia('jose@metalbo.com.br');
         if ($aCampos['anexo1'] != '') {
             $oEmail->addAnexo('Uploads/' . $aCampos['anexo1'] . '', utf8_decode($aCampos['anexo1']));
         }
@@ -507,13 +507,14 @@ class ControllerMET_TEC_Chamados extends Controller {
         $this->buscaDados();
         parent::mostraTelaRelatorio($renderTo, 'relChamados');
     }
-        
-    public function buscaDados(){
+
+    public function buscaDados() {
         $aParame[0] = $this->Persistencia->buscaDadosRep();
         $aParame[1] = $this->Persistencia->buscaDadosSubTipo();
         $aParame[2] = $this->Persistencia->buscaDadosEmp();
         $aParame[3] = $this->Persistencia->buscaDadosUsuario();
-        
+
         $this->View->setAParametrosExtras($aParame);
     }
+
 }

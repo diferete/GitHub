@@ -69,10 +69,10 @@ class ViewCot extends View {
 
         $this->addCampos($oNr, $oCnpj, $oCliente, $oOdCompra, $oEmail, $oNrVenda, $oData);
         $this->addFiltro($oFilSolNr, $oFilCliente, $oFilCnpj, $oFilData);
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoVisualizar(false);
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoIncluir(false);
+//        $this->setUsaAcaoExcluir(false);
+//        $this->setUsaAcaoVisualizar(false);
+//        $this->setUsaAcaoAlterar(false);
+//        $this->setUsaAcaoIncluir(false);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
     }

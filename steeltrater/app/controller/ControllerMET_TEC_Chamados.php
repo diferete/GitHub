@@ -39,7 +39,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $aChave['nr'] = $aCampos['nr'];
         $aChave['filcgc'] = $aCampos['filcgc'];
 
-        $oDados = $this->Persistencia->buscaDadosChamado($aChave);
+        $oDados = $this->Persistencia->buscaDadosEmailChamado($aChave);
         switch ($oDados->tipo) {
             case 1:
                 $sTipo = 'HARDWARE';
@@ -114,7 +114,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $aProblema = array();
         parse_str($sChave, $aProblema);
 
-        $oProblema = $this->Persistencia->buscaDadosChamado($aProblema);
+        $oProblema = $this->Persistencia->buscaProblema($aProblema);
 
         $sProblema = Util::limpaString($oProblema->problema);
         $sObsFim = Util::limpaString($oProblema->obsfim);
@@ -452,6 +452,7 @@ class ControllerMET_TEC_Chamados extends Controller {
 
             $oEmail->addDestinatario('alexandre@metalbo.com.br');
             $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
+            $oEmail->addDestinatarioCopia('avanei@metalbo.com.br');
             if ($oDados->anexo1 != '') {
                 $oEmail->addAnexo('Uploads/' . $oDados->anexo1 . '', utf8_decode($oDados->anexo1));
             }
