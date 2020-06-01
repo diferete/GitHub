@@ -513,6 +513,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $aParame[1] = $this->Persistencia->buscaDadosSubTipo();
         $aParame[2] = $this->Persistencia->buscaDadosEmp();
         $aParame[3] = $this->Persistencia->buscaDadosUsuario();
+        $aParame[4] = $this->Persistencia->buscaDadosSetores();
 
         $this->View->setAParametrosExtras($aParame);
     }

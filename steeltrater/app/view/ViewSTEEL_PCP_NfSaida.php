@@ -56,21 +56,7 @@ class ViewSTEEL_PCP_NfSaida extends View {
         $oDrop = new Dropdown('Visualizar Danfe', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DanfeVisualiza', false, '', false, '', false, false);
 
-
-        $oFilEMP = new Filtro($oFilial, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
-        $oFilEMP->setSLabel('');
-        $oFilEMP->addItemSelect('', 'Empresas');
-        $oFilEMP->addItemSelect('8993358000174', 'STEELTRATER');
-        $oFilEMP->addItemSelect('75483040000211', 'FILIAL');
-
         $oFilNF = new Filtro($oNrNf, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
-
-        $oFilSit = new Filtro($oSitXML, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
-        $oFilSit->addItemSelect('', 'Situações');
-        $oFilSit->addItemSelect('A', 'Autorizada');
-        $oFilSit->addItemSelect('Z', 'Enviando');
-        $oFilSit->addItemSelect('C', 'Cancelada');
-        $oFilSit->setSLabel('');
 
         $oFilCliNome = new Filtro($oEmp, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
 
@@ -78,7 +64,7 @@ class ViewSTEEL_PCP_NfSaida extends View {
         $oFilData->addFiltroValor(date('d/m/Y'));
         $oFilData->addFiltroValor(date('d/m/Y'));
 
-        $this->addFiltro($oFilEMP, $oFilNF, $oFilSit, $oFilCliNome, $oFilData);
+        $this->addFiltro($oFilNF, $oFilCliNome, $oFilData);
 
         $this->addDropdown($oDrop);
         $this->addCampos($oBotaoEmitXml, $oSeq, $oNrNf, $oEmp, $oDataEmissao, $oSitXML, $oFilial);
