@@ -1,2 +1,2 @@
-update tbsessao set usulastacesso = '2020-5-29 09:56:42' 
-            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'qvplne50fb0oi2qjm8ngtvnrgv'
+delete tbsessao 
+            where usucodigo = '13' 
