@@ -77,13 +77,14 @@ class ControllerMET_TEC_Login extends Controller {
             } else {
                 $oControllerSistema->getTelaSistema($_SESSION["codUser"]);
             }
+            $this->Persistencia->limpaTag_Bloq();
         } else {
             //monta class para registrar login incorreto
             $oLoginErro = Fabrica::FabricarController('MET_TEC_ErroLogin');
             $oLoginErro->geraLoginErro();
 
             //monta mensagem de erro de login
-            $oModalErro = new Modal('Login incorreto!', 'Seu usuário ou senha não estão corretos ou está bloqueado. Entre em contato pelo e-mail metalboti@metalbo.com.br.', Modal::TIPO_ERRO, false, true, true);
+            $oModalErro = new Modal('Login incorreto!', $aLogaSistema[1], Modal::TIPO_ERRO, false, true, true);
             echo $oModalErro->getRender();
             //echo $this->View->erroLogin($aLogaSistema[1]);
         }

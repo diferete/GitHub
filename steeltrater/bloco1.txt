@@ -1,1 +1,1 @@
-Sessão:qvplne50fb0oi2qjm8ngtvnrgv sessao do banco:qvplne50fb0oi2qjm8ngtvnrgv
+INSERT INTO met_tec_errologin (codigo,data,hora,ip,nome,senha) VALUES ('2374','15/06/2020','11:32','::1','alexandre@metalbo.com.br','N1')

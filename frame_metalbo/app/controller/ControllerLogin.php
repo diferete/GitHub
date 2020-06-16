@@ -78,7 +78,9 @@ class ControllerLogin extends Controller {
                 $oControllerSistema->getTelaSistema($_SESSION["codUser"]);
             }
             $this->Persistencia->limpaTag_Bloq();
-        } else {
+        
+            
+            } else {
             //monta class para registrar login incorreto
             $oLoginErro = Fabrica::FabricarController('LoginErro');
             $oLoginErro->geraLoginErro();

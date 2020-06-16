@@ -11,8 +11,6 @@ class ViewMET_TEC_Chamados extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->setBScrollInf(FALSE);
-        $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(true);
@@ -88,7 +86,11 @@ class ViewMET_TEC_Chamados extends View {
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
-        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
+        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, true);
+        $oFilEmp->addItemSelect('', 'Empresas');
+        $oFilEmp->addItemSelect('75483040000211', 'Metalbo');
+        $oFilEmp->addItemSelect('83781641000158', 'Poliamidos');
+        $oFilEmp->setSLabel('');
 
         $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFilSit->addItemSelect('Todos', 'Todos');

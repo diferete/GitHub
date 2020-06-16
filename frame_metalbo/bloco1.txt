@@ -1,2 +1,2 @@
 delete tbsessao 
-            where usucodigo = '13' 
+            where usucodigo = '46' 

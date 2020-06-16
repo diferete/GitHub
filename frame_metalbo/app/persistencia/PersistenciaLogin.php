@@ -21,7 +21,7 @@ class PersistenciaLogin extends Persistencia {
     }
 
     public function logarSistema() {
-        $sSql = "SELECT usucodigo, COUNT(*) as qtd,usubloqueado,usunome,usuimagem,usuemail,officecod,"
+        $sSql = "SELECT usucodigo,COUNT(*) as qtd,usubloqueado,usunome,usuimagem,usuemail,officecod,"
                 . "codsetor,usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft "
                 . "FROM tbusuario "
                 . "WHERE usulogin = '" . $this->Model->getLogin() . "' "
@@ -113,7 +113,7 @@ class PersistenciaLogin extends Persistencia {
             $bBloq = $this->Model->getUsubloqueado();
             if ($bBloq == 'TRUE') {
                 $aRetorno[0] = false;
-                $aRetorno[1] = 'Seu usuário foi bloqueado! Contate o TI da Metalbo para o desbloqueio.';
+                $aRetorno[1] = 'Seu usuário está bloqueado! Contate o TI da Metalbo para o desbloqueio.';
             }
         } else {
             $bRetorno = $this->gerenciaBloqUser();
