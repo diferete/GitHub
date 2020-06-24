@@ -60,12 +60,15 @@ class ViewMET_TEC_Chamados extends View {
         $oRep = new CampoConsulta('Rep.', 'repoffice', CampoConsulta::TIPO_TEXTO);
 
         $oDataCad = new CampoConsulta('Dt.Cad.', 'datacad', CampoConsulta::TIPO_DATA);
+        $oHoraCad = new CampoConsulta('H.Cad.', 'horacad', CampoConsulta::TIPO_TIME);
 
         $oDataInicio = new CampoConsulta('Dt.Ini.', 'datainicio', CampoConsulta::TIPO_DATA);
+        $oHoraInicio = new CampoConsulta('H.Ini.', 'horainicio', CampoConsulta::TIPO_TIME);
 
         $oUsuInicio = new CampoConsulta('Usu.Ini.', 'usunomeinicio', CampoConsulta::TIPO_TEXTO);
 
         $oDataFim = new CampoConsulta('Dt.Fim', 'datafim', CampoConsulta::TIPO_DATA);
+        $oHoraFim = new CampoConsulta('H.Fim.', 'horafim', CampoConsulta::TIPO_TIME);
 
         $oUsuFim = new CampoConsulta('Usu.Fim', 'usunomefim', CampoConsulta::TIPO_TEXTO);
 
@@ -120,10 +123,10 @@ class ViewMET_TEC_Chamados extends View {
 
         if ($sFiltroSetor == 2) {
             $this->addDropdown($oDrop, $oDrop2);
-            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
+            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oHoraCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oUsuFim, $oDataFim, $oHoraFim);
         } else {
             $this->addDropdown($oDrop, $oDrop1);
-            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
+            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oUsuFim, $oDataFim, $oHoraFim);
         }
     }
 

@@ -133,26 +133,34 @@ class ViewQualNovoProjVerif extends View {
         $oEnsReqLegal->addItenRadio('Sim', 'Sim');
         $oEnsReqLegal->addItenRadio('Não', 'Não');
         $oEnsReqLegal->addItenRadio('Na', 'NA');
-
+        
+        /*
         $oEnsPlan = new Campo('As etapas definidas no planejamento foram cumpridas conforme cronograma?', 'ensPlan', Campo::TIPO_RADIO, 3);
         $oEnsPlan->addItenRadio('Sim', 'Sim');
         $oEnsPlan->addItenRadio('Não', 'Não');
         $oEnsPlan->addItenRadio('Na', 'NA');
+         * 
+         */
 
         $oEnsComem = new Campo('Comentário', 'ensComem', Campo::TIPO_TEXTAREA, 5);
-        $oRespEnsAnalise = new Campo('Responsável', 'respEns', Campo::TIPO_TEXTO, 3);
 
-        $oFieldAnalise->addCampos(array($oEnsReq, $oEnsReqDef), $oLinha1, array($oEnsReqLegal, $oEnsPlan), $oLinha1, $oEnsComem, $oRespEnsAnalise);
+        $oRespEnsAnalise = new Campo('Responsável', 'respEns', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oRespEnsAnalise->setBCampoBloqueado(true);
+
+        $oDataEnsAnalise = new Campo('Data análise', 'dtanaliseens', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataEnsAnalise->setBCampoBloqueado(true);
+
+        $oFieldAnalise->addCampos(array($oEnsReq, $oEnsReqDef), $oLinha1, array($oEnsReqLegal/*, $oEnsPlan*/), $oLinha1, $oEnsComem, array($oRespEnsAnalise, $oDataEnsAnalise));
 
 
         //###################################################################################################  
         $oFieldValProjeto = new FieldSet('Controle de validação do projeto');
         $oFieldValProjeto->setOculto(true);
 
-        $oValNf = new Campo('Nota fiscal nº', 'valNf', Campo::TIPO_TEXTO, 2,2,12,12);
-        $oValNfPrev = new Campo('Previsão', 'valNfPrev', Campo::TIPO_DATA, 2,2,12,12);
-        $oValNfTer = new Campo('Término', 'valNfTer', Campo::TIPO_DATA, 2,2,12,12);
-        $oValNfResp = new Campo('Responsável', 'valNfResp', Campo::TIPO_TEXTO, 3,3,12,12);
+        $oValNf = new Campo('Nota fiscal nº', 'valNf', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oValNfPrev = new Campo('Previsão', 'valNfPrev', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oValNfTer = new Campo('Término', 'valNfTer', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oValNfResp = new Campo('Responsável', 'valNfResp', Campo::TIPO_TEXTO, 3, 3, 12, 12);
 
         $oValOd = new Campo('Ordem de fabricação nº', 'valOd', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oValOdPrev = new Campo('Previsão', 'valOdPrev', Campo::TIPO_DATA, 2, 2, 12, 12);
@@ -198,9 +206,13 @@ class ViewQualNovoProjVerif extends View {
 
         $oComenValProj = new Campo('Comentários / Alterações Propostas', 'comenvalproj', Campo::TIPO_TEXTAREA, 8, 8, 12, 12);
 
-        $oRespVal = new campo('Responsável', 'respvalproj', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oRespVal = new campo('Responsável', 'respvalproj', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oRespVal->setBCampoBloqueado(true);
 
-        $oFieldAnaCrit->addCampos($oEtapProj, $oResultProj, $oCliProj, $oValProj, $oComenValProj, $oRespVal);
+        $oDataVal = new Campo('Data análise', 'dtanalisevalproj', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataVal->setBCampoBloqueado(true);
+
+        $oFieldAnaCrit->addCampos($oEtapProj, $oResultProj, $oCliProj, $oValProj, $oComenValProj, array($oRespVal, $oDataVal));
 
         $this->addCampos(array($oFilcgc, $oNr), $oLinha1, $oFiedVerif, $oFieldAnalise, $oFieldValProjeto, $oFieldAnaCrit);
     }

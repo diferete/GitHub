@@ -72,6 +72,24 @@ class ModelQualNovoProjProd {
     private $profcanecomin;
     private $profcanecomax;
     private $metmat;
+    private $usuanaliseentrada;
+    private $dtanaliseentrada;
+
+    function getUsuanaliseentrada() {
+        return $this->usuanaliseentrada;
+    }
+
+    function getDtanaliseentrada() {
+        return $this->dtanaliseentrada;
+    }
+
+    function setUsuanaliseentrada($usuanaliseentrada) {
+        $this->usuanaliseentrada = $usuanaliseentrada;
+    }
+
+    function setDtanaliseentrada($dtanaliseentrada) {
+        $this->dtanaliseentrada = $dtanaliseentrada;
+    }
 
     function getMetmat() {
         return $this->metmat;

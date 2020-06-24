@@ -292,9 +292,23 @@ class ViewQualNovoProj extends View {
         $oViavel->addItenRadio('Sim', 'Sim');
         $oViavel->addItenRadio('Não', 'Não');
 
+        $oUsuAprovaOperacional = new Campo('Aprova operacional', 'usuaprovaoperacional', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oUsuAprovaOperacional->setApenasTela(true);
+        $oUsuAprovaOperacional->setBCampoBloqueado(true);
+        if ($_SESSION['codsetor'] == 9) {
+            $oUsuAprovaOperacional->setSValor($_SESSION['nome']);
+        }
+
+        $oDataAprovaOperacional = new Campo('Data aprova', 'dtaprovaoperacional', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataAprovaOperacional->setApenasTela(true);
+        $oDataAprovaOperacional->setBCampoBloqueado(true);
+        if ($_SESSION['codsetor'] == 9) {
+            $oDataAprovaOperacional->setSValor(date('d/m/Y'));
+        }
+
         $oFieldOperacao = new FieldSet('Análise operacional da solicitação');
         $oFieldOperacao->setOculto(true);
-        $oFieldOperacao->addCampos(array($oEquipamento, $oEquipEvidencia), array($oMatPrima, $oEquipMatPrima), array($oEstudoProc, $oEstudoEvid), array($oProdSimilar, $oProdSimilarEvid), array($oDesenFerram, $oDesenFerramEvid), $oViavel, $oObs_viavel);
+        $oFieldOperacao->addCampos(array($oEquipamento, $oEquipEvidencia), array($oMatPrima, $oEquipMatPrima), array($oEstudoProc, $oEstudoEvid), array($oProdSimilar, $oProdSimilarEvid), array($oDesenFerram, $oDesenFerramEvid), $oViavel, array($oUsuAprovaOperacional, $oDataAprovaOperacional), $oObs_viavel);
 
 
 
@@ -395,6 +409,20 @@ class ViewQualNovoProj extends View {
         $oViavelFinan = new Campo('Viável financeiramente?', 'sol_viavel_fin', Campo::TIPO_TEXTO, 2);
         $oViavelFinan->setBCampoBloqueado(true);
 
+        $oUsuAprovaFinan = new Campo('Usu aprova', 'usuaprovafinanceiro', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oUsuAprovaFinan->setApenasTela(true);
+        $oUsuAprovaFinan->setBCampoBloqueado(true);
+        if ($_SESSION['codsetor'] == 34) {
+            $oUsuAprovaFinan->setSValor($_SESSION['nome']);
+        }
+
+        $oDataAprovaFinan = new Campo('Data aprova', 'dtaprovafinanceiro', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataAprovaFinan->setApenasTela(true);
+        $oDataAprovaFinan->setBCampoBloqueado(true);
+        if ($_SESSION['codsetor'] == 34) {
+            $oDataAprovaFinan->setSValor(date('d/m/Y'));
+        }
+
 
         $oObsFinan = new campo('Observação vendas/Motivo reprovação', 'fin_obs', Campo::TIPO_TEXTAREA, 10);
         $oObsFinan->setBCampoBloqueado(true);
@@ -405,7 +433,7 @@ class ViewQualNovoProj extends View {
         $oLinha1->setApenasTela(true);
 
 
-        $oFiledVendal->addCampos(array($oPrazoEnt, $oPrecoFinal), /* $oObsVenda, */ $oLinha1, $oViavelFinan, $oObsFinan);
+        $oFiledVendal->addCampos(array($oPrazoEnt, $oPrecoFinal), /* $oObsVenda, */ $oLinha1, $oViavelFinan, array($oUsuAprovaFinan, $oDataAprovaFinan), $oObsFinan);
 
 
         //executa esta funcao ao sair dos campos

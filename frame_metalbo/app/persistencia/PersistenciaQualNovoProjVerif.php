@@ -67,7 +67,9 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
         $this->adicionaRelacionamento('ensReqLegal', 'ensReqLegal');
         $this->adicionaRelacionamento('ensPlan', 'ensPlan');
         $this->adicionaRelacionamento('ensComem', 'ensComem');
+        
         $this->adicionaRelacionamento('respEns', 'respEns');
+        $this->adicionaRelacionamento('dtanaliseens', 'dtanaliseens');
 
         $this->adicionaRelacionamento('valNf', 'valNf');
         $this->adicionaRelacionamento('valNfPrev', 'valNfPrev');
@@ -96,7 +98,10 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
         $this->adicionaRelacionamento('cliprov', 'cliprov');
         $this->adicionaRelacionamento('valproj', 'valproj');
         $this->adicionaRelacionamento('comenvalproj', 'comenvalproj');
+        
         $this->adicionaRelacionamento('respvalproj', 'respvalproj');
+        $this->adicionaRelacionamento('dtanalisevalproj', 'dtanalisevalproj');
+        
 
         $this->adicionaJoin('EmpRex');
         $this->adicionaOrderBy('nr', 1);

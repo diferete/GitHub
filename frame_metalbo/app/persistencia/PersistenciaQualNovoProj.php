@@ -89,6 +89,12 @@ class PersistenciaQualNovoProj extends Persistencia {
         $this->adicionaRelacionamento('repcod', 'repcod');
         $this->adicionaRelacionamento('replibobs', 'replibobs');
         $this->adicionaRelacionamento('acabamento', 'acabamento');
+        
+        $this->adicionaRelacionamento('usuaprovaoperacional', 'usuaprovaoperacional');
+        $this->adicionaRelacionamento('dtaprovaoperacional', 'dtaprovaoperacional');
+        
+        $this->adicionaRelacionamento('usuaprovafinanceiro', 'usuaprovafinanceiro');
+        $this->adicionaRelacionamento('dtaprovafinanceiro', 'dtaprovafinanceiro');
 
 
         //$this->adicionaFiltro('sitgeralproj', 'Representante',0, Persistencia::DIFERENTE);

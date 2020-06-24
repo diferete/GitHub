@@ -69,7 +69,10 @@ $pdf->SetFont('Arial', 'B', 15);
 // Move to the right
 $pdf->Cell(50);
 // Title
-$pdf->Cell(95, 10, 'Relatorio de Novos Projetos', 0, 0, 'C');
+$pdf->Cell(95, 0, 'Relatorio de Projetos e ', 0, 1, 'C');
+$pdf->Cell(200, 10, 'Desenvolvimento de Novos Produtos', 0, 1, 'C');
+
+$pdf->Cell(150,1);
 
 $x = $pdf->GetX();
 $y = $pdf->GetY();

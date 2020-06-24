@@ -16,7 +16,7 @@ class ControllerMET_TEC_ItemMenu extends Controller{
     }
     
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         
         $oModelMenu = Fabrica::FabricarModel('MET_TEC_Menu');
         $oPersMenu = Fabrica::FabricarPersistencia('MET_TEC_Menu');

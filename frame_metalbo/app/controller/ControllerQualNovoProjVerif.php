@@ -34,20 +34,20 @@ class ControllerQualNovoProjVerif extends Controller {
 
     public function beforeUpdate() {
         parent::beforeUpdate();
+        if (($this->Model->getEnsReq() != null ||
+                $this->Model->getEnsReqDef() != null ||
+                $this->Model->getEnsReqLegal() != null) && $this->Model->getRespEns() == '') {
+            $this->Model->setRespEns($_SESSION['nome']);
+            $this->Model->setDtanaliseens(date('d/m/Y'));
+        }
 
-        $oRespValProj = $_SESSION['nome'];
-        $oUsutipoVal = $_SESSION['usutipo'];
 
-        if ($oRespValProj == 'Eloir Jordelino' || $oUsutipoVal == '1') {
-            $aRetorno = array();
-            $aRetorno[0] = true;
-            $aRetorno[1] = '';
-            return $aRetorno;
-        } else {
-            $oMensagem = new Modal('Alteração inválida', 'Você não tem autorização para alterar ou inserir dados nessa tela... Contate um administrador ou o setor de TI', Modal::TIPO_ERRO, false, true, false);
-            echo $oMensagem->getRender();
-            //$this->getTela()->setBFecharTelaIncluir(true);
-            return;
+        if (($this->Model->getEtapProj() != null ||
+                $this->Model->getResult() != null ||
+                $this->Model->getCliprov() != null ||
+                $this->Model->getValproj() != null ) && $this->Model->getRespvalproj() == '') {
+            $this->Model->setRespvalproj($_SESSION['nome']);
+            $this->Model->setDtanalisevalproj(date('d/m/Y'));
         }
     }
 
@@ -56,7 +56,7 @@ class ControllerQualNovoProjVerif extends Controller {
 
         $oNr = $this->Model->getNr();
         $oFilcgc = $this->Model->getEmpRex()->getFilcgc();
-        
+
         $this->Persistencia->verifValProj($oFilcgc, $oNr);
 
         $aRetorno = array();

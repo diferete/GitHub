@@ -97,6 +97,9 @@ class PersistenciaQualNovoProjProd extends Persistencia {
 
         $this->adicionaRelacionamento('metmat', 'metmat');
 
+        $this->adicionaRelacionamento('usuanaliseentrada', 'usuanaliseentrada');
+        $this->adicionaRelacionamento('dtanaliseentrada', 'dtanaliseentrada');
+
         $this->adicionaJoin('EmpRex');
         $this->adicionaOrderBy('nr', 1);
         $this->setSTop('50');

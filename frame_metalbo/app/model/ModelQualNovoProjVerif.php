@@ -74,6 +74,24 @@ class ModelQualNovoProjVerif {
     private $valproj;
     private $comenvalproj;
     private $respvalproj;
+    private $dtanaliseens;
+    private $dtanalisevalproj;
+
+    function getDtanalisevalproj() {
+        return $this->dtanalisevalproj;
+    }
+
+    function setDtanalisevalproj($dtanalisevalproj) {
+        $this->dtanalisevalproj = $dtanalisevalproj;
+    }
+
+    function getDtanaliseens() {
+        return $this->dtanaliseens;
+    }
+
+    function setDtanaliseens($dtanaliseens) {
+        $this->dtanaliseens = $dtanaliseens;
+    }
 
     /* etapProj varchar(10),
       result varchar(10),

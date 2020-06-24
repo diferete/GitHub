@@ -92,6 +92,12 @@ class PersistenciaQualNovoProjVenda extends Persistencia {
 
         $this->adicionaRelacionamento('replibobs', 'replibobs');
         $this->adicionaRelacionamento('acabamento', 'acabamento');
+        
+        $this->adicionaRelacionamento('usuaprovaoperacional', 'usuaprovaoperacional');
+        $this->adicionaRelacionamento('dtaprovaoperacional', 'dtaprovaoperacional');
+        
+        $this->adicionaRelacionamento('usuaprovafinanceiro', 'usuaprovafinanceiro');
+        $this->adicionaRelacionamento('dtaprovafinanceiro', 'dtaprovafinanceiro');
 
         $this->adicionaFiltro('sitproj', 'Aprovado', Persistencia::LIGACAO_AND, Persistencia::ENTRE, 'Cód. enviado');
 

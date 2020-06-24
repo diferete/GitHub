@@ -43,6 +43,7 @@ class PersistenciaQualNovoProjDet extends Persistencia {
         $this->adicionaRelacionamento('ferrElaboradas', 'ferrElaboradas');
         $this->adicionaRelacionamento('desenAcordo', 'desenAcordo');
         $this->adicionaRelacionamento('respAnaliseCri', 'respAnaliseCri');
+        $this->adicionaRelacionamento('dtanalisecritica', 'dtanalisecritica');
         $this->adicionaRelacionamento('comenCrit', 'comenCrit');
     }
 

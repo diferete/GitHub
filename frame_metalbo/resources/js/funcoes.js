@@ -441,9 +441,7 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, i
             $('#' + idQtCaixaNormal + '').val(resultadoNormalArr);
             return false;
 
-        } else
-        {
-
+        } else {
             $('#' + idDiverNormal + '').removeClass("label-warning");
             $('#' + idDiverNormal + '').removeClass("label-danger");
             $('#' + idDiverNormal + '').addClass("label-success");
