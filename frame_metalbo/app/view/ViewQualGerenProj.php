@@ -392,7 +392,7 @@ class ViewQualGerenProj extends View {
     public function relNovoProjeto() {
         parent::criaTelaRelatorio();
 
-        $this->setTituloTela('Relatório de Projetos');
+        $this->setTituloTela('Relatórios de Novos Projetos');
         $this->setBTela(true);
 
 

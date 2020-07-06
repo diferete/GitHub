@@ -63,18 +63,13 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $sSql = "select * from MET_TEC_Chamados where nr = '" . $aDados['nr'] . "' and filcgc = '" . $aDados['filcgc'] . "'";
         $oDados = $this->consultaSql($sSql);
 
-        if ($oDados->repoffice != 'METALBOF') {
+        if ($oDados->repoffice == 'METALBOF') {
+            return false;
+        } else {
             $sSqlEmail = "select usuemail from tbusuario where usucodigo = " . $oDados->usucod;
             $oConsulta = $this->consultaSql($sSqlEmail);
             $oDados->email = $oConsulta->usuemail;
-        } else {
-            $aNome = explode(' ', $oDados->usunome);
-            $nome = $aNome[0];
-            $sSqlEmail = "select usuemail from tbusuario where usuemail like '%" . $nome . "%'";
-            $oConsulta = $this->consultaSql($sSqlEmail);
-            $oDados->email = $oConsulta->usuemail;
         }
-
 
         return $oDados;
     }

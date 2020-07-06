@@ -62,7 +62,7 @@ $pdf->SetFont('Arial', 'B', 15);
 // Move to the right
 $pdf->Cell(50);
 // Title
-$pdf->Cell(90, 10, 'Relatorio de Novos Projetos', 0, 0, 'L');
+$pdf->Cell(90, 10, 'Relatorio de Proposta de Projeto', 0, 0, 'L');
 
 $pdf->SetFont('Arial', '', 9);
 $pdf->MultiCell(52,7,'Data: '.$sData

@@ -260,11 +260,33 @@ class ViewTiEquipamento extends View {
         $oSituaca->addItemSelect('Todas', 'Todas');
         $oSituaca->addItemSelect('A', 'Ativado');
         $oSituaca->addItemSelect('D', 'Desativado');
+        
+        $oSemEqp = new Campo ("Sem o equipamento:", 'semeqp', Campo::TIPO_SELECTTAGS, 2, 2, 12, 12);
+        $oSemEqp->addItemSelect('1','Computador');
+        $oSemEqp->addItemSelect('2','Notebook');
+        $oSemEqp->addItemSelect('3','Gravadora');
+        $oSemEqp->addItemSelect('4','Impressora');
+        $oSemEqp->addItemSelect('5','Estabilizador');
+        $oSemEqp->addItemSelect('6','Nobreak');
+        $oSemEqp->addItemSelect('7','Switch');
+        $oSemEqp->addItemSelect('8','Módulos Baterias');
+        $oSemEqp->addItemSelect('9','Roteador');
+        $oSemEqp->addItemSelect('10','Monitor');
+        $oSemEqp->addItemSelect('11','Firewall');
+        $oSemEqp->addItemSelect('12','Relógio Ponto');
+        $oSemEqp->addItemSelect('13','Leitor Código de Barra');
+        $oSemEqp->addItemSelect('14','Media Convert');
+        $oSemEqp->addItemSelect('16','Fonte POE');
+        $oSemEqp->addItemSelect('17','Tablet');
+        $oSemEqp->addItemSelect('18','Servidor');
+        $oSemEqp->addItemSelect('19','Camera');
+        $oSemEqp->addItemSelect('20','Central Telefonica');
+        $oSemEqp->addItemSelect('21','Quasro de computação');
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $this->addCampos($oTipoEquip, $oSetorCod, $oLinha1, $oSituaca, $oLinha1, $oSistema, $oLinha1, array($oLicensa, $oOffice), $oLinha1, $oIpFixo);
+        $this->addCampos($oTipoEquip, $oSetorCod, $oLinha1, $oSituaca, $oLinha1, $oSistema, $oLinha1, array($oLicensa, $oOffice), $oLinha1, array($oIpFixo,$oSemEqp));
     }
 
 }

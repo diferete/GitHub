@@ -27,8 +27,7 @@ class PersistenciaQualAqEficaz extends Persistencia {
         $this->adicionaOrderBy('seq', 1);
     }
 
-    public function apontaEfi($sDados) {
-
+    public function apontaEfi() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
         $aCampos['obs'] = $this->preparaString($aCampos['obs']);

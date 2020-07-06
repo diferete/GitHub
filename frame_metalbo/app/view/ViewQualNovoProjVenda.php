@@ -263,13 +263,13 @@ class ViewQualNovoProjVenda extends View {
         $oViavel = new Campo('É viável operacionalmente?', 'sol_viavel', Campo::TIPO_TEXTO, 2);
         $oViavel->setBCampoBloqueado(true);
 
-        $oUsuAprovaOperacional = new Campo('Aprova operacional', 'usuaprovaoperacional', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oUsuAprovaOperacional = new Campo('Aprovado por', 'usuaprovaoperacional', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUsuAprovaOperacional->setBCampoBloqueado(true);
         if ($_SESSION['codsetor'] == 9) {
             $oUsuAprovaOperacional->setSValor($_SESSION['nome']);
         }
 
-        $oDataAprovaOperacional = new Campo('Data aprova', 'dtaprovaoperacional', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataAprovaOperacional = new Campo('Data da aprovação', 'dtaprovaoperacional', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataAprovaOperacional->setBCampoBloqueado(true);
         if ($_SESSION['codsetor'] == 9) {
             $oDataAprovaOperacional->setSValor(date('d/m/Y'));
@@ -381,13 +381,13 @@ class ViewQualNovoProjVenda extends View {
         $oViavelFinan->addItenRadio('Sim', 'Sim');
         $oViavelFinan->addItenRadio('Não', 'Não');
 
-        $oUsuAprovaFinan = new Campo('Usu aprova', 'usuaprovafinanceiro', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oUsuAprovaFinan = new Campo('Aprovado poor', 'usuaprovafinanceiro', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUsuAprovaFinan->setBCampoBloqueado(true);
         if ($_SESSION['codsetor'] == 34) {
             $oUsuAprovaFinan->setSValor($_SESSION['nome']);
         }
 
-        $oDataAprovaFinan = new Campo('Data aprova', 'dtaprovafinanceiro', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataAprovaFinan = new Campo('Data da aprovação', 'dtaprovafinanceiro', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataAprovaFinan->setBCampoBloqueado(true);
         if ($_SESSION['codsetor'] == 34) {
             $oDataAprovaFinan->setSValor(date('d/m/Y'));

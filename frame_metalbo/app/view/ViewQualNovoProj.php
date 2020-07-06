@@ -66,11 +66,12 @@ class ViewQualNovoProj extends View {
         $oSitGeral->addComparacao('Em execução', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->addComparacao('Produzido', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->addComparacao('Faturado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Expirado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(11);
 
 
-        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 1, 2, 12, 12, false);
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
 
@@ -95,9 +96,11 @@ class ViewQualNovoProj extends View {
         $oFSitGeralProj->addItemSelect('Finalizado', 'Finalizado');
         $oFSitGeralProj->addItemSelect('Aprovado', 'Aprovado');
         $oFSitGeralProj->addItemSelect('Representante', 'Representante');
+        $oFSitGeralProj->addItemSelect('Faturado', 'Faturado');
+        $oFSitGeralProj->addItemSelect('Expirado', 'Expirado');
         $oFSitGeralProj->setSLabel('');
 
-        $oFilEmpDes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $oFilEmpDes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, true);
 
         $this->addFiltro($oFSitProj, $oFSitGeralProj, $oFilNr, $oFilData, $oFilEmpDes, $oFilDescProdNew);
 

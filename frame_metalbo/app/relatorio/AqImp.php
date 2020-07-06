@@ -81,9 +81,9 @@ $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //dados do cabeçalho
 $sSql = "select certificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
-        . "convert(varchar,datafim,103) as datafim,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
+        . "convert(varchar,datafech,103) as datafech,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
         . "pq1,pq2,pq3,pq4,pq5,anexo1,anexo2 "
-        . " from tbacaoqual where filcgc ='" . $filcgcAq . "' and nr=" . $nrAq;
+        . " from tbacaoqual where filcgc ='" . $filcgcAq . "' and nr= '" . $nrAq . "'";
 $dadoscab = $PDO->query($sSql);
 while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $userImp = $row['userimp'];
@@ -92,7 +92,7 @@ while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $sResp = $row['usunome'];
     $sEquipe = $row['equipe'];
     $sDataini = $row['dataini'];
-    $sDataFim = $row['datafim'];
+    $sDataFim = $row['datafech'];
     $sTipoAcao = $row['tipoacao'];
     $sOrigem = $row['origem'];
     $sTipMelhoria = $row['tipmelhoria'];

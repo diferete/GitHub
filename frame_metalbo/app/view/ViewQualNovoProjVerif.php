@@ -133,12 +133,12 @@ class ViewQualNovoProjVerif extends View {
         $oEnsReqLegal->addItenRadio('Sim', 'Sim');
         $oEnsReqLegal->addItenRadio('Não', 'Não');
         $oEnsReqLegal->addItenRadio('Na', 'NA');
-        
+
         /*
-        $oEnsPlan = new Campo('As etapas definidas no planejamento foram cumpridas conforme cronograma?', 'ensPlan', Campo::TIPO_RADIO, 3);
-        $oEnsPlan->addItenRadio('Sim', 'Sim');
-        $oEnsPlan->addItenRadio('Não', 'Não');
-        $oEnsPlan->addItenRadio('Na', 'NA');
+          $oEnsPlan = new Campo('As etapas definidas no planejamento foram cumpridas conforme cronograma?', 'ensPlan', Campo::TIPO_RADIO, 3);
+          $oEnsPlan->addItenRadio('Sim', 'Sim');
+          $oEnsPlan->addItenRadio('Não', 'Não');
+          $oEnsPlan->addItenRadio('Na', 'NA');
          * 
          */
 
@@ -147,10 +147,10 @@ class ViewQualNovoProjVerif extends View {
         $oRespEnsAnalise = new Campo('Responsável', 'respEns', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oRespEnsAnalise->setBCampoBloqueado(true);
 
-        $oDataEnsAnalise = new Campo('Data análise', 'dtanaliseens', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataEnsAnalise = new Campo('Data da análise', 'dtanaliseens', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataEnsAnalise->setBCampoBloqueado(true);
 
-        $oFieldAnalise->addCampos(array($oEnsReq, $oEnsReqDef), $oLinha1, array($oEnsReqLegal/*, $oEnsPlan*/), $oLinha1, $oEnsComem, array($oRespEnsAnalise, $oDataEnsAnalise));
+        $oFieldAnalise->addCampos(array($oEnsReq, $oEnsReqDef), $oLinha1, array($oEnsReqLegal/* , $oEnsPlan */), $oLinha1, $oEnsComem, array($oRespEnsAnalise, $oDataEnsAnalise));
 
 
         //###################################################################################################  
@@ -209,7 +209,7 @@ class ViewQualNovoProjVerif extends View {
         $oRespVal = new campo('Responsável', 'respvalproj', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oRespVal->setBCampoBloqueado(true);
 
-        $oDataVal = new Campo('Data análise', 'dtanalisevalproj', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataVal = new Campo('Data da análise', 'dtanalisevalproj', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataVal->setBCampoBloqueado(true);
 
         $oFieldAnaCrit->addCampos($oEtapProj, $oResultProj, $oCliProj, $oValProj, $oComenValProj, array($oRespVal, $oDataVal));
