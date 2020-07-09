@@ -202,4 +202,64 @@ class ControllerQualGerenProj extends Controller {
         echo $oMenSuccess->getRender();
     }
 
+    public function atualizaEntProj() {
+        $aRetorno = $this->Persistencia->verificaSitEntProj();
+        //verifica se array tem dados, dar um count
+        if (count($aRetorno) > 0) {
+            //executa a funçao
+            $aRet = $this->Persistencia->mudaSitEntProj($aRetorno);
+        }
+    }
+
+    /**
+     *  Monta e envia o e-mail caso expirado o tempo de aprovação pelo cliente
+     *
+     */
+    public function envEmail($oValue) {
+
+
+        $sData = $oValue->dtimp;
+        $sDateConvert = date("d/m/Y", strtotime($sData));
+
+        $sData2 = $oValue->dtaprovendas;
+        $sDateConvert2 = date("d/m/Y", strtotime($sData2));
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+
+
+        $aUserPlano = $this->Persistencia->projEmailVendaProj($oValue);
+
+        foreach ($aUserPlano as $sCopia) {
+            $oEmail->addDestinatarioCopia($sCopia);
+        }
+
+//        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+        $oEmail->setAssunto(utf8_decode('Entrada de projeto nº' . $oValue->nr . ''));
+        $oEmail->setMensagem(utf8_decode('PROJETO Nº ' . $oValue->nr . ' FOI CANCELADO PELO SISTEMA<hr><br/>'
+                        . '<p style="margin:20px;color:red;font-weight:900;font-size:25px;">PROJETO EXPIRADO: O TEMPO LIMITE DE 60 DIAS PARA APROVAÇÃO DO CLIENTE FOI EXCEDIDO!</p>'
+                        . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
+                        . '<tr><td><b>Descrição:</b></td><td> ' . $oValue->desc_novo_prod . '</td></tr>'
+                        . '<tr><td><b>Implantação:</b></td><td> ' . $sDateConvert . '</td></tr>'
+                        . '<tr><td><b>Dt. Aprovação Venda:</b></td><td>  ' . $sDateConvert2 . '</td></tr>'
+                        . '<tr><td><b>Cnpj:</b></td><td>' . $oValue->empcod . '</td></tr>'
+                        . '<tr><td><b>Escritório:</b></td><td>' . $oValue->officedes . '</td></tr>'
+                        . '<tr><td><b>Representante:</b></td><td>' . $oValue->repnome . '</td></tr> '
+                        . '<tr><td><b>Resp. Vendas:</b></td><td>' . $oValue->resp_venda_nome . '</td></tr> '
+                        . '</table><br/><br/><hr>'
+                        . '<br/><b style="margin:40px;color:blue">E-mail enviado automaticamente, favor não responder!</b>'));
+
+        $aRetorno = $oEmail->sendEmail();
+        return $aRetorno;
+    }
+
 }

@@ -9,7 +9,7 @@ class ViewQualGerenProj extends View {
         $this->setUsaAcaoExcluir(FALSE);
         $this->setUsaAcaoAlterar(FALSE);
         $this->setUsaAcaoVisualizar(true);
-        $this->setUsaDropdown(false);
+        $this->setUsaDropdown(true);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
 
@@ -29,9 +29,8 @@ class ViewQualGerenProj extends View {
 
         $oSitGeral = new CampoConsulta('Sit.Proj', 'sitgeralproj');
 
-        $oDrop = new Dropdown('Agendamentos', Dropdown::TIPO_PRIMARY);
-        $this->addDropdown($oDrop);
-        $oDrop->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Teste agenda', 'Agendamentos', 'atualizaEntProj', '', false, '', false, '', false, '', false, false);
+        $oDrop = new Dropdown('Teste', Dropdown::TIPO_PRIMARY);
+        $oDrop->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Teste Expira', $this->getController(), 'atualizaEntProj', '', false, '', false, '', false, '', false, true);
 
 
         $oFilRepNome = new Filtro($oRepNome, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2, false);
@@ -45,6 +44,7 @@ class ViewQualGerenProj extends View {
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","QualGerenProj","renderTempo",chave+",qualgerenprojtempo");');
 
+        $this->addDropdown($oDrop);
         $this->addCampos($oNr, $oFilcgc, $oProdDesc, $oRespProj, $oRespVenda, $oRepNome, $oSitGeral);
     }
 

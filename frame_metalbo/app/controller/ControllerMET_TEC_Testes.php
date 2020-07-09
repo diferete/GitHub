@@ -26,11 +26,6 @@ class ControllerMET_TEC_Testes extends Controller {
         echo $oMensagem->getRender();
     }
 
-    public function expiraProj() {
-        $oExpira = Fabrica::FabricarController('Agendamentos');
-        $aExpira = $oExpira->atualizaEntProj();
-    }
-
     public function converteXML() {
 
         $xml = simplexml_load_file('app/arquivo.xml');
@@ -83,7 +78,12 @@ class ControllerMET_TEC_Testes extends Controller {
             echo $oMensagem->getRender();
         }
     }
-    
+
+    public function expiraProj() {
+        $oExpira = Fabrica::FabricarController('Agendamentos');
+        $aExpira = $oExpira->atualizaEntProj();
+    }
+
     public function atualizaEntProj() {
 
         $aRetorno = $this->Persistencia->verificaSitEntProj();

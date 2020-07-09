@@ -16,14 +16,14 @@ class ViewQualNovoProj extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
 
+        $oNr = new CampoConsulta('Nr', 'nr');
+        $oNr->setILargura(1);
+
         $oData = new CampoConsulta('Data', 'dtimp', CampoConsulta::TIPO_DATA);
         $oData->setILargura(50);
 
-        $oNr = new CampoConsulta('Nr', 'nr');
-        $oNr->setILargura(20);
-
         $oEmpDes = new CampoConsulta('Cliente', 'Pessoa.empdes');
-        $oEmpDes->setILargura(350);
+        $oEmpDes->setILargura(400);
 
         $oRepNome = new CampoConsulta('Rep.', 'repnome');
         $oRepNome->setILargura(100);
@@ -111,8 +111,8 @@ class ViewQualNovoProj extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Reprovar projeto', 'QualNovoProj', 'msgReprovaProj', '', false, '', false, '', false, '', false, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Retornar para representante', 'QualNovoProj', 'msgRetRep', '', false, '', false, '', false, '', false, false);
 
-        $oDrop2 = new Dropdown('Proposta', Dropdown::TIPO_DARK, Dropdown::ICON_RANDOM);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Relatório da proposta', 'QualNovoProj', 'acaoMostraRelConsulta', '', false, 'relPropProj', false, '', false, '', false, false);
+        $oDrop2 = new Dropdown('Relatório', Dropdown::TIPO_DARK, Dropdown::ICON_RANDOM);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Relatório da proposta e projeto', 'QualNovoProj', 'acaoMostraRelConsulta', '', false, 'relPropProj', false, '', false, '', false, false);
 
         $oDrop3 = new Dropdown('E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Reenviar e-mail aprovação', 'QualNovoProj', 'reenviaAprovaProj', '', false, '', false, '', false, '', false, false);
@@ -412,7 +412,7 @@ class ViewQualNovoProj extends View {
         $oViavelFinan = new Campo('Viável financeiramente?', 'sol_viavel_fin', Campo::TIPO_TEXTO, 2);
         $oViavelFinan->setBCampoBloqueado(true);
 
-        $oUsuAprovaFinan = new Campo('Usu aprova', 'usuaprovafinanceiro', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oUsuAprovaFinan = new Campo('Aprova financeiro', 'usuaprovafinanceiro', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUsuAprovaFinan->setApenasTela(true);
         $oUsuAprovaFinan->setBCampoBloqueado(true);
         if ($_SESSION['codsetor'] == 34) {

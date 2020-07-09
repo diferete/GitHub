@@ -41,11 +41,17 @@ class ControllerQualNovoProjDet extends Controller {
 
     public function beforeUpdate() {
         parent::beforeUpdate();
-        if (($this->Model->getFerrElaboradas() != 'Na' ||
-                $this->Model->getDesenAcordo() != 'Na') && $this->Model->getRespAnaliseCri() == '') {
+        if (($this->Model->getFerrElaboradas() != null ||
+                $this->Model->getDesenAcordo() != null) && $this->Model->getRespAnaliseCri() == '') {
             $this->Model->setRespAnaliseCri($_SESSION['nome']);
             $this->Model->setDtanalisecritica(date('d/m/Y'));
         }
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+
+        return $aRetorno;
     }
 
 }

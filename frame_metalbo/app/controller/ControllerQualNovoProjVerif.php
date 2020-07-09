@@ -49,6 +49,11 @@ class ControllerQualNovoProjVerif extends Controller {
             $this->Model->setRespvalproj($_SESSION['nome']);
             $this->Model->setDtanalisevalproj(date('d/m/Y'));
         }
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
     }
 
     public function afterUpdate() {

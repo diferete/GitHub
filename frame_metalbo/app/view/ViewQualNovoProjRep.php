@@ -50,13 +50,14 @@ class ViewQualNovoProjRep extends View {
         $oSitVendas->setBComparacaoColuna(true);
         $oSitVendas->setILargura(11);
 
-        $oSitCLiente = new CampoConsulta('SitCliente', 'sitcliente', CampoConsulta::TIPO_TEXTO);
-        $oSitCLiente->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, null);
-        $oSitCLiente->addComparacao('Enviado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, null);
-        $oSitCLiente->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
-        $oSitCLiente->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
-        $oSitCLiente->addComparacao('Expirado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
-        $oSitCLiente->setBComparacaoColuna(true);
+        $oSitCli = new CampoConsulta('SitCliente', 'sitcliente', CampoConsulta::TIPO_TEXTO);
+        $oSitCli->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitCli->addComparacao('Enviado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitCli->addComparacao('Aprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitCli->addComparacao('Reprovado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitCli->addComparacao('Expirado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitCli->setBComparacaoColuna(true);
+        $oSitCli->setILargura(11);
 
         $oSitGeral = new CampoConsulta('SitGeral', 'sitgeralproj', CampoConsulta::TIPO_TEXTO);
         $oSitGeral->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_MARROM, CampoConsulta::MODO_COLUNA, false, null);
@@ -67,9 +68,9 @@ class ViewQualNovoProjRep extends View {
         $oSitGeral->addComparacao('Em execução', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->addComparacao('Produzido', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->addComparacao('Faturado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Expirado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->setBComparacaoColuna(true);
-        $oSitGeral->setILargura(60);
-
+        $oSitGeral->setILargura(11);
 
 
 
@@ -98,7 +99,7 @@ class ViewQualNovoProjRep extends View {
 
         $this->addFiltro($oFilNr, $oEmpDesFil, $oFilData);
 
-        $this->addCampos($oNr, $oSitProj, $oSitVendas, $oSitCLiente, $oSitGeral, $oData, $oEmpDes, $oDesc_Novo, $oQt);
+        $this->addCampos($oNr, $oSitProj, $oSitVendas, $oSitCli, $oSitGeral, $oData, $oEmpDes, $oDesc_Novo, $oQt);
     }
 
     public function criaTela() {
