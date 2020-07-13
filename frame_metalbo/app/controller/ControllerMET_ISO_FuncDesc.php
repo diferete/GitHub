@@ -99,8 +99,10 @@ class ControllerMET_ISO_FuncDesc extends Controller {
         parent::afterDelete();
 
         $this->Persistencia->deletaDescricao($this->Model->getFilcgc(), $this->Model->getNr(), $this->Model->getSeq());
+        
+        $aRetorno = array();
         $aRetorno[0] = true;
-
+        $aRetorno[1] = '';
         return $aRetorno;
     }
 

@@ -1,2 +1,1 @@
-update tbsessao set usulastacesso = '2020-7-9 14:29:41' 
-            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'ebebv6hehs5vu2ojbqvbbjmp6d'
+delete from MET_ISO_FuncDesc where nr =1  and filcgc = 75483040000211
