@@ -239,7 +239,7 @@ class ControllerCadCliRep extends Controller {
         $aDadosEMP = explode('|', $aDados[0]);
         $aIdCampos = explode('|', $aDados[1]);
         if ($aDadosEMP[0] != '') {
-            $bRet = true; //$this->Persistencia->buscaCNPJ($aDadosEMP[0]);
+            $bRet = $this->Persistencia->buscaCNPJ($aDadosEMP[0]);
             if ($bRet == false) {
                 $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
@@ -260,7 +260,7 @@ class ControllerCadCliRep extends Controller {
                 $oMensagem = new Mensagem('Sucesso', 'Busca efetuada com sucesso!', Mensagem::TIPO_SUCESSO);
                 echo $oMensagem->getRender();
                 if (strlen($aDados[1]) > 45 || strlen($aDados[2]) > 35) {
-                    $oMsg = new Mensagem('Atenção', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP', Mensagem::TIPO_ERROR, '10000');
+                    $oMsg = new Mensagem('Atenção', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP sem adicionar pontos', Mensagem::TIPO_ERROR, '10000');
                     echo $oMsg->getRender();
                 }
 

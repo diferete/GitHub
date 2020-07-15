@@ -89,12 +89,11 @@ class ViewQualNovoProjDet extends View {
         $oComenCrit = new Campo('Comentários', 'comenCrit', Campo::TIPO_TEXTAREA, 8, 8, 12, 12);
 
         $oRespCrit = new Campo('Responsável', 'respAnaliseCri', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oRespCrit->setBCampoBloqueado(true);
+        $oRespCrit->setSValor($_SESSION['nome']);
 
 
-        $oDataCrit = new Campo('Data da análise', 'dtanalisecritica', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oDataCrit->setBCampoBloqueado(true);
-
+        $oDataCrit = new Campo('Data da análise', 'dtanalisecritica', Campo::TIPO_DATA, 1, 1, 12, 12);
+       
 
         $oFieldCrit->setOculto(true);
 

@@ -51,16 +51,6 @@ class ControllerQualNovoProjProd extends Controller {
     public function beforeUpdate() {
         parent::beforeUpdate();
 
-        if (($this->Model->getDadosent() != 'Na' ||
-                $this->Model->getReqlegal() != 'Na' ||
-                $this->Model->getReqadicional() != 'Na' ||
-                $this->Model->getReqadverif() != 'Na' ||
-                $this->Model->getReqadval() != 'Na' ||
-                $this->Model->getReqproblem() != 'Na') && $this->Model->getUsuanaliseentrada() == '') {
-            $this->Model->setUsuanaliseentrada($_SESSION['nome']);
-            $this->Model->setDtanaliseentrada(date('d/m/Y'));
-        }
-
         $this->Model->setChavemin($this->ValorSql($this->Model->getChavemin()));
         $this->Model->setChavemax($this->ValorSql($this->Model->getChavemax()));
         $this->Model->setAltmin($this->ValorSql($this->Model->getAltmin())); //Altmax()

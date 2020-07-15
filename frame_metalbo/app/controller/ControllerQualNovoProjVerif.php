@@ -32,30 +32,6 @@ class ControllerQualNovoProjVerif extends Controller {
         $this->View->getTela()->getRender();
     }
 
-    public function beforeUpdate() {
-        parent::beforeUpdate();
-        if (($this->Model->getEnsReq() != null ||
-                $this->Model->getEnsReqDef() != null ||
-                $this->Model->getEnsReqLegal() != null) && $this->Model->getRespEns() == '') {
-            $this->Model->setRespEns($_SESSION['nome']);
-            $this->Model->setDtanaliseens(date('d/m/Y'));
-        }
-
-
-        if (($this->Model->getEtapProj() != null ||
-                $this->Model->getResult() != null ||
-                $this->Model->getCliprov() != null ||
-                $this->Model->getValproj() != null ) && $this->Model->getRespvalproj() == '') {
-            $this->Model->setRespvalproj($_SESSION['nome']);
-            $this->Model->setDtanalisevalproj(date('d/m/Y'));
-        }
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
     public function afterUpdate() {
         parent::afterUpdate();
 

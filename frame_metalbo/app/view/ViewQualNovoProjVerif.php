@@ -145,10 +145,9 @@ class ViewQualNovoProjVerif extends View {
         $oEnsComem = new Campo('Comentário', 'ensComem', Campo::TIPO_TEXTAREA, 5);
 
         $oRespEnsAnalise = new Campo('Responsável', 'respEns', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oRespEnsAnalise->setBCampoBloqueado(true);
+        $oRespEnsAnalise->setSValor($_SESSION['nome']);
 
-        $oDataEnsAnalise = new Campo('Data da análise', 'dtanaliseens', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oDataEnsAnalise->setBCampoBloqueado(true);
+        $oDataEnsAnalise = new Campo('Data da análise', 'dtanaliseens', Campo::TIPO_DATA, 1, 1, 12, 12);
 
         $oFieldAnalise->addCampos(array($oEnsReq, $oEnsReqDef), $oLinha1, array($oEnsReqLegal/* , $oEnsPlan */), $oLinha1, $oEnsComem, array($oRespEnsAnalise, $oDataEnsAnalise));
 
@@ -207,10 +206,9 @@ class ViewQualNovoProjVerif extends View {
         $oComenValProj = new Campo('Comentários / Alterações Propostas', 'comenvalproj', Campo::TIPO_TEXTAREA, 8, 8, 12, 12);
 
         $oRespVal = new campo('Responsável', 'respvalproj', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oRespVal->setBCampoBloqueado(true);
+        $oRespVal->setSValor($_SESSION['nome']);
 
-        $oDataVal = new Campo('Data da análise', 'dtanalisevalproj', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oDataVal->setBCampoBloqueado(true);
+        $oDataVal = new Campo('Data da análise', 'dtanalisevalproj', Campo::TIPO_DATA, 1, 1, 12, 12);
 
         $oFieldAnaCrit->addCampos($oEtapProj, $oResultProj, $oCliProj, $oValProj, $oComenValProj, array($oRespVal, $oDataVal));
 

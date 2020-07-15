@@ -1,1 +1,2 @@
-delete from MET_ISO_FuncDesc where nr =1  and filcgc = 75483040000211
+update tbsessao set usulastacesso = '2020-7-15 11:06:44' 
+            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'sm7uhuf3e8pvvs6s94qrnbfqt4'
