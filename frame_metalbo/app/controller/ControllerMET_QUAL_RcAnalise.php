@@ -1,15 +1,15 @@
 <?php
 
 /*
- * Implementa controller da classe QualRnc
+ * Implementa controller da classe MET_QUAL_Rc
  * @author Avanei Martendal
  * $since 10/09/2017
  */
 
-class ControllerQualRncAnalise extends Controller {
+class ControllerMET_QUAL_RcAnalise extends Controller {
 
     public function __construct() {
-        $this->carregaClassesMvc('QualRncAnalise');
+        $this->carregaClassesMvc('MET_QUAL_RcAnalise');
     }
 
     public function antesDeCriarTela($sParametros = null) {
@@ -117,15 +117,15 @@ class ControllerQualRncAnalise extends Controller {
     }
 
     /**
-     * Aponta RNC
+     * Aponta RC
      * @param type $sDados
      */
-    public function apontaRnc($sDados) {
+    public function apontaRC($sDados) {
         $aDados = explode(',', $sDados);
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
-        $aRet = $this->Persistencia->apontaRnc($aCampos);
+        $aRet = $this->Persistencia->apontaRC($aCampos);
 
         if ($aRet[0] == true) {
             $oMsg = new Mensagem('Sucesso', 'Reclamação nº' . $aCampos['nr'] . ' foi apontada com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -140,7 +140,7 @@ class ControllerQualRncAnalise extends Controller {
         echo'$("#' . $aDados[2] . '-btn").click();';
     }
 
-    public function reenviaEmailRnc($sDados) {
+    public function reenviaEmailRC($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
@@ -184,7 +184,7 @@ class ControllerQualRncAnalise extends Controller {
         $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
-        $oRow = $this->Persistencia->buscaDadosRnc($aCamposChave);
+        $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
 
         if ($_SESSION['codsetor'] == 3) {
             $sSetor = 'Expedição';

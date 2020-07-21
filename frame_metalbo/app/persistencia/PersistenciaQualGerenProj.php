@@ -190,4 +190,24 @@ class PersistenciaQualGerenProj extends Persistencia {
         return $aEmail;
     }
 
+    public function selectProjetos() {
+        $sSqlSelect = "select filcgc,nr,resp_venda_nome,convert(varchar,dtaprovaproj,103) as dtaprovaproj,useraprovproj from tbqualNovoProjeto where sitvendas = 'Aprovado'";
+        $result = $this->getObjetoSql($sSqlSelect);
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            $oModel = $oRowBD;
+            $aRetorno[] = $oModel;
+        }
+        
+        foreach ($aRetorno as $key => $oValue) {
+            $sSqlUpdate = "update tbqualNovoProjeto set "
+                    . "usuaprovafinanceiro = '$oValue->resp_venda_nome', "
+                    . "dtaprovafinanceiro = '$oValue->dtaprovaproj', "
+                    . "usuaprovaoperacional = '$oValue->useraprovproj', "
+                    . "dtaprovaoperacional = '$oValue->dtaprovaproj' "
+                    . "where filcgc = $oValue->filcgc and "
+                    . "nr = $oValue->nr";
+            $aDebug = $this->executaSql($sSqlUpdate);
+        }
+    }
+
 }

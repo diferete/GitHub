@@ -1,12 +1,12 @@
 <?php
 
 /*
- * Implemanta a view da classe QualRnc
+ * Implemanta a view da classe MET_QUAL_Rc
  * @author Avanei Martendal
  * @since 10/09/2017
  */
 
-class ViewQualRnc extends View {
+class ViewMET_QUAL_RcRep extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
@@ -57,14 +57,14 @@ class ViewQualRnc extends View {
         $oDevolucao->setBComparacaoColuna(true);
 
         $oDropDown = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
-        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'QualRnc', 'liberarMetalbo', '', false, 'rc', false, '', false, '', true, false);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'MET_QUAL_RcRep', 'liberarMetalbo', '', false, 'rc', false, '', false, '', true, false);
 
         $oDropDown1 = new Dropdown('Finalizar Reclamação', Dropdown::TIPO_AVISO);
-        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'QualRnc', 'criaTelaModalFinaliza', '', false, '', false, 'criaTelaModalFinaliza', true, 'Finalizar Reclamação', false, false);
+        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'MET_QUAL_RcRep', 'criaTelaModalFinaliza', '', false, '', false, 'criaTelaModalFinaliza', true, 'Finalizar Reclamação', false, false);
 
         $oDropDown2 = new Dropdown('Opções da Reclamação', Dropdown::TIPO_INFO, Dropdown::ICON_INFO);
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'QualRnc', 'acaoMostraRelConsulta', '', false, 'rc', false, '', false, '', false, false);
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail', 'QualRnc', 'reenviaEmail', '', false, '', false, '', false, '', false, false);
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'MET_QUAL_RcRep', 'acaoMostraRelConsulta', '', false, 'rc', false, '', false, '', false, false);
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail', 'MET_QUAL_RcRep', 'reenviaEmail', '', false, '', false, '', false, '', false, false);
 
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown2, $oDropDown1);
@@ -93,7 +93,7 @@ class ViewQualRnc extends View {
         $this->addCamposGrid($oProblema, $oAnaliseVendas, $oLinhaWhite);
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
-                . 'requestAjax("","QualRnc","carregaAnalise","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oAnaliseVendas->getId() . ',' . $oProblema->getId() . '"+","+"");');
+                . 'requestAjax("","MET_QUAL_RcRep","carregaAnalise","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oAnaliseVendas->getId() . ',' . $oProblema->getId() . '"+","+"");');
 
 
         $this->setBScrollInf(false);
@@ -239,7 +239,7 @@ class ViewQualRnc extends View {
         $oPeso = new campo('Peso', 'peso', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oPeso->setBCampoBloqueado(true);
 
-        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","QualRnc","buscaNf","' . $oDataNf->getId() . ',' . $oValor->getId() . ',' . $oPeso->getId() . ',' . $oEmpcod->getId() . ',' . $oEmpdes->getId() . '");';
+        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_QUAL_RcRep","buscaNf","' . $oDataNf->getId() . ',' . $oValor->getId() . ',' . $oPeso->getId() . ',' . $oEmpcod->getId() . ',' . $oEmpdes->getId() . '");';
 
         $oNf->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
@@ -408,7 +408,7 @@ class ViewQualRnc extends View {
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         //id do grid
 
-        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","finalizaRnc","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","finalizaRC","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
 
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());

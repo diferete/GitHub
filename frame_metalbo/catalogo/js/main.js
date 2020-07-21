@@ -802,10 +802,10 @@ $(window).load(function () {
 //================================================================ Inicio funções filtro ===================================================================//
 //Documentação - Comentários podem ser replicados para cada uma das funções abaixo
 //Funções para captura e request de dados dos filtros por campo em sequencia:
-// 1 - Linha de produtos *Valores fixos de: Porcas e Parafusos*
-// 2 - Tipo de produto
-// 3 - Acabamentos
-// 4 - Bitolas/Diâmetros
+// 1 - Linha de produtos *Valores fixos de: Porcas e Parafusos* - Grupo
+// 2 - Tipo de produto - Subgrupo
+// 3 - Acabamentos - Família
+// 4 - Bitolas/Diâmetros - Subfamília
 
 //Captura mudança de valor no campo 1 
 $("#gru").change(function () {
@@ -816,11 +816,10 @@ $("#gru").change(function () {
         $("#filter-msg").addClass('hidden');
         //Captura valor do campo 1
         var gru = $('#gru').val();
-        //Limpa campos 2,3 e 4 para reaplicar filtros caso deseja mudar a linha de produtos filtrada
-        //trigger('chosen:updated') faz o trabalho de atualizar a lista de itens *<options>* no campo select 
+        //Limpa campos 2,3 e 4 para reaplicar filtros caso deseja mudar o grupo de produtos filtrada
         $('#fam').empty().trigger('chosen:updated');
         $('#subf').empty().trigger('chosen:updated');
-        //Append - Adiciona HTML com mensagem indicando o carregamento dos dados da lista *<options>* no campo select
+        //Append - Adiciona HTML com mensagem indicando o carregamento dos dados da lista *<options>* no campo 2
         $('#subg').empty().append('<option>Carregando...</option>').trigger('chosen:updated');
         //Request JSON com o valor do campo 1 do filtro *dados*
         $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubG" + "&dados=" + gru, function (result) {
@@ -830,7 +829,7 @@ $("#gru").change(function () {
             result.forEach(function (dados) {
                 html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
             });
-            //Limpa options no campo 2
+            //Limpa option com a mensagem de carregamento no campo 2
             $('#subg').empty();
             //Append options no campo 2 e chama funcção da biblioteca "chosen.jquery.min.js" para atualizar os itens da lista
             $('#subg').append(html).trigger('chosen:updated');
@@ -860,7 +859,7 @@ $("#gru").change(function () {
     }
 });
 //Documentação e comentários podem ser replicados a partir da função change do campo anterior.
-//Mudar apenar a sequencia numerica dos campos. Ex: 1 para 2,2 para 3 e 3 para 4.
+//Mudar apenas a sequencia numerica dos campos. Ex: 1 para 2,2 para 3 e 3 para 4.
 $("#subg").change(function () {
     if ($('#acab').hasClass('opened')) {
         var gru = $('#gru').val();
@@ -895,7 +894,7 @@ $("#subg").change(function () {
 });
 
 //Documentação e comentários podem ser replicados a partir da função change do campo anterior.
-//Mudar apenar a sequencia numerica dos campos. Ex: 1 para 2,2 para 3 e 3 para 4.
+//Mudar apenas a sequencia numerica dos campos. Ex: 1 para 2,2 para 3 e 3 para 4.
 $("#fam").change(function () {
     if ($('#bit').hasClass('opened')) {
         var gru = $('#gru').val();
@@ -1081,7 +1080,7 @@ function filtro() {
                         + '</div>';
                 itens++;
             });
-            //Limpa DIV dos dados carregadosna página
+            //Limpa DIV dos dados carregados na página
             $('#prods').empty();
             //Append - Adiciona o HTML gerado a partir do JSON dentro da DIV carregando os dados na página
             $('#prods').append(htmlTable);
@@ -1212,11 +1211,7 @@ function countLoad() {
     });
     return hidden;
 }
-/*
- $('#shopping-list').on('click', function () {
- $('#prods').hide();
- $('#shopping-list > i').toggleClass('fa-shopping-cart fa-list');
- });*/
+
 //Cria "lista de compras" oculta com os códigos dos itens que foram postos no carrinho, para criar consultas SQL
 function addCart(cod, quant, preco) {
     $('#cart-list').append('<li id="' + cod + '-cartItem">' + cod + '|' + quant + '|' + preco + '</li>');
@@ -1545,7 +1540,7 @@ function sendPdf() {
         return;
     } else {
 //Se possui ao menos um item
-//Variavel de arrey dos códigos 
+//Variavel de array dos códigos 
         var codigos = [];
         //For each que alimenta array com os códigos dos itens do carrinho de compras
         $('#cart-list').find('li').each(function () {

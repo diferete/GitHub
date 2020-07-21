@@ -1,13 +1,12 @@
 <?php
 
 /*
- * classe que implementa a classe model rnc
- * 
+ * Gerencia model da classe MET_QUAL_RcVenda
  * @author Avanei Martendal
- * @since 10/09/2017
+ * @since 12/09/2017
  */
 
-class ModelQualRnc {
+class ModelMET_QUAL_RcVenda {
 
     private $filcgc;
     private $nr;
@@ -44,14 +43,16 @@ class ModelQualRnc {
     private $anexo2;
     private $anexo3;
     private $situaca;
-    private $devolucao;
     private $reclamacao;
+    private $devolucao;
     private $obsSit;
     private $resp_venda_cod;
     private $resp_venda_nome;
+    private $apontamento;
     private $usuaponta;
     private $repcod;
     private $obs_aponta;
+    private $usuapontavenda;
     private $produtos;
     private $tagexcecao;
 
@@ -61,6 +62,22 @@ class ModelQualRnc {
 
     function setTagexcecao($tagexcecao) {
         $this->tagexcecao = $tagexcecao;
+    }
+
+    function getProdutos() {
+        return $this->produtos;
+    }
+
+    function setProdutos($produtos) {
+        $this->produtos = $produtos;
+    }
+
+    function getUsuapontavenda() {
+        return $this->usuapontavenda;
+    }
+
+    function setUsuapontavenda($usuapontavenda) {
+        $this->usuapontavenda = $usuapontavenda;
     }
 
     function getDevolucao() {
@@ -85,14 +102,6 @@ class ModelQualRnc {
 
     function setObs_aponta($obs_aponta) {
         $this->obs_aponta = $obs_aponta;
-    }
-
-    function getProdutos() {
-        return $this->produtos;
-    }
-
-    function setProdutos($produtos) {
-        $this->produtos = $produtos;
     }
 
     function getDisposicao() {
@@ -326,14 +335,6 @@ class ModelQualRnc {
         return $this->quantnconf;
     }
 
-    function getData() {
-        return $this->data;
-    }
-
-    function getNome() {
-        return $this->nome;
-    }
-
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -432,14 +433,6 @@ class ModelQualRnc {
 
     function setQuantnconf($quantnconf) {
         $this->quantnconf = $quantnconf;
-    }
-
-    function setData($data) {
-        $this->data = $data;
-    }
-
-    function setNome($nome) {
-        $this->nome = $nome;
     }
 
 }

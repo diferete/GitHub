@@ -1,12 +1,13 @@
 <?php
 
 /*
- * Gerencia model da classe QualRncVenda
+ * classe que implementa a classe model MET_QUAL_RcRep
+ * 
  * @author Avanei Martendal
- * @since 12/09/2017
+ * @since 10/09/2017
  */
 
-class ModelQualRncAnalise {
+class ModelMET_QUAL_RcRep {
 
     private $filcgc;
     private $nr;
@@ -48,12 +49,10 @@ class ModelQualRncAnalise {
     private $obsSit;
     private $resp_venda_cod;
     private $resp_venda_nome;
-    private $apontamento;
     private $usuaponta;
     private $repcod;
     private $obs_aponta;
     private $produtos;
-    private $tagsetor;
     private $tagexcecao;
 
     function getTagexcecao() {
@@ -62,14 +61,6 @@ class ModelQualRncAnalise {
 
     function setTagexcecao($tagexcecao) {
         $this->tagexcecao = $tagexcecao;
-    }
-
-    function getTagsetor() {
-        return $this->tagsetor;
-    }
-
-    function setTagsetor($tagsetor) {
-        $this->tagsetor = $tagsetor;
     }
 
     function getDevolucao() {

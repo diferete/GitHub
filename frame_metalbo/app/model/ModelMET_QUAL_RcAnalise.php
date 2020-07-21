@@ -1,12 +1,12 @@
 <?php
 
 /*
- * Gerencia model da classe QualRncVenda
+ * Gerencia model da classe MET_QUAL_RcAnalise
  * @author Avanei Martendal
  * @since 12/09/2017
  */
 
-class ModelQualRncVenda {
+class ModelMET_QUAL_RcAnalise {
 
     private $filcgc;
     private $nr;
@@ -43,8 +43,8 @@ class ModelQualRncVenda {
     private $anexo2;
     private $anexo3;
     private $situaca;
-    private $reclamacao;
     private $devolucao;
+    private $reclamacao;
     private $obsSit;
     private $resp_venda_cod;
     private $resp_venda_nome;
@@ -52,8 +52,8 @@ class ModelQualRncVenda {
     private $usuaponta;
     private $repcod;
     private $obs_aponta;
-    private $usuapontavenda;
     private $produtos;
+    private $tagsetor;
     private $tagexcecao;
 
     function getTagexcecao() {
@@ -64,20 +64,12 @@ class ModelQualRncVenda {
         $this->tagexcecao = $tagexcecao;
     }
 
-    function getProdutos() {
-        return $this->produtos;
+    function getTagsetor() {
+        return $this->tagsetor;
     }
 
-    function setProdutos($produtos) {
-        $this->produtos = $produtos;
-    }
-
-    function getUsuapontavenda() {
-        return $this->usuapontavenda;
-    }
-
-    function setUsuapontavenda($usuapontavenda) {
-        $this->usuapontavenda = $usuapontavenda;
+    function setTagsetor($tagsetor) {
+        $this->tagsetor = $tagsetor;
     }
 
     function getDevolucao() {
@@ -102,6 +94,14 @@ class ModelQualRncVenda {
 
     function setObs_aponta($obs_aponta) {
         $this->obs_aponta = $obs_aponta;
+    }
+
+    function getProdutos() {
+        return $this->produtos;
+    }
+
+    function setProdutos($produtos) {
+        $this->produtos = $produtos;
     }
 
     function getDisposicao() {
@@ -335,6 +335,14 @@ class ModelQualRncVenda {
         return $this->quantnconf;
     }
 
+    function getData() {
+        return $this->data;
+    }
+
+    function getNome() {
+        return $this->nome;
+    }
+
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -433,6 +441,14 @@ class ModelQualRncVenda {
 
     function setQuantnconf($quantnconf) {
         $this->quantnconf = $quantnconf;
+    }
+
+    function setData($data) {
+        $this->data = $data;
+    }
+
+    function setNome($nome) {
+        $this->nome = $nome;
     }
 
 }

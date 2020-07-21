@@ -1,15 +1,15 @@
 <?php
 
 /*
- * Implementa controller da classe QualRnc
+ * Implementa controller da classe MET_QUAL_Rc
  * @author Avanei Martendal
  * $since 10/09/2017
  */
 
-class ControllerQualRnc extends Controller {
+class ControllerMET_QUAL_RcRep extends Controller {
 
     public function __construct() {
-        $this->carregaClassesMvc('QualRnc');
+        $this->carregaClassesMvc('MET_QUAL_RcRep');
     }
 
     public function relReclamacaoCliente($renderTo, $sMetodo = '') {
@@ -87,7 +87,7 @@ class ControllerQualRnc extends Controller {
         $aAnalise = array();
         parse_str($sChave, $aAnalise);
 
-        $oAnalise = $this->Persistencia->buscaDadosRnc($aAnalise);
+        $oAnalise = $this->Persistencia->buscaDadosRC($aAnalise);
 
 
         $sAnalise = Util::limpaString($oAnalise->obs_aponta);
@@ -190,10 +190,10 @@ class ControllerQualRnc extends Controller {
     }
 
     /**
-     * Aprova final rnc 
+     * Aprova final rc 
      * @param type $sDados
      */
-    public function finalizaRnc($sDados) {
+    public function finalizaRC($sDados) {
         $aDados = explode(',', $sDados);
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
@@ -265,7 +265,7 @@ class ControllerQualRnc extends Controller {
             $sChave = htmlspecialchars_decode($sRc[0]);
             $aCamposChave = array();
             parse_str($sChave, $aCamposChave);
-            $this->geraPdfQualRnc($aCamposChave, $aDados);
+            $this->geraPdfQualRC($aCamposChave, $aDados);
         } else {
             $sIdGrid = $aDados[1];
             $sRc[0] = $aDados[3];
@@ -285,12 +285,12 @@ class ControllerQualRnc extends Controller {
                 $sChave = htmlspecialchars_decode($sRc[0]);
                 $aCamposChave = array();
                 parse_str($sChave, $aCamposChave);
-                $this->geraPdfQualRnc($aCamposChave, $aDados);
+                $this->geraPdfQualRC($aCamposChave, $aDados);
             }
         }
     }
 
-    public function geraPdfQualRnc($aCamposChave, $aDados) {
+    public function geraPdfQualRC($aCamposChave, $aDados) {
 
         $_REQUEST['filcgcRc'] = $aCamposChave['filcgc'];
         $_REQUEST['nrRc'] = $aCamposChave['nr'];
@@ -312,7 +312,7 @@ class ControllerQualRnc extends Controller {
         }
         if ($sReenvia != 'reenvia') {
             if ($aRetornoEmail[0] == true) {
-                $aUpdateSit = $this->Persistencia->liberaRnc($aCamposChave);
+                $aUpdateSit = $this->Persistencia->liberaRC($aCamposChave);
                 if ($aUpdateSit[0] == true) {
                     $oMsg = new Mensagem('Sucesso', 'Reclamação liberada para a Metalbo!', Mensagem::TIPO_SUCESSO);
                     echo '$("#' . $sIdGrid . '-pesq").click();';

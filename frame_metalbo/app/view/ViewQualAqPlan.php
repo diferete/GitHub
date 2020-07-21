@@ -18,7 +18,7 @@ class ViewQualAqPlan extends View {
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
-        $this->getOGridDetalhe()->setIAltura(200);
+        $this->getOGridDetalhe()->setIAltura(400);
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);

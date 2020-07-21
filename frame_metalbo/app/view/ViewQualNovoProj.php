@@ -296,26 +296,15 @@ class ViewQualNovoProj extends View {
         $oViavel->addItenRadio('Não', 'Não');
 
 
-        $oUsuario1 = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oUsuario1->setApenasTela(true);
-        $oUsuario1->setBOculto(true);
-
-        $oUsuAprovaOperacional = new Campo('Aprovado por:', 'usuaprovaoperacional', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
-        $oUsuAprovaOperacional->setSIdPk($oUsuario1->getId());
-        $oUsuAprovaOperacional->setClasseBusca('MET_CAD_Funcionarios');
-        $oUsuAprovaOperacional->addCampoBusca('numcad', '', '');
-        $oUsuAprovaOperacional->addCampoBusca('nomfun', '', '');
-        $oUsuAprovaOperacional->setSIdTela($this->getTela()->getid());
-
-        $oUsuario1->setClasseBusca('MET_CAD_Funcionarios');
-        $oUsuario1->setSCampoRetorno('numcad', $this->getTela()->getId());
-        $oUsuario1->addCampoBusca('nomfun', $oUsuAprovaOperacional->getId(), $this->getTela()->getId());
+        $oUsuAprovaOperacional = new Campo('Aprovado por:', 'usuaprovaoperacional', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oUsuAprovaOperacional->setSValor($_SESSION['nome']);
+        $oUsuAprovaOperacional->setBCampoBloqueado(true);
 
         $oDataAprovaOperacional = new Campo('Data da aprovação', 'dtaprovaoperacional', Campo::TIPO_DATA, 1, 1, 12, 12);
 
         $oFieldOperacao = new FieldSet('Análise operacional da solicitação');
         $oFieldOperacao->setOculto(true);
-        $oFieldOperacao->addCampos(array($oEquipamento, $oEquipEvidencia), array($oMatPrima, $oEquipMatPrima), array($oEstudoProc, $oEstudoEvid), array($oProdSimilar, $oProdSimilarEvid), array($oDesenFerram, $oDesenFerramEvid), $oViavel, array($oUsuario1, $oUsuAprovaOperacional, $oDataAprovaOperacional), $oObs_viavel);
+        $oFieldOperacao->addCampos(array($oEquipamento, $oEquipEvidencia), array($oMatPrima, $oEquipMatPrima), array($oEstudoProc, $oEstudoEvid), array($oProdSimilar, $oProdSimilarEvid), array($oDesenFerram, $oDesenFerramEvid), $oViavel, array($oUsuAprovaOperacional, $oDataAprovaOperacional), $oObs_viavel);
 
 
 
@@ -416,21 +405,9 @@ class ViewQualNovoProj extends View {
         $oViavelFinan = new Campo('Viável financeiramente?', 'sol_viavel_fin', Campo::TIPO_TEXTO, 2);
         $oViavelFinan->setBCampoBloqueado(true);
 
-        $oUsuario = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oUsuario->setApenasTela(true);
-        $oUsuario->setBOculto(true);
-
-        $oUsuAprovaFinan = new Campo('Aprovado por', 'usuaprovafinanceiro', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
-        $oUsuAprovaFinan->setSIdPk($oUsuario->getId());
-        $oUsuAprovaFinan->setClasseBusca('MET_CAD_Funcionarios');
-        $oUsuAprovaFinan->addCampoBusca('numcad', '', '');
-        $oUsuAprovaFinan->addCampoBusca('nomfun', '', '');
-        $oUsuAprovaFinan->setSIdTela($this->getTela()->getid());
+        $oUsuAprovaFinan = new Campo('Aprovado por', 'usuaprovafinanceiro', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oUsuAprovaFinan->setBCampoBloqueado(true);
 
-        $oUsuario->setClasseBusca('MET_CAD_Funcionarios');
-        $oUsuario->setSCampoRetorno('numcad', $this->getTela()->getId());
-        $oUsuario->addCampoBusca('nomfun', $oUsuAprovaFinan->getId(), $this->getTela()->getId());
 
         $oDataAprovaFinan = new Campo('Data da aprovação', 'dtaprovafinanceiro', Campo::TIPO_DATA, 1, 1, 12, 12);
         $oDataAprovaFinan->setBCampoBloqueado(true);
@@ -445,7 +422,7 @@ class ViewQualNovoProj extends View {
         $oLinha1->setApenasTela(true);
 
 
-        $oFiledVendal->addCampos(array($oPrazoEnt, $oPrecoFinal), /* $oObsVenda, */ $oLinha1, $oViavelFinan, array($oUsuario, $oUsuAprovaFinan, $oDataAprovaFinan), $oObsFinan);
+        $oFiledVendal->addCampos(array($oPrazoEnt, $oPrecoFinal), /* $oObsVenda, */ $oLinha1, $oViavelFinan, array($oUsuAprovaFinan, $oDataAprovaFinan), $oObsFinan);
 
 
         //executa esta funcao ao sair dos campos

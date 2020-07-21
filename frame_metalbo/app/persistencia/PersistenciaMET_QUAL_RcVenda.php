@@ -1,13 +1,13 @@
 <?php
 
 /*
- * Classe que gerencia a persistencia da classe QualRncVenda
+ * Classe que gerencia a persistencia da classe MET_QUAL_RcVenda
  * 
  * @author Avanei Martendal
  * @since 12/09/2017
  */
 
-class PersistenciaQualRncVenda extends Persistencia {
+class PersistenciaMET_QUAL_RcVenda extends Persistencia {
 
     public function __construct() {
         parent::__construct();
@@ -84,7 +84,7 @@ class PersistenciaQualRncVenda extends Persistencia {
     /**
      * Método que busca os dados para montar o e-mail de encaminhamento para análise.
      */
-    public function buscaDadosRnc($aDados) {
+    public function buscaDadosRC($aDados) {
         $sSql = "select * from tbrncqual"
                 . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $oResult = $this->consultaSql($sSql);
@@ -262,7 +262,7 @@ class PersistenciaQualRncVenda extends Persistencia {
 
         $sObs = Util::limpaString($aCampos['obs_aponta']);
 
-        $oDados = $this->buscaDadosRnc($aDados);
+        $oDados = $this->buscaDadosRC($aDados);
 
         $sSql = "update tbrncqual "
                 . "set situaca = 'Apontada', "
