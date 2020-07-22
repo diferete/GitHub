@@ -515,11 +515,11 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o representante com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
-            echo 'requestAjax("","MET_QUAL_RcVenda","notificaAlmoxarifado","' . $sDados . '");';
         } else {
             $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email para o representante, tente reenviar ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
+        echo 'requestAjax("","MET_QUAL_RcVenda","notificaAlmoxarifado","' . $sDados . '");';
     }
 
     /*
@@ -677,7 +677,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                         . '<tr><td><b>Observação VENDAS: </b></td><td> ' . $oRow->obs_aponta . ' </td></tr>'
                         . '<tr><td><b>Observação ANÁLISE: </b></td><td> ' . $oRow->apontamento . ' </td></tr>'
                         . '</table><br/><br/>'
-                        . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
+                        . '<b>Para mais informações, consulte o anexo!</b><br/>'
                         . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 
         $oEmail->limpaDestinatariosAll();
@@ -686,6 +686,8 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         // Para
         $oEmail->addDestinatario('almoxarifado@metalbo.com.br');
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+        $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
