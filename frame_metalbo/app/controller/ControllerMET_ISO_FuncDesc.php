@@ -33,7 +33,7 @@ class ControllerMET_ISO_FuncDesc extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sDados);
+        parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
 
         //verifica se está como 
@@ -99,7 +99,7 @@ class ControllerMET_ISO_FuncDesc extends Controller {
         parent::afterDelete();
 
         $this->Persistencia->deletaDescricao($this->Model->getFilcgc(), $this->Model->getNr(), $this->Model->getSeq());
-        
+
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
