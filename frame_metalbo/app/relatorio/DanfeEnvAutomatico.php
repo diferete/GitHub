@@ -11,7 +11,7 @@ use NFePHP\DA\NFe\Danfe;
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
 $date = date_create(date("Y-m-d"));
-date_sub($date, date_interval_create_from_date_string("15 days"));
+date_sub($date, date_interval_create_from_date_string("3 days"));
 $date = date_format($date, "d/m/Y");
 
 $sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '" . $date . "' and '" . date('d/m/Y') . "' and nfsnfesit = 'A' and nfsemailen <> 'S' and nfsfilcgc = '75483040000211'"; // and nfsnatcod1 <> 5151";

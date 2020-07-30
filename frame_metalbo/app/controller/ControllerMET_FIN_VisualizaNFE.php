@@ -114,4 +114,8 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
         return $sResulta;
     }
 
+    public function enviaXmlsManual() {
+        require 'app/relatorio/DanfeEnvAutomatico.php';
+    }
+
 }

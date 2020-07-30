@@ -9,6 +9,8 @@ class PersistenciaModulo extends Persistencia {
 
         $this->adicionaRelacionamento('modcod', 'modcod', true, true, true);
         $this->adicionaRelacionamento('modescricao', 'modescricao');
+        $this->adicionaRelacionamento('uploads', 'uploads');
+        $this->adicionaRelacionamento('uploadmulti', 'uploadmulti');
 
         $this->adicionaOrderBy('modcod', 1);
     }

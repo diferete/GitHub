@@ -29,7 +29,7 @@ class PersistenciaMET_FIN_VisualizaNFE extends Persistencia {
     }
 
     public function buscaDadosNf($aCamposChave) {
-        $sSql = 'select nfsnfesit, nfsnfechv, nfsdtemiss from widl.NFC001 where nfsfilcgc = ' . $aCamposChave['nfsfilcgc'] . ' and nfsnfnro = ' . $aCamposChave['nfsnfnro'] . ' and nfsnfser = ' . $aCamposChave['nfsnfser'];
+        $sSql = 'select nfsnfesit, nfsnfechv, nfsdtemiss from widl.NFC001 where  nfsnfnro = ' . $aCamposChave['nfsnfnro'] . ' and nfsnfser = 2';
         $oDadosNF = $this->consultaSql($sSql);
 
         return $oDadosNF;
@@ -54,4 +54,5 @@ class PersistenciaMET_FIN_VisualizaNFE extends Persistencia {
 
         return $aTotal;
     }
+
 }

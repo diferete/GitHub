@@ -229,12 +229,12 @@ if ($aProdutos[0] != '') {
         $pdf->Ln(5);
 
         $pdf->SetFont('arial', 'B', 10);
-        $pdf->Cell(30, 5, "Produto:", 0, 0, 'L');
+        $pdf->Cell(31, 5, "Produto:", 0, 0, 'L');
         $pdf->SetFont('arial', '', 10);
         $pdf->Cell(30, 5, $aDadosProd[1], 0, 1, 'L');
 
         $pdf->SetFont('arial', 'B', 10);
-        $pdf->Cell(30, 5, "Código:", 0, 0, 'L');
+        $pdf->Cell(31, 5, "Código:", 0, 0, 'L');
         $pdf->SetFont('arial', '', 10);
         $pdf->Cell(30, 5, $aDadosProd[0], 0, 1, 'L');
 

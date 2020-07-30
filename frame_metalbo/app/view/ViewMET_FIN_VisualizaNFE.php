@@ -80,8 +80,14 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oDrop1 = new Dropdown('Visualizar Danfe', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'DanfeVisualiza', false, '', false, '', false, false);
 
-        $this->addFiltro($oFilEMP, $oFilNF, $oFilSit,$oFilEnvEmail, $oFilCliNome, $oFilData);
-        $this->addDropdown($oDrop1);
+        if ($_SESSION['codsetor'] == 2) {
+            $oDrop2 = new Dropdown('Enviar XMLs manual', Dropdown::TIPO_AVISO, Dropdown::ICON_EMAIL);
+            $oDrop2->addItemDropdown($this->addIcone(Base::ICON_ARROW_UP) . 'Enviar', $this->getController(), 'enviaXmlsManual', '', false, '', false, '', false, '', false, true);
+            $this->addDropdown($oDrop1, $oDrop2);
+        } else {
+            $this->addDropdown($oDrop1);
+        }
+        $this->addFiltro($oFilEMP, $oFilNF, $oFilSit, $oFilEnvEmail, $oFilCliNome, $oFilData);
         $this->addCampos($oBotaoEmitXml, $oNf, $oNfSerie, $oCliNome, $oNfDtEmiss, $oSitNf, $oNfEnvEmail, $oFilcgc);
     }
 

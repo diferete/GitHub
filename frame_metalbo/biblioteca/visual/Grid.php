@@ -688,7 +688,7 @@ class Grid {
             $sLargura = '';
             $sIdTh = Base::getId();
             if (!is_null($oCampoAtual->getILargura())) {
-                $sLargura = $oCampoAtual->getILargura() . 'px;';
+                $sLargura = 'width: ' . $oCampoAtual->getILargura() . 'px;';
             }
             if (!is_null($oCampoAtual->getBColOculta())) {
                 $sOculta = 'display:none;';
@@ -696,7 +696,7 @@ class Grid {
             //verifica se tem ordeby
             $sOrderBy = "";
 
-            $sGrid .= '<th  class="asc" style="' . $sLargura . '' . $sOculta . '" id=' . $sIdTh . ' ' . $sOrderBy . '>' . $oCampoAtual->getSLabel() . '</th>';
+            $sGrid .= '<th  class="asc" style="' . $sLargura . ' ' . $sOculta . '" id=' . $sIdTh . ' ' . $sOrderBy . '>' . $oCampoAtual->getSLabel() . '</th>';
             if ($oCampoAtual->getBOrderBy()) {
                 $sOrderBy = '<script>'
                         . '$("#' . $sIdTh . '").click(function(){'

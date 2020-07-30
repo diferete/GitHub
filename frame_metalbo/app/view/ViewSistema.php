@@ -111,6 +111,8 @@ class ViewSistema extends View {
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/summernote/summernote.css">'
                 . '<script src="biblioteca/assets/vendor/summernote/summernote.min.js"></script>'
                 . '<script src="biblioteca/assets/vendor/summernote/lang/summernote-pt-BR.js"></script>'
+                . '<link rel="stylesheet" href="biblioteca/dropzone/dist/dropzone.css" />'
+                . '<script src="biblioteca/dropzone/dist/dropzone.js"></script>'
                 . '<script>'
                 . 'Breakpoints();'
                 . '</script>'

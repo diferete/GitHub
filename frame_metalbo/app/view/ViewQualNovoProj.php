@@ -565,10 +565,6 @@ class ViewQualNovoProj extends View {
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-
-
-
-
         $this->addCampos($oObsAprovCli, array($oBtnInserir, $oFilcgc, $oNr));
     }
 

@@ -51,7 +51,13 @@ class ViewModulo extends View {
         $oModDescricao = new Campo('Descrição', 'modescricao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oModDescricao->addValidacao(false, Validacao::TIPO_STRING, '', '2', '15');
 
-        $this->addCampos(array($oModCod, $oModDescricao));
+        $oUploadMulti = new Campo('Carregar os arquivos', 'uploadmulti', Campo::TIPO_UPLOADMULTI, 6, 6, 12, 12);
+
+        $oUploads = new Campo('Uploads', 'uploads', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
+
+
+
+        $this->addCampos(array($oModCod, $oModDescricao), array($oUploads, $oUploadMulti));
     }
 
 }

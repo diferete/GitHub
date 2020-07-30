@@ -93,7 +93,7 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $oCodTitulo->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodTitulo->setBOculto(true);
 
-        $oTitulo = new Campo('Treinamento', 'titulo_treinamento', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oTitulo = new Campo('Documento', 'titulo_treinamento', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oTitulo->setSIdPk($oCodTitulo->getId());
         $oTitulo->setClasseBusca('MET_ISO_Documentos');
         $oTitulo->addCampoBusca('nr', '', '');
@@ -112,7 +112,7 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $oObs = new Campo('Observação', 'observacao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObs->setILinhasTextArea(3);
 
-        $oAnexo = new Campo('Documento', 'anexo_treinamento', Campo::TIPO_UPLOAD, 3, 3, 12, 12);
+        $oAnexo = new Campo('Treinamento - RT', 'anexo_treinamento', Campo::TIPO_UPLOAD, 3, 3, 12, 12);
         $oAnexo->setSDiretorio('RTs');
         $oAnexo->setBNomeArquivo(true);
 
