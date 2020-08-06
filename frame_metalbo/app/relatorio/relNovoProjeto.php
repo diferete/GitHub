@@ -69,22 +69,15 @@ $pdf->SetFont('Arial', 'B', 15);
 // Move to the right
 $pdf->Cell(50);
 // Title
-$pdf->Cell(95, 0, 'Relatorio de Projetos e ', 0, 1, 'C');
-$pdf->Cell(200, 10, 'Desenvolvimento de Novos Produtos', 0, 1, 'C');
+$pdf->Cell(90, 10, 'Relatório Entrada de Projetos', 0, 0, 'L');
 
-$pdf->Cell(150,1);
-
-$x = $pdf->GetX();
-$y = $pdf->GetY();
-
-$pdf->SetFont('Arial', '', 10);
-$pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
-$pdf->SetXY($x, $y + 5);
-$pdf->MultiCell(50, 5, 'Data: ' . $sData .
-        '  Hora: ' . $sHora, 0, 'L');
-$pdf->SetXY($x, $y + 5);
-$pdf->MultiCell(50, 15, 'Per.: ' . $data1 .
-        ' - ' . $data2, 0, 'L');
+$pdf->SetFont('Arial', '', 9);
+$pdf->MultiCell(52, 7, 'Data: ' . $sData
+        . '        Hora:' . $sHora
+        . ' Usuário:' . $sUserRel
+        . ' ', '', 'L', 0);
+$pdf->Ln(1);
+$pdf->Cell(0, 0, "", "B", 1, 'C');
 
 $pdf->Ln(5);
 

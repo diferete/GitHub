@@ -12,7 +12,7 @@ $sHora = date('H:i');
 
 $sResp = $_REQUEST['resp'];
 $sTipCod = $_REQUEST['tipcod'];
-$sSetor = $_REQUEST['MET_Maquinas_codsetor'];
+$sSetor = $_REQUEST['MET_MP_Maquinas_codsetor'];
 $sSit = $_REQUEST['sit'];
 
 class PDF extends FPDF {

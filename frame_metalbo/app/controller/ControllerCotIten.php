@@ -13,7 +13,7 @@ class ControllerCotIten extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe($aChave);
+        parent::pkDetalhe();
         $this->View->setAParametrosExtras($aChave);
     }
 
@@ -79,7 +79,7 @@ class ControllerCotIten extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sForm, $sCampos);
+        parent::acaoLimpar($sDados);
         $aParam = explode(',', $sDados);
         // "$('#".$sId."').each (function(){ this.reset();});";
         //verifica se está como 
@@ -232,4 +232,58 @@ class ControllerCotIten extends Controller {
         $this->getDadosConsulta($sDados, TRUE, null);
     }
 
+    /**
+         * Método responsável por realizar a soma do valor total
+         * @param type $sParametros
+         * @return type
+         */
+        public function calculoPersonalizado($sParametros = null) {
+            parent::calculoPersonalizado($sParametros);
+            $sNr='';
+            if (isset($_REQUEST['metodo'])) {
+                if ($_REQUEST['metodo'] == "acaoTelaDetalhe") {
+                    if (isset($_REQUEST['parametrosCampos'])) {
+                        $aParam = $_REQUEST['parametrosCampos'];
+                        $sChave = htmlspecialchars_decode($aParam['parametrosCampos[']);
+                        $sNr = explode(',', $sChave)[2];
+                    }
+                }
+                if ($_REQUEST['metodo'] == "acaoDetalheIten") {
+                    if (isset($_REQUEST['parametrosCampos'])) {
+                        $aParam = $_REQUEST['parametrosCampos'];
+                        $sChave = htmlspecialchars_decode($aParam['parametrosCampos[']);
+                        $sNr = explode(',', $sChave)[0];
+                    }
+                }
+                if(($_REQUEST['metodo'] == "acaoDisp")||($_REQUEST['metodo'] == "acaoExcluirRegDet")){
+                    if (isset($_REQUEST['parametros'])){
+                        $aParam = $_REQUEST['parametros'];
+                        $sChave = htmlspecialchars_decode($aParam['parametros[']);
+                        $aChave = explode(',', $sChave);
+                        $sChave1 = explode('=', $aChave[1]);
+                        $sNr = explode('&', $sChave1[1])[0];
+                    }
+                }
+                if($_REQUEST['metodo'] == "LimparDisp"){
+                    if (isset($_REQUEST['parametrosCampos'])){
+                        $aParam = $_REQUEST['parametrosCampos'];
+                        $sChave = htmlspecialchars_decode($aParam['parametrosCampos[0']);
+                        $aChave = explode('=', $sChave);
+                        $sNr = explode('&', $aChave[1])[0];   
+                    }
+                }
+            }else{
+                    $aCamposTela = $this->getArrayCampostela();
+                    $sNr = $aCamposTela['nr'];
+            }            
+           
+            $this->Persistencia->adicionafiltro('nr',$sNr);
+            
+            // $sTot .= '<b>' . $oCampoAtual->getSTituloOperacao() . ' ' . '</b>' . number_format($xValor, 2, ',', '.');
+            
+            $iTotal = number_format($this->Persistencia->getSoma($sParametros), 2, ',', '.');
+          
+          
+            return "Valor Total: R$ ".$iTotal;
+        }
 }

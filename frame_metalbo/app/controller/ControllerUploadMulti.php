@@ -6,20 +6,6 @@
  * and open the template in the editor.
  */
 
-$ds = DIRECTORY_SEPARATOR;
-
-$storeFolder = $_SERVER['DOCUMENT_ROOT'] . "/GitHub/frame_metalbo/uploads/";
-
-
-if (!empty($_FILES)) {
-
-    $tempFile = $_FILES['file']['tmp_name'];
-
-    $targetFile = $storeFolder . $_FILES['file']['name'];
-
-    move_uploaded_file($tempFile, $targetFile);
-}
-
 class ControllerUploadMulti extends Controller {
 
     /**
@@ -72,12 +58,11 @@ class ControllerUploadMulti extends Controller {
             $data = [
                 'keyseq' => '',
                 'seq' => $_FILES['file']['name'],
-                'testeTela' => 'testeTela',
+                'classe' => $aParametros[1],
             ];
 
-            $sSqlInsert = "insert into MET_TEC_Uploads (seq,nome,tagtela)values(:seq,:keyseq,:testeTela)";
+            $sSqlInsert = "insert into MET_TEC_Uploads (seq,nome,tagtela)values(:seq,:keyseq,:classe)";
             $stmt = $PDO->prepare($sSqlInsert);
-            $debug = $stmt->execute($data);
 
             $sRetorno = json_encode(['uploaded' => 'true', 'nome' => $oArquivo['NOME_NOVO'], 'campo' => $oArquivo['CAMPO']]);
         } else {

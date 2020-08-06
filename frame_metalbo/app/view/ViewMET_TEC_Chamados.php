@@ -15,6 +15,8 @@ class ViewMET_TEC_Chamados extends View {
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(true);
         $this->setAcaoFecharTela(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
         $this->setUsaFiltro(true);
         $sFiltroSetor = $_SESSION['codsetor'];
@@ -89,11 +91,19 @@ class ViewMET_TEC_Chamados extends View {
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
-        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, true);
+        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFilEmp->addItemSelect('', 'Empresas');
         $oFilEmp->addItemSelect('75483040000211', 'Metalbo');
         $oFilEmp->addItemSelect('83781641000158', 'Poliamidos');
         $oFilEmp->setSLabel('');
+
+        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 1, 1, 12, 12, false);
+        $oFilSetor->setSClasseBusca('Setor');
+        $oFilSetor->setSCampoRetorno('codsetor', $this->getTela()->getSId());
+        $oFilSetor->setSIdTela($this->getTela()->getSId());
+
+
+        $oFilUsoSol = new Filtro($oUsuSol, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, true);
 
         $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFilSit->addItemSelect('Todos', 'Todos');
@@ -109,7 +119,7 @@ class ViewMET_TEC_Chamados extends View {
         $oFilTipo->addItemSelect('2', 'SOFTWARE');
         $oFilTipo->addItemSelect('3', 'SERVIÇOS');
 
-        $this->addFiltro($oFilNr, $oFilEmp, $oFilTipo, $oFilSit);
+        $this->addFiltro($oFilNr, $oFilEmp, $oFilSetor, $oFilUsoSol, $oFilTipo, $oFilSit);
 
         $oDrop = new Dropdown('Cancelar', Dropdown::TIPO_ERRO, Dropdown::ICON_ERRO);
         $oDrop->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar chamado', $this->getController(), 'criaTelaModalCancelaChamado', '', false, '', false, 'criaTelaModalCancelaChamado', true, 'Cancelar chamado', false, false);
@@ -298,10 +308,12 @@ class ViewMET_TEC_Chamados extends View {
         $oUsunomeFim->setBOculto(true);
         $oUsunomeFim->setSValor($_SESSION['nome']);
 
-        $oObsFim = new Campo('O que foi feito', 'obsfim', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oObsFim->setILinhasTextArea(3);
+        $oObsFim = new Campo('O que foi feito', 'obsfim', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oObsFim->setILinhasTextArea(5);
         $oObsFim->setBFocus(true);
         $oObsFim->addValidacao(false, Validacao::TIPO_STRING, '', '5');
+
+        $oAnexoFinal = new Campo('Anexo', 'anexofim', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
 
         //botão inserir os dados
         $oBtnFim = new Campo('Finalizar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
@@ -310,7 +322,7 @@ class ViewMET_TEC_Chamados extends View {
         $oBtnFim->getOBotao()->addAcao($sAcaoFim);
         $oBtnFim->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
 
-        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, $oObsFim, array($oBtnFim));
+        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, array($oObsFim, $oAnexoFinal), array($oBtnFim));
     }
 
     public function criaModalCancelaChamado($sDados) {

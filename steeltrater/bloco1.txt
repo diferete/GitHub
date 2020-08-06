@@ -1,2 +1,1 @@
-delete MET_TEC_sessao 
-            where usucodigo = '46' 
+Sessão:mes6olaupmvmvp7qtcv9vfsv58 sessao do banco:mes6olaupmvmvp7qtcv9vfsv58

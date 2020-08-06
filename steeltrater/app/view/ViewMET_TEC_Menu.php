@@ -18,6 +18,33 @@ class ViewMET_TEC_Menu extends View {
     }
 
     /**
+     * Método que realiza a criação dos campos da tela de consulta
+     */
+    function criaConsulta() {
+        parent::criaConsulta();
+
+        $this->setUsaAcaoVisualizar(true);
+        $this->getTela()->setILarguraGrid(1200);
+
+        $oModulo = new CampoConsulta('Módulo', 'MET_TEC_Modulo.modcod');
+
+        $oModDes = new CampoConsulta('Módulo', 'MET_TEC_Modulo.modescricao');
+        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
+        $oMenuCod = new CampoConsulta('Cód. Menu', 'mencodigo');
+
+        $oMenDes = new CampoConsulta('Descrição', 'mendes');
+        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
+        $oMenOrdem = new CampoConsulta('Ordem', 'menordem');
+
+        $this->addFiltro($oFMenDes, $oFModDes);
+
+
+        $this->addCampos($oMenuCod, $oMenDes, $oModulo, $oModDes, $oMenOrdem);
+    }
+
+    /**
      * Método que realiza a criação dos campos da tela de manutenção (inclusão/alteração) 
      */
     function criaTela() {
@@ -56,32 +83,4 @@ class ViewMET_TEC_Menu extends View {
         $this->addCampos($oModCodigo, array($oMenCodigo, $oMenu), $oMenuOrdem, $oAcao);
     }
 
-    /**
-     * Método que realiza a criação dos campos da tela de consulta
-     */
-    function criaConsulta() {
-        parent::criaConsulta();
-
-        $this->getTela()->setILarguraGrid(1200);
-
-        $oModulo = new CampoConsulta('Módulo', 'MET_TEC_Modulo.modcod');
-
-        $oModDes = new CampoConsulta('Módulo', 'MET_TEC_Modulo.modescricao');
-        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-
-        $oMenuCod = new CampoConsulta('Cód. Menu', 'mencodigo');
-
-        $oMenDes = new CampoConsulta('Descrição', 'mendes');
-        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-
-        $oMenOrdem = new CampoConsulta('Ordem', 'menordem');
-
-        $this->addFiltro($oFMenDes, $oFModDes);
-
-
-        $this->addCampos($oMenuCod, $oMenDes, $oModulo, $oModDes, $oMenOrdem);
-    }
-
 }
-
-?>

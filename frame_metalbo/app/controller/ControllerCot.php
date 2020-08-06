@@ -26,6 +26,16 @@ class ControllerCot extends Controller {
         }
     }
 
+    public function antesDeCriarTela($sParametros = null) {
+        parent::antesDeCriarTela($sParametros);
+
+        $oRep = Fabrica::FabricarController('RepCodOffice');
+        $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
+        $oReps = $oRep->Persistencia->getArrayModel();
+
+        $this->View->setOObjTela($oReps);
+    }
+    
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
 
@@ -44,6 +54,67 @@ class ControllerCot extends Controller {
         return $aRetorno;
     }
 
+    public function antesAlterar($sParametros = null) {
+        parent::antesDeCriarTela($sParametros);
+
+        $this->carregaModelString($sParametros[0]);
+        $this->Model = $this->Persistencia->consultar();
+
+        if ($this->Model->getEmail() == 'EV') {
+            $aOrdem = explode('=', $sParametros[0]);
+            $oMensagem = new Modal('Cotação já encerrada!', 'A cotação nº' . $aOrdem[1] . ' já foi liberada, não é permitido fazer alterações!', Modal::TIPO_ERRO, false, true, true);
+            $this->setBDesativaBotaoPadrao(true);
+            echo $oMensagem->getRender();
+            //exit();
+        }
+    }
+    
+    /**
+     * Libera solicitação para a metalbo
+     */
+    public function msgLiberaMetalbo($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+        $this->carregaModelString($aDados[2]);
+        $this->Model = $this->Persistencia->consultar();
+        if ($this->Model->getEmail() == 'EV') {
+            $oMensagem = new Modal('Cotação já liberada', 'A solicitação nº' . $aCamposChave['nr'] . ' já está liberada!', Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+        } else {
+            //verifica se nao existe bloqueio no financeiro
+            $aNr = explode('=', $aDados[2]);
+            $sEmpcod = $this->Persistencia->retCli($aNr[1]);
+            $sBloq = $this->Persistencia->retBloq($sEmpcod);
+            if ($sBloq == 'B') {
+                $oMensagem = new Modal('Cópia de Cotação', 'O Cliente da cotação nº' . $aCamposChave['nr'] . ' está com financeiro bloqueado', Modal::TIPO_AVISO, false, true, true);
+                echo $oMensagem->getRender();
+            } else {
+                $oMensagem = new Modal('Liberar cotação', 'Deseja liberar a cotação nº' . $aCamposChave['nr'] . ' para a metalbo?', Modal::TIPO_AVISO, true, true, true);
+                $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","liberaMetalbo","' . $sDados . '");');
+
+                echo $oMensagem->getRender();
+            }
+        }
+    }
+
+    public function liberaMetalbo($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+
+        $aRetorno = array();
+        $aRetorno = $this->Persistencia->libMetalbo($aCamposChave);
+
+        $oMensagem = new Modal('Atenção', 'A cotação nº' . $aCamposChave['nr'] . ' foi liberada com sucesso', Modal::TIPO_SUCESSO, false, true, true);
+        echo $oMensagem->getRender();
+        echo"$('#" . $aDados[1] . "-pesq').click();";
+    }
+    
     public function msgCopiaCot($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -163,9 +234,6 @@ class ControllerCot extends Controller {
         $aDados = explode(',', $sDados);
         $aNr = explode('=', $aDados[2]);
 
-
-
-
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
@@ -197,7 +265,7 @@ class ControllerCot extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
 
-        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/cotacao' . $aNr[1] . '.pdf', utf8_decode('Cotação de venda nº' . $aNr[1] . '.pdf'));
+        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/cotacao' . $aNr[1] . '.pdf', utf8_decode('Cotação de venda nº' . $aNr[1]));
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $this->Persistencia->confirmaEnvioEmail($aDados, $aNr);

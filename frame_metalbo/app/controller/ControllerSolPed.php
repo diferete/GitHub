@@ -15,7 +15,9 @@ class ControllerSolPed extends Controller {
     }
 
     /**
-     * Método para carregar o representante
+     * Carrega o representante
+     * @param type $sDados
+     */
       public function carregaRep($sDados){
       $aDados = explode(',', $sDados);
       if($aDados[2]<>''){
@@ -23,7 +25,8 @@ class ControllerSolPed extends Controller {
       echo"$('#".$aDados[0]."').val('".$aRetorno[0]."');"
       ."$('#".$aDados[1]."').val('".$aRetorno[1]."');";
       }
-      } */
+      } 
+      
     public function antesDeCriarTela($sParametros = null) {
         parent::antesDeCriarTela($sParametros);
 
@@ -155,6 +158,28 @@ class ControllerSolPed extends Controller {
         }
     }
 
+        /**
+     * Retorna dados para get de relatórios 
+     */
+    public function getSget() {
+        parent::getSget();
+
+        $sTabCab = $this->Persistencia->getTabela();
+        $oSolIten = Fabrica::FabricarPersistencia('SolPedIten');
+        $sTabIten = $oSolIten->getTabela();
+
+        $sCampos = '&tabcab=' . $sTabCab;
+        $sCampos .= '&itencab=' . $sTabIten;
+        $sCampos .= '&repcod=' . $_SESSION['repoffice'];
+
+        //busca a imagem padrão dos relatórios
+        $oRepOffice = Fabrica::FabricarPersistencia('RepOffice');
+        $sImg = $oRepOffice->imgRel(null);
+        $sCampos .= '&imgrel=' . $sImg;
+
+        return $sCampos;
+    }
+    
     public function envMailSol($sDados, $sRel) {
         $aDados = explode(',', $sDados);
         $aNr = explode('=', $aDados[2]);
@@ -193,7 +218,7 @@ class ControllerSolPed extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
 
-        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/solvenda' . $aNr[1] . '.pdf', utf8_decode('Solicitação nº' . $aNr[1] . '.pdf'));
+        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/solvenda' . $aNr[1] . '.pdf', utf8_decode('Solicitação nº' . $aNr[1]));
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -203,36 +228,14 @@ class ControllerSolPed extends Controller {
             echo $oMensagem->getRender();
         }
     }
-
-    /**
-     * Efetua validaçoes necessárias
-     */
-    public function getVal($sDados) {
-        parent::getVal($sDados);
-    }
-
-    /**
-     * Retorna dados para get de relatórios 
-     */
-    public function getSget() {
-        parent::getSget();
-
-        $sTabCab = $this->Persistencia->getTabela();
-        $oSolIten = Fabrica::FabricarPersistencia('SolPedIten');
-        $sTabIten = $oSolIten->getTabela();
-
-        $sCampos = '&tabcab=' . $sTabCab;
-        $sCampos .= '&itencab=' . $sTabIten;
-        $sCampos .= '&repcod=' . $_SESSION['repoffice'];
-
-        //busca a imagem padrão dos relatórios
-        $oRepOffice = Fabrica::FabricarPersistencia('RepOffice');
-        $sImg = $oRepOffice->imgRel(null);
-        $sCampos .= '&imgrel=' . $sImg;
-
-        return $sCampos;
-    }
-
+//
+//    /**
+//     * Efetua validaçoes necessárias
+//     */
+//    public function getVal($sDados) {
+//        parent::getVal($sDados);
+//    }
+    
     public function beforeRel($sDados) {
         parent::beforeRel($sDados);
         $sGet = '';
@@ -256,7 +259,7 @@ class ControllerSolPed extends Controller {
     }
 
     public function verifBloqCred() {
-        $this->carregaModel($aCamposTela);
+        $this->carregaModel();
         $sEmpcod = $this->Model->getCnpj();
         $sBloq = $this->Persistencia->retBloq($sEmpcod);
 

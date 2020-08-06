@@ -13,6 +13,11 @@ $sHora = date('H:i');
 $sSit ='';
 $sFilcgc = '75483040000211';
 $sDias = '----';
+if(isset($_REQUEST['simple'])){
+        $sSimple = $_REQUEST['simple'];
+}else{
+        $sSimple=false;
+}
 $bApData= false;
 if(!isset($_REQUEST['dataini'])){
 $sNr1 = $_SERVER['QUERY_STRING'];
@@ -32,9 +37,9 @@ foreach ($aNr1 as $key){
     $sDataIni = $_REQUEST['dataini'];
     $sDataFin = $_REQUEST['datafinal'];
     $sResp = $_REQUEST['resp'];
-    $sSeq = $_REQUEST['MET_Maquinas_seq']; 
-    $sMaqTip = $_REQUEST['MET_Maquinas_maqtip'];
-    $sSetor = $_REQUEST['MET_Maquinas_codsetor']; 
+    $sSeq = $_REQUEST['MET_MP_Maquinas_seq']; 
+    $sMaqTip = $_REQUEST['MET_MP_Maquinas_maqtip'];
+    $sSetor = $_REQUEST['MET_MP_Maquinas_codsetor']; 
     $sSit = $_REQUEST['sitmp'];
     $sCodMaq = $_REQUEST['codmaq'];
     $sDias = $_REQUEST['dias'];
@@ -42,8 +47,6 @@ foreach ($aNr1 as $key){
         $bApData = $_REQUEST['apdata'];
     }
 }
-
-
 
 class PDF extends FPDF {
 
@@ -186,29 +189,34 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $iN = $row['codmaq'];
         $iCod= 0;
     }
-     //   if($row['codsit']!=null){
         $pdf = quebraPagina($pdf->GetY()+5, $pdf);
         
         if($iCod!= $row['codsit']){
         
         $pdf = quebraPagina($pdf->GetY()+15, $pdf);
-            
-        $pdf->Cell(199, 3, '', '', 1, 'L');
         $pdf->SetTextColor(0,100,0);    
+        
+        if(!$sSimple){
+        $pdf->Cell(199, 3, '', '', 1, 'L');    
         $pdf->SetFont('arial', 'B', 7);
         $pdf->Cell(8, 4, 'CÓD.', 'B', 0, 'L');
         $pdf->Cell(151, 4, 'SERVIÇO','B', 0, 'L');
         $pdf->Cell(10, 4, 'CICLO', 'B', 0, 'L');
         $pdf->Cell(34, 4, 'RESPONSÁVEL', 'B', 1, 'L');
+        }
+        
         $pdf->SetFont('arial', 'B', 7);
         $pdf->Cell(8, 5, $row['codsit'], 'B', 0, 'L');
         $pdf->Cell(151, 5, rtrim($row['oqfazer']).' '.rtrim($row['servico']), 'B', 0, 'L');
         $pdf->SetFont('arial', 'B', 9);
         $pdf->Cell(10, 5, $row['ciclo'], 'B', 0, 'L');
         $pdf->Cell(34, 5, $row['resp'], 'B', 1, 'L'); 
-        $pdf->SetTextColor(0,0,0);              
-        $pdf->Ln(1);
+        $pdf->SetTextColor(0,0,0);        
+        }
+        if(!$sSimple){
         
+        if($iCod!= $row['codsit']){
+        $pdf->Ln(1);
         $pdf->SetFont('arial', 'B', 8);
         $pdf->Cell(24, 5, 'Situação', 'L,B,T', 0, 'L');
         $pdf->Cell(23, 5, 'Dias Restantes', 'L,B,T', 0, 'L');
@@ -217,10 +225,9 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(33, 5, 'Data Fechamento','L,B,T', 0, 'L');
         $pdf->Cell(45, 5, 'Usuário Final', 'L,B,T,R', 1, 'L');
         
-        $pdf = quebraPagina($pdf->GetY()+10, $pdf);
-        
-        $iCod = $row['codsit'];
         }
+        $pdf = quebraPagina($pdf->GetY()+10, $pdf);
+        $iCod = $row['codsit'];
         
         $pdf->SetFont('arial', '', 8);
         $pdf->Cell(24, 5, $row['sitmp'], 'B,L', 0, 'L');
@@ -236,6 +243,9 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
             $pdf->SetFont('arial', '', 8);
             $pdf->Cell(195, 5,$row['obs'], 'B,R', 1, 'L'); 
         }
+        }
+        
+        if(!$sSimple){
         
         $iCont++;
         
@@ -250,9 +260,10 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
             }
             $iContFin++;
         }
-       // }
+        }
 }
 }
+if(!$sSimple){
 $pdf = quebraPagina($pdf->GetY()+35, $pdf);
 $pdf->Ln(5);
 $pdf->SetFont('Arial', 'BIU', 12);
@@ -281,6 +292,7 @@ if(array_sum($aData)!=0){
 $pdf->SetXY(70, $valY);
 $pdf->PieChart(135, 200, $aData, '%l : %v  (%p)', array($col1,$col2,$col3,$col4));
 $pdf->SetXY($valX, $valY + 50);
+}
 }
 $pdf->Output('I', 'relServicoMaquinaMantPrev.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  

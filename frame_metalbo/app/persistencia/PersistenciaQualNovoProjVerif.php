@@ -134,7 +134,7 @@ class PersistenciaQualNovoProjVerif extends Persistencia {
             $Resultado = $this->executaSql($sSql);
         }      
 
-        if ($iCount >= 5 && $oRespValProj == 'Eloir') {
+        if ($iCount >= 5 && ($oRespValProj == 'Eloir Jordelino' || $oRespValProj == 'Eloir')) {
             $sSql = "update tbqualNovoProjeto set sitgeralproj = 'Finalizado',
                 dtafimProj = '" . $sData . "',
                 horafimProj = '" . $sHora . "',

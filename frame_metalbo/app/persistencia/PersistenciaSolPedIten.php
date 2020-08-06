@@ -40,6 +40,7 @@ class PersistenciaSolPedIten extends Persistencia {
         $this->adicionaRelacionamento('pdfdisp', 'pdfdisp');
 
         $this->adicionaOrderBy('seq', 1);
+
     }
 
     /**

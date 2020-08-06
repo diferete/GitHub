@@ -202,6 +202,7 @@ class Campo {
         $this->setICaracter('10000');
 
 
+        $this->sController = $_REQUEST['classe'];
         $this->aItemsSelect = array();
         $this->aItensRadio = array();
         $this->aCampoBusca = array();
@@ -2199,7 +2200,7 @@ class Campo {
                         . '</div>'
                         . '<script>'
                         . '$("div#' . $this->getId() . '").dropzone({'
-                        . 'url: "index.php?classe=UploadMulti&metodo=Upload&parametros=' . $this->getSDiretorio() . '",' // url do arquivo php, que fara a cópia para o server
+                        . 'url: "index.php?classe=UploadMulti&metodo=Upload&parametros=' . $this->getSDiretorio() . ',' . $this->getSController() . '",' // url do arquivo php, que fara a cópia para o server
                         . 'thumbnailWidth: "70",'
                         . 'thumbnailHeight: "70",'
                         . 'thumbnailMethod: "contain",'
@@ -2216,4 +2217,5 @@ class Campo {
     }
 
 }
+
 ?>

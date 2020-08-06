@@ -33,10 +33,9 @@ class PersistenciaMET_TEC_GeraMVC extends Persistencia {
      * @return boolean
      */
     public function verificaTabelaExiste($sNomeTabela) {
-        $sSql = "SELECT count (name) as qnt
-               FROM SYSOBJECTS
-               WHERE XTYPE = 'U'"
-                . " AND NAME = '" . $sNomeTabela . "'";
+        $sSql = "SELECT count (name) as qnt "
+                . "FROM SYSOBJECTS WHERE XTYPE = 'U' "
+                . "AND NAME = '" . $sNomeTabela . "'";
         $result = $this->getObjetoSql($sSql);
         $iQnt = $result->fetch(PDO::FETCH_OBJ);
         if ($iQnt->qnt == 1) {
@@ -53,9 +52,9 @@ class PersistenciaMET_TEC_GeraMVC extends Persistencia {
      */
     public function buscaCampos($sNomeTabela) {
 
-        $sSql = "SELECT COLUMN_NAME, DATA_TYPE
-               FROM INFORMATION_SCHEMA.COLUMNS
-               WHERE TABLE_NAME ='" . $sNomeTabela . "'";
+        $sSql = "SELECT COLUMN_NAME, DATA_TYPE "
+                . "FROM INFORMATION_SCHEMA.COLUMNS "
+                . "WHERE TABLE_NAME ='" . $sNomeTabela . "'";
 
         $result = $this->getObjetoSql($sSql);
         $aCampos = array();

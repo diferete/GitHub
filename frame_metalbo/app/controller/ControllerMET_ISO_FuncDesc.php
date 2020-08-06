@@ -54,7 +54,7 @@ class ControllerMET_ISO_FuncDesc extends Controller {
 
     public function antesCarregaDetalhe($aCampos) {
         parent::antesCarregaDetalhe($aCampos);
-        unset($aCampos[8]);
+        unset($aCampos[7]);
         return $aCampos;
     }
 

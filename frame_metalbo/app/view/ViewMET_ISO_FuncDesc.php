@@ -158,9 +158,8 @@ class ViewMET_ISO_FuncDesc extends View {
         $oRevisao->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
 
-        $oDataRevisao = new Campo('data', 'data_revisao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oDataRevisao->setSValor(date('d-m-Y'));
-        $oDataRevisao->setBOculto(true);
+        $oDataRevisao = new Campo('data', 'data_revisao', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataRevisao->setSValor(date('d/m/Y'));
 
         $oObs = new Campo('Obs.', 'observacao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObs->setILinhasTextArea(3);
@@ -206,7 +205,7 @@ class ViewMET_ISO_FuncDesc extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oNr, $oFilcgc, $oUsuario, $oSeq, $oDataRevisao), array(/* $oDescricao, */$oSetor, $oCodFuncao, $oDescFuncao, $oEscExigida, $oEscRecomendada), array($oArquivo, $oRevisao), $oObs, $oBotConf);
+        $this->addCampos(array($oNr, $oFilcgc, $oUsuario, $oSeq), array(/* $oDescricao, */$oSetor, $oCodFuncao, $oDescFuncao, $oEscExigida, $oEscRecomendada), array($oArquivo, $oRevisao, $oDataRevisao), $oObs, $oBotConf);
         $this->addCamposFiltroIni($oNr, $oFilcgc);
     }
 

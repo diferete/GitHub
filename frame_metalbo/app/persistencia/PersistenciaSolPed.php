@@ -48,7 +48,7 @@ class PersistenciaSolPed extends Persistencia {
         $this->adicionaRelacionamento('userins', 'userins');
 
 
-        $this->setSTop('200');
+        $this->setSTop('100');
         $this->adicionaOrderBy('nr', 1);
     }
 
