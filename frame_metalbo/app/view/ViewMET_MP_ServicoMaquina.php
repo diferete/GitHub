@@ -21,8 +21,8 @@ class ViewMET_MP_ServicoMaquina extends View {
         $oSit = new CampoConsulta('CodSit', 'codsit');
         $oTip = new CampoConsulta('TipCod', 'tipcod');
         $oTipDes = new CampoConsulta('DesTip', 'MET_MP_CadastroMaquinas.tipdes');
-        $oCodSetor = new CampoConsulta('Cod.', 'MET_CAD_Setores.codsetor');
-        $oDSetor = new CampoConsulta('Setor', 'MET_CAD_Setores.descsetor');
+        $oCodSetor = new CampoConsulta('Cod.', 'Setor.codsetor');
+        $oDSetor = new CampoConsulta('Setor', 'Setor.descsetor');
         $oServ = new CampoConsulta('Serviço', 'servico');
         $oCiclo = new CampoConsulta('Ciclo', 'ciclo');
         $oResp = new CampoConsulta('Responsável', 'resp');

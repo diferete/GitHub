@@ -35,6 +35,7 @@ class ViewMET_TEC_Modulo extends View {
 	$oModCod->setBCampoBloqueado(true);
 		
         $oModDescricao = new Campo('Descrição','modescricao',  Campo::TIPO_TEXTO,4,4,4,4);
+        
         $oLinha = new Campo('','linha', Campo::TIPO_LINHA,12,12,12,12);
         $oLinha->setApenasTela(true);
         

@@ -12,18 +12,10 @@ class ViewQualContencao extends View {
         parent::__construct();
     }
 
-    function criaGridDetalhe() {
+    function criaGridDetalhe($sAcaoRotina) {
         parent::criaGridDetalhe($sIdAba);
 
         $this->getOGridDetalhe()->setIAltura(200);
-
-        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-        $oBotaoModal->setBHideTelaAcao(true);
-        $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
-        $oBotaoModal->setSNomeGrid('detalheContencao');
-        $this->addModaisDetalhe($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
@@ -45,20 +37,28 @@ class ViewQualContencao extends View {
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
         $this->getOGridDetalhe()->setSNomeGrid('detalheContecao');
-        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
+        if ($sAcaoRotina != 'acaoVisualizar') {
+            $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+            $oBotaoModal->setBHideTelaAcao(true);
+            $oBotaoModal->setILargura(15);
+            $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
+            $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
+            $oBotaoModal->setSNomeGrid('detalheContencao');
+            $this->addModaisDetalhe($oBotaoModal);
+
+            $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
+        } else {
+            $this->addCamposDetalhe($oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
+        }
         $this->addGriTela($this->getOGridDetalhe());
     }
 
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-        $oBotaoModal->setBHideTelaAcao(true);
-        $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
-        $oBotaoModal->setSNomeGrid('detalheContencao');
-        $this->addModais($oBotaoModal);
+        $aDados = $_REQUEST['parametros'];
+        $aDados = explode(',', $aDados['parametros[']);
+
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
@@ -80,14 +80,27 @@ class ViewQualContencao extends View {
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
         $this->getTela()->setSNomeGrid('detalheContencao');
-        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
+        if ($aDados[7] != 'acaoVisualizar') {
+
+            $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+            $oBotaoModal->setBHideTelaAcao(true);
+            $oBotaoModal->setILargura(15);
+            $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
+            $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
+            $oBotaoModal->setSNomeGrid('detalheContencao');
+            $this->addModais($oBotaoModal);
+
+            $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
+        } else {
+            $this->addCampos($oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
+        }
     }
 
     public function criaTela() {
         parent::criaTela();
 
         $sAcaoRotina = $this->getSRotina();
-        $this->criaGridDetalhe();
+        $this->criaGridDetalhe($sAcaoRotina);
 
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);

@@ -50,6 +50,7 @@ class ViewMET_TEC_Menu extends View {
     function criaTela() {
         parent::criaTela();
 
+        $sAcaoRotina = $this->getSRotina();
 
         $oModCodigo = new Campo('Cód Mod', 'MET_TEC_Modulo.modcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oModCodigo->setClasseBusca('MET_TEC_Modulo');
@@ -67,20 +68,22 @@ class ViewMET_TEC_Menu extends View {
         $oEtapas = new FormEtapa(2, 2, 12, 12);
         $oEtapas->addItemEtapas('Cadastro Menu', true, $this->addIcone(Base::ICON_EDITAR));
         $oEtapas->addItemEtapas('Cadastro Item Menu', false, $this->addIcone(Base::ICON_CONFIRMAR));
-
-        //monta campo de controle para inserir ou alterar
-        $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2, 2, 12, 12);
-        $oAcao->setApenasTela(true);
-        if ($this->getSRotina() == View::ACAO_INCLUIR) {
-            $oAcao->setSValor('incluir');
-        } else {
-            $oAcao->setSValor('alterar');
-        }
-        $this->setSIdControleUpAlt($oAcao->getId());
-
-
         $this->addEtapa($oEtapas);
-        $this->addCampos($oModCodigo, array($oMenCodigo, $oMenu), $oMenuOrdem, $oAcao);
+        if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
+            //monta campo de controle para inserir ou alterar
+            $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2, 2, 12, 12);
+            $oAcao->setApenasTela(true);
+            if ($this->getSRotina() == View::ACAO_INCLUIR) {
+                $oAcao->setSValor('incluir');
+            } else {
+                $oAcao->setSValor('alterar');
+            }
+            $this->setSIdControleUpAlt($oAcao->getId());
+
+            $this->addCampos($oModCodigo, array($oMenCodigo, $oMenu), $oMenuOrdem, $oAcao);
+        } else {
+            $this->addCampos($oModCodigo, array($oMenCodigo, $oMenu), $oMenuOrdem);
+        }
     }
 
 }

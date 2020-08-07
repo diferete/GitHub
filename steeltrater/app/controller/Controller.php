@@ -359,7 +359,7 @@ class Controller {
      * 
      * @return Objetct
      */
-    public function setValorModel(&$oModelOriginal, $sNomeCampo, $xValor = null, $aCamposTela) {
+    public function setValorModel(& $oModelOriginal, $sNomeCampo, $xValor = null, $aCamposTela) {
         $aMetodos = self::extractMetodos($sNomeCampo);
 
         $oModel = $oModelOriginal;
@@ -815,7 +815,7 @@ class Controller {
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[2]);
         //carregar campos tela
-        $this->carregaCamposTela($sChave, $bDesabilita);
+        $this->carregaCamposTela($sChave);
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
@@ -934,7 +934,7 @@ class Controller {
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[1]);
         //carregar campos tela
-        $this->carregaCamposTela($sChave, $bDesabilita);
+        $this->carregaCamposTela($sChave);
         //adiciona botoes padrão
         $this->View->addBotaoPadraoTela('');
         //renderiza a tela
@@ -1979,7 +1979,7 @@ class Controller {
                             $xValorCampo = '';
                         };
                     } else {
-//                     $xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
+                        //$xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
                         $xValorCampo = $this->getValorModel($oAtual, $sNomeCampo);
                         $xValorCampo = rtrim($xValorCampo);
                     }

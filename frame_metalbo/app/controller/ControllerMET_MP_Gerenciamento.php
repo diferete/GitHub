@@ -230,7 +230,7 @@ class ControllerMET_MP_Gerenciamento extends Controller {
         
         if($_REQUEST['metodo']!='getDadosConsulta' && $_REQUEST['metodo']!='getDadosScroll' || $iSet==5){
             if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
-                $this->Persistencia->adicionaFiltro('MET_CAD_Setores.codsetor',$iSet);
+                $this->Persistencia->adicionaFiltro('Setor.codsetor',$iSet);
                 $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor($iSet) . ') ');
             }else if($iSet== 12){
                 $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor(12) . ') ');

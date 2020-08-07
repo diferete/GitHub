@@ -17,7 +17,7 @@ class PersistenciaMET_MP_ServicoMaquina extends Persistencia{
         $this->adicionaRelacionamento('tipcod', 'tipcod');
         $this->adicionaRelacionamento('tipcod', 'MET_MP_CadastroMaquinas.tipcod',false,false,false);
         $this->adicionaRelacionamento('codsetor', 'codsetor');
-        $this->adicionaRelacionamento('codsetor', 'MET_CAD_Setores.codsetor',false,false,false);
+        $this->adicionaRelacionamento('codsetor', 'Setor.codsetor',false,false,false);
         $this->adicionaRelacionamento('servico', 'servico');
         $this->adicionaRelacionamento('ciclo','ciclo');
         $this->adicionaRelacionamento('resp','resp');
@@ -30,7 +30,7 @@ class PersistenciaMET_MP_ServicoMaquina extends Persistencia{
         $this->adicionaOrderBy('codsit',1);
         $this->adicionaOrderBy('servico',0);
         $this->adicionaJoin('MET_MP_CadastroMaquinas');
-        $this->adicionaJoin('MET_CAD_Setores');
+        $this->adicionaJoin('Setor');
         
     }
     

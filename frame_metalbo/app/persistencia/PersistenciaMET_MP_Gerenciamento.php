@@ -20,7 +20,7 @@ class PersistenciaMET_MP_Gerenciamento extends Persistencia {
         $this->adicionaRelacionamento('maquina', 'MET_MP_Maquinas.maquina', false, false, false);
         $this->adicionaRelacionamento('maqmp', 'maqmp');
         $this->adicionaRelacionamento('codsetor', 'codsetor');
-        $this->adicionaRelacionamento('codsetor', 'MET_CAD_Setores.codsetor', false, false, false);
+        $this->adicionaRelacionamento('codsetor', 'Setor.codsetor', false, false, false);
         $this->adicionaRelacionamento('descsetor', 'descsetor', false, false, false);
         $this->adicionaRelacionamento('sitmp', 'sitmp');
         $this->adicionaRelacionamento('databert', 'databert');
@@ -31,7 +31,7 @@ class PersistenciaMET_MP_Gerenciamento extends Persistencia {
         $this->adicionaOrderBy('maqmp', 0);
         //$this->adicionaOrderBy('nr', 1);
         $this->adicionaJoin('MET_MP_Maquinas', null, 1, 'codmaq', 'cod');
-        $this->adicionaJoin('MET_CAD_Setores');       
+        $this->adicionaJoin('Setor');       
         $this->setSTop('50');
        
     }

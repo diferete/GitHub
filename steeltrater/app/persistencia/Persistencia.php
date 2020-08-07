@@ -771,7 +771,7 @@ class Persistencia {
      * 
      * Caso não sejam informados os campos de origem e destino será feito um comparativo entre as
      * tabelas a partir dos campos chave da tabela principal
-     * $sEnd coloca uma string para fazer clausulas nas ligaçoes
+     * @param string $sEnd coloca uma string para fazer clausulas nas ligaçoes 
      */
     public function adicionaJoin($sClasse, $sAlias = null, $iTipo = self::LEFT_JOIN, $xCampoOrigem = null, $xCampoDestino = null, $sEnd = null) {
         $this->aListaJoin[] = array('classe' => $sClasse,
@@ -981,6 +981,7 @@ class Persistencia {
                     case self::CONTEM: //like
                         //  $sValor  = "TO_ASCII('%".strtolower($aAtual['valor'])."%')";
                         $sValor = "'%" . strtolower($aAtual['valor']) . "%'";
+                        $sTabelaCampo = $this->checkTable($sTabelaCampo);
                         $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
                         //$sTabela = "TO_ASCII(LOWER(".$sTabela."))";
                         $sTabela = "LOWER(" . $sTabela . ")";
@@ -988,6 +989,7 @@ class Persistencia {
                     case self::INICIA_COM: //like (inicia com...)
                         // $sValor  = "TO_ASCII('".strtolower($aAtual['valor'])."%')";
                         $sValor = "'" . strtolower($aAtual['valor']) . "%'";
+                        $sTabelaCampo = $this->checkTable($sTabelaCampo);
                         $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
                         //$sTabela = "TO_ASCII(LOWER(".$sTabela."))";
                         $sTabela = "LOWER(" . $sTabela . ")";
@@ -995,6 +997,7 @@ class Persistencia {
                     case self::TERMINA_COM: //like (termina com...)
                         // $sValor  = "TO_ASCII('%".strtolower($aAtual['valor'])."')";
                         $sValor = "'%" . strtolower($aAtual['valor']) . "'";
+                        $sTabelaCampo = $this->checkTable($sTabelaCampo);
                         $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
                         //  $sTabela = "TO_ASCII(LOWER(".$sTabela."))";
                         $sTabela = "LOWER(" . $sTabela . ")";
@@ -1069,6 +1072,16 @@ class Persistencia {
             $bIsNumeric = is_numeric(preg_replace('/[^0-9]/', '', $value));
         }
         return $bIsNumeric;
+    }
+
+    public function checkTable($sTabela) {
+        $aTabela = explode('.', $sTabela);
+        if (in_array('widl', $aTabela)) {
+            return $sTabela;
+        } else {
+            $sTabela = '"' . $sTabela . '"';
+            return $sTabela;
+        }
     }
 
     /**

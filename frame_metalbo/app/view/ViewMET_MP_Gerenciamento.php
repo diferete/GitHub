@@ -46,7 +46,7 @@ class ViewMET_MP_Gerenciamento extends View {
 
         $oDesMaq = new CampoConsulta('Maquina', 'maqmp');
 
-        $oSetDes = new CampoConsulta('Setor', 'MET_CAD_Setores.descsetor');
+        $oSetDes = new CampoConsulta('Setor', 'Setor.descsetor');
 
         $oSitmp = new CampoConsulta('Situação', 'sitmp');
 

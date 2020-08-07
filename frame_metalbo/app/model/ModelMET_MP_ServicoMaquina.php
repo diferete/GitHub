@@ -19,7 +19,7 @@ class ModelMET_MP_ServicoMaquina {
     private $data;
     private $hora;
     private $MET_MP_CadastroMaquinas;
-    private $MET_CAD_Setores;
+    private $Setor;
     private $sit;
     
     function getSit() {
@@ -49,15 +49,15 @@ class ModelMET_MP_ServicoMaquina {
         $this->MET_MP_CadastroMaquinas = $MET_MP_CadastroMaquinas;
     }
     
-    function getMET_CAD_Setores() {
-        if(!isset($this->MET_CAD_Setores)){
-            $this->MET_CAD_Setores = Fabrica::FabricarModel('MET_CAD_Setores');
+    function getSetor() {
+        if(!isset($this->Setor)){
+            $this->Setor = Fabrica::FabricarModel('Setor');
         }
-        return $this->MET_CAD_Setores;
+        return $this->Setor;
     }
 
-    function setMET_CAD_Setores($MET_CAD_Setores) {
-        $this->MET_CAD_Setores = $MET_CAD_Setores;
+    function setSetor($Setor) {
+        $this->Setor = $Setor;
     }
 
     function getCodsit() {
