@@ -1,0 +1,6 @@
+
+alter table steel_pcp_prodMatReceita add Desativa varchar(5)
+
+alter table steel_pcp_prodMatReceita add obsDesativa varchar(1000)
+
+update STEEL_PCP_prodMatReceita set Desativa = 'Não'

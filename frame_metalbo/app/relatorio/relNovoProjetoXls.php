@@ -27,7 +27,7 @@ $objPHPExcel->getActiveSheet()->getStyle('A2:P2')->getFont()->setBold(true);
 // Criamos as colunas
 $objPHPExcel->setActiveSheetIndex(0)
         ->mergeCells('A1:P1')
-        ->setCellValue('A1', 'RELATÓRIO DE PROJETOS GERADOS');
+        ->setCellValue('A1', 'Relatório Entrada de Projetos');
 
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);

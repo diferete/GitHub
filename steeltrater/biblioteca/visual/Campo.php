@@ -126,18 +126,16 @@ class Campo {
     const TIPO_BOTAOSIMPLES = 38;
     const TIPO_DECIMAL_COMPOSTO = 39;
     const TIPO_BOTAO_MOSTRACONSULTA = 41;
+    const TIPO_GRIDSIMPLE = 42;
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
-   
-    
     const EVENTO_SAIR = 'blur';
     const EVENTO_CHANGE = 'change';
     const EVENTO_FOCUS = 'focus';
     const EVENTO_KEYUP = 'keyup';
     const EVENTO_ENTER = 'enter';
     const EVENTO_CLICK = 'click';
-    
     const BADGE_SUCCESS = 'label-success';
     const BADGE_WARNING = 'label-warning';
     const BADGE_DANGER = 'label-danger';
@@ -201,6 +199,7 @@ class Campo {
         $this->setSCorTituloGridPainel(Campo::TITULO_DARK);
         $this->setICasaDecimal(2);
         $this->setBNomeArquivo(false);
+        $this->setICaracter('10000');
 
 
         $this->aItemsSelect = array();
@@ -1222,7 +1221,7 @@ class Campo {
         $oCampoFormBusca->setSValorBusca($this->getNome());
 
 
-        $oCampoFormBusca->addCampoBusca($aCampoBusca[0],$sIdCampoRetorno, $sIdTela);
+        $oCampoFormBusca->addCampoBusca($aCampoBusca[0], null, null);
         $this->setSRetornoBusca($oCampoFormBusca->getId());
         //verifica se há valor inicial que deve ser carregado
         if ($this->getSValorCampoBusca() != null) {
@@ -1345,10 +1344,9 @@ class Campo {
 
             $sRetorno = ' initialPreview: ['; //Incio InitialPreview
 
-            if (($Extensao == 'PNG') || ($Extensao == 'png') || ($Extensao == 'gif') || ($Extensao == 'GIF') || ($Extensao == 'jpg') || ($Extensao == 'JPG')) {
+            if (($Extensao == 'PNG') || ($Extensao == 'png') || ($Extensao == 'gif') || ($Extensao == 'GIF') || ($Extensao == 'jpg') || ($Extensao == 'JPG') || ($Extensao == 'jpeg') || ($Extensao == 'JPEG')) {
                 $sRetorno .= '"<img src=\\\'uploads/' . $ArquivoDir . '\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'>"';
             }
-
 
             if (($Extensao == 'pdf') || ($Extensao == 'PDF')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/pdf.png\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
@@ -1853,7 +1851,7 @@ class Campo {
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input class="form-control ' . $this->getTamanho($this->getITamanho()) . '" type="text" autocomplete="off" name="' . $this->getNome() . '" ' . $this->getTamanho($this->getITamanho()) . '" placeholder = "Pesquisar.." ' // IMPORTANTE!!!! REVER ID
-                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '<span class="block" > '
                         . '<div class="form-group"> '
@@ -2001,7 +1999,7 @@ class Campo {
                         . '<tbody>                 ';
                 //foreach linhas
                 foreach ($aLinhasGrid as $key => $valueLine) {
-                    $sCampo .= '  <tr>                  ';
+                    $sCampo .= '  <tr style="white-space:nowrap">                  ';
                     foreach ($this->aValorGridView as $keyvlr => $vlr) {
                         $aTd = explode('=', $vlr);
                         if ($aTd[0] == $valueLine) {
@@ -2014,6 +2012,36 @@ class Campo {
                         . '</table>     '
                         . '</div>'
                         //.'</div>'
+                        . '</div>';
+                break;
+            case self::TIPO_GRIDSIMPLE:
+                $aLinhasGrid = array_unique($this->aLinhasGridView);
+                $sCampo = '<div style="overflow-y: auto; height:400px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<div class="label-' . $this->getSCorTituloGridPainel() . '"><span class="label label-' . $this->getSCorTituloGridPainel() . '">' . $this->getSTituloGridPainel() . '</span></div>'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'
+                        . '    <table  class="table-striped table-hover table table-condensed table-bordered"  style="color:#101010; margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '"> '
+                        . '<thead style="display: fixed">   '
+                        . '  <tr style="white-space:nowrap" class="' . $this->getSCorCabGridView() . '">    ';
+                foreach ($this->aCabGridView as $key => $value) {
+                    $sCampo .= '<th>' . $value . '</th> ';
+                }
+                $sCampo .= '  </tr>                 '
+                        . '</thead>                '
+                        . '<tbody>                 ';
+                //foreach linhas
+                foreach ($aLinhasGrid as $key => $valueLine) {
+                    $sCampo .= '  <tr style="white-space:nowrap">                  ';
+                    foreach ($this->aValorGridView as $keyvlr => $vlr) {
+                        $aTd = explode('=', $vlr);
+                        if ($aTd[0] == $valueLine) {
+                            $sCampo .= '<td>' . $aTd[1] . '</td>';
+                        }
+                    }
+                    $sCampo .= '  </tr> ';
+                }
+                $sCampo .= '</tbody>    '
+                        . '</table>     '
+                        . '</div>'
                         . '</div>';
                 break;
             case self:: TIPO_DOWN:

@@ -11,7 +11,6 @@ class PersistenciaNfRep extends Persistencia{
         parent::__construct();
         
         $this->setTabela('widl.NFC001');
-        
         $this->adicionaRelacionamento('nfsnfnro', 'nfsnfnro',true,true,true);
         $this->adicionaRelacionamento('nfsclicod', 'nfsclicod');
         $this->adicionaRelacionamento('nfsclinome', 'nfsclinome');
@@ -29,7 +28,8 @@ class PersistenciaNfRep extends Persistencia{
         $this->adicionaRelacionamento('nfstranome', 'nfstranome');
         $this->adicionaRelacionamento('nfshrsaida', 'nfshrsaida');
         $this->adicionaRelacionamento('nfscancela','nfscancela');
-        
+        $this->adicionaRelacionamento('nfsnfesit','nfsnfesit');
+        $this->adicionaRelacionamento('nfsemailen','nfsemailen');  
         
         $this->setBConsultaManual(true);
         $this->setSTop(10);
@@ -62,7 +62,11 @@ class PersistenciaNfRep extends Persistencia{
          widl.NFC001.nfsdtemiss as 'widl.NFC001.nfsdtemiss', 
         LTRIM((nfslei3 +''+nfslei2 +''+nfslei1))as 'widl.NFC001.pedido',
         widl.NFC001.nfstranome as 'widl.NFC001.nfstranome',
-        widl.NFC001.nfshrsaida as 'widl.NFC001.nfshrsaida' 
+        widl.NFC001.nfshrsaida as 'widl.NFC001.nfshrsaida', 
+
+        widl.NFC001.nfsnfesit as 'widl.NFC001.nfsnfesit',
+        widl.NFC001.nfsemailen as 'widl.NFC001.nfsemailen'
+
         from widl.NFC001,widl.mov01 ";
         
         
@@ -107,6 +111,11 @@ class PersistenciaNfRep extends Persistencia{
           $sRetorno = substr($sOd,0,-2);
           return $sRetorno;
         }
-    
+    public function buscaDadosNfRep($aCamposChave) {
+        $sSql = 'select nfsnfesit, nfsnfechv, nfsdtemiss, nfsfilcgc from widl.NFC001 where nfsnfnro = ' . $aCamposChave['nfsnfnro'] . ' and nfsnfser = 2';
+        $oDadosNF = $this->consultaSql($sSql);
+
+        return $oDadosNF;
+    }
     
 }

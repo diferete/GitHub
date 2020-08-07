@@ -18,7 +18,7 @@ class ViewItemMenu extends View {
     }
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe($sIdAba);
+        parent::criaGridDetalhe();
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO

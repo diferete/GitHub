@@ -234,18 +234,18 @@ class ControllerCadCliRep extends Controller {
         }
     }
 
-    public function getCNPJ($sDados) {
+	public function getCNPJ($sDados) {
         $aDados = explode('*', $sDados);
         $aDadosEMP = explode('|', $aDados[0]);
         $aIdCampos = explode('|', $aDados[1]);
         if ($aDadosEMP[0] != '') {
-            $sRet = $this->Persistencia->buscaCNPJ($aDadosEMP[0]);
-            if ($sRet == false) {
+            $bRet = $this->Persistencia->buscaCNPJ($aDadosEMP[0]);
+            if ($bRet == false) {
                 $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
             } else {
                 $sSetValorCampos = '$("#' . $aIdCampos[0] . '").val("' . $aDadosEMP[0] . '");'
-                        . '$("#' . $aIdCampos[1] . '").val("' . $aDadosEMP[1] . '");'
+                        . '$("#' . $aIdCampos[1] . '").val("' . str_replace(".", "", $aDadosEMP[1]) . '");'
                         . '$("#' . $aIdCampos[2] . '").val("' . $aDadosEMP[2] . '");'
                         . '$("#' . $aIdCampos[3] . '").val("' . $aDadosEMP[3] . '");'
                         . '$("#' . $aIdCampos[4] . '").val("' . $aDadosEMP[4] . '");'
@@ -260,11 +260,11 @@ class ControllerCadCliRep extends Controller {
                 $oMensagem = new Mensagem('Sucesso', 'Busca efetuada com sucesso!', Mensagem::TIPO_SUCESSO);
                 echo $oMensagem->getRender();
                 if (strlen($aDados[1]) > 45 || strlen($aDados[2]) > 35) {
-                    $oMsg = new Mensagem('Atenção', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP', Mensagem::TIPO_ERROR, '10000');
+                    $oMsg = new Mensagem('Atenção', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP sem adicionar pontos', Mensagem::TIPO_ERROR, '10000');
                     echo $oMsg->getRender();
                 }
 
-                echo 'buscaIBGE("CadCliRep","' . Util::removeAcentos($aDadosEMP[6]) . '","' . $aDadosEMP[8] . '","' . $aIdCampos[12] . '");';
+                echo 'buscaIBGE("CadCliRep","' . Util::removeAcentos($aDadosEMP[6]) . '","' . $aDadosEMP[8] . '","' . $aIdCampos[12] . '","' . $aDadosEMP[12] . '");';
             }
         } else {
             exit;
@@ -288,8 +288,13 @@ class ControllerCadCliRep extends Controller {
 
     public function codigoIBGE($sDados) {
         $aDados = explode('|', $sDados);
-        $script = '$("#' . $aDados[1] . '").val(' . $aDados[0] . ');';
+        if ($aDados[0] == 'VAZIO') {
+            $this->Persistencia->gravaHistorico($aDados[2]);
+        }
+        $script = "$('#" . $aDados[1] . "' ).val('" . $aDados[0] . "' );";
+        echo 'console.log(' . $aDados[0] . ');';
         echo $script;
     }
 
 }
+

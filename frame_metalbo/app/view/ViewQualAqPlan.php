@@ -13,7 +13,7 @@ class ViewQualAqPlan extends View {
     }
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe($sIdAba);
+        parent::criaGridDetalhe();
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
@@ -24,7 +24,7 @@ class ViewQualAqPlan extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta', '');
+        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta');
         $this->addModaisDetalhe($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -32,7 +32,7 @@ class ViewQualAqPlan extends View {
         $oSeq = new CampoConsulta('Seq.', 'seq');
 
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oPlano = new CampoConsulta('Plano', 'Plano');
 
@@ -57,7 +57,7 @@ class ViewQualAqPlan extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta', '');
+        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -71,7 +71,7 @@ class ViewQualAqPlan extends View {
         $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
 
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
@@ -89,7 +89,7 @@ class ViewQualAqPlan extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta', '');
+        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta');
 
         $oNr = new CampoConsulta('Nr.', 'nr');
 
@@ -102,7 +102,7 @@ class ViewQualAqPlan extends View {
         $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
 
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 

@@ -1,0 +1,3 @@
+alter table steel_pcp_importaXml add dataemidoc date 
+
+

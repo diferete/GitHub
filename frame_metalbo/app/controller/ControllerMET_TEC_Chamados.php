@@ -38,6 +38,10 @@ class ControllerMET_TEC_Chamados extends Controller {
         $str = str_replace(array("\r", "\n"), " ", $this->Model->getProblema());
         $this->Model->setProblema($str);
 
+        if ($this->Model->getFilcgc() == '83781641000158') {
+            $this->Model->setRepoffice('POLIAMIDOS');
+        }
+
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -49,6 +53,10 @@ class ControllerMET_TEC_Chamados extends Controller {
 
         $str = str_replace(array("\r", "\n"), " ", $this->Model->getProblema());
         $this->Model->setProblema($str);
+
+        if ($this->Model->getFilcgc() == '83781641000158') {
+            $this->Model->setRepoffice('POLIAMIDOS');
+        }
 
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -104,6 +112,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         // Para
         $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
+        $oEmail->addDestinatarioCopia('jose@metalbo.com.br');
         if ($aCampos['anexo1'] != '') {
             $oEmail->addAnexo('Uploads/' . $aCampos['anexo1'] . '', utf8_decode($aCampos['anexo1']));
         }
@@ -210,7 +219,7 @@ class ControllerMET_TEC_Chamados extends Controller {
             $oMensagem = new Mensagem('Atenção', 'Preencha o campo OBSERVAÇÃO!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         } else {
-            $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
+             $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
             if ($aRetorno[0]) {
                 $bRetorno = $this->EnviaEmailFinalizaChamado($aCampos);
                 if ($bRetorno) {
@@ -242,7 +251,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
         $oDados = $this->Persistencia->consultarWhere();
 
-        if ($oDados->getSituaca() == 'AGUARDANDO' || $_SESSION['codsetor'] == 2) {
+        if (($oDados->getSituaca() == 'AGUARDANDO') || ($_SESSION['codsetor'] == 2 && $oDados->getSituaca() != 'FINALIZADO')) {
 
             $this->View->setAParametrosExtras($oDados);
 
@@ -296,6 +305,9 @@ class ControllerMET_TEC_Chamados extends Controller {
 
     public function EnviaEmailFinalizaChamado($aDados) {
         $oDados = $this->Persistencia->buscaDadosEmailChamado($aDados);
+        if (!$oDados) {
+            return true;
+        }
 
         $oEmail = new Email();
         $oEmail->setMailer();
@@ -479,7 +491,6 @@ class ControllerMET_TEC_Chamados extends Controller {
                             . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
             $oEmail->limpaDestinatariosAll();
 
-
             $oEmail->addDestinatario('alexandre@metalbo.com.br');
             $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
             if ($oDados->anexo1 != '') {
@@ -501,6 +512,21 @@ class ControllerMET_TEC_Chamados extends Controller {
                 echo $oMensagem->getRender();
             }
         }
+    }
+
+    public function mostraTelaRelChamados($renderTo, $sMetodo = '') {
+        $this->buscaDados();
+        parent::mostraTelaRelatorio($renderTo, 'relChamados');
+    }
+
+    public function buscaDados() {
+        $aParame[0] = $this->Persistencia->buscaDadosRep();
+        $aParame[1] = $this->Persistencia->buscaDadosSubTipo();
+        $aParame[2] = $this->Persistencia->buscaDadosEmp();
+        $aParame[3] = $this->Persistencia->buscaDadosUsuario();
+        $aParame[4] = $this->Persistencia->buscaDadosSetores();
+
+        $this->View->setAParametrosExtras($aParame);
     }
 
 }

@@ -29,7 +29,7 @@ class Config {
     const ARQ_FOLDER_TEMP = 'temp'; //arquivos temporários de upload
     const JASPER_FOLDER = '/PHPJasperXMLmet';
     const EMAIL_SENDER = 'metalboweb@gmail.com';
-    const PASWRD_EMAIL_SENDER = 'M@quinas@4321';
+    const PASWRD_EMAIL_SENDER = '3BS0deAgtLu4';
     const SERVER_SMTP = 'smtp.gmail.com';
     const PORT_SMTP = 465;
     const PROTOCOLO_SMTP = 'ssl';
@@ -88,14 +88,13 @@ class Config {
 //    const NOME_BD  = 'rex_maquinas';
 //    const HOST_BD  = 'metalbobase';
 //    const PASS_BD  = 'Met@lbo@4321'; 
-	
-///   const TIPO_BD = self::BD_SQLSERVER;
+//	
     const PORTA_BD = 1433;
     const USER_BD = 'sa';
     const NOME_BD = 'rex_maquinas';
     const HOST_BD = 'MetalboServer';
     const PASS_BD = 'M@quinas@321';
-// 
+ 
   /*  const PORTA_BD = 1433;
     const USER_BD  = 'sa';
     const NOME_BD  = 'rex_metalbo';

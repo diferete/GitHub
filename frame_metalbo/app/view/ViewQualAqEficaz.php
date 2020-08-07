@@ -63,7 +63,7 @@ class ViewQualAqEficaz extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
+        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz');
         $oGridAq->getOGrid()->addModal($oBotaoModal);
 
         $oSeqGrid = new CampoConsulta('Seq.', 'seq');
@@ -79,7 +79,7 @@ class ViewQualAqEficaz extends View {
         $oDataApontaGrid = new CampoConsulta('Apontamento', 'datareal', CampoConsulta::TIPO_DATA);
 
         $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oGridAq->addCampos($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
         $oGridAq->setSController('QualAqEficaz');
@@ -127,7 +127,7 @@ class ViewQualAqEficaz extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
+        $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz');
 
         //$this->addModaisDetalhe($oBotaoModal);
 
@@ -144,7 +144,7 @@ class ViewQualAqEficaz extends View {
         $oRespNomeGrid = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oGridEf->addCampos($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
 

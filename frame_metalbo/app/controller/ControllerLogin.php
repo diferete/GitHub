@@ -34,7 +34,7 @@ class ControllerLogin extends Controller {
     public function logaSistema() {
         $params = array();
         parse_str($_REQUEST['campos'], $params);
-        $this->carregaModel($params);
+        $this->carregaModel();
         $aLogaSistema = $this->Persistencia->logarSistema();
         if ($aLogaSistema[0]) {
             $oDados = $this->Persistencia->buscaDadosUser($this->Model->getCodsetor());
@@ -77,13 +77,14 @@ class ControllerLogin extends Controller {
             } else {
                 $oControllerSistema->getTelaSistema($_SESSION["codUser"]);
             }
+			$this->Persistencia->limpaTag_Bloq();
         } else {
             //monta class para registrar login incorreto
             $oLoginErro = Fabrica::FabricarController('LoginErro');
             $oLoginErro->geraLoginErro();
 
             //monta mensagem de erro de login
-            $oModalErro = new Modal('Login incorreto!', 'Seu usuário ou senha não estão corretos ou está bloqueado. Entre em contato pelo e-mail metalboti@metalbo.com.br.', Modal::TIPO_ERRO, false, true, true);
+            $oModalErro = new Modal('Login incorreto!', $aLogaSistema[1], Modal::TIPO_ERRO, false, true, true);
             echo $oModalErro->getRender();
             //echo $this->View->erroLogin($aLogaSistema[1]);
         }

@@ -42,7 +42,7 @@ class ControllerQualContencao extends Controller {
     /* Métodos de filtros below */
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe($aChave);
+        parent::pkDetalhe();
         $sTipoAcao = $this->Persistencia->buscaTipoAcao($aChave);
         $aCampos = $aChave;
         $aCampos[3] = $sTipoAcao;
@@ -71,7 +71,7 @@ class ControllerQualContencao extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sForm, $sCampos);
+        parent::acaoLimpar($sDados);
         $aParam = explode(',', $sDados);
 
         //verifica se está como 

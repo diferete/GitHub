@@ -145,11 +145,11 @@ class PersistenciaCadCliRep extends Persistencia {
 
         $sRetorno = $oRow->total;
         if ($sRetorno > 0) {
-            $sRetorno = false;
+            $bRetorno = false;
         } else {
-            $sRetorno = true;
+            $bRetorno = true;
         }
-        return $sRetorno;
+        return $bRetorno;
     }
 
     public function buscaRespVenda($sDados) {
@@ -163,6 +163,13 @@ class PersistenciaCadCliRep extends Persistencia {
         $aRetorno[1] = $oRow->resp_venda_nome;
 
         return $aRetorno;
+    }
+
+    public function gravaHistorico($sNr) {
+        $sSql = "insert into MET_TEC_Historico(classe,data,filcgc,historico,hora,seq,usucodigo,usunome)"
+                . "values"
+                . "('CadCliRep','" . date('d/m/Y') . "','" . $_SESSION['filcgc'] . "','NÃO INSERIU JScript ECHO VAL NO CAMPO IBGE - " . $_SESSION['repofficedes'] . "','" . date('H:i:s') . "','" . $sNr . "','".$_SESSION['codUser']."','" . $_SESSION['nome'] . "')";
+        $this->executaSql($sSql);
     }
 
 }

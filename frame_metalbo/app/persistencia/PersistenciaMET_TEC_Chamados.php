@@ -14,10 +14,10 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->setTabela('MET_TEC_Chamados');
 
 
-        $this->adicionaRelacionamento('nr', 'nr', true, true, true);
         $this->adicionaRelacionamento('filcgc', 'filcgc', true, true);
+        $this->adicionaRelacionamento('nr', 'nr', true, true, true);
         $this->adicionaRelacionamento('usucod', 'usucod');
-        $this->adicionaRelacionamento('usunome ', 'usunome');
+        $this->adicionaRelacionamento('usunome', 'usunome');
         $this->adicionaRelacionamento('datacad', 'datacad');
         $this->adicionaRelacionamento('horacad', 'horacad');
         $this->adicionaRelacionamento('repoffice', 'repoffice');
@@ -37,9 +37,10 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->adicionaRelacionamento('anexo1', 'anexo1');
         $this->adicionaRelacionamento('anexo2', 'anexo2');
         $this->adicionaRelacionamento('anexo3', 'anexo3');
+        $this->adicionaRelacionamento('anexofinaliza', 'anexofinaliza');
 
 
-        
+        $this->setSTop(50);
         if ($_SESSION['codsetor'] != 2) {
             $this->adicionaFiltro('setor', $_SESSION['codsetor']);
         }
@@ -49,7 +50,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         if ($_SESSION['repoffice'] != '') {
             $this->adicionaFiltro('repoffice', $_SESSION['repofficedes']);
         }
-        $this->setSTop('50');
+        $this->adicionaOrderBy('nr', 1);
         $this->adicionaOrderBy('datacad', 1);
     }
 
@@ -63,9 +64,13 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $sSql = "select * from MET_TEC_Chamados where nr = '" . $aDados['nr'] . "' and filcgc = '" . $aDados['filcgc'] . "'";
         $oDados = $this->consultaSql($sSql);
 
-        $sSqlEmail = "select usuemail from tbusuario where usucodigo = " . $oDados->usucod;
-        $oConsulta = $this->consultaSql($sSqlEmail);
-        $oDados->email = $oConsulta->usuemail;
+        if ($oDados->repoffice == 'METALBOF') {
+            return false;
+        } else {
+            $sSqlEmail = "select usuemail from tbusuario where usucodigo = " . $oDados->usucod;
+            $oConsulta = $this->consultaSql($sSqlEmail);
+            $oDados->email = $oConsulta->usuemail;
+        }
 
         return $oDados;
     }
@@ -131,6 +136,74 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $aTotal['CANCELADO'] = $sTotalCanc;
 
         return $aTotal;
+    }
+
+    public function buscaDadosRep() {
+
+        $sSql = "select repoffice from  MET_TEC_Chamados where repoffice is not null  group by repoffice";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI] = $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+
+    public function buscaDadosSetores() {
+
+        $sSql = "select codsetor,descsetor from MetCad_Setores order by codsetor";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI] = $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+
+    public function buscaDadosUsuario() {
+
+        $sSql = "select usucod, usunome from MET_TEC_Chamados where usunome is not null  group by usucod, usunome";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI] = $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+
+    public function buscaDadosEmp() {
+
+        $sSql = "select filcgc, empdes from MET_TEC_Chamados "
+                . "left outer join widl.emp01 "
+                . "on MET_TEC_Chamados.filcgc = widl.emp01.empcod "
+                . "group by filcgc, empdes";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI] = $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+
+    public function buscaDadosSubTipo() {
+
+        $sSql = "select subtipo_nome from MET_TEC_Chamados where subtipo_nome is not null  group by subtipo_nome";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI] = $key;
+            $iI++;
+        }
+        return $aRow;
     }
 
 }

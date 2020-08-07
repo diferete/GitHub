@@ -1,46 +1,44 @@
 <?php
- /**
+
+/**
  * Classe responsável pelas operações de persistência do objeto
  * Login
  * 
  * @author Avanei Martendal
  * @since 18/09/2015
  */
-class PersistenciaMET_TEC_Login extends Persistencia{
+class PersistenciaMET_TEC_Login extends Persistencia {
+
     public function __construct() {
         parent::__construct();
-        
+
         $this->setTabela("");
-        $this->adicionaRelacionamento('logincodigo','logincodigo',true,true,true);
-        $this->adicionaRelacionamento('login','login');
-        $this->adicionaRelacionamento('loginsenha','loginsenha',false,true,false,CampoBanco::TIPO_SENHA);
-        $this->adicionaRelacionamento('loginbloqueado','loginbloqueado');
+        $this->adicionaRelacionamento('logincodigo', 'logincodigo', true, true, true);
+        $this->adicionaRelacionamento('login', 'login');
+        $this->adicionaRelacionamento('loginsenha', 'loginsenha', false, true, false, CampoBanco::TIPO_SENHA);
+        $this->adicionaRelacionamento('loginbloqueado', 'loginbloqueado');
         $this->adicionaRelacionamento('loginnome', 'loginnome');
-        
     }
-    
-    public function logarSistema(){
-        $sSql ="SELECT usucodigo,
-                        COUNT(*) as qtd,
-                        usubloqueado,
-                        usunome,usuimagem,usuemail,officecod,
-                        usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft
-                   FROM MET_TEC_usuario
-                  WHERE usulogin = '".$this->Model->getLogin()."' 
-                    AND ususenha='".sha1($this->Model->getLoginsenha())."' 
-                    group by usunome,usucodigo,usubloqueado,usuimagem,usuemail,
-                    officecod,usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft";
+
+    public function logarSistema() {
+        $sSql = "SELECT usucodigo,COUNT(*) as qtd,usubloqueado,usunome,usuimagem,usuemail,officecod,"
+                . "codsetor,usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft "
+                . "FROM MET_TEC_usuario "
+                . "WHERE usulogin = '" . $this->Model->getLogin() . "' "
+                . "AND ususenha='" . sha1($this->Model->getLoginsenha()) . "' "
+                . "group by usunome,usucodigo,usubloqueado,usuimagem,usuemail,codsetor,officecod,"
+                . "usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft";
 
         $result = $this->getObjetoSql($sSql);
-        
+
         $bReturn = false;
         $row = $result->fetch(PDO::FETCH_OBJ);
-        if($row->qtd > 0){           
+        if ($row->qtd > 0) {
             $this->Model->setLogincodigo($row->usucodigo);
             $this->Model->setLoginbloqueado($row->usubloqueado);
-            
+
             $this->Model->setLoginnome($row->usunome);
-            ($row->usuimagem==NULL)?$this->Model->setUsuimagem('usuario.jpg'):$this->Model->setUsuimagem($row->usuimagem);
+            ($row->usuimagem == NULL) ? $this->Model->setUsuimagem('usuario.jpg') : $this->Model->setUsuimagem($row->usuimagem);
             //($row->usuimagemperfil==NULL)?$this->Model->setUsuimagemPerfil('usuario.jpg'):$this->Model->setUsuimagemPerfil($row->usuimagemperfil);
             $this->Model->setUsuemail($row->usuemail);
             $this->Model->setOfficecod($row->officecod);
@@ -50,23 +48,24 @@ class PersistenciaMET_TEC_Login extends Persistencia{
             $this->Model->setUsubloqueado($row->usubloqueado);
             $this->Model->setSenhaProvisoria($row->senhaprovisoria);
             $this->Model->setUsunomeDelsoft($row->usunomedelsoft);
+            $this->Model->setCodsetor($row->codsetor);
             //insere registro de login
             $this->registraLogin();
             //se campo salva senha está como ok vai criar um cookie com a senha 
-            
-            $aRetorno[0]=true;
-            $aRetorno[1]='';
-       
-        
-        //busca diretório de relatórios e cotaçoes
-        $sCodOffice = $this->Model->getOfficecod();
-        if ($sCodOffice != null){
-            $sSql = 'select officedir,officecabsol,officecabsoliten,'
-                    . 'officecabcot,officecabcotiten,officedes,officesolrel,officecotrel ' 
-                    .'from tbrepoffice where officecod ='.$this->Model->getOfficecod();
-            $result = $this->getObjetoSql($sSql);
-            $row = $result->fetch(PDO::FETCH_OBJ);
-            
+
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+
+
+            //busca diretório de relatórios e cotaçoes
+            $sCodOffice = $this->Model->getOfficecod();
+            if ($sCodOffice != null) {
+                $sSql = 'select officedir,officecabsol,officecabsoliten,'
+                        . 'officecabcot,officecabcotiten,officedes,officesolrel,officecotrel '
+                        . 'from tbrepoffice where officecod =' . $this->Model->getOfficecod();
+                $result = $this->getObjetoSql($sSql);
+                $row = $result->fetch(PDO::FETCH_OBJ);
+
                 $this->Model->setDirrel($row->officedir);
                 $this->Model->setOfficecabsol($row->officecabsol);
                 $this->Model->setOfficecabsoliten($row->officecabsoliten);
@@ -75,76 +74,79 @@ class PersistenciaMET_TEC_Login extends Persistencia{
                 $this->Model->setOfficedes($row->officedes);
                 $this->Model->setOfficesolrel($row->officesolrel);
                 $this->Model->setOfficecotrel($row->officecotrel);
-        }
-        
-        //busca os representantes do usuário caso ele for do usutipo
-        $sUsutipo = $this->Model->getUsutipo();
-        if($sUsutipo =='1' || $sUsutipo=='2'){
-            $sSql = "select * from tbrepcodoffice where filcgc = '75483040000211' and officecod =".$this->Model->getOfficecod();
-            $result = $this->getObjetoSql($sSql);
-            
-            $sRep = "";
-            while($rowDb = $result->fetch(PDO::FETCH_OBJ)){
-             $sRep .="'".$rowDb->repcod."',";   
             }
-            
-            $sRep = substr($sRep,0,-1);
-            $this->Model->setRepcods($sRep);
+
+            //busca os representantes do usuário caso ele for do usutipo
+            $sUsutipo = $this->Model->getUsutipo();
+            if ($sUsutipo == '1' || $sUsutipo == '2') {
+                $sSql = "select * from tbrepcodoffice where filcgc = '75483040000211' and officecod =" . $this->Model->getOfficecod();
+                $result = $this->getObjetoSql($sSql);
+
+                $sRep = "";
+                while ($rowDb = $result->fetch(PDO::FETCH_OBJ)) {
+                    $sRep .= "'" . $rowDb->repcod . "',";
+                }
+
+                $sRep = substr($sRep, 0, -1);
+                $this->Model->setRepcods($sRep);
+            }
+            $_SESSION['repsoffice'] = $this->Model->getRepcods();
+            $_SESSION['grupoprod'] = '12,13';
+            $_SESSION['repofficedes'] = $this->Model->getOfficedes();
+
+            //se o campo para salvar a senha está marcado como true cria um cookie com a senha para ser recuperado, se nao deleta o cookie
+            if ($this->Model->getUsusalvasenha() == true) {
+                setcookie('pass', '' . $this->Model->getLoginsenha() . '');
+            } else {
+                setcookie('pass');
+            }
+
+
+            //verifica se a senha é provisória
+            $bProvPass = $this->Model->getSenhaProvisoria();
+            if ($bProvPass === 'true') {
+                $aRetorno[0] = TRUE;
+                $aRetorno[1] = 'Provisória';
+            }
+
+            //verifica se o usuário é bloqueado
+            $bBloq = $this->Model->getUsubloqueado();
+            if ($bBloq == 'TRUE') {
+                $aRetorno[0] = false;
+                $aRetorno[1] = 'Seu usuário está bloqueado! Contate o TI da Metalbo para o desbloqueio.';
+            }
+        } else {
+            $bRetorno = $this->gerenciaBloqUser();
+            if (!$bRetorno) {
+                $aRetorno[0] = false;
+                $aRetorno[1] = 'Usuário ou senha incorretos!';
+            } else {
+                $aRetorno[0] = false;
+                $aRetorno[1] = 'Seu usuário foi bloqueado por tentativas de LOGIN incorretas! Contate o TI da Metalbo para o desbloqueio.';
+            }
         }
-        $_SESSION['repsoffice'] = $this->Model->getRepcods();
-        $_SESSION['grupoprod'] ='12,13';
-        $_SESSION['repofficedes'] = $this->Model->getOfficedes();
-        
-        //se o campo para salvar a senha está marcado como true cria um cookie com a senha para ser recuperado, se nao deleta o cookie
-        if($this->Model->getUsusalvasenha() == true){
-            setcookie('pass', ''.$this->Model->getLoginsenha().'');
-        }else{
-            setcookie('pass');
-        }
-       
-       
-        //verifica se a senha é provisória
-        $bProvPass = $this->Model->getSenhaProvisoria();
-        if($bProvPass==='true'){
-            $aRetorno[0]=TRUE;
-            $aRetorno[1]='Provisória';  
-        }
-        
-        //verifica se o usuário é bloqueado
-        $bBloq = $this->Model->getUsubloqueado();
-        if($bBloq=='TRUE'){
-            $aRetorno[0]=false;
-            $aRetorno[1]='Usuário está bloqueado!';
-        }
-        
-     }else{
-            $aRetorno[0]=false;
-            $aRetorno[1]='Verifique usuário e senha!';
-     }
-        return $aRetorno; 
-        
+        return $aRetorno;
     }
-    
-    
-    public function validaLogin(){
+
+    public function validaLogin() {
         $sSql = "SELECT usucodigo,
                         COUNT(*) as qtd,
                         usubloqueado,
                         usunome, usuimagem
                 FROM MET_TEC_usuario
-                WHERE usulogin = '".$this->Model->getLogin()."' 
-                AND ususenha='".sha1($this->Model->getLoginsenha())."' 
+                WHERE usulogin = '" . $this->Model->getLogin() . "' 
+                AND ususenha='" . sha1($this->Model->getLoginsenha()) . "' 
                 group by usunome, usucodigo, usubloqueado, usuimagem";
 
         $result = $this->getObjetoSql($sSql);
-        
+
         $Retorno = false;
         $row = $result->fetch(PDO::FETCH_OBJ);
-        if($row->qtd > 0){
+        if ($row->qtd > 0) {
             $Retorno = true;
         }
     }
-    
+
     /**
      * Método que validará login, e retornará dados essenciais para aplicação
      * 
@@ -152,90 +154,129 @@ class PersistenciaMET_TEC_Login extends Persistencia{
      * @param type $senha
      * @return type
      */
-    public function validaMobLogin($login, $senha ){
-        
-        $sSql = "SELECT COUNT(*) as qtd, usucodigo, tbusuario.codsetor, descsetor, usubloqueado, usunome, ususobrenome, usufone, usuimagem, usulogin "
-                ."FROM tbusuario left outer join MetCad_Setores on  MetCad_Setores.codsetor = tbusuario.codsetor "
-                ."WHERE usulogin = '".$login."' and ususenha = '".  sha1($senha)."' and usubloqueado = 'FALSE' "
-                ."group by usunome, ususobrenome, usufone, usucodigo, usubloqueado, usuimagem,  tbusuario.codsetor, descsetor, usulogin;";
-        
+    public function validaMobLogin($login, $senha) {
+
+        $sSql = "SELECT COUNT(*) as qtd, usucodigo, MET_TEC_usuario.codsetor, descsetor, usubloqueado, usunome, ususobrenome, usufone, usuimagem, usulogin "
+                . "FROM MET_TEC_usuario left outer join MET_CAD_setores on  MET_CAD_setores.codsetor = MET_TEC_usuario.codsetor  "
+                . "WHERE usulogin = '" . $login . "' and ususenha = '" . sha1($senha) . "' and usubloqueado = 'FALSE' "
+                . "group by usunome, ususobrenome, usufone, usucodigo, usubloqueado, usuimagem,  MET_TEC_usuario.codsetor, descsetor, usulogin;";
+
 
         $result = $this->getObjetoSql($sSql);
         $row = $result->fetch(PDO::FETCH_OBJ);
-        
-        if($row->qtd > 0){
+
+        if ($row->qtd > 0) {
             $Retorno['LOGIN'] = true;
             $Retorno['DADOS'] = $row;
-        }  else {
-            $Retorno['LOGIN'] = false;// Retorna se true ou false
+        } else {
+            $Retorno['LOGIN'] = false; // Retorna se true ou false
             $Retorno['SUCESSO'] = true;
         }
-        
+
         return $Retorno;
     }
-    
-    
-    
+
     /**
      * Método responsável por verificar token do usuário
      * @param type $usuCodigo
      * @param type $usuToken
      * @return boolean
      */
-    public function validaToken($usuCodigo, $usuToken){
-        $sql = "select count(*) as qtd, usutoken from MET_TEC_usuario where usucodigo = ".$usuCodigo." and usutoken = '".$usuToken."' group by usutoken";
-        
+    public function validaToken($usuCodigo, $usuToken) {
+        $sql = "select count(*) as qtd, usutoken from MET_TEC_usuario where usucodigo = " . $usuCodigo . " and usutoken = '" . $usuToken . "' group by usutoken";
+
         $result = $this->getObjetoSql($sql);
         $row = $result->fetch(PDO::FETCH_OBJ);
-        
-        if($row->qtd > 0){
+
+        if ($row->qtd > 0) {
             $Retorno['VALIDO'] = true;
         } else {
             $Retorno['VALIDO'] = false;
         }
-        
+
         return $Retorno;
     }
+
     /**
      * Método responsável por atualizar token do usuário ao fazer login
      * 
      * @param int $codigo
      * @return boolean
      */
-    public function atualizaToken($codigo){
+    public function atualizaToken($codigo) {
         $token = Base::geraToken(25);
-        $sql = "update tbusuario set usutoken = '". $token ."' where usucodigo = ". $codigo;
+        $sql = "update MET_TEC_usuario set usutoken = '" . $token . "' where usucodigo = " . $codigo;
         $retorno = $this->executaSql($sql);
-        
-        if($retorno[0]){
+
+        if ($retorno[0]) {
             $aRetorno = array('SUCESSO' => TRUE,
-                              'TOKEN' => $token
-                        );
-        }else{
+                'TOKEN' => $token
+            );
+        } else {
             $aRetorno = array('SUCESSO' => FALSE,
-                              'TOKEN' => NULL
-                        );
+                'TOKEN' => NULL
+            );
         }
-        
+
         return $aRetorno;
     }
-    
-  /**
-   * Método para inserir os dados da conexão
-   */  
-  public function registraLogin(){
-      $sDelete = "delete MET_TEC_sessao 
-            where usucodigo = '".$this->Model->getLogincodigo()."'";
-            $this->executaSql($sDelete);
-      date_default_timezone_set('America/Sao_Paulo');
-      $sSql = "insert into MET_TEC_sessao(usucodigo,usunome,usuidsessao,usustatus,usudata,usuhora,usulastacesso)
-      values(".$this->Model->getLogincodigo().",'".$this->Model->getLoginnome()."','".session_id()."','Ativo','". date('d/m/Y')."','". date('Y-n-j H:i:s')."','". date('Y-n-j H:i:s')."');";
-      $aRetorno = $this->executaSql($sSql);
-      
-  }
-    
-    
+
+    /**
+     * Método para inserir os dados da conexão
+     */
+    public function registraLogin() {
+        $sDelete = "delete MET_TEC_sessao 
+            where usucodigo = '" . $this->Model->getLogincodigo() . "'";
+        $this->executaSql($sDelete);
+        date_default_timezone_set('America/Sao_Paulo');
+        $sSql = "insert into MET_TEC_sessao(usucodigo,usunome,usuidsessao,usustatus,usudata,usuhora,usulastacesso)
+      values(" . $this->Model->getLogincodigo() . ",'" . $this->Model->getLoginnome() . "','" . session_id() . "','Ativo','" . date('d/m/Y') . "','" . date('Y-n-j H:i:s') . "','" . date('Y-n-j H:i:s') . "');";
+        $aRetorno = $this->executaSql($sSql);
+    }
+
+    public function buscaDadosUser($sDados) {
+        $sSql = 'select descsetor from MET_CAD_Setores where codsetor = ' . $sDados;
+
+        $oRetorno = $this->consultaSql($sSql);
+        return $oRetorno;
+    }
+
+    /*
+
+     * Verifica e altera campo tag_bloq 
+     * Conforme quantidade de tentativas erradas de login, podendo bloquear o usuário caso ultrapasse 3 erros
+     */
+
+    public function gerenciaBloqUser() {
+        $sSqlSelect = "select * from MET_TEC_usuario "
+                . "WHERE usulogin = '" . $this->Model->getLogin() . "'";
+        $oObjUser = $this->consultaSql($sSqlSelect);
+        if ($oObjUser->tag_bloq < 3) {
+            $sSqlUpdt = "update MET_TEC_usuario set tag_bloq = (select tag_bloq from MET_TEC_usuario where usucodigo = " . $oObjUser->usucodigo . ") +1 where usucodigo = " . $oObjUser->usucodigo . "";
+            $bBloq = false;
+        } else {
+            $sSqlUpdt = "update MET_TEC_usuario set usubloqueado = 'TRUE' where usucodigo = " . $oObjUser->usucodigo . "";
+            $bBloq = true;
+        }
+        $debug = $this->executaSql($sSqlUpdt);
+        return $bBloq;
+    }
+
+    /*
+     * Reseta o campo tag_block para o valor 0
+     * Resetando a quantidade de possibilidades de senha errada para 3
+     */
+
+    public function limpaTag_Bloq() {
+        $sSqlSelect = "select * from MET_TEC_usuario "
+                . "WHERE usulogin = '" . $this->Model->getLogin() . "'";
+        $oObjUser = $this->consultaSql($sSqlSelect);
+        $sSqlUpdt = "update MET_TEC_usuario set tag_bloq = 0 where usucodigo = " . $oObjUser->usucodigo . "";
+        $this->executaSql($sSqlUpdt);
+    }
+
 }
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

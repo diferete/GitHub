@@ -18,6 +18,8 @@ class ViewMET_QUAL_Rnc extends View {
 
         $this->setUsaDropdown(true);
         $this->setUsaAcaoVisualizar(true);
+        $this->getTela()->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
         $oNr = new CampoConsulta('Nr', 'nr');
         $oNome = new CampoConsulta('Usuário', 'userini');
@@ -28,6 +30,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oEmpDes = new CampoConsulta('Empresa', 'Pessoa.empdes');
         $oCodProd = new CampoConsulta('Cód.Prod.', 'codprod');
         $oDescprod = new CampoConsulta('Descrição', 'descprod');
+        $oUserCausa = new CampoConsulta('Causadores', 'usercausa');
 
 
         $oSit = new CampoConsulta('Situação', 'sit');
@@ -46,11 +49,12 @@ class ViewMET_QUAL_Rnc extends View {
         $oFilCnpj = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oFiltroDescP = new Filtro($oDescprod, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oFilCodProd = new Filtro($oCodProd, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilCausadores = new Filtro($oUserCausa, Filtro::CAMPO_TEXTO,2,2,12,12,false);
 
 
-        $this->addFiltro($oFiltroNr, $oFilCnpj, $oFilCodProd, $oFiltroDescP);
+        $this->addFiltro($oFiltroNr, $oFilCnpj, $oFilCodProd, $oFiltroDescP,$oFilCausadores);
         $this->addDropdown($oDrop1, $oDrop2);
-        $this->addCampos($oNr, $oFilcgc, $oEmpDes, $oNome, $otipornc, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod);
+        $this->addCampos($oNr, $oFilcgc, $oEmpDes, $oNome, $otipornc, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod, $oUserCausa);
     }
 
     public function criaTela() {
@@ -73,9 +77,8 @@ class ViewMET_QUAL_Rnc extends View {
         $oUsunome->setSValor($_SESSION['nome']);
         $oUsunome->setBCampoBloqueado(true);
 
-        $ocodsetor = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $ocodsetor = new Campo('Setor Detectou', 'setor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $ocodsetor->setApenasTela(true);
-        $ocodsetor->setBOculto(true);
 
         $odescset01 = new Campo('Setor Detectou ', 'descset01', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $odescset01->setSIdPk($ocodsetor->getId());
@@ -86,11 +89,12 @@ class ViewMET_QUAL_Rnc extends View {
         $ocodsetor->setClasseBusca('Setor');
         $ocodsetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $ocodsetor->addCampoBusca('descsetor', $odescset01->getId(), $this->getTela()->getId());
+        $odescset01->setBCampoBloqueado(true);
         //busca por funcionario 
 
         $oCodUsuario = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oCodUsuario->setApenasTela(true);
-        $oCodUsuario->setBOculto(true);
+        //  $oCodUsuario->setBOculto(true);
 
         $oPessoa = new Campo('Usuário que Detectou ', 'lidercausa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12); //lidecausa
         $oPessoa->setSIdPk($oCodUsuario->getId());
@@ -98,6 +102,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oPessoa->addCampoBusca('numcad', '', '');
         $oPessoa->addCampoBusca('nomfun', '', '');
         $oPessoa->setSIdTela($this->getTela()->getid());
+        $oPessoa->setBCampoBloqueado(true);
 
         $oCodUsuario->setClasseBusca('MET_CAD_Funcionarios');
         $oCodUsuario->setSCampoRetorno('numcad', $this->getTela()->getId());
@@ -360,6 +365,7 @@ class ViewMET_QUAL_Rnc extends View {
         parent::criaTelaRelatorio();
 
         $this->setTituloTela('Relatório Geral de Não Conformidade');
+        $oField1 = new FieldSet('Relatório Geral');
         $this->setBTela(true);
 
         //campo código do produto
@@ -406,7 +412,32 @@ class ViewMET_QUAL_Rnc extends View {
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $this->addCampos(array($oCodProd, $oProdDes), $oLinha1, array($oCodTip, $oTipo, $oSit), $oLinha1, array($oDatainicial, $oDatafinal));
+        $oField = new FieldSet('Relatório Funcionários Causadores da RNC');
+        $oField->setOculto(true);
+
+        $oUsercausa = new Campo('...', 'numcad', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oUsercausa->setApenasTela(true);
+        $oUsercausa->setBOculto(true);
+
+        $oPessoacausa = new Campo('Quem causou', 'nomfun', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oPessoacausa->setSIdPk($oUsercausa->getId());
+        $oPessoacausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oPessoacausa->addCampoBusca('numcad', '', '');
+        $oPessoacausa->addCampoBusca('nomfun', '', '');
+        $oPessoacausa->setSIdTela($this->getTela()->getid());
+        $oPessoacausa->setApenasTela(true);
+        $oPessoacausa->addValidacao(true, string, '', 10, 200);
+
+        $oUsercausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsercausa->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oUsercausa->addCampoBusca('nomfun', $oPessoacausa->getId(), $this->getTela()->getId());
+
+        $sCheck = new campo('Aplicar', 'func', Campo::TIPO_CHECK, 3, 3, 12, 12);
+
+        $oField1->addCampos($oLinha1, array($oCodProd, $oProdDes), $oLinha1, array($oCodTip, $oTipo, $oSit));
+        $oField->addCampos($oLinha1, $oUsercausa, $oPessoacausa, $sCheck);
+
+        $this->addCampos($oField1, $oLinha1, $oField, $oLinha1, array($oDatainicial, $oDatafinal));
     }
 
 }

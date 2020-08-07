@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="https://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports https://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioCustosDetalhado" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="81de4f70-dc6d-4ca4-af5c-d4d1ccd585ce">
+	<property name="ireport.zoom" value="1.1000000000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select tbnfiten.nfnr,prodes,pesnome,(nfun * nfqt) as total_itens, grudes from tbnfiten
+left outer join tbnf on tbnfiten.nfnr = tbnf.nfnr
+left outer join tbproduto on  tbproduto.procod = tbnfiten.procod
+left outer join tbunidade on tbunidade.uncod = tbproduto.uncod
+left outer join tbpessoa on tbnf.pescodigo = tbpessoa.pescodigo
+left outer join tbgrupo on tbgrupo.grucod = tbproduto.grucod
+order by grudes,pesnome]]>
+	</queryString>
+	<field name="nfnr" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prodes" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pesnome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_itens" class="java.math.BigDecimal"/>
+	<field name="grudes" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total_itens_1" class="java.math.BigDecimal" resetType="Group" resetGroup="GruProd" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_itens}]]></variableExpression>
+	</variable>
+	<group name="GruProd">
+		<groupExpression><![CDATA[$F{grudes}]]></groupExpression>
+		<groupHeader>
+			<band height="42">
+				<textField>
+					<reportElement x="0" y="0" width="167" height="20" uuid="89cb40c6-891f-4a05-a950-7332f3a83269"/>
+					<textElement>
+						<font size="12" isBold="true" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{grudes}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="305" y="20" width="167" height="20" uuid="1f2c4c62-3bd1-4548-a9f2-21698b854b1c"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[PRODUTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="486" y="20" width="74" height="20" uuid="149e0d41-e9d3-46bc-b019-ecc46302f916"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[VALOR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="20" width="56" height="20" uuid="873341ad-2964-46c3-bfdc-7f6471299b67"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[NF]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="76" y="20" width="201" height="20" uuid="197c5862-016a-4a86-99c3-1e09d4408b1a"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[FORNECEDOR]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="40" width="555" height="1" uuid="8394d227-495a-40ec-b7eb-3bca8c5aab02"/>
+				</line>
+				<line>
+					<reportElement x="0" y="20" width="555" height="1" uuid="4899facf-6f60-4880-be3c-c6b19f1a3ebc"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="23">
+				<line>
+					<reportElement x="0" y="0" width="555" height="1" uuid="4249c4f5-07c5-4027-a405-7cc380766551"/>
+				</line>
+				<textField pattern="¤ #,##0.00">
+					<reportElement x="455" y="1" width="100" height="20" uuid="fbd6b091-fbbc-488a-9d61-c6f9364c0f00"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{total_itens_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="418" y="1" width="37" height="20" uuid="40b88eaa-ff2e-4aee-a620-5d3258e228c0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL:]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="4" width="555" height="37" uuid="e4baeca4-a985-43cf-954e-45933258d7fd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO DETALHADO DE CUSTOS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="10" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="8" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="305" y="0" width="167" height="20" uuid="192124c8-c87d-4ef1-b803-2d3989d6b79e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{prodes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤ #,##0.00">
+				<reportElement x="486" y="0" width="74" height="20" uuid="5c98efc4-bee6-4e82-b00a-f3d322c07012"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_itens}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="56" height="20" uuid="e9716b59-8ae3-4a70-8a4e-99c20a262e39"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nfnr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="0" width="201" height="20" uuid="93d25ba5-90d1-44e1-ad5f-fe6f8b60dcdf"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pesnome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

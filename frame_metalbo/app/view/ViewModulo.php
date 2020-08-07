@@ -14,8 +14,8 @@ class ViewModulo extends View {
 
 
 
-        $oDrop3 = new Dropdown('Teste', Dropdown::TIPO_DARK, Dropdown::TIPO_PADRAO, 2, 2, 12, 12);
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Teste', 'Modulo', 'teste', '', false, '', false, '', false, '', false, true);
+        $oDrop3 = new Dropdown('Teste', Dropdown::TIPO_DARK);
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'XML', 'MET_FIN_VisualizaNFE', 'enviaXmlAutomatizado', '', false, '', false, '', false, '', false, true);
 
 
         $this->setaTiluloConsulta('Pesquisa de Módulos do Sistema');
@@ -27,7 +27,7 @@ class ViewModulo extends View {
 
 
 
-        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4);
         $this->addFiltro($oModuloF);
         $this->addDropdown($oDrop3);
         $this->addCampos($oCodigo, $oModulo);
@@ -35,10 +35,7 @@ class ViewModulo extends View {
 
     function criaTela() {
         parent::criaTela();
-
-
-        $this->setBGravaHistoricoExcluir(true);
-        $this->setBGravaHistoricoAlterar(true);
+		
 
         $oTeste = new Campo('Cad. User', 'teste', Campo::TIPO_BOTAO_MOSTRACONSULTA, 1, 1, 12, 12);
         $oTeste->setApenasTela(true);
@@ -51,7 +48,7 @@ class ViewModulo extends View {
         $oModDescricao = new Campo('Descrição', 'modescricao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oModDescricao->addValidacao(false, Validacao::TIPO_STRING, '', '2', '15');
 
-        $this->addCampos(array($oModCod, $oModDescricao));
+        $this->addCampos(array($oModCod, $oModDescricao), $oTeste);
     }
 
 }

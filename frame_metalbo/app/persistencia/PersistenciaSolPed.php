@@ -48,7 +48,7 @@ class PersistenciaSolPed extends Persistencia {
         $this->adicionaRelacionamento('userins', 'userins');
 
 
-        $this->setSTop('200');
+        $this->setSTop('100');
         $this->adicionaOrderBy('nr', 1);
     }
 
@@ -147,4 +147,13 @@ class PersistenciaSolPed extends Persistencia {
         $this->executaSql($sSql);
     }
 
+    public function verificaCamposTela(){
+        
+        
+        $teste = 0;
+        $a = $teste;
+        return true;
+    }
+    
+    
 }

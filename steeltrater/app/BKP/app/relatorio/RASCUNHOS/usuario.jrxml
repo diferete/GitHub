@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="https://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports https://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="596" pageHeight="596" columnWidth="556" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="578900e3-0c5e-4102-8e31-dc6c573ab805">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="nomeEmpresa" class="java.lang.String"/>
+	<parameter name="filtro1" class="java.lang.String"/>
+	<parameter name="filtroSql" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select usucodigo,
+       usunome,
+       usulogin,
+       case when usutipo = 1 then
+        'Administrador'
+       else
+        'Normal'
+       end as usutipo
+from tbusuario]]>
+	</queryString>
+	<field name="usucodigo" class="java.lang.Short"/>
+	<field name="usunome" class="java.lang.String"/>
+	<field name="usulogin" class="java.lang.String"/>
+	<field name="usutipo" class="java.lang.String"/>
+	<sortField name="usucodigo"/>
+	<variable name="total" class="java.lang.Integer" calculation="Sum"/>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement x="58" y="81" width="202" height="20" uuid="fc9db07d-6f26-45d8-819c-b548a740c9a2"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="2" width="554" height="20" uuid="c7fb7706-29da-4d69-86c4-0bf4707e91ac"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="23" width="554" height="20" uuid="fdd791b2-9ba7-4b25-ab2e-f35761dc8c3e"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Relatório de Usuários"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="43" width="554" height="20" uuid="beea8ebe-4158-4777-826d-e58c46113a92"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{filtro1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="261" y="80" width="211" height="20" uuid="f9b3eb84-4947-4a2b-b9b6-d94264e3c01f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Login]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="102" width="552" height="1" uuid="33ae2193-39a1-44a4-b398-8fabb5126197"/>
+			</line>
+			<staticText>
+				<reportElement x="3" y="81" width="55" height="20" uuid="fc9db07d-6f26-45d8-819c-b548a740c9a2"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cód.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="80" width="81" height="20" uuid="f9b3eb84-4947-4a2b-b9b6-d94264e3c01f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="3" y="2" width="55" height="20" uuid="48e02662-6334-497f-ad80-520cf74e2d96"/>
+				<textFieldExpression><![CDATA[$F{usucodigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="2" width="204" height="20" uuid="35074ff7-0d2e-43f5-ab9d-a59cf9ff391f"/>
+				<textFieldExpression><![CDATA[$F{usunome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="2" width="210" height="20" uuid="d7456028-97dc-4e47-948e-9d1243a265d7"/>
+				<textFieldExpression><![CDATA[$F{usulogin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="472" y="0" width="81" height="20" uuid="5f9ac2c2-d1c7-47d6-b148-dc33b4f5802e"/>
+				<textFieldExpression><![CDATA[$F{usutipo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="26">
+			<line>
+				<reportElement x="1" y="4" width="554" height="1" uuid="6480f988-9b0f-43cf-98ce-083878cc2e3c"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="5" width="115" height="20" uuid="c406c954-0ea0-478b-95bc-6a756b15d144"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Rex Máquinas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="5" width="117" height="20" uuid="d9f9f9dc-bc78-4042-ad7e-892e796af9a7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[www.rexmaquinas.com.br]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

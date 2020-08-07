@@ -771,7 +771,7 @@ class Persistencia {
      * 
      * Caso não sejam informados os campos de origem e destino será feito um comparativo entre as
      * tabelas a partir dos campos chave da tabela principal
-     * $sEnd coloca uma string para fazer clausulas nas ligaçoes
+     * @param string $sEnd coloca uma string para fazer clausulas nas ligaçoes 
      */
     public function adicionaJoin($sClasse, $sAlias = null, $iTipo = self::LEFT_JOIN, $xCampoOrigem = null, $xCampoDestino = null, $sEnd = null) {
         $this->aListaJoin[] = array('classe' => $sClasse,
@@ -1821,7 +1821,7 @@ class Persistencia {
                     //se o campo atual for autoincremento busca o valor para gravação
                     if ($oCampoBanco->getAutoIncremento()) {
                         $sValor = $this->getIncremento($oCampoBanco->getNomeBanco());
-                        Controller::setValorModel($this->Model, $oCampoBanco->getNomeModel(), $sValor,$aCamposTela);
+                        Controller::setValorModel($this->Model, $oCampoBanco->getNomeModel(), $sValor, null);
                     } else {
                         $sValor = Controller::getValorModel($this->Model, $oCampoBanco->getNomeModel());
                     }
@@ -2201,7 +2201,7 @@ class Persistencia {
     public function afterInsert($aCampos) {
         
     }
-    
+
     /**
      * arruma valores para salvar no banco
      */

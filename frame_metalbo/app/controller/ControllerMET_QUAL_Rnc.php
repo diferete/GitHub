@@ -40,11 +40,7 @@ class ControllerMET_QUAL_Rnc extends Controller {
 
         echo $script;
     }
-    
-    
-    
-    
-    
+
     public function acaoMostraRelEspecifico($renderTo, $sMetodo = '') {
         parent::acaoMostraRelEspecifico($renderTo, $sMetodo);
 

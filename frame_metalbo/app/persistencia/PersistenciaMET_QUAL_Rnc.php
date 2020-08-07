@@ -12,8 +12,9 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
         parent::__construct();
         $this->setTabela('MET_QUAL_Rnc');
 
-        $this->adicionaRelacionamento('nr', 'nr', true, true, true);
         $this->adicionaRelacionamento('filcgc', 'filcgc', true, true);
+        $this->adicionaRelacionamento('nr', 'nr', true, true, true);
+        $this->adicionaRelacionamento('filcgc', 'Pessoa.empcod', false, false, false);
         $this->adicionaRelacionamento('codprobl', 'codprobl');
         $this->adicionaRelacionamento('codprobl', 'MET_QUAL_Prob_Rnc.codprobl', false, false, false);
         $this->adicionaRelacionamento('databert', 'databert');
@@ -48,15 +49,12 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
         $this->adicionaRelacionamento('anexo3', 'anexo3');
         $this->adicionaRelacionamento('anexo4', 'anexo4');
         $this->adicionaRelacionamento('descprod','descprod');
-   
 
-        
-        $this->adicionaRelacionamento('filcgc', 'Pessoa.empcod', false, false);
-        $this->adicionaRelacionamento('empdes', 'empdes', false, false);
+         $this->adicionaRelacionamento('empdes', 'empdes', false, false);
          $this->adicionaJoin('MET_QUAL_Prob_Rnc');  
          $this->adicionaJoin('Pessoa', null, 1, 'filcgc', 'empcod');
 
- 
+         $this->setSTop(25);
         
         $this->adicionaOrderBy('nr',1);
     }

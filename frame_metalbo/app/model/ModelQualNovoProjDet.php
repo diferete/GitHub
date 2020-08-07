@@ -1,12 +1,13 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-class ModelQualNovoProjDet{
+class ModelQualNovoProjDet {
+
     private $EmpRex;
     private $nr;
     private $desenho_prev;
@@ -27,13 +28,20 @@ class ModelQualNovoProjDet{
     private $relFerrConf_prev;
     private $relFerrConf_ter;
     private $relFerrConf_resp;
-    
     private $ferrElaboradas;
     private $desenAcordo;
     private $respAnaliseCri;
+    private $dtanalisecritica;
     private $comenCrit;
-    
-    
+
+    function getDtanalisecritica() {
+        return $this->dtanalisecritica;
+    }
+
+    function setDtanalisecritica($dtanalisecritica) {
+        $this->dtanalisecritica = $dtanalisecritica;
+    }
+
     function getFerrElaboradas() {
         return $this->ferrElaboradas;
     }
@@ -58,7 +66,6 @@ class ModelQualNovoProjDet{
         $this->respAnaliseCri = $respAnaliseCri;
     }
 
-        
     function getComenCrit() {
         return $this->comenCrit;
     }
@@ -67,7 +74,6 @@ class ModelQualNovoProjDet{
         $this->comenCrit = $comenCrit;
     }
 
-        
     function getRelFerrConf_prev() {
         return $this->relFerrConf_prev;
     }
@@ -92,7 +98,6 @@ class ModelQualNovoProjDet{
         $this->relFerrConf_resp = $relFerrConf_resp;
     }
 
-        
     function getRelFerrDist_prev() {
         return $this->relFerrDist_prev;
     }
@@ -117,7 +122,6 @@ class ModelQualNovoProjDet{
         $this->relFerrDist_resp = $relFerrDist_resp;
     }
 
-        
     function getRelFerrDesen_prev() {
         return $this->relFerrDesen_prev;
     }
@@ -142,7 +146,6 @@ class ModelQualNovoProjDet{
         $this->relFerrDesen_resp = $relFerrDesen_resp;
     }
 
-        
     function getRelFerr_ter() {
         return $this->relFerr_ter;
     }
@@ -151,12 +154,9 @@ class ModelQualNovoProjDet{
         $this->relFerr_ter = $relFerr_ter;
     }
 
-        
     function getRelFerr_prev() {
         return $this->relFerr_prev;
     }
-
-   
 
     function getRelFerr_resp() {
         return $this->relFerr_resp;
@@ -166,50 +166,47 @@ class ModelQualNovoProjDet{
         $this->relFerr_prev = $relFerr_prev;
     }
 
-   
-
     function setRelFerr_resp($relFerr_resp) {
         $this->relFerr_resp = $relFerr_resp;
     }
 
     function getEtapasfab_prev() {
-         return $this->etapasfab_prev;
-     }
+        return $this->etapasfab_prev;
+    }
 
-     function getEtapasfab_ter() {
-         return $this->etapasfab_ter;
-     }
+    function getEtapasfab_ter() {
+        return $this->etapasfab_ter;
+    }
 
-     function getEtapas_resp() {
-         return $this->etapas_resp;
-     }
+    function getEtapas_resp() {
+        return $this->etapas_resp;
+    }
 
-     function setEtapasfab_prev($etapasfab_prev) {
-         $this->etapasfab_prev = $etapasfab_prev;
-     }
+    function setEtapasfab_prev($etapasfab_prev) {
+        $this->etapasfab_prev = $etapasfab_prev;
+    }
 
-     function setEtapasfab_ter($etapasfab_ter) {
-         $this->etapasfab_ter = $etapasfab_ter;
-     }
+    function setEtapasfab_ter($etapasfab_ter) {
+        $this->etapasfab_ter = $etapasfab_ter;
+    }
 
-     function setEtapas_resp($etapas_resp) {
-         $this->etapas_resp = $etapas_resp;
-     }
+    function setEtapas_resp($etapas_resp) {
+        $this->etapas_resp = $etapas_resp;
+    }
 
-         
     function getEmpRex() {
-        if(!isset($this->EmpRex)){
+        if (!isset($this->EmpRex)) {
             $this->EmpRex = Fabrica::FabricarModel('EmpRex');
         }
-        
+
         return $this->EmpRex;
     }
-    
+
     function setEmpRex($EmpRex) {
         $this->EmpRex = $EmpRex;
     }
 
-        function getDesenho_prev() {
+    function getDesenho_prev() {
         return $this->desenho_prev;
     }
 
@@ -233,18 +230,12 @@ class ModelQualNovoProjDet{
         $this->desenho_resp = $desenho_resp;
     }
 
-        
-    
-
     function getNr() {
         return $this->nr;
     }
 
-    
-
     function setNr($nr) {
         $this->nr = $nr;
     }
-
 
 }

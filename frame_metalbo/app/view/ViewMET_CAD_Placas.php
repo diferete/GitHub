@@ -31,9 +31,9 @@ class ViewMET_CAD_Placas extends View {
 
         $oColab = new CampoConsulta('Colaborador', 'nome', CampoConsulta::TIPO_TEXTO);
 
-        $oFiltroEmpdes = new Filtro($oEmpdes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
-        $oFiltroPlaca = new Filtro($oPlaca, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oFiltroNome = new Filtro($oColab, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFiltroEmpdes = new Filtro($oEmpdes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
+        $oFiltroPlaca = new Filtro($oPlaca, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFiltroNome = new Filtro($oColab, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
         $this->addFiltro($oFiltroEmpdes, $oFiltroPlaca, $oFiltroNome);
         $this->addCampos($oFilcgc, $oPlaca, $oEmpCod, $oEmpdes, $oColab);

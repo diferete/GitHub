@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="https://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports https://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ApuraHorasMes" language="groovy" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ff32452c-53cf-4f29-b968-7cdd369734ff">
+	<property name="ireport.zoom" value="1.4641000000000037"/>
+	<property name="ireport.x" value="155"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="filtroSql" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT tbfunhoras.funcod,funnome,funcao, funvlrhora,funsit, horames.horasmes,fundata,funhoraini, funhoraalm, funhoratarde, funhorafinal, funint,  SEC_TO_TIME(SUM(TIME_TO_SEC(funausen))) AS total_ausencia, SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(funhorafinal, funhoratarde))
++ TIME_TO_SEC(TIMEDIFF(funhoraalm, funhoraini))) - SUM(TIME_TO_SEC(funint + funausen))) AS total_horas_trabalhadas, SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(funhorafinal, funhoratarde))
++ TIME_TO_SEC(TIMEDIFF(funhoraalm, funhoraini))) - SUM(TIME_TO_SEC(funausen))) AS total_horas_DME,
+
+(SUM(TIME_TO_SEC(TIMEDIFF(funhorafinal, funhoratarde))
++ TIME_TO_SEC(TIMEDIFF(funhoraalm, funhoraini))) - SUM(TIME_TO_SEC(funint + funausen)))/3600*(funvlrhora) AS vlr_pago_geraldo,
+
+(SUM(TIME_TO_SEC(TIMEDIFF(funhorafinal, funhoratarde))
++ TIME_TO_SEC(TIMEDIFF(funhoraalm, funhoraini))) - SUM(TIME_TO_SEC(funausen)))/3600*(funvlrhora) AS vlr_pago_dme
+
+FROM tbfunhoras
+LEFT OUTER JOIN tbfun ON tbfunhoras.funcod = tbfun.funcod
+LEFT OUTER JOIN horames ON tbfunhoras.funcod = horames.funcod
+$P{filtroSql}]]>
+	</queryString>
+	<field name="funcod" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funnome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funcao" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funvlrhora" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funsit" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="horasmes" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fundata" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funhoraini" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funhoraalm" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funhoratarde" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funhorafinal" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="funint" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="total_ausencia" class="java.sql.Time"/>
+	<field name="total_horas_trabalhadas" class="java.sql.Time"/>
+	<field name="total_horas_DME" class="java.sql.Time"/>
+	<field name="vlr_pago_geraldo" class="java.math.BigDecimal"/>
+	<field name="vlr_pago_dme" class="java.math.BigDecimal"/>
+	<variable name="vlr_pago_geraldo_1" class="java.math.BigDecimal" resetType="Group" resetGroup="cod" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_pago_geraldo}]]></variableExpression>
+	</variable>
+	<variable name="vlr_pago_geraldo_2" class="java.math.BigDecimal" resetType="Group" resetGroup="cod" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_pago_geraldo}]]></variableExpression>
+	</variable>
+	<variable name="total_horas_trabalhadas_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{total_horas_trabalhadas}]]></variableExpression>
+	</variable>
+	<variable name="vlr_pago_geraldo_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_pago_geraldo}]]></variableExpression>
+	</variable>
+	<variable name="vlr_pago_geraldo_4" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_pago_geraldo}]]></variableExpression>
+	</variable>
+	<variable name="vlr_pago_geraldo_5" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_pago_geraldo}]]></variableExpression>
+	</variable>
+	<variable name="vlr_pago_geraldo_6" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_pago_geraldo}]]></variableExpression>
+	</variable>
+	<group name="cod">
+		<groupExpression><![CDATA[$F{funcod}]]></groupExpression>
+		<groupHeader>
+			<band height="29">
+				<line>
+					<reportElement x="0" y="16" width="572" height="1" uuid="15880d14-87f3-41cb-988a-d7cb2583eec0"/>
+				</line>
+				<staticText>
+					<reportElement x="0" y="16" width="59" height="12" uuid="327cf0ec-1664-464c-b47f-1bc8334270c3"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Data]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="69" y="17" width="59" height="12" uuid="8d977246-4a51-48f4-a66e-817446409fce"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["Ini. Manhã"]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="220" y="17" width="59" height="12" uuid="e00398ce-267d-4180-bd77-8ee036c0d25d"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["Ini. Tarde"]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="127" y="17" width="59" height="12" uuid="e5423889-7862-4a1c-9cd4-b5490262ea96"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["Fim Manhã"]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="278" y="17" width="59" height="12" uuid="094d97b8-844a-4d7c-a1fb-47c7705553eb"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["Fim Tarde"]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="0" width="199" height="15" uuid="3044250c-d9f1-4e4a-9715-4650dadec181"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{funnome}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="0" y="28" width="572" height="1" uuid="b957c2da-4a87-4b12-959c-5a5a129c6110"/>
+				</line>
+				<staticText>
+					<reportElement x="448" y="16" width="48" height="12" uuid="76d8b8fa-3c90-40c5-b95a-bbabeedffccb"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["Horas"]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="449" y="0" width="74" height="13" uuid="70600389-5a59-4a98-a7d5-a136c372a50e"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["VALOR HORA:"]]></text>
+				</staticText>
+				<textField pattern="#,##0.00;(#,##0.00)">
+					<reportElement x="522" y="0" width="50" height="13" uuid="d0da4605-a0e7-4534-8f8d-b6d12667df76"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{funvlrhora}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="328" y="0" width="90" height="13" uuid="7684b1f9-63db-4dee-9f3e-a1c74a091b49"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{funcao}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="281" y="0" width="47" height="13" uuid="fac5fe1d-63c2-4636-8465-f21ac4ce0519"/>
+					<textElement>
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["FUNÇÃO:"]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="504" y="16" width="68" height="12" uuid="67f478cf-72e9-427f-b453-d7ac6c5ee0d1"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["Subtotal"]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="370" y="17" width="54" height="12" uuid="80741e20-fa88-4e9d-999d-b2a7eada3923"/>
+					<textElement textAlignment="Center">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["Intervalo"]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="39">
+				<line>
+					<reportElement x="1" y="0" width="571" height="1" uuid="757f1ef4-4923-4395-8a51-cb27ff198d0a"/>
+				</line>
+				<line>
+					<reportElement x="1" y="18" width="572" height="1" uuid="d4ff42c2-ab34-4231-84b6-f3582c656f1a"/>
+				</line>
+				<textField pattern="#,##0.00;(#,##0.00)">
+					<reportElement x="473" y="3" width="100" height="16" uuid="f7810f35-0301-4b19-b3d0-3d1f3d4ea34c"/>
+					<textElement verticalAlignment="Top">
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{vlr_pago_geraldo_2}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="452" y="3" width="21" height="16" uuid="510e3c49-8d5a-4824-b3a6-468465ddf164"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9"/>
+					</textElement>
+					<text><![CDATA["R$"]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="330" y="4" width="52" height="14" uuid="539b1924-f6e9-4d7c-bcd8-98119739e98d"/>
+					<textElement>
+						<font size="9"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{horasmes}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="236" y="4" width="92" height="16" uuid="e29c2882-66af-4b8f-b008-2a822c5175e5"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["TOTAL DE HORAS:"]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="408" y="4" width="45" height="16" uuid="7d9912bf-0e96-488f-96a0-6d9347fb7e4d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA["TOTAL:"]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="1" width="192" height="19" uuid="5dcaee2c-5f87-4819-9064-2e0210b2f141"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[APURAÇÃO DAS HORAS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="555" y="0" width="18" height="20" uuid="c842c61a-40cf-4e09-b65c-c22f14c508c3"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="505" y="1" width="44" height="20" uuid="405ef9aa-8581-40bf-a114-15cb2a45e27c"/>
+				<text><![CDATA[PÁGINA]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="504" y="0" width="68" height="12" uuid="a1f04a13-8c1e-471d-9fc3-aac01fa943ef"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vlr_pago_geraldo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="69" y="0" width="59" height="12" uuid="1b6bda57-db75-48df-8aad-571b93ba5ece"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funhoraini}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="278" y="0" width="59" height="12" uuid="440519d2-4926-4387-bd80-9c9fea158d92"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funhorafinal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="59" height="12" uuid="c44de69a-e6b8-4376-bb78-482eb2f0ccf8"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fundata}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="0" width="54" height="12" uuid="a0254cdd-93d4-4ded-96fd-4b273ee10f52"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funint}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="220" y="0" width="59" height="12" uuid="9fe06ff6-b703-442b-b252-7761fe3422f0"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funhoratarde}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="127" y="0" width="59" height="12" uuid="08d77866-43e4-454d-aab9-173a0b242be3"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{funhoraalm}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH.mm">
+				<reportElement x="448" y="0" width="48" height="12" uuid="e8ae6cbb-088f-42de-a0be-43a77cc42b24"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_horas_trabalhadas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="128" height="20" uuid="73546c26-ee84-4689-aae5-1f85050db11d"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL A PAGAR]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="1" y="20" width="127" height="20" uuid="f2f2bdc6-85a7-4832-80cc-09e4475388f6"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vlr_pago_geraldo_3}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -21,16 +21,13 @@ class PersistenciaLogin extends Persistencia {
     }
 
     public function logarSistema() {
-        $sSql = "SELECT usucodigo,
-                        COUNT(*) as qtd,
-                        usubloqueado,
-                        usunome,usuimagem,usuemail,officecod,codsetor,
-                        usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft
-                   FROM tbusuario
-                  WHERE usulogin = '" . $this->Model->getLogin() . "' 
-                    AND ususenha='" . sha1($this->Model->getLoginsenha()) . "' 
-                    group by usunome,usucodigo,usubloqueado,usuimagem,usuemail,codsetor,
-                    officecod,usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft";
+        $sSql = "SELECT usucodigo,COUNT(*) as qtd,usubloqueado,usunome,usuimagem,usuemail,officecod,"
+                . "codsetor,usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft "
+                . "FROM tbusuario "
+                . "WHERE usulogin = '" . $this->Model->getLogin() . "' "
+                . "AND ususenha='" . sha1($this->Model->getLoginsenha()) . "' "
+                . "group by usunome,usucodigo,usubloqueado,usuimagem,usuemail,codsetor,officecod,"
+                . "usutipo,filcgc,ususalvasenha,usubloqueado,senhaprovisoria,usunomedelsoft";
 
         $result = $this->getObjetoSql($sSql);
 
@@ -116,11 +113,17 @@ class PersistenciaLogin extends Persistencia {
             $bBloq = $this->Model->getUsubloqueado();
             if ($bBloq == 'TRUE') {
                 $aRetorno[0] = false;
-                $aRetorno[1] = 'Usuário está bloqueado!';
+                $aRetorno[1] = 'Seu usuário está bloqueado! Contate o TI da Metalbo para o desbloqueio.';
             }
         } else {
-            $aRetorno[0] = false;
-            $aRetorno[1] = 'Verifique usuário e senha!';
+            $bRetorno = $this->gerenciaBloqUser();
+            if (!$bRetorno) {
+                $aRetorno[0] = false;
+                $aRetorno[1] = 'Usuário ou senha incorretos!';
+            } else {
+                $aRetorno[0] = false;
+                $aRetorno[1] = 'Seu usuário foi bloqueado por tentativas de LOGIN incorretas! Contate o TI da Metalbo para o desbloqueio.';
+            }
         }
         return $aRetorno;
     }
@@ -242,6 +245,38 @@ class PersistenciaLogin extends Persistencia {
 
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno;
+    }
+	
+	 /*
+
+     * Verifica e altera campo tag_bloq 
+     * Conforme quantidade de tentativas erradas de login, podendo bloquear o usuário caso ultrapasse 3 erros
+     */
+    public function gerenciaBloqUser() {
+        $sSqlSelect = "select * from tbusuario "
+                . "WHERE usulogin = '" . $this->Model->getLogin() . "'";
+        $oObjUser = $this->consultaSql($sSqlSelect);
+        if ($oObjUser->tag_bloq < 3) {
+            $sSqlUpdt = "update tbusuario set tag_bloq = (select tag_bloq from tbusuario where usucodigo = " . $oObjUser->usucodigo . ") +1 where usucodigo = " . $oObjUser->usucodigo . "";
+            $bBloq = false;
+        } else {
+            $sSqlUpdt = "update tbusuario set usubloqueado = 'TRUE' where usucodigo = " . $oObjUser->usucodigo . "";
+            $bBloq = true;
+        }
+        $this->executaSql($sSqlUpdt);
+        return $bBloq;
+    }
+
+    /*
+     * Reseta o campo tag_block para o valor 0
+     * Resetando a quantidade de possibilidades de senha errada para 3
+     */
+    public function limpaTag_Bloq() {
+        $sSqlSelect = "select * from tbusuario "
+                . "WHERE usulogin = '" . $this->Model->getLogin() . "'";
+        $oObjUser = $this->consultaSql($sSqlSelect);
+        $sSqlUpdt = "update tbusuario set tag_bloq = 0 where usucodigo = " . $oObjUser->usucodigo . "";
+        $this->executaSql($sSqlUpdt);
     }
 
 }

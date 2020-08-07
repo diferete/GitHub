@@ -148,7 +148,7 @@ class PersistenciaQualRncAnalise extends Persistencia {
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $aEmail[0] = $oRow->usuemail;
 
-         //busca email venda
+         //busca email rep
         $sSql = "select usuemail "
                 . "from tbusuario where usucodigo ='" . $codRep . "' ";
         $result = $this->getObjetoSql($sSql);

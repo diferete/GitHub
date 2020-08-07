@@ -69,19 +69,15 @@ $pdf->SetFont('Arial', 'B', 15);
 // Move to the right
 $pdf->Cell(50);
 // Title
-$pdf->Cell(95, 10, 'Relatorio de Novos Projetos', 0, 0, 'C');
+$pdf->Cell(90, 10, 'Relatório Entrada de Projetos', 0, 0, 'L');
 
-$x = $pdf->GetX();
-$y = $pdf->GetY();
-
-$pdf->SetFont('Arial', '', 10);
-$pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
-$pdf->SetXY($x, $y + 5);
-$pdf->MultiCell(50, 5, 'Data: ' . $sData .
-        '  Hora: ' . $sHora, 0, 'L');
-$pdf->SetXY($x, $y + 5);
-$pdf->MultiCell(50, 15, 'Per.: ' . $data1 .
-        ' - ' . $data2, 0, 'L');
+$pdf->SetFont('Arial', '', 9);
+$pdf->MultiCell(52, 7, 'Data: ' . $sData
+        . '        Hora:' . $sHora
+        . ' Usuário:' . $sUserRel
+        . ' ', '', 'L', 0);
+$pdf->Ln(1);
+$pdf->Cell(0, 0, "", "B", 1, 'C');
 
 $pdf->Ln(5);
 
@@ -167,6 +163,7 @@ $qAprovProj = 0;
 $qReproProj = 0;
 $qAprovClie = 0;
 $qReproClie = 0;
+$qExpiraClie = 0;
 
 //Calcula projetos aprovados/reprovados por setor
 while ($row = $sCont->fetch(PDO::FETCH_ASSOC)) {
@@ -191,6 +188,9 @@ while ($row = $sCont->fetch(PDO::FETCH_ASSOC)) {
     if (($row['sitcliente'] == "Reprovado")) {
         $qReproClie = $qReproClie + (int) $row['quantidade'];
     }
+    if (($row['sitcliente'] == "Expirado")) {
+        $qExpiraClie = $qExpiraClie + (int) $row['quantidade'];
+    }
 }
 
 
@@ -208,13 +208,14 @@ $iTotalPa = $PDO->query($sqlTotalPa)->fetch(PDO::FETCH_ASSOC);
 
 
 //Imprime relatório projetos aprovados/reprovados por setor
-$pdf->Cell(199, 5, 'Aprovados Vendas: ' . $qAprovVend . ''
-        . '  -   Aprovados Projetos: ' . $qAprovProj . ''
+$pdf->Cell(199, 5, 'Aprovados Projetos: ' . $qAprovVend . ''
+        . '  -   Aprovados Vendas: ' . $qAprovProj . ''
         . '  -   Aprovados Cliente: ' . $qAprovClie . ''
         . '  -   Total de Parafusos: ' . $iTotalPa['quantidade'], 0, 1, 'L');
-$pdf->Cell(199, 5, 'Reprovados Vendas: ' . $qReproVend . ''
-        . '  -   Reprovados Projetos: ' . $qReproProj . ''
+$pdf->Cell(199, 5, 'Reprovados Projetos: ' . $qReproVend . ''
+        . '  -   Reprovados Vendas: ' . $qReproProj . ''
         . '  -   Reprovados Cliente: ' . $qReproClie . ''
+        . '  -   Expirados: ' . $qExpiraClie . ''
         . '  -   Total de Porcas: ' . $iTotalPo['quantidade'], 0, 1, 'L');
 $pdf->Cell(0, 0, "", "B", 1, 'C');
 $pdf->Ln(3);

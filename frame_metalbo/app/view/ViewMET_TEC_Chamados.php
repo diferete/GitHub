@@ -11,12 +11,12 @@ class ViewMET_TEC_Chamados extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->setBScrollInf(FALSE);
-        $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaDropdown(true);
         $this->setAcaoFecharTela(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
         $this->setUsaFiltro(true);
         $sFiltroSetor = $_SESSION['codsetor'];
@@ -62,12 +62,15 @@ class ViewMET_TEC_Chamados extends View {
         $oRep = new CampoConsulta('Rep.', 'repoffice', CampoConsulta::TIPO_TEXTO);
 
         $oDataCad = new CampoConsulta('Dt.Cad.', 'datacad', CampoConsulta::TIPO_DATA);
+        $oHoraCad = new CampoConsulta('H.Cad.', 'horacad', CampoConsulta::TIPO_TIME);
 
         $oDataInicio = new CampoConsulta('Dt.Ini.', 'datainicio', CampoConsulta::TIPO_DATA);
+        $oHoraInicio = new CampoConsulta('H.Ini.', 'horainicio', CampoConsulta::TIPO_TIME);
 
         $oUsuInicio = new CampoConsulta('Usu.Ini.', 'usunomeinicio', CampoConsulta::TIPO_TEXTO);
 
         $oDataFim = new CampoConsulta('Dt.Fim', 'datafim', CampoConsulta::TIPO_DATA);
+        $oHoraFim = new CampoConsulta('H.Fim.', 'horafim', CampoConsulta::TIPO_TIME);
 
         $oUsuFim = new CampoConsulta('Usu.Fim', 'usunomefim', CampoConsulta::TIPO_TEXTO);
 
@@ -88,7 +91,19 @@ class ViewMET_TEC_Chamados extends View {
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
-        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
+        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilEmp->addItemSelect('', 'Empresas');
+        $oFilEmp->addItemSelect('75483040000211', 'Metalbo');
+        $oFilEmp->addItemSelect('83781641000158', 'Poliamidos');
+        $oFilEmp->setSLabel('');
+
+        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 1, 1, 12, 12, false);
+        $oFilSetor->setSClasseBusca('Setor');
+        $oFilSetor->setSCampoRetorno('codsetor', $this->getTela()->getSId());
+        $oFilSetor->setSIdTela($this->getTela()->getSId());
+
+
+        $oFilUsoSol = new Filtro($oUsuSol, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, true);
 
         $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFilSit->addItemSelect('Todos', 'Todos');
@@ -104,7 +119,7 @@ class ViewMET_TEC_Chamados extends View {
         $oFilTipo->addItemSelect('2', 'SOFTWARE');
         $oFilTipo->addItemSelect('3', 'SERVIÇOS');
 
-        $this->addFiltro($oFilNr, $oFilEmp, $oFilTipo, $oFilSit);
+        $this->addFiltro($oFilNr, $oFilEmp, $oFilSetor, $oFilUsoSol, $oFilTipo, $oFilSit);
 
         $oDrop = new Dropdown('Cancelar', Dropdown::TIPO_ERRO, Dropdown::ICON_ERRO);
         $oDrop->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar chamado', $this->getController(), 'criaTelaModalCancelaChamado', '', false, '', false, 'criaTelaModalCancelaChamado', true, 'Cancelar chamado', false, false);
@@ -118,10 +133,10 @@ class ViewMET_TEC_Chamados extends View {
 
         if ($sFiltroSetor == 2) {
             $this->addDropdown($oDrop, $oDrop2);
-            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
+            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oHoraCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oUsuFim, $oDataFim, $oHoraFim);
         } else {
             $this->addDropdown($oDrop, $oDrop1);
-            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
+            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oUsuFim, $oDataFim, $oHoraFim);
         }
     }
 
@@ -176,7 +191,6 @@ class ViewMET_TEC_Chamados extends View {
         $oTipo->addItemSelect('1', 'HARDWARE');
         $oTipo->addItemSelect('2', 'SOFTWARE');
         $oTipo->addItemSelect('3', 'SERVIÇOS');
-
 
         $oSubTipoCod = new Campo('Cód. Subtipo', 'subtipo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubTipoCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
@@ -294,10 +308,12 @@ class ViewMET_TEC_Chamados extends View {
         $oUsunomeFim->setBOculto(true);
         $oUsunomeFim->setSValor($_SESSION['nome']);
 
-        $oObsFim = new Campo('O que foi feito', 'obsfim', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oObsFim->setILinhasTextArea(3);
+        $oObsFim = new Campo('O que foi feito', 'obsfim', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oObsFim->setILinhasTextArea(5);
         $oObsFim->setBFocus(true);
         $oObsFim->addValidacao(false, Validacao::TIPO_STRING, '', '5');
+
+        $oAnexoFinal = new Campo('Anexo', 'anexofinaliza', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
 
         //botão inserir os dados
         $oBtnFim = new Campo('Finalizar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
@@ -306,7 +322,7 @@ class ViewMET_TEC_Chamados extends View {
         $oBtnFim->getOBotao()->addAcao($sAcaoFim);
         $oBtnFim->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
 
-        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, $oObsFim, array($oBtnFim));
+        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, array($oObsFim, $oAnexoFinal), array($oBtnFim));
     }
 
     public function criaModalCancelaChamado($sDados) {
@@ -358,6 +374,106 @@ class ViewMET_TEC_Chamados extends View {
 
 
         $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, $oObsFim, array($oBtnCancela));
+    }
+
+    public function relChamados() {
+        parent::criaTelaRelatorio();
+
+        $aDados = $this->getAParametrosExtras();
+        $aDados1 = $aDados[0];
+        $aDados2 = $aDados[1];
+        $aDados3 = $aDados[2];
+        $aDados4 = $aDados[3];
+        $aDados5 = $aDados[4];
+
+        $this->setTituloTela('Relatório de Chamados Tecnologia da Informação');
+        $this->setBTela(true);
+
+        //Empresa
+        $oEmpresa = new Campo('Empresa', 'empresa', Campo::CAMPO_SELECTSIMPLE, 4, 4, 12, 12);
+        $oEmpresa->addItemSelect('Todos', 'Todas as Empresas');
+        foreach ($aDados3 as $key3) {
+            $oEmpresa->addItemSelect($key3['filcgc'], $key3['filcgc'] . ' - ' . $key3['empdes']);
+        }
+
+        //SubTipo
+        $oSubTipo = new Campo('Sub.Tipo', 'subtipo_nome', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
+        $oSubTipo->addItemSelect('Todos', 'Todos SubTipos');
+        foreach ($aDados2 as $key3) {
+            $oSubTipo->addItemSelect($key3['subtipo_nome'], $key3['subtipo_nome']);
+        }
+
+        //Usuário
+        $oUsuario = new Campo('Usuários', 'usunome', Campo::CAMPO_SELECT, 2, 2, 12, 12);
+        $oUsuario->addItemSelect('Todos', 'Todos Usuários');
+        foreach ($aDados4 as $key3) {
+            $oUsuario->addItemSelect($key3['usunome'], $key3['usunome']);
+        }
+
+        $oTipo = new Campo('Tipo', 'tipo', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oTipo->addItemSelect('Todos', 'Todos Tipos');
+        $oTipo->addItemSelect('1', 'HARDWARE');
+        $oTipo->addItemSelect('2', 'SOFTWARE');
+        $oTipo->addItemSelect('3', 'SERVIÇOS');
+
+        //Representante
+        $oRep = new Campo('Representantes', 'repr', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oRep->addItemSelect('Todos', 'Todos representantes');
+        foreach ($aDados1 as $key3) {
+            $oRep->addItemSelect($key3['repoffice'], $key3['repoffice']);
+        }
+
+        $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDatainicial->setSValor(Util::getPrimeiroDiaMes());
+        $oDatainicial->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
+        $oDatafinal = new Campo('Data Final', 'datafinal', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDatafinal->setSValor(Util::getDataAtual());
+        $oDatafinal->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
+
+        $oSit = new Campo('Situação', 'sit', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oSit->addItemSelect('Todos', 'Todas Situações');
+        $oSit->addItemSelect('AGUARDANDO', 'AGUARDANDO');
+        $oSit->addItemSelect('INICIADO', 'INICIADO');
+        $oSit->addItemSelect('FINALIZADO', 'FINALIZADO');
+        $oSit->addItemSelect('CANCELADO', 'CANCELADO');
+
+        $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha1->setApenasTela(true);
+
+        $oFieldRelAnt = new FieldSet('Relatório Chamados Antigos Sistema_Metalbo');
+
+        $oRelAntigo = new Campo("Relatório Antigo", 'relant', Campo::TIPO_CHECK, 2, 2, 12, 12);
+
+        //Usuário
+        $oSetor = new Campo('Setores', 'setor', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oSetor->addItemSelect('Todos', 'Todos Setores');
+        foreach ($aDados5 as $key4) {
+            $oSetor->addItemSelect($key4['codsetor'], $key4['descsetor']);
+        }
+
+        $oTipoAnt = new Campo('Tipo', 'tipoant', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oTipoAnt->addItemSelect('Todos', 'Todos Tipos');
+        $oTipoAnt->addItemSelect('HARDWARE', 'HARDWARE');
+        $oTipoAnt->addItemSelect('SOFTWARE', 'SOFTWARE');
+        $oTipoAnt->addItemSelect('SERVIÇOS', 'SERVIÇOS');
+        $oTipoAnt->addItemSelect('RELATORIOS', 'RELATORIOS');
+
+        $oSitAnt = new Campo('Situação', 'sitant', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oSitAnt->addItemSelect('Todos', 'Todas Situações');
+        $oSitAnt->addItemSelect('AGUARDANDO', 'AGUARDANDO');
+        $oSitAnt->addItemSelect('EM ANDAMENTO', 'EM ANDAMENTO');
+        $oSitAnt->addItemSelect('FINALIZADO', 'FINALIZADO');
+        $oSitAnt->addItemSelect('CANCELADO', 'CANCELADO');
+
+        $oFieldRelAnt->addCampos(array($oRelAntigo, $oSetor), $oLinha1, array($oTipoAnt, $oSitAnt));
+        $oFieldRelAnt->setOculto(true);
+
+        $oFieldRelAtual = new FieldSet('Relatório Chamados Atual ');
+        $oFieldRelAtual->addCampos(array($oEmpresa, $oUsuario), $oLinha1, array($oRep, $oSubTipo), $oLinha1, array($oTipo, $oSit));
+
+        $oApenasGrafico = new Campo("Somente Gráfico", 'apgrafico', Campo::TIPO_CHECK, 2, 2, 12, 12);
+
+        $this->addCampos($oFieldRelAtual, $oLinha1, $oFieldRelAnt, $oLinha1, array($oDatainicial, $oDatafinal), $oApenasGrafico);
     }
 
 }

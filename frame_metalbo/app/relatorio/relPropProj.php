@@ -4,6 +4,7 @@
 require '../../biblioteca/pdfjs/pdf_js.php';
 include("../../includes/Config.php");
 
+
 $sUserRel = $_REQUEST['userRel'];
 $sNr = $_REQUEST['nr'];
 date_default_timezone_set('America/Sao_Paulo');
@@ -62,15 +63,22 @@ $pdf->SetFont('Arial', 'B', 15);
 // Move to the right
 $pdf->Cell(50);
 // Title
-$pdf->Cell(90, 10, 'Relatorio de Novos Projetos', 0, 0, 'L');
+$pdf->Cell(95, 0, 'Relatorio de Projetos e ', 0, 1, 'C');
+$pdf->Cell(200, 10, 'Desenvolvimento de Novos Produtos', 0, 1, 'C');
 
-$pdf->SetFont('Arial', '', 9);
-$pdf->MultiCell(52,7,'Data: '.$sData
-        .'        Hora:'.$sHora
-        .' Usuário:'.$sUserRel 
-        .' ','','L',0);
-$pdf->Ln(1);
-$pdf->Cell(0, 0, "", "B", 1, 'C');   
+$pdf->Cell(150,1);
+
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+
+$pdf->SetFont('Arial', '', 10);
+$pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
+$pdf->SetXY($x, $y + 5);
+$pdf->MultiCell(50, 5, 'Data: ' . $sData .
+        '  Hora: ' . $sHora, 0, 'L');
+$pdf->SetXY($x, $y + 5);
+
+$pdf->Ln(5);
 
 $pdf->SetY(26);
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
@@ -105,7 +113,21 @@ valOd,convert(varchar,valOdPrev,103) as valOdPrev,convert(varchar,valOdTer,103) 
 valPed,convert(varchar,valPedPrev,103) as valPedPrev,convert(varchar,valPedTer,103) as valPedTer,valPedResp,
 valPapp,valPed,convert(varchar,valPappPrev,103) as valPappPrev,convert(varchar,valPappTer,103) as valPappTer,valPappResp,
 etapProj,result,cliprov,valproj,comenvalproj,respvalproj,
-SUM(vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd) as custotot
+SUM(vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd) as custotot,
+convert(varchar,dtaprovaoperacional,103) as dtaprovaoperacional,
+usuaprovaoperacional,usuaprovafinanceiro,respAnaliseCri,
+convert(varchar,dtaprovafinanceiro,103) as  dtaprovafinanceiro,usuanaliseentrada,
+convert(varchar,dtanaliseentrada,103) as dtanaliseentrada,
+convert(varchar,dtanalisecritica,103) as dtanalisecritica, 
+convert(varchar,dtanaliseens,103) as dtanaliseens, 
+convert(varchar,dtanalisevalproj,103) as dtanalisevalproj,respAnaliseCri,respEns,
+prazoentregautil,
+precofinal,
+sol_viavel_fin,
+usuaprovafinanceiro,  
+convert(varchar,dtaprovafinanceiro,103) as dtaprovafinanceiro,
+fin_obs, 
+obs_geral 
 from tbqualNovoProjeto left outer join  widl.EMP01
 on tbqualNovoProjeto.empcod  = widl.EMP01.empcod
 where filcgc ='" . $FilcgcRex . "' and nr = '" . $sNr . "' 
@@ -132,8 +154,17 @@ valNf,valNfPrev,valNfTer,valNfResp,
 valOd,valOdPrev,valOdTer,valODResp,
 valPed,valPedPrev,valPedTer,valPedResp,
 valPapp,valPappPrev,valPappTer,valPappResp,
-etapProj,result,cliprov,valproj,comenvalproj,respvalproj
-";
+etapProj,result,cliprov,valproj,comenvalproj,respvalproj,
+usuaprovaoperacional,dtaprovaoperacional,usuaprovafinanceiro,
+dtaprovafinanceiro,usuanaliseentrada,dtanaliseentrada,dtanalisecritica, dtanaliseens, dtanalisevalproj,respAnaliseCri,respEns,
+prazoentregautil,
+precofinal,
+sol_viavel_fin,
+usuaprovafinanceiro,  
+dtaprovafinanceiro,
+fin_obs, 
+obs_geral";
+
 $sth = $PDO->query($sql);
 $row = $sth->fetch(PDO::FETCH_ASSOC);
 
@@ -160,6 +191,8 @@ if ($row['sitgeralproj'] == 'Aprovado') {
 if ($row['sitgeralproj'] == 'Finalizado') {
     $sSitProj = 'Finalizado';
 }
+
+$pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 12);
 $pdf->Cell(12, 5, 'Geral', 0, 1, 'L');
@@ -188,7 +221,7 @@ $pdf->Cell(25, 5, $row['dtimp'], 0, 0);
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(46, 5, 'Prazo de entrega(Dias úteis):', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(18, 5, $row['prazoentregautil'], 0, 1); 
+$pdf->Cell(18, 5, $row['prazoentregautil'], 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
@@ -260,7 +293,7 @@ $pdf->Cell(65, 5, 'Análise operacional da solicitação', 'B', 1, 'L');
 $pdf->Cell(12, 2, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(50, 5, 'Equipamento correspondente?:', 0, 0, 'L');
+$pdf->Cell(60, 5, 'Temos quipamento correspondente?:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(10, 5, $row['equip_corresp'], 0, 0);
 
@@ -272,7 +305,7 @@ $pdf->Cell(100, 5, $row['equip_corresp_evid'], 0, 1);
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(50, 5, 'Matéria prima correspondente?:', 0, 0, 'L');
+$pdf->Cell(60, 5, 'Temos matéria prima correspondente?:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(10, 5, $row['mat_prima'], 0, 0);
 
@@ -284,7 +317,7 @@ $pdf->Cell(100, 5, $row['mat_prima_evid'], 0, 1);
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(50, 5, 'Estudo de processo?:', 0, 0, 'L');
+$pdf->Cell(60, 5, 'Requer estudo de processo?:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(10, 5, $row['estudo_proc'], 0, 0);
 
@@ -296,7 +329,7 @@ $pdf->Cell(100, 5, $row['estudo_proc_evid'], 0, 1);
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(50, 5, 'Produto similar?:', 0, 0, 'L');
+$pdf->Cell(60, 5, 'Existe produto similar?:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(10, 5, $row['prod_sim'], 0, 0);
 
@@ -308,7 +341,7 @@ $pdf->Cell(100, 5, $row['prod_sim_evid'], 0, 1);
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(50, 5, 'Desenvolver ferramental?:', 0, 0, 'L');
+$pdf->Cell(60, 5, 'Precisa desenvolver ferramental?:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(10, 5, $row['desen_ferram'], 0, 0);
 
@@ -325,7 +358,19 @@ $pdf->Cell(10, 5, $row['sol_viavel'], 0, 1);
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(10, 5, 'OBS:', 0, 0, 'L');
+$pdf->Cell(23, 5, 'Aprovado por:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(47, 5, $row['usuaprovaoperacional'], 0, 0);
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(30, 5, 'Data da aprovação:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(100, 5, $row['dtaprovaoperacional'], 0, 1);
+
+$pdf->Cell(12, 1, '', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(10, 5, 'Observação:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->MultiCell(180, 5, $row['sol_viavel_obs'], 0, 1);
 
@@ -378,24 +423,71 @@ $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $Rs . number_format($row['custotot'], 2, ',', '.'), 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(18, 5, 'Preço final:', 0, 0, 'L');
+$pdf->Cell(26, 5, 'Custo por cento:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $Rs . number_format($row['precofinal'], 2, ',', '.'), 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(16, 5, 'É viável?:', 0, 0, 'L');
+$pdf->Cell(38, 5, 'Viável financeiramente?:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(10, 5, $row['sol_viavel_fin'], 0, 1);
+
+$pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(10, 5, 'OBS:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(180, 5, $row['fin_obs'], 0, 1);
+$pdf->Cell(180, 5, $row['obs_geral'], 0, 1);
+
+$pdf->Cell(12, 5, '', 0, 1, 'L');
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+$pdf->SetFont('arial', '', 12);
+$pdf->Cell(55, 5, 'Definições comerciais finais', 'B', 1, 'L');
+$pdf->Cell(12, 2, '', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(62, 5, 'Prazo entrega/Dias úteis:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(40, 5, $row['prazoentregautil'], 0, 1);
+
+$pdf->Cell(12, 1, '', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(62, 5, 'Preço Final:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(30, 5, $row['precofinal'], 0, 1);
+
+$pdf->Cell(12, 1, '', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(62, 5, 'Viável financeiramente?:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(15, 5, $row['sol_viavel_fin'], 0, 1);
+
+$pdf->Cell(12, 1, '', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(23, 5, 'Aprovado por:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(47, 5, $row['usuaprovafinanceiro'], 0, 0);
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(30, 5, 'Data da aprovação:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(15, 5, $row['dtaprovafinanceiro'], 0, 1);
+
+$pdf->Cell(12, 1, '', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(62, 5, 'Observação vendas/Motivo reprovação:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->MultiCell(180, 5, $row['fin_obs'], 0, 1);
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-$pdf->Cell(0, 5, "", "B", 1, 'C');  
+$pdf->AddPage();
+$pdf->SetY(5);
 //Cadastro
 $pdf->SetFont('arial', 'B', 12);
 $pdf->Cell(12, 10, $sCadastro, 0, 1, 'L');
@@ -467,7 +559,7 @@ $pdf->Cell(65, 5, 'Requisitos extras solicitados pelo cliente:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->MultiCell(180, 5, $row['reqcli'], 0, 'J');
 
-$pdf->Cell(12, 5, '', 0, 1, 'L');
+$pdf->Cell(12, 3, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', '', 12);
 $pdf->Cell(56, 5, 'Especificações dimensionais', 'B', 1, 'L');
@@ -489,123 +581,122 @@ $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $row['classe'], 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Âng. Helice:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Âng. Helice:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['anghelice'], 2, ',', '.'), 0, 1);
+$pdf->Cell(25, 4, number_format($row['anghelice'], 2, ',', '.'), 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Chave Min.:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Chave Min.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['chavemin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['chavemin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Chave Max.:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Chave Max.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['chavemax'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['chavemax'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Alt. Minima:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Alt. Minima:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['altmin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['altmin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Alt. Máxima:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Alt. Máxima:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['altmax'], 2, ',', '.'), 0, 1);
+$pdf->Cell(25, 4, number_format($row['altmax'], 2, ',', '.'), 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Diâm. Furo Mín:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Diâm. Furo Mín:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['diamfmin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['diamfmin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Diâm. Furo Max::', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Diâm. Furo Max::', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['diamfmax'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['diamfmax'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Comp. Mín:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Comp. Mín:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['compmin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['compmin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Comp .Máx:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Comp .Máx:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['compmax'], 2, ',', '.'), 0, 1);
+$pdf->Cell(25, 4, number_format($row['compmax'], 2, ',', '.'), 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Diâm. Prim. Mín:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Diâm. Prim. Mín:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['diampmin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['diampmin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Diâm. Prim. Máx:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Diâm. Prim. Máx:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['diampmax'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['diampmax'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Diâm. Ext. Mín:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Diâm. Ext. Mín:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['diamexmin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['diamexmin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Diâm. Ext. Máx:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Diâm. Ext. Máx:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['diamexmax'], 2, ',', '.'), 0, 1);
+$pdf->Cell(25, 4, number_format($row['diamexmax'], 2, ',', '.'), 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Com. Hast. Mín:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Com. Hast. Mín:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['comprmin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['comprmin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Com. Hast. Máx:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Com. Hast. Máx:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['comprmax'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['comprmax'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Com. Rosc. Mín:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Com. Rosc. Mín:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['comphmin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['comphmin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Com. Rosc. Máx:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Com. Rosc. Máx:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['comphmax'], 2, ',', '.'), 0, 1);
+$pdf->Cell(25, 4, number_format($row['comphmax'], 2, ',', '.'), 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Diâm. Haste. Mín:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Diâm. Haste. Mín:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['diamhmin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['diamhmin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Diâm. Haste. Máx:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Diâm. Haste. Máx:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['diamhmax'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['diamhmax'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Prof.Caneco Min.:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Prof.Caneco Min.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['profcanecomin'], 2, ',', '.'), 0, 0);
+$pdf->Cell(25, 4, number_format($row['profcanecomin'], 2, ',', '.'), 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Prof.Caneco Max.:', 0, 0, 'L');
+$pdf->Cell(28, 4, 'Prof.Caneco Max.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, number_format($row['profcanecomax'], 2, ',', '.'), 0, 1);
+$pdf->Cell(25, 4, number_format($row['profcanecomax'], 2, ',', '.'), 0, 1);
 
 $pdf->Cell(12, 5, '', 0, 1, 'L');
-$pdf->Cell(0, 20, "", 0, 1, 'C');
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 $pdf->SetFont('arial', '', 12);
 $pdf->Cell(50, 5, 'Análise crítica de entrada', 'B', 1, 'L');
@@ -614,42 +705,54 @@ $pdf->Cell(12, 2, '', 0, 1, 'L');
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(28, 5, 'Os dados de entrada são adequados e suficientes?', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['dadosent'].'  -  '.$row['dadosent_obs'], 0, 1);
+$pdf->Cell(25, 5, $row['dadosent'] . '  -  ' . $row['dadosent_obs'], 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(28, 5, 'Os requisitos legais aplicáveis foram levantados?', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['reqlegal'].'  -  '.$row['reqlegal_obs'], 0, 1);
+$pdf->Cell(25, 5, $row['reqlegal'] . '  -  ' . $row['reqlegal_obs'], 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(28, 5, 'Algum requisito adicional de clientes?', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['reqadicional'].'  -  '.$row['reqadicional_obs'], 0, 1);
+$pdf->Cell(25, 5, $row['reqadicional'] . '  -  ' . $row['reqadicional_obs'], 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(28, 5, 'Algum requisito adicional de verificação?', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['reqadverif'].'  -  '.$row['reqadverif_obs'], 0, 1);
+$pdf->Cell(25, 5, $row['reqadverif'] . '  -  ' . $row['reqadverif_obs'], 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(28, 5, 'Algum requisito adicional de validação?', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['reqadval'].'  -  '.$row['reqadval_obs'], 0, 1);
+$pdf->Cell(25, 5, $row['reqadval'] . '  -  ' . $row['reqadval_obs'], 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(28, 5, 'Consideramos que o produto não terá problemas com dimensional e montabilidade?', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['reqproblem'].'  -  '.$row['reqproblem_obs'], 0, 1);
+$pdf->Cell(25, 5, $row['reqproblem'] . '  -  ' . $row['reqproblem_obs'], 0, 1);
+
+$pdf->Cell(12, 1, '', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(45, 5, 'Resp. análise crítica entrada:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(30, 5, $row['usuanaliseentrada'], 0, 0);
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(40, 5, 'Dt. análise crítica entrada:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(100, 5, $row['dtanaliseentrada'], 0, 1);
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
@@ -658,11 +761,10 @@ $pdf->Cell(28, 5, 'Comentários:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $row['comem'], 0, 1);
 
-$pdf->Cell(0, 5, "", "", 1, 'C');
+$pdf->Cell(0, 3, "", "", 1, 'C');
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 $pdf->SetFont('arial', '', 12);
-$pdf->Cell(42, 5, 'Detalhamento projeto', 'B', 1, 'L');
-$pdf->Cell(12, 2, '', 0, 1, 'L');
+$pdf->Cell(48, 5, 'Detalhamento do projeto', 'B', 1, 'L');
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
@@ -781,7 +883,7 @@ $pdf->Cell(25, 5, $row['relFerrConf_resp'], 0, 1, 'L');
 $pdf->Cell(12, 5, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', '', 12);
-$pdf->Cell(48, 5, 'Análise crítica do projeto', 'B', 1, 'L');
+$pdf->Cell(80, 5, 'Análise crítica do detalhamento do projeto', 'B', 1, 'L');
 $pdf->Cell(12, 3, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
@@ -794,17 +896,28 @@ $pdf->Cell(70, 5, 'O desenho do produto está de acordo conforme requisitos do c
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $row['desenAcordo'], 0, 1, 'L');
 
+$pdf->Cell(12, 1, '', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(22, 5, 'Responsável:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(30, 5, $row['respAnaliseCri'], 0, 0);
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(25, 5, 'Data da análise:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(100, 5, $row['dtanalisecritica'], 0, 1);
+
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(65, 5, 'Comentários:', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $row['comenCrit'], 0, 1, 'L');
 
-$pdf->Cell(12, 5, '', 0, 1, 'L');
+$pdf->Cell(12, 10, '', 0, 1, 'L');
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 $pdf->SetFont('arial', '', 12);
 $pdf->Cell(65, 5, 'Controle de verificação de projeto', 'B', 1, 'L');
 $pdf->Cell(12, 3, '', 0, 1, 'L');
-
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(79, 5, 'Verificação dos desenhos do produto - ', 0, 0, 'L');
@@ -956,7 +1069,7 @@ $pdf->Cell(22, 5, 'Responsável: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $row['terceiroResp'], 0, 1, 'L');
 
-$pdf->Cell(12, 28, '', 0, 1, 'L');
+$pdf->Cell(12, 5, '', 0, 1, 'L');
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 $pdf->SetFont('arial', '', 12);
 $pdf->Cell(75, 5, 'Análise crítica de verificação do projeto', 'B', 1, 'L');
@@ -982,6 +1095,18 @@ $pdf->Cell(70, 5, 'As etapas definidas no planejamento foram cumpridas conforme 
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $row['ensPlan'], 0, 1, 'L');
 
+$pdf->Cell(12, 1, '', 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(22, 5, 'Responsável:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(30, 5, $row['respEns'], 0, 0);
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(25, 5, 'Data da análise:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(100, 5, $row['dtanaliseens'], 0, 1);
+
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(70, 5, 'Comentário', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
@@ -994,90 +1119,90 @@ $pdf->Cell(63, 5, 'Controle de validação do projeto', 'B', 1, 'L');
 $pdf->Cell(12, 3, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(40, 5, 'Nota fiscal nº: ', 0, 0, 'L');
+$pdf->Cell(40, 4, 'Nota fiscal nº: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valNf'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valNf'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(18, 5, 'Previsão: ', 0, 0, 'L');
+$pdf->Cell(18, 4, 'Previsão: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valNfPrev'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valNfPrev'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(18, 5, 'Término: ', 0, 0, 'L');
+$pdf->Cell(18, 4, 'Término: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valNfTer'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valNfTer'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(22, 5, 'Responsável: ', 0, 0, 'L');
+$pdf->Cell(22, 4, 'Responsável: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['valNfResp'], 0, 1, 'L');
+$pdf->Cell(25, 4, $row['valNfResp'], 0, 1, 'L');
 
-$pdf->Cell(12, 5, '', 0, 1, 'L');
+$pdf->Cell(12, 4, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(40, 5, 'Ordem de fabricação nº: ', 0, 0, 'L');
+$pdf->Cell(40, 4, 'Ordem de fabricação nº: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valOd'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valOd'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(18, 5, 'Previsão: ', 0, 0, 'L');
+$pdf->Cell(18, 4, 'Previsão: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valOdPrev'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valOdPrev'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(18, 5, 'Término: ', 0, 0, 'L');
+$pdf->Cell(18, 4, 'Término: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valOdTer'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valOdTer'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(22, 5, 'Responsável: ', 0, 0, 'L');
+$pdf->Cell(22, 4, 'Responsável: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['valODResp'], 0, 1, 'L');
+$pdf->Cell(25, 4, $row['valODResp'], 0, 1, 'L');
 
-$pdf->Cell(12, 5, '', 0, 1, 'L');
+$pdf->Cell(12, 4, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(40, 5, 'Pedido nº: ', 0, 0, 'L');
+$pdf->Cell(40, 4, 'Pedido nº: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valPed'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valPed'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(18, 5, 'Previsão: ', 0, 0, 'L');
+$pdf->Cell(18, 4, 'Previsão: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valPedPrev'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valPedPrev'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(18, 5, 'Término: ', 0, 0, 'L');
+$pdf->Cell(18, 4, 'Término: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valPedTer'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valPedTer'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(22, 5, 'Responsável: ', 0, 0, 'L');
+$pdf->Cell(22, 4, 'Responsável: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['valPedResp'], 0, 1, 'L');
+$pdf->Cell(25, 4, $row['valPedResp'], 0, 1, 'L');
 
-$pdf->Cell(12, 5, '', 0, 1, 'L');
-
-$pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(40, 5, 'PAPP nº: ', 0, 0, 'L');
-$pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valPapp'], 0, 0, 'L');
+$pdf->Cell(12, 4, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(18, 5, 'Previsão: ', 0, 0, 'L');
+$pdf->Cell(40, 4, 'PAPP nº: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valPappPrev'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valPapp'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(18, 5, 'Término: ', 0, 0, 'L');
+$pdf->Cell(18, 4, 'Previsão: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, $row['valPappTer'], 0, 0, 'L');
+$pdf->Cell(20, 4, $row['valPappPrev'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(22, 5, 'Responsável: ', 0, 0, 'L');
+$pdf->Cell(18, 4, 'Término: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['valPappResp'], 0, 1, 'L');
+$pdf->Cell(20, 4, $row['valPappTer'], 0, 0, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(22, 4, 'Responsável: ', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(25, 4, $row['valPappResp'], 0, 1, 'L');
 
 $pdf->Cell(12, 5, '', 0, 1, 'L');
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -1122,9 +1247,14 @@ $pdf->Cell(25, 5, $row['comenvalproj'], 0, 1, 'L');
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(70, 5, 'Responsável', 0, 1, 'L');
+$pdf->Cell(22, 5, 'Responsável:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['respvalproj'], 0, 1, 'L');
+$pdf->Cell(25, 5, $row['respvalproj'], 0, 0, 'L');
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(25, 5, 'Data da análise:', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(25, 5, $row['dtanalisevalproj'], 0, 1, 'L');
 
 $pdf->Cell(12, 5, '', 0, 1, 'L');
 

@@ -16,14 +16,14 @@ class ViewQualNovoProj extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
 
+        $oNr = new CampoConsulta('Nr', 'nr');
+        $oNr->setILargura(1);
+
         $oData = new CampoConsulta('Data', 'dtimp', CampoConsulta::TIPO_DATA);
         $oData->setILargura(50);
 
-        $oNr = new CampoConsulta('Nr', 'nr');
-        $oNr->setILargura(20);
-
         $oEmpDes = new CampoConsulta('Cliente', 'Pessoa.empdes');
-        $oEmpDes->setILargura(350);
+        $oEmpDes->setILargura(400);
 
         $oRepNome = new CampoConsulta('Rep.', 'repnome');
         $oRepNome->setILargura(100);
@@ -66,11 +66,12 @@ class ViewQualNovoProj extends View {
         $oSitGeral->addComparacao('Em execução', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->addComparacao('Produzido', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->addComparacao('Faturado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA, false, null);
+        $oSitGeral->addComparacao('Expirado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oSitGeral->setBComparacaoColuna(true);
         $oSitGeral->setILargura(11);
 
 
-        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 1, 2, 12, 12, false);
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
 
@@ -95,9 +96,11 @@ class ViewQualNovoProj extends View {
         $oFSitGeralProj->addItemSelect('Finalizado', 'Finalizado');
         $oFSitGeralProj->addItemSelect('Aprovado', 'Aprovado');
         $oFSitGeralProj->addItemSelect('Representante', 'Representante');
+        $oFSitGeralProj->addItemSelect('Faturado', 'Faturado');
+        $oFSitGeralProj->addItemSelect('Expirado', 'Expirado');
         $oFSitGeralProj->setSLabel('');
 
-        $oFilEmpDes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $oFilEmpDes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, true);
 
         $this->addFiltro($oFSitProj, $oFSitGeralProj, $oFilNr, $oFilData, $oFilEmpDes, $oFilDescProdNew);
 
@@ -108,8 +111,8 @@ class ViewQualNovoProj extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Reprovar projeto', 'QualNovoProj', 'msgReprovaProj', '', false, '', false, '', false, '', false, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Retornar para representante', 'QualNovoProj', 'msgRetRep', '', false, '', false, '', false, '', false, false);
 
-        $oDrop2 = new Dropdown('Proposta', Dropdown::TIPO_DARK, Dropdown::ICON_RANDOM);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Relatório da proposta', 'QualNovoProj', 'acaoMostraRelConsulta', '', false, 'relPropProj', false, '', false, '', false, false);
+        $oDrop2 = new Dropdown('Relatório', Dropdown::TIPO_DARK, Dropdown::ICON_RANDOM);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Relatório da proposta e projeto', 'QualNovoProj', 'acaoMostraRelConsulta', '', false, 'relPropProj', false, '', false, '', false, false);
 
         $oDrop3 = new Dropdown('E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Reenviar e-mail aprovação', 'QualNovoProj', 'reenviaAprovaProj', '', false, '', false, '', false, '', false, false);
@@ -292,9 +295,28 @@ class ViewQualNovoProj extends View {
         $oViavel->addItenRadio('Sim', 'Sim');
         $oViavel->addItenRadio('Não', 'Não');
 
+
+        $oUsuario1 = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oUsuario1->setApenasTela(true);
+        $oUsuario1->setBOculto(true);
+
+        $oUsuAprovaOperacional = new Campo('Aprovado por:', 'usuaprovaoperacional', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oUsuAprovaOperacional->setSIdPk($oUsuario1->getId());
+        $oUsuAprovaOperacional->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsuAprovaOperacional->addCampoBusca('numcad', '', '');
+        $oUsuAprovaOperacional->addCampoBusca('nomfun', '', '');
+        $oUsuAprovaOperacional->setSIdTela($this->getTela()->getid());
+        $oUsuAprovaOperacional->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 1);
+
+        $oUsuario1->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsuario1->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oUsuario1->addCampoBusca('nomfun', $oUsuAprovaOperacional->getId(), $this->getTela()->getId());
+
+        $oDataAprovaOperacional = new Campo('Data da aprovação', 'dtaprovaoperacional', Campo::TIPO_DATA, 1, 1, 12, 12);
+
         $oFieldOperacao = new FieldSet('Análise operacional da solicitação');
         $oFieldOperacao->setOculto(true);
-        $oFieldOperacao->addCampos(array($oEquipamento, $oEquipEvidencia), array($oMatPrima, $oEquipMatPrima), array($oEstudoProc, $oEstudoEvid), array($oProdSimilar, $oProdSimilarEvid), array($oDesenFerram, $oDesenFerramEvid), $oViavel, $oObs_viavel);
+        $oFieldOperacao->addCampos(array($oEquipamento, $oEquipEvidencia), array($oMatPrima, $oEquipMatPrima), array($oEstudoProc, $oEstudoEvid), array($oProdSimilar, $oProdSimilarEvid), array($oDesenFerram, $oDesenFerramEvid), $oViavel, array($oUsuario1, $oUsuAprovaOperacional, $oDataAprovaOperacional), $oObs_viavel);
 
 
 
@@ -395,6 +417,25 @@ class ViewQualNovoProj extends View {
         $oViavelFinan = new Campo('Viável financeiramente?', 'sol_viavel_fin', Campo::TIPO_TEXTO, 2);
         $oViavelFinan->setBCampoBloqueado(true);
 
+        $oUsuario = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oUsuario->setApenasTela(true);
+        $oUsuario->setBOculto(true);
+
+        $oUsuAprovaFinan = new Campo('Aprovado por', 'usuaprovafinanceiro', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oUsuAprovaFinan->setSIdPk($oUsuario->getId());
+        $oUsuAprovaFinan->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsuAprovaFinan->addCampoBusca('numcad', '', '');
+        $oUsuAprovaFinan->addCampoBusca('nomfun', '', '');
+        $oUsuAprovaFinan->setSIdTela($this->getTela()->getid());
+        $oUsuAprovaFinan->setBCampoBloqueado(true);
+
+        $oUsuario->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsuario->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oUsuario->addCampoBusca('nomfun', $oUsuAprovaFinan->getId(), $this->getTela()->getId());
+
+        $oDataAprovaFinan = new Campo('Data da aprovação', 'dtaprovafinanceiro', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataAprovaFinan->setBCampoBloqueado(true);
+
 
         $oObsFinan = new campo('Observação vendas/Motivo reprovação', 'fin_obs', Campo::TIPO_TEXTAREA, 10);
         $oObsFinan->setBCampoBloqueado(true);
@@ -405,7 +446,7 @@ class ViewQualNovoProj extends View {
         $oLinha1->setApenasTela(true);
 
 
-        $oFiledVendal->addCampos(array($oPrazoEnt, $oPrecoFinal), /* $oObsVenda, */ $oLinha1, $oViavelFinan, $oObsFinan);
+        $oFiledVendal->addCampos(array($oPrazoEnt, $oPrecoFinal), /* $oObsVenda, */ $oLinha1, $oViavelFinan, array($oUsuario, $oUsuAprovaFinan, $oDataAprovaFinan), $oObsFinan);
 
 
         //executa esta funcao ao sair dos campos

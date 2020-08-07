@@ -7,7 +7,10 @@
  */
 
 class ModelNfRep {
+    
+//    private $nfsfilcgc;
     private $nfsnfnro;
+//    private $nfsnfser;
     private $nfsclicod;
     private $nfsclinome;
     private $nfsvlripi;
@@ -24,10 +27,67 @@ class ModelNfRep {
     private $nfstranome;
     private $nfshrsaida;
     private $nfscancela;
+    private $nfsnfesit;
+    private $nfsemailen;
+//    private $nfsemailen;
+//    private $nfsnfesit;
+//    private $nfsnfechv;
     
-    
-    
-    
+//    function getNfsfilcgc() {
+//        return $this->nfsfilcgc;
+//    }
+//
+//    function getNfsnfser() {
+//        return $this->nfsnfser;
+//    }
+//
+//    function getNfsemailen() {
+//        return $this->nfsemailen;
+//    }
+//
+//    function getNfsnfesit() {
+//        return $this->nfsnfesit;
+//    }
+//
+//    function getNfsnfechv() {
+//        return $this->nfsnfechv;
+//    }
+//
+//    function setNfsfilcgc($nfsfilcgc) {
+//        $this->nfsfilcgc = $nfsfilcgc;
+//    }
+//
+//    function setNfsnfser($nfsnfser) {
+//        $this->nfsnfser = $nfsnfser;
+//    }
+//
+//    function setNfsemailen($nfsemailen) {
+//        $this->nfsemailen = $nfsemailen;
+//    }
+//
+//    function setNfsnfesit($nfsnfesit) {
+//        $this->nfsnfesit = $nfsnfesit;
+//    }
+//
+//    function setNfsnfechv($nfsnfechv) {
+//        $this->nfsnfechv = $nfsnfechv;
+//    }
+    function getNfsnfesit() {
+        return $this->nfsnfesit;
+    }
+
+    function getNfsemailen() {
+        return $this->nfsemailen;
+    }
+
+    function setNfsnfesit($nfsnfesit) {
+        $this->nfsnfesit = $nfsnfesit;
+    }
+
+    function setNfsemailen($nfsemailen) {
+        $this->nfsemailen = $nfsemailen;
+    }
+
     function getNfscancela() {
         return $this->nfscancela;
     }
@@ -35,8 +95,6 @@ class ModelNfRep {
     function setNfscancela($nfscancela) {
         $this->nfscancela = $nfscancela;
     }
-
-        
     
     function getNfsnfnro() {
         return $this->nfsnfnro;

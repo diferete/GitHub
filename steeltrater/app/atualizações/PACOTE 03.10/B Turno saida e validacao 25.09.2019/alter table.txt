@@ -1,0 +1,2 @@
+alter table STEEL_PCP_ordensFabApont add turnoSteelSaida varchar(30)
+alter table STEEL_PCP_ordensFabItens add turnoSteelSaida varchar(30)

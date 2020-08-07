@@ -79,6 +79,9 @@ class CampoConsulta {
     const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
     const ICONE_FLAG = 'btn-xs btn btn-pure btn-dark icon wb-flag';
     const ICONE_EDIT = 'btn-xs btn btn-pure btn-primary icon wb-clipboard';
+    const ICONE_ADICIONAR = 'btn-xs btn btn-outline btn-warning icon wb-plus';
+    const ICONE_ENVIAR = 'btn-xs btn btn-outline btn-success icon wb-arrow-right';
+	
     const ICONE_BOTAOPRIMARY = 'btn btn-primary btn-xs ladda-button btn-grid';
     const ICONE_BOTAOSUCCES = 'btn btn-success btn-xs ladda-button btn-grid';
     const ICONE_BOTAODANGER = 'btn btn-danger btn-xs ladda-button btn-grid';
@@ -383,7 +386,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                   
+                    
                 }
                 if ($this->getBColOculta()) {
                     $sDisplay = 'display:none;';
@@ -396,7 +399,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                  
+                    
                 }
                 if ($this->getBColOculta()) {
                     $sDisplay = 'display:none;';
@@ -409,7 +412,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                   
+                    
                 }
                 $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">' . number_format($xValor, 2, ',', '.') . '</td>';
                 break;
@@ -419,7 +422,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                  
+                    
                 }
                 if ($xValor == '01/01/1970') {
                     $xValor = '';
@@ -432,9 +435,13 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                   
+                    
                 }
-                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'' . $this->getSDiretorioManual() . '/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
+                if ($this->getSDiretorioManual() == 'uploads') {
+                    $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'' . $this->getSDiretorioManual() . '/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
+                } else {
+                    $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href="\\Uploads/' . $this->getSDiretorioManual() . '/' . $xValor . '"\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
+                }
                 break;
             case self::TIPO_DESTAQUE1:
                 $iFontSize = $this->getITamanhoFonte();
@@ -452,7 +459,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                  
+                    
                 }
                 $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><span class="badge badge-default">' . $xValor . '</span></td>';
                 break;
@@ -462,7 +469,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                   
+                    
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -476,7 +483,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                   
+                    
                 }
                 $sTime = substr($xValor, 0, -8);
                 $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">' . $sTime . '</td>';
@@ -487,14 +494,14 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                  
+                    
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-warning btn-xs">+</i></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '"></i></button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'
@@ -514,7 +521,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                   
+                    
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -545,7 +552,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                  
+                    
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -574,7 +581,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                   
+                    
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
@@ -591,7 +598,7 @@ class CampoConsulta {
                 if (!$this->getBHideTelaAcao()) {
                     $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
                 }
-                $sCampo .= 'requestAjax("'.$this->aAcao['idTela'].'","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '","' . $this->aAcao['modalNome'] . ',"+idGrid+",' . $xValor . '");';
+                $sCampo .= 'requestAjax("' . $this->aAcao['idTela'] . '","' . $this->aAcao['classe'] . '","' . $this->aAcao['metodo'] . '","' . $this->aAcao['modalNome'] . ',"+idGrid+",' . $xValor . '");';
 
                 $sCampo .= '});</script>';
 
@@ -603,7 +610,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                   
+                    
                 }
 
                 $xValor = str_replace("\n", " ", $xValor);
@@ -660,7 +667,7 @@ class CampoConsulta {
                 if ($iFontSize != '' && $iFontSize != null) {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
-                  
+                    
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);

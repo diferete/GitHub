@@ -93,6 +93,8 @@ class ViewTiEquipamento extends View {
         $oHora->setBOculto(true);
 
         $oNFE = new Campo('NFE', 'nfe', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
+        
+        $oEquipImagem = new Campo('Imagem Equipamento', 'equipimagem', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
 
         $oEquipCod = new Campo('Código', 'equipcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEquipCod->setBCampoBloqueado(true);
@@ -210,7 +212,7 @@ class ViewTiEquipamento extends View {
 
         $oNumeroLicenca = new Campo('Número:', 'numlic', Campo::TIPO_TEXTO, 3, 3, 12, 12);
 
-        $this->addCampos(array($oEquipCod, $oEquipTipo, $oHora, $oData, $oSituaca), array($oUsuario, $oPessoa), $oFilcgc, $oCodSetor, array($oFabricante, $oModelo), array($oSistema, $oNFE), array($oLicensa, $oNumeroLicenca), array($oOffice, $oLicOffice), $oFieldHard, $oFieldNetwork, $oObs);
+        $this->addCampos(array($oEquipCod, $oEquipTipo, $oHora, $oData, $oSituaca), array($oUsuario, $oPessoa), $oFilcgc, $oCodSetor, array($oFabricante, $oModelo, $oEquipImagem), array($oSistema, $oNFE), array($oLicensa, $oNumeroLicenca), array($oOffice, $oLicOffice), $oFieldHard, $oFieldNetwork, $oObs);
     }
 
     public function relTiEquip() {
@@ -260,11 +262,33 @@ class ViewTiEquipamento extends View {
         $oSituaca->addItemSelect('Todas', 'Todas');
         $oSituaca->addItemSelect('A', 'Ativado');
         $oSituaca->addItemSelect('D', 'Desativado');
+        
+        $oSemEqp = new Campo ("Sem o equipamento:", 'semeqp', Campo::TIPO_SELECTTAGS, 2, 2, 12, 12);
+        $oSemEqp->addItemSelect('1','Computador');
+        $oSemEqp->addItemSelect('2','Notebook');
+        $oSemEqp->addItemSelect('3','Gravadora');
+        $oSemEqp->addItemSelect('4','Impressora');
+        $oSemEqp->addItemSelect('5','Estabilizador');
+        $oSemEqp->addItemSelect('6','Nobreak');
+        $oSemEqp->addItemSelect('7','Switch');
+        $oSemEqp->addItemSelect('8','Módulos Baterias');
+        $oSemEqp->addItemSelect('9','Roteador');
+        $oSemEqp->addItemSelect('10','Monitor');
+        $oSemEqp->addItemSelect('11','Firewall');
+        $oSemEqp->addItemSelect('12','Relógio Ponto');
+        $oSemEqp->addItemSelect('13','Leitor Código de Barra');
+        $oSemEqp->addItemSelect('14','Media Convert');
+        $oSemEqp->addItemSelect('16','Fonte POE');
+        $oSemEqp->addItemSelect('17','Tablet');
+        $oSemEqp->addItemSelect('18','Servidor');
+        $oSemEqp->addItemSelect('19','Camera');
+        $oSemEqp->addItemSelect('20','Central Telefonica');
+        $oSemEqp->addItemSelect('21','Quasro de computação');
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $this->addCampos($oTipoEquip, $oSetorCod, $oLinha1, $oSituaca, $oLinha1, $oSistema, $oLinha1, array($oLicensa, $oOffice), $oLinha1, $oIpFixo);
+        $this->addCampos($oTipoEquip, $oSetorCod, $oLinha1, $oSituaca, $oLinha1, $oSistema, $oLinha1, array($oLicensa, $oOffice), $oLinha1, array($oIpFixo,$oSemEqp));
     }
 
 }

@@ -75,6 +75,42 @@ class ModelQualNovoProjVenda {
     private $replibobs;
     private $acabamento;
     private $prazoentregautil;
+    private $usuaprovaoperacional;
+    private $dtaprovaoperacional;
+    private $usuaprovafinanceiro;
+    private $dtaprovafinanceiro;
+
+    function getUsuaprovaoperacional() {
+        return $this->usuaprovaoperacional;
+    }
+
+    function getDtaprovaoperacional() {
+        return $this->dtaprovaoperacional;
+    }
+
+    function getUsuaprovafinanceiro() {
+        return $this->usuaprovafinanceiro;
+    }
+
+    function getDtaprovafinanceiro() {
+        return $this->dtaprovafinanceiro;
+    }
+
+    function setUsuaprovaoperacional($usuaprovaoperacional) {
+        $this->usuaprovaoperacional = $usuaprovaoperacional;
+    }
+
+    function setDtaprovaoperacional($dtaprovaoperacional) {
+        $this->dtaprovaoperacional = $dtaprovaoperacional;
+    }
+
+    function setUsuaprovafinanceiro($usuaprovafinanceiro) {
+        $this->usuaprovafinanceiro = $usuaprovafinanceiro;
+    }
+
+    function setDtaprovafinanceiro($dtaprovafinanceiro) {
+        $this->dtaprovafinanceiro = $dtaprovafinanceiro;
+    }
 
     function getPrazoentregautil() {
         return $this->prazoentregautil;

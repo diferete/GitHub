@@ -295,17 +295,16 @@ $pdf->Cell(67, 5, "Máquinas", 1, 1, 'C');
 
 $pdf->SetFont('Arial', '', 10);
 
-$h = $pdf->GetY();
-$x = $pdf->GetX();
-$y = $pdf->GetY();
+$h=$pdf->GetY();
+$x=$pdf->GetX(); $y=$pdf->GetY();
 
-$pdf->MultiCell(67, 5, $row1['matprimades'], 0);
-$pdf->SetXY($x + 69, $y);
+$pdf->MultiCell(67, 5,$row1['matprimades'],0);
+$pdf->SetXY($x+69,$y); 
 
-$pdf->MultiCell(68, 5, $row1['maodeobrades'], 0);
-$pdf->SetXY($x + 139, $y);
+$pdf->MultiCell(68, 5,$row1['maodeobrades'],0);
+$pdf->SetXY($x+139,$y); 
 
-$pdf->MultiCell(67, 5, $row1['equipamentodes'], 0);
+$pdf->MultiCell(67, 5,$row1['equipamentodes'],0);
 
 $pdf->Ln(5);
 
@@ -319,20 +318,20 @@ $pdf->Cell(67, 5, "Medida", 1, 1, 'C');
 
 $pdf->SetFont('Arial', '', 10);
 
-$x = $pdf->GetX();
-$y = $pdf->GetY();
+$x=$pdf->GetX(); $y=$pdf->GetY();
 
-$pdf->MultiCell(67, 5, $row1['meioambientedes'], 0);
-$pdf->SetXY($x + 69, $y);
+$pdf->MultiCell(67, 5,$row1['meioambientedes'],0);
+$pdf->SetXY($x+69,$y); 
 
-$pdf->MultiCell(68, 5, $row1['metododes'], 0);
-$pdf->SetXY($x + 139, $y);
+$pdf->MultiCell(68, 5,$row1['metododes'],0);
+$pdf->SetXY($x+139,$y); 
 
-$pdf->MultiCell(67, 5, $row1['medidades'], 0);
+$pdf->MultiCell(67, 5,$row1['medidades'],0);
 
 $pdf->Ln(5);
 
 //strlen($sSqlC)   Conta a quantidade de caracteres
+
 //Cria bordas da tabela com base no tamanho do texto.
 //**************************************************
 //PRIMEIRA LINHA DE BLOCOS
@@ -340,36 +339,36 @@ $t1 = strlen($row1['matprimades']);
 $t2 = strlen($row1['maodeobrades']);
 $t3 = strlen($row1['equipamentodes']);
 
-$iMaior1 = max($t1, $t2, $t3);
+$iMaior1 = max($t1,$t2,$t3);
 
-if (($iMaior1 % 34) > 0) {
-    $iLinhas = (int) ($iMaior1 / 34);
+if (($iMaior1%34)>0){
+    $iLinhas = (int)($iMaior1/34);
     $iLinhas++;
-} else {
-    $iLinhas = (int) ($iMaior1 / 34);
+}else{
+    $iLinhas = (int)($iMaior1/34);
 }
 
-$pdf->Rect(3, $h, 67, 5 * $iLinhas);
-$pdf->Rect(72, $h, 68, 5 * $iLinhas);
-$pdf->Rect(142, $h, 67, 5 * $iLinhas);
+$pdf->Rect(3, $h, 67, 5*$iLinhas);
+$pdf->Rect(72, $h, 68, 5*$iLinhas);
+$pdf->Rect(142, $h, 67, 5*$iLinhas);
 
 //SEGUNDA LINHA DE BLOCOS
 $t4 = strlen($row1['meioambientedes']);
 $t5 = strlen($row1['metododes']);
 $t6 = strlen($row1['medidades']);
 
-$iMaior2 = max($t4, $t5, $t6);
+$iMaior2 = max($t4,$t5,$t6);
 
-if (($iMaior2 % 34) > 0) {
-    $iLinhas = (int) ($iMaior2 / 34);
+if (($iMaior2%34)>0){
+    $iLinhas = (int)($iMaior2/34);
     $iLinhas++;
-} else {
-    $iLinhas = (int) ($iMaior2 / 34);
+}else{
+    $iLinhas = (int)($iMaior2/34);
 }
 
-$pdf->Rect(3, $y, 67, 5 * $iLinhas);
-$pdf->Rect(72, $y, 68, 5 * $iLinhas);
-$pdf->Rect(142, $y, 67, 5 * $iLinhas);
+$pdf->Rect(3, $y, 67, 5*$iLinhas);
+$pdf->Rect(72, $y, 68, 5*$iLinhas);
+$pdf->Rect(142, $y, 67, 5*$iLinhas);
 
 //*******************
 //Fim do Cria Bordas Tabela
@@ -388,27 +387,27 @@ $sSql = "select causades,pq1,pq2,pq3,pq4,pq5,seq from MET_QUAL_qualcausa where n
 $dadosCausa = $PDO->query($sSql);
 
 while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
-
+   
     //Método que limpa as strings
     if (isset($row['causades'])) {
-        $row['causades'] = limpaString($row['causades']);
+    $row['causades'] = limpaString($row['causades']);
     }
     if (isset($row['pq1'])) {
-        $row['pq1'] = limpaString($row['pq1']);
+    $row['pq1'] = limpaString($row['pq1']);
     }
     if (isset($row['pq2'])) {
-        $row['pq2'] = limpaString($row['pq2']);
+    $row['pq2'] = limpaString($row['pq2']);
     }
     if (isset($row['pq3'])) {
-        $row['pq3'] = limpaString($row['pq3']);
+    $row['pq3'] = limpaString($row['pq3']);
     }
     if (isset($row['pq4'])) {
-        $row['pq4'] = limpaString($row['pq4']);
+    $row['pq4'] = limpaString($row['pq4']);
     }
     if (isset($row['pq5'])) {
-        $row['pq5'] = limpaString($row['pq5']);
+    $row['pq5'] = limpaString($row['pq5']);
     }
-
+    
     //Conta quantidade de caracteres para definir Tamanho do campo
     $c1 = strlen($row['causades']);
     $p1 = strlen($row['pq1']);
@@ -416,123 +415,126 @@ while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
     $p3 = strlen($row['pq3']);
     $p4 = strlen($row['pq4']);
     $p5 = strlen($row['pq5']);
-
+    
     //Destermina a quantidade de linhas de cada campo
-    if (($c1 % 99) > 0) {
-        $iL1 = (int) ($c1 / 99);
-        $iL1++;
-    } else {
-        $iL1 = (int) ($c1 / 99);
+    if (($c1%99)>0){
+    $iL1 = (int)($c1/99);
+    $iL1++;
+    }else{
+    $iL1 = (int)($c1/99);
     }
-    if (($p1 % 99) > 0) {
-        $iL2 = (int) ($p1 / 99);
-        $iL2++;
-    } else {
-        $iL2 = (int) ($p1 / 99);
+    if (($p1%99)>0){
+    $iL2 = (int)($p1/99);
+    $iL2++;
+    }else{
+    $iL2 = (int)($p1/99);
     }
-    if (($p2 % 99) > 0) {
-        $iL3 = (int) ($p2 / 99);
-        $iL3++;
-    } else {
-        $iL3 = (int) ($p2 / 99);
+    if (($p2%99)>0){
+    $iL3 = (int)($p2/99);
+    $iL3++;
+    }else{
+    $iL3 = (int)($p2/99);
     }
-    if (($p3 % 99) > 0) {
-        $iL4 = (int) ($p3 / 99);
-        $iL4++;
-    } else {
-        $iL4 = (int) ($p3 / 99);
+    if (($p3%99)>0){
+    $iL4 = (int)($p3/99);
+    $iL4++;
+    }else{
+    $iL4 = (int)($p3/99);
     }
-    if (($p4 % 99) > 0) {
-        $iL5 = (int) ($p4 / 99);
-        $iL5++;
-    } else {
-        $iL5 = (int) ($p4 / 99);
+    if (($p4%99)>0){
+    $iL5 = (int)($p4/99);
+    $iL5++;
+    }else{
+    $iL5 = (int)($p4/99);
     }
-    if (($p5 % 99) > 0) {
-        $iL6 = (int) ($p5 / 99);
-        $iL6++;
-    } else {
-        $iL6 = (int) ($p5 / 99);
+    if (($p5%99)>0){
+    $iL6 = (int)($p5/99);
+    $iL6++;
+    }else{
+    $iL6 = (int)($p5/99);
     }
-
+    
     if (isset($row['causades'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL1 * 5, 'Causa', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
+        $x=$pdf->GetX(); $y=$pdf->GetY(); 
+        $pdf->MultiCell(27, $iL1*5, 'Causa', 1 ,'C');
+               
+        $pdf->SetXY($x+27,$y); 
+        
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->MultiCell(179, 5, $row['causades'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
+        $pdf->MultiCell(179, 5,$row['causades'], 1, 'J');
+        $pdf = quebraPagina($pdf->GetY(),$pdf);
+    
+        
     }
-
+    
     if (isset($row['pq1'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL2 * 5, '1º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
+        $x=$pdf->GetX(); $y=$pdf->GetY(); 
+        $pdf->MultiCell(27, $iL2*5, '1º Porque', 1 ,'C');
+        
+        $pdf->SetXY($x+27,$y);
+        
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq1'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
+        $pdf = quebraPagina($pdf->GetY(),$pdf);
+    
+        
     }
-
+    
     if (isset($row['pq2'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL3 * 5, '2º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
+        $x=$pdf->GetX(); $y=$pdf->GetY(); 
+        $pdf->MultiCell(27, $iL3*5, '2º Porque', 1 ,'C');
+        
+        $pdf->SetXY($x+27,$y);
+                
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq2'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
+        $pdf = quebraPagina($pdf->GetY(),$pdf);
+    
+        
     }
-
+    
     if (isset($row['pq3'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL4 * 5, '3º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
+        $x=$pdf->GetX(); $y=$pdf->GetY(); 
+        $pdf->MultiCell(27, $iL4*5, '3º Porque', 1 ,'C');
+        
+        $pdf->SetXY($x+27,$y);
+                
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq3'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
+        $pdf = quebraPagina($pdf->GetY(),$pdf);
+   
     }
-
+    
     if (isset($row['pq4'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL5 * 5, '4º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
+        $x=$pdf->GetX(); $y=$pdf->GetY(); 
+        $pdf->MultiCell(27, $iL5*5, '4º Porque', 1 ,'C');
+        
+        $pdf->SetXY($x+27,$y);
+                
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq4'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
+        $pdf = quebraPagina($pdf->GetY(),$pdf);
+        
     }
-
+    
     if (isset($row['pq5'])) {
         $pdf->SetFont('Arial', 'B', 10);
-        $x = $pdf->GetX();
-        $y = $pdf->GetY();
-        $pdf->MultiCell(27, $iL6 * 5, '5º Porque', 1, 'C');
-
-        $pdf->SetXY($x + 27, $y);
-
+        $x=$pdf->GetX(); $y=$pdf->GetY(); 
+        $pdf->MultiCell(27, $iL6*5, '5º Porque', 1 ,'C');
+        
+        $pdf->SetXY($x+27,$y);
+                
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(179, 5, $row['pq5'], 1, 'J');
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
+        $pdf = quebraPagina($pdf->GetY(),$pdf);
+        
     }
-
+    
     $pdf->Ln(1);
     $iAlturaCausa = $pdf->GetY() + 5;
 }
@@ -540,21 +542,21 @@ while ($row = $dadosCausa->fetch(PDO::FETCH_ASSOC)) {
 
 //$pdf->Cell(0,5,"","B",1,'C');
 //###########################plano de ação#########################################
-$pdf = quebraPagina($pdf->GetY(), $pdf);
+$pdf = quebraPagina($pdf->GetY(),$pdf);
 /*
-  $pdf->SetY($iAlturaCausa);
-  $iAlturaAcao = $iAlturaCausa;
-  $l = 5;
+$pdf->SetY($iAlturaCausa);
+$iAlturaAcao = $iAlturaCausa;
+$l = 5;
 
-  if ($iAlturaAcao + $l >= 270) {    // 275 é o tamanho da página
-  $pdf->AddPage();   // adiciona se ultrapassar o limite da página
-  $pdf->SetY(10);
-  $iAlturaAcao = 10;
-  }
- */
+if ($iAlturaAcao + $l >= 270) {    // 275 é o tamanho da página
+    $pdf->AddPage();   // adiciona se ultrapassar o limite da página
+    $pdf->SetY(10);
+    $iAlturaAcao = 10;
+}
+*/
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(206, 5, "Planos de ação", 1, 1, 'C', TRUE);
-$pdf = quebraPagina($pdf->GetY(), $pdf);
+$pdf = quebraPagina($pdf->GetY(),$pdf);
 
 $sSql = "select seq,plano,sitfim,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim,procedimento,it,planocontrole,fluxograma,ppap,contexto,preventiva,funcao,treinamento,obsfim "
         . " from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $Filcgc . "' and tipo <> 'Eficiência' order by seq";
@@ -564,35 +566,35 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(70, 5, "Responsável", 1, 0, 'C', true);
     $pdf->Cell(68, 5, "Data prev.", 1, 0, 'C', true);
     $pdf->Cell(68, 5, "Data realiz.", 1, 1, 'C', true);
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
-    /*
-      if ($iAlturaAcao >= 260) {    // 275 é o tamanho da página
-      $pdf->AddPage();   // adiciona se ultrapassar o limite da página
-      $pdf->SetY(10);
-      $iAlturaAcao = 10;
-      } */
+    $pdf = quebraPagina($pdf->GetY(),$pdf);
+/*
+    if ($iAlturaAcao >= 260) {    // 275 é o tamanho da página
+        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
+        $pdf->SetY(10);
+        $iAlturaAcao = 10;
+    }*/
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(70, 5, $row['usunome'], 1, 0, 'C');
     $pdf->Cell(68, 5, $row['dataprev'], 1, 0, 'C');
     $pdf->Cell(68, 5, $row['datafim'], 1, 1, 'C');
-
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
-
+    
+    $pdf = quebraPagina($pdf->GetY(),$pdf);
+    
     $pdf->SetFont('Arial', 'B', 8);
     $pdf->MultiCell(206, 5, 'Ação ' . $row['seq'] . ' = ' . $row['plano'], 1, 'L');
-
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
-
+    
+    $pdf = quebraPagina($pdf->GetY(),$pdf);
+    
     $pdf->MultiCell(206, 5, 'Obs. Final = ' . $row['obsfim'], 1, 'L');
-    // $iAlturaAcao = $pdf->GetY();
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
-
+   // $iAlturaAcao = $pdf->GetY();
+    $pdf = quebraPagina($pdf->GetY(),$pdf);
+    
     if ($row['sitfim'] == 'Finalizado') {
 
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(206, 5, 'Documentos alterados pelo plano de ação ' . $row['seq'], 1, 1, 'C', TRUE);
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
-
+        $pdf = quebraPagina($pdf->GetY(),$pdf);
+        
         $sDoc = '';
 
         if ($row['procedimento'] == true) {
@@ -675,7 +677,7 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFont('Arial', '', 10);
         $pdf->MultiCell(206, 5, $sDoc, 1, 'J');
         $pdf->Ln(1);
-        $pdf = quebraPagina($pdf->GetY(), $pdf);
+        $pdf = quebraPagina($pdf->GetY(),$pdf);
     }
 }
 
@@ -695,11 +697,11 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
  */
 /* * ******************************AVALIAÇÃO DA EFICÁCIA******************************************************************************* */
 $pdf->Ln(5);
-$pdf = quebraPagina($pdf->GetY(), $pdf);
+$pdf = quebraPagina($pdf->GetY(),$pdf);
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(206, 5, "Avaliação da eficácia", 1, 1, 'C', TRUE);
 
-$pdf = quebraPagina($pdf->GetY(), $pdf);
+$pdf = quebraPagina($pdf->GetY(),$pdf);
 //$pdf->SetY($iAlturaAcao+12);
 
 $iAlturaEfi = $pdf->GetY();
@@ -712,17 +714,17 @@ $dadosEficaz = $PDO->query($sSql);
 
 while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
     /*
-      if ($iAlturaEfi + $l >= 265) {    // 275 é o tamanho da página
-      $pdf->AddPage();   // adiciona se ultrapassar o limite da página
-      $pdf->SetY(10);
-      $iAlturaEfi = 10;
-      }
-     */
+    if ($iAlturaEfi + $l >= 265) {    // 275 é o tamanho da página
+        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
+        $pdf->SetY(10);
+        $iAlturaEfi = 10;
+    }
+    */
     $pdf->SetFont('Arial', '', 10);
     $pdf->MultiCell(206, 5, 'Avaliação nº' . $row['seq'] . ': ' . $row['acao'], 1, 'L');
 
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
-
+    $pdf = quebraPagina($pdf->GetY(),$pdf);
+    
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(20, 5, "Quando:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
@@ -742,13 +744,13 @@ while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(30, 5, "Data realizada:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(33, 5, $row['datareal'], 1, 1, 'C');
-
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
+    
+    $pdf = quebraPagina($pdf->GetY(),$pdf);
 
     $pdf->SetFont('Arial', '', 10);
     $pdf->MultiCell(206, 5, 'Obs. apontamento = ' . $row['obs'], 1, 'L');
-
-    $pdf = quebraPagina($pdf->GetY(), $pdf);
+    
+    $pdf = quebraPagina($pdf->GetY(),$pdf);
 
     if ($row['comAcao'] == 'S') {
 
@@ -763,19 +765,19 @@ while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
             $pdf->Cell(70, 5, "Responsável", 1, 0, 'C', true);
             $pdf->Cell(68, 5, "Data prev.", 1, 0, 'C', true);
             $pdf->Cell(68, 5, "Data realiz.", 1, 1, 'C', true);
-
-            $pdf = quebraPagina($pdf->GetY(), $pdf);
-
+            
+            $pdf = quebraPagina($pdf->GetY(),$pdf);
+            
             $pdf->SetFont('Arial', '', 10);
             $pdf->Cell(70, 5, $rowPlanEf['usunome'], 1, 0, 'C', true);
             $pdf->Cell(68, 5, $rowPlanEf['dataprev'], 1, 0, 'C', true);
             $pdf->Cell(68, 5, $rowPlanEf['datafim'], 1, 1, 'C', true);
-
-            $pdf = quebraPagina($pdf->GetY(), $pdf);
-
+            
+            $pdf = quebraPagina($pdf->GetY(),$pdf);
+            
             $pdf->MultiCell(206, 5, 'Ação = ' . $rowPlanEf['plano'], 1, 'L', true);
-
-            $pdf = quebraPagina($pdf->GetY(), $pdf);
+            
+            $pdf = quebraPagina($pdf->GetY(),$pdf);
         }
     }
 
@@ -838,19 +840,19 @@ if ($sEmailRequest == 'S') {
 }
 
 //Função que quebra página em uma dada altura do PDF
-function quebraPagina($i, $pdf) {
+function quebraPagina($i, $pdf){
     if ($i >= 270) {    // 275 é o tamanho da página
-        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
-        $pdf->SetY(10);
+    $pdf->AddPage();   // adiciona se ultrapassar o limite da página
+    $pdf->SetY(10);
     }
     return $pdf;
 }
 
 function limpaString($sString) {
 
-    $sStringLimpa = str_replace("\n", " ", $sString);
-    $sStringLimpa1 = str_replace("'", "\'", $sStringLimpa);
-    $sStringLimpa2 = str_replace("\r", "", $sStringLimpa1);
+        $sStringLimpa = str_replace("\n", " ", $sString);
+        $sStringLimpa1 = str_replace("'", "\'", $sStringLimpa);
+        $sStringLimpa2 = str_replace("\r", "", $sStringLimpa1);
 
-    return $sStringLimpa2;
+        return $sStringLimpa2;
 }

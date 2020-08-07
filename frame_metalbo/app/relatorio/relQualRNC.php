@@ -16,6 +16,12 @@ $sTipRnc = $_REQUEST['tipornc'];
 $sTipFix = $_REQUEST['tipfix'];
 $sCodProd = $_REQUEST['codprod'];
 $sDesProd = $_REQUEST['descprod'];
+$sFuncionario = $_REQUEST['nomfun'];
+if(isset( $_REQUEST['func'])){
+   $sRelFunc =(boolean) $_REQUEST['func'];
+}else{
+   $sRelFunc = false;
+}
 
 class PDF extends FPDF {
 
@@ -41,6 +47,7 @@ $pdf->SetMargins(2, 10, 2);
 $pdf->Image('../../biblioteca/assets/images/logopn.png', 3, 9, 40); // INSERE UMA LOGOMARCA NO PONTO X = 11, Y = 11, E DE TAMANHO 40.
 $pdf->SetFont('Arial', 'B', 16);
 
+if(!$sRelFunc){
 //cabeçalho
 $pdf->SetMargins(3, 0, 3);
 
@@ -450,6 +457,121 @@ $pdf->SetFont('arial', '', 8);
 $pdf->Cell(100, 5, $row7['descset02'], 'B', 0, 'L');     
 $pdf->Cell(100, 5, $row7['TotalRnc'], 'B', 1, 'L'); 
     
+}
+
+} //RELATÓRIO POR FUNCIOÁRIO CAUSADOR
+else{
+    
+//cabeçalho
+$pdf->SetMargins(3, 0, 3);
+
+$pdf->SetFont('Arial', 'B', 15);
+// Move to the right
+$pdf->Cell(45);
+// Title
+$pdf->Cell(100, 10, 'Relatório Geral de Não Conformidade', 0, 0, 'L');
+
+$x = $pdf->GetX();
+$y = $pdf->GetY();
+
+$pdf->SetFont('Arial', '', 10);
+$pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
+$pdf->SetXY($x, $y + 5);
+$pdf->MultiCell(50, 5, 'Data: ' . $sData .
+        '  Hora: ' . $sHora, 0, 'L');
+
+$pdf->Ln(5);
+$pdf->Cell(0, 0, "", "B", 1, 'C');
+$pdf->Ln(3);
+
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(15, 5, 'Filtros:', 0, 0, 'L');
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(20, 5, 'Data Inicial: ', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(20, 5, $sDataIni, 0, 0, 'L');
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(20, 5, 'Data Final: ', 0, 0, 'L');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(20, 5, $sDataFin, 0, 0, 'L');
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(25, 5, 'Funcionario: ', 0, 0, 'L');
+$pdf->SetFont('arial', '', 8);
+if($sFuncionario==''||$sFuncionario==null){
+    $sFuncionario  ='TODOS';
+}
+$pdf->Cell(30, 5, $sFuncionario, 0, 1, 'L');
+
+$pdf->Cell(203, 2, '', 'B', 1, 'L');  
+$pdf->Cell(203, 1, '', 'B', 1, 'L'); 
+$pdf->Ln(10);
+
+$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+
+if($sFuncionario!='TODOS'){
+        
+    $sql = "select nr from Met_Qual_rnc where usercausa like '%".$sFuncionario."%'";
+
+   // $sql.=" and databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
+
+    $sth = $PDO->query($sql);
+
+    
+    $sNrs = '';
+    while ($row = $sth->fetch(PDO::FETCH_ASSOC)){
+        $sNrs = $sNrs.$row['nr'].'; ';
+    }
+        
+        $pdf->SetFont('arial', 'B', 10);
+        $pdf->Cell(30, 5, 'FUNCIONÁRIO: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 10);
+        $pdf->MultiCell(180, 5, $sFuncionario, 0, 'L'); 
+
+        $pdf->Ln(10);
+    
+        $pdf->SetFont('arial', 'B', 10);
+        $pdf->Cell(15, 5, 'RNCs: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 10);
+        $pdf->MultiCell(180, 5, $sNrs, 0, 'L'); 
+        
+    $sql1 = "select count(nr) as TotalRnc from Met_Qual_rnc where usercausa like '%".$sFuncionario."%'";    
+    
+    $sth1 = $PDO->query($sql1);
+    
+    $row1 = $sth1->fetch(PDO::FETCH_ASSOC);
+    
+    $pdf->Ln(10);
+    
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(15, 5, 'TOTAL: ', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->MultiCell(180, 5, $row1['TotalRnc'], 0, 'L'); 
+    
+}else{
+    
+    $sql = "select nr,usercausa  from Met_Qual_rnc";
+    $sql.=" where databert between '" . $sDataIni . "' and '" . $sDataFin . "' 
+            and usercausa <> ''
+            group by nr,usercausa ";
+    
+    $sth = $PDO->query($sql);
+            
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(15, 5, 'RNCs', 'B,T,R,L', 0, 'C');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(188, 5, 'FUNCIONÁRIO', 'B,T,R,L', 1, 'C');    
+    
+    while ($row = $sth->fetch(PDO::FETCH_ASSOC)){
+        
+        $pdf->SetFont('arial', '', 10);
+        $pdf->Cell(15, 5, $row['nr'], 'B,T,R,L', 0, 'L');
+        $pdf->SetFont('arial', '', 10);
+        $pdf->Cell(188, 5, $row['usercausa'], 'B,T,R,L', 1, 'L'); 
+
+        $pdf = quebraPagina($pdf->GetY()+10, $pdf);
+    }
+        
+}
 }
 
 $pdf->Output('I', 'relQualRNC.pdf');

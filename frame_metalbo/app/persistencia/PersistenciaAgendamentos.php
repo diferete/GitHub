@@ -55,10 +55,10 @@ class PersistenciaAgendamentos extends Persistencia {
                 $aRetorno = $this->executaSql($sSql);
 
                 //chamar funcao do envio email
-                if ($aRetorno[0]) {
+                /*if ($aRetorno[0]) {
                     $oAgenda = Fabrica::FabricarController('Agendamentos');
                     $aRetEmail = $oAgenda->envEmail($oValue);
-                }
+                }*/
             }
         }
         return $aRetorno;

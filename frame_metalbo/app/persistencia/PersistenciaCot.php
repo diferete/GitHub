@@ -36,21 +36,17 @@ class PersistenciaCot extends Persistencia {
         $this->adicionaRelacionamento('emailcot', 'emailcot');
         $this->adicionaRelacionamento('venda', 'venda');
         $this->adicionaRelacionamento('nrvenda', 'nrvenda');
-
         $this->adicionaRelacionamento('consemail', 'consemail');
         $this->adicionaRelacionamento('frete', 'frete');
         $this->adicionaRelacionamento('situaca', 'situaca');
-
-
         $this->adicionaRelacionamento('dtent', 'dtent');
         $this->adicionaRelacionamento('contato', 'contato');
-
         $this->adicionaRelacionamento('diver', 'diver');
         $this->adicionaRelacionamento('qtexata', 'qtexata');
         $this->adicionaRelacionamento('userins', 'userins');
 
 
-        $this->setSTop('200');
+        $this->setSTop('100');
         $this->adicionaOrderBy('nr', 1);
     }
 

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="vizualizaCotEmp" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f3a98fd-259c-425b-9ced-2ac59e430b92">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="filtroSql" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select tbcotiten.cotcod,tbcot.cotaplic,cotdataemi,cothoraemi,
+cotusuario,tbcotiten.cotseq,
+tbcotiten.procod,prodes,cotqt,tbcotiten.cotaplic as aplicIten,
+pesnome,cotitenpreco,conddes,cotitenobs,conddes
+from tbcotiten left outer join
+tbcot on tbcotiten.cotcod = tbcot.cotcod left outer join
+tbproduto on tbcotiten.procod = tbproduto.procod left outer join
+tbcotitencomp on tbcotiten.cotcod = tbcotitencomp.cotcod
+and tbcotiten.cotseq = tbcotitencomp.cotseq left outer join
+tbpessoa on tbcotitencomp.pescodigo = tbpessoa.pescodigo left outer join
+tbcondpag on tbcotitencomp.condcod = tbcondpag.condcod
+$P{filtroSql}]]>
+	</queryString>
+	<field name="cotcod" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotaplic" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotdataemi" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cothoraemi" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotusuario" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotseq" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="procod" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prodes" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotqt" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="aplicIten" class="java.lang.String"/>
+	<field name="pesnome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotitenpreco" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="conddes" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cotitenobs" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="cotitenpreco_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{cotitenpreco}]]></variableExpression>
+	</variable>
+	<variable name="cotitenpreco_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{cotitenpreco}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement x="225" y="21" width="100" height="30" uuid="f6b0b86d-c2da-40fc-b80e-a5d68145f69d"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cotcod}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="21" width="175" height="30" uuid="92dcda49-d640-4a67-b3e8-693513a55d96"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[SOLICITAÇÃO Nº]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="141" splitType="Stretch">
+			<staticText>
+				<reportElement x="26" y="10" width="100" height="20" uuid="a90adc8a-f29e-4cfb-93bb-8c86c260442c"/>
+				<text><![CDATA[APLICAÇÃO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="31" width="100" height="20" uuid="4db62907-c7a0-4ab0-8fe4-7af50fb88992"/>
+				<text><![CDATA[DATA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="52" width="100" height="20" uuid="e92935af-9707-4148-a210-4bcbec989ad2"/>
+				<text><![CDATA[HORA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="26" y="73" width="100" height="20" uuid="d89bfa69-4648-44be-82a0-7ce34f56914e"/>
+				<text><![CDATA[USUÁRIO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="144" y="10" width="384" height="20" uuid="163d7a05-b23c-47fb-b4bb-b5b4f600edca"/>
+				<textFieldExpression><![CDATA[$F{cotaplic}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="144" y="31" width="100" height="20" uuid="867dc454-36bb-46b7-86b7-ffaeea1d1533"/>
+				<textFieldExpression><![CDATA[$F{cotdataemi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="53" width="100" height="20" uuid="ae39308c-86f6-4faf-aad9-3067451dad7f"/>
+				<textFieldExpression><![CDATA[$F{cothoraemi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="74" width="100" height="20" uuid="830b717b-615d-4706-89ab-eebe05b826d4"/>
+				<textFieldExpression><![CDATA[$F{cotusuario}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="4" y="140" width="551" height="1" uuid="5f8ee430-b86d-482e-bfcc-c18e837dadf3"/>
+			</line>
+			<textField>
+				<reportElement x="144" y="110" width="372" height="20" uuid="316df1d2-8f25-4e3d-9831-3963faefdd5c"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pesnome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="26" y="110" width="100" height="20" uuid="221d2bff-ebdf-414d-839f-c51b2c796a1e"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[EMPRESA]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="4" width="58" height="15" uuid="4b349494-c936-422b-a53e-1916d6bd5374"/>
+				<text><![CDATA[PRODUTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="7" width="75" height="15" uuid="1465d741-87dd-466c-adcd-f9ceecb9b37d"/>
+				<text><![CDATA[QUANTIDADE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="428" y="7" width="100" height="15" uuid="a08524c8-43a2-4d13-a7e3-99be638218c8"/>
+				<text><![CDATA[PAGAMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="328" y="7" width="100" height="15" uuid="d0310e5e-1dd8-4001-88fc-6d7ac280b348"/>
+				<text><![CDATA[PREÇO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="1" width="57" height="13" uuid="9ec82869-876c-4a6a-a6d6-7c83fd20d59e"/>
+				<textFieldExpression><![CDATA[$F{procod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="1" width="169" height="13" uuid="76255812-9132-45c0-9d7d-ce93178c6943"/>
+				<textFieldExpression><![CDATA[$F{prodes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00">
+				<reportElement x="251" y="1" width="58" height="13" uuid="268558ec-732d-44eb-8f9d-acd1e72ed9d0"/>
+				<textFieldExpression><![CDATA[$F{cotqt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="428" y="0" width="100" height="13" uuid="3b281cd0-c717-40c1-80b0-17dc2c30c4de"/>
+				<textFieldExpression><![CDATA[$F{conddes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="328" y="1" width="100" height="13" uuid="1ee9112b-b150-4713-ba1f-3f49d2ac1dca"/>
+				<textFieldExpression><![CDATA[$F{cotitenpreco}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="95" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="7" width="554" height="1" uuid="a6750aca-ea07-40ea-9d7c-7381e5bbbfc9"/>
+			</line>
+			<staticText>
+				<reportElement x="5" y="35" width="160" height="20" uuid="99e83c32-3eb5-4b25-8879-413e6ba34c27"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DA COTAÇÃO ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="201" y="35" width="205" height="20" uuid="5fd232a2-6ba5-4415-8165-f8a1a69536c1"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{cotitenpreco_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="175" y="35" width="26" height="20" uuid="4db9734f-8ad7-48db-a23c-c16bda6a811e"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[R$]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

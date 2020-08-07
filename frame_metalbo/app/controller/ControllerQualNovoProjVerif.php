@@ -32,31 +32,12 @@ class ControllerQualNovoProjVerif extends Controller {
         $this->View->getTela()->getRender();
     }
 
-    public function beforeUpdate() {
-        parent::beforeUpdate();
-
-        $oRespValProj = $_SESSION['nome'];
-        $oUsutipoVal = $_SESSION['usutipo'];
-
-        if ($oRespValProj == 'Eloir Jordelino' || $oUsutipoVal == '1') {
-            $aRetorno = array();
-            $aRetorno[0] = true;
-            $aRetorno[1] = '';
-            return $aRetorno;
-        } else {
-            $oMensagem = new Modal('Alteração inválida', 'Você não tem autorização para alterar ou inserir dados nessa tela... Contate um administrador ou o setor de TI', Modal::TIPO_ERRO, false, true, false);
-            echo $oMensagem->getRender();
-            //$this->getTela()->setBFecharTelaIncluir(true);
-            return;
-        }
-    }
-
     public function afterUpdate() {
         parent::afterUpdate();
 
         $oNr = $this->Model->getNr();
         $oFilcgc = $this->Model->getEmpRex()->getFilcgc();
-        
+
         $this->Persistencia->verifValProj($oFilcgc, $oNr);
 
         $aRetorno = array();

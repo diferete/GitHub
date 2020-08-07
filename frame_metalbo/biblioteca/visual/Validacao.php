@@ -35,7 +35,7 @@ class Validacao {
     const REGEX_TELEFONE = '^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$';
     const REGEX_CEP = '/\d{2}\.\d{3}\-\d{3}/';
     const REGEX_ = '';
-    const TRIGGER_TODOS = 'keyup focus change';
+    const TRIGGER_TODOS = 'keyup focus change blur keydown';
     const TRIGGER_SAIR = 'blur';
     const TRIGGER_FOCO = 'focus';
     const TRIGGER_CHANGE = 'change';

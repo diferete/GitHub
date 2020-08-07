@@ -15,7 +15,7 @@ class ControllerPnlFinan extends Controller{
     }
     
    public function pkDetalhe($aChave) {
-        parent::pkDetalhe($aChave);
+        parent::pkDetalhe();
         
         $oModelPessoa = Fabrica::FabricarModel('Pessoa');
         $oPersPessoa = Fabrica::FabricarPersistencia('Pessoa');
@@ -27,11 +27,7 @@ class ControllerPnlFinan extends Controller{
         $aCampos[] = $oModelPessoa->getEmpdes();
         $aCampos[] = $aChave[2];
         
-       
-        
         $this->View->setAParametrosExtras($aCampos);
-        
-       
     }
     
     public function calculoPersonalizado($sParametros = null,$aParam=null) {
@@ -41,7 +37,7 @@ class ControllerPnlFinan extends Controller{
             $sEmpcod=$value[0];
             $sCnpj = $value[1];
         }
-        
+        $this->Persistencia->adicionaFiltro('empcod', $sCnpj);
         $iTotal = $this->Persistencia->somaTitulos();
         $iAtraso = $this->Persistencia->somaTitAtraso();
         $iMedia = $this->Persistencia->mediaFat($sCnpj);

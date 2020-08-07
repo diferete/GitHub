@@ -50,7 +50,7 @@ class ControllerMenu extends Controller {
                     $iMenuId = $iCont . '-' . $iContSub;
                     $sEstruturaMenu .= '<li class="site-menu-item" id="menu-' . $iMenuId . '"> '
                             . '  <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela ' . $aSupItem[0] . '" onclick="verificaTab(\\\'menu-' . $iMenuId . '\\\',\\\'' . $iMenuId . '\\\',\\\'' . $aSupItem[1] . '\\\',\\\'' . $aSupItem[2] . '\\\',\\\'tabmenu-' . $iMenuId . '\\\');">'
-                            . '     <i class="site-menu-icon  icon fa-star-o " title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax(\\\'menu-' . $iMenuId . '\\\',\\\'FavMenu\\\',\\\'msgInsFav\\\',\\\'' . utf8_encode($aSupItem[0]) . ',' . utf8_encode($aSupItem[1]) . ',' . utf8_encode($aSupItem[2]) . '\\\');";></i>'
+                            . '     <i style="color:gold;" class="site-menu-icon icon wb-star " title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax(\\\'menu-' . $iMenuId . '\\\',\\\'FavMenu\\\',\\\'msgInsFav\\\',\\\'' . utf8_encode($aSupItem[0]) . ',' . utf8_encode($aSupItem[1]) . ',' . utf8_encode($aSupItem[2]) . '\\\');";></i>'
                             . '      <span class="site-menu-title">' . $aSupItem[0] . '</span>'
                             . '    </a>'
                             . '  </li>';
