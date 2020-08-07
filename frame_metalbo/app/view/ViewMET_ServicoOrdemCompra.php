@@ -26,7 +26,24 @@ class ViewMET_ServicoOrdemCompra extends View {
         $oDesprod = new CampoConsulta('Produto', 'Produto.prodes', CampoConsulta::TIPO_TEXTO);
         $otips = new CampoConsulta('Tipo', 'tips', CampoConsulta::TIPO_TEXTO);
         $odescserv = new CampoConsulta('Desc.Tipo', 'descserv', CampoConsulta::TIPO_TEXTO);
-        $ovaloruni = new CampoConsulta('Valor unidade', 'valoruni', CampoConsulta::TIPO_MONEY);
+        $ovaloruni = new CampoConsulta('Valor unidade', 'valoruni', CampoConsulta::TIPO_DECIMAL);
+        
+        $oFilSeq = new Filtro($oseq, Filtro::CAMPO_TEXTO_IGUAL, 1);
+        $oFilEmpdes = new Filtro($oEmpdes, Filtro::CAMPO_TEXTO, 2);
+        $oFilCnpj = new Filtro($oEmpcod, Filtro::CAMPO_BUSCADOBANCOPK, 2);
+        $oFilCnpj->setSClasseBusca('Pessoa');
+        $oFilCnpj->setSCampoRetorno('empcod', $this->getTela()->getSId());
+        $oFilCnpj->setSIdTela($this->getTela()->getSId());
+        
+        $oFilProddes = new Filtro($oDesprod, Filtro::CAMPO_TEXTO, 2);
+        $oFilProd = new Filtro($oCodprod, Filtro::CAMPO_BUSCADOBANCOPK, 2);
+        $oFilProd->setSClasseBusca('Produto');
+        $oFilProd->setSCampoRetorno('procod', $this->getTela()->getSId());
+        $oFilProd->setSIdTela($this->getTela()->getSId());
+                
+        $oFilTipodes = new Filtro($odescserv, Filtro::CAMPO_TEXTO, 2);
+        
+        $this->addFiltro($oFilSeq, $oFilCnpj, $oFilEmpdes, $oFilTipodes, $oFilProd, $oFilProddes);
  
         $this->addCampos($oseq, $oEmpcod, $oEmpdes, $ogrupo, $otips, $odescserv, $oCodprod, $oDesprod, $ovaloruni);
     }
@@ -102,7 +119,7 @@ class ViewMET_ServicoOrdemCompra extends View {
         $otips->addCampoBusca('descserv', $odescserv->getId(), $this->getTela()->getId());
         
        ////////////////////////////////////////////
-        $ovaloruni = new Campo('Valor (Kg)', 'valoruni', Campo::TIPO_MONEY, 1, 1, 12, 12);
+        $ovaloruni = new Campo('Valor (Kg)', 'valoruni', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         if ($sAcaoRotina == 'acaoVisualizar') {
             $ovaloruni->setBCampoBloqueado(true);
         }
