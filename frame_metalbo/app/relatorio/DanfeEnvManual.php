@@ -57,7 +57,7 @@ $aRetorno = enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO);
 updates($aRetorno, $aDados, $aDadosNF, $PDO);
 
 if (!$aRetorno[0]) {
-    $oMsg = new Mensagem('Atenção', 'O e-mail não foi enviado, verifique a tabela de LOGS', Mensagem::TIPO_ERROR);
+    $oMsg = new Mensagem('Atenção', 'O e-mail não foi enviado, verifique a tabela de LOGS', Mensagem::TIPO_ERROR, 5000, true);
 } else {
     $oMsg = new Mensagem('Sucesso', 'e-mail enviado com sucesso', Mensagem::TIPO_SUCESSO);
 }
@@ -115,7 +115,7 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     $oEmail->setUsuario(Config::EMAIL_SENDER);
     $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
     $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Envio de XML e DANFE'));
+    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Envio de XML de DANFE'));
 
     $oEmail->setAssunto(utf8_decode('XML METALBO IND. FIXADORES METALICOS LTDA'));
     $oEmail->setMensagem(utf8_decode('<span>Seguem XML e DANFE referente a NF.: <b> ' . $aDados[1] . '</b></span>'
@@ -130,8 +130,8 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
         $sSqlEMP = "select empcod from widl.emp01 where empcnpj = '" . $aDadosNF['nfsclicgc'] . "'";
         $query = $PDO->query($sSqlEMP);
         $aRow = $query->fetch(PDO::FETCH_ASSOC);
-		
-		if (($aDadosNF['nfsclicod'] == '75483040000130')) {
+
+        if (($aDadosNF['nfsclicod'] == '75483040000130')) {
             $aRow['empcod'] = '75483040000130';
         }
 
@@ -144,11 +144,12 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
         $oEmail->addDestinatario($aRow['empconemai']);
     }
 
-//    $oEmail->limpaDestinatariosAll();
-//    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-//    $oEmail->addDestinatario('avanei@metalbo.com.br');
-//    $oEmail->addDestinatario('jose@metalbo.com.br');
-//    $oEmail->addDestinatario('cleverton@metalbo.com.br');
+
+    //$oEmail->limpaDestinatariosAll();
+    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+    //$oEmail->addDestinatario('avanei@metalbo.com.br');
+    //$oEmail->addDestinatario('jose@metalbo.com.br');
+    //$oEmail->addDestinatario('cleverton@metalbo.com.br');
 
     $aDadosXml = explode('\\', $sDirXml);
 
@@ -249,4 +250,3 @@ function montaDadosExtras($aDadosNF, $aDados, $PDO) {
     }
     return $aDadosExtras;
 }
-

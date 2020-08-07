@@ -313,7 +313,7 @@ class ViewMET_TEC_Chamados extends View {
         $oObsFim->setBFocus(true);
         $oObsFim->addValidacao(false, Validacao::TIPO_STRING, '', '5');
 
-        $oAnexoFinal = new Campo('Anexo', 'anexofinaliza', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
+        $oAnexoFinal = new Campo('Anexo', 'anexofim', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
 
         //botão inserir os dados
         $oBtnFim = new Campo('Finalizar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);

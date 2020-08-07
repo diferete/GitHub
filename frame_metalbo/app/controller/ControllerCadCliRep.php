@@ -176,7 +176,7 @@ class ControllerCadCliRep extends Controller {
     }
 
     public function enviaEmailMetalbo($sNr) {
-       $oEmail = new Email();
+        $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
         $oEmail->setServidor(Config::SERVER_SMTP);
@@ -185,7 +185,7 @@ class ControllerCadCliRep extends Controller {
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
         $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER),utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
         $this->Persistencia->adicionafiltro('nr', $sNr);
         $oRow = $this->Persistencia->consultarWhere();

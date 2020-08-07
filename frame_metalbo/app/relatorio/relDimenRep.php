@@ -79,7 +79,7 @@ $pdf->Ln(1);
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Material:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5,$row['promatcod'], 0, 0);
+$pdf->Cell(20, 5, $row['promatcod'], 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Classe.:', 0, 0, 'L');

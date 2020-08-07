@@ -198,7 +198,8 @@ body {
 .site-menu-badge,
 .site-menu-label {
     position: absolute;
-    right: 30px;
+    right: 20px;
+    top: 4px;
     display: inline-block;
     vertical-align: middle
 }

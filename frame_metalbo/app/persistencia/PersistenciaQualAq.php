@@ -43,7 +43,7 @@ class PersistenciaQualAq extends Persistencia {
         $this->adicionaRelacionamento('obscancela', 'obscancela');
         $this->adicionaRelacionamento('usucancela', 'usucancela');
 
-        $this->adicionaFiltro('filcgc',$_SESSION['filcgc']);
+        $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
 
         $this->adicionaJoin('EmpRex');
 
@@ -138,7 +138,7 @@ class PersistenciaQualAq extends Persistencia {
     }
 
     public function buscaDadosAq($aDados) {
-        $sSql = "select * from tbacaoqual where filcgc =" . $aDados['EmpRex_filcgc'] . " and nr = " . $aDados['nr'];
+        $sSql = "select * from tbacaoqual where filcgc ='" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $oRow = $this->consultaSql($sSql);
 
         return $oRow;
@@ -181,7 +181,7 @@ class PersistenciaQualAq extends Persistencia {
         }
 
 
-        $sSqlCorrecao = "select situaca,seq from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "' and situaca is null";
+        $sSqlCorrecao = "select COUNT(*) as total from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "' and situaca is null";
         $oCorrecao = $this->consultaSql($sSqlCorrecao);
         if ($oCorrecao->total == 0) {
             $aRowAq['correcao'] = true;
@@ -236,6 +236,30 @@ class PersistenciaQualAq extends Persistencia {
         }
 
         return $bCausa;
+    }
+
+    public function buscaDataAq() {
+
+        $sSql = "select filcgc,nr,seq,usucodigo,usunome,DATEDIFF(day,dataprev,GETDATE())as dias,convert(varchar,dataprev,103)as data"
+                . " from tbacaoqualplan where sitfim is null";
+        $result = $this->getObjetoSql($sSql);
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            $oModel = $oRowBD;
+            $aRetorno[] = $oModel;
+        }
+
+        return $aRetorno;
+    }
+
+    public function buscaEmailPlanoAcao($oValue) {
+
+        //busca email
+        $sSql = "select usuemail from tbusuario where usucodigo ='" . $oValue->usucodigo . "' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $aEmail[] = $oRow->usuemail;
+
+        return $aEmail;
     }
 
 }

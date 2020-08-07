@@ -7,7 +7,7 @@
  * @since 22/08/2018
  */
 
-class ViewMET_CadastroMaquinas extends View {
+class ViewMET_MP_CadastroMaquinas extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();

@@ -10,5 +10,7 @@ class PersistenciaSetor extends Persistencia{
        
        $this->adicionaRelacionamento('codsetor', 'codsetor', true, true, true);
        $this->adicionaRelacionamento('descsetor', 'descsetor');
+       
+       $this->adicionaOrderBy('codsetor',0);
    }
 }

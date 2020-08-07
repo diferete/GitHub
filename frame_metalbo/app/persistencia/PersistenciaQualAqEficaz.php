@@ -27,8 +27,7 @@ class PersistenciaQualAqEficaz extends Persistencia {
         $this->adicionaOrderBy('seq', 1);
     }
 
-    public function apontaEfi($sDados) {
-
+    public function apontaEfi() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
         $aCampos['obs'] = $this->preparaString($aCampos['obs']);
@@ -54,11 +53,23 @@ class PersistenciaQualAqEficaz extends Persistencia {
         $sHora = date('H:i');
         $sData = date('d/m/Y');
 
+        $sSqlSelect = "select count(*) as total "
+                . "from tbacaoeficaz "
+                . "where filcgc ='" . $aDados['filcgc'] . "' "
+                . "and nr ='" . $aDados['nr'] . "' "
+                . "and sit is null";
+        $oRetorno = $this->consultaSql($sSqlSelect);
 
-        $sSql = "update tbacaoqual set sit = 'Finalizada', userfech = '" . $user . "', horafech = '" . $sHora . "', datafech = '" . $sData . "' 
-         where filcgc = '" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'  ";
-        $aRetorno = $this->executaSql($sSql);
-        return $aRetorno;
+        if ($oRetorno->total == 0) {
+            $sSql = "update tbacaoqual "
+                    . "set sit = 'Finalizada',"
+                    . "userfech = '" . $user . "',"
+                    . "horafech = '" . $sHora . "',"
+                    . "datafech = '" . $sData . "' "
+                    . "where filcgc = '" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'  ";
+            $aRetorno = $this->executaSql($sSql);
+            return $aRetorno;
+        }
     }
 
     public function reabreAq($aDados) {

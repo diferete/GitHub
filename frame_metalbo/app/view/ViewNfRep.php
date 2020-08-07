@@ -33,7 +33,7 @@ class ViewNfRep extends View {
 
         $oGridItens->setSController('NfRepIten');
         $oGridItens->addParam('nfsnfnro', '0');
-        $oGridItens->getOGrid()->setIAltura(250);
+        $oGridItens->getOGrid()->setIAltura(350);
         $oGridItens->getOGrid()->setBScrollInf(false);
 
         $oBotaoEmitXml = new CampoConsulta('', 'emitOf', CampoConsulta::TIPO_ACAO, CampoConsulta::ICONE_ENVIAR);

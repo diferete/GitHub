@@ -83,7 +83,7 @@ $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 $sSql = "select certificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
         . "convert(varchar,datafech,103) as datafech,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
         . "pq1,pq2,pq3,pq4,pq5,anexo1,anexo2 "
-        . " from tbacaoqual where filcgc ='" . $filcgcAq . "' and nr=" . $nrAq;
+        . " from tbacaoqual where filcgc ='" . $filcgcAq . "' and nr= '" . $nrAq . "'";
 $dadoscab = $PDO->query($sSql);
 while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $userImp = $row['userimp'];
@@ -911,7 +911,7 @@ if ($sEmailRequest == 'S') {
         $oEmail->addDestinatario($_SESSION['email']);
     }
 
-    $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $filcgcAq));
+    $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $filcgcAq . '.pdf'));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

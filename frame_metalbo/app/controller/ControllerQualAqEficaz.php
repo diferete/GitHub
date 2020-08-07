@@ -13,7 +13,7 @@ class ControllerQualAqEficaz extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $this->View->setAParametrosExtras($aChave);
     }
 
@@ -39,7 +39,7 @@ class ControllerQualAqEficaz extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sDados);
+        parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
         // "$('#".$sId."').each (function(){ this.reset();});";
         //verifica se está como 
@@ -68,7 +68,7 @@ class ControllerQualAqEficaz extends Controller {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
         $aRetorno = $this->Persistencia->inserir();
         //insere os filtros 

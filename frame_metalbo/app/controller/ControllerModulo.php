@@ -40,15 +40,14 @@ class ControllerModulo extends Controller {
         }
     }
 
-    public function teste() {
-        $this->Persistencia->teste();
-        $omsg = new Mensagem('Acabou', 'acabou', Mensagem::TIPO_SUCESSO);
-        echo $omsg->getRender();
-    }
+//    public function teste() {
+//        $this->Persistencia->teste();
+//        $omsg = new Mensagem('Acabou', 'acabou', Mensagem::TIPO_SUCESSO);
+//        echo $omsg->getRender();
+//    }
 
-    public function testaAgendamento($sDados) {
-
-        echo 'alert(' . $sDados . ');';
+    public function testaXmlEdita() {
+        require 'app/relatorio/DANFE4.php';
     }
 
 }

@@ -7,10 +7,10 @@
  * @since 10/09/2018
  */
 
-class ControllerMET_ItensManPrev extends Controller {
+class ControllerMET_MP_ItensManPrev extends Controller {
 
     function __construct() {
-        $this->carregaClassesMvc('MET_ItensManPrev');
+        $this->carregaClassesMvc('MET_MP_ItensManPrev');
     }
 
     /**
@@ -146,9 +146,9 @@ class ControllerMET_ItensManPrev extends Controller {
         $aCamposChave = array();
         parse_str($sDados, $aCamposChave);
         
-        $bBol = $this->Persistencia->verificaCampoValido($aCamposChave['codsit'], $aCamposChave['MET_ServicoMaquina_servico']);
+        $bBol = $this->Persistencia->verificaCampoValido($aCamposChave['codsit'], $aCamposChave['MET_MP_ServicoMaquina_servico']);
         
-        if (!$bBol||$aCamposChave['MET_ServicoMaquina_servico']=='') {
+        if (!$bBol||$aCamposChave['MET_MP_ServicoMaquina_servico']=='') {
             $oModal = new Modal('Atenção', 'Serviço Incorreto! Selecione novamente o serviço!', Modal::TIPO_ERRO);
             echo $oModal->getRender();
             exit();
@@ -225,6 +225,7 @@ class ControllerMET_ItensManPrev extends Controller {
         $this->Persistencia->atualizaDataAntesdaConsulta();
     }
     
+<<<<<<< HEAD:steeltrater/app/BKP/app/controller/ControllerMET_ItensManPrev.php
     public function antesCarregaDetalhe($aCampos) {
         parent::antesCarregaDetalhe($aCampos);
         
@@ -249,6 +250,35 @@ class ControllerMET_ItensManPrev extends Controller {
         $aRetorno[1] = '';
         return $aRetorno;
     }
+=======
+//    public function antesCarregaDetalhe($aCampos) {
+//        parent::antesCarregaDetalhe($aCampos);
+//        
+//        //Habilita a inserção de dados nos campos dos IDs
+//         echo  "$('#" . $aCampos[8][1] . "').prop('readonly', true);";
+//         echo  "$('#" . $aCampos[9][1] . "').prop('readonly', true);";
+//         echo  "$('#" . $aCampos[8][1] . "-btn').prop('disabled', true);";
+//         
+//         return $aCampos;
+//    }
+//    
+//    public function beforeUpdate() {
+//        parent::beforeUpdate();
+//        
+//        $aIds = $_REQUEST['parametros'];
+//        $aIds2 = explode(',', $aIds['parametros[']);
+//        
+//        //Desabilita a inserção de dados nos campos dos IDs
+//        echo  "$('#" . $aIds2[4] . "').prop('readonly', false);";
+//        echo  "$('#" . $aIds2[3] . "').prop('readonly', false);";
+//        echo  "$('#" . $aIds2[3] . "-btn').attr('disabled', false);";
+//        
+//        $aRetorno = array();
+//        $aRetorno[0] = true;
+//        $aRetorno[1] = '';
+//        return $aRetorno;
+//    }
+>>>>>>> a54785e83fce56537b06fb4e15ca79b1f590fce7:frame_metalbo/app/controller/ControllerMET_MP_ItensManPrev.php
     
     public function camposGrid($sDados){
         $aDados = explode(',',$sDados);
@@ -261,4 +291,24 @@ class ControllerMET_ItensManPrev extends Controller {
         echo '$("#'.$aDados[2].'").val("'.$sDes.'");';
         echo '$("#'.$aDados[3].'").val("'.$sOqf.'");';
     }
+<<<<<<< HEAD:steeltrater/app/BKP/app/controller/ControllerMET_ItensManPrev.php
+=======
+    
+    /**
+     * Adiciona filtro por responsável pela Manutenção Preventiva
+     */
+    public function adidicionaFiltroSet(){
+         $sCodSet = $_SESSION['codsetor'];
+            if($sCodSet=='2'){
+            }else if($sCodSet=='12'){
+                $this->Persistencia->adicionaFiltro('MET_MP_ServicoMaquina.resp', 'ELETRICA');
+            }else if($sCodSet=='29'){
+                $this->Persistencia->adicionaFiltro('MET_MP_ServicoMaquina.resp', 'MECANICA');                
+            }else{
+                $this->Persistencia->adicionaFiltro('MET_MP_ServicoMaquina.resp', 'OPERADOR');
+                $this->Persistencia->adicionaFiltro('MET_MP_ServicoMaquina.codsetor', $sCodSet);
+            }
+    }
+    
+>>>>>>> a54785e83fce56537b06fb4e15ca79b1f590fce7:frame_metalbo/app/controller/ControllerMET_MP_ItensManPrev.php
 }

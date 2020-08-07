@@ -13,13 +13,13 @@ class ViewSTEEL_PCP_PedidoParcela extends View {
         parent::criaConsulta();
 
         $oPedFil = new CampoConsulta('pdv_pedidofilial', 'pdv_pedidofilial');
-      
+
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(false);
-       
+
 
         $this->setBScrollInf(false);
         $this->addCampos($oPedFil);
@@ -27,7 +27,6 @@ class ViewSTEEL_PCP_PedidoParcela extends View {
 
     public function criaTela() {
         parent::criaTela();
-
     }
 
 }

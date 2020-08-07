@@ -111,6 +111,8 @@ class ViewSistema extends View {
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/summernote/summernote.css">'
                 . '<script src="biblioteca/assets/vendor/summernote/summernote.min.js"></script>'
                 . '<script src="biblioteca/assets/vendor/summernote/lang/summernote-pt-BR.js"></script>'
+                . '<link rel="stylesheet" href="biblioteca/dropzone/dist/dropzone.css" />'
+                . '<script src="biblioteca/dropzone/dist/dropzone.js"></script>'
                 . '<script>'
                 . 'Breakpoints();'
                 . '</script>'
@@ -184,98 +186,8 @@ class ViewSistema extends View {
                 . '</a>'
                 . '<ul class="dropdown-menu" role="menu" id="favGeral-1">'
                 . $this->favMenu()
-                /* .'<li role="presentation">'
-                  .'<a href="javascript:void(0)" role="menuitem">'
-                  .'<span class="icon fa-star-o"></span>teste1</a>'
-                  .'</li>'
-                  .'<li role="presentation">'
-                  .'<a href="javascript:void(0)" role="menuitem">'
-                  .'<span class="icon fa-star-o"></span>teste2</a>'
-                  .'</li>' */
                 . '</ul>'
                 . '</li>'
-                /* .'<li class="dropdown dropdown-fw dropdown-mega">'
-                  .'<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"'
-                  .' data-animation="fade" role="button">Mega <i class="icon wb-chevron-down-mini" aria-hidden="true"></i></a>'
-                  .'<ul class="dropdown-menu" role="menu">'
-                  .'<li role="presentation">'
-                  .'<div class="mega-content">'
-                  .'<div class="row">'
-                  .'<div class="col-sm-4">'
-                  .'<h5>UI Kit</h5>'
-                  .'<ul class="blocks-2">'
-                  .'<li class="mega-menu margin-0">'
-                  .'<ul class="list-icons">'
-                  .'<li><i class="wb-chevron-right-mini" aria-hidden="true"></i>'
-                  .'<a href="../advanced/animation.html">Animation</a>'
-                  .'</li>'
-                  .'</ul>'
-                  .'</li>'
-                  .'<li class="mega-menu margin-0">'
-                  .'<ul class="list-icons">'
-                  .'<li><i class="wb-chevron-right-mini" aria-hidden="true"></i>'
-                  .'<a href="../uikit/modals.html">Modals</a>'
-                  .'</li>'
-                  .'</ul>'
-                  .'</li>'
-                  .'</ul>'
-                  .'</div>'
-                  .'<div class="col-sm-4">'
-                  .'<h5>Media'
-                  .'<span class="badge badge-success">4</span>'
-                  .'</h5>'
-                  .'<ul class="blocks-3">'
-                  .'<li>'
-                  .'<a class="thumbnail margin-0" href="javascript:void(0)">'
-                  .'<img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />'
-                  .'</a>'
-                  .'</li>'
-                  .'<li>'
-                  .'<a class="thumbnail margin-0" href="javascript:void(0)">'
-                  .'<img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />'
-                  .'</a>'
-                  .'</li>'
-                  .'<li>'
-                  .'<a class="thumbnail margin-0" href="javascript:void(0)">'
-                  .'<img class="width-full" src="biblioteca/assets/photos/placeholder.png" alt="..." />'
-                  .'</a>'
-                  .'</li>'
-                  .'</ul>'
-                  .'</div>'
-                  .'<div class="col-sm-4">'
-                  .'<h5 class="margin-bottom-0">Accordion</h5>'
-                  .'<!-- Accordion -->'
-                  .'<div class="panel-group panel-group-simple" id="siteMegaAccordion" aria-multiselectable="true"'
-                  .' role="tablist">'
-                  .'<div class="panel">'
-                  .'<div class="panel-heading" id="siteMegaAccordionHeadingOne" role="tab">'
-                  .'<a class="panel-title" data-toggle="collapse" href="#siteMegaCollapseOne" data-parent="#siteMegaAccordion"'
-                  .' aria-expanded="false" aria-controls="siteMegaCollapseOne">'
-                  .' Collapsible Group Item #1'
-                  .'</a>'
-                  .'</div>'
-                  .'<div class="panel-collapse collapse" id="siteMegaCollapseOne" aria-labelledby="siteMegaAccordionHeadingOne"'
-                  .' role="tabpanel">'
-                  .'<div class="panel-body">'
-                  .'</div>'
-                  .'</div>'
-                  .'</div>'
-                  .'<div class="panel">'
-                  .'<div class="panel-heading" id="siteMegaAccordionHeadingTwo" role="tab">'
-                  .'<a class="panel-title collapsed" data-toggle="collapse" href="#siteMegaCollapseTwo"'
-                  .' data-parent="#siteMegaAccordion" aria-expanded="false"'
-                  .' aria-controls="siteMegaCollapseTwo">'
-                  .' Collapsible Group Item #2'
-                  .'</a>'
-                  .'</div>'
-                  .'</div>'
-                  .'</div>'
-                  .'<!-- End Accordion -->'
-                  .'</div>'
-                  .'</div>'
-                  .'</div>'
-                  .'</li>'
-                 */
                 . '<li class="dropdown dropdown-fw dropdown-mega"> '
                 . '<a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="fade" role="button">'
                 . '<i style="font-size:16px;color:#0f5539" class="icon wb-arrow-down" aria-hidden="true"></i>'
@@ -317,86 +229,9 @@ class ViewSistema extends View {
                 . '</li>'
                 . '</ul>'
                 . '</li>'
-                . '<li class="dropdown">'
-                . ' <a data-toggle="dropdown" href="javascript:void(0)" title="Notifications" aria-expanded="false" data-animation="scale-up" role="button">'
-                . '     <i class="icon wb-bell" aria-hidden="true"></i>'
-                . '      <span class="badge badge-danger up">5</span>'
-                . '    </a>'
-                . '     <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">'
-                . '     <li class="dropdown-menu-header" role="presentation">'
-                . '         <h5>NOTIFICATIONS</h5>'
-                . '        <span class="label label-round label-danger">New 5</span>'
-                . '      </li>'
-                . '     <li class="list-group scrollable is-enabled scrollable-vertical" role="presentation" style="position: relative;">'
-                . '      <div data-role="container" class="scrollable-container" style="height: 270px; width: 375px;">'
-                . '       <div data-role="content" class="scrollable-content" style="width: 358px;">'
-                /* <a class="list-group-item" href="javascript:void(0)" role="menuitem">
-                  <div class="media">
-                  <div class="media-left padding-right-10">
-                  <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>
-                  </div>
-                  <div class="media-body">
-                  <h6 class="media-heading">A new order has been placed</h6>
-                  <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">5 hours ago</time>
-                  </div>
-                  </div>
-                  </a>
-                  <a class="list-group-item" href="javascript:void(0)" role="menuitem">
-                  <div class="media">
-                  <div class="media-left padding-right-10">
-                  <i class="icon wb-user bg-green-600 white icon-circle" aria-hidden="true"></i>
-                  </div>
-                  <div class="media-body">
-                  <h6 class="media-heading">Completed the task</h6>
-                  <time class="media-meta" datetime="2015-06-11T18:29:20+08:00">2 days ago</time>
-                  </div>
-                  </div>
-                  </a>
-                  <a class="list-group-item" href="javascript:void(0)" role="menuitem">
-                  <div class="media">
-                  <div class="media-left padding-right-10">
-                  <i class="icon wb-settings bg-red-600 white icon-circle" aria-hidden="true"></i>
-                  </div>
-                  <div class="media-body">
-                  <h6 class="media-heading">Settings updated</h6>
-                  <time class="media-meta" datetime="2015-06-11T14:05:00+08:00">2 days ago</time>
-                  </div>
-                  </div>
-                  </a>
-                  <a class="list-group-item" href="javascript:void(0)" role="menuitem">
-                  <div class="media">
-                  <div class="media-left padding-right-10">
-                  <i class="icon wb-calendar bg-blue-600 white icon-circle" aria-hidden="true"></i>
-                  </div>
-                  <div class="media-body">
-                  <h6 class="media-heading">Event started</h6>
-                  <time class="media-meta" datetime="2015-06-10T13:50:18+08:00">3 days ago</time>
-                  </div>
-                  </div>
-                  </a>
-                 * 
-                 */
-                . '<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                . '  <div class="media">'
-                . '    <div class="media-left padding-right-10">'
-                . '      <i class="icon wb-chat bg-orange-600 white icon-circle" aria-hidden="true"></i>'
-                . '    </div>'
-                . '    <div class="media-body">'
-                . '      <h6 class="media-heading">Message received</h6>'
-                . '      <time class="media-meta" datetime="2015-06-10T12:34:48+08:00">3 days ago</time>'
-                . '    </div>'
-                . '  </div>'
-                . '         </a>'
-                . '     </div>'
-                . '    </div>'
-                . ' <div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false"><div class="scrollable-bar-handle" style="height: 205.043px;"></div></div></li>'
-                . '<li class="dropdown-menu-footer" role="presentation">'
-                . '          <a href="javascript:void(0)" role="menuitem">'
-                . '            All notifications'
-                . '          </a>'
-                . '      </li>'
-                . '    </ul>'
-                . '  </li> '
+                . '<li id="notificationList" onclick="testeMsg()" class="dropdown">'
+                . $this->montaListaNotificacoes()
+                . '</li> '
                 . '<li class="dropdown">'
                 . '<a data-toggle="dropdown" href="javascript:void(0)" title="Informações do Usuário" aria-expanded="false"'
                 . ' data-animation="scale-up" role="button">'
@@ -1022,6 +857,92 @@ class ViewSistema extends View {
         $oFavMenu = Fabrica::FabricarController('FavMenu');
         $sString = $oFavMenu->getFavMenu(false);
         return $sString;
+    }
+
+    public function montaListaNotificacoes() {
+
+        $lista = ' <a data-toggle="dropdown" href="javascript:void(0)" title="Notifications" aria-expanded="false" data-animation="scale-up" role="button">'
+                . '<i class="icon wb-bell" aria-hidden="true"></i>'
+                . '<span class="badge badge-danger up">5</span>'
+                . '</a>'
+                . '<ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">'
+                . '<li class="dropdown-menu-header" role="presentation">'
+                . '<h5>NOTIFICATIONS</h5>'
+                . '<span class="label label-round label-danger">New 5</span>'
+                . '</li>'
+                . '<li class="list-group scrollable is-enabled scrollable-vertical" role="presentation" style="position: relative;">'
+                . '<div data-role="container" class="scrollable-container" style="height: 270px; width: 375px;">'
+                . '<div data-role="content" class="scrollable-content" style="width: 358px;">'
+                . '<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
+                . '<div class="media">'
+                . '<div class="media-left padding-right-10">'
+                . '<i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>'
+                . '</div>'
+                . '<div class="media-body">'
+                . '<h6 class="media-heading">A new order has been placed</h6>'
+                . '<time class="media-meta" datetime="2015-06-12T20:50:48+08:00">5 hours ago</time>'
+                . '</div>'
+                . '</div>'
+                . '</a>'
+                . '<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
+                . '<div class="media">'
+                . '<div class="media-left padding-right-10">'
+                . '<i class="icon wb-user bg-green-600 white icon-circle" aria-hidden="true"></i>'
+                . '</div>'
+                . '<div class="media-body">'
+                . '<h6 class="media-heading">Completed the task</h6>'
+                . '<time class="media-meta" datetime="2015-06-11T18:29:20+08:00">2 days ago</time>'
+                . '</div>'
+                . '</div>'
+                . '</a>'
+                . '<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
+                . '<div class="media">'
+                . '<div class="media-left padding-right-10">'
+                . '<i class="icon wb-settings bg-red-600 white icon-circle" aria-hidden="true"></i>'
+                . '</div>'
+                . '<div class="media-body">'
+                . '<h6 class="media-heading">Settings updated</h6>'
+                . '<time class="media-meta" datetime="2015-06-11T14:05:00+08:00">2 days ago</time>'
+                . '</div>'
+                . '</div>'
+                . '</a>'
+                . '<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
+                . '<div class="media">'
+                . '<div class="media-left padding-right-10">'
+                . '<i class="icon wb-calendar bg-blue-600 white icon-circle" aria-hidden="true"></i>'
+                . '</div>'
+                . '<div class="media-body">'
+                . '<h6 class="media-heading">Event started</h6>'
+                . '<time class="media-meta" datetime="2015-06-10T13:50:18+08:00">3 days ago</time>'
+                . '</div>'
+                . '</div>'
+                . ' </a>'
+                . '<a class="list-group-item" role="menuitem">'
+                . '<div class="media">'
+                . '<div class="media-left padding-right-10">'
+                . '<i class="icon wb-chat bg-orange-600 white icon-circle" aria-hidden="true"></i>'
+                . '</div>'
+                . '<div class="media-body">'
+                . '<h6 class="media-heading">Message received</h6>'
+                . '<time class="media-meta" datetime="2015-06-10T12:34:48+08:00">3 days ago</time>'
+                . '</div>'
+                . '</div>'
+                . '</a>'
+                . '</div>'
+                . '</div>'
+                . '<div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false"><div class="scrollable-bar-handle" style="height: 205.043px;"></div></div></li>'
+                . '<li class="dropdown-menu-footer" role="presentation">'
+                . '<a href="javascript:void(0)" role="menuitem">'
+                . 'All notifications'
+                . '</a>'
+                . '</li>'
+                . '</ul>';
+
+
+
+
+
+        return $lista;
     }
 
 }

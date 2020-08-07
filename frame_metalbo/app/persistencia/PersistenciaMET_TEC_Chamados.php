@@ -37,7 +37,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->adicionaRelacionamento('anexo1', 'anexo1');
         $this->adicionaRelacionamento('anexo2', 'anexo2');
         $this->adicionaRelacionamento('anexo3', 'anexo3');
-        $this->adicionaRelacionamento('anexofinaliza', 'anexofinaliza');
+        $this->adicionaRelacionamento('anexofim', 'anexofim');
 
 
         $this->setSTop(50);

@@ -255,7 +255,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         //adiciona filtro da chave primária
         $this->parametros = $sCampos;
         //carrega o model
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
         $this->Persistencia->adicionaFiltro('pdv_pedidofilial', $this->Model->getPdv_PedidoFilial());
         $this->Persistencia->adicionaFiltro('pdv_pedidocodigo', $this->Model->getPdv_pedidocodigo());
         $this->Persistencia->adicionaFiltro('pdv_pedidoitemseq', $this->Model->getPdv_pedidoitemseq());

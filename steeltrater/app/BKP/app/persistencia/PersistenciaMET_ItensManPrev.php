@@ -7,7 +7,7 @@
  * @since 10/09/2018
  */
 
-class PersistenciaMET_ItensManPrev extends Persistencia{
+class PersistenciaMET_MP_ItensManPrev extends Persistencia{
     public function __construct() {
         parent::__construct();
         
@@ -18,7 +18,7 @@ class PersistenciaMET_ItensManPrev extends Persistencia{
         $this->adicionaRelacionamento('seq','seq', true, true, true);
         $this->adicionaRelacionamento('codmaq','codmaq');
         $this->adicionaRelacionamento('maquina','maquina', false, false, false);
-        $this->adicionaRelacionamento('codsit','MET_ServicoMaquina.codsit',false, false, false);
+        $this->adicionaRelacionamento('codsit','MET_MP_ServicoMaquina.codsit',false, false, false);
         $this->adicionaRelacionamento('codsit','codsit');
         $this->adicionaRelacionamento('servico','servico',false, false, false);
         $this->adicionaRelacionamento('sitmp','sitmp');
@@ -34,7 +34,7 @@ class PersistenciaMET_ItensManPrev extends Persistencia{
         $this->setSTop('500');
         $this->adicionaOrderBy('seq',1);
     
-        $this->adicionaJoin('MET_ServicoMaquina');
+        $this->adicionaJoin('MET_MP_ServicoMaquina');
         
     }   
     
@@ -88,7 +88,11 @@ class PersistenciaMET_ItensManPrev extends Persistencia{
             userinicial, datafech, userfinal, oqfazer)
             select  filcgc, nr,
             (select max(seq) as maximo from tbitensmp where nr = '".$aDados['nr']."' and filcgc = '".$aDados['filcgc']."' and sitmp = 'ABERTO')+1,
+<<<<<<< HEAD:steeltrater/app/BKP/app/persistencia/PersistenciaMET_ItensManPrev.php
             codmaq, tbitensmp.codsit, sitmp, ciclo, GETDATE(), userinicial, datafech, userfinal, oqfazer
+=======
+            codmaq, tbitensmp.codsit, sitmp, ciclo, GETDATE(), '".$sUsuário."', datafech, userfinal, oqfazer, 'SIM'
+>>>>>>> a54785e83fce56537b06fb4e15ca79b1f590fce7:frame_metalbo/app/persistencia/PersistenciaMET_MP_ItensManPrev.php
             from tbitensmp left outer join  tbservmp on tbservmp.codsit = tbitensmp.codsit 
             where seq = '".$aDados['seq']."' and nr = '".$aDados['nr']."' and filcgc = '".$aDados['filcgc']."'  
             update tbitensmp set sitmp = 'FINALIZADO', datafech = '".$sData."', userfinal = '".$sUsuário."'  "

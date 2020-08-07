@@ -16,7 +16,7 @@ class ViewMET_ServicoOrdemCompra extends View {
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setILarguraGrid(2300);
         $this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setIAltura(750);;
+        $this->getTela()->setIAltura(750);
  
         $oseq = new CampoConsulta('Seq.', 'seq', CampoConsulta::TIPO_TEXTO);
         $oEmpcod = new CampoConsulta('Cod.Empresa', 'empcod', CampoConsulta::TIPO_TEXTO);
@@ -28,13 +28,6 @@ class ViewMET_ServicoOrdemCompra extends View {
         $odescserv = new CampoConsulta('Desc.Tipo', 'descserv', CampoConsulta::TIPO_TEXTO);
         $ovaloruni = new CampoConsulta('Valor unidade', 'valoruni', CampoConsulta::TIPO_MONEY);
  
-        $oFiltroEmpcod = new Filtro($oEmpcod, FILTRO::CAMPO_TEXTO);
-        $oFiltroEmpdes = new Filtro($oEmpdes, FILTRO::CAMPO_TEXTO);
-        $oFiltrotips = new Filtro($otips, FILTRO::CAMPO_TEXTO);
-        $oFiltrodescserv = new Filtro($odescserv, FILTRO::CAMPO_TEXTO);
-        
-        $this->addFiltro($oFiltroEmpcod, $oFiltroEmpdes, $oFiltrotips, $oFiltrodescserv);
-        
         $this->addCampos($oseq, $oEmpcod, $oEmpdes, $ogrupo, $otips, $odescserv, $oCodprod, $oDesprod, $ovaloruni);
     }
  

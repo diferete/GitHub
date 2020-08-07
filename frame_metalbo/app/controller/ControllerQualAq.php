@@ -179,7 +179,7 @@ class ControllerQualAq extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
 
-        $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $aDados[1] . '_empresa_' . $aDados[0] . '.pdf', utf8_decode('Aq nº' . $aDados[1] . '_empresa_' . $aDados[0]));
+        $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $aDados[1] . '_empresa_' . $aDados[0] . '.pdf', utf8_decode('Aq nº' . $aDados[1] . '_empresa_' . $aDados[0] . '.pdf'));
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -257,7 +257,7 @@ class ControllerQualAq extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
 
-        $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $aDados[1] . '_empresa_' . $aDados[0] . '.pdf', utf8_decode('Aq nº' . $aDados[1] . '_empresa_' . $aDados[0]));
+        $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $aDados[1] . '_empresa_' . $aDados[0] . '.pdf', utf8_decode('Aq nº' . $aDados[1] . '_empresa_' . $aDados[0] . '.pdf'));
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
@@ -560,6 +560,57 @@ class ControllerQualAq extends Controller {
 
     public function relAcaoQualidade($renderTo, $sMetodo = '') {
         parent::mostraTelaRelatorio($renderTo, 'relAcaoQualidade');
+    }
+
+    public function notificaAQ() {
+        $aRetorno = $this->Persistencia->buscaDataAq();
+
+        if (count($aRetorno) > 0) {
+            $iDias = 0;
+            foreach ($aRetorno as $iKey => $oValue) {
+                $iDias = $oValue->dias;
+                if ($iDias >= -7) {
+                    $this->envEmailAq($oValue);
+                }
+            }
+        }
+        return $aRetorno;
+    }
+
+    public function envEmailAq($oValue) {
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+
+
+        $aEmail = $this->Persistencia->buscaEmailPlanoAcao($oValue);
+
+        $oEmail->addDestinatario($aEmail[0]);
+
+        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+
+        $oEmail->setAssunto(utf8_decode('Plano de Ação Seq. ' . $oValue->seq . ' da Ação nº' . $oValue->nr . ''));
+        $oEmail->setMensagem(utf8_decode('PLANO DE AÇÃO Nº ' . $oValue->seq . ' ESTÁ PRESTES A EXPIRAR <hr><br/>'
+                        . '<p style="margin:20px;color:red;font-weight:900;font-size:25px;">Tempo para expirar o plano de ação está menor que 7 DIAS!</p>'
+                        . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
+                        . '<tr><td><b>Responsável pelo plano de ação:</b></td><td>' . $oValue->usunome . '</td></tr>'
+                        . '<tr><td><b>Data prevista:</b></td><td> ' . $oValue->data . '</td></tr>'
+                        . '<tr><td><b>Empesa:</b></td><td>' . $oValue->filcgc . '</td></tr>'
+                        . '</table><br/><br/><hr>'
+                        . '<br/><b style="margin:40px;color:blue">E-mail enviado automaticamente, favor não responder!</b>'
+                        . '<br/><b style="margin:40px;color:red">Você continuará recebendo e-mails até o plano de ação ser finalizado!</b>'));
+
+        $aRetorno = $oEmail->sendEmail();
+        return;
     }
 
 }

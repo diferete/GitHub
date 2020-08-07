@@ -51,7 +51,5 @@ class PersistenciaOfRep extends Persistencia{
                           and codsituaca in (1,2,3,4) 
                           and metop.codsituaca = metsituaca.cod ";
         return $sSql;
-        
-        
     }
 }

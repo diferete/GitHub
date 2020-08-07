@@ -1,0 +1,18 @@
+Array
+(
+    [horaSaida] =>         
+    [dataSaida] => 
+    [dataEmiss] => 14/04/2020
+    [nfstranome] => LOGISTICA TRANSPORTIA S.R.L.                 
+    [nfstrains] => ISENTO            
+    [nfstraende] => URQUIZA 1626  PB2                            
+    [nfstrabair] => CENTRO                   
+    [nfstracep] => 2000
+    [nfstracid] => ROSARIO(SANTA FE)ARGENTINA    
+    [nfspesobr] => 25.598,380
+    [nfspesolq] => 24.808,380
+    [nfsespecie] => PALLETS                                 
+    [nfsmarca] => METALBO   
+    [nfsqtdvol] => 24
+    [nfstrauf] => EX
+)

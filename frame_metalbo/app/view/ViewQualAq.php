@@ -120,7 +120,6 @@ class ViewQualAq extends View {
         $this->addCampos($oNr, $oSit, $oTitulo, $oDataFim, $oTipoAcao, $oOrigem, $oTipoMel, $oFilcgc);
 
 
-
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","QualAq","renderTempo",chave+",qualaqtempo");');
     }

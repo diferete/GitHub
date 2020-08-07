@@ -106,29 +106,51 @@ function requestAjax(idForm, classe, metodo, sparametros, aIdCampos, bDesativaCa
 
 function requestAjaxMobile(idForm, classe, metodo, sparametros, aIdCampos, bDesativaCarrega, idPos, ordenacao) {
     var myJSon = {
-            "classe":"Login", 
-            "metodo":"validaMobLogin", 
-            "dados":{"usuario":"avanei@rexmaquinas.com.br",
-                     "senha":"souP@lmeiras@4321"},
-            "usucodigo":"",
-            "usutoken":""
-            };
+        "classe": "MET_TEC_agendamentos",
+        "metodo": "metodoEnvNotas",
+        "dados": {"usuario": "AGENDAMENTOS",
+            "senha": "12345",
+            "agId":"1"},
+        "usucodigo": "122",
+        "usutoken": "fxI3CdxbD3S4nQdOXSq4WOu3N"
+    };
     $.ajax({
-    url: 'http://localhost/frame_metalbo/index.php?classe=MobileMetalbo&metodo=getRequisicao',
-    type: 'POST',
-    dataType: 'json',
-    data: JSON.stringify(myJSon),
-    success: function(data)
+        url: 'http://localhost/github/frame_metalbo/index.php?classe=Mobile&metodo=getRequisicao',
+        type: 'POST',
+        dataType: 'json',
+        data: JSON.stringify(myJSon),
+        success: function (data)
         {
-           console.log(data); 
-          
-        },
-          error: function () {
-              alert('Error no resposta');
-          }
-   });
-}
+            console.log(data);
 
+        },
+        error: function () {
+            alert('Error no resposta');
+        }
+    });
+}
+/* var myJSon = {
+        "classe": "MET_TEC_Login",
+        "metodo": "validaMobLogin",
+        "dados": {"usuario": "avanei@rexmaquinas.com.br",
+            "senha": "del@@"},
+        "usucodigo": "",
+        "usutoken": ""
+    };
+    $.ajax({
+        url: 'http://localhost:8080/steeltrater/index.php?classe=MET_TEC_Mobile&metodo=getRequisicao',
+        type: 'POST',
+        dataType: 'json',
+        data: JSON.stringify(myJSon),
+        success: function (data)
+        {
+            console.log(data);
+
+        },
+        error: function () {
+            alert('Error no resposta');
+        }
+    });*/
 
 /**
  * 

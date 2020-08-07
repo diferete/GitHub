@@ -32,9 +32,9 @@ class ControllerLogin extends Controller {
      */
 
     public function logaSistema() {
-        $params = array();
-        parse_str($_REQUEST['campos'], $params);
-        $this->carregaModel();
+        $aCamposTela = array();
+        parse_str($_REQUEST['campos'], $aCamposTela);
+        $this->carregaModel($aCamposTela);
         $aLogaSistema = $this->Persistencia->logarSistema();
         if ($aLogaSistema[0]) {
             $oDados = $this->Persistencia->buscaDadosUser($this->Model->getCodsetor());
@@ -77,8 +77,10 @@ class ControllerLogin extends Controller {
             } else {
                 $oControllerSistema->getTelaSistema($_SESSION["codUser"]);
             }
-			$this->Persistencia->limpaTag_Bloq();
-        } else {
+            $this->Persistencia->limpaTag_Bloq();
+        
+            
+            } else {
             //monta class para registrar login incorreto
             $oLoginErro = Fabrica::FabricarController('LoginErro');
             $oLoginErro->geraLoginErro();

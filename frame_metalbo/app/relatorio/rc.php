@@ -229,12 +229,12 @@ if ($aProdutos[0] != '') {
         $pdf->Ln(5);
 
         $pdf->SetFont('arial', 'B', 10);
-        $pdf->Cell(30, 5, "Produto:", 0, 0, 'L');
+        $pdf->Cell(31, 5, "Produto:", 0, 0, 'L');
         $pdf->SetFont('arial', '', 10);
         $pdf->Cell(30, 5, $aDadosProd[1], 0, 1, 'L');
 
         $pdf->SetFont('arial', 'B', 10);
-        $pdf->Cell(30, 5, "Código:", 0, 0, 'L');
+        $pdf->Cell(31, 5, "Código:", 0, 0, 'L');
         $pdf->SetFont('arial', '', 10);
         $pdf->Cell(30, 5, $aDadosProd[0], 0, 1, 'L');
 
@@ -311,7 +311,7 @@ $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['obs_fim'], 0, 'L');
 
 if ($sEmailRequest == 'S') {
-    $pdf->Output('F', 'app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf'); // GERA O PDF NA TELA
+    $pdf->Output('F', 'app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf'); // GERA O PDF NA TELA
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
 } else {
     $pdf->Output('I', 'RC' . $nr . '.pdf');
@@ -378,7 +378,7 @@ if ($sEmailRequest == 'S') {
     $oEmail->addDestinatario($aRowMail['usuemail']);
     //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
-    $oEmail->addAnexo('app/relatorio/rnc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc));
+    $oEmail->addAnexo('app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc. '.pdf'));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

@@ -7,7 +7,7 @@
  * @since 18/02/2019
  */
 
-class PersistenciaMET_ItensManPrevConsulta extends Persistencia{
+class PersistenciaMET_MP_ItensManPrevConsulta extends Persistencia{
     public function __construct() {
         parent::__construct();
         
@@ -17,9 +17,9 @@ class PersistenciaMET_ItensManPrevConsulta extends Persistencia{
         $this->adicionaRelacionamento('nr','nr', true);
         $this->adicionaRelacionamento('seq','seq', true, true, true);
         $this->adicionaRelacionamento('codmaq','codmaq');
-        $this->adicionaRelacionamento('codmaq','MET_Maquinas.cod',false,false,false);
-        $this->adicionaRelacionamento('maquina','MET_Maquinas.maquina',false,false,false);
-        $this->adicionaRelacionamento('codsit','MET_ServicoMaquina.codsit',false, false, false);
+        $this->adicionaRelacionamento('codmaq','MET_MP_Maquinas.cod',false,false,false);
+        $this->adicionaRelacionamento('maquina','MET_MP_Maquinas.maquina',false,false,false);
+        $this->adicionaRelacionamento('codsit','MET_MP_ServicoMaquina.codsit',false, false, false);
         $this->adicionaRelacionamento('codsit','codsit');
         $this->adicionaRelacionamento('servico','servico',false, false, false);
         $this->adicionaRelacionamento('sitmp','sitmp');
@@ -34,8 +34,8 @@ class PersistenciaMET_ItensManPrevConsulta extends Persistencia{
         $this->setSTop('100');
         $this->adicionaOrderBy('seq',1);
     
-        $this->adicionaJoin('MET_ServicoMaquina');
-        $this->adicionaJoin('MET_Maquinas', null,1, 'codmaq','cod');
+        $this->adicionaJoin('MET_MP_ServicoMaquina');
+        $this->adicionaJoin('MET_MP_Maquinas', null,1, 'codmaq','cod');
         
     }   
     

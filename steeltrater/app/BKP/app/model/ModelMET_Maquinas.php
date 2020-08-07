@@ -7,7 +7,7 @@
  * @since 24/08/2018
  */
 
-class ModelMET_Maquinas {
+class ModelMET_MP_Maquinas {
     
     private $cod;
     private $maquina;

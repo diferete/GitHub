@@ -11,10 +11,11 @@ use NFePHP\DA\NFe\Danfe;
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
 $date = date_create(date("Y-m-d"));
-date_sub($date, date_interval_create_from_date_string("15 days"));
+date_sub($date, date_interval_create_from_date_string("3 days"));
 $date = date_format($date, "d/m/Y");
 
 $sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '" . $date . "' and '" . date('d/m/Y') . "' and nfsnfesit = 'A' and nfsemailen <> 'S' and nfsfilcgc = '75483040000211'"; // and nfsnatcod1 <> 5151";
+//$sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '19/03/2020' and '19/03/2020' and nfsnfesit = 'A' and nfsemailen <> 'S' and nfsfilcgc = '75483040000211' and nfsnatcod1 <> 5151";
 $sth = $PDO->query($sSqlNF);
 while ($aRow = $sth->fetch(PDO::FETCH_ASSOC)) {
 
@@ -126,7 +127,7 @@ function enviaXMLDanfe($DirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     $oEmail->setUsuario(Config::EMAIL_SENDER);
     $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
     $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Envio de XML e DANFE'));
+    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Envio de XML de DANFE'));
 
     $oEmail->setAssunto(utf8_decode('XML METALBO IND. FIXADORES METALICOS LTDA'));
     $oEmail->setMensagem(utf8_decode('<span>Seguem XML e DANFE referente a NF.: <b> ' . $aDados[1] . '</b></span>'
@@ -140,8 +141,8 @@ function enviaXMLDanfe($DirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
         $sSqlEMP = "select empcod from widl.emp01 where empcnpj = '" . $aDadosNF['nfsclicgc'] . "'";
         $query = $PDO->query($sSqlEMP);
         $aRow = $query->fetch(PDO::FETCH_ASSOC);
-		
-		if (($aDadosNF['nfsclicod'] == '75483040000130')) {
+
+        if (($aDadosNF['nfsclicod'] == '75483040000130')) {
             $aRow['empcod'] = '75483040000130';
         }
 

@@ -1,16 +1,16 @@
 <?php
 
 /*
- * Implementa a classe model MET_ItensManPrevConsulta
+ * Implementa a classe model MET_MP_ItensManPrevConsulta
  * 
  * @author Cleverton Hoffmann
  * @since 18/02/2019
  */
 
-class ModelMET_ItensManPrevConsulta {
+class ModelMET_MP_ItensManPrevConsulta {
     
-    private $MET_ServicoMaquina;
-    private $MET_Maquinas;
+    private $MET_MP_ServicoMaquina;
+    private $MET_MP_Maquinas;
     private $filcgc;
     private $nr;
     private $seq;
@@ -26,15 +26,15 @@ class ModelMET_ItensManPrevConsulta {
     private $obs;
     private $oqfazer;
     
-    function getMET_Maquinas() {
-        if (!isset($this->MET_Maquinas)) {
-            $this->MET_Maquinas = Fabrica::FabricarModel('MET_Maquinas');
+    function getMET_MP_Maquinas() {
+        if (!isset($this->MET_MP_Maquinas)) {
+            $this->MET_MP_Maquinas = Fabrica::FabricarModel('MET_MP_Maquinas');
         }
-        return $this->MET_Maquinas;
+        return $this->MET_MP_Maquinas;
     }
 
-    function setMET_Maquinas($MET_Maquinas) {
-        $this->MET_Maquinas = $MET_Maquinas;
+    function setMET_MP_Maquinas($MET_MP_Maquinas) {
+        $this->MET_MP_Maquinas = $MET_MP_Maquinas;
     }
         
     function getServico() {
@@ -53,15 +53,15 @@ class ModelMET_ItensManPrevConsulta {
         $this->oqfazer = $oqfazer;
     }
   
-    function getMET_ServicoMaquina() {
-        if (!isset($this->MET_ServicoMaquina)) {
-            $this->MET_ServicoMaquina = Fabrica::FabricarModel('MET_ServicoMaquina');
+    function getMET_MP_ServicoMaquina() {
+        if (!isset($this->MET_MP_ServicoMaquina)) {
+            $this->MET_MP_ServicoMaquina = Fabrica::FabricarModel('MET_MP_ServicoMaquina');
         }
-        return $this->MET_ServicoMaquina;
+        return $this->MET_MP_ServicoMaquina;
     }
 
-    function setMET_ServicoMaquina($MET_ServicoMaquina) {
-        $this->MET_ServicoMaquina = $MET_ServicoMaquina;
+    function setMET_MP_ServicoMaquina($MET_MP_ServicoMaquina) {
+        $this->MET_MP_ServicoMaquina = $MET_MP_ServicoMaquina;
     }
    
     function getFilcgc() {

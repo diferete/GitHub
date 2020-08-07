@@ -1979,7 +1979,7 @@ class Controller {
                             $xValorCampo = '';
                         };
                     } else {
-//                     $xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
+                        //$xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
                         $xValorCampo = $this->getValorModel($oAtual, $sNomeCampo);
                         $xValorCampo = rtrim($xValorCampo);
                     }
@@ -3177,7 +3177,7 @@ class Controller {
           //array de controle de erros
           $aRetorno[0] = true;
 
-          $this->carregaModel();
+          $this->carregaModel($aCamposTela);
 
           $aRetorno = $this->beforeInsert();
 

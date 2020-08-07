@@ -261,5 +261,9 @@ class ControllerQualGerenProj extends Controller {
         $aRetorno = $oEmail->sendEmail();
         return $aRetorno;
     }
+    
+    public function updateProjetos(){
+        $this->Persistencia->selectProjetos();
+    }
 
 }

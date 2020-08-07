@@ -165,9 +165,7 @@ class ViewCot extends View {
         //---Campo Ordem de Compra---///
         $oOd = new Campo('Ordem de Compra', 'odcompra', Campo::TIPO_TEXTO, 2,3,3,6);
         $oOd->setITamanho(Campo::TAMANHO_PEQUENO);
-        if ($sAcaoRotina != 'acaoAlterar' && $sAcaoRotina != 'acaoVisualizar') {
-            $oOd->addValidacao(false, Validacao::TIPO_STRING);
-        }
+        $oOd->setSValor(' ');
 
         //---Campo Código de representante---///
         $oCodRed = new Campo('Cod. Rep', 'codrep', Campo::TIPO_TEXTO, 2,3,3,6);
@@ -232,9 +230,10 @@ class ViewCot extends View {
                 . 'if($("#' . $oDataEnt->getId() . '").val()=="") { '
                 . ' return { valid: false, message: "Data não pode ser em branco!" };'
                 . '}else{return { valid: true };};';
-        if ($sAcaoRotina != 'acaoAlterar' && $sAcaoRotina != 'acaoVisualizar') {
+        if ($sAcaoRotina != 'acaoVisualizar') {
             $oDataEnt->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
         }
+
         //---Campos ocultos ou com valores fixos---//
         $oConsemail = new Campo('Email', 'consemail', Campo::TIPO_TEXTO, 3,3,3,12);
         $oConsemail->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -265,21 +264,6 @@ class ViewCot extends View {
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
 
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oCnpj->setBCampoBloqueado(true);
-            $oEmpresa->setBCampoBloqueado(true);
-            $oCodPag->setBCampoBloqueado(true);
-            $oCodPagDes->setBCampoBloqueado(true);
-            $oOd->setBCampoBloqueado(true);
-            $oFrete->setBCampoBloqueado(true);
-            $oObs->setBCampoBloqueado(true);
-            $oTransp->setBCampoBloqueado(true);
-            $oTranspDes->setBCampoBloqueado(true);
-            $oQtExata->setBCampoBloqueado(true);
-            $oDataEnt->setBCampoBloqueado(true);
-            $oContato->setBCampoBloqueado(true);
-        }
-        
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
             //monta campo de controle para inserir ou alterar
             $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);

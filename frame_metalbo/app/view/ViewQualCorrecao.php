@@ -13,7 +13,7 @@ class ViewQualCorrecao extends View {
     }
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
@@ -24,7 +24,7 @@ class ViewQualCorrecao extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Correção');
-        $oBotaoModal->addAcao('QualCorrecao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao');
+        $oBotaoModal->addAcao('QualCorrecao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao', '');
         $this->addModaisDetalhe($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -42,7 +42,7 @@ class ViewQualCorrecao extends View {
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
@@ -57,7 +57,7 @@ class ViewQualCorrecao extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Correção');
-        $oBotaoModal->addAcao('QualCorrecao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao');
+        $oBotaoModal->addAcao('QualCorrecao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao', '');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -75,11 +75,11 @@ class ViewQualCorrecao extends View {
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
+        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
     }
 
     public function criaTela() {
@@ -148,7 +148,6 @@ class ViewQualCorrecao extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBotConf->setIMarginTop(6);
-
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    

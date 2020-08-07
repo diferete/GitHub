@@ -8,10 +8,10 @@ class ViewSetor extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-        
+
         $this->getTela()->setBMostraFiltro(true);
-        
-        $this->setUsaAcaoAlterar(false);    
+
+        $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoIncluir(false);
 
@@ -20,9 +20,8 @@ class ViewSetor extends View {
 
         $oFilSetor = new Filtro($oDescSetor, Filtro::CAMPO_TEXTO,4,4,12,12);
 
-        $this->addFiltro($oFilSetor);        
+        $this->addFiltro($oFilSetor);
         $this->addCampos($oCodSetor, $oDescSetor);
-        
     }
 
 }

@@ -1,28 +1,33 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Class responsável pela acao de persistencia 
+ * 
+ * @author Avanei Martendal
+ * 
+ * @since 01/06/2017
+ * 
+ * @obs A classe é executada após a inserção do cabeçalho da acao da qualidade
  */
+class PersistenciaMET_QUAL_AqPlanApont extends Persistencia {
 
-class PersistenciaMET_QUAL_AqPlanApont extends Persistencia{
     public function __construct() {
         parent::__construct();
-         $this->setTabela('MET_QUAL_qualplan');
-        
-        $this->adicionaRelacionamento('filcgc','filcgc',true,true);
-        $this->adicionaRelacionamento('nr','nr',true,true);
-        $this->adicionaRelacionamento('seq', 'seq',true,true,true);
-          $this->adicionaRelacionamento('plano', 'plano');
+
+        $this->setTabela('MET_QUAL_qualplan');
+
+        $this->adicionaRelacionamento('filcgc', 'filcgc', true, true);
+        $this->adicionaRelacionamento('nr', 'nr', true, true);
+        $this->adicionaRelacionamento('seq', 'seq', true, true, true);
+        $this->adicionaRelacionamento('plano', 'plano');
         $this->adicionaRelacionamento('dataprev', 'dataprev');
         $this->adicionaRelacionamento('datafim', 'datafim');
         $this->adicionaRelacionamento('obsfim', 'obsfim');
         $this->adicionaRelacionamento('sitfim', 'sitfim');
-        $this->adicionaRelacionamento('anexoplan1', 'anexoplan1');
+        $this->adicionaRelacionamento('anexoplan1', 'anexoplan1', false, true, false, 3); //tipo arquivo
         $this->adicionaRelacionamento('usucodigo', 'usucodigo');
         $this->adicionaRelacionamento('usunome', 'usunome');
-        $this->adicionaRelacionamento('anexofim', 'anexofim');
+        $this->adicionaRelacionamento('anexofim', 'anexofim', false, true, false, 3); //tipo arquivo
         $this->adicionaRelacionamento('tipo', 'tipo');
         $this->adicionaRelacionamento('nrEfi', 'nrEfi');
         $this->adicionaRelacionamento('procedimento', 'procedimento');
@@ -34,10 +39,10 @@ class PersistenciaMET_QUAL_AqPlanApont extends Persistencia{
         $this->adicionaRelacionamento('preventiva', 'preventiva');
         $this->adicionaRelacionamento('funcao', 'funcao');
         $this->adicionaRelacionamento('treinamento', 'treinamento');
-        
-        
+
+        $this->adicionaOrderBy('seq', 1);
     }
-    
+
     /**
      * insere um plano de acao manualmente
      */
@@ -75,8 +80,7 @@ class PersistenciaMET_QUAL_AqPlanApont extends Persistencia{
         $aDelete = $this->executaSql($sDelete);
         return $aDelete;
     }
-    
-    
+
     public function apontaPlano() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
@@ -91,28 +95,24 @@ class PersistenciaMET_QUAL_AqPlanApont extends Persistencia{
         $aRet = $this->executaSql($sSql);
         return $aRet;
     }
-    
-    public function retPlano(){
+
+    public function retPlano() {
         $aCampos = array();
-        parse_str($_REQUEST['campos'],$aCampos);
-        
+        parse_str($_REQUEST['campos'], $aCampos);
+
         $sSql = "update MET_QUAL_qualplan set datafim = null,obsfim = '', sitfim = null 
-        where filcgc ='".$aCampos['filcgc']."' and nr = '".$aCampos['nr']."' and seq = '".$aCampos['seq']."' ";
-        
-        $aRet = $this->executaSql($sSql); 
+        where filcgc ='" . $aCampos['filcgc'] . "' and nr = '" . $aCampos['nr'] . "' and seq = '" . $aCampos['seq'] . "' ";
+
+        $aRet = $this->executaSql($sSql);
         return $aRet;
-        
-        
     }
-    
+
     public function buscaParam($aDados) {
         $sSql = "select * from MET_QUAL_qualplan where filcgc = '" . $aDados[0] . "' and nr = '" . $aDados[1] . "' and seq = '" . $aDados[2] . "' ";
 
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-        
+        $oRow = $this->consultaSql($sSql);
+
         return $oRow;
     }
-    
 
 }

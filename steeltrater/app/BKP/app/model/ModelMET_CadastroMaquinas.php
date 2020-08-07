@@ -7,7 +7,7 @@
  * @since 22/08/2018
  */
 
-class ModelMET_CadastroMaquinas {
+class ModelMET_MP_CadastroMaquinas {
     
     private $tipcod;
     private $tipdes;

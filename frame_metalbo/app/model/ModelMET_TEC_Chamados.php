@@ -31,15 +31,7 @@ class ModelMET_TEC_Chamados {
     private $anexo1;
     private $anexo2;
     private $anexo3;
-    private $anexofinaliza;
-
-    function getAnexofinaliza() {
-        return $this->anexofinaliza;
-    }
-
-    function setAnexofinaliza($anexofinaliza) {
-        $this->anexofinaliza = $anexofinaliza;
-    }
+    private $anexofim;
 
     function getFilcgc() {
         return $this->filcgc;
@@ -133,6 +125,10 @@ class ModelMET_TEC_Chamados {
         return $this->anexo3;
     }
 
+    function getAnexofim() {
+        return $this->anexofim;
+    }
+
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -223,6 +219,10 @@ class ModelMET_TEC_Chamados {
 
     function setAnexo3($anexo3) {
         $this->anexo3 = $anexo3;
+    }
+
+    function setAnexofim($anexofim) {
+        $this->anexofim = $anexofim;
     }
 
 }

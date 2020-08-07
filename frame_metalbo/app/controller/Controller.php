@@ -1979,7 +1979,7 @@ class Controller {
                             $xValorCampo = '';
                         };
                     } else {
-//                     $xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
+                        //$xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
                         $xValorCampo = $this->getValorModel($oAtual, $sNomeCampo);
                         $xValorCampo = rtrim($xValorCampo);
                     }
@@ -2056,8 +2056,7 @@ class Controller {
             return $aDados; //$sDados; 
         }
     }
-    
-   
+
     /**
      * Método para buscar dados do foot das tabelas
      *
@@ -2076,12 +2075,12 @@ class Controller {
             $aCampos = $this->View->getTela()->getArrayCampos();
         }
 
+
         foreach ($aCampos as $key => $oCampoAtual) {
 
             switch ($oCampoAtual->getSOperacao()) {
                 case 'soma':
                     $sTot .= '<td class="td-destaque">';
-                 
                     $xValor = $this->Persistencia->getSoma($oCampoAtual->getSNome());
                     $sTot .= '<b>' . $oCampoAtual->getSTituloOperacao() . ' ' . '</b>' . number_format($xValor, 2, ',', '.');
                     $sTot .= '</td>';
@@ -3178,7 +3177,7 @@ class Controller {
           //array de controle de erros
           $aRetorno[0] = true;
 
-          $this->carregaModel();
+          $this->carregaModel($aCamposTela);
 
           $aRetorno = $this->beforeInsert();
 
@@ -3356,7 +3355,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
             }
         }
         $this->Model = $this->Persistencia->consultar();
@@ -4063,7 +4062,6 @@ class Controller {
                 }
             }
         }
-
         //$this->carregaValorCamposBusca($oCampo);// VERIFICAR MUITO IMPORTANTE
     }
 

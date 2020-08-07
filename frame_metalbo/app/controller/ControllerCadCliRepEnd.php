@@ -25,7 +25,7 @@ class ControllerCadCliRepEnd extends Controller{
          
         if($iCont==0){
          
-         $this->carregaModel();
+         $this->carregaModel($aCamposTela);
          
          $aRetorno = $this->Persistencia->inserir();
         
@@ -41,7 +41,7 @@ class ControllerCadCliRepEnd extends Controller{
             echo $oMensagem->getRender();   
          }
         }else{
-           $this->carregaModel();
+           $this->carregaModel($aCamposTela);
          
            $aRetorno = $this->Persistencia->alterar(); 
             

@@ -26,18 +26,16 @@ class PersistenciaVersaoSistema extends Persistencia {
 
         $this->adicionaOrderBy('seq', 1);
     }
-    
-        /*Funçao para mostrar a versão sistema na ViewSistema*/
-    public function mostraVersaoSistema (){
+
+    /* Funçao para mostrar a versão sistema na ViewSistema */
+
+    public function mostraVersaoSistema() {
         $sSql = "select versao from tbversao where seq = (select MAX(seq) as seq from tbversao)";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $sVersao = $oRow->versao;
-        
+
         return $sVersao;
-        
-        
-        
     }
 
 }

@@ -63,7 +63,6 @@ class PersistenciaNfRep extends Persistencia{
         LTRIM((nfslei3 +''+nfslei2 +''+nfslei1))as 'widl.NFC001.pedido',
         widl.NFC001.nfstranome as 'widl.NFC001.nfstranome',
         widl.NFC001.nfshrsaida as 'widl.NFC001.nfshrsaida', 
-
         widl.NFC001.nfsnfesit as 'widl.NFC001.nfsnfesit',
         widl.NFC001.nfsemailen as 'widl.NFC001.nfsemailen'
 

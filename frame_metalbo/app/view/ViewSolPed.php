@@ -172,10 +172,9 @@ class ViewSolPed extends View {
         //---Campo Ordem de Compra---///
         $oOd = new Campo('OrdemCompra', 'odcompra', Campo::TIPO_TEXTO, 2,3,3,6);
         $oOd->setITamanho(Campo::TAMANHO_PEQUENO);
-        if ($sAcaoRotina != 'acaoAlterar' && $sAcaoRotina != 'acaoVisualizar') {
-            $oOd->addValidacao(false, Validacao::TIPO_STRING);
-        }
-        
+        $oOd->setSValor(' ');
+        $oOd->addValidacao(false, Validacao::TIPO_STRING);
+
         //---Campo Código de representante---///
         $oCodRed = new Campo('CodRep', 'codrep', Campo::TIPO_TEXTO, 2,3,3,6);
         $oCodRed->setBCampoBloqueado(true);
@@ -216,10 +215,9 @@ class ViewSolPed extends View {
         //---Campo Observação---///
         $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 15);
         $oObs->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oObs->addValidacao(false, Validacao::TIPO_STRING, 'Campo com no máximo 120 caracteres', '0', '120');
         $oObs->setILinhasTextArea(4);
         $oObs->setSValor(' ');
-        $oObs->setICaracter(120);
+        $oObs->setICaracter(300);
 
         //---Campo Quantidade Exata---///
         $oQtExata = new Campo('Quant.Exata', 'qtexata', Campo::TIPO_SELECT, 4, 5, 8, 10);
@@ -235,16 +233,13 @@ class ViewSolPed extends View {
         //---Campo data de entrega com eventos de validação (Não pode ser menor que a data atual e nem null)---//
         $oDataEnt = new Campo('DataEntrega', 'dtent', Campo::TIPO_DATA, 2);
         $oDataEnt->setITamanho(Campo::TAMANHO_PEQUENO);
-        
         $sEventoData = 'if (dataAtual("' . $oDataEnt->getId() . '","' . date('d/m/Y') . '")==false){ '
-                    . ' return { valid: false, message: "Data menor que a data atual!" };  }else{return { valid: true };}; '
-                    . 'if($("#' . $oDataEnt->getId() . '").val()=="") { '
-                    . ' return { valid: false, message: "Data não pode ser em branco!" };'
-                    . '}else{return { valid: true };};';    
-        if ($sAcaoRotina != 'acaoAlterar' && $sAcaoRotina != 'acaoVisualizar') {
-            $oDataEnt->addValidacao(false, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
-        }
-        
+                . ' return { valid: false, message: "Data menor que a data atual!" };  }else{return { valid: true };}; '
+                . 'if($("#' . $oDataEnt->getId() . '").val()=="") { '
+                . ' return { valid: false, message: "Data não pode ser em branco!" };'
+                . '}else{return { valid: true };};';
+        $oDataEnt->addValidacao(false, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
+
         //---Campos ocultos ou com valores fixos---//
         $oConsemail = new Campo('Email', 'consemail', Campo::TIPO_TEXTO, 3,3,3,12);
         $oConsemail->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -274,21 +269,6 @@ class ViewSolPed extends View {
         //---Adiciona uma linha em branco---///
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
-        
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oCnpj->setBCampoBloqueado(true);
-            $oEmpresa->setBCampoBloqueado(true);
-            $oCodPag->setBCampoBloqueado(true);
-            $oCodPagDes->setBCampoBloqueado(true);
-            $oOd->setBCampoBloqueado(true);
-            $oFrete->setBCampoBloqueado(true);
-            $oObs->setBCampoBloqueado(true);
-            $oTransp->setBCampoBloqueado(true);
-            $oTranspDes->setBCampoBloqueado(true);
-            $oQtExata->setBCampoBloqueado(true);
-            $oDataEnt->setBCampoBloqueado(true);
-            $oContato->setBCampoBloqueado(true);
-        }
 
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
             //monta campo de controle para inserir ou alterar

@@ -7,13 +7,14 @@
  * @since 24/08/2018
  */
 
-class ModelMET_Gerenciamento {
+class ModelMET_MP_Gerenciamento {
 
-    private $MET_Maquinas;
+    private $MET_MP_Maquinas;
     private $Setor;
     private $filcgc;
     private $nr;
     private $codmaq;
+    private $maqmp;
     private $codsetor;
     private $descsetor;
     private $sitmp;
@@ -21,6 +22,14 @@ class ModelMET_Gerenciamento {
     private $userabert;
     private $userfecho;
     private $datafech;
+    
+    function getMaqmp() {
+        return $this->maqmp;
+    }
+
+    function setMaqmp($maqmp) {
+        $this->maqmp = $maqmp;
+    }
     
     function getDescsetor() {
         return $this->descsetor;
@@ -30,16 +39,15 @@ class ModelMET_Gerenciamento {
         $this->descsetor = $descsetor;
     }
     
-    ////////////////////
-    function getMET_Maquinas() {
-        if (!isset($this->MET_Maquinas)) {
-            $this->MET_Maquinas = Fabrica::FabricarModel('MET_Maquinas');
+    function getMET_MP_Maquinas() {
+        if (!isset($this->MET_MP_Maquinas)) {
+            $this->MET_MP_Maquinas = Fabrica::FabricarModel('MET_MP_Maquinas');
         }
-        return $this->MET_Maquinas;
+        return $this->MET_MP_Maquinas;
     }
 
-    function setMET_Maquinas($MET_Maquinas) {
-        $this->MET_Maquinas = $MET_Maquinas;
+    function setMET_MP_Maquinas($MET_MP_Maquinas) {
+        $this->MET_MP_Maquinas = $MET_MP_Maquinas;
     }
     
     function getSetor() {

@@ -7,9 +7,9 @@
  * @since 10/09/2018
  */
 
-class ModelMET_ItensManPrev {
+class ModelMET_MP_ItensManPrev {
     
-    private $MET_ServicoMaquina;
+    private $MET_MP_ServicoMaquina;
     private $filcgc;
     private $nr;
     private $seq;
@@ -34,7 +34,11 @@ class ModelMET_ItensManPrev {
     function setFezmanut($fezmanut) {
         $this->fezmanut = $fezmanut;
     }
+<<<<<<< HEAD:steeltrater/app/BKP/app/model/ModelMET_ItensManPrev.php
     
+=======
+  
+>>>>>>> a54785e83fce56537b06fb4e15ca79b1f590fce7:frame_metalbo/app/model/ModelMET_MP_ItensManPrev.php
     function getServico() {
         return $this->servico;
     }
@@ -42,6 +46,7 @@ class ModelMET_ItensManPrev {
     function setServico($servico) {
         $this->servico = $servico;
     }
+<<<<<<< HEAD:steeltrater/app/BKP/app/model/ModelMET_ItensManPrev.php
     
     function getOqfazer() {
         return $this->oqfazer;
@@ -54,12 +59,18 @@ class ModelMET_ItensManPrev {
     function getMET_ServicoMaquina() {
         if (!isset($this->MET_ServicoMaquina)) {
             $this->MET_ServicoMaquina = Fabrica::FabricarModel('MET_ServicoMaquina');
+=======
+      
+    function getMET_MP_ServicoMaquina() {
+        if (!isset($this->MET_MP_ServicoMaquina)) {
+            $this->MET_MP_ServicoMaquina = Fabrica::FabricarModel('MET_MP_ServicoMaquina');
+>>>>>>> a54785e83fce56537b06fb4e15ca79b1f590fce7:frame_metalbo/app/model/ModelMET_MP_ItensManPrev.php
         }
-        return $this->MET_ServicoMaquina;
+        return $this->MET_MP_ServicoMaquina;
     }
 
-    function setMET_ServicoMaquina($MET_ServicoMaquina) {
-        $this->MET_ServicoMaquina = $MET_ServicoMaquina;
+    function setMET_MP_ServicoMaquina($MET_MP_ServicoMaquina) {
+        $this->MET_MP_ServicoMaquina = $MET_MP_ServicoMaquina;
     }
    
     function getFilcgc() {

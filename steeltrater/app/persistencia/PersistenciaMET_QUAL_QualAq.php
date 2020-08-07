@@ -138,7 +138,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
     }
 
     public function buscaDadosAq($aDados) {
-        $sSql = "select * from MET_QUAL_qualaq where filcgc = '" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and nr = '" . $aDados['nr']."'";
+        $sSql = "select * from MET_QUAL_qualaq where filcgc = '" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and nr = '" . $aDados['nr'] . "'";
         $oRow = $this->consultaSql($sSql);
 
         return $oRow;
@@ -219,6 +219,30 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
 
 
         return $aRowAq;
+    }
+
+    public function buscaDataAq() {
+
+        $sSql = "select filcgc,nr,seq,usucodigo,usunome,DATEDIFF(day,dataprev,GETDATE())as dias,convert(varchar,dataprev,103)as data"
+                . " from tbacaoqualplan where sitfim is null";
+        $result = $this->getObjetoSql($sSql);
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            $oModel = $oRowBD;
+            $aRetorno[] = $oModel;
+        }
+
+        return $aRetorno;
+    }
+
+    public function buscaEmailPlanoAcao($oValue) {
+
+        //busca email
+        $sSql = "select usuemail from tbusuario where usucodigo ='" . $oValue->usucodigo . "' ";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $aEmail[] = $oRow->usuemail;
+
+        return $aEmail;
     }
 
 }

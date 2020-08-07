@@ -63,7 +63,7 @@ class ControllerQualCorrecao extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sDados);
+        parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
 
         //verifica se está como 
@@ -85,7 +85,7 @@ class ControllerQualCorrecao extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $sTipoAcao = $this->Persistencia->buscaTipoAcao($aChave);
         $aCampos = $aChave;
         $aCampos[3] = $sTipoAcao;
@@ -170,7 +170,6 @@ class ControllerQualCorrecao extends Controller {
         $this->Persistencia->adicionaFiltro('nr', $aParam[1]);
         $this->Persistencia->adicionaFiltro('seq', $aParam[2]);
         $oDados = $this->Persistencia->consultarWhere();
-
 
         $this->View->setAParametrosExtras($oDados);
         $oRetorno = $this->Persistencia->buscaParam($aParam);

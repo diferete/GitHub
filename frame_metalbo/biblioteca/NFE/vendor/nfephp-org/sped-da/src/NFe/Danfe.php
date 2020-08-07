@@ -2321,7 +2321,7 @@ class Danfe extends Common {
                 $texto = "4 - Próprio por conta do Dest";
                 break;
             case 9:
-                $texto = "9 - Sem Transporte";
+                $texto = "9 - SEM FRETE";
                 break;
         }
         $aFont = ['font' => $this->fontePadrao, 'size' => 10, 'style' => 'B'];
