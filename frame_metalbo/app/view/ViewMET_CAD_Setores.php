@@ -1,6 +1,6 @@
 <?php
 
-class ViewSetor extends View {
+class ViewMET_CAD_Setores extends View {
 
     public function criaTela() {
         parent::criaTela();
@@ -9,18 +9,11 @@ class ViewSetor extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setBMostraFiltro(true);
-
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoIncluir(false);
+        $this->getTela()->setILarguraGrid(1200);
 
         $oCodSetor = new CampoConsulta('Código', 'codsetor');
         $oDescSetor = new CampoConsulta('Descrição', 'descsetor');
 
-        $oFilSetor = new Filtro($oDescSetor, Filtro::CAMPO_TEXTO,4,4,12,12,false);
-
-        $this->addFiltro($oFilSetor);
         $this->addCampos($oCodSetor, $oDescSetor);
     }
 

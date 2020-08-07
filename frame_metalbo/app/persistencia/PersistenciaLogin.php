@@ -246,38 +246,6 @@ class PersistenciaLogin extends Persistencia {
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno;
     }
-	
-	 /*
-
-     * Verifica e altera campo tag_bloq 
-     * Conforme quantidade de tentativas erradas de login, podendo bloquear o usuário caso ultrapasse 3 erros
-     */
-    public function gerenciaBloqUser() {
-        $sSqlSelect = "select * from tbusuario "
-                . "WHERE usulogin = '" . $this->Model->getLogin() . "'";
-        $oObjUser = $this->consultaSql($sSqlSelect);
-        if ($oObjUser->tag_bloq < 3) {
-            $sSqlUpdt = "update tbusuario set tag_bloq = (select tag_bloq from tbusuario where usucodigo = " . $oObjUser->usucodigo . ") +1 where usucodigo = " . $oObjUser->usucodigo . "";
-            $bBloq = false;
-        } else {
-            $sSqlUpdt = "update tbusuario set usubloqueado = 'TRUE' where usucodigo = " . $oObjUser->usucodigo . "";
-            $bBloq = true;
-        }
-        $this->executaSql($sSqlUpdt);
-        return $bBloq;
-    }
-
-    /*
-     * Reseta o campo tag_block para o valor 0
-     * Resetando a quantidade de possibilidades de senha errada para 3
-     */
-    public function limpaTag_Bloq() {
-        $sSqlSelect = "select * from tbusuario "
-                . "WHERE usulogin = '" . $this->Model->getLogin() . "'";
-        $oObjUser = $this->consultaSql($sSqlSelect);
-        $sSqlUpdt = "update tbusuario set tag_bloq = 0 where usucodigo = " . $oObjUser->usucodigo . "";
-        $this->executaSql($sSqlUpdt);
-    }
 
     /*
 

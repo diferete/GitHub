@@ -18,7 +18,7 @@ class ControllerQualDiagramaCausa extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
         $oFuncExcluir = $this->Persistencia->excluir(true);
 

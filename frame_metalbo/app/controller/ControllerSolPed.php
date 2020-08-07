@@ -331,17 +331,5 @@ class ControllerSolPed extends Controller {
 
         require 'app/relatorio/solvenda.php';
     }
-    
-    public function beforeUpdate() {
-        parent::beforeUpdate();
-        
-        $this->Persistencia->verificaCamposTela();     
-        
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-
-    }
 
 }

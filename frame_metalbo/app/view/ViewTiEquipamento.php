@@ -93,8 +93,6 @@ class ViewTiEquipamento extends View {
         $oHora->setBOculto(true);
 
         $oNFE = new Campo('NFE', 'nfe', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
-        
-        $oEquipImagem = new Campo('Imagem Equipamento', 'equipimagem', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
 
         $oEquipCod = new Campo('Código', 'equipcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEquipCod->setBCampoBloqueado(true);
@@ -212,7 +210,7 @@ class ViewTiEquipamento extends View {
 
         $oNumeroLicenca = new Campo('Número:', 'numlic', Campo::TIPO_TEXTO, 3, 3, 12, 12);
 
-        $this->addCampos(array($oEquipCod, $oEquipTipo, $oHora, $oData, $oSituaca), array($oUsuario, $oPessoa), $oFilcgc, $oCodSetor, array($oFabricante, $oModelo, $oEquipImagem), array($oSistema, $oNFE), array($oLicensa, $oNumeroLicenca), array($oOffice, $oLicOffice), $oFieldHard, $oFieldNetwork, $oObs);
+        $this->addCampos(array($oEquipCod, $oEquipTipo, $oHora, $oData, $oSituaca), array($oUsuario, $oPessoa), $oFilcgc, $oCodSetor, array($oFabricante, $oModelo), array($oSistema, $oNFE), array($oLicensa, $oNumeroLicenca), array($oOffice, $oLicOffice), $oFieldHard, $oFieldNetwork, $oObs);
     }
 
     public function relTiEquip() {

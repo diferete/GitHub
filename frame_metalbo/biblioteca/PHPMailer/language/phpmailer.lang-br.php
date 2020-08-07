@@ -3,7 +3,7 @@
 * PHPMailer language file: refer to English translation for definitive list
 * Brazilian Portuguese Version
 * By Paulo Henrique Garcia - paulo@controllerweb.com.br
-* Edited by Lucas Guimar„es - lucas@lucasguimaraes.com
+* Edited by Lucas Guimar√£es - lucas@lucasguimaraes.com
 */
 
 $PHPMAILER_LANG['authenticate']         = 'Erro de SMTP: Nao foi possivel autenticar.';

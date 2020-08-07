@@ -43,7 +43,7 @@ class ViewQualAqApont extends View {
         $oDataRealiz = new CampoConsulta('Data realizada', 'datafim', CampoConsulta::TIPO_DATA);
 
         $oSit = new CampoConsulta('Situação', 'sitfim');
-        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
 
         $oEfi = new CampoConsulta('Nr.Ef', 'nrEfi');
 
@@ -55,7 +55,7 @@ class ViewQualAqApont extends View {
         $oSeqEnv = new Campo('Sêquencia', 'seq', Campo::TIPO_TEXTO, 1, 1, 1, 1);
         $oSeqEnv->setBCampoBloqueado(true);
         $oSeqEnv->addValidacao(false, Validacao::TIPO_STRING, '', '1');
-        
+
         $oPlanEnv = new campo('Plano de ação', 'plano', Campo::TIPO_TEXTAREA, 10, 10, 10, 10);
         $oPlanEnv->setBCampoBloqueado(true);
         $oPlanEnv->setILinhasTextArea(4);
@@ -112,7 +112,7 @@ class ViewQualAqApont extends View {
         $oDaPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
         $oDataRealiz = new CampoConsulta('Data realizada', 'datafim', CampoConsulta::TIPO_DATA);
         $oSit = new CampoConsulta('Situação', 'sitfim');
-        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
         $oEfi = new CampoConsulta('Nr.Ef', 'nrEfi');
 
         $oGridAq->addCampos($oSeq);

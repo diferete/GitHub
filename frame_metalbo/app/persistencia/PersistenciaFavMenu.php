@@ -27,7 +27,7 @@ class PersistenciaFavMenu extends Persistencia{
         $sSql = "select favseq,favdescricao,favclasse,favmetodo,favordem from tbfavmenu where usucodigo =".$_SESSION['codUser']." order by favseq";
         $result = $this->getObjetoSql($sSql);
         while($row = $result->fetch(PDO::FETCH_OBJ)){
-        $aFav = '';
+        $aFav = array();
         $aFav[]=$row->favseq;
         $aFav[]=$row->favdescricao;
         $aFav[]=$row->favclasse;

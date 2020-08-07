@@ -147,13 +147,4 @@ class PersistenciaSolPed extends Persistencia {
         $this->executaSql($sSql);
     }
 
-    public function verificaCamposTela(){
-        
-        
-        $teste = 0;
-        $a = $teste;
-        return true;
-    }
-    
-    
 }

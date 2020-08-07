@@ -219,7 +219,7 @@ class ControllerMET_TEC_Chamados extends Controller {
             $oMensagem = new Mensagem('Atenção', 'Preencha o campo OBSERVAÇÃO!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         } else {
-             $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
+            $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
             if ($aRetorno[0]) {
                 $bRetorno = $this->EnviaEmailFinalizaChamado($aCampos);
                 if ($bRetorno) {
@@ -305,9 +305,6 @@ class ControllerMET_TEC_Chamados extends Controller {
 
     public function EnviaEmailFinalizaChamado($aDados) {
         $oDados = $this->Persistencia->buscaDadosEmailChamado($aDados);
-        if (!$oDados) {
-            return true;
-        }
 
         $oEmail = new Email();
         $oEmail->setMailer();

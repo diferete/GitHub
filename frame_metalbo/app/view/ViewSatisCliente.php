@@ -13,11 +13,11 @@ class ViewSatisCliente extends View {
         parent::criaConsulta();
         //grid dos itens
 
-        
+
         $oGridItens = new Campo('Resultado da pesquisa', 'Pesquisa', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
         $oGridItens->getOGrid()->setILarguraGrid(1800);
         $this->getTela()->setILarguraGrid(1200);
-        
+
         $oNrGrid = new CampoConsulta('Nr', 'nr');
         $oSeqGrid = new CampoConsulta('Seq', 'seq');
         $oEmpcodGrid = new CampoConsulta('Cnpj', 'empcod');
@@ -37,8 +37,8 @@ class ViewSatisCliente extends View {
         $oIndicaGrid = new CampoConsulta('Indicação', 'geralindica', CampoConsulta::TIPO_DESTAQUE1);
 
         $oEmailEnvGrid = new CampoConsulta('Enviado', 'emailenv');
-        $oEmailEnvGrid->addComparacao('Sim', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
-        $oEmailEnvGrid->addComparacao('Não', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
+        $oEmailEnvGrid->addComparacao('Sim', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oEmailEnvGrid->addComparacao('Não', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
 
 
         $oGridItens->addCampos($oNrGrid, $oSeqGrid, $oEmpdesGrid, $oEmailGrid, $oComercialGrid, $oProdReqGrid, $oEmbGrid, $oPrazoGrid, $oGeralExpGrid, $oIndicaGrid, $oEmailEnvGrid);
@@ -67,7 +67,7 @@ class ViewSatisCliente extends View {
 
         $this->setUsaAcaoExcluir(false);
 
-        $oFNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 1, 1);
+        $oFNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
 
         $this->addFiltro($oFNr);
 
@@ -82,8 +82,8 @@ class ViewSatisCliente extends View {
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Relatórios', Dropdown::TIPO_PRIMARY, 2, 2, 2, 2);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'SatisCliente', 'acaoMostraRelConsulta', '', false, 'relsatispesq', '');
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'SatisCliente', 'acaoMostraRelXls', '', false, 'relsatispesqxls', '');
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'SatisCliente', 'acaoMostraRelConsulta', '', false, 'relsatispesq', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'SatisCliente', 'acaoMostraRelXls', '', false, 'relsatispesqxls', false, '', false, '', false, false);
 
         $this->addDropdown($oDrop1);
     }

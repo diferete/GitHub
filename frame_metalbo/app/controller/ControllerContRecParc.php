@@ -12,7 +12,7 @@ class ControllerContRecParc extends Controller{
     
     
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         
         
         $aCampos[] = $aChave[0];
@@ -84,7 +84,7 @@ class ControllerContRecParc extends Controller{
     }
     
      public function acaoLimpar($sForm,$sDados) {
-        parent::acaoLimpar($sDados);
+        parent::acaoLimpar($sForm, $sCampos);
         $aParam = explode(',', $sDados);
         
         $sScript = '$("#'.$sForm.'").each (function(){ this.reset();});';

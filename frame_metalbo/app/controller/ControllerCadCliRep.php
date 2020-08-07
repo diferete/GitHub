@@ -234,7 +234,7 @@ class ControllerCadCliRep extends Controller {
         }
     }
 
-	public function getCNPJ($sDados) {
+    public function getCNPJ($sDados) {
         $aDados = explode('*', $sDados);
         $aDadosEMP = explode('|', $aDados[0]);
         $aIdCampos = explode('|', $aDados[1]);
@@ -297,4 +297,3 @@ class ControllerCadCliRep extends Controller {
     }
 
 }
-

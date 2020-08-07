@@ -646,21 +646,30 @@ function retornaPorc(idvl1, idvlr2) {
 function dataAtual(idData, dataAtual) {
     var dataEnt = $('#' + idData + '').val();
 
+
+
     var nova_data1 = parseInt(dataAtual.split("/")[2].toString() + dataAtual.split("/")[1].toString() + dataAtual.split("/")[0].toString());
 
     if (dataEnt != '') {
         var nova_data2 = parseInt(dataEnt.split("/")[2].toString() + dataEnt.split("/")[1].toString() + dataEnt.split("/")[0].toString());
-    } else{
+    } else
+    {
         var nova_data2 = 0;
     }
+    //  alert(nova_data1);
+    //  alert(nova_data2);
 
     if (nova_data1 > nova_data2) {
-        
+
         return false;
     } else
     {
         return true;
     }
+
+
+
+
 
 }
 

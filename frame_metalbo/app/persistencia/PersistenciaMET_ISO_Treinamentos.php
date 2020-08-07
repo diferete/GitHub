@@ -22,7 +22,6 @@ class PersistenciaMET_ISO_Treinamentos extends Persistencia {
         $this->adicionaRelacionamento('funcao', 'funcao');
         $this->adicionaRelacionamento('data_cad', 'data_cad');
         $this->adicionaRelacionamento('usuario', 'usuario');
-        $this->adicionaRelacionamento('updates', 'updates');
         $this->adicionaRelacionamento('grau_escolaridade', 'grau_escolaridade');
         $this->adicionaRelacionamento('tagEscolaridade', 'tagEscolaridade');
         $this->adicionaRelacionamento('tagTreinamento', 'tagTreinamento');

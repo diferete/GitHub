@@ -36,7 +36,6 @@ class PersistenciaTiEquipamento extends Persistencia {
         $this->adicionaRelacionamento('numlic', 'numlic');
         $this->adicionaRelacionamento('office', 'office');
         $this->adicionaRelacionamento('licoffice', 'licoffice');
-        $this->adicionaRelacionamento('equipimagem', 'equipimagem');
         
         $this->adicionaJoin('Setor');
         $this->adicionaJoin('TiEquipamentoTipo');

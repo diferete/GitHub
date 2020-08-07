@@ -17,10 +17,10 @@ class ViewPessoa extends View {
         $oEmpoCod = new CampoConsulta('Código', 'empcod', CampoConsulta::TIPO_LARGURA, 20);
         $oEmpDes = new CampoConsulta('Empresa', 'empdes', CampoConsulta::TIPO_LARGURA, 20);
         $oEmpSit = new CampoConsulta('Situação', 'empativo');
-        $oEmpSit->addComparacao('B', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+        $oEmpSit->addComparacao('B', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
 
         $oEmpSitCred = new CampoConsulta('Situação Crédito', 'empblocred');
-        $oEmpSitCred->addComparacao('B', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+        $oEmpSitCred->addComparacao('B', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
 
         $oCidade = new CampoConsulta('Cidade', 'Cidcep.cidnome', CampoConsulta::TIPO_LARGURA, 15);
 
@@ -29,8 +29,8 @@ class ViewPessoa extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(true);
-        $FiltroEmpcod = new Filtro($oEmpoCod, Filtro::CAMPO_TEXTO_IGUAL, 2);
-        $FiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3);
+        $FiltroEmpcod = new Filtro($oEmpoCod, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+        $FiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
 
 
