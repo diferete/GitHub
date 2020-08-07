@@ -24,7 +24,7 @@ class ViewMET_QUAL_Correcao extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Correção');
-        $oBotaoModal->addAcao('MET_QUAL_Correcao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao','');
+        $oBotaoModal->addAcao('MET_QUAL_Correcao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao', '');
         $this->addModaisDetalhe($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -46,7 +46,7 @@ class ViewMET_QUAL_Correcao extends View {
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
+        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
@@ -57,7 +57,7 @@ class ViewMET_QUAL_Correcao extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Correção');
-        $oBotaoModal->addAcao('MET_QUAL_Correcao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao','');
+        $oBotaoModal->addAcao('MET_QUAL_Correcao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao', '');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -79,7 +79,7 @@ class ViewMET_QUAL_Correcao extends View {
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
+        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
     }
 
     public function criaTela() {
@@ -107,7 +107,7 @@ class ViewMET_QUAL_Correcao extends View {
         $oSeq = new Campo('Sequência', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeq->setBCampoBloqueado(true);
 
-        $oPlano = new Campo('Ação', 'plano', Campo::TIPO_TEXTAREA, 12);
+        $oPlano = new Campo('Ação efetuada', 'plano', Campo::TIPO_TEXTAREA, 12);
         $oPlano->setILinhasTextArea(5);
         $oPlano->setICaracter(500);
 
@@ -148,9 +148,6 @@ class ViewMET_QUAL_Correcao extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBotConf->setIMarginTop(6);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBotConf->getOBotao()->setBDesativado(true);
-        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    
@@ -158,8 +155,11 @@ class ViewMET_QUAL_Correcao extends View {
         //$oBotConf->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-
-        $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo));
+        } else {
+            $this->addCampos($oDivisor, array($oFilcgc, $oNr, $oSeq, $oTipo), array($oResp, $oRespNome), $oPlano, array($oDataPrev, $oAnexo, $oBotConf));
+        }
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }
 
@@ -186,17 +186,17 @@ class ViewMET_QUAL_Correcao extends View {
         $oDataFim = new Campo('Data Finalização', 'dtaponta', Campo::TIPO_DATA, 2, 2, 2, 2);
         if ($oDados->getDtaponta() != null) {
             $oDataFim->setSValor(Util::converteData($oDados->getDtaponta()));
-}
+        }
         $oDataFim->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oDataFim->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oObsFim = new Campo('Observação final', 'apontamento', Campo::TIPO_TEXTAREA, 8, 8, 8, 8);
-        $oObsFim->setICaracter(1000);
+        $oApontamento = new Campo('Observação final', 'apontamento', Campo::TIPO_TEXTAREA, 8, 8, 8, 8);
+        $oApontamento->setICaracter(1000);
         if ($oDados->getApontamento() != null) {
-            $oObsFim->setSValor(Util::limpaString($oDados->getApontamento()));
+            $oApontamento->setSValor(Util::limpaString($oDados->getApontamento()));
         }
-        $oObsFim->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oObsFim->setILinhasTextArea(3);
+        $oApontamento->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oApontamento->setILinhasTextArea(3);
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -210,7 +210,7 @@ class ViewMET_QUAL_Correcao extends View {
         $oBtnNormal->getOBotao()->addAcao($sAcaoRet);
         $oBtnNormal->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
 
-        $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), array($oDataFim), $oLinha, array($oObsFim, $oBtnInserir, $oBtnNormal));
+        $this->addCampos(array($oEmpresa, $oNr, $oSeqEnv), array($oDataFim), $oLinha, array($oApontamento, $oBtnInserir, $oBtnNormal));
     }
 
 }

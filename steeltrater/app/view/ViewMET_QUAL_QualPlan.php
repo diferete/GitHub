@@ -18,13 +18,13 @@ class ViewMET_QUAL_QualPlan extends View {
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
-        $this->getOGridDetalhe()->setIAltura(200);
+        $this->getOGridDetalhe()->setIAltura(400);
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('MET_QUAL_QualPlan', 'criaTelaModalAponta', 'modalAponta','');
+        $oBotaoModal->addAcao('MET_QUAL_QualPlan', 'criaTelaModalAponta', 'modalAponta', '');
         $this->addModaisDetalhe($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -57,7 +57,7 @@ class ViewMET_QUAL_QualPlan extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('MET_QUAL_QualPlan', 'criaTelaModalAponta', 'modalAponta','');
+        $oBotaoModal->addAcao('MET_QUAL_QualPlan', 'criaTelaModalAponta', 'modalAponta', '');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
@@ -89,7 +89,7 @@ class ViewMET_QUAL_QualPlan extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta','');
+        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta', '');
 
         $oNr = new CampoConsulta('Nr.', 'nr');
 
@@ -180,8 +180,11 @@ class ViewMET_QUAL_QualPlan extends View {
         $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oPlano->getId() . ',' . $oAnexo->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-
-        $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oPlano, array($oResp, $oRespNome, $oTipo), array($oDataPrev, $oAnexo, $oBotConf));
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oPlano, array($oResp, $oRespNome, $oTipo), array($oDataPrev, $oAnexo));
+        } else {
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oPlano, array($oResp, $oRespNome, $oTipo), array($oDataPrev, $oAnexo, $oBotConf));
+        }
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }
 

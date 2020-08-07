@@ -32,7 +32,7 @@ class ViewQualAqPlan extends View {
         $oSeq = new CampoConsulta('Seq.', 'seq');
 
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oPlano = new CampoConsulta('Plano', 'Plano');
 
@@ -71,7 +71,7 @@ class ViewQualAqPlan extends View {
         $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
 
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
@@ -102,7 +102,7 @@ class ViewQualAqPlan extends View {
         $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
 
         $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 

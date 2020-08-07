@@ -17,6 +17,17 @@ class ViewQualContencao extends View {
 
         $this->getOGridDetalhe()->setIAltura(200);
 
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
+        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
+        $oBotaoModal->setSNomeGrid('detalheContencao');
+        $this->addModaisDetalhe($oBotaoModal);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
+
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
 
@@ -37,19 +48,7 @@ class ViewQualContencao extends View {
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
         $this->getOGridDetalhe()->setSNomeGrid('detalheContecao');
-        if ($sAcaoRotina != 'acaoVisualizar') {
-            $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-            $oBotaoModal->setBHideTelaAcao(true);
-            $oBotaoModal->setILargura(15);
-            $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-            $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
-            $oBotaoModal->setSNomeGrid('detalheContencao');
-            $this->addModaisDetalhe($oBotaoModal);
-
-            $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
-        } else {
-            $this->addCamposDetalhe($oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
-        }
+        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
@@ -59,7 +58,16 @@ class ViewQualContencao extends View {
         $aDados = $_REQUEST['parametros'];
         $aDados = explode(',', $aDados['parametros[']);
 
-
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
+        $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
+        $oBotaoModal->setSNomeGrid('detalheContencao');
+        $this->addModais($oBotaoModal);
+        if ($aDados[7] == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
 
@@ -80,20 +88,7 @@ class ViewQualContencao extends View {
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
         $this->getTela()->setSNomeGrid('detalheContencao');
-        if ($aDados[7] != 'acaoVisualizar') {
-
-            $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-            $oBotaoModal->setBHideTelaAcao(true);
-            $oBotaoModal->setILargura(15);
-            $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-            $oBotaoModal->addAcao('QualContencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
-            $oBotaoModal->setSNomeGrid('detalheContencao');
-            $this->addModais($oBotaoModal);
-
-            $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
-        } else {
-            $this->addCampos($oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
-        }
+        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
     }
 
     public function criaTela() {

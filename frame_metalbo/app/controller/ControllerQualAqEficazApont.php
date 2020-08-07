@@ -23,7 +23,6 @@ class ControllerQualAqEficazApont extends Controller {
         }
     }
 
-
     public function sendaDadosCampos($sDados) {
         $aDados = explode(',', $sDados);
 

@@ -39,7 +39,7 @@ class ControllerQualAqEficaz extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sForm, $sCampos);
+        parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
         // "$('#".$sId."').each (function(){ this.reset();});";
         //verifica se está como 

@@ -138,7 +138,7 @@ class PersistenciaQualAq extends Persistencia {
     }
 
     public function buscaDadosAq($aDados) {
-        $sSql = "select * from tbacaoqual where filcgc =" . $aDados['EmpRex_filcgc'] . " and nr = " . $aDados['nr'];
+        $sSql = "select * from tbacaoqual where filcgc ='" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $oRow = $this->consultaSql($sSql);
 
         return $oRow;
@@ -181,7 +181,7 @@ class PersistenciaQualAq extends Persistencia {
         }
 
 
-        $sSqlCorrecao = "select situaca,seq from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "' and situaca is null";
+        $sSqlCorrecao = "select COUNT(*) as total from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['EmpRex_filcgc'] . "' and situaca is null";
         $oCorrecao = $this->consultaSql($sSqlCorrecao);
         if ($oCorrecao->total == 0) {
             $aRowAq['correcao'] = true;
@@ -246,7 +246,7 @@ class PersistenciaQualAq extends Persistencia {
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
             $oModel = $oRowBD;
             $aRetorno[] = $oModel;
-}
+        }
 
         return $aRetorno;
     }

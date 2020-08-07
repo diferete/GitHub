@@ -147,7 +147,7 @@ class ViewQualAqEficazApont extends View {
         $oQuando = new CampoConsulta('Quando', 'dataprev', CampoConsulta::TIPO_DATA);
         $oDataRelGrid = new CampoConsulta('Data Realização', 'datareal', CampoConsulta::TIPO_DATA);
         $oSit = new CampoConsulta('Situação', 'sit');
-        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oSit->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oUsuGrid = new CampoConsulta('Quem', 'usunome');
 

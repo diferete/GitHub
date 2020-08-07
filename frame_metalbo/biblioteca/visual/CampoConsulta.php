@@ -30,6 +30,7 @@ class CampoConsulta {
     private $sTituloBotaoModal;
     private $sDiretorioManual;
     private $bColOculta;
+    private $bDisabled;
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -103,6 +104,7 @@ class CampoConsulta {
         $this->sTipoBotao = $IconeBotao;
         $this->setSNomeGrid('paramGrid');
         $this->setSDiretorioManual('uploads');
+        $this->setBDisabled(false);
 
         if ($this->Tipo == 9) {
             $this->setBCampoIcone(true);
@@ -328,6 +330,14 @@ class CampoConsulta {
 
     function setBColOculta($bColOculta) {
         $this->bColOculta = $bColOculta;
+    }
+
+    function getBDisabled() {
+        return $this->bDisabled;
+    }
+
+    function setBDisabled($bDisabled) {
+        $this->bDisabled = $bDisabled;
     }
 
     /**
@@ -582,12 +592,15 @@ class CampoConsulta {
                 } else {
                     
                 }
+                if ($this->getBDisabled()) {
+                    $sDisabled = 'disabled';
+                }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '" data-target="#' . $this->aAcao['modalNome'] . '" data-toggle="modal">' . $this->getSTituloBotaoModal() . '</button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '" data-target="#' . $this->aAcao['modalNome'] . '" data-toggle="modal" ' . $sDisabled . '>' . $this->getSTituloBotaoModal() . '</button></td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'

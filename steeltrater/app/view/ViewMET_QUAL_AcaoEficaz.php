@@ -36,7 +36,7 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         $oResp->setSIdHideEtapa($this->getSIdHideEtapa());
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
-        $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
+        $oRespNome = new Campo('Quem', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
         $oRespNome->setSIdPk($oResp->getId());
         $oRespNome->setClasseBusca('MET_TEC_usuario');
         $oRespNome->addCampoBusca('usucodigo', '', '');
@@ -49,7 +49,7 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
 
-        $oDataPrev = new Campo('Quando', 'dataprev', Campo::TIPO_DATA, 2);
+        $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2);
         $oDataPrev->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
         $oEficaz = new Campo('', 'eficaz', Campo::TIPO_TEXTO, 1);
@@ -63,7 +63,7 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('MET_QUAL_AcaoEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz','');
+        $oBotaoModal->addAcao('MET_QUAL_AcaoEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
         $oGridAq->getOGrid()->addModal($oBotaoModal);
 
         $oSeqGrid = new CampoConsulta('Seq.', 'seq');
@@ -97,30 +97,27 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBtnInserir->getOBotao()->setBDesativado(true);
-        }
-
-
 
         /* botão excluir */
         $sAcao = 'var chave=""; $("#' . $oGridAq->getId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("' . $this->getTela()->getId() . '-form","MET_QUAL_AcaoEficaz","excluirEf","' . $this->getTela()->getId() . '-form,' . $oGridAq->getId() . '"+","+chave+""); '; // excluirEf
-        
+
 
         $oBtnDelete = new Campo('Deletar', 'btnNormal', Campo::TIPO_BOTAOSMALL, 2);
         $oBtnDelete->getOBotao()->setSStyleBotao(Botao::TIPO_DANGER);
         $oBtnDelete->getOBotao()->addAcao($sAcao);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBtnDelete->setBDesativado(true);
-        }
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHA);
 
         $sAcaoBusca = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_QUAL_AcaoEficaz","getDadosGrid","' . $oGridAq->getId() . '","consultaEficaz");';
         $this->getTela()->setSAcaoShow($sAcaoBusca);
+        if ($sAcaoRotina == 'acaoVisualizar') {
 
-        $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oBtnInserir, $oEficaz), $oLinha, $oBtnDelete, $oGridAq);
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oEficaz), $oLinha, $oGridAq);
+        } else {
+
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oBtnInserir, $oEficaz), $oLinha, $oBtnDelete, $oGridAq);
+        }
     }
 
     public function consultaEficaz() {
@@ -130,7 +127,7 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('MET_QUAL_AcaoEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz','');
+        $oBotaoModal->addAcao('MET_QUAL_AcaoEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
 
         //$this->addModaisDetalhe($oBotaoModal);
 
