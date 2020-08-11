@@ -436,11 +436,7 @@ class CampoConsulta {
                 } else {
                     
                 }
-                if ($this->getSDiretorioManual() == 'uploads') {
-                    $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'' . $this->getSDiretorioManual() . '/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
-                } else {
-                    $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href="\\Uploads/' . $this->getSDiretorioManual() . '/' . $xValor . '"\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
-                }
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'' . $this->getSDiretorioManual() . '/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
                 break;
             case self::TIPO_DESTAQUE1:
                 $iFontSize = $this->getITamanhoFonte();

@@ -819,7 +819,7 @@ class Controller {
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
-        }
+        };
         //renderiza a tela
         $this->View->getTela()->getRender();
     }
@@ -847,7 +847,7 @@ class Controller {
         //adiciona tela que será dado um show 
         $this->View->getTela()->setSRenderHide($aDados[2]);
         //carregar campos tela
-        $this->carregaCamposTela($sChave, $bDesabilita);
+        $this->carregaCamposTela($sChave);
         //adiciona botoes padrão
         $this->View->addBotaoPadraoTela('');
         //renderiza a tela
@@ -3170,7 +3170,6 @@ class Controller {
             $oMsg = new Mensagem('ERRO AO INSERIR', 'Seu registro não foi inserido!', Mensagem::TIPO_ERROR);
         }
 
-
         //adiciona filtros extras
         /*  $this->adicionaFiltrosExtras();
           $this->Persistencia->iniciaTransacao();
@@ -3356,7 +3355,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel());
             }
         }
         $this->Model = $this->Persistencia->consultar();

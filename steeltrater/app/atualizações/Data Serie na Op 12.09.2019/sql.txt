@@ -1,0 +1,2 @@
+alter table steel_pcp_ordensFab add dataemidoc date
+alter table steel_pcp_ordensFab add serie_nf varchar(10)

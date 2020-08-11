@@ -1,0 +1,178 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * View da Classe que mantem os equipamentos do setor de Tecnologia da Informação da Metalbo
+ *
+ * @author Carlos
+ */
+class ViewTiEquipamento extends View {
+
+    public function criaConsulta() {
+        parent::criaConsulta();
+
+        $this->getTela()->setILarguraGrid(1800);
+
+        $oEquipCod = new CampoConsulta('Código', 'equipcod');
+        $oEquipCod->setILargura(60);
+
+        $oTipoEquip = new CampoConsulta('Tipo', 'TiEquipamentoTipo.eqtipdescricao');
+        $oTipoEquip->setILargura(80);
+        
+        $oSetor = new CampoConsulta('Setor','Setor.descsetor');
+        $oSetor->setILargura(120);
+
+        $oFabricante = new CampoConsulta('Fabricante', 'equipfabricante');
+        $oFabricante->setILargura(100);
+
+        $oModelo = new CampoConsulta('Modelo', 'equipmodelo');
+        $oModelo->setILargura(200);
+
+        $oSistema = new CampoConsulta('Sistema', 'equipsistema');
+        $oSistema->setILargura(200);
+
+        $oHostname = new CampoConsulta('Hostname', 'equiphostname');
+        $oHostname->setILargura(200);
+
+        $oUsuario = new CampoConsulta('Usuario', 'equipusuario');
+        $oUsuario->setILargura(200);
+
+        $oIp = new CampoConsulta('Ip Fixo', 'ipfixo');
+        
+       
+        
+         
+        $this->setBScrollInf(true);
+
+        $this->setUsaAcaoExcluir(false);
+
+
+        $this->addCampos($oEquipCod, $oTipoEquip, $oSetor,$oFabricante, $oModelo, $oSistema, $oHostname, $oUsuario, $oIp);
+
+        $oFiltro1 = new Filtro($oSistema, Filtro::CAMPO_TEXTO, 4, 4, 12, 12);
+
+        $this->addFiltro($oFiltro1);
+    }
+
+    public function criaTela() {
+        parent::criaTela();
+
+        $oData = new Campo('', 'equipdatacad', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oData->setSValor(date('d/m/Y'));
+        $oData->setBCampoBloqueado(true);
+        $oData->setBOculto(true);
+
+        $oHora = new Campo('', 'equiphoracad', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oHora->setITamanho(Campo::TAMANHO_PEQUENO);
+        date_default_timezone_set('America/Sao_Paulo');
+        $oHora->setSValor(date('H:i'));
+        $oHora->setBCampoBloqueado(true);
+        $oHora->setBOculto(true);
+
+        $oNFE = new Campo('NFE', 'nfe', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
+        $oNFE->setIMarginTop(8);
+
+        $oEquipCod = new Campo('Código', 'equipcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oEquipCod->setBCampoBloqueado(true);
+
+        $oEquipTipo = new Campo('Tipo', 'TiEquipamentoTipo.eqtipcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oEquipTipo->setClasseBusca('TiEquipamentoTipo');
+        $oEquipTipo->addCampoBusca('eqtipdescricao', null, $this->getTela()->getId(), Campo::TIPO_BUSCA, 5, 5, 12, 12);
+        $oEquipTipo->addValidacao(false, Validacao::TIPO_STRING, '', '1');
+
+        $oFabricante = new Campo('Fabricante/Distribuidor', 'equipfabricante', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+
+        $oModelo = new Campo('Modelo', 'equipmodelo', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+
+        $oSistema = new Campo('Sistema Operacional', 'equipsistema', Campo::TIPO_SELECT, 4, 4, 12, 12);
+        $oSistema->addItemSelect('N/A', 'N/A');
+        $oSistema->addItemSelect('Windows Xp', 'Windows Xp');
+        $oSistema->addItemSelect('Windows 7', 'Windows 7');
+        $oSistema->addItemSelect('Windows 8', 'Windows 8');
+        $oSistema->addItemSelect('Windows 8.1', 'Windows 8.1');
+        $oSistema->addItemSelect('Windows 10', 'Windows 10');
+        $oSistema->addItemSelect('Linux', 'Linux');
+        $oSistema->addItemSelect('MacOS', 'MacOS');
+        $oSistema->addItemSelect('Windows Server 2003', 'Windows Server 2003');
+        $oSistema->addItemSelect('Windows Server 2008', 'Windows Server 2008');
+        $oSistema->addItemSelect('Windows Server 2012', 'Windows Server 2012');
+        $oSistema->addItemSelect('Windows Server 2016', 'Windows Server 2016');
+
+        $oLicensa = new Campo('Licença', 'equiplicenca', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oLicensa->addItemSelect('Ativado', 'Ativado');
+        $oLicensa->addItemSelect('Aguardando', 'Aguardando');
+
+
+        $oUsuario = new Campo('Usuário', 'equipusuario', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+
+        $oCodSetor = new Campo('Setor', 'Setor.codsetor', Campo::TIPO_TEXTO, 1);
+        $oCodSetor->setClasseBusca('Setor');
+        $oCodSetor->addCampoBusca('descsetor', null, $this->getTela()->getId()); //sempre setar o nome do modulo referente a pesquisa
+
+
+        $oFilcgc = new Campo('Empresa Padrão', 'filcgc', Campo::TIPO_BUSCADOBANCOPK, 2);
+        $oFilcgc->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
+        $oFilcgc->setSValor('75483040000211');
+        
+        $oFildes = new Campo('Empresa', 'fildes', Campo::TIPO_BUSCADOBANCO, 4);
+        $oFildes->setSIdPk($oFilcgc->getId());
+        $oFildes->setClasseBusca('PoliCadMaq');
+        $oFildes->addCampoBusca('codmaq', '', '');
+        $oFildes->addCampoBusca('maquina', '', '');
+        $oFildes->setSIdTela($this->getTela()->getid());
+        $oFildes->setApenasTela(true);
+        
+
+        $oFilcgc->setClasseBusca('EmpRex');
+        $oFilcgc->setSCampoRetorno('filcgc', $this->getTela()->getId());
+        $oFilcgc->addCampoBusca('fildes', $oFildes->getId(), $this->getTela()->getId());
+
+
+        $oFieldHard = new FieldSet('Hardware');
+
+        $oCpu = new Campo('Processador', 'equipcpu', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oCpu->setIMarginTop(8);
+
+        $oRam = new Campo('Memória Ram', 'equipmemoria', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oRam->addItemSelect('N/A', 'N/A');
+        $oRam->addItemSelect('1GB', '1GB');
+        $oRam->addItemSelect('2GB', '2GB');
+        $oRam->addItemSelect('3GB', '3GB');
+        $oRam->addItemSelect('4GB', '4GB');
+        $oRam->addItemSelect('5GB', '5GB');
+        $oRam->addItemSelect('6GB', '6GB');
+        $oRam->addItemSelect('8GB', '8GB');
+        $oRam->addItemSelect('16GB', '16GB');
+        $oRam->addItemSelect('32GB', '32GB');
+        $oRam->addItemSelect('64GB', '64GB');
+
+        $oHd = new Campo('Hd', 'equiphd', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oHd->addItemSelect('500GB', '500GB');
+        $oHd->addItemSelect('1TB', '1TB');
+        $oHd->addItemSelect('2TB', '2TB');
+        $oHd->addItemSelect('3TB', '3TB');
+        $oHd->addItemSelect('4TB', '4TB');
+
+        $oFieldHard->addCampos(array($oCpu, $oRam, $oHd,));
+
+        $oFieldNetwork = new FieldSet('Network');
+
+        $oHostName = new Campo('HostName', 'equiphostname', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oMac = new Campo('Mac Addres', 'equipmac', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oIp = new Campo('Ip Fixo', 'ipfixo', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oIp->setSValor('DHCP');
+
+        $oFieldNetwork->addCampos(array($oHostName, $oMac, $oIp));
+        
+        $oObs = new Campo('Observações','obs', Campo::TIPO_TEXTAREA,10);
+        $oObs->setSCorFundo(Campo::FUNDO_AMARELO);
+
+        $this->addCampos(array($oEquipCod, $oEquipTipo), array($oUsuario, $oFilcgc,), $oCodSetor, array($oFabricante, $oModelo), array($oSistema, $oLicensa, $oNFE), $oFieldHard, $oFieldNetwork, $oObs,$oHora, $oData);
+    }
+
+}

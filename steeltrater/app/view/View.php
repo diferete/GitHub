@@ -2127,18 +2127,17 @@ abstract class View {
             $this->getTela()->setIdBtnConfirmar($oBtnAdd->getId());
             $this->getTela()->addBotoes($oBtnAdd);
         } else {
-            if (!$this->getBOcultaBotTela() && $this->getSRotina() != 'acaoVisualizar') {
+            if (!($this->getBOcultaBotTela())) {
                 $sCampoIncremento .= $this->getSIdUpload();
                 $sMetodo = $this->getSRotina();
                 $oBtnAdd = new Botao('', Botao::TIPO_CONFIRMAR, '');
                 $oBtnAdd->setRequestAjax('requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . ',' . $this->getTela()->getSRenderHide() . ',' . $sCampoIncremento . ',' . $this->getTela()->getAbaSel() . '");'); //"'.$this->getSIdUpload().'"
                 $this->getTela()->addBotoes($oBtnAdd);
             }
-            if ($this->getSRotina() != 'acaoVisualizar') {
-                $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
-                $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);
-                $this->getTela()->addBotoes($oBtnLimpar);
-            }
+
+            $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
+            $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);
+            $this->getTela()->addBotoes($oBtnLimpar);
         }
         //desativa botao fechar
         if (!($this->getBOcultaFechar())) {

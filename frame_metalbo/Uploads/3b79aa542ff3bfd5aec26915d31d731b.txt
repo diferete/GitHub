@@ -1,0 +1,70 @@
+ $oItens = Fabrica::FabricarController('MET_ItensManPrev');
+        $oItens->Persistencia->atualizaDataAntesdaConsulta();
+        $this->buscaCelulas();
+        $oDados = $_REQUEST['parametrosCampos'];
+        
+//        $sNr = '';
+//        $sCodMaq = '';
+//        $sMaq = '';
+//        $sRes = '';
+//        $sSeq = '';
+//        $sMaqTip = '';
+//        $sCodSet = '';
+//        $sSit = '';
+//        
+        $sNr = explode('|',$oDados['parametrosCampos[0'])[1];
+        $sCodMaq = explode('|',$oDados['parametrosCampos[1'])[1];
+        $sMaq = explode('|',$oDados['parametrosCampos[2'])[1];
+        $sRes = explode('|',$oDados['parametrosCampos[3'])[1];
+        $sSeq = explode('|',$oDados['parametrosCampos[4'])[1];
+        $sMaqTip = explode('|',$oDados['parametrosCampos[5'])[1];
+        $sCodSet = explode('|',$oDados['parametrosCampos[6'])[1];
+        $sSit = explode('|',$oDados['parametrosCampos[7'])[1];
+        
+        if($sRes!='TODOS' && $sRes!= null){
+            $this->Persistencia->limpaFiltro();
+            $sSql = 'nr in ('.$this->Persistencia->retornaTexMaqPorSetor($sRes).') ';
+            if($sCodMaq!=''){
+                $sSql.= ' and codmaq ='.$sCodMaq.' ';
+            }
+            if($sMaq!=''){
+                $sSql.= ' and MET_Maquinas.maquina ='.$sMaq.' ';
+            }
+            if($sMaqTip!=''){
+                $sSql.= ' and MET_Maquinas.maqtip ='.$sMaqTip.' ';
+            }
+            if($sCodSet!=''){
+                $sSql.= ' and MET_Maquinas.codsetor ='.$sCodSet.' '; 
+            }
+            if($sSit=='FINALIZADO'){
+                $sSql.= ' and sitmp = FINALIZADO ';
+            }else{
+                $sSql.= ' and sitmp = ABERTO ';
+            }
+            $this->Persistencia->setSqlWhere($sSql);
+        }else{
+            $this->Persistencia->limpaFiltro();
+            if($sNr!=''){
+            $this->Persistencia->adicionaFiltro('nr', $sNr);
+            }
+            if($sCodMaq!=''){
+            $this->Persistencia->adicionaFiltro('codmaq', $sCodMaq); 
+            }
+            if($sMaq!=''){
+            $this->Persistencia->adicionaFiltro('MET_Maquinas.maquina', $sMaq); 
+            }
+            if($sSeq!=''){
+            $this->Persistencia->adicionaFiltro('MET_Maquinas.seq', $sSeq); 
+            }
+            if($sMaqTip!=''){
+            $this->Persistencia->adicionaFiltro('MET_Maquinas.maqtip', $sMaqTip); 
+            }
+            if($sCodSet!=''){
+            $this->Persistencia->adicionaFiltro('MET_Maquinas.codsetor', $sCodSet); 
+            }
+            if($sSit=='FINALIZADO'){
+                $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO'); 
+            }else{
+                $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');   
+            }
+        }

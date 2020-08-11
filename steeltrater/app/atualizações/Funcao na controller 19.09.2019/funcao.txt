@@ -1,0 +1,9 @@
+    /**
+     * Funcao para retornar array dos dados da tela
+     */
+    public function getArrayCampostela(){
+         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+         $aCamposChave = array();
+         parse_str($sChave, $aCamposChave);
+         return $aCamposChave;
+    }

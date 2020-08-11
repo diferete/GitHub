@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="596" pageHeight="596" columnWidth="556" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="578900e3-0c5e-4102-8e31-dc6c573ab805">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="nomeEmpresa" class="java.lang.String"/>
+	<parameter name="filtro1" class="java.lang.String"/>
+	<parameter name="filtroSql" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select tbfuncionario.pescodigo,pesnome,tbfuncionario.setcodigo,setdescricao,fundataadmin,funcracha
+from tbfuncionario
+left outer join tbpessoa on tbfuncionario.pescodigo = tbpessoa.pescodigo
+left outer join tbsetor on tbfuncionario.setcodigo = tbsetor.setcodigo
+$P{filtroSql}
+]]>
+	</queryString>
+	<field name="pescodigo" class="java.lang.Integer"/>
+	<field name="pesnome" class="java.lang.String"/>
+	<field name="setcodigo" class="java.lang.Integer"/>
+	<field name="setdescricao" class="java.lang.String"/>
+	<field name="fundataadmin" class="java.sql.Date"/>
+	<field name="funcracha" class="java.lang.Integer"/>
+	<variable name="total" class="java.lang.Integer" calculation="Sum"/>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement x="58" y="80" width="202" height="20" uuid="fc9db07d-6f26-45d8-819c-b548a740c9a2"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="2" width="554" height="20" uuid="c7fb7706-29da-4d69-86c4-0bf4707e91ac"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomeEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="23" width="554" height="20" uuid="fdd791b2-9ba7-4b25-ab2e-f35761dc8c3e"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Relatório de Usuários"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="43" width="554" height="20" uuid="beea8ebe-4158-4777-826d-e58c46113a92"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{filtro1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="261" y="80" width="162" height="20" uuid="f9b3eb84-4947-4a2b-b9b6-d94264e3c01f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cód. Setor]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="102" width="552" height="1" uuid="33ae2193-39a1-44a4-b398-8fabb5126197"/>
+			</line>
+			<staticText>
+				<reportElement x="3" y="80" width="55" height="20" uuid="fc9db07d-6f26-45d8-819c-b548a740c9a2"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cód.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="423" y="80" width="81" height="20" uuid="f9b3eb84-4947-4a2b-b9b6-d94264e3c01f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Admissão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="504" y="80" width="49" height="20" uuid="878ef32b-e25f-4198-872c-2f748834324e"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cracha]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="3" y="2" width="55" height="15" uuid="46d274df-37f8-46cb-bc69-f9d5e9f058be"/>
+				<textFieldExpression><![CDATA[$F{pescodigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="2" width="202" height="15" uuid="64baba65-a8fb-40c5-9e6c-a784bbb09ddd"/>
+				<textFieldExpression><![CDATA[$F{pesnome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="261" y="2" width="45" height="15" uuid="1377c497-1e33-48cf-ba82-9505440335bc"/>
+				<textFieldExpression><![CDATA[$F{setcodigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="306" y="2" width="117" height="15" uuid="9a705093-fe0b-4f39-a7d4-18f6094235a8"/>
+				<textFieldExpression><![CDATA[$F{setdescricao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="423" y="2" width="81" height="15" uuid="d279757b-a58b-42b6-9314-a0bbd3dbdb98"/>
+				<textFieldExpression><![CDATA[$F{fundataadmin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="504" y="2" width="36" height="15" uuid="dbd38ee9-e47a-40e3-be7b-ebbaa97f4b77"/>
+				<textFieldExpression><![CDATA[$F{funcracha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="26">
+			<line>
+				<reportElement x="1" y="4" width="554" height="1" uuid="6480f988-9b0f-43cf-98ce-083878cc2e3c"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="5" width="115" height="20" uuid="c406c954-0ea0-478b-95bc-6a756b15d144"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Metalbo - Rex Máquinas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="5" width="117" height="20" uuid="d9f9f9dc-bc78-4042-ad7e-892e796af9a7"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[www.metalbo.com.br]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
