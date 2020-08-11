@@ -1872,7 +1872,7 @@ class Persistencia {
           fclose($fp);
          * 
          */
-
+         
         $result = $this->getObjetoSql($sSql);
 
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {

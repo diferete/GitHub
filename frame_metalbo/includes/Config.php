@@ -62,7 +62,7 @@ class Config {
     const HOST_BD = 'MetalboServer';
     const PASS_BD = 'M@quinas@321';
      
-
+     
     /*
       const PORTA_BD = 1433;
       const USER_BD  = 'sa';

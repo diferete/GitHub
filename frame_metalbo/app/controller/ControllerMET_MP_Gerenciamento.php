@@ -227,31 +227,31 @@ class ControllerMET_MP_Gerenciamento extends Controller {
 
         $sSit = explode('|', $oDados['parametrosCampos[5'])[1];
         $iSet = $_SESSION['codsetor'];
-        
-        if($_REQUEST['metodo']!='getDadosConsulta' && $_REQUEST['metodo']!='getDadosScroll' || $iSet==5){
-            if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
-                $this->Persistencia->adicionaFiltro('Setor.codsetor',$iSet);
+
+        if ($_REQUEST['metodo'] != 'getDadosConsulta' && $_REQUEST['metodo'] != 'getDadosScroll' || $iSet == 5) {
+            if ($iSet != 2 && $iSet != 12 && $iSet != 29) {
+                $this->Persistencia->adicionaFiltro('Setor.codsetor', $iSet);
                 $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor($iSet) . ') ');
-            }else if($iSet== 12){
+            } else if ($iSet == 12) {
                 $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor(12) . ') ');
-            }else if($iSet== 29){
+            } else if ($iSet == 29) {
                 $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor(29) . ') ');
             }
         }
-            if ($sSit == 'FINALIZADO') {
-                $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO');
-            } else {
-                $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
-            }
-            //Parte participante da ordenação em ordem alfabética quando usuário realiza getDadosScroll
-            if($_REQUEST['metodo']=='getDadosScroll'){
-                $aWhere = $this->Persistencia->getListaWhere();
-                $oDesMaq = $this->Persistencia->retornaMaquina($aWhere[1]['valor']);
-                $aWhere[1]['campo'] = 'maqmp';
-                $aWhere[1]['valor'] = $oDesMaq->maqmp; 
-                $aWhere[1]['comparacao'] = 1;
-                $this->Persistencia->setAListaWhere($aWhere);
-            }
+        if ($sSit == 'FINALIZADO') {
+            $this->Persistencia->adicionaFiltro('sitmp', 'FINALIZADO');
+        } else {
+            $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
+        }
+        //Parte participante da ordenação em ordem alfabética quando usuário realiza getDadosScroll
+        if ($_REQUEST['metodo'] == 'getDadosScroll') {
+            $aWhere = $this->Persistencia->getListaWhere();
+            $oDesMaq = $this->Persistencia->retornaMaquina($aWhere[1]['valor']);
+            $aWhere[1]['campo'] = 'maqmp';
+            $aWhere[1]['valor'] = $oDesMaq->maqmp;
+            $aWhere[1]['comparacao'] = 1;
+            $this->Persistencia->setAListaWhere($aWhere);
+        }
     }
 
 }

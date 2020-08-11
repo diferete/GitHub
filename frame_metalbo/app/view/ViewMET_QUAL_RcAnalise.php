@@ -11,6 +11,8 @@ class ViewMET_QUAL_RcAnalise extends View {
 
         $this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setiLarguraGrid(2000);
+        
+        $this->getTela()->setIAltura(550);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
 
@@ -54,21 +56,27 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->setBComparacaoColuna(true);
 
+        $oDropDown = new Dropdown('Apontar análise', Dropdown::TIPO_AVISO);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar análise', 'MET_QUAL_RcAnalise', 'criaTelaModalAponta', '', false, '', false, 'criaTelaModalAponta', true, 'Apontar análise', false, false);
 
         $oDropDown2 = new Dropdown('Opções da reclamação', Dropdown::TIPO_PRIMARY);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'MET_QUAL_RcVenda', 'acaoMostraRelConsulta', '', false, 'rc', false, '', false, '', false, false);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail', 'MET_QUAL_RcAnalise', 'reenviaEmailRC', '', false, '', false, '', false, '', false, false);
 
-
-        $oDropDown = new Dropdown('Apontar análise', Dropdown::TIPO_AVISO);
-        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar análise', 'MET_QUAL_RcAnalise', 'criaTelaModalAponta', '', false, '', false, 'criaTelaModalAponta', true, 'Apontar análise', false, false);
+        $oDropDown3 = new Dropdown('Inspeção', Dropdown::TIPO_ERRO, Dropdown::ICON_CHECK);
+        $oDropDown3->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar inspeção', 'MET_QUAL_RcAnalise', 'criaTelaModalApontaInspecao', '', false, '', false, 'criaTelaModalApontaInspecao', true, 'Resultados de Inspeção de Recebimento da Reclamação', false, false);
 
         $this->setUsaDropdown(true);
-        $this->addDropdown($oDropDown, $oDropDown2);
+        if ($_SESSION['codsetor'] == 25) {
+            $this->addDropdown($oDropDown, $oDropDown2, $oDropDown3);
+        } else {
+            $this->addDropdown($oDropDown, $oDropDown2);
+        }
 
         $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilCli);
+
         $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
 
@@ -258,6 +266,65 @@ class ViewMET_QUAL_RcAnalise extends View {
 
 
         $this->addCampos(array($oFilcgc, $oNr, $oUsuAponta), $oApontamento, $oBtnInserir);
+    }
+
+    public function criaModalApontaInspecao($sDados) {
+        parent::criaModal();
+
+
+        $oDados = $this->getAParametrosExtras();
+
+        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
+        $oFilcgc->setSValor($oDados->getFilcgc());
+        $oFilcgc->setBCampoBloqueado(true);
+
+        $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr->setSValor($oDados->getNr());
+        $oNr->setBCampoBloqueado(true);
+
+        $oUsuAponta = new Campo('Usuário', 'resp_disposicao', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+        $oUsuAponta->setSValor($_SESSION['nome']);
+        $oUsuAponta->setBCampoBloqueado(true);
+
+        $oData = new Campo('Data dispoção', 'data_disposicao', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oData->setSValor(date('d/m/Y'));
+
+        $oHora = new Campo('Hora disposição', 'hora_disposicao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oHora->setSValor(date('H:i:s'));
+        $oHora->setBCampoBloqueado(true);
+
+        $oCorrecao = new Campo('Correção', 'correcao', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
+        $oCorrecao->addItemSelect('Devolver', 'Devolver');
+        $oCorrecao->addItemSelect('Aprovar com desvio', 'Aprovar com desvio');
+        $oCorrecao->addItemSelect('Reclassificar', 'Reclassificar');
+        $oCorrecao->addItemSelect('Retrabalhar', 'Retrabalhar');
+        $oCorrecao->addItemSelect('Sucatear', 'Sucatear');
+        $oCorrecao->addItemSelect('Outra', 'Outra');
+        
+        $oAnexo1 = new Campo('Anexo 1', 'anexo_inspecao', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
+        $oAnexo2 = new Campo('Anexo 2', 'anexo_inspecao1', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
+
+        $oApontamento = new Campo('Apontar inspeção', 'inspecao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oApontamento->setILinhasTextArea(3);
+        $oApontamento->addValidacao(false, Validacao::TIPO_STRING, '', '2', '999');
+
+        $oObs = new Campo('Observação', 'obs_inspecao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oObs->setILinhasTextArea(3);
+
+        $oBtnInserir = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        //id do grid
+
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontaInspecaoRC","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+
+        $oBtnInserir->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->setBTela(true);
+
+
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuAponta, $oData, $oHora), $oCorrecao, array($oAnexo1, $oAnexo2), array($oApontamento, $oObs), $oBtnInserir);
     }
 
 }

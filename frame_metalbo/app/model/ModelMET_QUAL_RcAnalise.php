@@ -55,6 +55,78 @@ class ModelMET_QUAL_RcAnalise {
     private $produtos;
     private $tagsetor;
     private $tagexcecao;
+    private $inspecao;
+    private $correcao;
+    private $obs_inspecao;
+    private $resp_disposicao;
+    private $data_disposicao;
+    private $hora_disposicao;
+    private $anexo_inspecao;
+    private $anexo_inspecao1;
+
+    function getAnexo_inspecao() {
+        return $this->anexo_inspecao;
+    }
+
+    function getAnexo_inspecao1() {
+        return $this->anexo_inspecao1;
+    }
+
+    function setAnexo_inspecao($anexo_inspecao) {
+        $this->anexo_inspecao = $anexo_inspecao;
+    }
+
+    function setAnexo_inspecao1($anexo_inspecao1) {
+        $this->anexo_inspecao1 = $anexo_inspecao1;
+    }
+
+    function getInspecao() {
+        return $this->inspecao;
+    }
+
+    function getCorrecao() {
+        return $this->correcao;
+    }
+
+    function getObs_inspecao() {
+        return $this->obs_inspecao;
+    }
+
+    function getResp_disposicao() {
+        return $this->resp_disposicao;
+    }
+
+    function getData_disposicao() {
+        return $this->data_disposicao;
+    }
+
+    function getHora_disposicao() {
+        return $this->hora_disposicao;
+    }
+
+    function setInspecao($inspecao) {
+        $this->inspecao = $inspecao;
+    }
+
+    function setCorrecao($correcao) {
+        $this->correcao = $correcao;
+    }
+
+    function setObs_inspecao($obs_inspecao) {
+        $this->obs_inspecao = $obs_inspecao;
+    }
+
+    function setResp_disposicao($resp_disposicao) {
+        $this->resp_disposicao = $resp_disposicao;
+    }
+
+    function setData_disposicao($data_disposicao) {
+        $this->data_disposicao = $data_disposicao;
+    }
+
+    function setHora_disposicao($hora_disposicao) {
+        $this->hora_disposicao = $hora_disposicao;
+    }
 
     function getTagexcecao() {
         return $this->tagexcecao;

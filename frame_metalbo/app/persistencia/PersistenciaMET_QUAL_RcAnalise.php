@@ -73,20 +73,36 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
 
         $this->adicionaRelacionamento('tagexcecao', 'tagexcecao');
 
+        $this->adicionaRelacionamento('inspecao', 'inspecao');
+        $this->adicionaRelacionamento('correcao', 'correcao');
+        $this->adicionaRelacionamento('obs_inspecao', 'obs_inspecao');
+        $this->adicionaRelacionamento('resp_disposicao', 'resp_disposicao');
+        $this->adicionaRelacionamento('data_disposicao', 'data_disposicao');
+        $this->adicionaRelacionamento('hora_disposicao', 'hora_disposicao');
+        $this->adicionaRelacionamento('anexo_inspecao', 'anexo_inspecao');
+        $this->adicionaRelacionamento('anexo_inspecao1', 'anexo_inspecao1');
+
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
 
         $this->setSTop(50);
 
-        if ($_SESSION['codsetor'] == 3) {
-            $this->adicionaFiltro('tagsetor', '3');
-        }
-        if ($_SESSION['codsetor'] == 5) {
-            $this->adicionaFiltro('tagsetor', '5');
-        }
-        if ($_SESSION['codsetor'] == 25) {
-            $this->adicionaFiltro('tagsetor', '25');
+        if ($_SESSION['codUser'] != 70) {
+            if ($_SESSION['codsetor'] == 3) {
+                $this->adicionaFiltro('tagsetor', '3');
+            }
+            if ($_SESSION['codsetor'] == 5) {
+                $this->adicionaFiltro('tagsetor', '5');
+            }
+            if ($_SESSION['codsetor'] == 25) {
+                $this->adicionaFiltro('tagsetor', '25');
+            }
+        } else {
+            $aValor = array();
+            $aValor[0] = 3;
+            $aValor[1] = 5;
+            $this->adicionaFiltro('tagsetor', $aValor, 0, 9);
         }
     }
 
@@ -189,6 +205,26 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
                 . " set situaca = 'Apontada',"
                 . " apontamento = '" . $aDados['apontamento'] . "',"
                 . " usuaponta = '" . $aDados['usuaponta'] . "'"
+                . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
+
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
+
+    public function apontaInspecaoRC($aDados) {
+
+        $aDados['inspecao'] = $this->preparaString($aDados['inspecao']);
+        $aDados['obs_inspecao'] = $this->preparaString($aDados['obs_inspecao']);
+
+        $sSql = "update tbrncqual"
+                . " set inspecao = '" . $aDados['inspecao'] . "',"
+                . " correcao = '" . $aDados['correcao'] . "',"
+                . " obs_inspecao = '" . $aDados['obs_inspecao'] . "',"
+                . " resp_disposicao = '" . $aDados['resp_disposicao'] . "',"
+                . " data_disposicao = '" . $aDados['data_disposicao'] . "',"
+                . " hora_disposicao = '" . $aDados['hora_disposicao'] . "',"
+                . " anexo_inspecao = '" . $aDados['anexo_inspecao'] . "',"
+                . " anexo_inspecao1 = '" . $aDados['anexo_inspecao1'] . "'"
                 . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
 
         $aRetorno = $this->executaSql($sSql);

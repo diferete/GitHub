@@ -203,12 +203,16 @@ class ControllerMET_QUAL_RcRep extends Controller {
 
         if ($aRet[0]) {
             $oMsg = new Mensagem('Sucesso', 'Reclamação nº' . $aCampos['nr'] . ' foi finalizada!', Mensagem::TIPO_SUCESSO);
+            echo $oMsg->getRender();
+            echo '$("#' . $aDados[2] . '-pesq").click();';
+            echo "$('#" . $aDados[2] . "-btn').click();";
+            $this->notificaQualidade($aDados);
         } else {
             $oMsg = new Modal('Atenção', 'Erro ao tentar finalizar reclamação!', Modal::TIPO_AVISO, false, true, true);
+            echo $oMsg->getRender();
+            echo '$("#' . $aDados[2] . '-pesq").click();';
+            echo "$('#" . $aDados[2] . "-btn').click();";
         }
-        echo $oMsg->getRender();
-        echo '$("#' . $aDados[2] . '-pesq").click();';
-        echo "$('#" . $aDados[2] . "-btn').click();";
     }
 
     public function getRespVenda($sDados) {
@@ -345,6 +349,58 @@ class ControllerMET_QUAL_RcRep extends Controller {
                 . '$("#' . $aDados[7] . '").val("");'
                 . '$("#' . $aDados[8] . '").val("");';
         echo $sLimpaCampos;
+    }
+
+    public function notificaQualidade($aDados) {
+
+        $sChave = htmlspecialchars_decode($aDados[3]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = date('d/m/Y');
+        $hora = date('H:m');
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail automático METALBO'));
+
+        $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
+
+        $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE'));
+        $oEmail->setMensagem(utf8_decode('<span style="color:green;"><b>A RC número:' . $oRow->nr . ' foi FINALIZADA pelo representante</b></span><br/><br/>'
+                        . '<b>FAZER APONTAMENTO DA INSPEÇÃO: Resultados de Inspeção de Recebimento da Reclamação!</b><br/><br/>'
+                        . '<b>Responsável de Vendas: ' . $oRow->resp_venda_nome . ' </b><br/>'
+                        . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
+                        . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
+                        . '<b>Hora: ' . $hora . '  </b><br/>'
+                        . '<b>Data do Cadastro: ' . $data . ' </b><br/><br/><br/>'
+                        . '<table border = 1 cellspacing = 0 cellpadding = 2 width = "100%">'
+                        . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
+                        . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
+                        . '<tr><td><b>Observação VENDAS: </b></td><td> ' . $oRow->obs_aponta . ' </td></tr>'
+                        . '<tr><td><b>Observação ANÁLISE: </b></td><td> ' . $oRow->apontamento . ' </td></tr>'
+                        . '</table><br/><br/>'
+                        . '<b>Para mais informações, consulte o anexo!</b><br/>'
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+        $oEmail->limpaDestinatariosAll();
+
+
+        // Para
+        //$oEmail->addDestinatario('almoxarifado@metalbo.com.br');
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+        $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
+
+        $aRetorno = $oEmail->sendEmail();
     }
 
 }

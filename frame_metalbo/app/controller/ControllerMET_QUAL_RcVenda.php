@@ -301,7 +301,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 $oMensagem = new Mensagem('Sucesso', 'Registro alterado com sucesso!', Mensagem::TIPO_SUCESSO);
                 echo $oMensagem->getRender();
                 $this->enviaEmailSetor($sDados, $sParam);
-                echo"$('#" . $aDados[1] . "-pesq').click();";
+                echo "$('#" . $aDados[1] . "-pesq').click();";
             } else {
                 $oMensagem = new Mensagem('Atenção', 'O registro não pode ser alterado, o e-mail não foi enviado!', Mensagem::TIPO_ERROR);
                 echo $oMensagem->getRender();
@@ -382,7 +382,8 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 }
                 if ($aRet[0] == 'Env.Exp') {
                     //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('josiani@metalbo.com.br');
+                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    $oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
@@ -684,7 +685,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
 
 
         // Para
-        $oEmail->addDestinatario('almoxarifado@metalbo.com.br');
+        $oEmail->addDestinatario('qualidade@metalbo.com.br');
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));

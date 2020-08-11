@@ -234,4 +234,59 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         }
     }
 
+    public function criaTelaModalApontaInspecao($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aCamposChave['id'] = $aDados[1];
+
+
+        $oRet = $this->Persistencia->buscaDadosRC($aCamposChave);
+
+        if ($oRet->resp_disposicao == null && $oRet->data_disposicao == null && $oRet->hora_disposicao == null && $oRet->situaca == 'Finalizada') {
+            $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+            $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+
+            $oDados = $this->Persistencia->consultarWhere();
+            $this->View->setAParametrosExtras($oDados);
+
+            $this->View->criaModalApontaInspecao($sDados);
+
+            //adiciona onde será renderizado
+            $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
+            echo $sLimpa;
+            $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        } else {
+            $oMens = new Modal('Atenção!', 'Já possuiu inspeção ou não está em situação de ser apontada!', Modal::TIPO_AVISO, false, true, false);
+            echo $oMens->getRender();
+            echo'$("#' . $aDados[1] . '-btn").click();';
+        }
+    }
+
+    /**
+     * Aponta RC
+     * @param type $sDados
+     */
+    public function apontaInspecaoRC($sDados) {
+        $aDados = explode(',', $sDados);
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        $aRet = $this->Persistencia->apontaInspecaoRC($aCampos);
+
+        if ($aRet[0] == true) {
+            $oMsg = new Mensagem('Sucesso', 'Inspeção da reclamação nº' . $aCampos['nr'] . ' foi apontada com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMsg->getRender();
+        } else {
+            $oMsg = new Mensagem('Atenção', 'Inspeção da reclamação nº' . $aCampos['nr'] . ' não pode ser apontada!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+        }
+        echo'$("#' . $aDados[2] . '-btn").click();';
+    }
+
 }

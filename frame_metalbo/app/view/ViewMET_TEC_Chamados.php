@@ -91,19 +91,25 @@ class ViewMET_TEC_Chamados extends View {
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
-        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
-        $oFilEmp->addItemSelect('', 'Empresas');
-        $oFilEmp->addItemSelect('75483040000211', 'Metalbo');
-        $oFilEmp->addItemSelect('83781641000158', 'Poliamidos');
-        $oFilEmp->setSLabel('');
+
 
         $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 1, 1, 12, 12, false);
         $oFilSetor->setSClasseBusca('Setor');
         $oFilSetor->setSCampoRetorno('codsetor', $this->getTela()->getSId());
         $oFilSetor->setSIdTela($this->getTela()->getSId());
 
+        $oFilUsoSol = new Filtro($oUsuSol, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $oFilUsoSol->setSLabel('Usuário solicitante');
 
-        $oFilUsoSol = new Filtro($oUsuSol, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, true);
+        $oFilUsuIni = new Filtro($oUsuInicio, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $oFilUsuIni->setSLabel('Responsável que iniciou');
+
+        $oFilData = new Filtro($oDataCad, Filtro::CAMPO_DATA_ENTRE, 1, 1, 12, 12, true);
+
+        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilEmp->addItemSelect('75483040000211', 'Metalbo');
+        $oFilEmp->addItemSelect('83781641000158', 'Poliamidos');
+        $oFilEmp->setSLabel('Empresas');
 
         $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFilSit->addItemSelect('Todos', 'Todos');
@@ -119,7 +125,7 @@ class ViewMET_TEC_Chamados extends View {
         $oFilTipo->addItemSelect('2', 'SOFTWARE');
         $oFilTipo->addItemSelect('3', 'SERVIÇOS');
 
-        $this->addFiltro($oFilNr, $oFilEmp, $oFilSetor, $oFilUsoSol, $oFilTipo, $oFilSit);
+        $this->addFiltro($oFilNr, $oFilSetor, $oFilUsoSol, $oFilUsuIni, $oFilData, $oFilEmp, $oFilTipo, $oFilSit);
 
         $oDrop = new Dropdown('Cancelar', Dropdown::TIPO_ERRO, Dropdown::ICON_ERRO);
         $oDrop->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar chamado', $this->getController(), 'criaTelaModalCancelaChamado', '', false, '', false, 'criaTelaModalCancelaChamado', true, 'Cancelar chamado', false, false);
