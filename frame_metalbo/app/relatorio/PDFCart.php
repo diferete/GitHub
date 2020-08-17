@@ -193,7 +193,7 @@ if ($sEmail != '') {
     $oEmail->addDestinatarioCopia($sEmail);
 
 
-    $oEmail->addAnexo('catalogo/PDF/Itens-carrinho-metalbo' . $nr . '.pdf', utf8_decode('catalogo/PDF/Itens-carrinho-metalbo' . $nr . '.pdf'));
+    $oEmail->addAnexo('catalogo/PDF/Itens-carrinho-metalbo' . $nr . '.pdf', utf8_decode('Itens-carrinho-metalbo' . $nr . '.pdf'));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $sMensagem = 'success';

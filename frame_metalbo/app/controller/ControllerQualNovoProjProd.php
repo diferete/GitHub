@@ -425,8 +425,8 @@ class ControllerQualNovoProjProd extends Controller {
                     . '$("#' . $aDados[22] . '").val("' . (int) $oObj->prodacab . '");'
                     . '$("#' . $aDados[23] . '").val("' . $oObj->promatcod . '");'
                     . '$("#' . $aDados[24] . '").val("' . $oObj->proclasseg . '");';
-            $teste = strlen($oObj->proanghel);
-            if ($teste > 0) {
+            $sAnguloHel = strlen($oObj->proanghel);
+            if ($sAnguloHel > 0) {
                 $sSetValorCampos .= '$("#' . $aDados[21] . '").val("' . $oObj->proanghel . '");';
             }
             echo $sSetValorCampos;

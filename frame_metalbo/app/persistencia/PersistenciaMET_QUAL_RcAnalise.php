@@ -82,6 +82,9 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
         $this->adicionaRelacionamento('anexo_inspecao', 'anexo_inspecao');
         $this->adicionaRelacionamento('anexo_inspecao1', 'anexo_inspecao1');
 
+        $this->adicionaRelacionamento('anexo_analise', 'anexo_analise');
+        $this->adicionaRelacionamento('anexo_analise1', 'anexo_analise1');
+
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
@@ -94,9 +97,6 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
             }
             if ($_SESSION['codsetor'] == 5) {
                 $this->adicionaFiltro('tagsetor', '5');
-            }
-            if ($_SESSION['codsetor'] == 25) {
-                $this->adicionaFiltro('tagsetor', '25');
             }
         } else {
             $aValor = array();
@@ -204,6 +204,8 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
         $sSql = "update tbrncqual"
                 . " set situaca = 'Apontada',"
                 . " apontamento = '" . $aDados['apontamento'] . "',"
+                . " anexo_analise = '" . $aDados['anexo_analise'] . "',"
+                . " anexo_analise1 = '" . $aDados['anexo_analise1'] . "',"
                 . " usuaponta = '" . $aDados['usuaponta'] . "'"
                 . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
 

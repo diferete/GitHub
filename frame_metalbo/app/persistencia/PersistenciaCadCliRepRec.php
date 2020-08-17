@@ -14,7 +14,7 @@ class PersistenciaCadCliRepRec extends Persistencia {
         $this->setTabela('pdfempcad');
 
         $this->adicionaRelacionamento('nr', 'nr', true, true, true);
-        $this->adicionaRelacionamento('empcod', 'empcod', true, true);
+        $this->adicionaRelacionamento('empcod', 'empcod');
         $this->adicionaRelacionamento('empdes', 'empdes');
         $this->adicionaRelacionamento('empfj', 'empfj');
         $this->adicionaRelacionamento('empconfina', 'empconfina');

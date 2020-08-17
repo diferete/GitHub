@@ -150,7 +150,6 @@ class ViewQualNovoProjProd extends View {
         $oProcodSimilar->addCampoBusca('prodes', $oProdsimilar->getId(), $this->getTela()->getid());
 
         $oFieldDimen = new FieldSet('Especificações dimensionais');
-        $oFieldDimen->setOculto(true);
 
         $oAngHelice = new campo('Âng. Helice', 'anghelice', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 

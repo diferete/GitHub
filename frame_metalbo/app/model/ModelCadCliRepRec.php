@@ -8,8 +8,8 @@
 
 class ModelCadCliRepRec {
 
-    private $nr;
     private $empcod;
+    private $nr;
     private $empdes;
     private $empfj;
     private $empconfina;
@@ -49,12 +49,12 @@ class ModelCadCliRepRec {
     private $cnpj;
     private $codIBGE;
 
-    function getNr() {
-        return $this->nr;
-    }
-
     function getEmpcod() {
         return $this->empcod;
+    }
+
+    function getNr() {
+        return $this->nr;
     }
 
     function getEmpdes() {
@@ -209,12 +209,12 @@ class ModelCadCliRepRec {
         return $this->codIBGE;
     }
 
-    function setNr($nr) {
-        $this->nr = $nr;
-    }
-
     function setEmpcod($empcod) {
         $this->empcod = $empcod;
+    }
+
+    function setNr($nr) {
+        $this->nr = $nr;
     }
 
     function setEmpdes($empdes) {

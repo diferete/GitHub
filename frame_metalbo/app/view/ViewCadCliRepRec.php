@@ -12,6 +12,13 @@ class ViewCadCliRepRec extends View {
         parent::criaConsulta();
 
 
+        $this->getTela()->setILarguraGrid(1200);
+        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaAcaoAlterar(true);
+        $this->setUsaAcaoVisualizar(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
         $oNr = new CampoConsulta('Nr.Cadastro', 'nr');
         $oNr->setILargura(1);
@@ -38,22 +45,20 @@ class ViewCadCliRepRec extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Retornar para Representante', 'CadCliRepRec', 'msgRet', '', false, '', false, '', false, '', false, false);
 
         //filtros 
+        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+
+        $oFilEmpcod = new Filtro($oEmpcod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
         $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
-        $oFiltroUsuCad = new Filtro($oUsuCadVenda, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
-        $this->addFiltro($oFiltroEmpdes, $oFiltroUsuCad);
+
+        $oFiltroUsuCad = new Filtro($oUsuCadVenda, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
+
+        $this->addFiltro($oFilNr, $oFilEmpcod, $oFiltroEmpdes, $oFiltroUsuCad);
 
         $this->addDropdown($oDrop1);
 
         $this->addCampos($oNr, $oEmpcod, $oEmpDes, $oDataCad, $oEmpusu, $oUsuCadVenda, $oSituaca);
-
-
-        $this->getTela()->setILarguraGrid(1200);
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoIncluir(false);
-        $this->setUsaAcaoAlterar(true);
-        $this->setUsaAcaoVisualizar(true);
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
     }
 
     public function criaTela() {

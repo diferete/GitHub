@@ -7,7 +7,7 @@
  * @since 16/03/2020
  */
 
-class ModelMET_RHPessoas {
+class ModelMET_RH_Pessoas {
     
     private $seq;
     private $numcad;

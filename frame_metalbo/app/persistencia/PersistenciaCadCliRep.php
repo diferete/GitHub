@@ -168,7 +168,7 @@ class PersistenciaCadCliRep extends Persistencia {
     public function gravaHistorico($sNr) {
         $sSql = "insert into MET_TEC_Historico(classe,data,filcgc,historico,hora,seq,usucodigo,usunome)"
                 . "values"
-                . "('CadCliRep','" . date('d/m/Y') . "','" . $_SESSION['filcgc'] . "','NÃO INSERIU JScript ECHO VAL NO CAMPO IBGE - " . $_SESSION['repofficedes'] . "','" . date('H:i:s') . "','" . $sNr . "','".$_SESSION['codUser']."','" . $_SESSION['nome'] . "')";
+                . "('CadCliRep','" . date('d/m/Y') . "','" . $_SESSION['filcgc'] . "','NÃO INSERIU JScript ECHO VAL NO CAMPO IBGE - " . $_SESSION['repofficedes'] . "','" . date('H:i:s') . "','" . $sNr . "','" . $_SESSION['codUser'] . "','" . $_SESSION['nome'] . "')";
         $this->executaSql($sSql);
     }
 

@@ -9,9 +9,15 @@ class ViewMET_QUAL_RcAnalise extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $this->setUsaAcaoVisualizar(true);
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaAcaoExcluir(false);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setiLarguraGrid(2000);
-        
+
         $this->getTela()->setIAltura(550);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
@@ -80,12 +86,27 @@ class ViewMET_QUAL_RcAnalise extends View {
         $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
 
-        $this->setUsaAcaoVisualizar(true);
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoIncluir(false);
-        $this->setUsaAcaoExcluir(false);
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
+
+        if ($_SESSION['codsetor'] == 25) {
+            $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
+
+
+            $oInspecao = new Campo('Inspeção', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+            $oInspecao->setILinhasTextArea(6);
+            $oInspecao->setSCorFundo(Campo::FUNDO_MONEY);
+            $oInspecao->setBCampoBloqueado(true);
+
+            $oCorrecao = new Campo('Correção', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+            $oCorrecao->setILinhasTextArea(6);
+            $oCorrecao->setSCorFundo(Campo::FUNDO_MONEY);
+            $oCorrecao->setBCampoBloqueado(true);
+
+
+            $this->addCamposGrid($oInspecao, $oCorrecao, $oLinhaWhite);
+
+            $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
+                    . 'requestAjax("","MET_QUAL_RcAnalise","carregaInspecao","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oInspecao->getId() . ',' . $oCorrecao->getId() . '"+","+"");');
+        }
     }
 
     public function criaTela() {
@@ -252,6 +273,9 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oUsuAponta->setSValor($_SESSION['nome']);
         $oUsuAponta->setBCampoBloqueado(true);
 
+        $oAnexo = new Campo('Anexo', 'anexo_analise', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
+        $oAnexo1 = new campo('Anexo', 'anexo_analise1', campo::TIPO_UPLOAD, 6, 6, 12, 12);
+
         $oBtnInserir = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         //id do grid
@@ -265,7 +289,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $this->setBTela(true);
 
 
-        $this->addCampos(array($oFilcgc, $oNr, $oUsuAponta), $oApontamento, $oBtnInserir);
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuAponta), $oApontamento, arraY($oAnexo, $oAnexo1), $oBtnInserir);
     }
 
     public function criaModalApontaInspecao($sDados) {
@@ -300,7 +324,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oCorrecao->addItemSelect('Retrabalhar', 'Retrabalhar');
         $oCorrecao->addItemSelect('Sucatear', 'Sucatear');
         $oCorrecao->addItemSelect('Outra', 'Outra');
-        
+
         $oAnexo1 = new Campo('Anexo 1', 'anexo_inspecao', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
         $oAnexo2 = new Campo('Anexo 2', 'anexo_inspecao1', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
 

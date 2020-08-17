@@ -96,6 +96,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
                 . " datafim = '" . $aDados['datafim'] . "',"
                 . " horafim = '" . $aDados['horafim'] . "',"
                 . " obsfim = '" . $aDados['obsfim'] . "',"
+                . " anexofim = '" . $aDados['anexofim'] . "',"
                 . " usunomefim = '" . $aDados['usunomefim'] . "'"
                 . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
         $aRetorno = $this->executaSql($sSql);
@@ -107,6 +108,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
                 . " datafim = '" . $aDados['datafim'] . "',"
                 . " horafim = '" . $aDados['horafim'] . "',"
                 . " obsfim = '" . $aDados['obsfim'] . "',"
+                . " anexofim = '" . $aDados['anexofim'] . "',"
                 . " usunomefim = '" . $aDados['usunomefim'] . "'"
                 . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
         $aRetorno = $this->executaSql($sSql);

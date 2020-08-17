@@ -3,12 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/persistencia/PersistenciaMET_MP_Gerenciamento.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/persistencia/PersistenciaCadCliRep.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/model/ModelCadCliRepRec.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerCadCliRepRec.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/view/ViewCadCliRepRec.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/Controller.php</file>
             <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/persistencia/Persistencia.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerPrincipal.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/persistencia/PersistenciaCadCliRepRec.php</file>
             <file>file:/C:/wamp64/www/GitHub/frame_metalbo/index.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerSolPed.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/view/ViewSolPed.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/persistencia/PersistenciaSolPed.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/model/ModelCadCliRep.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/view/ViewCadCliRep.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/includes/Config.php</file>
         </group>
     </open-files>
 </project-private>

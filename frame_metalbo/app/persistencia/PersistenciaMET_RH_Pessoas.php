@@ -7,7 +7,7 @@
  * @since 16/03/2020
  */
 
-class PersistenciaMET_RHPessoas extends Persistencia {
+class PersistenciaMET_RH_Pessoas extends Persistencia {
 
     public function __construct() {
         parent::__construct();

@@ -38,9 +38,18 @@ class ViewCadCliRep extends View {
         $oDrop2 = new Dropdown('Endereços', Dropdown::TIPO_AVISO);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Inserir endereços', 'CadCliRepEnd', 'acaoMostraTelaEndereço', '', true, '', false, '', false, '', false, false);
 
+
         //filtros 
+        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+
+        $oFilEmpcod = new Filtro($oEmpcod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
         $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
-        $this->addFiltro($oFiltroEmpdes);
+
+        $oFiltroUsuCad = new Filtro($oEmpusu, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
+
+        $this->addFiltro($oFilNr, $oFilEmpcod, $oFiltroEmpdes, $oFiltroUsuCad);
 
         $this->addDropdown($oDrop2, $oDrop1);
 

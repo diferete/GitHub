@@ -63,6 +63,24 @@ class ModelMET_QUAL_RcAnalise {
     private $hora_disposicao;
     private $anexo_inspecao;
     private $anexo_inspecao1;
+    private $anexo_analise;
+    private $anexo_analise1;
+
+    function getAnexo_analise() {
+        return $this->anexo_analise;
+    }
+
+    function getAnexo_analise1() {
+        return $this->anexo_analise1;
+    }
+
+    function setAnexo_analise($anexo_analise) {
+        $this->anexo_analise = $anexo_analise;
+    }
+
+    function setAnexo_analise1($anexo_analise1) {
+        $this->anexo_analise1 = $anexo_analise1;
+    }
 
     function getAnexo_inspecao() {
         return $this->anexo_inspecao;

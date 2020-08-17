@@ -21,15 +21,17 @@ class ViewMET_TEC_Chamados extends View {
         $this->setUsaFiltro(true);
         $sFiltroSetor = $_SESSION['codsetor'];
 
-        if ($sFiltroSetor == 2) {
 
-            $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-            $oBotaoModal->setBHideTelaAcao(true);
-            $oBotaoModal->setILargura(15);
-            $oBotaoModal->setSTitleAcao('Gerencia Chamados');
-            $oBotaoModal->addAcao('MET_TEC_Chamados', 'criaTelaModalApontaChamado', 'criaModalApontaChamado', '');
-            $this->addModais($oBotaoModal);
-        }
+
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Gerencia Chamados');
+        $oBotaoModal->addAcao('MET_TEC_Chamados', 'criaTelaModalApontaChamado', 'criaModalApontaChamado', '');
+        $this->addModais($oBotaoModal);
+
+        $oAnexoFim = new CampoConsulta('AnexoFim', 'anexofim', CampoConsulta::TIPO_DOWNLOAD);
+
 
         $oNr = new CampoConsulta('Nr.', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(5);
@@ -139,7 +141,7 @@ class ViewMET_TEC_Chamados extends View {
 
         if ($sFiltroSetor == 2) {
             $this->addDropdown($oDrop, $oDrop2);
-            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oHoraCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oUsuFim, $oDataFim, $oHoraFim);
+            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oHoraCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oUsuFim, $oDataFim, $oHoraFim, $oAnexoFim);
         } else {
             $this->addDropdown($oDrop, $oDrop1);
             $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oUsuFim, $oDataFim, $oHoraFim);
@@ -366,9 +368,11 @@ class ViewMET_TEC_Chamados extends View {
         $oUsunomeFim->setBOculto(true);
         $oUsunomeFim->setSValor($_SESSION['nome']);
 
-        $oObsFim = new Campo('Motivo do cancelamento', 'obsfim', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
-        $oObsFim->setILinhasTextArea(3);
+        $oObsFim = new Campo('Motivo do cancelamento', 'obsfim', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oObsFim->setILinhasTextArea(4);
         $oObsFim->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 5);
+
+        $oAnexoFim = new Campo('Anexo', 'anexofim', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
 
         //botão inserir os dados
         $oBtnCancela = new Campo('Cancelar', '', Campo::TIPO_BOTAOSMALL_SUB, 2);
@@ -379,7 +383,7 @@ class ViewMET_TEC_Chamados extends View {
 
 
 
-        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, $oObsFim, array($oBtnCancela));
+        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, array($oObsFim, $oAnexoFim), array($oBtnCancela));
     }
 
     public function relChamados() {

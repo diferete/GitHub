@@ -82,6 +82,10 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         echo $sRetorno;
     }
 
+    /**
+     * Método para chamar tela modal para apontar RC
+     * @param string $sDados chaves primarias e IDs relacionados a modal
+     */
     public function criaTelaModalAponta($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
@@ -117,8 +121,8 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
     }
 
     /**
-     * Aponta RC
-     * @param type $sDados
+     * Aponta RC 
+     * @param string $sDados chaves primarias e IDs relacionados a modal
      */
     public function apontaRC($sDados) {
         $aDados = explode(',', $sDados);
@@ -234,6 +238,10 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         }
     }
 
+    /**
+     * Método para chamar tela modal para apontar inspeções da RC após finalizado pelo representante
+     * @param string $sDados chaves primarias e IDs relacionados a modal
+     */
     public function criaTelaModalApontaInspecao($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
@@ -245,7 +253,7 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
 
         $oRet = $this->Persistencia->buscaDadosRC($aCamposChave);
 
-        if ($oRet->resp_disposicao == null && $oRet->data_disposicao == null && $oRet->hora_disposicao == null && $oRet->situaca == 'Finalizada') {
+        if ($oRet->devolucao != 'Aguardando') {
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
 
@@ -269,8 +277,8 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
     }
 
     /**
-     * Aponta RC
-     * @param type $sDados
+     * Aponta inspeção da RC após finalizado pelo representante
+     * @param string $sDados chaves primarias e IDs relacionados a modal
      */
     public function apontaInspecaoRC($sDados) {
         $aDados = explode(',', $sDados);
@@ -287,6 +295,28 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
             echo $oMsg->getRender();
         }
         echo'$("#' . $aDados[2] . '-btn").click();';
+    }
+
+    /*
+     * Método que mostra na MostraConsulta a análise feita pelo setor responsável caso problema seja interno
+     * */
+
+    public function carregaInspecao($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[1]);
+        $aInspecao = array();
+        parse_str($sChave, $aInspecao);
+
+        $oInspecao = $this->Persistencia->buscaDadosRC($aInspecao);
+
+        $sInspecao = Util::limpaString($oInspecao->inspecao);
+        $sCorrecao = Util::limpaString($oInspecao->correcao);
+
+        $sScriptInspecao = '$("#' . $aDados[2] . '").val("' . $sInspecao . '");';
+        $sScriptCorrecao = '$("#' . $aDados[3] . '").val("' . $sCorrecao . '");';
+
+        echo $sScriptInspecao;
+        echo $sScriptCorrecao;
     }
 
 }

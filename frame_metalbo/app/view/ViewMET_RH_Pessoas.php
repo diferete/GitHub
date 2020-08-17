@@ -6,19 +6,19 @@
  * @since 16/03/2020
  */
 
-class ViewMET_RHPessoas extends View {
+class ViewMET_RH_Pessoas extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setSNomeGrid('GridMET_RHPessoas');
+        $this->getTela()->setSNomeGrid('GridMET_RH_Pessoas');
         
         $oBotaoFinalizar = new CampoConsulta('Finalizar', 'teste', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoFinalizar->setSTitleAcao('Finalizar Ficha!');
-        $oBotaoFinalizar->addAcao('MET_RHPessoas', 'msgFinalizaFicha', '', '');
+        $oBotaoFinalizar->addAcao('MET_RH_Pessoas', 'msgFinalizaFicha', '', '');
         $oBotaoFinalizar->setBHideTelaAcao(true);
         $oBotaoFinalizar->setILargura(10);
-        $oBotaoFinalizar->setSNomeGrid('GridMET_RHPessoas');
+        $oBotaoFinalizar->setSNomeGrid('GridMET_RH_Pessoas');
         
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oNum = new CampoConsulta('Crachá', 'numcad');
@@ -42,8 +42,8 @@ class ViewMET_RHPessoas extends View {
         
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'FICHA COMPLETA', 'MET_RHPessoas', 'acaoMostraRelEspecifico', 'CURSOS', false, 'relFunFichaCursos', false, '', false, '', true, false);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'FICHA', 'MET_RHPessoas', 'acaoMostraRelEspecifico', 'FICHA', false, 'relFunFichaCursos', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'FICHA COMPLETA', 'MET_RH_Pessoas', 'acaoMostraRelEspecifico', 'CURSOS', false, 'relFunFichaCursos', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'FICHA', 'MET_RH_Pessoas', 'acaoMostraRelEspecifico', 'FICHA', false, 'relFunFichaCursos', false, '', false, '', true, false);
        
         $this->addDropdown($oDrop1);
         $this->addFiltro($oNomFiltro);

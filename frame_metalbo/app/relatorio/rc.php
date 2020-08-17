@@ -69,6 +69,7 @@ $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
                 widl.emp01.cidcep,nf,convert(varchar,datanf,103)as datanf,
                 odcompra,pedido,valor,peso,lote,op,naoconf,produtos,aplicacao,
                 quant,quantnconf,usuaponta,apontamento,devolucao,reclamacao,resp_venda_nome,obs_aponta,obs_fim,usunome_fim,
+                inspecao,correcao,obs_inspecao,data_disposicao,resp_disposicao,
                 case when disposicao = '1' then 'x' else '' end as aceitar,
                 case when disposicao = '2' then 'x' else '' end as recusar
                 from tbrncqual left outer join widl.EMP01
@@ -310,6 +311,28 @@ $pdf->Cell(26, 5, "Obs Rep.:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['obs_fim'], 0, 'L');
 
+$pdf->Ln(38);
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(30, 5, "Inspeção/Recebimento - Qualidade:", 0, 1, 'L');
+$pdf->SetFont('arial', '', 10);
+
+
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(26, 5, "Responsável:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(50, 5, $row['resp_disposicao'], 0, 0, 'L');
+
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(26, 5, "Correção:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(50, 5, $row['correcao'], 0, 1, 'L');
+
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(26, 5, "Inspeção:", 0, 1, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(50, 5, $row['inspecao'], 0, 1, 'L');
+
+
 if ($sEmailRequest == 'S') {
     $pdf->Output('F', 'app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf'); // GERA O PDF NA TELA
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
@@ -378,7 +401,7 @@ if ($sEmailRequest == 'S') {
     $oEmail->addDestinatario($aRowMail['usuemail']);
     //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
-    $oEmail->addAnexo('app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc. '.pdf'));
+    $oEmail->addAnexo('app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc . '.pdf'));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

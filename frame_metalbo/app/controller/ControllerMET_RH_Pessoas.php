@@ -6,9 +6,9 @@
  * @since 16/03/202
  */
 
-class ControllerMET_RHPessoas extends Controller{
+class ControllerMET_RH_Pessoas extends Controller{
     function __construct() {
-        $this->carregaClassesMvc('MET_RHPessoas');
+        $this->carregaClassesMvc('MET_RH_Pessoas');
     }
     
     public function antesDeCriarTela($sParametros = null) {
