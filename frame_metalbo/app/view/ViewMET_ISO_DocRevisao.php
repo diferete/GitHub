@@ -87,11 +87,10 @@ class ViewMET_ISO_DocRevisao extends View {
         $oRevisao = new Campo('Revisao', 'revisao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oRevisao->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 1);
 
-        $oDataRevisao = new Campo('data', 'data_revisao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oDataRevisao->setSValor(date('d-m-Y'));
-        $oDataRevisao->setBOculto(true);
+        $oDataRevisao = new Campo('data', 'data_revisao', Campo::TIPO_DATA, 1, 1, 12, 12);
+        $oDataRevisao->setSValor(date('d/m/Y'));
 
-        $oObs = new Campo('Obs.', 'observacao', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
+        $oObs = new Campo('Descrição da Alteração', 'observacao', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oObs->setILinhasTextArea(3);
 
         $oArquivo = new Campo('Anexo', 'arquivo', Campo::TIPO_UPLOAD, 3, 3, 12, 12);

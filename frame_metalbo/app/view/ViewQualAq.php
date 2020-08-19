@@ -329,7 +329,6 @@ class ViewQualAq extends View {
 
         $oDtCancela = new Campo('Data cancelamento', 'dtcancela', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oDtCancela->setSValor(date('d/m/Y'));
-        $oDtCancela->setBCampoBloqueado(true);
 
         $oResponsavel = new Campo('Responsável', 'usunome', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oResponsavel->setSValor($oDados->usunome);

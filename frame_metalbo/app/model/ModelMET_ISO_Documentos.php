@@ -147,6 +147,15 @@ class ModelMET_ISO_Documentos {
     private $fis_jl_galvano_quant;
     private $fis_prada_galvano;
     private $fis_prada_galvano_quant;
+    private $data_revisao;
+
+    function getData_revisao() {
+        return $this->data_revisao;
+    }
+
+    function setData_revisao($data_revisao) {
+        $this->data_revisao = $data_revisao;
+    }
 
     function getFilcgc() {
         return $this->filcgc;

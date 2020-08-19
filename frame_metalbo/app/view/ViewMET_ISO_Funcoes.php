@@ -53,16 +53,16 @@ class ViewMET_ISO_Funcoes extends View {
 
         $oDescSetor = new Campo('Setor', 'descsetor', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oDescSetor->setSIdPk($oCodSetor->getId());
-        $oDescSetor->setClasseBusca('Setor');
-        $oDescSetor->addCampoBusca('codsetor', '', '');
-        $oDescSetor->addCampoBusca('descsetor', '', '');
+        $oDescSetor->setClasseBusca('MET_RH_Setores');
+        $oDescSetor->addCampoBusca('codccu', '', '');
+        $oDescSetor->addCampoBusca('nomccu', '', '');
         $oDescSetor->setSIdTela($this->getTela()->getid());
         $oDescSetor->setITamanho(Campo::TAMANHO_PEQUENO);
         $oDescSetor->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oCodSetor->setClasseBusca('Setor');
-        $oCodSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
-        $oCodSetor->addCampoBusca('descsetor', $oDescSetor->getId(), $this->getTela()->getId());
+        $oCodSetor->setClasseBusca('MET_RH_Setores');
+        $oCodSetor->setSCampoRetorno('codccu', $this->getTela()->getId());
+        $oCodSetor->addCampoBusca('nomccu', $oDescSetor->getId(), $this->getTela()->getId());
 
         $oEtapas = new FormEtapa(2, 2, 12, 12);
         $oEtapas->addItemEtapas('Cadastro do setor', true, $this->addIcone(Base::ICON_EDITAR));

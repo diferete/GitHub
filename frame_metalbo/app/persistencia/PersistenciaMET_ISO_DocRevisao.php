@@ -40,7 +40,7 @@ class PersistenciaMET_ISO_DocRevisao extends Persistencia {
     }
 
     public function updateRevisaoDocumentos($aDados) {
-        $sSql = "update MET_ISO_Documentos set revisao = " . $aDados['revisao'] . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
+        $sSql = "update MET_ISO_Documentos set data_revisao = '" . $aDados['data_revisao'] . "', revisao = " . $aDados['revisao'] . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
         $this->executaSql($sSql);
     }
 

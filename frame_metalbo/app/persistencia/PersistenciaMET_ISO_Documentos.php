@@ -20,6 +20,7 @@ class PersistenciaMET_ISO_Documentos extends Persistencia {
         $this->adicionaRelacionamento('total_Dig', 'total_Dig');
         $this->adicionaRelacionamento('total_Fis', 'total_Fis');
         $this->adicionaRelacionamento('revisao', 'revisao');
+        $this->adicionaRelacionamento('data_revisao', 'data_revisao');
 
 
         $this->adicionaRelacionamento('dig_direcao', 'dig_direcao');
@@ -168,7 +169,7 @@ class PersistenciaMET_ISO_Documentos extends Persistencia {
         return $oRetorno;
     }
 
-    public function deletaDocumento($sFilcgc, $sNr, $sSeq) {
+    public function deletaDocumento($sFilcgc, $sNr) {
         //deletar planos existentes
         $sDelete = "delete from MET_ISO_DocRevisao where filcgc = '" . $sFilcgc . "' and nr ='" . $sNr . "'";
         $aDelete = $this->executaSql($sDelete);

@@ -140,13 +140,13 @@ class ViewMET_QUAL_Rnc extends View {
         $oProdDes = new Campo('Produto', 'descprod', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oProdDes->setITamanho(Campo::TAMANHO_PEQUENO);
         $oProdDes->setSIdPk($oCodProd->getId());
-        $oProdDes->setClasseBusca('Produto');
+        $oProdDes->setClasseBusca('MET_PROD_Geral');
         $oProdDes->addCampoBusca('procod', '', '');
         $oProdDes->addCampoBusca('prodes', '', '');
         $oProdDes->setSIdTela($this->getTela()->getid());
 
         //declarando no campo código a classe de busca, campo chave e campo de retorno
-        $oCodProd->setClasseBusca('Produto');
+        $oCodProd->setClasseBusca('MET_PROD_Geral');
         $oCodProd->setSCampoRetorno('procod', $this->getTela()->getId());
         $oCodProd->addCampoBusca('prodes', $oProdDes->getId(), $this->getTela()->getId());
 
