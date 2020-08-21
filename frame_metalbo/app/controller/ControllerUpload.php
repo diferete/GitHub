@@ -37,7 +37,7 @@ class ControllerUpload extends Controller {
                     $oArquivo['TEMP'] = $oAtual['tmp_name'];
 
                     //Captura extensão do arquivo
-                    $oArquivo['EXTENSAO'] = pathinfo($oArquivo['NOME'], PATHINFO_EXTENSION);
+                    $oArquivo['EXTENSAO'] = strtolower(pathinfo($oArquivo['NOME'], PATHINFO_EXTENSION));
 
                     if ($aParametros[1]) {
                         //Cria novo nome, junto com a extensão

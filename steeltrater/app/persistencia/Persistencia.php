@@ -1348,7 +1348,7 @@ class Persistencia {
         $sTabelaCampo = "";
         //percorre os campos do relacionamento principal
         foreach ($this->getListaRelacionamento() as $oCampoBanco) {
-            if ($oCampoBanco->getNomeBanco() == $sCampoBanco) {
+            if ($oCampoBanco->getNomeBanco() == strtolower($sCampoBanco)) {
                 $sTabelaCampo = $this->getTabela();
                 break;
             }

@@ -16,6 +16,7 @@ class ViewMET_ISO_Documentos extends View {
         parent::criaConsulta();
 
         $this->setUsaAcaoVisualizar(true);
+        $this->getTela()->setIAltura(650);
 
         $oNr = new CampoConsulta('NR', 'nr');
 

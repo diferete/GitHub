@@ -5,6 +5,12 @@ require '../../biblioteca/Utilidades/Util.php';
 require '../../biblioteca/pdfjs/pdf_js.php';
 include("../../includes/Config.php");
 
+use setasign\Fpdi\Fpdi;
+
+//use setasign\Fpdi\PdfReader;
+require ('../../biblioteca/FPDI-2.3.3/FPDI/autoload.php');
+
+
 $sUserRel = $_REQUEST['userRel'];
 date_default_timezone_set('America/Sao_Paulo');
 $sData = date('d/m/Y');
@@ -12,7 +18,7 @@ $sHora = date('H:i');
 $sNr = $_REQUEST['nr'];
 $sFilcgc = $_REQUEST['filcgc'];
 
-class PDF extends FPDF {
+class PDF extends FPDI {
 
     function Footer() { // Cria rodapé
         $this->SetXY(15, 278);
@@ -25,7 +31,7 @@ class PDF extends FPDF {
 
 }
 
-$pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
+$pdf = new FPDI('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 
@@ -116,8 +122,8 @@ $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(102, 5, 'QUANT.PÇS DO LOTE', 1, 0, 'L', 1);
 $pdf->Cell(102, 5, 'QUANT.PÇS NÃO CONFORME', 1, 1, 'L', 1);
 $pdf->SetFont('Arial', '', 8);
-$pdf->Cell(102, 6, number_format($row['qtlote'],0, ',','.'), 1, 0, 'C', 1);
-$pdf->Cell(102, 6, number_format($row['qtloternc'],0, ',','.'), 1, 1, 'C', 1);
+$pdf->Cell(102, 6, number_format($row['qtlote'], 0, ',', '.'), 1, 0, 'C', 1);
+$pdf->Cell(102, 6, number_format($row['qtloternc'], 0, ',', '.'), 1, 1, 'C', 1);
 
 $pdf->Ln(3);
 
@@ -266,6 +272,17 @@ if (strstr($row['anexo1'], 'png') || strstr($row['anexo1'], 'jpg')) {
         $pdf->Image('../../Uploads/' . $sAnexo, null, null, 190, 250);
     }
 }
+
+if (strstr($row['anexo1'], 'pdf')) {
+    $sAnexo = $row['anexo1'];
+    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexo);
+    for ($i = 0; $i < $pageCount; $i++) {
+        $tpl = $pdf->importPage($i + 1, '/MediaBox');
+        $pdf->addPage();
+        $pdf->useImportedPage($tpl, null, null, null, null, true);
+    }
+}
+
 if (strstr($row['anexo2'], 'png') || strstr($row['anexo2'], 'jpg')) {
     if (isset($row['anexo2'])) {
         $pdf->AddPage();
@@ -274,6 +291,17 @@ if (strstr($row['anexo2'], 'png') || strstr($row['anexo2'], 'jpg')) {
         $pdf->Image('../../Uploads/' . $sAnexo2, null, null, 190, 250);
     }
 }
+
+if (strstr($row['anexo2'], 'pdf')) {
+    $sAnexo2 = $row['anexo2'];
+    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexo2);
+    for ($i = 0; $i < $pageCount; $i++) {
+        $tpl = $pdf->importPage($i + 1, '/MediaBox');
+        $pdf->addPage();
+        $pdf->useImportedPage($tpl, null, null, null, null, true);
+    }
+}
+
 $pdf->Output('I', 'documentoRNC.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
 //Função que quebra página em uma dada altura do PDF

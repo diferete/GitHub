@@ -201,6 +201,11 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
     public function apontaRC($aDados) {
 
         $aDados['apontamento'] = $this->preparaString($aDados['apontamento']);
+        if ($aDados['anexo_analise'] == '') {
+            $aDados['anexo_analise'] = null;
+        }if ($aDados['anexo_analise1'] == '') {
+            $aDados['anexo_analise1'] = null;
+        }
         $sSql = "update tbrncqual"
                 . " set situaca = 'Apontada',"
                 . " apontamento = '" . $aDados['apontamento'] . "',"
@@ -217,6 +222,13 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
 
         $aDados['inspecao'] = $this->preparaString($aDados['inspecao']);
         $aDados['obs_inspecao'] = $this->preparaString($aDados['obs_inspecao']);
+
+        if ($aDados['anexo_inspecao'] == '') {
+            $aDados['anexo_inspecao'] = null;
+        }
+        if ($aDados['anexo_inspecao1'] == '') {
+            $aDados['anexo_inspecao1'] = null;
+        }
 
         $sSql = "update tbrncqual"
                 . " set inspecao = '" . $aDados['inspecao'] . "',"

@@ -1,0 +1,3 @@
+$sRender ='$("#'.$aDadosAtualizar[0].' > tbody > tr").empty();'; 
+$sRender .='$("#'.$aDadosAtualizar[0].'").append(\''.$sDados.'\');';
+echo $sRender;

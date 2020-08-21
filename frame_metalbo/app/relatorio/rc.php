@@ -5,7 +5,7 @@ if (isset($_REQUEST['email'])) {
 } else {
     $sEmailRequest = 'N';
 }
-
+date_default_timezone_set('America/Sao_Paulo');
 // Diretórios extras para email
 if ($sEmailRequest == 'S') {
     include 'biblioteca/fpdf/fpdf.php';
@@ -19,11 +19,16 @@ if ($sEmailRequest == 'S') {
     include("../../biblioteca/Utilidades/Email.php");
 }
 
+use setasign\Fpdi\Fpdi;
+
+//use setasign\Fpdi\PdfReader;
+require ('../../biblioteca/FPDI-2.3.3/FPDI/autoload.php');
+
 // Diretórios
 //require '../../biblioteca/fpdf/fpdf.php';
 //include("../../includes/Config.php");
 
-class PDF extends FPDF {
+class PDF extends FPDI {
 
     function Footer() { // Cria rodapé
         $this->SetXY(15, 285);
@@ -48,19 +53,17 @@ if ($sEmailRequest == 'S') {
     }
 }
 
-
-
-
-$pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
+$pdf = new FPDI('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 $pdf->SetAutoPageBreak(true, 2);
 $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 
-
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
 $sSql = "select tbrncqual.empcod,tbrncqual.empdes,
+                anexo1, anexo2, anexo3,
+                anexo_inspecao, anexo_inspecao1, anexo_analise, anexo_analise1,
                 convert(varchar,datains,103) as datains,
                 empfone,celular,empend,empendbair,usunome,
                 cidnome,convert(varchar,datains,103)as datains,email,
@@ -114,7 +117,6 @@ $pdf->Cell(18, 5, "Tipo:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(19, 5, '(' . $row['ind'] . ') Indústria', 0, 0, 'L');
 $pdf->Cell(19, 5, '(' . $row['comer'] . ') Comécio', 0, 1, 'L');
-
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(18, 5, "Cidade:", 0, 0, 'L');
@@ -201,19 +203,19 @@ $pdf->Cell(30, 5, "Descrição da não conformidade:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['naoconf'], 1, 'L');
 
-
-$pdf->Ln(5);
+$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Disposição:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, '(' . $row['aceitar'] . ') Aceito condicionalmente', 0, 0, 'L');
 $pdf->Cell(50, 5, '(' . $row['recusar'] . ') Reprovar', 0, 1, 'L');
 
-$pdf->Ln(5);
+$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Dados do produto", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
+$pdf->Ln(2);
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Aplicação:", 0, 0, 'L');
@@ -226,8 +228,8 @@ if ($aProdutos[0] != '') {
         $aDadosProd = explode('-', $value);
 
         $iAltura = $pdf->GetY();
-        $pdf->Rect(2, $iAltura, 206, 30);
-        $pdf->Ln(5);
+        $pdf->Rect(2, $iAltura, 206, 25);
+        $pdf->Ln(3);
 
         $pdf->SetFont('arial', 'B', 10);
         $pdf->Cell(31, 5, "Produto:", 0, 0, 'L');
@@ -251,13 +253,86 @@ if ($aProdutos[0] != '') {
     }
 }
 
+//PARTE DOS ANEXOS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//ANEXO 1
+if (strstr(strtolower($row['anexo1']), 'png') || strstr(strtolower($row['anexo1']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg')) {
+    if (isset($row['anexo1'])) {
+        $pdf->AddPage();
+        $pdf->SetXY(10, 10);
+        $sAnexo1 = $row['anexo1'];
+        $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        $pdf->Image('../../Uploads/' . $sAnexo1, null, null, 190, 250);
+    }
+}
+
+if (strstr(strtolower($row['anexo1']), 'pdf')) {
+    $sAnexo1 = $row['anexo1'];
+    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexo1);
+    for ($i = 0; $i < $pageCount; $i++) {
+        $tpl = $pdf->importPage($i + 1, '/MediaBox');
+        $pdf->addPage();
+        $pdf->useImportedPage($tpl, null, null, null, null, true);
+        $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+    }
+}
+
+//ANEXO 2
+if (strstr(strtolower($row['anexo2']), 'png') || strstr(strtolower($row['anexo2']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg')) {
+    if (isset($row['anexo2'])) {
+        $pdf->AddPage();
+        $pdf->SetXY(10, 10);
+        $sAnexo2 = $row['anexo2'];
+        $pdf->Cell(26, 5, "ANEXO 2", 0, 1, 'L');
+        $pdf->Image('../../Uploads/' . $sAnexo2, null, null, 190, 250);
+    }
+}
+
+if (strstr(strtolower($row['anexo2']), 'pdf')) {
+    $sAnexo2 = $row['anexo2'];
+    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexo2);
+    for ($i = 0; $i < $pageCount; $i++) {
+        $tpl = $pdf->importPage($i + 1, '/MediaBox');
+        $pdf->addPage();
+        $pdf->useImportedPage($tpl, null, null, null, null, true);
+        $pdf->Cell(26, 5, "ANEXO 2", 0, 1, 'L');
+    }
+}
 
 
-$pdf->Ln(5);
+//ANEXO 3
+if (strstr(strtolower($row['anexo3']), 'png') || strstr(strtolower($row['anexo3']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg')) {
+    if (isset($row['anexo3'])) {
+        $pdf->AddPage();
+        $pdf->SetXY(10, 10);
+        $sAnexo3 = $row['anexo3'];
+        $pdf->Cell(26, 5, "ANEXO 3", 0, 1, 'L');
+        $pdf->Image('../../Uploads/' . $sAnexo3, null, null, 190, 250);
+    }
+}
+
+if (strstr(strtolower($row['anexo3']), 'pdf')) {
+    $sAnexo3 = $row['anexo3'];
+    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexo3);
+    for ($i = 0; $i < $pageCount; $i++) {
+        $tpl = $pdf->importPage($i + 1, '/MediaBox');
+        $pdf->addPage();
+        $pdf->useImportedPage($tpl, null, null, null, null, true);
+        $pdf->Cell(26, 5, "ANEXO 3", 0, 1, 'L');
+    }
+}
+if (($row['anexo1'] != '') || ($row['anexo2'] != '') || ($row['anexo3'] != '')) {
+    $pdf->AddPage();
+    $pdf->SetY(10);
+}
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+$pdf->Ln(6);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Análise da RC:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
+$iAltura = $pdf->GetY();
+$pdf->Rect(2, $iAltura, 206, 20 + round((strlen($row['apontamento']) / 120) * 5));
 
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
@@ -271,52 +346,117 @@ $pdf->Cell(30, 5, "Análise da não conformidade:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['apontamento'], 0, 'L');
 
-
-
-$pdf->Ln(18);
+/////////////////////////////////////////
+$pdf->Ln(6 + round((strlen($row['apontamento']) / 120) * 5));
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Análise do setor de Vendas:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
+$iAltura = $pdf->GetY();
+$pdf->Rect(2, $iAltura, 206, 25 + round((strlen($row['obs_aponta']) / 120) * 5));
+
+$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Responsável:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, $row['resp_venda_nome'], 0, 1, 'L');
 
+$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Devolução:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, $row['devolucao'], 0, 1, 'L');
 
+$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Obs Venda:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['obs_aponta'], 0, 'L');
 
+//PARTE DOS ANEXOS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//ANEXO ANÁLISE
+if (strstr(strtolower($row['anexo_analise']), 'png') || strstr(strtolower($row['anexo_analise']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg')) {
+    if (isset($row['anexo_analise'])) {
+        $pdf->AddPage();
+        $pdf->SetXY(10, 10);
+        $sAnexoAnalise = $row['anexo_analise'];
+        $pdf->Cell(26, 5, "ANEXO ANÁLISE", 0, 1, 'L');
+        $pdf->Image('../../Uploads/' . $sAnexoAnalise, null, null, 190, 250);
+    }
+}
 
+if (strstr(strtolower($row['anexo_analise']), 'pdf')) {
+    $sAnexoAnalise = $row['anexo_analise'];
+    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexoAnalise);
+    for ($i = 0; $i < $pageCount; $i++) {
+        $tpl = $pdf->importPage($i + 1, '/MediaBox');
+        $pdf->addPage();
+        $pdf->useImportedPage($tpl, null, null, null, null, true);
+        $pdf->Cell(26, 5, "ANEXO ANÁLISE", 0, 1, 'L');
+    }
+}
 
-$pdf->Ln(18);
+//ANEXO ANÁLISE 1
+if (strstr(strtolower($row['anexo_analise1']), 'png') || strstr(strtolower($row['anexo_analise1']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg')) {
+    if (isset($row['anexo_analise1'])) {
+        $pdf->AddPage();
+        $pdf->SetXY(10, 10);
+        $sAnexoAnalise1 = $row['anexo_analise1'];
+        $pdf->Cell(26, 5, "ANEXO ANÁLISE 1", 0, 1, 'L');
+        $pdf->Image('../../Uploads/' . $sAnexoAnalise1, null, null, 190, 250);
+    }
+}
+
+if (strstr(strtolower($row['anexo_analise1']), 'pdf')) {
+    $sAnexoAnalise1 = $row['anexo_analise1'];
+    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexoAnalise1);
+    for ($i = 0; $i < $pageCount; $i++) {
+        $tpl = $pdf->importPage($i + 1, '/MediaBox');
+        $pdf->addPage();
+        $pdf->useImportedPage($tpl, null, null, null, null, true);
+        $pdf->Cell(26, 5, "ANEXO ANÁLISE 1", 0, 1, 'L');
+    }
+}
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+////////////////////////////
+if (($row['anexo_analise'] != '') || ($row['anexo_analise1'] != '')) {
+    $pdf->AddPage();
+    $pdf->SetY(10);
+}
+
+$pdf->Ln(2 + round((strlen($row['obs_aponta']) / 120) * 5));
+$pdf = quebraPagina($pdf->GetY() + 20, $pdf);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Observação final do Representante:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
+$iAltura = $pdf->GetY();
+$pdf->Rect(2, $iAltura, 206, 20 + round((strlen($row['obs_fim']) / 120) * 5));
 
+$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Representante:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, $row['usunome_fim'], 0, 1, 'L');
 
+$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Obs Rep.:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['obs_fim'], 0, 'L');
 
-$pdf->Ln(38);
+/////////////////////////////////////////////
+$pdf->Ln(2 + round((strlen($row['obs_fim']) / 120) * 10));
+$pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Inspeção/Recebimento - Qualidade:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
+$iAltura = $pdf->GetY();
+$pdf->Rect(2, $iAltura, 206, 30);
 
+$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Responsável:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
@@ -327,12 +467,57 @@ $pdf->Cell(26, 5, "Correção:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, $row['correcao'], 0, 1, 'L');
 
+$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Inspeção:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, $row['inspecao'], 0, 1, 'L');
 
+//PARTE DOS ANEXOS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//ANEXO INSPEÇÃO
+if (strstr(strtolower($row['anexo_inspecao']), 'png') || strstr(strtolower($row['anexo_inspecao']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg')) {
+    if (isset($row['anexo_inspecao'])) {
+        $pdf->AddPage();
+        $pdf->SetXY(10, 10);
+        $sAnexoInspecao = $row['anexo_inspecao'];
+        $pdf->Cell(26, 5, "ANEXO INSPEÇÃO", 0, 1, 'L');
+        $pdf->Image('../../Uploads/' . $sAnexoInspecao, null, null, 190, 250);
+    }
+}
 
+if (strstr(strtolower($row['anexo_inspecao']), 'pdf')) {
+    $sAnexoInspecao = $row['anexo_inspecao'];
+    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexoInspecao);
+    for ($i = 0; $i < $pageCount; $i++) {
+        $tpl = $pdf->importPage($i + 1, '/MediaBox');
+        $pdf->addPage();
+        $pdf->useImportedPage($tpl, null, null, null, null, true);
+        $pdf->Cell(26, 5, "ANEXO INSPEÇÃO", 0, 1, 'L');
+    }
+}
+
+//ANEXO INSPEÇÃO 1
+if (strstr(strtolower($row['anexo_inspecao1']), 'png') || strstr(strtolower($row['anexo_inspecao1']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg')) {
+    if (isset($row['anexo_inspecao1'])) {
+        $pdf->AddPage();
+        $pdf->SetXY(10, 10);
+        $sAnexoInspecao1 = $row['anexo_inspecao1'];
+        $pdf->Cell(26, 5, "ANEXO INSPEÇÃO 1", 0, 1, 'L');
+        $pdf->Image('../../Uploads/' . $sAnexoInspecao1, null, null, 190, 250);
+    }
+}
+
+if (strstr(strtolower($row['anexo_inspecao1']), 'pdf')) {
+    $sAnexoInspecao1 = $row['anexo_inspecao1'];
+    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexoInspecao1);
+    for ($i = 0; $i < $pageCount; $i++) {
+        $tpl = $pdf->importPage($i + 1, '/MediaBox');
+        $pdf->addPage();
+        $pdf->useImportedPage($tpl, null, null, null, null, true);
+        $pdf->Cell(26, 5, "ANEXO INSPEÇÃO 1", 0, 1, 'L');
+    }
+}
+//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 if ($sEmailRequest == 'S') {
     $pdf->Output('F', 'app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf'); // GERA O PDF NA TELA
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
@@ -359,8 +544,6 @@ if ($sEmailRequest == 'S') {
     $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
     $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
     $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
-
-
 
     $sSqlRC = "select convert(varchar,datanf,103)as data,nr,officedes,empcod,empdes,nf,odcompra,pedido,valor,peso,aplicacao,naoconf,resp_venda_cod from tbrncqual"
             . " where filcgc = '" . $filcgc . "' and nr = '" . $nr . "'";
@@ -396,7 +579,6 @@ if ($sEmailRequest == 'S') {
     $DadosMail = $PDO->query($sSqlMail);
     $aRowMail = $DadosMail->fetch(PDO::FETCH_ASSOC);
 
-
     //enviar e-mail vendas
     $oEmail->addDestinatario($aRowMail['usuemail']);
     //$oEmail->addDestinatario('alexandre@metalbo.com.br');
@@ -413,3 +595,16 @@ if ($sEmailRequest == 'S') {
     return $aRetorno;
 }
 
+/**
+ * Função que quebra página em uma dada altura do PDF
+ * @param type $i
+ * @param type $pdf
+ * @return type
+ */
+function quebraPagina($i, $pdf) {
+    if ($i >= 270) {    // 275 é o tamanho da página
+        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
+        $pdf->SetY(10);
+    }
+    return $pdf;
+}
