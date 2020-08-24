@@ -12,12 +12,17 @@ class PersistenciaMET_CAD_Funcionarios extends Persistencia {
         parent::__construct();
 
         $this->setTabela('tbfunc');
-        
+
         $this->adicionaRelacionamento('numcad', 'numcad');
         $this->adicionaRelacionamento('nomfun', 'nomfun');
         $this->adicionaRelacionamento('cpf', 'cpf');
         $this->adicionaRelacionamento('cargo', 'cargo');
-       
+        $this->adicionaRelacionamento('cnpj', 'cnpj');
+        $this->adicionaRelacionamento('sit', 'sit');
+
+        $this->adicionaFiltro('cnpj', $_SESSION['filcgc']);
+        $this->adicionaFiltro('sit', 'Inativo', Persistencia::LIGACAO_AND, Persistencia::DIFERENTE);
+
         $this->setSTop(50);
     }
 

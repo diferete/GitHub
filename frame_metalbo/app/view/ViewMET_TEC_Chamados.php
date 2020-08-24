@@ -17,6 +17,8 @@ class ViewMET_TEC_Chamados extends View {
         $this->setAcaoFecharTela(true);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
+        $this->getTela()->setILarguraGrid(2200);
+        $this->getTela()->setBGridResponsivo(false);
 
         $this->setUsaFiltro(true);
         $sFiltroSetor = $_SESSION['codsetor'];
@@ -59,7 +61,7 @@ class ViewMET_TEC_Chamados extends View {
 
         $oUsuSol = new CampoConsulta('User', 'usunome', CampoConsulta::TIPO_TEXTO);
 
-        $oSetor = new CampoConsulta('Setor', 'setor', CampoConsulta::TIPO_TEXTO);
+        $oSetor = new CampoConsulta('Setor', 'descsetor', CampoConsulta::TIPO_TEXTO);
 
         $oRep = new CampoConsulta('Rep.', 'repoffice', CampoConsulta::TIPO_TEXTO);
 
@@ -95,10 +97,7 @@ class ViewMET_TEC_Chamados extends View {
 
 
 
-        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 1, 1, 12, 12, false);
-        $oFilSetor->setSClasseBusca('Setor');
-        $oFilSetor->setSCampoRetorno('codsetor', $this->getTela()->getSId());
-        $oFilSetor->setSIdTela($this->getTela()->getSId());
+        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $oFilUsoSol = new Filtro($oUsuSol, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oFilUsoSol->setSLabel('Usuário solicitante');
@@ -188,9 +187,13 @@ class ViewMET_TEC_Chamados extends View {
         $oHoraCad->setBCampoBloqueado(true);
         $oHoraCad->setSValor(date('H:i'));
 
-        $oSetor = new Campo('Setor', 'setor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oSetor = new Campo('Cód.Setor', 'setor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSetor->setBCampoBloqueado(true);
         $oSetor->setSValor($_SESSION['codsetor']);
+
+        $oDescSetor = new Campo('Desc. Setor', 'descsetor', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDescSetor->setBCampoBloqueado(true);
+        $oDescSetor->setSValor($_SESSION['descsetor']);
 
         $oLinha = new Campo('Dados a inserir', 'linha1', Campo::DIVISOR_VERMELHO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
@@ -230,7 +233,7 @@ class ViewMET_TEC_Chamados extends View {
         $oTabGeral->addCampos(array($oTipo, $oSubTipoCod, $oSubTipo), $oProblema, $oSituaca);
         $oTabAnexos->addCampos($oAnexo1, $oAnexo2, $oAnexo3);
         $oTab->addItems($oTabGeral, $oTabAnexos);
-        $this->addCampos(array($oNr, $oFilcgc, $oUsuCod, $oUsuNome, $oSetor, $oRepOffice, $oDataCad, $oHoraCad), $oLinha, $oTab);
+        $this->addCampos(array($oNr, $oFilcgc, $oUsuCod, $oUsuNome, $oSetor, $oDescSetor, $oRepOffice, $oDataCad, $oHoraCad), $oLinha, $oTab);
     }
 
     public function criaModalIniciaChamado() {

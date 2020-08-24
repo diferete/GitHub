@@ -273,15 +273,20 @@ class ControllerMET_TEC_Chamados extends Controller {
         $aDados = explode(',', $sDados);
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-        $aRetorno = $this->Persistencia->cancelaChamado($aCampos);
-        if ($aRetorno[0]) {
-            $oMsg = new Modal('Tudo certo', 'Chamado foi cancelado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
-            echo "$('#" . $aDados[1] . "-btn').click();";
-            echo $oMsg->getRender();
+        if ($aCampos['obsfim'] != '' || $aCampos['obsfim'] != null) {
+            $aRetorno = $this->Persistencia->cancelaChamado($aCampos);
+            if ($aRetorno[0]) {
+                $oMsg = new Modal('Tudo certo', 'Chamado foi cancelado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+                $this->EnviaEmailFinalizaChamado($aDados);
+                echo "$('#" . $aDados[1] . "-btn').click();";
+                echo $oMsg->getRender();
+            } else {
+                $oMsg = new Modal('Atenção', 'Erro ao tentar cancelar o chamado', Modal::TIPO_AVISO, false, true, false);
+                echo "$('#" . $aDados[1] . "-btn').click();";
+                echo $oMsg->getRender();
+            }
         } else {
-            $oMsg = new Modal('Atenção', 'Erro ao tentar cancelar o chamado', Modal::TIPO_AVISO, false, true, false);
-            echo "$('#" . $aDados[1] . "-btn').click();";
-            echo $oMsg->getRender();
+            exit;
         }
     }
 
@@ -336,7 +341,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         }
 
         $oEmail->setAssunto(utf8_decode('CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
-        $oEmail->setMensagem(utf8_decode('<b style="color:#0f5539; font-weight:900;font-size:18px;">SEU CHAMADO FOI FINALIZADO<br/>'
+        $oEmail->setMensagem(utf8_decode('<b style="color:#0f5539; font-weight:900;font-size:18px;">SEU CHAMADO FOI ' . $oDados->situaca . '<br/>'
                         . '<b>Usuário:</b> ' . $oDados->usunome . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Tipo:</b></td><td>' . $sTipo . '</td></tr>'
@@ -490,6 +495,7 @@ class ControllerMET_TEC_Chamados extends Controller {
 
             $oEmail->addDestinatario('alexandre@metalbo.com.br');
             $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
+            $oEmail->addDestinatarioCopia('jose@metalbo.com.br');
             if ($oDados->anexo1 != '') {
                 $oEmail->addAnexo('Uploads/' . $oDados->anexo1 . '', utf8_decode($oDados->anexo1));
             }

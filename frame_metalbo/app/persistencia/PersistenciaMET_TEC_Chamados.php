@@ -22,6 +22,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->adicionaRelacionamento('horacad', 'horacad');
         $this->adicionaRelacionamento('repoffice', 'repoffice');
         $this->adicionaRelacionamento('setor', 'setor');
+        $this->adicionaRelacionamento('descsetor', 'descsetor');
         $this->adicionaRelacionamento('tipo', 'tipo');
         $this->adicionaRelacionamento('subtipo ', 'subtipo');
         $this->adicionaRelacionamento('subtipo_nome', 'subtipo_nome');

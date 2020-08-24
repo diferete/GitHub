@@ -365,7 +365,7 @@ $sRep = $_REQUEST['repr'];
 $sql1 = "select * from MET_TEC_Chamados "
         . "left outer join MetCad_Setores "
         . "on MetCad_Setores.codsetor = MET_TEC_Chamados.setor "
-        . "where filcgc = 75483040000211 and descsetor <>'REPRESENTANTES' "
+        . "where filcgc = 75483040000211 and MetCad_Setores.descsetor <>'REPRESENTANTES' "
         . "and datacad between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
 if($sTipo!='Todos'){
     $sql1.=" and tipo = ". $sTipo;

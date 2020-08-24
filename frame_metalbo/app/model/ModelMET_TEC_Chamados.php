@@ -16,6 +16,7 @@ class ModelMET_TEC_Chamados {
     private $horacad;
     private $repoffice;
     private $setor;
+    private $descsetor;
     private $tipo;
     private $subtipo;
     private $subtipo_nome;
@@ -63,6 +64,10 @@ class ModelMET_TEC_Chamados {
 
     function getSetor() {
         return $this->setor;
+    }
+
+    function getDescsetor() {
+        return $this->descsetor;
     }
 
     function getTipo() {
@@ -159,6 +164,10 @@ class ModelMET_TEC_Chamados {
 
     function setSetor($setor) {
         $this->setor = $setor;
+    }
+
+    function setDescsetor($descsetor) {
+        $this->descsetor = $descsetor;
     }
 
     function setTipo($tipo) {
