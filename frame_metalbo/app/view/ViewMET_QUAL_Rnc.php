@@ -26,8 +26,9 @@ class ViewMET_QUAL_Rnc extends View {
         $oDatabert = new CampoConsulta('DataAbert.', 'databert', CampoConsulta::TIPO_DATA);
         $oFilcgc = new CampoConsulta('Empresa Padrão', 'filcgc');
         $oCodProbl = new CampoConsulta('Cod Problema', 'codprobl');
-        $otipornc = new CampoConsulta('Tipo', 'tipornc');
-        $oEmpDes = new CampoConsulta('Empresa', 'Pessoa.empdes');
+        $oTipornc = new CampoConsulta('Tipo', 'tipornc');
+        $oFornecedor = new CampoConsulta('Fornecedor', 'fornec');
+        //$oEmpDes = new CampoConsulta('Empresa', 'Pessoa.empdes');
         $oCodProd = new CampoConsulta('Cód.Prod.', 'codprod');
         $oDescprod = new CampoConsulta('Descrição', 'descprod');
         $oUserCausa = new CampoConsulta('Causadores', 'usercausa');
@@ -46,15 +47,16 @@ class ViewMET_QUAL_Rnc extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Cancelar', 'MET_QUAL_Rnc', 'acaoCancelaRnc', '', false, '', false, '', false, '', false, false);
 
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
-        $oFilCnpj = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        //$oFilCnpj = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $oFilFornecedor = new Filtro($oFornecedor, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
         $oFiltroDescP = new Filtro($oDescprod, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oFilCodProd = new Filtro($oCodProd, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oFilCausadores = new Filtro($oUserCausa, Filtro::CAMPO_TEXTO,2,2,12,12,false);
+        $oFilCausadores = new Filtro($oUserCausa, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
 
-        $this->addFiltro($oFiltroNr, $oFilCnpj, $oFilCodProd, $oFiltroDescP,$oFilCausadores);
+        $this->addFiltro($oFiltroNr, $oFilCodProd, $oFilFornecedor, $oFiltroDescP, $oFilCausadores);
         $this->addDropdown($oDrop1, $oDrop2);
-        $this->addCampos($oNr, $oFilcgc, $oEmpDes, $oNome, $otipornc, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod, $oUserCausa);
+        $this->addCampos($oNr, $oFilcgc, $oNome, $oTipornc, $oFornecedor, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod, $oUserCausa);
     }
 
     public function criaTela() {

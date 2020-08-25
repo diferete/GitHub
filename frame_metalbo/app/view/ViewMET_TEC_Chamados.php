@@ -410,27 +410,27 @@ class ViewMET_TEC_Chamados extends View {
         }
 
         //SubTipo
-        $oSubTipo = new Campo('Sub.Tipo', 'subtipo_nome', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
+        $oSubTipo = new Campo('Sub.Tipo', 'subtipo_nome', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oSubTipo->addItemSelect('Todos', 'Todos SubTipos');
         foreach ($aDados2 as $key3) {
             $oSubTipo->addItemSelect($key3['subtipo_nome'], $key3['subtipo_nome']);
         }
 
         //Usuário
-        $oUsuario = new Campo('Usuários', 'usunome', Campo::CAMPO_SELECT, 2, 2, 12, 12);
+        $oUsuario = new Campo('Usuários', 'usunome', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oUsuario->addItemSelect('Todos', 'Todos Usuários');
         foreach ($aDados4 as $key3) {
             $oUsuario->addItemSelect($key3['usunome'], $key3['usunome']);
         }
 
-        $oTipo = new Campo('Tipo', 'tipo', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oTipo = new Campo('Tipo', 'tipo', Campo::CAMPO_SELECT, 2, 2, 12, 12);
         $oTipo->addItemSelect('Todos', 'Todos Tipos');
         $oTipo->addItemSelect('1', 'HARDWARE');
         $oTipo->addItemSelect('2', 'SOFTWARE');
         $oTipo->addItemSelect('3', 'SERVIÇOS');
 
         //Representante
-        $oRep = new Campo('Representantes', 'repr', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oRep = new Campo('Representantes', 'repr', Campo::CAMPO_SELECT, 2, 2, 12, 12);
         $oRep->addItemSelect('Todos', 'Todos representantes');
         foreach ($aDados1 as $key3) {
             $oRep->addItemSelect($key3['repoffice'], $key3['repoffice']);
