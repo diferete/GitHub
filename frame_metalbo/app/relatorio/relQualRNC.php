@@ -372,7 +372,7 @@ where tipornc ='Processo'  and databert between '" . $sDataIni . "' and '" . $sD
 
         $pdf->SetFont('arial', '', 8);
         $pdf->Cell(57, 5, $row3['tipornc'], 'B', 0, 'L');
-        $pdf->Cell(77, 5, number_format($row3['PesoNconforme'], 2, ',', '.'), 'B', 0, 'L');
+        $pdf->Cell(77, 5, number_format($row3['PesoNconforme'], 2, ',', '.') . ' Kg', 'B', 0, 'L');
         $pdf->Cell(67, 5, $row3['decisaornc'], 'B', 1, 'L');
     }
 
@@ -431,7 +431,7 @@ where tipornc <> 'Fornecedor' and descset02 is not null and databert between '" 
 
         $pdf->SetFont('arial', '', 8);
         $pdf->Cell(81, 5, $row4['descset02'], 'B', 0, 'L');
-        $pdf->Cell(60, 5, number_format($row4['PesoNconforme'], 2, ',', '.'), 'B', 0, 'L');
+        $pdf->Cell(60, 5, number_format($row4['PesoNconforme'], 2, ',', '.') . ' Kg', 'B', 0, 'L');
         $pdf->Cell(60, 5, $row4['decisaornc'], 'B', 1, 'L');
         $pdf = quebraPagina($pdf->GetY(), $pdf);
     }
@@ -496,8 +496,8 @@ if ($iTipo == '1' || $iTipo == '5') {
         $pdf->Cell(25, 5, $row5['tipornc'], 'B', 0, 'L');
         $pdf->Cell(85, 5, $row5['fornec'], 'B', 0, 'L');
         $pdf->Cell(40, 5, $row5['decisaornc'], 'B', 0, 'L');
-        $pdf->Cell(30, 5, number_format($row5['PesoNconforme'], 2, ',', '.'), 'B', 0, 'L');
-        $pdf->Cell(25, 5, number_format($row5['PesoLote'], 2, ',', '.'), 'B', 1, 'L');
+        $pdf->Cell(30, 5, number_format($row5['PesoNconforme'], 2, ',', '.') . ' Kg', 'B', 0, 'L');
+        $pdf->Cell(25, 5, number_format($row5['PesoLote'], 2, ',', '.') . ' Kg', 'B', 1, 'L');
         $pdf = quebraPagina($pdf->GetY(), $pdf);
     }
 
@@ -665,23 +665,31 @@ if ($iTipo == '1' || $iTipo == '6') {
     $sth8 = $PDO->query($sql8);
 
     $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(203, 5, 'PESO DEFEITO CONFORME O PROBLEMA DAS RNCs', '', 1, 'L');
+    $pdf->Cell(203, 5, 'PESO DE ACORDO COM PROBLEMA', '', 1, 'L');
     $pdf->Ln(2);
 
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(60, 5, 'Código Problema:', 'B', 0, 'L');
     $pdf->Cell(80, 5, 'Descrição Problema:', 'B', 0, 'L');
     $pdf->Cell(80, 5, 'Peso com Defeito:', 'B', 1, 'L');
-
+    
+    $iQuantPeso3 = 0;
     while ($row8 = $sth8->fetch(PDO::FETCH_ASSOC)) {
 
         $pdf->SetFont('arial', '', 8);
         $pdf->Cell(60, 5, $row8['codprobl'], 'B', 0, 'L');
         $pdf->Cell(80, 5, $row8['descprobl'], 'B', 0, 'L');
-        $pdf->Cell(80, 5, number_format($row8['PESODEFEITO2'], 2, ',', '.'), 'B', 1, 'L');
+        $pdf->Cell(80, 5, number_format($row8['PESODEFEITO2'], 2, ',', '.') . ' Kg', 'B', 1, 'L');
         $pdf = quebraPagina($pdf->GetY(), $pdf);
+        $iQuantPeso3 = $iQuantPeso3 + $row8['PESODEFEITO2'];
     }
-
+    $pdf->Ln(5);
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(136, 5, '', '', 0, 'L');
+    $pdf->Cell(40, 5, 'SOMA PESO TOTAL:', 'B', 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(25, 5, number_format($iQuantPeso3, 2, ',', '.') . ' Kg', 'B', 0, 'L');
+    
     $pdf = quebraPagina($pdf->GetY() + 15, $pdf);
     $pdf->Cell(203, 5, '', 'B', 1, 'L');
     $pdf->Cell(203, 1, '', 'B', 1, 'L');
@@ -692,14 +700,15 @@ if ($iTipo == '1' || $iTipo == '7') {
      * TIPO DE PROBLEMA POR SETOR-FILTRO DE SETOR 
      */
 
-    $sql9 = " select  descset02, descprobl,
+    $sql9 = " select  descsetor, descprobl,
           case when SUM ((qtloternc/100) * propesprat) is null then  0
           else SUM ((qtloternc/100) * propesprat) end as  PESODEFEITO2  
           from MET_QUAL_Rnc left outer join 
           widl.prod01 on  widl.prod01.procod = MET_QUAL_Rnc.codprod 
-          left outer join MET_QUAL_Prob_Rnc on MET_QUAL_Rnc.codprobl = MET_QUAL_Prob_Rnc.codprobl ";
+          left outer join MET_QUAL_Prob_Rnc on MET_QUAL_Rnc.codprobl = MET_QUAL_Prob_Rnc.codprobl
+          left outer join MetCad_Setores on MET_QUAL_Rnc.cod_set02 = MetCad_Setores.codsetor ";
 
-    $sql9 .= " where databert between '" . $sDataIni . "' and '" . $sDataFin . "' and descset02 is not null ";
+    $sql9 .= " where databert between '" . $sDataIni . "' and '" . $sDataFin . "' and descsetor is not null ";
     if ($iCodProd != '') {
         $sql9 .= " and codprod = '" . $iCodProd . "'";
     }
@@ -726,13 +735,13 @@ if ($iTipo == '1' || $iTipo == '7') {
     if ($sUsuCausa) {
         $sql9 .= " and usercausa like '%" . $sUsuCausa . "%'";
     }
-    $sql9 .= " GROUP BY MET_QUAL_Rnc.codprobl,descprobl,descset02 
-           ORDER BY  descset02,descprobl  ";
+    $sql9 .= " GROUP BY MET_QUAL_Rnc.codprobl,descprobl,descsetor 
+           ORDER BY  descsetor, descprobl  ";
 
     $sth9 = $PDO->query($sql9);
 
     $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(203, 5, 'PESO DEFEITO CONFORME O PROBLEMA DAS RNCs POR SETOR:', '', 1, 'L');
+    $pdf->Cell(203, 5, 'PESO DE ACORDO COM PROBLEMA POR SETOR:', '', 1, 'L');
     $pdf->Ln(2);
 
     $pdf->SetFont('arial', 'B', 9);
@@ -740,14 +749,44 @@ if ($iTipo == '1' || $iTipo == '7') {
     $pdf->Cell(80, 5, 'Descrição Problema:', 'B', 0, 'L');
     $pdf->Cell(40, 5, 'Peso com Defeito:', 'B', 1, 'L');
 
-    while ($row9 = $sth9->fetch(PDO::FETCH_ASSOC)) {
+    $iQuantPeso2 = 0;
+    $iQuantPSetor = 0;
+    $sSet = '';
 
+    while ($row9 = $sth9->fetch(PDO::FETCH_ASSOC)) {
+        $sAux1 = $row9['descsetor'];
+        if ($sSet == '' || $sSet == $sAux1) {
+            $sSet = $sAux1;
+            $iQuantPSetor = $iQuantPSetor + $row9['PESODEFEITO2'];
+        } else {
+            $pdf->SetFont('arial', 'B', 8);
+            $pdf->Cell(156, 5, '', '', 0, 'L');
+            $pdf->Cell(20, 5, 'TOTAL:', 'B', 0, 'L');
+            $pdf->SetFont('arial', '', 8);
+            $pdf->Cell(25, 5, number_format($iQuantPSetor, 2, ',', '.') . ' Kg', 'B', 1, 'L');
+            $iQuantPSetor = $row9['PESODEFEITO2'];
+            $sSet = $sAux1;
+            $pdf->Ln(5);
+        }
         $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(80, 5, $row9['descset02'], 'B', 0, 'L');
+        $pdf->Cell(80, 5, $row9['descsetor'], 'B', 0, 'L');
         $pdf->Cell(80, 5, $row9['descprobl'], 'B', 0, 'L');
-        $pdf->Cell(40, 5, number_format($row9['PESODEFEITO2'], 2, ',', '.'), 'B', 1, 'L');
+        $pdf->Cell(40, 5, number_format($row9['PESODEFEITO2'], 2, ',', '.') . ' Kg', 'B', 1, 'L');
         $pdf = quebraPagina($pdf->GetY(), $pdf);
+        $iQuantPeso2 = $iQuantPeso2 + $row9['PESODEFEITO2'];
     }
+    $pdf->SetFont('arial', 'B', 8);
+    $pdf->Cell(156, 5, '', '', 0, 'L');
+    $pdf->Cell(20, 5, 'TOTAL:', 'B', 0, 'L');
+    $pdf->SetFont('arial', '', 8);
+    $pdf->Cell(25, 5, number_format($iQuantPSetor, 2, ',', '.') . ' Kg', 'B', 1, 'L');
+
+    $pdf->Ln(5);
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(136, 5, '', '', 0, 'L');
+    $pdf->Cell(40, 5, 'SOMA PESO TOTAL:', 'B', 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(25, 5, number_format($iQuantPeso2, 2, ',', '.') . ' Kg', 'B', 0, 'L');
 
 
     $pdf = quebraPagina($pdf->GetY() + 15, $pdf);
@@ -800,7 +839,7 @@ if ($iTipo == '1' || $iTipo == '8') {
     $sth11 = $PDO->query($sql11);
 
     $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(203, 5, 'PESO DEFEITO CONFORME O PROBLEMA DAS RNCs POR FORNECEDOR:', '', 1, 'L');
+    $pdf->Cell(203, 5, 'PESO DE ACORDO COM PROBLEMA POR FORNECEDOR:', '', 1, 'L');
     $pdf->Ln(2);
 
     $pdf->SetFont('arial', 'B', 9);
@@ -822,7 +861,7 @@ if ($iTipo == '1' || $iTipo == '8') {
             $pdf->Cell(156, 5, '', '', 0, 'L');
             $pdf->Cell(20, 5, 'TOTAL:', 'B', 0, 'L');
             $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(25, 5, number_format($iQuantPEmpresa, 2, ',', '.'), 'B', 1, 'L');
+            $pdf->Cell(25, 5, number_format($iQuantPEmpresa, 2, ',', '.') . ' Kg', 'B', 1, 'L');
             $iQuantPEmpresa = $row11['PESODEFEITO2'];
             $sEmp = $sAux;
             $pdf->Ln(5);
@@ -833,21 +872,21 @@ if ($iTipo == '1' || $iTipo == '8') {
         $pdf->Cell(85, 5, $row11['fornec'], 'B', 0, 'L');
         $pdf->Cell(18, 5, $row11['codprobl'], 'B', 0, 'L');
         $pdf->Cell(43, 5, $row11['descprobl'], 'B', 0, 'L');
-        $pdf->Cell(25, 5, number_format($row11['PESODEFEITO2'], 2, ',', '.'), 'B', 1, 'L');
+        $pdf->Cell(25, 5, number_format($row11['PESODEFEITO2'], 2, ',', '.') . ' Kg', 'B', 1, 'L');
         $iQuantPeso = $iQuantPeso + $row11['PESODEFEITO2'];
     }
     $pdf->SetFont('arial', 'B', 8);
     $pdf->Cell(156, 5, '', '', 0, 'L');
     $pdf->Cell(20, 5, 'TOTAL:', 'B', 0, 'L');
     $pdf->SetFont('arial', '', 8);
-    $pdf->Cell(25, 5, number_format($iQuantPEmpresa, 2, ',', '.'), 'B', 1, 'L');
+    $pdf->Cell(25, 5, number_format($iQuantPEmpresa, 2, ',', '.') . ' Kg', 'B', 1, 'L');
 
     $pdf->Ln(5);
     $pdf->SetFont('arial', 'B', 9);
     $pdf->Cell(136, 5, '', '', 0, 'L');
     $pdf->Cell(40, 5, 'SOMA PESO TOTAL:', 'B', 0, 'L');
     $pdf->SetFont('arial', '', 9);
-    $pdf->Cell(25, 5, number_format($iQuantPeso, 2, ',', '.'), 'B', 0, 'L');
+    $pdf->Cell(25, 5, number_format($iQuantPeso, 2, ',', '.') . ' Kg', 'B', 0, 'L');
 }
 $pdf->Output('I', 'relQualRNC.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  

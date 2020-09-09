@@ -16,6 +16,7 @@ $sEmpresa = $_REQUEST['empresa'];
 $sDataIni = $_REQUEST['dataini'];
 $sDataFin = $_REQUEST['datafinal'];
 $sSit = $_REQUEST['sit'];
+$sCodSetor = $_REQUEST['setor'];
 if(isset($_REQUEST['usunome'])){
     $sUsuario = $_REQUEST['usunome'];
 }else{
@@ -23,7 +24,6 @@ if(isset($_REQUEST['usunome'])){
 }
 if(isset($_REQUEST['relant'])){
     $bRelAnt = $_REQUEST['relant']; 
-    $sCodSetor = $_REQUEST['setor'];
     $sTipo = $_REQUEST['tipoant'];
     $sSit = $_REQUEST['sitant'];
 }else{
@@ -75,12 +75,14 @@ $pdf->Ln(15);
 $pdf->Cell(0, 0, "", "B", 1, 'C');
 $pdf->Ln(3);
 
-
 $sql = "select convert(varchar,datacad,103) as datacad1, convert(varchar,datafim,103) as datafim1,* from MET_TEC_Chamados ";
 
-$sql.=" left outer join widl.emp01 on MET_TEC_Chamados.filcgc = widl.emp01.empcod"
-    . " where datacad between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
+$sql.=" left outer join widl.emp01 on MET_TEC_Chamados.filcgc = widl.emp01.empcod "
+        . " where datacad between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
 
+if($sCodSetor!='Todos'){
+        $sql.=" and MET_TEC_Chamados.setor =". $sCodSetor." ";
+}  
 if($sTipo!='Todos'){
     $sql.=" and tipo = ". $sTipo;
 }
@@ -130,7 +132,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     }
     
     //Representante
-    if($row['repoffice']!=null && $row['repoffice']!=$sRep){
+    if($row['repoffice']!=null && $row['repoffice']!=$sRep && $row['repoffice']!='METALBOF'&& $row['repoffice']!='POLIAMIDOS'){
         if(!$bGrafico){
         $pdf->Ln(1);
         $pdf->SetTextColor(66,111,66);
@@ -181,7 +183,8 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     }else{  
         $aSubTip[$row['subtipo_nome']] = [$aSubTip[$row['subtipo_nome']][0]= $aSubTip[$row['subtipo_nome']][0]+1, $row['subtipo_nome']] ;
     }
-    if($row['repoffice']==''||$row['repoffice']==null){
+    //Contador de Chamados por representantes
+    if($row['repoffice']==''||$row['repoffice']==null||$row['repoffice']=='METALBOF'||$row['repoffice']=='POLIAMIDOS'){
         $iContEmp++;
         $aEmp[$row['filcgc'].$row['empdes']]=[$iContEmp,$row['filcgc']." - ".$row['empdes'],$row['empdes']];
     }else{
@@ -352,11 +355,11 @@ $pdf->Cell(0, 5, '4 - Quantidade de chamados por subtipo', 0, 1);
 $pdf->Ln(5);
 $valX = $pdf->GetX();
 $valY = $pdf->GetY();
-
+arsort($aVal3);
 if($iQnt!=null){
     //Gráfico subtipo
     $pdf->SetXY(10, $valY);
-    $pdf->BarDiagram(195, $iQnt*9, $aVal3, '%l : %v (%p)', $corSubTip, 0, 10);
+    $pdf->BarDiagram(195, $iQnt*8, $aVal3, '%l : %v (%p)', $corSubTip, 0, 10);
     $pdf->SetXY($valX, $valY + 70);
 } 
 
@@ -365,8 +368,11 @@ $sRep = $_REQUEST['repr'];
 $sql1 = "select * from MET_TEC_Chamados "
         . "left outer join MetCad_Setores "
         . "on MetCad_Setores.codsetor = MET_TEC_Chamados.setor "
-        . "where filcgc = 75483040000211 and MetCad_Setores.descsetor <>'REPRESENTANTES' "
+        . "where filcgc = 75483040000211 and MET_TEC_Chamados.descsetor <>'REPRESENTANTES' "
         . "and datacad between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
+if($sCodSetor!='Todos'){
+    $sql1.=" and MET_TEC_Chamados.setor =". $sCodSetor." ";
+}  
 if($sTipo!='Todos'){
     $sql1.=" and tipo = ". $sTipo;
 }
@@ -431,14 +437,14 @@ while ($row1 = $sth1->fetch(PDO::FETCH_ASSOC)) {
             }
         }
     }
-    
+    arsort($aVal);
     $valX = $pdf->GetX();
     $valY = $pdf->GetY();
     $iQnt = count($aSet);
     if($iQnt!=null){
         //Gráfico setor
         $pdf->SetXY(10, $valY);
-        $pdf->BarDiagram(195, $iQnt*9, array_reverse($aVal), '%l : %v (%p)', $corSet, 0, 10);
+        $pdf->BarDiagram(195, $iQnt*9, $aVal, '%l : %v (%p)', $corSet, 0, 10);
         $pdf->SetXY($valX, $valY + 70);
     }
 
@@ -593,14 +599,14 @@ while ($row1 = $sth1->fetch(PDO::FETCH_ASSOC)) {
             }
         }
     }
-    
+    arsort($aVal);
     $valX = $pdf->GetX();
     $valY = $pdf->GetY();
     $iQnt = count($aSet);
     if($iQnt!=null){
         //Gráfico setor
         $pdf->SetXY(10, $valY);
-        $pdf->BarDiagram(195, $iQnt*9, array_reverse($aVal), '%l : %v (%p)', $corSet, 0, 10);
+        $pdf->BarDiagram(195, $iQnt*9, $aVal, '%l : %v (%p)', $corSet, 0, 10);
         $pdf->SetXY($valX, $valY + 70);
     }
     

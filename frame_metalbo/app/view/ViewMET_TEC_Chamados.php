@@ -438,7 +438,9 @@ class ViewMET_TEC_Chamados extends View {
         $oRep = new Campo('Representantes', 'repr', Campo::CAMPO_SELECT, 2, 2, 12, 12);
         $oRep->addItemSelect('Todos', 'Todos representantes');
         foreach ($aDados1 as $key3) {
-            $oRep->addItemSelect($key3['repoffice'], $key3['repoffice']);
+            if ($key3['repoffice'] != 'POLIAMIDOS' && $key3['repoffice'] != 'METALBOF') {
+                $oRep->addItemSelect($key3['repoffice'], $key3['repoffice']);
+            }
         }
 
         $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
@@ -483,7 +485,7 @@ class ViewMET_TEC_Chamados extends View {
         $oSitAnt->addItemSelect('FINALIZADO', 'FINALIZADO');
         $oSitAnt->addItemSelect('CANCELADO', 'CANCELADO');
 
-        $oFieldRelAnt->addCampos(array($oRelAntigo, $oSetor), $oLinha1, array($oTipoAnt, $oSitAnt));
+        $oFieldRelAnt->addCampos(array($oTipoAnt, $oSitAnt, $oRelAntigo));
         $oFieldRelAnt->setOculto(true);
 
         $oFieldRelAtual = new FieldSet('Relatório Chamados Atual ');
@@ -491,7 +493,7 @@ class ViewMET_TEC_Chamados extends View {
 
         $oApenasGrafico = new Campo("Somente Gráfico", 'apgrafico', Campo::TIPO_CHECK, 2, 2, 12, 12);
 
-        $this->addCampos($oFieldRelAtual, $oLinha1, $oFieldRelAnt, $oLinha1, array($oDatainicial, $oDatafinal), $oApenasGrafico);
+        $this->addCampos($oFieldRelAtual, $oLinha1, $oFieldRelAnt, $oLinha1, array($oSetor, $oDatainicial, $oDatafinal), $oApenasGrafico);
     }
 
 }

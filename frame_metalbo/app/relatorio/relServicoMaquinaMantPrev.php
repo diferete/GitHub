@@ -194,8 +194,9 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         if($iCod!= $row['codsit']){
         
         $pdf = quebraPagina($pdf->GetY()+15, $pdf);
-        $pdf->SetTextColor(0,100,0);    
-        
+
+        $pdf->SetTextColor(0,100,0);
+
         if(!$sSimple){
         $pdf->Cell(199, 3, '', '', 1, 'L');    
         $pdf->SetFont('arial', 'B', 7);
@@ -211,7 +212,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFont('arial', 'B', 9);
         $pdf->Cell(10, 5, $row['ciclo'], 'B', 0, 'L');
         $pdf->Cell(34, 5, $row['resp'], 'B', 1, 'L'); 
-        $pdf->SetTextColor(0,0,0);        
+        $pdf->SetTextColor(0,0,0);  
         }
         if(!$sSimple){
         
@@ -228,7 +229,11 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         }
         $pdf = quebraPagina($pdf->GetY()+10, $pdf);
         $iCod = $row['codsit'];
-        
+        if($row['dias']<0 && $row['sitmp']=='ABERTO'){
+            $pdf->SetTextColor(255,0,0);
+        }else{
+            $pdf->SetTextColor(0,0,0);    
+        }
         $pdf->SetFont('arial', '', 8);
         $pdf->Cell(24, 5, $row['sitmp'], 'B,L', 0, 'L');
         $pdf->Cell(23, 5, $row['dias'], 'B', 0, 'L');
@@ -238,6 +243,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(45, 5, $row['userfinal'], 'B,R', 1, 'L'); 
 
         if(strlen($row['obs'])>3){
+            $pdf->SetTextColor(0,0,0);
             $pdf->SetFont('arial', 'B', 8);
             $pdf->Cell(8, 5,'OBS:', 'B,L', 0, 'L');
             $pdf->SetFont('arial', '', 8);
@@ -264,6 +270,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 }
 }
 if(!$sSimple){
+$pdf->SetTextColor(0,0,0);  
 $pdf = quebraPagina($pdf->GetY()+35, $pdf);
 $pdf->Ln(5);
 $pdf->SetFont('Arial', 'BIU', 12);

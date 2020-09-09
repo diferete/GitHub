@@ -527,9 +527,9 @@ class ViewMET_QUAL_Rnc extends View {
         $sSelectRelatorio->addItemSelect('3', 'PESO NÃO CONFORME DE ACORDO COM A DECISÃO');
         $sSelectRelatorio->addItemSelect('4', 'PESO NÃO CONFORME DE ACORDO COM A DECISÃO POR SETOR');
         $sSelectRelatorio->addItemSelect('5', 'PESO DE PEÇAS NÃO CONFORMES NO PROCESSO E LOTE DEVOLVIDO');
-        $sSelectRelatorio->addItemSelect('6', 'PESO DE ACORDO COM O PROBLEMA');
-        $sSelectRelatorio->addItemSelect('7', 'PESO DE ACORDO COM O PROBLEMA POR SETOR');
-        $sSelectRelatorio->addItemSelect('8', 'PESO DE ACORDO COM O PROBLEMA POR FORNECEDOR');
+        $sSelectRelatorio->addItemSelect('6', 'PESO DE ACORDO COM PROBLEMA');
+        $sSelectRelatorio->addItemSelect('7', 'PESO DE ACORDO COM PROBLEMA POR SETOR');
+        $sSelectRelatorio->addItemSelect('8', 'PESO DE ACORDO COM PROBLEMA POR FORNECEDOR');
         $sSelectRelatorio->setSValor(1);
         
         $oField1->addCampos($oLinha1, array($oCodProd, $oProdDes), $oLinha1, array($oCodTip, $oTipo, $oSit));
@@ -537,5 +537,4 @@ class ViewMET_QUAL_Rnc extends View {
 
         $this->addCampos($oField1, $oLinha1, $oField, $oLinha1, array($oDatainicial, $oDatafinal, $sSelectRelatorio));
     }
-
 }

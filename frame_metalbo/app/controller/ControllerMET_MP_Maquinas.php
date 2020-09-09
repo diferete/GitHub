@@ -49,15 +49,15 @@ class ControllerMET_MP_Maquinas extends Controller {
         return $oMaq;
     }
     
-    /**
-     * Função que filtra por setor do usuário logado exceto TI, Elétrica e Mecânica
-     * @param type $sParametros
-     */
-    public function antesDeCriarConsulta($sParametros = null) {
-        parent::antesDeCriarConsulta($sParametros);
-        $iSet = $_SESSION['codsetor'];
-        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
-            $this->Persistencia->adicionaFiltro('codsetor',$iSet);
-        }
-    }
+//    /**
+//     * Função que filtra por setor do usuário logado exceto TI, Elétrica e Mecânica
+//     * @param type $sParametros
+//     */
+//    public function antesDeCriarConsulta($sParametros = null) {
+//        parent::antesDeCriarConsulta($sParametros);
+////        $iSet = $_SESSION['codsetor'];
+////        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29 && $iSet!= 9 ){
+////            $this->Persistencia->adicionaFiltro('codsetor',$iSet);
+////        }
+//    }
 }

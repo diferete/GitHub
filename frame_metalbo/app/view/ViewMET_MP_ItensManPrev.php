@@ -193,7 +193,7 @@ class ViewMET_MP_ItensManPrev extends View {
         $oCodSit->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodSit->addValidacao(true, Validacao::TIPO_STRING);
         $oCodSit->setSCampoRetorno('codsit', $this->getTela()->getId());
-        
+
         //campo descrição da maquina adicionando o campo de busca
         $oServ = new Campo('Serviço', 'MET_MP_ServicoMaquina.servico', Campo::TIPO_BUSCADOBANCO, 8, 8, 12, 12);
         $oServ->setSIdPk($oCodSit->getId());
@@ -202,7 +202,7 @@ class ViewMET_MP_ItensManPrev extends View {
         $oServ->addCampoBusca('servico', '', '');
         $oServ->setSIdTela($this->getTela()->getId());
         $oServ->addValidacao(true, Validacao::TIPO_STRING);
-        
+
         //declarando no campo código a classe de busca, campo chave e campo de retorno
         $oCodSit->setClasseBusca('MET_MP_ServicoMaquina');
         $oCodSit->setSCampoRetorno('codsit', $this->getTela()->getId());
@@ -248,19 +248,19 @@ class ViewMET_MP_ItensManPrev extends View {
         $oSitmp->setBCampoBloqueado(true);
 
         $iSet = $_SESSION['codsetor'];
-        if($iSet != 2){
+        if ($iSet != 2) {
             $oCodSit->setBCampoBloqueado(true);
             $oServ->setBCampoBloqueado(true);
             $oQueFazer->setBCampoBloqueado(true);
         }
-        
+
         $oDatabert = new Campo('DataAbert.', 'databert', Campo::TIPO_DATA, 2, 2, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
-        $oDatabert->setSValor(date('d/m/Y'));
         $oDatabert->setBCampoBloqueado(true);
+
         $oUserinic = new Campo('Usuario Inicial.', 'userinicial', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oUserinic->setSValor($_SESSION['nome']);
         $oUserinic->setBCampoBloqueado(true);
+        
         $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 8, 8, 8, 8);
         $oObs->setILinhasTextArea(1);
 

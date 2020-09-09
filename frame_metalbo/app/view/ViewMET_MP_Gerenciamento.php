@@ -27,11 +27,11 @@ class ViewMET_MP_Gerenciamento extends View {
         $this->getTela()->setBUsaCarrGrid(true);
 
         $iSet = $_SESSION['codsetor'];
-        
-        if($iSet== 2){
+
+        if ($iSet == 2) {
             $this->setUsaAcaoIncluir(true);
             $this->setUsaAcaoExcluir(false);
-        }else{
+        } else {
             $this->setUsaAcaoIncluir(false);
             $this->setUsaAcaoExcluir(false);
         }
@@ -63,7 +63,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $oFilCodMaq->setSCampoRetorno('cod', $this->getTela()->getSId());
         $oFilCodMaq->setSIdTela($this->getTela()->getSId());
 
-        $oFiltroSituacao = new Filtro($oSitmp, Filtro::CAMPO_SELECT, 1, 1, 12, 12, true);
+        $oFiltroSituacao = new Filtro($oSitmp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, true);
         $oFiltroSituacao->setSValor('ABERTO');
         $oFiltroSituacao->addItemSelect('ABERTO', 'Situação Aberto');
         $oFiltroSituacao->addItemSelect('FINALIZADO', 'Situação Finalizado');
@@ -79,7 +79,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $oFiltroSeq->setSLabel('');
 
         //Filtro tipo Categoria
-        $oCategoriaFiltro = new Filtro($oCategoria, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
+        $oCategoriaFiltro = new Filtro($oCategoria, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oCategoriaFiltro->addItemSelect('', 'Todas Categorias');
         foreach ($aDado4 as $key3) {
             $oCategoriaFiltro->addItemSelect($key3['maqtip'], $key3['maqtip']);
@@ -96,12 +96,12 @@ class ViewMET_MP_Gerenciamento extends View {
         }
         $oFiltroSetor->setSLabel('');
 
-        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
+        if ($iSet != 2 && $iSet != 12 && $iSet != 29) {
             $oFiltroSetor->setSValor($iSet);
         }
 
         $oFiltroDesMaq = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, TRUE);
-        
+
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'TODOS', 'MET_MP_Gerenciamento', 'acaoMostraRelEspecifico', 'TODOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
@@ -115,7 +115,6 @@ class ViewMET_MP_Gerenciamento extends View {
         $this->addDropdown($oDrop1);
         $this->addFiltro($oFiltroNr, $oFilCodMaq, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor, $oFiltroSituacao, $oFiltroDesMaq);
         $this->addCampos($oNr, $oCodmaq, $oDesMaq, $oSeq, $oCategoria, $oSetor, $oSetDes, $oSitmp);
-        
     }
 
     public function criaTela() {
@@ -226,7 +225,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $oSitmp->addValidacao(true, Validacao::TIPO_STRING);
 
         //Filtro de células
-        $oFiltroSeq = new Campo('Célula', 'MET_MP_Maquinas.seq', Campo::CAMPO_SELECTSIMPLE, 1, 1, 1, 1);
+        $oFiltroSeq = new Campo('Célula', 'MET_MP_Maquinas.seq', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oFiltroSeq->addItemSelect('', 'Todas Células');
         foreach ($aDado1 as $key) {
             $val = (int) $key['seq'];
@@ -235,7 +234,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $oFiltroSeq->addValidacao(true, Validacao::TIPO_STRING);
 
         //Filtro de Setor
-        $oFiltroSetor = new Campo('Setor', 'MET_MP_Maquinas.codsetor', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
+        $oFiltroSetor = new Campo('Setor', 'MET_MP_Maquinas.codsetor', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
         $oFiltroSetor->addItemSelect('', 'Todos Setores');
         $iCont = 0;
         foreach ($aCodSetor as $key1) {
@@ -245,7 +244,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $oFiltroSetor->addValidacao(true, Validacao::TIPO_STRING);
 
         //Filtro tipo Manutenção
-        $oRespFiltro = new Campo('Responsável', 'resp', Campo::CAMPO_SELECTSIMPLE, 2, 2, 2, 2);
+        $oRespFiltro = new Campo('Responsável', 'resp', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oRespFiltro->addItemSelect('', 'Todos');
         foreach ($aDado3 as $key2) {
             $oRespFiltro->addItemSelect($key2['resp'], $key2['resp']);
@@ -253,7 +252,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $oRespFiltro->addValidacao(true, Validacao::TIPO_STRING);
 
         //Filtro tipo Categoria
-        $oCategoriaFiltro = new Campo('Categoria', 'MET_MP_Maquinas.maqtip', Campo::CAMPO_SELECTSIMPLE, 2, 2, 2, 2);
+        $oCategoriaFiltro = new Campo('Categoria', 'MET_MP_Maquinas.maqtip', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oCategoriaFiltro->addItemSelect(' ', 'Todas Categorias');
         foreach ($aDado4 as $key3) {
             $oCategoriaFiltro->addItemSelect(rtrim($key3['maqtip']), rtrim($key3['maqtip']));
@@ -267,14 +266,14 @@ class ViewMET_MP_Gerenciamento extends View {
         $oDatafinal->setSValor(Util::getDataAtual());
         $oDatafinal->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
 
-        $oAplicaFiltro = new Campo('Aplica Data', 'apdata', Campo::TIPO_CHECK,1,1,1,1);
-        
-        $oSimplifica = new Campo('Resumido', 'simple', Campo::TIPO_CHECK,1,1,1,1);
+        $oAplicaFiltro = new Campo('Aplica Data', 'apdata', Campo::TIPO_CHECK, 2, 2, 12, 12);
+
+        $oSimplifica = new Campo('Resumido', 'simple', Campo::TIPO_CHECK, 1, 1, 1, 1);
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $oDiasRest = new Campo('Dias Restantes', 'dias', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oDiasRest = new Campo('Dias Restantes', 'dias', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oDiasRest->addItemSelect('----', 'TODOS');
         $oDiasRest->addItemSelect('0', '0 dias');
         $oDiasRest->addItemSelect('1', '1 dias');
@@ -295,7 +294,7 @@ class ViewMET_MP_Gerenciamento extends View {
                 . '"' . $oFiltroSeq->getId() . ',' . $oCategoriaFiltro->getId() . ',' . $oFiltroSetor->getId() . '");}';
         $oCodmaq->addEvento(Campo::EVENTO_SAIR, $sEventoOp);
 
-        $this->addCampos(array($oCodmaq, $oMaq_des), $oLinha1, array($oFiltroSeq, $oRespFiltro, $oSitmp), $oLinha1, array($oCategoriaFiltro, $oFiltroSetor), $oLinha1, array($oAplicaFiltro, $oDatainicial, $oDatafinal),$oLinha1, $oDiasRest,$oSimplifica);
+        $this->addCampos(array($oCodmaq, $oMaq_des), $oLinha1, array($oFiltroSeq, $oRespFiltro, $oSitmp), $oLinha1, array($oCategoriaFiltro, $oFiltroSetor), $oLinha1, array($oAplicaFiltro, $oDatainicial, $oDatafinal), $oLinha1, $oDiasRest, $oSimplifica);
     }
 
 }
