@@ -16,6 +16,7 @@ class ViewPessoa extends View {
 
         $oEmpoCod = new CampoConsulta('Código', 'empcod', CampoConsulta::TIPO_LARGURA, 20);
         $oEmpDes = new CampoConsulta('Empresa', 'empdes', CampoConsulta::TIPO_LARGURA, 20);
+        $oEmpFant = new CampoConsulta('Fantasia', 'empfant', CampoConsulta::TIPO_LARGURA, 20);
         $oEmpSit = new CampoConsulta('Situação', 'empativo');
         $oEmpSit->addComparacao('B', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
 
@@ -34,7 +35,7 @@ class ViewPessoa extends View {
 
 
 
-        $this->addCampos($oEmpoCod, $oEmpDes, $oEmpSit, $oCidade, $oEmpSitCred);
+        $this->addCampos($oEmpoCod, $oEmpDes, $oEmpFant, $oEmpSit, $oCidade, $oEmpSitCred);
         $this->addFiltro($FiltroEmpcod, $FiltroEmpdes);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);

@@ -662,8 +662,7 @@ function dataAtual(idData, dataAtual) {
     if (nova_data1 > nova_data2) {
 
         return false;
-    } else
-    {
+    } else {
         return true;
     }
 

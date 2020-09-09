@@ -26,13 +26,12 @@ class ViewMET_QUAL_Rnc extends View {
         $oDatabert = new CampoConsulta('DataAbert.', 'databert', CampoConsulta::TIPO_DATA);
         $oFilcgc = new CampoConsulta('Empresa Padrão', 'filcgc');
         $oCodProbl = new CampoConsulta('Cod Problema', 'codprobl');
-        $oTipornc = new CampoConsulta('Tipo', 'tipornc');
-        $oFornecedor = new CampoConsulta('Fornecedor', 'fornec');
+        $oTipoRnc = new CampoConsulta('Tipo', 'tipornc');
+        $oNomeFornecedor = new CampoConsulta('Fornecedor', 'fornec');
         //$oEmpDes = new CampoConsulta('Empresa', 'Pessoa.empdes');
         $oCodProd = new CampoConsulta('Cód.Prod.', 'codprod');
         $oDescprod = new CampoConsulta('Descrição', 'descprod');
         $oUserCausa = new CampoConsulta('Causadores', 'usercausa');
-
 
         $oSit = new CampoConsulta('Situação', 'sit');
         $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
@@ -48,7 +47,7 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
         //$oFilCnpj = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
-        $oFilFornecedor = new Filtro($oFornecedor, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilFornecedor = new Filtro($oNomeFornecedor, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
         $oFiltroDescP = new Filtro($oDescprod, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oFilCodProd = new Filtro($oCodProd, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
         $oFilCausadores = new Filtro($oUserCausa, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
@@ -56,7 +55,7 @@ class ViewMET_QUAL_Rnc extends View {
 
         $this->addFiltro($oFiltroNr, $oFilCodProd, $oFilFornecedor, $oFiltroDescP, $oFilCausadores);
         $this->addDropdown($oDrop1, $oDrop2);
-        $this->addCampos($oNr, $oFilcgc, $oNome, $oTipornc, $oFornecedor, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod, $oUserCausa);
+        $this->addCampos($oNr, $oFilcgc, $oNome, $oTipoRnc, $oNomeFornecedor, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod, $oUserCausa);
     }
 
     public function criaTela() {
@@ -79,36 +78,35 @@ class ViewMET_QUAL_Rnc extends View {
         $oUsunome->setSValor($_SESSION['nome']);
         $oUsunome->setBCampoBloqueado(true);
 
-        $ocodsetor = new Campo('Setor Detectou', 'setor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $ocodsetor->setApenasTela(true);
+        $oCodSetorDetectou = new Campo('Cód.Setor', 'cod_set01', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
-        $odescset01 = new Campo('Setor Detectou ', 'descset01', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
-        $odescset01->setSIdPk($ocodsetor->getId());
-        $odescset01->setClasseBusca('Setor');
-        $odescset01->addCampoBusca('codsetor', '', '');
-        $odescset01->addCampoBusca('descsetor', '', '');
-        $odescset01->setSIdTela($this->getTela()->getid());
-        $ocodsetor->setClasseBusca('Setor');
-        $ocodsetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
-        $ocodsetor->addCampoBusca('descsetor', $odescset01->getId(), $this->getTela()->getId());
-        $odescset01->setBCampoBloqueado(true);
+        $oDescSetorDetectou = new Campo('Setor Detectou ', 'descset01', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oDescSetorDetectou->setSIdPk($oCodSetorDetectou->getId());
+        $oDescSetorDetectou->setClasseBusca('Setor');
+        $oDescSetorDetectou->addCampoBusca('codsetor', '', '');
+        $oDescSetorDetectou->addCampoBusca('descsetor', '', '');
+        $oDescSetorDetectou->setSIdTela($this->getTela()->getid());
+        $oDescSetorDetectou->setBCampoBloqueado(true);
+
+        $oCodSetorDetectou->setClasseBusca('Setor');
+        $oCodSetorDetectou->setSCampoRetorno('codsetor', $this->getTela()->getId());
+        $oCodSetorDetectou->addCampoBusca('descsetor', $oDescSetorDetectou->getId(), $this->getTela()->getId());
         //busca por funcionario 
 
-        $oCodUsuario = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oCodUsuario->setApenasTela(true);
-        //  $oCodUsuario->setBOculto(true);
+        $oCodFuncDetectou = new Campo('...', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oCodFuncDetectou->setApenasTela(true);
 
-        $oPessoa = new Campo('Usuário que Detectou ', 'lidercausa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12); //lidecausa
-        $oPessoa->setSIdPk($oCodUsuario->getId());
-        $oPessoa->setClasseBusca('MET_CAD_Funcionarios');
-        $oPessoa->addCampoBusca('numcad', '', '');
-        $oPessoa->addCampoBusca('nomfun', '', '');
-        $oPessoa->setSIdTela($this->getTela()->getid());
-        $oPessoa->setBCampoBloqueado(true);
+        $oNomeFuncDetectou = new Campo('Usuário que Detectou ', 'lidercausa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12); //lidecausa
+        $oNomeFuncDetectou->setSIdPk($oCodFuncDetectou->getId());
+        $oNomeFuncDetectou->setClasseBusca('MET_CAD_Funcionarios');
+        $oNomeFuncDetectou->addCampoBusca('numcad', '', '');
+        $oNomeFuncDetectou->addCampoBusca('nomfun', '', '');
+        $oNomeFuncDetectou->setSIdTela($this->getTela()->getid());
+        $oNomeFuncDetectou->setBCampoBloqueado(true);
 
-        $oCodUsuario->setClasseBusca('MET_CAD_Funcionarios');
-        $oCodUsuario->setSCampoRetorno('numcad', $this->getTela()->getId());
-        $oCodUsuario->addCampoBusca('nomfun', $oPessoa->getId(), $this->getTela()->getId());
+        $oCodFuncDetectou->setClasseBusca('MET_CAD_Funcionarios');
+        $oCodFuncDetectou->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oCodFuncDetectou->addCampoBusca('nomfun', $oNomeFuncDetectou->getId(), $this->getTela()->getId());
         //empresa
         $oFilcgc = new Campo('Empresa Padrão', 'filcgc', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFilcgc->setSValor('75483040000211');
@@ -120,9 +118,9 @@ class ViewMET_QUAL_Rnc extends View {
         $oDatabert->setSValor(date('d/m/Y'));
         $oDatabert->setBCampoBloqueado(true);
 
-        $ohoraini = new Campo('Hora', 'horaini', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $ohoraini->setSValor(date('H:i:s'));
-        $ohoraini->setBCampoBloqueado(true);
+        $oHoraIni = new Campo('Hora', 'horaini', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oHoraIni->setSValor(date('H:i:s'));
+        $oHoraIni->setBCampoBloqueado(true);
 
         $oDivisor3 = new Campo(' Dados do Problema', 'dadorec', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor3->setApenasTela(true);
@@ -179,41 +177,42 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oOp = new Campo('Ordem Produção', 'op', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-        $olote = new Campo('Lote', 'lote', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oLote = new Campo('Lote', 'lote', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
-        $oqtlote = new Campo('Qt.Lote', 'qtlote', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oQtLote = new Campo('Qt.Lote', 'qtlote', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
-        $oqtloternc = new Campo('Qt.Defeito', 'qtloternc', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oQtLoteRnc = new Campo('Qt.Defeito', 'qtloternc', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
         $oLn = new Campo('', 'linha1', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLn->setApenasTela(true);
 
-        $oturno01 = new Campo('Turno', 'turno01', Campo::TIPO_SELECT, 1, 1, 12, 12);
-        $oturno01->addItemSelect('Geral', 'Geral');
-        $oturno01->addItemSelect('1.ºTurno', '1.ºTurno');
-        $oturno01->addItemSelect('2.ºTurno', '2.ºTurno');
+        $oTurno01 = new Campo('Turno', 'turno01', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oTurno01->addItemSelect('Geral', 'Geral');
+        $oTurno01->addItemSelect('1.ºTurno', '1.ºTurno');
+        $oTurno01->addItemSelect('2.ºTurno', '2.ºTurno');
 
-        $otipornc = new Campo('Tipo Rnc', 'tipornc', Campo::TIPO_SELECT, 1, 1, 12, 12);
-        $otipornc->addItemSelect('Processo', 'Processo');
-        $otipornc->addItemSelect('Fornecedor', 'Fornecedor');
+        $oTipoRnc = new Campo('Tipo Rnc', 'tipornc', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oTipoRnc->addItemSelect('Interno', 'Interno');
+        $oTipoRnc->addItemSelect('Externo', 'Externo');
+        $oTipoRnc->addItemSelect('Processo', 'Processo');
+        $oTipoRnc->addItemSelect('Fornecedor', 'Fornecedor');
 
         //fornecedor2
-        $oCnpj2 = new Campo('CNPJ', 'CNPJ', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oCnpj2->setApenasTela(true);
-        $oCnpj2->setBOculto(true);
+        $oCnpjFornecedor = new Campo('CNPJ', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
 
-        $oEmpresa = new Campo('Fornecedor', 'fornec', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
-        $oEmpresa->setSIdPk($oCnpj2->getId());
-        $oEmpresa->setClasseBusca('Pessoa');
-        $oEmpresa->addCampoBusca('empcod', '', '');
-        $oEmpresa->addCampoBusca('empdes', '', '');
+        $oNomeFornecedor = new Campo('Fornecedor', 'fornec', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oNomeFornecedor->setSIdPk($oCnpjFornecedor->getId());
+        $oNomeFornecedor->setClasseBusca('Pessoa');
+        $oNomeFornecedor->addCampoBusca('empcod', '', '');
+        $oNomeFornecedor->addCampoBusca('empdes', '', '');
+        $oNomeFornecedor->setBCampoBloqueado(true);
 
-        $oCnpj2->setClasseBusca('Pessoa');
-        $oCnpj2->setSCampoRetorno('empcod', $this->getTela()->getId());
-        $oCnpj2->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
+        $oCnpjFornecedor->setClasseBusca('Pessoa');
+        $oCnpjFornecedor->setSCampoRetorno('empcod', $this->getTela()->getId());
+        $oCnpjFornecedor->addCampoBusca('empdes', $oNomeFornecedor->getId(), $this->getTela()->getId());
         //
-        $odescrnc = new Campo('Descrição da não conformidade', 'descrnc', Campo::TIPO_TEXTAREA, 8, 8, 12, 12);
-        $odescrnc->setILinhasTextArea(3);
+        $oDescRnc = new Campo('Descrição da não conformidade', 'descrnc', Campo::TIPO_TEXTAREA, 8, 8, 12, 12);
+        $oDescRnc->setILinhasTextArea(3);
 
         $oDivisor2 = new Campo('Dados quem detectou ', 'dadorec1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor2->setApenasTela(true);
@@ -250,53 +249,53 @@ class ViewMET_QUAL_Rnc extends View {
         $oBotConf->setApenasTela(true);
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        $ocodsetor2 = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $ocodsetor2->setApenasTela(true);
-        $ocodsetor2->setBOculto(true);
+        $oCodSetorCausou = new Campo('Cód.Setor', 'cod_set02', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
-        $odescset02 = new Campo('Setor Causou ', 'descset02', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
-        $odescset02->setSIdPk($ocodsetor->getId());
-        $odescset02->setClasseBusca('Setor');
-        $odescset02->addCampoBusca('codsetor', '', '');
-        $odescset02->addCampoBusca('descsetor', '', '');
-        $odescset02->setSIdTela($this->getTela()->getid());
-        $ocodsetor2->setClasseBusca('Setor');
-        $ocodsetor2->setSCampoRetorno('codsetor', $this->getTela()->getId());
-        $ocodsetor2->addCampoBusca('descsetor', $odescset01->getId(), $this->getTela()->getId());
+        $oDescSetorCausou = new Campo('Setor Causou ', 'descset02', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oDescSetorCausou->setSIdPk($oCodSetorCausou->getId());
+        $oDescSetorCausou->setClasseBusca('Setor');
+        $oDescSetorCausou->addCampoBusca('codsetor', '', '');
+        $oDescSetorCausou->addCampoBusca('descsetor', '', '');
+        $oDescSetorCausou->setSIdTela($this->getTela()->getid());
+        $oDescSetorCausou->setBCampoBloqueado(true);
 
-        $oturno02 = new Campo('Turno', 'turno02', Campo::TIPO_SELECT, 1, 1, 12, 12);
-        $oturno02->addItemSelect('Geral', 'Geral');
-        $oturno02->addItemSelect('1.ºTurno', '1.ºTurno');
-        $oturno02->addItemSelect('2.ºTurno', '2.ºTurno');
-        $oturno02->addItemSelect('1º e 2º-Turno', '1º e 2º-Turno');
-        $oturno02->addItemSelect('1ºTurno e Geral ', '1ºTurno e Geral');
-        $oturno02->addItemSelect('2ºTurno e Geral', '2ºTurno e Geral');
+        $oCodSetorCausou->setClasseBusca('Setor');
+        $oCodSetorCausou->setSCampoRetorno('codsetor', $this->getTela()->getId());
+        $oCodSetorCausou->addCampoBusca('descsetor', $oDescSetorCausou->getId(), $this->getTela()->getId());
 
-        $oRespcausa = new Campo('Crachá', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oRespcausa->setApenasTela(true);
-        $oRespcausa->setBOculto(true);
+        $oTurno02 = new Campo('Turno', 'turno02', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oTurno02->addItemSelect('Geral', 'Geral');
+        $oTurno02->addItemSelect('1.ºTurno', '1.ºTurno');
+        $oTurno02->addItemSelect('2.ºTurno', '2.ºTurno');
+        $oTurno02->addItemSelect('1º e 2º-Turno', '1º e 2º-Turno');
+        $oTurno02->addItemSelect('1ºTurno e Geral ', '1ºTurno e Geral');
+        $oTurno02->addItemSelect('2ºTurno e Geral', '2ºTurno e Geral');
 
-        $oPessoaresp = new Campo('Responsável pelo Setor', 'respcausa', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12); //respcausa
-        $oPessoaresp->setSIdPk($oCodUsuario->getId());
-        $oPessoaresp->setClasseBusca('MET_CAD_Funcionarios');
-        $oPessoaresp->addCampoBusca('numcad', '', '');
-        $oPessoaresp->addCampoBusca('nomfun', '', '');
-        $oPessoaresp->setSIdTela($this->getTela()->getid());
+        $oCodRespCausa = new Campo('...', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oCodRespCausa->setApenasTela(true);
 
-        $oRespcausa->setClasseBusca('MET_CAD_Funcionarios');
-        $oRespcausa->setSCampoRetorno('numcad', $this->getTela()->getId());
-        $oRespcausa->addCampoBusca('nomfun', $oPessoa->getId(), $this->getTela()->getId());
+        $oNomePessoaRespCausa = new Campo('Responsável pelo Setor', 'respcausa', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12); //respcausa
+        $oNomePessoaRespCausa->setSIdPk($oCodRespCausa->getId());
+        $oNomePessoaRespCausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oNomePessoaRespCausa->addCampoBusca('numcad', '', '');
+        $oNomePessoaRespCausa->addCampoBusca('nomfun', '', '');
+        $oNomePessoaRespCausa->setSIdTela($this->getTela()->getid());
+        $oNomePessoaRespCausa->setBCampoBloqueado(true);
+
+        $oCodRespCausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oCodRespCausa->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oCodRespCausa->addCampoBusca('nomfun', $oNomePessoaRespCausa->getId(), $this->getTela()->getId());
 
         $oDivisor4 = new Campo('Causa da não Conformidade', 'dadorec3', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor4->setApenasTela(true);
         //causa rnc
-        $ocausarnc = new Campo('Causa', 'causarnc', Campo::TIPO_SELECT, 1, 1, 12, 12);
-        $ocausarnc->addItemSelect('Produto Final', 'Produto Final');
-        $ocausarnc->addItemSelect('Sistema', 'Sistema');
-        $ocausarnc->addItemSelect('Material Errado', 'Material Errado');
+        $oCausaRnc = new Campo('Causa', 'causarnc', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oCausaRnc->addItemSelect('Produto Final', 'Produto Final');
+        $oCausaRnc->addItemSelect('Sistema', 'Sistema');
+        $oCausaRnc->addItemSelect('Material Errado', 'Material Errado');
 
-        $odesccausa = new Campo('Descrição da Causa', 'desccausa', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
-        $odesccausa->setILinhasTextArea(3);
+        $oDescCausa = new Campo('Descrição da Causa', 'desccausa', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oDescCausa->setILinhasTextArea(3);
         //decisao da correção    
         $oDivisor5 = new Campo('Decisão de Correção', 'dadorec10', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor5->setApenasTela(true);
@@ -321,26 +320,68 @@ class ViewMET_QUAL_Rnc extends View {
         $oAnexo4 = new Campo('Anexo4', 'anexo4', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         //seta ids uploads para enviar no request para limpar
 
+        //////////////////////
+        
+        $oCodCorrida = new Campo('Cod.Material', 'cod_corrida', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
-        $oCorrida02 = new Campo('Corrida / Material', 'corrida', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oCorrida02->addItemSelect('AÇO SAE 1004', 'AÇO SAE 1004');
-        $oCorrida02->addItemSelect('AÇO SAE 1006', 'AÇO SAE 1006');
-        $oCorrida02->addItemSelect('AÇO SAE PA03', 'AÇO SAE PA03');
-        $oCorrida02->addItemSelect('AÇO SAE 10B22/PL22', 'AÇO SAE 10B22/PL22');
-        $oCorrida02->addItemSelect('AÇO SAE 10B30/PL30', 'AÇO SAE 10B30/PL30	');
-        $oCorrida02->addItemSelect('AÇO SAE 10B21', 'AÇO SAE 10B21');
-        $oCorrida02->addItemSelect('AÇO SAE 1018', 'AÇO SAE 1018');
-        $oCorrida02->addItemSelect('AÇO SAE PL41', 'AÇO SAE PL41');
-        $oCorrida02->addItemSelect('AÇO SAE PL45', 'AÇO SAE PL45');
-        $oCorrida02->addItemSelect('AÇO SAE 5135', 'AÇO SAE 5135');
-        $oCorrida02->addItemSelect('AÇO SAE 1045', 'AÇO SAE 1045');
-        $oCorrida02->addItemSelect('AÇO SAE 4140', 'AÇO SAE 4140');
-        $oCorrida02->addItemSelect('VF 800', '  VF 800');
-        $oCorrida02->addItemSelect('M2', 'M2');
-        $oCorrida02->addItemSelect('H13', 'H13');
-        $oCorrida02->addItemSelect('AÇO SAE 1015', '  AÇO SAE 1015');
-        $oCorrida02->addItemSelect('AÇO SAE 1018', 'AÇO SAE 1018');
+        $oCorrida = new Campo('Material ', 'corrida', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
+        $oCorrida->setSIdPk($oCodCorrida->getId());
+        $oCorrida->setClasseBusca('MET_QUAL_RncMaterial');
+        $oCorrida->addCampoBusca('cod', '', '');
+        $oCorrida->addCampoBusca('corrida', '', '');
+        $oCorrida->setSIdTela($this->getTela()->getid());
+        $oCorrida->setBCampoBloqueado(true);
 
+        $oCodCorrida->setClasseBusca('MET_QUAL_RncMaterial');
+        $oCodCorrida->setSCampoRetorno('cod', $this->getTela()->getId());
+        $oCodCorrida->addCampoBusca('corrida', $oCorrida->getId(), $this->getTela()->getId());
+        
+//        $oCorrida02 = new Campo('Material', 'corrida', Campo::TIPO_SELECT, 2, 2, 12, 12);
+//        $oCorrida02->addItemSelect('AÇO SAE 1004', 'AÇO SAE 1004');
+//        $oCorrida02->addItemSelect('AÇO SAE 1006', 'AÇO SAE 1006');
+//        $oCorrida02->addItemSelect('AÇO SAE PA03', 'AÇO SAE PA03');
+//        $oCorrida02->addItemSelect('AÇO SAE 10B22/PL22', 'AÇO SAE 10B22/PL22');
+//        $oCorrida02->addItemSelect('AÇO SAE 10B30/PL30', 'AÇO SAE 10B30/PL30	');
+//        $oCorrida02->addItemSelect('AÇO SAE 10B21', 'AÇO SAE 10B21');
+//        $oCorrida02->addItemSelect('AÇO SAE 1018', 'AÇO SAE 1018');
+//        $oCorrida02->addItemSelect('AÇO SAE PL41', 'AÇO SAE PL41');
+//        $oCorrida02->addItemSelect('AÇO SAE PL45', 'AÇO SAE PL45');
+//        $oCorrida02->addItemSelect('AÇO SAE 5135', 'AÇO SAE 5135');
+//        $oCorrida02->addItemSelect('AÇO SAE 1045', 'AÇO SAE 1045');
+//        $oCorrida02->addItemSelect('AÇO SAE 4140', 'AÇO SAE 4140');
+//        $oCorrida02->addItemSelect('VF 800', '  VF 800');
+//        $oCorrida02->addItemSelect('M2', 'M2');
+//        $oCorrida02->addItemSelect('H13', 'H13');
+//        $oCorrida02->addItemSelect('AÇO SAE 1015', '  AÇO SAE 1015');
+//        $oCorrida02->addItemSelect('AÇO SAE 1018', 'AÇO SAE 1018');
+//        $oCorrida02->addItemSelect('PA03', 'PA03');
+//        $oCorrida02->addItemSelect('SAE 1004E', 'SAE 1004E');
+//        $oCorrida02->addItemSelect('SAE 1004X', 'SAE 1004X');
+//        $oCorrida02->addItemSelect('SAE P919', 'SAE P919');
+//        $oCorrida02->addItemSelect('SAE 1006', 'SAE 1006');
+//        $oCorrida02->addItemSelect('SAE 1008', 'SAE 1008');
+//        $oCorrida02->addItemSelect('SAE 1010', 'SAE 1010');
+//        $oCorrida02->addItemSelect('SAE 1010X', 'SAE 1010X');
+//        $oCorrida02->addItemSelect('SAE 1012', 'SAE 1012');
+//        $oCorrida02->addItemSelect('SAE 1015', 'SAE 1015');
+//        $oCorrida02->addItemSelect('1015E/1015X', '1015E/1015X');
+//        $oCorrida02->addItemSelect('SAE 1015L', 'SAE 1015L');
+//        $oCorrida02->addItemSelect('SAE 1018', 'SAE 1018');
+//        $oCorrida02->addItemSelect('SAE 1018X', 'SAE 1018X');
+//        $oCorrida02->addItemSelect('SAE 1020', 'SAE 1020');
+//        $oCorrida02->addItemSelect('SAE PZ32 1035', 'SAE PZ32 1035');
+//        $oCorrida02->addItemSelect('SAE 1038', 'SAE 1038');
+//        $oCorrida02->addItemSelect('1038D210', '1038D210');
+//        $oCorrida02->addItemSelect('SAE 10B21', 'SAE 10B21');
+//        $oCorrida02->addItemSelect('SAE 10B22', 'SAE 10B22');
+//        $oCorrida02->addItemSelect('SAE PL22', 'SAE PL22');
+//        $oCorrida02->addItemSelect('SAE 10B30', 'SAE 10B30');
+//        $oCorrida02->addItemSelect('PL30', 'PL30');
+//        $oCorrida02->addItemSelect('SAE 1045', 'SAE 1045');
+//        $oCorrida02->addItemSelect('PL45', 'PL45');
+//        $oCorrida02->addItemSelect('SAE 1045MOD', 'SAE 1045MOD');
+//        $oCorrida02->addItemSelect('SAE 4140', 'SAE 4140');
+//        $oCorrida02->addItemSelect('SAE PL41', 'SAE PL41');
 
         $this->setSIdUpload(',' . $oAnexo1->getId() . ',' . $oAnexo2->getId() . ',' . $oAnexo3->getId() . ',' . $oAnexo4->getId());
 
@@ -353,14 +394,14 @@ class ViewMET_QUAL_Rnc extends View {
         $oCodmat->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() .
                 '-form","MET_QUAL_Rnc","buscaDadoscodmat","' . $oProdDes2->getId() . '");');
 
-        $oTabProbl->addCampos(array($oCodProbl, $oCodProblDes, $oCorrida02), $odescrnc, $oSituaca, array($ocodsetor, $odescset01, $oturno01, $oCodUsuario, $oPessoa), array($oCnpj2, $oEmpresa));
+        $oTabProbl->addCampos(array($oCodProbl, $oCodProblDes, $oCodCorrida, $oCorrida), $oDescRnc, $oSituaca, array($oCodSetorDetectou, $oDescSetorDetectou, $oTurno01, $oCodFuncDetectou, $oNomeFuncDetectou), array($oCnpjFornecedor, $oNomeFornecedor));
         /* $oTabMatP->addCampos(array($oCodmat, $oProdDes2), array($oCodCorrida, $oCorrida, $oBotConf), $oCampoCorrida); */
-        $oTabcausa->addCampos(array($oUsercausa, $oPessoacausa, $oBotConf), $oCampoCoaboradores, array($odescset02, $oPessoaresp, $oturno02, $ocodsetor2), $odesccausa);
+        $oTabcausa->addCampos(array($oUsercausa, $oPessoacausa, $oBotConf), $oCampoCoaboradores, array($oCodSetorCausou, $oDescSetorCausou, $oCodRespCausa, $oNomePessoaRespCausa, $oTurno02), $oDescCausa);
         $oTabdesc->addCampos($oDecisao, $oDecisaornc);
         $oTabAnexo->addCampos(array($oAnexo1, $oAnexo2));
         $oTab->addItems($oTabProbl, $oTabcausa, $oTabdesc, $oTabAnexo);
 
-        $this->addCampos(array($oNr, $oFilcgc, $oUsunome, $oDatabert, $ohoraini), array($otipornc, $oOp, $oCodProd, $oProdDes, $olote, $oqtlote, $oqtloternc), $oLn, $oTab);
+        $this->addCampos(array($oNr, $oFilcgc, $oUsunome, $oDatabert, $oHoraIni), array($oTipoRnc, $oOp, $oCodProd, $oProdDes, $oLote, $oQtLote, $oQtLoteRnc), $oLn, $oTab);
     }
 
     public function relQualRNC() {
@@ -396,10 +437,12 @@ class ViewMET_QUAL_Rnc extends View {
         $oDatafinal->setSValor(Util::getDataAtual());
         $oDatafinal->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
 
-        $oCodTip = new Campo('Tipo', 'tipornc', Campo::TIPO_SELECT, 1, 1, 1, 1);
+        $oCodTip = new Campo('Tipo', 'tipornc', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oCodTip->addItemSelect('Todos', 'Todos');
         $oCodTip->addItemSelect('Processo', 'Processo');
         $oCodTip->addItemSelect('Fornecedor', 'Fornecedor');
+        $oCodTip->addItemSelect('Interno', 'Interno');
+        $oCodTip->addItemSelect('Externo', 'Externo');
 
         $oSit = new Campo('Situação das RNCs', 'sitmp', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oSit->addItemSelect('Todos', 'Todos');
@@ -414,7 +457,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $oField = new FieldSet('Relatório Funcionários Causadores da RNC');
+        $oField = new FieldSet('Relatório Causadores da RNC');
         $oField->setOculto(true);
 
         $oUsercausa = new Campo('...', 'numcad', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
@@ -430,16 +473,69 @@ class ViewMET_QUAL_Rnc extends View {
         $oPessoacausa->setApenasTela(true);
         $oPessoacausa->addValidacao(true, string, '', 10, 200);
 
+        $oCodSetorCausou = new Campo('Cód.Setor', 'cod_set02', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+
+        $oDescSetorCausou = new Campo('Setor Causou ', 'descset02', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oDescSetorCausou->setSIdPk($oCodSetorCausou->getId());
+        $oDescSetorCausou->setClasseBusca('Setor');
+        $oDescSetorCausou->addCampoBusca('codsetor', '', '');
+        $oDescSetorCausou->addCampoBusca('descsetor', '', '');
+        $oDescSetorCausou->setSIdTela($this->getTela()->getid());
+
+        $oCodSetorCausou->setClasseBusca('Setor');
+        $oCodSetorCausou->setSCampoRetorno('codsetor', $this->getTela()->getId());
+        $oCodSetorCausou->addCampoBusca('descsetor', $oDescSetorCausou->getId(), $this->getTela()->getId());
+        
         $oUsercausa->setClasseBusca('MET_CAD_Funcionarios');
         $oUsercausa->setSCampoRetorno('numcad', $this->getTela()->getId());
         $oUsercausa->addCampoBusca('nomfun', $oPessoacausa->getId(), $this->getTela()->getId());
 
-        $sCheck = new campo('Aplicar', 'func', Campo::TIPO_CHECK, 3, 3, 12, 12);
+        $oCodProbl = new campo('Cód.Problema', 'codprobl', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCodProblDes = new campo('Desc. Problema', 'MET_QUAL_Prob_Rnc.descprobl', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
 
+        $oCodProblDes->setSIdPk($oCodProbl->getId());
+        $oCodProblDes->setClasseBusca('MET_QUAL_Prob_Rnc');
+        $oCodProblDes->addCampoBusca('codprobl', '', '');
+        $oCodProblDes->addCampoBusca('descprobl', '', '');
+        $oCodProblDes->setSIdTela($this->getTela()->getid());
+
+        $oCodProbl->setClasseBusca('MET_QUAL_Prob_Rnc');
+        $oCodProbl->setSCampoRetorno('codprobl', $this->getTela()->getId());
+        $oCodProbl->addCampoBusca('descprobl', $oCodProblDes->getId(), $this->getTela()->getId());
+        
+        $oFilcgc = new Campo('Cód. Empresa', 'Pessoa.empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        //$oFilcgc->setSValor($_SESSION['filcgc']);
+        $oFilcgc->setBFocus(true);
+
+        $oFilDes = new campo('Empresa', 'Pessoa.empdes', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oFilDes->setSIdPk($oFilcgc->getId());
+        $oFilDes->setClasseBusca('Pessoa');
+        $oFilDes->addCampoBusca('empcod', '', '');
+        $oFilDes->addCampoBusca('empdes', '', '');
+        $oFilDes->setSIdTela($this->getTela()->getid());
+        //$oFilDes->setSValor('METALBO INDUSTRIA DE FIXADORES          ');
+
+        $oFilcgc->setClasseBusca('Pessoa');
+        $oFilcgc->setSCampoRetorno('empcod', $this->getTela()->getId());
+        $oFilcgc->addCampoBusca('empdes', $oFilDes->getId(), $this->getTela()->getId());
+        
+       // $sCheck = new campo('Aplicar', 'func', Campo::TIPO_CHECK, 3, 3, 12, 12);
+        
+        $sSelectRelatorio = new Campo('Tipo de Relatório', 'tiprel', Campo::CAMPO_SELECTSIMPLE, 5, 8, 12, 12);
+        $sSelectRelatorio->addItemSelect('1', 'COMPLETO');
+        $sSelectRelatorio->addItemSelect('2', 'QUANTIDADES CONFORME SITUAÇÃO, TIPO DE FIXADOR E ORIGEM DAS RNCs');
+        $sSelectRelatorio->addItemSelect('3', 'PESO NÃO CONFORME DE ACORDO COM A DECISÃO');
+        $sSelectRelatorio->addItemSelect('4', 'PESO NÃO CONFORME DE ACORDO COM A DECISÃO POR SETOR');
+        $sSelectRelatorio->addItemSelect('5', 'PESO DE PEÇAS NÃO CONFORMES NO PROCESSO E LOTE DEVOLVIDO');
+        $sSelectRelatorio->addItemSelect('6', 'PESO DE ACORDO COM O PROBLEMA');
+        $sSelectRelatorio->addItemSelect('7', 'PESO DE ACORDO COM O PROBLEMA POR SETOR');
+        $sSelectRelatorio->addItemSelect('8', 'PESO DE ACORDO COM O PROBLEMA POR FORNECEDOR');
+        $sSelectRelatorio->setSValor(1);
+        
         $oField1->addCampos($oLinha1, array($oCodProd, $oProdDes), $oLinha1, array($oCodTip, $oTipo, $oSit));
-        $oField->addCampos($oLinha1, $oUsercausa, $oPessoacausa, $sCheck);
+        $oField->addCampos(array($oFilcgc, $oFilDes, $oCodSetorCausou, $oDescSetorCausou), $oLinha1, array($oCodProbl, $oCodProblDes, $oUsercausa, $oPessoacausa));
 
-        $this->addCampos($oField1, $oLinha1, $oField, $oLinha1, array($oDatainicial, $oDatafinal));
+        $this->addCampos($oField1, $oLinha1, $oField, $oLinha1, array($oDatainicial, $oDatafinal, $sSelectRelatorio));
     }
 
 }

@@ -120,7 +120,7 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     $oEmail->setAssunto(utf8_decode('XML METALBO IND. FIXADORES METALICOS LTDA'));
     $oEmail->setMensagem(utf8_decode('<span>Seguem XML e DANFE referente a NF.: <b> ' . $aDados[1] . '</b></span>'
                     . '<br/><br/>'
-                    . '<br/><span style="color:red;">E-mail enviado automaticamente, favor não responder!</span>'));
+                    . '<br/><span style="font-size:50px;color:red;">E-mail enviado automaticamente, favor não responder!</span>'));
 
     $oEmail->limpaDestinatariosAll();
 

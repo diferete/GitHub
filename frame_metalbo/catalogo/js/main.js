@@ -822,7 +822,7 @@ $("#gru").change(function () {
         //Append - Adiciona HTML com mensagem indicando o carregamento dos dados da lista *<options>* no campo 2
         $('#subg').empty().append('<option>Carregando...</option>').trigger('chosen:updated');
         //Request JSON com o valor do campo 1 do filtro *dados*
-        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubG" + "&dados=" + gru, function (result) {
+        $.getJSON("http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubG" + "&dados=" + gru, function (result) {
             //Valor padrão do primeiro item do select usado como "legenda" do campo
             var html = '<option value="0" disabled selected>Tipo de produto</option>';
             //Para cada item retornado no Json, cria um option para dar append no campo 2
@@ -843,7 +843,7 @@ $("#gru").change(function () {
         $('#subf').empty().trigger('chosen:updated');
         $('#subg').empty();
         $('#subg').append('<option>Carregando...</option>').trigger('chosen:updated');
-        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubG" + "&dados=" + gru, function (result) {
+        $.getJSON("http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubG" + "&dados=" + gru, function (result) {
             var html = '<option value="0" disabled selected>Tipo de produto</option>';
             result.forEach(function (dados) {
                 html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
@@ -866,7 +866,7 @@ $("#subg").change(function () {
         var subg = $('#subg').val();
         $('#fam').empty();
         $('#fam').append('<option>Carregando...</option>').trigger('chosen:updated');
-        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroFam" + "&dados=" + gru + ',' + subg, function (result) {
+        $.getJSON("http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroFam" + "&dados=" + gru + ',' + subg, function (result) {
             var html = '';
             result.forEach(function (dados) {
                 html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
@@ -879,7 +879,7 @@ $("#subg").change(function () {
         var subg = $('#subg').val();
         $('#fam').empty();
         $('#fam').append('<option>Carregando...</option>').trigger('chosen:updated');
-        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroFam" + "&dados=" + gru + ',' + subg, function (result) {
+        $.getJSON("http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroFam" + "&dados=" + gru + ',' + subg, function (result) {
             var html = '';
             result.forEach(function (dados) {
                 html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
@@ -902,7 +902,7 @@ $("#fam").change(function () {
         var fam = $('#fam').val();
         $('#subf').empty();
         $('#subf').append('<option>Carregando...</option>').trigger('chosen:updated');
-        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubF" + "&dados=" + gru + ',' + subg + ',' + fam, function (result) {
+        $.getJSON("http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubF" + "&dados=" + gru + ',' + subg + ',' + fam, function (result) {
             var html = '';
             result.forEach(function (dados) {
                 html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
@@ -916,7 +916,7 @@ $("#fam").change(function () {
         var fam = $('#fam').val();
         $('#subf').empty();
         $('#subf').append('<option>Carregando...</option>').trigger('chosen:updated');
-        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubF" + "&dados=" + gru + ',' + subg + ',' + fam, function (result) {
+        $.getJSON("http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=filtroSubF" + "&dados=" + gru + ',' + subg + ',' + fam, function (result) {
             var html = '';
             result.forEach(function (dados) {
                 html = html + '<option value ="' + dados['cod'] + '">' + dados['desc'] + '</option>';
@@ -946,12 +946,12 @@ function filtro() {
     //valor/código SUBFAMILIA
     var subf = $('#subf').val();
     if (gru == null) {
-//Mostra mensagem notificando usuário sobre a necessidade de um valor no campo de filtro
+        //Mostra mensagem notificando usuário sobre a necessidade de um valor no campo de filtro
         $("#filter-msg").removeClass('shake animated hidden').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
             $("#filter-msg").removeClass('shake animated');
         });
     } else {
-//Concatena os valores de cada campo do filtro
+        //Concatena os valores de cada campo do filtro
         var dados = gru + '|' + subg + '|' + fam + '|' + subf;
         //Cria variável que vai receber o HTML
         var htmlTable = '';
@@ -962,7 +962,7 @@ function filtro() {
         //Adiciona animação CARREGANDO enquanto o HTML é gerado,concatenado e inserido na DIV
         $('#prods').append('<span class="back"><span>C</span><span>a</span><span>r</span><span>r</span><span>e</span><span>g</span><span>a</span><span>n</span><span>d</span><span>o</span></span>');
         //Request JSON com os valores dos campos do filtro *dados*
-        $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=montaFiltro" + "&dados=" + dados, function (result) {
+        $.getJSON("http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=montaFiltro" + "&dados=" + dados, function (result) {
             //Gera HTML com cada um dos itens trazidos pelo request JSON da Classe na frame
             result.forEach(function (e) {
                 var carrinho = verificaCarrinho(e['procod']);
@@ -1270,7 +1270,7 @@ function shoppingList() {
                 //codigos.push($(this).text());
             });
             //Json da consulta SQL com os códigos dos itens da lista de compras
-            $.getJSON("http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=montaCarrinho" + "&dados=" + codigos, function (result) {
+            $.getJSON("http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=montaCarrinho" + "&dados=" + codigos, function (result) {
                 //Variavel que vai ser alimentada com o HTML do carrinho de compras
                 var htmlCart = '<div id="send-form" style="text-align: center">'
                         + '<p class="contactform-field" style="display: inline-block;margin-bottom: 10px;">'
@@ -1432,8 +1432,7 @@ function shoppingList() {
                     $("#cart-table > div").hide();
                     $("#cart-table > div").each(function () {
                         var text = $(this).text().toLowerCase();
-                        if (text.indexOf(val) != -1)
-                        {
+                        if (text.indexOf(val) != -1) {
                             $(this).show();
                         }
                     });
@@ -1547,7 +1546,7 @@ function sendPdf() {
             codigos.push($(this).text());
         });
         //Abre janela do PDF em nova aba e envia dados para consulta SQL e geração do PDF no PHP da frame Metalbo
-        window.open('http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=PDF' + '&dados=' + codigos, '_blank');
+        window.open('http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=PDF' + '&dados=' + codigos, '_blank');
     }
 }
 
@@ -1570,7 +1569,7 @@ function sendPdfEmail() {
                 $("#waiting-msg").removeClass('shake animated');
             });
         } else {
-//For each que alimenta array com os códigos dos itens do carrinho de compras
+            //Foreach que alimenta array com os códigos dos itens do carrinho de compras
             var codigos = [];
             $("#cart-list").find('li').each(function () {
                 codigos.push($(this).text());
@@ -1584,7 +1583,7 @@ function sendPdfEmail() {
                 $("#waiting-msg").removeClass('shake animated');
             });
             //Json que recebe confirmação ou erro ao enviar e-mail via PHP na frame Metalbo
-            $.getJSON('http://localhost/GitHub/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=PDF' + '&dados=' + codigos + '&email=' + $("#email").val() + '&dadosUF=' + dadosUF, function (result) {
+            $.getJSON('http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=PDF' + '&dados=' + codigos + '&email=' + $("#email").val() + '&dadosUF=' + dadosUF, function (result) {
                 if (result == 'success') {
                     //Caso sucesso, mostra mensagem verde com mensagem de sucesso
                     $("#waiting-msg").text('E-mail foi enviado com sucesso, cheque sua caixa de entrada para uma cópia!').addClass('email-success').removeClass('shake animated hidden email-error').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
@@ -1613,18 +1612,18 @@ function validateEmail(email) {
 
 function chkDropDown() {
 
-//Toggle - informações extra
-//Recarrega dropdown de dados extras abaixo da linha/grid de cada item
-//Verifica se o dropdown possui dados
+    //Toggle - informações extra
+    //Recarrega dropdown de dados extras abaixo da linha/grid de cada item
+    //Verifica se o dropdown possui dados
     if ($('.prodtb-i-toggle').length > 0) {
-//Captura clique no dropdown
+        //Captura clique no dropdown
         $('.prodtb-i-toggle').on('click', function () {
-//Ao clicar, verifica se tem a classe OPENED *Aberta* 
+            //Ao clicar, verifica se tem a classe OPENED *Aberta* 
             if ($(this).hasClass('opened')) {
-//Se possui a classe, ao clicar, fecha/esconde *hide* o dropdown 
+                //Se possui a classe, ao clicar, fecha/esconde *hide* o dropdown 
                 $(this).removeClass('opened').parents('.prodtb-i').find('.prodlist-i').hide();
             } else {
-//Se não possiu a classe, ao clicar, abre/mostra *show* o dropdown
+                //Se não possiu a classe, ao clicar, abre/mostra *show* o dropdown
                 $(this).addClass('opened').parents('.prodtb-i').find('.prodlist-i').show();
             }
             return false;
@@ -1648,8 +1647,7 @@ function chkQuantItem() {
  * @param {type} t
  * @returns {@var;d|@var;t|s|String}
  */
-function numeroParaMoeda(n, c, d, t)
-{
+function numeroParaMoeda(n, c, d, t) {
     c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
@@ -1659,9 +1657,8 @@ function numeroParaMoeda(n, c, d, t)
  * @param {type} valor
  * @returns {unresolved}
  */
-function moedaParaNumero(valor)
-{
-//return isNaN(valor) == false ? parseFloat(valor) :   parseFloat(valor.replace("R$","").replace(".","").replace(",","."));
+function moedaParaNumero(valor) {
+    //return isNaN(valor) == false ? parseFloat(valor) :   parseFloat(valor.replace("R$","").replace(".","").replace(",","."));
     return isNaN(valor) == false ? parseFloat(valor) : parseFloat(valor.replace("R$", "").replace(".", "").replace(",", "."));
 }
 

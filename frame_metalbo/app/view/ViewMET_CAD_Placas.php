@@ -61,6 +61,7 @@ class ViewMET_CAD_Placas extends View {
         $oPlaca->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
         $oEmpcod = new Campo('CNPJ', 'empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oEmpcod->addValidacao(false, Validacao::TIPO_STRING,'','12');
 
         $oEmpdes = new Campo('Emp/Transp', 'empdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oEmpdes->setSIdPk($oEmpcod->getId());

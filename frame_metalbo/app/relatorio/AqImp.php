@@ -82,7 +82,7 @@ $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //dados do cabeçalho
 $sSql = "select certificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
         . "convert(varchar,datafech,103) as datafech,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
-        . "pq1,pq2,pq3,pq4,pq5,anexo1,anexo2 "
+        . "pq1,pq2,pq3,pq4,pq5,anexo1,anexo2,sit,obscancela,usucancela "
         . " from tbacaoqual where filcgc ='" . $filcgcAq . "' and nr= '" . $nrAq . "'";
 $dadoscab = $PDO->query($sSql);
 while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
@@ -106,6 +106,9 @@ while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $sPq3 = $row['pq3'];
     $sPq4 = $row['pq4'];
     $sPq5 = $row['pq5'];
+    $sSit = $row['sit'];
+    $sUsuCancela = $row['usucancela'];
+    $sObsCancela = $row['obscancela'];
     if ($row['anexo1'] != '') {
         $iCon++;
     }
@@ -133,14 +136,15 @@ $pdf->Rect(160, 10, 48, 18);
 $pdf->SetFont('Arial', '', 9);
 
 if ($avFim == 'aberta') {
-    $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '            Fim: ', 0, 'J');
+    $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '', 0, 'J');
 } else {
     if ($avFim == 'fechada') {
-        $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '            Fim: ' . $sDataFim . '', 0, 'J');
+        $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '', 0, 'J');
     }
 }
 
 
+$pdf->Ln(5);
 $pdf->Ln(5);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(27, 5, "Tema da ação:", 0, 0, 'L');
@@ -164,6 +168,16 @@ $pdf->Cell(178, 5, $sEquipe, 0, 1, 'L');
 $pdf->Ln(5);
 
 $pdf->SetFillColor(213, 213, 213);
+if ($sSit == 'Cancelada') {
+    //$pdf->Rect(3,68,206,20); 
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(206, 5, "Cancelada por: " . $sUsuCancela . "", 1, 1, 'C', TRUE);
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->MultiCell(206, 5, $sObsCancela, 1, 'J');
+    $pdf->Ln(5);
+}
+
+
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(69, 5, "Tipo de ação", 1, 0, 'L', TRUE);
 $pdf->Cell(69, 5, "Origem", 1, 0, 'L', TRUE);

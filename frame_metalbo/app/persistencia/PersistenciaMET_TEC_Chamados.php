@@ -39,6 +39,8 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->adicionaRelacionamento('anexo2', 'anexo2');
         $this->adicionaRelacionamento('anexo3', 'anexo3');
         $this->adicionaRelacionamento('anexofim', 'anexofim');
+        $this->adicionaRelacionamento('previsao', 'previsao');
+        $this->adicionaRelacionamento('dias', 'dias');
 
 
         $this->setSTop(50);
@@ -53,6 +55,31 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         }
         $this->adicionaOrderBy('nr', 1);
         $this->adicionaOrderBy('datacad', 1);
+    }
+
+    public function updateTempoRestante() {
+
+        $sSql = "select filcgc, nr, datainicio, previsao from MET_TEC_Chamados where situaca = 'INICIADO' ";
+        $sth = $this->getObjetoSql($sSql);
+        while ($aChamado = $sth->fetch(PDO::FETCH_ASSOC)) {
+            date_default_timezone_set('America/Sao_Paulo');
+            $previsao = date_create($aChamado['previsao']);
+            $inicio = date_create($aChamado['datainicio']);
+            $hoje = date_create(date('Y-m-d'));
+            $intervaloPrevisao = date_diff($inicio, $previsao);
+            $intervaloAtual = date_diff($hoje, $previsao);
+            $diasPrevisao = $intervaloPrevisao->format('%a');
+            $diasAtual = $intervaloAtual->format('%a');
+
+            if ($diasAtual > $diasPrevisao) {
+                $dias = '-' . $diasAtual;
+            } else {
+                $dias = $diasPrevisao;
+            }
+
+            $sSqlUpdate = "update MET_TEC_Chamados set dias = " . $dias . " where nr = " . $aChamado['nr'] . " and filcgc = " . $aChamado['filcgc'] . "";
+            $debug = $this->executaSql($sSqlUpdate);
+        }
     }
 
     public function buscaDadosChamado($aDados) {
@@ -86,6 +113,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $sSql = "update MET_TEC_Chamados set situaca = 'INICIADO',"
                 . " datainicio = '" . $aDados['datainicio'] . "',"
                 . " horainicio = '" . $aDados['horainicio'] . "',"
+                . " previsao = '" . $aDados['previsao'] . "',"
                 . " usunomeinicio = '" . $aDados['usunomeinicio'] . "'"
                 . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
         $aRetorno = $this->executaSql($sSql);
@@ -98,6 +126,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
                 . " horafim = '" . $aDados['horafim'] . "',"
                 . " obsfim = '" . $aDados['obsfim'] . "',"
                 . " anexofim = '" . $aDados['anexofim'] . "',"
+                . " tempo = '" . $aDados['tempo'] . "',"
                 . " usunomefim = '" . $aDados['usunomefim'] . "'"
                 . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
         $aRetorno = $this->executaSql($sSql);

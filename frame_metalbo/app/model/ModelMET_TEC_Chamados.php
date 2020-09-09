@@ -33,6 +33,24 @@ class ModelMET_TEC_Chamados {
     private $anexo2;
     private $anexo3;
     private $anexofim;
+    private $previsao;
+    private $dias;
+
+    function getDias() {
+        return $this->dias;
+    }
+
+    function setDias($dias) {
+        $this->dias = $dias;
+    }
+
+    function getPrevisao() {
+        return $this->previsao;
+    }
+
+    function setPrevisao($previsao) {
+        $this->previsao = $previsao;
+    }
 
     function getFilcgc() {
         return $this->filcgc;

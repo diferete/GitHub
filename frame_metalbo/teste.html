@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="modal fade modal-success" id="exampleFormModal" aria-hidden="true" aria-labelledby="exampleFormModalLabel" role="dialog" tabindex="-1">
+            <div class="modal-dialog"> 
+                <form method="post" id="frm-redefini" class="modal-content"> 
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="exampleFormModalLabel">Redefinição de senha - Digite uma nova senha e clique em confirmar!</h4>
+                        <h5 class="modal-info" id="exampleFormModalLabel">*Mínimo 5 caracteres</h5>
+                        <h5 class="modal-info" id="exampleFormModalLabel">*Torne sua senha forte com números e caracteres</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div id="input1" class="col-lg-6 form-group">
+                                <input type="password" id="passwd1" class="form-control" name="Nova senha" placeholder="Nova senha" onBlur="strongPass();">
+                                <small id ="span1" class="help-block" data-fv-validator="notEmpty" data-fv-for="standard_fullName" data-fv-result="INVALID" style="display: block;"><b>.....</b></small>
+                            </div>
+                            <div id="input2" class="col-lg-6 form-group">
+                                <input type="password" id="passwd2" class="form-control" name="Confirme nova senha" placeholder="Confirme nova senha" onBlur="strongPass();">
+                                <small id ="span2" class="help-block" data-fv-validator="notEmpty" data-fv-for="standard_fullName" data-fv-result="INVALID" style="display: block;"><b>.....</b></small>
+                            </div>
+                        </div>
+                        <br/><hr/>
+                        <div class="row">
+                            <br/><br/>
+                            <div class="col-sm-12 pull-right">
+                                <button id="botao1" class="btn btn-success"  type="button" disabled="disabled" onclick="callRequestRedefine();">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script>$('#resultado').empty();
+            $('#resultado').append('".$sRetorno."');
+            $('#exampleFormModal').modal('toggle');
+            $('#passwd1').focus();
+        </script>
+    </body>
+</html>

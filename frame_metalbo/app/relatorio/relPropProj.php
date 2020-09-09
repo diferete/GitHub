@@ -66,7 +66,7 @@ $pdf->Cell(50);
 $pdf->Cell(95, 0, 'Relatorio de Projetos e ', 0, 1, 'C');
 $pdf->Cell(200, 10, 'Desenvolvimento de Novos Produtos', 0, 1, 'C');
 
-$pdf->Cell(150,1);
+$pdf->Cell(150, 1);
 
 $x = $pdf->GetX();
 $y = $pdf->GetY();
@@ -83,87 +83,107 @@ $pdf->Ln(5);
 $pdf->SetY(26);
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
-$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,tbqualNovoProjeto.empcod,empdes,
-convert(varchar,dtimp,103) as dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento,replibobs,
-equip_corresp,equip_corresp_evid,mat_prima,mat_prima_evid,estudo_proc,estudo_proc_evid,prod_sim,prod_sim_evid,desen_ferram,desen_ferram_evid,sol_viavel,sol_viavel_obs,
-vlrDesenProj,vlrFerramen,vlrMatPrima,vlrAcabSuper,vlrTratTer,vlrCustProd,precofinal,prazoentregautil,sol_viavel_fin,fin_obs,resp_venda_nome,
-acab, material, classe, anghelice, chavemin, chavemax, altmin, altmax, reqadval_obs, reqadval, 
-convert(varchar,etapasfab_prev,103) as etapasfab_prev, convert(varchar,etapasfab_ter,103) as etapasfab_ter, etapas_resp,
-diamfmin, diamfmax, compmin, compmax, diampmin, diampmax, diamexmin,reqproblem_obs, reqproblem, comem,convert(varchar,desenho_prev,103) as desenho_prev,
-convert(varchar,desenho_ter,103) as desenho_ter, desenho_resp,
-diamexmax, comprmin, comprmax, comphmin, comphmax, diamhmin, diamhmax,dadosent, dadosent_obs, reqlegal, reqlegal_obs, reqadicional, reqadicional_obs,
-profcanecomin, profcanecomax,
-convert(varchar,relFerr_prev,103) as relFerr_prev, convert(varchar,relFerr_ter,103) as relFerr_ter, relFerr_resp,
-convert(varchar,relFerrDesen_prev,103) as relFerrDesen_prev,convert(varchar,relFerrDesen_ter,103) as relFerrDesen_ter,relFerrDesen_resp,
-convert(varchar,relFerrDist_prev,103) as relFerrDist_prev,convert(varchar,relFerrDist_ter,103) as relFerrDist_ter, relFerrDist_resp,
-procod,desc_novo_prod,procodsimilar,prodsimilar,tiprosca,normadimen,normarosca,normapropmec,ppap,vendaprev,reqcli,reqadverif_obs,reqadverif,
-convert(varchar,relFerrConf_prev,103) as relFerrConf_prev,convert(varchar,relFerrConf_ter,103) as relFerrConf_ter,relFerrConf_resp,
-ferrElaboradas,desenAcordo,comenCrit,
-convert(varchar,verifDesenhoPrev,103) as verifDesenhoPrev, convert(varchar,verifDesenhoTer,103) as verifDesenhoTer,verifDesenhoResp,
-convert(varchar,verifRelFerrPrev,103) as verifRelFerrPrev, convert(varchar,verifRelFerrter,103) as verifRelFerrter,verifRelFerrResp,
-convert(varchar,verifDesenhoFerrPrev,103) as verifDesenhoFerrPrev,convert(varchar,verifDesenhoFerrTer,103) as verifDesenhoFerrTer,verifDesenhoFerrResp,
-convert(varchar,dimenProdPrev,103) as dimenProdPrev, convert(varchar,dimenProdTer,103) as dimenProdTer,dimenProdResp,
-convert(varchar,camadaZincoPrev,103) as camadaZincoPrev,convert(varchar,camadaZincoTer,103) as camadaZincoTer,camadaZincoResp,
-convert(varchar,ensaioDurezaPrev,103) as ensaioDurezaPrev,convert(varchar,ensaioDurezaTer,103) as ensaioDurezaTer,ensaioDurezaResp,
-convert(varchar,cargaprovaPrev,103) as cargaprovaPrev,convert(varchar,cargaprovaTer,103) as cargaprovaTer,cargaprovaResp,
-convert(varchar,terceiroPrev,103) as terceiroPrev,convert(varchar,terceiroTer,103) as terceiroTer,terceiroResp,
-ensReq,ensReqDef,ensReqLegal,ensPlan,ensComem,
-valNf,convert(varchar,valNfPrev,103) as valNfPrev,convert(varchar,valNfTer,103) as valNfTer,valNfResp,
-valOd,convert(varchar,valOdPrev,103) as valOdPrev,convert(varchar,valOdTer,103) as valOdTer,valODResp,
-valPed,convert(varchar,valPedPrev,103) as valPedPrev,convert(varchar,valPedTer,103) as valPedTer,valPedResp,
-valPapp,valPed,convert(varchar,valPappPrev,103) as valPappPrev,convert(varchar,valPappTer,103) as valPappTer,valPappResp,
-etapProj,result,cliprov,valproj,comenvalproj,respvalproj,
-SUM(vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd) as custotot,
-convert(varchar,dtaprovaoperacional,103) as dtaprovaoperacional,
-usuaprovaoperacional,usuaprovafinanceiro,respAnaliseCri,
-convert(varchar,dtaprovafinanceiro,103) as  dtaprovafinanceiro,usuanaliseentrada,
-convert(varchar,dtanaliseentrada,103) as dtanaliseentrada,
-convert(varchar,dtanalisecritica,103) as dtanalisecritica, 
-convert(varchar,dtanaliseens,103) as dtanaliseens, 
-convert(varchar,dtanalisevalproj,103) as dtanalisevalproj,respAnaliseCri,respEns,
-prazoentregautil,
-precofinal,
-sol_viavel_fin,
-usuaprovafinanceiro,  
-convert(varchar,dtaprovafinanceiro,103) as dtaprovafinanceiro,
-fin_obs, 
-obs_geral 
-from tbqualNovoProjeto left outer join  widl.EMP01
-on tbqualNovoProjeto.empcod  = widl.EMP01.empcod
-where filcgc ='" . $FilcgcRex . "' and nr = '" . $sNr . "' 
-group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,
-tbqualNovoProjeto.empcod,empdes,dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento,replibobs,
-equip_corresp,equip_corresp_evid,mat_prima,mat_prima_evid,estudo_proc,estudo_proc_evid,prod_sim,
-prod_sim_evid,desen_ferram,desen_ferram_evid,sol_viavel,sol_viavel_obs,
-vlrDesenProj,vlrFerramen,vlrMatPrima,vlrAcabSuper,vlrTratTer,vlrCustProd,relFerrDist_prev,relFerrDist_ter, relFerrDist_resp,
-precofinal,prazoentregautil,sol_viavel_fin,fin_obs,resp_venda_nome,relFerrDesen_prev,relFerrDesen_ter,relFerrDesen_resp,
-procod,desc_novo_prod,procodsimilar,prodsimilar,tiprosca,normadimen,normarosca,normapropmec,ppap,vendaprev,reqcli,reqadverif_obs,reqadverif,
-acab, material, classe, anghelice, chavemin, chavemax, altmin, altmax,reqadval_obs, reqadval, etapasfab_prev, etapasfab_ter, etapas_resp,
-relFerrConf_prev,relFerrConf_ter,relFerrConf_resp,ferrElaboradas,desenAcordo,comenCrit,
-diamfmin, diamfmax, compmin, compmax, diampmin, diampmax, diamexmin,reqproblem_obs, reqproblem,comem,desenho_prev, desenho_ter, desenho_resp,
-diamexmax, comprmin, comprmax, comphmin, comphmax, diamhmin, diamhmax,dadosent,dadosent_obs, reqlegal, reqlegal_obs, reqadicional, reqadicional_obs,
-profcanecomin, profcanecomax, 
-relFerr_prev, relFerr_ter, relFerr_resp,
-verifDesenhoPrev,verifDesenhoTer,verifDesenhoResp,verifRelFerrPrev,verifRelFerrter,
-verifRelFerrResp,verifDesenhoFerrPrev,verifDesenhoFerrTer,verifDesenhoFerrResp,
-dimenProdPrev,dimenProdTer,dimenProdResp,camadaZincoPrev,camadaZincoTer,
-camadaZincoResp,ensaioDurezaPrev,ensaioDurezaTer,ensaioDurezaResp,cargaprovaPrev,
-cargaprovaTer,cargaprovaResp,terceiroPrev,terceiroTer,terceiroResp,
-ensReq,ensReqDef,ensReqLegal,ensPlan,ensComem,
-valNf,valNfPrev,valNfTer,valNfResp,
-valOd,valOdPrev,valOdTer,valODResp,
-valPed,valPedPrev,valPedTer,valPedResp,
-valPapp,valPappPrev,valPappTer,valPappResp,
-etapProj,result,cliprov,valproj,comenvalproj,respvalproj,
-usuaprovaoperacional,dtaprovaoperacional,usuaprovafinanceiro,
-dtaprovafinanceiro,usuanaliseentrada,dtanaliseentrada,dtanalisecritica, dtanaliseens, dtanalisevalproj,respAnaliseCri,respEns,
-prazoentregautil,
-precofinal,
-sol_viavel_fin,
-usuaprovafinanceiro,  
-dtaprovafinanceiro,
-fin_obs, 
-obs_geral";
+$sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,tbqualNovoProjeto.empcod,"
+        . "empdes,"
+        . "convert(varchar,dtimp,103) as dtimp,"
+        . "quant_pc,lotemin,prazoentregautil,precofinal,acabamento,replibobs,equip_corresp,equip_corresp_evid,"
+        . "mat_prima,mat_prima_evid,estudo_proc,estudo_proc_evid,prod_sim,prod_sim_evid,desen_ferram,desen_ferram_evid,sol_viavel,sol_viavel_obs,"
+        . "vlrDesenProj,vlrFerramen,vlrMatPrima,vlrAcabSuper,vlrTratTer,vlrCustProd,precofinal,prazoentregautil,sol_viavel_fin,fin_obs,"
+        . "resp_venda_nome,acab,material,classe,anghelice,chavemin,chavemax,altmin,altmax,reqadval_obs,"
+        . "reqadval,"
+        . "convert(varchar,etapasfab_prev,103) as etapasfab_prev,"
+        . "convert(varchar,etapasfab_ter,103) as etapasfab_ter,"
+        . "etapas_resp,diamfmin,diamfmax,compmin,compmax,diampmin,diampmax,"
+        . "diamexmin,reqproblem_obs,reqproblem,comem,"
+        . "convert(varchar,desenho_prev,103) as desenho_prev,"
+        . "convert(varchar,desenho_ter,103) as desenho_ter,"
+        . "desenho_resp,diamexmax,comprmin,comprmax,comphmin,comphmax,diamhmin,diamhmax,dadosent,dadosent_obs,reqlegal,reqlegal_obs,reqadicional,reqadicional_obs,"
+        . "profcanecomin,profcanecomax,"
+        . "convert(varchar,relFerr_prev,103) as relFerr_prev,"
+        . "convert(varchar,relFerr_ter,103) as relFerr_ter,relFerr_resp,"
+        . "convert(varchar,relFerrDesen_prev,103) as relFerrDesen_prev,"
+        . "convert(varchar,relFerrDesen_ter,103) as relFerrDesen_ter,"
+        . "relFerrDesen_resp,"
+        . "convert(varchar,relFerrDist_prev,103) as relFerrDist_prev,"
+        . "convert(varchar,relFerrDist_ter,103) as relFerrDist_ter,"
+        . "relFerrDist_resp,procod,desc_novo_prod,procodsimilar,prodsimilar,tiprosca,normadimen,normarosca,normapropmec,ppap,vendaprev,reqcli,reqadverif_obs,reqadverif,"
+        . "convert(varchar,relFerrConf_prev,103) as relFerrConf_prev,"
+        . "convert(varchar,relFerrConf_ter,103) as relFerrConf_ter,"
+        . "relFerrConf_resp,ferrElaboradas,desenAcordo,comenCrit,"
+        . "convert(varchar,verifDesenhoPrev,103) as verifDesenhoPrev,"
+        . "convert(varchar,verifDesenhoTer,103) as verifDesenhoTer,"
+        . "verifDesenhoResp,"
+        . "convert(varchar,verifRelFerrPrev,103) as verifRelFerrPrev,"
+        . "convert(varchar,verifRelFerrter,103) as verifRelFerrter,"
+        . "verifRelFerrResp,"
+        . "convert(varchar,verifDesenhoFerrPrev,103) as verifDesenhoFerrPrev,"
+        . "convert(varchar,verifDesenhoFerrTer,103) as verifDesenhoFerrTer,"
+        . "verifDesenhoFerrResp,"
+        . "convert(varchar,dimenProdPrev,103) as dimenProdPrev,"
+        . "convert(varchar,dimenProdTer,103) as dimenProdTer,dimenProdResp,"
+        . "convert(varchar,camadaZincoPrev,103) as camadaZincoPrev,"
+        . "convert(varchar,camadaZincoTer,103) as camadaZincoTer,"
+        . "camadaZincoResp,"
+        . "convert(varchar,ensaioDurezaPrev,103) as ensaioDurezaPrev,"
+        . "convert(varchar,ensaioDurezaTer,103) as ensaioDurezaTer,"
+        . "ensaioDurezaResp,"
+        . "convert(varchar,cargaprovaPrev,103) as cargaprovaPrev,"
+        . "convert(varchar,cargaprovaTer,103) as cargaprovaTer,"
+        . "cargaprovaResp,"
+        . "convert(varchar,terceiroPrev,103) as terceiroPrev,"
+        . "convert(varchar,terceiroTer,103) as terceiroTer,"
+        . "terceiroResp,ensReq,ensReqDef,ensReqLegal,ensPlan,ensComem,valNf,"
+        . "convert(varchar,valNfPrev,103) as valNfPrev,"
+        . "convert(varchar,valNfTer,103) as valNfTer,"
+        . "valNfResp,valOd,"
+        . "convert(varchar,valOdPrev,103) as valOdPrev,"
+        . "convert(varchar,valOdTer,103) as valOdTer,"
+        . "valODResp,valPed,"
+        . "convert(varchar,valPedPrev,103) as valPedPrev,"
+        . "convert(varchar,valPedTer,103) as valPedTer,"
+        . "valPedResp,valPapp,valPed,"
+        . "convert(varchar,valPappPrev,103) as valPappPrev,"
+        . "convert(varchar,valPappTer,103) as valPappTer,"
+        . "valPappResp,etapProj,result,cliprov,valproj,comenvalproj,respvalproj,"
+        . "SUM(vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd) as custotot,"
+        . "((vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd)/quant_pc)as custoPorCentoQuant,"
+        . "((vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd)/lotemin) as custoPorCentoLoteMin,"
+        . "convert(varchar,dtaprovaoperacional,103) as dtaprovaoperacional,"
+        . "usuaprovaoperacional,usuaprovafinanceiro,respAnaliseCri,"
+        . "convert(varchar,dtaprovafinanceiro,103) as  dtaprovafinanceiro,"
+        . "usuanaliseentrada,"
+        . "convert(varchar,dtanaliseentrada,103) as dtanaliseentrada,"
+        . "convert(varchar,dtanalisecritica,103) as dtanalisecritica,"
+        . "convert(varchar,dtanaliseens,103) as dtanaliseens,"
+        . "convert(varchar,dtanalisevalproj,103) as dtanalisevalproj,"
+        . "respAnaliseCri,respEns,prazoentregautil,precofinal,sol_viavel_fin,usuaprovafinanceiro,"
+        . "convert(varchar,dtaprovafinanceiro,103) as dtaprovafinanceiro,"
+        . "fin_obs,obs_geral "
+        . "from tbqualNovoProjeto "
+        . "left outer join  widl.EMP01 "
+        . "on tbqualNovoProjeto.empcod = widl.EMP01.empcod "
+        . "where filcgc ='" . $FilcgcRex . "' and nr = '" . $sNr . "' "
+        . "group by nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repnome,resp_venda_nome,respvalproj,"
+        . "tbqualNovoProjeto.empcod,empdes,dtimp,quant_pc,lotemin,prazoentregautil,precofinal,acabamento,replibobs,"
+        . "equip_corresp,equip_corresp_evid,mat_prima,mat_prima_evid,estudo_proc,estudo_proc_evid,prod_sim,prod_sim_evid,"
+        . "desen_ferram,desen_ferram_evid,sol_viavel,sol_viavel_obs,vlrDesenProj,vlrFerramen,vlrMatPrima,vlrAcabSuper,"
+        . "vlrTratTer,vlrCustProd,relFerrDist_prev,relFerrDist_ter,relFerrDist_resp,precofinal,prazoentregautil,sol_viavel_fin,"
+        . "fin_obs,resp_venda_nome,relFerrDesen_prev,relFerrDesen_ter,relFerrDesen_resp,procod,desc_novo_prod,procodsimilar,"
+        . "prodsimilar,tiprosca,normadimen,normarosca,normapropmec,ppap,vendaprev,reqcli,reqadverif_obs,reqadverif,acab,"
+        . "material,classe,anghelice,chavemin,chavemax,altmin,altmax,reqadval_obs,reqadval,etapasfab_prev,etapasfab_ter,"
+        . "etapas_resp,relFerrConf_prev,relFerrConf_ter,relFerrConf_resp,ferrElaboradas,desenAcordo,comenCrit,diamfmin,"
+        . "diamfmax,compmin,compmax,diampmin,diampmax,diamexmin,reqproblem_obs,reqproblem,comem,desenho_prev,desenho_ter,"
+        . "desenho_resp,diamexmax,comprmin,comprmax,comphmin,comphmax,diamhmin,diamhmax,dadosent,dadosent_obs,reqlegal,"
+        . "reqlegal_obs,reqadicional,reqadicional_obs,profcanecomin,profcanecomax,relFerr_prev,relFerr_ter,relFerr_resp,"
+        . "verifDesenhoPrev,verifDesenhoTer,verifDesenhoResp,verifRelFerrPrev,verifRelFerrter,verifRelFerrResp,"
+        . "verifDesenhoFerrPrev,verifDesenhoFerrTer,verifDesenhoFerrResp,dimenProdPrev,dimenProdTer,dimenProdResp,"
+        . "camadaZincoPrev,camadaZincoTer,camadaZincoResp,ensaioDurezaPrev,ensaioDurezaTer,ensaioDurezaResp,cargaprovaPrev,"
+        . "cargaprovaTer,cargaprovaResp,terceiroPrev,terceiroTer,terceiroResp,ensReq,ensReqDef,ensReqLegal,ensPlan,ensComem,"
+        . "valNf,valNfPrev,valNfTer,valNfResp,valOd,valOdPrev,valOdTer,valODResp,valPed,valPedPrev,valPedTer,valPedResp,"
+        . "valPapp,valPappPrev,valPappTer,valPappResp,etapProj,result,cliprov,valproj,comenvalproj,respvalproj,"
+        . "usuaprovaoperacional,dtaprovaoperacional,usuaprovafinanceiro,dtaprovafinanceiro,usuanaliseentrada,dtanaliseentrada,"
+        . "dtanalisecritica,dtanaliseens,dtanalisevalproj,respAnaliseCri,respEns,prazoentregautil,precofinal,sol_viavel_fin,"
+        . "usuaprovafinanceiro,dtaprovafinanceiro,fin_obs,obs_geral";
 
 $sth = $PDO->query($sql);
 $row = $sth->fetch(PDO::FETCH_ASSOC);
@@ -250,12 +270,12 @@ $pdf->Cell(30, 5, $row['acabamento'], 0, 0);
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(12, 5, 'Quant.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(18, 5, number_format($row['quant_pc'], 0, ',', '.'), 0, 0); //formata casas decimais
+$pdf->Cell(18, 5, number_format($row['quant_pc'], 2, ',', '.'), 0, 0); //formata casas decimais
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(16, 5, 'Lote Min.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(18, 5, number_format($row['lotemin'], 0, ',', '.'), 0, 0); //formata casas decimais
+$pdf->Cell(18, 5, number_format($row['lotemin'], 2, ',', '.'), 0, 0); //formata casas decimais
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(11, 5, 'Preço:', 0, 0, 'L');
@@ -422,15 +442,17 @@ $pdf->Cell(73, 5, 'Custo total: ', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $Rs . number_format($row['custotot'], 2, ',', '.'), 0, 0, 'L');
 
-$pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(26, 5, 'Custo por cento:', 0, 0, 'L');
-$pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $Rs . number_format($row['precofinal'], 2, ',', '.'), 0, 0, 'L');
-
-$pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(38, 5, 'Viável financeiramente?:', 0, 0, 'L');
-$pdf->SetFont('arial', '', 9);
-$pdf->Cell(10, 5, $row['sol_viavel_fin'], 0, 1);
+if (number_format($row['lotemin'], 0) > number_format($row['quant_pc'], 0)) {
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(26, 5, 'Custo por cento:', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(25, 5, $Rs . number_format($row['custoPorCentoLoteMin'], 2, ',', '.'), 0, 1, 'L');
+} else {
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(26, 5, 'Custo por cento:', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(25, 5, $Rs . number_format($row['custoPorCentoQuant'], 2, ',', '.'), 0, 1, 'L');
+}
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
@@ -439,7 +461,7 @@ $pdf->Cell(12, 1, '', 0, 1, 'L');
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(10, 5, 'OBS:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(180, 5, $row['obs_geral'], 0, 1);
+$pdf->MultiCell(190, 5, $row['obs_geral'], 0, 'J');
 
 $pdf->Cell(12, 5, '', 0, 1, 'L');
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -457,7 +479,7 @@ $pdf->Cell(12, 1, '', 0, 1, 'L');
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(62, 5, 'Preço Final:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(30, 5, $row['precofinal'], 0, 1);
+$pdf->Cell(25, 5, $Rs . number_format($row['precofinal'], 2, ',', '.'), 0, 1, 'L');
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 
@@ -1090,10 +1112,6 @@ $pdf->Cell(50, 5, 'Os resultados atenderam ao requisitos legais aplicáveis?', 0
 $pdf->SetFont('arial', '', 9);
 $pdf->Cell(25, 5, $row['ensReqLegal'], 0, 1, 'L');
 
-$pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(70, 5, 'As etapas definidas no planejamento foram cumpridas conforme cronograma?', 0, 1, 'L');
-$pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['ensPlan'], 0, 1, 'L');
 
 $pdf->Cell(12, 1, '', 0, 1, 'L');
 

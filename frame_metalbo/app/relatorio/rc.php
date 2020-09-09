@@ -6,24 +6,32 @@ if (isset($_REQUEST['email'])) {
     $sEmailRequest = 'N';
 }
 date_default_timezone_set('America/Sao_Paulo');
+
 // Diretórios extras para email
+
+use setasign\Fpdi\Fpdi;
+
 if ($sEmailRequest == 'S') {
     include 'biblioteca/fpdf/fpdf.php';
     include("../../includes/Config.php");
     include("../../includes/Fabrica.php");
     include("../../biblioteca/Utilidades/Email.php");
+
+    $sDir = '';
+
+    require ('biblioteca/FPDI-2.3.3/FPDI/autoload.php');
 } else {
     include '../../biblioteca/fpdf/fpdf.php';
     include("../../includes/Config.php");
     include("../../includes/Fabrica.php");
     include("../../biblioteca/Utilidades/Email.php");
+
+    $sDir = '../../';
+
+    require ('../../biblioteca/FPDI-2.3.3/FPDI/autoload.php');
 }
 
-use setasign\Fpdi\Fpdi;
-
 //use setasign\Fpdi\PdfReader;
-require ('../../biblioteca/FPDI-2.3.3/FPDI/autoload.php');
-
 // Diretórios
 //require '../../biblioteca/fpdf/fpdf.php';
 //include("../../includes/Config.php");
@@ -261,13 +269,13 @@ if (strstr(strtolower($row['anexo1']), 'png') || strstr(strtolower($row['anexo1'
         $pdf->SetXY(10, 10);
         $sAnexo1 = $row['anexo1'];
         $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
-        $pdf->Image('../../Uploads/' . $sAnexo1, null, null, 190, 250);
+        $pdf->Image('' . $sDir . 'Uploads/' . $sAnexo1, null, null, 190, 250);
     }
 }
 
 if (strstr(strtolower($row['anexo1']), 'pdf')) {
     $sAnexo1 = $row['anexo1'];
-    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexo1);
+    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexo1);
     for ($i = 0; $i < $pageCount; $i++) {
         $tpl = $pdf->importPage($i + 1, '/MediaBox');
         $pdf->addPage();
@@ -283,13 +291,13 @@ if (strstr(strtolower($row['anexo2']), 'png') || strstr(strtolower($row['anexo2'
         $pdf->SetXY(10, 10);
         $sAnexo2 = $row['anexo2'];
         $pdf->Cell(26, 5, "ANEXO 2", 0, 1, 'L');
-        $pdf->Image('../../Uploads/' . $sAnexo2, null, null, 190, 250);
+        $pdf->Image('' . $sDir . 'Uploads/' . $sAnexo2, null, null, 190, 250);
     }
 }
 
 if (strstr(strtolower($row['anexo2']), 'pdf')) {
     $sAnexo2 = $row['anexo2'];
-    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexo2);
+    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexo2);
     for ($i = 0; $i < $pageCount; $i++) {
         $tpl = $pdf->importPage($i + 1, '/MediaBox');
         $pdf->addPage();
@@ -306,13 +314,13 @@ if (strstr(strtolower($row['anexo3']), 'png') || strstr(strtolower($row['anexo3'
         $pdf->SetXY(10, 10);
         $sAnexo3 = $row['anexo3'];
         $pdf->Cell(26, 5, "ANEXO 3", 0, 1, 'L');
-        $pdf->Image('../../Uploads/' . $sAnexo3, null, null, 190, 250);
+        $pdf->Image('' . $sDir . 'Uploads/' . $sAnexo3, null, null, 190, 250);
     }
 }
 
 if (strstr(strtolower($row['anexo3']), 'pdf')) {
     $sAnexo3 = $row['anexo3'];
-    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexo3);
+    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexo3);
     for ($i = 0; $i < $pageCount; $i++) {
         $tpl = $pdf->importPage($i + 1, '/MediaBox');
         $pdf->addPage();
@@ -381,13 +389,13 @@ if (strstr(strtolower($row['anexo_analise']), 'png') || strstr(strtolower($row['
         $pdf->SetXY(10, 10);
         $sAnexoAnalise = $row['anexo_analise'];
         $pdf->Cell(26, 5, "ANEXO ANÁLISE", 0, 1, 'L');
-        $pdf->Image('../../Uploads/' . $sAnexoAnalise, null, null, 190, 250);
+        $pdf->Image('' . $sDir . 'Uploads/' . $sAnexoAnalise, null, null, 190, 250);
     }
 }
 
 if (strstr(strtolower($row['anexo_analise']), 'pdf')) {
     $sAnexoAnalise = $row['anexo_analise'];
-    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexoAnalise);
+    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexoAnalise);
     for ($i = 0; $i < $pageCount; $i++) {
         $tpl = $pdf->importPage($i + 1, '/MediaBox');
         $pdf->addPage();
@@ -403,13 +411,13 @@ if (strstr(strtolower($row['anexo_analise1']), 'png') || strstr(strtolower($row[
         $pdf->SetXY(10, 10);
         $sAnexoAnalise1 = $row['anexo_analise1'];
         $pdf->Cell(26, 5, "ANEXO ANÁLISE 1", 0, 1, 'L');
-        $pdf->Image('../../Uploads/' . $sAnexoAnalise1, null, null, 190, 250);
+        $pdf->Image('' . $sDir . 'Uploads/' . $sAnexoAnalise1, null, null, 190, 250);
     }
 }
 
 if (strstr(strtolower($row['anexo_analise1']), 'pdf')) {
     $sAnexoAnalise1 = $row['anexo_analise1'];
-    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexoAnalise1);
+    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexoAnalise1);
     for ($i = 0; $i < $pageCount; $i++) {
         $tpl = $pdf->importPage($i + 1, '/MediaBox');
         $pdf->addPage();
@@ -481,13 +489,13 @@ if (strstr(strtolower($row['anexo_inspecao']), 'png') || strstr(strtolower($row[
         $pdf->SetXY(10, 10);
         $sAnexoInspecao = $row['anexo_inspecao'];
         $pdf->Cell(26, 5, "ANEXO INSPEÇÃO", 0, 1, 'L');
-        $pdf->Image('../../Uploads/' . $sAnexoInspecao, null, null, 190, 250);
+        $pdf->Image('' . $sDir . 'Uploads/' . $sAnexoInspecao, null, null, 190, 250);
     }
 }
 
 if (strstr(strtolower($row['anexo_inspecao']), 'pdf')) {
     $sAnexoInspecao = $row['anexo_inspecao'];
-    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexoInspecao);
+    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexoInspecao);
     for ($i = 0; $i < $pageCount; $i++) {
         $tpl = $pdf->importPage($i + 1, '/MediaBox');
         $pdf->addPage();
@@ -503,13 +511,13 @@ if (strstr(strtolower($row['anexo_inspecao1']), 'png') || strstr(strtolower($row
         $pdf->SetXY(10, 10);
         $sAnexoInspecao1 = $row['anexo_inspecao1'];
         $pdf->Cell(26, 5, "ANEXO INSPEÇÃO 1", 0, 1, 'L');
-        $pdf->Image('../../Uploads/' . $sAnexoInspecao1, null, null, 190, 250);
+        $pdf->Image('' . $sDir . 'Uploads/' . $sAnexoInspecao1, null, null, 190, 250);
     }
 }
 
 if (strstr(strtolower($row['anexo_inspecao1']), 'pdf')) {
     $sAnexoInspecao1 = $row['anexo_inspecao1'];
-    $pageCount = $pdf->setSourceFile('../../Uploads/' . $sAnexoInspecao1);
+    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexoInspecao1);
     for ($i = 0; $i < $pageCount; $i++) {
         $tpl = $pdf->importPage($i + 1, '/MediaBox');
         $pdf->addPage();

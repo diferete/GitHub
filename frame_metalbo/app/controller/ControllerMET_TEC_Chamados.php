@@ -12,12 +12,24 @@ class ControllerMET_TEC_Chamados extends Controller {
         $this->carregaClassesMvc('MET_TEC_Chamados');
     }
 
+    public function antesDeCriarConsulta($sParametros = null) {
+        parent::antesDeCriarConsulta($sParametros);
+
+        $this->Persistencia->updateTempoRestante();
+    }
+
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
 
         $sChave = htmlspecialchars_decode($sParametros[0]);
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
+        if ($_SESSION['codsetor'] == 2) {
+            $aRetorno = array();
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        }
 
         if ($this->Model->getSituaca() != 'AGUARDANDO') {
             $oMensagem = new Modal('Atenção!', 'O cadastro Nº' . $this->Model->getNr() . ' não pode ser modificadao somente visualizado!', Modal::TIPO_ERRO, false, true, true);
@@ -64,8 +76,8 @@ class ControllerMET_TEC_Chamados extends Controller {
         return $aRetorno;
     }
 
-    public function afterInsert() {
-        parent::afterInsert();
+    public function afterCommitInsert() {
+        parent::afterCommitInsert();
         $aCampos = $this->getArrayCampostela();
 
         $oDados = $this->Persistencia->buscaDadosChamado($aCampos);
@@ -98,7 +110,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
-        $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
+        $oEmail->setAssunto(utf8_decode('CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
         $oEmail->setMensagem(utf8_decode('Novo chamado:<br/>'
                         . '<b>Usuário:</b> ' . $aCampos['usunome'] . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
@@ -134,7 +146,7 @@ class ControllerMET_TEC_Chamados extends Controller {
             return $aRetorno;
         } else {
 
-            $oMensagem2 = new Mensagem('E-mail', 'SEU REGISTRO FOI INSERIDO!', Mensagem::TIPO_SUCESSO, 20000);
+            $oMensagem2 = new Mensagem('Sucesso', 'SEU REGISTRO FOI INSERIDO!', Mensagem::TIPO_SUCESSO, 20000);
             $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, saia e tente utilize o botão: E-MAIL -> REENVIAR E-MAIL', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
             echo $oMensagem2->getRender();
@@ -200,15 +212,21 @@ class ControllerMET_TEC_Chamados extends Controller {
     public function apontaChamadoInicia() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-        $aRetorno = $this->Persistencia->iniciaChamado($aCampos);
-        if ($aRetorno[0]) {
-            $oMsg = new Modal('Tudo certo', 'Chamado foi iniciado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
-            echo "$('#criaModalApontaChamado-btn').click();";
-            echo $oMsg->getRender();
+
+        if ($aCampos['previsao'] == '' || $aCampos['previsao'] == null) {
+            $oMensagem = new Mensagem('Atenção', 'Informe uma previsão de atendimento!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
         } else {
-            $oMsg = new Modal('Atenção', 'Erro ao tentar iniciar o chamado', Modal::TIPO_AVISO, false, true, false);
-            echo "$('#criaModalApontaChamado-btn').click();";
-            echo $oMsg->getRender();
+            $aRetorno = $this->Persistencia->iniciaChamado($aCampos);
+            if ($aRetorno[0]) {
+                $oMsg = new Modal('Tudo certo', 'Chamado foi iniciado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+                echo "$('#criaModalApontaChamado-btn').click();";
+                echo $oMsg->getRender();
+            } else {
+                $oMsg = new Modal('Atenção', 'Erro ao tentar iniciar o chamado', Modal::TIPO_AVISO, false, true, false);
+                echo "$('#criaModalApontaChamado-btn').click();";
+                echo $oMsg->getRender();
+            }
         }
     }
 
@@ -290,9 +308,6 @@ class ControllerMET_TEC_Chamados extends Controller {
         }
     }
 
-    /**
-     * Monta Wizard linha do tempo OnClick para Gerenciar Projetos
-     * */
     public function calculoPersonalizado($sParametros = null) {
         parent::calculoPersonalizado($sParametros);
 
@@ -481,7 +496,7 @@ class ControllerMET_TEC_Chamados extends Controller {
                     break;
             }
 
-            $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
+            $oEmail->setAssunto(utf8_decode('CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
             $oEmail->setMensagem(utf8_decode('Novo chamado:<br/>'
                             . '<b>Usuário:</b> ' . $oDados->usunome . '<br/><br/><br/>'
                             . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '

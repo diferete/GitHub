@@ -61,6 +61,10 @@ $aSomaValorTotal = array();
 
 foreach ($aItens as $key => $aValue) {
 
+    if ($aValue['quant'] == '') {
+        $sQntMin = Util::ValorSql($aValue['cxnormal']);
+        $aValue['quant'] = intval($sQntMin) / 100;
+    }
 
     $sValorTot = number_format($aValue['quant'] * $aValue['precoItem'], 2, ',', '.');
     if ($sValorTot == 0) {
@@ -70,9 +74,6 @@ foreach ($aItens as $key => $aValue) {
         array_push($aSomaValorTotal, $sValorTot);
     }
 
-    if ($aValue['quant'] == '') {
-        $aValue['quant'] = 0;
-    }
 
     //$pdf->Cell(203, 1, " ", 'T', 1, 'L');
 
@@ -119,7 +120,7 @@ foreach ($aItens as $key => $aValue) {
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(21, 5, "Qnt. Cento: ", 'B', 0, 'L');
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(23, 5, $aValue['quant'], 'B', 0, 'L');
+    $pdf->Cell(23, 5, ltrim($aValue['quant'], '0'), 'B', 0, 'L');
 
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(21, 5, "Qnt. Peças: ", 'B', 0, 'L');
@@ -132,10 +133,15 @@ foreach ($aItens as $key => $aValue) {
     $pdf->Cell(25, 5, 'R$ ' . $aValue['preco'], 'B', 0, 'L');
 
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(30, 5, "Total do item¹: ", 'B', 0, 'L');
+    $pdf->Cell(22, 5, "Total do item", 'B', 0, 'L');
+    $pdf->SetTextColor(255, 0, 0);
+    $pdf->Cell(2, 5, "¹", 'B', 0, 'L');
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell(3, 5, ":", 'B', 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(29, 5, 'R$ ' . number_format($sValorTot, 2, ',', '.'), 'B', 1, 'L');
     $pdf->Ln(1);
+    $pdf = quebraPagina($pdf->GetY() + 20, $pdf);
 }
 
 $totalPedido = '0,00';
@@ -147,7 +153,11 @@ foreach ($aSomaValorTotal as $key => $value) {
 
 
 $pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(170, 5, "Total do pedido²:", 0, 0, 'R');
+$pdf->Cell(160, 5, "Total", 0, 0, 'R');
+$pdf->SetTextColor(255, 0, 0);
+$pdf->Cell(2, 5, "²", 0, 0, 'R');
+$pdf->SetTextColor(0, 0, 0);
+$pdf->Cell(3, 5, ":", 0, 0, 'R');
 $pdf->SetFont('Arial', '', 10);
 $pdf->SetFillColor(255, 255, 153);
 $pdf->Cell(30, 5, '     R$ ' . number_format($totalPedido, 2, ',', '.'), 0, 1, 'L', 1);
@@ -203,3 +213,17 @@ if ($sEmail != '') {
     $sMensagem;
 }
 return $sMensagem;
+
+/**
+ * Função que quebra página em uma dada altura do PDF
+ * @param type $i
+ * @param type $pdf
+ * @return type
+ */
+function quebraPagina($i, $pdf) {
+    if ($i >= 270) {    // 275 é o tamanho da página
+        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
+        $pdf->SetY(10);
+    }
+    return $pdf;
+}
