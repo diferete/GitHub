@@ -31,9 +31,9 @@ class ViewSTEEL_PCP_OrdensFab extends View{
         $oPeso = new CampoConsulta('Peso','peso', CampoConsulta::TIPO_DECIMAL);
         $oRetrabalho = new CampoConsulta('Retr.','retrabalho', CampoConsulta::TIPO_TEXTO);
         $oSituacao = new CampoConsulta('Situação', 'situacao');
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
-        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
-        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
         
         $oDocumento = new CampoConsulta('NotaEnt', 'documento');
         $oTipOrdem = new CampoConsulta('Tipo','tipoOrdem');

@@ -1,27 +1,29 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
 class ModelFinanRep {
-    private  $recdtemiss;
-    private  $empcod;
-    private  $empdes;
-    private  $recdocto;
-    private  $dias;
-    private  $recprdtpgt;
-    private  $recparnro;
-    private  $recprvlr;
-    private  $recprvlpgt;
-    private  $recprindtr;
-    private  $recprtirec;
-    private  $recprdtpro;
-    private  $bcodes;
-    private  $recprnro;
-    
+
+    private $recdtemiss;
+    private $empcod;
+    private $empdes;
+    private $recdocto;
+    private $dias;
+    private $recprdtpgt;
+    private $recparnro;
+    private $recprvlr;
+    private $recprvlpgt;
+    private $recprindtr;
+    private $recprtirec;
+    private $recprdtpro;
+    private $bcodes;
+    private $rechist;
+    private $recprnro;
+
     function getRecdtemiss() {
         return $this->recdtemiss;
     }
@@ -72,6 +74,10 @@ class ModelFinanRep {
 
     function getBcodes() {
         return $this->bcodes;
+    }
+
+    function getRechist() {
+        return $this->rechist;
     }
 
     function getRecprnro() {
@@ -130,12 +136,12 @@ class ModelFinanRep {
         $this->bcodes = $bcodes;
     }
 
+    function setRechist($rechist) {
+        $this->rechist = $rechist;
+    }
+
     function setRecprnro($recprnro) {
         $this->recprnro = $recprnro;
     }
 
-
-    
-    
-    
 }

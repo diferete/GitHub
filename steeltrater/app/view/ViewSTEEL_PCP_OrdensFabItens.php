@@ -56,8 +56,8 @@ class ViewSTEEL_PCP_OrdensFabItens extends View{
          $oHoraSaidaConsulta = new CampoConsulta('Hora Saída','horasaida_forno', CampoConsulta::TIPO_TIME);
          
          $oSituacaoConsulta = new CampoConsulta('Situação','situacao');
-        $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
-         $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+         $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, '');
          $oSituacaoConsulta->setBComparacaoColuna(true);
          $oSituacaoConsulta->setILargura(11);
          
@@ -114,8 +114,8 @@ class ViewSTEEL_PCP_OrdensFabItens extends View{
          $oHoraSaidaConsulta = new CampoConsulta('Hora Saída','horasaida_forno', CampoConsulta::TIPO_TIME);
          
          $oSituacaoConsulta = new CampoConsulta('Situação','situacao');
-        $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
-         $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+         $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, '');
          $oSituacaoConsulta->setBComparacaoColuna(true);
          $oSituacaoConsulta->setILargura(11);
          

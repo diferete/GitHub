@@ -73,11 +73,11 @@ $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
         $pdf->Rect(2,32,206,50);  
         
        if($sLogo !=='semlogo'){
-       // $pdf->Image('../../biblioteca/assets/images/logoemp.png',3,10,40); // INSERE UMA LOGOMARCA NO PONTO X = 11, Y = 11, E DE TAMANHO 40.
+       // $pdf->Image('../../biblioteca/assets/images/logopn.png',3,10,40); // INSERE UMA LOGOMARCA NO PONTO X = 11, Y = 11, E DE TAMANHO 40.
            if($sImgRel!==''){
            $pdf->Image('../../Uploads/'.$sImgRel,3,10,40);
            }else{
-             $pdf->Image('../../biblioteca/assets/images/logoemp.png',3,10,40);  
+             $pdf->Image('../../biblioteca/assets/images/logopn.png',3,10,40);  
            }
            
        }

@@ -2870,7 +2870,7 @@ class Danfe extends Common {
                 $this->pdf->textBox($x, $y, $w7, $h, $texto, $aFont, 'T', $alinhamento, 0, '');
                 $x += $w7;
                 // Valor Unitário
-                $texto = number_format($prod->getElementsByTagName("vUnCom")->item(0)->nodeValue, 4, ",", ".");
+                $texto = number_format($prod->getElementsByTagName("vUnCom")->item(0)->nodeValue, 2, ",", ".");
                 $this->pdf->textBox($x, $y, $w8, $h, $texto, $aFont, 'T', $alinhamento, 0, '');
                 $x += $w8;
                 // Valor do Produto

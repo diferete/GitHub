@@ -368,7 +368,7 @@ $sRep = $_REQUEST['repr'];
 $sql1 = "select * from MET_TEC_Chamados "
         . "left outer join MetCad_Setores "
         . "on MetCad_Setores.codsetor = MET_TEC_Chamados.setor "
-        . "where filcgc = 75483040000211 and MET_TEC_Chamados.descsetor <>'REPRESENTANTES' "
+        . "where filcgc = 75483040000211 and MET_TEC_Chamados.setor <> 48 "
         . "and datacad between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
 if($sCodSetor!='Todos'){
     $sql1.=" and MET_TEC_Chamados.setor =". $sCodSetor." ";

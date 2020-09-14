@@ -18,8 +18,8 @@ class ViewSTEEL_PCP_TabCabPreco extends View {
         $oTab = new CampoConsulta('Tabela', 'nometabela');
         $oNrfiltro = new Filtro($oNr,Filtro::CAMPO_TEXTO_IGUAL,3);
         $oSit = new CampoConsulta('Situação','sit');
-        $oSit->addComparacao('ATIVA', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
-        $oSit->addComparacao('INATIVA', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
+        $oSit->addComparacao('ATIVA', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
+        $oSit->addComparacao('INATIVA', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
        
 
         $this->setUsaAcaoExcluir(false);

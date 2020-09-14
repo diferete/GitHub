@@ -29,10 +29,10 @@ class ViewPoliCadMaq extends View {
         $oResp = new CampoConsulta('Responsável', 'responsavel');
 
         $oSit = new CampoConsulta('Situação', 'ativa');
-        $oSit->addComparacao('Ativa', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSit->addComparacao('Ativa', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oSit->setBComparacaoColuna(true);
 
-        $oSit->addComparacao('Desativada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oSit->addComparacao('Desativada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, '');
         $oSit->setBComparacaoColuna(true);
 
         $oFiltro1 = new Filtro($oMaquina, Campo::TIPO_TEXTO, 2);

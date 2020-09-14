@@ -23,9 +23,9 @@ class ViewSTEEL_PCP_GerenciaApont extends View{
         $oHoraSai = new CampoConsulta('Hora Saida','horasaida_forno', CampoConsulta::TIPO_TIME);
         $oSituacao = new CampoConsulta('Situação', 'situacao');
         
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
-        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
-        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
         
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL,1);
         $oSeqFiltro = new Filtro($oSeq, Filtro::CAMPO_TEXTO_IGUAL,1);
@@ -199,8 +199,8 @@ class ViewSTEEL_PCP_GerenciaApont extends View{
          $oHoraSaidaConsulta = new CampoConsulta('Hora Saída','horasaida_forno', CampoConsulta::TIPO_TIME);
          
          $oSituacaoConsulta = new CampoConsulta('Situação','situacao');
-         $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
-         $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+         $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+         $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, '');
          $oSituacaoConsulta->setBComparacaoColuna(true);
          $oSituacaoConsulta->setILargura(11);
          

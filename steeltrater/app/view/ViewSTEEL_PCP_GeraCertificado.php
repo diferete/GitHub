@@ -25,15 +25,15 @@ class ViewSTEEL_PCP_GeraCertificado extends View{
         $oProdes = new CampoConsulta('Descrição','prodes');
         $oQuant = new CampoConsulta('Qt.','quant', CampoConsulta::TIPO_DECIMAL);
         $oSituacao = new CampoConsulta('Sit', 'situacao');
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
-        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
-        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
         $oCliente = new CampoConsulta('Cliente', 'emp_razaosocial');
         $oCnpj = new CampoConsulta('Cnpj','emp_codigo');
         $oNotaEnt = new CampoConsulta('NotaEnt', 'documento');
         
         $oGeraCert = new CampoConsulta('Nr.Cert','nrcert');
-        $oGeraCert->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
+        $oGeraCert->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, '');
         $oGeraCert->setBComparacaoColuna(true);
         
         

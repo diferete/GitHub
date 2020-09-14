@@ -33,7 +33,7 @@ $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //seta as margens
 $pdf->SetMargins(2, 10, 2);
 
-$pdf->Image('../../biblioteca/assets/images/logoemp.png', 3, 10, 40); // INSERE UMA LOGOMARCA NO PONTO X = 11, Y = 11, E DE TAMANHO 40.
+$pdf->Image('../../biblioteca/assets/images/logopn.png', 3, 10, 40); // INSERE UMA LOGOMARCA NO PONTO X = 11, Y = 11, E DE TAMANHO 40.
 $pdf->SetFont('Arial', 'B', 16);
 
 $pdf->Cell(190, 18, 'Saldos de pedidos de venda', 0, 1, 'C');

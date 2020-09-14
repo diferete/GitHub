@@ -34,10 +34,10 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
        
         
         $oSitLista = new CampoConsulta('Sit.Lista', 'STEEL_PCP_ordensFabLista.situacao');
-       // $oSitLista->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
-        $oSitLista->addComparacao('Espera', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
-        $oSitLista->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
-        $oSitLista->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA);
+       // $oSitLista->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
+        $oSitLista->addComparacao('Espera', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+        $oSitLista->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
+        $oSitLista->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA, false, '');
         
         $oCliente = new CampoConsulta('Cliente','emp_razaosocial');
         $oCliente->setBTruncate(true);

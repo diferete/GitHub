@@ -31,11 +31,11 @@ class ViewSTEEL_PCP_NotaImportaNf extends View{
         $oRoeNro = new CampoConsulta('Romaneio','RoeNro');
         $oMetOf = new CampoConsulta('OP Metalbo','metof');
         $oMetMat = new CampoConsulta('Material','metmat');
-        $oMetMat->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+        $oMetMat->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, '');
         $oMetMat->setBComparacaoColuna(true);
         
         
-        $oOpSteel->addComparacao('0', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
+        $oOpSteel->addComparacao('0', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, '');
         $oOpSteel->setBComparacaoColuna(true);
         
         $this->addCampos($oBotaoConsulta,$oNf,$oOpSteel,$oProd,$oDes,$oQt,$oData,$oMetOf,$oMetMat,$oRoeNro,$oSeq);

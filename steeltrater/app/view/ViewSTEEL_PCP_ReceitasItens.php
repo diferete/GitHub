@@ -19,7 +19,7 @@ class ViewSTEEL_PCP_ReceitasItens extends View {
         $oCamadaMin = new CampoConsulta('CamadaMín','camada_min', CampoConsulta::TIPO_DECIMAL);
         $oCamadaMax = new CampoConsulta('CamadaMáx','camada_max', CampoConsulta::TIPO_DECIMAL);
         $oTemperatura = new CampoConsulta('Temperatura','temperatura', CampoConsulta::TIPO_DECIMAL);
-        $oTemperatura->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oTemperatura->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oTemperatura->setBComparacaoColuna(true);
         
         $this->addCampos($oCod,$oSeq,$oTrat,$oTratDes,$oTemperatura);

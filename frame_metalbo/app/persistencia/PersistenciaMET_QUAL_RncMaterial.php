@@ -4,7 +4,7 @@
  * @author Cleverton Hoffmann
  * @since 25/08/2020
  */
- 
+
 class PersistenciaMET_QUAL_RncMaterial extends Persistencia {
  
     public function __construct() {

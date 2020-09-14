@@ -21,7 +21,7 @@ class ViewMET_TEC_Soluser extends View{
         $oUsuLogin = new CampoConsulta('Login','usulogin', CampoConsulta::TIPO_LARGURA,20);
         $oUsuEmail = new CampoConsulta('E-mail','usuemail', CampoConsulta::TIPO_LARGURA,20);
         $oUsusit = new CampoConsulta('Sit.','ususit', CampoConsulta::TIPO_LARGURA,20);
-        $oUsusit->addComparacao('Aguardando cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
+        $oUsusit->addComparacao('Aguardando cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, '');
         $oObs = new CampoConsulta('Obs','obs', CampoConsulta::TIPO_LARGURA,20);
         $oData = new CampoConsulta('Data','dataSolUser', CampoConsulta::TIPO_DATA,20);
         

@@ -60,7 +60,7 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oFilNF = new Filtro($oNf, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
 
         $oFilEnvEmail = new Filtro($oNfEnvEmail, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
-        $oFilEnvEmail->addItemSelect('', 'Não Enviado');
+        $oFilEnvEmail->addItemSelect('', 'Todos');
         $oFilEnvEmail->addItemSelect('S', 'Xml Enviado');
         $oFilEnvEmail->setSLabel('');
 

@@ -60,7 +60,7 @@ class ViewSTEEL_PCP_pesqServico extends View{
         $oPesoBruto = new CampoConsulta('Peso bruto', 'pro_pesobruto', CampoConsulta::TIPO_DECIMAL);
 
         $oBloqueio = new CampoConsulta('Data Bloqueio','STEEL_PCP_ProdutoFilial.pro_filialdtbloqueado');
-        $oBloqueio->addComparacao('1753-01-01 00:00:00.000', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);  
+        $oBloqueio->addComparacao('1753-01-01 00:00:00.000', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');  
         
         $oMotivoBloqueio = new CampoConsulta('Motivo Bloqueio','STEEL_PCP_ProdutoFilial.pro_filialmotivobloqueio');
         

@@ -109,8 +109,8 @@ class ViewGerenContPagar extends View{
         $oSitPag = new CampoConsulta('Situação', 'contsit');
         $oFiltroDoc = new Filtro($oNfdoc, Filtro::CAMPO_TEXTO,2);
         
-        $oSitPag->addComparacao('Sem pagamento', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
-        $oSitPag->addComparacao('Pago', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oSitPag->addComparacao('Sem pagamento', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
+        $oSitPag->addComparacao('Pago', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
         
         $this->addCampos($oNfdoc,$oNfserie, $oPescnpj,$oPesrazao,$oParcSeq,$oNfqValor,$oVenc,$oSitPag);
         $this->addFiltro($oFiltroDoc);

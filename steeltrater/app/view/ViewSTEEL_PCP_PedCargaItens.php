@@ -51,7 +51,7 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
         $oNcm = new CampoConsulta('NCM', 'DELX_PRO_Produtos.pro_ncm');
         $oNcm->setILargura(100);
         $oTipo = new CampoConsulta('Tipo','STEEL_PCP_CargaInsumoServ.pdv_insserv');
-        $oTipo->addComparacao('RETORNO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+        $oTipo->addComparacao('RETORNO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
         $oTipo->setILargura(50);
         $oAlerta = new CampoConsulta('Alertas','STEEL_PCP_CargaInsumoServ.alerta');
         

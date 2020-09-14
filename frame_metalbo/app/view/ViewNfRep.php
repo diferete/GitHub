@@ -13,22 +13,39 @@ class ViewNfRep extends View {
 
         $this->getTela()->setBMostraFiltro(true);
 
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaDropdown(true);
+
+
         //adiciona grid dos produtos
         $oGridItens = new Campo('Itens da Nota Fiscal', 'Itens Nf', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
+
         $oNfsnfnro = new CampoConsulta('Nota Fiscal', 'nfsnfnro');
         $oNfsnfnro->setILargura(80);
+
         $oNfSitcod = new CampoConsulta('Código', 'nfsitcod');
         $oNfSitcod->setILargura(80);
+
         $oNfSitDes = new CampoConsulta('Descrição', 'nfsitdes');
         $oNfSitDes->setILargura(500);
+
         $oNfSitQtd = new CampoConsulta('Quant.', 'nfsitqtd', CampoConsulta::TIPO_DECIMAL);
         $oNfSitQtd->setILargura(70);
+
         $oVlrUnit = new CampoConsulta('Vlr. Unit', 'nfsitvlrun', CampoConsulta::TIPO_MONEY);
         $oVlrUnit->setILargura(100);
+
         $oTotal = new CampoConsulta('Total', 'nfsitvlrto', CampoConsulta::TIPO_MONEY);
+
         $oPedido = new CampoConsulta('Pedido', 'nfsitpdvnr');
+
         $oNfSeq = new CampoConsulta('Seq.', 'nfsitseq');
         $oNfSeq->setILargura(30);
+
         $oGridItens->addCampos($oNfsnfnro, $oNfSeq, $oNfSitcod, $oNfSitDes, $oNfSitQtd, $oVlrUnit, $oTotal, $oPedido);
 
         $oGridItens->setSController('NfRepIten');
@@ -44,24 +61,33 @@ class ViewNfRep extends View {
 
         //campos abaixo do grid principal  
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
+
         $oOrdens = new Campo('PEDIDOS', 'pedidoocobs', Campo::TIPO_TEXTO, 5);
         $oOrdens->setSCorFundo(Campo::FUNDO_AMARELO);
+
         $oAllOrdem = new Campo('ORDENS DE COMPRA', 'allod', Campo::TIPO_TEXTO, 5);
         $oAllOrdem->setSCorFundo(Campo::FUNDO_AMARELO);
 
         $this->getTela()->setIAltura(250);
 
         $oNf = new CampoConsulta('Nota', 'nfsnfnro', CampoConsulta::TIPO_LARGURA, 20);
+
         $oCliCod = new CampoConsulta('Cnpj', 'nfsclicod', CampoConsulta::TIPO_LARGURA, 20);
+
         $oCliente = new CampoConsulta('Cliente', 'nfsclinome', CampoConsulta::TIPO_LARGURA, 20);
+
         $oNfDataEmi = new CampoConsulta('Emissão', 'nfsdtemiss', CampoConsulta::TIPO_DATA);
         $oNfDataEmi->setILargura(30);
+
         $oHoraEmi = new CampoConsulta('Hora', 'nfshrsaida');
         $oHoraEmi->setILargura(40);
+
         $oTotal1 = new CampoConsulta('Total', 'nfsvlrtot', CampoConsulta::TIPO_MONEY);
         $oTotal1->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oTotal1->setBComparacaoColuna(true);
+
         $oTranome = new CampoConsulta('Transportador', 'nfstranome');
+
         $oPeso = new CampoConsulta('Peso', 'nfspesobr', CampoConsulta::TIPO_DECIMAL);
 
         $oSitNf = new CampoConsulta('Situação', 'nfsnfesit');
@@ -93,13 +119,7 @@ class ViewNfRep extends View {
         $oFilEnvEmail->addItemSelect('', 'Não Enviado');
         $oFilEnvEmail->addItemSelect('S', 'Xml Enviado');
 
-        $this->addFiltro($oFiltroNota, $oFiltroCliente, $oFilCnpj, $oFiltroData, $oFilEnvEmail);
-
-        $this->setBScrollInf(true);
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoIncluir(false);
-        $this->setUsaDropdown(true);
+        $this->addFiltro($oFiltroNota, $oFilCnpj, $oFiltroCliente, $oFiltroData, $oFilEnvEmail);
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("","NfRep","camposGrid","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oOrdens->getId() . '"+","+"' . $oAllOrdem->getId() . '");'

@@ -33,14 +33,14 @@ class ViewOd extends View{
         $oContatoFiltro = new Filtro($oContato,  Campo::TIPO_TEXTO,3);
         $oOdNr = new Filtro($oOdnrj,  Campo::TIPO_TEXTO,2);
         
-        $oOdSit->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
-        $oOdSit->addComparacao('Encerrada sem Faturamento', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA);
-        $oOdSit->addComparacao('Lib. Faturamento', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oOdSit->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+        $oOdSit->addComparacao('Encerrada sem Faturamento', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA, false, '');
+        $oOdSit->addComparacao('Lib. Faturamento', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
         $oOdSit->setBComparacaoColuna(true);
         
-        $oOdTipo->addComparacao('Pedido de venda', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);//Ordem de serviço
-        $oOdTipo->addComparacao('Ordem de serviço', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
-        $oOdTipo->addComparacao('Cotação', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA);
+        $oOdTipo->addComparacao('Pedido de venda', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');//Ordem de serviço
+        $oOdTipo->addComparacao('Ordem de serviço', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+        $oOdTipo->addComparacao('Cotação', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA, false, '');
         
         $oOdTipo->setBComparacaoColuna(true);
         

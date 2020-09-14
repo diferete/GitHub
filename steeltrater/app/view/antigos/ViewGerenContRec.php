@@ -21,8 +21,8 @@ class ViewGerenContRec extends View{
         $oRecVlr =  new CampoConsulta('Valor','recparcvlr');
         $oRecVenc =  new CampoConsulta('Vencimento','recparcvenc');
         $oRecSit = new CampoConsulta('Situação','recsit');
-        $oRecSit->addComparacao('Em aberto', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
-        $oRecSit->addComparacao('Pago', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oRecSit->addComparacao('Em aberto', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+        $oRecSit->addComparacao('Pago', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oRecSit->setBComparacaoColuna(true);
         
          $this->setUsaDropdown(true);

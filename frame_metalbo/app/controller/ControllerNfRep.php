@@ -1,32 +1,33 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-class ControllerNfRep extends Controller{
+class ControllerNfRep extends Controller {
+
     public function __construct() {
         $this->carregaClassesMvc('NfRep');
     }
-    
+
     /**
      * Método que alimenta os campos abaixo do grid
      */
-    
-    public function camposGrid($sDados){
-        $aDados = explode(',',$sDados);
+    public function camposGrid($sDados) {
+        $aDados = explode(',', $sDados);
         $aNfs = explode('=', $aDados[1]);
         $sNf = $aNfs[1];
-        
+
         //busca os pedidos e as observações da nota fiscal
         $sObsPed = $this->Persistencia->buscaPed($sNf);
         //buca todas as od
         $sOds = $this->Persistencia->buscaTodasOd($sNf);
-        echo '$("#'.$aDados[2].'").val("'.$sObsPed.'");';
-        echo '$("#'.$aDados[3].'").val("'.$sOds.'");';
+        echo '$("#' . $aDados[2] . '").val("' . $sObsPed . '");';
+        echo '$("#' . $aDados[3] . '").val("' . $sOds . '");';
     }
+
     /////////////////////////////////////////////////////////
     public function enviaXML($sDados) {
         $aDados = explode(',', $sDados);
@@ -68,7 +69,7 @@ class ControllerNfRep extends Controller{
             }
         }
     }
-    
+
     public function beforeMostraRelConsulta($sParametros) {
         parent::beforeMostraRelConsulta($sParametros);
 
@@ -91,7 +92,7 @@ class ControllerNfRep extends Controller{
             if ($oRetorno->nfsfilcgc == '75483040000130') {
                 $sDir = $sDir . '75483040000130-REX';
             }
-            
+
             $sData = date('d/m/Y', strtotime($oRetorno->nfsdtemiss));
             $aPastasDir = explode('/', $sData);
 
@@ -115,24 +116,24 @@ class ControllerNfRep extends Controller{
     public function enviaXmlAutomatizado() {
         require 'app/relatorio/DanfeEnvAutomatico.php';
     }
-    
+
     //////////////////////////////////////////////////////////
-     public function mostraTelaRelFat($renderTo, $sMetodo = '') {
+    public function mostraTelaRelFat($renderTo, $sMetodo = '') {
         parent::mostraTelaRelatorio($renderTo, 'RelRepFat');
-    }  
-    
+    }
+
     public function getSget() {
         parent::getSget();
-        
-        $sGet ='&codrep='.$_SESSION['repsoffice'];
-        if(isset($_REQUEST['nfsfilcgc'])){
-            $sGet .='&nfsfilcgc='.$_REQUEST['nfsfilcgc'];
+
+        $sGet = '&codrep=' . $_SESSION['repsoffice'];
+        if (isset($_REQUEST['nfsfilcgc'])) {
+            $sGet .= '&nfsfilcgc=' . $_REQUEST['nfsfilcgc'];
         }
-        if(isset($_REQUEST['nfsnfser'])){
-            $sGet .='&nfsnfser='.$_REQUEST['nfsnfser'];
+        if (isset($_REQUEST['nfsnfser'])) {
+            $sGet .= '&nfsnfser=' . $_REQUEST['nfsnfser'];
         }
-       
+
         return $sGet;
-    }    
-    
+    }
+
 }

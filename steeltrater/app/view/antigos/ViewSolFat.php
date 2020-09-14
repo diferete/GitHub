@@ -25,19 +25,19 @@ class ViewSolFat extends View{
         
        
         $oFatod = new CampoConsulta('Ordem','fatod');
-        $oFatod->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA);
+        $oFatod->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AMARELO,CampoConsulta::MODO_COLUNA, false, '');
         $oFatod->setBComparacaoColuna(true);
         
-        $oFatsit->addComparacao('Não gerada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);//Ordem de serviço
-        $oFatsit->addComparacao('Faturada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oFatsit->addComparacao('Não gerada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');//Ordem de serviço
+        $oFatsit->addComparacao('Faturada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
        
         $oFatsit->setBComparacaoColuna(true);
         
         $oVlr = new CampoConsulta('Valor','fatvlrtot',  Campo::TIPO_MONEY);
         
         $oFatfinan = new CampoConsulta('Financeiro','fatfinan');
-        $oFatfinan->addComparacao('Com financeiro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
-        $oFatfinan->addComparacao('Sem financeiro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oFatfinan->addComparacao('Com financeiro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
+        $oFatfinan->addComparacao('Sem financeiro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, '');
         $oFatfinan->setBComparacaoColuna(true);
         
         $this->addCampos($oFatnro,$oFatod,$oCnpj,$oCliente,$oContato,$oVlr,$oFatsit,$oFatfinan);

@@ -77,7 +77,7 @@ $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
             if($sImgRel!==''){
            $pdf->Image('../../Uploads/'.$sImgRel,3,10,40);
            }else{
-             $pdf->Image('../../biblioteca/assets/images/logoemp.png',3,10,40);  
+             $pdf->Image('../../biblioteca/assets/images/spng',3,10,40);  
            }
         }
         $pdf->SetFont('Arial','B',16);

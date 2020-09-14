@@ -4,24 +4,6 @@ class ModelModulo {
 
     private $modcod;
     private $modescricao;
-    private $uploads;
-    private $uploadmulti;
-
-    function getUploads() {
-        return $this->uploads;
-    }
-
-    function getUploadmulti() {
-        return $this->uploadmulti;
-    }
-
-    function setUploads($uploads) {
-        $this->uploads = $uploads;
-    }
-
-    function setUploadmulti($uploadmulti) {
-        $this->uploadmulti = $uploadmulti;
-    }
 
     function getModcod() {
         return $this->modcod;
