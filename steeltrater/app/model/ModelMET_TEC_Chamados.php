@@ -8,14 +8,15 @@
 
 class ModelMET_TEC_Chamados {
 
-    private $nr;
     private $filcgc;
+    private $nr;
     private $usucod;
     private $usunome;
     private $datacad;
     private $horacad;
     private $repoffice;
     private $setor;
+    private $descsetor;
     private $tipo;
     private $subtipo;
     private $subtipo_nome;
@@ -31,45 +32,32 @@ class ModelMET_TEC_Chamados {
     private $anexo1;
     private $anexo2;
     private $anexo3;
+    private $anexofim;
+    private $previsao;
+    private $dias;
 
-    function getAnexo1() {
-        return $this->anexo1;
+    function getDias() {
+        return $this->dias;
     }
 
-    function getAnexo2() {
-        return $this->anexo2;
+    function setDias($dias) {
+        $this->dias = $dias;
     }
 
-    function getAnexo3() {
-        return $this->anexo3;
+    function getPrevisao() {
+        return $this->previsao;
     }
 
-    function setAnexo1($anexo1) {
-        $this->anexo1 = $anexo1;
-    }
-
-    function setAnexo2($anexo2) {
-        $this->anexo2 = $anexo2;
-    }
-
-    function setAnexo3($anexo3) {
-        $this->anexo3 = $anexo3;
-    }
-
-    function getSubtipo_nome() {
-        return $this->subtipo_nome;
-    }
-
-    function setSubtipo_nome($subtipo_nome) {
-        $this->subtipo_nome = $subtipo_nome;
-    }
-
-    function getNr() {
-        return $this->nr;
+    function setPrevisao($previsao) {
+        $this->previsao = $previsao;
     }
 
     function getFilcgc() {
         return $this->filcgc;
+    }
+
+    function getNr() {
+        return $this->nr;
     }
 
     function getUsucod() {
@@ -96,12 +84,20 @@ class ModelMET_TEC_Chamados {
         return $this->setor;
     }
 
+    function getDescsetor() {
+        return $this->descsetor;
+    }
+
     function getTipo() {
         return $this->tipo;
     }
 
     function getSubtipo() {
         return $this->subtipo;
+    }
+
+    function getSubtipo_nome() {
+        return $this->subtipo_nome;
     }
 
     function getProblema() {
@@ -116,16 +112,8 @@ class ModelMET_TEC_Chamados {
         return $this->usunomeinicio;
     }
 
-    function getUsucodigoinicio() {
-        return $this->usucodigoinicio;
-    }
-
     function getUsunomefim() {
         return $this->usunomefim;
-    }
-
-    function getUsucodigofim() {
-        return $this->usucodigofim;
     }
 
     function getDatainicio() {
@@ -148,12 +136,28 @@ class ModelMET_TEC_Chamados {
         return $this->obsfim;
     }
 
-    function setNr($nr) {
-        $this->nr = $nr;
+    function getAnexo1() {
+        return $this->anexo1;
+    }
+
+    function getAnexo2() {
+        return $this->anexo2;
+    }
+
+    function getAnexo3() {
+        return $this->anexo3;
+    }
+
+    function getAnexofim() {
+        return $this->anexofim;
     }
 
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
+    }
+
+    function setNr($nr) {
+        $this->nr = $nr;
     }
 
     function setUsucod($usucod) {
@@ -180,12 +184,20 @@ class ModelMET_TEC_Chamados {
         $this->setor = $setor;
     }
 
+    function setDescsetor($descsetor) {
+        $this->descsetor = $descsetor;
+    }
+
     function setTipo($tipo) {
         $this->tipo = $tipo;
     }
 
     function setSubtipo($subtipo) {
         $this->subtipo = $subtipo;
+    }
+
+    function setSubtipo_nome($subtipo_nome) {
+        $this->subtipo_nome = $subtipo_nome;
     }
 
     function setProblema($problema) {
@@ -196,21 +208,12 @@ class ModelMET_TEC_Chamados {
         $this->situaca = $situaca;
     }
 
-
     function setUsunomeinicio($usunomeinicio) {
         $this->usunomeinicio = $usunomeinicio;
     }
 
-    function setUsucodigoinicio($usucodigoinicio) {
-        $this->usucodigoinicio = $usucodigoinicio;
-    }
-
     function setUsunomefim($usunomefim) {
         $this->usunomefim = $usunomefim;
-    }
-
-    function setUsucodigofim($usucodigofim) {
-        $this->usucodigofim = $usucodigofim;
     }
 
     function setDatainicio($datainicio) {
@@ -231,6 +234,22 @@ class ModelMET_TEC_Chamados {
 
     function setObsfim($obsfim) {
         $this->obsfim = $obsfim;
+    }
+
+    function setAnexo1($anexo1) {
+        $this->anexo1 = $anexo1;
+    }
+
+    function setAnexo2($anexo2) {
+        $this->anexo2 = $anexo2;
+    }
+
+    function setAnexo3($anexo3) {
+        $this->anexo3 = $anexo3;
+    }
+
+    function setAnexofim($anexofim) {
+        $this->anexofim = $anexofim;
     }
 
 }

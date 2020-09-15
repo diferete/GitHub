@@ -214,7 +214,7 @@ class ViewSistema extends View {
                 . '<!-- End Navbar Toolbar -->'
                 . '<!--MENU DA DIREITA -->'
                 . '<ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">'
-                . '<li class="dropdown">'
+                /*. '<li class="dropdown">'
                 . '<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"'
                 . ' aria-expanded="false" role="button">'
                 . '<span class="flag-icon flag-icon-br"></span>'
@@ -232,7 +232,7 @@ class ViewSistema extends View {
                 . '</li>'
                 . '<li id="notificationList" onclick="testeMsg()" class="dropdown">'
                 . $this->montaListaNotificacoes()
-                . '</li> '
+                . '</li> '*/
                 . '<li class="dropdown">'
                 . '<a data-toggle="dropdown" href="javascript:void(0)" title="Informações do Usuário" aria-expanded="false"'
                 . ' data-animation="scale-up" role="button">'

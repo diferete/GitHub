@@ -1,1 +1,2 @@
-update tbusuario set tag_bloq = (select tag_bloq from tbusuario where usucodigo = ) +1 where usucodigo = 
+update tbsessao set usulastacesso = '2020-9-15 08:06:44' 
+            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'fol5jcp7uhr0q20nv68njpkocl'

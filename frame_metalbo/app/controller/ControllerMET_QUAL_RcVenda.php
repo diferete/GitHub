@@ -686,6 +686,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
 
         // Para
         $oEmail->addDestinatario('duda@metalbo.com.br');
+        $oEmail->addDestinatarioCopia('almoxarifado@metalbo.com.br');
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
