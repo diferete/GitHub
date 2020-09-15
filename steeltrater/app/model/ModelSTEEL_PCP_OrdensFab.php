@@ -82,6 +82,17 @@ class ModelSTEEL_PCP_OrdensFab {
     private $dataemidoc;
     private $serie_nf;
     
+    private $nfsnfechv;
+    
+    function getNfsnfechv() {
+        return $this->nfsnfechv;
+    }
+
+    function setNfsnfechv($nfsnfechv) {
+        $this->nfsnfechv = $nfsnfechv;
+    }
+
+        
     function getDataemidoc() {
         return $this->dataemidoc;
     }

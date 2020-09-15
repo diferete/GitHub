@@ -27,8 +27,9 @@ class ViewSTEEL_PCP_TabItemPreco extends View {
         
         
         $oTipo = new CampoConsulta('Tipo','tipo');
-        $oTipo->addComparacao('INSUMO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-        $oTipo->addComparacao('SERVIÇO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+        $oTipo->addComparacao('INSUMO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oTipo->addComparacao('SERVIÇO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+        $oTipo->addComparacao('ENERGIA', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA);
         
         $this->getTela()->setiAltura(750);
 
@@ -54,8 +55,9 @@ class ViewSTEEL_PCP_TabItemPreco extends View {
         $oPre = new CampoConsulta('Preço', 'preco', CampoConsulta::TIPO_EDITDECIMAL);
         $oPre->addAcao('STEEL_PCP_TabItemPreco', 'gravaPreco');
         $oTipo = new CampoConsulta('Tipo','tipo');
-        $oTipo->addComparacao('INSUMO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-        $oTipo->addComparacao('SERVIÇO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+        $oTipo->addComparacao('INSUMO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oTipo->addComparacao('SERVIÇO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+        $oTipo->addComparacao('ENERGIA', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA);
         $this->addCamposDetalhe($oNr,$oSeq,$oRec,$oRecDes,$oPro,$oProdDes,$oPre,$oNcm,$oTipo);
         $this->addGriTela($this->getOGridDetalhe());
         

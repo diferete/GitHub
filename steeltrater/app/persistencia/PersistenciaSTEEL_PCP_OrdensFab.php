@@ -84,6 +84,8 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         
         $this->adicionaRelacionamento('dataemidoc', 'dataemidoc');
         $this->adicionaRelacionamento('serie_nf', 'serie_nf');
+        
+        $this->adicionaRelacionamento('nfsnfechv','nfsnfechv');
       
         
         $this->adicionaOrderBy('op',1);
@@ -190,7 +192,8 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
               ."  where nfsfilcgc ='75483040000211' "
               ."  and nfsnfser = '2' "
               ."  and nfsnfnro = '".$aCamposChave['nfsnfnro']."' "
-              ."  and nfsitcod = '".$aCamposChave['nfsitcod']."'";
+              ."  and nfsitcod = '".$aCamposChave['nfsitcod']."'"
+              ."  and nfsitqtd = '".$aCamposChave['qtParam']."'";//< novo parametro
         
         $result = $this->getObjetoSql($sql);
         $row = $result->fetch(PDO::FETCH_OBJ);
@@ -228,6 +231,20 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
     public function origemRetrabalho($sOp){
         $sSql = "update STEEL_PCP_OrdensFab set retrabalho='OP origem retrabalho' where op='$sOp' ";
         $aRetorno = $this->executaSql($sSql);
+    }
+    
+    public function getChaveNfeMetalbo($sNf,$sNfSer){
+        $sSql = "select nfsnfechv from rex_maquinas.widl.NFC001(nolock) where nfsnfnro ='".$sNf."' and nfsnfser ='".$sNfSer."'";
+        $result = $this->getObjetoSql($sSql);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        return $row->nfsnfechv;
+    }
+    
+    public function getChaveNfeXml($sNf,$sNfSer){
+        $sSql = "select distinct(nfsnfechv) from STEEL_PCP_ImportaXml where nfnro ='".$sNf."' and nfser ='".$sNfSer."'";
+        $result = $this->getObjetoSql($sSql);
+        $row = $result->fetch(PDO::FETCH_OBJ);
+        return $row->nfsnfechv;
     }
     
 }

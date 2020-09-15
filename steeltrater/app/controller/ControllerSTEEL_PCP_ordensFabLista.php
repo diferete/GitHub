@@ -18,7 +18,7 @@ class ControllerSTEEL_PCP_ordensFabLista extends Controller {
      */
     public function insereLista($sDados){
         
-        $this->carregaModel($aCamposTela);
+        $this->carregaModel();
         
         
         date_default_timezone_set('America/Sao_Paulo');
@@ -79,7 +79,7 @@ class ControllerSTEEL_PCP_ordensFabLista extends Controller {
      */
     public function atualizarLista($sDados){
         
-        $this->carregaModel($aCamposTela);
+        $this->carregaModel();
         date_default_timezone_set('America/Sao_Paulo');
         $this->Persistencia->adicionaFiltro('op', $this->Model->getOp());
         $iAgenda = $this->Persistencia->getCount();

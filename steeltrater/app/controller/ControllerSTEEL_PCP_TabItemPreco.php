@@ -84,6 +84,9 @@ class ControllerSTEEL_PCP_TabItemPreco extends Controller {
           if ($oProdDados->getPro_grupocodigo()=='101'){
              $sRetorno = 'INSUMO';
          }
+          if ($oProdDados->getPro_grupocodigo()=='105'){
+             $sRetorno = 'ENERGIA';
+         }
          
          echo'$("#' . $aIds[0] . '").val("'.$sRetorno.'");';
          echo'$("#' . $aIds[1] . '").val("'.$sNcm.'");';

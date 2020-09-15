@@ -56,7 +56,7 @@ class ViewRepItenVenda extends View{
         $oQuant = new CampoConsulta('Quant','quant', CampoConsulta::TIPO_DECIMAL);
         $oQuant->setILargura(100);
         $oVlrUnit = new CampoConsulta('Valor Unit.','vlrunit', CampoConsulta::TIPO_DECIMAL);
-        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
+        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oVlrUnit->setBComparacaoColuna(true);
    
         $oValorTot = new CampoConsulta('Valor Tot.','vlrtot', CampoConsulta::TIPO_MONEY);
@@ -84,7 +84,7 @@ class ViewRepItenVenda extends View{
         $oData = new CampoConsulta('Data','data', CampoConsulta::TIPO_DATA);
         $oQuant = new CampoConsulta('Quant','quant', CampoConsulta::TIPO_DECIMAL);
         $oVlrUnit = new CampoConsulta('Valor Unit.','vlrunit', CampoConsulta::TIPO_MONEY);
-        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
+        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oVlrUnit->setBComparacaoColuna(true);
         $oValorTot = new CampoConsulta('Valor Tot.','vlrtot', CampoConsulta::TIPO_MONEY);
         $oDcompra = new CampoConsulta('Od','odcompra');

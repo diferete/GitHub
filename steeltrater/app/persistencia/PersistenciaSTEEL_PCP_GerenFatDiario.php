@@ -14,7 +14,7 @@ class PersistenciaSTEEL_PCP_GerenFatDiario extends Persistencia{
         $this->setTabela('');
     }
     
-    public function getFatDiario($sDataini,$sDataFim){
+    public function getFatDiario($sDataini,$sDataFim,$sDisp){
         $PDOnew = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
         
         $sSql = 'BEGIN TRY '
@@ -342,30 +342,55 @@ class PersistenciaSTEEL_PCP_GerenFatDiario extends Persistencia{
         $result = $PDOnew->query($sSql);
         $aDados = array();
         $aDadosGrid = array();
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            $aDados['dataChar'] = $row['dataChar'];
-            $aDados['PesoInd'] = $row['PesoInd'];
-            $aDados['ValorFat'] = $row['ValorFat'];
-            $aDados['ValorServico'] = $row['ValorServico'];
-            $aDados['ValorInsumo'] = $row['ValorInsumo'];
-            $aDados['PesoIndFio'] = $row['PesoIndFio'];
-            $aDados['ValorServicoFio'] = $row['ValorServicoFio'];
-            $aDados['ValorInsumoFio'] = $row['ValorInsumoFio'];
-            $aDados['PesoIndAcab'] = $row['PesoIndAcab'];
-            $aDados['ValorServicoAcab'] = $row['ValorServicoAcab'];
-            $aDados['ValorInsumoAcab'] = $row['ValorInsumoAcab'];
-            $aDadosGrid['grid'][] = $aDados;
+        //se dispositivo celular já formata os valores
+        if($sDisp=='celular'){
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                $aDados['dataChar'] = $row['dataChar'];
+                $aDados['PesoInd'] = number_format($row['PesoInd'],2,',','.');//$row['PesoInd'];
+                $aDados['ValorFat'] = number_format($row['ValorFat'],2,',','.');
+                $aDados['ValorServico'] = number_format($row['ValorServico'],2,',','.');
+                $aDados['ValorInsumo'] = number_format($row['ValorInsumo'],2,',','.');
+                $aDados['PesoIndFio'] = number_format($row['PesoIndFio'],2,',','.');
+                $aDados['ValorServicoFio'] = number_format($row['ValorServicoFio'],2,',','.');
+                $aDados['ValorInsumoFio'] = number_format($row['ValorInsumoFio'],2,',','.');
+                $aDados['PesoIndAcab'] = number_format($row['PesoIndAcab'],2,',','.');
+                $aDados['ValorServicoAcab'] = number_format($row['ValorServicoAcab'],2,',','.');
+                $aDados['ValorInsumoAcab'] = number_format($row['ValorInsumoAcab'],2,',','.');
+                $aDadosGrid['grid'][] = $aDados;
+            }
+        }else{
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                $aDados['dataChar'] = $row['dataChar'];
+                $aDados['PesoInd'] = $row['PesoInd'];//number_format($row['PesoInd'],2,',','.');//$row['PesoInd'];
+                $aDados['ValorFat'] = $row['ValorFat'];
+                $aDados['ValorServico'] = $row['ValorServico'];
+                $aDados['ValorInsumo'] = $row['ValorInsumo'];
+                $aDados['PesoIndFio'] = $row['PesoIndFio'];
+                $aDados['ValorServicoFio'] = $row['ValorServicoFio'];
+                $aDados['ValorInsumoFio'] = $row['ValorInsumoFio'];
+                $aDados['PesoIndAcab'] = $row['PesoIndAcab'];
+                $aDados['ValorServicoAcab'] = $row['ValorServicoAcab'];
+                $aDados['ValorInsumoAcab'] = $row['ValorInsumoAcab'];
+                $aDadosGrid['grid'][] = $aDados;
+            }
         }
         //retorna o somatório
         $sSqlSoma = "select SUM(coalesce(ValorFat,0))as ValorFat, "
                    ." SUM(coalesce(ValorServico,0))as ValorServico, "
-                   ." SUM(coalesce(ValorInsumo,0))as ValorInsumo "
+                   ." SUM(coalesce(ValorInsumo,0))as ValorInsumo, "
+                    ." SUM(coalesce(PesoInd,0))as PesoInd, "
+                   ." SUM(coalesce(PesoIndAcab,0)) as PesoIndAcab, "
+                   ." SUM(coalesce(PesoIndFio,0))as PesoIndFio "
                    ."  from #SteelTraterFatRel ";
         $resultSoma = $PDOnew->query($sSqlSoma);
         while ($row = $resultSoma->fetch(PDO::FETCH_ASSOC)){
            $aDadosGrid['Total']['ValorFat'] = $row['ValorFat'];
            $aDadosGrid['Total']['ValorServico'] = $row['ValorServico'];
            $aDadosGrid['Total']['ValorInsumo'] = $row['ValorInsumo'];
+           
+           $aDadosGrid['Total']['PesoInd'] = $row['PesoInd'];
+           $aDadosGrid['Total']['PesoIndAcab'] = $row['PesoIndAcab'];
+           $aDadosGrid['Total']['PesoIndFio'] = $row['PesoIndFio'];
         }
         
         return $aDadosGrid;

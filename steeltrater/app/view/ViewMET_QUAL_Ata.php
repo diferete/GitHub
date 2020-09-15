@@ -7,6 +7,7 @@
  */
 
 class ViewMET_QUAL_Ata extends View {
+
     public function __construct() {
         parent::__construct();
     }
@@ -15,12 +16,16 @@ class ViewMET_QUAL_Ata extends View {
         parent::criaConsulta();
 
         $oFilcgc = new CampoConsulta('Cnpj', 'filcgc');
-        $oNr = new CampoConsulta('Nr.', 'nr');
-        $oSeq = new CampoConsulta('Seq.', 'seq');
-        $oTitulo = new CampoConsulta('Título', 'titulo');
-        $oData = new CampoConsulta('Data', 'data');
-        $oHora = new CampoConsulta('Hora', 'hora');
 
+        $oNr = new CampoConsulta('Nr.', 'nr');
+
+        $oSeq = new CampoConsulta('Seq.', 'seq');
+
+        $oTitulo = new CampoConsulta('Título', 'titulo');
+
+        $oData = new CampoConsulta('Data', 'data');
+
+        $oHora = new CampoConsulta('Hora', 'hora');
 
         $this->addCampos($oFilcgc, $oNr, $oSeq, $oTitulo, $oData, $oHora);
     }
@@ -39,33 +44,44 @@ class ViewMET_QUAL_Ata extends View {
         $oTituloGrid = new CampoConsulta('Título', 'titulo');
 
         $oDataHora = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
+        
         $oHoraGrid = new CampoConsulta('Hora', 'hora');
+        
         $oObsGrid = new CampoConsulta('Obs', 'obs');
+        
         $oAnexoGrid = new CampoConsulta('Ata', 'anexo', CampoConsulta::TIPO_DOWNLOAD);
         //$oAnexoGrid->setILargura(150);
 
         $oGridAta->addCampos($oNrGrid, $oSeqGrid, $oTituloGrid, $oDataHora, $oAnexoGrid);
-        $oGridAta->setSController('QualAta');
+        $oGridAta->setSController('MET_QUAL_Ata');
         $oGridAta->addParam('seq', '0');
         //,$oTituloGrid,$oDataHora,$oHoraGrid,$oObsGrid
 
         $aDados = $this->getAParametrosExtras();
         $oFilcgc = new Campo('Cnpj', 'filcgc', Campo::TIPO_TEXTO, 2);
-        $oFilcgc->setSValor($aDados['EmpRex_filcgc']);
+        $oFilcgc->setSValor($aDados['DELX_FIL_Empresa_fil_codigo']);
         $oFilcgc->setBCampoBloqueado(true);
+        
         $oNr = new Campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1);
         $oNr->setSValor($aDados['nr']);
         $oNr->setBCampoBloqueado(true);
+        
         $oSeq = new Campo('Seq', 'seq', Campo::TIPO_TEXTO, 1);
         $oSeq->setBCampoBloqueado(true);
+        
         $oTitulo = new Campo('Título', 'titulo', Campo::TIPO_TEXTO, 4);
         $oTitulo->setBFocus(true);
+        
         $oData = new Campo('Data', 'data', Campo::TIPO_DATA, 2);
         $oData->setSValor(date('d/m/Y'));
+        
         $oHora = new Campo('Hora', 'hora', Campo::TIPO_TEXTO, 1);
         $oHora->setSValor(date('H:i'));
         $oHora->setBCampoBloqueado(true);
-        $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 6);
+        
+        $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 12,12,12,12);
+        $oObs->setILinhasTextArea(5);
+        
         $oAnexo = new Campo('Ata', 'anexo', Campo::TIPO_UPLOAD, 3);
 
         //botão inserir os dados

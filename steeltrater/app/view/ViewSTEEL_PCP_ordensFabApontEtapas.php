@@ -52,9 +52,9 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View{
         $oDataEntGridPes = new CampoConsulta('Data Ent','dataent_forno', CampoConsulta::TIPO_DATA);
         $oHoraEntGridPes = new CampoConsulta('Hora Ent','horaent_forno', CampoConsulta::TIPO_TIME);
         $oSituacaoGridPes = new CampoConsulta('Situação','situacao');
-        $oSituacaoGridPes->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-        $oSituacaoGridPes->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
-        $oSituacaoGridPes->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacaoGridPes->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oSituacaoGridPes->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
+        $oSituacaoGridPes->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
         
         $oGridOpsPes->addCampos($oBotaoCarregarOps,$oOpGridPes,$oProdutoGridPes,$oFornoGridPes,
                 $oTurnoGridPes,$oDataEntGridPes,$oHoraEntGridPes,$oSituacaoGridPes);
@@ -258,8 +258,8 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View{
          $oHoraSaidaConsulta = new CampoConsulta('Hora Saída','horasaida_forno', CampoConsulta::TIPO_TIME);
          
          $oSituacaoConsulta = new CampoConsulta('Situação','situacao');
-         $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, '');
-         $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, '');
+         $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
+         $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
          $oSituacaoConsulta->setBComparacaoColuna(true);
          $oSituacaoConsulta->setILargura(11);
          

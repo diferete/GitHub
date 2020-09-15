@@ -9,18 +9,34 @@ class ViewMET_QUAL_RcVenda extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $this->setUsaAcaoVisualizar(true);
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaAcaoExcluir(false);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setiLarguraGrid(2000);
+        $this->getTela()->setiLarguraGrid(3150);
+
+        $this->getTela()->setIAltura(550);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
+        $oNr->setILargura(10);
 
         $oCliente = new CampoConsulta('Cliente', 'empdes', CampoConsulta::TIPO_LARGURA);
+        $oCliente->setILargura(100);
 
         $oUser = new CampoConsulta('Usuário', 'usunome', CampoConsulta::TIPO_LARGURA);
+        $oUser->setILargura(20);
 
         $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_LARGURA);
+        $oOfficeDes->setILargura(40);
 
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
+        $oData->setILargura(20);
+
+        $oProd = new CampoConsulta('Produtos', 'produtos');
+        $oProd->setILargura(150);
 
         $oAnexo1 = new CampoConsulta('Anexo 1', 'anexo1', CampoConsulta::TIPO_DOWNLOAD);
 
@@ -69,15 +85,16 @@ class ViewMET_QUAL_RcVenda extends View {
 
         $oDropDown2 = new Dropdown('Apontamentos', Dropdown::TIPO_AVISO);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar reclamação', 'MET_QUAL_RcVenda', 'criaTelaModalApontamento', '', false, '', false, 'criaTelaModalApontamento', true, 'Apontar reclamação', false, false);
-     
+
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
 
         $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
 
-        $this->addFiltro($oFilNr, $oFilCli);
-        $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+        $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -96,13 +113,6 @@ class ViewMET_QUAL_RcVenda extends View {
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("","MET_QUAL_RcVenda","carregaAnalise","' . $this->getTela()->getSId() . '"+","+chave+","+"' . $oAnaliseSetor->getId() . ',' . $oProblema->getId() . '"+","+"");');
-
-        $this->setUsaAcaoVisualizar(true);
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoIncluir(false);
-        $this->setUsaAcaoExcluir(false);
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
     }
 
     public function criaTela() {

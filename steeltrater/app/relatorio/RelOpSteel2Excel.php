@@ -29,6 +29,14 @@ $objPHPExcel = new PHPExcel();
       
 // Definimos o estilo da fonte
 $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('A5')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('B5')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('C5')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('D5')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('E5')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('F5')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('G5')->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('H5')->getFont()->setBold(true);
 
 // Criamos as colunas
 $objPHPExcel->setActiveSheetIndex(0)
@@ -38,13 +46,15 @@ $objPHPExcel->setActiveSheetIndex(0)
      $sRetrabalho = $_REQUEST['retrabalho'];
      $sSituacao=$_REQUEST['situa'];
      $iEmpCodigo=$_REQUEST['emp_codigo'];
-     
+     $iTratCod = $_REQUEST['tratcod'];
      //busca os dados do banco
      $PDO = new PDO("sqlsrv:server=".Config::HOST_BD.",".Config::PORTA_BD."; Database=".Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
      $sSqli = "select op,prod,prodes,prodesfinal,quant,
               peso,opcliente,convert(varchar,data,103) as data,convert(varchar,dataprev,103) as dataprev,
               situacao 
-              from STEEL_PCP_OrdensFab 
+              from STEEL_PCP_OrdensFab left outer join STEEL_PCP_receitasItens
+              on STEEL_PCP_OrdensFab.receita = STEEL_PCP_receitasItens.cod 
+              and seq = ( select top 1 seq from STEEL_PCP_receitasItens where cod = STEEL_PCP_OrdensFab.receita order by seq )
               where data between '".$dtinicial."' and '".$dtfinal."'";
               if($sSituacao!=='Todas'){
               $sSqli.=" and situacao='".$sSituacao."' ";
@@ -59,22 +69,17 @@ $objPHPExcel->setActiveSheetIndex(0)
                 }else{
                     $sSqli.=" and retrabalho<>'Retorno não Ind.' and retrabalho <> 'OP origem retrabalho' "; 
                 }
-     
-     
-     /* if($sSituacao!=='Todas'){
-              $sSqli.=" and situacao='".$sSituacao."' ";
-          }else{
-              $sSqli.=" and situacao not in ('Cancelada','Retornado') ";
-          }
-          if($iEmpCodigo!==''){
-              $sSqli.=" and emp_codigo='".$iEmpCodigo."' ";
-          }
-          if($sRetrabalho!='Incluir'){
-              $sSqli.=" and retrabalho='".$sRetrabalho."' ";
-          }else{
-              $sSqli.=" and retrabalho <> 'Retorno não Ind.' and retrabalho <> 'OP origem retrabalho' "; 
-          }*/
-          
+                if($iTratCod!==''){
+                    $sSqli.=" and tratcod ='".$iTratCod."'  ";
+                }
+   if($_REQUEST['tratdes']!==''){
+        $sTratDes = $_REQUEST['tratdes'];
+   }else{
+        $sTratDes = 'Todos';
+   }
+   if($iEmpCodigo==null){
+       $iEmpCodigo = 'Todas';
+   }
           
    $dadosRela = $PDO->query($sSqli);
    
@@ -98,7 +103,8 @@ $objPHPExcel->setActiveSheetIndex(0)
             ->setCellValue('F3', "$iEmpCodigo" )
             ->setCellValue('E4', 'Retrabalho' )
             ->setCellValue('F4', "$sRetrabalho" )
-        
+            ->setCellValue('G4', 'Tratamento' )
+            ->setCellValue('H4', "$sTratDes" )
         
         //titulos
             ->setCellValue('A5', 'OP' )

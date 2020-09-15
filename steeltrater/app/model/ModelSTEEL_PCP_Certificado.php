@@ -49,6 +49,17 @@ class ModelSTEEL_PCP_Certificado {
     private $DiamFinalMax;
     private $dataNotaRetorno;
     
+    private $micrografia;
+    
+    function getMicrografia() {
+        return $this->micrografia;
+    }
+
+    function setMicrografia($micrografia) {
+        $this->micrografia = $micrografia;
+    }
+
+        
     function getDataNotaRetorno() {
         return $this->dataNotaRetorno;
     }

@@ -93,11 +93,31 @@ Class PersistenciaSTEEL_PCP_GerenProd extends Persistencia{
         
         //faz o retorno dos dados
         return $aRetorno;
+      }
+      
+     //pega produçao para o app
+     public function getProdApp($dataInicial,$dataFinal){
+         
+         $sSql ="select  dataent_forno,convert(varchar,dataent_forno,103) as dataconv,
+                    sum(STEEL_PCP_ordensFab.peso)as pesototal  
+                    from STEEL_PCP_ordensFabApont left outer join STEEL_PCP_ordensFab
+                    on STEEL_PCP_ordensFabApont.op = STEEL_PCP_ordensFab.op 
+                    where dataent_forno between '".$dataInicial."' and '".$dataFinal."' 
+                    and STEEL_PCP_ordensFabApont.situacao='Finalizado'  
+                    and retrabalho<>'Retorno não Ind.'
+                    group by dataent_forno
+                    order by dataent_forno desc";
+         
+         $result = $this->getObjetoSql($sSql);
+         $aRetorno = array();
+         $aDados = array();
+         while ($row = $result->fetch(PDO::FETCH_OBJ)){
+             $aDados['data'] = $row->dataconv;
+             $aDados['peso'] = number_format($row->pesototal,'2',',','.');
+             $aRetorno[]=$aDados;
+         }
+         
         
-        
-        
-        
-        
-        
-    }
+        return $aRetorno;
+     }
 }

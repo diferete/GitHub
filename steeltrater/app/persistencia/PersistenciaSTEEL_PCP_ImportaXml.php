@@ -34,6 +34,8 @@ class PersistenciaSTEEL_PCP_ImportaXml extends Persistencia{
         $this->adicionaRelacionamento('nItemPed','nItemPed');
         
         $this->adicionaRelacionamento('dataemidoc', 'dataemidoc');
+        
+        $this->adicionaRelacionamento('nfsnfechv', 'nfsnfechv');
        
         $this->setSTop('400');
         $this->adicionaOrderBy('seq',1);

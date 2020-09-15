@@ -82,8 +82,20 @@ class ControllerSTEEL_PCP_PedCarga extends Controller {
         $this->Model->setPDV_PedidoContaCobranca($oParamDados->getPDV_PedidoContaCobranca());
         $this->Model->setPDV_PedidoMotoristaNome($oParamDados->getPDV_PedidoMotoristaNome());
        // $this->Model->setPDV_PedidoTipoFreteCodigo($oParamDados->getPDV_PedidoTipoFreteCodigo());
-        $this->Model->setPDV_PedidoCondicaoPgtoCodigo($oParamDados->getPDV_PedidoCondicaoPgtoCodigo());
-        $this->Model->setPDV_PedidoMoedaCodigo($oParamDados->getPDV_PedidoMoedaCodigo());
+        
+		
+		//$this->Model->setPDV_PedidoCondicaoPgtoCodigo($oParamDados->getPDV_PedidoCondicaoPgtoCodigo());
+        
+		 /**************************************CONDIÇÃO DE PAGAMENTO DIFERENCIADA********************************************************************************/
+        if($this->Model->getPDV_PedidoEmpCodigo()=='84229624000175' || $this->Model->getPDV_PedidoEmpCodigo()=='16746136000185'){
+            $this->Model->setPDV_PedidoCondicaoPgtoCodigo('54');
+        }else{
+            $this->Model->setPDV_PedidoCondicaoPgtoCodigo($oParamDados->getPDV_PedidoCondicaoPgtoCodigo());
+        }
+		
+		
+		
+		$this->Model->setPDV_PedidoMoedaCodigo($oParamDados->getPDV_PedidoMoedaCodigo());
         $this->Model->setPDV_PedidoTipoEmiNF($oParamDados->getPDV_PedidoTipoEmiNF());
         $this->Model->setPDV_PedidoSituacaoAltera($oParamDados->getPDV_PedidoSituacaoAltera());
         $this->Model->setPDV_PedidoExcluido($oParamDados->getPDV_PedidoExcluido());

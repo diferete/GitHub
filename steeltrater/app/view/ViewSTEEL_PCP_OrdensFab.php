@@ -45,9 +45,9 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         
         $oOp_retrabalho = new CampoConsulta('Op.Retrabalho','op_retrabalho');
         $oSituacao = new CampoConsulta('Situação', 'situacao');
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
-        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, '');
-        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA);
+        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
 
         $oDocumento = new CampoConsulta('NotaEnt', 'documento');
         $oTipOrdem = new CampoConsulta('Tipo', 'tipoOrdem');
@@ -160,7 +160,6 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oL1->setApenasTela(true);
 
         $oDocumento = new Campo('Doc.Fiscal', 'documento', Campo::TIPO_TEXTO, 1);
-        $oDocumento->setBFocus(true);
         $oDocumento->addValidacao(false, Validacao::TIPO_STRING);
         if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
             if (method_exists($oDados, 'getNfsnfnro')) {
@@ -200,6 +199,8 @@ class ViewSTEEL_PCP_OrdensFab extends View {
             }
         } 
        
+        $oChavNfe = new Campo('Chave NFE','nfsnfechv', Campo::TIPO_TEXTO, 5, 5, 5, 5);
+        $oChavNfe->setBCampoBloqueado(true);
         
         $oTipo = new Campo('Tipo OP', 'tipoOrdem', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
         $oTipo->addItemSelect('P', 'Padrão - Tempera');
@@ -239,6 +240,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oEmp_codigo->setClasseBusca('DELX_CAD_Pessoa');
         $oEmp_codigo->setSCampoRetorno('emp_codigo', $this->getTela()->getId());
         $oEmp_codigo->addCampoBusca('emp_razaosocial', $oEmp_des->getId(), $this->getTela()->getId());
+        $oEmp_codigo->setBFocus(true);
 
 
 
@@ -309,7 +311,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
 
         //referencia do produto do cliente
-        $oReferencia = new campo('Referência  <span class="badge badge-warning">Para Metalbo não necessário informar</span>', 'referencia', Campo::TIPO_TEXTO, 6, 6, 6, 6);
+        $oReferencia = new campo('Referência  <span class="badge badge-warning">Para Metalbo não necessário informar</span>', 'referencia', Campo::TIPO_TEXTO, 5, 5, 5, 5);
         $oReferencia->setSCorFundo(Campo::FUNDO_AMARELO);
         //$oReferencia->addValidacao(false, Validacao::TIPO_STRING);
         if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
@@ -332,14 +334,33 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oSeqMatGrid = new CampoConsulta('Seq.Mat.', 'seqmat');
         $oSeqMatGrid->setILargura(30);
         $oProDesGrid = new CampoConsulta('Produto', 'DELX_PRO_Produtos.pro_descricao');
+        $oProDesGrid->setILargura(300);
         $oMatDesGrid = new CampoConsulta('Material', 'STEEL_PCP_material.matdes');
+        $oMatDesGrid->setILargura(100);
         $oRecDesGrid = new CampoConsulta('Receita', 'STEEL_PCP_receitas.peca');
+        $oRecDesGrid->setILargura(200);
+        $oDurNucMin = new CampoConsulta('DurezaMin','durezaNucMin',CampoConsulta::TIPO_DECIMAL);
+        $oDurNucMin->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oDurNucMin->setILargura(80);
+        $oDurNucMin->setBComparacaoColuna(true);
+        $oDurNuMax = new CampoConsulta('DurezaMax','durezaNucMax',CampoConsulta::TIPO_DECIMAL);
+        $oDurNuMax->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oDurNuMax->setILargura(80);
+        $oDurNuMax->setBComparacaoColuna(true);
+        $oRevenidoDesc = new CampoConsulta('Revenido','tratrevencomp');
+        $oRevenidoDesc->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oRevenidoDesc->setILargura(150);
+        $oRevenidoDesc->setBComparacaoColuna(true);
         $oProdFinalGrid = new CampoConsulta('Produto Final', 'STEEL_PCP_pesqArame.pro_descricao');
+        
+        
+       
 
-        $oGridMat->addCampos($oSeqMatGrid, $oProDesGrid, $oMatDesGrid, $oRecDesGrid, $oProdFinalGrid);
+        $oGridMat->addCampos($oSeqMatGrid, $oProDesGrid, $oMatDesGrid, $oRecDesGrid,$oDurNucMin,$oDurNuMax, $oRevenidoDesc,$oProdFinalGrid);
         $oGridMat->setSController('STEEL_PCP_prodMatReceita');
         $oGridMat->addParam('seqmat', '0');
         $oGridMat->getOGrid()->setIAltura(90);
+        $oGridMat->getOGrid()->setBGridResponsivo(false);
 
 
 
@@ -421,7 +442,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oValorUnit = new campo('Valor Unitário', 'vlrNfEntUnit', Campo::TIPO_DECIMAL, 1);
         $oValorUnit->setSValor('0,00');
-        //$oValorUnit->setICasaDecimal(4);
+       // $oValorUnit->setICasaDecimal(4);
         if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
             if (method_exists($oDados, 'getVlrNfEntUnit')) {
                 $oValorUnit->setSValor(number_format($oDados->getVlrNfEntUnit(), 2, ',', '.'));
@@ -574,8 +595,9 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
 
         $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, 
-                array($oDocumento,$oDataemi,$oSerie),$oLinha,
-                array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oXPed, $nItemPed, $oNrcert), $oField1, $oField2);
+                array($oEmp_codigo, $oEmp_des, $oTipo),$oLinha,
+                array($oDocumento,$oDataemi,$oSerie,$oChavNfe),$oLinha,
+                array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oXPed, $nItemPed, $oNrcert), $oField1, $oField2);
     }
 
     /*
@@ -585,7 +607,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
     public function RelOpSteel2() {
         parent::criaTelaRelatorio();
 
-        $this->setTituloTela('Estoque / OPs');
+        $this->setTituloTela('Estoque / OPS');
         $this->setBTela(true);
 
 
@@ -635,7 +657,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oRetrabalho->addItemSelect('Retorno não Ind.', 'Retorno não Ind.');
         $oRetrabalho->addItemSelect('OP origem retrabalho', 'OP origem retrabalho *Não entra estoque');
 
-        $sLabe2 = new campo('<h5 style="color:red">* OPs de retorno não industrializado não somam no estoque apenas se escolher a opção retorno não ind. OPs que originam retrabalho interno não entram no estoque.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
+        $sLabe2 = new campo('<h5 style="color:red">* Ops de retorno não industrializado não somam no estoque apenas se escolher a opção retorno não ind. Ops que originam retrabalho interno não entram no estoque.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
         $sLabe2->setApenasTela(true);
         $sLabe2->setIMarginTop(3);
 
@@ -643,6 +665,23 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oEmp_codigo->setClasseBusca('DELX_CAD_Pessoa');
         $oEmp_codigo->setSCampoRetorno('emp_codigo', $this->getTela()->getId());
         $oEmp_codigo->addCampoBusca('emp_razaosocial', $oEmp_des->getId(), $this->getTela()->getId());
+        
+         //Tratamento
+        $oTrat_codigo = new Campo('Tratamento', 'tratcod', Campo::TIPO_BUSCADOBANCOPK, 2);
+        $oTrat_codigo->setSValor('');
+
+        //Campo descrição do tratamento adicionando o campo de busca
+        $oTrat_des = new Campo('Descrição', 'tratdes', Campo::TIPO_BUSCADOBANCO, 4);
+        $oTrat_des->setSIdPk($oTrat_codigo->getId());
+        $oTrat_des->setClasseBusca('STEEL_PCP_Tratamentos');
+        $oTrat_des->addCampoBusca('tratcod', '', '');
+        $oTrat_des->addCampoBusca('tratdes', '', '');
+        $oTrat_des->setSIdTela($this->getTela()->getId());
+        $oTrat_des->setSValor('');
+
+        $oTrat_codigo->setClasseBusca('STEEL_PCP_Tratamentos');
+        $oTrat_codigo->setSCampoRetorno('tratcod', $this->getTela()->getId());
+        $oTrat_codigo->addCampoBusca('tratdes', $oTrat_des->getId(), $this->getTela()->getId());
 
         //para mostrar a parte de imprimir a planilha no excel
         $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2,2,2,2);
@@ -650,7 +689,11 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","relatorioExcelOp");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $sLabel), $oLinha1, $oRetrabalho, $sLabe2, $oLinha1, $oXls);
+        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, 
+                array($oEmp_codigo, $oEmp_des), $oLinha1, 
+                array($oSituaRel, $sLabel), $oLinha1,
+                array($oTrat_codigo, $oTrat_des),$oLinha1,
+                $oRetrabalho, $sLabe2, $oLinha1, $oXls);
     }
 
     public function RelOpSteelForno() {
@@ -719,7 +762,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oRetrabalho->addItemSelect('Sim S/Cobrança', 'Sim S/Cobrança');
         $oRetrabalho->addItemSelect('Retorno não Ind.', 'Retorno não Ind.');
         
-        $sLabe2 = new campo('<h5 style="color:red">* OPs de retorno não industrializado não entram apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
+        $sLabe2 = new campo('<h5 style="color:red">* Ops de retorno não industrializado não entram apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
         $sLabe2->setApenasTela(true);
         $sLabe2->setIMarginTop(3);
 
@@ -915,29 +958,47 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oGrid1->addCabGridView('Quantidade');
         $oGrid1->addCabGridView('Valor');
         $oGrid1->addCabGridView('Total');
+        
+        $oGrid2 = new Campo('', 'energia', Campo::TIPO_GRIDVIEW, 12, 12, 12, 12);
+        $oGrid2->addCabGridView('Energia');
+        $oGrid2->addCabGridView('Descrição energia');
+        $oGrid2->addCabGridView('Quantidade');
+        $oGrid2->addCabGridView('Valor');
+        $oGrid2->addCabGridView('Total');
 
 
         $this->addCampos(array($oTabela, $oNcm, $oTipoOP), $oLinha, array($oRetorno, $oQuantRet, $oPesoRet, $oValorTotRet), $oLinha);
 
         foreach ($aDados['insumo'] as $keyInsumo => $oInsumo) {
-            $oGrid->addLinhasGridView(1, $oInsumo->getProd());
-            $oGrid->addLinhasGridView(1, $oInsumo->getSTEEL_PCP_Produtos()->getPro_descricao());
-            $oGrid->addLinhasGridView(1, number_format($oDadosOp->getPeso(), 2, ',', '.'));
-            $oGrid->addLinhasGridView(1, number_format($oInsumo->getPreco(), 2, ',', '.'));
+            $oGrid->addLinhasGridView($keyInsumo, $oInsumo->getProd());
+            $oGrid->addLinhasGridView($keyInsumo, $oInsumo->getSTEEL_PCP_Produtos()->getPro_descricao());
+            $oGrid->addLinhasGridView($keyInsumo, number_format($oDadosOp->getPeso(), 2, ',', '.'));
+            $oGrid->addLinhasGridView($keyInsumo, number_format($oInsumo->getPreco(), 2, ',', '.'));
             $TotalInsumo = $oDadosOp->getPeso() * $oInsumo->getPreco();
-            $oGrid->addLinhasGridView(1, number_format($TotalInsumo, 2, ',', '.'));
+            $oGrid->addLinhasGridView($keyInsumo, number_format($TotalInsumo, 2, ',', '.'));
         }
         $this->addCampos($oGrid);
 
         foreach ($aDados['servico'] as $keyServico => $oServico) {
-            $oGrid1->addLinhasGridView(1, $oServico->getProd());
-            $oGrid1->addLinhasGridView(1, $oServico->getSTEEL_PCP_Produtos()->getPro_descricao());
-            $oGrid1->addLinhasGridView(1, number_format($oDadosOp->getPeso(), 2, ',', '.'));
-            $oGrid1->addLinhasGridView(1, number_format($oServico->getPreco(), 2, ',', '.'));
+            $oGrid1->addLinhasGridView($keyServico, $oServico->getProd());
+            $oGrid1->addLinhasGridView($keyServico, $oServico->getSTEEL_PCP_Produtos()->getPro_descricao());
+            $oGrid1->addLinhasGridView($keyServico, number_format($oDadosOp->getPeso(), 2, ',', '.'));
+            $oGrid1->addLinhasGridView($keyServico, number_format($oServico->getPreco(), 2, ',', '.'));
             $TotalServico = $oDadosOp->getPeso() * $oServico->getPreco();
-            $oGrid1->addLinhasGridView(1, number_format($TotalServico, 2, ',', '.'));
+            $oGrid1->addLinhasGridView($keyServico, number_format($TotalServico, 2, ',', '.'));
         }
         $this->addCampos($oGrid1);
+        foreach ($aDados['energia'] as $keyEnergia => $oEnergia) {
+            $oGrid2->addLinhasGridView($keyEnergia, $oEnergia->getProd());
+            $oGrid2->addLinhasGridView($keyEnergia, $oEnergia->getSTEEL_PCP_Produtos()->getPro_descricao());
+            $oGrid2->addLinhasGridView($keyEnergia, number_format($oDadosOp->getPeso(), 2, ',', '.'));
+            $oGrid2->addLinhasGridView($keyEnergia, number_format($oEnergia->getPreco(), 2, ',', '.'));
+            $TotalEnergia = $oDadosOp->getPeso() * $oEnergia->getPreco();
+            $oGrid2->addLinhasGridView($keyEnergia, number_format($TotalEnergia, 2, ',', '.'));
+        }
+        if(count($aDados['energia'])>0){
+           $this->addCampos($oGrid2); 
+        }
     }
 
     /**
@@ -999,7 +1060,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oRetrabalho->addItemSelect('Sim S/Cobrança', 'Sim S/Cobrança');
         $oRetrabalho->addItemSelect('Retorno não Ind.', 'Retorno não Ind.');
 
-        $sLabe2 = new campo('<h5 style="color:red">* OPs de retorno não industrializado não entram apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
+        $sLabe2 = new campo('<h5 style="color:red">* Ops de retorno não industrializado não entram apenas se escolher a opção retorno não ind.</h5>', 'obs2', Campo::TIPO_LABEL, 3, 3, 3);
         $sLabe2->setApenasTela(true);
         $sLabe2->setIMarginTop(3);
 

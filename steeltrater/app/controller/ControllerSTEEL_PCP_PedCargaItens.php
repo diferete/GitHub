@@ -255,7 +255,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         //adiciona filtro da chave primária
         $this->parametros = $sCampos;
         //carrega o model
-        $this->carregaModel($aCamposTela);
+        $this->carregaModel();
         $this->Persistencia->adicionaFiltro('pdv_pedidofilial', $this->Model->getPdv_PedidoFilial());
         $this->Persistencia->adicionaFiltro('pdv_pedidocodigo', $this->Model->getPdv_pedidocodigo());
         $this->Persistencia->adicionaFiltro('pdv_pedidoitemseq', $this->Model->getPdv_pedidoitemseq());
@@ -783,10 +783,36 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         }
         
         
-        //verifica se a op é padrão RETORNO,SERVIÇO,INSUMO, SERIA O MOVIMENTO 302
+//verifica se a op é padrão RETORNO,SERVIÇO,INSUMO, SERIA O MOVIMENTO 302-------------------------------------------------------------------------
         if($oDadosOp->getTipoOrdem()=='P'){
-             $aInsumosServ = array('RETORNO','INSUMO','SERVIÇO');
-             foreach ($aInsumosServ as $key => $value) {
+            //valida se todos os itens estao cadastrados
+            if($this->paramInsumoEnergia()=='SIM'){
+                   $aInsumosServParam = array('SERVIÇO','INSUMO','ENERGIA');  
+                }else{
+                   $aInsumosServParam = array('SERVIÇO','INSUMO'); 
+                }
+             //busca a unidade de medida
+             $this->Model->setPDV_PedidoItemProduto($oDadosOp->getProdFinal());
+             $oProdUn->Persistencia->limpaFiltro();
+             $oProdUn->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getPDV_PedidoItemProduto());
+             $oProdDados = $oProdUn->Persistencia->consultarWhere();
+           
+             if($this->paramValidaTabPreco()=='SIM'){
+                   foreach ($aInsumosServParam as $key => $value) {
+                      $this->validaTabelaPadrao($value,$oTabCliDados->getNr(),$oDadosOp->getReceita(),$oProdDados->getPro_ncm());
+                     }
+                } //<== fim da validacao
+            
+            
+            //verifica parametro se insere insumo de energia ou não 
+            if($this->paramInsumoEnergia()=='SIM'){
+               $aInsumosServ = array('RETORNO','SERVIÇO','INSUMO','ENERGIA');  
+            }else{
+               $aInsumosServ = array('RETORNO','SERVIÇO','INSUMO'); 
+            }
+            //validação para ver se há todos os itens na tabela de preço
+            
+            foreach ($aInsumosServ as $key => $value) {
               switch ($value){
                  case "RETORNO":    
                     //busca o retorno da indutrialização
@@ -977,6 +1003,76 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                     }
                     
                     break;
+ //--------------------------BUSCA ENERGIA ELÉTRICA------------------------------------------------
+                    case 'ENERGIA' :
+                     
+                    $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');    
+                    $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());
+                    $oItemsTabela->Persistencia->adicionaFiltro('receita',$oDadosOp->getReceita());
+                    $oItemsTabela->Persistencia->adicionaFiltro('tipo','ENERGIA');
+                    $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());
+                    $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();
+                    
+                  
+                    
+                    if($oDadosInsumo->getProd()!== null){
+                        //busca a unidade de medida
+                        $oProdUn->Persistencia->limpaFiltro();
+                        $oProdUn->Persistencia->adicionaFiltro('pro_codigo',$oDadosInsumo->getProd());
+                        $oProdDados = $oProdUn->Persistencia->consultarWhere();
+                    
+                        $this->Model->setPDV_PedidoItemProduto($oDadosInsumo->getProd());
+                        $this->Model->setPDV_PedidoItemProdutoNomeManua($oProdDados->getPro_descricao());
+                        $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso());
+                        $this->Model->setPDV_PedidoItemValorUnitario($oDadosInsumo->getPreco());
+                        $this->Model->setOp($aCampos['op']);
+                        $this->Model->setPdv_insserv($value);
+                        
+                        //define a CFOP do retorno por hora vamos no tipo = do movimento
+                        $this->Model->setPDV_PedidoItemCFOP('5902');
+                        
+                        //busca a unidade de medida
+                        $oProdUn->Persistencia->limpaFiltro();
+                        $oProdUn->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getPDV_PedidoItemProduto());
+                        $oProdDados = $oProdUn->Persistencia->consultarWhere();
+                        $this->Model->setPDV_PedidoItemProdutoUnidadeMa($oProdDados->getDELX_PRO_UnidadeMedida()->getPro_unidademedida());
+                        
+                        //seta valores específicos do retorno da mercadoria
+                        $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
+                        $this->Model->setPDV_PedidoItemGeraFinanceiro('S');
+                        $this->Model->setPDV_PedidoItemConsideraVenda('S');
+                        
+                        //seta o Xped e NitemPed na nota fiscal
+                        $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
+                        $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                        
+                        //gera o valor total
+                        $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
+                        $ValorUni = $this->Model->getPDV_PedidoItemValorUnitario();
+                        $ValorTotal = ($Qt*$ValorUni);
+                        $this->Model->setPDV_PedidoItemValorTotal($ValorTotal);
+                        
+                        //seta informações adicionais
+                        $sInfAdicional ='';
+                        if($oTabCliDados->getConcatena()==true){
+                           $sInfAdicional = 'Seu Prod. '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
+                           $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
+                        }else{
+                            $this->Model->setPDV_PedidoItemObsDescricao(''); 
+                        }
+
+                        //insere os filtros
+                        $this->insereFiltrosInsert();
+                        
+                    }else{
+                        $oModal = new Modal('Atenção','Não há cadastro de insumo ENERGIA desse produto, analise a tabela '
+                                . 'de preço se há o devido cadastro, verifique se há o cadastro referente a NCM. '
+                                . 'Se optar poderá inserir o insumo manualmente!' , Modal::TIPO_AVISO, false,true, false);
+                        echo $oModal->getRender();
+                        exit();
+                    }
+                    
+                    break;   
                     }
                     //Filtros para reload
                      //insere os filtros
@@ -1072,7 +1168,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         }
 //------CASO O TIPO DA ORDEM DE PRODUÇÃO É DO TIPO FIO MÁQUINA ------------------------------------------------------------------        
         if($oDadosOp->getTipoOrdem()=='F'){
-            //inicialmente colocamos o retorno----------------------------------------------------------------------------------
+         
             //busca o retorno da indutrialização
             $this->Model->setPDV_PedidoItemProduto($oDadosOp->getProdFinal());
             $this->Model->setPDV_PedidoItemProdutoNomeManua($oDadosOp->getProdesFinal());
@@ -1091,6 +1187,26 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             $oProdUn->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getPDV_PedidoItemProduto());
             $oProdDados = $oProdUn->Persistencia->consultarWhere();
             $this->Model->setPDV_PedidoItemProdutoUnidadeMa($oProdDados->getDELX_PRO_UnidadeMedida()->getPro_unidademedida());
+            
+            //valida se há todos os itens cadastrados na tabela de preço
+           
+            if($this->paramInsumoEnergia()=='SIM'){
+                   $aInsumosServParam = array('SERVIÇO','INSUMO','ENERGIA');  
+                }else{
+                   $aInsumosServParam = array('SERVIÇO','INSUMO'); 
+                }
+             $oItensReceitaParam = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
+             $oItensReceitaParam->Persistencia->adicionaFiltro('cod',$oDadosOp->getReceita());
+             //gera os items da receita de modo distinc
+             $aDadosItensReceitaParam = $oItensReceitaParam->Persistencia->distinctItemReceita($oDadosOp->getReceita());
+             if($this->paramValidaTabPreco()=='SIM'){
+                     foreach ($aDadosItensReceitaParam as $key => $oTratParam) {
+                         foreach ($aInsumosServParam as $key => $value) {
+                             $this->validaTabelaFio($value,$oTabCliDados->getNr(),$oDadosOp->getReceita(),$oTratParam->tratcod,$oProdDados->getPro_ncm());
+                         }
+                       }
+                } //====>Fim da validacao se há tudo cadastrado na tabela
+            
 
             //seta valores específicos do retorno da mercadoria
             $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
@@ -1174,6 +1290,22 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             //gera os items da receita de modo distinc
             $aDadosItensReceita = $oItensReceita->Persistencia->distinctItemReceita($oDadosOp->getReceita());
             
+            //verifica parametro se insere insumo de energia ou não 
+                if($this->paramInsumoEnergia()=='SIM'){
+                   $aInsumosServ = array('SERVIÇO','INSUMO','ENERGIA');  
+                }else{
+                   $aInsumosServ = array('SERVIÇO','INSUMO'); 
+                }
+            
+            //valida se está tudo cadastrado na tabela de preço
+          /*  if($this->paramValidaTabPreco()=='SIM'){
+                     foreach ($aDadosItensReceita as $key => $oTratParam) {
+                         foreach ($aInsumosServ as $key => $value) {
+                             $this->validaTabelaFio($value,$oTabCliDados->getNr(),$oDadosOp->getReceita(),$oTratParam->tratcod,$oProdDados->getPro_ncm());
+                         }
+                       }
+                } */
+            
             foreach ($aDadosItensReceita as $key => $oTrat) {
                 //gera o contator de quantos tratamentos há  
                 $oItensReceita->Persistencia->limpaFiltro(); 
@@ -1181,12 +1313,12 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                 $oItensReceita->Persistencia->adicionaFiltro('tratcod',$oTrat->tratcod);
                 //gera o total desse serviço para multiplicar com o valor encontrado na tabela de preço
                 $iContServ = $oItensReceita->Persistencia->getCount();
-                //gera a busca do item de insumo e serviço
-                $aInsumosServ = array('INSUMO','SERVIÇO');
+                
                 foreach ($aInsumosServ as $keyInsumoServ => $sAcao) {
                     switch ($sAcao) {
 //------------------busca o serviço na tabela de preço -------------------------------------------------------                        
                        case "SERVIÇO":
+                        $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');
                         $oItemsTabela->Persistencia->limpafiltro();
                         $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());  //tabela de preco
                         $oItemsTabela->Persistencia->adicionaFiltro('receita',$oDadosOp->getReceita()); //receita
@@ -1218,6 +1350,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                             $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
                             $this->Model->setPDV_PedidoItemGeraFinanceiro('S');
                             $this->Model->setPDV_PedidoItemConsideraVenda('S');
+							
+							 //seta o Xped e NitemPed na nota fiscal
+                           $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
+                           $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
 
                             //gera o valor total
                             $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -1288,6 +1424,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                         $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
                         $this->Model->setPDV_PedidoItemGeraFinanceiro('S');
                         $this->Model->setPDV_PedidoItemConsideraVenda('S');
+						
+						 //seta o Xped e NitemPed na nota fiscal
+                        $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
+                        $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
                         
                         //gera o valor total
                         $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -1322,6 +1462,79 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                     }
                     
                     break;
+                    
+                    //--------------------------BUSCA ENERGIA ELÉTRICA------------------------------------------------
+                    case 'ENERGIA' :
+                   
+                    $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');
+                    $oItemsTabela->Persistencia->limpafiltro();
+                    $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());  //tabela de preco
+                    $oItemsTabela->Persistencia->adicionaFiltro('receita',$oDadosOp->getReceita()); //receita
+                    $oItemsTabela->Persistencia->adicionaFiltro('tipo','ENERGIA'); //insumo ou serviço
+                    $oItemsTabela->Persistencia->adicionaFiltro('cod',$oTrat->tratcod); //codigo do tratamento somente qdo for op fio
+                    $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());//ncm
+                    $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();  //consulta*/
+                    
+                  
+                    
+                    if($oDadosInsumo->getProd()!== null){
+                        //busca a unidade de medida
+                        $oProdUn->Persistencia->limpaFiltro();
+                        $oProdUn->Persistencia->adicionaFiltro('pro_codigo',$oDadosInsumo->getProd());
+                        $oProdDados = $oProdUn->Persistencia->consultarWhere();
+                    
+                        $this->Model->setPDV_PedidoItemProduto($oDadosInsumo->getProd());
+                        $this->Model->setPDV_PedidoItemProdutoNomeManua($oProdDados->getPro_descricao());
+                        $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso());
+                        $this->Model->setPDV_PedidoItemValorUnitario($oDadosInsumo->getPreco());
+                        $this->Model->setOp($aCampos['op']);
+                        $this->Model->setPdv_insserv('ENERGIA');
+                        
+                        //define a CFOP do retorno por hora vamos no tipo = do movimento
+                        $this->Model->setPDV_PedidoItemCFOP('5902');
+                        
+                        //busca a unidade de medida
+                        $oProdUn->Persistencia->limpaFiltro();
+                        $oProdUn->Persistencia->adicionaFiltro('pro_codigo',$this->Model->getPDV_PedidoItemProduto());
+                        $oProdDados = $oProdUn->Persistencia->consultarWhere();
+                        $this->Model->setPDV_PedidoItemProdutoUnidadeMa($oProdDados->getDELX_PRO_UnidadeMedida()->getPro_unidademedida());
+                        
+                        //seta valores específicos do retorno da mercadoria
+                        $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
+                        $this->Model->setPDV_PedidoItemGeraFinanceiro('S');
+                        $this->Model->setPDV_PedidoItemConsideraVenda('S');
+                        
+                        //seta o Xped e NitemPed na nota fiscal
+                        $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
+                        $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                        
+                        //gera o valor total
+                        $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
+                        $ValorUni = $this->Model->getPDV_PedidoItemValorUnitario();
+                        $ValorTotal = ($Qt*$ValorUni);
+                        $this->Model->setPDV_PedidoItemValorTotal($ValorTotal);
+                        
+                        //seta informações adicionais
+                        $sInfAdicional ='';
+                        if($oTabCliDados->getConcatena()==true){
+                           $sInfAdicional = 'Seu Prod. '.$oDadosOp->getReferencia().' '.$oDadosOp->getProdesFinal();
+                           $this->Model->setPDV_PedidoItemObsDescricao($sInfAdicional);
+                        }else{
+                            $this->Model->setPDV_PedidoItemObsDescricao(''); 
+                        }
+
+                        //insere os filtros
+                        $this->insereFiltrosInsert();
+                        
+                    }else{
+                        $oModal = new Modal('Atenção','Não há cadastro de insumo ENERGIA desse produto, analise a tabela '
+                                . 'de preço se há o devido cadastro, verifique se há o cadastro referente a NCM. '
+                                . 'Se optar poderá inserir o insumo manualmente!' , Modal::TIPO_AVISO, false,true, false);
+                        echo $oModal->getRender();
+                        exit();
+                    }
+                    
+                    break;   
                     }
                      //Filtros para reload
                      //insere os filtros
@@ -2238,6 +2451,73 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             }
         
         
+       }
+       
+       /**
+        * Verifica parametro insumo energia
+        */
+       public function paramInsumoEnergia(){
+           $oSTEEL_PCP_ParametrosProd = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
+           $oSTEEL_PCP_ParametrosProd->Persistencia->adicionaFiltro('parametro','ATIVA FATURAMENTO INSUMO ENERGIA');
+           $oSteelDados = $oSTEEL_PCP_ParametrosProd->Persistencia->consultarWhere(); 
+           $sRetorno = $oSteelDados->getValor();
+           return $sRetorno;
+           
+       }
+       
+       /**
+        * Verifica parametro insumo energia
+        */
+       public function paramValidaTabPreco(){
+           $oSTEEL_PCP_ParametrosProd = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
+           $oSTEEL_PCP_ParametrosProd->Persistencia->adicionaFiltro('parametro','ATIVA VALIDACAO TABELA DE PRECO NA CARGA');
+           $oSteelDados = $oSTEEL_PCP_ParametrosProd->Persistencia->consultarWhere(); 
+           $sRetorno = $oSteelDados->getValor();
+           return $sRetorno;
+           
+       }
+       
+       /**
+        * Valida tabela de preço retorno fio máquina tipo op F
+        */
+       public function validaTabelaFio($sTipo,$sTabela,$sReceita,$sTratcod,$sNcm){
+                        $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');
+                        $oItemsTabela->Persistencia->limpafiltro();
+                        $oItemsTabela->Persistencia->adicionaFiltro('nr',$sTabela);  //tabela de preco
+                        $oItemsTabela->Persistencia->adicionaFiltro('receita',$sReceita); //receita
+                        $oItemsTabela->Persistencia->adicionaFiltro('tipo',$sTipo); //insumo ou serviço
+                        $oItemsTabela->Persistencia->adicionaFiltro('cod',$sTratcod); //codigo do tratamento somente qdo for op fio
+                        $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$sNcm);//ncm
+                        $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();  //consulta
+                        
+                        if($oDadosInsumo->getProd()== null){
+                           $oModal = new Modal('Atenção','Não há cadastro de '.$sTipo.' desse produto, analise a tabela '
+                                    . 'de preço se há o devido cadastro, verifique se há o cadastro referente a NCM. '
+                                    . 'Se optar poderá inserir o insumo manualmente!' , Modal::TIPO_AVISO, false,true, false);
+                            echo $oModal->getRender();
+                            exit(); 
+                        }
+       }
+       
+       /**
+        * Valida tabela de preço retorno fio máquina tipo op F
+        */
+       public function validaTabelaPadrao($sTipo,$sTabela,$sReceita,$sNcm){
+                    $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');    
+                    $oItemsTabela->Persistencia->adicionaFiltro('nr',$sTabela);
+                    $oItemsTabela->Persistencia->adicionaFiltro('receita',$sReceita);
+                    $oItemsTabela->Persistencia->adicionaFiltro('tipo',$sTipo);
+                    $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$sNcm);
+                    $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();
+                    
+                  
+                        if($oDadosInsumo->getProd()== null){
+                           $oModal = new Modal('Atenção','Não há cadastro de '.$sTipo.' desse produto, analise a tabela '
+                                    . 'de preço se há o devido cadastro, verifique se há o cadastro referente a NCM. '
+                                    . 'Se optar poderá inserir o insumo manualmente!' , Modal::TIPO_AVISO, false,true, false);
+                            echo $oModal->getRender();
+                            exit(); 
+                        }
        }
        
       

@@ -212,14 +212,14 @@ class ControllerMET_TEC_Usuario extends Controller{
 
         $oEmail = new Email();
         $oEmail->setMailer();
+        /*testes*/
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor(Config::SERVER_SMTP);
-        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setServidor('smtp.terra.com.br');
+        $oEmail->setPorta(587);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario(Config::EMAIL_SENDER);
-        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
-        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Não responda | Metalbo '));
+        $oEmail->setUsuario('metalboweb@metalbo.com.br');
+        $oEmail->setSenha('Metalbo@@50');
+        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'),utf8_decode('Não responda | Metalbo '));
 
         $oEmail->setAssunto(utf8_decode('Solicitação de redefinição de senha'));
         $oEmail->setMensagem(utf8_decode($sMsg));

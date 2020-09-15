@@ -30,7 +30,17 @@ class ModelSTEEL_PCP_ImportaXml {
     private $xPed;
     private $nItemPed;
     private $dataemidoc;
+    private $nfsnfechv;
     
+    function getNfsnfechv() {
+        return $this->nfsnfechv;
+    }
+
+    function setNfsnfechv($nfsnfechv) {
+        $this->nfsnfechv = $nfsnfechv;
+    }
+
+        
     
     function getDataemidoc() {
         return $this->dataemidoc;

@@ -31,9 +31,9 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
         
         $oOp = new CampoConsulta('Op', 'op');
         $oSit = new CampoConsulta ('Sit.', 'situacao');
-        $oSit->addComparacao('Espera', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
-        $oSit->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-        $oSit->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA, false, '');
+        $oSit->addComparacao('Espera', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+        $oSit->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oSit->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA);
         
         $oTempFor = new CampoConsulta('TempForno','tempforno', CampoConsulta::TIPO_DECIMAL);
         $oTempFor->setBOrderBy(true);
@@ -75,7 +75,7 @@ class ViewSTEEL_PCP_ordensFabLista extends View {
        
         
         $this->addFiltro($oSitListaFiltro,$oFornoFiltro,$oProdFiltro,$oCliFiltro);
-        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoExcluir(true);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         

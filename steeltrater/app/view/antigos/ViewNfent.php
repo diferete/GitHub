@@ -28,8 +28,8 @@ class ViewNfent extends View{
         $oVlrTot->setILargura(200);
         $oNfFinan = new CampoConsulta('Financeiro', 'nf_finan');
         $oEmpresa = new CampoConsulta('Empresa', 'empcnpj');
-        $oNfFinan->addComparacao('Com Financeiro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-        $oNfFinan->addComparacao('Com Financeiro', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
+        $oNfFinan->addComparacao('Com Financeiro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oNfFinan->addComparacao('Com Financeiro', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
         $oNfFinan->setILargura(200);
         
         $oUserCadastro =new CampoConsulta('Usuário', 'nfusuins');

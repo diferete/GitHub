@@ -1979,7 +1979,7 @@ class Controller {
                             $xValorCampo = '';
                         };
                     } else {
-                        //$xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
+//                     $xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
                         $xValorCampo = $this->getValorModel($oAtual, $sNomeCampo);
                         $xValorCampo = rtrim($xValorCampo);
                     }
@@ -3177,7 +3177,7 @@ class Controller {
           //array de controle de erros
           $aRetorno[0] = true;
 
-          $this->carregaModel($aCamposTela);
+          $this->carregaModel();
 
           $aRetorno = $this->beforeInsert();
 
@@ -3658,8 +3658,8 @@ class Controller {
             echo $oMensagemSucesso->getRender();
 
             //Atualiza o Grid
-            $this->getDadosConsulta($aDados[1], false, null);
-            // echo"$('#".$aDados[1]."-pesq').click();";
+           // $this->getDadosConsulta($aDados[1], false, null);
+             echo"$('#".$aDados[1]."-pesq').click();";
         } else {
             $oMensagemErro = new Mensagem('Falha', 'O registro não foi excluído!', Mensagem::TIPO_ERROR);
             echo $oMensagemErro->getRender();

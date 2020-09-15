@@ -18,6 +18,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         
         $this->verificaCampos();
         $this->verificaOp();
+        $this->buscaChave();
      
         
         $aRetorno = array();
@@ -48,6 +49,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
 
         $this->verificaCampos();
         $this->verificaOp();
+        $this->buscaChave();
         
        
 
@@ -122,6 +124,12 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
             $oModelImp->setPeso($oModelImp->getMetpesocarg());
             //busca o preço da nota
             $aCamposChave['nfsitcod'] = $oModelImp->getNfsitcod();
+       //######################################################################################     
+            //busca quantidade para usar como parâmetro na busca preço, provisório
+            $aCamposChave['qtParam'] = $oModelImp->getNfsitqtd();
+       //#######################################################################################     
+            //busca o preço passando o parametro
+            
             $aPreco = $this->Persistencia->buscaPreço($aCamposChave);
             $oModelImp->setVlrNfEntUnit($aPreco[0]);
             $oModelImp->setVlrNfEnt($aPreco[1]);
@@ -816,7 +824,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
                     $aErro['pendencia'] = 'Atenção';
                     $aErro['pendenciaobs'] .= 'Não há INSUMO cadastrado na tabela de preço! ';
                     }
-                  //SERVIÇO--------------------------------------------------
+                //SERVIÇO--------------------------------------------------
                 $oItemsTabela->Persistencia->limpaFiltro();
                 $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());
                 $oItemsTabela->Persistencia->adicionaFiltro('receita',$this->Model->getReceita());
@@ -833,8 +841,27 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
                     $aErro['pendenciaobs'] .= 'Não há SERVIÇO cadastrado na tabela de preço! ';
                     }  
                   //-----------------------------------------------------------  
-                    
+                 
+                //ENERGIA--------------------------------------------------
+                //VERIFICA PARAMETRO ANTES
+               if($this->paramInsumoEnergia()=='SIM'){
+                $oItemsTabela->Persistencia->limpaFiltro();
+                $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());
+                $oItemsTabela->Persistencia->adicionaFiltro('receita',$this->Model->getReceita());
+                $oItemsTabela->Persistencia->adicionaFiltro('tipo','ENERGIA');
+                $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());
+                $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+                //alimenta array serviço
+                $aDadosFat['energia'][] = $oDadosServico;
+                 if($oDadosServico->getProd()== null){
+                    //mensagem e gravamos tabela = 0
+                    $oMensagem = new Mensagem('Atenção!','Não há ENERGIA cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING,5000);
+                    echo $oMensagem->getRender();
+                    $aErro['pendencia'] = 'Atenção';
+                    $aErro['pendenciaobs'] .= 'Não há insumo ENERGIA cadastrado na tabela de preço! ';
+                    }  
                 }
+               }
         
                //-----------------------SE A OP FOR FIO MÁQUINA----------------------
                 
@@ -862,7 +889,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
                                 $aErro['pendencia'] = 'Atenção';
                                 $aErro['pendenciaobs'] .= 'Não há SERVIÇO cadastrado na tabela de preço e lembrar de informar o tratamento nº'.$oTrat->tratcod.'! '; 
                             }
-                            
+                            //INSUMO
                             $oItemsTabela->Persistencia->limpafiltro();
                             $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());  //tabela de preco
                             $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita()); //receita
@@ -881,7 +908,27 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
                                 $aErro['pendenciaobs'] .= 'Não há INSUMO cadastrado na tabela de preço e lembrar de informar o tratamento nº'.$oTrat->tratcod.'! '; 
                             }
                             
+                           //ENERGIA
+                             //VERIFICA PARAMETRO ANTES
+                          if($this->paramInsumoEnergia()=='SIM'){
+                            $oItemsTabela->Persistencia->limpafiltro();
+                            $oItemsTabela->Persistencia->adicionaFiltro('nr',$oTabCliDados->getNr());  //tabela de preco
+                            $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita()); //receita
+                            $oItemsTabela->Persistencia->adicionaFiltro('tipo','ENERGIA'); //insumo ou serviço
+                            $oItemsTabela->Persistencia->adicionaFiltro('cod',$oTrat->tratcod); //codigo do tratamento somente qdo for op fio
+                            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm',$oProdDados->getPro_ncm());//ncm
+                            $oDadosFioInsumo = $oItemsTabela->Persistencia->consultarWhere();
+                            //alimenta array insumo
+                            $aDadosFat['energia'][] = $oDadosFioInsumo;
                             
+                            if($oDadosFioInsumo->getProd()== null){
+                                //mensagem e gravamos tabela = 0
+                                $oMensagem = new Mensagem('Atenção!','Não há ENERGIA cadastrado na tabela de preço e lembrar de informar o tratamento! ', Mensagem::TIPO_WARNING,5000);
+                                echo $oMensagem->getRender();
+                                $aErro['pendencia'] = 'Atenção';
+                                $aErro['pendenciaobs'] .= 'Não há ENERGIA cadastrado na tabela de preço e lembrar de informar o tratamento nº'.$oTrat->tratcod.'! '; 
+                            }
+                          }
                         }
             }
                 
@@ -933,6 +980,32 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller{
         echo $oMenSuccess->getRender();
        
     } 
+    
+    /**
+     * Busca a chave da nota fiscal eletronica
+     */
+    public function buscaChave(){
+        if($this->Model->getEmp_codigo()=='75483040000211'){
+            $sChave = $this->Persistencia->getChaveNfeMetalbo($this->Model->getDocumento(),$this->Model->getSerie_nf());
+            $this->Model->setNfsnfechv($sChave);
+        }else{
+            $sChave = $this->Persistencia->getChaveNfeXml($this->Model->getDocumento(),$this->Model->getSerie_nf());
+            $this->Model->setNfsnfechv($sChave);
+        }
+        
+    }
+    
+     /**
+        * Verifica parametro insumo energia
+        */
+       public function paramInsumoEnergia(){
+           $oSTEEL_PCP_ParametrosProd = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
+           $oSTEEL_PCP_ParametrosProd->Persistencia->adicionaFiltro('parametro','ATIVA FATURAMENTO INSUMO ENERGIA');
+           $oSteelDados = $oSTEEL_PCP_ParametrosProd->Persistencia->consultarWhere(); 
+           $sRetorno = $oSteelDados->getValor();
+           return $sRetorno;
+           
+       }
 
 }
    

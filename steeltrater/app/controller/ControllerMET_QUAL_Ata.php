@@ -16,7 +16,7 @@ class ControllerMET_QUAL_Ata extends Controller{
          $aCampos = array();
          parse_str($_REQUEST['campos'],$aCampos);
          
-         $this->carregaModel($aCamposTela);
+         $this->carregaModel();
          
          $aRetorno = $this->Persistencia->inserir();
          //insere os filtros 

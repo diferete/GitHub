@@ -14,15 +14,14 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->setTabela('MET_TEC_Chamados');
 
 
-        $this->adicionaRelacionamento('filcgc', 'filcgc', true, true);
         $this->adicionaRelacionamento('nr', 'nr', true, true, true);
+        $this->adicionaRelacionamento('filcgc', 'filcgc', true, true);
         $this->adicionaRelacionamento('usucod', 'usucod');
-        $this->adicionaRelacionamento('usunome', 'usunome');
+        $this->adicionaRelacionamento('usunome ', 'usunome');
         $this->adicionaRelacionamento('datacad', 'datacad');
         $this->adicionaRelacionamento('horacad', 'horacad');
         $this->adicionaRelacionamento('repoffice', 'repoffice');
         $this->adicionaRelacionamento('setor', 'setor');
-        $this->adicionaRelacionamento('descsetor', 'descsetor');
         $this->adicionaRelacionamento('tipo', 'tipo');
         $this->adicionaRelacionamento('subtipo ', 'subtipo');
         $this->adicionaRelacionamento('subtipo_nome', 'subtipo_nome');
@@ -38,51 +37,14 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->adicionaRelacionamento('anexo1', 'anexo1');
         $this->adicionaRelacionamento('anexo2', 'anexo2');
         $this->adicionaRelacionamento('anexo3', 'anexo3');
-        $this->adicionaRelacionamento('anexofim', 'anexofim');
-        $this->adicionaRelacionamento('previsao', 'previsao');
-        $this->adicionaRelacionamento('dias', 'dias');
 
 
         $this->setSTop('50');
         $this->adicionaOrderBy('nr', 1);
-        $this->adicionaOrderBy('datacad', 1);
     }
 
-    public function updateTempoRestante() {
-
-        $sSql = "select filcgc, nr, datainicio, previsao from MET_TEC_Chamados where situaca = 'INICIADO' ";
-        $sth = $this->getObjetoSql($sSql);
-        while ($aChamado = $sth->fetch(PDO::FETCH_ASSOC)) {
-            date_default_timezone_set('America/Sao_Paulo');
-            $previsao = date_create($aChamado['previsao']);
-            $inicio = date_create($aChamado['datainicio']);
-            $hoje = date_create(date('Y-m-d'));
-            $intervaloPrevisao = date_diff($inicio, $previsao);
-            $intervaloAtual = date_diff($hoje, $previsao);
-            $diasPrevisao = $intervaloPrevisao->format('%a');
-            $diasAtual = $intervaloAtual->format('%a');
-
-            if ($diasAtual > $diasPrevisao) {
-                $dias = '-' . $diasAtual;
-            } else {
-                $dias = $diasPrevisao;
-            }
-
-            $sSqlUpdate = "update MET_TEC_Chamados set dias = " . $dias . " where nr = " . $aChamado['nr'] . " and filcgc = " . $aChamado['filcgc'] . "";
-            $debug = $this->executaSql($sSqlUpdate);
-        }
-    }
-
-    public function buscaDadosChamado($aDados) {
-        $sSql = "select * from MET_TEC_Chamados "
-                . "where filcgc = '" . $aDados['filcgc'] . "' "
-                . "and usucod = '" . $aDados['usucod'] . "' "
-                . "and setor = '" . $aDados['setor'] . "' and "
-                . "datacad = '" . $aDados['datacad'] . "' and "
-                . "horacad = '" . $aDados['horacad'] . "' and "
-                . "tipo = '" . $aDados['tipo'] . "' "
-                . "and subtipo = '" . $aDados['subtipo'] . "' "
-                . "and problema = '" . $aDados['problema'] . "'";
+     public function buscaDadosChamado($aDados) {
+        $sSql = "select * from MET_TEC_Chamados where filcgc = '" . $aDados['filcgc'] . "' and usucod = '" . $aDados['usucod'] . "' and setor = '" . $aDados['setor'] . "' and datacad = '" . $aDados['datacad'] . "' and horacad = '" . $aDados['horacad'] . "' and tipo = '" . $aDados['tipo'] . "' and subtipo = '" . $aDados['subtipo'] . "' and problema = '" . $aDados['problema'] . "'";
         $oDados = $this->consultaSql($sSql);
         return $oDados;
     }
@@ -108,7 +70,6 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $sSql = "update MET_TEC_Chamados set situaca = 'INICIADO',"
                 . " datainicio = '" . $aDados['datainicio'] . "',"
                 . " horainicio = '" . $aDados['horainicio'] . "',"
-                . " previsao = '" . $aDados['previsao'] . "',"
                 . " usunomeinicio = '" . $aDados['usunomeinicio'] . "'"
                 . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
         $aRetorno = $this->executaSql($sSql);
@@ -120,8 +81,6 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
                 . " datafim = '" . $aDados['datafim'] . "',"
                 . " horafim = '" . $aDados['horafim'] . "',"
                 . " obsfim = '" . $aDados['obsfim'] . "',"
-                . " anexofim = '" . $aDados['anexofim'] . "',"
-                . " tempo = '" . $aDados['tempo'] . "',"
                 . " usunomefim = '" . $aDados['usunomefim'] . "'"
                 . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
         $aRetorno = $this->executaSql($sSql);
@@ -133,7 +92,6 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
                 . " datafim = '" . $aDados['datafim'] . "',"
                 . " horafim = '" . $aDados['horafim'] . "',"
                 . " obsfim = '" . $aDados['obsfim'] . "',"
-                . " anexofim = '" . $aDados['anexofim'] . "',"
                 . " usunomefim = '" . $aDados['usunomefim'] . "'"
                 . " where nr = " . $aDados['nr'] . " and filcgc = " . $aDados['filcgc'];
         $aRetorno = $this->executaSql($sSql);
@@ -164,57 +122,62 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
 
         return $aTotal;
     }
-
-    public function buscaDadosRep() {
-
-        $sSql = "select repoffice from  MET_TEC_Chamados where repoffice is not null  group by repoffice";
+    
+    public function buscaDadosRep(){
+        
+        $sSql = "select repoffice from  MET_TEC_Chamados where repoffice is not null  group by repoffice";       
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();
         while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $aRow[$iI] = $key;
+            $aRow[$iI]= $key;
             $iI++;
         }
         return $aRow;
+        
     }
-
-    public function buscaDadosUsuario() {
-
-        $sSql = "select usucod, usunome from MET_TEC_Chamados where usunome is not null  group by usucod, usunome";
+    
+    public function buscaDadosUsuario(){
+        
+        $sSql = "select usucod, usunome from MET_TEC_Chamados where usunome is not null  group by usucod, usunome";       
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();
         while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $aRow[$iI] = $key;
+            $aRow[$iI]= $key;
             $iI++;
         }
         return $aRow;
+        
     }
-
-    public function buscaDadosEmp() {
-
-        $sSql = "select filcgc, empdes from MET_TEC_Chamados left outer join widl.emp01 on MET_TEC_Chamados.filcgc = widl.emp01.empcod group by filcgc, empdes";
+    
+    public function buscaDadosEmp(){
+        
+        $sSql = "select filcgc, empdes from MET_TEC_Chamados left outer join widl.emp01 on MET_TEC_Chamados.filcgc = widl.emp01.empcod group by filcgc, empdes";       
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();
         while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $aRow[$iI] = $key;
+            $aRow[$iI]= $key;
             $iI++;
         }
         return $aRow;
+        
     }
-
-    public function buscaDadosSubTipo() {
-
-        $sSql = "select subtipo_nome from MET_TEC_Chamados where subtipo_nome is not null  group by subtipo_nome";
+    
+     public function buscaDadosSubTipo(){
+        
+        $sSql = "select subtipo_nome from MET_TEC_Chamados where subtipo_nome is not null  group by subtipo_nome";       
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();
         while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $aRow[$iI] = $key;
+            $aRow[$iI]= $key;
             $iI++;
         }
         return $aRow;
+        
     }
+    
 
 }

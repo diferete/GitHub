@@ -110,7 +110,8 @@ foreach ($aNrs as $key => $aNr) {
             STEEL_PCP_Certificado.opcliente,
             STEEL_PCP_Certificado.op,
             STEEL_PCP_Certificado.conclusao, tipoOrdem, prodFinal, prodesFinal,
-            convert(varchar,STEEL_PCP_Certificado.dataNotaRetorno,103) as dataNotaRetorno
+            convert(varchar,STEEL_PCP_Certificado.dataNotaRetorno,103) as dataNotaRetorno,
+            STEEL_PCP_Certificado.micrografia
             from STEEL_PCP_Certificado left outer join STEEL_PCP_ordensFab 
             on STEEL_PCP_ordensFab.op = STEEL_PCP_Certificado.op
             where STEEL_PCP_Certificado.nrcert =" . $aNr . " ";
@@ -495,7 +496,11 @@ foreach ($aNrs as $key => $aNr) {
         $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(50, 5, 'Micrografia: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(144, 5, 'N/A', '', 1, 'L');
+        if($row['micrografia']==null){
+            $pdf->Cell(144, 5,'Isento de Ferrita Delta, carbonetação e Descarbonetação', '', 1, 'L');
+        }else{
+            $pdf->Cell(144, 5, $row['micrografia'], '', 1, 'L');
+        }
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
@@ -551,14 +556,23 @@ if ($sEmailRequest == 'S') {
 
     $oEmail = new Email();
     $oEmail->setMailer();
+    /* testes */
     $oEmail->setEnvioSMTP();
-    $oEmail->setServidor(Config::SERVER_SMTP);
-    $oEmail->setPorta(Config::PORT_SMTP);
+    //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
+  /*  $oEmail->setServidor('smtp.terra.com.br');
+    $oEmail->setPorta(587);
     $oEmail->setAutentica(true);
-    $oEmail->setUsuario(Config::EMAIL_SENDER);
-    $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
-    $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Certificados SteelTrater'));
+    $oEmail->setUsuario('laboratorio@steeltrater.com.br');
+    $oEmail->setSenha('n2w5p7k4');
+    $oEmail->setRemetente(utf8_decode('laboratorio@steeltrater.com.br'), utf8_decode('Certificados SteelTrater'));*/
+    
+     $oEmail->setServidor('smtp.gmail.com');
+        $oEmail->setPorta(465);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario('metalboweb@gmail.com');
+        $oEmail->setSenha('3BS0deAgtLu4');
+        $oEmail->setProtocoloSMTP('ssl');
+        $oEmail->setRemetente(utf8_decode('metalboweb@gmail.com'), utf8_decode('Certificados SteelTrater'));
 
     $oEmail->setAssunto(utf8_decode('Certificado(s) NF ' . $sNomeCert));
     $oEmail->setMensagem(utf8_decode($resp . '<br/><br/>Segue em anexo os certificados da nota fiscal  ' . $sNomeCert));

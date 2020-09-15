@@ -49,7 +49,7 @@ class ViewNfRep extends View{
         $oHoraEmi = new CampoConsulta('Hora','nfshrsaida');
         $oHoraEmi->setILargura(40);
         $oTotal = new CampoConsulta('Total','nfsvlrtot', CampoConsulta::TIPO_MONEY);
-        $oTotal->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
+        $oTotal->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oTotal->setBComparacaoColuna(true);
         $oTranome = new CampoConsulta('Transportador','nfstranome');
         $oPeso = new CampoConsulta('Peso','nfspesobr', CampoConsulta::TIPO_DECIMAL);

@@ -34,31 +34,33 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
        
         
         $oSitLista = new CampoConsulta('Sit.Lista', 'STEEL_PCP_ordensFabLista.situacao');
-       // $oSitLista->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-        $oSitLista->addComparacao('Espera', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
-        $oSitLista->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-        $oSitLista->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA, false, '');
+        $oSitLista->addComparacao('Espera', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+        $oSitLista->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oSitLista->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA);
         
         $oCliente = new CampoConsulta('Cliente','emp_razaosocial');
         $oCliente->setBTruncate(true);
         
         $oRefencia = new CampoConsulta('Referência','referencia');
         
-        $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL,1);
-        $oRefFiltro = new Filtro($oRefencia, Filtro::CAMPO_TEXTO_IGUAL,2);
-        $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL,2);
-        $oDescricaoFiltro = new Filtro($oProdes, Filtro::CAMPO_TEXTO,3);
-        $oClienteFiltro = new Filtro($oCliente, Filtro::CAMPO_TEXTO,5);
+        $oTratrevencomp = new CampoConsulta('Acabamento','tratrevencomp');
+        
+        
+        $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL,1,1,1,1);
+        $oRefFiltro = new Filtro($oRefencia, Filtro::CAMPO_TEXTO_IGUAL,2,2,2,2);
+        $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL,2,2,2,2);
+        $oDescricaoFiltro = new Filtro($oProdes, Filtro::CAMPO_TEXTO,3,3,3,3);
+        $oClienteFiltro = new Filtro($oCliente, Filtro::CAMPO_TEXTO,5,5,5,5,true);
         
         
         
          //filtro de situacao
-        $oSitFiltro = new Filtro($oSituacao, Filtro::CAMPO_SELECT, 2,2,2,2);
+        $oSitFiltro = new Filtro($oSituacao, Filtro::CAMPO_SELECT, 3,3,3,3);
         $oSitFiltro->addItemSelect('Aberta', 'Aberta');
         $oSitFiltro->addItemSelect('Todos', 'Todos');
         $oSitFiltro->addItemSelect('Processo', 'Processo');
         $oSitFiltro->addItemSelect('Finalizado', 'Finalizado');
-        $oSitFiltro->setBInline(true);
+        //$oSitFiltro->setBInline(true);
         
         //situação da lista
         $oSitListaFiltro = new Filtro($oSitLista, Filtro::CAMPO_SELECT,3,3,3,3);
@@ -67,11 +69,20 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View{
         $oSitListaFiltro->addItemSelect('Espera', 'Espera');
         $oSitListaFiltro->addItemSelect('Liberado', 'Liberado');
         $oSitListaFiltro->addItemSelect('Finalizado', 'Finalizado');
-        $oSitListaFiltro->setBInline(true);
+       // $oSitListaFiltro->setBInline(true);
+        
+        //Filtro de acabamento
+        $oSitAcabFiltro = new Filtro($oTratrevencomp, Filtro::CAMPO_SELECT,5,5,5,5);
+        $oSitAcabFiltro->addItemSelect('Todos', 'Todos');
+        $oSitAcabFiltro->addItemSelect('E ENEGRECIDO', 'E ENEGRECIDO');
+        $oSitAcabFiltro->addItemSelect('À SECO', 'À SECO');
+        $oSitAcabFiltro->addItemSelect('ENEGRECIDO OLEADO', 'ENEGRECIDO OLEADO');
+       // $oSitAcabFiltro->setBInline(true);
         
         $oDataFiltro = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE,2,2,2,2,true);
         
-        $this->addFiltro($oOpFiltro,$oRefFiltro,$oCodigoFiltro,$oDescricaoFiltro,$oDataFiltro,$oClienteFiltro,$oSitFiltro,$oSitListaFiltro);
+        $this->addFiltro($oOpFiltro,$oRefFiltro,$oCodigoFiltro,$oDescricaoFiltro,
+                $oDataFiltro,$oClienteFiltro,$oSitFiltro,$oSitListaFiltro,$oSitAcabFiltro);
         
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);

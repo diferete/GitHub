@@ -31,7 +31,17 @@ class ModelSTEEL_PCP_OrdensFabApontLista {
     private $situacao;
     private $temprev;
     private $referencia;
+    private $tratrevencomp;
     
+    function getTratrevencomp() {
+        return $this->tratrevencomp;
+    }
+
+    function setTratrevencomp($tratrevencomp) {
+        $this->tratrevencomp = $tratrevencomp;
+    }
+
+        
     function getReferencia() {
         return $this->referencia;
     }

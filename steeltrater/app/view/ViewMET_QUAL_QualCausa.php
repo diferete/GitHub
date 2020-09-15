@@ -85,7 +85,7 @@ class ViewMET_QUAL_QualCausa extends View {
 
         /*
           $oOcorrencia = new CampoConsulta('Ocorrência 6M', 'ocorrencia', CampoConsulta::TIPO_DESTAQUE1);
-          $oOcorrencia->addComparacao('1', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, '');
+          $oOcorrencia->addComparacao('1', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
          */
 
         $this->addCampos($oNr, $oSeq, $oCausaDesc/* , $oOcorrencia */);
@@ -181,6 +181,9 @@ class ViewMET_QUAL_QualCausa extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBotConf->setApenasTela(true);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotConf->getOBotao()->setBDesativado(true);
+        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         //id form,id incremento,id do grid, id focus,    
@@ -188,11 +191,7 @@ class ViewMET_QUAL_QualCausa extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $this->addCampos($oDivisor1, array($oMatPrimaDes, $oMetodoDes, $oMaoDeObraDes, $oEquipamentoDes, $oMeioAmbienteDes, $oMedidaDes), $oBtnInsereCausa, $oDivisor, array($oCausaDes), array($oPq1, $oPq2, $oPq3, $oPq4, $oPq5), array($oFilcgc, $oNr, $oSeq));
-        } else {
-            $this->addCampos($oDivisor1, array($oMatPrimaDes, $oMetodoDes, $oMaoDeObraDes, $oEquipamentoDes, $oMeioAmbienteDes, $oMedidaDes), $oBtnInsereCausa, $oDivisor, array($oCausaDes), array($oPq1, $oPq2, $oPq3, $oPq4, $oPq5), array($oBotConf, $oFilcgc, $oNr, $oSeq));
-        }
+        $this->addCampos($oDivisor1, array($oMatPrimaDes, $oMetodoDes, $oMaoDeObraDes, $oEquipamentoDes, $oMeioAmbienteDes, $oMedidaDes), $oBtnInsereCausa, $oDivisor, array($oCausaDes), array($oPq1, $oPq2, $oPq3, $oPq4, $oPq5), array($oBotConf, $oFilcgc, $oNr, $oSeq));
 
         $this->addCamposFiltroIni($oFilcgc, $oNr);
     }

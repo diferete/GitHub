@@ -22,9 +22,9 @@ class ViewSTEEL_PCP_ordensFabApontEtapasGeren extends View{
         $oDataEnt = new CampoConsulta('Data Ent','dataent_forno', CampoConsulta::TIPO_DATA);
         $oHoraEnt = new CampoConsulta('Hora Ent','horaent_forno', CampoConsulta::TIPO_TIME);
         $oSituacao = new CampoConsulta('Situação','situacao');
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
-        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oSituacao->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
+        $oSituacao->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
         
         $oSituaca2 = new CampoConsulta('','situacao');
         
@@ -101,9 +101,9 @@ class ViewSTEEL_PCP_ordensFabApontEtapasGeren extends View{
         $oDataEntGridPes = new CampoConsulta('Data Ent','dataent_forno', CampoConsulta::TIPO_DATA);
         $oHoraEntGridPes = new CampoConsulta('Hora Ent','horaent_forno', CampoConsulta::TIPO_TIME);
         $oSituacaoGridPes = new CampoConsulta('Situação','situacao');
-        $oSituacaoGridPes->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-        $oSituacaoGridPes->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
-        $oSituacaoGridPes->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacaoGridPes->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+        $oSituacaoGridPes->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
+        $oSituacaoGridPes->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
         
         $oGridEnt->addCampos($oBotaoCarregarOps,$oOpGridPes,$oProdutoGridPes,$oFornoGridPes,
                 $oTurnoGridPes,$oDataEntGridPes,$oHoraEntGridPes,

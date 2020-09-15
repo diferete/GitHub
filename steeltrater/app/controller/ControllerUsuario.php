@@ -24,7 +24,7 @@
      * @return string String JSON com o conteúdo a ser renderizado
      */
     public function acaoLogin(){
-        $this->carregaModel($aCamposTela);
+        $this->carregaModel();
         
         if ($this->Persistencia->validaLogin()){
             if(!$this->Model->getBloqueado()){

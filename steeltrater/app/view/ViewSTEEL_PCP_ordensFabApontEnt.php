@@ -169,9 +169,9 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
          $oHoraEntGrid = new CampoConsulta('Hora Ent','horaent_forno', CampoConsulta::TIPO_TIME);
          $oSituaca = new CampoConsulta('Situação','situacao');
          $oUserNameG = new campoconsulta('Usuário','usernome');
-         $oSituaca->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-         $oSituaca->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
-         $oSituaca->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+         $oSituaca->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+         $oSituaca->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
+         $oSituaca->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
          
          
          $oGridEnt->addCampos($oBotaoExcluir,$oOpGrid,$oProcodDesGrid,$oFornoDesGrid,$oSteelTurno,$oDataEntGrid,$oHoraEntGrid,$oSituaca,$oUserNameG);
@@ -222,9 +222,9 @@ class ViewSTEEL_PCP_ordensFabApontEnt extends View {
          $oHoraEntGrid = new CampoConsulta('Hora Ent','horaent_forno', CampoConsulta::TIPO_TIME);
          $oSituaca = new CampoConsulta('Situação','situacao');
          $oUserNameG = new campoconsulta('Usuário','usernome');
-         $oSituaca->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
-         $oSituaca->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA, false, '');
-         $oSituaca->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
+         $oSituaca->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
+         $oSituaca->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);
+         $oSituaca->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
         
          $oGridApont->addCampos($oBotaoExcluir,$oOp,$oProcodDesGrid,$oFornoDesGrid,$oSteelTurno,$oDataEntGrid,$oHoraEntGrid,$oSituaca,$oUserNameG);
 

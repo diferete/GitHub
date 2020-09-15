@@ -349,12 +349,13 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
 
         $oEmail->setEnvioSMTP();
         
-        $oEmail->setServidor('smtp.terra.com.br');
-        $oEmail->setPorta(587);
+        $oEmail->setServidor('smtp.gmail.com');
+        $oEmail->setPorta(465);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@metalbo.com.br');
-        $oEmail->setSenha('Metalbo@@50');
-        $oEmail->setRemetente(utf8_decode('metalboweb@metalbo.com.br'), utf8_decode('PRODUÇÃO STEELTRATER'));
+        $oEmail->setUsuario('metalboweb@gmail.com');
+        $oEmail->setSenha('3BS0deAgtLu4');
+        $oEmail->setProtocoloSMTP('ssl');
+        $oEmail->setRemetente(utf8_decode('metalboweb@gmail.com'), utf8_decode('PRODUÇÃO STEELTRATER'));
         
         $oEmail->setAssunto(utf8_decode('PRODUÇÃO STEELTRATER DO DIA ' . Util::getDataOtem() . ''));
         $oEmail->setMensagem(utf8_decode($sTextoEmail));
@@ -363,13 +364,13 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
 
         // Para
          $aEmails = array();
-         $aEmails[]='avanei@metalbo.com.br';
          $aEmails[]='avaneim@gmail.com';
-         $aEmails[]='cristian@steeltrater.com.br';
+       /*  $aEmails[]='cristian@steeltrater.com.br';
          $aEmails[]='clovis@steeltrater.com.br';
          $aEmails[]='john@metalbo.com.br';
-		 $aEmails[]='hermes@metalbo.com.br';
-		 $aEmails[]='ivo@metalbo.com.br';
+         $aEmails[]='peters@metalbo.com.br';
+	 $aEmails[]='hermes@metalbo.com.br';
+	 $aEmails[]='ivo@metalbo.com.br';*/
          
           foreach ($aEmails as $sEmail) {
             $oEmail->addDestinatario($sEmail);
@@ -395,4 +396,80 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         
     }
     
+    /**
+     * Retorna produção para o aplicativo
+     */
+    public function getProdAppSteel($sDataIni,$sDataFim){
+        //################ GERA OS DADOS DO DIA ANTERIOS ########################
+         //################################################################################################
+        //producao diário peso
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getDataAtual();
+        $aDadosParam['datafin'] = Util::getDataAtual();
+        $aDadosPesoGeralDiario = $this->Persistencia->geraGerenProd($aDadosParam);
+       //separa por tipo de op tempera
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getDataAtual();
+        $aDadosParam['datafin'] = Util::getDataAtual();
+        $aDadosParam['tipoOp'] = 'P';
+        $aDadosPesoTemperaDiario = $this->Persistencia->geraGerenProd($aDadosParam);
+        //separa por tipo de op fio maquina
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getDataAtual();
+        $aDadosParam['datafin'] = Util::getDataAtual();
+        $aDadosParam['tipoOp'] = 'F';
+        $aDadosPesoFioDiario = $this->Persistencia->geraGerenProd($aDadosParam);
+        
+         //apontamento por etapa diário
+        $aDadosParam = array();
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getDataAtual();
+        $aDadosParam['datafin'] = Util::getDataAtual();
+       // $aDadosParam['tipoOp'] = 'F';
+        $aDadosEtapaDiario = $this->Persistencia->geraProdEtapas($aDadosParam);
+        
+   //###############################################BUSCA DO MÊS#############################################################
+        
+          //producao mensal peso
+        $aDadosParam = array();
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getPrimeiroDiaMes();
+        $aDadosParam['datafin'] = Util::getDataOtem();
+        $aDadosPesoGeralMensal = $this->Persistencia->geraGerenProd($aDadosParam);
+        //separa por tipo de op tempera
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getPrimeiroDiaMes();
+        $aDadosParam['datafin'] = Util::getDataOtem();
+        $aDadosParam['tipoOp'] = 'P';
+        $aDadosPesoTemperaMensal = $this->Persistencia->geraGerenProd($aDadosParam);
+        //separa por tipo de op fio maquina
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getPrimeiroDiaMes();
+        $aDadosParam['datafin'] = Util::getDataOtem();
+        $aDadosParam['tipoOp'] = 'F';
+        $aDadosPesoFioMensal = $this->Persistencia->geraGerenProd($aDadosParam);
+        
+          //apontamento por etapa 
+        $aDadosParam = array();
+        $aDadosParam['busca'] ='ProdTotal';
+        $aDadosParam['dataini'] = Util::getPrimeiroDiaMes();
+        $aDadosParam['datafin'] = Util::getDataOtem();
+        $aDadosParam['tipoOp'] = 'F';
+        $aDadosEtapaMensal = $this->Persistencia->geraProdEtapas($aDadosParam);
+        
+        
+         $aDados = array();
+         $aDados['ProdDiaria']['PesoTotal']=$aDadosPesoGeralDiario;
+         $aDados['ProdDiaria']['PesoTempera']=$aDadosPesoTemperaDiario;
+         $aDados['ProdDiaria']['PesoFio']=$aDadosPesoFioDiario;
+         $aDados['ProdDiaria']['DadosEtapa']=$aDadosEtapaDiario;
+           
+           
+         $aDados['ProdMensal']['PesoTotal']=$aDadosPesoGeralMensal;
+         $aDados['ProdMensal']['PesoTempera']=$aDadosPesoTemperaMensal;
+         $aDados['ProdMensal']['PesoFio']=$aDadosPesoFioMensal;
+         $aDados['ProdMensal']['DadosEtapa']=$aDadosEtapaMensal;
+        
+         return $aDados;
+    }
 }

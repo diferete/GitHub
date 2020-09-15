@@ -60,13 +60,30 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
     public function consultaMatOrdem() {
         $oGridMat = new Grid("");
         
-        $oSeqMatGrid = new CampoConsulta('Seq.Mat.','seqmat');
+         $oSeqMatGrid = new CampoConsulta('Seq.Mat.', 'seqmat');
+        $oSeqMatGrid->setILargura(30);
         $oProDesGrid = new CampoConsulta('Produto', 'DELX_PRO_Produtos.pro_descricao');
+        $oProDesGrid->setILargura(300);
         $oMatDesGrid = new CampoConsulta('Material', 'STEEL_PCP_material.matdes');
-        $oRecDesGrid = new CampoConsulta('Receita','STEEL_PCP_receitas.peca');
-        $oProdFinalGrid = new CampoConsulta('Produto Final','STEEL_PCP_pesqArame.pro_descricao');
+        $oMatDesGrid->setILargura(100);
+        $oRecDesGrid = new CampoConsulta('Receita', 'STEEL_PCP_receitas.peca');
+        $oRecDesGrid->setILargura(200);
+        $oDurNucMin = new CampoConsulta('DurezaMin','durezaNucMin',CampoConsulta::TIPO_DECIMAL);
+        $oDurNucMin->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oDurNucMin->setILargura(80);
+        $oDurNucMin->setBComparacaoColuna(true);
+        $oDurNuMax = new CampoConsulta('DurezaMax','durezaNucMax',CampoConsulta::TIPO_DECIMAL);
+        $oDurNuMax->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oDurNuMax->setILargura(80);
+        $oDurNuMax->setBComparacaoColuna(true);
+        $oRevenidoDesc = new CampoConsulta('Revenido','tratrevencomp');
+        $oRevenidoDesc->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oRevenidoDesc->setILargura(150);
+        $oRevenidoDesc->setBComparacaoColuna(true);
+        $oProdFinalGrid = new CampoConsulta('Produto Final', 'STEEL_PCP_pesqArame.pro_descricao');
         
-        $oGridMat->addCampos($oSeqMatGrid,$oProDesGrid,$oMatDesGrid,$oRecDesGrid,$oProdFinalGrid);
+        
+        $oGridMat->addCampos($oSeqMatGrid,$oProDesGrid,$oMatDesGrid,$oRecDesGrid,$oDurNucMin,$oDurNuMax,$oRevenidoDesc,$oProdFinalGrid);
 
         $aCampos = $oGridMat->getArrayCampos();
         return $aCampos;

@@ -12,24 +12,13 @@ class ControllerMET_TEC_Chamados extends Controller {
         $this->carregaClassesMvc('MET_TEC_Chamados');
     }
 
-    public function antesDeCriarConsulta($sParametros = null) {
-        parent::antesDeCriarConsulta($sParametros);
-
-        $this->Persistencia->updateTempoRestante();
-    }
-
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
 
         $sChave = htmlspecialchars_decode($sParametros[0]);
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
-        if ($_SESSION['codsetor'] == 2) {
-            $aRetorno = array();
-            $aRetorno[0] = true;
-            $aRetorno[1] = '';
-            return $aRetorno;
-        }
+
         if ($this->Model->getSituaca() != 'AGUARDANDO') {
             $oMensagem = new Modal('Atenção!', 'O cadastro Nº' . $this->Model->getNr() . ' não pode ser modificadao somente visualizado!', Modal::TIPO_ERRO, false, true, true);
             $this->setBDesativaBotaoPadrao(true);
@@ -43,42 +32,14 @@ class ControllerMET_TEC_Chamados extends Controller {
         }
     }
 
-    public function beforeInsert() {
-        parent::beforeInsert();
-
-        $str = str_replace(array("\r", "\n"), " ", $this->Model->getProblema());
-        $this->Model->setProblema($str);
-
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
-    public function beforeUpdate() {
-        parent::beforeUpdate();
-
-        $str = str_replace(array("\r", "\n"), " ", $this->Model->getProblema());
-        $this->Model->setProblema($str);
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
-    public function afterCommitInsert() {
-        parent::afterCommitInsert();
+    public function afterInsert() {
+        parent::afterInsert();
         $aCampos = $this->getArrayCampostela();
 
-        $oDados = $this->Persistencia->buscaDadosChamado($aCampos);
+        $aChave['nr'] = $aCampos['nr'];
+        $aChave['filcgc'] = $aCampos['filcgc'];
 
-        if ($oDados->repoffice != null) {
-            $sAssunto = $oDados->repoffice;
-        } else {
-            $sAssunto = $oDados->filcgc;
-        }
+        $oDados = $this->Persistencia->buscaDadosEmailChamado($aChave);
         switch ($oDados->tipo) {
             case 1:
                 $sTipo = 'HARDWARE';
@@ -102,29 +63,30 @@ class ControllerMET_TEC_Chamados extends Controller {
         $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
         $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
-        $oEmail->setAssunto(utf8_decode('CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
+        $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' EMPRESA ' . $oDados->filcgc));
         $oEmail->setMensagem(utf8_decode('Novo chamado:<br/>'
-                        . '<b>Usuário:</b> ' . $aCampos['usunome'] . '<br/><br/><br/>'
+                        . '<b>Usuário:</b> ' . $oDados->usunome . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Tipo:</b></td><td>' . $sTipo . '</td></tr>'
-                        . '<tr><td><b>Subtipo:</b></td><td>' . $aCampos['subtipo_nome'] . '</td></tr>'
-                        . '<tr><td><b>Problema:</b></td><td>' . $aCampos['problema'] . '</td></tr>'
+                        . '<tr><td><b>Subtipo:</b></td><td>' . $oDados->subtipo_nome . '</td></tr>'
+                        . '<tr><td><b>Problema:</b></td><td>' . $oDados->problema . '</td></tr>'
                         . '</table><br/><br/>'
+                        . '<a href="sistema.metalbo.com.br">Clique aqui para acessar o chamado!</a>'
                         . '<br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
         $oEmail->limpaDestinatariosAll();
 
         // Para
         $oEmail->addDestinatario('alexandre@metalbo.com.br');
         $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
-        $oEmail->addDestinatarioCopia('jose@metalbo.com.br');
-        if ($aCampos['anexo1'] != '') {
-            $oEmail->addAnexo('Uploads/' . $aCampos['anexo1'] . '', utf8_decode($aCampos['anexo1']));
+		$oEmail->addDestinatarioCopia('avanei@metalbo.com.br');
+        if ($oDados->anexo1 != '') {
+            $oEmail->addAnexo('Uploads/' . $oDados->anexo1 . '', utf8_decode($oDados->anexo1));
         }
-        if ($aCampos['anexo2'] != '') {
-            $oEmail->addAnexo('Uploads/' . $aCampos['anexo2'] . '', utf8_decode($aCampos['anexo2']));
+        if ($oDados->anexo2 != '') {
+            $oEmail->addAnexo('Uploads/' . $oDados->anexo2 . '', utf8_decode($oDados->anexo2));
         }
-        if ($aCampos['anexo3'] != '') {
-            $oEmail->addAnexo('Uploads/' . $aCampos['anexo3'] . '', utf8_decode($aCampos['anexo3']));
+        if ($oDados->anexo3 != '') {
+            $oEmail->addAnexo('Uploads/' . $oDados->anexo3 . '', utf8_decode($oDados->anexo3));
         }
 
         $aRetorno = $oEmail->sendEmail();
@@ -137,11 +99,8 @@ class ControllerMET_TEC_Chamados extends Controller {
             $aRetorno[1] = '';
             return $aRetorno;
         } else {
-
-            $oMensagem2 = new Mensagem('Sucesso', 'SEU REGISTRO FOI INSERIDO!', Mensagem::TIPO_SUCESSO, 20000);
-            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, saia e tente utilize o botão: E-MAIL -> REENVIAR E-MAIL', Mensagem::TIPO_WARNING);
+            $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
-            echo $oMensagem2->getRender();
 
             $aRetorno = array();
             $aRetorno[0] = false;
@@ -173,16 +132,18 @@ class ControllerMET_TEC_Chamados extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-        $oDados = $this->Persistencia->buscaProblema($aCamposChave);
+        $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+        $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+        $oDados = $this->Persistencia->consultarWhere();
 
-        if ($oDados->situaca == 'AGUARDANDO' || $oDados->situaca == 'INICIADO') {
+        if ($oDados->getSituaca() == 'AGUARDANDO' || $oDados->getSituaca() == 'INICIADO') {
 
             $this->View->setAParametrosExtras($oDados);
 
-            if ($oDados->situaca == 'AGUARDANDO') {
+            if ($oDados->getSituaca() == 'AGUARDANDO') {
                 $this->View->criaModalIniciaChamado();
             }
-            if ($oDados->situaca == 'INICIADO') {
+            if ($oDados->getSituaca() == 'INICIADO') {
                 $this->View->criaModalFinalizaChamado();
             }
 
@@ -202,29 +163,23 @@ class ControllerMET_TEC_Chamados extends Controller {
     public function apontaChamadoInicia() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-
-        if ($aCampos['previsao'] == '' || $aCampos['previsao'] == null) {
-            $oMensagem = new Mensagem('Atenção', 'Informe uma previsão de atendimento!', Mensagem::TIPO_WARNING);
-            echo $oMensagem->getRender();
+        $aRetorno = $this->Persistencia->iniciaChamado($aCampos);
+        if ($aRetorno[0]) {
+            $oMsg = new Modal('Tudo certo', 'Chamado foi iniciado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+            echo "$('#criaModalApontaChamado-btn').click();";
+            echo $oMsg->getRender();
         } else {
-            $aRetorno = $this->Persistencia->iniciaChamado($aCampos);
-            if ($aRetorno[0]) {
-                $oMsg = new Modal('Tudo certo', 'Chamado foi iniciado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
-                echo "$('#criaModalApontaChamado-btn').click();";
-                echo $oMsg->getRender();
-            } else {
-                $oMsg = new Modal('Atenção', 'Erro ao tentar iniciar o chamado', Modal::TIPO_AVISO, false, true, false);
-                echo "$('#criaModalApontaChamado-btn').click();";
-                echo $oMsg->getRender();
-            }
+            $oMsg = new Modal('Atenção', 'Erro ao tentar iniciar o chamado', Modal::TIPO_AVISO, false, true, false);
+            echo "$('#criaModalApontaChamado-btn').click();";
+            echo $oMsg->getRender();
         }
     }
 
     public function apontaChamadoFinaliza() {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-        if ($aCampos['tempo'] == '' || $aCampos['tempo'] == null || $aCampos['obsfim'] == '') {
-            $oMensagem = new Mensagem('Atenção', 'Campos OBSERVAÇÃO ou TEMPO vazios!', Mensagem::TIPO_WARNING);
+        if ($aCampos['obsfim'] == '') {
+            $oMensagem = new Mensagem('Atenção', 'Preencha o campo OBSERVAÇÃO!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         } else {
             $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
@@ -255,9 +210,11 @@ class ControllerMET_TEC_Chamados extends Controller {
         parse_str($sChave, $aCamposChave);
         $aCamposChave['id'] = $aDados[1];
 
-        $oDados = $this->Persistencia->buscaProblema($aCamposChave);
+        $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+        $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+        $oDados = $this->Persistencia->consultarWhere();
 
-        if (($oDados->situaca == 'AGUARDANDO') || ($_SESSION['codsetor'] == 2 && $oDados->situaca != 'FINALIZADO')) {
+        if ($oDados->getSituaca() == 'AGUARDANDO' || $_SESSION['codsetor'] == 2) {
 
             $this->View->setAParametrosExtras($oDados);
 
@@ -279,23 +236,21 @@ class ControllerMET_TEC_Chamados extends Controller {
         $aDados = explode(',', $sDados);
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-        if ($aCampos['obsfim'] != '' || $aCampos['obsfim'] != null) {
-            $aRetorno = $this->Persistencia->cancelaChamado($aCampos);
-            if ($aRetorno[0]) {
-                $oMsg = new Modal('Tudo certo', 'Chamado foi cancelado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
-                $this->EnviaEmailFinalizaChamado($aDados);
-                echo "$('#" . $aDados[1] . "-btn').click();";
-                echo $oMsg->getRender();
-            } else {
-                $oMsg = new Modal('Atenção', 'Erro ao tentar cancelar o chamado', Modal::TIPO_AVISO, false, true, false);
-                echo "$('#" . $aDados[1] . "-btn').click();";
-                echo $oMsg->getRender();
-            }
+        $aRetorno = $this->Persistencia->cancelaChamado($aCampos);
+        if ($aRetorno[0]) {
+            $oMsg = new Modal('Tudo certo', 'Chamado foi cancelado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+            echo "$('#" . $aDados[1] . "-btn').click();";
+            echo $oMsg->getRender();
         } else {
-            exit;
+            $oMsg = new Modal('Atenção', 'Erro ao tentar cancelar o chamado', Modal::TIPO_AVISO, false, true, false);
+            echo "$('#" . $aDados[1] . "-btn').click();";
+            echo $oMsg->getRender();
         }
     }
 
+    /**
+     * Monta Wizard linha do tempo OnClick para Gerenciar Projetos
+     * */
     public function calculoPersonalizado($sParametros = null) {
         parent::calculoPersonalizado($sParametros);
 
@@ -344,7 +299,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         }
 
         $oEmail->setAssunto(utf8_decode('CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
-        $oEmail->setMensagem(utf8_decode('<b style="color:#0f5539; font-weight:900;font-size:18px;">SEU CHAMADO FOI ' . $oDados->situaca . '<br/>'
+        $oEmail->setMensagem(utf8_decode('<b style="color:#0f5539; font-weight:900;font-size:18px;">SEU CHAMADO FOI FINALIZADO<br/>'
                         . '<b>Usuário:</b> ' . $oDados->usunome . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Tipo:</b></td><td>' . $sTipo . '</td></tr>'
@@ -484,7 +439,7 @@ class ControllerMET_TEC_Chamados extends Controller {
                     break;
             }
 
-            $oEmail->setAssunto(utf8_decode('CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
+            $oEmail->setAssunto(utf8_decode('NOVO CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
             $oEmail->setMensagem(utf8_decode('Novo chamado:<br/>'
                             . '<b>Usuário:</b> ' . $oDados->usunome . '<br/><br/><br/>'
                             . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
@@ -498,7 +453,6 @@ class ControllerMET_TEC_Chamados extends Controller {
 
             $oEmail->addDestinatario('alexandre@metalbo.com.br');
             $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
-            $oEmail->addDestinatarioCopia('jose@metalbo.com.br');
             if ($oDados->anexo1 != '') {
                 $oEmail->addAnexo('Uploads/' . $oDados->anexo1 . '', utf8_decode($oDados->anexo1));
             }
@@ -530,7 +484,6 @@ class ControllerMET_TEC_Chamados extends Controller {
         $aParame[1] = $this->Persistencia->buscaDadosSubTipo();
         $aParame[2] = $this->Persistencia->buscaDadosEmp();
         $aParame[3] = $this->Persistencia->buscaDadosUsuario();
-        $aParame[4] = $this->Persistencia->buscaDadosSetores();
 
         $this->View->setAParametrosExtras($aParame);
     }

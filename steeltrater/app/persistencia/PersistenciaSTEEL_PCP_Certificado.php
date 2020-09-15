@@ -55,6 +55,8 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
         $this->adicionaRelacionamento('DiamFinalMax', 'DiamFinalMax');
         $this->adicionaRelacionamento('dataNotaRetorno', 'dataNotaRetorno');
         
+        $this->adicionaRelacionamento('micrografia','micrografia');
+        
         
         $this->setSTop('200');
         $this->adicionaOrderBy('nrcert', 1);

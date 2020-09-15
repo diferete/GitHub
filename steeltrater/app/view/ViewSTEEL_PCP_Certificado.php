@@ -26,8 +26,8 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oPeso = new CampoConsulta('Peso', 'peso');
         
         $oSitEmail = new CampoConsulta('Email','sitEmail');
-        $oSitEmail->addComparacao('NãoEnv', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA, false, '');
-        $oSitEmail->addComparacao('Env', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
+        $oSitEmail->addComparacao('NãoEnv', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA);
+        $oSitEmail->addComparacao('Env', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
         
         //botao 
         $oBotaoHist = new CampoConsulta('','liberar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_FLAG);
@@ -227,6 +227,7 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oInsEneg->addItemSelect('Tolerável', 'Tolerável');
         $oInsEneg->addItemSelect('Ruim', 'Ruim');
         $oInsEneg->addItemSelect('Não Aplicável', 'Não Aplicável');
+        $oInsEneg->setSValor('Tolerável');
         
         $oDataEmi=new Campo('Emissão','dataemissao', Campo::TIPO_TEXTO,1);
         $oDataEmi->setSValor(date('d/m/Y'));
@@ -295,9 +296,13 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oDiamFinalMin = new campo('Diâmetro Final Mínimo(mm)','DiamFinalMin',Campo::TIPO_DECIMAL,3);
         $oDiamFinalMax = new campo('Diâmetro Final Máximo(mm)','DiamFinalMax',Campo::TIPO_DECIMAL,3);
         
+        $oMicroGrafia = new campo('Micrografia','micrografia', Campo::TIPO_TEXTO,6,6,6,6);
+        $oMicroGrafia->setSValor('Isento de Ferrita Delta, carbonetação e Descarbonetação');
+        
         $oAbaPadrao->addCampos(array($oSupDurMin,$oSupDurMax,$oSupEscala),
                            array($oNucDurMin,$oNucDurMax,$oNucEscala),
-                           array($oCamDurMin,$oCamDurMax,$oInsEneg)
+                           array($oCamDurMin,$oCamDurMax,$oInsEneg),
+                           $oMicroGrafia
                            );
         
         $oAbaFioMaquina->addCampos(array($oFioDurezaSol,$oFioEsferio),array($oFioDescarbonetaTotal,$oFioDescarbonetaParcial),array($oDiamFinalMin,$oDiamFinalMax));
@@ -446,9 +451,17 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oInsEneg->addItemSelect('Tolerável', 'Tolerável');
         $oInsEneg->addItemSelect('Ruim', 'Ruim');
         $oInsEneg->addItemSelect('Não Aplicável', 'Não Aplicável');
+        $oInsEneg->setSValor('Tolerável');
         if($oDadosCert->getInspeneg()!==null){
             $oInsEneg->setSValor($oDadosCert->getInspeneg());
         }
+        
+        $oMicroGrafia = new campo('Micrografia','micrografia', Campo::TIPO_TEXTO,6,6,6,6);
+        $oMicroGrafia->setSValor('Isento de Ferrita Delta, carbonetação e Descarbonetação');
+         if($oDadosCert->getMicrografia()!==null){
+            $oMicroGrafia->setSValor($oDadosCert->getMicrografia());
+        }
+        
         
         $oDataEmi=new Campo('Emissão','dataemissao', Campo::TIPO_TEXTO,1);
         $oDataEmi->setSValor(date('d/m/Y'));
@@ -520,7 +533,8 @@ class ViewSTEEL_PCP_Certificado extends View {
         
         $oAbaPadrao->addCampos(array($oSupDurMin,$oSupDurMax,$oSupEscala),
                            array($oNucDurMin,$oNucDurMax,$oNucEscala),
-                           array($oCamDurMin,$oCamDurMax,$oInsEneg)
+                           array($oCamDurMin,$oCamDurMax,$oInsEneg),
+                           $oMicroGrafia
                            );
         
         $oAbaFioMaquina->addCampos(array($oFioDurezaSol,$oFioEsferio),array($oFioDescarbonetaTotal,$oFioDescarbonetaParcial),array($oDiamFinalMin,$oDiamFinalMax));

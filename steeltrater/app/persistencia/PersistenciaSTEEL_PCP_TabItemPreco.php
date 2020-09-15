@@ -25,7 +25,7 @@ class PersistenciaSTEEL_PCP_TabItemPreco extends Persistencia {
         $this->adicionaRelacionamento('cod','cod');
         
 
-        $this->setSTop('100');
+        $this->setSTop('500');
         $this->adicionaJoin('STEEL_PCP_receitas', null,1, 'receita','cod');
         $this->adicionaJoin('STEEL_PCP_Produtos', null,1, 'prod','pro_codigo');
        

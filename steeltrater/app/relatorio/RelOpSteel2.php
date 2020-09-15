@@ -52,12 +52,15 @@ $pdf->Cell(0,5,'','T',1,'L');
      $sRetrabalho = $_REQUEST['retrabalho'];
      $sSituacao=$_REQUEST['situa'];
      $iEmpCodigo=$_REQUEST['emp_codigo'];
+     $iTratCod = $_REQUEST['tratcod'];
      //busca os dados do banco
      $PDO = new PDO("sqlsrv:server=".Config::HOST_BD.",".Config::PORTA_BD."; Database=".Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
      $sSqli = "select op,prod,prodes,prodesfinal,quant,
               peso,opcliente,convert(varchar,data,103) as data,convert(varchar,dataprev,103) as dataprev,
               situacao 
-              from STEEL_PCP_OrdensFab 
+              from STEEL_PCP_OrdensFab left outer join STEEL_PCP_receitasItens
+              on STEEL_PCP_OrdensFab.receita = STEEL_PCP_receitasItens.cod 
+              and seq = ( select top 1 seq from STEEL_PCP_receitasItens where cod = STEEL_PCP_OrdensFab.receita order by seq ) 
               where data between '".$dtinicial."' and '".$dtfinal."'";
           if($sSituacao!=='Todas'){
               $sSqli.=" and situacao='".$sSituacao."' ";
@@ -72,6 +75,9 @@ $pdf->Cell(0,5,'','T',1,'L');
           }else{
               $sSqli.=" and retrabalho <> 'Retorno não Ind.' and retrabalho <> 'OP origem retrabalho' "; 
           }
+          if($iTratCod!==''){
+              $sSqli.=" and tratcod ='".$iTratCod."'  ";
+          }
           
    $dadosRela = $PDO->query($sSqli);
    
@@ -79,8 +85,13 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->SetFont('Arial','B',10);
    $pdf->Cell(35, 10,'Filtros escolhidos:', '',0, 'L',0);
    
+   if($_REQUEST['tratdes']!==''){
+        $sTratDes = $_REQUEST['tratdes'];
+   }else{
+        $sTratDes = 'Todos';
+   }
    if($iEmpCodigo==null){
-       $iEmpCodigo = 'Todos';
+       $iEmpCodigo = 'Todas';
    }
    $pdf->SetFont('Arial','',9);
    $pdf->Cell(50,10,'Data inicial: '.$dtinicial.
@@ -88,12 +99,9 @@ $pdf->Cell(0,5,'','T',1,'L');
            '   Empresa: '.$iEmpCodigo.
            '   Situação: '.$sSituacao.
            '   Retrabalho: '.$sRetrabalho.
+           '   Tratamento: '.$sTratDes.
            ' ', '',1, 'L',0);
    
-   
-   
-   //$pdf->SetFont('Arial','',9);
-   //$pdf->Cell(30,10,'Data inicial: '.$dtfinal, '',1, 'L',0);
    $pdf->Cell(0,3,'','',1,'L');
    
    //Títulos do relatório
@@ -109,15 +117,9 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->SetFont('Arial','B',9);
    $pdf->Cell(95,5,'Descrição Final', 'B,R,T',0, 'C',0);
    
-   //$pdf->SetFont('Arial','B',9);
-   //$pdf->Cell(14,5,'Quant.', 'B,R,T',0, 'C',0);
-   
    $pdf->SetFont('Arial','B',9);
    $pdf->Cell(14,5,'Peso', 'B,R,T',0, 'C',0);
-   
-   //$pdf->SetFont('Arial','B',9);
-   //$pdf->Cell(34,5,'OpCliente', 'B,R,T',0, 'C',0);
-   
+      
    $pdf->SetFont('Arial','B',9);
    $pdf->Cell(18,5,'Data', 'B,R,T',0, 'C',0);
    
@@ -169,9 +171,6 @@ $pdf->Cell(0,5,'','T',1,'L');
    
    $pdf->SetFont('Arial','',9);
    $pdf->Cell(100, 2, '','',1,'C');
-   
-   //$pdf->SetFont('Arial','B',10);
-   //$pdf->Cell(100, 8, 'Quant. Total: '.number_format($Quanttotal, 2, ',', '.'),'',1,'J');
    
    $pdf->SetFont('Arial','B',10);
    $pdf->Cell(99, 8, 'Peso Total: '.number_format($Pesototal, 2, ',', '.'),'',0,'J');

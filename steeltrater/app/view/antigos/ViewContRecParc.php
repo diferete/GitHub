@@ -40,7 +40,7 @@ class ViewContRecParc extends View{
         $oRecVlr =  new CampoConsulta('Valor','recparcvlr');
         $oRecVenc =  new CampoConsulta('Vencimento','recparcvenc');
         $oRecSit = new CampoConsulta('Situação','recsit');
-        $oRecSit->addComparacao('Em aberto', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
+        $oRecSit->addComparacao('Em aberto', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oRecSit->setBComparacaoColuna(true);
         
         $this->addCampos($oPescnpj,$oPerazao_nome,$oRecDoct,$oRecparc,$oRecVlr,$oRecVenc,$oRecSit);

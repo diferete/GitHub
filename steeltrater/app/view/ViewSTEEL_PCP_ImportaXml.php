@@ -58,11 +58,11 @@ class viewSTEEL_PCP_ImportaXml extends View{
         
         $oOpSteel = new CampoConsulta('OpSteel','opSteel');
         $oOpSteel->setILargura(30);
-       // $oOpSteel->addComparacao('0', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA, false, '');
-       // $oOpSteel->addComparacao('0', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
+       // $oOpSteel->addComparacao('0', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL,CampoConsulta::MODO_COLUNA);
+       // $oOpSteel->addComparacao('0', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
         
         
-        $oOpSteel->addComparacao('0', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, '');
+        $oOpSteel->addComparacao('0', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA);
         $oOpSteel->setBComparacaoColuna(true);
          
         

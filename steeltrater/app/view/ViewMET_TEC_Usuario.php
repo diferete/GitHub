@@ -28,18 +28,18 @@ class ViewMET_TEC_Usuario extends View {
         $UsuSobrenome->setILargura(100);
 
         $oUsuSit = new CampoConsulta('Situação Cad.', 'ususit', CampoConsulta::TIPO_LARGURA, 5);
-        $oUsuSit->addComparacao('Cadastro Completo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
-        $oUsuSit->addComparacao('Aguardando cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, '');
+        $oUsuSit->addComparacao('Cadastro Completo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oUsuSit->addComparacao('Aguardando cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
         $oUsuSit->setILargura(50);
 
         $oUsuLogin = new CampoConsulta('Login', 'usulogin', CampoConsulta::TIPO_LARGURA, 5);
         $oUsuLogin->setILargura(200);
 
-
-
+       
+        
         $FiltroCodigo = new Filtro($oUsucodigo, Filtro::CAMPO_TEXTO, 1);
         $FiltroUser = new Filtro($oUsunome, Filtro::CAMPO_TEXTO, 3);
-
+        
 
 
 
@@ -99,11 +99,11 @@ class ViewMET_TEC_Usuario extends View {
         $oFilcgc = new Campo('Empresa Padrão', 'filcgc', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oFilcgc->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
 
-
+       
 
         $oFilcgc->setClasseBusca('DELX_FIL_empresa');
         $oFilcgc->setSCampoRetorno('fil_codigo', $this->getTela()->getId());
-
+       
 
         $oOfficeCod = new Campo('Escritório Rep.', 'officecod', Campo::TIPO_BUSCADOBANCOPK, 2);
 
@@ -131,21 +131,28 @@ class ViewMET_TEC_Usuario extends View {
         $oSit->setBCampoBloqueado(true);
 
         $oSenhaProv = new campo('Senha provisória', 'senhaProvisoria', Campo::TIPO_CHECK, 4);
-
-        $oCodSisMetalbo = new campo('Cód.Metalbo', 'codsismetalbo', Campo::TIPO_TEXTO, 2);
-
-        $oLinha = new Campo('', 'linha1', Campo::TIPO_LINHA, 12);
+        
+        $oCodSisMetalbo = new campo('Cód.Metalbo','codsismetalbo', Campo::TIPO_TEXTO,2);
+        
+        $oLinha = new Campo('','linha1', Campo::TIPO_LINHA,12);
         $oLinha->setApenasTela(true);
+        
+        $oTurnoSteel = new campo('Turno SteelTrater','turnoSteel', Campo::CAMPO_SELECTSIMPLE,3,3,3,3);
+        $oTurnoSteel->addItemSelect('Nenhum','Nenhum');
+        $oTurnoSteel->addItemSelect('Turno A','Turno A');
+        $oTurnoSteel->addItemSelect('Turno B','Turno B');
+        $oTurnoSteel->addItemSelect('Turno C','Turno C');
+        $oTurnoSteel->addItemSelect('Turno D','Turno D');
+        $oTurnoSteel->addItemSelect('Geral','Geral');
 
-        $oTurnoSteel = new campo('Turno SteelTrater', 'turnoSteel', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
-        $oTurnoSteel->addItemSelect('Nenhum', 'Nenhum');
-        $oTurnoSteel->addItemSelect('Turno A', 'Turno A');
-        $oTurnoSteel->addItemSelect('Turno B', 'Turno B');
-        $oTurnoSteel->addItemSelect('Turno C', 'Turno C');
-        $oTurnoSteel->addItemSelect('Turno D', 'Turno D');
-        $oTurnoSteel->addItemSelect('Geral', 'Geral');
-
-        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), $oLinha, array($oUserNome, $oSobrenome), $oLinha, array($oUsuFone, $oUsuRamal, $oUsuEmail), $oLinha, array($oCodSetor, $oFilcgc), $oLinha, array($oUsutipo, $oOfficeCod), $oLinha, array($oUsuimagem, $oNomeDelsoft), $oLinha, $oLinha, $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv, $oLinha, array($oCodSisMetalbo, $oTurnoSteel));
+        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit),$oLinha, 
+                array($oUserNome, $oSobrenome),$oLinha, 
+                array($oUsuFone, $oUsuRamal, $oUsuEmail),$oLinha, 
+                array($oCodSetor, $oFilcgc),$oLinha, 
+                array($oUsutipo, $oOfficeCod),$oLinha, 
+                array($oUsuimagem, $oNomeDelsoft),$oLinha,$oLinha, 
+                $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv,$oLinha,
+                array($oCodSisMetalbo,$oTurnoSteel));
     }
 
 }

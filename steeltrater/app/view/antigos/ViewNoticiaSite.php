@@ -25,8 +25,8 @@ class ViewNoticiaSite extends View {
         $oTexto->setILargura(800);
 
         $oSite = new CampoConsulta('Site', 'filcgc');
-        $oSite->addComparacao('75483040000211', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
-        $oSite->addComparacao('83781641000158', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+        $oSite->addComparacao('75483040000211', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSite->addComparacao('83781641000158', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
         $oSite->setBComparacaoColuna(true);
         $oSite->setILargura(80);
         

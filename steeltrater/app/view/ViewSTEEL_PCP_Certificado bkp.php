@@ -26,8 +26,8 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oPeso = new CampoConsulta('Peso', 'peso');
         
         $oSitEmail = new CampoConsulta('Email','sitEmail');
-        $oSitEmail->addComparacao('NãoEnv', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA, false, '');
-        $oSitEmail->addComparacao('Env', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA, false, '');
+        $oSitEmail->addComparacao('NãoEnv', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO,CampoConsulta::MODO_COLUNA);
+        $oSitEmail->addComparacao('Env', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE,CampoConsulta::MODO_COLUNA);
         
         //botao 
         $oBotaoHist = new CampoConsulta('','liberar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_FLAG);

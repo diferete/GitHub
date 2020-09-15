@@ -88,6 +88,12 @@ class ViewMET_TEC_ItemMenu extends View{
         $oIteMetodo = new Campo('Método','itemetodo', Campo::TIPO_TEXTO,2);
         $oIteMetodo->setITamanho(Campo::TAMANHO_PEQUENO);
         
+        //telas do aplicativo
+        $oUrl = new Campo('Url App','url', Campo::TIPO_TEXTO, 3, 3, 3, 3);
+        $oUrl->setSCorFundo(Campo::FUNDO_VERDE);
+        $oIcone = new Campo('Ícone App', 'iconApp', Campo::TIPO_TEXTO, 3, 3, 3, 3);
+        $oIcone->setSCorFundo(Campo::FUNDO_VERDE);
+        
         $oBotConf = new Campo('Inserir','',  Campo::TIPO_BOTAOSMALL_SUB,1);
         $sGrid=$this->getOGridDetalhe()->getSId();
        //id form,id incremento,id do grid, id focus,    
@@ -95,7 +101,8 @@ class ViewMET_TEC_ItemMenu extends View{
         //$oBotConf->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        $this->addCampos(array($oModCod,$oModdes,$oMenCodigo,$oMenDes),array($oIteCodigo,$oIteDesc,$oIteOrdem),array($oIteclasse,$oIteMetodo,$oBotConf));
+        $this->addCampos(array($oModCod,$oModdes,$oMenCodigo,$oMenDes),array($oIteCodigo,$oIteDesc,$oIteOrdem),array($oIteclasse,$oIteMetodo),
+                array($oUrl,$oIcone,$oBotConf));
         
    //adiciona objetos campos para servirem como filtros iniciais do grid
         $this->addCamposFiltroIni($oModCod,$oMenCodigo);
