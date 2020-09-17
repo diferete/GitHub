@@ -94,7 +94,6 @@ class ControllerContPagItem extends Controller{
         unset($aCampos[4]);
         foreach ($aCampos as $key => $sCampoAtual) {
            $aCampoAtual = explode('=',$sCampoAtual);
-          // $aModel = explode('.',$aCampoAtual[0] );
            $this->Persistencia->adicionaFiltro($aCampoAtual[0], $aCampoAtual[1]);
           
         }

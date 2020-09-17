@@ -165,9 +165,7 @@ class ViewFinanRep extends View {
 
         $oDataFim = new Campo('Data final', 'datafim', Campo::TIPO_DATA, 2, 2, 12, 12);
 
-
-
-        $oAtraso = new Campo('Somente em atraso', 'atrasados', Campo::TIPO_CHECK, 1, 1, 12, 12);
+        $oAtraso = new Campo('Somente em atraso', 'atrasados', Campo::TIPO_CHECK, 2, 2, 12, 12);
 
         $oDivisor1 = new Campo('Cliente', 'cliente', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
@@ -184,8 +182,14 @@ class ViewFinanRep extends View {
         $oEmpCod->setClasseBusca('Pessoa');
         $oEmpCod->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oEmpCod->addCampoBusca('empdes', $oEmpDes->getId(), $this->getTela()->getId());
+        
+        //para mostrar a parte de imprimir a planilha no excel
+        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2,2,2,2);
+        $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
+        $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","FinanRep","relatorioExcelTituloAberto");';
+        $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $this->addCampos($oDivisor, array($oDataIni, $oDataFim, $oAtraso), $oDivisor1, array($oEmpCod, $oEmpDes));
+        $this->addCampos($oDivisor, array($oDataIni, $oDataFim, $oAtraso), $oDivisor1, array($oEmpCod, $oEmpDes), $oXls);
     }
 
 }

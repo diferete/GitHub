@@ -266,7 +266,7 @@ class ViewQualNovoProjRep extends View {
 
         $oAnexoFree = new campo('Anexo 3', 'anexo3', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
 
-        $oFieldAnexo = new FieldSet('Anexos do sistema');
+        $oFieldAnexo = new FieldSet('Anexos representante');
         $oFieldAnexo->addCampos(array($oAnexoDesenho, $oAnexoDoc, $oAnexoFree));
 
         $oFieldDetalhe = new FieldSet('Informações');

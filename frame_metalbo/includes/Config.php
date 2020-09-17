@@ -55,6 +55,8 @@ class Config {
     const BD_SQLSERVER = 6;
     
     const TIPO_BD = self::BD_SQLSERVER;
+    
+    
     const PORTA_BD = 1433;
     const USER_BD = 'sa';
     const NOME_BD = 'rex_maquinas';

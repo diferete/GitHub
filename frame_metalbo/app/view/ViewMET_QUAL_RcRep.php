@@ -59,15 +59,12 @@ class ViewMET_QUAL_RcRep extends View {
         $oDropDown = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'MET_QUAL_RcRep', 'liberarMetalbo', '', false, 'rc', false, '', false, '', true, false);
 
-        $oDropDown1 = new Dropdown('Finalizar Reclamação', Dropdown::TIPO_AVISO);
-        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Finalizar', 'MET_QUAL_RcRep', 'criaTelaModalFinaliza', '', false, '', false, 'criaTelaModalFinaliza', true, 'Finalizar Reclamação', false, false);
-
         $oDropDown2 = new Dropdown('Opções da Reclamação', Dropdown::TIPO_INFO, Dropdown::ICON_INFO);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'MET_QUAL_RcRep', 'acaoMostraRelConsulta', '', false, 'rc', false, '', false, '', false, false);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail', 'MET_QUAL_RcRep', 'reenviaEmail', '', false, '', false, '', false, '', false, false);
 
         $this->setUsaDropdown(true);
-        $this->addDropdown($oDropDown, $oDropDown2, $oDropDown1);
+        $this->addDropdown($oDropDown, $oDropDown2);
 
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
@@ -338,16 +335,14 @@ class ViewMET_QUAL_RcRep extends View {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////        
-
-
-        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
-        $oDisposicao->addItenRadio('1', 'Acc. Condicionalmente');
-        $oDisposicao->addItenRadio('2', 'Recusar');
-
         $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oDescNaoConf->setILinhasTextArea(5);
         $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
         $oDescNaoConf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5');
+
+        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
+        $oDisposicao->addItenRadio('1', 'Aceita Condicionalmente');
+        $oDisposicao->addItenRadio('2', 'Devolver');
 
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
@@ -364,7 +359,7 @@ class ViewMET_QUAL_RcRep extends View {
         $oTabNF->addCampos(
                 array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
 
-        $oTabProd->addCampos($oAplicacao, array($oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
+        $oTabProd->addCampos($oAplicacao, array($oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao));
 
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao, $oReclamacao));
@@ -377,47 +372,6 @@ class ViewMET_QUAL_RcRep extends View {
 
 
         //array($oRespVenda, $oRespVendaNome)
-    }
-
-    /**
-     * Cria modal para finalizar reclamação de cliente
-     */
-
-    /**
-     * Função para cria a tela modal para vizualizar a proposta
-     */
-    public function criaModalFinaliza($sDados) {
-        parent::criaModal();
-
-        $oDados = $this->getAParametrosExtras();
-
-        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
-        $oFilcgc->setSValor($oDados->getFilcgc());
-        $oFilcgc->setBCampoBloqueado(true);
-        $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
-        $oNr->setSValor($oDados->getNr());
-        $oNr->setBCampoBloqueado(true);
-
-        $oObs_fim = new campo('Obs', 'obs_fim', Campo::TIPO_TEXTAREA, 12);
-        $oObs_fim->setILinhasTextArea(8);
-        $oObs_fim->addValidacao(false, Validacao::TIPO_STRING, '', '5');
-
-
-
-        $oBtnInserir = new Campo('Finalizar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
-        //id do grid
-
-        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","finalizaRC","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
-
-        $oBtnInserir->setSAcaoBtn($sAcao);
-        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
-        $this->getTela()->setAcaoConfirmar($sAcao);
-
-        $this->setBTela(true);
-
-
-        $this->addCampos(array($oFilcgc, $oNr), $oObs_fim, $oBtnInserir);
     }
 
     public function relReclamacaoCliente() {

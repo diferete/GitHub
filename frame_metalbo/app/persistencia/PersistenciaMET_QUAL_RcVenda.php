@@ -77,7 +77,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
-        
+
         $this->setSTop(50);
     }
 
@@ -257,6 +257,9 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
     }
 
     public function apontaReclamacao($aDados) {
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
@@ -265,13 +268,17 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         $oDados = $this->buscaDadosRC($aDados);
 
         $sSql = "update tbrncqual "
-                . "set situaca = 'Apontada', "
+                . "set situaca = 'Finalizada', "
                 . "reclamacao = '" . $aCampos['reclamacao'] . "', "
                 . "devolucao = '" . $aCampos['devolucao'] . "', "
                 . "obs_aponta = '" . $sObs . "', "
                 . "usuapontavenda = '" . $_SESSION['nome'] . "', "
                 . "nfdevolucao = '" . $aCampos['nfdevolucao'] . "', "
                 . "nfsIpi = '" . $aCampos['nfsIpi'] . "', "
+                . "datafim='" . $sData . "',"
+                . "horafim = '" . $sHora . "',"
+                . "usucod_fim = '" . $_SESSION['codUser'] . "',"
+                . "usunome_fim ='" . $_SESSION['nome'] . "',"
                 . "valorfrete = '" . $aCampos['valorfrete'] . "' ";
         if ($oDados->tagsetor == null) {
             $sSql .= ",tagsetor = 34 ";

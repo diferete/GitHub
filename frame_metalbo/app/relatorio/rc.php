@@ -216,7 +216,7 @@ $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Disposição:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, '(' . $row['aceitar'] . ') Aceito condicionalmente', 0, 0, 'L');
-$pdf->Cell(50, 5, '(' . $row['recusar'] . ') Reprovar', 0, 1, 'L');
+$pdf->Cell(50, 5, '(' . $row['recusar'] . ') Devolver', 0, 1, 'L');
 
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);

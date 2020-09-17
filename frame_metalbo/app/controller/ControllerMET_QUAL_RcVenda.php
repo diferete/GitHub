@@ -186,7 +186,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_QUAL_RcVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
         }
         if ($aRetorno[0] == 'Finalizada') {
-            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi finalizada pelo representante!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi finalizada!', Modal::TIPO_AVISO, false, true, true);
         }
 
         echo $oMensagem->getRender();
@@ -224,7 +224,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             //renderiza a tela
             $this->View->getTela()->getRender();
         } else {
-            if ($oRet->devolucao == 'Aceita' && $oRet->situaca != 'Finalizada' && (($oRet->nfdevolucao == null && $oRet->nfsipi == null && $oRet->valorfrete == null) || ($oRet->nfdevolucao == '0' && $oRet->nfsipi == '.0000' && $oRet->valorfrete == '.0000'))) {
+            if (($oRet->nfdevolucao == null && $oRet->nfsipi == null && $oRet->valorfrete == null) || ($oRet->nfdevolucao == '0' && $oRet->nfsipi == '.0000' && $oRet->valorfrete == '.0000')) {
 
                 $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
                 $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
@@ -250,7 +250,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
     public function msgSit($aDados, $oRet) {
 
         if ($oRet->situaca == 'Finalizada') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC já foi finalizada pelo representante.', Modal::TIPO_AVISO);
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC já foi finalizada!.', Modal::TIPO_AVISO);
         }
         if ($oRet->situaca != 'Apontada' && $oRet->reclamacao == 'Em análise') {
             $oMensagem = new Modal('Atenção', 'Reclamação - RC não está em situação de ser apontada.', Modal::TIPO_AVISO);
@@ -373,17 +373,17 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 echo $oMensagem3->getRender();
             } else {
                 if ($aRet[0] == 'Env.Qual') {
-                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('duda@metalbo.com.br');
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
-                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
-                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
-                    $oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    //$oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
@@ -407,6 +407,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
 
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
+        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
 
         if ($aCampos['reclamacao'] == '' || $aCampos['reclamacao'] == null) {
             $oMsg = new Mensagem('Atenção', 'Selecione o TIPO da RC segundo análise!', Mensagem::TIPO_ERROR);
@@ -417,9 +418,13 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             $oMsg = new Mensagem('Atenção', 'Selecione o status da DEVOLUÇÃO segundo análise!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
             exit();
+        }
+        if ($aCampos['reclamacao'] == 'Interna' && $oDados->situaca != 'Apontada') {
+            $oMsg = new Mensagem('Atenção', 'Não foi apontada pelo setor de analise interna!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+            exit();
         } else {
             $aRetorno = $this->Persistencia->apontaReclamacao($aCamposChave);
-
             if ($aRetorno[0] == true) {
                 $oMensagem = new Modal('Sucesso', 'Apontamento efetuado com sucesso!', Modal::TIPO_SUCESSO);
                 $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO, 10000);
@@ -481,7 +486,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
 
         $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ''));
-        $oEmail->setMensagem(utf8_decode('A reclamação de Nº ' . $oRow->nr . ' foi apontada pelo setor de VENDAS.<hr><br/>'
+        $oEmail->setMensagem(utf8_decode('A reclamação de Nº ' . $oRow->nr . ' foi apontada e finalizada pelo setor de VENDAS.<hr><br/>'
                         . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
                         . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
                         . '<b>Hora: ' . $hora . '  </b><br/>'

@@ -189,32 +189,6 @@ class ControllerMET_QUAL_RcRep extends Controller {
         }
     }
 
-    /**
-     * Aprova final rc 
-     * @param type $sDados
-     */
-    public function finalizaRC($sDados) {
-        $aDados = explode(',', $sDados);
-        $aCampos = array();
-        parse_str($_REQUEST['campos'], $aCampos);
-
-        $aRet = $this->Persistencia->finalizaAcao($aCampos);
-
-
-        if ($aRet[0]) {
-            $oMsg = new Mensagem('Sucesso', 'Reclamação nº' . $aCampos['nr'] . ' foi finalizada!', Mensagem::TIPO_SUCESSO);
-            echo $oMsg->getRender();
-            echo '$("#' . $aDados[2] . '-pesq").click();';
-            echo "$('#" . $aDados[2] . "-btn').click();";
-            $this->notificaQualidade($aDados);
-        } else {
-            $oMsg = new Modal('Atenção', 'Erro ao tentar finalizar reclamação!', Modal::TIPO_AVISO, false, true, true);
-            echo $oMsg->getRender();
-            echo '$("#' . $aDados[2] . '-pesq").click();';
-            echo "$('#" . $aDados[2] . "-btn').click();";
-        }
-    }
-
     public function getRespVenda($sDados) {
         $aDados = explode(',', $sDados);
         $iString = strlen($aDados[0]);

@@ -235,8 +235,8 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDivisor1->setApenasTela(true);
 
         $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
-        $oDisposicao->addItenRadio('1', 'Acc. Condicionalmente');
-        $oDisposicao->addItenRadio('2', 'Recusar');
+        $oDisposicao->addItenRadio('1', 'Aceita Condicionalmente');
+        $oDisposicao->addItenRadio('2', 'Devolver');
 
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
@@ -251,7 +251,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oTabNF->addCampos(
                 array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
 
-        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, array($oDisposicao), $oDescNaoConf);
+        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao));
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3));
 

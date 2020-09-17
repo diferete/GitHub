@@ -72,7 +72,7 @@ $pdf->SetFont('Arial', '', 10);
 $pdf->Cell(27, 5, $empcod, 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(17, 5, "Cliente:", 0, 0, 'L');
+$pdf->Cell(13, 5, "Cliente:", 0, 0, 'L');
 $pdf->SetFont('Arial', '', 10);
 $pdf->Cell(132, 5, $empdes, 0, 0, 'L');
 
@@ -95,7 +95,7 @@ $sSql = "select replace(rTrim(replace(bcoagencia+bcoconta,' ','')),'-','') + CON
         . "recprnrobc, bcodes,"
         . "replace(rTrim(replace(bcoagencia+''+bcoconta,' ','')),'-','')as agConta,"
         . "recprcarco,recparnro,recprbconr,convert(varchar,recdtemiss,103) as recdtemiss,widl.REC001.empcod,empdes,widl.REC001.recdocto,"
-        . "convert(varchar,recprdtpro,103) as recprdtpro,recprdtpgt,"
+        . "convert(varchar,recprdtpro,103) as recprdtpro,MONTH(recprdtpro) as mes, recprdtpgt,"
         . "recprvlr,recprvlpgt,recprindtr,recprtirec,"
         . "DATEDIFF(day,CONVERT (date, SYSDATETIME()),recprdtpro) as dias,"
         . "recof from widl.REC001(nolock) "
@@ -121,7 +121,7 @@ if ($empcod !== 'Todos') {
 $sSql = $sSql . "group by "
         . "repcod,widl.REC001.empcod,recdtemiss,empdes,widl.REC001.recdocto,recprdtpro,recprdtpgt,recprvlr,recprvlpgt,recprindtr,recprtirec,"
         . "recof,recparnro, recprcarco,recprnrobc,recprbconr,recparnro,bcodes,bcoagencia,bcoconta "
-        . "order by recprdtpro desc, widl.REC001.empcod";
+        . "order by mes asc";
 
 
 $Dados = $PDO->query($sSql);
@@ -131,13 +131,14 @@ $iEmp = 0;
 while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
 
     if (isset($_REQUEST['atrasados'])) {
+        $pdf->SetTextColor(0, 0, 0);
         if ($row['dias'] < 0) {
             if ($iEmp !== $row['empcod']) {
                 if ($iEmp != 0) {
                     $pdf->SetFont('arial', 'B', 9);
                     $pdf->Cell(25, 5, "Soma Cliente: ", 0, 0, 'L');
                     $pdf->SetFont('Arial', '', 10);
-                    $pdf->Cell(120, 5, number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L');
+                    $pdf->Cell(120, 5, 'R$ '. number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L');
                     $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
                 }
                 $pdf->Ln(5);
@@ -165,9 +166,9 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
                 $pdf->Cell(20, 5, "Emissão", 0, 0, 'L');
                 $pdf->Cell(20, 5, "Vencimento", 0, 0, 'L');
                 $pdf->Cell(15, 5, "Pedido", 0, 0, 'L');
-                $pdf->Cell(21, 5, "Vlr.Receber", 0, 0, 'L');
-                $pdf->Cell(26, 5, "Dias em Atraso", 0, 0, 'L');
-                $pdf->Cell(64, 5, "Ag.-Beneficiario-Carteira-Nosso Número", 0, 0, 'L');
+                $pdf->Cell(27, 5, "Vlr.Receber", 0, 0, 'L');
+                $pdf->Cell(26, 5, "Dias para pagar", 0, 0, 'L');
+                $pdf->Cell(66, 5, "Ag.-Beneficiario-Carteira-Nosso Número", 0, 0, 'L');
                 $pdf->Cell(15, 5, "Parcela", 0, 0, 'L');
                 $pdf->Cell(35, 5, "Banco", 0, 0, 'L');
                 $pdf->Cell(22, 5, "Nosso Numero", 0, 1, 'R');
@@ -176,16 +177,18 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
                 $iSomaCliente = 0;
             }
 
-
+            if ($row['dias'] < 0) {
+                $pdf->SetTextColor(255, 0, 0);
+            }
             $pdf->SetFont('arial', 'B', 9);
             $pdf->Cell(18, 5, $row['recdocto'], 0, 0, 'L');
             $pdf->SetFont('arial', '', 9);
             $pdf->Cell(20, 5, $row['recdtemiss'], 0, 0, 'L');
             $pdf->Cell(20, 5, $row['recprdtpro'], 0, 0, 'L');
             $pdf->Cell(15, 5, $row['recof'], 0, 0, 'L');
-            $pdf->Cell(21, 5, number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
+            $pdf->Cell(27, 5, 'R$ '. number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
             $pdf->Cell(26, 5, $row['dias'], 0, 0, 'L');
-            $pdf->Cell(53, 5, str_replace(' ', '', $row['NossoNumero']), 0, 0, 'L');
+            $pdf->Cell(55, 5, str_replace(' ', '', $row['NossoNumero']), 0, 0, 'L');
             $pdf->Cell(15, 5, $row['recparnro'], 0, 0, 'R');
             $pdf->Cell(49, 5, $row['bcodes'], 0, 0, 'R');
             $pdf->Cell(30, 5, $row['recprnrobc'], 0, 1, 'R');
@@ -195,6 +198,7 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
             $iTotal = $iTotal + $row['recprvlr'];
         }
     } else {
+        $pdf->SetTextColor(0, 0, 0);
         if ($iEmp !== $row['empcod']) {
             if ($iEmp != 0) {
                 $pdf->SetFont('arial', 'B', 9);
@@ -228,9 +232,9 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
             $pdf->Cell(20, 5, "Emissão", 0, 0, 'L');
             $pdf->Cell(20, 5, "Vencimento", 0, 0, 'L');
             $pdf->Cell(15, 5, "Pedido", 0, 0, 'L');
-            $pdf->Cell(21, 5, "Vlr.Receber", 0, 0, 'L');
-            $pdf->Cell(26, 5, "Dias em Atraso", 0, 0, 'L');
-            $pdf->Cell(64, 5, "Ag.-Beneficiario-Carteira-Nosso Número", 0, 0, 'L');
+            $pdf->Cell(27, 5, "Vlr.Receber", 0, 0, 'L');
+            $pdf->Cell(26, 5, "Dias para pagar", 0, 0, 'L');
+            $pdf->Cell(66, 5, "Ag.-Beneficiario-Carteira-Nosso Número", 0, 0, 'L');
             $pdf->Cell(15, 5, "Parcela", 0, 0, 'L');
             $pdf->Cell(35, 5, "Banco", 0, 0, 'L');
             $pdf->Cell(22, 5, "Nosso Numero", 0, 1, 'R');
@@ -239,16 +243,18 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
             $iSomaCliente = 0;
         }
 
-
+        if ($row['dias'] < 0) {
+            $pdf->SetTextColor(255, 0, 0);
+        }
         $pdf->SetFont('arial', 'B', 9);
         $pdf->Cell(18, 5, $row['recdocto'], 0, 0, 'L');
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(20, 5, $row['recdtemiss'], 0, 0, 'L');
         $pdf->Cell(20, 5, $row['recprdtpro'], 0, 0, 'L');
         $pdf->Cell(15, 5, $row['recof'], 0, 0, 'L');
-        $pdf->Cell(21, 5, number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
+        $pdf->Cell(27, 5, 'R$ '. number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
         $pdf->Cell(26, 5, $row['dias'], 0, 0, 'L');
-        $pdf->Cell(53, 5, str_replace(' ', '', $row['NossoNumero']), 0, 0, 'L');
+        $pdf->Cell(55, 5, str_replace(' ', '', $row['NossoNumero']), 0, 0, 'L');
         $pdf->Cell(15, 5, $row['recparnro'], 0, 0, 'R');
         $pdf->Cell(49, 5, $row['bcodes'], 0, 0, 'R');
         $pdf->Cell(30, 5, $row['recprnrobc'], 0, 1, 'R');
@@ -259,10 +265,11 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
     }
 }
 
+$pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(25, 5, "Soma Cliente: ", 0, 0, 'L');
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(120, 5, number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L');
+$pdf->Cell(120, 5, 'R$ ' . number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L');
 
 $pdf->Ln(5);
 

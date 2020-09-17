@@ -79,7 +79,7 @@ class PersistenciaMET_QUAL_RcRep extends Persistencia {
         }
 
         $this->adicionaOrderBy('nr', 1);
-        
+
         $this->setSTop(50);
     }
 
@@ -105,26 +105,6 @@ class PersistenciaMET_QUAL_RcRep extends Persistencia {
         $aSit[2] = $oRow->devolucao;
 
         return $aSit;
-    }
-
-    /**
-     * Finaliza reclamação 
-     */
-    public function finalizaAcao($aDados) {
-        date_default_timezone_set('America/Sao_Paulo');
-        $sHora = date('H:i');
-        $sData = date('d/m/Y');
-
-        //$aDados['obs_fim'] = Util::limpaString($aDados['obs_fim']);
-
-        $sSql = "update tbrncqual set situaca = 'Finalizada',"
-                . "datafim='" . $sData . "',horafim = '" . $sHora . "',"
-                . "usucod_fim = '" . $_SESSION['codUser'] . "',"
-                . "usunome_fim ='" . $_SESSION['nome'] . "',"
-                . "obs_fim ='" . $aDados['obs_fim'] . "' "
-                . "where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
-        $aRetorno = $this->executaSql($sSql);
-        return $aRetorno;
     }
 
     //Libera RC para vendas-Metalbo

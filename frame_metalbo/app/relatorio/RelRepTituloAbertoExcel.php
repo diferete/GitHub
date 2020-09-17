@@ -53,7 +53,6 @@ $objDrawing->setWidth(100);
 $objDrawing->setHeight(35);
 $objDrawing->setWorksheet($objPHPExcel->getActiveSheet());
 ////////Fim Cabeçalho para a logo da metalbo///////////////////
-
 // Título do documento
 $objPHPExcel->setActiveSheetIndex(0)
         ->mergeCells('C1:G2')
@@ -82,14 +81,14 @@ $objPHPExcel->setActiveSheetIndex(0)
         ->setCellValue('J4', 'Dt.Final')
         ->setCellValue('K4', $dataFim)
 ;
-
+$objPHPExcel->getActiveSheet()->getStyle('D4')->getNumberFormat()->setFormatCode("0");
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 $sSql = "select replace(rTrim(replace(bcoagencia+bcoconta,' ','')),'-','') + CONVERT(varchar(20),recprcarco) + CONVERT(varchar(20),recprnrobc) AS NossoNumero,"
         . "recprnrobc, bcodes,"
         . "replace(rTrim(replace(bcoagencia+''+bcoconta,' ','')),'-','')as agConta,"
         . "recprcarco,recparnro,recprbconr,convert(varchar,recdtemiss,103) as recdtemiss,widl.REC001.empcod,empdes,widl.REC001.recdocto,"
-        . "convert(varchar,recprdtpro,103) as recprdtpro,recprdtpgt,"
+        . "convert(varchar,recprdtpro,103) as recprdtpro,MONTH(recprdtpro) as mes, recprdtpgt,"
         . "recprvlr,recprvlpgt,recprindtr,recprtirec,"
         . "DATEDIFF(day,CONVERT (date, SYSDATETIME()),recprdtpro) as dias,"
         . "recof from widl.REC001(nolock) "
@@ -115,7 +114,7 @@ if ($empcod !== 'Todos') {
 $sSql = $sSql . "group by "
         . "repcod,widl.REC001.empcod,recdtemiss,empdes,widl.REC001.recdocto,recprdtpro,recprdtpgt,recprvlr,recprvlpgt,recprindtr,recprtirec,"
         . "recof,recparnro, recprcarco,recprnrobc,recprbconr,recparnro,bcodes,bcoagencia,bcoconta "
-        . "order by recprdtpro desc, widl.REC001.empcod";
+        . "order by mes asc";
 
 
 $Dados = $PDO->query($sSql);
@@ -130,11 +129,11 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
             if ($iEmp !== $row['empcod']) {
                 $i++;
                 if ($iEmp != 0) {
-                $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('D' . $i, 'Soma Cliente:')
-                        ->setCellValue('E' . $i, number_format($iSomaCliente, 2, ',', '.'));
-                $objPHPExcel->getActiveSheet()->getStyle('D' . $i)->getFont()->setBold(true);
-                $i++;
+                    $objPHPExcel->setActiveSheetIndex(0)
+                            ->setCellValue('A' . $i, 'Soma Cliente:')
+                            ->setCellValue('B' . $i, 'R$ ' . number_format($iSomaCliente, 2, ',', '.'));
+                    $objPHPExcel->getActiveSheet()->getStyle('A' . $i)->getFont()->setBold(true);
+                    $i++;
                 }
                 $i++;
                 //Cabeçalhos
@@ -145,7 +144,7 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
                         ->setCellValue('E' . $i, $row['empcod'])
                         ->setCellValue('G' . $i, 'CNPJ - Metalbo')
                         ->setCellValue('H' . $i, '75483040000130')
-                ;                
+                ;
                 $objPHPExcel->getActiveSheet()->getStyle('E' . $i)->getNumberFormat()->setFormatCode("0");
                 $objPHPExcel->getActiveSheet()->getStyle('H' . $i)->getNumberFormat()->setFormatCode("0");
                 $objPHPExcel->getActiveSheet()->getStyle('A' . $i)->getFont()->setBold(true);
@@ -158,13 +157,13 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
                         ->setCellValue('C' . $i, 'Vencimento')
                         ->setCellValue('D' . $i, 'Pedido')
                         ->setCellValue('E' . $i, 'Vlr.Receber')
-                        ->setCellValue('F' . $i, 'Dias em Atraso')
+                        ->setCellValue('F' . $i, 'Dias para pagar')
                         ->setCellValue('G' . $i, 'Ag.Benificiário-Carteira-Nosso Número')
                         ->setCellValue('H' . $i, 'Parcela')
                         ->setCellValue('I' . $i, 'Banco')
                         ->setCellValue('J' . $i, 'Nosso Número')
                 ;
-                $objPHPExcel->getActiveSheet()->getStyle('A'. $i.':J'. $i)->getFont()->setBold(true);
+                $objPHPExcel->getActiveSheet()->getStyle('A' . $i . ':J' . $i)->getFont()->setBold(true);
                 $iEmp = $row['empcod'];
                 $iSomaCliente = 0;
             }
@@ -174,77 +173,83 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
                     ->setCellValue('B' . $i, $row['recdtemiss'])
                     ->setCellValue('C' . $i, $row['recprdtpro'])
                     ->setCellValue('D' . $i, $row['recof'])
-                    ->setCellValue('E' . $i, number_format($row['recprvlr'], 2, ',', '.'))
+                    ->setCellValue('E' . $i, 'R$ ' . number_format($row['recprvlr'], 2, ',', '.'))
                     ->setCellValue('F' . $i, $row['dias'])
                     ->setCellValue('G' . $i, $row['NossoNumero'])
                     ->setCellValue('H' . $i, $row['recparnro'])
                     ->setCellValue('I' . $i, $row['bcodes'])
                     ->setCellValue('J' . $i, $row['recprnrobc'])
             ;
+            if ($row['dias'] < 0) {
+                $objPHPExcel->getActiveSheet()->getStyle('A' . $i . ':J' . $i)->getFont()->getColor()->setRGB('FF0000');
+            }
             $objPHPExcel->getActiveSheet()->getStyle('G' . $i)->getNumberFormat()->setFormatCode("0");
             $iSomaCliente = $iSomaCliente + $row['recprvlr'];
             $iTotal = $iTotal + $row['recprvlr'];
         }
-    }else{
-            if ($iEmp !== $row['empcod']) {
-                $i++;
-                if ($iEmp != 0) {
+    } else {
+        if ($iEmp !== $row['empcod']) {
+            $i++;
+            if ($iEmp != 0) {
                 $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('D' . $i, 'Soma Cliente:')
-                        ->setCellValue('E' . $i, number_format($iSomaCliente, 2, ',', '.'));
-                $objPHPExcel->getActiveSheet()->getStyle('D' . $i)->getFont()->setBold(true);
-                $i++;
-                }
-                $i++;
-                //Cabeçalhos
-                $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $i, 'Cliente')
-                        ->setCellValue('B' . $i, $row['empdes'])
-                        ->setCellValue('D' . $i, 'CNPJ - Cliente')
-                        ->setCellValue('E' . $i, $row['empcod'])
-                        ->setCellValue('G' . $i, 'CNPJ - Metalbo')
-                        ->setCellValue('H' . $i, '75483040000130')
-                ;                
-                $objPHPExcel->getActiveSheet()->getStyle('E' . $i)->getNumberFormat()->setFormatCode("0");
-                $objPHPExcel->getActiveSheet()->getStyle('H' . $i)->getNumberFormat()->setFormatCode("0");
+                        ->setCellValue('A' . $i, 'Soma Cliente:')
+                        ->setCellValue('B' . $i, 'R$ ' . number_format($iSomaCliente, 2, ',', '.'));
                 $objPHPExcel->getActiveSheet()->getStyle('A' . $i)->getFont()->setBold(true);
-                $objPHPExcel->getActiveSheet()->getStyle('D' . $i)->getFont()->setBold(true);
-                $objPHPExcel->getActiveSheet()->getStyle('G' . $i)->getFont()->setBold(true);
                 $i++;
-                $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('A' . $i, 'Docto')
-                        ->setCellValue('B' . $i, 'Emissão')
-                        ->setCellValue('C' . $i, 'Vencimento')
-                        ->setCellValue('D' . $i, 'Pedido')
-                        ->setCellValue('E' . $i, 'Vlr.Receber')
-                        ->setCellValue('F' . $i, 'Dias em Atraso')
-                        ->setCellValue('G' . $i, 'Ag.Benificiário-Carteira-Nosso Número')
-                        ->setCellValue('H' . $i, 'Parcela')
-                        ->setCellValue('I' . $i, 'Banco')
-                        ->setCellValue('J' . $i, 'Nosso Número')
-                ;
-                $objPHPExcel->getActiveSheet()->getStyle('A'. $i.':J'. $i)->getFont()->setBold(true);
-                $iEmp = $row['empcod'];
-                $iSomaCliente = 0;
             }
             $i++;
+            //Cabeçalhos
             $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A' . $i, $row['recdocto'])
-                    ->setCellValue('B' . $i, $row['recdtemiss'])
-                    ->setCellValue('C' . $i, $row['recprdtpro'])
-                    ->setCellValue('D' . $i, $row['recof'])
-                    ->setCellValue('E' . $i, number_format($row['recprvlr'], 2, ',', '.'))
-                    ->setCellValue('F' . $i, $row['dias'])
-                    ->setCellValue('G' . $i, $row['NossoNumero'])
-                    ->setCellValue('H' . $i, $row['recparnro'])
-                    ->setCellValue('I' . $i, $row['bcodes'])
-                    ->setCellValue('J' . $i, $row['recprnrobc'])
+                    ->setCellValue('A' . $i, 'Cliente')
+                    ->setCellValue('B' . $i, $row['empdes'])
+                    ->setCellValue('D' . $i, 'CNPJ - Cliente')
+                    ->setCellValue('E' . $i, $row['empcod'])
+                    ->setCellValue('G' . $i, 'CNPJ - Metalbo')
+                    ->setCellValue('H' . $i, '75483040000130')
             ;
-            $objPHPExcel->getActiveSheet()->getStyle('G' . $i)->getNumberFormat()->setFormatCode("0");
-            $iSomaCliente = $iSomaCliente + $row['recprvlr'];
-            $iTotal = $iTotal + $row['recprvlr'];
+            $objPHPExcel->getActiveSheet()->getStyle('E' . $i)->getNumberFormat()->setFormatCode("0");
+            $objPHPExcel->getActiveSheet()->getStyle('H' . $i)->getNumberFormat()->setFormatCode("0");
+            $objPHPExcel->getActiveSheet()->getStyle('A' . $i)->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('D' . $i)->getFont()->setBold(true);
+            $objPHPExcel->getActiveSheet()->getStyle('G' . $i)->getFont()->setBold(true);
+            $i++;
+            $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A' . $i, 'Docto')
+                    ->setCellValue('B' . $i, 'Emissão')
+                    ->setCellValue('C' . $i, 'Vencimento')
+                    ->setCellValue('D' . $i, 'Pedido')
+                    ->setCellValue('E' . $i, 'Vlr.Receber')
+                    ->setCellValue('F' . $i, 'Dias para pagar')
+                    ->setCellValue('G' . $i, 'Ag.Benificiário-Carteira-Nosso Número')
+                    ->setCellValue('H' . $i, 'Parcela')
+                    ->setCellValue('I' . $i, 'Banco')
+                    ->setCellValue('J' . $i, 'Nosso Número')
+            ;
+            $objPHPExcel->getActiveSheet()->getStyle('A' . $i . ':J' . $i)->getFont()->setBold(true);
+            $iEmp = $row['empcod'];
+            $iSomaCliente = 0;
+        }
+        $i++;
+        $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValue('A' . $i, $row['recdocto'])
+                ->setCellValue('B' . $i, $row['recdtemiss'])
+                ->setCellValue('C' . $i, $row['recprdtpro'])
+                ->setCellValue('D' . $i, $row['recof'])
+                ->setCellValue('E' . $i, 'R$ ' . number_format($row['recprvlr'], 2, ',', '.'))
+                ->setCellValue('F' . $i, $row['dias'])
+                ->setCellValue('G' . $i, $row['NossoNumero'])
+                ->setCellValue('H' . $i, $row['recparnro'])
+                ->setCellValue('I' . $i, $row['bcodes'])
+                ->setCellValue('J' . $i, $row['recprnrobc'])
+        ;
+        if ($row['dias'] < 0) {
+            $objPHPExcel->getActiveSheet()->getStyle('A' . $i . ':J' . $i)->getFont()->getColor()->setRGB('FF0000');
+        }
+        $objPHPExcel->getActiveSheet()->getStyle('G' . $i)->getNumberFormat()->setFormatCode("0");
+        $iSomaCliente = $iSomaCliente + $row['recprvlr'];
+        $iTotal = $iTotal + $row['recprvlr'];
     }
-    
+
     $objPHPExcel->getActiveSheet()->getStyle('A')->getNumberFormat()->setFormatCode('#');
     $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(10);
     $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(40);
@@ -255,26 +260,25 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
     $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(40);
     $objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(30);
     $objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(30);
-            
 }
 $i++;
-$objPHPExcel->getActiveSheet()->getStyle('D' . $i)->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('A' . $i)->getFont()->setBold(true);
 $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('D' . $i, 'Soma Cliente:')
-                        ->setCellValue('E' . $i, number_format($iSomaCliente, 2, ',', '.'));
+        ->setCellValue('A' . $i, 'Soma Cliente:')
+        ->setCellValue('B' . $i, 'R$ ' . number_format($iSomaCliente, 2, ',', '.'));
 $i++;
 $i++;
-$objPHPExcel->getActiveSheet()->getStyle('D' . $i)->getFont()->setBold(true);
+$objPHPExcel->getActiveSheet()->getStyle('A' . $i)->getFont()->setBold(true);
 $objPHPExcel->setActiveSheetIndex(0)
-                        ->setCellValue('D' . $i, 'TOTAL DOS TÍTULOS EM ABERTO:')
-                        ->setCellValue('E' . $i,  number_format($iTotal, 2, ',', '.'));
+        ->setCellValue('A' . $i, 'TOTAL DOS TÍTULOS EM ABERTO:')
+        ->setCellValue('B' . $i, 'R$ ' . number_format($iTotal, 2, ',', '.'));
 
 // Podemos renomear o nome da planilha atual, lembrando que um único arquivo pode ter várias planilhas
 $objPHPExcel->getActiveSheet()->setTitle('Relatorio de Projetos');
 
 // Cabeçalho do arquivo para ele baixar
 header('Content-Type: application/vnd.ms-excel');
-header('Content-Disposition: attachment;filename="relnovoprojeto.xls"');
+header('Content-Disposition: attachment;filename="RelTitulosEmAberto.xls"');
 header('Cache-Control: max-age=0');
 // Se for o IE9, isso talvez seja necessário
 header('Cache-Control: max-age=1');

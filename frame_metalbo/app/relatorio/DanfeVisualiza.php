@@ -19,7 +19,7 @@ include("../../biblioteca/Utilidades/Email.php");
 use NFePHP\DA\NFe\Danfe;
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sSql = $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc, nfsdtsaida, nfshrsaida, nfstrauf "
+$sSql = $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc, nfsdtsaida, nfshrsaida, rTRIM(nfstrauf) as nfstrauf , rTRIM(nfscliuf) as nfscliuf "
         . "from widl.NFC001 "
         . "where nfsfilcgc = '" . $aDados[0] . "' "
         . "and nfsnfnro = '" . $aDados[1] . "' "
@@ -86,8 +86,9 @@ function montaDadosExtras($aDadosNF, $aDados, $PDO) {
     if ($aData[2] == '1753') {
         $aDadosExtras['dataSaida'] = '';
     }
-    if ($aDadosNF['nfstrauf'] == 'EX') {
-        $sSqlExtras = 'select nfstrains, nfstranome, nfstraende, nfstrabair, nfstracep, nfstracid, nfspesobr, nfspesolq, nfsespecie, nfsmarca, nfsqtdvol '
+    if ($aDadosNF['nfstrauf'] == 'EX' || $aDadosNF['nfscliuf'] == 'EX' || $aDadosNF['nfstrauf'] == '') {
+        $sSqlExtras = 'select nfstrains, nfstranome, nfstraende, nfstrabair, nfstracep, '
+                . 'nfstracid, nfspesobr, nfspesolq, nfsespecie, nfsmarca, nfsqtdvol '
                 . "from widl.NFC001 "
                 . "where nfsfilcgc = '" . $aDados[0] . "' "
                 . "and nfsnfnro = '" . $aDados[1] . "' "
