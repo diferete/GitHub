@@ -12,7 +12,7 @@ class PersistenciaMET_TEC_Versao extends Persistencia {
     public function __construct() {
         parent::__construct();
 
-        $this->setTabela('MET_TEC_versao');
+        $this->setTabela('tbversao');
 
         $this->adicionaRelacionamento('seq', 'seq', true, true, true);
         $this->adicionaRelacionamento('tec', 'tec');
@@ -26,18 +26,26 @@ class PersistenciaMET_TEC_Versao extends Persistencia {
 
         $this->adicionaOrderBy('seq', 1);
     }
-    
-        /*Funçao para mostrar a versão sistema na ViewSistema*/
-    public function mostrVersaoSistema (){
+
+    /* Funçao para mostrar a versão sistema na ViewSistema */
+
+    public function mostrVersaoSistema() {
         $sSql = "select versao from MET_TEC_versao where seq = (select MAX(seq) as seq from MET_TEC_versao)";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
         $sVersao = $oRow->versao;
-        
+
         return $sVersao;
-        
-        
-        
+    }
+
+    public function getDadosVersoes() {
+        $sSql = "select top 3  * from tbversao order by seq desc";
+        $result = $this->getObjetoSql($sSql);
+        $aArrSql = array();
+        while ($oRow = $result->fetch(PDO::FETCH_OBJ)){
+            array_push($aArrSql, $oRow);
+        }
+        return $aArrSql;
     }
 
 }

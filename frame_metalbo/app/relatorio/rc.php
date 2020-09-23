@@ -597,7 +597,7 @@ if ($sEmailRequest == 'S') {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
         echo $oMensagem->getRender();
     } else {
-        $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo ou tente reenviar o e-mail! ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+        $oMensagem = new Mensagem('E-mail', 'Erro ao tentar enviar o e-mail', Mensagem::TIPO_SUCESSO);
         echo $oMensagem->getRender();
     }
     return $aRetorno;

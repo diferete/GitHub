@@ -63,7 +63,7 @@ if ($eficaz['total'] == 0) {
     $avFim = 'aberta';
 } else {
     /* ver se tem alguma aberta sem apontamento */
-    $sSql = " select COUNT(*) total2 from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and sit != 'Finalizado' and filcgc ='" . $filcgcAq . "'";
+    $sSql = " select COUNT(*) total2 from MET_QUAL_acaoeficaz where nr = '" . $nrAq . "' and eficaz <> 'Sim' and filcgc ='" . $filcgcAq . "'";
     $dadosSql = $PDO->query($sSql);
     $eficaz = $dadosSql->fetch(PDO::FETCH_ASSOC);
     if ($eficaz['total2'] > 0) {
@@ -82,8 +82,8 @@ $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //dados do cabeçalho
 $sSql = "select classificacao,userimp,convert(varchar,dtimp,103) as dtimp,titulo,usunome,equipe,convert(varchar,dataini,103) as dataini, "
         . "convert(varchar,datafech,103) as datafechou,tipoacao,origem,tipmelhoria,problema,objetivo,tipocausa,desctipocausa,"
-        . "pq1,pq2,pq3,pq4,pq5,anexo1,anexo2 "
-        . " from MET_QUAL_qualaq where filcgc ='" . $filcgcAq . "' and nr=" . $nrAq;
+        . "pq1,pq2,pq3,pq4,pq5,anexo1,anexo2,sit,obscancela,usucancela "
+        . "from MET_QUAL_qualaq where filcgc ='" . $filcgcAq . "' and nr= '" . $nrAq . "'";
 $dadoscab = $PDO->query($sSql);
 while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $userImp = $row['userimp'];
@@ -106,6 +106,9 @@ while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $sPq3 = $row['pq3'];
     $sPq4 = $row['pq4'];
     $sPq5 = $row['pq5'];
+    $sSit = $row['sit'];
+    $sUsuCancela = $row['usucancela'];
+    $sObsCancela = $row['obscancela'];
     if ($row['anexo1'] != '') {
         $iCon++;
     }
@@ -133,14 +136,15 @@ $pdf->Rect(160, 10, 48, 18);
 $pdf->SetFont('Arial', '', 9);
 
 if ($avFim == 'aberta') {
-    $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '            Fim: ', 0, 'J');
+    $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '', 0, 'J');
 } else {
     if ($avFim == 'fechada') {
-        $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '            Fim: ' . $sDataFim . '', 0, 'J');
+        $pdf->MultiCell(45, 4, 'Emissão: ' . $dtimp . '            Usuário: ' . $userImp . ' Início: ' . $sDataini . '', 0, 'J');
     }
 }
 
 
+$pdf->Ln(5);
 $pdf->Ln(5);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(27, 5, "Tema da ação:", 0, 0, 'L');
@@ -164,6 +168,16 @@ $pdf->Cell(178, 5, $sEquipe, 0, 1, 'L');
 $pdf->Ln(5);
 
 $pdf->SetFillColor(213, 213, 213);
+if ($sSit == 'Cancelada') {
+    //$pdf->Rect(3,68,206,20); 
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(206, 5, "Cancelada por: " . $sUsuCancela . "", 1, 1, 'C', TRUE);
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->MultiCell(206, 5, $sObsCancela, 1, 'J');
+    $pdf->Ln(5);
+}
+
+
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(69, 5, "Tipo de ação", 1, 0, 'L', TRUE);
 $pdf->Cell(69, 5, "Origem", 1, 0, 'L', TRUE);
@@ -295,19 +309,33 @@ $pdf->Ln(1);
 
 $pdf->Ln(5);
 
-$sSqlC = "select matprimades, metododes, maodeobrades, "
-        . "equipamentodes, meioambientedes, medidades"
-        . " from MET_QUAL_DiagramaCausa where nr='" . $nrAq . "' and filcgc ='" . $filcgcAq . "' ";
-$dadosCausa1 = $PDO->query($sSqlC);
-$row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
+$sSelectExisteNr = "select COUNT(nr) as total from MET_QUAL_DiagramaCausa where nr = '" . $nrAq . "' and filcgc = '" . $filcgcAq . "'";
+$oExisteNr = $PDO->query($sSelectExisteNr);
+$aNr = $oExisteNr->fetch(PDO::FETCH_ASSOC);
+
+if ($aNr['total'] == 1) {
+    $sSqlC = "select matprimades, metododes, maodeobrades, "
+            . "equipamentodes, meioambientedes, medidades"
+            . " from MET_QUAL_DiagramaCausa where nr='" . $nrAq . "' and filcgc ='" . $filcgcAq . "' ";
+    $dadosCausa1 = $PDO->query($sSqlC);
+    $row1 = $dadosCausa1->fetch(PDO::FETCH_ASSOC);
 
 //Tira formatação do texto
-$row1['matprimades'] = limpaString($row1['matprimades']);
-$row1['maodeobrades'] = limpaString($row1['maodeobrades']);
-$row1['equipamentodes'] = limpaString($row1['equipamentodes']);
-$row1['meioambientedes'] = limpaString($row1['meioambientedes']);
-$row1['metododes'] = limpaString($row1['metododes']);
-$row1['medidades'] = limpaString($row1['medidades']);
+    $row1['matprimades'] = limpaString($row1['matprimades']);
+    $row1['maodeobrades'] = limpaString($row1['maodeobrades']);
+    $row1['equipamentodes'] = limpaString($row1['equipamentodes']);
+    $row1['meioambientedes'] = limpaString($row1['meioambientedes']);
+    $row1['metododes'] = limpaString($row1['metododes']);
+    $row1['medidades'] = limpaString($row1['medidades']);
+} else {
+    $row1['matprimades'] = '';
+    $row1['maodeobrades'] = '';
+    $row1['equipamentodes'] = '';
+    $row1['meioambientedes'] = '';
+    $row1['metododes'] = '';
+    $row1['medidades'] = '';
+}
+
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(206, 5, "Causa raiz do problema", 1, 1, 'C', TRUE);
@@ -602,7 +630,7 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
     $pdf->MultiCell(206, 5, 'Ação Nº' . $row['seq'] . ' = ' . $row['plano'], 1, 'L');
 
     $pdf = quebraPagina($pdf->GetY(), $pdf);
-    
+
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(25, 5, "Quem:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
@@ -617,7 +645,7 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(25, 5, "Quando:", 1, 0, 'L');
     $pdf->SetFont('Arial', '', 10);
     $pdf->Cell(40, 5, $row['datafim'], 1, 1, 'C');
- 
+
     $pdf = quebraPagina($pdf->GetY(), $pdf);
 
     $pdf->MultiCell(206, 5, 'Obs. Final = ' . $row['obsfim'], 1, 'L');
@@ -738,6 +766,7 @@ while ($row = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
         $iConPlan++;
         $sPlanAx = $sPlanAx . $row['seq'] . ", ";
     }
+    $pdf->Ln(1);
 }
 
 $pdf->Ln(1);
@@ -800,8 +829,8 @@ while ($row = $dadosEficaz->fetch(PDO::FETCH_ASSOC)) {
     if ($row['comAcao'] == 'S') {
 
         /* Mostra os planos de ação para esta ação da eficácia */
-        $sSql = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim"
-                . " from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' "
+        $sSql = "select plano,convert(varchar,dataprev,103) as dataprev,usunome,convert(varchar,datafim,103) as datafim "
+                . "from MET_QUAL_qualplan where nr=" . $nrAq . " and filcgc ='" . $filcgcAq . "' "
                 . "and nrEfi ='" . $row['seq'] . "' order by seq"; //nr=".$nrAq." and filcgc ='".$filcgcAq."'
         $dadosEf = $PDO->query($sSql);
         while ($rowPlanEf = $dadosEf->fetch(PDO::FETCH_ASSOC)) {
@@ -845,7 +874,6 @@ if ($sEmailRequest == 'S') {
     $oEmail = new Email();
     $oEmail->setMailer();
     $oEmail->setEnvioSMTP();
-    //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
     $oEmail->setServidor('smtp.terra.com.br');
     $oEmail->setPorta(587);
     $oEmail->setAutentica(true);
@@ -873,7 +901,7 @@ if ($sEmailRequest == 'S') {
         $oEmail->addDestinatario($_SESSION['email']);
     }
 
-    $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $filcgcAq));
+    $oEmail->addAnexo('app/relatorio/qualidade/Aq' . $nrAq . '_empresa_' . $filcgcAq . '.pdf', utf8_decode('Aq nº' . $nrAq . '_empresa_' . $filcgcAq . '.pdf'));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

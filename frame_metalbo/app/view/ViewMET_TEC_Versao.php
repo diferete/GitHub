@@ -36,19 +36,26 @@ class ViewMET_TEC_Versao extends View {
     public function criaTela() {
         parent::criaTela();
 
-        $oSeq = new Campo('Seq.', 'seq', Campo::TIPO_TEXTO, 1);
+        $oTab = new TabPanel();
+        $oTabGeral = new AbaTabPanel('Versões');
+        $oTabGeral->setBActive(true);
+        $oTabUpdatesNovidades = new AbaTabPanel('Updates e novidades');
+
+        $this->addLayoutPadrao('Aba');
+
+        $oSeq = new Campo('Seq.', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeq->setBCampoBloqueado(true);
 
-        $oTec = new Campo('Tecnologia', 'tec', Campo::TIPO_SELECT, 3);
+        $oTec = new Campo('Tecnologia', 'tec', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oTec->addItemSelect('PHP', 'PHP');
         $oTec->addItemSelect('Delphi', 'Delphi');
         $oTec->addItemSelect('Ionic', 'Ionic');
 
-        $oUsuCodigo = new campo('...', 'usucodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 2, 2);
+        $oUsuCodigo = new campo('...', 'usucodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oUsuCodigo->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
 
-        $oUsuNome = new Campo('Usuário', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
+        $oUsuNome = new Campo('Usuário', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oUsuNome->setSIdPk($oUsuCodigo->getId());
         $oUsuNome->setClasseBusca('User');
         $oUsuNome->addCampoBusca('usucodigo', '', '');
@@ -61,23 +68,45 @@ class ViewMET_TEC_Versao extends View {
 
         //$oUsuNome = new Campo('Nome Usuário', 'usunome', Campo::TIPO_TEXTO, 2);
 
+        $oVersao = new Campo('Numéro da Versão', 'versao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
-
-        $oVersao = new Campo('Numéro da Versão', 'versao', Campo::TIPO_TEXTO, 2);
-        $oData = new Campo('Data', 'data', Campo::TIPO_DATA, 3);
+        $oData = new Campo('Data', 'data', Campo::TIPO_DATA, 1, 1, 12, 12);
         $oData->setSValor(date('d/m/Y'));
         $oData->setBCampoBloqueado(true);
 
-        $oHora = new Campo('Hora', 'hora', Campo::TIPO_TEXTO, 3);
+        $oHora = new Campo('Hora', 'hora', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
         $oHora->setSValor(date('H:i'));
         $oHora->setBCampoBloqueado(true);
 
-        $oDescricao = new Campo('Descrição das Alterações', 'descricao', Campo::TIPO_TEXTAREA, 10);
-        $oEquipe = new Campo('Equipe Responsável', 'equipe', Campo::TIPO_TEXTO, 4);
+        $oDescricao = new Campo('Descrição das Alterações', 'descricao', Campo::TIPO_TEXTAREA, 10, 10, 12, 12);
+
+        $oEquipe = new Campo('Equipe Responsável', 'equipe', Campo::TIPO_TEXTO, 4, 4, 12, 12);
+
+        $oTabGeral->addCampos($oTec, array($oSeq, $oUsuCodigo, $oUsuNome, $oVersao), array($oData, $oHora, $oEquipe), $oDescricao);
+
+        $oConteudo = new Campo('Conteúdo', 'conteudo', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oConteudo->setILinhasTextArea(5);
+
+        $oCodSetor = new Campo('Cód. Setor', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+
+        $oDescSetor = new Campo('Setor', 'descsetor', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oDescSetor->setSIdPk($oCodSetor->getId());
+        $oDescSetor->setClasseBusca('Setor');
+        $oDescSetor->addCampoBusca('codsetor', '', '');
+        $oDescSetor->addCampoBusca('descsetor', '', '');
+        $oDescSetor->setSIdTela($this->getTela()->getid());
+        
+        $oCodSetor->setClasseBusca('Setor');
+        $oCodSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
+        $oCodSetor->addCampoBusca('descsetor', $oDescSetor->getId(), $this->getTela()->getId());
 
 
-        $this->addCampos($oTec, array($oSeq, $oUsuCodigo, $oUsuNome, $oVersao), array($oData, $oHora, $oEquipe), $oDescricao);
+        $oTabUpdatesNovidades->addCampos();
+
+        $oTab->addItems($oTabGeral, $oTabUpdatesNovidades);
+
+        $this->addCampos($oTab);
     }
 
 }

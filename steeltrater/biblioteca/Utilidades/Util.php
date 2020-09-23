@@ -394,6 +394,8 @@ class Util {
 
         if ((date_format($dt, 'N') === '1')) {
             return $sDate = date("d/m/Y", mktime(0, 0, 0, $mes, $dia - 3, $ano));
+        } elseif ((date_format($dt, 'N') === '7')) {
+            return $sDate = date("d/m/Y", mktime(0, 0, 0, $mes, $dia - 2, $ano));
         } else {
             return $sDate = date("d/m/Y", mktime(0, 0, 0, $mes, $dia - 1, $ano));
         }

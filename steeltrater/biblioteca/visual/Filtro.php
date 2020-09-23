@@ -552,7 +552,7 @@ class Filtro {
                         . '<select name="' . $this->getSNome() . '" class="form-control selectfiltro input-sm" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
-        }
+                }
                 $sCampo .= '<option value="Asc">A-Z</option>';
                 $sCampo .= '<option value="Desc">Z-A</option>';
 

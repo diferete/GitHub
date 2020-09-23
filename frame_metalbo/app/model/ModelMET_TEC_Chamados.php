@@ -36,22 +36,6 @@ class ModelMET_TEC_Chamados {
     private $previsao;
     private $dias;
 
-    function getDias() {
-        return $this->dias;
-    }
-
-    function setDias($dias) {
-        $this->dias = $dias;
-    }
-
-    function getPrevisao() {
-        return $this->previsao;
-    }
-
-    function setPrevisao($previsao) {
-        $this->previsao = $previsao;
-    }
-
     function getFilcgc() {
         return $this->filcgc;
     }
@@ -152,6 +136,14 @@ class ModelMET_TEC_Chamados {
         return $this->anexofim;
     }
 
+    function getPrevisao() {
+        return $this->previsao;
+    }
+
+    function getDias() {
+        return $this->dias;
+    }
+
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -250,6 +242,14 @@ class ModelMET_TEC_Chamados {
 
     function setAnexofim($anexofim) {
         $this->anexofim = $anexofim;
+    }
+
+    function setPrevisao($previsao) {
+        $this->previsao = $previsao;
+    }
+
+    function setDias($dias) {
+        $this->dias = $dias;
     }
 
 }

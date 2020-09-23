@@ -13,4 +13,9 @@ class ControllerMET_TEC_Versao extends Controller {
         $this->carregaClassesMvc('MET_TEC_Versao');
     }
 
+    public function getDadosUpdates() {
+        $aVersoes = $this->Persistencia->getDadosVersoes();
+        return $aVersoes;
+    }
+
 }

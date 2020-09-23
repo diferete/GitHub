@@ -67,14 +67,14 @@ $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(18, 5, "FILTROS - ", 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(11, 5, "CNPJ: ", 0, 0, 'L');
+$pdf->Cell(12, 5, "CNPJ: ", 0, 0, 'L');
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(27, 5, $empcod, 0, 0, 'L');
+$pdf->Cell(32, 5, $empcod, 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(13, 5, "Cliente:", 0, 0, 'L');
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(132, 5, $empdes, 0, 0, 'L');
+$pdf->Cell(128, 5, $empdes, 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(21, 5, 'Data Inicial: ', 0, 0, 'L');
@@ -138,7 +138,7 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
                     $pdf->SetFont('arial', 'B', 9);
                     $pdf->Cell(25, 5, "Soma Cliente: ", 0, 0, 'L');
                     $pdf->SetFont('Arial', '', 10);
-                    $pdf->Cell(120, 5, 'R$ '. number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L');
+                    $pdf->Cell(120, 5, 'R$ ' . number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L');
                     $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
                 }
                 $pdf->Ln(5);
@@ -186,7 +186,7 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
             $pdf->Cell(20, 5, $row['recdtemiss'], 0, 0, 'L');
             $pdf->Cell(20, 5, $row['recprdtpro'], 0, 0, 'L');
             $pdf->Cell(15, 5, $row['recof'], 0, 0, 'L');
-            $pdf->Cell(27, 5, 'R$ '. number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
+            $pdf->Cell(27, 5, 'R$ ' . number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
             $pdf->Cell(26, 5, $row['dias'], 0, 0, 'L');
             $pdf->Cell(55, 5, str_replace(' ', '', $row['NossoNumero']), 0, 0, 'L');
             $pdf->Cell(15, 5, $row['recparnro'], 0, 0, 'R');
@@ -252,7 +252,7 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(20, 5, $row['recdtemiss'], 0, 0, 'L');
         $pdf->Cell(20, 5, $row['recprdtpro'], 0, 0, 'L');
         $pdf->Cell(15, 5, $row['recof'], 0, 0, 'L');
-        $pdf->Cell(27, 5, 'R$ '. number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
+        $pdf->Cell(27, 5, 'R$ ' . number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
         $pdf->Cell(26, 5, $row['dias'], 0, 0, 'L');
         $pdf->Cell(55, 5, str_replace(' ', '', $row['NossoNumero']), 0, 0, 'L');
         $pdf->Cell(15, 5, $row['recparnro'], 0, 0, 'R');

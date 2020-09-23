@@ -61,7 +61,7 @@ class ViewMET_TEC_Menu extends View {
      */
     function criaConsulta() {
         parent::criaConsulta();
-        
+
         $this->getTela()->setILarguraGrid(1200);
 
         $oModulo = new CampoConsulta('Módulo', 'MET_TEC_Modulo.modcod');

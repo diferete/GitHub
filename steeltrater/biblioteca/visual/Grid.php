@@ -688,7 +688,7 @@ class Grid {
             $sLargura = '';
             $sIdTh = Base::getId();
             if (!is_null($oCampoAtual->getILargura())) {
-                $sLargura = $oCampoAtual->getILargura() . 'px;';
+                $sLargura = 'width: ' . $oCampoAtual->getILargura() . 'px;';
             }
             if (!is_null($oCampoAtual->getBColOculta())) {
                 $sOculta = 'display:none;';

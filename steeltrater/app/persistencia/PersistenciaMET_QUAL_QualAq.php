@@ -138,7 +138,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
     }
 
     public function buscaDadosAq($aDados) {
-        $sSql = "select * from MET_QUAL_qualaq where filcgc = '" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and nr = '" . $aDados['nr']."'";
+        $sSql = "select * from MET_QUAL_qualaq where filcgc = '" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and nr = '" . $aDados['nr'] . "'";
         $oRow = $this->consultaSql($sSql);
 
         return $oRow;
@@ -164,7 +164,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         $sSqlAq = "select tipoacao,sit,problema,objetivo from MET_QUAL_qualaq where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
         $oRowAq = $this->consultaSql($sSqlAq);
         $aRowAq = (array) $oRowAq;
-        if (($aRowAq['problema'] != '' && $aRowAq['problema'] != null) && ($aRowAq['objetivo'] != '' && $aRowAq['objetivo'] != null)) {
+        if (($aRowAq['problema'] != '' || $aRowAq['problema'] != null) && ($aRowAq['objetivo'] != '' || $aRowAq['objetivo'] != null)) {
             $aRowAq['problema'] = true;
             $aRowAq['objetivo'] = true;
         } else {
@@ -172,23 +172,34 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
             $aRowAq['objetivo'] = false;
         }
 
-        $sSqlContencao = "select COUNT(*) as total from MET_QUAL_Contencao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and situaca is null";
+        $sSqlContencao = "select COUNT(*) as total from MET_QUAL_Contencao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
         $oContencao = $this->consultaSql($sSqlContencao);
         if ($oContencao->total == 0) {
-            $aRowAq['contencao'] = true;
+            $aRowAq['contencao'] = 'vazio';
         } else {
-            $aRowAq['contencao'] = false;
+            $sSqlPlan = $sSqlContencao . " and situaca is null";
+            $oContencao = $this->consultaSql($sSqlContencao);
+            if ($oContencao->total == 0) {
+                $aRowAq['contencao'] = true;
+            } else {
+                $aRowAq['contencao'] = false;
+            }
         }
 
 
-        $sSqlCorrecao = "select situaca,seq from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and situaca is null";
+        $sSqlCorrecao = "select COUNT(*) as total from MET_QUAL_Correcao  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
         $oCorrecao = $this->consultaSql($sSqlCorrecao);
         if ($oCorrecao->total == 0) {
-            $aRowAq['correcao'] = true;
+            $aRowAq['correcao'] = 'vazio';
         } else {
-            $aRowAq['correcao'] = false;
+            $sSqlPlan = $sSqlCorrecao . " and situaca is null";
+            $oCorrecao = $this->consultaSql($sSqlCorrecao);
+            if ($oCorrecao->total == 0) {
+                $aRowAq['correcao'] = true;
+            } else {
+                $aRowAq['correcao'] = false;
+            }
         }
-
 
 
         $sSqlCausa = "select COUNT(*) as total from MET_QUAL_DiagramaCausa  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
@@ -200,22 +211,36 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         }
 
 
-        $sSqlPlan = "select COUNT(*) as total from MET_QUAL_qualplan  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and sitfim is null";
+        $sSqlPlan = "select COUNT(*) as total from MET_QUAL_qualplan where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
         $oPlan = $this->consultaSql($sSqlPlan);
         if ($oPlan->total == 0) {
-            $aRowAq['plano'] = true;
+            $aRowAq['plano'] = 'vazio';
         } else {
-            $aRowAq['plano'] = false;
+            $sSqlPlan = $sSqlPlan . " and sitfim is null";
+            $oPlan = $this->consultaSql($sSqlPlan);
+            if ($oPlan->total == 0) {
+                $aRowAq['plano'] = true;
+            } else {
+                $aRowAq['plano'] = false;
+            }
         }
 
 
-        $sSqlEficaz = "select COUNT(*) as total from MET_QUAL_acaoeficaz  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "' and sit is null";
+        $sSqlEficaz = "select COUNT(*) as total from MET_QUAL_acaoeficaz  where nr ='" . $aDados['nr'] . "'  and filcgc ='" . $aDados['DELX_FIL_Empresa_fil_codigo'] . "'";
         $oEficaz = $this->consultaSql($sSqlEficaz);
         if ($oEficaz->total == 0) {
-            $aRowAq['eficaz'] = true;
+            $aRowAq['eficaz'] = 'vazio';
         } else {
-            $aRowAq['eficaz'] = false;
+            $sSqlPlan = $sSqlPlan . " and sitfim is null";
+            $oEficaz = $this->consultaSql($sSqlPlan);
+            if ($oEficaz->total == 0) {
+                $aRowAq['eficaz'] = true;
+            } else {
+                $aRowAq['eficaz'] = false;
+            }
         }
+
+
 
 
         return $aRowAq;

@@ -258,4 +258,27 @@ class ViewCadCliRep extends View {
         $this->addCampos($oFieldInf, array($oEmpcod, $oCNPJ, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
     }
 
+    public function relCadCliRep() {
+        parent::criaTelaRelatorio();
+
+        $this->setTituloTela('Cadastros de cliente');
+        $this->setBTela(true);
+
+        $oRepCodOffice = new Campo('Código', 'repcodoffice', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oRepCodOffice->setSValor($_SESSION['repoffice']);
+        $oRepCodOffice->setBCampoBloqueado(true);
+
+        $oRepOffice = new Campo('Escritório', 'repoffice', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oRepOffice->setSValor($_SESSION['repofficedes']);
+        $oRepOffice->setBCampoBloqueado(true);
+
+        $oDataIni = new Campo('Data inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataIni->setSValor(Util::getPrimeiroDiaMes());
+
+        $oDataFim = new Campo('Data final', 'datafim', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataFim->setSValor(Util::getDataAtual());
+
+        $this->addCampos(array($oRepCodOffice, $oRepOffice), array($oDataIni, $oDataFim));
+    }
+
 }

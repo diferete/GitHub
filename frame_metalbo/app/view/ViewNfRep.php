@@ -54,7 +54,7 @@ class ViewNfRep extends View {
         $oGridItens->getOGrid()->setBScrollInf(false);
 
         $oBotaoEmitXml = new CampoConsulta('', 'emitOf', CampoConsulta::TIPO_ACAO, CampoConsulta::ICONE_ENVIAR);
-        $oBotaoEmitXml->setSTitleAcao('Emite XML!');
+        $oBotaoEmitXml->setSTitleAcao('Envia XML!');
         $oBotaoEmitXml->addAcao('NfRep', 'enviaXML', '', '');
         $oBotaoEmitXml->setBHideTelaAcao(true);
         $oBotaoEmitXml->setILargura(30);
@@ -107,7 +107,7 @@ class ViewNfRep extends View {
 
         $oFiltroCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
-        $oFiltroData = new Filtro($oNfDataEmi, Filtro::CAMPO_DATA_ENTRE, 1, 1, 12, 12, true);
+        $oFiltroData = new Filtro($oNfDataEmi, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, true);
 
         $oFilCnpj = new Filtro($oCliCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilCnpj->setSClasseBusca('Pessoa');
@@ -116,7 +116,7 @@ class ViewNfRep extends View {
         $oFilCnpj->setBBuscaTela(true);
 
         $oFilEnvEmail = new Filtro($oNfEnvEmail, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
-        $oFilEnvEmail->addItemSelect('', 'Não Enviado');
+        $oFilEnvEmail->addItemSelect('', 'Todos');
         $oFilEnvEmail->addItemSelect('S', 'Xml Enviado');
 
         $this->addFiltro($oFiltroNota, $oFilCnpj, $oFiltroCliente, $oFiltroData, $oFilEnvEmail);

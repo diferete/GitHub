@@ -47,6 +47,7 @@ class Config {
      * 5 ==> Oracle
      * 6 ==> SQL Server
      */
+    
     const BD_MYSQL = 1;
     const BD_POSTGRESQL = 2;
     const BD_SQLITE = 3;

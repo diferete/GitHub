@@ -295,5 +295,8 @@ class ControllerCadCliRep extends Controller {
         echo 'console.log(' . $aDados[0] . ');';
         echo $script;
     }
-
+ //////////////////////////////////////////////////////////
+    public function mostraTelaRelCadCliRep($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'relCadCliRep');
+    }
 }
