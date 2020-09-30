@@ -393,14 +393,14 @@ class CampoConsulta {
                 $iFontSize = $this->getITamanhoFonte();
                 $sFontSize = '';
                 if ($iFontSize != '' && $iFontSize != null) {
-                    $sFontSize = 'font-size:' . $iFontSize . 'px !important';
+                    $sFontSize = 'font-size:' . $iFontSize . 'px !important;';
                 } else {
                     
                 }
                 if ($this->getBColOculta()) {
                     $sDisplay = 'display:none;';
                 }
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sDisplay . '' . $sFontSize . '">' . $xValor . '</td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sDisplay . '' . $sFontSize . ' width:' . $this->getILargura() . 'px ">' . $xValor . '</td>';
                 break;
             case self::TIPO_MONEY:
                 $iFontSize = $this->getITamanhoFonte();

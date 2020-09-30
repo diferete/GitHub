@@ -315,6 +315,7 @@ class ViewMET_QUAL_RcRep extends View {
         $oProd = new campo('Produtos', 'produtos', Campo::TIPO_TAGS, 12, 12, 12, 12);
         $oProd->setILinhasTextArea(5);
         $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oProd->addValidacao(false, Validacao::TIPO_STRING,'Campo obrigatório',5);
 
 
         $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);

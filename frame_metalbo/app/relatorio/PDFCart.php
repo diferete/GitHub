@@ -164,7 +164,7 @@ $pdf->Cell(30, 5, '     R$ ' . number_format($totalPedido, 2, ',', '.'), 0, 1, '
 $pdf->Ln(2);
 $pdf->SetFont('Arial', 'B', 9);
 $pdf->SetTextColor(255, 0, 0);
-$pdf->Cell(0, 5, "¹,² : Valores médios, sem descontos. Os valores podem mudar no momento do pedido devido a descontos dados pelos representantes.", 0, 1, 'C');
+$pdf->Cell(0, 5, "¹,² : Valores médios, sem descontos. Os valores estão sujeitos a alterações durante negociações!", 0, 1, 'C');
 $pdf->Ln(2);
 
 if ($sEmail != '') {

@@ -34,18 +34,13 @@ class ControllerQualAqEficaz extends Controller {
 
     public function adicionaFiltroDet() {
         parent::adicionaFiltroDet();
-
         $this->Persistencia->adicionaFiltro('seq', $this->Model->getSeq());
     }
 
     public function acaoLimpar($sForm, $sDados) {
         parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
-        // "$('#".$sId."').each (function(){ this.reset();});";
-        //verifica se está como 
         $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';
-
-
 
         echo $sScript;
     }

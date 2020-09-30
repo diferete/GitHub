@@ -23,7 +23,7 @@ class ViewSistema extends View {
      */
 
     function constroiTelaInicial() {
-        //verifica se há representantes atrelados
+//verifica se há representantes atrelados
         if (isset($_SESSION['repsoffice'])) {
             $aRep = explode(',', $_SESSION['repsoffice']);
 
@@ -38,8 +38,8 @@ class ViewSistema extends View {
             }
         }
         /* traz a versão do sistema */
-        $oVersao = Fabrica::FabricarPersistencia('VersaoSistema');
-        $sVersao = $oVersao->mostraVersaoSistema();
+        $oVersao = Fabrica::FabricarPersistencia('MET_TEC_Versao');
+        $sVersao = $oVersao->mostrVersaoSistema();
 
         $oSetor = Fabrica::FabricarPersistencia('User');
         $sSetor = $oSetor->buscaSetor();
@@ -144,7 +144,7 @@ class ViewSistema extends View {
                 //.'<span class="navbar-brand-text"> </span>'
                 //.'</div>'
                 /* .'<button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"'
-                  .' data-toggle="collapse">'
+                  .'data-toggle="collapse">'
                   .'<span class="sr-only">Toggle Search</span>'
                   .'<i class="icon wb-search" aria-hidden="true"></i>'
                   .'</button>' */
@@ -455,8 +455,7 @@ class ViewSistema extends View {
                 . '<div class="input-search">'
                 . '<i class="input-search-icon wb-search" aria-hidden="true"></i>'
                 . '<input type="text" class="form-control" name="site-search" placeholder="Search...">'
-                . '<button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search"'
-                . ' data-toggle="collapse" aria-label="Close"></button>'
+                . '<button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search" data-toggle="collapse" aria-label="Close"></button>'
                 . '</div>'
                 . '</div>'
                 . '</form>'
@@ -697,7 +696,7 @@ class ViewSistema extends View {
                     $sEstruturaMenu .= '<li class="site-menu-item" id="menu-' . $iMenuId . '"> '
                             . '<a href="#" data-slug="layout-menu-collapsed" title="Abre a tela ' . $aSupItem[0] . '" onclick="verificaTab(\'menu-' . $iMenuId . '\',\'' . $iMenuId . '\',\'' . $aSupItem[1] . '\',\'' . $aSupItem[2] . '\',\'tabmenu-' . $iMenuId . '\'); ">' //requestAjax(\''.$iMenuId.'\',\''.$aSupItem[1].'\',\''.$aSupItem[2].'\',\'tabmenu-'.$iMenuId.'\');
                             . '<i style="color:gold;" class="site-menu-icon icon wb-star " title="Adiciona aos favoritos!" aria-hidden="true" onclick="requestAjax(\'menu-' . $iMenuId . '\',\'FavMenu\',\'msgInsFav\',\'' . utf8_encode($aSupItem[0]) . ',' . utf8_encode($aSupItem[1]) . ',' . utf8_encode($aSupItem[2]) . '\');";></i>'
-                            . '<span class="site-menu-title"> ' . $aSupItem[0] . '</span>'
+                            . '<span class="site-menu-title">' . $aSupItem[0] . '</span>'
                             . '</a>'
                             . '</li>';
                     ++$iContSub;
@@ -748,7 +747,7 @@ class ViewSistema extends View {
                 . "controleAbas(tabmenu);"
                 . "$('#tabmenusuperior > li').removeClass(\"active\");"
                 . "$('#tabmenucont > div').removeClass(\"active\");"
-                . "$('#tabmenusuperior').append('<li class=\"active\" role=\"presentation\" id='+tabmenu+' onclick=\"controleAbas(\''+tabmenu+'\')\" > '+ "
+                . "$('#tabmenusuperior').append('<li class=\"active\" role=\"presentation\" id='+tabmenu+' onclick=\"controleAbas(\''+tabmenu+'\')\"> '+ "
                 . "'<a data-toggle=\"tab\" href=\"#'+tabmenu+'control\" aria-controls=\"'+tabmenu+'control\" '+"
                 . "'role=\"tab\"> '+"
                 . "'<span class=\"close\" data-close=\"tab\" aria-label=\"Close\"> '+"
@@ -828,8 +827,8 @@ class ViewSistema extends View {
      * Monta mensagem inicial do sistema
      */
     public function montMsgInicial() {
-        $sMsg = '<div class="example-wrap" id="perfilPrincipal" style="width:100%; float:left">'
-                . '<div class="example example-well">'
+        $sMsg = '<div class="example-wrap" id="perfilPrincipal">'
+                . '<div class="example example-well col-md-8" style="height:700px">'
                 . '<div class="page-header text-center">'
                 . '</br>'
                 . '<h1 class="page-title">Bem-vindo!</h1>'
@@ -837,7 +836,8 @@ class ViewSistema extends View {
                 . '<h2 class="page-title">' . $_SESSION["nome"] . '</h2>'
                 . '<div>'
                 . '</div>'
-                . '<div style="position: absolute;bottom: 0;right: 0;">'
+                . '</br>'
+                . '<div style="position: absolute;bottom: 0;left: 0;top: 650px">'
                 . '<p class="page-description">'
                 . '<a target="_blank" href="http://metalbo.com.br/" style="margin: 10px;text-decoration: none;">metalbo.com.br</a>'
                 . '<a target="_blank" href="https://facebook.com/metalbo.oficial" style="margin: 10px;text-decoration: none;"> '
@@ -857,9 +857,10 @@ class ViewSistema extends View {
                 . '</div>'
                 . '</br>'
                 . '</div>'
+                . $this->montaTabela()
+                //$sMsg = $sMsg . $this->updates();
+                //$sMsg = $sMsg 
                 . '</div>';
-        $sMsg = $sMsg . $this->updates();
-        $sMsg = $sMsg . '</div>';
         return $sMsg;
     }
 
@@ -907,6 +908,43 @@ class ViewSistema extends View {
                 . '</ul>';
 
         return $lista;
+    }
+
+    public function montaTabela() {
+        $oControllerUpdates = Fabrica::FabricarController('MET_TEC_Updates');
+        $aBuscaUpdates = $oControllerUpdates->getDadosUpdates();
+
+        $html = '</div>'
+                . '<div class="col-md-4">'
+                . '<h4 style="margin-top:30px;margin-left:5px"><i class="icon wb-book" aria-hidden="true"></i>Atualizações '
+                . '  </h4> '
+                . ' <div class="example table-responsive" style="margin-left:5px;"> '
+                . '   <table class="table table-striped"> '
+                . '     <thead> '
+                . '       <tr> '
+                . '         <th style="font-size:16px;font-weight:600;">Versão</th> '
+                . '         <th style="font-size:16px;font-weight:600;">Updates</th> '
+                . '         <th style="font-size:16px;font-weight:600;">Doc.</th> '
+                . '       </tr>  '
+                . '     </thead> '
+                . '     <tbody> ';
+        foreach ($aBuscaUpdates as $key => $value) {
+            $href = '';
+            $html = $html . '       <tr> '
+                    . '         <td><span class="badge badge-dark">' . $value->versao . '</span></td> '
+                    . '         <td style="width:450px">' . $value->updates . '</td> ';
+            if ($value->anexo != '') {
+                $html = $html . '         <td><a href="http://localhost/github/frame_metalbo/uploads/' . $value->anexo . '" target="_blank"  rel=”noopener”>Clique aqui</a></td> ';
+            } else {
+                $html = $html . '         <td></td> ';
+            }
+            $html = $html . '       </tr> ';
+        }
+        $html = $html . '     </tbody>'
+                . '   </table>'
+                . ' </div>';
+
+        return $html;
     }
 
 }

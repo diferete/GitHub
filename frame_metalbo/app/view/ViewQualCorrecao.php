@@ -12,7 +12,7 @@ class ViewQualCorrecao extends View {
         parent::__construct();
     }
 
-    function criaGridDetalhe() {
+    function criaGridDetalhe($sAcaoRotina) {
         parent::criaGridDetalhe($sIdAba);
 
         /**
@@ -26,6 +26,9 @@ class ViewQualCorrecao extends View {
         $oBotaoModal->setSTitleAcao('Apontar Correção');
         $oBotaoModal->addAcao('QualCorrecao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao', '');
         $this->addModaisDetalhe($oBotaoModal);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
@@ -53,12 +56,19 @@ class ViewQualCorrecao extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+
+        $aDados = $_REQUEST['parametros'];
+        $aDados = explode(',', $aDados['parametros[']);
+
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Correção');
         $oBotaoModal->addAcao('QualCorrecao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao', '');
         $this->addModais($oBotaoModal);
+        if ($aDados[6] == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
@@ -86,7 +96,7 @@ class ViewQualCorrecao extends View {
         parent::criaTela();
 
         $sAcaoRotina = $this->getSRotina();
-        $this->criaGridDetalhe();
+        $this->criaGridDetalhe($sAcaoRotina);
 
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);

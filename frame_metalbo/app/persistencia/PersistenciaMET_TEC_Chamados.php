@@ -63,9 +63,11 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $sth = $this->getObjetoSql($sSql);
         while ($aChamado = $sth->fetch(PDO::FETCH_ASSOC)) {
             date_default_timezone_set('America/Sao_Paulo');
-            $previsao = date_create($aChamado['previsao']);
-            $inicio = date_create($aChamado['datainicio']);
+            
             $hoje = date_create(date('Y-m-d'));
+            $inicio = date_create($aChamado['datainicio']);
+            $previsao = date_create($aChamado['previsao']);
+            
             $intervaloPrevisao = date_diff($inicio, $previsao);
             $intervaloAtual = date_diff($hoje, $previsao);
             $diasPrevisao = $intervaloPrevisao->format('%a');
@@ -74,7 +76,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
             if ($diasAtual > $diasPrevisao) {
                 $dias = '-' . $diasAtual;
             } else {
-                $dias = $diasPrevisao;
+                $dias = $diasAtual;
             }
 
             $sSqlUpdate = "update MET_TEC_Chamados set dias = " . $dias . " where nr = " . $aChamado['nr'] . " and filcgc = " . $aChamado['filcgc'] . "";

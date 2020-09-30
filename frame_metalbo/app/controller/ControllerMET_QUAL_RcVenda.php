@@ -373,17 +373,19 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 echo $oMensagem3->getRender();
             } else {
                 if ($aRet[0] == 'Env.Qual') {
-                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('duda@metalbo.com.br');
+                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    $oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
-                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
-                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
-                    //$oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
+                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    $oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
+                    $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));

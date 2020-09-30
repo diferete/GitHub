@@ -12,7 +12,7 @@ class ViewQualAqPlan extends View {
         parent::__construct();
     }
 
-    function criaGridDetalhe() {
+    function criaGridDetalhe($sAcaoRotina) {
         parent::criaGridDetalhe($sIdAba);
 
         /**
@@ -26,6 +26,9 @@ class ViewQualAqPlan extends View {
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
         $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta', '');
         $this->addModaisDetalhe($oBotaoModal);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
 
         $oNr = new CampoConsulta('Nr.', 'nr');
 
@@ -53,12 +56,20 @@ class ViewQualAqPlan extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+
+        $aDados = $_REQUEST['parametros'];
+        $aDados = explode(',', $aDados['parametros[']);
+
+
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
         $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta', '');
         $this->addModais($oBotaoModal);
+        if ($aDados[6] == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
 
         $oNr = new CampoConsulta('Nr.', 'nr');
 
@@ -82,46 +93,13 @@ class ViewQualAqPlan extends View {
         $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlano, $oDataPrev, $oDataFim, $oUsunome, $oAnexo, $oAnexoFim);
     }
 
-    public function criaConsutaApont() {
-        $oGridAq = new Grid("");
-
-        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-        $oBotaoModal->setBHideTelaAcao(true);
-        $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalAponta', '');
-
-        $oNr = new CampoConsulta('Nr.', 'nr');
-
-        $oSeq = new CampoConsulta('Seq.', 'seq');
-
-        $oPlano = new CampoConsulta('Plano', 'Plano');
-
-        $oDataPrev = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
-
-        $oDataFim = new CampoConsulta('Apontamento', 'datafim', CampoConsulta::TIPO_DATA);
-
-        $oSituacao = new CampoConsulta('Situação', 'sitfim', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
-
-        $oUsunome = new CampoConsulta('Quem', 'usunome');
-
-        $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
-
-        $oAnexoFim = new CampoConsulta('Anexo Aponta', 'anexofim', CampoConsulta::TIPO_DOWNLOAD);
-
-        $oGridAq->addCampos($oBotaoModal, $oNr, $oSeq, $oPlano, $oSituacao, $oDataPrev, $oDataFim, $oUsunome, $oAnexo, $oAnexoFim);
-
-        $aCampos = $oGridAq->getArrayCampos();
-        return $aCampos;
-    }
-
     public function criaTela() {
         parent::criaTela();
 
-        $this->criaGridDetalhe();
-
         $sAcaoRotina = $this->getSRotina();
+
+        $this->criaGridDetalhe($sAcaoRotina);
+
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);
             $this->getTela()->setBUsaDelGrid(false);

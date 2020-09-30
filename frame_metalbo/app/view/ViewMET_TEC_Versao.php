@@ -36,12 +36,8 @@ class ViewMET_TEC_Versao extends View {
     public function criaTela() {
         parent::criaTela();
 
-        $oTab = new TabPanel();
-        $oTabGeral = new AbaTabPanel('Versões');
-        $oTabGeral->setBActive(true);
-        $oTabUpdatesNovidades = new AbaTabPanel('Updates e novidades');
 
-        $this->addLayoutPadrao('Aba');
+        $sAcaoRotina = $this->getSRotina();
 
         $oSeq = new Campo('Seq.', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeq->setBCampoBloqueado(true);
@@ -79,34 +75,32 @@ class ViewMET_TEC_Versao extends View {
         $oHora->setSValor(date('H:i'));
         $oHora->setBCampoBloqueado(true);
 
-        $oDescricao = new Campo('Descrição das Alterações', 'descricao', Campo::TIPO_TEXTAREA, 10, 10, 12, 12);
+        $oDescricao = new Campo('Briefing', 'descricao', Campo::TIPO_TEXTAREA, 10, 10, 12, 12);
 
         $oEquipe = new Campo('Equipe Responsável', 'equipe', Campo::TIPO_TEXTO, 4, 4, 12, 12);
 
-        $oTabGeral->addCampos($oTec, array($oSeq, $oUsuCodigo, $oUsuNome, $oVersao), array($oData, $oHora, $oEquipe), $oDescricao);
 
-        $oConteudo = new Campo('Conteúdo', 'conteudo', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
-        $oConteudo->setILinhasTextArea(5);
+        $oEtapas = new FormEtapa(2, 2, 12, 12);
+        $oEtapas->addItemEtapas('Cadastro de versão', true, $this->addIcone(Base::ICON_EDITAR));
+        $oEtapas->addItemEtapas('Updates da versão', false, $this->addIcone(Base::ICON_CONFIRMAR));
 
-        $oCodSetor = new Campo('Cód. Setor', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $this->addEtapa($oEtapas);
 
-        $oDescSetor = new Campo('Setor', 'descsetor', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
-        $oDescSetor->setSIdPk($oCodSetor->getId());
-        $oDescSetor->setClasseBusca('Setor');
-        $oDescSetor->addCampoBusca('codsetor', '', '');
-        $oDescSetor->addCampoBusca('descsetor', '', '');
-        $oDescSetor->setSIdTela($this->getTela()->getid());
-        
-        $oCodSetor->setClasseBusca('Setor');
-        $oCodSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
-        $oCodSetor->addCampoBusca('descsetor', $oDescSetor->getId(), $this->getTela()->getId());
+        if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
+            //monta campo de controle para inserir ou alterar
+            $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2, 2, 12, 12);
+            $oAcao->setApenasTela(true);
+            if ($this->getSRotina() == View::ACAO_INCLUIR) {
+                $oAcao->setSValor('incluir');
+            } else {
+                $oAcao->setSValor('alterar');
+            }
+            $this->setSIdControleUpAlt($oAcao->getId());
 
-
-        $oTabUpdatesNovidades->addCampos();
-
-        $oTab->addItems($oTabGeral, $oTabUpdatesNovidades);
-
-        $this->addCampos($oTab);
+            $this->addCampos($oTec, array($oSeq, $oUsuCodigo, $oUsuNome, $oVersao), array($oData, $oHora, $oEquipe), $oDescricao, $oAcao);
+        } else {
+            $this->addCampos($oTec, array($oSeq, $oUsuCodigo, $oUsuNome, $oVersao), array($oData, $oHora, $oEquipe), $oDescricao);
+        }
     }
 
 }

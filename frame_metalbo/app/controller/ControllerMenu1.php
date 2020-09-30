@@ -60,18 +60,12 @@ class ControllerMenu extends Controller {
             $sEstruturaMenu .= '</ul></li> ';
             ++$iCont;
         }
-        $sMsg = '<div class="example-wrap" id="perfilPrincipal">'
-                . '<div class="example example-well col-md-8" style="height:700px">'
+        $sMsg = '<div class="example-wrap" id="perfilPrincipal" style="width:100%; float:left">'
                 . '<div class="example example-well">'
                 . '<div class="page-header text-center">'
-                . '</br>'
-                . '<h1 class="page-title">Bem-vindo!</h1>'
-                . '<img class="img-circle img-bordered img-bordered-primary" width="150" height="150" src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1">'
-                . '<h2 class="page-title">' . $_SESSION["nome"] . '</h2>'
-                . '<div>'
-                . '</div>'
-                . '</br>'
-                . '<div style="position: absolute;bottom: 0;left: 0;top: 650px">'
+                . '</br><img class="img-circle img-bordered img-bordered-primary" width="150" height="150" src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1"></p>'
+                . '<h1 class="page-title">Bem-vindo, ' . $_SESSION["nome"] . '!</h1>'
+                . '<div style="position: absolute;bottom: 0;right: 0;">'
                 . '<p class="page-description">'
                 . '<a target="_blank" href="http://metalbo.com.br/" style="margin: 10px;text-decoration: none;">metalbo.com.br</a>'
                 . '<a target="_blank" href="https://facebook.com/metalbo.oficial" style="margin: 10px;text-decoration: none;"> '
@@ -89,12 +83,10 @@ class ControllerMenu extends Controller {
                 . '</button>'
                 . '</a>'
                 . '</div>'
-                . '</div>'
                 . '</br>'
+                . '</div>'
+                . '</div>'
                 . '</div>';
-        //$sMsg = $sMsg . $this->updates();
-        $sMsg = $sMsg . $this->montaTabela();
-        $sMsg = $sMsg . '</div>';
 
         echo "$('#tabmenucont').empty(); $('#tabmenusuperior').empty();$('#menu').empty();$('#menu').append('" . $sEstruturaMenu . "'); ";
         echo "$('#tabmenucont').append('" . $sMsg . "');";
@@ -121,7 +113,7 @@ class ControllerMenu extends Controller {
     }
 
     public function updates() {
-        $oControllerUpdates = Fabrica::FabricarController('MET_TEC_Updates');
+        $oControllerUpdates = Fabrica::FabricarController('MET_TEC_Versao');
         $aBuscaUpdates = $oControllerUpdates->getDadosUpdates();
 
         $lista = '<ul style="list-style-type: none;">'
@@ -138,7 +130,7 @@ class ControllerMenu extends Controller {
                     . '                      <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>'
                     . '                  </div>'
                     . '                  <div class="media-body">'
-                    . '                      <h6 class="media-heading">' . $value->updates . '</h6>'
+                    . '                      <h6 class="media-heading">' . $value->descricao . '</h6>'
                     . '                      <time class="media-meta">' . $value->versao . '</time>'
                     . '                  </div>'
                     . '              </div>'
@@ -154,43 +146,6 @@ class ControllerMenu extends Controller {
                 . '</ul>';
 
         return $lista;
-    }
-
-    public function montaTabela() {
-        $oControllerUpdates = Fabrica::FabricarController('MET_TEC_Updates');
-        $aBuscaUpdates = $oControllerUpdates->getDadosUpdates();
-
-        $html = '</div>'
-                . '<div class="col-md-4">'
-                . '<h4 style="margin-top:30px;margin-left:5px"><i class="icon wb-book" aria-hidden="true"></i>Atualizações '
-                . '  </h4> '
-                . ' <div class="example table-responsive" style="margin-left:5px;"> '
-                . '   <table class="table table-striped"> '
-                . '     <thead> '
-                . '       <tr> '
-                . '         <th style="font-size:16px;font-weight:600;">Versão</th> '
-                . '         <th style="font-size:16px;font-weight:600;">Updates</th> '
-                . '         <th style="font-size:16px;font-weight:600;">Doc.</th> '
-                . '       </tr>  '
-                . '     </thead> '
-                . '     <tbody> ';
-        foreach ($aBuscaUpdates as $key => $value) {
-            $href = '';
-            $html = $html . '       <tr> '
-                    . '         <td><span class="badge badge-dark">' . $value->versao . '</span></td> '
-                    . '         <td style="width:450px">' . $value->updates . '</td> ';
-            if ($value->anexo != '') {
-                $html = $html . '         <td><a href="http://localhost/github/frame_metalbo/uploads/' . $value->anexo . '" target="_blank"  rel=”noopener”>Clique aqui</a></td> ';
-            } else {
-                $html = $html . '         <td></td> ';
-            }
-            $html = $html . '       </tr> ';
-        }
-        $html = $html . '     </tbody>'
-                . '   </table>'
-                . ' </div>';
-
-        return $html;
     }
 
 }

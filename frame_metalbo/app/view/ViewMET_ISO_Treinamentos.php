@@ -48,9 +48,9 @@ class ViewMET_ISO_Treinamentos extends View {
         $oFilSetor->setSCampoRetorno('descsetor', $this->getTela()->getSId());
         $oFilSetor->setSIdTela($this->getTela()->getSId());
 
-        $oFilFuncao = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, false);
+        $oFilFuncao = new Filtro($oFuncao, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, false);
         $oFilFuncao->setSClasseBusca('MET_RH_FuncaoSetor');
-        $oFilFuncao->setSCampoRetorno('descfunc', $this->getTela()->getSId());
+        $oFilFuncao->setSCampoRetorno('descfuncao', $this->getTela()->getSId());
         $oFilFuncao->setSIdTela($this->getTela()->getSId());
 
         $oFilTreinamento = new Filtro($oTagTreinamento, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
@@ -76,12 +76,15 @@ class ViewMET_ISO_Treinamentos extends View {
         $oDados = $this->getAParametrosExtras();
 
         $oNr = new Campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oNr->setBCampoBloqueado(true);
 
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor($_SESSION['filcgc']);
+        $oFilcgc->setBCampoBloqueado(true);
 
         $oUser = new Campo('Usuário', 'usuario', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUser->setSValor($_SESSION['nome']);
+        $oUser->setBCampoBloqueado(true);
 
         $oDataCad = new Campo('...', 'data_cad', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataCad->setBOculto(true);
@@ -180,7 +183,7 @@ class ViewMET_ISO_Treinamentos extends View {
             } else {
                 $oAcao->setSValor('alterar');
             }$this->setSIdControleUpAlt($oAcao->getId());
-            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oSit, $oTagEsc),$oAcao);
+            $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oSit, $oTagEsc), $oAcao);
         } else {
             $this->addCampos(array($oNr, $oFilcgc, $oUser, $oDataCad), array($oCracha, $oNome), array($oDescSetor, $oFuncao, $oGrauEsc, $oTagEsc, $oSit));
         }
