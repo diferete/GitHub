@@ -56,7 +56,7 @@ $x = $pdf->GetX();
 $y = $pdf->GetY();
 $pdf->SetXY($x, $y);
 $pdf->SetFont('Arial', '', 10);
-$pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
+$pdf->MultiCell(70, 5, 'Usuário: ' . $sUserRel, 0, 'L');
 $pdf->SetXY($x, $y + 5);
 
 

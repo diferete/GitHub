@@ -85,6 +85,7 @@ class CampoConsulta {
     const ICONE_BOTAOPRIMARY = 'btn btn-primary btn-xs ladda-button btn-grid';
     const ICONE_BOTAOSUCCES = 'btn btn-success btn-xs ladda-button btn-grid';
     const ICONE_BOTAODANGER = 'btn btn-danger btn-xs ladda-button btn-grid';
+    const ICONE_APONTAR = 'btn-xs btn-icon btn-dark btn-outline icon wb-pencil';
 
     /**
      *  Método construtor que passa o label e o nome do campo no model

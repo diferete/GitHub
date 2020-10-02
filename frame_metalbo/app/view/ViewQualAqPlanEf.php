@@ -8,8 +8,6 @@
  * @since 10/07/2017
  * 
  */
-
-
-class ViewQualAqPlanEf extends View{
+class ViewQualAqPlanEf extends View {
     
 }

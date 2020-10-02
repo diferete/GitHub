@@ -146,54 +146,54 @@ $pdf->Cell(20, 5, Util::formataSqlDecimal($row['prodiapmax']) . ' mm', 0, 1);
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Diâm. Externo Mín.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['procommin']) . ' mm', 0, 0);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['prodiaemin']) . ' mm', 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Diâm. Externo Máx.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['procommax']) . ' mm', 0, 1);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['prodiaemax']) . ' mm', 0, 1);
 
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Comp. Haste Mín.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['prodiapmin']) . ' mm', 0, 0);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['comphastmi']) . ' mm', 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Comp. Haste Máx.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['prodiapmax']) . ' mm', 0, 1);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['comphastma']) . ' mm', 0, 1);
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Comp. Rosca Mín.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['procommin']) . ' mm', 0, 0);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['procomrmin']) . ' mm', 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Comp. Rosca Máx.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['procommax']) . ' mm', 0, 1);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['procomrmax']) . ' mm', 0, 1);
 
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Diâm. Haste Mín.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['prodiapmin']) . ' mm', 0, 0);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['DiamHastMi']) . ' mm', 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Diâm. Haste Máx.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['prodiapmax']) . ' mm', 0, 1);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['DiamHastMa']) . ' mm', 0, 1);
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Profu. Caneco Mín.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['procommin']) . ' mm', 0, 0);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['pfcmin']) . ' mm', 0, 0);
 
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(32, 5, 'Profu. Caneco Máx.:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(20, 5, Util::formataSqlDecimal($row['procommax']) . ' mm', 0, 1);
+$pdf->Cell(20, 5, Util::formataSqlDecimal($row['pfcmax']) . ' mm', 0, 1);
 
 $pdf->Output('I', 'Dimensional - Cód ' . $sCod . '.pdf');
 Header('Pragma: public');

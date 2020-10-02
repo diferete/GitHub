@@ -91,7 +91,7 @@ class ViewQualAta extends View {
 
         $oLinha = new Campo('', '', Campo::TIPO_LINHA);
 
-        $this->addCampos(array($oFilcgc, $oNr, $oSeq, $oHora), $oTitulo, array($oData, $oAnexo),$oObs, array($oBtnInserir), $oLinha, $oBtnDelete, $oGridAta);
+        $this->addCampos(array($oFilcgc, $oNr, $oSeq, $oHora), $oTitulo, array($oData, $oAnexo, $oBtnInserir), $oLinha, $oBtnDelete, $oGridAta);
     }
 
     public function consultaAta() {

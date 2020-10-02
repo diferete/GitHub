@@ -11,9 +11,6 @@ class ViewQualCausa extends View {
     function criaGridDetalhe() {
         parent::criaGridDetalhe($sIdAba);
 
-        /**
-         * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
-         */
         $this->getOGridDetalhe()->setIAltura(220);
 
         $oNr = new CampoConsulta('AQ', 'nr');
@@ -82,11 +79,6 @@ class ViewQualCausa extends View {
         $oSeq->setILargura(10);
 
         $oCausaDesc = new CampoConsulta('Descrição causa', 'causades');
-
-        /*
-          $oOcorrencia = new CampoConsulta('Ocorrência 6M', 'ocorrencia', CampoConsulta::TIPO_DESTAQUE1);
-          $oOcorrencia->addComparacao('1', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, '');
-         */
 
         $this->addCampos($oNr, $oSeq, $oCausaDesc/* , $oOcorrencia */);
     }
@@ -169,15 +161,6 @@ class ViewQualCausa extends View {
         $oPq5 = new Campo('5º Porque', 'pq5', Campo::TIPO_TEXTAREA, 2, 2, 12, 12);
         $oPq5->setILinhasTextArea(5);
 
-        /*
-          $oGridOcorr = new Campo('Ocorrência 6M', '6m', Campo::TIPO_GRIDVIEW, 2, 2, 12, 12);
-          $oGridOcorr->addCabGridView('Causa');
-          $oGridOcorr->addCabGridView('Ocorrências');
-          $oGridOcorr->addLinhasGridView(1, '');
-          $oGridOcorr->addLinhasGridView(1, '0');
-          $oGridOcorr->addLinhasGridView(2, '');
-          $oGridOcorr->addLinhasGridView(2, '0');
-         */
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBotConf->setApenasTela(true);

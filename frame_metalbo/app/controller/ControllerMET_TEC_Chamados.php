@@ -236,6 +236,9 @@ class ControllerMET_TEC_Chamados extends Controller {
         if ($aCampos['obsfim'] == '') {
             $oMensagem = new Mensagem('Atenção', 'Preencha o campo OBSERVAÇÃO!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
+        } if ($aCampos['tempo'] == '') {
+            $oMensagem = new Mensagem('Atenção', 'Preencha o campo TEMPO!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
         } else {
             $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
             if ($aRetorno[0]) {
