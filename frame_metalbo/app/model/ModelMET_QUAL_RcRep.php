@@ -54,6 +54,15 @@ class ModelMET_QUAL_RcRep {
     private $obs_aponta;
     private $produtos;
     private $tagexcecao;
+    private $procedencia;
+
+    function getProcedencia() {
+        return $this->procedencia;
+    }
+
+    function setProcedencia($procedencia) {
+        $this->procedencia = $procedencia;
+    }
 
     function getTagexcecao() {
         return $this->tagexcecao;

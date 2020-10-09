@@ -65,6 +65,15 @@ class ModelMET_QUAL_RcAnalise {
     private $anexo_inspecao1;
     private $anexo_analise;
     private $anexo_analise1;
+    private $procedencia;
+
+    function getProcedencia() {
+        return $this->procedencia;
+    }
+
+    function setProcedencia($procedencia) {
+        $this->procedencia = $procedencia;
+    }
 
     function getAnexo_analise() {
         return $this->anexo_analise;

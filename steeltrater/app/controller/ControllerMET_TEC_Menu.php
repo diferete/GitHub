@@ -44,10 +44,10 @@ class ControllerMET_TEC_Menu extends Controller {
         $iCont = 1;
         foreach ($aMenu as $key => $aMenuSup) {
             $sEstruturaMenu .= '<li class="site-menu-item has-sub">'
-                    . '<a href="javascript:void(0)" data-slug="layout">'
-                    . '  <i class="site-menu-icon wb-layout" aria-hidden="true"></i>'
-                    . '  <span class="site-menu-title">' . $aMenuSup[0] . '</span>'
-                    . '  <span class="site-menu-arrow"></span>'
+                    . ' <a href="javascript:void(0)" data-slug="layout">'
+                    . ' <i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i>'
+                    . ' <span class="site-menu-title">' . $aMenuSup[0] . '</span>'
+                    . ' <span class="site-menu-arrow"></span>'
                     . '</a>'
                     . '<ul class="site-menu-sub"> ';
             $aSub = $oItemMenu->getItemMenu($aModuloSel[1], $aMenuSup[1]);

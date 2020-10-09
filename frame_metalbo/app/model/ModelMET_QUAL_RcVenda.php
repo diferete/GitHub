@@ -55,6 +55,25 @@ class ModelMET_QUAL_RcVenda {
     private $usuapontavenda;
     private $produtos;
     private $tagexcecao;
+    private $procedencia;
+    private $nfdevolucao;
+    
+    function getNfdevolucao() {
+        return $this->nfdevolucao;
+    }
+
+    function setNfdevolucao($nfdevolucao) {
+        $this->nfdevolucao = $nfdevolucao;
+    }
+
+    
+    function getProcedencia() {
+        return $this->procedencia;
+    }
+
+    function setProcedencia($procedencia) {
+        $this->procedencia = $procedencia;
+    }
 
     function getTagexcecao() {
         return $this->tagexcecao;

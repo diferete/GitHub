@@ -70,6 +70,8 @@ class PersistenciaMET_QUAL_RcRep extends Persistencia {
         $this->adicionaRelacionamento('produtos', 'produtos');
 
         $this->adicionaRelacionamento('tagexcecao', 'tagexcecao');
+        
+        $this->adicionaRelacionamento('procedencia', 'procedencia');
 
         $this->adicionaJoin('Pessoa');
 

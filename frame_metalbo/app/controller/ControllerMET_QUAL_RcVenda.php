@@ -206,13 +206,9 @@ class ControllerMET_QUAL_RcVenda extends Controller {
 
         $oRet = $this->Persistencia->buscaDadosRC($aCamposChave);
 
-        if (($oRet->situaca == 'Liberado' && $oRet->reclamacao == 'Aguardando') || ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Em análise')) {
+        if ($oRet->situaca == 'Reaberta' || ($oRet->situaca == 'Liberado' && $oRet->reclamacao == 'Aguardando') || ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Em análise')) {
 
-            $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
-            $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
-
-            $oDados = $this->Persistencia->consultarWhere();
-            $this->View->setAParametrosExtras($oDados);
+            $this->View->setAParametrosExtras($oRet);
 
             $this->View->criaModalApontamento($sDados);
 
@@ -224,7 +220,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             //renderiza a tela
             $this->View->getTela()->getRender();
         } else {
-            if (($oRet->nfdevolucao == null && $oRet->nfsipi == null && $oRet->valorfrete == null) || ($oRet->nfdevolucao == '0' && $oRet->nfsipi == '.0000' && $oRet->valorfrete == '.0000')) {
+            if ($oRet->situaca != 'Aguardando' && ($oRet->nfdevolucao == null && $oRet->nfsipi == null && $oRet->valorfrete == null) || ($oRet->nfdevolucao == '0' && $oRet->nfsipi == '.0000' && $oRet->valorfrete == '.0000')) {
 
                 $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
                 $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
@@ -244,6 +240,46 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             } else {
                 $this->msgSit($aDados, $oRet);
             }
+        }
+    }
+
+    public function apontaReclamacao($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[3]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
+
+        if ($aCampos['reclamacao'] == '' || $aCampos['reclamacao'] == null) {
+            $oMsg = new Mensagem('Atenção', 'Selecione o TIPO da RC segundo análise!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+            exit();
+        }
+        if ($aCampos['devolucao'] == '' || $aCampos['devolucao'] == null) {
+            $oMsg = new Mensagem('Atenção', 'Selecione o status da DEVOLUÇÃO segundo análise!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+            exit();
+        }
+        if ($aCampos['reclamacao'] == 'Interna' && $oDados->situaca != 'Apontada') {
+            $oMsg = new Mensagem('Atenção', 'Não foi apontada pelo setor de analise interna!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+            exit();
+        } else {
+            $aRetorno = $this->Persistencia->apontaReclamacao($aCamposChave);
+            if ($aRetorno[0] == true) {
+                $oMensagem = new Modal('Sucesso', 'Apontamento efetuado com sucesso!', Modal::TIPO_SUCESSO);
+                $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO, 10000);
+                echo $oMsg2->getRender();
+                echo 'requestAjax("","MET_QUAL_RcVenda","enviaEmailRep","' . $sDados . '");';
+                echo"$('#" . $aDados[2] . "-btn').click();";
+                echo"$('#" . $aDados[1] . "-pesq').click();";
+            } else {
+                $oMensagem = new Modal('Atenção', 'Erro ao tentar inserir o registro', Modal::TIPO_ERRO);
+            }
+            echo $oMensagem->getRender();
         }
     }
 
@@ -373,19 +409,19 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 echo $oMensagem3->getRender();
             } else {
                 if ($aRet[0] == 'Env.Qual') {
-                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('duda@metalbo.com.br');
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
-                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
-                    $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    //$oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
-                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
-                    $oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
-                    $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
+                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    //$oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
+                    //$oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
@@ -398,46 +434,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                     echo $oMensagem5->getRender();
                 }
             }
-        }
-    }
-
-    public function apontaReclamacao($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[3]);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
-
-        $aCampos = array();
-        parse_str($_REQUEST['campos'], $aCampos);
-        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
-
-        if ($aCampos['reclamacao'] == '' || $aCampos['reclamacao'] == null) {
-            $oMsg = new Mensagem('Atenção', 'Selecione o TIPO da RC segundo análise!', Mensagem::TIPO_ERROR);
-            echo $oMsg->getRender();
-            exit();
-        }
-        if ($aCampos['devolucao'] == '' || $aCampos['devolucao'] == null) {
-            $oMsg = new Mensagem('Atenção', 'Selecione o status da DEVOLUÇÃO segundo análise!', Mensagem::TIPO_ERROR);
-            echo $oMsg->getRender();
-            exit();
-        }
-        if ($aCampos['reclamacao'] == 'Interna' && $oDados->situaca != 'Apontada') {
-            $oMsg = new Mensagem('Atenção', 'Não foi apontada pelo setor de analise interna!', Mensagem::TIPO_ERROR);
-            echo $oMsg->getRender();
-            exit();
-        } else {
-            $aRetorno = $this->Persistencia->apontaReclamacao($aCamposChave);
-            if ($aRetorno[0] == true) {
-                $oMensagem = new Modal('Sucesso', 'Apontamento efetuado com sucesso!', Modal::TIPO_SUCESSO);
-                $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO, 10000);
-                echo $oMsg2->getRender();
-                echo 'requestAjax("","MET_QUAL_RcVenda","enviaEmailRep","' . $sDados . '");';
-                echo"$('#" . $aDados[2] . "-btn').click();";
-                echo"$('#" . $aDados[1] . "-pesq').click();";
-            } else {
-                $oMensagem = new Modal('Atenção', 'Erro ao tentar inserir o registro', Modal::TIPO_ERRO);
-            }
-            echo $oMensagem->getRender();
         }
     }
 
@@ -703,7 +699,33 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o setor do Almoxarifado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email para o setor do Almoxarifado, tente novamente ou comunique o TI - ', Mensagem::TIPO_WARNING);
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email para o setor do Almoxarifado, tente novamente ou comunique o TI!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    /*
+     * Método que monta a Modal de Reabertura RC do setor de Vendas
+     * */
+
+    public function reabrirRC($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
+        if ($oDados->situaca == 'Finalizada') {
+            $aRetorno = $this->Persistencia->reabrirRC($aCamposChave);
+            if ($aRetorno[0]) {
+                $oMensagem = new Mensagem('Sucesso', 'RC reaberta para apontamento!', Mensagem::TIPO_SUCESSO);
+                echo $oMensagem->getRender();
+                echo "$('#" . $aDados[0] . "-pesq').click();";
+            } else {
+                $oMensagem = new Mensagem('Atenção', 'Problemas ao tentar reabrir a RC para apontamento, tente novamente ou comunique o TI!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+            }
+        } else {
+            $oMensagem = new Mensagem('Atenção', 'Não está em condições de ser Reaberta!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         }
     }

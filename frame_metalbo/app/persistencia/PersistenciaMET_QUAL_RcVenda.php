@@ -74,6 +74,8 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
 
         $this->adicionaRelacionamento('tagexcecao', 'tagexcecao');
 
+        $this->adicionaRelacionamento('procedencia', 'procedencia');
+
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
@@ -314,6 +316,14 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
     public function retornaRep($aDados) {
         $sSql = "update tbrncqual "
                 . "set situaca = 'Aguardando' "
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetorna = $this->executaSql($sSql);
+        return $aRetorna;
+    }
+
+    public function reabrirRC($aDados) {
+        $sSql = "update tbrncqual "
+                . "set situaca = 'Reaberta' "
                 . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorna = $this->executaSql($sSql);
         return $aRetorna;

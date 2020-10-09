@@ -12,7 +12,7 @@ class ViewMET_QUAL_RcRep extends View {
         parent::criaConsulta();
 
         $this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setiLarguraGrid(2000);
+        $this->getTela()->setiLarguraGrid(2200);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
 
@@ -53,8 +53,15 @@ class ViewMET_QUAL_RcRep extends View {
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oDevolucao->addComparacao('N/ se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->setBComparacaoColuna(true);
+
+        $oProcedencia = new CampoConsulta('Procede', 'procedencia', CampoConsulta::TIPO_TEXTO);
+        $oProcedencia->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oProcedencia->addComparacao('PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oProcedencia->addComparacao('NÃO PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_LINHA, false, null);
+        $oProcedencia->setBComparacaoColuna(true);
 
         $oDropDown = new Dropdown('Liberações', Dropdown::TIPO_PRIMARY);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Liberar Metalbo', 'MET_QUAL_RcRep', 'liberarMetalbo', '', false, 'rc', false, '', false, '', true, false);
@@ -72,7 +79,7 @@ class ViewMET_QUAL_RcRep extends View {
         $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
         $this->addFiltro($oFilNr, $oFilCli);
-        $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+        $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -116,6 +123,11 @@ class ViewMET_QUAL_RcRep extends View {
         $oFilcgc = new Campo('CNPJ', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor('75483040000211');
         $oFilcgc->setBCampoBloqueado(true);
+
+        $oProcedencia = new Campo('', 'procedencia', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oProcedencia->setSValor('Aguardando');
+        $oProcedencia->setBCampoBloqueado(true);
+        $oProcedencia->setBOculto(true);
 
         $oDevolucao = new Campo('', 'devolucao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oDevolucao->setSValor('Aguardando');
@@ -190,7 +202,6 @@ class ViewMET_QUAL_RcRep extends View {
                 . '"' . $this->getController() . '")';
 
         $oRep->addEvento(Campo::EVENTO_CHANGE, $sAcaoRespVenda);
-
 
         $oDivisor2 = new Campo('Dados do cliente', 'clidados', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor2->setApenasTela(true);
@@ -315,7 +326,7 @@ class ViewMET_QUAL_RcRep extends View {
         $oProd = new campo('Produtos', 'produtos', Campo::TIPO_TAGS, 12, 12, 12, 12);
         $oProd->setILinhasTextArea(5);
         $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oProd->addValidacao(false, Validacao::TIPO_STRING,'Campo obrigatório',5);
+        $oProd->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 5);
 
 
         $oBotConf = new Campo('Adicionar', 'botao', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
@@ -335,15 +346,25 @@ class ViewMET_QUAL_RcRep extends View {
         $oBotConf->setApenasTela(true);
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////       
+        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 2, 2, 12, 12);
+        $oDisposicao->addItenRadio('1', 'Aceita Condicionalmente');
+        $oDisposicao->addItenRadio('2', 'Devolver');
+
+        $oAtencao = new Campo('Acc. Condicionalmente - Apenas reclamação.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
+        $oAtencao->setSEstiloBadge(Campo::BADGE_SUCCESS);
+        $oAtencao->setITamFonteBadge(18);
+        $oAtencao->setApenasTela(true);
+
+        $oAtencao1 = new Campo('Devolver - Intenção de devolução pelo Cliente.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
+        $oAtencao1->setSEstiloBadge(Campo::BADGE_DANGER);
+        $oAtencao1->setITamFonteBadge(18);
+        $oAtencao1->setApenasTela(true);
+
         $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oDescNaoConf->setILinhasTextArea(5);
         $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
         $oDescNaoConf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '5');
-
-        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
-        $oDisposicao->addItenRadio('1', 'Aceita Condicionalmente');
-        $oDisposicao->addItenRadio('2', 'Devolver');
 
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
@@ -360,10 +381,10 @@ class ViewMET_QUAL_RcRep extends View {
         $oTabNF->addCampos(
                 array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
 
-        $oTabProd->addCampos($oAplicacao, array($oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao));
+        $oTabProd->addCampos($oAplicacao, array($oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao, $oAtencao, $oAtencao1));
 
         $oTabAnexos->addCampos(
-                array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao, $oReclamacao));
+                array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao, $oProcedencia, $oReclamacao));
 
         $oTab->addItems($oTabGeral, $oTabNF, $oTabProd, $oTabAnexos);
 

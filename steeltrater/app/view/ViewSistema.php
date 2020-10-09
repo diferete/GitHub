@@ -852,7 +852,7 @@ class ViewSistema extends View {
         foreach ($aMenu as $key => $aMenuSup) {
             $sEstruturaMenu .= '<li class="site-menu-item has-sub">'
                     . '<a href="javascript:void(0)" data-slug="layout">'
-                    . '<i class="site-menu-icon wb-layout" aria-hidden="true"></i>'
+                    . '<i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i>'
                     . '<span class="site-menu-title">' . $aMenuSup[0] . '</span>'
                     . '<span class="site-menu-arrow"></span>'
                     . '</a>'

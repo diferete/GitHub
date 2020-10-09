@@ -85,6 +85,8 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
         $this->adicionaRelacionamento('anexo_analise', 'anexo_analise');
         $this->adicionaRelacionamento('anexo_analise1', 'anexo_analise1');
 
+        $this->adicionaRelacionamento('procedencia', 'procedencia');
+
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);

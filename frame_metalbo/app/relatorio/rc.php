@@ -479,7 +479,8 @@ $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Inspeção:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, $row['inspecao'], 0, 1, 'L');
+$pdf->MultiCell(190, 5, $row['inspecao'], 1, 'L');
+//$pdf->Cell(50, 5, $row['inspecao'], 0, 1, 'L');
 
 //PARTE DOS ANEXOS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //ANEXO INSPEÇÃO

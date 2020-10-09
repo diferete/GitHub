@@ -199,7 +199,7 @@ body {
 .site-menu-label {
     position: absolute;
     right: 20px;
-    top: 2px;
+    top: 4px;
     display: inline-block;
     vertical-align: middle
 }

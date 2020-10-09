@@ -696,7 +696,7 @@ class Grid {
             //verifica se tem ordeby
             $sOrderBy = "";
 
-            $sGrid .= '<th  class="asc" style="' . $sLargura . '' . $sOculta . '" id=' . $sIdTh . ' ' . $sOrderBy . '>' . $oCampoAtual->getSLabel() . '</th>';
+            $sGrid .= '<th  class="asc" style="' . $sLargura . ' ' . $sOculta . '" id=' . $sIdTh . ' ' . $sOrderBy . '>' . $oCampoAtual->getSLabel() . '</th>';
             if ($oCampoAtual->getBOrderBy()) {
                 $sOrderBy = '<script>'
                         . '$("#' . $sIdTh . '").click(function(){'

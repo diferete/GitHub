@@ -45,7 +45,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
 
 
-        $oSit = new CampoConsulta('Sit', 'situaca', CampoConsulta::TIPO_LARGURA);
+        $oSit = new CampoConsulta('Sit. Geral', 'situaca', CampoConsulta::TIPO_LARGURA);
         $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
         $oSit->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oSit->addComparacao('Env.Exp', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
@@ -64,11 +64,19 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
         $oReclamacao->setBComparacaoColuna(true);
 
-        $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_LARGURA);
+        $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oDevolucao->addComparacao('N/ se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->setBComparacaoColuna(true);
+
+        $oProcedencia = new CampoConsulta('Procede', 'procedencia', CampoConsulta::TIPO_TEXTO);
+        $oProcedencia->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oProcedencia->addComparacao('PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oProcedencia->addComparacao('NÃO PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_LINHA, false, null);
+        $oProcedencia->setBComparacaoColuna(true);
+
 
         $oDropDown = new Dropdown('Apontar análise', Dropdown::TIPO_AVISO);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar análise', 'MET_QUAL_RcAnalise', 'criaTelaModalAponta', '', false, '', false, 'criaTelaModalAponta', true, 'Apontar análise', false, false);
@@ -92,7 +100,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
 
-        $this->addCampos($oNr, $oSit, $oReclamacao, $oDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+        $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
 
 
@@ -225,7 +233,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oProd->setILinhasTextArea(5);
         $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oAplicacao = new Campo('Aplicação', 'aplicacao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oAplicacao = new Campo('Aplicação/Avaria', 'aplicacao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oAplicacao->setSCorFundo(Campo::FUNDO_VERMELHO);
 
         $oDivisor1 = new Campo('Dados da não conformidade', 'nconf', Campo::DIVISOR_DARK, 12, 12, 12, 12);
@@ -270,17 +278,40 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
         $oFilcgc->setSValor($oDados->getFilcgc());
         $oFilcgc->setBCampoBloqueado(true);
+
         $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
         $oNr->setSValor($oDados->getNr());
         $oNr->setBCampoBloqueado(true);
 
-        $oApontamento = new campo('Apontar análise', 'apontamento', Campo::TIPO_TEXTAREA, 12);
-        $oApontamento->setILinhasTextArea(8);
-        $oApontamento->addValidacao(false, Validacao::TIPO_STRING, '', '2', '999');
-
         $oUsuAponta = new campo('Usuário', 'usuaponta', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $oUsuAponta->setSValor($_SESSION['nome']);
         $oUsuAponta->setBCampoBloqueado(true);
+
+        $oUsercausa = new Campo('...', 'numcad', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+
+        $oPessoacausa = new Campo('Quem causou', 'nomfun', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+        $oPessoacausa->setSIdPk($oUsercausa->getId());
+        $oPessoacausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oPessoacausa->addCampoBusca('numcad', '', '');
+        $oPessoacausa->addCampoBusca('nomfun', '', '');
+        $oPessoacausa->setSIdTela($this->getTela()->getid());
+        $oPessoacausa->setApenasTela(true);
+        $oPessoacausa->addValidacao(true, string, '', 10, 200);
+
+        $oUsercausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsercausa->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oUsercausa->addCampoBusca('nomfun', $oPessoacausa->getId(), $this->getTela()->getId());
+
+        $oRcProcede = new Campo('RC Procede?', 'divisor3', Campo::DIVISOR_WARNING, 12, 12, 12, 12);
+        $oRcProcede->setApenasTela(true);
+
+        $oProcede = new Campo('Procedencia', 'procedencia', Campo::TIPO_RADIO, 6, 6, 12, 12);
+        $oProcede->addItenRadio('PROCEDE', 'Procede');
+        $oProcede->addItenRadio('NÃO PROCEDE', 'Não Procede');
+
+        $oApontamento = new campo('Apontar análise', 'apontamento', Campo::TIPO_TEXTAREA, 12);
+        $oApontamento->setILinhasTextArea(8);
+        $oApontamento->addValidacao(false, Validacao::TIPO_STRING, '', '2', '999');
 
         $oAnexo = new Campo('Anexo', 'anexo_analise', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
         $oAnexo1 = new campo('Anexo', 'anexo_analise1', campo::TIPO_UPLOAD, 6, 6, 12, 12);
@@ -297,8 +328,7 @@ class ViewMET_QUAL_RcAnalise extends View {
 
         $this->setBTela(true);
 
-
-        $this->addCampos(array($oFilcgc, $oNr, $oUsuAponta), $oApontamento, arraY($oAnexo, $oAnexo1), $oBtnInserir);
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuAponta), array($oUsercausa, $oPessoacausa), $oRcProcede, array($oProcede), $oApontamento, array($oAnexo, $oAnexo1), $oBtnInserir);
     }
 
     public function criaModalApontaInspecao($sDados) {

@@ -82,10 +82,16 @@ class ViewQualAqEficaz extends View {
 
     public function criaTela() {
         parent::criaTela();
+        $sAcaoRotina = $this->getSRotina();
+
+        $this->criaGridDetalhe($sAcaoRotina);
+
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(false);
+            $this->getTela()->setBUsaDelGrid(false);
+        }
 
         $aDados = $this->getAParametrosExtras();
-        $sAcaoRotina = $this->getSRotina();
-        $this->criaGridDetalhe($sAcaoRotina);
 
         $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2);
         $oFilcgc->setSValor($aDados[0]);
@@ -117,7 +123,6 @@ class ViewQualAqEficaz extends View {
         $oResp->setSCampoRetorno('usucodigo', $this->getTela()->getId());
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
-
         $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2);
         $oDataPrev->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
@@ -133,12 +138,10 @@ class ViewQualAqEficaz extends View {
         $this->getTela()->setIdBtnConfirmar($oBtnConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $oLinha = new Campo('', '', Campo::TIPO_LINHA);
-
         if ($sAcaoRotina == 'acaoVisualizar') {
-            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oEficaz), $oLinha);
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oEficaz));
         } else {
-            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oEficaz), $oBtnConf, $oLinha);
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oEficaz), $oBtnConf);
         }
     }
 

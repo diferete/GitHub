@@ -23,17 +23,12 @@ class ViewMET_TEC_Chamados extends View {
         $this->setUsaFiltro(true);
         $sFiltroSetor = $_SESSION['codsetor'];
 
-
-
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Gerencia Chamados');
         $oBotaoModal->addAcao('MET_TEC_Chamados', 'criaTelaModalApontaChamado', 'criaModalApontaChamado', '');
         $this->addModais($oBotaoModal);
-
-        $oAnexoFim = new CampoConsulta('AnexoFim', 'anexofim', CampoConsulta::TIPO_DOWNLOAD);
-
 
         $oNr = new CampoConsulta('Nr.', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(5);
@@ -67,7 +62,11 @@ class ViewMET_TEC_Chamados extends View {
 
         $oDataCad = new CampoConsulta('Dt.Cad.', 'datacad', CampoConsulta::TIPO_DATA);
 
+        $oHoraCad = new CampoConsulta('Hr. Cad.', 'horacad', CampoConsulta::TIPO_TIME);
+
         $oDataInicio = new CampoConsulta('Dt.Ini.', 'datainicio', CampoConsulta::TIPO_DATA);
+
+        $oHoraInicio = new CampoConsulta('Hr. Ini.', 'horainicio', CampoConsulta::TIPO_TIME);
 
         $oDataPrevisao = new CampoConsulta('Previsão', 'previsao', CampoConsulta::TIPO_DATA);
 
@@ -141,10 +140,10 @@ class ViewMET_TEC_Chamados extends View {
 
         if ($sFiltroSetor == 2) {
             $this->addDropdown($oDrop, $oDrop2);
-            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim, $oAnexoFim);
+            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oHoraCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim);
         } else {
             $this->addDropdown($oDrop, $oDrop1);
-            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim);
+            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oHoraCad, $oDataInicio, $oHoraInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim);
         }
     }
 
@@ -225,6 +224,7 @@ class ViewMET_TEC_Chamados extends View {
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oProblema->setILinhasTextArea(3);
+        $oProblema->setBFocus(true);
         $oProblema->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 10, 1000);
 
         $oSituaca = new Campo('', 'situaca');

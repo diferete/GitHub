@@ -319,9 +319,8 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oAnexo4 = new Campo('Anexo4', 'anexo4', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         //seta ids uploads para enviar no request para limpar
-
         //////////////////////
-        
+
         $oCodCorrida = new Campo('Cod.Material', 'cod_corrida', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
         $oCorrida = new Campo('Material ', 'corrida', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
@@ -335,7 +334,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oCodCorrida->setClasseBusca('MET_QUAL_RncMaterial');
         $oCodCorrida->setSCampoRetorno('cod', $this->getTela()->getId());
         $oCodCorrida->addCampoBusca('corrida', $oCorrida->getId(), $this->getTela()->getId());
-        
+
 //        $oCorrida02 = new Campo('Material', 'corrida', Campo::TIPO_SELECT, 2, 2, 12, 12);
 //        $oCorrida02->addItemSelect('AÇO SAE 1004', 'AÇO SAE 1004');
 //        $oCorrida02->addItemSelect('AÇO SAE 1006', 'AÇO SAE 1006');
@@ -473,6 +472,10 @@ class ViewMET_QUAL_Rnc extends View {
         $oPessoacausa->setApenasTela(true);
         $oPessoacausa->addValidacao(true, string, '', 10, 200);
 
+        $oUsercausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsercausa->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oUsercausa->addCampoBusca('nomfun', $oPessoacausa->getId(), $this->getTela()->getId());
+
         $oCodSetorCausou = new Campo('Cód.Setor', 'cod_set02', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
 
         $oDescSetorCausou = new Campo('Setor Causou ', 'descset02', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -485,10 +488,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oCodSetorCausou->setClasseBusca('Setor');
         $oCodSetorCausou->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oCodSetorCausou->addCampoBusca('descsetor', $oDescSetorCausou->getId(), $this->getTela()->getId());
-        
-        $oUsercausa->setClasseBusca('MET_CAD_Funcionarios');
-        $oUsercausa->setSCampoRetorno('numcad', $this->getTela()->getId());
-        $oUsercausa->addCampoBusca('nomfun', $oPessoacausa->getId(), $this->getTela()->getId());
+
 
         $oCodProbl = new campo('Cód.Problema', 'codprobl', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCodProblDes = new campo('Desc. Problema', 'MET_QUAL_Prob_Rnc.descprobl', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -502,7 +502,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oCodProbl->setClasseBusca('MET_QUAL_Prob_Rnc');
         $oCodProbl->setSCampoRetorno('codprobl', $this->getTela()->getId());
         $oCodProbl->addCampoBusca('descprobl', $oCodProblDes->getId(), $this->getTela()->getId());
-        
+
         $oFilcgc = new Campo('Cód. Empresa', 'Pessoa.empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         //$oFilcgc->setSValor($_SESSION['filcgc']);
         $oFilcgc->setBFocus(true);
@@ -518,9 +518,9 @@ class ViewMET_QUAL_Rnc extends View {
         $oFilcgc->setClasseBusca('Pessoa');
         $oFilcgc->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oFilcgc->addCampoBusca('empdes', $oFilDes->getId(), $this->getTela()->getId());
-        
-       // $sCheck = new campo('Aplicar', 'func', Campo::TIPO_CHECK, 3, 3, 12, 12);
-        
+
+        // $sCheck = new campo('Aplicar', 'func', Campo::TIPO_CHECK, 3, 3, 12, 12);
+
         $sSelectRelatorio = new Campo('Tipo de Relatório', 'tiprel', Campo::CAMPO_SELECTSIMPLE, 5, 8, 12, 12);
         $sSelectRelatorio->addItemSelect('1', 'COMPLETO');
         $sSelectRelatorio->addItemSelect('2', 'QUANTIDADES CONFORME SITUAÇÃO, TIPO DE FIXADOR E ORIGEM DAS RNCs');
@@ -531,10 +531,11 @@ class ViewMET_QUAL_Rnc extends View {
         $sSelectRelatorio->addItemSelect('7', 'PESO DE ACORDO COM PROBLEMA POR SETOR');
         $sSelectRelatorio->addItemSelect('8', 'PESO DE ACORDO COM PROBLEMA POR FORNECEDOR');
         $sSelectRelatorio->setSValor(1);
-        
+
         $oField1->addCampos($oLinha1, array($oCodProd, $oProdDes), $oLinha1, array($oCodTip, $oTipo, $oSit));
         $oField->addCampos(array($oFilcgc, $oFilDes, $oCodSetorCausou, $oDescSetorCausou), $oLinha1, array($oCodProbl, $oCodProblDes, $oUsercausa, $oPessoacausa));
 
         $this->addCampos($oField1, $oLinha1, $oField, $oLinha1, array($oDatainicial, $oDatafinal, $sSelectRelatorio));
     }
+
 }
