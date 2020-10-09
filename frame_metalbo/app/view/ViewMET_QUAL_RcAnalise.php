@@ -288,6 +288,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oUsuAponta->setBCampoBloqueado(true);
 
         $oUsercausa = new Campo('...', 'numcad', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oUsercausa->setBDisabled(true);
 
         $oPessoacausa = new Campo('Quem causou', 'nomfun', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oPessoacausa->setSIdPk($oUsercausa->getId());

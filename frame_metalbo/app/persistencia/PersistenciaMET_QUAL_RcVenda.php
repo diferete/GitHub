@@ -281,6 +281,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
                 . "horafim = '" . $sHora . "',"
                 . "usucod_fim = '" . $_SESSION['codUser'] . "',"
                 . "usunome_fim ='" . $_SESSION['nome'] . "',"
+                . "reclamacao = '" . $aCampos['procedencia'] . "', "
                 . "valorfrete = '" . $aCampos['valorfrete'] . "' ";
         if ($oDados->tagsetor == null) {
             $sSql .= ",tagsetor = 34 ";

@@ -220,7 +220,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             //renderiza a tela
             $this->View->getTela()->getRender();
         } else {
-            if ($oRet->situaca != 'Aguardando' && ($oRet->nfdevolucao == null && $oRet->nfsipi == null && $oRet->valorfrete == null) || ($oRet->nfdevolucao == '0' && $oRet->nfsipi == '.0000' && $oRet->valorfrete == '.0000')) {
+            if ($oRet->situaca != 'Aguardando' && $oRet->reclamacao != 'Em análise' && ($oRet->nfdevolucao == null && $oRet->nfsipi == null && $oRet->valorfrete == null) || ($oRet->nfdevolucao == '0' && $oRet->nfsipi == '.0000' && $oRet->valorfrete == '.0000')) {
 
                 $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
                 $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
@@ -367,14 +367,14 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
         $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail Sistema Web Metalbo'));
 
         $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
 
         $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ' ' . $oRow->reclamacao . ''));
 
 
-        $oEmail->setMensagem(utf8_decode('A reclamação de Nº ' . $oRow->nr . ' foi enviada pelo setor de Vendas!<hr><br/>'
+        $oEmail->setMensagem(utf8_decode('A reclamação de Nº ' . $oRow->nr . ' está em Análise!<hr><br/>'
                         . '<b> Responsável de Vendas: ' . $oRow->resp_venda_nome . '<b><br/>'
                         . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
                         . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
@@ -479,7 +479,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
         $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail Sistema Web Metalbo'));
 
         $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
 
@@ -586,7 +586,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
         $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail Sistema Web Metalbo'));
 
         $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
 
@@ -664,7 +664,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $oEmail->setUsuario(Config::EMAIL_SENDER);
         $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
         $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail Sistema Web Metalbo'));
 
         $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
 

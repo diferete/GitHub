@@ -213,6 +213,9 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
                 . " apontamento = '" . $aDados['apontamento'] . "',"
                 . " anexo_analise = '" . $aDados['anexo_analise'] . "',"
                 . " anexo_analise1 = '" . $aDados['anexo_analise1'] . "',"
+                . " anexo_analise1 = '" . $aDados['procedencia'] . "',"
+                . " anexo_analise1 = '" . $aDados['numcad'] . "',"
+                . " anexo_analise1 = '" . $aDados['nomfun'] . "',"
                 . " usuaponta = '" . $aDados['usuaponta'] . "'"
                 . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
 
