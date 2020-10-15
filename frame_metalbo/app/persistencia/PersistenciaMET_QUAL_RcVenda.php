@@ -76,6 +76,8 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
 
         $this->adicionaRelacionamento('procedencia', 'procedencia');
 
+        $this->adicionaRelacionamento('sollibdevolucao', 'sollibdevolucao');
+
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
@@ -110,7 +112,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
     }
 
     public function verifSitRC($aDados) {
-        $sSql = "select situaca,reclamacao,devolucao"
+        $sSql = "select situaca,reclamacao,devolucao,sollibdevolucao"
                 . " from tbrncqual"
                 . " where filcgc= " . $aDados['filcgc'] . " and nr= " . $aDados['nr'] . " ";
         $result = $this->getObjetoSql($sSql);
@@ -120,6 +122,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         $aSit[0] = $oRow->situaca;
         $aSit[1] = $oRow->reclamacao;
         $aSit[2] = $oRow->devolucao;
+        $aSit[3] = $oRow->sollibdevolucao;
 
         return $aSit;
     }
@@ -258,6 +261,26 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         return $sEmail;
     }
 
+    public function buscaEmailVendas($aDados) {
+        $sSql = "select resp_venda_cod"
+                . " from tbrncqual"
+                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+
+        $sCod = $oRow->usucodigo;
+
+        $sSql = "select usuemail"
+                . " from tbusuario"
+                . " where usucodigo ='" . $sCod . "'";
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+
+        $sEmail = $oRow->usuemail;
+
+        return $sEmail;
+    }
+
     public function apontaReclamacao($aDados) {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
@@ -270,18 +293,18 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         $oDados = $this->buscaDadosRC($aDados);
 
         $sSql = "update tbrncqual "
-                . "set situaca = 'Finalizada', "
-                . "reclamacao = '" . $aCampos['reclamacao'] . "', "
-                . "devolucao = '" . $aCampos['devolucao'] . "', "
-                . "obs_aponta = '" . $sObs . "', "
-                . "usuapontavenda = '" . $_SESSION['nome'] . "', "
-                . "nfdevolucao = '" . $aCampos['nfdevolucao'] . "', "
-                . "nfsIpi = '" . $aCampos['nfsIpi'] . "', "
+                . "set situaca = 'Finalizada',"
+                . "reclamacao = '" . $aCampos['reclamacao'] . "',"
+                . "devolucao = '" . $aCampos['devolucao'] . "',"
+                . "obs_aponta = '" . $sObs . "',"
+                . "usuapontavenda = '" . $_SESSION['nome'] . "',"
+                . "nfdevolucao = '" . $aCampos['nfdevolucao'] . "',"
+                . "nfsIpi = '" . $aCampos['nfsIpi'] . "',"
                 . "datafim='" . $sData . "',"
                 . "horafim = '" . $sHora . "',"
                 . "usucod_fim = '" . $_SESSION['codUser'] . "',"
                 . "usunome_fim ='" . $_SESSION['nome'] . "',"
-                . "reclamacao = '" . $aCampos['procedencia'] . "', "
+                . "procedencia = '" . $aCampos['procedencia'] . "',"
                 . "valorfrete = '" . $aCampos['valorfrete'] . "' ";
         if ($oDados->tagsetor == null) {
             $sSql .= ",tagsetor = 34 ";
@@ -325,6 +348,32 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
     public function reabrirRC($aDados) {
         $sSql = "update tbrncqual "
                 . "set situaca = 'Reaberta' "
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetorna = $this->executaSql($sSql);
+        return $aRetorna;
+    }
+
+    public function solicitaDevolucao($aDados) {
+        $sSql = "update tbrncqual set "
+                . "sollibdevolucao = 'Aguardando' "
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetorna = $this->executaSql($sSql);
+        return $aRetorna;
+    }
+
+    public function liberaDevolucao($aDados) {
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        $sSql = "update tbrncqual set "
+                . "usuliberadevolucao = '" . $_SESSION['nome'] . "',"
+                . "dataliberadevolucao = '" . $sData . "',"
+                . "horaliberadevolucao = '" . $sHora . "',"
+                . "sollibdevolucao = 'Liberada',"
+                . "devolucao = '" . $aCampos['devolucao'] . "' "
                 . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorna = $this->executaSql($sSql);
         return $aRetorna;

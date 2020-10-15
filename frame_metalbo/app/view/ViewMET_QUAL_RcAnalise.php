@@ -72,9 +72,9 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oDevolucao->setBComparacaoColuna(true);
 
         $oProcedencia = new CampoConsulta('Procede', 'procedencia', CampoConsulta::TIPO_TEXTO);
-        $oProcedencia->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, null);
-        $oProcedencia->addComparacao('PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
-        $oProcedencia->addComparacao('NÃO PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_LINHA, false, null);
+        $oProcedencia->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oProcedencia->addComparacao('PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oProcedencia->addComparacao('NÃO PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
         $oProcedencia->setBComparacaoColuna(true);
 
 
@@ -84,6 +84,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oDropDown2 = new Dropdown('Opções da reclamação', Dropdown::TIPO_PRIMARY);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'MET_QUAL_RcVenda', 'acaoMostraRelConsulta', '', false, 'rc', false, '', false, '', false, false);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail', 'MET_QUAL_RcAnalise', 'reenviaEmailRC', '', false, '', false, '', false, '', false, false);
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Retornar RC', 'MET_QUAL_RcAnalise', 'criaTelaModalRetornaRC', '', false, '', false, 'criaTelaModalRetornaRC', true, 'Retornar RC', false, false);
 
         $oDropDown3 = new Dropdown('Inspeção', Dropdown::TIPO_ERRO, Dropdown::ICON_CHECK);
         $oDropDown3->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar inspeção', 'MET_QUAL_RcAnalise', 'criaTelaModalApontaInspecao', '', false, '', false, 'criaTelaModalApontaInspecao', true, 'Resultados de Inspeção de Recebimento da Reclamação', false, false);
@@ -334,8 +335,6 @@ class ViewMET_QUAL_RcAnalise extends View {
 
     public function criaModalApontaInspecao($sDados) {
         parent::criaModal();
-
-
         $oDados = $this->getAParametrosExtras();
 
         $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
@@ -389,6 +388,38 @@ class ViewMET_QUAL_RcAnalise extends View {
 
 
         $this->addCampos(array($oFilcgc, $oNr, $oUsuAponta, $oData, $oHora), $oCorrecao, array($oAnexo1, $oAnexo2), array($oApontamento, $oObs), $oBtnInserir);
+    }
+
+    public function criaModalRetornaRC($sDados) {
+        parent::criaModal();
+        $oDados = $this->getAParametrosExtras();
+
+        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
+        $oFilcgc->setSValor($oDados->getFilcgc());
+        $oFilcgc->setBCampoBloqueado(true);
+
+        $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr->setSValor($oDados->getNr());
+        $oNr->setBCampoBloqueado(true);
+
+        $oObs = new Campo('Motivo do retorno', 'obs_analiseret', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
+        $oObs->setILinhasTextArea(2);
+        $oObs->setApenasTela(true);
+        $oObs->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 10, 200);
+
+        $oBtnInserir = new Campo('Retornar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        //id do grid
+
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","retornarRC","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+
+        $oBtnInserir->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->setBTela(true);
+
+        $this->addCampos(array($oFilcgc, $oNr), $oObs, $oBtnInserir);
     }
 
 }

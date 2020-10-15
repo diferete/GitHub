@@ -31,6 +31,7 @@ class CampoConsulta {
     private $sDiretorioManual;
     private $bColOculta;
     private $bDisabled;
+    private $iCasaDecimal;
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -106,6 +107,7 @@ class CampoConsulta {
         $this->setSNomeGrid('paramGrid');
         $this->setSDiretorioManual('uploads');
         $this->setBDisabled(false);
+        $this->setICasaDecimal(2);
 
         if ($this->Tipo == 9) {
             $this->setBCampoIcone(true);
@@ -121,6 +123,14 @@ class CampoConsulta {
         if ($this->Tipo == 12) {
             $this->setBCampoIcone(true);
         }
+    }
+
+    function getICasaDecimal() {
+        return $this->iCasaDecimal;
+    }
+
+    function setICasaDecimal($iCasaDecimal) {
+        $this->iCasaDecimal = $iCasaDecimal;
     }
 
     function getSDiretorioManual() {
@@ -424,7 +434,7 @@ class CampoConsulta {
                 } else {
                     
                 }
-                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">' . number_format($xValor, 2, ',', '.') . '</td>';
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">' . number_format($xValor, $this->getICasaDecimal(), ',', '.') . '</td>';
                 break;
             case self::TIPO_DATA:
                 $iFontSize = $this->getITamanhoFonte();
@@ -505,13 +515,18 @@ class CampoConsulta {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
                     
+                } if ($this->getBDisabled()) {
+                    $sDisabled = 'disabled';
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '"></i></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">'
+                        . '<button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '" ' . $sDisabled . '></i>'
+                        . '</button>'
+                        . '</td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'
@@ -532,13 +547,19 @@ class CampoConsulta {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
                     
+                } if ($this->getBDisabled()) {
+                    $sDisabled = 'disabled';
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-danger btn-xs"><i class="icon wb-trash" aria-hidden="true"></i></i></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">'
+                        . '<button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-danger btn-xs" ' . $sDisabled . '>'
+                        . '<i class="icon wb-trash" aria-hidden="true"></i></i>'
+                        . '</button>'
+                        . '</td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'
@@ -563,13 +584,19 @@ class CampoConsulta {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
                     
+                } if ($this->getBDisabled()) {
+                    $sDisabled = 'disabled';
                 }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-success btn-xs"><i class="icon fa-check" aria-hidden="true"></i></button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">'
+                        . '<button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="btn btn-outline btn-success btn-xs" ' . $sDisabled . '>'
+                        . '<i class="icon fa-check" aria-hidden="true"></i>'
+                        . '</button>'
+                        . '</td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'
@@ -601,7 +628,9 @@ class CampoConsulta {
                 $xValor = str_replace("\r", "", $xValor);
                 $sAcao = '';
                 $sIdBtn = Base::getId();
-                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '"><button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '" data-target="#' . $this->aAcao['modalNome'] . '" data-toggle="modal" ' . $sDisabled . '>' . $this->getSTituloBotaoModal() . '</button></td>';
+                $sCampo = '<td class="' . $sClasse . ' tr-font" style="' . $sFontSize . '">'
+                        . '<button type="button" id="' . $sIdBtn . '" title="' . $this->getSTitleAcao() . '" class="' . $this->getSTipoBotao() . '" data-target="#' . $this->aAcao['modalNome'] . '" data-toggle="modal" ' . $sDisabled . '>' . $this->getSTituloBotaoModal() . '</button>'
+                        . '</td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
                         . '$("#tabmenusuperior li").each(function(){'
                         . 'if($(this).hasClass( "active" )){'

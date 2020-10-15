@@ -31,6 +31,7 @@ class CampoConsulta {
     private $sDiretorioManual;
     private $bColOculta;
     private $bDisabled;
+    private $iCasaDecimal;
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -106,6 +107,7 @@ class CampoConsulta {
         $this->setSNomeGrid('paramGrid');
         $this->setSDiretorioManual('uploads');
         $this->setBDisabled(false);
+        $this->setICasaDecimal(2);
 
         if ($this->Tipo == 9) {
             $this->setBCampoIcone(true);
@@ -121,6 +123,14 @@ class CampoConsulta {
         if ($this->Tipo == 12) {
             $this->setBCampoIcone(true);
         }
+    }
+
+    function getICasaDecimal() {
+        return $this->iCasaDecimal;
+    }
+
+    function setICasaDecimal($iCasaDecimal) {
+        $this->iCasaDecimal = $iCasaDecimal;
     }
 
     function getSDiretorioManual() {
@@ -424,7 +434,7 @@ class CampoConsulta {
                 } else {
                     
                 }
-                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">' . number_format($xValor, 2, ',', '.') . '</td>';
+                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '">' . number_format($xValor, $this->getICasaDecimal(), ',', '.') . '</td>';
                 break;
             case self::TIPO_DATA:
                 $iFontSize = $this->getITamanhoFonte();

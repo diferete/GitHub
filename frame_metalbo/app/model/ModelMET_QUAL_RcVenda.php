@@ -57,7 +57,16 @@ class ModelMET_QUAL_RcVenda {
     private $tagexcecao;
     private $procedencia;
     private $nfdevolucao;
-    
+    private $sollibdevolucao;
+
+    function getSollibdevolucao() {
+        return $this->sollibdevolucao;
+    }
+
+    function setSollibdevolucao($sollibdevolucao) {
+        $this->sollibdevolucao = $sollibdevolucao;
+    }
+
     function getNfdevolucao() {
         return $this->nfdevolucao;
     }
@@ -66,7 +75,6 @@ class ModelMET_QUAL_RcVenda {
         $this->nfdevolucao = $nfdevolucao;
     }
 
-    
     function getProcedencia() {
         return $this->procedencia;
     }

@@ -130,7 +130,11 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         parse_str($_REQUEST['campos'], $aCampos);
 
         $aRet = $this->Persistencia->apontaRC($aCampos);
-
+        if ($aCampos['procedencia'] == '' || $aCampos['procedencia'] == null) {
+            $oMsg = new Mensagem('Atenção', 'Selecione o status da DEVOLUÇÃO segundo análise!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+            exit();
+        }
         if ($aRet[0] == true) {
             $oMsg = new Mensagem('Sucesso', 'Reclamação nº' . $aCampos['nr'] . ' foi apontada com sucesso!', Mensagem::TIPO_SUCESSO);
             $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o setor de vendas!', Mensagem::TIPO_INFO);
@@ -200,7 +204,7 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
             $sSetor = 'Qualidade';
         }
 
-        $oEmail->setAssunto(utf8_decode('RETORNO RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ' ' . $oRow->devolucao . ''));
+        $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ' ' . $oRow->devolucao . ''));
         $oEmail->setMensagem(utf8_decode('A devolução de Nº ' . $oRow->nr . ' foi apontada pelo setor da<strong><span style="color:red"> "' . $sSetor . '" </span></strong>.<hr><br/>'
                         . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
                         . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
@@ -317,6 +321,108 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
 
         echo $sScriptInspecao;
         echo $sScriptCorrecao;
+    }
+
+    /**
+     * Método para chamar tela modal para apontar inspeções da RC após finalizado pelo representante
+     * @param string $sDados chaves primarias e IDs relacionados a modal
+     */
+    public function criaTelaModalRetornaRC($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aCamposChave['id'] = $aDados[1];
+
+
+        $oRet = $this->Persistencia->buscaDadosRC($aCamposChave);
+
+        if ($oRet->situaca == 'Env.Qual' || $oRet->situaca == 'Env.Emb' || $oRet->situaca == 'Env.Exp') {
+            $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+            $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+
+            $oDados = $this->Persistencia->consultarWhere();
+            $this->View->setAParametrosExtras($oDados);
+
+            $this->View->criaModalRetornaRC($sDados);
+
+            //adiciona onde será renderizado
+            $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
+            echo $sLimpa;
+            $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção', 'Reclamação não está em condições de ser retornada!', Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function retornarRC($sDados) {
+        $aDados = explode(',', $sDados);
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+
+        $aRet = $this->Persistencia->retornaRC($aCampos);
+
+        if ($aRet[0]) {
+
+            date_default_timezone_set('America/Sao_Paulo');
+            $data = date('d/m/Y');
+            $hora = date('H:m');
+
+            $oEmail = new Email();
+            $oEmail->setMailer();
+            $oEmail->setEnvioSMTP();
+            $oEmail->setServidor(Config::SERVER_SMTP);
+            $oEmail->setPorta(Config::PORT_SMTP);
+            $oEmail->setAutentica(true);
+            $oEmail->setUsuario(Config::EMAIL_SENDER);
+            $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+            $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+            $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+
+            $oRow = $this->Persistencia->buscaDadosRC($aCampos);
+
+
+            $oEmail->setAssunto(utf8_decode('RETORNO RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ' ' . $oRow->devolucao . ''));
+            $oEmail->setMensagem(utf8_decode('Reclmação de Cliente Nrº ' . $oRow->nr . ' foi RETORNADA pelo setor da<strong><span style="color:red"> "' . $_SESSION['descsetor'] . '" </span></strong>.<hr><br/>'
+                            . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
+                            . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
+                            . '<b>Hora: ' . $hora . '  </b><br/>'
+                            . '<b>Data: ' . $data . ' </b><br/><br/><br/>'
+                            . '<table border = 1 cellspacing = 0 cellpadding = 2 width = "100%">'
+                            . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
+                            . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
+                            . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->obs_analiseret . ' </td></tr>'
+                            . '</table><br/><br/>'
+                            . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
+                            . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+            $oEmail->limpaDestinatariosAll();
+
+            // Para
+            $aEmail = $this->Persistencia->buscaEmails($aCampos);
+            $oEmail->addDestinatario('alexandre@metalbo.com.br');
+            //$oEmail->addDestinatario($aEmail[0]);
+            //$oEmail->addDestinatarioCopia($aEmail[1]);
+
+            $aRetorno = $oEmail->sendEmail();
+            if ($aRetorno[0]) {
+                $oMensagem = new Mensagem('Sucesso', 'A RC foi retornada para o setor de Vendas!', Mensagem::TIPO_SUCESSO);
+                echo'$("#' . $aDados[2] . '-btn").click();';
+                echo $oMensagem->getRender();
+            } else {
+                $oMensagem = new Mensagem('Atenção', 'Não foi possível notificar o setor de VENDAS, avise o setor do TI!', Mensagem::TIPO_ERROR);
+                echo $oMensagem->getRender();
+            }
+        } else {
+            $oMensagem = new Mensagem('Atenção', 'Não foi possível retortar a RC, avise o setor do TI!', Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
     }
 
 }

@@ -263,6 +263,11 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             echo $oMsg->getRender();
             exit();
         }
+        if ($aCampos['procedencia'] == '' || $aCampos['procedencia'] == null) {
+            $oMsg = new Mensagem('Atenção', 'Selecione o status da DEVOLUÇÃO segundo análise!', Mensagem::TIPO_ERROR);
+            echo $oMsg->getRender();
+            exit();
+        }
         if ($aCampos['reclamacao'] == 'Interna' && $oDados->situaca != 'Apontada') {
             $oMsg = new Mensagem('Atenção', 'Não foi apontada pelo setor de analise interna!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
@@ -726,6 +731,144 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             }
         } else {
             $oMensagem = new Mensagem('Atenção', 'Não está em condições de ser Reaberta!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function solicitaDevolucao($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
+
+        if ($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) {
+            $aRetorno = $this->Persistencia->solicitaDevolucao($aCamposChave);
+            if ($aRetorno[0]) {
+                $oMensagem = new Mensagem('Sucesso', 'Solicitação de liberação da devolução enviada!', Mensagem::TIPO_SUCESSO);
+                echo $oMensagem->getRender();
+                echo "$('#" . $aDados[0] . "-pesq').click();";
+            } else {
+                $oMensagem = new Mensagem('Atenção', 'Problemas ao tentar solicitar liberação da devolução, tente novamente ou comunique o TI!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+            }
+        } elseif ($oDados->sollibdevolucao == 'Liberada') {
+            $oMensagem = new Mensagem('Atenção', 'Já foi liberada pela gerência!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção', 'Já foi solicitada a liberação, aguarde.', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    /*
+     * Método que monta a Modal de Apontamento do setor de Vendas
+     * */
+
+    public function criaTelaModalApontaDevolucao($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aRet = $this->Persistencia->verifSitRC($aCamposChave);
+
+        if ($aRet[3] == 'Aguardando') {
+            $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+            $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+
+            $oDados = $this->Persistencia->consultarWhere();
+            $this->View->setAParametrosExtras($oDados);
+            $this->View->criaModalApontaDevolucao($sDados);
+
+
+            //adiciona onde será renderizado
+            $sLimpa = "$('#" . $aDados[0] . "-modal').empty();";
+            echo $sLimpa;
+            $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção!', 'A RC nº' . $aCamposChave['nr'] . ' não está em condições de ser liberada.', Modal::TIPO_AVISO);
+            echo"$('#" . $aDados[0] . "-btn').click();";
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function liberaDevolucao($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[3]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
+        if ($oDados->sollibdevolucao == 'Aguardando') {
+            $aRet = $this->Persistencia->liberaDevolucao($aCamposChave);
+            if ($aRet[0]) {
+                $this->enviaEmailLiberaDevolucao($sDados);
+            }
+        }
+    }
+
+    public function enviaEmailLiberaDevolucao($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[3]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = date('d/m/Y');
+        $hora = date('H:m');
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail Sistema Web Metalbo'));
+
+        $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
+
+        $sCor = '';
+        if ($oRow->devolucao == 'Aceita') {
+            $sCor = 'green';
+        } else {
+            $sCor = 'orange';
+        }
+
+        $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE NRº ' . $oRow->nr));
+        $oEmail->setMensagem(utf8_decode('<span style="color:' . $sCor . ';"><b>A devolução foi Liberada e ' . $oRow->devolucao . ' pela gerência de VENDAS</b></span><br/>'
+                        . '<b>Número: ' . $oRow->nr . ' </b><br/>'
+                        . '<b>Responsável de Vendas: ' . $oRow->resp_venda_nome . ' </b><br/>'
+                        . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
+                        . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
+                        . '<b>Hora: ' . $hora . '  </b><br/>'
+                        . '<b>Data do Cadastro: ' . $data . ' </b><br/><br/><br/>'
+                        . '<table border = 1 cellspacing = 0 cellpadding = 2 width = "100%">'
+                        . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
+                        . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
+                        . '</table><br/><br/>'
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+        $oEmail->limpaDestinatariosAll();
+
+        $sEmail = $this->Persistencia->buscaEmailVendas($aCamposChave);
+        //$oEmail->addDestinatario($sEmail);
+
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('E-mail', 'Responsável de vendas pela reclamação foi notificado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo"$('#" . $aDados[1] . "-btn').click();";
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email de notificação, comunique o departamento de TI!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         }
     }

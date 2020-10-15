@@ -16,9 +16,16 @@ class ViewMET_QUAL_RcVenda extends View {
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setiLarguraGrid(3150);
+        $this->getTela()->setiLarguraGrid(3400);
 
         $this->getTela()->setIAltura(550);
+
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Liberar e apontar devolução!');
+        $oBotaoModal->addAcao('MET_QUAL_RcVenda', 'criaTelaModalApontaDevolucao', 'criaModalApontaDevolucao', '');
+        $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
         $oNr->setILargura(10);
@@ -73,11 +80,12 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDevolucao->setBComparacaoColuna(true);
 
         $oProcedencia = new CampoConsulta('Procede', 'procedencia', CampoConsulta::TIPO_TEXTO);
-        $oProcedencia->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, null);
-        $oProcedencia->addComparacao('PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
-        $oProcedencia->addComparacao('NÃO PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_LARANJA, CampoConsulta::MODO_LINHA, false, null);
+        $oProcedencia->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oProcedencia->addComparacao('PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oProcedencia->addComparacao('NÃO PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
         $oProcedencia->setBComparacaoColuna(true);
 
+        $oLibDevolucao = new CampoConsulta('Liberação', 'sollibdevolucao', CampoConsulta::TIPO_TEXTO);
 ////////////////////////////////////////////// DROPDOWNS //////////////////////////////////////////////////////////////////////////////////////////////
 
         $oDropDown = new Dropdown('Opções da reclamação', Dropdown::TIPO_PRIMARY);
@@ -92,7 +100,8 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Representante', 'MET_QUAL_RcVenda', 'verificaEmailSetor', '', false, 'Env.Rep', false, '', false, '', false, false);
 
         $oDropDown2 = new Dropdown('Apontamentos', Dropdown::TIPO_AVISO);
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar reclamação', 'MET_QUAL_RcVenda', 'criaTelaModalApontamento', '', false, '', false, 'criaTelaModalApontamento', true, 'Apontar reclamação', false, false);
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Apontar reclamação', 'MET_QUAL_RcVenda', 'criaTelaModalApontamento', '', false, '', false, 'criaTelaModalApontamento', true, 'Apontar reclamação', false, false);
+        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Solicitar liberação devolução', 'MET_QUAL_RcVenda', 'solicitaDevolucao', '', false, '', false, '', true, '', false, false);
 
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
@@ -101,8 +110,12 @@ class ViewMET_QUAL_RcVenda extends View {
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
         $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
+        if ($_SESSION['codUser'] == 19) {
+            $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+        } else {
+            $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+        }
 
-        $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
@@ -307,7 +320,7 @@ class ViewMET_QUAL_RcVenda extends View {
         if ($oDados->devolucao != null) {
             $oDevolucao->setSValor($oDados->devolucao);
         }
-        if ($oDados->disposicao == 1) {
+        if ($oDados->disposicao == 1 && $oDados->devolucao == null) {
             $oDevolucao->setSValor('Não se aplica');
         }
 
@@ -429,6 +442,42 @@ class ViewMET_QUAL_RcVenda extends View {
         $this->setBTela(true);
 
         $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oObs_aponta, $oBtnReabrir);
+    }
+
+    public function criaModalApontaDevolucao($sDados) {
+        parent::criaModal();
+
+        $oDados = $this->getAParametrosExtras();
+
+        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
+        $oFilcgc->setSValor($oDados->getFilcgc());
+        $oFilcgc->setBCampoBloqueado(true);
+
+        $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr->setSValor($oDados->getNr());
+        $oNr->setBCampoBloqueado(true);
+
+        $oLinha = new Campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha->setApenasTela(true);
+
+        $oDevolucao = new Campo('Devolução', 'devolucao', Campo::TIPO_RADIO, 6, 6, 12, 12);
+        $oDevolucao->addItenRadio('Aceita', 'Aceita');
+        $oDevolucao->addItenRadio('Recusada', 'Recusada');
+        $oDevolucao->addItenRadio('Não se aplica', 'Não se aplica');
+
+        $oBtnLiberar = new Campo('Liberar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnLiberar->getId());
+        //id do grid
+
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","liberaDevolucao","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+
+        $oBtnLiberar->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnLiberar->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->setBTela(true);
+
+        $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oDevolucao, $oBtnLiberar);
     }
 
 }

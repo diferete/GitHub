@@ -213,9 +213,9 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
                 . " apontamento = '" . $aDados['apontamento'] . "',"
                 . " anexo_analise = '" . $aDados['anexo_analise'] . "',"
                 . " anexo_analise1 = '" . $aDados['anexo_analise1'] . "',"
-                . " anexo_analise1 = '" . $aDados['procedencia'] . "',"
-                . " anexo_analise1 = '" . $aDados['numcad'] . "',"
-                . " anexo_analise1 = '" . $aDados['nomfun'] . "',"
+                . " procedencia = '" . $aDados['procedencia'] . "',"
+                . " numcad = '" . $aDados['numcad'] . "',"
+                . " nomfun = '" . $aDados['nomfun'] . "',"
                 . " usuaponta = '" . $aDados['usuaponta'] . "'"
                 . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
 
@@ -244,6 +244,21 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
                 . " hora_disposicao = '" . $aDados['hora_disposicao'] . "',"
                 . " anexo_inspecao = '" . $aDados['anexo_inspecao'] . "',"
                 . " anexo_inspecao1 = '" . $aDados['anexo_inspecao1'] . "'"
+                . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
+
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
+
+    public function retornaRC($aDados) {
+
+        $aDados['obs_analiseret'] = $this->preparaString($aDados['obs_analiseret']);
+
+
+        $sSql = "update tbrncqual"
+                . " set obs_analiseret = '" . $aDados['obs_analiseret'] . "',"
+                . " situaca = 'Liberado',"
+                . " reclamacao = 'Aguardando' "
                 . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
 
         $aRetorno = $this->executaSql($sSql);
