@@ -659,6 +659,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
             $this->Model->setPDV_PedidoItemGeraFinanceiro('N');
             $this->Model->setPDV_PedidoItemConsideraVenda('N'); //CONSIDERA VENDA IGUAL A N LINHA 635
+            //seta o Xped e NitemPed na nota fiscal
+            $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
+            $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+
             //gera o valor total
             $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
             $ValorUni = $this->Model->getPDV_PedidoItemValorUnitario();
@@ -827,7 +831,11 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                         $this->Model->setPDV_PedidoItemGeraFinanceiro('N');
                         $this->Model->setPDV_PedidoItemConsideraVenda('N');
 
-                        //gera o valor total
+                        //seta o Xped e NitemPed na nota fiscal
+                        $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
+                        $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+
+                        //gera o valor total ele desconta a diferença do peso da balança
                         $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
                         $ValorUni = $this->Model->getPDV_PedidoItemValorUnitario();
                         $ValorTotal = ($Qt * $ValorUni);
@@ -872,7 +880,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                             $this->Model->setPDV_PedidoItemProduto($oDadosInsumo->getProd());
                             $this->Model->setPDV_PedidoItemProdutoNomeManua($oProdDados->getPro_descricao());
-                            $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso());
+                            $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso() - ($oDadosOp->getPesoDif()));
                             $this->Model->setPDV_PedidoItemValorUnitario($oDadosInsumo->getPreco());
                             $this->Model->setOp($aCampos['op']);
                             $this->Model->setPdv_insserv($value);
@@ -893,7 +901,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                             //seta o Xped e NitemPed na nota fiscal
                             $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
-                            $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                            //$this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                            $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPedInsumo());
 
                             //gera o valor total
                             $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -939,7 +948,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                             $this->Model->setPDV_PedidoItemProduto($oDadosInsumo->getProd());
                             $this->Model->setPDV_PedidoItemProdutoNomeManua($oProdDados->getPro_descricao());
-                            $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso());
+                            $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso() - ($oDadosOp->getPesoDif()));
                             $this->Model->setPDV_PedidoItemValorUnitario($oDadosInsumo->getPreco());
                             $this->Model->setOp($aCampos['op']);
                             $this->Model->setPdv_insserv($value);
@@ -960,7 +969,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                             //seta o Xped e NitemPed na nota fiscal
                             $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
-                            $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                            // $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                            $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPedServico());
 
                             //gera o valor total
                             $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -1008,7 +1018,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                             $this->Model->setPDV_PedidoItemProduto($oDadosInsumo->getProd());
                             $this->Model->setPDV_PedidoItemProdutoNomeManua($oProdDados->getPro_descricao());
-                            $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso());
+                            $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso() - ($oDadosOp->getPesoDif()));
                             $this->Model->setPDV_PedidoItemValorUnitario($oDadosInsumo->getPreco());
                             $this->Model->setOp($aCampos['op']);
                             $this->Model->setPdv_insserv($value);
@@ -1029,7 +1039,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                             //seta o Xped e NitemPed na nota fiscal
                             $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
-                            $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                            // $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                            $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPedEnergia());
 
                             //gera o valor total
                             $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -1165,6 +1176,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             //define a CFOP do retorno por hora vamos no tipo = do movimento
             $this->Model->setPDV_PedidoItemCFOP('5902');
 
+
+
             //busca a unidade de medida
             $oProdUn->Persistencia->limpaFiltro();
             $oProdUn->Persistencia->adicionaFiltro('pro_codigo', $this->Model->getPDV_PedidoItemProduto());
@@ -1193,6 +1206,10 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             $this->Model->setPDV_PedidoItemMovimentaEstoque('N');
             $this->Model->setPDV_PedidoItemGeraFinanceiro('N');
             $this->Model->setPDV_PedidoItemConsideraVenda('N');
+
+            //seta o Xped e NitemPed na nota fiscal
+            $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
+            $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
 
             //gera o valor total
             $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -1316,7 +1333,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                                 $this->Model->setPDV_PedidoItemProduto($oDadosInsumo->getProd());
                                 $this->Model->setPDV_PedidoItemProdutoNomeManua($oProdDados->getPro_descricao());
-                                $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso());
+                                $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso() - ($oDadosOp->getPesoDif()));
                                 $this->Model->setPDV_PedidoItemValorUnitario($oDadosInsumo->getPreco());
                                 $this->Model->setOp($aCampos['op']);
                                 $this->Model->setPdv_insserv('SERVIÇO');
@@ -1334,7 +1351,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                                 //seta o Xped e NitemPed na nota fiscal
                                 $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
-                                $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                                // $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                                $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPedServico());
 
                                 //gera o valor total
                                 $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -1389,7 +1407,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                                 $this->Model->setPDV_PedidoItemProduto($oDadosInsumo->getProd());
                                 $this->Model->setPDV_PedidoItemProdutoNomeManua($oProdDados->getPro_descricao());
-                                $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso());
+                                $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso() - ($oDadosOp->getPesoDif()));
                                 $this->Model->setPDV_PedidoItemValorUnitario($oDadosInsumo->getPreco());
                                 $this->Model->setOp($aCampos['op']);
                                 $this->Model->setPdv_insserv('INSUMO');
@@ -1407,7 +1425,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                                 //seta o Xped e NitemPed na nota fiscal
                                 $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
-                                $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                                //$this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                                $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPedInsumo());
 
                                 //gera o valor total
                                 $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -1464,7 +1483,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                                 $this->Model->setPDV_PedidoItemProduto($oDadosInsumo->getProd());
                                 $this->Model->setPDV_PedidoItemProdutoNomeManua($oProdDados->getPro_descricao());
-                                $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso());
+                                $this->Model->setPDV_PedidoItemQtdPedida($oDadosOp->getPeso() - ($oDadosOp->getPesoDif()));
                                 $this->Model->setPDV_PedidoItemValorUnitario($oDadosInsumo->getPreco());
                                 $this->Model->setOp($aCampos['op']);
                                 $this->Model->setPdv_insserv('ENERGIA');
@@ -1485,7 +1504,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
 
                                 //seta o Xped e NitemPed na nota fiscal
                                 $this->Model->setPDV_PedidoItemOrdemCompra($oDadosOp->getXPed());
-                                $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                                // $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPed());
+                                $this->Model->setPDV_PedidoItemSeqOrdemCompra($oDadosOp->getNItemPedEnergia());
 
                                 //gera o valor total
                                 $Qt = $this->Model->getPDV_PedidoItemQtdPedida();
@@ -2455,6 +2475,32 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                     . 'Se optar poderá inserir o insumo manualmente!', Modal::TIPO_AVISO, false, true, false);
             echo $oModal->getRender();
             exit();
+        }
+    }
+
+    public function gravaOd($sDados) {
+        $aDados = explode(',', $sDados);
+        $this->carregaModelString($aDados[3]);
+        $aRetorno = $this->Persistencia->alteraOd($aDados[2], $this->Model->getPdv_PedidoFilial(), $this->Model->getPdv_pedidocodigo(), $this->Model->getPdv_pedidoitemseq());
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('Sucesso!', 'Valor alterado.', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção!', 'Valor não foi alterado ' . $aRetorno[1], Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function gravaSeqOd($sDados) {
+        $aDados = explode(',', $sDados);
+        $this->carregaModelString($aDados[3]);
+        $aRetorno = $this->Persistencia->alteraSeqOd(number_format($aDados[2]), $this->Model->getPdv_PedidoFilial(), $this->Model->getPdv_pedidocodigo(), $this->Model->getPdv_pedidoitemseq());
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('Sucesso!', 'Valor alterado.', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção!', 'Valor não foi alterado ' . $aRetorno[1], Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
         }
     }
 

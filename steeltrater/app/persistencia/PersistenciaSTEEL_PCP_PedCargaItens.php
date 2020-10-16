@@ -15,10 +15,10 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->setTabela('PDV_PEDIDOITEM');
 
         $this->adicionaRelacionamento('pdv_pedidofilial', 'pdv_pedidofilial', true, true);
-        $this->adicionaRelacionamento('pdv_pedidofilial', 'STEEL_PCP_CargaInsumoServ.pdv_pedidofilial', false,false);
-        
+        $this->adicionaRelacionamento('pdv_pedidofilial', 'STEEL_PCP_CargaInsumoServ.pdv_pedidofilial', false, false);
+
         $this->adicionaRelacionamento('pdv_pedidocodigo', 'pdv_pedidocodigo', true, true);
-        $this->adicionaRelacionamento('pdv_pedidoitemseq', 'pdv_pedidoitemseq', true, true,true);
+        $this->adicionaRelacionamento('pdv_pedidoitemseq', 'pdv_pedidoitemseq', true, true, true);
         $this->adicionaRelacionamento('PDV_PedidoItemMoeda', 'PDV_PedidoItemMoeda');
         $this->adicionaRelacionamento('PDV_PedidoItemValorMoeda', 'PDV_PedidoItemValorMoeda');
         $this->adicionaRelacionamento('PDV_PedidoItemQtdPedida', 'PDV_PedidoItemQtdPedida');
@@ -30,7 +30,7 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->adicionaRelacionamento('PDV_PedidoItemDescontoPercentu', 'PDV_PedidoItemDescontoPercentu');
         $this->adicionaRelacionamento('PDV_PedidoItemAcrescimoPercent', 'PDV_PedidoItemAcrescimoPercent');
         $this->adicionaRelacionamento('PDV_PedidoItemValorUnitario', 'PDV_PedidoItemValorUnitario');
-        
+
         $this->adicionaRelacionamento('PDV_PedidoItemTabela', 'PDV_PedidoItemTabela');
         $this->adicionaRelacionamento('PDV_PedidoItemOrdemImpressao', 'PDV_PedidoItemOrdemImpressao');
         $this->adicionaRelacionamento('PDV_PedidoItemSituacao', 'PDV_PedidoItemSituacao');
@@ -38,8 +38,8 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->adicionaRelacionamento('PDV_PedidoItemProdutoCliente', 'PDV_PedidoItemProdutoCliente');
         $this->adicionaRelacionamento('PDV_PedidoItemDataEntrega', 'PDV_PedidoItemDataEntrega');
         $this->adicionaRelacionamento('PDV_PedidoItemProduto', 'PDV_PedidoItemProduto');
-        $this->adicionaRelacionamento('PDV_PedidoItemProduto', 'DELX_PRO_Produtos.pro_codigo', false,false);
-        
+        $this->adicionaRelacionamento('PDV_PedidoItemProduto', 'DELX_PRO_Produtos.pro_codigo', false, false);
+
         $this->adicionaRelacionamento('PDV_PedidoItemProdutoNomeManua', 'PDV_PedidoItemProdutoNomeManua');
         $this->adicionaRelacionamento('PDV_PedidoItemProdutoUnidadeMa', 'PDV_PedidoItemProdutoUnidadeMa');
         $this->adicionaRelacionamento('PDV_PedidoItemMovimentaEstoque', 'PDV_PedidoItemMovimentaEstoque');
@@ -52,7 +52,7 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->adicionaRelacionamento('PDV_PedidoItemValorTabela', 'PDV_PedidoItemValorTabela');
         $this->adicionaRelacionamento('PDV_PedidoItemQtdLiberada', 'PDV_PedidoItemQtdLiberada');
         $this->adicionaRelacionamento('PDV_PedidoItemCFOP', 'PDV_PedidoItemCFOP');
-        
+
         $this->adicionaRelacionamento('PDV_PedidoItemDescontoValor', 'PDV_PedidoItemDescontoValor');
         $this->adicionaRelacionamento('PDV_PedidoItemAcrescimoValor', 'PDV_PedidoItemAcrescimoValor');
         $this->adicionaRelacionamento('PDV_PedidoItemAlm', 'PDV_PedidoItemAlm');
@@ -64,7 +64,7 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->adicionaRelacionamento('PDV_PedidoItemCerQua', 'PDV_PedidoItemCerQua');
         $this->adicionaRelacionamento('PDV_PedidoItemTipoEmiNF', 'PDV_PedidoItemTipoEmiNF');
         $this->adicionaRelacionamento('PDV_PedidoItemOrdemServicoOS', 'PDV_PedidoItemOrdemServicoOS');
-        
+
         $this->adicionaRelacionamento('PDV_PedidoItemOrdemServicoNume', 'PDV_PedidoItemOrdemServicoNume');
         $this->adicionaRelacionamento('PDV_PedidoItemOrdemServicoItem', 'PDV_PedidoItemOrdemServicoItem');
         $this->adicionaRelacionamento('PDV_PedidoItemCancelado', 'PDV_PedidoItemCancelado');
@@ -84,7 +84,7 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->adicionaRelacionamento('PDV_PedidoItemDimGFormula', 'PDV_PedidoItemDimGFormula');
         $this->adicionaRelacionamento('PDV_PedidoItemDimGExpres', 'PDV_PedidoItemDimGExpres');
         $this->adicionaRelacionamento('PDV_PedidoItemQtdPecas', 'PDV_PedidoItemQtdPecas');
-        
+
         $this->adicionaRelacionamento('PDV_PedidoItemObsDescricao', 'PDV_PedidoItemObsDescricao');
         $this->adicionaRelacionamento('PDV_PedidoItemObsOF', 'PDV_PedidoItemObsOF');
         $this->adicionaRelacionamento('PDV_PedidoItemPercentualPromoc', 'PDV_PedidoItemPercentualPromoc');
@@ -104,7 +104,7 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->adicionaRelacionamento('PDV_PedidoItemMoedaValorCotNeg', 'PDV_PedidoItemMoedaValorCotNeg');
         $this->adicionaRelacionamento('PDV_PedidoItemMoedaValor', 'PDV_PedidoItemMoedaValor');
         $this->adicionaRelacionamento('PDV_PedidoItemConfigProcessada', 'PDV_PedidoItemConfigProcessada');
-        
+
         $this->adicionaRelacionamento('PDV_PedidoItemEspecie', 'PDV_PedidoItemEspecie');
         $this->adicionaRelacionamento('PDV_PedidoItemVolumes', 'PDV_PedidoItemVolumes');
         $this->adicionaRelacionamento('PDV_PedidoItemDescFormulaSeq', 'PDV_PedidoItemDescFormulaSeq');
@@ -114,7 +114,7 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->adicionaRelacionamento('PDV_PedidoItemPedidoVendaCli', 'PDV_PedidoItemPedidoVendaCli');
         $this->adicionaRelacionamento('PDV_PedidoItemProdObsoleto', 'PDV_PedidoItemProdObsoleto');
         $this->adicionaRelacionamento('PDV_PedidoItemSerieModelo', 'PDV_PedidoItemSerieModelo');
-        
+
         $this->adicionaRelacionamento('PDV_PedidoItemIdenProgramacao', 'PDV_PedidoItemIdenProgramacao');
         $this->adicionaRelacionamento('PDV_PedidoItemMargemVlrUnitJur', 'PDV_PedidoItemMargemVlrUnitJur');
         $this->adicionaRelacionamento('PDV_PedidoItemDiasEntregaFinal', 'PDV_PedidoItemDiasEntregaFinal');
@@ -135,85 +135,98 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
         $this->adicionaRelacionamento('PDV_PedidoItemAlturaComercial', 'PDV_PedidoItemAlturaComercial');
         $this->adicionaRelacionamento('PDV_PedidoItemLarguraComercial', 'PDV_PedidoItemLarguraComercial');
         $this->adicionaRelacionamento('PDV_PedidoItemDescProdComercia', 'PDV_PedidoItemDescProdComercia');
-        
+
         //campos para uso de campos agregados
-        $this->adicionaRelacionamento('insumoCod','insumoCod',false,false);
-        $this->adicionaRelacionamento('insumoNome', 'insumoNome',false,false);
-        $this->adicionaRelacionamento('insumoQt', 'insumoQt',false,false);
-        $this->adicionaRelacionamento('insumoVlr', 'insumoVlr',false,false);
-        
-        $this->adicionaRelacionamento('servicoCod','servicoCod',false,false);
-        $this->adicionaRelacionamento('servicoDes', 'servicoDes',false,false);
-        $this->adicionaRelacionamento('servicoQt', 'servicoQt',false,false);
-        $this->adicionaRelacionamento('servicoVlr', 'servicoVlr',false,false);
-        
+        $this->adicionaRelacionamento('insumoCod', 'insumoCod', false, false);
+        $this->adicionaRelacionamento('insumoNome', 'insumoNome', false, false);
+        $this->adicionaRelacionamento('insumoQt', 'insumoQt', false, false);
+        $this->adicionaRelacionamento('insumoVlr', 'insumoVlr', false, false);
+
+        $this->adicionaRelacionamento('servicoCod', 'servicoCod', false, false);
+        $this->adicionaRelacionamento('servicoDes', 'servicoDes', false, false);
+        $this->adicionaRelacionamento('servicoQt', 'servicoQt', false, false);
+        $this->adicionaRelacionamento('servicoVlr', 'servicoVlr', false, false);
+
         //tipo do model atual
-        $this->adicionaRelacionamento('pdv_insserv', 'pdv_insserv',false,false);
-        $this->adicionaRelacionamento('op','op',false,false);
-        $this->adicionaRelacionamento('pesoOp','pesoOp',false,false);
-        
+        $this->adicionaRelacionamento('pdv_insserv', 'pdv_insserv', false, false);
+        $this->adicionaRelacionamento('op', 'op', false, false);
+        $this->adicionaRelacionamento('pesoOp', 'pesoOp', false, false);
+
         //adiciona o left outer join na tabela de insumos
-        $sEnd ='and pdv_pedidoitem.PDV_PedidoCodigo = steel_pcp_cargainsumoserv.pdv_pedidocodigo
-        and pdv_pedidoitem.PDV_PedidoItemSeq = steel_pcp_cargainsumoserv.pdv_pedidoitemseq'; 
-        
-       
-        
-        
-        $this->adicionaJoin('STEEL_PCP_CargaInsumoServ',null,1, 'pdv_pedidofilial','pdv_pedidofilial',$sEnd);
-        $this->adicionaJoin('DELX_PRO_Produtos', null,1, 'PDV_PedidoItemProduto','pro_codigo');
-        
-        
+        $sEnd = 'and pdv_pedidoitem.PDV_PedidoCodigo = steel_pcp_cargainsumoserv.pdv_pedidocodigo
+        and pdv_pedidoitem.PDV_PedidoItemSeq = steel_pcp_cargainsumoserv.pdv_pedidoitemseq';
+
+
+
+
+        $this->adicionaJoin('STEEL_PCP_CargaInsumoServ', null, 1, 'pdv_pedidofilial', 'pdv_pedidofilial', $sEnd);
+        $this->adicionaJoin('DELX_PRO_Produtos', null, 1, 'PDV_PedidoItemProduto', 'pro_codigo');
+
+
         $this->setSTop('1000');
         $this->adicionaOrderBy('pdv_pedidoitemseq', 1);
     }
-    
+
     /**
      * Retorna o peso pelos insumos
      */
-    public function pesoInsumo($aDados){
+    public function pesoInsumo($aDados) {
         $sSql = "select STEEL_PCP_CargaInsumoServ.pdv_insserv,sum(PDV_PedidoItemQtdPedida)as total 
                 from pdv_pedidoitem left outer join STEEL_PCP_CargaInsumoServ
                 on pdv_pedidoitem.pdv_pedidofilial = STEEL_PCP_CargaInsumoServ.pdv_pedidofilial
                 and pdv_pedidoitem.pdv_pedidocodigo = STEEL_PCP_CargaInsumoServ.pdv_pedidocodigo
                 and pdv_pedidoitem.pdv_pedidoitemseq = STEEL_PCP_CargaInsumoServ.pdv_pedidoitemseq
                 where pdv_pedidoitem.pdv_pedidofilial = '8993358000174' 
-                and pdv_pedidoitem.pdv_pedidocodigo = '".$aDados[1]."'
+                and pdv_pedidoitem.pdv_pedidocodigo = '" . $aDados[1] . "'
                 group by STEEL_PCP_CargaInsumoServ.pdv_insserv";
-        
+
         $result = $this->getObjetoSql($sSql);
 
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
-             $aRetorno[] = $oRowBD;
+            $aRetorno[] = $oRowBD;
         }
         return $aRetorno;
     }
+
     /**
      * Retorna as parcelas 
      */
-    public function parcCondPag($aChave){
-        
-        $sSql ="select CPG_Codigo,CPG_NumeroParcela,CPG_DiasParcela
-                from cpg_condicaopagamentoparcelas where CPG_Codigo ='".$aChave[3]."' 
+    public function parcCondPag($aChave) {
+
+        $sSql = "select CPG_Codigo,CPG_NumeroParcela,CPG_DiasParcela
+                from cpg_condicaopagamentoparcelas where CPG_Codigo ='" . $aChave[3] . "' 
                 order by cpg_condicaopagamentoparcelas.CPG_NumeroParcela ";
         $result = $this->getObjetoSql($sSql);
 
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
-             $aRetorno[] = $oRowBD;
+            $aRetorno[] = $oRowBD;
         }
         return $aRetorno;
-        
     }
-    
+
     /**
      * Faz o somatório para o peso bruto e para o peso líquido
      */
-    
-    public function pesoCarga($aChave){
-        
-        
+    public function pesoCarga($aChave) {
         
     }
-    
-   
+
+    public function alteraOd($sValor, $sFilial, $sCod, $sSeq) {
+        $sSql = "update PDV_PEDIDOITEM set pdv_pedidoitemordemcompra = '" . $sValor . "'"
+                . " where pdv_pedidofilial= " . $sFilial
+                . " and pdv_pedidocodigo = " . $sCod . " "
+                . " and pdv_pedidoitemseq = " . $sSeq . " ";
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
+
+    public function alteraSeqOd($iValor, $sFilial, $sCod, $sSeq) {
+        $sSql = "update PDV_PEDIDOITEM set pdv_pedidoitemseqordemcompra = " . $iValor
+                . " where pdv_pedidofilial= " . $sFilial
+                . " and pdv_pedidocodigo = " . $sCod . " "
+                . " and pdv_pedidoitemseq = " . $sSeq . "  ";
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
 
 }

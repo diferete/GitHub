@@ -159,7 +159,7 @@ class ControllerMET_QUAL_RcRep extends Controller {
         $aCamposChave['id'] = $aDados[1];
 
         $aRet = $this->Persistencia->verifSitRC($aCamposChave);
-        if ($aRet[0] == 'Apontada' && ($aRet[2] == 'Recusada' || $aRet[2] == 'Aceita')) {
+        if ($aRet[0] == 'Apontada' && ($aRet[2] == 'Indeferida' || $aRet[2] == 'Aceita')) {
 
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
@@ -370,9 +370,8 @@ class ControllerMET_QUAL_RcRep extends Controller {
 
         $oEmail->limpaDestinatariosAll();
 
-
-        // Para
         //$oEmail->addDestinatario('almoxarifado@metalbo.com.br');
+        /////////////////////////////////////////////////////////
         $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));

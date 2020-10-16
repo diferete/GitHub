@@ -16,7 +16,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setiLarguraGrid(3150);
+        $this->getTela()->setiLarguraGrid(3400);
 
         $this->getTela()->setIAltura(550);
 
@@ -66,8 +66,8 @@ class ViewMET_QUAL_RcAnalise extends View {
 
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
-        $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
-        $oDevolucao->addComparacao('N/ se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oDevolucao->addComparacao('Indeferida', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oDevolucao->addComparacao('Não se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->setBComparacaoColuna(true);
 
@@ -234,15 +234,25 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oProd->setILinhasTextArea(5);
         $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oAplicacao = new Campo('Aplicação/Avaria', 'aplicacao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oAplicacao = new Campo('Problema', 'aplicacao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oAplicacao->setSCorFundo(Campo::FUNDO_VERMELHO);
 
         $oDivisor1 = new Campo('Dados da não conformidade', 'nconf', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 6, 6, 12, 12);
+        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $oDisposicao->addItenRadio('1', 'Aceita Condicionalmente');
         $oDisposicao->addItenRadio('2', 'Devolver');
+
+        $oAtencao = new Campo('Acc. Condicionalmente - Apenas reclamação.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
+        $oAtencao->setSEstiloBadge(Campo::BADGE_SUCCESS);
+        $oAtencao->setITamFonteBadge(18);
+        $oAtencao->setApenasTela(true);
+
+        $oAtencao1 = new Campo('Devolver - Intenção de devolução pelo Cliente.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
+        $oAtencao1->setSEstiloBadge(Campo::BADGE_DANGER);
+        $oAtencao1->setITamFonteBadge(18);
+        $oAtencao1->setApenasTela(true);
 
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
@@ -257,7 +267,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oTabNF->addCampos(
                 array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
 
-        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao));
+        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao, $oAtencao, $oAtencao1));
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3));
 

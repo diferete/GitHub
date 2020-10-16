@@ -179,68 +179,6 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         }
     }
 
-    public function aceitaDevolucao($aDados) {
-        $aCampos = array();
-        parse_str($_REQUEST['campos'], $aCampos);
-
-        $sObs = Util::limpaString($aCampos['obs_aponta']);
-
-        $sSql = "select reclamacao"
-                . " from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-
-        $sDevolucao = $oRow->reclamacao;
-
-        if ($sDevolucao == 'Recusada' || $sDevolucao == 'Aceita') {
-            $aRetorno[0] = false;
-        } else {
-            $sSql = "update tbrncqual"
-                    . " set reclamacao ='Aceita',"
-                    . " obs_aponta ='" . $sObs . "', "
-                    . " reclamacaoacc = 'true'"
-                    . " where nr ='" . $aDados['nr'] . "'";
-            $aRetorno = $this->executaSql($sSql);
-        }
-        return $aRetorno;
-    }
-
-    public function apontaTransportadora($aDados) {
-        $aCampos = array();
-        parse_str($_REQUEST['campos'], $aCampos);
-
-        $sObs = Util::limpaString($aCampos['obs_aponta']);
-
-        $sSql = "update tbrncqual"
-                . " set situaca = 'Apontada',"
-                . " reclamacao ='Transportadora',"
-                . " obs_aponta ='" . $sObs . "',"
-                . " usuaponta = '" . $aDados['usuaponta'] . "'"
-                . " reclamacaorec = 'true'"
-                . " where nr ='" . $aDados['nr'] . "'";
-        $aRetorno = $this->executaSql($sSql);
-
-        return $aRetorno;
-    }
-
-    public function apontaRepresentante($aDados) {
-        $aCampos = array();
-        parse_str($_REQUEST['campos'], $aCampos);
-
-        $sObs = Util::limpaString($aCampos['obs_aponta']);
-
-        $sSql = "update tbrncqual"
-                . " set situaca = 'Apontada',"
-                . " reclamacao ='Representante',"
-                . " obs_aponta ='" . $sObs . "',"
-                . " usuaponta = '" . $aDados['usuaponta'] . "'"
-                . " where nr ='" . $aDados['nr'] . "'";
-        $aRetorno = $this->executaSql($sSql);
-
-        return $aRetorno;
-    }
-
     public function buscaEmailRep($aDados) {
         $sSql = "select usucodigo"
                 . " from tbrncqual"
@@ -281,37 +219,45 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         return $sEmail;
     }
 
-    public function apontaReclamacao($aDados) {
+    public function apontaReclamacao($aDados, $sProcedencia) {
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
         $sData = date('d/m/Y');
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
-        $sObs = Util::limpaString($aCampos['obs_aponta']);
-
         $oDados = $this->buscaDadosRC($aDados);
+        $sObs = Util::limpaString($aCampos['obs_aponta']);
+        $sMotivo = Util::limpaString($aCampos['motivo_reabriu']);
 
         $sSql = "update tbrncqual "
                 . "set situaca = 'Finalizada',"
                 . "reclamacao = '" . $aCampos['reclamacao'] . "',"
                 . "devolucao = '" . $aCampos['devolucao'] . "',"
-                . "obs_aponta = '" . $sObs . "',"
                 . "usuapontavenda = '" . $_SESSION['nome'] . "',"
                 . "nfdevolucao = '" . $aCampos['nfdevolucao'] . "',"
                 . "nfsIpi = '" . $aCampos['nfsIpi'] . "',"
                 . "datafim='" . $sData . "',"
                 . "horafim = '" . $sHora . "',"
                 . "usucod_fim = '" . $_SESSION['codUser'] . "',"
-                . "usunome_fim ='" . $_SESSION['nome'] . "',"
-                . "procedencia = '" . $aCampos['procedencia'] . "',"
-                . "valorfrete = '" . $aCampos['valorfrete'] . "' ";
-        if ($oDados->tagsetor == null) {
-            $sSql .= ",tagsetor = 34 ";
+                . "usunome_fim ='" . $_SESSION['nome'] . "',";
+        if ($sProcedencia == '' || $sProcedencia == null) {
+            $sSql .= "procedencia = '" . $aCampos['procedencia'] . "',";
+        } else {
+            $sSql .= "procedencia = '" . $sProcedencia . "',";
         }
+        if ($oDados->tagsetor == null) {
+            $sSql .= "tagsetor = 34,";
+        }
+        if ($oDados->situaca == 'Reaberta') {
+            $sSql .= "motivo_reabriu = '" . $sMotivo . "',";
+        } else {
+            $sSql .= "obs_aponta = '" . $sObs . "',";
+        }
+        $sSql .= "valorfrete = '" . $aCampos['valorfrete'] . "' ";
+
         $sSql .= "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorno = $this->executaSql($sSql);
-
 
         return $aRetorno;
     }
@@ -346,14 +292,21 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
     }
 
     public function reabrirRC($aDados) {
-        $sSql = "update tbrncqual "
-                . "set situaca = 'Reaberta' "
-                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+        $sSql = "update tbrncqual"
+                . " set situaca = 'Reaberta',"
+                . " hora_reabriu = '" . $sHora . "',"
+                . " data_reabriu = '" . $sData . "',"
+                . " usu_reabriu = '" . $_SESSION['nome'] . "'"
+                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorna = $this->executaSql($sSql);
         return $aRetorna;
     }
 
-    public function solicitaDevolucao($aDados) {
+    public function solicitaLibDevolucao($aDados) {
         $sSql = "update tbrncqual set "
                 . "sollibdevolucao = 'Aguardando' "
                 . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";

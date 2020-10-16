@@ -72,7 +72,7 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
 
         $oVlrUnir = new CampoConsulta('Valor.Unit', 'PDV_PedidoItemValorUnitario', CampoConsulta::TIPO_DECIMAL);
         $oVlrUnir->setILargura(50);
-
+        $oVlrUnir->setICasaDecimal(9);
         $oVlrTot = new campoconsulta('Valor.Total', 'PDV_PedidoItemValorTotal', CampoConsulta::TIPO_DECIMAL);
         $oVlrTot->setILargura(50);
 
@@ -85,7 +85,14 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
 
         $oAlerta = new CampoConsulta('Alertas', 'STEEL_PCP_CargaInsumoServ.alerta');
 
-        $this->addCampos($oBotaoModal, $oBotaoExcluir, $oOp, $oSeq, $oProd, $oDescProd, $oUn, $oQt, $oVlrUnir, $oVlrTot, $oNcm, $oTipo, $oAlerta);
+        $oOrdComp = new CampoConsulta('Ordem Compra', 'pdv_pedidoitemordemcompra', CampoConsulta::TIPO_EDITTEXTO);
+        $oOrdComp->addAcao('STEEL_PCP_PedCargaItens', 'gravaOd', '', '');
+
+        $oSeqOrd = new CampoConsulta('Seq OD', 'pdv_pedidoitemseqordemcompra', CampoConsulta::TIPO_EDITTEXTO);
+        $oSeqOrd->addAcao('STEEL_PCP_PedCargaItens', 'gravaSeqOd', '', '');
+        $this->getTela()->setIAltura(400);
+
+        $this->addCampos($oBotaoModal, $oBotaoExcluir, $oOp, $oSeq, $oProd, $oDescProd, $oUn, $oQt, $oVlrUnir, $oVlrTot, $oNcm, $oTipo, $oOrdComp, $oSeqOrd, $oAlerta);
     }
 
     function criaGridDetalhe($sAcaoRotina) {
@@ -142,7 +149,7 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
 
         $oVlrUnir = new CampoConsulta('Valor.Unit', 'PDV_PedidoItemValorUnitario', CampoConsulta::TIPO_DECIMAL);
         $oVlrUnir->setILargura(50);
-
+        $oVlrUnir->setICasaDecimal(9);
         $oVlrTot = new campoconsulta('Valor.Total', 'PDV_PedidoItemValorTotal', CampoConsulta::TIPO_DECIMAL);
         $oVlrTot->setILargura(50);
 
@@ -155,7 +162,13 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
 
         $oAlerta = new CampoConsulta('Alertas', 'STEEL_PCP_CargaInsumoServ.alerta');
 
-        $this->addCamposDetalhe($oBotaoModal, $oBotaoExcluir, $oOp, $oSeq, $oProd, $oDescProd, $oUn, $oQt, $oVlrUnir, $oVlrTot, $oNcm, $oTipo, $oAlerta);
+        $oOrdComp = new CampoConsulta('Ordem Compra', 'pdv_pedidoitemordemcompra', CampoConsulta::TIPO_EDITTEXTO);
+        $oOrdComp->addAcao('STEEL_PCP_PedCargaItens', 'gravaOd', '', '');
+
+        $oSeqOrd = new CampoConsulta('Seq OD', 'pdv_pedidoitemseqordemcompra', CampoConsulta::TIPO_EDITTEXTO);
+        $oSeqOrd->addAcao('STEEL_PCP_PedCargaItens', 'gravaSeqOd', '', '');
+
+        $this->addCamposDetalhe($oBotaoModal, $oBotaoExcluir, $oOp, $oSeq, $oProd, $oDescProd, $oUn, $oQt, $oVlrUnir, $oVlrTot, $oNcm, $oTipo, $oOrdComp, $oSeqOrd, $oAlerta);
 
         $this->addGriTela($this->getOGridDetalhe());
     }

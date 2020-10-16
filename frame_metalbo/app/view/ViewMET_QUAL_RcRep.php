@@ -12,7 +12,7 @@ class ViewMET_QUAL_RcRep extends View {
         parent::criaConsulta();
 
         $this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setiLarguraGrid(2200);
+        $this->getTela()->setiLarguraGrid(3400);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
 
@@ -52,8 +52,8 @@ class ViewMET_QUAL_RcRep extends View {
 
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
-        $oDevolucao->addComparacao('Recusada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
-        $oDevolucao->addComparacao('N/ se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oDevolucao->addComparacao('Indeferida', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oDevolucao->addComparacao('Não se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->setBComparacaoColuna(true);
 
@@ -279,7 +279,7 @@ class ViewMET_QUAL_RcRep extends View {
          * 
          */
 
-        $oAplicacao = new Campo('Aplicação/Avaria', 'aplicacao', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oAplicacao = new Campo('Problema', 'aplicacao', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oAplicacao->addItemSelect('Oxidação branca', 'Oxidação branca');
         $oAplicacao->addItemSelect('Oxidação vermelha', 'Oxidação vermelha');
         $oAplicacao->addItemSelect('Embalagem diferente da etiqueta', 'Embalagem diferente da etiqueta');
@@ -294,7 +294,7 @@ class ViewMET_QUAL_RcRep extends View {
         $oAplicacao->addItemSelect('Rosca danificada', 'Rosca danificada');
         $oAplicacao->addItemSelect('Erro no pedido', 'Erro no pedido');
         $oAplicacao->addItemSelect('Dimencional errado', 'Dimencional errado');
-        $oAplicacao->addItemSelect('Rosca fora da especificação', 'Rosca fora da especificação');
+        $oAplicacao->addItemSelect('Produto faltando no físico', 'Produto faltando no físico');
 
 
         $oDivisor1 = new Campo('Dados da não conformidade', 'nconf', Campo::DIVISOR_DARK, 12, 12, 12, 12);
@@ -306,7 +306,6 @@ class ViewMET_QUAL_RcRep extends View {
         $oQuant = new Campo('Quantidade', 'quant', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
 
         $oQuanNconf = new Campo('Qnt. não conforme', 'quantnconf', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
-        $oQuanNconf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
 
         $oProCod = new campo('Cód.', 'procod', Campo::TIPO_BUSCADOBANCOPK, 2, 4, 4, 4);
 
@@ -442,7 +441,7 @@ class ViewMET_QUAL_RcRep extends View {
         $oDevolucao->addItemSelect('', 'Todas');
         $oDevolucao->addItemSelect('Aguardando', 'Aguardando');
         $oDevolucao->addItemSelect('Aceita', 'Aceita');
-        $oDevolucao->addItemSelect('Recusada', 'Recusada');
+        $oDevolucao->addItemSelect('Indeferida', 'Indeferida');
 
         $oDivisor2 = new Campo('Situações Gerais', 'divisor2', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
         $oDivisor2->setApenasTela(TRUE);

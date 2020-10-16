@@ -95,10 +95,10 @@ class ControllerMET_QUAL_RcVenda extends Controller {
 
         $aRetorno = $this->Persistencia->verifSitRC($aCamposChave);
 
-        if ($aRetorno[0] == 'Liberado' && $aRetorno[1] == 'Aguardando') {
+        if ($aRetorno[0] == 'Liberado' && $aRetorno[1] == 'Aguardando' && $aRetorno[3] != 'Aguardando') {
             $this->emailsSetores($sDados, $sParam);
         }
-        if (($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Transportadora') || ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Representante') || ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Cliente')) {
+        if ($aRetorno[3] != 'Aguardando' && ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Transportadora') || ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Representante') || ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Cliente')) {
             $this->emailRep($sDados, $aRetorno, $sParam);
         } else {
             $this->sitEmails($sDados, $sParam, $aRetorno);
@@ -188,6 +188,9 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         if ($aRetorno[0] == 'Finalizada') {
             $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi finalizada!', Modal::TIPO_AVISO, false, true, true);
         }
+        if ($aRetorno[3] == 'Aguardando') {
+            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' está aguardando liberação de devolução pela gerência!', Modal::TIPO_AVISO, false, true, true);
+        }
 
         echo $oMensagem->getRender();
     }
@@ -205,12 +208,17 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $aCamposChave['id'] = $aDados[1];
 
         $oRet = $this->Persistencia->buscaDadosRC($aCamposChave);
-
+        if ($oRet->sollibdevolucao == 'Aguardando') {
+            $this->msgSit($aDados, $oRet);
+        }
         if ($oRet->situaca == 'Reaberta' || ($oRet->situaca == 'Liberado' && $oRet->reclamacao == 'Aguardando') || ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Em análise')) {
 
             $this->View->setAParametrosExtras($oRet);
-
-            $this->View->criaModalApontamento($sDados);
+            if ($oRet->situaca == 'Reaberta') {
+                $this->View->criaModalApontamentoReaberta($sDados);
+            } else {
+                $this->View->criaModalApontamento($sDados);
+            }
 
             //adiciona onde será renderizado
             $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
@@ -219,6 +227,8 @@ class ControllerMET_QUAL_RcVenda extends Controller {
 
             //renderiza a tela
             $this->View->getTela()->getRender();
+        } elseif ($oRet->situaca == 'Finalizada') {
+            $this->msgSit($aDados, $oRet);
         } else {
             if ($oRet->situaca != 'Aguardando' && $oRet->reclamacao != 'Em análise' && ($oRet->nfdevolucao == null && $oRet->nfsipi == null && $oRet->valorfrete == null) || ($oRet->nfdevolucao == '0' && $oRet->nfsipi == '.0000' && $oRet->valorfrete == '.0000')) {
 
@@ -263,17 +273,17 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             echo $oMsg->getRender();
             exit();
         }
-        if ($aCampos['procedencia'] == '' || $aCampos['procedencia'] == null) {
-            $oMsg = new Mensagem('Atenção', 'Selecione o status da DEVOLUÇÃO segundo análise!', Mensagem::TIPO_ERROR);
+        if (($oDados->procedencia == '' || $oDados->procedencia == null) && ($aCampos['procedencia'] == '' || $aCampos['procedencia'] == null)) {
+            $oMsg = new Mensagem('Atenção', 'Selecione o status da PROCEDENCIA segundo análise!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
             exit();
         }
-        if ($aCampos['reclamacao'] == 'Interna' && $oDados->situaca != 'Apontada') {
+        if ($oDados->situaca != 'Reaberta' && $aCampos['reclamacao'] == 'Interna' && $oDados->situaca != 'Apontada') {
             $oMsg = new Mensagem('Atenção', 'Não foi apontada pelo setor de analise interna!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
             exit();
         } else {
-            $aRetorno = $this->Persistencia->apontaReclamacao($aCamposChave);
+            $aRetorno = $this->Persistencia->apontaReclamacao($aCamposChave, $oDados->procedencia);
             if ($aRetorno[0] == true) {
                 $oMensagem = new Modal('Sucesso', 'Apontamento efetuado com sucesso!', Modal::TIPO_SUCESSO);
                 $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o representante!', Mensagem::TIPO_INFO, 10000);
@@ -299,29 +309,44 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         if ($oRet->situaca == 'Aguardando' && $oRet->reclamacao == 'Aguardando') {
             $oMensagem = new Modal('Atenção', 'Reclamação - RC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
         }
-        if ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Interna' && $oRet->devolucao == 'Recusada') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Interna, foi Recusada e não pode ser apontada novamente.', Modal::TIPO_AVISO);
+        if ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Interna' && $oRet->devolucao == 'Indeferida') {
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Interna, foi Indeferida e não pode ser apontada novamente.', Modal::TIPO_AVISO);
         }
         if ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Interna' && $oRet->devolucao == 'Aceita') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Interna, foi Aceita e já teve sua NF apontada pelo setor de Vendas.', Modal::TIPO_AVISO);
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Interna, foi Aceita pelo setor de Vendas.', Modal::TIPO_AVISO);
+        }
+        if ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Interna' && $oRet->devolucao == 'Não se aplica') {
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Interna, e a devolução Não se aplica!.', Modal::TIPO_AVISO);
+        }
+        if ($oRet->reclamacao == 'Transportadora' && $oRet->devolucao == 'Indeferida') {
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução foi Indeferida pelo setor de Vendas.', Modal::TIPO_AVISO);
         }
         if ($oRet->reclamacao == 'Transportadora' && $oRet->devolucao == 'Aceita') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução foi Aceita e já teve sua NF apontada pelo setor de Vendas', Modal::TIPO_AVISO);
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução foi Aceita pelo setor de Vendas', Modal::TIPO_AVISO);
         }
-        if ($oRet->reclamacao == 'Transportadora' && $oRet->devolucao == 'Recusada') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução foi Recusada pelo setor de Vendas.', Modal::TIPO_AVISO);
+        if ($oRet->reclamacao == 'Transportadora' && $oRet->devolucao == 'Não se aplica') {
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução Não se aplica!', Modal::TIPO_AVISO);
         }
-        if ($oRet->reclamacao == 'Representante' && $oRet->devolucao == 'Recusada') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução foi Recusada pelo setor de Vendas.', Modal::TIPO_AVISO);
+        if ($oRet->reclamacao == 'Representante' && $oRet->devolucao == 'Indeferida') {
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução foi Indeferida pelo setor de Vendas.', Modal::TIPO_AVISO);
         }
         if ($oRet->reclamacao == 'Representante' && $oRet->devolucao == 'Aceita') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução foi Aceita e já teve sua NF apontada pelo setor de Vendas', Modal::TIPO_AVISO);
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução foi Aceita pelo setor de Vendas', Modal::TIPO_AVISO);
         }
-        if ($oRet->reclamacao == 'Cliente' && $oRet->devolucao == 'Recusada') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução foi Recusada pelo setor de Vendas.', Modal::TIPO_AVISO);
+        if ($oRet->reclamacao == 'Representante' && $oRet->devolucao == 'Não se aplica') {
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução Não se aplica!', Modal::TIPO_AVISO);
+        }
+        if ($oRet->reclamacao == 'Cliente' && $oRet->devolucao == 'Indeferida') {
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução foi Indeferida pelo setor de Vendas.', Modal::TIPO_AVISO);
         }
         if ($oRet->reclamacao == 'Cliente' && $oRet->devolucao == 'Aceita') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução foi Aceita e já teve sua NF apontada pelo setor de Vendas', Modal::TIPO_AVISO);
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução foi Aceita pelo setor de Vendas', Modal::TIPO_AVISO);
+        }
+        if ($oRet->reclamacao == 'Cliente' && $oRet->devolucao == 'Não se aplica') {
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução Não se aplica!', Modal::TIPO_AVISO);
+        }
+        if ($oRet->sollibdevolucao == 'Aguardando') {
+            $oMensagem = new Modal('Atenção', 'Reclamação - RC está aguardando liberação de devolução pela gerência!', Modal::TIPO_AVISO);
         }
         echo $oMensagem->getRender();
         echo "$('#" . $aDados[1] . "-btn').click();";
@@ -389,7 +414,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                         . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
                         . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
                         . '<tr><td><b>Nota fiscal: </b></td><td> ' . $oRow->nf . ' </td></tr>'
-                        . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
+                        . '<tr><td><b>Data da NF.: </b></td><td> ' . Util::converteData($oRow->datanf) . ' </td></tr>'
                         . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
                         . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->valor, 2, ',', '.') . ' </td></tr>'
@@ -498,7 +523,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                         . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
                         . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
                         . '<tr><td><b>Nota fiscal: </b></td><td> ' . $oRow->nf . ' </td></tr>'
-                        . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
+                        . '<tr><td><b>Data da NF.: </b></td><td> ' . Util::converteData($oRow->datanf) . ' </td></tr>'
                         . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
                         . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->valor, 2, ',', '.') . ' </td></tr>'
@@ -516,9 +541,11 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         // Para
         $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
         $oEmail->addDestinatario($sEmail);
-        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-
         $oEmail->addDestinatarioCopia($_SESSION['email']);
+        /////////////////////////////////////////////////////////
+        $oEmail->limpaDestinatariosAll();
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
@@ -605,7 +632,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                         . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
                         . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
                         . '<tr><td><b>Nota fiscal: </b></td><td> ' . $oRow->nf . ' </td></tr>'
-                        . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
+                        . '<tr><td><b>Data da NF.: </b></td><td> ' . Util::converteData($oRow->datanf) . ' </td></tr>'
                         . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
                         . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->valor, 2, ',', '.') . ' </td></tr>'
@@ -623,9 +650,11 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         // Para
         $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
         $oEmail->addDestinatario($sEmail);
-        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-
         $oEmail->addDestinatarioCopia($_SESSION['email']);
+        /////////////////////////////////////////////////////////
+        $oEmail->limpaDestinatariosAll();
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
+
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
@@ -695,7 +724,9 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         // Para
         $oEmail->addDestinatario('duda@metalbo.com.br');
         $oEmail->addDestinatarioCopia('almoxarifado@metalbo.com.br');
-        //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+        /////////////////////////////////////////////////////////
+        $oEmail->limpaDestinatariosAll();
+        $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
 
@@ -735,15 +766,15 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         }
     }
 
-    public function solicitaDevolucao($sDados) {
+    public function solicitaLibDevolucao($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
 
-        if ($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) {
-            $aRetorno = $this->Persistencia->solicitaDevolucao($aCamposChave);
+        if (($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) && ($oDados->reclamacao == 'Aguardando')) {
+            $aRetorno = $this->Persistencia->solicitaLibDevolucao($aCamposChave);
             if ($aRetorno[0]) {
                 $oMensagem = new Mensagem('Sucesso', 'Solicitação de liberação da devolução enviada!', Mensagem::TIPO_SUCESSO);
                 echo $oMensagem->getRender();
@@ -753,7 +784,13 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 echo $oMensagem->getRender();
             }
         } elseif ($oDados->sollibdevolucao == 'Liberada') {
-            $oMensagem = new Mensagem('Atenção', 'Já foi liberada pela gerência!', Mensagem::TIPO_WARNING);
+            $oMensagem = new Mensagem('Atenção', 'Devolução já apontada pela gerência liberada pela gerência!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        } elseif ($oDados->reclamacao == 'Em análise') {
+            $oMensagem = new Mensagem('Atenção', 'Reclamação está em análise, aguarde para solicitar liberação de devolução.', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        } elseif ($oDados->situaca == 'Finalizada') {
+            $oMensagem = new Mensagem('Atenção', 'Processo de reclamação Finalizado.', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         } else {
             $oMensagem = new Mensagem('Atenção', 'Já foi solicitada a liberação, aguarde.', Mensagem::TIPO_WARNING);
@@ -858,8 +895,9 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $oEmail->limpaDestinatariosAll();
 
         $sEmail = $this->Persistencia->buscaEmailVendas($aCamposChave);
-        //$oEmail->addDestinatario($sEmail);
-
+        $oEmail->addDestinatario($sEmail);
+        /////////////////////////////////////////////////////////
+        $oEmail->limpaDestinatariosAll();
         $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $aRetorno = $oEmail->sendEmail();

@@ -214,7 +214,7 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
                         . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
                         . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
                         . '<tr><td><b>Nota fiscal: </b></td><td> ' . $oRow->nf . ' </td></tr>'
-                        . '<tr><td><b>Data da NF.: </b></td><td> ' . $oRow->datanf . ' </td></tr>'
+                        . '<tr><td><b>Data da NF.: </b></td><td> ' . Util::converteData($oRow->datanf) . ' </td></tr>'
                         . '<tr><td><b>Od. de compra: </b></td><td> ' . $oRow->odcompra . ' </td></tr>'
                         . '<tr><td><b>Pedido Nº: </b></td><td> ' . $oRow->pedido . ' </td></tr>'
                         . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($oRow->valor, 2, ',', '.') . ' </td></tr>'
@@ -406,9 +406,11 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
 
             // Para
             $aEmail = $this->Persistencia->buscaEmails($aCampos);
+            $oEmail->addDestinatario($aEmail[0]);
+            $oEmail->addDestinatarioCopia($aEmail[1]);
+            /////////////////////////////////////////////////////////
+            $oEmail->limpaDestinatariosAll();
             $oEmail->addDestinatario('alexandre@metalbo.com.br');
-            //$oEmail->addDestinatario($aEmail[0]);
-            //$oEmail->addDestinatarioCopia($aEmail[1]);
 
             $aRetorno = $oEmail->sendEmail();
             if ($aRetorno[0]) {
