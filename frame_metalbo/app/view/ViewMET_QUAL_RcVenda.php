@@ -75,7 +75,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Indeferida', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
-        $oDevolucao->addComparacao('Não se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oDevolucao->addComparacao('Não se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->setBComparacaoColuna(true);
 
@@ -113,7 +113,7 @@ class ViewMET_QUAL_RcVenda extends View {
         if ($_SESSION['codUser'] == 19) {
             $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
         } else {
-            $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+            $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
         }
 
 
@@ -324,6 +324,9 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDevolucao->addItenRadio('Aceita', 'Aceita');
         $oDevolucao->addItenRadio('Indeferida', 'Indeferida');
         $oDevolucao->addItenRadio('Não se aplica', 'Não se aplica');
+        if ($oDados->devolucao != null) {
+            $oDevolucao->setSValor($oDados->devolucao);
+        }
         if ($oDados->disposicao == 1 && $oDados->devolucao == null) {
             $oDevolucao->setSValor('Não se aplica');
         }
@@ -334,7 +337,9 @@ class ViewMET_QUAL_RcVenda extends View {
         $oProcede = new Campo('Procedencia', 'procedencia', Campo::TIPO_RADIO, 6, 6, 12, 12);
         $oProcede->addItenRadio('PROCEDE', 'Procede');
         $oProcede->addItenRadio('NÃO PROCEDE', 'Não Procede');
-        $oProcede->addItenRadio('NÃO APLICA', 'Não se aplica');
+        if ($oDados->procedencia != null) {
+            $oProcede->setSValor($oDados->procedencia);
+        }
 
         $oNfDevolucao = new Campo('NF Devolução', 'nfdevolucao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
 
@@ -361,12 +366,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
         $this->setBTela(true);
-
-        if ($oDados->procedencia == 'Aguardando') {
-            $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oTipoRC, array($oReclamacao), $oRcProcede, array($oProcede), $oGDevolucao, array($oDevolucao), array($oNfDevolucao, $oValorDevolucaoSIPI, $oValorFrete), $oLinha1, $oObs_aponta, $oBtnApontar);
-        } else {
-            $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oTipoRC, array($oReclamacao), $oGDevolucao, array($oDevolucao), array($oNfDevolucao, $oValorDevolucaoSIPI, $oValorFrete), $oLinha1, $oObs_aponta, $oBtnApontar);
-        }
+        $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oTipoRC, array($oReclamacao), $oRcProcede, array($oProcede), $oGDevolucao, array($oDevolucao), array($oNfDevolucao, $oValorDevolucaoSIPI, $oValorFrete), $oLinha1, $oObs_aponta, $oBtnApontar);
     }
 
     public function criaModalApontamentoReaberta($sDados) {
@@ -473,6 +473,9 @@ class ViewMET_QUAL_RcVenda extends View {
         $oNfDevolucao = new Campo('NF Devolução', 'nfdevolucao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oValorDevolucaoSIPI = new Campo('NF s/ IPI', 'nfsIpi', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oValorFrete = new Campo('Frete', 'valorfrete', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oApontaNF = new Campo('', 'apontaNF', Campo::TIPO_TEXTO);
+        $oApontaNF->setSValor('Apontada');
+        $oApontaNF->setBOculto(true);
 
         $oBtnReabrir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnReabrir->getId());
@@ -486,7 +489,7 @@ class ViewMET_QUAL_RcVenda extends View {
 
         $this->setBTela(true);
 
-        $this->addCampos(array($oFilcgc, $oNr), array($oNfDevolucao, $oValorDevolucaoSIPI, $oValorFrete), $oBtnReabrir);
+        $this->addCampos(array($oFilcgc, $oNr), array($oNfDevolucao, $oValorDevolucaoSIPI, $oValorFrete), array($oBtnReabrir, $oApontaNF));
     }
 
     /**
@@ -545,7 +548,6 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDevolucao = new Campo('Devolução', 'devolucao', Campo::TIPO_RADIO, 6, 6, 12, 12);
         $oDevolucao->addItenRadio('Aceita', 'Aceita');
         $oDevolucao->addItenRadio('Indeferida', 'Indeferida');
-        $oDevolucao->addItenRadio('Não se aplica', 'Não se aplica');
 
         $oBtnLiberar = new Campo('Liberar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnLiberar->getId());

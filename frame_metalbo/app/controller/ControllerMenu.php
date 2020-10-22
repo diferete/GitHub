@@ -92,7 +92,6 @@ class ControllerMenu extends Controller {
                 . '</div>'
                 . '</br>'
                 . '</div>';
-        //$sMsg = $sMsg . $this->updates();
         $sMsg = $sMsg . $this->montaTabela();
         $sMsg = $sMsg . '</div>';
 
@@ -118,42 +117,6 @@ class ControllerMenu extends Controller {
         $aRetorno[0] = $this->Model->getMencodigo();
         $aRetorno[1] = $this->Model->getModulo()->getModcod();
         return $aRetorno;
-    }
-
-    public function updates() {
-        $oControllerUpdates = Fabrica::FabricarController('MET_TEC_Updates');
-        $aBuscaUpdates = $oControllerUpdates->getDadosUpdates();
-
-        $lista = '<ul style="list-style-type: none;">'
-                . '  <li class="dropdown-menu-header" role="presentation">'
-                . '      <h4>Novidades e atualizações</h4>'
-                . '  </li>'
-                . '  <li class="list-group scrollable is-enabled scrollable-vertical" role="presentation" style="position: relative;">'
-                . '      <div data-role="container" class="scrollable-container">'
-                . '          <div data-role="content" class="scrollable-content">';
-        foreach ($aBuscaUpdates as $key => $value) {
-            $lista = $lista . '            <a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                    . '                <div class="media">'
-                    . '                  <div class="media-left padding-right-10">'
-                    . '                      <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>'
-                    . '                  </div>'
-                    . '                  <div class="media-body">'
-                    . '                      <h6 class="media-heading">' . $value->updates . '</h6>'
-                    . '                      <time class="media-meta">' . $value->versao . '</time>'
-                    . '                  </div>'
-                    . '              </div>'
-                    . '          </a>';
-        }
-        $lista = $lista . '      </div>'
-                . '  </div>'
-                . '  <div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false">'
-                . '      <div class="scrollable-bar-handle" style="height: 205.043px;">'
-                . '      </div>'
-                . '  </div>'
-                . ' </li>'
-                . '</ul>';
-
-        return $lista;
     }
 
     public function montaTabela() {

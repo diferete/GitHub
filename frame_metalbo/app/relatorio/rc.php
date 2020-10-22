@@ -69,23 +69,30 @@ $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
-$sSql = "select tbrncqual.empcod,tbrncqual.empdes,
-                anexo1, anexo2, anexo3,
-                anexo_inspecao, anexo_inspecao1, anexo_analise, anexo_analise1,
-                convert(varchar,datains,103) as datains,
-                empfone,celular,empend,empendbair,usunome,
-                cidnome,convert(varchar,datains,103)as datains,email,
-                case when ind = 'true' then 'x' else '' end as ind,
-                case when comer = 'true' then 'x' else '' end as comer,
-                widl.emp01.cidcep,nf,convert(varchar,datanf,103)as datanf,
-                odcompra,pedido,valor,peso,lote,op,naoconf,produtos,aplicacao,
-                quant,quantnconf,usuaponta,apontamento,devolucao,reclamacao,resp_venda_nome,obs_aponta,obs_fim,usunome_fim,
-                inspecao,correcao,obs_inspecao,data_disposicao,resp_disposicao,
-                case when disposicao = '1' then 'x' else '' end as aceitar,
-                case when disposicao = '2' then 'x' else '' end as recusar
-                from tbrncqual left outer join widl.EMP01
-                on widl.emp01.empcod = tbrncqual.empcod left outer join widl.CID01 
-                on widl.CID01.cidcep = widl.EMP01.cidcep where nr =" . $nr;
+$sSql = "select filcgc,nr,tbrncqual.empcod,tbrncqual.empdes,celular,email,contato,widl.emp01.cidcep,usucodigo,usunome,horains,nf,"
+        . "convert(varchar,datains,103) as datains,"
+        . "convert(varchar,datanf,103) as datanf,"
+        . "convert(varchar,data,103)as data,"
+        . "convert(varchar,datafim,103) as datafim,"
+        . "convert(varchar,data_disposicao,103) as data_disposicao,"
+        . "convert(varchar,datalibdevolucao,103) as datalibdevolucao,"
+        . "convert(varchar,data_reabriu,103) as data_reabriu,"
+        . "odcompra,pedido,valor,peso,lote,op,naoconf,procod,prodes,aplicacao,quant,quantnconf,nome,cargo,officecod,officedes,"
+        . "anexo1,anexo2,anexo3,situaca,obsSit,resp_venda_cod,resp_venda_nome,obs_fim,horafim,usucod_fim,usunome_fim,devolucao,"
+        . "usuaponta,apontamento,tagsetor,tbrncqual.repcod,produtos,usuapontavenda,obs_aponta,reclamacao,tagexcecao,"
+        . "nfdevolucao,nfsIpi,valorfrete,inspecao,correcao,obs_inspecao,hora_disposicao,resp_disposicao,anexo_inspecao,"
+        . "anexo_inspecao1,anexo_analise,anexo_analise1,procedencia,numcad,nomfun,obs_analiseret,sollibdevolucao,usulibdevolucao,"
+        . "horalibdevolucao,usu_reabriu,hora_reabriu,motivo_reabriu,apontaNF,empfone,celular,empend,empendbair,usunome,cidnome,"
+        . "case when ind = 'true' then 'x' else '' end as ind,"
+        . "case when comer = 'true' then 'x' else '' end as comer,"
+        . "case when disposicao = '1' then 'x' else '' end as aceitar,"
+        . "case when disposicao = '2' then 'x' else '' end as devolver "
+        . "from tbrncqual "
+        . "left outer join widl.EMP01 "
+        . "on widl.emp01.empcod = tbrncqual.empcod "
+        . "left outer join widl.CID01 "
+        . "on widl.CID01.cidcep = widl.EMP01.cidcep "
+        . "where nr=" . $nr;
 $dadoscab = $PDO->query($sSql);
 $row = $dadoscab->fetch(PDO::FETCH_ASSOC);
 //cabeçalho
@@ -216,7 +223,7 @@ $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Disposição:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, '(' . $row['aceitar'] . ') Aceito condicionalmente', 0, 0, 'L');
-$pdf->Cell(50, 5, '(' . $row['recusar'] . ') Devolver', 0, 1, 'L');
+$pdf->Cell(50, 5, '(' . $row['devolver'] . ') Devolver', 0, 1, 'L');
 
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
@@ -336,10 +343,11 @@ if (($row['anexo1'] != '') || ($row['anexo2'] != '') || ($row['anexo3'] != '')) 
 
 $pdf->Ln(6);
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Análise da RC:", 0, 1, 'L');
+$pdf->Cell(30, 5, "Análise da RC por setor interno:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
 $iAltura = $pdf->GetY();
+//$pdf->Rect(2, $iAltura, 206, 20 + round((strlen($row['apontamento']) / 120) * 5));
 $pdf->Rect(2, $iAltura, 206, 20 + round((strlen($row['apontamento']) / 120) * 5));
 
 $pdf->Ln(2);
@@ -348,38 +356,78 @@ $pdf->Cell(45, 5, "Responsável pela análise:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(30, 5, $row['usuaponta'], 0, 1, 'L');
 
+///////////////////////////////////ADICIONAR AQUI//////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+if($row['numcad'] != null){
+    'adicionar referente a campos: numcad,nomfun';
+    /*Isso aqui é tipo a RNC, quem foi o colaborador que causou, caso eles saibam quem foi...
+    Por isso é capaz de a maioria das vezes, ficar em branco
+    */
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Análise da não conformidade:", 0, 1, 'L');
+$pdf->Cell(30, 5, "Análise da RC:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['apontamento'], 0, 'L');
 
 /////////////////////////////////////////
 $pdf->Ln(6 + round((strlen($row['apontamento']) / 120) * 5));
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Análise do setor de Vendas:", 0, 1, 'L');
+$pdf->Cell(30, 5, "Análise da RC pelo setor de Vendas:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
 $iAltura = $pdf->GetY();
 $pdf->Rect(2, $iAltura, 206, 25 + round((strlen($row['obs_aponta']) / 120) * 5));
 
+///////////////////////////////////ADICIONAR AQUI//////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+if ($row['usu_reabriu'] != null) {
+    'adicionar referente a campos: usu_reabriu,hora_reabriu,motivo_reabriu,data_reabriu';
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(26, 5, "Responsável:", 0, 0, 'L');
+$pdf->Cell(45, 5, "Responsável pela análise:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, $row['resp_venda_nome'], 0, 1, 'L');
+$pdf->Cell(50, 5, $row['resp_venda_nome'], 0, 0, 'L');
 
-$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(26, 5, "Devolução:", 0, 0, 'L');
+$pdf->Cell(18, 5, "Procede?:", 0, 0, 'L');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(45, 5, $row['procedencia'], 0, 0, 'L');
+
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(20, 5, "Devolução:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, $row['devolucao'], 0, 1, 'L');
 
-$pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(26, 5, "Obs Venda:", 0, 1, 'L');
+$pdf->Cell(26, 5, "Análise da RC:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['obs_aponta'], 0, 'L');
+
+
+///////////////////////////////////ADICIONAR AQUI//////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+if($row['sollibdevolucao'] != null){
+   'adicionar referente a campos: sollibdevolucao,usulibdevolucao,horalibdevolucao,datalibdevolucao'; 
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+///////////////////////////////////ADICIONAR AQUI//////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+if($row['apontaNF'] != null){
+   'adicionar referente a campos: nfdevolucao,nfsIpi,valorfrete,'; 
+}
+///////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
 
 //PARTE DOS ANEXOS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //ANEXO ANÁLISE
@@ -431,27 +479,6 @@ if (($row['anexo_analise'] != '') || ($row['anexo_analise1'] != '')) {
     $pdf->AddPage();
     $pdf->SetY(10);
 }
-
-$pdf->Ln(2 + round((strlen($row['obs_aponta']) / 120) * 5));
-$pdf = quebraPagina($pdf->GetY() + 20, $pdf);
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(30, 5, "Observação final do Representante:", 0, 1, 'L');
-$pdf->SetFont('arial', '', 10);
-
-$iAltura = $pdf->GetY();
-$pdf->Rect(2, $iAltura, 206, 20 + round((strlen($row['obs_fim']) / 120) * 5));
-
-$pdf->Ln(2);
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(26, 5, "Representante:", 0, 0, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->Cell(50, 5, $row['usunome_fim'], 0, 1, 'L');
-
-$pdf->Ln(2);
-$pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(26, 5, "Obs Rep.:", 0, 1, 'L');
-$pdf->SetFont('arial', '', 10);
-$pdf->MultiCell(205, 5, $row['obs_fim'], 0, 'L');
 
 /////////////////////////////////////////////
 $pdf->Ln(2 + round((strlen($row['obs_fim']) / 120) * 10));
@@ -597,7 +624,7 @@ if ($sEmailRequest == 'S') {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
         echo $oMensagem->getRender();
     } else {
-        $oMensagem = new Mensagem('E-mail', 'Erro ao tentar enviar o e-mail', Mensagem::TIPO_SUCESSO);
+        $oMensagem = new Mensagem('E-mail', 'Erro ao tentar enviar o e-mail', Mensagem::TIPO_ERROR);
         echo $oMensagem->getRender();
     }
     return $aRetorno;

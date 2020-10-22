@@ -41,7 +41,6 @@ class ControllerQualAqEficaz extends Controller {
         parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
         $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';
-
         echo $sScript;
     }
 
@@ -156,18 +155,28 @@ class ControllerQualAqEficaz extends Controller {
         if ($aCampos['datareal'] != null && $aCampos['obs'] != null) {
             $aRet = $this->Persistencia->apontaEfi();
             if ($aRet[0]) {
-                $this->Persistencia->finalizaAcao($aCampos);
-                $oMensagem = new Mensagem('Sucesso', 'Finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
-                $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
-                echo $sLimpa;
-                echo 'requestAjax("' . $aDados[0] . '","QualAqEficaz","getDadosGrid","' . $aDados[1] . '","consultaEficaz");';
+                $oMensagem = new Mensagem('Sucesso', 'Apontamento realizado com sucesso!', Mensagem::TIPO_SUCESSO);
+                echo $oMensagem->getRender();
+                echo '$("#modalApontaEficaz-btn").click();';
+                $aRet1 = $this->Persistencia->finalizaAcao($aCampos);
+                if ($aRet1[0]) {
+                    $oMensagem1 = new Mensagem('Sucesso', 'Finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
+                    $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
+                    echo $sLimpa;
+                    echo $oMensagem1->getRender();
+                } else {
+                    $oMensagem1 = new Mensagem('Atenção', 'Problemas ao tentar Finalizar a AQ ou ainda existem avaliações de eficácia em aberto!' . $aRet[1], Mensagem::TIPO_WARNING);
+                    echo $oMensagem1->getRender();
+                }
             } else {
-                $oMensagem = new Modal('Problema', 'Problemas ao finalizar plano de ação' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Mensagem('Atenção', 'Problemas ao apontar eficácia!' . $aRet[1], Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
             }
         } else {
-            $oMensagem = new Mensagem('Aviso', 'Favor preencher todos os campos', Mensagem::TIPO_WARNING);
+            $oMensagem = new Mensagem('Atenção', 'Favor preencher todos os campos', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
         }
-        echo $oMensagem->getRender();
+        echo 'requestAjax("' . $aDados[0] . '","QualAqEficaz","getDadosGrid","' . $aDados[1] . '","consultaEficaz");';
     }
 
     public function apontaRetEfi($sDados) {

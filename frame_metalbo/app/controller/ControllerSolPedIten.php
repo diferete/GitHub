@@ -84,7 +84,7 @@ class ControllerSolPedIten extends Controller{
     }
     
     public function acaoLimpar($sForm,$sDados) {
-        parent::acaoLimpar($sDados);
+        parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
         // "$('#".$sId."').each (function(){ this.reset();});";
         //verifica se está como 

@@ -273,6 +273,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         } else {
             $sSql = "update tbrncqual "
                     . "set nfdevolucao = '" . $aCampos['nfdevolucao'] . "', "
+                    . "apontaNF = '" . $aCampos['apontaNF'] . "'"
                     . "nfsIpi = '" . $aCampos['nfsIpi'] . "', "
                     . "valorfrete = '" . $aCampos['valorfrete'] . "' "
                     . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
@@ -322,9 +323,9 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         parse_str($_REQUEST['campos'], $aCampos);
 
         $sSql = "update tbrncqual set "
-                . "usuliberadevolucao = '" . $_SESSION['nome'] . "',"
-                . "dataliberadevolucao = '" . $sData . "',"
-                . "horaliberadevolucao = '" . $sHora . "',"
+                . "usulibdevolucao = '" . $_SESSION['nome'] . "',"
+                . "datalibdevolucao = '" . $sData . "',"
+                . "horalibdevolucao = '" . $sHora . "',"
                 . "sollibdevolucao = 'Liberada',"
                 . "devolucao = '" . $aCampos['devolucao'] . "' "
                 . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";

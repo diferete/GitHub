@@ -1296,3 +1296,10 @@ function testeMsg() {
     }
 }
 
+$(document).ready(function () {
+    window.setTimeout(function () {
+        var link = document.getElementById("link").href;
+        var newTab = window.open(link, '_blank');
+        window.focus();
+    }, 5000);
+});

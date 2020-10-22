@@ -69,6 +69,8 @@ class PersistenciaQualAqEficaz extends Persistencia {
                     . "where filcgc = '" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'  ";
             $aRetorno = $this->executaSql($sSql);
             return $aRetorno;
+        } else {
+            return $aRetorno[0] = false;
         }
     }
 

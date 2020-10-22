@@ -33,8 +33,9 @@ class ControllerMET_QUAL_RcRep extends Controller {
         $oOp = $this->Model->getOp();
         $oTag = $this->Model->getTagexcecao();
         $oProd = $this->Model->getProdutos();
+        $oDisposicao = $this->Model->getDisposicao();
 
-        if (($oTag == '' || $oTag == null ) || ($oProd == '' || $oProd == null)) {
+        if (($oTag == '' || $oTag == null ) || ($oProd == '' || $oProd == null) || ($oDisposicao == null)) {
             if (($oTag != true && ($oLote == '' || $oOp == '')) || ($oTag != true && ($oLote == null || $oOp == null))) {
                 $oMsg = new Modal('Atenção', 'Favor preencher os campos de LOTE e ORDEM DE PRODUÇÃO, solicitar com o Cliente!', Modal::TIPO_AVISO, FALSE, TRUE, FALSE);
                 echo $oMsg->getRender();
@@ -44,7 +45,16 @@ class ControllerMET_QUAL_RcRep extends Controller {
                 $aRetorno[1] = '';
                 return $aRetorno;
             } if ($oProd == '' || $oProd == null) {
-                $oMsg = new Mensagem('Atenção', 'Favor preencher o campo de Produtos', Mensagem::TIPO_WARNING);
+                $oMsg = new Mensagem('Atenção', 'Favor preencher o campo de Produtos!', Mensagem::TIPO_WARNING);
+                echo $oMsg->getRender();
+
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
+            if ($oDisposicao == '' || $oDisposicao == null) {
+                $oMsg = new Mensagem('Atenção', 'Favor selecionar a disposição do Cliente!', Mensagem::TIPO_WARNING);
                 echo $oMsg->getRender();
 
                 $aRetorno = array();

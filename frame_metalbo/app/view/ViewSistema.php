@@ -561,8 +561,12 @@ class ViewSistema extends View {
                 . '</div><!--final-->'
                 . '</div>'
                 . '</div>'
-                . '</div>'
-                . '</div>'
+                . '</div>';
+        $param = false;
+        if ($param == true) {
+            $sTela = $sTela . '<a id="link" href="http://192.168.0.252:8080/DelsoftXPRO/servlet/loginerp?" target="_blank"></a>';
+        }
+        $sTela = $sTela . '</div>'
                 . '<!-- End Page -->'
                 . '<!-- Footer -->'
                 . '<!-- File Input-->'
@@ -669,7 +673,7 @@ class ViewSistema extends View {
      * respeitando os modulos liberado para o usuário 
      * e os módulo inicial
      */
-    
+
     public function menuSistema() {
         $oMod = Fabrica::FabricarController('ModUsuario');
         $aModulo = $oMod->modSistema(true, NULL);
@@ -858,8 +862,6 @@ class ViewSistema extends View {
                 . '</br>'
                 . '</div>'
                 . $this->montaTabela()
-                //$sMsg = $sMsg . $this->updates();
-                //$sMsg = $sMsg 
                 . '</div>';
         return $sMsg;
     }
@@ -871,43 +873,6 @@ class ViewSistema extends View {
         $oFavMenu = Fabrica::FabricarController('FavMenu');
         $sString = $oFavMenu->getFavMenu(false);
         return $sString;
-    }
-
-    public function updates() {
-        $oControllerUpdates = Fabrica::FabricarController('MET_TEC_Versao');
-        $aBuscaUpdates = $oControllerUpdates->getDadosUpdates();
-
-        $lista = '<ul style="list-style-type: none;">'
-                . '  <li class="dropdown-menu-header" role="presentation">'
-                . '      <h4>Novidades e atualizações</h4>'
-                . '  </li>'
-                . '  <li class="list-group scrollable is-enabled scrollable-vertical" role="presentation" style="position: relative;">'
-                . '      <div data-role="container" class="scrollable-container">'
-                . '          <div data-role="content" class="scrollable-content">';
-        foreach ($aBuscaUpdates as $key => $value) {
-            $lista = $lista . '            <a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                    . '                <div class="media">'
-                    . '                  <div class="media-left padding-right-10">'
-                    . '                      <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>'
-                    . '                  </div>'
-                    . '                  <div class="media-body">'
-                    . '                      <h6 class="media-heading">' . $value->descricao . '</h6>'
-                    . '                      <time class="media-meta">' . $value->versao . '</time>'
-                    . '                  </div>'
-                    . '              </div>'
-                    . '          </a>';
-        }
-
-        $lista = $lista . '      </div>'
-                . '  </div>'
-                . '  <div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false">'
-                . '      <div class="scrollable-bar-handle" style="height: 205.043px;">'
-                . '      </div>'
-                . '  </div>'
-                . ' </li>'
-                . '</ul>';
-
-        return $lista;
     }
 
     public function montaTabela() {

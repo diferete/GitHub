@@ -221,6 +221,7 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
                         . '<tr><td><b>Peso: </b></td><td> ' . number_format($oRow->peso, 2, ',', '.') . ' </td></tr>'
                         . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
+                        . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->apontamento . ' </td></tr>'
                         . '</table><br/><br/>'
                         . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
                         . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
@@ -357,6 +358,7 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         } else {
             $oMensagem = new Mensagem('Atenção', 'Reclamação não está em condições de ser retornada!', Mensagem::TIPO_ERROR);
             echo $oMensagem->getRender();
+            echo '$("#' . $aDados[1] . '-btn").click();';
         }
     }
 

@@ -176,20 +176,23 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         parse_str($sChave, $aCamposChave);
 
         if ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Em análise') {
-            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi apontada por um setor interno da Metalbo!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi apontada por um setor interno da Metalbo!', Mensagem::TIPO_WARNING);
         }
         if ($aRetorno[0] == 'Aguardando') {
-            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Mensagem::TIPO_WARNING);
         }
         if ($aRetorno[1] == 'Em análise' && $aRetorno[0] != 'Apontada') {
             $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' ja teve seu e-mail encaminhado para o seu setor responsável, deseja reenviar o e-mail?', Modal::TIPO_INFO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_QUAL_RcVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
         }
         if ($aRetorno[0] == 'Finalizada') {
-            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi finalizada!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi finalizada!', Mensagem::TIPO_WARNING);
         }
         if ($aRetorno[3] == 'Aguardando') {
-            $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' está aguardando liberação de devolução pela gerência!', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' está aguardando liberação de devolução pela gerência!', Mensagem::TIPO_WARNING);
+        }
+        if ($aRetorno[0] == 'Reaberta') {
+            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' foi Reaberta e está aguardando apontamento!', Mensagem::TIPO_WARNING);
         }
 
         echo $oMensagem->getRender();
@@ -208,48 +211,52 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $aCamposChave['id'] = $aDados[1];
 
         $oRet = $this->Persistencia->buscaDadosRC($aCamposChave);
-        if ($oRet->sollibdevolucao == 'Aguardando') {
-            $this->msgSit($aDados, $oRet);
-        }
-        if ($oRet->situaca == 'Reaberta' || ($oRet->situaca == 'Liberado' && $oRet->reclamacao == 'Aguardando') || ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Em análise')) {
+        $iRet = $this->gerenciaSituacoes($oRet);
 
-            $this->View->setAParametrosExtras($oRet);
-            if ($oRet->situaca == 'Reaberta') {
-                $this->View->criaModalApontamentoReaberta($sDados);
-            } else {
-                $this->View->criaModalApontamento($sDados);
-            }
+        $this->View->setAParametrosExtras($oRet);
 
-            //adiciona onde será renderizado
-            $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
-            echo $sLimpa;
-            $this->View->getTela()->setSRender($aDados[1] . '-modal');
-
-            //renderiza a tela
-            $this->View->getTela()->getRender();
-        } elseif ($oRet->situaca == 'Finalizada') {
-            $this->msgSit($aDados, $oRet);
-        } else {
-            if ($oRet->situaca != 'Aguardando' && $oRet->reclamacao != 'Em análise' && ($oRet->nfdevolucao == null && $oRet->nfsipi == null && $oRet->valorfrete == null) || ($oRet->nfdevolucao == '0' && $oRet->nfsipi == '.0000' && $oRet->valorfrete == '.0000')) {
-
-                $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
-                $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
-
-                $oDados = $this->Persistencia->consultarWhere();
-                $this->View->setAParametrosExtras($oDados);
-
-                $this->View->criaModalApontamentoNF($sDados);
-
-                //adiciona onde será renderizado
-                $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
-                echo $sLimpa;
-                $this->View->getTela()->setSRender($aDados[1] . '-modal');
-
-                //renderiza a tela
-                $this->View->getTela()->getRender();
-            } else {
+        switch ($iRet) {
+            case 0:
                 $this->msgSit($aDados, $oRet);
+                break;
+            case 1:
+                $this->View->criaModalApontamento($sDados);
+                break;
+            case 2:
+                $this->View->criaModalApontamentoNF($sDados);
+                break;
+            case 3:
+                $this->View->criaModalApontamentoReaberta($sDados);
+                break;
+        }
+
+        //adiciona onde será renderizado
+        $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
+        echo $sLimpa;
+        $this->View->getTela()->setSRender($aDados[1] . '-modal');
+        //renderiza a tela
+        $this->View->getTela()->getRender();
+    }
+
+    function gerenciaSituacoes($oDados) {
+        if ($oDados->situaca == 'Aguardando') {
+            return 0;
+        }
+        if ($oDados->situaca == 'Liberado') {
+            return 1;
+        }
+        if ($oDados->situaca == 'Apontada') {
+            return 1;
+        }
+        if ($oDados->situaca == 'Finalizada') {
+            if ($oDados->apontaNF == null) {
+                return 2;
+            } else {
+                return 0;
             }
+        }
+        if ($oDados->situaca == 'Reaberta') {
+            return 3;
         }
     }
 
@@ -301,55 +308,56 @@ class ControllerMET_QUAL_RcVenda extends Controller {
     public function msgSit($aDados, $oRet) {
 
         if ($oRet->situaca == 'Finalizada') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC já foi finalizada!.', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC já foi finalizada!.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->situaca != 'Apontada' && $oRet->reclamacao == 'Em análise') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC não está em situação de ser apontada.', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC não está em situação de ser apontada.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->situaca == 'Aguardando' && $oRet->reclamacao == 'Aguardando') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Interna' && $oRet->devolucao == 'Indeferida') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Interna, foi Indeferida e não pode ser apontada novamente.', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como Interna, foi Indeferida e não pode ser apontada novamente.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Interna' && $oRet->devolucao == 'Aceita') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Interna, foi Aceita pelo setor de Vendas.', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como Interna, foi Aceita pelo setor de Vendas.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->situaca == 'Apontada' && $oRet->reclamacao == 'Interna' && $oRet->devolucao == 'Não se aplica') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Interna, e a devolução Não se aplica!.', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como Interna, e a devolução Não se aplica!.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->reclamacao == 'Transportadora' && $oRet->devolucao == 'Indeferida') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução foi Indeferida pelo setor de Vendas.', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução foi Indeferida pelo setor de Vendas.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->reclamacao == 'Transportadora' && $oRet->devolucao == 'Aceita') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução foi Aceita pelo setor de Vendas', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução foi Aceita pelo setor de Vendas', Mensagem::TIPO_WARNING);
         }
         if ($oRet->reclamacao == 'Transportadora' && $oRet->devolucao == 'Não se aplica') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução Não se aplica!', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como avaria causada pela Transportadora e a devolução Não se aplica!', Mensagem::TIPO_WARNING);
         }
         if ($oRet->reclamacao == 'Representante' && $oRet->devolucao == 'Indeferida') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução foi Indeferida pelo setor de Vendas.', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução foi Indeferida pelo setor de Vendas.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->reclamacao == 'Representante' && $oRet->devolucao == 'Aceita') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução foi Aceita pelo setor de Vendas', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução foi Aceita pelo setor de Vendas', Mensagem::TIPO_WARNING);
         }
         if ($oRet->reclamacao == 'Representante' && $oRet->devolucao == 'Não se aplica') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução Não se aplica!', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como Desacerto do Representante e a devolução Não se aplica!', Mensagem::TIPO_WARNING);
         }
         if ($oRet->reclamacao == 'Cliente' && $oRet->devolucao == 'Indeferida') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução foi Indeferida pelo setor de Vendas.', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução foi Indeferida pelo setor de Vendas.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->reclamacao == 'Cliente' && $oRet->devolucao == 'Aceita') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução foi Aceita pelo setor de Vendas', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução foi Aceita pelo setor de Vendas', Mensagem::TIPO_WARNING);
         }
         if ($oRet->reclamacao == 'Cliente' && $oRet->devolucao == 'Não se aplica') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução Não se aplica!', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC foi apontada como Desacerto do Cliente e a devolução Não se aplica!', Mensagem::TIPO_WARNING);
         }
         if ($oRet->sollibdevolucao == 'Aguardando') {
-            $oMensagem = new Modal('Atenção', 'Reclamação - RC está aguardando liberação de devolução pela gerência!', Modal::TIPO_AVISO);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC está aguardando liberação de devolução pela gerência!', Mensagem::TIPO_WARNING);
         }
         echo $oMensagem->getRender();
         echo "$('#" . $aDados[1] . "-btn').click();";
+        exit();
     }
 
     public function updateSitRC($sDados, $sParam) {
@@ -433,6 +441,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         if ($aRet[0] != $sParam) {
             $oMensagem2 = new Modal('Ops!', 'Parece que você selecionou um setor diferente de para onde esse e-mail foi enviado, tente novamente :)', Modal::TIPO_AVISO, false, true, true);
             echo $oMensagem2->getRender();
+            sleep(2);
         } else {
             if ($aRet[0] == 'Aguardando') {
                 $oMensagem3 = new Modal('Ops!', 'A RC não foi liberada pelo representante, aguarde a liberação ou solicite para o mesmo.', Modal::TIPO_AVISO, false, true, true);
@@ -589,11 +598,10 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             //renderiza a tela
             $this->View->getTela()->getRender();
         } else {
-            $oMensagem = new Modal('Atenção!', 'A RC nº' . $aCamposChave['nr'] . ' não está em condições para ser retornada para o Representante.', Modal::TIPO_AVISO, false, true, true);
+            $oMensagem = new Mensagem('Atenção!', 'A RC nº' . $aCamposChave['nr'] . ' não está em condições para ser retornada para o Representante.', Mensagem::TIPO_WARNING);
             echo"$('#" . $aDados[1] . "-btn').click();";
+            echo $oMensagem->getRender();
         }
-
-        echo $oMensagem->getRender();
     }
 
     public function retornaEmailRep($sDados) {
@@ -773,7 +781,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         parse_str($sChave, $aCamposChave);
         $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
 
-        if (($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) && ($oDados->reclamacao == 'Aguardando')) {
+        if (($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) && ($oDados->reclamacao == 'Aguardando' || $oDados->devolucao == 'Aguardando')) {
             $aRetorno = $this->Persistencia->solicitaLibDevolucao($aCamposChave);
             if ($aRetorno[0]) {
                 $oMensagem = new Mensagem('Sucesso', 'Solicitação de liberação da devolução enviada!', Mensagem::TIPO_SUCESSO);
@@ -784,9 +792,9 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 echo $oMensagem->getRender();
             }
         } elseif ($oDados->sollibdevolucao == 'Liberada') {
-            $oMensagem = new Mensagem('Atenção', 'Devolução já apontada pela gerência liberada pela gerência!', Mensagem::TIPO_WARNING);
+            $oMensagem = new Mensagem('Atenção', 'Devolução já apontada e liberada pela gerência!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
-        } elseif ($oDados->reclamacao == 'Em análise') {
+        } elseif ($oDados->reclamacao == 'Em análise' && $oDados->situaca != 'Apontada') {
             $oMensagem = new Mensagem('Atenção', 'Reclamação está em análise, aguarde para solicitar liberação de devolução.', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         } elseif ($oDados->situaca == 'Finalizada') {

@@ -22,7 +22,7 @@ class ViewQualAqEficaz extends View {
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
+        $oBotaoModal->setSTitleAcao('Apontar Avaliação da Eficácia');
         $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
         if ($aDados[6] == 'acaoVisualizar') {
             $oBotaoModal->setBDisabled(true);
@@ -53,7 +53,7 @@ class ViewQualAqEficaz extends View {
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
+        $oBotaoModal->setSTitleAcao('Apontar Avaliação da Eficácia');
         $oBotaoModal->addAcao('QualAqEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
         $this->addModaisDetalhe($oBotaoModal);
         if ($sAcaoRotina == 'acaoVisualizar') {
@@ -168,7 +168,7 @@ class ViewQualAqEficaz extends View {
         $oNr->setSValor($oDados->getNr());
         $oNr->setBCampoBloqueado(true);
 
-        $oSeqEnv = new Campo('Sêq. Plano de Ação', 'seq', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oSeqEnv = new Campo('Sequência', 'seq', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oSeqEnv->setSValor($oDados->getSeq());
         $oSeqEnv->setBCampoBloqueado(true);
         $oSeqEnv->addValidacao(false, Validacao::TIPO_STRING, '', '1');

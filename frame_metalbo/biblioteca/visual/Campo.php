@@ -128,7 +128,6 @@ class Campo {
     const TIPO_DECIMAL_COMPOSTO = 39;
     const TIPO_BOTAO_MOSTRACONSULTA = 41;
     const TIPO_GRIDSIMPLE = 42;
-    const TIPO_UPLOADMULTI = 43;
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
@@ -2004,7 +2003,7 @@ class Campo {
             case self::TIPO_GRIDVIEW:
                 $aLinhasGrid = array_unique($this->aLinhasGridView);
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<div class="label-' . $this->getSCorTituloGridPainel() . '"><span class="label label-' . $this->getSCorTituloGridPainel() . '">' . $this->getSTituloGridPainel() . '</span></div>'
+                        . '<div class="label-' . $this->getSCorTituloGridPainel() . '" id="' . $this->getId() . '-spantitulo"><span class="label label-' . $this->getSCorTituloGridPainel() . '" id="' . $this->getId() . '-spanvalor">' . $this->getSTituloGridPainel() . '</span></div>'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '    <table class="table table-condensed"  style="color:#101010; margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '"> '
                         . '<thead>   '
@@ -2232,32 +2231,6 @@ class Campo {
                         . ' $("#' . $this->getSIdTela() . '").hide();requestAjax("' . $this->getSIdTela() . '-form","' . $this->getClasseBusca() . '","mostraConsulta",""+abaSelecionada+",' . $this->getSIdTela() . ',' . $this->getSCampoRetorno() . ',' . $this->getId() . ',false");'
                         . '}); '
                         . '</script>';
-                break;
-            case self::TIPO_UPLOADMULTI:
-                /*
-                 * Documentação: http://plugins.krajee.com/file-input
-                 */
-                if ($this->getSValor() == '' || $this->getSValor() == null) {
-                    $sCampo = '$("#' . $this->getId() . '").fileinput("clear"); ';
-                }
-                $sCampo = '<div id="' . $this->getId() . '-group" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
-                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<div class="input-group dropzone" id="' . $this->getId() . '">'
-                        . '<input style="display:none" name="file" type="file" multiple />'
-                        . '</div>'
-                        . '<script>'
-                        . '$("div#' . $this->getId() . '").dropzone({'
-                        . 'url: "index.php?classe=UploadMulti&metodo=Upload&parametros=' . $this->getSDiretorio() . ',' . $this->getSController() . '",' // url do arquivo php, que fara a cópia para o server
-                        . 'thumbnailWidth: "70",'
-                        . 'thumbnailHeight: "70",'
-                        . 'thumbnailMethod: "contain",'
-                        . 'addRemoveLinks: true,'
-                        . 'dictDefaultMessage: "Clique aqui ou arraste os arquivos",'
-                        . 'dictRemoveFile: "Remover",'
-                        . 'dictCancelUpload: "Cancelar"'
-                        . '});'
-                        . '</script>'
-                        . '</div>';
                 break;
         }
         return $sCampo;
