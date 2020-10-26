@@ -2906,25 +2906,6 @@ class Controller {
     }
 
     /**
-     * Método para cria a tela do painel financeiro
-     */
-    public function criaPainelFinanceiro($sDados, $sCampos) {
-        $aDados = explode(',', $sDados);
-        $aCampos = explode(',', $sCampos);
-        $this->pkDetalhe($aCampos);
-        $this->parametros = $sCampos;
-
-        $this->View->criaTela();
-        $this->View->getTela()->setSRender($aDados[3]);
-        //define o retorno somente do form
-        $this->View->getTela()->setBSomanteForm(true);
-        //seta o controler na view
-        $this->View->setTelaController($this->View->getController());
-        $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe());
-        $this->View->getTela()->getRender();
-    }
-
-    /**
      * Método que realiza a inclusão das informações contidas no 
      * objeto no banco de dados
      * 

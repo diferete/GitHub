@@ -21,7 +21,7 @@ class ViewMET_QUAL_QualAq extends View {
 
         $oTitulo = new CampoConsulta('Título', 'titulo', CampoConsulta::TIPO_LARGURA, 300);
 
-        $oFilcgc = new CampoConsulta('Cnpj', 'DELX_FIL_Empresa.fil_codigo');
+        $oFilcgc = new CampoConsulta('Cnpj', 'filcgc');
 
         $oNr = new CampoConsulta('AQ', 'nr');
         $oNr->setSOperacao('personalizado');
@@ -42,17 +42,6 @@ class ViewMET_QUAL_QualAq extends View {
 
         $oFilTit = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 10, 10, 12, 12);
         $oFilTit->setBQuebraLinha(true);
-
-        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
-        $oFilEmp->setSClasseBusca('DELX_FIL_Empresa');
-        $oFilEmp->setSCampoRetorno('fil_codigo', $this->getTela()->getSId());
-        $oFilEmp->setSIdTela($this->getTela()->getSId());
-        $oFilEmp->addItemSelect('8993358000174', 'Steeltrater');
-        $oFilEmp->addItemSelect('75483040000211', 'Metalbo Filial');
-        $oFilEmp->addItemSelect('75483040000130', 'Metalbo Matriz');
-        $oFilEmp->addItemSelect('83781641000158', 'Poliamidos');
-        $oFilEmp->addItemSelect('Todos', 'Todos');
-        $oFilEmp->setSLabel('Empresa');
 
         $oTipoAcaoFiltro = new Filtro($oTipoAcao, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oTipoAcaoFiltro->addItemSelect('Todos', 'Todos');
@@ -86,7 +75,7 @@ class ViewMET_QUAL_QualAq extends View {
         $oSitFiltro->addItemSelect('Cancelada', 'Cancelada');
 
 
-        $this->addFiltro($oFilNr, $oFilTit, $oTipoAcaoFiltro, $oOrigemFiltro, $oTipoMelFiltro, $oSitFiltro, $oFilEmp);
+        $this->addFiltro($oFilNr, $oFilTit, $oTipoAcaoFiltro, $oOrigemFiltro, $oTipoMelFiltro, $oSitFiltro);
 
         $this->setUsaDropdown(true);
         /*

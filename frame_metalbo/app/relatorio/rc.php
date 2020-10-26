@@ -175,7 +175,7 @@ $pdf->Ln(7);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Nota Fiscal:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, $row['nf'], 0, 0, 'L');
+$pdf->Cell(80, 5, $row['nf'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(32, 5, "Data:", 0, 0, 'L');
@@ -185,7 +185,7 @@ $pdf->Cell(30, 5, $row['datanf'], 0, 1, '1');
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Ordem Compra:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, $row['odcompra'], 0, 0, 'L');
+$pdf->Cell(80, 5, $row['odcompra'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(32, 5, "Pedido de venda:", 0, 0, 'L');
@@ -195,17 +195,17 @@ $pdf->Cell(30, 5, $row['pedido'], 0, 1, 'L');
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Valor:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, number_format($row['valor'], 2, ',', '.'), 0, 0, 'L');
+$pdf->Cell(80, 5, number_format($row['valor'], 2, ',', '.'), 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(32, 5, "Peso:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, number_format($row['peso'], 2, ',', '.'), 0, 1, 'L');
+$pdf->Cell(30, 5, number_format($row['peso'], 2, ',', '.') . ' kg', 0, 1, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Lote:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(30, 5, $row['lote'], 0, 0, 'L');
+$pdf->Cell(80, 5, $row['lote'], 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(40, 5, "Ordem de produção:", 0, 0, 'L');
@@ -340,15 +340,16 @@ if (($row['anexo1'] != '') || ($row['anexo2'] != '') || ($row['anexo3'] != '')) 
     $pdf->SetY(10);
 }
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+$pdf = quebraPagina($pdf->GetY() + 10, $pdf);
 
-$pdf->Ln(6);
+$pdf->Ln(8);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Análise da RC por setor interno:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
 $iAltura = $pdf->GetY();
 //$pdf->Rect(2, $iAltura, 206, 20 + round((strlen($row['apontamento']) / 120) * 5));
-$pdf->Rect(2, $iAltura, 206, 20 + round((strlen($row['apontamento']) / 120) * 5));
+$pdf->Rect(2, $iAltura, 206, 25 + round((strlen($row['apontamento']) / 120) * 5));
 
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
@@ -356,16 +357,16 @@ $pdf->Cell(45, 5, "Responsável pela análise:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(30, 5, $row['usuaponta'], 0, 1, 'L');
 
-///////////////////////////////////ADICIONAR AQUI//////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-if($row['numcad'] != null){
-    'adicionar referente a campos: numcad,nomfun';
-    /*Isso aqui é tipo a RNC, quem foi o colaborador que causou, caso eles saibam quem foi...
-    Por isso é capaz de a maioria das vezes, ficar em branco
-    */
+/* Isso aqui é tipo a RNC, quem foi o colaborador que causou, caso eles saibam quem foi...
+  Por isso é capaz de a maioria das vezes, ficar em branco
+ */
+if ($row['numcad'] != null) {
+    $pdf->Ln(2);
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(45, 5, "Colaborador que causou:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(30, 5, $row['numcad'] . ' - ' . $row['nomfun'], 0, 1, 'L');
 }
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
 
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
@@ -373,22 +374,52 @@ $pdf->Cell(30, 5, "Análise da RC:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['apontamento'], 0, 'L');
 
-/////////////////////////////////////////
+$pdf = quebraPagina($pdf->GetY() + 24, $pdf);
+
 $pdf->Ln(6 + round((strlen($row['apontamento']) / 120) * 5));
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Análise da RC pelo setor de Vendas:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 
 $iAltura = $pdf->GetY();
-$pdf->Rect(2, $iAltura, 206, 25 + round((strlen($row['obs_aponta']) / 120) * 5));
-
-///////////////////////////////////ADICIONAR AQUI//////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
+$h = 0;
 if ($row['usu_reabriu'] != null) {
-    'adicionar referente a campos: usu_reabriu,hora_reabriu,motivo_reabriu,data_reabriu';
+    $h = $h + 9 + round((strlen($row['motivo_reabriu']) / 120) * 5);
 }
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
+if ($row['sollibdevolucao'] != null) {
+    $h = $h + 9;
+}
+if ($row['apontaNF'] != null) {
+    $h = $h + 9;
+}
+
+$pdf->Rect(2, $iAltura, 206, 25 + $h + round((strlen($row['obs_aponta']) / 120) * 5));
+
+/*
+ * Usuário que reabriu, hora, data, motivo.
+ */
+if ($row['usu_reabriu'] != null) {
+
+    $pdf->Ln(2);
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(35, 5, "Usuário que reabriu:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(80, 5, $row['usu_reabriu'], 0, 0, 'L');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(12, 5, "Data:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(20, 5, $row['data_reabriu'], 0, 0, 'L');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(12, 5, "Hora:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(20, 5, date('H:i', strtotime($row['hora_reabriu'])), 0, 1, 'L');
+    $pdf->Ln(2);
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(30, 5, "Motivo de reabertura:", 0, 1, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->MultiCell(205, 5, $row['motivo_reabriu'], 0, 'L');
+}
+$pdf = quebraPagina($pdf->GetY() + 10, $pdf);
 $pdf->Ln(2);
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(45, 5, "Responsável pela análise:", 0, 0, 'L');
@@ -405,30 +436,59 @@ $pdf->Cell(20, 5, "Devolução:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->Cell(50, 5, $row['devolucao'], 0, 1, 'L');
 
+$pdf->Ln(2);
+
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(26, 5, "Análise da RC:", 0, 1, 'L');
 $pdf->SetFont('arial', '', 10);
 $pdf->MultiCell(205, 5, $row['obs_aponta'], 0, 'L');
 
-
-///////////////////////////////////ADICIONAR AQUI//////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-if($row['sollibdevolucao'] != null){
-   'adicionar referente a campos: sollibdevolucao,usulibdevolucao,horalibdevolucao,datalibdevolucao'; 
+$pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+/*
+ * Solicitação de Devolução
+ */
+if ($row['sollibdevolucao'] != null) {
+    $pdf->Ln(2);
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(22, 5, "Devolução:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(35, 5, $row['sollibdevolucao'], 0, 0, 'L');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(35, 5, "Liberado por:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(50, 5, $row['usulibdevolucao'], 0, 0, 'L');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(12, 5, "Data:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(20, 5, $row['datalibdevolucao'], 0, 0, 'L');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(12, 5, "Hora:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(20, 5, date('H:i:s', strtotime($row['horalibdevolucao'])), 0, 1, 'L');
+    $pdf->Ln(2);
 }
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-///////////////////////////////////ADICIONAR AQUI//////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-if($row['apontaNF'] != null){
-   'adicionar referente a campos: nfdevolucao,nfsIpi,valorfrete,'; 
+$pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+/*
+ * Apontamento de nota fiscal
+ */
+if ($row['apontaNF'] != null) {
+    $pdf->Ln(2);
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(40, 5, "Nota Fiscal Devolução:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(20, 5, $row['nfdevolucao'], 0, 0, 'L');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(15, 5, "NFS IPI.:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(30, 5, number_format($row['nfsIpi'], 2, ',', '.'), 0, 0, 'L');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(30, 5, "Valor do Frete:", 0, 0, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->Cell(20, 5, number_format($row['valorfrete'], 2, ',', '.'), 0, 0, 'L');
+    $pdf->Ln(2);
 }
-///////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////
-
+$pdf = quebraPagina($pdf->GetY() + 10, $pdf);
 //PARTE DOS ANEXOS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //ANEXO ANÁLISE
 if ($row['anexo_analise'] != '' && (strstr(strtolower($row['anexo_analise']), 'png') || strstr(strtolower($row['anexo_analise']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg'))) {
@@ -479,7 +539,7 @@ if (($row['anexo_analise'] != '') || ($row['anexo_analise1'] != '')) {
     $pdf->AddPage();
     $pdf->SetY(10);
 }
-
+$pdf->Ln(10);
 /////////////////////////////////////////////
 $pdf->Ln(2 + round((strlen($row['obs_fim']) / 120) * 10));
 $pdf = quebraPagina($pdf->GetY() + 10, $pdf);

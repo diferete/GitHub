@@ -42,7 +42,7 @@ class ControllerMET_QUAL_Contencao extends Controller {
     /* Métodos de filtros below */
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $sTipoAcao = $this->Persistencia->buscaTipoAcao($aChave);
         $aCampos = $aChave;
         $aCampos[3] = $sTipoAcao;

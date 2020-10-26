@@ -35,7 +35,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
 
-        $bEf = $this->Persistencia->verifEfi($aCamposChave['DELX_FIL_Empresa_fil_codigo'], $aCamposChave['nr']);
+        $bEf = $this->Persistencia->verifEfi($aCamposChave['filcgc'], $aCamposChave['nr']);
 
         if ($bEf) {
             $oMensagem = new Modal('Fechamento de ação', 'Fechar a ação da qualidade nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
@@ -197,8 +197,8 @@ class ControllerMET_QUAL_QualAq extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-        echo 'requestAjax("","MET_QUAL_QualPlan","geraRelPdfAq","' . $aCamposChave['DELX_FIL_Empresa_fil_codigo'] . ',' . $aCamposChave['nr'] . ',AqImp");';
-        echo'requestAjax("","MET_QUAL_QualAq","envMailAll","' . $aCamposChave['DELX_FIL_Empresa_fil_codigo'] . ',' . $aCamposChave['nr'] . '");';
+        echo 'requestAjax("","MET_QUAL_QualPlan","geraRelPdfAq","' . $aCamposChave['filcgc'] . ',' . $aCamposChave['nr'] . ',AqImp");';
+        echo'requestAjax("","MET_QUAL_QualAq","envMailAll","' . $aCamposChave['filcgc'] . ',' . $aCamposChave['nr'] . '");';
     }
 
     public function envMailGrid2($sDados) {
@@ -207,8 +207,8 @@ class ControllerMET_QUAL_QualAq extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-        echo 'requestAjax("","MET_QUAL_QualPlan","geraRelPdfAq","' . $aCamposChave['DELX_FIL_Empresa_fil_codigo'] . ',' . $aCamposChave['nr'] . ',AqImp");';
-        echo'requestAjax("","MET_QUAL_QualAq","envMailQual","' . $aCamposChave['DELX_FIL_Empresa_fil_codigo'] . ',' . $aCamposChave['nr'] . '");';
+        echo 'requestAjax("","MET_QUAL_QualPlan","geraRelPdfAq","' . $aCamposChave['filcgc'] . ',' . $aCamposChave['nr'] . ',AqImp");';
+        echo'requestAjax("","MET_QUAL_QualAq","envMailQual","' . $aCamposChave['filcgc'] . ',' . $aCamposChave['nr'] . '");';
     }
 
     public function envMailMsg($sDados) {
@@ -536,7 +536,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-        $_REQUEST['filcgcAq'] = $aCamposChave['DELX_FIL_Empresa_fil_codigo'];
+        $_REQUEST['filcgcAq'] = $aCamposChave['filcgc'];
         $_REQUEST['nrAq'] = $aCamposChave['nr'];
         $_REQUEST['email'] = 'S';
         $_REQUEST['userRel'] = $_SESSION['nome'];
@@ -565,7 +565,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
             $aCamposChave = array();
             parse_str($sChave, $aCamposChave);
 
-            $_REQUEST['filcgcAq'] = $aCamposChave['DELX_FIL_Empresa_fil_codigo'];
+            $_REQUEST['filcgcAq'] = $aCamposChave['filcgc'];
             $_REQUEST['nrAq'] = $aCamposChave['nr'];
             $_REQUEST['email'] = 'S';
             $_REQUEST['userRel'] = $_SESSION['nome'];

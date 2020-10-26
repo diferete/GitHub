@@ -464,7 +464,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDados = $this->getAParametrosExtras();
 
         $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
-        $oFilcgc->setSValor($oDados->ilcgc);
+        $oFilcgc->setSValor($oDados->filcgc);
         $oFilcgc->setBCampoBloqueado(true);
         $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
         $oNr->setSValor($oDados->nr);

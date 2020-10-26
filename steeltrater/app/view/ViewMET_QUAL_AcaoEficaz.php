@@ -12,31 +12,106 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         parent::__construct();
     }
 
+    public function criaConsulta() {
+        parent::criaConsulta();
+
+        $aDados = $_REQUEST['parametros'];
+        $aDados = explode(',', $aDados['parametros[']);
+
+
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Apontar Avaliação da Eficácia');
+        $oBotaoModal->addAcao('MET_QUAL_AcaoEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
+        if ($aDados[6] == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
+
+
+        $oSeqGrid = new CampoConsulta('Seq.', 'seq');
+
+        $oNrGrid = new CampoConsulta('Nr', 'nr');
+
+        $oAcaoGrid = new CampoConsulta('O que verificar', 'acao');
+
+        $oDataPrevGrid = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
+
+        $oDataApontaGrid = new CampoConsulta('Apontamento', 'datareal', CampoConsulta::TIPO_DATA);
+
+        $oRespNomeGrid = new CampoConsulta('Quem', 'usunome');
+
+        $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
+
+        $this->addCampos($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
+    }
+
+    public function criaGridDetalhe($sAcaoRotina) {
+        parent::criaGridDetalhe($sIdAba);
+
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Apontar Avaliação da Eficácia');
+        $oBotaoModal->addAcao('MET_QUAL_AcaoEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz', '');
+        $this->addModaisDetalhe($oBotaoModal);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
+
+
+        $oSeqGrid = new CampoConsulta('Seq.', 'seq');
+
+        $oNrGrid = new CampoConsulta('Nr', 'nr');
+
+        $oAcaoGrid = new CampoConsulta('O que verificar', 'acao');
+
+        $oDataPrevGrid = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
+
+        $oDataApontaGrid = new CampoConsulta('Apontamento', 'datareal', CampoConsulta::TIPO_DATA);
+
+        $oRespNomeGrid = new CampoConsulta('Quem', 'usunome');
+
+        $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
+
+        $this->addCamposDetalhe($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
+        $this->addGriTela($this->getOGridDetalhe());
+    }
+
     public function criaTela() {
         parent::criaTela();
-
-        $aDados = $this->getAParametrosExtras();
         $sAcaoRotina = $this->getSRotina();
 
-        $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2);
+        $this->criaGridDetalhe($sAcaoRotina);
+
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(false);
+            $this->getTela()->setBUsaDelGrid(false);
+        }
+
+        $aDados = $this->getAParametrosExtras();
+
+        $oFilcgc = new Campo('Empresa', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilcgc->setSValor($aDados[0]);
         $oFilcgc->setBCampoBloqueado(true);
 
-        $oNr = new Campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr = new Campo('Nr.', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setSValor($aDados[1]);
         $oNr->setBCampoBloqueado(true);
 
-        $oSeq = new Campo('', 'seq', Campo::TIPO_TEXTO, 1);
-        $oSeq->setBOculto(true);
+        $oSeq = new Campo('Seq', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oSeq->setBCampoBloqueado(true);
 
-        $oAcao = new Campo('O que verificar', 'acao', Campo::TIPO_TEXTAREA, 6);
+        $oAcao = new Campo('O que verificar', 'acao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oAcao->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oResp = new campo('Cód.', 'usucodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 1, 1);
+        $oResp = new campo('Cód.', 'usucodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oResp->setSIdHideEtapa($this->getSIdHideEtapa());
         $oResp->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
-        $oRespNome = new Campo('Responsável', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 3, 3);
+        $oRespNome = new Campo('Quem', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oRespNome->setSIdPk($oResp->getId());
         $oRespNome->setClasseBusca('MET_TEC_usuario');
         $oRespNome->addCampoBusca('usucodigo', '', '');
@@ -48,112 +123,25 @@ class ViewMET_QUAL_AcaoEficaz extends View {
         $oResp->setSCampoRetorno('usucodigo', $this->getTela()->getId());
         $oResp->addCampoBusca('usunome', $oRespNome->getId(), $this->getTela()->getId());
 
-
-        $oDataPrev = new Campo('Quando', 'dataprev', Campo::TIPO_DATA, 2);
+        $oDataPrev = new Campo('Previsão', 'dataprev', Campo::TIPO_DATA, 2);
         $oDataPrev->addValidacao(false, Validacao::TIPO_STRING, '', '1');
 
         $oEficaz = new Campo('', 'eficaz', Campo::TIPO_TEXTO, 1);
         $oEficaz->setSValor(' ');
         $oEficaz->setBOculto(TRUE);
 
+        $oBtnConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $sGrid = $this->getOGridDetalhe()->getSId();
+        $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
 
-        $oGridAq = new campo('Eficácia', 'gridEficaz', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
-
-        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-        $oBotaoModal->setBHideTelaAcao(true);
-        $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('MET_QUAL_AcaoEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz');
-        $oGridAq->getOGrid()->addModal($oBotaoModal);
-
-        $oSeqGrid = new CampoConsulta('Seq.', 'seq');
-
-        $oNrGrid = new CampoConsulta('Nr', 'nr');
-
-        $oAcaoGrid = new CampoConsulta('O que verificar', 'acao');
-
-        $oRespNomeGrid = new CampoConsulta('Quem', 'usunome');
-
-        $oDataPrevGrid = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
-
-        $oDataApontaGrid = new CampoConsulta('Apontamento', 'datareal', CampoConsulta::TIPO_DATA);
-
-        $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
-
-        $oGridAq->addCampos($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
-        $oGridAq->setSController('MET_QUAL_AcaoEficaz');
-        $oGridAq->addParam('seq', '0');
-
-        //botão inserir os dados
-        $oBtnInserir = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
-
-
-        //id do grid
-        $sGrid = $oGridAq->getId();
-        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","apontEficaz","' . $this->getTela()->getId() . '-form,' . $sGrid . ',' . $oSeq->getId() . '","");';
-
-        $oBtnInserir->setSAcaoBtn($sAcao);
-        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $this->getTela()->setIdBtnConfirmar($oBtnConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
+
         if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBtnInserir->getOBotao()->setBDesativado(true);
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oEficaz));
+        } else {
+            $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oEficaz), $oBtnConf);
         }
-
-
-
-        /* botão excluir */
-        $sAcao = 'var chave=""; $("#' . $oGridAq->getId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
-                . 'requestAjax("' . $this->getTela()->getId() . '-form","MET_QUAL_AcaoEficaz","excluirEf","' . $this->getTela()->getId() . '-form,' . $oGridAq->getId() . '"+","+chave+""); '; // excluirEf
-        
-
-        $oBtnDelete = new Campo('Deletar', 'btnNormal', Campo::TIPO_BOTAOSMALL, 2);
-        $oBtnDelete->getOBotao()->setSStyleBotao(Botao::TIPO_DANGER);
-        $oBtnDelete->getOBotao()->addAcao($sAcao);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBtnDelete->setBDesativado(true);
-        }
-
-        $oLinha = new Campo('', '', Campo::TIPO_LINHA);
-
-        $sAcaoBusca = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_QUAL_AcaoEficaz","getDadosGrid","' . $oGridAq->getId() . '","consultaEficaz");';
-        $this->getTela()->setSAcaoShow($sAcaoBusca);
-
-        $this->addCampos(array($oFilcgc, $oNr, $oSeq), $oAcao, array($oResp, $oRespNome), array($oDataPrev, $oBtnInserir, $oEficaz), $oLinha, $oBtnDelete, $oGridAq);
-    }
-
-    public function consultaEficaz() {
-        $oGridEf = new Grid("");
-
-        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-        $oBotaoModal->setBHideTelaAcao(true);
-        $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
-        $oBotaoModal->addAcao('MET_QUAL_AcaoEficaz', 'criaTelaModalApontaEficaz', 'modalApontaEficaz');
-
-        //$this->addModaisDetalhe($oBotaoModal);
-
-        $oSeqGrid = new CampoConsulta('Seq.', 'seq');
-
-        $oNrGrid = new CampoConsulta('Nr', 'nr');
-
-        $oAcaoGrid = new CampoConsulta('O que verificar', 'acao');
-
-        $oDataPrevGrid = new CampoConsulta('Previsão', 'dataprev', CampoConsulta::TIPO_DATA);
-
-        $oDataApontaGrid = new CampoConsulta('Apontamento', 'datareal', CampoConsulta::TIPO_DATA);
-
-        $oRespNomeGrid = new CampoConsulta('Quem', 'usunome');
-
-        $oSituacao = new CampoConsulta('Situação', 'sit', CampoConsulta::TIPO_TEXTO);
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
-
-        $oGridEf->addCampos($oBotaoModal, $oNrGrid, $oSeqGrid, $oSituacao, $oAcaoGrid, $oDataPrevGrid, $oDataApontaGrid, $oRespNomeGrid);
-
-
-        $aCampos = $oGridEf->getArrayCampos();
-        return $aCampos;
     }
 
     public function addeventoConc() {

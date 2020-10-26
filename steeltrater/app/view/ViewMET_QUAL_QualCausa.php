@@ -9,11 +9,8 @@
 class ViewMET_QUAL_QualCausa extends View {
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
 
-        /**
-         * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
-         */
         $this->getOGridDetalhe()->setIAltura(220);
 
         $oNr = new CampoConsulta('AQ', 'nr');

@@ -15,7 +15,7 @@ class ControllerPnlFinan extends Controller{
     }
     
    public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         
         $oModelPessoa = Fabrica::FabricarModel('Pessoa');
         $oPersPessoa = Fabrica::FabricarPersistencia('Pessoa');

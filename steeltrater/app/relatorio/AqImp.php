@@ -46,7 +46,7 @@ if ($sEmailRequest == 'S') {
 } else {
     if (isset($_REQUEST['nr'])) {
         $nrAq = $_REQUEST['nr'];
-        $filcgcAq = $_REQUEST['DELX_FIL_Empresa_fil_codigo'];
+        $filcgcAq = $_REQUEST['filcgc'];
     } else {
         $nrAq = '0';
         $filcgcAq = '0';

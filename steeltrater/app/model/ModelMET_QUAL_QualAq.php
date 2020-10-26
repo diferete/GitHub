@@ -8,6 +8,7 @@
 
 Class ModelMET_QUAL_QualAq {
 
+    private $filcgc;
     private $nr;
     private $titulo;
     private $dtimp;
@@ -44,7 +45,15 @@ Class ModelMET_QUAL_QualAq {
     private $dtcancela;
     private $obscancela;
     private $usucancela;
-    
+
+    function getFilcgc() {
+        return $this->filcgc;
+    }
+
+    function setFilcgc($filcgc) {
+        $this->filcgc = $filcgc;
+    }
+
     function getUsucancela() {
         return $this->usucancela;
     }

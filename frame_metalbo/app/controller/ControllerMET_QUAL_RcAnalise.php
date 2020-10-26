@@ -205,7 +205,7 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         }
 
         $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ' ' . $oRow->devolucao . ''));
-        $oEmail->setMensagem(utf8_decode('A devolução de Nº ' . $oRow->nr . ' foi apontada pelo setor da<strong><span style="color:red"> "' . $sSetor . '" </span></strong>.<hr><br/>'
+        $oEmail->setMensagem(utf8_decode('A devolução de Nº ' . $oRow->nr . ' foi apontada pelo setor da<strong><span style="color:red"> ' . $sSetor . ' </span></strong>.<hr><br/>'
                         . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
                         . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
                         . '<b>Hora: ' . $hora . '  </b><br/>'
@@ -221,7 +221,7 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
                         . '<tr><td><b>Peso: </b></td><td> ' . number_format($oRow->peso, 2, ',', '.') . ' </td></tr>'
                         . '<tr><td><b>Aplicação: </b></td><td> ' . $oRow->aplicacao . '</td></tr>'
                         . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->naoconf . ' </td></tr>'
-                        . '<tr><td><b>Não conformidade: </b></td><td> ' . $oRow->apontamento . ' </td></tr>'
+                        . '<tr><td><b>Análise pelo setor da ' . $sSetor . ': </b></td><td> ' . $oRow->apontamento . ' </td></tr>'
                         . '</table><br/><br/>'
                         . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
                         . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));

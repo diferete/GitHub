@@ -13,7 +13,7 @@ class ControllerMET_QUAL_AcaoEficaz extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe();
+        parent::pkDetalhe($aChave);
         $this->View->setAParametrosExtras($aChave);
     }
 
@@ -34,19 +34,15 @@ class ControllerMET_QUAL_AcaoEficaz extends Controller {
 
     public function adicionaFiltroDet() {
         parent::adicionaFiltroDet();
-
         $this->Persistencia->adicionaFiltro('seq', $this->Model->getSeq());
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sDados);
+        parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
         // "$('#".$sId."').each (function(){ this.reset();});";
         //verifica se está como 
         $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';
-
-
-
         echo $sScript;
     }
 
@@ -68,7 +64,7 @@ class ControllerMET_QUAL_AcaoEficaz extends Controller {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
-        $this->carregaModel();
+        $this->carregaModel($aCamposTela);
 
         $aRetorno = $this->Persistencia->inserir();
         //insere os filtros 
@@ -161,18 +157,28 @@ class ControllerMET_QUAL_AcaoEficaz extends Controller {
         if ($aCampos['datareal'] != null && $aCampos['obs'] != null) {
             $aRet = $this->Persistencia->apontaEfi();
             if ($aRet[0]) {
-                $this->Persistencia->finalizaAcao($aCampos);
-                $oMensagem = new Mensagem('Sucesso', 'Finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
-                $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
-                echo $sLimpa;
-                echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_AcaoEficaz","getDadosGrid","' . $aDados[1] . '","consultaEficaz");';
+                $oMensagem = new Mensagem('Sucesso', 'Apontamento realizado com sucesso!', Mensagem::TIPO_SUCESSO);
+                echo $oMensagem->getRender();
+                echo '$("#modalApontaEficaz-btn").click();';
+                $aRet1 = $this->Persistencia->finalizaAcao($aCampos);
+                if ($aRet1[0]) {
+                    $oMensagem1 = new Mensagem('Sucesso', 'Finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
+                    $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
+                    echo $sLimpa;
+                    echo $oMensagem1->getRender();
+                } else {
+                    $oMensagem1 = new Mensagem('Atenção', 'Problemas ao tentar Finalizar a AQ ou ainda existem avaliações de eficácia em aberto!' . $aRet[1], Mensagem::TIPO_WARNING);
+                    echo $oMensagem1->getRender();
+                }
             } else {
-                $oMensagem = new Modal('Problema', 'Problemas ao finalizar plano de ação' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Mensagem('Atenção', 'Problemas ao apontar eficácia!' . $aRet[1], Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
             }
         } else {
-            $oMensagem = new Mensagem('Aviso', 'Favor preencher todos os campos', Mensagem::TIPO_WARNING);
+            $oMensagem = new Mensagem('Atenção', 'Favor preencher todos os campos', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
         }
-        echo $oMensagem->getRender();
+        echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_AcaoEficaz","getDadosGrid","' . $aDados[1] . '","consultaEficaz");';
     }
 
     public function apontaRetEfi($sDados) {

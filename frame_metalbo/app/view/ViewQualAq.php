@@ -281,6 +281,8 @@ class ViewQualAq extends View {
         $oNr = new campo('', 'nr', Campo::TIPO_TEXTO, 1);
         $oNr->setBOculto(true);
 
+        $oAnexo1 = new Campo('Anexo 1', 'anexo1', Campo::TIPO_UPLOAD, 4);
+
         $oEtapas = new FormEtapa(2, 2, 2, 2);
         $oEtapas->addItemEtapas('Inserir ação da qualidade', true, $this->addIcone(Base::ICON_CALENDARIO));
         $oEtapas->addItemEtapas('Contenção/Abrangência', false, $this->addIcone(Base::ICON_INFO));
@@ -288,10 +290,7 @@ class ViewQualAq extends View {
         $oEtapas->addItemEtapas('Causa raiz do problema', false, $this->addIcone(Base::ICON_LAPIS));
         $oEtapas->addItemEtapas('Plano de ação', false, $this->addIcone(Base::ICON_MARTELO));
         $oEtapas->addItemEtapas('Avaliação da eficácia', false, $this->addIcone(Base::ICON_CONFIRMAR));
-
         $this->addEtapa($oEtapas);
-
-        $oAnexo1 = new Campo('Anexo 1', 'anexo1', Campo::TIPO_UPLOAD, 4);
 
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
 

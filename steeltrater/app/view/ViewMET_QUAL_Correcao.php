@@ -12,21 +12,20 @@ class ViewMET_QUAL_Correcao extends View {
         parent::__construct();
     }
 
-    function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+    function criaGridDetalhe($sAcaoRotina) {
+        parent::criaGridDetalhe($sIdAba);
 
-        /**
-         * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
-         */
         $this->getOGridDetalhe()->setIAltura(200);
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Correção');
-        $oBotaoModal->addAcao('MET_QUAL_Correcao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao');
+        $oBotaoModal->addAcao('MET_QUAL_Correcao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao', '');
         $this->addModaisDetalhe($oBotaoModal);
-
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
 
@@ -42,23 +41,28 @@ class ViewMET_QUAL_Correcao extends View {
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
+        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
     public function criaConsulta() {
         parent::criaConsulta();
+        $aDados = $_REQUEST['parametros'];
+        $aDados = explode(',', $aDados['parametros[']);
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Correção');
-        $oBotaoModal->addAcao('MET_QUAL_Correcao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao');
+        $oBotaoModal->addAcao('MET_QUAL_Correcao', 'criaTelaModalApontaCorrecao', 'modalApontaCorrecao', '');
         $this->addModais($oBotaoModal);
+        if ($aDados[6] == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
@@ -75,18 +79,18 @@ class ViewMET_QUAL_Correcao extends View {
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
+        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
     }
 
     public function criaTela() {
         parent::criaTela();
 
         $sAcaoRotina = $this->getSRotina();
-        $this->criaGridDetalhe();
+        $this->criaGridDetalhe($sAcaoRotina);
 
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);
@@ -186,7 +190,7 @@ class ViewMET_QUAL_Correcao extends View {
         $oDataFim = new Campo('Data Finalização', 'dtaponta', Campo::TIPO_DATA, 2, 2, 2, 2);
         if ($oDados->getDtaponta() != null) {
             $oDataFim->setSValor(Util::converteData($oDados->getDtaponta()));
-}
+        }
         $oDataFim->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oDataFim->setSCorFundo(Campo::FUNDO_AMARELO);
 

@@ -12,19 +12,20 @@ class ViewMET_QUAL_Contencao extends View {
         parent::__construct();
     }
 
-    function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+    function criaGridDetalhe($sAcaoRotina) {
+        parent::criaGridDetalhe($sIdAba);
 
         $this->getOGridDetalhe()->setIAltura(200);
-
-        $sAcaoRotina = $this->getSRotina();
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-        $oBotaoModal->addAcao('MET_QUAL_Contencao', 'criaTelaModalApontaContencao', 'modalApontaContencao');
+        $oBotaoModal->addAcao('MET_QUAL_Contencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
         $this->addModaisDetalhe($oBotaoModal);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
@@ -41,25 +42,29 @@ class ViewMET_QUAL_Contencao extends View {
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
-        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
-        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
+        $this->addCamposDetalhe($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $sAcaoRotina = $this->getSRotina();
+        $aDados = $_REQUEST['parametros'];
+        $aDados = explode(',', $aDados['parametros[']);
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar Contenção/Abrangência');
-        $oBotaoModal->addAcao('MET_QUAL_Contencao', 'criaTelaModalApontaContencao', 'modalApontaContencao');
+        $oBotaoModal->addAcao('MET_QUAL_Contencao', 'criaTelaModalApontaContencao', 'modalApontaContencao', '');
         $this->addModais($oBotaoModal);
+        if ($aDados[7] == 'acaoVisualizar') {
+            $oBotaoModal->setBDisabled(true);
+        }
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setILargura(30);
@@ -76,19 +81,19 @@ class ViewMET_QUAL_Contencao extends View {
         $oUsunome = new CampoConsulta('Quem', 'usunome');
 
         $oSituacao = new CampoConsulta('Situação', 'situaca');
-        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSituacao->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexoplan1', CampoConsulta::TIPO_DOWNLOAD);
 
 
-        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev,$oDataAponta, $oUsunome, $oAnexo);
+        $this->addCampos($oBotaoModal, $oNr, $oSeq, $oSituacao, $oPlan, $oDataPrev, $oDataAponta, $oUsunome, $oAnexo);
     }
 
     public function criaTela() {
         parent::criaTela();
 
         $sAcaoRotina = $this->getSRotina();
-        $this->criaGridDetalhe();
+        $this->criaGridDetalhe($sAcaoRotina);
 
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);

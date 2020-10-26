@@ -246,10 +246,14 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             return 1;
         }
         if ($oDados->situaca == 'Apontada') {
-            return 1;
+            if ($oDados->sollibdevolucao == null || $oDados->sollibdevolucao == 'Liberada') {
+                return 1;
+            } else {
+                return 0;
+            }
         }
         if ($oDados->situaca == 'Finalizada') {
-            if ($oDados->apontaNF == null) {
+            if ($oDados->apontanf == null) {
                 return 2;
             } else {
                 return 0;
@@ -307,7 +311,10 @@ class ControllerMET_QUAL_RcVenda extends Controller {
 
     public function msgSit($aDados, $oRet) {
 
-        if ($oRet->situaca == 'Finalizada') {
+        if ($oRet->situaca == 'Finalizada' && $oRet->apontanf == 'Apontada') {
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC já foi finalizada e NF de devolução apontada, reabra a RC caso deseje alterar!', Mensagem::TIPO_WARNING);
+        }
+        if ($oRet->situaca == 'Finalizada' && $oRet->apontanf == null) {
             $oMensagem = new Mensagem('Atenção', 'Reclamação - RC já foi finalizada!.', Mensagem::TIPO_WARNING);
         }
         if ($oRet->situaca != 'Apontada' && $oRet->reclamacao == 'Em análise') {
@@ -781,7 +788,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         parse_str($sChave, $aCamposChave);
         $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
 
-        if (($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) && ($oDados->reclamacao == 'Aguardando' || $oDados->devolucao == 'Aguardando')) {
+        if (($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) && ($oDados->situaca == 'Liberado' || $oDados->situaca == 'Apontada')) {
             $aRetorno = $this->Persistencia->solicitaLibDevolucao($aCamposChave);
             if ($aRetorno[0]) {
                 $oMensagem = new Mensagem('Sucesso', 'Solicitação de liberação da devolução enviada!', Mensagem::TIPO_SUCESSO);

@@ -273,7 +273,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         } else {
             $sSql = "update tbrncqual "
                     . "set nfdevolucao = '" . $aCampos['nfdevolucao'] . "', "
-                    . "apontaNF = '" . $aCampos['apontaNF'] . "'"
+                    . "apontaNF = '" . $aCampos['apontaNF'] . "',"
                     . "nfsIpi = '" . $aCampos['nfsIpi'] . "', "
                     . "valorfrete = '" . $aCampos['valorfrete'] . "' "
                     . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
