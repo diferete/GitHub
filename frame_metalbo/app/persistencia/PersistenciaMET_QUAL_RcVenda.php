@@ -327,6 +327,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
                 . "datalibdevolucao = '" . $sData . "',"
                 . "horalibdevolucao = '" . $sHora . "',"
                 . "sollibdevolucao = 'Liberada',"
+                . "obslibdevolucao = '" . $aCampos['obslibdevolucao'] . "'"
                 . "devolucao = '" . $aCampos['devolucao'] . "' "
                 . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorna = $this->executaSql($sSql);

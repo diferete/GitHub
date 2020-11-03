@@ -64,7 +64,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
         $oReclamacao->setBComparacaoColuna(true);
 
-         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
+        $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Indeferida', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Não se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
@@ -244,16 +244,6 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oDisposicao->addItenRadio('1', 'Aceita Condicionalmente');
         $oDisposicao->addItenRadio('2', 'Devolver');
 
-        $oAtencao = new Campo('Acc. Condicionalmente - Apenas reclamação.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
-        $oAtencao->setSEstiloBadge(Campo::BADGE_SUCCESS);
-        $oAtencao->setITamFonteBadge(18);
-        $oAtencao->setApenasTela(true);
-
-        $oAtencao1 = new Campo('Devolver - Intenção de devolução pelo Cliente.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
-        $oAtencao1->setSEstiloBadge(Campo::BADGE_DANGER);
-        $oAtencao1->setITamFonteBadge(18);
-        $oAtencao1->setApenasTela(true);
-
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo3 = new Campo('Anexo3', 'anexo3', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
@@ -267,7 +257,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oTabNF->addCampos(
                 array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
 
-        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao, $oAtencao, $oAtencao1));
+        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao));
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3));
 

@@ -350,16 +350,6 @@ class ViewMET_QUAL_RcRep extends View {
         $oDisposicao->addItenRadio('1', 'Aceita Condicionalmente');
         $oDisposicao->addItenRadio('2', 'Devolver');
 
-        $oAtencao = new Campo('Acc. Condicionalmente - Apenas reclamação.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
-        $oAtencao->setSEstiloBadge(Campo::BADGE_SUCCESS);
-        $oAtencao->setITamFonteBadge(18);
-        $oAtencao->setApenasTela(true);
-
-        $oAtencao1 = new Campo('Devolver - Intenção de devolução pelo Cliente.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
-        $oAtencao1->setSEstiloBadge(Campo::BADGE_DANGER);
-        $oAtencao1->setITamFonteBadge(18);
-        $oAtencao1->setApenasTela(true);
-
         $oDescNaoConf = new Campo('Descrição da não conformidade', 'naoconf', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oDescNaoConf->setILinhasTextArea(5);
         $oDescNaoConf->setSCorFundo(Campo::FUNDO_MONEY);
@@ -380,7 +370,7 @@ class ViewMET_QUAL_RcRep extends View {
         $oTabNF->addCampos(
                 array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
 
-        $oTabProd->addCampos($oAplicacao, array($oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao, $oAtencao, $oAtencao1));
+        $oTabProd->addCampos($oAplicacao, array($oProCod, $oProDes, $oQuant, $oQuanNconf, $oBotConf), $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao));
 
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3), $oSituaca, array($oUsucodigo, $oOfficecod, $oDevolucao, $oProcedencia, $oReclamacao));

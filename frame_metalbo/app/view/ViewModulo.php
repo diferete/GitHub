@@ -15,7 +15,7 @@ class ViewModulo extends View {
 
 
         $oDrop3 = new Dropdown('Teste', Dropdown::TIPO_DARK, Dropdown::TIPO_PADRAO, 2, 2, 12, 12);
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Teste', 'MET_FIN_VisualizaNFE', 'enviaXmlAutomatizado', '', false, '', false, '', false, '', false, true);
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Teste', 'Modulo', 'TesteHora', '', false, '', false, '', false, '', false, true);
 
 
         $this->setaTiluloConsulta('Pesquisa de Módulos do Sistema');

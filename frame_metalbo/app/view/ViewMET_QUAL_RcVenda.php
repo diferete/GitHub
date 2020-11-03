@@ -259,16 +259,6 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDisposicao->addItenRadio('1', 'Aceita Condicionalmente');
         $oDisposicao->addItenRadio('2', 'Devolver');
 
-        $oAtencao = new Campo('Acc. Condicionalmente - Apenas reclamação.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
-        $oAtencao->setSEstiloBadge(Campo::BADGE_SUCCESS);
-        $oAtencao->setITamFonteBadge(18);
-        $oAtencao->setApenasTela(true);
-
-        $oAtencao1 = new Campo('Devolver - Intenção de devolução pelo Cliente.', '', Campo::TIPO_BADGE, 2, 3, 12, 12);
-        $oAtencao1->setSEstiloBadge(Campo::BADGE_DANGER);
-        $oAtencao1->setITamFonteBadge(18);
-        $oAtencao1->setApenasTela(true);
-
         $oAnexo1 = new Campo('Anexo1', 'anexo1', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo2 = new Campo('Anexo2', 'anexo2', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
         $oAnexo3 = new Campo('Anexo3', 'anexo3', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
@@ -282,7 +272,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oTabNF->addCampos(
                 array($oDataNf, $oOdCompra, $oPedido, $oValor, $oPeso), array($oLote, $oOp));
 
-        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao, $oAtencao, $oAtencao1));
+        $oTabProd->addCampos($oAplicacao, $oProd, $oDivisor1, $oDescNaoConf, array($oDisposicao));
         $oTabAnexos->addCampos(
                 array($oAnexo1, $oAnexo2, $oAnexo3));
 
@@ -427,8 +417,8 @@ class ViewMET_QUAL_RcVenda extends View {
         }
 
         $oValorDevolucaoSIPI = new Campo('NF s/ IPI', 'nfsIpi', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
-        if ($oDados->nfsIpi != null && $oDados->nfsIpi != 0) {
-            $oValorDevolucaoSIPI->setSValor($oDados->nfsIpi);
+        if ($oDados->nfsipi != null && $oDados->nfsipi != 0) {
+            $oValorDevolucaoSIPI->setSValor($oDados->nfsipi);
         }
 
         $oValorFrete = new Campo('Frete', 'valorfrete', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
@@ -549,6 +539,10 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDevolucao->addItenRadio('Aceita', 'Aceita');
         $oDevolucao->addItenRadio('Indeferida', 'Indeferida');
 
+        $oObsDevolucao = new Campo('Observação', 'obslibdevolucao', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
+        $oObsDevolucao->setILinhasTextArea(3);
+        $oObsDevolucao->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', '10', '200');
+
         $oBtnLiberar = new Campo('Liberar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $this->getTela()->setIdBtnConfirmar($oBtnLiberar->getId());
         //id do grid
@@ -561,7 +555,7 @@ class ViewMET_QUAL_RcVenda extends View {
 
         $this->setBTela(true);
 
-        $this->addCampos(array($oFilcgc, $oNr), $oLinha, $oDevolucao, $oBtnLiberar);
+        $this->addCampos(array($oFilcgc, $oNr), $oLinha, array($oDevolucao), array($oObsDevolucao), $oBtnLiberar);
     }
 
 }

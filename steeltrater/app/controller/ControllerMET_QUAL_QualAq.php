@@ -23,7 +23,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
 
     function montaProxEtapa() {
         parent::montaProxEtapa();
-        $aRetorno[0] = $this->Model->getDELX_FIL_Empresa()->getFil_codigo();
+        $aRetorno[0] = $this->Model->getFilcgc();
         $aRetorno[1] = $this->Model->getNr();
         return $aRetorno;
     }

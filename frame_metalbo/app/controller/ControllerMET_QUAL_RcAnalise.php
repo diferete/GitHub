@@ -410,9 +410,6 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
             $aEmail = $this->Persistencia->buscaEmails($aCampos);
             $oEmail->addDestinatario($aEmail[0]);
             $oEmail->addDestinatarioCopia($aEmail[1]);
-            /////////////////////////////////////////////////////////
-            $oEmail->limpaDestinatariosAll();
-            $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
             $aRetorno = $oEmail->sendEmail();
             if ($aRetorno[0]) {

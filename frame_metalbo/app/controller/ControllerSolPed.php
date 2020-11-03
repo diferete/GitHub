@@ -18,15 +18,15 @@ class ControllerSolPed extends Controller {
      * Carrega o representante
      * @param type $sDados
      */
-      public function carregaRep($sDados){
-      $aDados = explode(',', $sDados);
-      if($aDados[2]<>''){
-      $aRetorno =$this->Persistencia->buscaRep($aDados[2]);
-      echo"$('#".$aDados[0]."').val('".$aRetorno[0]."');"
-      ."$('#".$aDados[1]."').val('".$aRetorno[1]."');";
-      }
-      } 
-      
+    public function carregaRep($sDados) {
+        $aDados = explode(',', $sDados);
+        if ($aDados[2] <> '') {
+            $aRetorno = $this->Persistencia->buscaRep($aDados[2]);
+            echo"$('#" . $aDados[0] . "').val('" . $aRetorno[0] . "');"
+            . "$('#" . $aDados[1] . "').val('" . $aRetorno[1] . "');";
+        }
+    }
+
     public function antesDeCriarTela($sParametros = null) {
         parent::antesDeCriarTela($sParametros);
 
@@ -158,7 +158,7 @@ class ControllerSolPed extends Controller {
         }
     }
 
-        /**
+    /**
      * Retorna dados para get de relatórios 
      */
     public function getSget() {
@@ -179,7 +179,7 @@ class ControllerSolPed extends Controller {
 
         return $sCampos;
     }
-    
+
     public function envMailSol($sDados, $sRel) {
         $aDados = explode(',', $sDados);
         $aNr = explode('=', $aDados[2]);
@@ -228,6 +228,7 @@ class ControllerSolPed extends Controller {
             echo $oMensagem->getRender();
         }
     }
+
 //
 //    /**
 //     * Efetua validaçoes necessárias
@@ -235,7 +236,7 @@ class ControllerSolPed extends Controller {
 //    public function getVal($sDados) {
 //        parent::getVal($sDados);
 //    }
-    
+
     public function beforeRel($sDados) {
         parent::beforeRel($sDados);
         $sGet = '';

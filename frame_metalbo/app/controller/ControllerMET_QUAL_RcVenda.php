@@ -455,19 +455,19 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 echo $oMensagem3->getRender();
             } else {
                 if ($aRet[0] == 'Env.Qual') {
-                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('duda@metalbo.com.br');
+                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    $oEmail->addDestinatario('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Emb') {
-                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
-                    //$oEmail->addDestinatarioCopia('duda@metalbo.com.br');
+                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
-                    $oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    //$oEmail->addDestinatario('embalagem@metalbo.com.br');
-                    //$oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
-                    //$oEmail->addDestinatarioCopia('duda@metalbo.com.br');
+                    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    $oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
+                    $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 }
 
                 $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
@@ -558,10 +558,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
         $oEmail->addDestinatario($sEmail);
         $oEmail->addDestinatarioCopia($_SESSION['email']);
-        /////////////////////////////////////////////////////////
-        $oEmail->limpaDestinatariosAll();
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
-
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
@@ -666,9 +662,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
         $oEmail->addDestinatario($sEmail);
         $oEmail->addDestinatarioCopia($_SESSION['email']);
-        /////////////////////////////////////////////////////////
-        $oEmail->limpaDestinatariosAll();
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
 
         $aRetorno = $oEmail->sendEmail();
@@ -739,9 +732,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         // Para
         $oEmail->addDestinatario('duda@metalbo.com.br');
         $oEmail->addDestinatarioCopia('almoxarifado@metalbo.com.br');
-        /////////////////////////////////////////////////////////
-        $oEmail->limpaDestinatariosAll();
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
 
@@ -904,6 +894,8 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                         . '<table border = 1 cellspacing = 0 cellpadding = 2 width = "100%">'
                         . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
                         . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
+                        . '<tr><td><b>Devolução pela gerência: </b></td><td> ' . $oRow->devolucao . ' </td></tr>'
+                        . '<tr><td><b>Observação: </b></td><td> ' . $oRow->obslibdevolucao . ' </td></tr>'
                         . '</table><br/><br/>'
                         . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 
@@ -911,9 +903,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
 
         $sEmail = $this->Persistencia->buscaEmailVendas($aCamposChave);
         $oEmail->addDestinatario($sEmail);
-        /////////////////////////////////////////////////////////
-        $oEmail->limpaDestinatariosAll();
-        $oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {

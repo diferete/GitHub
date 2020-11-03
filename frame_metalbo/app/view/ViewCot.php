@@ -97,10 +97,10 @@ class ViewCot extends View {
         $oUserIns->setBCampoBloqueado(true);
 
         //---Campo Data Atual---///
-        $oData = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1, 3, 3, 4);
+        $oData = new Campo('Data', 'data', Campo::TIPO_DATA, 1, 3, 3, 4);
         $oData->setITamanho(Campo::TAMANHO_PEQUENO);
         $oData->setBCampoBloqueado(true);
-        $oData->setSValor(date('d-m-Y'));
+        $oData->setSValor(date('d/m/Y'));
 
         //---Campo Hora Atual---///
         $oHora = new Campo('Hora', 'hora', Campo::TIPO_TEXTO, 1, 3, 3, 4);
@@ -216,11 +216,16 @@ class ViewCot extends View {
         //---Campo data de entrega com eventos de validação (Não pode ser menor que a data atual e nem null)---//
         $oDataEnt = new Campo('Data entrega', 'dtent', Campo::TIPO_DATA, 2);
         $oDataEnt->setITamanho(Campo::TAMANHO_PEQUENO);
-        $sEventoData = 'if (dataAtual("' . $oDataEnt->getId() . '","' . date('d/m/Y') . '")==false){ '
-                . ' return { valid: false, message: "Data menor que a data atual!" };  }else{return { valid: true };}; '
-                . 'if($("#' . $oDataEnt->getId() . '").val()=="") { '
-                . ' return { valid: false, message: "Data não pode ser em branco!" };'
-                . '}else{return { valid: true };};';
+        $sEventoData = 'if (dataAtual("' . $oDataEnt->getId() . '","' . date('d/m/Y') . '") == false){ '
+                . ' return { valid: false, message: "Data menor que a data atual!" };'
+                . '}else{'
+                . 'return { valid: true };'
+                . '};'
+                . 'if($("#' . $oDataEnt->getId() . '").val() == "") {'
+                . 'return { valid: false, message: "Data não pode ser em branco!" };'
+                . '}else{'
+                . 'return { valid: true };'
+                . '};';
         if ($sAcaoRotina != 'acaoVisualizar') {
             $oDataEnt->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
         }

@@ -31,4 +31,15 @@ class PersistenciaModulo extends Persistencia {
         return;
     }
 
+    public function testeHora() {
+        $sSql = "select nr, filcgc, tempo, hora2 from MET_TEC_Chamados";
+        $result = $this->getObjetoSql($sSql);
+
+        while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+            $sSqlUpdate = "update MET_TEC_Chamados set tempo  = '" . $row->hora2 . "' where nr = " . $row->nr . " and filcgc  = " . $row->filcgc . "";
+            $aRetorno = $this->executaSql($sSqlUpdate);
+        }
+        return;
+    }
+
 }

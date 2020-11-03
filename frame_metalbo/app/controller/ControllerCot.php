@@ -35,7 +35,7 @@ class ControllerCot extends Controller {
 
         $this->View->setOObjTela($oReps);
     }
-    
+
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
 
@@ -68,7 +68,7 @@ class ControllerCot extends Controller {
             //exit();
         }
     }
-    
+
     /**
      * Libera solicitação para a metalbo
      */
@@ -114,7 +114,7 @@ class ControllerCot extends Controller {
         echo $oMensagem->getRender();
         echo"$('#" . $aDados[1] . "-pesq').click();";
     }
-    
+
     public function msgCopiaCot($sDados) {
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);

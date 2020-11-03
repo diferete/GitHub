@@ -129,6 +129,10 @@ class ViewMET_QUAL_QualAq extends View {
         $oSit->setSValor('Aberta');
         $oSit->setBCampoBloqueado(true);
 
+        $oFilChave = new Campo('', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oFilChave->setSValor($_SESSION['filcgc']);
+        $oFilChave->setBOculto(true);
+
 
         $oFilcgc = new Campo('Empresa', 'DELX_FIL_Empresa.fil_codigo', Campo::TIPO_BUSCADOBANCOPK, 3, 3, 12, 12);
         $oFilcgc->setSValor($_SESSION['filcgc']);
@@ -295,10 +299,10 @@ class ViewMET_QUAL_QualAq extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
             $this->addCampos(
-                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
+                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilChave, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr, $oAcao);
         } else {
             $this->addCampos(
-                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr);
+                    array($oTitulo, $oSit, $oDataImp, $oHora, $oUserImplant), array($oCertificacao, $oSetor, $oSetorDes), $oLinha1, array($oFilcgc, $oFilChave, $oFilDes, $oResp, $oRespNome), $oDivisor, array($oCodUser, $oUserNome, $oBotConf), array($oEquipe, $oEquipeEmail), $oDivisor1, array($oDataIni), array($oTipoAcao, $oOrigem, $oTipmel), $oAnexo1, array($oAssunto, $oObjetivo), $oNr);
         }
     }
 

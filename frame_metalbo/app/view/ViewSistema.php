@@ -662,6 +662,7 @@ class ViewSistema extends View {
                 . '$(document).ready(function() { '
                 . 'document.body.style.zoom = "89%";  '
                 . '}); '
+                //. 'if (typeof jQuery !== "undefined") {console.log(jQuery.fn.jquery);}'
                 . '</script> '
                 . '</html>';
 

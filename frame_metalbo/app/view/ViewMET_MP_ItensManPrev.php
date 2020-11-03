@@ -256,7 +256,7 @@ class ViewMET_MP_ItensManPrev extends View {
 
         $oDatabert = new Campo('DataAbert.', 'databert', Campo::TIPO_DATA, 2, 2, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
-        $oDatabert->setBCampoBloqueado(true);
+       // $oDatabert->setBCampoBloqueado(true);
 
         $oUserinic = new Campo('Usuario Inicial.', 'userinicial', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUserinic->setBCampoBloqueado(true);

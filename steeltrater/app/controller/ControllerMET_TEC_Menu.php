@@ -69,19 +69,36 @@ class ControllerMET_TEC_Menu extends Controller {
             ++$iCont;
         }
         $sMsg = '<div class="example-wrap" id="perfilPrincipal">'
-                . '   <div class="example example-well">'
-                . '     <div class="page-header text-center">'
-                . '       <h1 class="page-title">Bem vindo, ' . $_SESSION["nome"] . '!</h1>'
-                . '       <p class="page-description">'
-                . '        <a target="_blank" href="http://www.metalbo.com.br">www.metalbo.com.br</a></br> '
-                . '       <a target="_blank" href="http://facebook.com/metalbo.oficial"> <button type="button" class="btn btn-labeled btn-xs social-facebook"> '
-                . '<span class="btn-label"><i class="icon bd-facebook" aria-hidden="true"></i></span>Facebook</button></a></br></br>'
-                . '             <img class="img-circle img-bordered img-bordered-primary" width="150" height="150" '
-                . '             src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1"> '
-                . '       </p>'
-                . '     </div>'
-                . '   </div>'
-                . ' </div>';
+                . '<div class="example example-well col-md-8" style="height:700px">'
+                . '<div class="page-header text-center">'
+                . '</br>'
+                . '<h1 class="page-title">Bem-vindo!</h1>'
+                . '<img class="img-circle img-bordered img-bordered-primary" width="150" height="150" src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1">'
+                . '<h2 class="page-title">' . $_SESSION["nome"] . '</h2>'
+                . '<div>'
+                . '</div>'
+                . '</br>'
+                . '<div style="position: absolute;bottom: 0;left: 0;top: 650px">'
+                . '<p class="page-description">'
+                . '<a target="_blank" href="http://metalbo.com.br/steeltrater" style="margin: 10px;text-decoration: none;"> '
+                . '<button type="button" style="color: purple;border: none;background: transparent;">'
+                . '<span>'
+                . '<i aria-hidden="true"></i>'
+                . '</span> steeltrater.com.br'
+                . '</button>'
+                . '</a>'
+                . '<a target="_blank" href="http://177.84.0.34:8080/DelsoftXPRO/servlet/loginerp"" style="margin: 10px;text-decoration: none;">'
+                . '<button type="button" style="color: red;border: none;background: transparent;">'
+                . '<span>'
+                . '<i aria-hidden="true"></i>'
+                . '</span> DelsoftX'
+                . '</button>'
+                . '</a>'
+                . '</div>'
+                . '</br>'
+                . '</div>';
+        $sMsg = $sMsg . $this->montaTabela();
+        $sMsg = $sMsg . '</div>';
         echo "$('#tabmenucont').empty(); $('#tabmenusuperior').empty();$('#menu').empty();$('#menu').append('" . $sEstruturaMenu . "'); ";
         echo "$('#tabmenucont').append('" . $sMsg . "');";
     }
@@ -104,6 +121,43 @@ class ControllerMET_TEC_Menu extends Controller {
         $aRetorno[0] = $this->Model->getMencodigo();
         $aRetorno[1] = $this->Model->getMET_TEC_Modulo()->getModcod();
         return $aRetorno;
+    }
+
+    public function montaTabela() {
+        $oControllerUpdates = Fabrica::FabricarController('MET_TEC_Updates');
+        $aBuscaUpdates = $oControllerUpdates->getDadosUpdates();
+
+        $html = '</div>'
+                . '<div class="col-md-4">'
+                . '<h4 style="margin-top:30px;margin-left:5px"><i class="icon wb-book" aria-hidden="true"></i>Atualizações '
+                . '  </h4> '
+                . ' <div class="example table-responsive" style="margin-left:5px;"> '
+                . '   <table class="table table-striped"> '
+                . '     <thead> '
+                . '       <tr> '
+                . '         <th style="font-size:16px;font-weight:600;">Versão</th> '
+                . '         <th style="font-size:16px;font-weight:600;">Updates</th> '
+                . '         <th style="font-size:16px;font-weight:600;">Doc.</th> '
+                . '       </tr>  '
+                . '     </thead> '
+                . '     <tbody> ';
+        foreach ($aBuscaUpdates as $key => $value) {
+            $href = '';
+            $html = $html . '       <tr> '
+                    . '         <td><span class="badge badge-dark">' . $value->versao . '</span></td> '
+                    . '         <td style="width:450px">' . $value->updates . '</td> ';
+            if ($value->anexo != '') {
+                $html = $html . '         <td><a href="http://localhost/github/steeltrater/uploads/' . $value->anexo . '" target="_blank"  rel=”noopener”>Clique aqui</a></td> ';
+            } else {
+                $html = $html . '         <td></td> ';
+            }
+            $html = $html . '       </tr> ';
+        }
+        $html = $html . '     </tbody>'
+                . '   </table>'
+                . ' </div>';
+
+        return $html;
     }
 
 }

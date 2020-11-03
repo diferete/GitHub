@@ -1144,7 +1144,7 @@ function maskDecimal(idCampo, c) {
     var valor = $('#' + idCampo + '').val();
 
     if (valor == '') {
-        $('#' + idCampo + '').val('0');
+        $('#' + idCampo + '').val('');
     }
     valor = moedaParaNumero(valor);
     $('#' + idCampo + '').val(numeroParaMoeda(valor, c));

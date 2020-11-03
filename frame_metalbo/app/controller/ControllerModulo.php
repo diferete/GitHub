@@ -50,4 +50,8 @@ class ControllerModulo extends Controller {
         require 'app/relatorio/DANFE4.php';
     }
 
+    public function TesteHora() {
+        $this->Persistencia->testeHora();
+    }
+
 }

@@ -270,7 +270,6 @@ class ViewCotIten extends View {
         $oBtnNormal->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
 
         //carrega o fieldset como oculto
-        $oFieldEmb->setOculto(true);
 
         //adiciona os campos no fieldset
         $oFieldEmb->addCampos(array($oCaixaMaster, $oAguardMaster, $oQtSugMaster,
@@ -328,7 +327,7 @@ class ViewCotIten extends View {
 
         $oFieldLib = new FieldSet('Liberações');
         $oFieldLib->addCampos(array($oLiberadoEmbalagem, $oLibPrcKg, $oLoteMinimo, $oSolLib, $oPesoProduto, $oHora, $oEmpCod, $oEmpdes, $oProd));
-        $oFieldLib->setOculto(true);
+        
         /* adiciona o evento sair do campo chamando função 
          * entradaCodigo no arquivo funções 
          * chama o método no php acaoExitCampo para trazer preço e embalagens

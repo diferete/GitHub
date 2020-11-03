@@ -82,7 +82,7 @@ $sSql = "select filcgc,nr,tbrncqual.empcod,tbrncqual.empdes,celular,email,contat
         . "usuaponta,apontamento,tagsetor,tbrncqual.repcod,produtos,usuapontavenda,obs_aponta,reclamacao,tagexcecao,"
         . "nfdevolucao,nfsIpi,valorfrete,inspecao,correcao,obs_inspecao,hora_disposicao,resp_disposicao,anexo_inspecao,"
         . "anexo_inspecao1,anexo_analise,anexo_analise1,procedencia,numcad,nomfun,obs_analiseret,sollibdevolucao,usulibdevolucao,"
-        . "horalibdevolucao,usu_reabriu,hora_reabriu,motivo_reabriu,apontaNF,empfone,celular,empend,empendbair,usunome,cidnome,"
+        . "horalibdevolucao,obslibdevolucao,usu_reabriu,hora_reabriu,motivo_reabriu,apontaNF,empfone,celular,empend,empendbair,usunome,cidnome,"
         . "case when ind = 'true' then 'x' else '' end as ind,"
         . "case when comer = 'true' then 'x' else '' end as comer,"
         . "case when disposicao = '1' then 'x' else '' end as aceitar,"
@@ -195,7 +195,7 @@ $pdf->Cell(30, 5, $row['pedido'], 0, 1, 'L');
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(30, 5, "Valor:", 0, 0, 'L');
 $pdf->SetFont('arial', '', 10);
-$pdf->Cell(80, 5, number_format($row['valor'], 2, ',', '.'), 0, 0, 'L');
+$pdf->Cell(80, 5, 'R$ ' . number_format($row['valor'], 2, ',', '.'), 0, 0, 'L');
 
 $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(32, 5, "Peso:", 0, 0, 'L');
@@ -393,7 +393,7 @@ if ($row['apontaNF'] != null) {
     $h = $h + 9;
 }
 
-$pdf->Rect(2, $iAltura, 206, 25 + $h + round((strlen($row['obs_aponta']) / 120) * 5));
+$pdf->Rect(2, $iAltura, 206, 30 + $h + round((strlen($row['obs_aponta']) / 120) * 5) + round((strlen($row['obslibdevolucao']) / 120) * 5)  + round((strlen($row['motivo_reabriu']) / 120) * 5));
 
 /*
  * Usuário que reabriu, hora, data, motivo.
@@ -465,6 +465,10 @@ if ($row['sollibdevolucao'] != null) {
     $pdf->Cell(12, 5, "Hora:", 0, 0, 'L');
     $pdf->SetFont('arial', '', 10);
     $pdf->Cell(20, 5, date('H:i:s', strtotime($row['horalibdevolucao'])), 0, 1, 'L');
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(26, 5, "Observação:", 0, 1, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->MultiCell(205, 5, $row['obslibdevolucao'], 0, 'L');
     $pdf->Ln(2);
 }
 
@@ -481,11 +485,11 @@ if ($row['apontaNF'] != null) {
     $pdf->SetFont('arial', 'B', 10);
     $pdf->Cell(15, 5, "NFS IPI.:", 0, 0, 'L');
     $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(30, 5, number_format($row['nfsIpi'], 2, ',', '.'), 0, 0, 'L');
+    $pdf->Cell(30, 5, 'R$ ' . $row['nfsIpi'], 0, 0, 'L');
     $pdf->SetFont('arial', 'B', 10);
     $pdf->Cell(30, 5, "Valor do Frete:", 0, 0, 'L');
     $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(20, 5, number_format($row['valorfrete'], 2, ',', '.'), 0, 0, 'L');
+    $pdf->Cell(20, 5, 'R$ ' . $row['valorfrete'], 0, 0, 'L');
     $pdf->Ln(2);
 }
 $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
@@ -676,7 +680,6 @@ if ($sEmailRequest == 'S') {
 
     //enviar e-mail vendas
     $oEmail->addDestinatario($aRowMail['usuemail']);
-    //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
     $oEmail->addAnexo('app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc . '.pdf'));
     $aRetorno = $oEmail->sendEmail();
