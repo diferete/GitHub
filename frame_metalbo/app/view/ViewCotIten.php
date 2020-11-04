@@ -17,6 +17,9 @@ class ViewCotIten extends View {
     function criaGridDetalhe() {
         parent::criaGridDetalhe($sIdAba);
 
+        /**
+         * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
+         */
         $this->getOGridDetalhe()->setIAltura(300);
 
         $oNr = new CampoConsulta('Nrº', 'nr');
@@ -65,10 +68,10 @@ class ViewCotIten extends View {
         $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
 
         $oVlrTot = new CampoConsulta('Vlr. Total.', 'vlrtot', Campo::TIPO_MONEY);
+        $oVlrTot->setSOperacao('soma');
+        $oVlrTot->setSTituloOperacao('Total: R$');
         $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
         $oVlrTot->setBComparacaoColuna(true);
-        $oVlrTot->setSOperacao('personalizado');
-        $oVlrTot->setSTituloOperacao('Total: R$');
 
         $oDisp = new CampoConsulta('Disp.', 'pdfdisp');
         $oDisp->setILargura(30);
@@ -85,39 +88,38 @@ class ViewCotIten extends View {
         $aValor = $this->getAParametrosExtras();
 
         //campo do número da solicitação, campo será oculto
-        $oNr = new Campo('', 'nr', Campo::TIPO_TEXTO, 1, 1);
+        $oNr = new Campo('', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setITamanho(Campo::TAMANHO_PEQUENO);
         $oNr->setSValor($aValor[2]);
         $oNr->setBCampoBloqueado(true);
         $oNr->setBOculto(true);
         //carrega campos de empcod
-        $oEmpCod = new Campo('', 'empcodIten', Campo::TIPO_TEXTO, 1, 1);
+        $oEmpCod = new Campo('', 'empcodIten', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEmpCod->setBCampoBloqueado(true);
         $oEmpCod->setBOculto(true);
         $oEmpCod->setSValor($aValor[0]);
 
         //carrega campos de empcod
-        $oEmpdes = new Campo('', 'empdesIten', Campo::TIPO_TEXTO, 1, 1);
+        $oEmpdes = new Campo('', 'empdesIten', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEmpdes->setBCampoBloqueado(true);
         $oEmpdes->setBOculto(true);
         $oEmpdes->setSValor($aValor[1]);
 
         //campo sequencia onde o campo será oculto
-        $oSeq = new Campo('', 'seq', Campo::TIPO_TEXTO, 1, 1);
+        $oSeq = new Campo('', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeq->setITamanho(Campo::TAMANHO_PEQUENO);
         $oSeq->setBCampoBloqueado(true);
         $oSeq->setSValor('0');
         $oSeq->setBOculto(true);
 
         //campo código do produto
-        $oCodigo = new Campo('Codigo', 'codigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 6);
+        $oCodigo = new Campo('Codigo', 'codigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCodigo->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oCodigo->setBFocus(true);
         $oCodigo->addValidacao(false, Validacao::TIPO_STRING);
 
         //campo descrição do produto adicionando o campo de busca
-        $oProdes = new Campo('Produto', 'descricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 6);
+        $oProdes = new Campo('Produto', 'descricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oProdes->setITamanho(Campo::TAMANHO_PEQUENO);
         $oProdes->setSIdPk($oCodigo->getId());
         $oProdes->setClasseBusca('Produto');
@@ -131,174 +133,174 @@ class ViewCotIten extends View {
         $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
 
         //campo quantidade setanto o valor inicial como zero
-        $oQuant = new Campo('Quant.', 'quant', Campo::TIPO_TEXTO, 1, 1, 7);
+        $oQuant = new Campo('Quant.', 'quant', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQuant->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQuant->setSValor('0');
         $oQuant->addValidacao(false, Validacao::TIPO_STRING);
         $oQuant->setSCorFundo(Campo::FUNDO_VERDE);
 
         //campo preço bruto
-        $oPrcBruto = new Campo('Tabela', 'prcbruto', Campo::TIPO_TEXTO, 1, 1, 2);
+        $oPrcBruto = new Campo('Tabela', 'prcbruto', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oPrcBruto->setITamanho(Campo::TAMANHO_PEQUENO);
         $oPrcBruto->setBCampoBloqueado(true);
         $oPrcBruto->setSValor('0');
 
         //campo valor unitário
-        $oVlrUnit = new Campo('Vlr. Unit', 'vlrunit', Campo::TIPO_TEXTO, 1, 1, 2);
+        $oVlrUnit = new Campo('Vlr. Unit', 'vlrunit', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oVlrUnit->setITamanho(true);
         $oVlrUnit->setBCampoBloqueado(TRUE);
         $oVlrUnit->setSValor('0');
 
         //campo desconto
-        $oDesconto = new Campo('Desconto', 'desconto', Campo::TIPO_TEXTO, 1, 1, 3);
+        $oDesconto = new Campo('Desconto', 'desconto', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDesconto->setITamanho(Campo::TAMANHO_PEQUENO);
         $oDesconto->setSValor('0');
         $oDesconto->setSCorFundo(Campo::FUNDO_AMARELO);
 
         //campo acréscimo do tratamento
-        $oTratamento = new Campo('Tratamento', 'desctrat', Campo::TIPO_TEXTO, 1, 1, 3);
+        $oTratamento = new Campo('Tratamento', 'desctrat', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oTratamento->setITamanho(Campo::TAMANHO_PEQUENO);
         $oTratamento->setSValor('0');
         $oTratamento->setSCorFundo(Campo::FUNDO_AMARELO);
 
         //campo desconto extra que aplicará o desconto após os desconto inicial, sempre será cumulativo
-        $oDescExtra1 = new Campo('Desc.1', 'descextra1', Campo::TIPO_TEXTO, 1, 1, 3);
+        $oDescExtra1 = new Campo('Desc.1', 'descextra1', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDescExtra1->setITamanho(Campo::TAMANHO_PEQUENO);
         $oDescExtra1->setSValor('0');
         $oDescExtra1->setSCorFundo(Campo::FUNDO_AMARELO);
 
         //campo desconto extra2 que aplicará o desconto após os desconto inicial, sempre será cumulativo
-        $oDescExtra2 = new Campo('Desc.2', 'descextra2', Campo::TIPO_TEXTO, 1, 1, 3);
+        $oDescExtra2 = new Campo('Desc.2', 'descextra2', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDescExtra2->setITamanho(Campo::TAMANHO_PEQUENO);
         $oDescExtra2->setSValor('0');
         $oDescExtra2->setSCorFundo(Campo::FUNDO_AMARELO);
 
         //campo que gera a sequencia da ordem de compra
-        $oSeqOd = new Campo('Seq.Od', 'seqod', Campo::TIPO_TEXTO, 1, 1, 3);
+        $oSeqOd = new Campo('Seq.Od', 'seqod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeqOd->setITamanho(Campo::TAMANHO_PEQUENO);
         $oSeqOd->setSValor('0');
 
         //campo observação do produto
-        $oObsProd = new Campo('Obs. Produto', 'obsprod', Campo::TIPO_TEXTO, 3, 3, 3);
+        $oObsProd = new Campo('Obs. Produto', 'obsprod', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oObsProd->setITamanho(Campo::TAMANHO_PEQUENO);
         $oObsProd->setSCorFundo(Campo::FUNDO_MONEY);
         $oObsProd->setSValor(' ');
 
         //check para checar se não apaga a obs do produto após a inserção
-        $oChkTodos = new Campo('Todos', 'chkTodosItens', Campo::TIPO_CHECK, 1, 1, 3);
+        $oChkTodos = new Campo('Todos', 'chkTodosItens', Campo::TIPO_CHECK, 1, 1, 12, 12);
         $oChkTodos->setBValorCheck(false);
         $oChkTodos->setApenasTela(true);
 
         //campo valor total com moeda em real
-        $oVlrTot = new Campo('Total', 'vlrtot', Campo::TIPO_TEXTO, 2, 2);
+        $oVlrTot = new Campo('Total', 'vlrtot', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oVlrTot->setITamanho(Campo::TAMANHO_PEQUENO);
         // $oVlrTot->setSTipoMoeda('R$');
         $oVlrTot->setBCampoBloqueado(true);
         $oVlrTot->setSValor('0');
 
         //botão inserir os dados
-        $oBtnInserir = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1);
+        $oBtnInserir = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         //id do grid
         $sGrid = $this->getOGridDetalhe()->getSId();
 
 
         //id form,id incremento,id do grid, id focus,    
-        $sAcao = $sAcao = 'convItenSolRep($("#' . $oVlrUnit->getId() . '").val(),"' . $oVlrUnit->getId() . '",$("#' . $oVlrTot->getId() . '").val(),"' . $oVlrTot->getId() . '",$("#' . $oPrcBruto->getId() . '").val(),"' . $oPrcBruto->getId() . '");requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oCodigo->getId() . '","' . $oNr->getSValor() . ',' . $oChkTodos->getId() . ',' . $oObsProd->getId() . ',' . $oDesconto->getId() . '");';
+        $sAcao = $sAcao = 'convItenSolRep($("#' . $oVlrUnit->getId() . '").val(),"' . $oVlrUnit->getId() . '",$("#' . $oVlrTot->getId() . '").val(),"' . $oVlrTot->getId() . '",$("#' . $oPrcBruto->getId() . '").val(),"' . $oPrcBruto->getId() . '");'
+                . 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oCodigo->getId() . '","' . $oNr->getSValor() . ',' . $oChkTodos->getId() . ',' . $oObsProd->getId() . ',' . $oDesconto->getId() . '");';
 
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
         //traz o preço por kg
-        $oPrecoKg = new Campo('Preço Kg', '', Campo::TIPO_BADGE, 1, 1);
+        $oPrecoKg = new Campo('Preço Kg', '', Campo::TIPO_BADGE, 1, 1, 12, 12);
         $oPrecoKg->setSEstiloBadge(Campo::BADGE_DANGER);
         //fieldset que contém o controle da embalagem
         $oFieldEmb = new FieldSet('Embalagem');
 
         //traz a quantidade da caixa master
-        $oCaixaMaster = new Campo('Master', 'cxmaster', Campo::TIPO_TEXTO, 1, 1);
+        $oCaixaMaster = new Campo('Master', 'cxmaster', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oCaixaMaster->setITamanho(Campo::TAMANHO_PEQUENO);
         $oCaixaMaster->setBCampoBloqueado(true);
 
         //badge que trará avisos de como está o arredondamento da embalagem
-        $oAguardMaster = new Campo('Aguardando', '', Campo::TIPO_BADGE, 1, 1);
+        $oAguardMaster = new Campo('Aguardando', '', Campo::TIPO_BADGE, 1, 1, 12, 12);
 
         //campo que retorna a sugestão de quantidade para fechar a embalagem master
-        $oQtSugMaster = new Campo('Qt. Sugerida', 'qtsug', Campo::TIPO_TEXTO, 1, 1);
+        $oQtSugMaster = new Campo('Qt. Sugerida', 'qtsug', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtSugMaster->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtSugMaster->setBCampoBloqueado(true);
 
         //campo que retorna a quantidade de caixas master
-        $oQtCaixaMaster = new Campo('Qt. Caixas', 'qtcaixa', Campo::TIPO_TEXTO, 1, 1);
+        $oQtCaixaMaster = new Campo('Qt. Caixas', 'qtcaixa', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtCaixaMaster->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtCaixaMaster->setBCampoBloqueado(true);
 
-        $oDiver = new Campo('Divergência', 'diver', Campo::TIPO_TEXTO, 1, 1);
+        $oDiver = new Campo('Divergência', 'diver', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDiver->setITamanho(Campo::TAMANHO_PEQUENO);
         $oDiver->setBCampoBloqueado(true);
 
         //botão para aplicar a quantidade para arredondar a master
-        $oBtnMaster = new Campo('Aplicar', 'btnMaster', Campo::TIPO_BOTAOSMALL, 1, 1);
+        $oBtnMaster = new Campo('Aplicar', 'btnMaster', Campo::TIPO_BOTAOSMALL, 1, 1, 12, 12);
         $sQtSugMaster = 'aplicaQtMaster("' . $oQtSugMaster->getId() . '","' . $oQuant->getId() . '")';
         $oBtnMaster->getOBotao()->addAcao($sQtSugMaster);
         $oBtnMaster->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
 
         //campo que retorna a caixa normal
-        $oCaixaNormal = new Campo('Normal', 'cxnormal', Campo::TIPO_TEXTO, 1, 1);
+        $oCaixaNormal = new Campo('Normal', 'cxnormal', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oCaixaNormal->setITamanho(Campo::TAMANHO_PEQUENO);
         $oCaixaNormal->setBCampoBloqueado(true);
 
         //badge que mostra avisos de divergência
-        $oAguardNormal = new Campo('Aguardando', '', Campo::TIPO_BADGE, 1, 1);
+        $oAguardNormal = new Campo('Aguardando', '', Campo::TIPO_BADGE, 1, 1, 12, 12);
 
         //campo que mostra a quantidade sugerida normal
-        $oQtSugNormal = new Campo('Qt. Sugerida', 'qtsugnormal', Campo::TIPO_TEXTO, 1, 1);
+        $oQtSugNormal = new Campo('Qt. Sugerida', 'qtsugnormal', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtSugNormal->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtSugNormal->setBCampoBloqueado(true);
 
         //campo para mostrar quantidade de caixas normais
-        $oQtCaixaNormal = new Campo('Qt. Caixas', 'qtcaixanormal', Campo::TIPO_TEXTO, 1, 1);
+        $oQtCaixaNormal = new Campo('Qt. Caixas', 'qtcaixanormal', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtCaixaNormal->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtCaixaNormal->setBCampoBloqueado(true);
 
 
         //botão que aplica a quantidade sugerida pelo sistema
-        $oBtnNormal = new Campo('Aplicar', 'btnNormal', Campo::TIPO_BOTAOSMALL, 1, 1);
+        $oBtnNormal = new Campo('Aplicar', 'btnNormal', Campo::TIPO_BOTAOSMALL, 1);
         $sAcaoSugQt = 'aplicaQtNormal("' . $oQtSugNormal->getId() . '","' . $oQuant->getId() . '")';
         $oBtnNormal->getOBotao()->addAcao($sAcaoSugQt);
         $oBtnNormal->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
 
-        //carrega o fieldset como oculto
-
         //adiciona os campos no fieldset
-        $oFieldEmb->addCampos(array($oCaixaMaster, $oAguardMaster, $oQtSugMaster,
-            $oQtCaixaMaster, $oDiver, $oBtnMaster, $oCaixaNormal, $oAguardNormal, $oQtSugNormal, $oQtCaixaNormal, $oBtnNormal));
+        $oFieldEmb->addCampos(array($oCaixaMaster, $oAguardMaster, $oQtSugMaster, $oQtCaixaMaster, $oDiver, $oBtnMaster, $oCaixaNormal, $oAguardNormal, $oQtSugNormal, $oQtCaixaNormal, $oBtnNormal));
 
         //campo para informar 
-        $oLiberadoEmbalagem = new Campo('Embalagem', 'emb', Campo::TIPO_TEXTO, 1, 1);
+        $oLiberadoEmbalagem = new Campo('Embalagem', 'emb', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oLiberadoEmbalagem->setApenasTela(true);
         $oLiberadoEmbalagem->setBCampoBloqueado(true);
         $oLiberadoEmbalagem->setITamanho(Campo::TAMANHO_PEQUENO);
         //se o valor é negado não libera as quantidades, se o valor é liberado deixa passar
         $oLiberadoEmbalagem->setSValor('Negado');
+
         //traz o peso para cálculos necessários
-        $oPesoProduto = new Campo('', 'peso', Campo::TIPO_TEXTO, 1, 1);
+        $oPesoProduto = new Campo('', 'peso', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oPesoProduto->setITamanho(Campo::TAMANHO_PEQUENO);
         $oPesoProduto->setBCampoBloqueado(true);
         $oPesoProduto->setBOculto(true);
-        $oLibPrcKg = new Campo('Regra de Liberação', 'prcKg', Campo::TIPO_TEXTO, 2, 2);
+
+        $oLibPrcKg = new Campo('Regra de Liberação', 'prcKg', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oLibPrcKg->setBCampoBloqueado(true);
         $oLibPrcKg->setSValor('Negado');
         $oLibPrcKg->setITamanho(Campo::TAMANHO_PEQUENO);
 
-        $oLoteMinimo = new campo('Lote mínimo', 'lotemin', Campo::TIPO_TEXTO, 2, 2);
+        $oLoteMinimo = new campo('Lote mínimo', 'lotemin', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oLoteMinimo->setBCampoBloqueado(true);
         $oLoteMinimo->setSValor('0');
 
-        $oSolLib = new Campo('Solicita Liberação', 'sollib', Campo::TIPO_BOTAOSMALL, 1, 1);
+        $oSolLib = new Campo('Solicita Liberação', 'sollib', Campo::TIPO_BOTAOSMALL, 1, 1, 12, 12);
         $oSolLib->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
-        $sAcaoLib = 'var difporc =retornaPorc ("' . $oVlrUnit->getId() . '","' . $oPrcBruto->getId() . '"); '
+        $sAcaoLib = 'var difporc = retornaPorc ("' . $oVlrUnit->getId() . '","' . $oPrcBruto->getId() . '"); '
                 . ' var solPreco = calcPrecoKg("' . $oQuant->getId() . '","' . $oPesoProduto->getId() . '","' . $oVlrTot->getId() . '","' . $oPrecoKg->getId() . '"); '
                 . 'requestAjax("' . $this->getTela()->getId() . '-form","AutPrecoItem","insereLib","P"+","+$("#' . $oNr->getId() . '").val()+","+$("#' . $oCodigo->getId() . '").val()+","+$("#' . $oProdes->getId() . '").val()+","+'
                 . 'moedaParaNumero($("#' . $oPrcBruto->getId() . '").val())+","+moedaParaNumero($("#' . $oVlrUnit->getId() . '").val())+","+difporc+","+moedaParaNumero(solPreco)+","+$("#' . $oEmpCod->getId() . '").val()+","+$("#' . $oEmpdes->getId() . '").val()+","+$("#' . $oQuant->getId() . '").val());';
@@ -306,20 +308,19 @@ class ViewCotIten extends View {
         $oSolLib->getOBotao()->addAcao($sAcaoLib);
 
         //campos data 
-
-        $oData = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1, 1);
+        $oData = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oData->setITamanho(Campo::TAMANHO_PEQUENO);
         $oData->setBCampoBloqueado(true);
         $oData->setSValor(date('d/m/Y'));
 
-        $oHora = new Campo('', 'hora', Campo::TIPO_TEXTO, 1, 1);
+        $oHora = new Campo('', 'hora', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oHora->setITamanho(Campo::TAMANHO_PEQUENO);
         date_default_timezone_set('America/Sao_Paulo');
         $oHora->setSValor(date('H:i'));
         $oHora->setBCampoBloqueado(true);
         $oHora->setBOculto(true);
 
-        $oProd = new Campo('', 'odprod', Campo::TIPO_TEXTO, 1, 1);
+        $oProd = new Campo('', 'odprod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oProd->setITamanho(Campo::TAMANHO_PEQUENO);
         $oProd->setBCampoBloqueado(true);
         $oProd->setSValor(' ');
@@ -327,7 +328,7 @@ class ViewCotIten extends View {
 
         $oFieldLib = new FieldSet('Liberações');
         $oFieldLib->addCampos(array($oLiberadoEmbalagem, $oLibPrcKg, $oLoteMinimo, $oSolLib, $oPesoProduto, $oHora, $oEmpCod, $oEmpdes, $oProd));
-        
+
         /* adiciona o evento sair do campo chamando função 
          * entradaCodigo no arquivo funções 
          * chama o método no php acaoExitCampo para trazer preço e embalagens

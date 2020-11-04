@@ -36,10 +36,6 @@ class ViewModulo extends View {
     function criaTela() {
         parent::criaTela();
 
-
-        $this->setBGravaHistoricoExcluir(true);
-        $this->setBGravaHistoricoAlterar(true);
-
         $oTeste = new Campo('Cad. User', 'teste', Campo::TIPO_BOTAO_MOSTRACONSULTA, 1, 1, 12, 12);
         $oTeste->setApenasTela(true);
         $oTeste->setClasseBusca('User');
@@ -50,6 +46,7 @@ class ViewModulo extends View {
 
         $oModDescricao = new Campo('Descrição', 'modescricao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oModDescricao->addValidacao(false, Validacao::TIPO_STRING, '', '2', '15');
+        $oModDescricao->setBUpperCase(true);
 
 
         $this->addCampos(array($oModCod, $oModDescricao));

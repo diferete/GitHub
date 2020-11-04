@@ -22,24 +22,28 @@ class ViewSolPed extends View {
         $this->getTela()->setILarguraGrid(2300);
         $this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setIAltura(750);
-        
+
         $oNr = new CampoConsulta('Solicitação', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(50);
+
         $oCnpj = new CampoConsulta('CNPJ', 'cnpj', CampoConsulta::TIPO_TEXTO);
+
         $oCliente = new CampoConsulta('Cliente', 'cliente', CampoConsulta::TIPO_LARGURA, 200);
+
         $oOdCompra = new CampoConsulta('Ordem de compra', 'odcompra', CampoConsulta::TIPO_LARGURA, 15);
         $oOdCompra->setILargura(100);
-        
-        
+
         $oUserLib = new CampoConsulta('Usuário Lib.', 'userlib', CampoConsulta::TIPO_TEXTO);
         $oUserLib->setILargura(100);
+
         $oNrCot = new CampoConsulta('Cotação', 'nrcot', CampoConsulta::TIPO_TEXTO);
+
         $oDataLib = new CampoConsulta('Data Liberaçao', 'datalib', CampoConsulta::TIPO_DATA);
         $oDataLib->setILargura(80);
-       
+
         $oEmail = new CampoConsulta('Email', 'email', CampoConsulta::TIPO_TEXTO);
-        $oEmail->addComparacao('NV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
-        $oEmail->addComparacao('EV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oEmail->addComparacao('NV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, '');
+        $oEmail->addComparacao('EV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
 
         $oData = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
         $oData->setILargura(100);
@@ -50,8 +54,8 @@ class ViewSolPed extends View {
         $this->setUsaDropdown(true);
 
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Liberar para metalbo', 'SolPed', 'msgLiberaMetalbo', '', false, '');
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_COPIAR) . 'Gerar copia', 'SolPed', 'msgCopiaSol', '', false, '');
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Liberar para metalbo', 'SolPed', 'msgLiberaMetalbo', '', false, '', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_COPIAR) . 'Gerar copia', 'SolPed', 'msgCopiaSol', '', false, '', false, '', false, '', false, false);
 
         $oDrop2 = new Dropdown('Visualizar', Dropdown::TIPO_PRIMARY);
         //verifica sessão de solicitação de venda
@@ -60,31 +64,30 @@ class ViewSolPed extends View {
         } else {
             $sSolvenda = 'solvenda';
         }
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . '');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar sem logo', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',slogo');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'SolPed', 'acaoMostraRelXls', '', false, 'solvendaxls');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'SolPed', 'geraAnexoSolEmail', '', false, $sSolvenda, false, '', false, '', true);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'SolPed', 'geraAnexoSolEmailSLogo', '', false, $sSolvenda, false, '', false, '', true);
-        //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',email,SolPed,envMailSol');
-        //$oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',email,SolPed,envMailSol,slogo');
-      //  $oDrop2->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Estoque', 'ConsultaEstoque', 'acaoMostraTelaEstoque', '', false, $_SESSION['officecabsoliten'], true, 'Consulta Estoques de Pedido');
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'SolPed', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . '', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar sem logo', 'SolPed', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',slogo', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'SolPed', 'acaoMostraRelXls', '', false, 'solvendaxls', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'SolPed', 'geraAnexoSolEmail', '', false, $sSolvenda, false, '', false, '', true, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'SolPed', 'geraAnexoSolEmailSLogo', '', false, $sSolvenda, false, '', false, '', true, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'SolPed', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep', false, '', false, '', false, false);
         $this->addDropdown($oDrop2);
         //descontosrep
 
-        $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1);
-        $oFilCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3);
-        $oFilCnpj = new Filtro($oCnpj, Filtro::CAMPO_BUSCADOBANCOPK, 2);
+        $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
+
+        $oFilCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
+
+        $oFilCnpj = new Filtro($oCnpj, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFilCnpj->setSClasseBusca('Pessoa');
         $oFilCnpj->setSCampoRetorno('empcod', $this->getTela()->getSId());
         $oFilCnpj->setSIdTela($this->getTela()->getSId());
 
-        $oFilOd = new Filtro($oOdCompra, Filtro::CAMPO_TEXTO_IGUAL, 1);
-        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2);
+        $oFilOd = new Filtro($oOdCompra, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12);
+
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12);
 
         $this->addCampos($oNr, $oCnpj, $oCliente, $oOdCompra, $oUserLib, $oNrCot, $oGeraPed, $oData, $oEmail);
         $this->addFiltro($oFilSolNr, $oFilCliente, $oFilCnpj, $oFilOd, $oFilData);
-        
     }
 
     public function criaTela() {
@@ -96,34 +99,32 @@ class ViewSolPed extends View {
 
         //---Define para não ter botão fechar---
         //$this->getTela()->setBTela(true);
-        
         //----INICIO CAMPOS INICIAIS BLOQUEADOS----//
-        $oNr = new Campo('Sol', 'nr', Campo::TIPO_TEXTO, 1,3,3,4);
+        $oNr = new Campo('Sol', 'nr', Campo::TIPO_TEXTO, 1, 3, 3, 4);
         $oNr->setITamanho(Campo::TAMANHO_PEQUENO);
         $oNr->setBCampoBloqueado(true);
         $oNr->setBFocus(true);
-        
+
         //---Campo usuário que pega da SESSION---//
-        $oUserIns = new campo('Usuário', 'userins', Campo::TIPO_TEXTO, 2,3,3);
+        $oUserIns = new campo('Usuário', 'userins', Campo::TIPO_TEXTO, 2, 3, 3);
         $oUserIns->setSValor($_SESSION["nome"]);
         $oUserIns->setBCampoBloqueado(true);
-        
+
         //---Campo Data Atual---///
-        $oData = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1,3,3,4);
+        $oData = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1, 3, 3, 4);
         $oData->setITamanho(Campo::TAMANHO_PEQUENO);
         $oData->setBCampoBloqueado(true);
         $oData->setSValor(date('d/m/Y'));
 
         //---Campo Hora Atual---///
-        $oHora = new Campo('Hora', 'hora', Campo::TIPO_TEXTO, 1,3,3,4);
+        $oHora = new Campo('Hora', 'hora', Campo::TIPO_TEXTO, 1, 3, 3, 4);
         $oHora->setITamanho(Campo::TAMANHO_PEQUENO);
         date_default_timezone_set('America/Sao_Paulo');
         $oHora->setSValor(date('H:i'));
         $oHora->setBCampoBloqueado(true);
         //---- FIM CAMPOS INICIAIS BLOQUEADOS----//
-        
         //---INICIO Campo pesquisa CNPJ---//
-        $oCnpj = new Campo('Cliente', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2,6,6,12);
+        $oCnpj = new Campo('Cliente', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 6, 6, 12);
 
         $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
         $oCnpj->setBFocus(true);
@@ -133,11 +134,11 @@ class ViewSolPed extends View {
                 . '}else{return { valid: true };};';
         $oCnpj->addValidacao(true, Validacao::TIPO_CALLBACK, '', '2', '15', '', '', $sCallBackCnpj, Validacao::TRIGGER_SAIR);
 
-        $oEmpresa = new Campo('RazãoSocial', 'cliente', Campo::TIPO_BUSCADOBANCO, 4,6,6,12);
+        $oEmpresa = new Campo('RazãoSocial', 'cliente', Campo::TIPO_BUSCADOBANCO, 4, 6, 6, 12);
         $oEmpresa->setSIdPk($oCnpj->getId());
         $oEmpresa->setClasseBusca('Pessoa');
         $oEmpresa->addValidacao(false, Validacao::TIPO_STRING, '', '2');
-        
+
         /* definir sempre código pk e descrição */
         $oEmpresa->addCampoBusca('empcod', '', '');
         $oEmpresa->addCampoBusca('empdes', '', '');
@@ -149,13 +150,12 @@ class ViewSolPed extends View {
         $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
         //---FIM Campo pesquisa CNPJ---//
-        
         //---INICIO PESQUISA TIPO DE PAGAMENTO---//
-        $oCodPag = new Campo('Cod', 'codpgt', Campo::TIPO_BUSCADOBANCOPK, 1,6,6,12);
+        $oCodPag = new Campo('Cod', 'codpgt', Campo::TIPO_BUSCADOBANCOPK, 1, 6, 6, 12);
         $oCodPag->addValidacao(false, Validacao::TIPO_INTEIRO, '', '1');
         $oCodPag->setITamanho(Campo::TAMANHO_PEQUENO);
 
-        $oCodPagDes = new Campo('Pag', 'cpgt', Campo::TIPO_BUSCADOBANCO, 4,6,6,12);
+        $oCodPagDes = new Campo('Pag', 'cpgt', Campo::TIPO_BUSCADOBANCO, 4, 6, 6, 12);
         $oCodPagDes->setSIdPk($oCodPag->getId());
         $oCodPagDes->setClasseBusca('CondPag');
         $oCodPagDes->addCampoBusca('cpgcod', '', '');
@@ -168,37 +168,36 @@ class ViewSolPed extends View {
         $oCodPag->setSCampoRetorno('cpgcod', $this->getTela()->getId());
         $oCodPag->addCampoBusca('cpgdes', $oCodPagDes->getId(), $this->getTela()->getId());
         //---FIM PESQUISA TIPO DE PAGAMENTO---//
-
         //---Campo Ordem de Compra---///
-        $oOd = new Campo('OrdemCompra', 'odcompra', Campo::TIPO_TEXTO, 2,3,3,6);
+        $oOd = new Campo('OrdemCompra', 'odcompra', Campo::TIPO_TEXTO, 2, 3, 3, 6);
         $oOd->setITamanho(Campo::TAMANHO_PEQUENO);
         $oOd->setSValor(' ');
         $oOd->addValidacao(false, Validacao::TIPO_STRING);
 
         //---Campo Código de representante---///
-        $oCodRed = new Campo('CodRep', 'codrep', Campo::TIPO_TEXTO, 2,3,3,6);
+        $oCodRed = new Campo('CodRep', 'codrep', Campo::TIPO_TEXTO, 2, 3, 3, 6);
         $oCodRed->setBCampoBloqueado(true);
         $oCodRed->setITamanho(Campo::TAMANHO_PEQUENO);
         $oCodRed->addValidacao(false, Validacao::TIPO_INTEIRO, '', '1');
 
         //---Campo Descrição de Representante---///
-        $oRep = new Campo('Representante', 'rep', Campo::TIPO_TEXTO, 2,3,3,12);
+        $oRep = new Campo('Representante', 'rep', Campo::TIPO_TEXTO, 2, 3, 3, 12);
         $oRep->setITamanho(Campo::TAMANHO_PEQUENO);
         $oRep->setBCampoBloqueado(true);
         //evento para carrega o rep
         $oCodPagDes->addEvento(Campo::EVENTO_SAIR, 'var oCnpj=$("#' . $oCnpj->getId() . '").val(); requestAjax("","SolPed","carregaRep","' . $oCodRed->getId() . ',' . $oRep->getId() . ',"+oCnpj+"","");');
 
         //---INICIO PESQUISA TIPO DE TRANSPORTADORA---//
-        $oTransp = new Campo('CodTransp', 'transcnpj', Campo::TIPO_BUSCADOBANCOPK, 2,6,6,12);
+        $oTransp = new Campo('CodTransp', 'transcnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 6, 6, 12);
         $oTransp->setITamanho(Campo::TAMANHO_PEQUENO);
         $oTransp->setSValor(' ');
 
-        $oTranspDes = new Campo('Transportadora', 'transp', Campo::TIPO_BUSCADOBANCO, 4,6,6,12);
+        $oTranspDes = new Campo('Transportadora', 'transp', Campo::TIPO_BUSCADOBANCO, 4, 6, 6, 12);
         $oTranspDes->setSIdPk($oTransp->getId());
         $oTranspDes->setClasseBusca('Transp');
         $oTranspDes->setITamanho(Campo::TAMANHO_PEQUENO);
         $oTranspDes->setSValor(' ');
-        
+
         /* definir sempre código pk e descrição */
         $oTranspDes->addCampoBusca('empcod', '', '');
         $oTranspDes->addCampoBusca('empdes', '', '');
@@ -206,7 +205,6 @@ class ViewSolPed extends View {
         $oTransp->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oTransp->addCampoBusca('empdes', $oTranspDes->getId(), $this->getTela()->getId());
         //---FIM PESQUISA TIPO DE PAGAMENTO---//
-        
         //---Campo Tipo de Frete---///
         $oFrete = new Campo('Frete', 'frete', Campo::TIPO_SELECT, 2);
         $oFrete->addItemSelect('CIF ', 'CIF ');
@@ -225,7 +223,7 @@ class ViewSolPed extends View {
         $oQtExata->addItemSelect('S', 'CLIENTE SOLICITA QUANTIDADE EXATAS');
 
         //---Aviso do campo Quantidade Exata---//
-        $oAtencao = new Campo('Atenção à seleção', '', Campo::TIPO_BADGE, 1,1,1,3);
+        $oAtencao = new Campo('Atenção à seleção', '', Campo::TIPO_BADGE, 1, 1, 1, 3);
         $oAtencao->setSEstiloBadge(Campo::BADGE_DANGER);
         $oAtencao->setITamFonteBadge(18);
         $oAtencao->setApenasTela(true);
@@ -241,7 +239,7 @@ class ViewSolPed extends View {
         $oDataEnt->addValidacao(false, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
 
         //---Campos ocultos ou com valores fixos---//
-        $oConsemail = new Campo('Email', 'consemail', Campo::TIPO_TEXTO, 3,3,3,12);
+        $oConsemail = new Campo('Email', 'consemail', Campo::TIPO_TEXTO, 3, 3, 3, 12);
         $oConsemail->setITamanho(Campo::TAMANHO_PEQUENO);
         $oConsemail->setSValor($_SESSION['email']);
         $oConsemail->setBCampoBloqueado(true);
@@ -254,18 +252,18 @@ class ViewSolPed extends View {
         $oContato = new Campo('Contato', 'contato', Campo::TIPO_TEXTO, 3);
         $oContato->setITamanho(Campo::TAMANHO_PEQUENO);
         $oContato->setSValor(' ');
-        
+
         $oEmail = new Campo('', 'email', Campo::TIPO_TEXTO, 1);
         $oEmail->setSValor('NV');
         $oEmail->setBOculto(true);
         //---//
-        
+
         $oEtapas = new FormEtapa(2, 2, 2, 2);
         $oEtapas->addItemEtapas('Inserir Solicitação!', true, $this->addIcone(Base::ICON_EDITAR));
         $oEtapas->addItemEtapas('Financeiro', false, $this->addIcone(Base::ICON_INFO));
         $oEtapas->addItemEtapas('Itens da Solicitação', false, $this->addIcone(Base::ICON_CONFIRMAR));
         $this->addEtapa($oEtapas);
-        
+
         //---Adiciona uma linha em branco---///
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
@@ -281,31 +279,10 @@ class ViewSolPed extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
 
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns),
-                    $oLinha, array($oCnpj, $oEmpresa), 
-                    $oLinha, array($oCodPag, $oCodPagDes),
-                    $oLinha, array($oOd, $oCodRed, $oRep, $oConsemail),
-                    $oLinha, $oFrete, 
-                    $oLinha, array($oTransp, $oTranspDes), 
-                    $oLinha, $oObs,
-                    $oLinha, array($oQtExata, $oAtencao), 
-                    $oLinha, $oDataEnt,
-                    $oLinha, array($oContato, $oEmail),
-                    $oLinha, $oAcao,
-                    $oLinha, $oSituaca);
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRed, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oAcao, $oLinha, $oSituaca);
         } else {
 
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns),
-                    $oLinha, array($oCnpj, $oEmpresa),
-                    $oLinha, array($oCodPag, $oCodPagDes),
-                    $oLinha, array($oOd, $oCodRed, $oRep, $oConsemail),
-                    $oLinha, $oFrete, 
-                    $oLinha, array($oTransp, $oTranspDes),
-                    $oLinha, $oObs, 
-                    $oLinha, array($oQtExata, $oAtencao), 
-                    $oLinha, $oDataEnt, 
-                    $oLinha, array($oContato, $oEmail), 
-                    $oLinha, $oSituaca);
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRed, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oSituaca);
         }
     }
 

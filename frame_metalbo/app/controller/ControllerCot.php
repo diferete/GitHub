@@ -234,6 +234,9 @@ class ControllerCot extends Controller {
         $aDados = explode(',', $sDados);
         $aNr = explode('=', $aDados[2]);
 
+
+
+
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();

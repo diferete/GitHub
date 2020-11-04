@@ -81,7 +81,6 @@ class ControllerCotIten extends Controller {
     public function acaoLimpar($sForm, $sDados) {
         parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
-        // "$('#".$sId."').each (function(){ this.reset();});";
         //verifica se está como 
         $sScript = 'if( $("#' . $aParam[1] . '").is(":checked") ){'
                 . '$("#' . $sForm . '").each (function(){ this.reset();});'
@@ -149,7 +148,7 @@ class ControllerCotIten extends Controller {
 
             $iCont = $this->Persistencia->getCount();
             if ($iCont > 0) {
-                $oMensagem = new Mensagem('Item repetido', 'Já existe ' . $iCont . ' produtos iguais nessa solicitação!', Mensagem::TIPO_INFO);
+                $oMensagem = new Mensagem('Item repetido', 'Já existe(m) ' . $iCont . ' produto(s) igual(s) nessa solicitação!', Mensagem::TIPO_INFO);
                 echo $oMensagem->getRender();
             }
         }

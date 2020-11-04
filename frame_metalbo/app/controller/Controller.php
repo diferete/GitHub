@@ -2508,7 +2508,7 @@ class Controller {
             $sRetorno = str_replace("\n", "", $this->getValorModel($aModels[0], $sCampoRet));
 
             //monta a renderização do componente
-            $sRender = "$('#" . $sCampoRetorno . "').val('" . $sRetorno . "');";
+            $sRender = "$('#" . $sCampoRetorno . "').val('" . trim($sRetorno) . "');";
             echo $sRender;
         } else {
 

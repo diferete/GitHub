@@ -10,8 +10,8 @@ class PersistenciaCot extends Persistencia {
 
     public function __construct() {
         parent::__construct();
-        
-        
+
+
         if (isset($_SESSION['officecabcot'])) {
             $this->setTabela($_SESSION['officecabcot']);
         } else {
@@ -93,19 +93,6 @@ class PersistenciaCot extends Persistencia {
     public function copiaCot($sChave) {
         $aDados = explode('=', $sChave);
         $iNrNew = $this->getIncremento('nr', false);
-
-        /*  $sSql = "insert into ".$this->getTabela()." (NR,CNPJ,CLIENTE,CODPGT,CPGT,ODCOMPRA,CODREP,
-          REP,TRANSCNPJ,TRANSP,DATA,HORA,OBS,EMAIL,NRCOT,IMP,
-          consemail,FRETE,GERAPED,situaca,DTENT,contato,diver,datalib,horalib,qtexata)
-          select ".$iNrNew." AS NR,CNPJ,CLIENTE,CODPGT,CPGT,ODCOMPRA,CODREP,
-          REP,TRANSCNPJ,TRANSP,
-          CONVERT (date, SYSDATETIME())as DATA,
-          CONVERT (time, SYSDATETIME())as HORA,
-          OBS,'NV' AS EMAIL,NRCOT,'' as IMP,
-          consemail,FRETE,'' as GERAPED,situaca,DTENT,contato,diver,datalib,horalib,qtexata
-          from ".$this->getTabela()." where NR =".$aDados[1];
-          $aRetorno = $this->executaSql($sSql); */
-
         $sSql = "insert into " . $this->getTabela() . "(NR,CNPJ,CLIENTE,CODPGT,CPGT,ODCOMPRA,CODREP,
                 REP,TRANSCNPJ,TRANSP,DATA,HORA,OBS,EMAIL,EMAILCOT,VENDA,NRVENDA,CONSEMAIL,FRETE,SITUACA,DTENT,
                 CONTATO,DIVER,QTEXATA,userins) 
@@ -119,20 +106,7 @@ class PersistenciaCot extends Persistencia {
                 consemail,FRETE,situaca,DTENT,contato,diver,qtexata,userins
                 from " . $this->getTabela() . " where NR =" . $aDados[1];
         $aRetorno = $this->executaSql($sSql);
-        /**
-         * insert into '+cabcot+'(NR,CNPJ,CLIENTE,CODPGT,CPGT,ODCOMPRA,CODREP,
-          REP,TRANSCNPJ,TRANSP,DATA,HORA,OBS,EMAIL,EMAILCOT,VENDA,NRVENDA,CONSEMAIL,FRETE,SITUACA,DTENT,
-          CONTATO,DIVER,QTEXATA)
-          select '+inttostr(nrpednew)+' AS NR,CNPJ,CLIENTE,CODPGT,CPGT,ODCOMPRA,CODREP,
-          REP,TRANSCNPJ,TRANSP,
-          CONVERT (date, SYSDATETIME())as DATA,
-          CONVERT (time, SYSDATETIME())as HORA,
-          OBS,
-          'NV' AS EMAIL,'NV' AS EMAILCOT,
-          VENDA,NRVENDA,
-          consemail,FRETE,situaca,DTENT,contato,diver,qtexata
-          from '+cabcot+' where NR =:NR
-         */
+
         //instancia classe de itens da solicitacao
         $oItenSol = Fabrica::FabricarPersistencia('CotIten');
 

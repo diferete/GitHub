@@ -12,21 +12,26 @@ class ViewPnlFinanCot extends View {
         parent::__construct();
     }
 
+    public function criaConsulta() {
+        parent::criaConsulta();
+    }
+
     public function criaTela() {
         parent::criaTela();
         $aValor = $this->getAParametrosExtras();
-        $oCnpj = new Campo('Cliente', '', Campo::TIPO_TEXTO, 2);
+        
+        $oCnpj = new Campo('Cliente', '', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
         $oCnpj->setBCampoBloqueado(true);
         $oCnpj->setSValor($aValor[0]);
         $oCnpj->setBFocus(true);
 
-        $oNr = new Campo('Solicitação', '', Campo::TIPO_TEXTO, 1);
+        $oNr = new Campo('Solicitação', '', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setITamanho(Campo::TAMANHO_PEQUENO);
         $oNr->setBCampoBloqueado(true);
         $oNr->setSValor($aValor[2]);
 
-        $oEmpDes = new campo('Razão Social', '', Campo::TIPO_TEXTO, 5);
+        $oEmpDes = new campo('Razão Social', '', Campo::TIPO_TEXTO, 5, 5, 12, 12);
         $oEmpDes->setITamanho(Campo::TAMANHO_PEQUENO);
         $oEmpDes->setBCampoBloqueado(true);
         $oEmpDes->setSValor($aValor[1]);
@@ -58,20 +63,10 @@ class ViewPnlFinanCot extends View {
         $oGrid->setSController('PnlFinan');
         $oGrid->addParam('empcod', $aValor[0]);
 
-        /*   $oGrid1 = new Campo('Títulos atrasados','rec', Campo::TIPO_GRID,6,6,6,6,200);
-          $oDataEmiss1 = new CampoConsulta('Emissão', 'recdtemiss',CampoConsulta::TIPO_DATA);
-          $oSerie1 = new CampoConsulta('Serie','recdocto');
-          $oGrid1->addCampos($oDataEmiss1,$oSerie1);
-          $oGrid1->setSController('PnlFinan'); */
-
         $oFieldAberto = new FieldSet('Títulos em aberto');
         $oFieldAberto->addCampos(array($oGrid));
 
-        $this->addCampos(array($oCnpj, $oEmpDes), $oLinha, $oFieldAberto, $oNr);
-    }
-
-    public function criaConsulta() {
-        parent::criaConsulta();
+        $this->addCampos(array($oCnpj, $oEmpDes), $oFieldAberto, $oNr);
     }
 
 }

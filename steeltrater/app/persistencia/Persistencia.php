@@ -981,6 +981,7 @@ class Persistencia {
                     case self::CONTEM: //like
                         //  $sValor  = "TO_ASCII('%".strtolower($aAtual['valor'])."%')";
                         $sValor = "'%" . strtolower($aAtual['valor']) . "%'";
+                        $sTabelaCampo = $this->checkTable($sTabelaCampo);
                         $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
                         //$sTabela = "TO_ASCII(LOWER(".$sTabela."))";
                         $sTabela = "LOWER(" . $sTabela . ")";
@@ -988,6 +989,7 @@ class Persistencia {
                     case self::INICIA_COM: //like (inicia com...)
                         // $sValor  = "TO_ASCII('".strtolower($aAtual['valor'])."%')";
                         $sValor = "'" . strtolower($aAtual['valor']) . "%'";
+                        $sTabelaCampo = $this->checkTable($sTabelaCampo);
                         $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
                         //$sTabela = "TO_ASCII(LOWER(".$sTabela."))";
                         $sTabela = "LOWER(" . $sTabela . ")";
@@ -995,6 +997,7 @@ class Persistencia {
                     case self::TERMINA_COM: //like (termina com...)
                         // $sValor  = "TO_ASCII('%".strtolower($aAtual['valor'])."')";
                         $sValor = "'%" . strtolower($aAtual['valor']) . "'";
+                        $sTabelaCampo = $this->checkTable($sTabelaCampo);
                         $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
                         //  $sTabela = "TO_ASCII(LOWER(".$sTabela."))";
                         $sTabela = "LOWER(" . $sTabela . ")";
@@ -1069,6 +1072,16 @@ class Persistencia {
             $bIsNumeric = is_numeric(preg_replace('/[^0-9]/', '', $value));
         }
         return $bIsNumeric;
+    }
+
+    public function checkTable($sTabela) {
+        $aTabela = explode('.', $sTabela);
+        if (in_array('widl', $aTabela)) {
+            return $sTabela;
+        } else {
+            $sTabela = '"' . $sTabela . '"';
+            return $sTabela;
+        }
     }
 
     /**
@@ -1335,7 +1348,7 @@ class Persistencia {
         $sTabelaCampo = "";
         //percorre os campos do relacionamento principal
         foreach ($this->getListaRelacionamento() as $oCampoBanco) {
-            if ($oCampoBanco->getNomeBanco() == $sCampoBanco) {
+            if ($oCampoBanco->getNomeBanco() == strtolower($sCampoBanco)) {
                 $sTabelaCampo = $this->getTabela();
                 break;
             }
@@ -1853,12 +1866,11 @@ class Persistencia {
         $sSql .= $this->getSWhereManual(); //define partes do where manualmente
         $sSql .= $this->getStringGroupBy() . $this->getStringOrderBy() . $this->getStringLimit();
 
-        /*
-          $fp = fopen("bloco1.txt", "w");
-          fwrite($fp, $sSql);
-          fclose($fp);
-         * 
-         */
+
+        $fp = fopen("bloco1.txt", "w");
+        fwrite($fp, $sSql);
+        fclose($fp);
+
 
         $result = $this->getObjetoSql($sSql);
 

@@ -85,6 +85,7 @@ class Campo {
     private $iCasaDecimal;
     private $bNomeArquivo;
     private $sDiretorio;
+    private $bUpperCase;
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -202,6 +203,7 @@ class Campo {
         $this->setICasaDecimal(2);
         $this->setBNomeArquivo(false);
         $this->setICaracter('10000');
+        $this->setBUpperCase(false);
 
 
         $this->sController = $_REQUEST['classe'];
@@ -242,6 +244,14 @@ class Campo {
                 $this->setApenasTela(true);
                 break;
         }
+    }
+
+    function getBUpperCase() {
+        return $this->bUpperCase;
+    }
+
+    function setBUpperCase($bUpperCase) {
+        $this->bUpperCase = $bUpperCase;
     }
 
     function getBDisabled() {
@@ -1507,8 +1517,13 @@ class Campo {
                         //.'</div>'
                         . '</div>'
                         . $this->getRenderEventos()
-                        . '<script>'
-                        . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
+                        . '<script>';
+                if ($this->getBUpperCase() == true) {
+                    $sCampo .= '$( "#' . $this->getId() . '").blur(function(){'
+                            . '$( "#' . $this->getId() . '").val($( "#' . $this->getId() . '").val().toUpperCase());'
+                            . '}); ';
+                }
+                $sCampo .= '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
                         . '</script>';
                 //verifica se existe campo de busca e monta renderização
                 if ($this->getClasseBusca() != null) {
@@ -1952,8 +1967,15 @@ class Campo {
                         . ' </div>'
                         . '<script>'
                         . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '//btn-block btn-default  btn btn-primary
-                        . '</script>'
-                        . '<script>$("#' . $this->getId() . '-btn").click(function(){'
+                        . '</script>';
+                if ($this->getBUpperCase() == true) {
+                    $sCampo .= '<script>'
+                            . '$( "#' . $this->getId() . '").blur(function(){'
+                            . '$( "#' . $this->getId() . '").val($( "#' . $this->getId() . '").val().toUpperCase());'
+                            . '});'
+                            . '</script>';
+                }
+                $sCampo .= '<script>$("#' . $this->getId() . '-btn").click(function(){'
                         . $this->getBtnBuscaPk()
                         . '});'
                         . $this->getAcaoExitCampoBanco()
