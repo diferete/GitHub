@@ -77,6 +77,7 @@ class CampoConsulta {
     const COL_MARROM = 'tr-bk-marrom';
     const COL_PADRAO = 'tr-bk-padrao';
     const COL_DKGRAY = 'tb-bk-darkgray';
+    const COL_VDCLARO = 'tb-bk-vdclaro';
     //ícone campos consulta acao
     const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
     const ICONE_FLAG = 'btn-xs btn btn-pure btn-dark icon wb-flag';

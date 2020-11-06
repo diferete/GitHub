@@ -14,6 +14,29 @@ class ControllerPnlFinan extends Controller {
         $this->setSMetodoDetalhe('acaoTelaDetalhe');
     }
 
+    /**
+     * Método para cria a tela do painel financeiro
+     */
+    public function criaPainelFinanceiroSol($sDados, $sCampos) {
+        $aDados = explode(',', $sDados);
+        $aCampos = explode(',', $sCampos);
+        $this->pkDetalhe($aCampos);
+        $this->parametros = $sCampos;
+        if ($aDados[7] != '') {
+            $this->View->setSRotina($aDados[7]);
+        }
+
+        $this->View->setSIdHideEtapa($aDados[4]);
+        $this->View->criaTela();
+        $this->View->getTela()->setSRender($aDados[3]);
+        //define o retorno somente do form
+        $this->View->getTela()->setBSomanteForm(true);
+        //seta o controler na view
+        $this->View->setTelaController($this->View->getController());
+        $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe(), $this->getSMetodoDetalhe(), $aDados[7]);
+        $this->View->getTela()->getRender();
+    }
+
     public function pkDetalhe($aChave) {
         parent::pkDetalhe($aChave);
 

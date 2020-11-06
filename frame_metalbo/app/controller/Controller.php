@@ -3640,8 +3640,8 @@ class Controller {
             echo $oMensagemSucesso->getRender();
 
             //Atualiza o Grid
-            $this->getDadosConsulta($aDados[1], false, null);
-            // echo"$('#".$aDados[1]."-pesq').click();";
+            // $this->getDadosConsulta($aDados[1], false, null);
+            echo "$('#" . $aDados[1] . "-pesq').click();";
         } else {
             $oMensagemErro = new Mensagem('Falha', 'O registro não foi excluído!', Mensagem::TIPO_ERROR);
             echo $oMensagemErro->getRender();
@@ -3993,7 +3993,7 @@ class Controller {
         if ($oCampo->getITipo() == 0) {
             if ($xValor !== '') {
                 //valida tipo de data 
-                if (Util::ValidaData($xValor)) {
+                if (Util::validaDateTime($xValor)) {
                     //altera valor de / para tipo dataSql
                     $xValorCampo = Util::dataMysql($xValor);
                     //setValor no campo data
@@ -4009,7 +4009,7 @@ class Controller {
         } else {
             if ($oCampo->getITipo() == 1) {
                 if ($xValor !== '') {
-                    if (Util::ValidaData(Util::converteData($xValor))) {
+                    if (Util::validaDateTime($xValor)) {
                         //altera valor de / para tipo dataSql
                         $xValorCampo = Util::converteData($xValor);
                         //setValor no campo data
@@ -4110,19 +4110,19 @@ class Controller {
                     }
                 }
                 if ($sValor !== 'semModel') {
-                    if (Util::ValidaData(Util::converteData($sValor))) {
-                        //altera valor de / para tipo dataSql
-                        $sValorCampo = Util::converteData($sValor);
-                        //setValor no campo data
-                        $sValor = $sValorCampo;
+                    if (Util::validaDateTime(trim($sValor))) {
+                        $sValor = Util::converteData($sValor);
+                        $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
+                        echo $sRetorno;
                     } else {
                         $sValor = str_replace("\n", " ", $sValor);
                         $sValor = str_replace("'", "\'", $sValor);
                         $sValor = str_replace("\r", "", $sValor);
+
+                        $sValor = rtrim($sValor);
+                        $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change').focus().blur();";
+                        echo $sRetorno;
                     }
-                    $sValor = rtrim($sValor);
-                    $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
-                    echo $sRetorno;
                 }
             }
         }

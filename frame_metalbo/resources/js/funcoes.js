@@ -434,9 +434,9 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, i
             $('#' + idDiverNormal + '').removeClass("label-warning");
             $('#' + idDiverNormal + '').removeClass("label-success");
             $('#' + idDiverNormal + '').addClass("label-danger");
-            $('#' + idDiverNormal + '').text('Atenção!')
+            $('#' + idDiverNormal + '').text('Atenção!')/*
             $('#' + idFieldSet + '').removeClass("collapsed").addClass("expanded");
-            $('#' + idFieldSet + ' >div').css("display", "block");
+            $('#' + idFieldSet + ' >div').css("display", "block");*/
             $('#' + idQtSug + '').val(resultadoNormalArr * CaixaNormal);
             $('#' + idQtCaixaNormal + '').val(resultadoNormalArr);
             return false;
@@ -448,8 +448,9 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, i
             $('#' + idDiverNormal + '').text('Embalagem OK!');
             $('#' + idQtSug + '').val(resultadoNormalArr * CaixaNormal);
             $('#' + idQtCaixaNormal + '').val(resultadoNormalArr);
-            $('#' + idFieldSet + '').removeClass("expanded").addClass("collapsed");
+           /* $('#' + idFieldSet + '').removeClass("expanded").addClass("collapsed");
             $('#' + idFieldSet + ' >div').css("display", "none");
+            */
         }
     }
 }

@@ -255,6 +255,52 @@ class Util {
     }
 
     /**
+     * Valida campos com valor tipo DATE ou DATETIME
+     * 
+     * @param string $sData Recebe string data para converter
+     * */
+    public static function validaDateTime($sData) {
+        if (strtotime($sData)) {
+            $aData = explode(" ", $sData);
+            $sDataConvertida = Util::converteData($aData[0]);
+
+            $data = explode("/", $sDataConvertida); // fatia a string $dat em pedados, usando / como referência
+            $d = $data[0];
+            $m = $data[1];
+            $y = $data[2];
+
+            // verifica se a data é válida!
+            // 1 = true (válida)
+            // 0 = false (inválida)
+            $res = checkdate($m, $d, $y);
+            if ($res == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    /*
+     * Converte data do padrão Americano/SQL com traços para Brasileiro
+     * 
+     * @param string $sData Recebe string data para converter
+     * */
+    public static function converteData($sData) {
+        $aData = explode(" ", $sData);
+        $data = explode('-', $aData[0]);
+        $d = $data[2];
+        $m = $data[1];
+        $a = $data[0];
+
+        $sDataConvertida = $d . "/" . $m . "/" . $a;
+
+        return $sDataConvertida;
+    }
+
+    /**
      * testa se o formato é data
      */
     public function ValidaData($dat) {
@@ -289,26 +335,6 @@ class Util {
         $sString = ltrim($sString);
 
         return $sString;
-    }
-
-    /**
-     * Converte data do padrão Americano/SQL com traços para Brasileiro com barras em situações específicas
-     * 
-     * @param string $sData Recebe string data para converter
-     * */
-    public static function converteData($sData) {
-        if (strlen($sData) > 10) {
-            return $sData;
-        } else {
-            $data = explode('-', $sData);
-            $d = $data[2];
-            $m = $data[1];
-            $a = $data[0];
-
-            $sDataConvert = $d . "/" . $m . "/" . $a;
-
-            return $sDataConvert;
-        }
     }
 
     /**

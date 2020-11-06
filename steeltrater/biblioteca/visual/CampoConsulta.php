@@ -78,6 +78,8 @@ class CampoConsulta {
     const COL_MARROM = 'tr-bk-marrom';
     const COL_PADRAO = 'tr-bk-padrao';
     const COL_DKGRAY = 'tb-bk-darkgray';
+    const COL_VDCLARO = 'tr-bk-vdclaro';
+    
     //ícone campos consulta acao
     const ICONE_OK = 'btn-xs btn-pure btn-dark icon wb-thumb-up';
     const ICONE_FLAG = 'btn-xs btn btn-pure btn-dark icon wb-flag';
@@ -459,7 +461,7 @@ class CampoConsulta {
                     
                 }
                 if ($this->getSDiretorioManual() == 'uploads') {
-                $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'' . $this->getSDiretorioManual() . '/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
+                    $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href=\\\'' . $this->getSDiretorioManual() . '/' . $xValor . '\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
                 } else {
                     $sCampo = '<td class="' . $sClasse . '"  style="' . $sFontSize . '"><a href="\\Uploads/' . $this->getSDiretorioManual() . '/' . $xValor . '"\\\' target=\\\'_blank\\\'>' . $xValor . '</a></td>';
                 }
@@ -760,7 +762,7 @@ class CampoConsulta {
                     $sFontSize = 'font-size:' . $iFontSize . 'px !important';
                 } else {
                     $sFontSize = 'font-size:12px !important';
-        }
+                }
                 $xValor = str_replace("\n", " ", $xValor);
                 $xValor = str_replace("'", "\'", $xValor);
                 $xValor = str_replace("\r", "", $xValor);

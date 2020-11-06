@@ -204,6 +204,7 @@ class Campo {
         $this->setBNomeArquivo(false);
         $this->setICaracter('10000');
         $this->setBUpperCase(false);
+        $this->setITamMarginTopBadge(25);
 
 
         $this->sController = $_REQUEST['classe'];

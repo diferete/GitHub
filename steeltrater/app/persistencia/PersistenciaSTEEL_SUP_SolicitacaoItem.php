@@ -63,4 +63,12 @@ class PersistenciaSTEEL_SUP_SolicitacaoItem extends Persistencia {
         $this->setSTop(50);
     }
 
+    public function buscaDadosUnidade($aDados) {
+        $sSql = "select PRO_UnidadeMedida from pro_produto where pro_codigo = " . $aDados['PRO_Codigo'] . "";
+
+        $oObj = $this->consultaSql($sSql);
+
+        return $oObj;
+    }
+
 }

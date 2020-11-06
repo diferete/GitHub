@@ -64,5 +64,20 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
         }
         $this->Persistencia->setChaveIncremento(false);
     }
+    
+    
+    public function buscaDadosUnidade($sDados) {
+        $aDados = $this->getArrayCampostela();
+        if ($aDados['PRO_Codigo'] == '') {
+            exit;
+        } else {
+            $aIdCampos = explode(',', $sDados);
+
+            $oRetorno = $this->Persistencia->buscaDadosUnidade($aDados);
+
+            $script = '$("#' . $aIdCampos[0] . '").val("' . trim($oRetorno->pro_unidademedida) . '")';
+            echo $script;
+        }
+    }
 
 }

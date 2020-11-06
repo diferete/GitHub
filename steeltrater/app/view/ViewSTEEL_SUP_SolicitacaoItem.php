@@ -25,11 +25,13 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
 
         $oItemDesc = new CampoConsulta('Descricao', 'SUP_SolicitacaoItemDescricao');
 
+        $oItemQnt = new CampoConsulta('Qnt.', 'SUP_SolicitacaoItemComQtd');
+
         $oPrioridade = new CampoConsulta('Prioridade', 'SUP_PrioridadeCodigo');
 
         $oItemUnidade = new CampoConsulta('Unidade', 'SUP_SolicitacaoItemUnidade');
 
-        $this->addCampos($oFilCodigo, $oSeqSol, $oSeqSolItem, $oProCod, $oItemDesc, $oPrioridade, $oItemUnidade);
+        $this->addCampos($oFilCodigo, $oSeqSol, $oSeqSolItem, $oProCod, $oItemDesc, $oItemQnt, $oPrioridade, $oItemUnidade);
     }
 
     function criaGridDetalhe($sIdAba) {
@@ -47,11 +49,13 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
 
         $oItemDesc = new CampoConsulta('Descricao', 'SUP_SolicitacaoItemDescricao');
 
+        $oItemQnt = new CampoConsulta('Qnt.', 'SUP_SolicitacaoItemComQtd');
+
         $oPrioridade = new CampoConsulta('Prioridade', 'SUP_PrioridadeCodigo');
 
         $oItemUnidade = new CampoConsulta('Unidade', 'SUP_SolicitacaoItemUnidade');
 
-        $this->addCamposDetalhe($oFilCodigo, $oSeqSol, $oSeqSolItem, $oProCod, $oItemDesc, $oPrioridade, $oItemUnidade);
+        $this->addCamposDetalhe($oFilCodigo, $oSeqSol, $oSeqSolItem, $oProCod, $oItemDesc, $oItemQnt, $oPrioridade, $oItemUnidade);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
@@ -83,20 +87,54 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oItemDesc->addCampoBusca('pro_codigo', '', '');
         $oItemDesc->addCampoBusca('pro_descricao', '', '');
         $oItemDesc->setSIdTela($this->getTela()->getid());
-        $oItemDesc->setBCampoBloqueado(true);
-        $oItemDesc->setApenasTela(true);
 
         $oProCod->setClasseBusca('DELX_PRO_Produtos');
         $oProCod->setSCampoRetorno('pro_codigo', $this->getTela()->getId());
         $oProCod->addCampoBusca('pro_descricao', $oItemDesc->getId(), $this->getTela()->getId());
 
-        $oPrioridade = new Campo('Prioridade', 'SUP_PrioridadeCodigo', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oPrioridade = new Campo('Prioridade', 'SUP_PrioridadeCodigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oPrioridade->setSValor(1);
+        $oPrioridade->setBCampoBloqueado(true);
 
-        $oItemUnidade = new Campo('Un.Medida', 'SUP_SolicitacaoItemUnidade', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oItemUnidade->setClasseBusca('DELX_PRO_UnidadeMedida');
-        $oItemUnidade->setSCampoRetorno('pro_unidademedida', $this->getTela()->getid());
-        $oItemUnidade->addValidacao(FALSE, Validacao::TIPO_STRING, '', '2', '2');
+        $oItemUnidade = new Campo('Un.Medida', 'SUP_SolicitacaoItemUnidade', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oItemUnidade->setBCampoBloqueado(true);
 
+        $oProCod->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","STEEL_SUP_SolicitacaoItem","buscaDadosUnidade","' . $oItemUnidade->getId() . '");');
+
+        $oDataNecessidade = new campo('Data da necessidade', 'SUP_SolicitacaoItemDataNecessi', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDataNecessidade->setSValor(date('d/m/Y'));
+
+        $oDataEntrega = new Campo('Data de entrega', 'SUP_SolicitacaoItemDataEntrega', Campo::TIPO_DATA, 2, 2, 12, 12);
+
+        $oUsuSol = new Campo('Solicitante', 'SUP_SolicitacaoItemUsuSol', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oUsuSol->setSValor($_SESSION['nomedelsoft']);
+
+        $oUsuComprador = new Campo('Usuário comprador', 'SUP_SolicitacaoItemUsuCom', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oUsuComprador->setSValor('Amanda.Piseta');
+
+        $oObsItem = new Campo('Observação', 'SUP_SolicitacaoItemObservacao', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
+        $oObsItem->setILinhasTextArea(3);
+
+        $oSitItem = new Campo('Situação', 'SUP_SolicitacaoItemSituacao');
+
+        $oQuantItem = new Campo('Quantidade', 'SUP_SolicitacaoItemComQtd', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+
+        $oTipoDespesa = new Campo('Tipo de despesa', 'SUP_SolicitacaoItemTipoDespCod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oTipoDespesa->setSIdHideEtapa($this->getSIdHideEtapa());
+        $oTipoDespesa->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
+
+        $oDespDesc = new Campo('Descrição', 'tipodespesa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oDespDesc->setSIdPk($oTipoDespesa->getId());
+        $oDespDesc->setClasseBusca('DELX_TDS_TipoDespesa');
+        $oDespDesc->addCampoBusca('tds_codigo', '', '');
+        $oDespDesc->addCampoBusca('tds_descricao', '', '');
+        $oDespDesc->setSIdTela($this->getTela()->getid());
+        $oDespDesc->setBCampoBloqueado(true);
+        $oDespDesc->setApenasTela(true);
+
+        $oTipoDespesa->setClasseBusca('DELX_TDS_TipoDespesa');
+        $oTipoDespesa->setSCampoRetorno('tds_codigo', $this->getTela()->getId());
+        $oTipoDespesa->addCampoBusca('tds_descricao', $oDespDesc->getId(), $this->getTela()->getId());
 
         $oBtnConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
 
@@ -106,7 +144,7 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $this->getTela()->setIdBtnConfirmar($oBtnConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc), $oPrioridade, $oItemUnidade);
+        $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), array($oDataNecessidade, $oDataEntrega), array($oTipoDespesa, $oDespDesc), array($oUsuSol, $oUsuComprador), $oObsItem, $oPrioridade, $oBtnConf);
 
         $this->addCamposFiltroIni($oSeqSol);
     }

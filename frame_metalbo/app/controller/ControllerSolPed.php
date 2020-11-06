@@ -11,7 +11,7 @@ class ControllerSolPed extends Controller {
     public function __construct() {
         $this->carregaClassesMvc('SolPed');
         $this->setControllerDetalhe('PnlFinan');
-        $this->setSMetodoDetalhe('criaPainelFinanceiro');
+        $this->setSMetodoDetalhe('criaPainelFinanceiroSol');
     }
 
     /**

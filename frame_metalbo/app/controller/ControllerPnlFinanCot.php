@@ -17,7 +17,7 @@ class ControllerPnlFinanCot extends Controller {
     /**
      * Método para cria a tela do painel financeiro
      */
-    public function criaPainelFinanceiro($sDados, $sCampos) {
+    public function criaPainelFinanceiroCot($sDados, $sCampos) {
         $aDados = explode(',', $sDados);
         $aCampos = explode(',', $sCampos);
         $this->pkDetalhe($aCampos);

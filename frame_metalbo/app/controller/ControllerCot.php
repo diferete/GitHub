@@ -11,7 +11,7 @@ class ControllerCot extends Controller {
     public function __construct() {
         $this->carregaClassesMvc('Cot');
         $this->setControllerDetalhe('PnlFinanCot');
-        $this->setSMetodoDetalhe('criaPainelFinanceiro');
+        $this->setSMetodoDetalhe('criaPainelFinanceiroCot');
     }
 
     /**

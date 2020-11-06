@@ -216,6 +216,8 @@ class ViewCotIten extends View {
         //traz o preço por kg
         $oPrecoKg = new Campo('Preço Kg', '', Campo::TIPO_BADGE, 1, 1, 12, 12);
         $oPrecoKg->setSEstiloBadge(Campo::BADGE_DANGER);
+        $oPrecoKg->setITamFonteBadge(16);
+
         //fieldset que contém o controle da embalagem
         $oFieldEmb = new FieldSet('Embalagem');
 
@@ -226,6 +228,7 @@ class ViewCotIten extends View {
 
         //badge que trará avisos de como está o arredondamento da embalagem
         $oAguardMaster = new Campo('Aguardando', '', Campo::TIPO_BADGE, 1, 1, 12, 12);
+        $oAguardMaster->setITamFonteBadge(16);
 
         //campo que retorna a sugestão de quantidade para fechar a embalagem master
         $oQtSugMaster = new Campo('Qt. Sugerida', 'qtsug', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -254,7 +257,8 @@ class ViewCotIten extends View {
 
         //badge que mostra avisos de divergência
         $oAguardNormal = new Campo('Aguardando', '', Campo::TIPO_BADGE, 1, 1, 12, 12);
-
+        $oAguardNormal->setITamFonteBadge(16);
+        
         //campo que mostra a quantidade sugerida normal
         $oQtSugNormal = new Campo('Qt. Sugerida', 'qtsugnormal', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtSugNormal->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -332,7 +336,7 @@ class ViewCotIten extends View {
         /* adiciona o evento sair do campo chamando função 
          * entradaCodigo no arquivo funções 
          * chama o método no php acaoExitCampo para trazer preço e embalagens
-         * chma função do cálculo dos descontos
+         * chama função do cálculo dos descontos
          */
         $oCodigo->addEvento(Campo::EVENTO_SAIR, 'entradaCodigo("' . $oVlrUnit->getId() . '"); var oProcod=$("#' . $oCodigo->getId() . '").val(); var prcTabela =$("#' . $oPrcBruto->getId() . '").val(); var prcUnit =$("#' . $oVlrUnit->getId() . '").val();'
                 . 'var oNrSaida = $("#' . $oNr->getId() . '").val();'
