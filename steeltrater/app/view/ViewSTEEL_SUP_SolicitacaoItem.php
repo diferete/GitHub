@@ -99,6 +99,7 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
 
         $oQuantItem = new Campo('Quantidade', 'SUP_SolicitacaoItemComQtd', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oQuantItem->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oQuantItem->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', '1');
 
         $oPrioridade = new Campo('Prioridade', 'SUP_PrioridadeCodigo', Campo::TIPO_SELECT, 1, 1, 12, 12);
         foreach ($aDadosPrioridade as $key => $oPrioridadeVal) {

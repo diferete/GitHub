@@ -34,7 +34,7 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $oUsuSol = new CampoConsulta('UsuCadastro', 'SUP_SolicitacaoUsuCadastro');
 
-        $oDataHoraSol = new CampoConsulta('Data/Hora', 'SUP_SolicitacaoDataHora', CampoConsulta::TIPO_DATA);
+        $oDataHoraSol = new CampoConsulta('Data', 'SUP_SolicitacaoDataHora', CampoConsulta::TIPO_DATA);
 
         $oObsSol = new CampoConsulta('Observacao', 'SUP_SolicitacaoObservacao');
 
@@ -57,18 +57,18 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $oFilCod = new Campo('Empresa', 'FIL_Codigo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilCod->setBOculto(true);
-        $oFilCod->setSValor($_SESSION['filcgc']);
+        $oFilCod->setSValor('8993358000174');
 
         $oSeqSol = new Campo('Sequencia', 'SUP_SolicitacaoSeq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeqSol->setBOculto(true);
 
-        $oDataHoraSol = new Campo('Data e hora', 'SUP_SolicitacaoDataHora', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDataHoraSol = new Campo('Data', 'SUP_SolicitacaoDataHora', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
         $oDataHoraSol->setSValor(date('d/m/Y'));
         $oDataHoraSol->setBCampoBloqueado(true);
 
         $oUsuSol = new Campo('Usuário cadastro', 'SUP_SolicitacaoUsuCadastro', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oUsuSol->setSValor($_SESSION['nome']);
+        $oUsuSol->setSValor($_SESSION['nomedelsoft']);
         $oUsuSol->setBCampoBloqueado(true);
 
         $oSitSol = new Campo('Situacção', 'SUP_SolicitacaoSituacao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
