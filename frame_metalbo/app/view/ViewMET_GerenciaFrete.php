@@ -15,7 +15,7 @@ class ViewMET_GerenciaFrete extends View {
         
         $this->getTela()->setBMostraFiltro(true);
         
-        $this->getTela()->setBUsaCarrGrid(true);;
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->setBScrollInf(false);
         
         $this->setUsaAcaoVisualizar(true);

@@ -14,8 +14,7 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
 
     public function pkDetalhe($aChave) {
         parent::pkDetalhe($aChave);
-
-
+        
         $oModel = Fabrica::FabricarModel('STEEL_SUP_Solicitacao');
         $oPers = Fabrica::FabricarPersistencia('STEEL_SUP_Solicitacao');
         $oPers->setModel($oModel);
@@ -34,9 +33,11 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
         $aParam1 = explode(',', $this->getParametros());
         $aParam = $this->View->getAParametrosExtras();
         if (count($aParam) > 0) {
-            $this->Persistencia->adicionaFiltro('SUP_SolicitacaoItemSeq', $aParam[0]);
+            $this->Persistencia->adicionaFiltro('FIL_Codigo', $aParam[0]);
+            $this->Persistencia->adicionaFiltro('SUP_SolicitacaoSeq', $aParam[1]);
+            $this->Persistencia->setChaveIncremento(false);
         } else {
-            $this->Persistencia->adicionaFiltro('SUP_SolicitacaoItemSeq', $aParam1[0]);
+            $this->Persistencia->adicionaFiltro('SUP_SolicitacaoSeq', $aParam1[0]);
             $this->Persistencia->setChaveIncremento(false);
         }
     }
@@ -53,10 +54,18 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
         echo $sScript;
     }
 
+    public function antesDeCriarTela($sParametros = null) {
+        parent::antesDeCriarTela($sParametros);
+
+        $oPrioridades = $this->Persistencia->buscaPrioridades();
+        
+        $this->View->setOObjTela($oPrioridades);
+    }
+
     public function filtroReload($aChave) {
         parent::filtroReload($aChave);
         $aCampos = explode('&', $aChave);
-        unset($aCampos[1]);
+        unset($aCampos[2]);
         foreach ($aCampos as $key => $value) {
             $aCampoAtual = explode('=', $value);
             $aModel = explode('.', $aCampoAtual[0]);
@@ -64,8 +73,7 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
         }
         $this->Persistencia->setChaveIncremento(false);
     }
-    
-    
+
     public function buscaDadosUnidade($sDados) {
         $aDados = $this->getArrayCampostela();
         if ($aDados['PRO_Codigo'] == '') {

@@ -64,7 +64,7 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $oDataHoraSol = new Campo('Data e hora', 'SUP_SolicitacaoDataHora', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
-        $oDataHoraSol->setSValor(date('Y-d-m H:i:s'));
+        $oDataHoraSol->setSValor(date('d/m/Y'));
         $oDataHoraSol->setBCampoBloqueado(true);
 
         $oUsuSol = new Campo('Usuário cadastro', 'SUP_SolicitacaoUsuCadastro', Campo::TIPO_TEXTO, 2, 2, 12, 12);
@@ -87,7 +87,7 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $oObsEntregaSol = new Campo('Obs. para entrega', 'SUP_SolicitacaoObsEntrega', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObsEntregaSol->setILinhasTextArea(3);
-        
+
         $oMrpSol = new Campo('MRP', 'SUP_SolicitacaoMRP', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oMrpSol->setSValor(0);
         $oMrpSol->setBOculto(true);

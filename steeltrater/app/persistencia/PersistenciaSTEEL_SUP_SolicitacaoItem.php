@@ -71,4 +71,15 @@ class PersistenciaSTEEL_SUP_SolicitacaoItem extends Persistencia {
         return $oObj;
     }
 
+    public function buscaPrioridades() {
+        $sSql = "select SUP_PrioridadeCodigo,SUP_PrioridadeDescricao from sup_prioridade";
+        $result = $this->getObjetoSql($sSql);
+
+        $aRetorno = array();
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            $aRetorno[] = $oRowBD;
+        }
+        return $aRetorno;
+    }
+
 }

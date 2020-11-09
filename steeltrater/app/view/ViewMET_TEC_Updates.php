@@ -71,13 +71,13 @@ class ViewMET_TEC_Updates extends View {
 
         $oDescSetor = new Campo('Setor', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oDescSetor->setSIdPk($oCodSetor->getId());
-        $oDescSetor->setClasseBusca('Setor');
+        $oDescSetor->setClasseBusca('MET_CAD_Setores');
         $oDescSetor->addCampoBusca('codsetor', '', '');
         $oDescSetor->addCampoBusca('descsetor', '', '');
         $oDescSetor->setSIdTela($this->getTela()->getid());
         $oDescSetor->setBCampoBloqueado(true);
 
-        $oCodSetor->setClasseBusca('Setor');
+        $oCodSetor->setClasseBusca('MET_CAD_Setores');
         $oCodSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oCodSetor->addCampoBusca('descsetor', $oDescSetor->getId(), $this->getTela()->getId());
 
