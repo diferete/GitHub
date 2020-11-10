@@ -63,6 +63,14 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
     public function criaTela() {
         parent::criaTela();
 
+        $sAcaoRotina = $this->getSRotina();
+
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(false);
+            $this->getTela()->setBUsaDelGrid(false);
+        }
+
+
         $this->criaGridDetalhe($sIdAba);
         $aDadosPrioridade = $this->getOObjTela();
 
@@ -106,8 +114,8 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
             $oPrioridade->addItemSelect($oPrioridadeVal->sup_prioridadecodigo, $oPrioridadeVal->sup_prioridadedescricao);
         }
 
-        $oProCod->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","STEEL_SUP_SolicitacaoItem","buscaDadosUnidade","' . $oItemUnidade->getId() . '");');
-        $oItemDesc->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","STEEL_SUP_SolicitacaoItem","buscaDadosUnidade","' . $oItemUnidade->getId() . '");');
+        $oProCod->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","STEEL_SUP_SolicitacaoItem","buscaDadosProd","' . $oItemUnidade->getId() . '");');
+        $oItemDesc->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","STEEL_SUP_SolicitacaoItem","buscaDadosProd","' . $oItemUnidade->getId() . '");');
 
         $oDataNecessidade = new campo('Dt da necessidade', 'SUP_SolicitacaoItemDataNecessi', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataNecessidade->setSValor(date('d/m/Y', strtotime('+15 days')));
@@ -119,12 +127,10 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oUsuSol->setSValor($_SESSION['nomedelsoft']);
 
         $oUsuComprador = new Campo('Usuário comprador', 'SUP_SolicitacaoItemUsuCom', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
-        $oUsuComprador->setSValor('Amanda.Piseta');
+        $oUsuComprador->setSValor('Amanda.Pisetta');
 
         $oObsItem = new Campo('Observação', 'SUP_SolicitacaoItemObservacao', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
         $oObsItem->setILinhasTextArea(3);
-
-        $oSitItem = new Campo('Situação', 'SUP_SolicitacaoItemSituacao');
 
         $oTipoDespesa = new Campo('Tipo de despesa', 'SUP_SolicitacaoItemTipoDespCod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oTipoDespesa->setSIdHideEtapa($this->getSIdHideEtapa());
@@ -144,15 +150,23 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oTipoDespesa->setSCampoRetorno('tds_codigo', $this->getTela()->getId());
         $oTipoDespesa->addCampoBusca('tds_descricao', $oDespDesc->getId(), $this->getTela()->getId());
 
-        $oBtnConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $oSitItem = new Campo('Usuário comprador', 'SUP_SolicitacaoItemSituacao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oSitItem->setSValor('A');
+        $oSitItem->setBOculto(true);
+
+        $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
+        $oBotConf->setIMarginTop(6);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotConf->getOBotao()->setBDesativado(true);
+        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeqSolItem->getId() . ',' . $sGrid . '","' . $oSeqSol->getSValor() . ',' . $oSeqSolItem->getSValor() . '");';
 
-        $this->getTela()->setIdBtnConfirmar($oBtnConf->getId());
+        $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem),  array($oPrioridade,$oDataNecessidade, $oDataEntrega), array($oTipoDespesa, $oDespDesc), array($oUsuSol, $oUsuComprador), $oObsItem, $oBtnConf);
+        $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), array($oPrioridade, $oDataNecessidade, $oDataEntrega), array($oTipoDespesa, $oDespDesc), array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
 
         $this->addCamposFiltroIni($oSeqSol);
     }

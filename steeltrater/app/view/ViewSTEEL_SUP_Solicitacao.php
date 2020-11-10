@@ -16,8 +16,9 @@ class ViewSTEEL_SUP_Solicitacao extends View {
         parent::criaConsulta();
 
         $this->setUsaFiltro(true);
+        $this->setUsaAcaoVisualizar(true);
 
-        $oFilCod = new CampoConsulta('Empresa', 'FIL_Codigo');
+        $oFilCod = new CampoConsulta('CNPJ', 'FIL_Codigo');
 
         $oSeqSol = new CampoConsulta('Seq.', 'SUP_SolicitacaoSeq');
 
@@ -40,9 +41,22 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $oObsEntregaSol = new CampoConsulta('ObsEntrega', 'SUP_SolicitacaoObsEntrega');
 
-        $oFilFilCod = new Filtro($oFilCod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilFilCod = new Filtro($oFilCod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
-        $this->addFiltro($oFilFilCod);
+        $oFilData = new Filtro($oDataHoraSol, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
+
+        $oFilUsuSol = new Filtro($oUsuSol, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
+
+        $oFilSitSol = new Filtro($oSitSol, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilSitSol->addItemSelect('', 'TODOS');
+        $oFilSitSol->addItemSelect('A', 'EM ABERTO');
+        $oFilSitSol->addItemSelect('L', 'LIBERADO');
+        $oFilSitSol->addItemSelect('O', 'EM COMPRAS');
+        $oFilSitSol->addItemSelect('C', 'CANCELADO');
+        $oFilSitSol->addItemSelect('E', 'ENCERRADO');
+        $oFilSitSol->addItemSelect('R', 'REPROVADO');
+
+        $this->addFiltro($oFilFilCod, $oFilData, $oFilUsuSol, $oFilSitSol);
 
         $this->addCampos($oFilCod, $oSeqSol, $oTipoSol, $oSitSol, $oUsuSol, $oDataHoraSol, $oObsSol, $oObsEntregaSol);
     }
@@ -88,6 +102,14 @@ class ViewSTEEL_SUP_Solicitacao extends View {
         $oObsEntregaSol = new Campo('Obs. para entrega', 'SUP_SolicitacaoObsEntrega', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObsEntregaSol->setILinhasTextArea(3);
 
+        $oFaseApr = new Campo('Fase', 'SUP_SolicitacaoFaseApr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oFaseApr->setSValor(1);
+        $oFaseApr->setBOculto(true);
+
+        $oDataCancelada = new Campo('', 'SUP_SolicitacaoDataCanc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataCancelada->setSValor(date('1753-01-01'));
+        $oDataCancelada->setBOculto(true);
+
         $oMrpSol = new Campo('MRP', 'SUP_SolicitacaoMRP', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oMrpSol->setSValor(0);
         $oMrpSol->setBOculto(true);
@@ -110,9 +132,9 @@ class ViewSTEEL_SUP_Solicitacao extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
 
-            $this->addCampos($oDivisor, array($oFilCod, $oSeqSol, $oDataHoraSol, $oUsuSol), $oSitSol, $oTipoSol, $oDivisor1, array($oObsSol, $oObsEntregaSol), $oMrpSol, $oAcao);
+            $this->addCampos($oDivisor, array($oFilCod, $oSeqSol, $oDataHoraSol, $oUsuSol), $oSitSol, $oTipoSol, $oDivisor1, array($oObsSol, $oObsEntregaSol), $oMrpSol, $oFaseApr, $oDataCancelada, $oAcao);
         } else {
-            $this->addCampos($oDivisor, array($oFilCod, $oSeqSol, $oDataHoraSol, $oUsuSol, $oSitSol), $oTipoSol, $oDivisor1, array($oObsSol, $oObsEntregaSol), array($oMrpSol));
+            $this->addCampos($oDivisor, array($oFilCod, $oSeqSol, $oDataHoraSol, $oUsuSol, $oSitSol), $oTipoSol, $oDivisor1, array($oObsSol, $oObsEntregaSol), $oMrpSol, $oFaseApr, $oDataCancelada);
         }
     }
 

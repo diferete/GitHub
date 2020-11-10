@@ -1866,11 +1866,12 @@ class Persistencia {
         $sSql .= $this->getSWhereManual(); //define partes do where manualmente
         $sSql .= $this->getStringGroupBy() . $this->getStringOrderBy() . $this->getStringLimit();
 
-
-        $fp = fopen("bloco1.txt", "w");
-        fwrite($fp, $sSql);
-        fclose($fp);
-
+        /*
+          $fp = fopen("bloco1.txt", "w");
+          fwrite($fp, $sSql);
+          fclose($fp);
+         * 
+         */
 
         $result = $this->getObjetoSql($sSql);
 

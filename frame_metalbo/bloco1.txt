@@ -1,1 +1,2 @@
-SELECT  TOP 500 widl.emp03.filcgc AS "widl.emp03.filcgc",widl.emp03.fildes AS "widl.emp03.fildes" FROM widl.emp03
+update tbsessao set usulastacesso = '2020-11-10 14:53:26' 
+            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = 'nl7idp1vke239s8tigooc4pr28'

@@ -187,13 +187,21 @@ class ViewMET_TEC_Chamados extends View {
         $oHoraCad->setBCampoBloqueado(true);
         $oHoraCad->setSValor(date('H:i'));
 
-        $oSetor = new Campo('Cód.Setor', 'setor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oSetor->setBCampoBloqueado(true);
+        $oSetor = new Campo('Cód. Setor', 'setor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oSetor->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $oSetor->setSValor($_SESSION['codsetor']);
 
-        $oDescSetor = new Campo('Desc. Setor', 'descsetor', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oDescSetor->setBCampoBloqueado(true);
+        $oDescSetor = new Campo('Setor solicitante', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oDescSetor->setSIdPk($oSetor->getId());
+        $oDescSetor->setClasseBusca('Setor');
+        $oDescSetor->addCampoBusca('codsetor', '', '');
+        $oDescSetor->addCampoBusca('descsetor', '', '');
+        $oDescSetor->setSIdTela($this->getTela()->getid());
         $oDescSetor->setSValor($_SESSION['descsetor']);
+
+        $oSetor->setClasseBusca('Setor');
+        $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
+        $oSetor->addCampoBusca('descsetor', $oDescSetor->getId(), $this->getTela()->getId());
 
         $oLinha = new Campo('Dados a inserir', 'linha1', Campo::DIVISOR_VERMELHO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);

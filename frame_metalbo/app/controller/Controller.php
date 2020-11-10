@@ -378,7 +378,7 @@ class Controller {
             /* if (Util::ValidaData($xValorCampo)) {
               $xValorCampo = Util::dataMysql($xValorCampo);
               } */
-
+          
 
             //analisa o tipo de campo para tratamentos especiais
             foreach ($aCamposTela as $oCampoTela) {
@@ -1979,7 +1979,7 @@ class Controller {
                             $xValorCampo = '';
                         };
                     } else {
-                        //$xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
+                    //$xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
                         $xValorCampo = $this->getValorModel($oAtual, $sNomeCampo);
                         $xValorCampo = rtrim($xValorCampo);
                     }
