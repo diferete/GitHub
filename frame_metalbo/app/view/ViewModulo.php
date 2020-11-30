@@ -48,8 +48,13 @@ class ViewModulo extends View {
         $oModDescricao->addValidacao(false, Validacao::TIPO_STRING, '', '2', '15');
         $oModDescricao->setBUpperCase(true);
 
+        $oUpload = new Campo('upload', 'upload', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
 
-        $this->addCampos(array($oModCod, $oModDescricao));
+        $oDragDrop = new Campo('teste', 'dragodrop', Campo::TIPO_UPLOADMULTI, 6, 6, 12, 12);
+        $oDragDrop->setSTabelaUpload('Modulos');
+        $oDragDrop->setSParamSeq($oModCod->getId() . ',' . $_SESSION['filcgc']);
+
+        $this->addCampos(array($oModCod, $oModDescricao), $oUpload, $oDragDrop);
     }
 
 }

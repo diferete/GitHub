@@ -4,6 +4,24 @@ class ModelModulo {
 
     private $modcod;
     private $modescricao;
+    private $dragodrop;
+    private $upload;
+
+    function getDragodrop() {
+        return $this->dragodrop;
+    }
+
+    function getUpload() {
+        return $this->upload;
+    }
+
+    function setDragodrop($dragodrop) {
+        $this->dragodrop = $dragodrop;
+    }
+
+    function setUpload($upload) {
+        $this->upload = $upload;
+    }
 
     function getModcod() {
         return $this->modcod;

@@ -86,6 +86,10 @@ class Campo {
     private $bNomeArquivo;
     private $sDiretorio;
     private $bUpperCase;
+    private $sTabelaUpload;
+    private $sParamSeq;
+
+    /**/
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -113,47 +117,58 @@ class Campo {
     const TIPO_LINHA = 24;
     const TIPO_CONTROLE = 25;
     const TIPO_SELECTMULTI = 26;
-    const TIPO_TESTE = 99;
     const CAMPO_SELECT = 27;
     const CAMPO_SELECTSIMPLE = 28;
     const TIPO_DECIMAL = 29;
     const TIPO_HISTORICO = 30;
+    /**/
     const DIVISOR_SUCCESS = 31;
     const DIVISOR_VERMELHO = 32;
     const DIVISOR_INFO = 33;
     const DIVISOR_WARNING = 34;
     const DIVISOR_DARK = 35;
+    /**/
     const TIPO_TAGS = 36;
     const TIPO_SELECTTAGS = 37;
     const TIPO_BOTAOSIMPLES = 38;
     const TIPO_DECIMAL_COMPOSTO = 39;
     const TIPO_BOTAO_MOSTRACONSULTA = 41;
     const TIPO_GRIDSIMPLE = 42;
+    const TIPO_UPLOADMULTI = 43;
+    const TIPO_TESTE = 99;
+    /**/
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
+    /**/
     const EVENTO_SAIR = 'blur';
     const EVENTO_CHANGE = 'change';
     const EVENTO_FOCUS = 'focus';
     const EVENTO_KEYUP = 'keyup';
     const EVENTO_ENTER = 'enter';
     const EVENTO_CLICK = 'click';
+    /**/
     const BADGE_SUCCESS = 'label-success';
     const BADGE_WARNING = 'label-warning';
     const BADGE_DANGER = 'label-danger';
     const BADGE_PRIMARY = 'label-primary';
+    /**/
     const FUNDO_AMARELO = 'fundo_amarelo';
     const FUNDO_AZUL = 'fundo_azul';
     const FUNDO_VERDE = 'fundo_verde';
     const FUNDO_MONEY = 'fundo_money';
     const FUNDO_VERMELHO = 'fundo_vermelho';
+    /**/
     const BUTTON_WARNING = 'btn-warning';
     const BUTTON_SUCCESS = 'btn-success';
     const BUTTON_PRIMARY = 'btn-primary';
+    /**/
     const GRIDVIEW_CORACTIVE = 'active';
     const GRIDVIEW_CORSUCCESS = 'success';
     const GRIDVIEW_CORINFO = 'info';
+    /**/
     const FONT_BOLD = 'bold';
+    /**/
     const TITULO_SUCCESS = 'success';
     const TITULO_DARK = 'dark';
     const TITULO_DANGER = 'danger';
@@ -245,6 +260,22 @@ class Campo {
                 $this->setApenasTela(true);
                 break;
         }
+    }
+
+    function getSParamSeq() {
+        return $this->sParamSeq;
+    }
+
+    function setSParamSeq($sParamSeq) {
+        $this->sParamSeq = $sParamSeq;
+    }
+
+    function getSTabelaUpload() {
+        return $this->sTabelaUpload;
+    }
+
+    function setSTabelaUpload($sTabelaUpload) {
+        $this->sTabelaUpload = $sTabelaUpload;
     }
 
     function getBUpperCase() {
@@ -2254,6 +2285,37 @@ class Campo {
                         . ' $("#' . $this->getSIdTela() . '").hide();requestAjax("' . $this->getSIdTela() . '-form","' . $this->getClasseBusca() . '","mostraConsulta",""+abaSelecionada+",' . $this->getSIdTela() . ',' . $this->getSCampoRetorno() . ',' . $this->getId() . ',false");'
                         . '}); '
                         . '</script>';
+                break;
+            case self::TIPO_UPLOADMULTI:
+                /*
+                 * Documentação: http://plugins.krajee.com/file-input
+                 */
+                if ($this->getSValor() == '' || $this->getSValor() == null) {
+                    $sCampo = '$("#' . $this->getId() . '").fileinput("clear"); ';
+                }
+                $sCampo = '<div id="' . $this->getId() . '-group" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
+                        . '<div class="input-group dropzone" id="' . $this->getId() . '">'
+                        . '<input style="display:none" name="file" type="file" multiple />'
+                        . '</div>'
+                        . '<script>'
+                        . 'var sParam = "' . $this->getSParamSeq() . '";'
+                        . 'var aParam = [];'
+                        . 'aParam = sParam.split(",");'
+                        . 'var seq = $("#" + aParam[0] + "").val();'
+                        . 'var cnpj = aParam[1];'
+                        . '$("div#' . $this->getId() . '").dropzone({'
+                        . 'url: "index.php?classe=UploadMulti&metodo=Upload&parametros=' . $this->getSDiretorio() . ',uploads' . $this->getSTabelaUpload() . '" + "," + seq + "," + cnpj,' // url do arquivo php, que fara a cópia para o server
+                        . 'thumbnailWidth: "70",'
+                        . 'thumbnailHeight: "70",'
+                        . 'thumbnailMethod: "contain",'
+                        . 'addRemoveLinks: true,'
+                        . 'dictDefaultMessage: "Clique aqui ou arraste os arquivos",'
+                        . 'dictRemoveFile: "Remover",'
+                        . 'dictCancelUpload: "Cancelar"'
+                        . '});'
+                        . '</script>'
+                        . '</div>';
                 break;
         }
         return $sCampo;
