@@ -172,7 +172,7 @@ class ViewQualCausa extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
         if ($sAcaoRotina == 'acaoVisualizar') {
-            $this->addCampos($oDivisor1, array($oMatPrimaDes, $oMetodoDes, $oMaoDeObraDes, $oEquipamentoDes, $oMeioAmbienteDes, $oMedidaDes), $oBtnInsereCausa, $oDivisor, array($oCausaDes), array($oPq1, $oPq2, $oPq3, $oPq4, $oPq5), array($oFilcgc, $oNr, $oSeq));
+            $this->addCampos($oDivisor1, array($oMatPrimaDes, $oMetodoDes, $oMaoDeObraDes, $oEquipamentoDes, $oMeioAmbienteDes, $oMedidaDes), $oDivisor, array($oCausaDes), array($oPq1, $oPq2, $oPq3, $oPq4, $oPq5), array($oFilcgc, $oNr, $oSeq));
         } else {
             $this->addCampos($oDivisor1, array($oMatPrimaDes, $oMetodoDes, $oMaoDeObraDes, $oEquipamentoDes, $oMeioAmbienteDes, $oMedidaDes), $oBtnInsereCausa, $oDivisor, array($oCausaDes), array($oPq1, $oPq2, $oPq3, $oPq4, $oPq5), array($oBotConf, $oFilcgc, $oNr, $oSeq));
         }

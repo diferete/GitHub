@@ -68,7 +68,7 @@ class ViewCotIten extends View {
         $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
 
         $oVlrTot = new CampoConsulta('Vlr. Total.', 'vlrtot', Campo::TIPO_MONEY);
-        $oVlrTot->setSOperacao('soma');
+        $oVlrTot->setSOperacao('personalizado');
         $oVlrTot->setSTituloOperacao('Total: R$');
         $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
         $oVlrTot->setBComparacaoColuna(true);
@@ -258,7 +258,7 @@ class ViewCotIten extends View {
         //badge que mostra avisos de divergência
         $oAguardNormal = new Campo('Aguardando', '', Campo::TIPO_BADGE, 1, 1, 12, 12);
         $oAguardNormal->setITamFonteBadge(16);
-        
+
         //campo que mostra a quantidade sugerida normal
         $oQtSugNormal = new Campo('Qt. Sugerida', 'qtsugnormal', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtSugNormal->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -341,9 +341,8 @@ class ViewCotIten extends View {
         $oCodigo->addEvento(Campo::EVENTO_SAIR, 'entradaCodigo("' . $oVlrUnit->getId() . '"); var oProcod=$("#' . $oCodigo->getId() . '").val(); var prcTabela =$("#' . $oPrcBruto->getId() . '").val(); var prcUnit =$("#' . $oVlrUnit->getId() . '").val();'
                 . 'var oNrSaida = $("#' . $oNr->getId() . '").val();'
                 . 'var oEmpSaida = $("#' . $oEmpCod->getId() . '").val();'
-                . 'if($("#' . $oCodigo->getId() . '").val()!==""){'
-                . 'requestAjax("","SolPedIten","acaoExitCodigo","' . $oPrcBruto->getId() . ','
-                . '' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . '    ","");  $("#' . $oQuant->getId() . '").trigger("blur");}');
+                . 'if($("#' . $oCodigo->getId() . '").val()!== ""){'
+                . 'requestAjax("","SolPedIten","acaoExitCodigo","' . $oPrcBruto->getId() . ',' . '' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . ',' . $oQtSugMaster->getId() . '","");  $("#' . $oQuant->getId() . '").trigger("blur");}');
 
         /*
          * Define os eventos no exit dos campos de desconto
@@ -376,19 +375,18 @@ class ViewCotIten extends View {
         $oDescExtra2->addEvento(Campo::EVENTO_SAIR, $sEventoDesc);
         $oVlrUnit->addEvento(Campo::EVENTO_SAIR, $sEventoPrecoBruto);
 
-
-
         /*
          * Valida as quantidades de caixa
          */
 
-        $sCallBackQt = 'if($("#' . $oQuant->getId() . '").val()<="0") {'
+        $sCallBackQt = 'if($("#' . $oQuant->getId() . '").val()<= "0") {'
                 . 'return { valid: false, message: "Não pode ser zero!" };'
                 . '} else {'
-                . 'if(verifLoteMin("' . $oLoteMinimo->getId() . '","' . $oQuant->getId() . '")==false){'
-                . ' return { valid: false, message: "Atenção esse item está abaixo do lote mínimo!" };}else{'
-                . 'if($("#' . $oLiberadoEmbalagem->getId() . '").val()=="Negado") {'
-                . 'if(calcMod("' . $oQuant->getId() . '","' . $oCaixaNormal->getId() . '")==true) {'
+                . 'if(verifLoteMin("' . $oLoteMinimo->getId() . '","' . $oQuant->getId() . '") == false){'
+                . 'return { valid: false, message: "Atenção esse item está abaixo do lote mínimo!" };'
+                . '}else{'
+                . 'if($("#' . $oLiberadoEmbalagem->getId() . '").val() == "Negado") {'
+                . 'if(calcMod("' . $oQuant->getId() . '","' . $oCaixaNormal->getId() . '") == true) {'
                 . 'return { valid: false, message: "Embalagem aberta!" };'
                 . '}else{return { valid: true };}'
                 . '}else{return { valid: true };}'

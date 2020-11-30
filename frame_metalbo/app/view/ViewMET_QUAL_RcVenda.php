@@ -61,6 +61,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oSit->addComparacao('Env.Qual', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oSit->addComparacao('Apontada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA, false, null);
         $oSit->addComparacao('Finalizada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSit->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oSit->setBComparacaoColuna(true);
 
         $oReclamacao = new CampoConsulta('Reclamação', 'reclamacao', CampoConsulta::TIPO_LARGURA);
@@ -92,6 +93,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'MET_QUAL_RcVenda', 'acaoMostraRelConsulta', '', false, 'rc', false, '', false, '', false, false);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Retornar', 'MET_QUAL_RcVenda', 'criaTelaModalRetorna', '', false, '', false, 'criaTelaModalRetorna', true, 'Retornar para o Representante', false, false);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_CHAVE) . 'Reabrir', 'MET_QUAL_RcVenda', 'reabrirRC', '', false, '', false, '', true, '', false, false);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Cancelar', 'MET_QUAL_RcVenda', 'criaTelaModalCancela', '', false, '', false, 'criaTelaModalCancela', true, 'Cancelar reclamação', false, false);
 
         $oDropDown1 = new Dropdown('Encaminhar E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_QUAL) . 'Qualidade', 'MET_QUAL_RcVenda', 'verificaEmailSetor', '', false, 'Env.Qual', false, '', false, '', false, false);
@@ -110,7 +112,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
         $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
-        if ($_SESSION['codUser'] == 19) {
+        if ($_SESSION['codUser'] == 46) {
             $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
         } else {
             $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
@@ -556,6 +558,47 @@ class ViewMET_QUAL_RcVenda extends View {
         $this->setBTela(true);
 
         $this->addCampos(array($oFilcgc, $oNr), $oLinha, array($oDevolucao), array($oObsDevolucao), $oBtnLiberar);
+    }
+
+    /**
+     * Cria modal para notificar em caso de erro do representante 
+     */
+    public function criaModalCancela($sDados) {
+        parent::criaModal();
+
+        $oDados = $this->getAParametrosExtras();
+
+        $oFilcgc = new Campo('Filcgc', 'filcgc', Campo::TIPO_TEXTO, 3);
+        $oFilcgc->setSValor($oDados->getFilcgc());
+        $oFilcgc->setBCampoBloqueado(true);
+        $oNr = new campo('Nr', 'nr', Campo::TIPO_TEXTO, 1);
+        $oNr->setSValor($oDados->getNr());
+        $oNr->setBCampoBloqueado(true);
+
+        $oLinha = new Campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha->setApenasTela(true);
+
+        $oUsuCancela = new Campo('Usuário', 'usucancela', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oUsuCancela->setSValor($_SESSION['nome']);
+        $oUsuCancela->setBCampoBloqueado(true);
+
+        $oObs_aponta = new campo('Descreva o motivo do CANCELAMENTO da RC', 'motivocancela', Campo::TIPO_TEXTAREA, 12);
+        $oObs_aponta->setILinhasTextArea(8);
+        $oObs_aponta->addValidacao(false, Validacao::TIPO_STRING, '', '10');
+
+        $oBtnReabrir = new Campo('Apontar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $this->getTela()->setIdBtnConfirmar($oBtnReabrir->getId());
+        //id do grid
+
+        $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","cancelaRC","' . $this->getTela()->getId() . '-form,' . $sDados . '","");';
+
+        $oBtnReabrir->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnReabrir->getId());
+        $this->getTela()->setAcaoConfirmar($sAcao);
+
+        $this->setBTela(true);
+
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuCancela), $oLinha, $oObs_aponta, $oBtnReabrir);
     }
 
 }

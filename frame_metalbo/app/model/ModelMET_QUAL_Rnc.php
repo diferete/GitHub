@@ -51,7 +51,25 @@ class ModelMET_QUAL_Rnc {
     private $cod_set02;
     private $cnpj;
     private $cod_corrida;
-    
+    private $cracharesponsavel;
+    private $crachadetectou;
+
+    function getCracharesponsavel() {
+        return $this->cracharesponsavel;
+    }
+
+    function getCrachadetectou() {
+        return $this->crachadetectou;
+    }
+
+    function setCracharesponsavel($cracharesponsavel) {
+        $this->cracharesponsavel = $cracharesponsavel;
+    }
+
+    function setCrachadetectou($crachadetectou) {
+        $this->crachadetectou = $crachadetectou;
+    }
+
     function getCod_corrida() {
         return $this->cod_corrida;
     }

@@ -122,6 +122,8 @@ class PersistenciaDELX_PRO_Produtos extends Persistencia {
                 . 'and PRO_PRODUTO.PRO_FamiliaCodigo = "DELX_PRO_Subfamilia".PRO_FamiliaCodigo '
                 . 'and PRO_PRODUTO.PRO_SubFamiliaCodigo = "DELX_PRO_Subfamilia".PRO_SubFamiliaCodigo';
         $this->adicionaJoin('DELX_PRO_Subfamilia', null, 1, 'pro_grupocodigo', 'pro_grupocodigo', $sAndSubFam);
+        
+        $this->setSTop(50);
     }
 
     public function insereProdFilial($aDados) {

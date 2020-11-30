@@ -155,9 +155,6 @@ class ControllerCotIten extends Controller {
     }
 
     public function acaoMsgDisp($sDados) {
-
-
-
         if (isset($_REQUEST['parametrosCampos'])) {
             $aParam = $_REQUEST['parametrosCampos'];
             $aChaves = array();

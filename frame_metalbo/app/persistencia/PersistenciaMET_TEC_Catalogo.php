@@ -288,7 +288,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
     }
 
     function buscaSubG($sDados) {
-        $sSql = 'select subcod, subdes from widl.prod05 where grucod = ' . $sDados . ' and subcod not in(9,128,512,513)';
+        $sSql = 'select subcod, subdes from widl.prod05 where grucod = ' . $sDados . ' and subcod not in(9,128,150,151,152,153,401,404,409,410,419,512,513,542,543,544,545,546,547,549,550,551,552,554,555,800,802,803,804,805,807,808,809)';
         $result = $this->getObjetoSql($sSql);
         $aRetorno = array();
         $aDadosRet = array();

@@ -241,7 +241,7 @@ class ControllerCadCliRep extends Controller {
         if ($aDadosEMP[0] != '') {
             $bRet = $this->Persistencia->buscaCNPJ($aDadosEMP[0]);
             if ($bRet == false) {
-                $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado no sistema!', Modal::TIPO_ERRO, false, true, true);
+                $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado ou não foi liberado para metalbo!', Modal::TIPO_ERRO, false, true, true);
                 echo $oMensagem->getRender();
             } else {
                 $sSetValorCampos = '$("#' . $aIdCampos[0] . '").val("' . $aDadosEMP[0] . '");'
@@ -292,11 +292,12 @@ class ControllerCadCliRep extends Controller {
             $this->Persistencia->gravaHistorico($aDados[2]);
         }
         $script = "$('#" . $aDados[1] . "' ).val('" . $aDados[0] . "' );";
-        echo 'console.log(' . $aDados[0] . ');';
         echo $script;
     }
- //////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////
     public function mostraTelaRelCadCliRep($renderTo, $sMetodo = '') {
         parent::mostraTelaRelatorio($renderTo, 'relCadCliRep');
     }
+
 }

@@ -62,6 +62,13 @@ class ControllerMET_QUAL_RcRep extends Controller {
                 $aRetorno[1] = '';
                 return $aRetorno;
             }
+            if (($oTag == '' || $oTag == null ) && ($oProd != '' || $oProd != null) && ($oDisposicao != null)) {
+
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
         } else {
             $aRetorno = array();
             $aRetorno[0] = true;
@@ -103,6 +110,13 @@ class ControllerMET_QUAL_RcRep extends Controller {
 
                 $aRetorno = array();
                 $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
+            if (($oTag == '' || $oTag == null ) && ($oProd != '' || $oProd != null) && ($oDisposicao != null)) {
+
+                $aRetorno = array();
+                $aRetorno[0] = true;
                 $aRetorno[1] = '';
                 return $aRetorno;
             }
@@ -274,22 +288,39 @@ class ControllerMET_QUAL_RcRep extends Controller {
         if ($aRet[0] == 'Liberado') {
             $oMensagem = new Modal('Atenção', 'A reclamação já foi liberada para a Metalbo! Deseja reenviar o e-mail?', Modal::TIPO_AVISO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","liberarMetalbo","' . $sDados . ',reenvia");');
+            echo $oMensagem->getRender();
         } else {
+            if ($aRet[0] == 'Cancelada') {
+                $oMensagem = new Mensagem('Atenção', 'A reclamação foi Cancelada!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+                echo '$("#' . $sIdGrid . '-pesq").click();';
+                exit;
+            }
             if ($aRet[0] == 'Aguardando') {
-                $oMensagem = new Modal('Atenção', 'A reclamação ainda não foi liberada para a Metalbo!', Modal::TIPO_AVISO, false, true, false);
+                $oMensagem = new Mensagem('Atenção', 'A reclamação ainda não foi liberada para a Metalbo!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+                echo '$("#' . $sIdGrid . '-pesq").click();';
+                exit;
             }
             if ($aRet[0] == 'Apontada' && $aRet[1] == 'Transportadora') {
-                $oMensagem = new Modal('Atenção', 'A reclamação foi apontada e avaliada como avaria pela transportadora!', Modal::TIPO_AVISO, false, true, false);
+                $oMensagem = new Mensagem('Atenção', 'A reclamação foi apontada e avaliada como avaria pela transportadora!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+                echo '$("#' . $sIdGrid . '-pesq").click();';
+                exit;
             }
             if ($aRet[0] == 'Apontada' && $aRet[1] != 'Transportadora') {
-                $oMensagem = new Modal('Atenção', 'A reclamação já foi apontada!', Modal::TIPO_AVISO, false, true, false);
+                $oMensagem = new Mensagem('Atenção', 'A reclamação já foi apontada!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+                echo '$("#' . $sIdGrid . '-pesq").click();';
+                exit;
             }
             if ($aRet[1] == 'Em análise') {
-                $oMensagem = new Modal('Atenção', 'A reclamação já está em análise pela Metalbo!', Modal::TIPO_AVISO, false, true, false);
+                $oMensagem = new Mensagem('Atenção', 'A reclamação já está em análise pela Metalbo!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+                echo '$("#' . $sIdGrid . '-pesq").click();';
+                exit;
             }
-            echo '$("#' . $sIdGrid . '-pesq").click();';
         }
-        echo $oMensagem->getRender();
     }
 
     public function liberarMetalbo($sDados) {
@@ -310,17 +341,21 @@ class ControllerMET_QUAL_RcRep extends Controller {
             parse_str($sChave, $aCamposChave);
             $aRet = $this->Persistencia->verifSitRC($aCamposChave);
 
-            if ($aRet[0] != 'Aguardando') {
-                $oMensagem = new Modal('Atenção...  A reclamação já foi liberada para a Metalbo!', '', Modal::TIPO_AVISO, false, true, false);
+            if ($aRet[0] == 'Cancelada') {
+                $oMensagem = new Mensagem('Atenção', 'A reclamação foi Cancelada!', Mensagem::TIPO_WARNING);
                 echo $oMensagem->getRender();
-                return;
-            } else {
+                exit;
+            } elseif ($aRet[0] == 'Aguardando') {
                 $sIdGrid = $aDados[1];
                 $sRc[0] = $aDados[3];
                 $sChave = htmlspecialchars_decode($sRc[0]);
                 $aCamposChave = array();
                 parse_str($sChave, $aCamposChave);
                 $this->geraPdfQualRC($aCamposChave, $aDados);
+            } else {
+                $oMensagem = new Mensagem('Atenção', 'A reclamação já foi liberada para Metalbo!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+                exit;
             }
         }
     }

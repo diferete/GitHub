@@ -87,11 +87,11 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oSeqSolItem = new Campo('Seq.Item', 'SUP_SolicitacaoItemSeq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeqSolItem->setBCampoBloqueado(true);
 
-        $oProCod = new Campo('Código', 'PRO_Codigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oProCod = new Campo('Código', 'PRO_Codigo', Campo::TIPO_BUSCADOBANCOPK, 3, 3, 12, 12);
         $oProCod->setSIdHideEtapa($this->getSIdHideEtapa());
         $oProCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
 
-        $oItemDesc = new Campo('Descrição', 'SUP_SolicitacaoItemDescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oItemDesc = new Campo('Descrição', 'SUP_SolicitacaoItemDescricao', Campo::TIPO_BUSCADOBANCO, 5, 5, 12, 12);
         $oItemDesc->setSIdPk($oProCod->getId());
         $oItemDesc->setClasseBusca('DELX_PRO_Produtos');
         $oItemDesc->addCampoBusca('pro_codigo', '', '');
@@ -156,17 +156,19 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oBotConf->setIMarginTop(6);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBotConf->getOBotao()->setBDesativado(true);
-        }
 
         $sGrid = $this->getOGridDetalhe()->getSId();
         $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeqSolItem->getId() . ',' . $sGrid . '","' . $oSeqSol->getSValor() . ',' . $oSeqSolItem->getSValor() . '");';
 
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
+        
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), array($oPrioridade, $oDataNecessidade, $oDataEntrega), array($oTipoDespesa, $oDespDesc), array($oUsuSol, $oUsuComprador), $oObsItem,  $oSitItem);
+        } else {
+            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), array($oPrioridade, $oDataNecessidade, $oDataEntrega), array($oTipoDespesa, $oDespDesc), array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
+        }
 
-        $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), array($oPrioridade, $oDataNecessidade, $oDataEntrega), array($oTipoDespesa, $oDespDesc), array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
 
         $this->addCamposFiltroIni($oSeqSol);
     }

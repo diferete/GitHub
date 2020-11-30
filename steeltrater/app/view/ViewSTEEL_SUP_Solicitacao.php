@@ -17,14 +17,16 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $this->setUsaFiltro(true);
         $this->setUsaAcaoVisualizar(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
-        $oFilCod = new CampoConsulta('CNPJ', 'FIL_Codigo');
+        $oFilCod = new CampoConsulta('CNPJ', 'fil_codigo');
 
-        $oSeqSol = new CampoConsulta('Seq.', 'SUP_SolicitacaoSeq');
+        $oSeqSol = new CampoConsulta('Seq.', 'sup_solicitacaoseq');
 
-        $oTipoSol = new CampoConsulta('Tipo', 'SUP_SolicitacaoTipo');
+        $oTipoSol = new CampoConsulta('Tipo', 'sup_solicitacaotipo');
 
-        $oSitSol = new CampoConsulta('Situacao', 'SUP_SolicitacaoSituacao');
+        $oSitSol = new CampoConsulta('Situacao', 'sup_solicitacaosituacao');
         $oSitSol->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, true, 'EM ABERTO');
         $oSitSol->addComparacao('L', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, true, 'LIBERADO');
         $oSitSol->addComparacao('O', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VDCLARO, CampoConsulta::MODO_COLUNA, true, 'EM COMPRAS');
@@ -33,13 +35,13 @@ class ViewSTEEL_SUP_Solicitacao extends View {
         $oSitSol->addComparacao('R', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, true, 'REPROVADO');
         $oSitSol->setBComparacaoColuna(true);
 
-        $oUsuSol = new CampoConsulta('UsuCadastro', 'SUP_SolicitacaoUsuCadastro');
+        $oUsuSol = new CampoConsulta('UsuCadastro', 'sup_solicitacaousucadastro');
 
-        $oDataHoraSol = new CampoConsulta('Data', 'SUP_SolicitacaoDataHora', CampoConsulta::TIPO_DATA);
+        $oDataHoraSol = new CampoConsulta('Data', 'sup_solicitacaodatahora', CampoConsulta::TIPO_DATA);
 
-        $oObsSol = new CampoConsulta('Observacao', 'SUP_SolicitacaoObservacao');
+        $oObsSol = new CampoConsulta('Observacao', 'sup_solicitacaoobservacao');
 
-        $oObsEntregaSol = new CampoConsulta('ObsEntrega', 'SUP_SolicitacaoObsEntrega');
+        $oObsEntregaSol = new CampoConsulta('ObsEntrega', 'sup_solicitacaoobsentrega');
 
         $oFilFilCod = new Filtro($oFilCod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
@@ -58,6 +60,11 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $this->addFiltro($oFilFilCod, $oFilData, $oFilUsuSol, $oFilSitSol);
 
+        $this->setUsaDropdown(true);
+        $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'STEEL_SUP_Solicitacao', 'acaoMostraRelEspecifico', '', false, 'OpSteel1', false, '', false, '', true, false);
+        $this->addDropdown($oDrop1);
+
         $this->addCampos($oFilCod, $oSeqSol, $oTipoSol, $oSitSol, $oUsuSol, $oDataHoraSol, $oObsSol, $oObsEntregaSol);
     }
 
@@ -69,50 +76,34 @@ class ViewSTEEL_SUP_Solicitacao extends View {
         $oDivisor = new Campo('Informações gerais', 'divisor', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor->setApenasTela(true);
 
-        $oFilCod = new Campo('Empresa', 'FIL_Codigo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oFilCod = new Campo('Empresa', 'fil_codigo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oFilCod->setBOculto(true);
         $oFilCod->setSValor('8993358000174');
 
-        $oSeqSol = new Campo('Sequencia', 'SUP_SolicitacaoSeq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oSeqSol = new Campo('Sequencia', 'sup_solicitacaoseq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSeqSol->setBOculto(true);
 
-        $oDataHoraSol = new Campo('Data', 'SUP_SolicitacaoDataHora', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDataHoraSol = new Campo('Data', 'sup_solicitacaodatahora', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
-        $oDataHoraSol->setSValor(date('d/m/Y'));
+        $oDataHoraSol->setSValor(date('d/m/Y H:i:s'));
         $oDataHoraSol->setBCampoBloqueado(true);
 
-        $oUsuSol = new Campo('Usuário cadastro', 'SUP_SolicitacaoUsuCadastro', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oUsuSol = new Campo('Usuário cadastro', 'sup_solicitacaousucadastro', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUsuSol->setSValor($_SESSION['nomedelsoft']);
         $oUsuSol->setBCampoBloqueado(true);
-
-        $oSitSol = new Campo('Situacção', 'SUP_SolicitacaoSituacao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oSitSol->setSValor('A');
-        $oSitSol->setBOculto(true);
-
-        $oTipoSol = new Campo('Tipo', 'SUP_SolicitacaoTipo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oTipoSol->setSValor('E');
-        $oTipoSol->setBOculto(true);
 
         $oDivisor1 = new Campo('Observações', 'divisor1', Campo::DIVISOR_INFO, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 
-        $oObsSol = new Campo('Observação', 'SUP_SolicitacaoObservacao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oObsSol = new Campo('Observação', 'sup_solicitacaoobservacao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObsSol->setILinhasTextArea(3);
 
-        $oObsEntregaSol = new Campo('Obs. para entrega', 'SUP_SolicitacaoObsEntrega', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oObsEntregaSol = new Campo('Obs. para entrega', 'sup_solicitacaoobsentrega', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObsEntregaSol->setILinhasTextArea(3);
 
-        $oFaseApr = new Campo('Fase', 'SUP_SolicitacaoFaseApr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oFaseApr->setSValor(1);
-        $oFaseApr->setBOculto(true);
-
-        $oDataCancelada = new Campo('', 'SUP_SolicitacaoDataCanc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oDataCancelada->setSValor(date('1753-01-01'));
+        $oDataCancelada = new Campo('', 'sup_solicitacaodatacanc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataCancelada->setSValor(date('01/01/1753'));
         $oDataCancelada->setBOculto(true);
-
-        $oMrpSol = new Campo('MRP', 'SUP_SolicitacaoMRP', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oMrpSol->setSValor(0);
-        $oMrpSol->setBOculto(true);
 
         $oEtapas = new FormEtapa(2, 2, 12, 12);
         $oEtapas->addItemEtapas('Cadastro de solicitação', true, $this->addIcone(Base::ICON_EDITAR));
@@ -132,9 +123,9 @@ class ViewSTEEL_SUP_Solicitacao extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
 
-            $this->addCampos($oDivisor, array($oFilCod, $oSeqSol, $oDataHoraSol, $oUsuSol), $oSitSol, $oTipoSol, $oDivisor1, array($oObsSol, $oObsEntregaSol), $oMrpSol, $oFaseApr, $oDataCancelada, $oAcao);
+            $this->addCampos($oDivisor, array($oFilCod, $oSeqSol, $oDataHoraSol, $oUsuSol, $oDataCancelada), $oDivisor1, array($oObsSol, $oObsEntregaSol), $oAcao);
         } else {
-            $this->addCampos($oDivisor, array($oFilCod, $oSeqSol, $oDataHoraSol, $oUsuSol, $oSitSol), $oTipoSol, $oDivisor1, array($oObsSol, $oObsEntregaSol), $oMrpSol, $oFaseApr, $oDataCancelada);
+            $this->addCampos($oDivisor, array($oFilCod, $oSeqSol, $oDataHoraSol, $oUsuSol, $oDataCancelada), $oDivisor1, array($oObsSol, $oObsEntregaSol));
         }
     }
 

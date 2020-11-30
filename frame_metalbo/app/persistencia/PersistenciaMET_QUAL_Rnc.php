@@ -53,6 +53,8 @@ class PersistenciaMET_QUAL_Rnc extends Persistencia {
         $this->adicionaRelacionamento('cod_set01','cod_set01');
         $this->adicionaRelacionamento('cod_set02','cod_set02');
         $this->adicionaRelacionamento('cnpj','cnpj');
+        $this->adicionaRelacionamento('crachadetectou', 'crachadetectou');
+        $this->adicionaRelacionamento('cracharesponsavel', 'cracharesponsavel');
         
 
          $this->adicionaRelacionamento('empdes', 'empdes', false, false);

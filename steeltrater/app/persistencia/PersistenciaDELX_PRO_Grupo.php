@@ -17,7 +17,7 @@ class PersistenciaDELX_PRO_Grupo extends Persistencia{
         $this->adicionaRelacionamento('pro_grupodescricao','pro_grupodescricao');
         
         $this->setSTop('1000');
-        $this->adicionaOrderBy('pro_grupocodigo', 0);
+        $this->adicionaOrderBy('pro_grupocodigo', 1);
         
     }
 }

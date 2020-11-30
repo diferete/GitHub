@@ -200,20 +200,16 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
     }
 
     public function buscaEmailVendas($aDados) {
-        $sSql = "select resp_venda_cod"
-                . " from tbrncqual"
-                . " where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
 
-        $sCod = $oRow->usucodigo;
-
-        $sSql = "select usuemail"
-                . " from tbusuario"
-                . " where usucodigo ='" . $sCod . "'";
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
-
+        $sSql = "select usuemail "
+                . "from tbusuario "
+                . "where usucodigo = ("
+                . "select resp_venda_cod "
+                . "from tbrncqual "
+                . "where filcgc = " . $aDados['filcgc'] . " "
+                . "and nr = " . $aDados['nr'] . ""
+                . ")";
+        $oRow = $this->consultaSql($sSql);
         $sEmail = $oRow->usuemail;
 
         return $sEmail;
@@ -241,7 +237,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
                 . "horafim = '" . $sHora . "',"
                 . "usucod_fim = '" . $_SESSION['codUser'] . "',"
                 . "usunome_fim ='" . $_SESSION['nome'] . "',";
-        if ($sProcedencia == '' || $sProcedencia == null) {
+        if ($sProcedencia == 'Aguardando') {
             $sSql .= "procedencia = '" . $aCampos['procedencia'] . "',";
         } else {
             $sSql .= "procedencia = '" . $sProcedencia . "',";
@@ -274,7 +270,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
             $sSql = "update tbrncqual "
                     . "set nfdevolucao = '" . $aCampos['nfdevolucao'] . "', "
                     . "apontaNF = '" . $aCampos['apontaNF'] . "',"
-                    . "nfsIpi = '" . $aCampos['nfsIpi'] . "', "
+                    . "nfsIpi = '" . $aCampos['nfsIpi'] . "',"
                     . "valorfrete = '" . $aCampos['valorfrete'] . "' "
                     . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
@@ -327,9 +323,27 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
                 . "datalibdevolucao = '" . $sData . "',"
                 . "horalibdevolucao = '" . $sHora . "',"
                 . "sollibdevolucao = 'Liberada',"
-                . "obslibdevolucao = '" . $aCampos['obslibdevolucao'] . "'"
+                . "obslibdevolucao = '" . $aCampos['obslibdevolucao'] . "',"
                 . "devolucao = '" . $aCampos['devolucao'] . "' "
                 . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetorna = $this->executaSql($sSql);
+        return $aRetorna;
+    }
+
+    public function cancelarRC() {
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        $sSql = "update tbrncqual set "
+                . "usucancela = '" . $_SESSION['nome'] . "',"
+                . "horacancela = '" . $sHora . "',"
+                . "datacancela = '" . $sData . "',"
+                . "situaca = 'Cancelada',"
+                . "motivocancela = '" . $aCampos['motivocancela'] . "' "
+                . "where filcgc = '" . $aCampos['filcgc'] . "' and nr = '" . $aCampos['nr'] . "'";
         $aRetorna = $this->executaSql($sSql);
         return $aRetorna;
     }

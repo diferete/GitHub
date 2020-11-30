@@ -27,8 +27,8 @@ class ViewCadCliRep extends View {
         $oEmpusu = new CampoConsulta('Usuário', 'empusucad');
 
         $oSituaca = new CampoConsulta('Situação', 'situaca');
+        $oSituaca->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
         $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
-        $oSituaca->addComparacao('Liberado', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
         $oSituaca->addComparacao('Cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_LINHA, false, null);
 
         $this->setUsaDropdown(true);
@@ -46,10 +46,16 @@ class ViewCadCliRep extends View {
 
         $oFiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
 
-        $oFiltroUsuCad = new Filtro($oEmpusu, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFiltroUsuCad = new Filtro($oEmpusu, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
+
+        $oFilSituaca = new Filtro($oSituaca, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilSituaca->addItemSelect('', 'Todos');
+        $oFilSituaca->addItemSelect('Aguardando', 'Aguardando');
+        $oFilSituaca->addItemSelect('Liberado', 'Liberado');
+        $oFilSituaca->addItemSelect('Cadastrado', 'Cadastrado');
 
 
-        $this->addFiltro($oFilNr, $oFilEmpcod, $oFiltroEmpdes, $oFiltroUsuCad);
+        $this->addFiltro($oFilNr, $oFilEmpcod, $oFiltroEmpdes, $oFiltroUsuCad, $oFilSituaca);
 
         $this->addDropdown($oDrop2, $oDrop1);
 
@@ -94,7 +100,7 @@ class ViewCadCliRep extends View {
 
         $oSit = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oSit->setBCampoBloqueado(true);
-        $oSit->setSValor('');
+        $oSit->setSValor('Aguardando');
         $oSit->setBOculto(true);
 
         $oDtLib = new Campo('', 'dtlib', Campo::TIPO_TEXTO, 2, 2, 12, 12);

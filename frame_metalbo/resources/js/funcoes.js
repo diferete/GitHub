@@ -287,6 +287,11 @@ function calcSolCot(quant, vlrBruto, vlrUnit, desconto, tratamento, desc1, desc2
 
 
     var quantidade = moedaParaNumero(quant);
+
+    if (isNaN(quantidade)) {
+        quantidade = 0;
+    }
+
     $('#' + idQuant + '').val('' + quantidade + '');
 
     var unitario = moedaParaNumero(vlrBruto);
@@ -325,9 +330,6 @@ function calcSolCot(quant, vlrBruto, vlrUnit, desconto, tratamento, desc1, desc2
 
     unitario = numeroParaMoeda(unitario);
     total = numeroParaMoeda(total);
-
-
-
 
 
     $('#' + idVlrUnit + '').val('' + unitario + '');
@@ -419,7 +421,7 @@ function moedaParaNumero(valor)
  * @param {type} idQtCaixaNormal
  * @returns {Boolean}
  */
-function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, idQtSug, idQtCaixaNormal) {
+function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idQtSug, idQtCaixaNormal) {
     var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val());   //$('#'+idQuantidade+'').val();
     var CaixaNormal = moedaParaNumero($('#' + idCaixaNormal + '').val());
 
@@ -434,9 +436,7 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, i
             $('#' + idDiverNormal + '').removeClass("label-warning");
             $('#' + idDiverNormal + '').removeClass("label-success");
             $('#' + idDiverNormal + '').addClass("label-danger");
-            $('#' + idDiverNormal + '').text('Atenção!')/*
-            $('#' + idFieldSet + '').removeClass("collapsed").addClass("expanded");
-            $('#' + idFieldSet + ' >div').css("display", "block");*/
+            $('#' + idDiverNormal + '').text('Atenção!');
             $('#' + idQtSug + '').val(resultadoNormalArr * CaixaNormal);
             $('#' + idQtCaixaNormal + '').val(resultadoNormalArr);
             return false;
@@ -448,9 +448,6 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, i
             $('#' + idDiverNormal + '').text('Embalagem OK!');
             $('#' + idQtSug + '').val(resultadoNormalArr * CaixaNormal);
             $('#' + idQtCaixaNormal + '').val(resultadoNormalArr);
-           /* $('#' + idFieldSet + '').removeClass("expanded").addClass("collapsed");
-            $('#' + idFieldSet + ' >div').css("display", "none");
-            */
         }
     }
 }
@@ -465,7 +462,7 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, i
  * @param {type} idQtCaixaNormal
  * @returns {Boolean}
  */
-function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idFieldSet, idQtSugMaster, idQtCaixaMaster, idDiver) {
+function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idQtSugMaster, idQtCaixaMaster, idDiver) {
     //alert();
     var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val());//$('#'+idQuantidade+'').val();
     var CaixaMaster = moedaParaNumero($('#' + idCaixaMaster + '').val());//$('#'+idCaixaMaster+'').val();
@@ -484,8 +481,7 @@ function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idFieldSet, i
             $('#' + idDiverMaster + '').removeClass("label-warning");
             $('#' + idDiverMaster + '').removeClass("label-success");
             $('#' + idDiverMaster + '').addClass("label-danger");
-            $('#' + idDiverMaster + '').text('Atenção!')
-
+            $('#' + idDiverMaster + '').text('Atenção!');
             $('#' + idQtSugMaster + '').val(resultadoMasterArr * CaixaMaster);
             $('#' + idQtCaixaMaster + '').val(resultadoMasterArr);
             return false;

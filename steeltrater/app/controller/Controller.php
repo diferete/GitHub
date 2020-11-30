@@ -1841,15 +1841,19 @@ class Controller {
                         array_pop($aCamposChave);
                         foreach ($aCamposChave as $key => $value) {
                             //retorna campo do model
-                            $aModel = explode('_', $key);
-                            if (count($aModel) > 1) {
-                                $aModel = $this->scrollFilhas($aModel);
-                                $sModelFiltro = $aModel[1];
+                            if (substr_count($key, '_') > 1) {
+                                $aModel = explode('_', $key);
+                                if (count($aModel) > 1) {
+                                    $aModel = $this->scrollFilhas($aModel);
+                                    $sModelFiltro = $aModel[1];
+                                } else {
+                                    $aModel = $this->scrollFilhas($aModel);
+                                    $sModelFiltro = $aModel[0];
+                                }
+                                $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                             } else {
-                                $aModel = $this->scrollFilhas($aModel);
-                                $sModelFiltro = $aModel[0];
+                                $this->Persistencia->adicionaFiltro($key, $value, Persistencia::LIGACAO_AND);
                             }
-                            $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                         }
                     }
                 }

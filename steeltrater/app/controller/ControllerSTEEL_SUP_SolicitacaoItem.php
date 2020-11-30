@@ -90,7 +90,7 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
 
     public function beforeUpdate() {
         parent::beforeUpdate();
-                
+
         $this->carregaDefault();
 
         $oQnt = $this->Model->getSUP_SolicitacaoItemComQtd();
@@ -135,11 +135,11 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
     }
 
     /*
-     * Funcao para pegar valores padroes das cargas da classe STEEL_PCP_ParamVendas
+     * Funcao para pegar valores padroes das cargas da classe
      */
 
     public function carregaDefault() {
-        
+
         $aDados = array();
         $aDados['PRO_Codigo'] = $this->Model->getPRO_Codigo();
         $oParamDados = $this->Persistencia->buscaDadosProd($aDados);

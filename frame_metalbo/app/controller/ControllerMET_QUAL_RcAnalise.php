@@ -96,8 +96,11 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
 
 
         $aRet = $this->Persistencia->verifSit($aCamposChave);
-
-        if ($aRet[0] == true && $aRet[2] == 'Em análise' && $aRet[1] != 'Apontada') {
+        if ($aRet[3] == 'Cancelada') {
+            $oMens = new Mensagem('Atenção!', 'A reclamação foi cancelada!', Mensagem::TIPO_WARNING);
+            echo $oMens->getRender();
+            echo'$("#' . $aDados[1] . '-btn").click();';
+        } elseif ($aRet[0] == true && $aRet[2] == 'Em análise' && $aRet[1] != 'Apontada') {
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
 
@@ -154,10 +157,12 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-        $sSituaca = $this->Persistencia->verifSit($aCamposChave);
+        $aSituaca = $this->Persistencia->verifSit($aCamposChave);
 
-        if ($sSituaca[1] != 'Apontada' || $sSituaca[2] != 'Em análise') {
-            $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' não pode ser encaminhada!', Modal::TIPO_AVISO, false, true, false);
+        if ($aSituaca[1] == 'Cancelada') {
+            $oMensagem = new Mensagem('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' não pode ser encaminhada!', Mensagem::TIPO_WARNING);
+        } elseif ($aSituaca[1] != 'Apontada' || $aSituaca[2] != 'Em análise') {
+            $oMensagem = new Mensagem('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' não pode ser encaminhada!', Mensagem::TIPO_WARNING);
         } else {
             $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' ja teve seu e-mail encaminhado para o seu setor responsável, deseja reenviar o e-mail?', Modal::TIPO_INFO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $this->getNomeClasse() . '","enviaEmailAponta","' . $sDados . ',reenvia");');
@@ -339,7 +344,11 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
 
         $oRet = $this->Persistencia->buscaDadosRC($aCamposChave);
 
-        if ($oRet->situaca == 'Env.Qual' || $oRet->situaca == 'Env.Emb' || $oRet->situaca == 'Env.Exp') {
+        if ($oRet->situaca == 'Cancelada') {
+            $oMensagem = new Mensagem('Atenção', 'Reclamação foi Cancelada!', Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+            echo '$("#' . $aDados[1] . '-btn").click();';
+        } elseif ($oRet->situaca == 'Env.Qual' || $oRet->situaca == 'Env.Emb' || $oRet->situaca == 'Env.Exp') {
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
 

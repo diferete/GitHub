@@ -256,27 +256,27 @@ class ViewMET_MP_ItensManPrev extends View {
 
         $oDatabert = new Campo('DataAbert.', 'databert', Campo::TIPO_DATA, 2, 2, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
-       // $oDatabert->setBCampoBloqueado(true);
+        // $oDatabert->setBCampoBloqueado(true);
 
         $oUserinic = new Campo('Usuario Inicial.', 'userinicial', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUserinic->setBCampoBloqueado(true);
-        
+
         $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 8, 8, 8, 8);
         $oObs->setILinhasTextArea(1);
 
         $oL = new Campo('', '', Campo::TIPO_LINHA, 12, 12, 12, 12);
 
+        $sGrid = $this->getOGridDetalhe()->getSId();
         //NOVO-------------------------------------------------------------------------------------------
         $oBotConf = new Campo('INSERIR', '', Campo::TIPO_BOTAOSMALL, 1, 1, 2, 2);
         $oBotConf->setIMarginTop(6);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBotConf->getOBotao()->setBDesativado(true);
+        if ($sAcaoRotina != 'acaoVisualizar') {
+            $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' .
+                    $oSeq->getId() . ',' . $sGrid . ',' . $oCodSit->getId() . ',' . $oServ->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
         }
 
-        $sGrid = $this->getOGridDetalhe()->getSId();
         //id form, id incremento, id do grid, id focus,    
-        $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' .
-                $oSeq->getId() . ',' . $sGrid . ',' . $oCodSit->getId() . ',' . $oServ->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
+
         $oBotConf->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);

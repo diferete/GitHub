@@ -10,16 +10,19 @@ class PersistenciaMET_TEC_Historico extends Persistencia {
     public function __construct() {
         parent::__construct();
 
-        $this->setTabela('MET_TEC_HISTORICO');
+        $this->setTabela('MET_TEC_Historico');
 
         $this->adicionaRelacionamento('seq', 'seq', true, true, true);
-        $this->adicionaRelacionamento('usuario', 'usuario');
+        $this->adicionaRelacionamento('filcgc', 'filcgc');
+        $this->adicionaRelacionamento('usucodigo', 'usucodigo');
+        $this->adicionaRelacionamento('usunome', 'usunome');
         $this->adicionaRelacionamento('data', 'data');
         $this->adicionaRelacionamento('hora', 'hora');
         $this->adicionaRelacionamento('classe', 'classe');
         $this->adicionaRelacionamento('historico', 'historico');
-        
-        $this->adicionaOrderBy('seq',1);
+        $this->adicionaRelacionamento('acao', 'acao');
+
+        $this->adicionaOrderBy('seq', 1);
 
         $this->setSTop('50');
     }

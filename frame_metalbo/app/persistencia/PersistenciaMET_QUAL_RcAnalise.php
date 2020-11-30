@@ -189,10 +189,12 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
             $aRetorno[0] = false;
             $aRetorno[1] = $sSituaca;
             $aRetorno[2] = $oRow->reclamacao;
+            $aRetorno[3] = $sSituaca;
         } else {
             $aRetorno[0] = true;
             $aRetorno[1] = $sSituaca;
             $aRetorno[2] = $oRow->reclamacao;
+            $aRetorno[3] = $sSituaca;
         }
         return $aRetorno;
     }

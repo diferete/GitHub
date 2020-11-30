@@ -93,10 +93,9 @@ class ViewMET_QUAL_Rnc extends View {
         $oCodSetorDetectou->addCampoBusca('descsetor', $oDescSetorDetectou->getId(), $this->getTela()->getId());
         //busca por funcionario 
 
-        $oCodFuncDetectou = new Campo('...', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oCodFuncDetectou->setApenasTela(true);
+        $oCodFuncDetectou = new Campo('Crachá', 'crachadetectou', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
-        $oNomeFuncDetectou = new Campo('Usuário que Detectou ', 'lidercausa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12); //lidecausa
+        $oNomeFuncDetectou = new Campo('Usuário que Detectou', 'lidercausa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12); //lidecausa
         $oNomeFuncDetectou->setSIdPk($oCodFuncDetectou->getId());
         $oNomeFuncDetectou->setClasseBusca('MET_CAD_Funcionarios');
         $oNomeFuncDetectou->addCampoBusca('numcad', '', '');
@@ -220,7 +219,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oDivisor1 = new Campo('Origem da não Conformidade', 'dadorec2', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $oUsercausa = new Campo('...', 'numcad', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oUsercausa = new Campo('Crachá', 'crachacausou', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oUsercausa->setApenasTela(true);
         $oUsercausa->setBOculto(true);
 
@@ -271,8 +270,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oTurno02->addItemSelect('1ºTurno e Geral ', '1ºTurno e Geral');
         $oTurno02->addItemSelect('2ºTurno e Geral', '2ºTurno e Geral');
 
-        $oCodRespCausa = new Campo('...', 'cracha', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oCodRespCausa->setApenasTela(true);
+        $oCodRespCausa = new Campo('Crachá', 'cracharesponsavel', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
         $oNomePessoaRespCausa = new Campo('Responsável pelo Setor', 'respcausa', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12); //respcausa
         $oNomePessoaRespCausa->setSIdPk($oCodRespCausa->getId());

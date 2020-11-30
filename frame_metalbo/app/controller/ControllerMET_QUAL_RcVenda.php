@@ -79,7 +79,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $sRetorno = "$('#" . $aIds[3] . "').fileinput('clear');"
                 . "$('#" . $aIds[4] . "').fileinput('clear');"
                 . "$('#" . $aIds[5] . "').fileinput('clear');";
-
         echo $sRetorno;
     }
 
@@ -115,7 +114,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-
         if ($sParam == 'Env.Qual') {
             $oMensagem = new Modal('Encaminhar e-mail', 'Deseja encaminhar a RC nº' . $aCamposChave['nr'] . ' para o setor da QUALIDADE?', Modal::TIPO_AVISO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_QUAL_RcVenda","updateSitRC","' . $sDados . '","' . $sParam . '");');
@@ -131,7 +129,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         if ($sParam == 'Env.Rep') {
             $oMensagem = new Modal('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não está em situação de ser reenviada para o representante!!', Modal::TIPO_AVISO, false, true, true);
         }
-
         echo $oMensagem->getRender();
     }
 
@@ -147,7 +144,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         if ($sParam != 'Env.Rep') {
             $oMensagem = new Modal('Ops!', 'Essa reclamação apenas pode ter seu e-mail reenviado para o representante, tente novamente :)', Modal::TIPO_AVISO, false, true, true);
         } else {
-
             if ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Transportadora') {
                 $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' teve sua análise como avaria da Transportadora, deseja reenviar o e-mail para o representante?', Modal::TIPO_INFO, true, true, true);
                 $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_QUAL_RcVenda","enviaEmailRep","' . $sDados . '");');
@@ -175,27 +171,41 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
+        if ($aRetorno[0] == 'Cancelada') {
+            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' foi cancelada.', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            exit;
+        }
         if ($aRetorno[0] == 'Apontada' && $aRetorno[1] == 'Em análise') {
             $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi apontada por um setor interno da Metalbo!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            exit;
         }
         if ($aRetorno[0] == 'Aguardando') {
             $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' não foi liberada pelo Representante, aguarde ou notifique o mesmo para liberação.', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            exit;
+        }
+        if ($aRetorno[0] == 'Finalizada') {
+            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi finalizada!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            exit;
+        }
+        if ($aRetorno[3] == 'Aguardando') {
+            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' está aguardando liberação de devolução pela gerência!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            exit;
+        }
+        if ($aRetorno[0] == 'Reaberta') {
+            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' foi Reaberta e está aguardando apontamento!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            exit;
         }
         if ($aRetorno[1] == 'Em análise' && $aRetorno[0] != 'Apontada') {
             $oMensagem = new Modal('Encaminhar e-mail', 'A RC nº' . $aCamposChave['nr'] . ' ja teve seu e-mail encaminhado para o seu setor responsável, deseja reenviar o e-mail?', Modal::TIPO_INFO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_QUAL_RcVenda","enviaEmailSetor","' . $sDados . '","' . $sParam . '");');
+            echo $oMensagem->getRender();
         }
-        if ($aRetorno[0] == 'Finalizada') {
-            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' já foi finalizada!', Mensagem::TIPO_WARNING);
-        }
-        if ($aRetorno[3] == 'Aguardando') {
-            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' está aguardando liberação de devolução pela gerência!', Mensagem::TIPO_WARNING);
-        }
-        if ($aRetorno[0] == 'Reaberta') {
-            $oMensagem = new Mensagem('Atenção', 'A reclamação nº' . $aCamposChave['nr'] . ' foi Reaberta e está aguardando apontamento!', Mensagem::TIPO_WARNING);
-        }
-
-        echo $oMensagem->getRender();
     }
 
     /*
@@ -239,6 +249,9 @@ class ControllerMET_QUAL_RcVenda extends Controller {
     }
 
     function gerenciaSituacoes($oDados) {
+        if ($oDados->situaca == 'Cancelada') {
+            return 0;
+        }
         if ($oDados->situaca == 'Aguardando') {
             return 0;
         }
@@ -284,13 +297,8 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             echo $oMsg->getRender();
             exit();
         }
-        if (($oDados->procedencia == '' || $oDados->procedencia == null) && ($aCampos['procedencia'] == '' || $aCampos['procedencia'] == null)) {
+        if (($aCampos['procedencia'] == '' || $aCampos['procedencia'] == null) && $oDados->procedencia == 'Aguardando') {
             $oMsg = new Mensagem('Atenção', 'Selecione o status da PROCEDENCIA segundo análise!', Mensagem::TIPO_ERROR);
-            echo $oMsg->getRender();
-            exit();
-        }
-        if ($oDados->situaca != 'Reaberta' && $aCampos['reclamacao'] == 'Interna' && $oDados->situaca != 'Apontada') {
-            $oMsg = new Mensagem('Atenção', 'Não foi apontada pelo setor de analise interna!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
             exit();
         } else {
@@ -310,12 +318,17 @@ class ControllerMET_QUAL_RcVenda extends Controller {
     }
 
     public function msgSit($aDados, $oRet) {
-
+        if ($oRet->situaca == 'Cancelada') {
+            $oMensagem = new Mensagem('Atenção!', 'Reclamação - RC foi Cancelada!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            echo "$('#" . $aDados[1] . "-btn').click();";
+            exit();
+        }
         if ($oRet->situaca == 'Finalizada' && $oRet->apontanf == 'Apontada') {
             $oMensagem = new Mensagem('Atenção', 'Reclamação - RC já foi finalizada e NF de devolução apontada, reabra a RC caso deseje alterar!', Mensagem::TIPO_WARNING);
         }
         if ($oRet->situaca == 'Finalizada' && $oRet->apontanf == null) {
-            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC já foi finalizada!.', Mensagem::TIPO_WARNING);
+            $oMensagem = new Mensagem('Atenção', 'Reclamação - RC já foi finalizada!', Mensagem::TIPO_WARNING);
         }
         if ($oRet->situaca != 'Apontada' && $oRet->reclamacao == 'Em análise') {
             $oMensagem = new Mensagem('Atenção', 'Reclamação - RC não está em situação de ser apontada.', Mensagem::TIPO_WARNING);
@@ -570,10 +583,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         echo 'requestAjax("","MET_QUAL_RcVenda","notificaAlmoxarifado","' . $sDados . '");';
     }
 
-    /*
-     * Método que monta a Modal de Apontamento do setor de Vendas
-     * */
-
     public function criaTelaModalRetorna($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
@@ -778,6 +787,11 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         parse_str($sChave, $aCamposChave);
         $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
 
+        if ($oDados->situaca == 'Cancelada') {
+            $oMensagem = new Mensagem('Atenção!', 'A RC nº' . $aCamposChave['nr'] . ' já foi cancelada', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            exit;
+        }
         if (($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) && ($oDados->situaca == 'Liberado' || $oDados->situaca == 'Apontada')) {
             $aRetorno = $this->Persistencia->solicitaLibDevolucao($aCamposChave);
             if ($aRetorno[0]) {
@@ -815,7 +829,12 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         parse_str($sChave, $aCamposChave);
 
         $aRet = $this->Persistencia->verifSitRC($aCamposChave);
-
+        if ($aRet[0] == 'Cancelada') {
+            echo"$('#" . $aDados[0] . "-btn').click();";
+            $oMensagem = new Mensagem('Atenção!', 'A RC nº' . $aCamposChave['nr'] . ' já foi cancelada', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            exit;
+        }
         if ($aRet[3] == 'Aguardando') {
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
@@ -911,6 +930,127 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             echo $oMensagem->getRender();
         } else {
             $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email de notificação, comunique o departamento de TI!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function criaTelaModalCancela($sDados) {
+        $this->View->setSRotina(View::ACAO_ALTERAR);
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aCamposChave['id'] = $aDados[1];
+
+        $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
+
+        if ($oRow->situaca == 'Cancelada') {
+            echo"$('#" . $aDados[1] . "-btn').click();";
+            $oMensagem = new Mensagem('Atenção!', 'A RC nº' . $aCamposChave['nr'] . ' já foi cancelada', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        } else {
+            $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
+            $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
+
+            $oDados = $this->Persistencia->consultarWhere();
+            $this->View->setAParametrosExtras($oDados);
+            $this->View->criaModalCancela($sDados);
+
+
+            //adiciona onde será renderizado
+            $sLimpa = "$('#" . $aDados[1] . "-modal').empty();";
+            echo $sLimpa;
+            $this->View->getTela()->setSRender($aDados[1] . '-modal');
+
+            //renderiza a tela
+            $this->View->getTela()->getRender();
+        }
+    }
+
+    /*
+     * Método que monta a Modal de Reabertura RC do setor de Vendas
+     * */
+
+    public function cancelaRC($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        if ($aCampos['motivocancela'] == '' || $aCampos['motivocancela'] == null) {
+            $oMensagem = new Mensagem('Atenção', 'Favor preencher o motivo do cancelamento', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        } else {
+            $aRetorno = $this->Persistencia->cancelarRC($aCamposChave);
+            if ($aRetorno[0]) {
+                echo "$('#" . $aDados[0] . "-pesq').click();";
+                $oMensagem = new Mensagem('Sucesso', 'RC foi cancelada!', Mensagem::TIPO_SUCESSO);
+                $this->emailCancelaRC($sDados);
+                echo $oMensagem->getRender();
+            } else {
+                $oMensagem = new Mensagem('Atenção', 'Problemas ao tentar cancelar a RC, tente novamente ou comunique o TI!', Mensagem::TIPO_WARNING);
+                echo $oMensagem->getRender();
+            }
+        }
+    }
+
+    public function emailCancelaRC($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[3]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aDadosModal = array();
+        parse_str($_REQUEST['campos'], $aDadosModal);
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = date('d/m/Y');
+        $hora = date('H:m');
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail Sistema Web Metalbo'));
+
+        $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
+
+        $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oRow->nr . ''));
+        $oEmail->setMensagem(utf8_decode('A reclamação de Nº ' . $oRow->nr . ' foi CANCELADA pelo setor de VENDAS.<hr><br/>'
+                        . '<b>Representante: ' . $oRow->usunome . ' </b><br/>'
+                        . '<b>Escritório: ' . $oRow->officedes . ' </b><br/>'
+                        . '<b>Hora: ' . $hora . '  </b><br/>'
+                        . '<b>Data: ' . $data . ' </b><br/><br/><br/>'
+                        . '<table border = 1 cellspacing = 0 cellpadding = 2 width = "100%">'
+                        . '<tr><td><b>Cnpj: </b></td><td> ' . $oRow->empcod . ' </td></tr>'
+                        . '<tr><td><b>Razão Social: </b></td><td> ' . $oRow->empdes . ' </td></tr>'
+                        . '<tr><td><b>MOTIVO DO CANCELAMENTO: </b></td><td> ' . $oRow->motivocancela . ' </td></tr>'
+                        . '</table><br/><br/>'
+                        . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+        $oEmail->limpaDestinatariosAll();
+
+        $sEmail = $this->Persistencia->buscaEmailRep($aCamposChave);
+        $oEmail->addDestinatario($sEmail);
+        $oEmail->addDestinatarioCopia($_SESSION['email']);
+
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o representante com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+            echo"$('#" . $aDados[1] . "-pesq').click();";
+            echo"$('#" . $aDados[2] . "-btn').click();";
+        } else {
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email para o representante, tente novamente ou comunique o TI - ', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         }
     }

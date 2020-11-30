@@ -22,8 +22,8 @@ class ViewDELX_FIS_Ncm extends View {
 
         $oNcmDes = new CampoConsulta('Descrição', 'fis_ncmdescricao', CampoConsulta::TIPO_TEXTO);
 
-        $oFilNCMCod = new Filtro($oNcmCod, Filtro::CAMPO_TEXTO);
-        $oFilNCMDes = new Filtro($oNcmDes, Filtro::CAMPO_TEXTO);
+        $oFilNCMCod = new Filtro($oNcmCod, Filtro::CAMPO_TEXTO,3,3,3,3);
+        $oFilNCMDes = new Filtro($oNcmDes, Filtro::CAMPO_TEXTO,5,5,5,5);
 
         $this->addFiltro($oFilNCMCod, $oFilNCMDes);
         $this->addCampos($oNcmCod, $oNcmDes);

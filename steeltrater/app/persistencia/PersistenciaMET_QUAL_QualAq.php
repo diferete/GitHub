@@ -49,7 +49,7 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         $this->adicionaJoin('DELX_FIL_Empresa', null, 1, 'filcgc', 'fil_codigo');
 
         $this->adicionaOrderBy('nr', 1);
-        $this->setSTop(50);
+        $this->setSTop(25);
     }
 
     public function fechaAq($aDados) {

@@ -13,28 +13,37 @@ class PersistenciaSTEEL_SUP_Solicitacao extends Persistencia {
 
         $this->setTabela('SUP_Solicitacao');
 
-        $this->adicionaRelacionamento('FIL_Codigo', 'DELX_FIL_Empresa.fil_codigo', false, false, false);
-        $this->adicionaRelacionamento('FIL_Codigo', 'FIL_Codigo', true, true);
-        $this->adicionaRelacionamento('SUP_SolicitacaoSeq', 'SUP_SolicitacaoSeq', true, true, true);
-        $this->adicionaRelacionamento('SUP_SolicitacaoDataHora', 'SUP_SolicitacaoDataHora');
-        $this->adicionaRelacionamento('SUP_SolicitacaoObservacao', 'SUP_SolicitacaoObservacao');
-        $this->adicionaRelacionamento('SUP_SolicitacaoUsuCadastro', 'SUP_SolicitacaoUsuCadastro');
-        $this->adicionaRelacionamento('SUP_SolicitacaoObsEntrega', 'SUP_SolicitacaoObsEntrega');
-        $this->adicionaRelacionamento('SUP_SolicitacaoTipo', 'SUP_SolicitacaoTipo');
-        $this->adicionaRelacionamento('SUP_SolicitacaoSituacao', 'SUP_SolicitacaoSituacao');
-        $this->adicionaRelacionamento('SUP_SolicitacaoFaseApr', 'SUP_SolicitacaoFaseApr');
-        $this->adicionaRelacionamento('SUP_SolicitacaoMRP', 'SUP_SolicitacaoMRP');
-        $this->adicionaRelacionamento('SUP_SolicitacaoUsuAprovador', 'SUP_SolicitacaoUsuAprovador');
-        $this->adicionaRelacionamento('SUP_SolicitacaoCCTCod', 'SUP_SolicitacaoCCTCod');
-        $this->adicionaRelacionamento('SUP_SolicitacaoDataCanc', 'SUP_SolicitacaoDataCanc');
-        $this->adicionaRelacionamento('SUP_SolicitacaoUsuCanc', 'SUP_SolicitacaoUsuCanc');
+        $this->adicionaRelacionamento('fil_codigo', 'DELX_FIL_Empresa.fil_codigo', false, false, false);
+        $this->adicionaRelacionamento('fil_codigo', 'fil_codigo', true, true);
+        $this->adicionaRelacionamento('sup_solicitacaoseq', 'sup_solicitacaoseq', true, true, true);
+        $this->adicionaRelacionamento('sup_solicitacaodatahora', 'sup_solicitacaodatahora');
+        $this->adicionaRelacionamento('sup_solicitacaoobservacao', 'sup_solicitacaoobservacao');
+        $this->adicionaRelacionamento('sup_solicitacaousucadastro', 'sup_solicitacaousucadastro');
+        $this->adicionaRelacionamento('sup_solicitacaoobsentrega', 'sup_solicitacaoobsentrega');
+        $this->adicionaRelacionamento('sup_solicitacaotipo', 'sup_solicitacaotipo');
+        $this->adicionaRelacionamento('sup_solicitacaosituacao', 'sup_solicitacaosituacao');
+        $this->adicionaRelacionamento('sup_solicitacaofaseapr', 'sup_solicitacaofaseapr');
+        $this->adicionaRelacionamento('sup_solicitacaomrp', 'sup_solicitacaomrp');
+        $this->adicionaRelacionamento('sup_solicitacaousuaprovador', 'sup_solicitacaousuaprovador');
+        $this->adicionaRelacionamento('sup_solicitacaocctcod', 'sup_solicitacaocctcod');
+        $this->adicionaRelacionamento('sup_solicitacaodatacanc', 'sup_solicitacaodatacanc');
+        $this->adicionaRelacionamento('sup_solicitacaousucanc', 'sup_solicitacaousucanc');
 
-        $this->adicionaFiltro('FIL_Codigo', '8993358000174');
+        $this->adicionaFiltro('fil_codigo', '8993358000174');
 
-        $this->adicionaJoin('DELX_FIL_Empresa', null, 1, 'FIL_Codigo', 'fil_codigo');
+        $this->adicionaJoin('DELX_FIL_Empresa', null, 1, 'fil_codigo', 'fil_codigo');
 
-        $this->adicionaOrderBy('SUP_SolicitacaoSeq', 1);
-        $this->setSTop('50');
+        $this->adicionaOrderBy('sup_solicitacaoseq', 1);
+        $this->setSTop(25);
+    }
+
+    public function afterInsert($aCampos) {
+        parent::afterInsert($aCampos);
+
+        $sSql = "update tec_sequencia set tec_sequencianumero = " . $aCampos['sup_solicitacaoseq'] . " "
+                . "where tec_sequenciaFilial = '8993358000174' and tec_sequenciaTabela ='SUP_Solicitacao'";
+
+        $this->executaSql($sSql);
     }
 
 }
