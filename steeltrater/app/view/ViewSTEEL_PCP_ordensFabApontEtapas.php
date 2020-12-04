@@ -289,9 +289,6 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
                 , Campo::TIPO_LABEL, 5, 5, 5, 5);
         $oLabelCorrida->setApenasTela(true);
 
-
-
-
         /**
          * Método para inserir apontamento
          */

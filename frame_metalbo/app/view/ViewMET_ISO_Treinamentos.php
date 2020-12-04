@@ -18,6 +18,8 @@ class ViewMET_ISO_Treinamentos extends View {
         $this->getTela()->setSId('GridTreinamentos');
 
         $this->setUsaAcaoVisualizar(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
         $oNr = new CampoConsulta('Nr.', 'nr');
         $oNr->setSOperacao('personalizado');
@@ -48,7 +50,7 @@ class ViewMET_ISO_Treinamentos extends View {
         $oFilSetor->setSCampoRetorno('descsetor', $this->getTela()->getSId());
         $oFilSetor->setSIdTela($this->getTela()->getSId());
 
-        $oFilFuncao = new Filtro($oFuncao, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, false);
+        $oFilFuncao = new Filtro($oFuncao, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, true);
         $oFilFuncao->setSClasseBusca('MET_RH_FuncaoSetor');
         $oFilFuncao->setSCampoRetorno('descfuncao', $this->getTela()->getSId());
         $oFilFuncao->setSIdTela($this->getTela()->getSId());

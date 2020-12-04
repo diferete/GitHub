@@ -93,8 +93,8 @@ class ControllerMET_ISO_Treinamentos extends Controller {
         $aDados = $this->Persistencia->somaFunc();
 
         $sResulta = '<div style="color:black !important">Total de Registros: ' . $aDados['total'] . '';
-        if ($aDados['totalInc'] > 0) {
-            $sResulta .= '<span style="color:#ff6600 !important">&nbsp;&nbsp;&nbsp; Grau de Escolaridade Incompatível com função: ' . $aDados['totalInc'] . '</span>';
+        if ($aDados['crachas'] > 0) {
+            $sResulta .= '<span style="color:#ff6600 !important">&nbsp;&nbsp;&nbsp; Grau de Escolaridade Incompatível com função: ' . $aDados['crachas'] . '</span>';
         }
         $sResulta .= '<div id="titulolinhatempo">'
                 . '<h3 class="panel-title"></h3></br>'

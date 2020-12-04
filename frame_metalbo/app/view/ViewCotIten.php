@@ -82,6 +82,13 @@ class ViewCotIten extends View {
     public function criaTela() {
         parent::criaTela();
 
+        $sAcaoRotina = $this->getSRotina();
+        
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $this->getTela()->setBUsaAltGrid(false);
+            $this->getTela()->setBUsaDelGrid(false);
+        }
+
         //cria o grid de itens
         $this->criaGridDetalhe();
         //traz os valores de cnpj razão e número da solicitação
@@ -206,8 +213,7 @@ class ViewCotIten extends View {
 
 
         //id form,id incremento,id do grid, id focus,    
-        $sAcao = $sAcao = 'convItenSolRep($("#' . $oVlrUnit->getId() . '").val(),"' . $oVlrUnit->getId() . '",$("#' . $oVlrTot->getId() . '").val(),"' . $oVlrTot->getId() . '",$("#' . $oPrcBruto->getId() . '").val(),"' . $oPrcBruto->getId() . '");'
-                . 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oCodigo->getId() . '","' . $oNr->getSValor() . ',' . $oChkTodos->getId() . ',' . $oObsProd->getId() . ',' . $oDesconto->getId() . '");';
+        $sAcao = $sAcao = 'convItenSolRep($("#' . $oVlrUnit->getId() . '").val(),"' . $oVlrUnit->getId() . '",$("#' . $oVlrTot->getId() . '").val(),"' . $oVlrTot->getId() . '",$("#' . $oPrcBruto->getId() . '").val(),"' . $oPrcBruto->getId() . '");requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oCodigo->getId() . '","' . $oNr->getSValor() . ',' . $oChkTodos->getId() . ',' . $oObsProd->getId() . ',' . $oDesconto->getId() . '");';
 
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
@@ -245,10 +251,13 @@ class ViewCotIten extends View {
         $oDiver->setBCampoBloqueado(true);
 
         //botão para aplicar a quantidade para arredondar a master
-        $oBtnMaster = new Campo('Aplicar', 'btnMaster', Campo::TIPO_BOTAOSMALL, 1, 1, 12, 12);
+        $oBtnMaster = new Campo('Aplicar', 'btnMaster', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $sQtSugMaster = 'aplicaQtMaster("' . $oQtSugMaster->getId() . '","' . $oQuant->getId() . '")';
         $oBtnMaster->getOBotao()->addAcao($sQtSugMaster);
         $oBtnMaster->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBtnMaster->setBDesativado(true);
+        }
 
         //campo que retorna a caixa normal
         $oCaixaNormal = new Campo('Normal', 'cxnormal', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -271,10 +280,13 @@ class ViewCotIten extends View {
 
 
         //botão que aplica a quantidade sugerida pelo sistema
-        $oBtnNormal = new Campo('Aplicar', 'btnNormal', Campo::TIPO_BOTAOSMALL, 1);
+        $oBtnNormal = new Campo('Aplicar', 'btnNormal', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $sAcaoSugQt = 'aplicaQtNormal("' . $oQtSugNormal->getId() . '","' . $oQuant->getId() . '")';
         $oBtnNormal->getOBotao()->addAcao($sAcaoSugQt);
         $oBtnNormal->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBtnNormal->setBDesativado(true);
+        }
 
         //adiciona os campos no fieldset
         $oFieldEmb->addCampos(array($oCaixaMaster, $oAguardMaster, $oQtSugMaster, $oQtCaixaMaster, $oDiver, $oBtnMaster, $oCaixaNormal, $oAguardNormal, $oQtSugNormal, $oQtCaixaNormal, $oBtnNormal));
@@ -302,7 +314,7 @@ class ViewCotIten extends View {
         $oLoteMinimo->setBCampoBloqueado(true);
         $oLoteMinimo->setSValor('0');
 
-        $oSolLib = new Campo('Solicita Liberação', 'sollib', Campo::TIPO_BOTAOSMALL, 1, 1, 12, 12);
+        $oSolLib = new Campo('Solicita Liberação', 'sollib', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oSolLib->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
         $sAcaoLib = 'var difporc = retornaPorc ("' . $oVlrUnit->getId() . '","' . $oPrcBruto->getId() . '"); '
                 . ' var solPreco = calcPrecoKg("' . $oQuant->getId() . '","' . $oPesoProduto->getId() . '","' . $oVlrTot->getId() . '","' . $oPrecoKg->getId() . '"); '
@@ -310,6 +322,9 @@ class ViewCotIten extends View {
                 . 'moedaParaNumero($("#' . $oPrcBruto->getId() . '").val())+","+moedaParaNumero($("#' . $oVlrUnit->getId() . '").val())+","+difporc+","+moedaParaNumero(solPreco)+","+$("#' . $oEmpCod->getId() . '").val()+","+$("#' . $oEmpdes->getId() . '").val()+","+$("#' . $oQuant->getId() . '").val());';
 
         $oSolLib->getOBotao()->addAcao($sAcaoLib);
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oSolLib->setBDesativado(true);
+        }
 
         //campos data 
         $oData = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -341,8 +356,9 @@ class ViewCotIten extends View {
         $oCodigo->addEvento(Campo::EVENTO_SAIR, 'entradaCodigo("' . $oVlrUnit->getId() . '"); var oProcod=$("#' . $oCodigo->getId() . '").val(); var prcTabela =$("#' . $oPrcBruto->getId() . '").val(); var prcUnit =$("#' . $oVlrUnit->getId() . '").val();'
                 . 'var oNrSaida = $("#' . $oNr->getId() . '").val();'
                 . 'var oEmpSaida = $("#' . $oEmpCod->getId() . '").val();'
-                . 'if($("#' . $oCodigo->getId() . '").val()!== ""){'
-                . 'requestAjax("","SolPedIten","acaoExitCodigo","' . $oPrcBruto->getId() . ',' . '' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . ',' . $oQtSugMaster->getId() . '","");  $("#' . $oQuant->getId() . '").trigger("blur");}');
+                . 'if($("#' . $oCodigo->getId() . '").val()!==""){'
+                . 'requestAjax("","SolPedIten","acaoExitCodigo","' . $oPrcBruto->getId() . ','
+                . '' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . '    ","");  $("#' . $oQuant->getId() . '").trigger("blur");}');
 
         /*
          * Define os eventos no exit dos campos de desconto
@@ -379,7 +395,7 @@ class ViewCotIten extends View {
          * Valida as quantidades de caixa
          */
 
-        $sCallBackQt = 'if($("#' . $oQuant->getId() . '").val()<= "0") {'
+        $sCallBackQt = 'if($("#' . $oQuant->getId() . '").val()<="0") {'
                 . 'return { valid: false, message: "Não pode ser zero!" };'
                 . '} else {'
                 . 'if(verifLoteMin("' . $oLoteMinimo->getId() . '","' . $oQuant->getId() . '") == false){'
@@ -411,14 +427,6 @@ class ViewCotIten extends View {
         //---Adiciona uma linha em branco---///
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
-
-        //adiciona os campos na tela
-        $this->addCampos(array($oCodigo, $oProdes, $oQuant, $oPrcBruto, $oVlrUnit), $oLinha, array($oDesconto, $oTratamento, $oDescExtra1, $oDescExtra2, $oSeqOd, $oObsProd, $oChkTodos), $oLinha, array($oVlrTot, $oBtnInserir, $oPrecoKg, $oNr, $oSeq), $oLinha, $oFieldEmb, $oFieldLib);
-
-        //campos para serem filtros iniciais no grid
-
-        $this->addCamposFiltroIni($oNr);
-
         //adiciona botões nos grid detalhe
 
         $sAcaoDisp = 'var contdel = 0; '
@@ -441,8 +449,20 @@ class ViewCotIten extends View {
         $oBotaoDesm = new Botao('Limpar', Botao::TIPO_DETALHE, $sAcaoDesm);
         $oBotaoDesm->setSStyleBotao(Botao::TIPO_WARNING);
 
-        $this->getTela()->addBotDet($oBotaoEnt);
-        $this->getTela()->addBotDet($oBotaoDesm);
+        if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
+
+            $this->getTela()->addBotDet($oBotaoEnt);
+            $this->getTela()->addBotDet($oBotaoDesm);
+
+            //adiciona os campos na tela
+            $this->addCampos(array($oCodigo, $oProdes, $oQuant, $oPrcBruto, $oVlrUnit), $oLinha, array($oDesconto, $oTratamento, $oDescExtra1, $oDescExtra2, $oSeqOd, $oObsProd, $oChkTodos), $oLinha, array($oVlrTot, $oBtnInserir, $oPrecoKg, $oNr, $oSeq), $oLinha, $oFieldEmb, $oFieldLib);
+        } else {
+            //adiciona os campos na tela
+            $this->addCampos(array($oCodigo, $oProdes, $oQuant, $oPrcBruto, $oVlrUnit), $oLinha, array($oDesconto, $oTratamento, $oDescExtra1, $oDescExtra2, $oSeqOd, $oObsProd, $oChkTodos), $oLinha, array($oVlrTot, $oPrecoKg, $oNr, $oSeq), $oLinha, $oFieldEmb, $oFieldLib);
+        }
+
+        //campos para serem filtros iniciais no grid
+        $this->addCamposFiltroIni($oNr);
     }
 
     public function addeventoConc() {

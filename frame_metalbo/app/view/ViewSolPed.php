@@ -231,13 +231,19 @@ class ViewSolPed extends View {
         //---Campo data de entrega com eventos de validação (Não pode ser menor que a data atual e nem null)---//
         $oDataEnt = new Campo('DataEntrega', 'dtent', Campo::TIPO_DATA, 2);
         $oDataEnt->setITamanho(Campo::TAMANHO_PEQUENO);
-        $sEventoData = 'if (dataAtual("' . $oDataEnt->getId() . '","' . date('d/m/Y') . '")==false){ '
-                . ' return { valid: false, message: "Data menor que a data atual!" };  }else{return { valid: true };}; '
-                . 'if($("#' . $oDataEnt->getId() . '").val()=="") { '
-                . ' return { valid: false, message: "Data não pode ser em branco!" };'
-                . '}else{return { valid: true };};';
-        $oDataEnt->addValidacao(false, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
-
+        $sEventoData = 'if (dataAtual("' . $oDataEnt->getId() . '","' . date('d/m/Y') . '") == false){ '
+                . 'return { valid: false, message: "Data menor que a data atual!" };'
+                . '}else{'
+                . 'return { valid: true };'
+                . '}; '
+                . 'if($("#' . $oDataEnt->getId() . '").val() == "") { '
+                . 'return { valid: false, message: "Data não pode ser em branco!" };'
+                . '}else{'
+                . 'return { valid: true };'
+                . '};';
+        if ($sAcaoRotina != 'acaoVisualizar') {
+            $oDataEnt->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
+        }
         //---Campos ocultos ou com valores fixos---//
         $oConsemail = new Campo('Email', 'consemail', Campo::TIPO_TEXTO, 3, 3, 3, 12);
         $oConsemail->setITamanho(Campo::TAMANHO_PEQUENO);

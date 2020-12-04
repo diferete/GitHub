@@ -11,7 +11,7 @@ class PersistenciaModulo extends Persistencia {
         $this->adicionaRelacionamento('modescricao', 'modescricao');
         $this->adicionaRelacionamento('dragodrop', 'dragodrop');
         $this->adicionaRelacionamento('upload', 'upload');
-        
+
         $this->adicionaOrderBy('modcod', 1);
     }
 
@@ -42,6 +42,23 @@ class PersistenciaModulo extends Persistencia {
             $aRetorno = $this->executaSql($sSqlUpdate);
         }
         return;
+    }
+
+    public function populaFunc() {
+        $sSql = "select numcad,nomfun,cargo,codsetor,setor,grains,desgra from tbfunc where cnpj = 75483040000211 order by setor asc";
+        $iNr = 1;
+        $iFilcgc = 75483040000211;
+        $data = date('d/m/Y');
+
+        $result = $this->getObjetoSql($sSql);
+        while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+
+            $sSqlInsert = "insert into MET_ISO_Treinamentos (nr,filcgc,cracha,situacao,nome,codsetor,descsetor,funcao,data_cad,usuario,codGrau_escolaridade,grau_escolaridade,tagEscolaridade,tagTreinamento)"
+                    . "values"
+                    . "(" . $iNr . "," . $iFilcgc . "," . $row->numcad . ",'Ativo','" . $row->nomfun . "'," . $row->codsetor . ",'" . $row->setor . "','" . $row->cargo . "','" . $data . "','Alexandre de Souza'," . $row->grains . ",'" . $row->desgra . "','C','N')";
+            $aRetorno = $this->executaSql($sSqlInsert);
+            $iNr++;
+        }
     }
 
 }

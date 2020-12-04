@@ -19,12 +19,11 @@ class ViewPnlFinanCot extends View {
     public function criaTela() {
         parent::criaTela();
         $aValor = $this->getAParametrosExtras();
-        
+
         $oCnpj = new Campo('Cliente', '', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
         $oCnpj->setBCampoBloqueado(true);
         $oCnpj->setSValor($aValor[0]);
-        $oCnpj->setBFocus(true);
 
         $oNr = new Campo('Solicitação', '', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -35,8 +34,7 @@ class ViewPnlFinanCot extends View {
         $oEmpDes->setITamanho(Campo::TAMANHO_PEQUENO);
         $oEmpDes->setBCampoBloqueado(true);
         $oEmpDes->setSValor($aValor[1]);
-        $oEmpDes->addEvento(Campo::EVENTO_SAIR, '$("#' . $oNr->getId() . '").focus();');
-
+        //$oEmpDes->addEvento(Campo::EVENTO_SAIR, '$("#' . $oNr->getId() . '").focus();');
         //---Adiciona uma linha em branco---///
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
@@ -56,17 +54,16 @@ class ViewPnlFinanCot extends View {
         $oDiasVenc = new CampoConsulta('Dias para vencer', 'diasvenc');
         $oDiasVenc->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, '');
         $oDiasVenc->addComparacao('0', CampoConsulta::COMPARACAO_MENOR, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, '');
+
         $oParcela = new CampoConsulta('Parcela', 'recparnro');
+
         $oBanco = new CampoConsulta('Banco', 'bcodes');
 
         $oGrid->addCampos($oDataEmiss, $oSerie, $oVenc, $oVlr, $oDiasVenc, $oParcela, $oBanco);
-        $oGrid->setSController('PnlFinan');
+        $oGrid->setSController('PnlFinanCot');
         $oGrid->addParam('empcod', $aValor[0]);
 
-        $oFieldAberto = new FieldSet('Títulos em aberto');
-        $oFieldAberto->addCampos(array($oGrid));
-
-        $this->addCampos(array($oCnpj, $oEmpDes), $oFieldAberto, $oNr);
+        $this->addCampos(array($oNr, $oCnpj, $oEmpDes), array($oGrid));
     }
 
 }

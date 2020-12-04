@@ -54,4 +54,8 @@ class ControllerModulo extends Controller {
         $this->Persistencia->testeHora();
     }
 
+    public function populaFunc() {
+        $this->Persistencia->populaFunc();
+    }
+
 }

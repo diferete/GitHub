@@ -57,7 +57,7 @@ $pdf->MultiCell(50, 5, 'Data: ' . $sData .
         '  Hora: ' . $sHora, 0, 'L');
 
 $pdf->Ln(5);
-$pdf->Cell(199, 5, 'Número de entrada de projetos mês entre os anos de 2017 até ' . $anoAtual, 0, 1, 'L');
+$pdf->Cell(199, 5, 'Número de entrada de projetos mês entre os períodos de ' . $data1 . ' até ' . $data2, 0, 1, 'L');
 $pdf->Cell(0, 0, "", "B", 1, 'C');
 $pdf->Ln(3);
 
@@ -65,13 +65,15 @@ $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; 
 $sql = "SELECT MONTH(dtimp) MONTH,YEAR(dtimp) YEAR, COUNT(*)
                             COUNT
                             FROM tbqualNovoProjeto
-                            WHERE YEAR(dtimp) between 2017 and '" . $anoAtual . "'
-                            GROUP BY MONTH(dtimp),YEAR(dtimp);";
+                            WHERE dtimp between '" . $data1 . "' and '" . $data2 . "'
+                            GROUP BY MONTH(dtimp),YEAR(dtimp) ORDER BY YEAR, MONTH";
 
 $sth = $PDO->query($sql);
 
 $iCont = 0;
 $iN = 0;
+$iTotalGeral = 0;
+$iTotalAno = 0;
 while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 
     //Cria cabeçalho conforme o ano
@@ -80,7 +82,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         //Cabeçalho inicial
         $pdf->SetFont('arial', 'B', 9);
         $pdf->Cell(55, 5, 'MÊS', 'R', 0, 'L');
-        $pdf->Cell(115, 5, 'ANO - 2017', 'R', 0, 'L');
+        $pdf->Cell(115, 5, 'ANO - ' . $row['YEAR'], 'R', 0, 'L');
         $pdf->Cell(10, 5, 'QUANTIDADE', 0, 1, 'L');
         $pdf->Cell(199, 0, '', "B", 1, 'L');
 
@@ -89,6 +91,15 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     }
     if ($iCont + 1 == $row['YEAR']) {
 
+        //Totalizador anual
+        $pdf->ln(2);
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(170, 5, 'TOTAL ANO ' . $iCont . ': ', '', 0, 'R');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(30, 5, $iTotalAno, '', 1, 'L');
+        $pdf->Cell(140, 5, '', '', 0, 'R');
+        $pdf->Cell(60, 5, '', 'T', 1, 'L');
+
         $pdf->SetFont('arial', 'B', 9);
         $pdf->Cell(199, 4, '', 0, 1, 'L');
         $pdf->Cell(55, 5, 'MÊS', 'R', 0, 'L');
@@ -96,6 +107,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(10, 5, 'QUANTIDADE', 0, 1, 'L');
         $pdf->Cell(199, 0, '', "B", 1, 'L');
         $iCont++;
+        $iTotalAno = 0;
     }
 
     $pdf->Cell(199, 1, '', 0, 1, 'L');
@@ -104,11 +116,33 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(115, 5, $row['YEAR'], 'B,R', 0, 'L');
     $pdf->Cell(29, 5, $row['COUNT'], 'B', 1, 'L');
 
+    $iTotalAno = $iTotalAno + $row['COUNT'];
+
+    $iTotalGeral = $iTotalGeral + $row['COUNT'];
+
     if ($pdf->GetY() >= 270) {    // 275 é o tamanho da página
         $pdf->AddPage();   // adiciona se ultrapassar o limite da página
         $pdf->SetY(10);
     }
 }
+
+$pdf->ln(2);
+$pdf->SetFont('arial', 'B', 9);
+$pdf->Cell(170, 5, 'TOTAL ANO ' . $iCont . ': ', '', 0, 'R');
+$pdf->SetFont('arial', '', 9);
+$pdf->Cell(30, 5, $iTotalAno, '', 1, 'L');
+$pdf->Cell(140, 5, '', '', 0, 'R');
+$pdf->Cell(60, 5, '', 'T', 1, 'L');
+
+$pdf->ln(2);
+$pdf->SetFont('arial', 'B', 10);
+$pdf->Cell(170, 5, 'TOTAL GERAL : ', '', 0, 'R');
+$pdf->SetFont('arial', '', 10);
+$pdf->Cell(30, 5, $iTotalGeral, '', 1, 'L');
+$pdf->Cell(140, 5, '', '', 0, 'R');
+$pdf->Cell(60, 5, '', 'T', 1, 'L');
+
+
 
 $pdf->Output('I', 'relNovoProjetosMes.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  

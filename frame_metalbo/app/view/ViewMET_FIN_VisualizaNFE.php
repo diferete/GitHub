@@ -67,7 +67,7 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $oFilCliNome = new Filtro($oCliNome, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
 
         $oFilData = new Filtro($oNfDtEmiss, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
-        $oFilData->addFiltroValor(date('d/m/Y'));
+        $oFilData->addFiltroValor(Util::getPrimeiroDiaMes());
         $oFilData->addFiltroValor(date('d/m/Y'));
 
         $oDrop1 = new Dropdown('Visualizar Danfe', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);

@@ -25,6 +25,8 @@ class PersistenciaMET_ISO_Treinamentos extends Persistencia {
         $this->adicionaRelacionamento('grau_escolaridade', 'grau_escolaridade');
         $this->adicionaRelacionamento('tagEscolaridade', 'tagEscolaridade');
         $this->adicionaRelacionamento('tagTreinamento', 'tagTreinamento');
+
+        $this->setSTop('75');
     }
 
     public function buscaDadosColaborador($aDados) {
@@ -73,20 +75,19 @@ class PersistenciaMET_ISO_Treinamentos extends Persistencia {
         $sSql = 'select cracha from MET_ISO_Treinamentos';
         $result = $this->getObjetoSql($sSql);
         $iCountTotal = 0;
-        $iCountInc = 0;
+        $crachas = '';
 
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
             $aDados['cracha'] = $oRowBD->cracha;
             $oDados = $this->buscaDadosColaborador($aDados);
             $oFuncao = $this->buscaDadosFuncao($oDados);
             if ($oFuncao->esc_exigida > $oDados->grains) {
-
-                $iCountInc++;
+                $crachas = $oRowBD->cracha . ', ' . $crachas;
             }
             $iCountTotal++;
         }
         $aCount['total'] = $iCountTotal;
-        $aCount['totalInc'] = $iCountInc;
+        $aCount['crachas'] = $crachas;
         return $aCount;
     }
 
