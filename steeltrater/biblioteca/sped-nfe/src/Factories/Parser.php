@@ -146,7 +146,7 @@ class Parser
      */
     public function getErrors()
     {
-        return $this->make->errors;
+        return $this->make->erros;
     }
 
     /**

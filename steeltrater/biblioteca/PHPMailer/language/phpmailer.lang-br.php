@@ -6,21 +6,21 @@
 * Edited by Lucas GuimarÃ£es - lucas@lucasguimaraes.com
 */
 
-$PHPMAILER_LANG['authenticate']         = 'Erro de SMTP: Nao foi possivel autenticar.';
-$PHPMAILER_LANG['connect_host']         = 'Erro de SMTP: Nao foi possivel conectar com o servidor SMTP.';
+$PHPMAILER_LANG['authenticate']         = 'Erro de SMTP: Não foi possível autenticar.';
+$PHPMAILER_LANG['connect_host']         = 'Erro de SMTP: Não foi possível conectar com o servidor SMTP.';
 $PHPMAILER_LANG['data_not_accepted']    = 'Erro de SMTP: Dados rejeitados.';
 $PHPMAILER_LANG['empty_message']        = 'Corpo da mensagem vazio';
-$PHPMAILER_LANG['encoding']             = 'Codificacao desconhecida: ';
-$PHPMAILER_LANG['execute']              = 'Nao foi possivel executar: ';
-$PHPMAILER_LANG['file_access']          = 'Nao foi possivel acessar o arquivo: ';
-$PHPMAILER_LANG['file_open']            = 'Erro de Arquivo: Nao foi possivel abrir o arquivo: ';
-$PHPMAILER_LANG['from_failed']          = 'Os enderecos dos remententes a seguir falharam: ';
-$PHPMAILER_LANG['instantiate']          = 'Nao foi possivel iniciar uma instancia da funcao mail.';
-$PHPMAILER_LANG['invalid_address']      = 'Nao enviando, endereco de e-mail invalido: ';
-$PHPMAILER_LANG['mailer_not_supported'] = 'Mailer nao suportado.';
-$PHPMAILER_LANG['provide_address']      = 'Voce deve fornecer pelo menos um endereco de destinatario de e-mail.';
-$PHPMAILER_LANG['recipients_failed']    = 'Erro de SMTP: Os enderecos de destinatario a seguir falharam: ';
+$PHPMAILER_LANG['encoding']             = 'Codificaçãoo desconhecida: ';
+$PHPMAILER_LANG['execute']              = 'Não foi possível executar: ';
+$PHPMAILER_LANG['file_access']          = 'Não foi possível acessar o arquivo: ';
+$PHPMAILER_LANG['file_open']            = 'Erro de Arquivo: Não foi possível abrir o arquivo: ';
+$PHPMAILER_LANG['from_failed']          = 'Os endereços dos remententes a seguir falharam: ';
+$PHPMAILER_LANG['instantiate']          = 'Não foi possível iniciar uma instância da função mail.';
+$PHPMAILER_LANG['invalid_address']      = 'Não enviando, endereço de e-mail inválido: ';
+$PHPMAILER_LANG['mailer_not_supported'] = ' mailer não é suportado.';
+$PHPMAILER_LANG['provide_address']      = 'Você deve fornecer pelo menos um endereço de destinatário de e-mail.';
+$PHPMAILER_LANG['recipients_failed']    = 'Erro de SMTP: Os endereços de destinatário a seguir falharam: ';
 $PHPMAILER_LANG['signing']              = 'Erro ao assinar: ';
 $PHPMAILER_LANG['smtp_connect_failed']  = 'SMTP Connect() falhou.';
 $PHPMAILER_LANG['smtp_error']           = 'Erro de servidor SMTP: ';
-$PHPMAILER_LANG['variable_set']         = 'Nao foi possivel definir ou resetar a variavel: ';
+$PHPMAILER_LANG['variable_set']         = 'Não foi possível definir ou resetar a variá¡vel: ';

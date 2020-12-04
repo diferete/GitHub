@@ -221,11 +221,19 @@ class PersistenciaSTEEL_PCP_PedCargaItens extends Persistencia {
     }
 
     public function alteraSeqOd($iValor, $sFilial, $sCod, $sSeq) {
-        $sSql = "update PDV_PEDIDOITEM set pdv_pedidoitemseqordemcompra = " . $iValor
-                . " where pdv_pedidofilial= " . $sFilial
-                . " and pdv_pedidocodigo = " . $sCod . " "
-                . " and pdv_pedidoitemseq = " . $sSeq . "  ";
-        $aRetorno = $this->executaSql($sSql);
+        if ($iValor == "") {
+            $sSql = "update PDV_PEDIDOITEM set pdv_pedidoitemseqordemcompra = null"
+                    . " where pdv_pedidofilial= " . $sFilial
+                    . " and pdv_pedidocodigo = " . $sCod . " "
+                    . " and pdv_pedidoitemseq = " . $sSeq . "  ";
+            $aRetorno = $this->executaSql($sSql);
+        } else {
+            $sSql = "update PDV_PEDIDOITEM set pdv_pedidoitemseqordemcompra = '" . $iValor . "'"
+                    . " where pdv_pedidofilial= " . $sFilial
+                    . " and pdv_pedidocodigo = " . $sCod . " "
+                    . " and pdv_pedidoitemseq = " . $sSeq . "  ";
+            $aRetorno = $this->executaSql($sSql);
+        }
         return $aRetorno;
     }
 

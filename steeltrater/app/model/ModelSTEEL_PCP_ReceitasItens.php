@@ -16,7 +16,15 @@ class ModelSTEEL_PCP_ReceitasItens {
     private $temperatura;
     private $tempo;
     private $resfriamento;
+    private $recApont;
     
+    function getRecApont() {
+        return $this->recApont;
+    }
+
+    function setRecApont($recApont) {
+        $this->recApont = $recApont;
+    }    
             
     function getSTEEL_PCP_Tratamentos() {
         if(!isset($this->STEEL_PCP_Tratamentos)){

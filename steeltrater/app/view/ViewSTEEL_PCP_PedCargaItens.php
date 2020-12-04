@@ -11,13 +11,57 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
-        $aDados = $_REQUEST['parametros'];
-        $aDados = explode(',', $aDados['parametros[']);
-
         $this->getTela()->setSNomeGrid('detalheCargaItemSteel');
 
         $this->getTela()->setBGridResponsivo(false);
+
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Apontar certificado de qualidade!');
+        $oBotaoModal->addAcao('STEEL_PCP_Certificado', 'criaTelaModalAponta', 'modalApontaItem', '');
+        $this->addModais($oBotaoModal);
+
+        $oNr = new CampoConsulta('Filial', 'PDV_PedidoFilial');
+        $oCod = new CampoConsulta('Pedido', 'PDV_PedidoCodigo');
+        //botao excluir
+        $oBotaoExcluir = new CampoConsulta('Excluir', 'excluir', CampoConsulta::TIPO_EXCLUIR);
+        $oBotaoExcluir->setSTitleAcao('Excluir apontamento!');
+        $oBotaoExcluir->addAcao('STEEL_PCP_PedCargaItens', 'msgExcluirItensCarga', '', '');
+        $oBotaoExcluir->setBHideTelaAcao(false);
+        $oBotaoExcluir->setILargura(30);
+        $oBotaoExcluir->setSNomeGrid('detalheCargaItemSteel');
+
+        $oOp = new CampoConsulta('Op', 'STEEL_PCP_CargaInsumoServ.op');
+        $oOp->setILargura(50);
+        $oSeq = new CampoConsulta('Seq', 'pdv_pedidoitemseq');
+        $oSeq->setILargura(50);
+        $oProd = new CampoConsulta('Produto', 'PDV_PedidoItemProduto');
+        $oProd->setILargura(50);
+        $oDescProd = new CampoConsulta('Desc', 'PDV_PedidoItemProdutoNomeManua');
+        $oDescProd->setILargura(300);
+        $oUn = new CampoConsulta('Un', 'PDV_PedidoItemProdutoUnidadeMa');
+        $oUn->setILargura(50);
+        $oQt = new CampoConsulta('Quant', 'PDV_PedidoItemQtdPedida', CampoConsulta::TIPO_DECIMAL);
+        $oQt->setILargura(50);
+        $oVlrUnir = new CampoConsulta('Valor.Unit', 'PDV_PedidoItemValorUnitario', CampoConsulta::TIPO_DECIMAL);
+        $oVlrUnir->setILargura(50);
+        $oVlrUnir->setICasaDecimal(9);
+        $oVlrTot = new campoconsulta('Valor.Total', 'PDV_PedidoItemValorTotal', CampoConsulta::TIPO_DECIMAL);
+        $oVlrTot->setILargura(50);
+        $oNcm = new CampoConsulta('NCM', 'DELX_PRO_Produtos.pro_ncm');
+        $oNcm->setILargura(100);
+        $oTipo = new CampoConsulta('Tipo', 'STEEL_PCP_CargaInsumoServ.pdv_insserv');
+        $oTipo->addComparacao('RETORNO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+        $oTipo->setILargura(50);
+        $oAlerta = new CampoConsulta('Alertas', 'STEEL_PCP_CargaInsumoServ.alerta');
+
+        $oOrdComp = new CampoConsulta('Ordem Compra', 'pdv_pedidoitemordemcompra', CampoConsulta::TIPO_EDITTEXTO);
+        $oOrdComp->addAcao('STEEL_PCP_PedCargaItens', 'gravaOd', '', '');
+
+        $oSeqOrd = new CampoConsulta('Seq OD', 'pdv_pedidoitemseqordemcompra', CampoConsulta::TIPO_EDITTEXTO);
+        $oSeqOrd->addAcao('STEEL_PCP_PedCargaItens', 'gravaSeqOd', '', '');
+
         $this->getTela()->setIAltura(400);
 
         $this->setUsaAcaoExcluir(true);
@@ -26,76 +70,10 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
         $this->setUsaAcaoVisualizar(true);
 
         $this->setBScrollInf(false);
-
-
-        $oNr = new CampoConsulta('Filial', 'PDV_PedidoFilial');
-        $oCod = new CampoConsulta('Pedido', 'PDV_PedidoCodigo');
-
-        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-        $oBotaoModal->setBHideTelaAcao(true);
-        $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar certificado de qualidade!');
-        $oBotaoModal->addAcao('STEEL_PCP_Certificado', 'criaTelaModalAponta', 'modalApontaItem', '');
-        $this->addModais($oBotaoModal);
-        if ($aDados[7] == 'acaoVisualizar') {
-            $oBotaoModal->setBDisabled(true);
-        }
-
-        //botao excluir
-        $oBotaoExcluir = new CampoConsulta('Excluir', 'excluir', CampoConsulta::TIPO_EXCLUIR);
-        $oBotaoExcluir->setBHideTelaAcao(false);
-        $oBotaoExcluir->setILargura(30);
-        $oBotaoExcluir->setSTitleAcao('Excluir apontamento!');
-        $oBotaoExcluir->addAcao('STEEL_PCP_PedCargaItens', 'msgExcluirItensCarga', '', '');
-        $oBotaoExcluir->setSNomeGrid('detalheCargaItemSteel');
-        if ($aDados[7] == 'acaoVisualizar') {
-            $oBotaoExcluir->setBDisabled(true);
-        }
-
-        $oOp = new CampoConsulta('Op', 'STEEL_PCP_CargaInsumoServ.op');
-        $oOp->setILargura(50);
-
-        $oSeq = new CampoConsulta('Seq', 'pdv_pedidoitemseq');
-        $oSeq->setILargura(50);
-
-        $oProd = new CampoConsulta('Produto', 'PDV_PedidoItemProduto');
-        $oProd->setILargura(50);
-
-        $oDescProd = new CampoConsulta('Desc', 'PDV_PedidoItemProdutoNomeManua');
-        $oDescProd->setILargura(300);
-
-        $oUn = new CampoConsulta('Un', 'PDV_PedidoItemProdutoUnidadeMa');
-        $oUn->setILargura(50);
-
-        $oQt = new CampoConsulta('Quant', 'PDV_PedidoItemQtdPedida', CampoConsulta::TIPO_DECIMAL);
-        $oQt->setILargura(50);
-
-        $oVlrUnir = new CampoConsulta('Valor.Unit', 'PDV_PedidoItemValorUnitario', CampoConsulta::TIPO_DECIMAL);
-        $oVlrUnir->setILargura(50);
-        $oVlrUnir->setICasaDecimal(9);
-        $oVlrTot = new campoconsulta('Valor.Total', 'PDV_PedidoItemValorTotal', CampoConsulta::TIPO_DECIMAL);
-        $oVlrTot->setILargura(50);
-
-        $oNcm = new CampoConsulta('NCM', 'DELX_PRO_Produtos.pro_ncm');
-        $oNcm->setILargura(100);
-
-        $oTipo = new CampoConsulta('Tipo', 'STEEL_PCP_CargaInsumoServ.pdv_insserv');
-        $oTipo->addComparacao('RETORNO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
-        $oTipo->setILargura(50);
-
-        $oAlerta = new CampoConsulta('Alertas', 'STEEL_PCP_CargaInsumoServ.alerta');
-
-        $oOrdComp = new CampoConsulta('Ordem Compra', 'pdv_pedidoitemordemcompra', CampoConsulta::TIPO_EDITTEXTO);
-        $oOrdComp->addAcao('STEEL_PCP_PedCargaItens', 'gravaOd', '', '');
-
-        $oSeqOrd = new CampoConsulta('Seq OD', 'pdv_pedidoitemseqordemcompra', CampoConsulta::TIPO_EDITTEXTO);
-        $oSeqOrd->addAcao('STEEL_PCP_PedCargaItens', 'gravaSeqOd', '', '');
-        $this->getTela()->setIAltura(400);
-
         $this->addCampos($oBotaoModal, $oBotaoExcluir, $oOp, $oSeq, $oProd, $oDescProd, $oUn, $oQt, $oVlrUnir, $oVlrTot, $oNcm, $oTipo, $oOrdComp, $oSeqOrd, $oAlerta);
     }
 
-    function criaGridDetalhe($sAcaoRotina) {
+    function criaGridDetalhe() {
         $aIdsTela = $this->getSIdsTelas();
         parent::criaGridDetalhe($aIdsTela[6]);
 
@@ -105,19 +83,8 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
         $this->getOGridDetalhe()->setIAltura(700);
         $this->getOGridDetalhe()->setBGridResponsivo(false);
         $this->getOGridDetalhe()->setSNomeGrid('detalheCargaItemSteel');
-
         $oNr = new CampoConsulta('Filial', 'PDV_PedidoFilial');
         $oCod = new CampoConsulta('Pedido', 'PDV_PedidoCodigo');
-
-        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
-        $oBotaoModal->setBHideTelaAcao(true);
-        $oBotaoModal->setILargura(15);
-        $oBotaoModal->setSTitleAcao('Apontar certificado de qualidade!');
-        $oBotaoModal->addAcao('STEEL_PCP_Certificado', 'criaTelaModalAponta', 'modalApontaItem', '');
-        $this->addModaisDetalhe($oBotaoModal);
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBotaoModal->setBDisabled(true);
-        }
 
         $oBotaoExcluir = new CampoConsulta('Excluir', 'excluir', CampoConsulta::TIPO_EXCLUIR);
         $oBotaoExcluir->setSTitleAcao('Excluir apontamento!');
@@ -125,41 +92,36 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
         $oBotaoExcluir->setBHideTelaAcao(false);
         $oBotaoExcluir->setILargura(30);
         $oBotaoExcluir->setSNomeGrid('detalheCargaItemSteel');
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $oBotaoExcluir->setBDisabled(true);
-        }
+
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal->setBHideTelaAcao(true);
+        $oBotaoModal->setILargura(15);
+        $oBotaoModal->setSTitleAcao('Apontar Plano de Ação');
+        $oBotaoModal->addAcao('QualAqPlan', 'criaTelaModalAponta', 'modalApontaItem', '');
+        $this->addModaisDetalhe($oBotaoModal);
+
 
         $oOp = new CampoConsulta('Op', 'STEEL_PCP_CargaInsumoServ.op');
         $oOp->setILargura(50);
-
         $oSeq = new CampoConsulta('Seq', 'pdv_pedidoitemseq');
         $oSeq->setILargura(50);
-
         $oProd = new CampoConsulta('Produto', 'PDV_PedidoItemProduto');
         $oProd->setILargura(50);
-
         $oDescProd = new CampoConsulta('Desc', 'PDV_PedidoItemProdutoNomeManua');
         $oDescProd->setILargura(300);
-
         $oUn = new CampoConsulta('Un', 'PDV_PedidoItemProdutoUnidadeMa');
         $oUn->setILargura(50);
-
         $oQt = new CampoConsulta('Quant', 'PDV_PedidoItemQtdPedida', CampoConsulta::TIPO_DECIMAL);
         $oQt->setILargura(50);
-
         $oVlrUnir = new CampoConsulta('Valor.Unit', 'PDV_PedidoItemValorUnitario', CampoConsulta::TIPO_DECIMAL);
         $oVlrUnir->setILargura(50);
         $oVlrUnir->setICasaDecimal(9);
         $oVlrTot = new campoconsulta('Valor.Total', 'PDV_PedidoItemValorTotal', CampoConsulta::TIPO_DECIMAL);
         $oVlrTot->setILargura(50);
-
         $oNcm = new CampoConsulta('NCM', 'DELX_PRO_Produtos.pro_ncm');
         $oNcm->setILargura(100);
-
         $oTipo = new CampoConsulta('Tipo', 'STEEL_PCP_CargaInsumoServ.pdv_insserv');
-        $oTipo->addComparacao('RETORNO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
         $oTipo->setILargura(50);
-
         $oAlerta = new CampoConsulta('Alertas', 'STEEL_PCP_CargaInsumoServ.alerta');
 
         $oOrdComp = new CampoConsulta('Ordem Compra', 'pdv_pedidoitemordemcompra', CampoConsulta::TIPO_EDITTEXTO);
@@ -170,15 +132,13 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
 
         $this->addCamposDetalhe($oBotaoModal, $oBotaoExcluir, $oOp, $oSeq, $oProd, $oDescProd, $oUn, $oQt, $oVlrUnir, $oVlrTot, $oNcm, $oTipo, $oOrdComp, $oSeqOrd, $oAlerta);
 
+
         $this->addGriTela($this->getOGridDetalhe());
     }
 
     public function criaTela() {
         parent::criaTela();
-
-        $sAcaoRotina = $this->getSRotina();
-
-        $this->criaGridDetalhe($sAcaoRotina);
+        $this->criaGridDetalhe();
 
         $sIdGrid = $this->getOGridDetalhe()->getSId();
 
@@ -382,13 +342,9 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
 
-        if ($sAcaoRotina == 'acaoVisualizar') {
-            $this->addCampos(array($oFilial, $oNrCarga, $oSeq, $oOp), $oLinha, array($oRetornoTot, $oVolumes, $oCheckCertificado));
-        } else {
 
-            $this->addCampos(array($oFilial, $oNrCarga, $oSeq, $oOp, $oBtnInserir), $oLinha, array($oRetornoTot, $oVolumes, $oCheckCertificado));
-        }
 
+        $this->addCampos(array($oFilial, $oNrCarga, $oSeq, $oOp, $oBtnInserir), $oLinha, array($oRetornoTot, $oVolumes, $oCheckCertificado));
 
         //adiciona objetos campos para servirem como filtros iniciais do grid
         $this->addCamposFiltroIni($oFilial, $oNrCarga);

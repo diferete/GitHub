@@ -174,9 +174,15 @@ class PersistenciaSTEEL_PCP_ordensFabApontEtapas extends Persistencia{
      * Funcao para verificar se todas as etapas forma terminadas
      */
     public function verificaEtapaFinalizada($sOp){
-        $sSql = "select opseq,situacao 
+       /* $sSql = "select opseq,situacao 
                 from STEEL_PCP_ordensFabItens 
-                where op ='".$sOp."'";
+                where op ='".$sOp."'";*/
+        $sSql ="select opseq,situacao 
+                from STEEL_PCP_ordensFabItens left outer join STEEL_PCP_receitasItens
+                on STEEL_PCP_ordensFabItens.receita = STEEL_PCP_receitasItens.cod
+                and STEEL_PCP_ordensFabItens.receita_seq = STEEL_PCP_receitasItens.seq
+                where op ='".$sOp."'
+                and recApont ='SIM'";
         
         $result = $this->getObjetoSql($sSql);
         

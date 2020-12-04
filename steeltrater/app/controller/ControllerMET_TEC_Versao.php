@@ -9,7 +9,7 @@
 
 class ControllerMET_TEC_Versao extends Controller {
 
-    function __construct() {
+    public function __construct() {
         $this->carregaClassesMvc('MET_TEC_Versao');
         $this->setControllerDetalhe('MET_TEC_Updates');
         $this->setSMetodoDetalhe('acaoTelaDetalhe');

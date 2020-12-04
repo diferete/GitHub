@@ -1,30 +1,32 @@
 <?php
 
-/* 
- *Controller da produção steel
+/*
+ * Controller da produção steel
  * 
  * @author Avanei Martendal
  * 
  * @since 25/06/2018
  */
-class ControllerSTEEL_PCP_OrdensFabItens extends Controller{
+
+class ControllerSTEEL_PCP_OrdensFabItens extends Controller {
+
     public function __construct() {
         $this->carregaClassesMvc('STEEL_PCP_OrdensFabItens');
     }
-    
+
     //método para inserir os itens da ordem de produção
-    public function itensOrdem($oModelFab){
+    public function itensOrdem($oModelFab) {
         $sReceita = $oModelFab->getReceita();
-        $this->Persistencia->adicionaFiltro('op',$oModelFab->getOp());
+        $this->Persistencia->adicionaFiltro('op', $oModelFab->getOp());
         $this->Persistencia->excluir();
         $this->Persistencia->limpaFiltro();
-        
+
         //retorna a receita do item
         $oReceita = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
         $aReceitaItens = $oReceita->retornaReceita($sReceita);
         $key = 1;
         foreach ($aReceitaItens as $key => $oReceitaItens) {
-            $key = $key +1;
+            $key = $key + 1;
             $this->Model->setOp($oModelFab->getOp());
             $this->Model->setOpseq($key);
             $this->Model->setReceita($oReceitaItens->getCod());
@@ -35,43 +37,47 @@ class ControllerSTEEL_PCP_OrdensFabItens extends Controller{
             $this->Model->setTemperatura($oReceitaItens->getTemperatura());
             $this->Model->setTempo($oReceitaItens->getTempo());
             $this->Model->setResfriamento($oReceitaItens->getResfriamento());
-            
+
             $this->Persistencia->inserir();
-            
         }
-        
-        
-        
     }
-    
-    
+
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
-        
+
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        
+
         //$oDadosEnt = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
         //busca o apontamento da ordem de producao
         $oDadosEnt = Fabrica::FabricarController('STEEL_PCP_ordensFab');
-        $oDadosEnt->Persistencia->adicionaFiltro('op',$aCamposChave['op']);
+        $oDadosEnt->Persistencia->adicionaFiltro('op', $aCamposChave['op']);
         $oDadosOp = $oDadosEnt->Persistencia->consultarWhere();
-        
-         //verifica se há op apontada
-        if($oDadosOp->getOp()==null){
-             $oMensagem = new Mensagem('Ordem de produção não encontrada!', 'Não será listado as etapas do processo.', Mensagem::TIPO_WARNING, 5000);
-             //echo $oMensagem->getRender();
-            $this->Persistencia->adicionaFiltro('op','0'); 
-        }else{
-        if(isset($aCamposChave['op'])){
-            if($aCamposChave['op']!==''){
-               $this->Persistencia->adicionaFiltro('op',$aCamposChave['op']); 
-               }
-              }
-             } 
-    }
-    
-    
-}
 
+        //verifica se há op apontada
+        if ($oDadosOp->getOp() == null) {
+            $oMensagem = new Mensagem('Ordem de produção não encontrada!', 'Não será listado as etapas do processo.', Mensagem::TIPO_WARNING, 5000);
+            //echo $oMensagem->getRender();
+            $this->Persistencia->adicionaFiltro('op', '0');
+        } else {
+            if (isset($aCamposChave['op'])) {
+                if ($aCamposChave['op'] !== '') {
+                    $this->Persistencia->adicionaFiltro('op', $aCamposChave['op']);
+                }
+            }
+        }
+        //busca as etapas que a flag recApont = SIM
+        $oReceita = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
+        $oReceita->Persistencia->adicionaFiltro('cod', $oDadosOp->getReceita());
+        $oReceita->Persistencia->adicionaFiltro('recapont', 'SIM');
+        $aDados = $oReceita->Persistencia->getArrayModel();
+        foreach ($aDados as $key => $oValue) {
+            $aDados[$key] = $oValue->getSeq();
+        }
+
+
+        $this->Persistencia->adicionaFiltro('receita_seq', $aDados, 0, 9);
+    }
+
+}

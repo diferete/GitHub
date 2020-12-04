@@ -570,7 +570,7 @@ if ($sEmailRequest == 'S') {
         $oEmail->setPorta(465);
         $oEmail->setAutentica(true);
         $oEmail->setUsuario('metalboweb@gmail.com');
-        $oEmail->setSenha('3BS0deAgtLu4');
+        $oEmail->setSenha('7&t+Ah8*Qz!z');
         $oEmail->setProtocoloSMTP('ssl');
         $oEmail->setRemetente(utf8_decode('metalboweb@gmail.com'), utf8_decode('Certificados SteelTrater'));
 

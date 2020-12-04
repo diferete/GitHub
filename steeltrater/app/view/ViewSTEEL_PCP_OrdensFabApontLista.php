@@ -99,7 +99,7 @@ class ViewSTEEL_PCP_OrdensFabApontLista extends View {
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Movimentações', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Excluir da lista', 'STEEL_PCP_OrdensFabApontLista', 'msgExcluirLista', '', false, '', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Excluir da lista', 'STEEL_PCP_OrdensFabApontLista', 'msgExcluirLista', '', false, '');
 
         $oDrop2 = new Dropdown('Lista de prioridades', Dropdown::TIPO_DARK, Dropdown::ICON_POSITIVO);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_BOX) . 'Lista de prioridades', 'STEEL_PCP_OrdensFabLista', 'mostraconsulta', '', false, '', true, '', false, 'Lista de prioridades', false, true);

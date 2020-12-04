@@ -259,8 +259,7 @@ class Complements
                     //205 NFe Denegada
                     //301 Uso denegado por irregularidade fiscal do emitente
                     //302 Uso denegado por irregularidade fiscal do destinatário
-                    //303 Uso Denegado Destinatario nao habilitado a operar na UF
-                    $cstatpermit = ['100', '150', '110', '205', '301', '302', '303'];
+                    $cstatpermit = ['100', '150', '110', '205', '301','302'];
                     if (!in_array($cStat, $cstatpermit)) {
                         throw DocumentsException::wrongDocument(4, "[$cStat] $xMotivo");
                     }

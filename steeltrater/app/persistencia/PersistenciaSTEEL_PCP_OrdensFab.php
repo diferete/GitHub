@@ -86,6 +86,20 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $this->adicionaRelacionamento('serie_nf', 'serie_nf');
         
         $this->adicionaRelacionamento('nfsnfechv','nfsnfechv');
+        
+        //pesagem
+        $this->adicionaRelacionamento('pesoBal','pesoBal');
+        $this->adicionaRelacionamento('pesoCaixa','pesoCaixa');
+        $this->adicionaRelacionamento('pesoDif', 'pesoDif');
+        $this->adicionaRelacionamento('dataPesagem', 'dataPesagem');
+        $this->adicionaRelacionamento('horaPesagem', 'horaPesagem');
+        $this->adicionaRelacionamento('userPesagem', 'userPesagem');
+        
+        $this->adicionaRelacionamento('nItemPedServico','nItemPedServico');
+        $this->adicionaRelacionamento('nItemPedInsumo','nItemPedInsumo');
+        $this->adicionaRelacionamento('nItemPedEnergia','nItemPedEnergia');
+        
+        
       
         
         $this->adicionaOrderBy('op',1);
@@ -245,6 +259,28 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $result = $this->getObjetoSql($sSql);
         $row = $result->fetch(PDO::FETCH_OBJ);
         return $row->nfsnfechv;
+    }
+    
+    public function pesoBalancaoOp($aDados){
+        $sHora = date('H:i');
+        $sSql = "update STEEL_PCP_OrdensFab set pesoBal='".$aDados['pesobal']."', "
+                . "pesoCaixa='".$aDados['pesocaixa']."', pesoDif='".$aDados['pesodif']."', "
+                . "dataPesagem='".$aDados['dataPesagem']."', horaPesagem='".$sHora."',"
+                . "userPesagem='".$aDados['userPesagem']."' where op ='".$aDados['op']."'   ";
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
+    
+    public function buscaTratamento(){
+        
+        $sql = "select * from STEEL_PCP_tratamentos";
+        $result = $this->getObjetoSql($sql);
+        $aRetorno = array();
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $aRetorno[$row['tratcod']] = $row['tratdes'];
+        }
+        return $aRetorno;
+        
     }
     
 }

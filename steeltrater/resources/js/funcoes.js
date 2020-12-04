@@ -1262,6 +1262,22 @@ function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idC
     }
 }
 
+function calculoPesoOpSteel(idPeso, idPesoBal, idCaixa, idDif) {
+   // alert('chegou');
+    // console.log('chegamos');
+    var Peso = moedaParaNumero($('#' + idPeso + '').val());
+    //console.log(Quantidade);
+    var Bal = moedaParaNumero($('#' + idPesoBal + '').val());
+    
+    var Caixa = moedaParaNumero($('#' + idCaixa + '').val());
+
+    var total = Peso - (Bal - Caixa);
+
+
+    $('#' + idDif + '').val(numeroParaMoeda(total));
+
+}
+
 /*function fetchdata() {
  alert('got here');
  setInterval(fetchdata, 5000);

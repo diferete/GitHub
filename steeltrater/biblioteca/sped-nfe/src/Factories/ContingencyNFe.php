@@ -26,7 +26,7 @@ class ContingencyNFe
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = false;
         $dom->loadXML($xml);
-
+        
         $ide = $dom->getElementsByTagName('ide')->item(0);
         $cUF = $ide->getElementsByTagName('cUF')->item(0)->nodeValue;
         $cNF = $ide->getElementsByTagName('cNF')->item(0)->nodeValue;
@@ -38,11 +38,8 @@ class ContingencyNFe
         $mes = $dtEmi->format('m');
         $tpEmis = (string) $contingency->tpEmis;
         $emit = $dom->getElementsByTagName('emit')->item(0);
-        if (!empty($emit->getElementsByTagName('CNPJ')->item(0)->nodeValue)) {
-            $doc = $emit->getElementsByTagName('CNPJ')->item(0)->nodeValue;
-        } else {
-            $doc = $emit->getElementsByTagName('CPF')->item(0)->nodeValue;
-        }
+        $cnpj = $emit->getElementsByTagName('CNPJ')->item(0)->nodeValue;
+        
         $motivo = trim(Strings::replaceUnacceptableCharacters($contingency->motive));
         $dt = new DateTime();
         $dt->setTimestamp($contingency->timestamp);
@@ -69,7 +66,7 @@ class ContingencyNFe
             $cUF,
             $ano,
             $mes,
-            $doc,
+            $cnpj,
             $mod,
             $serie,
             $nNF,

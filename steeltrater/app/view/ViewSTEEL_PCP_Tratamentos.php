@@ -15,6 +15,8 @@ class ViewSTEEL_PCP_Tratamentos extends View {
         $oTratCod = new CampoConsulta('Código','tratcod');
         $oTratCod->setILargura(50);
         $oTratDes = new CampoConsulta('Tratamento','tratdes');
+        $oTratDes->setILargura(300);
+        $oTratDesRel = new CampoConsulta('Nomenclatura','tratdesrel');
         
         $oFiltro1 = new Filtro($oTratDes, Filtro::CAMPO_TEXTO_IGUAL,3);
         
@@ -23,7 +25,7 @@ class ViewSTEEL_PCP_Tratamentos extends View {
         $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
         
-        $this->addCampos($oTratCod,$oTratDes);
+        $this->addCampos($oTratCod,$oTratDes,$oTratDesRel);
         
     }
     
@@ -41,7 +43,9 @@ class ViewSTEEL_PCP_Tratamentos extends View {
         $oRevenComposto->addItemSelect('Não', 'Não');
         $oRevenComposto->addItemSelect('Sim', 'Sim');
         
+        $oTratDesRel = new Campo('Nomenclatura para relatórios','tratdesrel', Campo::TIPO_TEXTO,4,4,4);
         
-        $this->addCampos($oTratCod,$oTratDes,$oL1,$oRevenComposto);
+        
+        $this->addCampos($oTratCod,$oTratDes,$oL1,$oRevenComposto,$oTratDesRel);
     }
 }

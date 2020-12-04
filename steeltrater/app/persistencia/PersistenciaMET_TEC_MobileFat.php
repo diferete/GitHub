@@ -144,6 +144,7 @@ class PersistenciaMET_TEC_MobileFat extends Persistencia{
               
               $aDados['mediaSipi']= number_format($row->mediasipi,2,',','.');
               $aDados['mediaCipi']= number_format($row->mediacipi,2,',','.');
+			 
               $aRetorno[]=$aDados;
         }
         return $aRetorno;
@@ -335,6 +336,84 @@ class PersistenciaMET_TEC_MobileFat extends Persistencia{
         
         return $aDadosRet;
         
+    }
+	
+	  /**
+     * Busca faturamento do mês 
+     */
+    public function getListaEspera($sDataIni,$sDataFim){
+        $sSql = "select top(50) seq,CONVERT(varchar,datalista,103)as datalista,
+                seqprio,codmt,descmat,nrbobina,pesobo,
+                saldobob,setor,situacao,usucad,
+                convert(varchar,datacad,103) as datacad,
+                horacad,empresa,codigooi, descoi,pesonota,prisma
+                from rex_maquinas.dbo.tblistafosft where situacao ='Liberado'  
+                order by seqprio ";
+
+            $result = $this->getObjetoSql($sSql);
+        
+            $aRetorno = array();
+            $aDados = array();
+        
+            while($row = $result->fetch(PDO::FETCH_OBJ)){
+                $aDados['seq'] = $row->seq;
+                $aDados['datalista'] = $row->datalista;
+                $aDados['seqprio'] = $row->seqprio;
+                $aDados['codmt'] = $row->codmt;
+                $aDados['descmat'] =$row->descmat;
+                $aDados['nrbobina'] = $row->nrbobina;
+                $aDados['pesobo'] = $row->pesobo;
+                $aDados['saldobob'] =$row->saldobob;
+                $aDados['setor'] = $row->setor;
+                $aDados['situacao'] = $row->situacao;
+                $aDados['usucad'] = $row->usucad;
+                $aDados['datacad'] = $row->datacad;
+                $aDados['horacad'] = $row->horacad;
+                $aDados['empresa'] = $row->empresa;
+                $aDados['codigooi'] = $row->codigooi;
+                $aDados['descoi'] = $row->descoi;
+                $aDados['pesonota'] = $row->pesonota;
+                $aDados['prisma'] = $row->prisma;
+                $aRetorno[]=$aDados;
+               }
+           
+           return $aRetorno;
+    }
+    
+    /**
+     * Retorna a contagem dos liberados na lista
+     */
+    public function getCountLista(){
+        $sSql = "select COUNT(*) as count
+                from rex_maquinas.dbo.tblistafosft
+                where situacao ='Liberado'  ";
+
+            $result = $this->getObjetoSql($sSql);
+        
+            $aRetorno = array();
+            $aDados = array();
+        
+            while($row = $result->fetch(PDO::FETCH_OBJ)){
+                $aDados['count'] = $row->count;
+               }
+           
+           $aRetorno = $aDados['count'];
+           
+           return $aRetorno;
+    }
+    /**
+     * faz o update na tabela da lista da fosfatização
+     */
+    public function setListaLiberado($aDados){
+        date_default_timezone_set('America/Sao_Paulo');
+        $data      = date("d/m/y");                     //função para pegar a data e hora local
+        $hora      = date("H:i");   
+        $useRel=$_SESSION['nome'];
+        $sSql="update rex_maquinas.dbo.tblistafosft set usulibempilhadeira ='".$aDados['nome']."', datalibempilhadeira ='".$data."',"
+                . " horalibempilhadeira ='".$hora."', situacao = 'Pátio' where seq ='".$aDados['seq']."'   ";
+        $aRetorno = $this->executaSql($sSql);
+        
+        return $aRetorno;
     }
 }
 

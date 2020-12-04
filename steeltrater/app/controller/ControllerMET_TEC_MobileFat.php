@@ -313,13 +313,15 @@ class ControllerMET_TEC_MobileFat extends Controller{
         $dia = date( 'd', strtotime($Dados->mes) );
         $mes = date( 'm', strtotime($Dados->mes) );
         $ano = date( 'Y', strtotime($Dados->mes) );
+		
+
         
         //primeiro dia
         $dataInicial ="01/$mes/$ano";
         
         $dataFinal =date("t", mktime(0, 0, 0, $mes, '01', $ano)).'/'.$mes.'/'.$ano; // Mágica, plim!   
         
-        $dataOntem =date("d/m/Y", mktime(0, 0, 0, $mes, $dia - 1, $ano));
+        $dataOntem =date("t", mktime(0, 0, 0, $mes, '01', $ano)).'/'.$mes.'/'.$ano; //date("d/m/Y", mktime(0, 0, 0, $mes, $dia - 1, $ano));
         
         $oDadosProdSteel = Fabrica::FabricarController('STEEL_PCP_GerenProd');
         //traz produção mensal até dia ontem
@@ -345,6 +347,9 @@ class ControllerMET_TEC_MobileFat extends Controller{
         $aRetorno['totalMensalForno']=number_format($aDadosPesoTemperaMensal['pesoTotal'], 2, ',','.').' Kg';
         $aRetorno['totalMensalFio'] = number_format($aDadosPesoFioMensal['pesoTotal'], 2, ',','.').' Kg';
         
+		$fp = fopen("bloco11.txt", "w");
+        fwrite($fp, $dataOntem);
+        fclose($fp);
        
         
         $aDadosProdSteel = $oDadosProdSteel->Persistencia->getProdApp($dataInicial,$dataFinal);
@@ -396,4 +401,40 @@ class ControllerMET_TEC_MobileFat extends Controller{
         return $aRetorno['etapas'] = $aRetornoDados;
         
     }
+	
+	  /**
+     * Método para retornar as listas em espera
+     */
+    public function listaLiberadoFosfatizacao($Dados){
+        
+        $aDadosProdDia = array();
+        $aRetorno = array();
+        
+        $aRetorno['total']=$this->Persistencia->getCountLista();
+        $aRetorno['lista']=$this->Persistencia->getListaEspera();
+        //retorno de teste para o aplicativo
+        return $aRetorno;
+    }
+    
+    /**
+     * Gera o update na lista metalbo
+     */
+    public function setLiberadoFosfatizacao($Dados){
+        
+        //traz os dados da class de usu
+        
+        $oDadosUser = Fabrica::FabricarController('MET_TEC_Usuario');
+        $oDadosUser->Persistencia->adicionaFiltro('usucodigo',$Dados->usucod);
+        $oDados = $oDadosUser->Persistencia->consultarWhere();
+        
+        $aDados = array();
+        $aDados['nome'] = $oDados->getUsunome();
+        $aDados['seq'] = $Dados->seq;
+        $aRetorno =$this->Persistencia->setListaLiberado($aDados);
+        $aIonic = array();
+        $aIonic['retorno'] = $aRetorno[0];
+        $aIonic['mensagem'] = $aRetorno[1];
+        return $aIonic;
+    }
+	
 }

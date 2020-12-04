@@ -33,13 +33,11 @@ $useRel = $_REQUEST['userRel'];
 //Pega data que o usuário digitou
 $dtinicial = $_REQUEST['dataini'];
 $dtfinal = $_REQUEST['datafinal'];
-if (isset($_REQUEST['check1'])) {
-    $bCheck1 = $_REQUEST['check1'];
-} else {
-    $bCheck1 = false;
+
+if (isset($_REQUEST['check'])) {
+    $sCheck = $_REQUEST['check'];
 }
-//$sSituaca = $_REQUEST['situaca'];
-//$sRetrabalho = $_REQUEST['retrabalho'];
+
 //Inserção do cabeçalho
 $pdf->Cell(37, 10, $pdf->Image($sLogo, $pdf->GetX(), $pdf->GetY(), 45), 0, 0, 'J');
 
@@ -55,7 +53,7 @@ $pdf->Cell(0, 5, '', 'T', 1, 'L');
 
 //Inicio
 
-if (!$bCheck1) {
+if ($sCheck == "") {
     //busca os dados do banco
     $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
     $sSqli = "select data,situacao,op,prodes,emp_razaosocial 
@@ -63,6 +61,31 @@ if (!$bCheck1) {
                 where op not in (select op from STEEL_PCP_ordensFabApont) 
                 and situacao in('Finalizado','Retornado')
                 and data between '" . $dtinicial . "' and '" . $dtfinal . "' order by STEEL_PCP_ordensFab.data";
+
+    $dadosRela = $PDO->query($sSqli);
+} else if ($sCheck == "check2") {
+    //busca os dados do banco
+    $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+    $sSqli = "select STEEL_PCP_ordensFabApont.op, procod, prodes, STEEL_PCP_ordensFabApont.fornocod,STEEL_PCP_ordensFabApont.fornodes,
+                STEEL_PCP_ordensFabItens.fornocod,STEEL_PCP_ordensFabItens.fornodes 
+                from STEEL_PCP_ordensFabApont left outer join STEEL_PCP_ordensFabItens
+                on STEEL_PCP_ordensFabApont.op = STEEL_PCP_ordensFabItens.op
+                and STEEL_PCP_ordensFabItens.receita_seq =1
+                where steel_pcp_ordensfabapont.dataent_forno between '" . $dtinicial . "' and '" . $dtfinal . "'
+                and STEEL_PCP_ordensFabItens.fornocod  is null
+                order by STEEL_PCP_ordensFabApont.op";
+
+    $dadosRela = $PDO->query($sSqli);
+} else if ($sCheck == "check3") {
+    //busca os dados do banco
+    $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+    $sSqli = "select STEEL_PCP_ordensFabItens.fornocod,STEEL_PCP_ordensFabItens.fornodes, 
+                * from STEEL_PCP_ordensFabApont left outer join STEEL_PCP_ordensFabItens
+                on STEEL_PCP_ordensFabApont.op = STEEL_PCP_ordensFabItens.op
+                and STEEL_PCP_ordensFabItens.receita_seq =1
+                where steel_pcp_ordensfabapont.dataent_forno between '" . $dtinicial . "' and '" . $dtfinal . "'
+                and STEEL_PCP_ordensFabApont.fornocod <> STEEL_PCP_ordensFabItens.fornocod 
+                order by STEEL_PCP_ordensFabApont.op";
 
     $dadosRela = $PDO->query($sSqli);
 } else {
@@ -79,10 +102,16 @@ if (!$bCheck1) {
 //Filtros escolhidos
 $pdf->SetFont('Arial', 'B', 9);
 $pdf->Cell(30, 10, 'Filtros escolhidos:', '', 0, 'L', 0);
-if (!$bCheck1) {
+if ($sCheck == "") {
     $pdf->SetFont('Arial', '', 9);
     $pdf->Cell(50, 10, 'Data inicial: ' . $dtinicial .
             '   Data final: ' . $dtfinal . ' ', '', 1, 'L', 0);
+} else if ($sCheck == "check2") {
+    $pdf->SetFont('Arial', '', 9);
+    $pdf->Cell(50, 10, 'OPS com processos não apontadas e já finalizadas', '', 1, 'L', 0);
+} else if ($sCheck == "check3") {
+    $pdf->SetFont('Arial', '', 9);
+    $pdf->Cell(50, 10, 'Apontamentos com fornos diferentes do forno da etapa 1', '', 1, 'L', 0);
 } else {
     $pdf->SetFont('Arial', '', 9);
     $pdf->Cell(50, 10, 'Ops Finalizadas sem cadastro de usuário final', '', 1, 'L', 0);
@@ -91,7 +120,7 @@ if (!$bCheck1) {
 $pdf->Cell(0, 3, '', '', 1, 'L');
 
 //Títulos do relatório
-if (!$bCheck1) {
+if ($sCheck == "") {
     $pdf->SetFont('Arial', 'B', 9);
     $pdf->Cell(10, 5, 'OP', 'B,R,L,T', 0, 'C', 0);
 
@@ -106,7 +135,18 @@ if (!$bCheck1) {
 
     $pdf->SetFont('Arial', 'B', 9);
     $pdf->Cell(18, 5, 'Data Saída', 'B,R,T', 1, 'C', 0);
+} else if ($sCheck == "check2") {
+
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(20, 5, 'OP', 'B,R,L,T', 0, 'C', 0);
+
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(50, 5, 'Cod. Prod.', 'B,R,T', 0, 'C', 0);
+
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(130, 5, 'Produto', 'B,R,T', 1, 'C', 0);
 } else {
+    
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(15, 5, 'OP', 'B,R,L,T', 0, 'C', 0);
 
@@ -114,10 +154,10 @@ if (!$bCheck1) {
     $pdf->Cell(20, 5, 'Cod. Prod.', 'B,R,T', 0, 'C', 0);
 
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(85, 5, 'Produto', 'B,R,T', 0, 'C', 0);
+    $pdf->Cell(83, 5, 'Produto', 'B,R,T', 0, 'C', 0);
 
     $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(18, 5, 'Forno', 'B,R,T', 0, 'C', 0);
+    $pdf->Cell(20, 5, 'Forno', 'B,R,T', 0, 'C', 0);
 
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(23, 5, 'Data Entrada', 'B,R,T', 0, 'C', 0);
@@ -133,7 +173,7 @@ $iQnt = 0;
 
 while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
 
-    if (!$bCheck1) {
+    if ($sCheck == "") {
 
         $pdf->SetFont('Arial', '', 7);
         $pdf->Cell(10, 5, $row['op'], 'L,B,T', 0, 'C');
@@ -149,7 +189,20 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
 
         $pdf->SetFont('Arial', '', 7);
         $pdf->Cell(18, 5, $row['data'], 'L,B,T,R', 1, 'C', 0);
+        
+    } else if ($sCheck == "check2") {
+
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(20, 5, $row['op'], 'L,B,T', 0, 'C');
+
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(50, 5, $row['procod'], 'L,B,T', 0, 'L');
+
+        $pdf->SetFont('Arial', '', 9);
+        $pdf->Cell(130, 5, $row['prodes'], 'L,B,T,R', 1, 'L');
+        
     } else {
+        
         $pdf->SetFont('Arial', '', 9);
         $pdf->Cell(15, 5, $row['op'], 'L,B,T', 0, 'C');
 
@@ -157,10 +210,10 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(20, 5, $row['procod'], 'L,B,T', 0, 'L');
 
         $pdf->SetFont('Arial', '', 9);
-        $pdf->Cell(85, 5, $row['prodes'], 'L,B,T', 0, 'L');
+        $pdf->Cell(83, 5, $row['prodes'], 'L,B,T', 0, 'L');
 
         $pdf->SetFont('Arial', '', 9);
-        $pdf->Cell(18, 5, $row['fornodes'], 'L,B,T', 0, 'C');
+        $pdf->Cell(20, 5, $row['fornodes'], 'L,B,T', 0, 'C');
 
         $pdf->SetFont('Arial', '', 9);
         $pdf->Cell(23, 5, $row['dataent_forno'], 'L,B,T', 0, 'C', 0);

@@ -186,6 +186,8 @@ class ControllerSTEEL_PCP_ImportaXml extends Controller{
 	foreach($xml->NFe->infNFe->det as $item) {
 		$seq++;
 		$codigo = $item->prod->cProd;
+		//$codigo = preg_replace("@0+@","",$codigo);
+                $codigo = ltrim($codigo,'0');
 		$xProd = $item->prod->xProd;
                 $xPed = $item->prod->xPed;
                 $nItemPed = $item->prod->nItemPed;

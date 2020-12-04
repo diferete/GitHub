@@ -11,23 +11,28 @@ class ViewSTEEL_PCP_ReceitasItens extends View {
         parent::criaConsulta();
 
         $oCod = new CampoConsulta('Código', 'cod');
-        $oSeq = new CampoConsulta('Seq.', 'seq');
-        $oTrat = new CampoConsulta('Tratamento', 'STEEL_PCP_Tratamentos.tratcod');
 
+        $oSeq = new CampoConsulta('Seq.', 'seq');
+
+        $oTrat = new CampoConsulta('Tratamento', 'STEEL_PCP_Tratamentos.tratcod');
 
         $oTratDes = new CampoConsulta('Desc', 'STEEL_PCP_Tratamentos.tratdes');
 
         $oCamadaMin = new CampoConsulta('CamadaMín', 'camada_min', CampoConsulta::TIPO_DECIMAL);
+
         $oCamadaMax = new CampoConsulta('CamadaMáx', 'camada_max', CampoConsulta::TIPO_DECIMAL);
+
         $oTemperatura = new CampoConsulta('Temperatura', 'temperatura', CampoConsulta::TIPO_DECIMAL);
         $oTemperatura->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oTemperatura->setBComparacaoColuna(true);
+        
+        $oRecApont = new CampoConsulta('Apontamento Produção', 'recApont');
 
-        $this->addCampos($oCod, $oSeq, $oTrat, $oTratDes, $oTemperatura);
+        $this->addCampos($oCod, $oSeq, $oTrat, $oTratDes, $oTemperatura, $oRecApont);
     }
 
-    function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+    public function criaGridDetalhe() {
+        parent::criaGridDetalhe($sIdAba);
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
@@ -35,18 +40,29 @@ class ViewSTEEL_PCP_ReceitasItens extends View {
         $this->getOGridDetalhe()->setIAltura(200);
 
         $oCod = new CampoConsulta('Código', 'cod');
+
         $oSeq = new CampoConsulta('Seq.', 'seq');
+
         $oTrat = new CampoConsulta('Tratamento', 'STEEL_PCP_Tratamentos.tratcod');
+
         $oTratDes = new CampoConsulta('Desc', 'STEEL_PCP_Tratamentos.tratdes');
+
         $oCamadaMin = new CampoConsulta('CamadaMín', 'camada_min', CampoConsulta::TIPO_DECIMAL);
+
         $oCamadaMax = new CampoConsulta('CamadaMáx', 'camada_max', CampoConsulta::TIPO_DECIMAL);
+
         $oTemperatura = new CampoConsulta('Temperatura', 'temperatura', CampoConsulta::TIPO_DECIMAL);
-        $this->addCamposDetalhe($oCod, $oSeq, $oTrat, $oTratDes, $oTemperatura);
+        $oTemperatura->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, '');
+        $oTemperatura->setBComparacaoColuna(true);
+        $oRecApont = new CampoConsulta('Apontamento Produção', 'recApont');
+
+        $this->addCamposDetalhe($oCod, $oSeq, $oTrat, $oTratDes, $oTemperatura, $oRecApont);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
     public function criaTela() {
         parent::criaTela();
+
         $this->criaGridDetalhe();
         $aValor = $this->getAParametrosExtras();
 
@@ -74,17 +90,15 @@ class ViewSTEEL_PCP_ReceitasItens extends View {
         $oTrat->setSCampoRetorno('tratcod', $this->getTela()->getId());
         $oTrat->addCampoBusca('tratdes', $oTratDes->getId(), $this->getTela()->getId());
 
-
-
-
-
-
         $oCamadaMin = new Campo('CamadaMín', 'camada_min', Campo::TIPO_TEXTO, 1);
         $oCamadaMax = new Campo('CamadaMáx', 'camada_max', Campo::TIPO_TEXTO, 1);
         $oTemperatura = new Campo('Temperatura', 'temperatura', Campo::TIPO_TEXTO, 1);
         $oTempo = new Campo('Tempo', 'tempo', Campo::TIPO_TEXTO, 1);
         $oResf = new Campo('Resfriamento', 'resfriamento', Campo::TIPO_TEXTO, 4);
 
+        $oRecApont = new Campo('Recebe Apontamento de Produção', 'recApont', Campo::CAMPO_SELECTSIMPLE, 3);
+        $oRecApont->addItemSelect('SIM', 'SIM');
+        $oRecApont->addItemSelect('NÃO', 'NÃO');
 
         /* Botão para inserir no banco de dados */
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
@@ -96,7 +110,7 @@ class ViewSTEEL_PCP_ReceitasItens extends View {
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $this->addCampos(array($oCod, $oSeq), array($oTrat, $oTratDes), array($oTempo, $oResf, $oTemperatura, $oBotConf));
+        $this->addCampos(array($oCod, $oSeq), array($oTrat, $oTratDes), array($oTempo, $oResf, $oTemperatura, $oRecApont, $oBotConf));
 
         //adiciona objetos campos para servirem como filtros iniciais do grid
         $this->addCamposFiltroIni($oCod);

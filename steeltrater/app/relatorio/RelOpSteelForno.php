@@ -68,7 +68,7 @@ $pdf->Cell(0,5,'','T',1,'L');
                convert(varchar,steel_pcp_ordensfabapont.datasaida_forno,103)as datasaida_forno,
                convert(varchar,steel_pcp_ordensfabapont.horasaida_forno,8)as horasaida_forno,STEEL_PCP_ordensFab.peso,quant,documento,
                STEEL_PCP_ordensFab.situacao,steel_pcp_ordensfab.emp_razaosocial,emp_pessoa.emp_fantasia,convert(varchar,data,103)as data,
-               steel_pcp_ordensfabapont.dataent_forno as dataent_forno2,tratdes, steel_pcp_ordensfabapont.usernome as userEntrada
+               steel_pcp_ordensfabapont.dataent_forno as dataent_forno2,tratdes, SUBSTRING(steel_pcp_ordensfabapont.usernome, 1,16) as userEntrada
                from STEEL_PCP_ordensFabApont left outer join STEEL_PCP_ordensFab
                on STEEL_PCP_ordensFabApont.op = STEEL_PCP_ordensFab.op left outer join steel_pcp_ordensfabitens
                on STEEL_PCP_ordensFab.op = steel_pcp_ordensfabitens.op and steel_pcp_ordensfabitens.opseq = 1 left outer join steel_pcp_tratamentos
@@ -137,11 +137,11 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->SetFont('Arial','B',7);
    $pdf->Cell(20,5,'OPERADOR', 'B,T,L,R',0, 'C',0);
    $pdf->SetFont('Arial','B',7);
-   $pdf->Cell(19,5,'EQUIPAMENTO', 'B,T,L,R',0, 'C',0);
+   $pdf->Cell(26,5,'EQUIPAMENTO', 'B,T,L,R',0, 'C',0);
    $pdf->SetFont('Arial','B',7);
    $pdf->Cell(40,5,'SERVIÇO', 'B,T,L,R',0, 'C',0);
    $pdf->SetFont('Arial','B',7);
-   $pdf->Cell(82,5,'PRODUTO', 'B,T,L,R',0, 'C',0);
+   $pdf->Cell(75,5,'PRODUTO', 'B,T,L,R',0, 'C',0);
    $pdf->SetFont('Arial','B',7);
    $pdf->Cell(21,5,'CLIENTE', 'B,T,L,R',0, 'C',0);
    $pdf->SetFont('Arial','B',7);
@@ -164,13 +164,13 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->SetFont('Arial','',7);
    $pdf->Cell(11, 5, $row['turnoSteel'] ,'B,T,L,R',0,'L');
    $pdf->SetFont('Arial','',6);
-   $pdf->Cell(20, 5, $row['userEntrada'] ,'B,T,L,R',0,'L');
+   $pdf->Cell(20, 5, $row['userEntrada'].'.' ,'B,T,L,R',0,'L');
    $pdf->SetFont('Arial','',6);
-   $pdf->Cell(19, 5, $row['fornodes'] ,'B,T,L,R',0,'L');
+   $pdf->Cell(26, 5, $row['fornodes'] ,'B,T,L,R',0,'L');
    $pdf->SetFont('Arial','',6);
    $pdf->Cell(40, 5, $row['tratdes'] ,'B,T,L,R',0,'L');
    $pdf->SetFont('Arial','',6);
-   $pdf->Cell(82, 5, $row['prodes'] ,'B,T,L,R',0,'L');
+   $pdf->Cell(75, 5, $row['prodes'] ,'B,T,L,R',0,'L');
    $pdf->SetFont('Arial','',6);
    $pdf->Cell(21, 5, $row['emp_fantasia'],'B,T,L,R',0,'L');
    $pdf->SetFont('Arial','',7);
@@ -197,26 +197,25 @@ $pdf->Cell(0,5,'','T',1,'L');
             $pdf->SetFont('Arial','',7);
             $pdf->Cell(11, 5,'Etapa:'. $rowEtapas['opseq'] ,0,0,'L');
             $pdf->SetFont('Arial','',7);
-            $pdf->Cell(30, 5,$rowEtapas['tratdes'] ,0,0,'L');
+            $pdf->Cell(44, 5,$rowEtapas['tratdes'] ,0,0,'L');
             $pdf->SetFont('Arial','',7);
             $pdf->Cell(30, 5, $rowEtapas['fornodes'] ,0,0,'L');
             $pdf->SetFont('Arial','',7);
-            $pdf->Cell(25, 5, $rowEtapas['dataent_forno'] ,0,0,'L');
+            $pdf->Cell(18, 5, $rowEtapas['dataent_forno'] ,0,0,'L');
             $pdf->SetFont('Arial','',7);
             $pdf->Cell(20, 5,'Hora:'.substr( $rowEtapas['horaent_forno'],0,8) ,0,0,'L');
-            $pdf->Cell(20, 5,$rowEtapas['turnoSteel'] ,0,0,'L');
+            $pdf->Cell(15, 5,$rowEtapas['turnoSteel'] ,0,0,'L');
             $pdf->Cell(40, 5,$rowEtapas['usernome'] ,0,0,'L');
             
             
             $pdf->SetFont('Arial','',7);
             $pdf->Cell(25, 5,'| Saída >>>>|' ,0,0,'L');
             $pdf->SetFont('Arial','',7);
-            $pdf->Cell(25, 5, $rowEtapas['datasaida_forno'] ,0,0,'L');
+            $pdf->Cell(20, 5, $rowEtapas['datasaida_forno'] ,0,0,'L');
             $pdf->SetFont('Arial','',7);
-            $pdf->Cell(20, 5,'Hora:'.substr( $rowEtapas['horasaida_forno'],0,8) ,0,0,'L');
-            $pdf->Cell(20, 5,$rowEtapas['turnoSteelSaida'] ,0,0,'L');
+            $pdf->Cell(18, 5,'Hora:'.substr( $rowEtapas['horasaida_forno'],0,8) ,0,0,'L');
+            $pdf->Cell(15, 5,$rowEtapas['turnoSteelSaida'] ,0,0,'L');
             $pdf->Cell(40, 5,$rowEtapas['usernomesaida'] ,0,1,'L');
-            
             
          }
           

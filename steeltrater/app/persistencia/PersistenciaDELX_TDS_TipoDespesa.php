@@ -27,7 +27,7 @@ class PersistenciaDELX_TDS_TipoDespesa extends Persistencia {
         $this->adicionaRelacionamento('tds_grupodescricao','tds_grupodescricao');
         $this->adicionaRelacionamento('tds_tipodespesavaldocsup','tds_tipodespesavaldocsup');
     
-        $this->setSTop('100');
+        $this->setSTop('1000');
         $this->adicionaOrderBy('tds_codigo', 0);
     }
 

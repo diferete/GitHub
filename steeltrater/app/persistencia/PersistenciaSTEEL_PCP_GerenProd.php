@@ -17,7 +17,7 @@ Class PersistenciaSTEEL_PCP_GerenProd extends Persistencia{
         $sSqlDados =' select ';
         //campos listados
         if($aDados['busca'] =='ProdTotal'){
-            $sSqlDados .= " tratdes,sum(STEEL_PCP_ordensFab.peso) as pesoTotal ";
+            $sSqlDados .= " tratdesrel,sum(STEEL_PCP_ordensFab.peso) as pesoTotal ";
         }
          if($aDados['busca'] =='ProdForno'){
             $sSqlDados .= " STEEL_PCP_ordensFabItens.fornodes,sum(STEEL_PCP_ordensFab.peso) as pesoTotal ";
@@ -25,17 +25,19 @@ Class PersistenciaSTEEL_PCP_GerenProd extends Persistencia{
         //busca nas tabelas
             $sSqlDados .= "  from STEEL_PCP_ordensFabItens left outer join STEEL_PCP_ordensFab
          on STEEL_PCP_ordensFabItens.op = STEEL_PCP_ordensFab.op left outer join STEEL_PCP_tratamentos
-         on STEEL_PCP_ordensFabItens.tratamento = STEEL_PCP_tratamentos.tratcod ";
+         on STEEL_PCP_ordensFabItens.tratamento = STEEL_PCP_tratamentos.tratcod left outer join STEEL_PCP_receitasItens
+         on STEEL_PCP_ordensFabItens.receita = STEEL_PCP_receitasItens.cod
+         and STEEL_PCP_ordensFabItens.receita_seq = STEEL_PCP_receitasItens.seq ";
         
          //condições
             $sSqlDados .= "where dataent_forno between '".$aDados['dataini']."' and '".$aDados['datafin']."' 
 					and STEEL_PCP_ordensFabItens.situacao in('Finalizado','Processo')
-		                        and retrabalho<>'Retorno não Ind.' ";
+		                        and retrabalho<>'Retorno não Ind.' and STEEL_PCP_receitasItens.recApont = 'SIM' "; //<===SOMENTE ETAPAS MARCADAS COMO RECEBE APONT.
             if(isset($aDados['tipoOp'])){
                $sSqlDados .=" and STEEL_PCP_ordensFab.tipoOrdem IN ('".$aDados['tipoOp']."') ";   
             }
             if($aDados['busca'] =='ProdTotal'){
-              $sSqlDados .= " group by tratamento,tratdes";
+              $sSqlDados .= " group by tratamento,tratdesrel";
             }
             if($aDados['busca'] =='ProdForno'){
               $sSqlDados .= " group by STEEL_PCP_ordensFabItens.fornodes";   
@@ -47,7 +49,7 @@ Class PersistenciaSTEEL_PCP_GerenProd extends Persistencia{
                         $aRetorno[$oRowBD->fornodes] = $oRowBD->pesototal;
                     }
                     if($aDados['busca'] =='ProdTotal'){
-                        $aRetorno[$oRowBD->tratdes] = $oRowBD->pesototal;
+                        $aRetorno[$oRowBD->tratdesrel] = $oRowBD->pesototal;
                     }
                 }
             //faz o retorno dos dados

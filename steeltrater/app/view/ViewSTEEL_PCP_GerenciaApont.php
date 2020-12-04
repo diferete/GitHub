@@ -167,7 +167,7 @@ class ViewSTEEL_PCP_GerenciaApont extends View {
         $oBotaoStart->setBHideTelaAcao(true);
         $oBotaoStart->setILargura(20);
         $oBotaoStart->setSTitleAcao('Inicia etapa!');
-        $oBotaoStart->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'criaTelaModalApontaIniciar', 'modalApontaIniciarGeren');
+        $oBotaoStart->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'criaTelaModalApontaIniciar', 'modalApontaIniciarGeren', '');
         $oBotaoStart->setSTituloBotaoModal('INICIAR');
         $oGridEnt->getOGrid()->addModal($oBotaoStart);
 
@@ -176,7 +176,7 @@ class ViewSTEEL_PCP_GerenciaApont extends View {
         $oBotaoFinalizar->setBHideTelaAcao(true);
         $oBotaoFinalizar->setILargura(20);
         $oBotaoFinalizar->setSTitleAcao('Finaliza etapa!');
-        $oBotaoFinalizar->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'criaTelaModalApontaFinalizar', 'modalApontaFinalizarGeren');
+        $oBotaoFinalizar->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'criaTelaModalApontaFinalizar', 'modalApontaFinalizarGeren', '');
         $oBotaoFinalizar->setSTituloBotaoModal('FINALIZAR');
         $oGridEnt->getOGrid()->addModal($oBotaoFinalizar);
 
@@ -184,7 +184,7 @@ class ViewSTEEL_PCP_GerenciaApont extends View {
         $oBotaoRetornar = new CampoConsulta('Retornar etapa', 'retornarEtapa', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_BOTAODANGER);
         $oBotaoRetornar->setBHideTelaAcao(true);
         $oBotaoRetornar->setSTitleAcao('Retorna apontamento!');
-        $oBotaoRetornar->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'retornaApontamentoGeren', '');
+        $oBotaoRetornar->addAcao('STEEL_PCP_OrdensFabApontEtapas', 'retornaApontamentoGeren', '', '');
         $oBotaoRetornar->setSTituloBotaoModal('RETORNAR');
         $oBotaoRetornar->setILargura(20);
         $oGridEnt->getOGrid()->addModal($oBotaoRetornar);
@@ -199,8 +199,8 @@ class ViewSTEEL_PCP_GerenciaApont extends View {
         $oHoraSaidaConsulta = new CampoConsulta('Hora Saída', 'horasaida_forno', CampoConsulta::TIPO_TIME);
 
         $oSituacaoConsulta = new CampoConsulta('Situação', 'situacao');
-        $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA);
-        $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+        $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oSituacaoConsulta->setBComparacaoColuna(true);
         $oSituacaoConsulta->setILargura(11);
 

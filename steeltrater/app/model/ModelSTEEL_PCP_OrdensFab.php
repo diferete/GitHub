@@ -84,6 +84,93 @@ class ModelSTEEL_PCP_OrdensFab {
     
     private $nfsnfechv;
     
+    private $pesoBal;
+    private $pesoCaixa;
+    private $pesoDif;
+    private $dataPesagem;
+    private $horaPesagem;
+    private $userPesagem;
+    
+    private $nItemPedServico;
+    private $nItemPedInsumo;
+    private $nItemPedEnergia;
+    
+    function getNItemPedEnergia() {
+        return $this->nItemPedEnergia;
+    }
+
+    function setNItemPedEnergia($nItemPedEnergia) {
+        $this->nItemPedEnergia = $nItemPedEnergia;
+    }
+
+        
+    function getNItemPedServico() {
+        return $this->nItemPedServico;
+    }
+
+    function setNItemPedServico($nItemPedServico) {
+        $this->nItemPedServico = $nItemPedServico;
+    }
+
+        
+    function getNItemPedInsumo() {
+        return $this->nItemPedInsumo;
+    }
+
+    function setNItemPedInsumo($nItemPedInsumo) {
+        $this->nItemPedInsumo = $nItemPedInsumo;
+    }
+
+        
+    function getPesoBal() {
+        return $this->pesoBal;
+    }
+
+    function getPesoCaixa() {
+        return $this->pesoCaixa;
+    }
+
+    function getPesoDif() {
+        return $this->pesoDif;
+    }
+
+    function getDataPesagem() {
+        return $this->dataPesagem;
+    }
+
+    function getHoraPesagem() {
+        return $this->horaPesagem;
+    }
+
+    function getUserPesagem() {
+        return $this->userPesagem;
+    }
+
+    function setPesoBal($pesoBal) {
+        $this->pesoBal = $pesoBal;
+    }
+
+    function setPesoCaixa($pesoCaixa) {
+        $this->pesoCaixa = $pesoCaixa;
+    }
+
+    function setPesoDif($pesoDif) {
+        $this->pesoDif = $pesoDif;
+    }
+
+    function setDataPesagem($dataPesagem) {
+        $this->dataPesagem = $dataPesagem;
+    }
+
+    function setHoraPesagem($horaPesagem) {
+        $this->horaPesagem = $horaPesagem;
+    }
+
+    function setUserPesagem($userPesagem) {
+        $this->userPesagem = $userPesagem;
+    }
+
+        
     function getNfsnfechv() {
         return $this->nfsnfechv;
     }

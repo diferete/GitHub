@@ -68,13 +68,17 @@
 .tr-laranja{
     color: #ff6600;
 }
+
+
 .tr-font{
     font-size: 11px !important;
 }
+
 .tb-bk-darkgray{
     color: white;
     background-color:darkgray;
 }
+
 .tr-bk-vermelha{
     color: white;
     background-color:#F00;
@@ -102,17 +106,14 @@
     color: white;
     background-color: #ff6600;
 }
+
 .tr-bk-black{
     color:white;
-    background-color: black; 
+    background-color:black; 
 }
 .tr-bk-marrom{
     color:white;
     background-color: brown;
-}
-.tr-bk-vdclaro{
-    color:black;
-    background-color: #66ff66;
 }
 fieldset legend{
     width: inherit !important;

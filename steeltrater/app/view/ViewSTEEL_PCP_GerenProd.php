@@ -43,8 +43,8 @@ class ViewSTEEL_PCP_GerenProd extends View{
         $oLinha = new campo('','linha', Campo::TIPO_LINHA,12,12,12,12);
         
         //-------------------PRODUÇÃO DIÁRIO----------------------------------------
-         $oGridProdDiario = new Campo('Produção diária','prodDir', Campo::TIPO_GRIDVIEW,6,6,12,12);
-         $oGridProdDiario->setSTituloGridPainel('Produção diário');
+         $oGridProdDiario = new Campo('Produção diária '.date('d/m/Y'),'prodDir', Campo::TIPO_GRIDVIEW,6,6,12,12);
+         $oGridProdDiario->setSTituloGridPainel('Produção do dia '.date('d/m/Y'));
          $oGridProdDiario->setSCorTituloGridPainel(Campo::TITULO_SUCCESS);
          $oGridProdDiario->addCabGridView('Movimento');
          $oGridProdDiario->addCabGridView('Valor');
@@ -57,8 +57,8 @@ class ViewSTEEL_PCP_GerenProd extends View{
          
         //------------------PRODUÇÃO MENSAL-------------------------------------------
           
-         $oGridProdMensal = new Campo('Produção mensal','prodMensal', Campo::TIPO_GRIDVIEW,6,6,12,12);
-         $oGridProdMensal->setSTituloGridPainel('Produção mensal');
+         $oGridProdMensal = new Campo('Produção nas datas ','prodMensal', Campo::TIPO_GRIDVIEW,6,6,12,12);
+         $oGridProdMensal->setSTituloGridPainel('Produção de '.$oDataIni->getSValor().' até '.$oDataFim->getSValor());
          $oGridProdMensal->setSCorTituloGridPainel(Campo::TITULO_DANGER);
          $oGridProdMensal->addCabGridView('Movimento');
          $oGridProdMensal->addCabGridView('Valor');
@@ -73,7 +73,7 @@ class ViewSTEEL_PCP_GerenProd extends View{
          //----------------PRODUÇÃO POR FORNO DIÁRIO----------------------------------
          
          $oGridProdFornoDiario = new Campo('Produção por forno diário','prodFornoDiário', Campo::TIPO_GRIDVIEW,6,6,12,12);
-         $oGridProdFornoDiario->setSTituloGridPainel('Produção por forno diário');
+         $oGridProdFornoDiario->setSTituloGridPainel('Produção por forno do dia '.date('d/m/Y'));
          $oGridProdFornoDiario->addCabGridView('Fornos');
          $oGridProdFornoDiario->addCabGridView('Valor');
          $oGridProdFornoDiario->addLinhasGridView(1,'Forno 1');
@@ -85,7 +85,7 @@ class ViewSTEEL_PCP_GerenProd extends View{
          
          
          $oGridProdFornoMensal = new Campo('Produção por forno mensal','prodFornoMensal', Campo::TIPO_GRIDVIEW,6,6,12,12);
-         $oGridProdFornoMensal->setSTituloGridPainel('Produção por forno mensal');
+         $oGridProdFornoMensal->setSTituloGridPainel('Produção de '.$oDataIni->getSValor().' até '.$oDataFim->getSValor());
          $oGridProdFornoMensal->addCabGridView('Fornos');
          $oGridProdFornoMensal->addCabGridView('Valor');
          $oGridProdFornoMensal->addLinhasGridView(1,'Forno 1');
@@ -101,7 +101,9 @@ class ViewSTEEL_PCP_GerenProd extends View{
                   . ''.$oGridProdMensal->getId().','.$oGridProdFornoDiario->getId().','.$oGridProdFornoMensal->getId().'");');
          
          //adiciona evento no botao
-         $sEventoOp ='requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_GerenProd",'
+         $sEventoOp =' var dataini = $("#'.$oDataIni->getId().'").val(); var datafim = $("#'.$oDataFim->getId().'").val(); $("#'.$oGridProdMensal->getId().'-spanvalor").text("Produção de "+dataini+" até "+datafim); '          
+                 .' $("#'.$oGridProdFornoMensal->getId().'-spanvalor").text("Produção de "+dataini+" até "+datafim); '          
+                 .'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_GerenProd",'
                  . '"carregaDadosGerenProd","' . $oGridProdDiario->getId() . ','.$oGridProdMensal->getId().','
                  . ''.$oGridProdFornoDiario->getId().','.$oGridProdFornoMensal->getId().'");';
          $oBtnPesqOp->getOBotao()->addAcao($sEventoOp);

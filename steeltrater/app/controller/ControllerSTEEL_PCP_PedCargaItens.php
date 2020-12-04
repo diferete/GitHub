@@ -2486,7 +2486,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             $oMensagem = new Mensagem('Sucesso!', 'Valor alterado.', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Mensagem('Atenção!', 'Valor não foi alterado ' . $aRetorno[1], Mensagem::TIPO_ERROR);
+            $oMensagem = new Mensagem('Atenção!', 'Valor não foi alterado, é necessário informar um valor válido para alterar!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         }
     }
@@ -2499,7 +2499,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             $oMensagem = new Mensagem('Sucesso!', 'Valor alterado.', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {
-            $oMensagem = new Mensagem('Atenção!', 'Valor não foi alterado ' . $aRetorno[1], Mensagem::TIPO_ERROR);
+            $oMensagem = new Mensagem('Atenção!', 'Valor não foi alterado, é necessário informar um número válido para alterar a sequência!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         }
     }

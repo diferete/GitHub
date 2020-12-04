@@ -27,7 +27,7 @@ class ViewSTEEL_PCP_Produtos extends View {
 
         $this->getTela()->setiAltura(800);
         // $this->getTela()->setILarguraGrid(2300);
-        // $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setBGridResponsivo(false);
 
         $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
@@ -128,6 +128,7 @@ class ViewSTEEL_PCP_Produtos extends View {
             $oDescricao->setSValor($oDados->getProdes());
         }
         $oDescricao->setBFocus(true);
+        $oDescricao->setBUpperCase(true);
 
         //--------------------------------------------------------
         $oUsuCad = new Campo('Usuário do Cadastro', 'pro_cadastrousuario', Campo::TIPO_TEXTO, 2, 2, 12, 12);
@@ -247,6 +248,7 @@ class ViewSTEEL_PCP_Produtos extends View {
 
         $oUnidadeMedCod = new Campo('Un.Medida', 'pro_unidademedida', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oUnidadeMedCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
+        $oUnidadeMedCod->setBUpperCase(true);
         if (method_exists($oDados, 'getProdes')) {
             $oUnidadeMedCod->setSValor('KG');
         }
