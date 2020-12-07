@@ -42,14 +42,18 @@ class PersistenciaSTEEL_PCP_ordensFabApontEnt extends Persistencia {
         date_default_timezone_set('America/Sao_Paulo');
         $sData = Util::getDataAtual();
         $sHora = date('H:i');
-        
+
+        $sSql1="SELECT eficienciaHora from STEEL_PCP_forno where fornocod ='".$aCampos['fornocod']."'";
+        $result = $this->getObjetoSql($sSql1);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
+
         $iSeq = $this->getIncremento('seq');
         
-        $sSql ="insert into STEEL_PCP_ordensFabApont (op,seq,fornocod,fornodes,procod,prodes,dataent_forno,horaent_forno,situacao,coduser,usernome,turnoSteel,corrida)"
+        $sSql ="insert into STEEL_PCP_ordensFabApont (op,seq,fornocod,fornodes,procod,prodes,dataent_forno,horaent_forno,situacao,coduser,usernome,turnoSteel,corrida, eficienciaHora)"
                 . " values(".$oDadosOp->getOp().",".$iSeq.","
                 . " ".$aCampos['fornocod'].",'".$aCampos['fornodes']."','".$oDadosOp->getProdFinal()."',"
                 . "'".$oDadosOp->getProdesFinal()."','".$sData."','".$sHora."','Processo','".$aCampos['coduser']."',"
-                . "'".$aCampos['usernome']."','".$aCampos['turnoSteel']."','".$aCampos['corrida']."');";
+                . "'".$aCampos['usernome']."','".$aCampos['turnoSteel']."','".$aCampos['corrida']."','".$row['eficienciahora']."');";
         $aRetorno = $this->executaSql($sSql);
         
         //muda a situacao da op para em processo

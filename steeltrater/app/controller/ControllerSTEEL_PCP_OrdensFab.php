@@ -1069,4 +1069,11 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         }
     }
 
+    /**
+     * Imprime o relatório de produção
+     */
+    public function mostraTelaRelProducao($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'RelProducao');
+    }
+    
 }

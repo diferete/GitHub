@@ -747,7 +747,6 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oEmp_codigo = new Campo('Cliente', 'emp_codigo', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oEmp_codigo->setSValor('');
 
-
         //campo descrição do cliente adicionando o campo de busca
         $oEmp_des = new Campo('Razão Social', 'emp_razaosocial', Campo::TIPO_BUSCADOBANCO, 4);
         $oEmp_des->setSIdPk($oEmp_codigo->getId());
@@ -803,9 +802,16 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","relatorioExcelApontamentos");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
+        $oTurnoEnt = new campo('Turno Entrada','turnoSteel', Campo::CAMPO_SELECTSIMPLE,2,2,2,2);
+        $oTurnoEnt->addItemSelect('Todos','Todos');
+        $oTurnoEnt->addItemSelect('Turno A','Turno A');
+        $oTurnoEnt->addItemSelect('Turno B','Turno B');
+        $oTurnoEnt->addItemSelect('Turno C','Turno C');
+        $oTurnoEnt->addItemSelect('Turno D','Turno D');
+        $oTurnoEnt->addItemSelect('Geral','Geral');
+        
+        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $oTurnoEnt), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
 
-        //   $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel), $oLinha1, $oRetrabalho, $sLabe2);
     }
 
     public function criaModalAponta() {
@@ -1415,6 +1421,74 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oField2->addCampos(array($oGrupoCod, $oGrupoDes, $oGrupoCodFin, $oGrupoDesFin), array($oSubGrupoCod, $oSubGrupoDes, $oSubGrupoCodFin, $oSubGrupoDesFin), $oLinha1, array($oFamiliaCod, $oFamiliaDes, $oFamiliaCodFin, $oFamiliaDesFin), array($oSubFamiliaCod, $oSubFamiliaDes, $oSubFamiliaCodFin, $oSubFamiliaDesFin));
 
         $this->addCampos($oField1, $oField2, $oLinha1, $oTipoMovimento, $oSomenteVenda, $oListarProdutos);
+    }
+
+    public function RelProducao() {
+        parent::criaTelaRelatorio();
+        
+        //Relatório Faturamento
+        $this->setTituloTela('Relatório de Produção');
+        $this->setBTela(true);
+        
+        //cliente
+        $oEmp_codigo = new Campo('Cliente', 'emp_codigo', Campo::TIPO_BUSCADOBANCOPK, 2);
+        $oEmp_codigo->setSValor('');
+
+        //campo descrição do cliente adicionando o campo de busca
+        $oEmp_des = new Campo('Razão Social', 'emp_razaosocial', Campo::TIPO_BUSCADOBANCO, 4);
+        $oEmp_des->setSIdPk($oEmp_codigo->getId());
+        $oEmp_des->setClasseBusca('DELX_CAD_Pessoa');
+        $oEmp_des->addCampoBusca('emp_codigo', '', '');
+        $oEmp_des->addCampoBusca('emp_razaosocial', '', '');
+        $oEmp_des->setSIdTela($this->getTela()->getId());
+        $oEmp_des->setSValor('');
+
+        //declarar o campo descrição
+        $oEmp_codigo->setClasseBusca('DELX_CAD_Pessoa');
+        $oEmp_codigo->setSCampoRetorno('emp_codigo', $this->getTela()->getId());
+        $oEmp_codigo->addCampoBusca('emp_razaosocial', $oEmp_des->getId(), $this->getTela()->getId());
+
+        $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDatainicial->setSValor(Util::getPrimeiroDiaMes());
+        $oDatainicial->addValidacao(false, Validacao::TIPO_STRING, '', '2', '100');
+        $oDatafinal = new Campo('Data Final', 'datafinal', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDatafinal->setSValor(Util::getDataAtual());
+        $oDatafinal->addValidacao(false, Validacao::TIPO_STRING, '', '2', '100');
+
+        //busca do forno
+        $oFornoCod = new Campo('Forno', 'fornocod', Campo::TIPO_BUSCADOBANCOPK, 2);
+
+        //campo descrição do forno adicionando o campo de busca
+        $oFornodes = new Campo('Descrição Forno', 'fornodes', Campo::TIPO_BUSCADOBANCO, 4);
+        $oFornodes->setSIdPk($oFornoCod->getId());
+        $oFornodes->setClasseBusca('STEEL_PCP_Forno');
+        $oFornodes->addCampoBusca('FornoCod', '', '');
+        $oFornodes->addCampoBusca('fornodes', '', '');
+        $oFornodes->setSIdTela($this->getTela()->getId());
+        $oFornodes->setSValor('');
+
+        //declarar o campo descrição
+        $oFornoCod->setClasseBusca('STEEL_PCP_Forno');
+        $oFornoCod->setSCampoRetorno('fornocod', $this->getTela()->getId());
+        $oFornoCod->addCampoBusca('fornodes', $oFornodes->getId(), $this->getTela()->getId());
+        
+        $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha1->setApenasTela(true);
+        
+        $oResumido = new campo('Apenas gráfico com totais de eficiência', 'resumido', Campo::TIPO_CHECK, 6, 6, 6, 6);
+        
+        $oTurnoEnt = new campo('Turno Entrada','turnoSteel', Campo::CAMPO_SELECTSIMPLE,2,2,2,2);
+        $oTurnoEnt->addItemSelect('Todos','Todos');
+        $oTurnoEnt->addItemSelect('Turno A','Turno A');
+        $oTurnoEnt->addItemSelect('Turno B','Turno B');
+        $oTurnoEnt->addItemSelect('Turno C','Turno C');
+        $oTurnoEnt->addItemSelect('Turno D','Turno D');
+        $oTurnoEnt->addItemSelect('Geral','Geral');
+        
+        $this->addCampos(array($oEmp_codigo, $oEmp_des), $oLinha1, 
+                array($oFornoCod, $oFornodes), $oLinha1, array($oTurnoEnt, $oResumido), $oLinha1,
+                array($oDatainicial, $oDatafinal));
+        
     }
 
 }
