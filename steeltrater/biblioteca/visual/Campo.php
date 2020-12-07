@@ -131,16 +131,12 @@ class Campo {
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
-    
-   
-    
     const EVENTO_SAIR = 'blur';
     const EVENTO_CHANGE = 'change';
     const EVENTO_FOCUS = 'focus';
     const EVENTO_KEYUP = 'keyup';
     const EVENTO_ENTER = 'enter';
     const EVENTO_CLICK = 'click';
-    
     const BADGE_SUCCESS = 'label-success';
     const BADGE_WARNING = 'label-warning';
     const BADGE_DANGER = 'label-danger';
@@ -205,7 +201,7 @@ class Campo {
         $this->setICasaDecimal(2);
         $this->setBNomeArquivo(false);
         $this->setBUpperCase(false);
-        
+
 
 
         $this->aItemsSelect = array();
@@ -255,7 +251,6 @@ class Campo {
         $this->bUpperCase = $bUpperCase;
     }
 
-        
     function getBNomeArquivo() {
         return $this->bNomeArquivo;
     }
@@ -1236,7 +1231,7 @@ class Campo {
         $oCampoFormBusca->setSValorBusca($this->getNome());
 
 
-        $oCampoFormBusca->addCampoBusca($aCampoBusca[0]);
+        $oCampoFormBusca->addCampoBusca($aCampoBusca[0], $sIdCampoRetorno, $sIdTela);
         $this->setSRetornoBusca($oCampoFormBusca->getId());
         //verifica se há valor inicial que deve ser carregado
         if ($this->getSValorCampoBusca() != null) {
@@ -1506,14 +1501,14 @@ class Campo {
                         . '</div>'
                         . $this->getRenderEventos()
                         . '<script>';
-                         if($this->getBUpperCase()== true){
-                              $sCampo .= '$( "#' . $this->getId() . '").blur(function(){'
+                if ($this->getBUpperCase() == true) {
+                    $sCampo .= '$( "#' . $this->getId() . '").blur(function(){'
                             . '$( "#' . $this->getId() . '").val($( "#' . $this->getId() . '").val().toUpperCase());'
-                            . '}); ';   
-                          }
-                        $sCampo.='$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
+                            . '}); ';
+                }
+                $sCampo .= '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
                         . '</script>';
-               
+
                 //verifica se existe campo de busca e monta renderização
                 if ($this->getClasseBusca() != null) {
                     $sCampo .= $this->getBtnBusca();
@@ -1957,15 +1952,15 @@ class Campo {
                         . '<script>'
                         . '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '//btn-block btn-default  btn btn-primary
                         . '</script>';
-                          if ($this->getBUpperCase() == true) {
-                        $sCampo .= '<script>'
+                if ($this->getBUpperCase() == true) {
+                    $sCampo .= '<script>'
                             . '$( "#' . $this->getId() . '").blur(function(){'
                             . '$( "#' . $this->getId() . '").val($( "#' . $this->getId() . '").val().toUpperCase());'
                             . '});'
                             . '</script>';
-                         }
-                        
-                        $sCampo.= '<script>$("#' . $this->getId() . '-btn").click(function(){'
+                }
+
+                $sCampo .= '<script>$("#' . $this->getId() . '-btn").click(function(){'
                         . $this->getBtnBuscaPk()
                         . '});'
                         . $this->getAcaoExitCampoBanco()
@@ -2015,7 +2010,7 @@ class Campo {
             case self::TIPO_GRIDVIEW:
                 $aLinhasGrid = array_unique($this->aLinhasGridView);
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<div class="label-' . $this->getSCorTituloGridPainel() . '" id="'.$this->getId().'-spantitulo"><span class="label label-' . $this->getSCorTituloGridPainel() . '" id="'.$this->getId().'-spanvalor">' . $this->getSTituloGridPainel() . '</span></div>'
+                        . '<div class="label-' . $this->getSCorTituloGridPainel() . '" id="' . $this->getId() . '-spantitulo"><span class="label label-' . $this->getSCorTituloGridPainel() . '" id="' . $this->getId() . '-spanvalor">' . $this->getSTituloGridPainel() . '</span></div>'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '    <table class="table table-condensed"  style="color:#101010; margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '"> '
                         . '<thead>   '
@@ -2057,7 +2052,7 @@ class Campo {
                 $sCampo .= '  </tr>                 '
                         . '</thead>                '
                         . '<tbody>                 ';
-                 //foreach linhas
+                //foreach linhas
                 foreach ($aLinhasGrid as $key => $valueLine) {
                     $sCampo .= '  <tr style="white-space:nowrap">                  ';
                     foreach ($this->aValorGridView as $keyvlr => $vlr) {

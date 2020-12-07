@@ -374,8 +374,8 @@ class ViewCotIten extends View {
                 . '$("#' . $oTratamento->getId() . '").val(),$("#' . $oDescExtra1->getId() . '").val(),$("#' . $oDescExtra2->getId() . '").val(),'
                 . '"' . $oVlrUnit->getId() . '","' . $oVlrTot->getId() . '","' . $oQuant->getId() . '","' . $oDesconto->getId() . '","' . $oTratamento->getId() . '","' . $oDescExtra1->getId() . '","' . $oDescExtra2->getId() . '"); '
                 . '$("#' . $this->getTela()->getId() . '-form").formValidation("revalidateField", "' . $oVlrUnit->getNome() . '"); '
-                . ' calcEmbNormal("' . $oQuant->getId() . '","' . $oCaixaNormal->getId() . '","' . $oAguardNormal->getId() . '","' . $oFieldEmb->getSId() . '","' . $oQtSugNormal->getId() . '","' . $oQtCaixaNormal->getId() . '");'
-                . ' calcEmbMaster("' . $oQuant->getId() . '","' . $oCaixaMaster->getId() . '","' . $oAguardMaster->getId() . '","' . $oFieldEmb->getSId() . '","' . $oQtSugMaster->getId() . '","' . $oQtCaixaMaster->getId() . '","' . $oDiver->getId() . '");'
+                . ' calcEmbNormal("' . $oQuant->getId() . '","' . $oCaixaNormal->getId() . '","' . $oAguardNormal->getId() . '","' . $oQtSugNormal->getId() . '","' . $oQtCaixaNormal->getId() . '");'
+                . ' calcEmbMaster("' . $oQuant->getId() . '","' . $oCaixaMaster->getId() . '","' . $oAguardMaster->getId() . '","' . $oQtSugMaster->getId() . '","' . $oQtCaixaMaster->getId() . '","' . $oDiver->getId() . '");'
                 . ' calcPrecoKg("' . $oQuant->getId() . '","' . $oPesoProduto->getId() . '","' . $oVlrTot->getId() . '","' . $oPrecoKg->getId() . '")';
 
         /**

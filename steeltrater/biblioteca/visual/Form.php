@@ -33,14 +33,16 @@ class Form {
     private $sAcaoClose;
     private $bRetonaRender;
     private $bFecharTelaIncluir;
-    private $bUsaAltGrid;//define se usa alterar no grid detalhe
-    private $bUsaDelGrid;//define se usa deletar no grid detalhe
+    private $bUsaAltGrid; //define se usa alterar no grid detalhe
+    private $bUsaDelGrid; //define se usa deletar no grid detalhe
     private $aModal;    //monta array de telas modais se for necessário
+
     /**
      * Construtor da classe Form 
      * 
      * O único parâmetro obrigatório refere-se ao título da tela
      */
+
     function __construct($sTitulo) {
         $this->sId = Base::getId();
         $this->setTitulo($sTitulo);
@@ -60,7 +62,7 @@ class Form {
         $this->setBUsaDelGrid(true);
         $this->aModal = array();
     }
-    
+
     /**
      * Adiciona um botão ao vetor de botões do objeto
      * 
@@ -74,14 +76,13 @@ class Form {
         $this->sId = $sId;
     }
 
-    
     public function addModal() {
         $aModal = func_get_args();
         foreach ($aModal as $oModal) {
             $this->aModal[] = $oModal;
         }
     }
-    
+
     function getBUsaDelGrid() {
         return $this->bUsaDelGrid;
     }
@@ -90,7 +91,6 @@ class Form {
         $this->bUsaDelGrid = $bUsaDelGrid;
     }
 
-        
     function getBUsaAltGrid() {
         return $this->bUsaAltGrid;
     }
@@ -99,9 +99,6 @@ class Form {
         $this->bUsaAltGrid = $bUsaAltGrid;
     }
 
-        
-
-    
     function getAbaSel() {
         return $this->abaSel;
     }
@@ -451,7 +448,7 @@ class Form {
             $this->aEtapas[] = $oEtapa;
         }
     }
-    
+
     /**
      * Método que retorna renderizaçao de telas modais
      */
@@ -530,11 +527,11 @@ class Form {
         $sForm .= $this->getRenderDet();
         //analisa janelas modais
         foreach ($this->aModal as $key => $oModal) {
-           //getRenderModal($sTitulo, $sNome, $sId, $sIdTela)
-            $sForm .= $this->getRenderModal($oModal->getSTituloModal(), $oModal->getSNomeModal(),$oModal->getSNomeModal(), $this->getId());
+            //getRenderModal($sTitulo, $sNome, $sId, $sIdTela)
+            $sForm .= $this->getRenderModal($oModal->getSTituloModal(), $oModal->getSNomeModal(), $oModal->getSNomeModal(), $this->getId());
         }
-        
-        
+
+
         $sForm .= '</form>';
         // $sForm.=$this->getRenderDet();
         //se o form retorna toda a tela       
@@ -621,7 +618,7 @@ class Form {
             return $sTela;
         } else {
             echo $sRetorno;
-            }
+        }
 
 
         if ($this->getSAcaoShow() !== null) {
@@ -669,18 +666,18 @@ class Form {
             }
             $oLinhaDesc = new Campo('', '', Campo::TIPO_LINHA, 12);
             //carrega o botao detalhe alterar
-            if($this->getBUsaAltGrid()){
+            if ($this->getBUsaAltGrid()) {
                 $sBotaoAlt = $oBtnAlterar->getRender();
-            }else{
-                $sBotaoAlt ='';
+            } else {
+                $sBotaoAlt = '';
             }
             //carrega o botao detalhe excluir
-            if($this->getBUsaDelGrid()){
+            if ($this->getBUsaDelGrid()) {
                 $sBotaoExcluir = $oBtnDelete->getRender();
-            }else{
-                $sBotaoExcluir ='';
+            } else {
+                $sBotaoExcluir = '';
             }
-            
+
             $sGrid .= ' <div class="row"  id="' . $oGrid->getSId() . 'div">'
                     . '<div class="row">'
                     . $oLinhaDesc->getRender()

@@ -406,8 +406,7 @@ function numeroParaMoeda(n, c, d, t) {
  * @param {type} valor
  * @returns {unresolved}
  */
-function moedaParaNumero(valor)
-{
+function moedaParaNumero(valor) {
     //return isNaN(valor) == false ? parseFloat(valor) :   parseFloat(valor.replace("R$","").replace(".","").replace(",","."));
     return isNaN(valor) == false ? parseFloat(valor) : parseFloat(valor.replace("R$", "").replace(".", "").replace(",", "."));
 }
@@ -421,7 +420,7 @@ function moedaParaNumero(valor)
  * @param {type} idQtCaixaNormal
  * @returns {Boolean}
  */
-function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, idQtSug, idQtCaixaNormal) {
+function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idQtSug, idQtCaixaNormal) {
     var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val());   //$('#'+idQuantidade+'').val();
     var CaixaNormal = moedaParaNumero($('#' + idCaixaNormal + '').val());
 
@@ -462,7 +461,7 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, i
  * @param {type} idQtCaixaNormal
  * @returns {Boolean}
  */
-function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idFieldSet, idQtSugMaster, idQtCaixaMaster, idDiver) {
+function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idQtSugMaster, idQtCaixaMaster, idDiver) {
     //alert();
     var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val());//$('#'+idQuantidade+'').val();
     var CaixaMaster = moedaParaNumero($('#' + idCaixaMaster + '').val());//$('#'+idCaixaMaster+'').val();
