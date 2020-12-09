@@ -305,7 +305,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oProdFinal->setSCampoRetorno('pro_codigo', $this->getTela()->getId());
         $oProdFinal->addCampoBusca('pro_descricao', $oProdFinalDes->getId(), $this->getTela()->getId());
         //pesquisa produto material receita 
-        $oBtnPesqOp = new Campo('Busca receita', 'btn1', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
+        $oBtnPesqOp = new Campo('Busca receita', 'btn1', Campo::TIPO_BOTAOSMALL, 2, 2, 12, 12);
         $oBtnPesqOp->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
         $oBtnPesqOp->setApenasTela(true);
         //evento para buscar pela referencia            
@@ -413,7 +413,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oProdes->addEvento(Campo::EVENTO_SAIR, $sEvento2);
 
-        $oLinha = new Campo('', 'linha', Campo::TIPO_LINHA, 12);
+        $oLinha = new Campo('', 'linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
 
         $oQuant = new Campo('Quant{Peso ou CT}', 'quant', Campo::TIPO_DECIMAL, 2);
@@ -685,7 +685,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         //campo descrição do cliente adicionando o campo de busca
         $oEmp_des = new Campo('Razão Social', 'emp_razaosocial', Campo::TIPO_BUSCADOBANCO, 4);
         $oEmp_des->setSIdPk($oEmp_codigo->getId());
-        $oEmp_des->setClasseBusca('DELX_CAD_Pessoa');
+        $oEmp_des->setClassebtn('DELX_CAD_Pessoa');
         $oEmp_des->addCampoBusca('emp_codigo', '', '');
         $oEmp_des->addCampoBusca('emp_razaosocial', '', '');
         $oEmp_des->setSIdTela($this->getTela()->getId());

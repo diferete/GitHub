@@ -20,9 +20,11 @@ class PersistenciaSTEEL_PCP_HorasParadas extends Persistencia {
         $this->adicionaRelacionamento('dataini', 'dataini');
         $this->adicionaRelacionamento('horaini', 'horaini');
         $this->adicionaRelacionamento('datafim', 'datafim');
-        $this->adicionaRelacionamento('horafim', 'horafim');
+        $this->adicionaRelacionamento('horafim', 'horafim');        
+        $this->adicionaRelacionamento('codmotivo', 'codmotivo');
         $this->adicionaRelacionamento('motivo', 'motivo');
         $this->adicionaRelacionamento('tempoparada', 'tempoparada');
+        $this->adicionaRelacionamento('horasparadas', 'horasparadas');
 
         $this->adicionaOrderBy('seq', 1);
     }

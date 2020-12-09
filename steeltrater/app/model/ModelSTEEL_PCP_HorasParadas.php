@@ -18,6 +18,24 @@ class ModelSTEEL_PCP_HorasParadas {
     private $horafim;
     private $motivo;
     private $tempoparada;
+    private $horasparadas;
+    private $codmotivo;
+    
+    function getHorasparadas() {
+        return $this->horasparadas;
+    }
+
+    function getCodmotivo() {
+        return $this->codmotivo;
+    }
+
+    function setHorasparadas($horasparadas) {
+        $this->horasparadas = $horasparadas;
+    }
+
+    function setCodmotivo($codmotivo) {
+        $this->codmotivo = $codmotivo;
+    }
 
     function getFornocod() {
         return $this->fornocod;

@@ -67,7 +67,7 @@ if (isset($_REQUEST['resumido'])) {
 
 //busca os dados do banco
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sSqli = "select STEEL_PCP_ordensFabApont.op,STEEL_PCP_ordensFabApont.fornodes, steel_pcp_ordensfabapont.turnoSteel,
+$sSqli = "select STEEL_PCP_ordensFabApont.op,STEEL_PCP_ordensFabApont.fornodes, STEEL_PCP_ordensFabApont.fornocod, steel_pcp_ordensfabapont.turnoSteel,
                STEEL_PCP_ordensFabApont.prodes,convert(varchar,steel_pcp_ordensfabapont.dataent_forno,103)as dataent_forno,
                convert(varchar,steel_pcp_ordensfabapont.horaent_forno,8)as horaent_forno,
                convert(varchar,steel_pcp_ordensfabapont.datasaida_forno,103)as datasaida_forno,
@@ -168,10 +168,10 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
     //IF que realiza contagem de peso para os gráficos
     if (($sForno == '' || $sForno != $row['fornodes']) && !isset($aPesoEq[$row['fornodes']])) {
         $aPesoEq[$row['fornodes']] = [$row['peso'], $row['fornodes']];
-        $aPesoEficEq[$row['fornodes']] = [$row['peso'], $row['fornodes'], $row['minutosd'] + $row['minutosh'], (float)number_format($row['eficienciaHora'], 2, ',', '.')];
+        $aPesoEficEq[$row['fornodes']] = [$row['peso'], $row['fornodes'], $row['minutosd'] + $row['minutosh'], (float) number_format($row['eficienciaHora'], 2, ',', '.'), $row['fornocod']];
     } else {
         $aPesoEq[$row['fornodes']] = [$aPesoEq[$row['fornodes']][0] + $row['peso'], $row['fornodes']];
-        $aPesoEficEq[$row['fornodes']] = [$aPesoEficEq[$row['fornodes']][0] + $row['peso'], $row['fornodes'], $aPesoEficEq[$row['fornodes']][2] + ($row['minutosd'] + $row['minutosh']), (float)number_format($row['eficienciaHora'], 2, ',', '.') ];
+        $aPesoEficEq[$row['fornodes']] = [$aPesoEficEq[$row['fornodes']][0] + $row['peso'], $row['fornodes'], $aPesoEficEq[$row['fornodes']][2] + ($row['minutosd'] + $row['minutosh']), (float) number_format($row['eficienciaHora'], 2, ',', '.'), $row['fornocod']];
     }
 
     $sForno = $row['fornodes'];
@@ -225,36 +225,46 @@ if ($bRes) {
 $pdf->Ln(5);
 
 $pdf->Cell(220, 8, 'Tabela de Eficiência:', 'B', 1, 'J');
-$pdf->Cell(50, 5, 'Equipamento', 'B', 0, 'R');
-$pdf->Cell(30, 5, 'Eficiencia fixa', 'B', 0, 'R');
-$pdf->Cell(50, 5, 'Eficiencia de produção(%)', 'B', 0, 'R');
-$pdf->Cell(40, 5, 'Produção real(KG)', 'B', 0, 'R');
-$pdf->Cell(48, 5, 'Produção desejada (KG)', 'B', 1, 'R');
+$pdf->Cell(25, 5, 'Equipamento', 'B', 0, 'R');
+$pdf->Cell(35, 5, 'Eficiencia KG/H', 'B', 0, 'R');
+$pdf->Cell(30, 5, 'Eficiencia(%)', 'B', 0, 'R');
+$pdf->Cell(50, 5, 'Total Prod.(KG) período', 'B', 0, 'R');
+$pdf->Cell(55, 5, 'Prod. desejada(KG) período', 'B', 1, 'R');
 $pdf->Ln(2);
-if(isset($nTempFiltroH)){
-if ($nTempFiltroH == 0) {
-    $nTempFiltroH = 24;
-}
-}else{
+if (isset($nTempFiltroH)) {
+    if ($nTempFiltroH == 0) {
+        $nTempFiltroH = 24;
+    }
+} else {
     $nTempFiltroH = 24;
 }
 
 $nEficiencia = 0;
 //Apresenta a tabela de eficiencia por equipamento
 foreach ($aPesoEficEq as $key) {
+    $nTempFiltroH1 = $nTempFiltroH;
+    $sSqlh = "SELECT sum(horasparadas) AS totalhoras FROM STEEL_PCP_HorasParadas "
+            . "WHERE "
+            . "dataini between '" . $dtinicial . "' AND '" . $dtfinal . "' "
+            . "and datafim between '" . $dtinicial . "' AND '" . $dtfinal . "' "
+            . "and fornocod ='" . $key[4] . "'";
+    $dadosHora = $PDO->query($sSqlh);
+    $rowH = $dadosHora->fetch(PDO::FETCH_ASSOC);
 
+    if ($rowH != null) {
+        $nTempFiltroH1 = $nTempFiltroH1 - $rowH['totalhoras'];
+    }
     if ($key[3] != 0) {
-        $nEfDias = ($nTempFiltroH) * $key[3];
-        $nEficiencia = ($key[0]/$nEfDias) * 100;
+        $nEfDias = ($nTempFiltroH1) * $key[3];
+        $nEficiencia = ($key[0] / $nEfDias) * 100;
     }
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(50, 5, '  ' . $key[1], '', 0, 'R');
-    $pdf->Cell(30, 5, '  ' . number_format($key[3], 2, ',', '.').'Kg/H', 'B', 0, 'R');
-    $pdf->Cell(50, 5, '  ' . number_format($nEficiencia, 2, ',', '.') . '%', '', 0, 'R');
-    $pdf->Cell(40, 5, '  ' . number_format($key[0], 2, ',', '.'), '', 0, 'R');
-    $pdf->Cell(48, 5, '  ' . number_format($key[3]*$nTempFiltroH, 2, ',', '.'), '', 1, 'R');
+    $pdf->Cell(25, 5, '  ' . $key[1], '', 0, 'R');
+    $pdf->Cell(35, 5, '  ' . number_format($key[3], 2, ',', '.') . 'Kg/H', 'B', 0, 'R');
+    $pdf->Cell(30, 5, '  ' . number_format($nEficiencia, 2, ',', '.') . '%', '', 0, 'R');
+    $pdf->Cell(50, 5, '  ' . number_format($key[0], 2, ',', '.'), '', 0, 'R');
+    $pdf->Cell(55, 5, '  ' . number_format($key[3] * $nTempFiltroH1, 2, ',', '.'), '', 1, 'R');
     $pdf->Cell(220, 2, '', 'T', 1, 'L');
-
 }
 
 $pdf->Ln(10);

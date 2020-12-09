@@ -16,7 +16,17 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
         parent::pkDetalhe($aChave);
         $sFornoDes = $this->Persistencia->buscaForno($aChave);
         $aChave[1] = $sFornoDes;
+
         $this->View->setAParametrosExtras($aChave);
+        
+        $oMotivos = Fabrica::FabricarController('STEEL_PCP_ParMotivo');
+        $aMotivos = $oMotivos->Persistencia->getArrayModel();
+
+        $aDados[] = $aMotivos;
+        //Concatena parametros extras no array de motivos passado para a view
+        $aDados[] = $this->View->getAParametrosExtras();
+
+        $this->View->setAParametrosExtras($aDados);
     }
 
     public function adicionaFiltrosExtras() {
@@ -33,7 +43,7 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
 
     public function adicionaFiltroDet() {
         parent::adicionaFiltroDet();
-        $this->Persistencia->adicionaFiltro('fornocod', $this->Model->getFornocod());
+        $this->Persistencia->adicionaFiltro('seq', $this->Model->getSeq());
     }
 
     public function acaoLimpar($sForm, $sDados) {
@@ -54,18 +64,158 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
         }
     }
 
-    /*
-      public function beforeInsert() {
-      parent::beforeInsert();
+    public function beforeInsert() {
+        parent::beforeInsert();
 
-      $this->Model->setTempoparada();
-      }
+        //-----Inicío do calculo e inserção de horas paradas----//
+        $sModel = $this->Model;
+        $iHorasTotal = 0;
+        //Responsável por pegar valor inteiro da diferença de dias
+        $date1 = date_create_from_format('d/m/Y', $sModel->getDataini());
+        $date2 = date_create_from_format('d/m/Y', $sModel->getDatafim());
+        $dataent = $date1->format('Y-m-d');
+        $datasaid = $date2->format('Y-m-d');
+        ;
+        $dataent1 = date_create($dataent);
+        $datasaid2 = date_create($datasaid);
+        $diff = date_diff($dataent1, $datasaid2);
+        $iDias = (int) $diff->format('%d');
 
-      public function beforeUpdate() {
-      parent::beforeUpdate();
+        $iHorasDias = $iDias * 24;
 
-      $this->Model->setTempoparada();
-      }
-     * 
-     */
+        $hora1 = date_create_from_format('H:i', $sModel->getHoraini());
+        $hora2 = date_create_from_format('H:i', $sModel->getHorafim());
+        $horaent = $hora1->format('Y-m-d H:i:s');
+        $horasaid = $hora2->format('Y-m-d H:i:s');
+        ;
+        $horaent1 = date_create($horaent);
+        $horasaid2 = date_create($horasaid);
+        $diff2 = date_diff($horaent1, $horasaid2);
+        $iHoras = (int) $diff2->format('%h');
+        $iMinutos = (int) $diff2->format('%i');
+        $nHoras = $iHoras + $iMinutos / 60;
+
+        //Verifica a necessidade de descontar das horas dos dias
+        $horaAux1 = strtotime($sModel->getHoraini());
+        $horaAux2 = strtotime($sModel->getHorafim());
+        if ($horaAux2 < $horaAux1) {
+            $iHorasTotal = $iHorasDias - $nHoras;
+        } else {
+            $iHorasTotal = $iHorasDias + $nHoras;
+        }
+
+        $this->Model->setHorasparadas($iHorasTotal);
+        //-----Fim do calculo e inserção de horas paradas----//
+        //---------Início Parte que monta a string horas paradas-----//
+        $sTempoParada = '';
+        $qDias = 0;
+        $qHoras = 0;
+        $qMin = 0;
+        if ($iHorasTotal >= 24) {
+            $qDias = (int) ($iHorasTotal / 24);
+            $qHoras = (int) ($iHorasTotal % 24);
+            $qMin = (int) ((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60);
+            $sTempoParada = $qDias . " dia(s), " . $qHoras . " hora(s) - " . $qMin . " min.";
+        } else {
+            if ($iHorasTotal < 24 && $iHorasTotal >= 1) {
+                $qHoras = (int) ($iHorasTotal);
+                $qMin = (int) (($iHorasTotal - $qHoras) * 60);
+                $sTempoParada = $qHoras . " hora(s) e " . $qMin . " minutos";
+            } else {
+                $qMin = (int) (($iHorasTotal) * 60);
+                $sTempoParada = $qMin . " minutos";
+            }
+        }
+
+        $this->Model->setTempoparada($sTempoParada);
+        //---------Fim Parte que monta a string horas paradas-----//
+        //Adiciona descrição do motivo na inserção
+        $oMotivos = Fabrica::FabricarController('STEEL_PCP_ParMotivo');
+        $oMotivos->Persistencia->adicionaFiltro('codmotivo', $sModel->getCodmotivo());
+        $oMotivo = $oMotivos->Persistencia->consultarWhere();
+        $this->Model->setMotivo($oMotivo->getDescricao());
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function beforeUpdate() {
+        parent::beforeUpdate();
+
+        //-----Inicío do calculo e inserção de horas paradas----//
+        $sModel = $this->Model;
+        $iHorasTotal = 0;
+        //Responsável por pegar valor inteiro da diferença de dias
+        $date1 = date_create_from_format('d/m/Y', $sModel->getDataini());
+        $date2 = date_create_from_format('d/m/Y', $sModel->getDatafim());
+        $dataent = $date1->format('Y-m-d');
+        $datasaid = $date2->format('Y-m-d');
+        ;
+        $dataent1 = date_create($dataent);
+        $datasaid2 = date_create($datasaid);
+        $diff = date_diff($dataent1, $datasaid2);
+        $iDias = (int) $diff->format('%d');
+
+        $iHorasDias = $iDias * 24;
+
+        $hora1 = date_create_from_format('H:i', $sModel->getHoraini());
+        $hora2 = date_create_from_format('H:i', $sModel->getHorafim());
+        $horaent = $hora1->format('Y-m-d H:i:s');
+        $horasaid = $hora2->format('Y-m-d H:i:s');
+        ;
+        $horaent1 = date_create($horaent);
+        $horasaid2 = date_create($horasaid);
+        $diff2 = date_diff($horaent1, $horasaid2);
+        $iHoras = (int) $diff2->format('%h');
+        $iMinutos = (int) $diff2->format('%i');
+        $nHoras = $iHoras + $iMinutos / 60;
+
+        //Verifica a necessidade de descontar das horas dos dias
+        $horaAux1 = strtotime($sModel->getHoraini());
+        $horaAux2 = strtotime($sModel->getHorafim());
+        if ($horaAux2 < $horaAux1) {
+            $iHorasTotal = $iHorasDias - $nHoras;
+        } else {
+            $iHorasTotal = $iHorasDias + $nHoras;
+        }
+
+        $this->Model->setHorasparadas($iHorasTotal);
+        //-----Fim do calculo e inserção de horas paradas----//
+        //---------Início Parte que monta a string horas paradas-----//
+        $sTempoParada = '';
+        $qDias = 0;
+        $qHoras = 0;
+        $qMin = 0;
+        if ($iHorasTotal >= 24) {
+            $qDias = (int) ($iHorasTotal / 24);
+            $qHoras = (int) ($iHorasTotal % 24);
+            $qMin = (int) ((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60);
+            $sTempoParada = $qDias . " dia(s), " . $qHoras . " horas e " . $qMin . " min.";
+        } else {
+            if ($iHorasTotal < 24 && $iHorasTotal >= 1) {
+                $qHoras = (int) ($iHorasTotal);
+                $qMin = (int) (($iHorasTotal - $qHoras) * 60);
+                $sTempoParada = $qHoras . " hora(s) e " . $qMin . " minutos";
+            } else {
+                $qMin = (int) (($iHorasTotal) * 60);
+                $sTempoParada = $qMin . " minutos";
+            }
+        }
+
+        $this->Model->setTempoparada($sTempoParada);
+        //---------Fim Parte que monta a string horas paradas-----//
+        //Adiciona descrição do motivo na inserção
+        $oMotivos = Fabrica::FabricarController('STEEL_PCP_ParMotivo');
+        $oMotivos->Persistencia->adicionaFiltro('codmotivo', $sModel->getCodmotivo());
+        $oMotivo = $oMotivos->Persistencia->consultarWhere();
+        $this->Model->setMotivo($oMotivo->getDescricao());
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
 }
