@@ -39,7 +39,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
 
         $oBotaoCarregarOps = new CampoConsulta('Carregar', 'carregarOps', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoCarregarOps->setSTitleAcao('Carregar dados para lançar!');
-        $oBotaoCarregarOps->addAcao('STEEL_PCP_ordensFabApontEtapasGeren', 'carregaDadosOps','', '');
+        $oBotaoCarregarOps->addAcao('STEEL_PCP_ordensFabApontEtapasGeren', 'carregaDadosOps', '', '');
         $oBotaoCarregarOps->setBHideTelaAcao(true);
         $oBotaoCarregarOps->setILargura(30);
 
@@ -191,8 +191,8 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
 
         //botao inserir apontamento
         $oBtnInserir = new Campo('Iniciar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
-        
-        
+
+
         //botao inserir parada
         $oBtnParada = new Campo('Apontar Parada', '', Campo::TIPO_BOTAOSMALL_SUB, 2);
 //----------------------------------------------------------------------------------------------------------
@@ -289,8 +289,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oBtnAtualizar->getOBotao()->addAcao($sAcaoAtualizar);
 
         //redefine apontamento 
-        $oLabelCorrida = new Campo('*Atenção verifique a corrida do seu lançamento se OP for Fio Máquina', 'labelCorrida'
-                , Campo::TIPO_LABEL, 5, 5, 5, 5);
+        $oLabelCorrida = new Campo('*Atenção verifique a corrida do seu lançamento se OP for Fio Máquina', 'labelCorrida', Campo::TIPO_LABEL, 5, 5, 5, 5);
         $oLabelCorrida->setApenasTela(true);
 
 
@@ -306,7 +305,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        
+
         /**
          * Método para inserir paradas
          */
@@ -317,8 +316,8 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        
-        
+
+
         $sAcaoFinalizar = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabApontEtapas","msgFinalizaOPgeral",'
                 . '"' . $this->getTela()->getId() . ',' . $oGridInicioProcesso->getId() . ',' . $oOp->getId() . ','
                 . '' . $oFornoChoice->getId() . ',' . $oFornoCod->getId() . ','
@@ -360,14 +359,14 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         //se tipo da op igual fio máquina adiciona campos referente ao fio máquina
         if ($oDadosOp->getTipoOrdem() == 'F') {
             $oCorrida->setBFocus(true);
-            $this->addCampos($oOpsForno, $oDivApontaOp, array($oTurno, $oFornoChoice, $oCorrida, $oOp, $oBtnInserir),$oBtnParada, $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oCodUser, $oUserNome), array($oFornoCod, $oFornoDes));
+            $this->addCampos($oOpsForno, $oDivApontaOp, array($oTurno, $oFornoChoice, $oCorrida, $oOp, $oBtnInserir), $oBtnParada, $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oCodUser, $oUserNome), array($oFornoCod, $oFornoDes));
         } else {
             if ($oDadosOp->getTipoOrdem() == 'P') {
                 $oOp->setBFocus(true);
-                $this->addCampos($oOpsForno, $oDivApontaOp, array($oTurno, $oFornoChoice, $oOp, $oBtnInserir),$oBtnParada, $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oCodUser, $oUserNome), array($oFornoCod, $oFornoDes));
+                $this->addCampos($oOpsForno, $oDivApontaOp, array($oTurno, $oFornoChoice, $oOp, $oBtnInserir), $oBtnParada, $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oCodUser, $oUserNome), array($oFornoCod, $oFornoDes));
             } else {
                 $oCorrida->setBFocus(true);
-                $this->addCampos($oOpsForno, $oDivApontaOp, array($oTurno, $oFornoChoice, $oCorrida, $oOp, $oBtnInserir),$oBtnParada, $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oCodUser, $oUserNome), array($oFornoCod, $oFornoDes));
+                $this->addCampos($oOpsForno, $oDivApontaOp, array($oTurno, $oFornoChoice, $oCorrida, $oOp, $oBtnInserir), $oBtnParada, $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oCodUser, $oUserNome), array($oFornoCod, $oFornoDes));
             }
         }
     }

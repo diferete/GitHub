@@ -15,6 +15,15 @@ class ModelSTEEL_PCP_Forno {
     private $tipoOrdem;
     private $cookfornocod;
     private $cookfornodes;
+    private $eficienciaHora;
+    
+    function getEficienciaHora() {
+        return $this->eficienciaHora;
+    }
+
+    function setEficienciaHora($eficienciaHora) {
+        $this->eficienciaHora = $eficienciaHora;
+    }
     
     function getCookfornodes() {
         return $this->cookfornodes;

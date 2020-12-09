@@ -802,16 +802,15 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","relatorioExcelApontamentos");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $oTurnoEnt = new campo('Turno Entrada','turnoSteel', Campo::CAMPO_SELECTSIMPLE,2,2,2,2);
-        $oTurnoEnt->addItemSelect('Todos','Todos');
-        $oTurnoEnt->addItemSelect('Turno A','Turno A');
-        $oTurnoEnt->addItemSelect('Turno B','Turno B');
-        $oTurnoEnt->addItemSelect('Turno C','Turno C');
-        $oTurnoEnt->addItemSelect('Turno D','Turno D');
-        $oTurnoEnt->addItemSelect('Geral','Geral');
-        
-        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $oTurnoEnt), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
+        $oTurnoEnt = new campo('Turno Entrada', 'turnoSteel', Campo::CAMPO_SELECTSIMPLE, 2, 2, 2, 2);
+        $oTurnoEnt->addItemSelect('Todos', 'Todos');
+        $oTurnoEnt->addItemSelect('Turno A', 'Turno A');
+        $oTurnoEnt->addItemSelect('Turno B', 'Turno B');
+        $oTurnoEnt->addItemSelect('Turno C', 'Turno C');
+        $oTurnoEnt->addItemSelect('Turno D', 'Turno D');
+        $oTurnoEnt->addItemSelect('Geral', 'Geral');
 
+        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $oTurnoEnt), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
     }
 
     public function criaModalAponta() {
@@ -1184,13 +1183,13 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oField2 = new FieldSet('Relatório Apontamentos incorretos');
         $oField2->setOculto(true);
         $oCheck = new Campo('', 'check', Campo::CAMPO_SELECTSIMPLE, 6, 6, 6, 6, 6);
-        $oCheck->addItemSelect('','Selecione uma opção');
-        $oCheck->addItemSelect('check1','Apontamentos finalizados com usuário final em branco');
-        $oCheck->addItemSelect('check2','OPS com processos não apontadas e já finalizadas');
-        $oCheck->addItemSelect('check3','Apontamentos com fornos diferentes do forno da etapa 1');
+        $oCheck->addItemSelect('', 'Selecione uma opção');
+        $oCheck->addItemSelect('check1', 'Apontamentos finalizados com usuário final em branco');
+        $oCheck->addItemSelect('check2', 'OPS com processos não apontadas e já finalizadas');
+        $oCheck->addItemSelect('check3', 'Apontamentos com fornos diferentes do forno da etapa 1');
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
-        
+
         $oField2->addCampos($oLinha1, $oCheck);
 
         $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, $oField2/* ,$oLinha1,array($oFornoCod,$oFornodes),$oLinha1,array($oEmp_codigo, $oEmp_des),$oLinha1,array($oSituaRel),$oLinha1,$oRetrabalho,$sLabe2 */);
@@ -1425,11 +1424,11 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
     public function RelProducao() {
         parent::criaTelaRelatorio();
-        
+
         //Relatório Faturamento
         $this->setTituloTela('Relatório de Produção');
         $this->setBTela(true);
-        
+
         //cliente
         $oEmp_codigo = new Campo('Cliente', 'emp_codigo', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oEmp_codigo->setSValor('');
@@ -1471,24 +1470,21 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oFornoCod->setClasseBusca('STEEL_PCP_Forno');
         $oFornoCod->setSCampoRetorno('fornocod', $this->getTela()->getId());
         $oFornoCod->addCampoBusca('fornodes', $oFornodes->getId(), $this->getTela()->getId());
-        
+
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
-        
+
         $oResumido = new campo('Apenas gráfico com totais de eficiência', 'resumido', Campo::TIPO_CHECK, 6, 6, 6, 6);
-        
-        $oTurnoEnt = new campo('Turno Entrada','turnoSteel', Campo::CAMPO_SELECTSIMPLE,2,2,2,2);
-        $oTurnoEnt->addItemSelect('Todos','Todos');
-        $oTurnoEnt->addItemSelect('Turno A','Turno A');
-        $oTurnoEnt->addItemSelect('Turno B','Turno B');
-        $oTurnoEnt->addItemSelect('Turno C','Turno C');
-        $oTurnoEnt->addItemSelect('Turno D','Turno D');
-        $oTurnoEnt->addItemSelect('Geral','Geral');
-        
-        $this->addCampos(array($oEmp_codigo, $oEmp_des), $oLinha1, 
-                array($oFornoCod, $oFornodes), $oLinha1, array($oTurnoEnt, $oResumido), $oLinha1,
-                array($oDatainicial, $oDatafinal));
-        
+
+        $oTurnoEnt = new campo('Turno Entrada', 'turnoSteel', Campo::CAMPO_SELECTSIMPLE, 2, 2, 2, 2);
+        $oTurnoEnt->addItemSelect('Todos', 'Todos');
+        $oTurnoEnt->addItemSelect('Turno A', 'Turno A');
+        $oTurnoEnt->addItemSelect('Turno B', 'Turno B');
+        $oTurnoEnt->addItemSelect('Turno C', 'Turno C');
+        $oTurnoEnt->addItemSelect('Turno D', 'Turno D');
+        $oTurnoEnt->addItemSelect('Geral', 'Geral');
+
+        $this->addCampos(array($oEmp_codigo, $oEmp_des), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oTurnoEnt, $oResumido), $oLinha1, array($oDatainicial, $oDatafinal));
     }
 
 }
