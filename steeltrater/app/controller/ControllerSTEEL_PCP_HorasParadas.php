@@ -44,6 +44,7 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
     public function adicionaFiltroDet() {
         parent::adicionaFiltroDet();
         $this->Persistencia->adicionaFiltro('seq', $this->Model->getSeq());
+        
     }
 
     public function acaoLimpar($sForm, $sDados) {
@@ -114,12 +115,12 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
         if ($iHorasTotal >= 24) {
             $qDias = (int) ($iHorasTotal / 24);
             $qHoras = (int) ($iHorasTotal % 24);
-            $qMin = (int) ((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60);
-            $sTempoParada = $qDias . " dia(s), " . $qHoras . " hora(s) - " . $qMin . " min.";
+            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60),0);
+            $sTempoParada = $qDias . " dia(s), " . $qHoras . " horas e " . $qMin . " min.";
         } else {
             if ($iHorasTotal < 24 && $iHorasTotal >= 1) {
                 $qHoras = (int) ($iHorasTotal);
-                $qMin = (int) (($iHorasTotal - $qHoras) * 60);
+                $qMin = round((($iHorasTotal - $qHoras) * 60),0);
                 $sTempoParada = $qHoras . " hora(s) e " . $qMin . " minutos";
             } else {
                 $qMin = (int) (($iHorasTotal) * 60);
@@ -191,12 +192,12 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
         if ($iHorasTotal >= 24) {
             $qDias = (int) ($iHorasTotal / 24);
             $qHoras = (int) ($iHorasTotal % 24);
-            $qMin = (int) ((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60);
+            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60),0);
             $sTempoParada = $qDias . " dia(s), " . $qHoras . " horas e " . $qMin . " min.";
         } else {
             if ($iHorasTotal < 24 && $iHorasTotal >= 1) {
                 $qHoras = (int) ($iHorasTotal);
-                $qMin = (int) (($iHorasTotal - $qHoras) * 60);
+                $qMin = round((($iHorasTotal - $qHoras) * 60),0);
                 $sTempoParada = $qHoras . " hora(s) e " . $qMin . " minutos";
             } else {
                 $qMin = (int) (($iHorasTotal) * 60);

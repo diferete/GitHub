@@ -128,28 +128,28 @@ $pdf->Cell(0, 3, '', '', 1, 'L');
 $Pesototal = 0;
 $Quanttotal = 0;
 if ($bRes) {
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(15, 5, 'OP', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(16, 5, 'DATA OP', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(19, 5, 'DT ENTRADA', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(18, 5, 'H. ENTRADA', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(17, 5, 'DT SAIDA', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(14, 5, 'H. SAIDA', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(20, 5, 'TURNO', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(27, 5, 'EQUIPAMENTO', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(41, 5, 'SERVIÇO', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(61, 5, 'CLIENTE', 'B,T,L,R', 0, 'C', 0);
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(13, 5, 'PESO', 'B,T,L,R', 1, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(17, 5, 'OP', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(18, 5, 'DATA OP', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(21, 5, 'DT ENTRADA', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(20, 5, 'H. ENTRADA', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(19, 5, 'DT SAIDA', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(17, 5, 'H. SAIDA', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(22, 5, 'TURNO', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(29, 5, 'EQUIPAMENTO', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(43, 5, 'SERVIÇO', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(63, 5, 'CLIENTE', 'B,T,L,R', 0, 'C', 0);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(15, 5, 'PESO', 'B,T,L,R', 1, 'C', 0);
 }
 $aPesoEficEq = array();
 $aPesoEq = array();
@@ -176,28 +176,28 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
 
     $sForno = $row['fornodes'];
     if ($bRes) {
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(17, 5, $row['op'], 'B,T,L,R', 0, 'C');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(18, 5, $row['data'], 'B,T,L,R', 0, 'C');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(21, 5, $row['dataent_forno'], 'B,T,L,R', 0, 'C');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(20, 5, $row['horaent_forno'], 'B,T,L,R', 0, 'C');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(19, 5, $row['datasaida_forno'], 'B,T,L,R', 0, 'C');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(17, 5, $row['horasaida_forno'], 'B,T,L,R', 0, 'C');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(22, 5, $row['turnoSteel'], 'B,T,L,R', 0, 'C');
         $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(15, 5, $row['op'], 'B,T,L,R', 0, 'C');
+        $pdf->Cell(29, 5, $row['fornodes'], 'B,T,L,R', 0, 'L');
         $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(16, 5, $row['data'], 'B,T,L,R', 0, 'C');
+        $pdf->Cell(43, 5, $row['tratdes'], 'B,T,L,R', 0, 'L');
         $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(19, 5, $row['dataent_forno'], 'B,T,L,R', 0, 'C');
-        $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(18, 5, $row['horaent_forno'], 'B,T,L,R', 0, 'C');
-        $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(17, 5, $row['datasaida_forno'], 'B,T,L,R', 0, 'C');
-        $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(14, 5, $row['horasaida_forno'], 'B,T,L,R', 0, 'C');
-        $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(20, 5, $row['turnoSteel'], 'B,T,L,R', 0, 'C');
-        $pdf->SetFont('Arial', '', 6);
-        $pdf->Cell(27, 5, $row['fornodes'], 'B,T,L,R', 0, 'L');
-        $pdf->SetFont('Arial', '', 6);
-        $pdf->Cell(41, 5, $row['tratdes'], 'B,T,L,R', 0, 'L');
-        $pdf->SetFont('Arial', '', 6);
-        $pdf->Cell(61, 5, $row['emp_fantasia'], 'B,T,L,R', 0, 'L');
-        $pdf->SetFont('Arial', '', 7);
-        $pdf->Cell(13, 5, number_format($row['peso'], 2, ',', '.'), 'B,T,L,R', 1, 'R');
+        $pdf->Cell(63, 5, $row['emp_fantasia'], 'B,T,L,R', 0, 'L');
+        $pdf->SetFont('Arial', '', 8);
+        $pdf->Cell(15, 5, number_format($row['peso'], 2, ',', '.'), 'B,T,L,R', 1, 'R');
     }
     $Pesototal = ($row['peso'] + $Pesototal);
 
@@ -212,9 +212,9 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(100, 2, '', '', 1, 'C');
 if ($bRes) {
-    $pdf->Cell(180, 2, '', '', 0, 'C');
-    $pdf->Cell(50, 5, '', 'B', 1, 'L');
-    $pdf->Cell(180, 2, '', '', 0, 'C');
+    $pdf->Cell(200, 2, '', '', 0, 'C');
+    $pdf->Cell(90, 5, '', 'B', 1, 'L');
+    $pdf->Cell(230, 2, '', '', 0, 'C');
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(99, 8, 'Peso Total: ' . number_format($Pesototal, 2, ',', '.'), '', 1, 'J');
 } else {
@@ -224,12 +224,15 @@ if ($bRes) {
 }
 $pdf->Ln(5);
 
-$pdf->Cell(220, 8, 'Tabela de Eficiência:', 'B', 1, 'J');
+$pdf->Cell(279, 8, 'Tabela de Eficiência:', 'B', 1, 'J');
+
 $pdf->Cell(25, 5, 'Equipamento', 'B', 0, 'R');
-$pdf->Cell(35, 5, 'Eficiencia KG/H', 'B', 0, 'R');
-$pdf->Cell(30, 5, 'Eficiencia(%)', 'B', 0, 'R');
-$pdf->Cell(50, 5, 'Total Prod.(KG) período', 'B', 0, 'R');
-$pdf->Cell(55, 5, 'Prod. desejada(KG) período', 'B', 1, 'R');
+$pdf->Cell(33, 5, 'Eficiencia fixa', 'B', 0, 'R');
+$pdf->Cell(48, 5, 'Produção no período', 'B', 0, 'R');
+$pdf->Cell(51, 5, 'Projeção S/H. paradas', 'B', 0, 'R');
+$pdf->Cell(51, 5, 'Projeção C/H. paradas', 'B', 0, 'R');
+$pdf->Cell(40, 5, 'Total H. Paradas', 'B', 0, 'R');
+$pdf->Cell(31, 5, 'Eficiência(%)', 'B', 1, 'R');
 $pdf->Ln(2);
 if (isset($nTempFiltroH)) {
     if ($nTempFiltroH == 0) {
@@ -253,18 +256,39 @@ foreach ($aPesoEficEq as $key) {
 
     if ($rowH != null) {
         $nTempFiltroH1 = $nTempFiltroH1 - $rowH['totalhoras'];
+        $iHorasTotal = $rowH['totalhoras'];
+        if ($iHorasTotal >= 24) {
+            $qDias = (int) ($iHorasTotal / 24);
+            $qHoras = (int) ($iHorasTotal % 24);
+            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60), 0);
+            $sTempoParada = $qDias . " dia(s) " . $qHoras . "h(s) e " . $qMin . "min.";
+        } else {
+            if ($iHorasTotal < 24 && $iHorasTotal >= 1) {
+                $qHoras = (int) ($iHorasTotal);
+                $qMin = round((($iHorasTotal - $qHoras) * 60), 0);
+                $sTempoParada = $qHoras . "h(s) e " . $qMin . "min.";
+            } else {
+                $qMin = (int) (($iHorasTotal) * 60);
+                $sTempoParada = $qMin . " minutos";
+            }
+        }
+    } else {
+        $sTempoParada = '';
     }
     if ($key[3] != 0) {
         $nEfDias = ($nTempFiltroH1) * $key[3];
         $nEficiencia = ($key[0] / $nEfDias) * 100;
     }
-    $pdf->SetFont('Arial', '', 10);
+
+    $pdf->SetFont('Arial', '', 9);
     $pdf->Cell(25, 5, '  ' . $key[1], '', 0, 'R');
-    $pdf->Cell(35, 5, '  ' . number_format($key[3], 2, ',', '.') . 'Kg/H', 'B', 0, 'R');
-    $pdf->Cell(30, 5, '  ' . number_format($nEficiencia, 2, ',', '.') . '%', '', 0, 'R');
-    $pdf->Cell(50, 5, '  ' . number_format($key[0], 2, ',', '.'), '', 0, 'R');
-    $pdf->Cell(55, 5, '  ' . number_format($key[3] * $nTempFiltroH1, 2, ',', '.'), '', 1, 'R');
-    $pdf->Cell(220, 2, '', 'T', 1, 'L');
+    $pdf->Cell(33, 5, '  ' . number_format($key[3], 2, ',', '.') . 'Kg/H', '', 0, 'R');
+    $pdf->Cell(48, 5, '  ' . number_format($key[0], 2, ',', '.') . 'Kg', '', 0, 'R');
+    $pdf->Cell(51, 5, '  ' . number_format($key[3] * $nTempFiltroH, 2, ',', '.') . 'Kg', '', 0, 'R');
+    $pdf->Cell(51, 5, '  ' . number_format($key[3] * $nTempFiltroH1, 2, ',', '.') . 'Kg', '', 0, 'R');
+    $pdf->Cell(40, 5, '  ' . $sTempoParada, '', 0, 'R');
+    $pdf->Cell(31, 5, '  ' . number_format($nEficiencia, 2, ',', '.') . '%', '', 1, 'R');
+    $pdf->Cell(279, 2, '', 'T', 1, 'L');
 }
 
 $pdf->Ln(10);
