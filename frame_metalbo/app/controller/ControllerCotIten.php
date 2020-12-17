@@ -91,7 +91,6 @@ class ControllerCotIten extends Controller {
                 . '$("#' . $aParam[1] . '").attr("checked", false);'
                 . '}; $("#' . $aParam[3] . '").val("' . $this->Model->getDesconto() . '");';
 
-
         echo $sScript;
     }
 

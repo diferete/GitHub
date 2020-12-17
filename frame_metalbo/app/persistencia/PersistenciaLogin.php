@@ -257,14 +257,17 @@ class PersistenciaLogin extends Persistencia {
         $sSqlSelect = "select * from tbusuario "
                 . "WHERE usulogin = '" . $this->Model->getLogin() . "'";
         $oObjUser = $this->consultaSql($sSqlSelect);
-        if ($oObjUser->tag_bloq < 3) {
+        if ($oObjUser->tag_bloq < 3 && $oObjUser->codsetor != 2) {
             $sSqlUpdt = "update tbusuario set tag_bloq = (select tag_bloq from tbusuario where usucodigo = " . $oObjUser->usucodigo . ") +1 where usucodigo = " . $oObjUser->usucodigo . "";
+            $this->executaSql($sSqlUpdt);
             $bBloq = false;
-        } else {
+        } elseif ($oObjUser->tag_bloq >= 3 && $oObjUser->codsetor != 2) {
             $sSqlUpdt = "update tbusuario set usubloqueado = 'TRUE' where usucodigo = " . $oObjUser->usucodigo . "";
+            $this->executaSql($sSqlUpdt);
             $bBloq = true;
+        } elseif ($oObjUser->codsetor == 2) {
+            $bBloq = false;
         }
-        $this->executaSql($sSqlUpdt);
         return $bBloq;
     }
 

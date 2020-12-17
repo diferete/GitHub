@@ -516,10 +516,8 @@ function calcMod(idQuant, idCxNormal) {
     var modulo = quantidade % caixaNormal;
 
     if (modulo > 0) {
-
         return true;
     } else {
-
         return false;
     }
 
@@ -538,8 +536,7 @@ function calcPrecoKg(idQuant, idPeso, idVlrTot, idBadge) {
     //console.log(vlrTot);
     if (Peso !== 0) {
         var prcKg = vlrTot / (Quantidade * Peso);
-    } else
-    {
+    } else {
         var prcKg = 0;
     }
 

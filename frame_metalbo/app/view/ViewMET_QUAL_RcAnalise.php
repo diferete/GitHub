@@ -14,29 +14,22 @@ class ViewMET_QUAL_RcAnalise extends View {
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoExcluir(false);
         $this->setBScrollInf(false);
+        $this->getTela()->setBMostraFiltro(true);
         $this->getTela()->setBUsaCarrGrid(true);
-        $this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setiLarguraGrid(3400);
-
+        
         $this->getTela()->setIAltura(550);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
-        $oNr->setILargura(10);
 
         $oCliente = new CampoConsulta('Cliente', 'empdes', CampoConsulta::TIPO_LARGURA);
-        $oCliente->setILargura(100);
 
         $oUser = new CampoConsulta('Usuário', 'usunome', CampoConsulta::TIPO_LARGURA);
-        $oUser->setILargura(20);
 
         $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_LARGURA);
-        $oOfficeDes->setILargura(40);
 
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
-        $oData->setILargura(20);
 
         $oProd = new CampoConsulta('Produtos', 'produtos');
-        $oProd->setILargura(150);
 
         $oAnexo1 = new CampoConsulta('Anexo 1', 'anexo1', CampoConsulta::TIPO_DOWNLOAD);
 
@@ -102,7 +95,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
 
-        $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+        $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
 
 
 
@@ -368,6 +361,8 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oAnexo1 = new Campo('Anexo 1', 'anexo_inspecao', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
         $oAnexo2 = new Campo('Anexo 2', 'anexo_inspecao1', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
 
+        $oCheckEmail = new Campo('Notificar vendas?', 'check', Campo::TIPO_CHECK, 3, 3, 12, 12);
+
         $oApontamento = new Campo('Apontar inspeção', 'inspecao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oApontamento->setILinhasTextArea(3);
         $oApontamento->addValidacao(false, Validacao::TIPO_STRING, '', '2', '999');
@@ -388,7 +383,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $this->setBTela(true);
 
 
-        $this->addCampos(array($oFilcgc, $oNr, $oUsuAponta, $oData, $oHora), $oCorrecao, array($oAnexo1, $oAnexo2), array($oApontamento, $oObs), $oBtnInserir);
+        $this->addCampos(array($oFilcgc, $oNr, $oUsuAponta, $oData, $oHora), $oCorrecao, array($oAnexo1, $oAnexo2), array($oApontamento, $oObs), array($oBtnInserir, $oCheckEmail));
     }
 
     public function criaModalRetornaRC($sDados) {

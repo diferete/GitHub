@@ -14,36 +14,30 @@ class ViewMET_QUAL_RcVenda extends View {
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoExcluir(false);
         $this->setBScrollInf(false);
+        $this->getTela()->setBMostraFiltro(true);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setiLarguraGrid(3400);
+        $this->getTela()->setiLarguraGrid(2200);
 
         $this->getTela()->setIAltura(550);
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
-        $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Liberar e apontar devolução!');
         $oBotaoModal->addAcao('MET_QUAL_RcVenda', 'criaTelaModalApontaDevolucao', 'criaModalApontaDevolucao', '');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
-        $oNr->setILargura(10);
 
         $oCliente = new CampoConsulta('Cliente', 'empdes', CampoConsulta::TIPO_LARGURA);
-        $oCliente->setILargura(100);
 
         $oUser = new CampoConsulta('Usuário', 'usunome', CampoConsulta::TIPO_LARGURA);
-        $oUser->setILargura(20);
 
         $oOfficeDes = new CampoConsulta('Representante', 'officedes', CampoConsulta::TIPO_LARGURA);
-        $oOfficeDes->setILargura(40);
 
         $oData = new CampoConsulta('Data', 'datains', CampoConsulta::TIPO_DATA);
-        $oData->setILargura(20);
 
         $oProd = new CampoConsulta('Produtos', 'produtos');
-        $oProd->setILargura(150);
 
         $oAnexo1 = new CampoConsulta('Anexo 1', 'anexo1', CampoConsulta::TIPO_DOWNLOAD);
 
@@ -113,9 +107,9 @@ class ViewMET_QUAL_RcVenda extends View {
         $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
         if ($_SESSION['codUser'] == 46) {
-            $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+            $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
         } else {
-            $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oProd, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+            $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
         }
 
 

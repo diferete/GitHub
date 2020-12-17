@@ -236,22 +236,18 @@ class ControllerMET_TEC_Chamados extends Controller {
         if ($aCampos['obsfim'] == '') {
             $oMensagem = new Mensagem('Atenção', 'Preencha o campo OBSERVAÇÃO!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
-        } if ($aCampos['tempo'] == '') {
+            exit;
+        }
+        if ($aCampos['tempo'] == '') {
             $oMensagem = new Mensagem('Atenção', 'Preencha o campo TEMPO!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
+            exit;
         } else {
             $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
             if ($aRetorno[0]) {
-                $bRetorno = $this->EnviaEmailFinalizaChamado($aCampos);
-                if ($bRetorno) {
-                    $oMsg = new Modal('Tudo certo', 'Chamado foi finalizado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
-                    echo "$('#criaModalApontaChamado-btn').click();";
-                    echo $oMsg->getRender();
-                } else {
-                    $oMsg = new Modal('Atenção', 'Erro ao tentar enviar e-mail de finalização do chamado', Modal::TIPO_AVISO, false, true, false);
-                    echo "$('#criaModalApontaChamado-btn').click();";
-                    echo $oMsg->getRender();
-                }
+                $oMsg = new Modal('Tudo certo', 'Chamado foi finalizado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+                echo "$('#criaModalApontaChamado-btn').click();";
+                echo $oMsg->getRender();
             } else {
                 $oMsg = new Modal('Atenção', 'Erro ao tentar finalizar o chamado', Modal::TIPO_AVISO, false, true, false);
                 echo "$('#criaModalApontaChamado-btn').click();";

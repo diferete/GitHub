@@ -215,10 +215,14 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
                 . " apontamento = '" . $aDados['apontamento'] . "',"
                 . " anexo_analise = '" . $aDados['anexo_analise'] . "',"
                 . " anexo_analise1 = '" . $aDados['anexo_analise1'] . "',"
-                . " procedencia = '" . $aDados['procedencia'] . "',"
-                . " numcad = '" . $aDados['numcad'] . "',"
-                . " nomfun = '" . $aDados['nomfun'] . "',"
-                . " usuaponta = '" . $aDados['usuaponta'] . "'"
+                . " procedencia = '" . $aDados['procedencia'] . "',";
+        if ($aDados['numcad'] != '') {
+            $sSql = $sSql . " numcad = '" . $aDados['numcad'] . "',";
+        }
+        if ($aDados['nomfun'] != '') {
+            $sSql = $sSql . " nomfun = '" . $aDados['nomfun'] . "',";
+        }
+        $sSql = $sSql . " usuaponta = '" . $aDados['usuaponta'] . "'"
                 . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
 
         $aRetorno = $this->executaSql($sSql);

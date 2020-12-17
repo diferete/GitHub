@@ -132,23 +132,24 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
-        $aRet = $this->Persistencia->apontaRC($aCampos);
         if ($aCampos['procedencia'] == '' || $aCampos['procedencia'] == null) {
             $oMsg = new Mensagem('Atenção', 'Selecione o status da DEVOLUÇÃO segundo análise!', Mensagem::TIPO_ERROR);
             echo $oMsg->getRender();
             exit();
-        }
-        if ($aRet[0] == true) {
-            $oMsg = new Mensagem('Sucesso', 'Reclamação nº' . $aCampos['nr'] . ' foi apontada com sucesso!', Mensagem::TIPO_SUCESSO);
-            $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o setor de vendas!', Mensagem::TIPO_INFO);
-            echo $oMsg->getRender();
-            echo $oMsg2->getRender();
-            echo'requestAjax("","' . $this->getNomeClasse() . '","enviaEmailAponta","' . $sDados . '");';
         } else {
-            $oMsg = new Mensagem('Atenção', 'Reclamação nº' . $aCampos['nr'] . ' não pode ser apontada!', Mensagem::TIPO_ERROR);
-            echo $oMsg->getRender();
+            $aRet = $this->Persistencia->apontaRC($aCampos);
+            if ($aRet[0] == true) {
+                $oMsg = new Mensagem('Sucesso', 'Reclamação nº' . $aCampos['nr'] . ' foi apontada com sucesso!', Mensagem::TIPO_SUCESSO);
+                $oMsg2 = new Mensagem('Atenção', 'Aguarde enquanto o e-mail é enviado para o setor de vendas!', Mensagem::TIPO_INFO);
+                echo $oMsg->getRender();
+                echo $oMsg2->getRender();
+                echo'requestAjax("","' . $this->getNomeClasse() . '","enviaEmailAponta","' . $sDados . '");';
+            } else {
+                $oMsg = new Mensagem('Atenção', 'Reclamação nº' . $aCampos['nr'] . ' não pode ser apontada!', Mensagem::TIPO_ERROR);
+                echo $oMsg->getRender();
+            }
+            echo'$("#' . $aDados[2] . '-btn").click();';
         }
-        echo'$("#' . $aDados[2] . '-btn").click();';
     }
 
     public function reenviaEmailRC($sDados) {
@@ -295,16 +296,80 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
 
-        $aRet = $this->Persistencia->apontaInspecaoRC($aCampos);
-
-        if ($aRet[0] == true) {
-            $oMsg = new Mensagem('Sucesso', 'Inspeção da reclamação nº' . $aCampos['nr'] . ' foi apontada com sucesso!', Mensagem::TIPO_SUCESSO);
-            echo $oMsg->getRender();
+        if ($aCampos['check'] == true) {
+            $aRetorno = $this->notificaVendas($aCampos);
+            if ($aRetorno[0] == true) {
+                $aRet = $this->Persistencia->apontaInspecaoRC($aCampos);
+                if ($aRet[0] == true) {
+                    $oMsg = new Mensagem('Sucesso', 'Inspeção da reclamação nº' . $aCampos['nr'] . ' foi apontada com sucesso!', Mensagem::TIPO_SUCESSO);
+                    echo $oMsg->getRender();
+                    echo'$("#' . $aDados[2] . '-btn").click();';
+                } else {
+                    $oMsg = new Mensagem('Atenção', 'Inspeção da reclamação nº' . $aCampos['nr'] . ' não pode ser apontada!', Mensagem::TIPO_ERROR);
+                    echo $oMsg->getRender();
+                }
+            } else {
+                return;
+            }
         } else {
-            $oMsg = new Mensagem('Atenção', 'Inspeção da reclamação nº' . $aCampos['nr'] . ' não pode ser apontada!', Mensagem::TIPO_ERROR);
+            $aRet = $this->Persistencia->apontaInspecaoRC($aCampos);
+            if ($aRet[0] == true) {
+                $oMsg = new Mensagem('Sucesso', 'Inspeção da reclamação nº' . $aCampos['nr'] . ' foi apontada com sucesso!', Mensagem::TIPO_SUCESSO);
+                echo'$("#' . $aDados[2] . '-btn").click();';
+            } else {
+                $oMsg = new Mensagem('Atenção', 'Inspeção da reclamação nº' . $aCampos['nr'] . ' não pode ser apontada!', Mensagem::TIPO_ERROR);
+            }
             echo $oMsg->getRender();
         }
-        echo'$("#' . $aDados[2] . '-btn").click();';
+    }
+
+    public function notificaVendas($aCampos) {
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail Sistema Web Metalbo'));
+
+
+        $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE'));
+        $oEmail->setMensagem(utf8_decode('<span style="color:green;"><b>A reclamação NR ' . $aCampos['nr'] . '</b></span><br/>'
+                        . '<b>Data do Cadastro: ' . $aCampos['data_disposição'] . ' </b><br/>'
+                        . '<b>Hora: ' . $aCampos['hora_disposição'] . '  </b><br/><br/><br/>'
+                        . '<table border = 1 cellspacing = 0 cellpadding = 2 width = "100%">'
+                        . '<tr><td><b>Correção: </b></td><td> ' . $aCampos['correcao'] . ' </td></tr>'
+                        . '<tr><td><b>Inspeção: </b></td><td> ' . $aCampos['inspecao'] . ' </td></tr>'
+                        . '<tr><td><b>Observação: </b></td><td> ' . $aCampos['obs_inspecao'] . ' </td></tr>'
+                        . '</table><br/><br/>'
+                        . '<b>Para mais informações, consulte o anexo!</b><br/>'
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+        $oEmail->limpaDestinatariosAll();
+        $aEmail = $this->Persistencia->buscaEmails($aCampos);
+        $oEmail->addDestinatario($aEmail[0]);
+        //.$oEmail->addDestinatario('alexandre@metalbo.com.br');
+
+
+        if ($aCampos['anexo_inspecao']) {
+            $oEmail->addAnexo('Uploads/' . $aCampos['anexo_inspecao'], utf8_decode('' . $aCampos['anexo_inspecao'] . ''));
+        }
+        if ($aCampos['anexo_inspecao1']) {
+            $oEmail->addAnexo('Uploads/' . $aCampos['anexo_inspecao1'], utf8_decode('' . $aCampos['anexo_inspecao1'] . ''));
+        }
+
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('E-mail', 'Um e-mail foi enviado para o setor de Vendas!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email para Vendas, comunique o TI!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+        return $aRetorno;
     }
 
     /*
