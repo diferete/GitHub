@@ -5,7 +5,7 @@
         <title>Pesquisa de Satisfação - Metalbo</title>
         <link rel="shortcut icon" href="images/metalb.ico" type="image/x-icon" />
         <link rel="stylesheet" href="css/style.css" type="text/css" />
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.css" type="text/css" />
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.css?v=26" type="text/css" />
 
     </head>
     <table width="100%"  border="0" cellspacing="0" cellpadding="0">
@@ -70,41 +70,35 @@
                                         $msg .= "</div></td>";
                                         $msg .= "</tr>";
                                         $msg .= "<tr>";
-//                                        $msg .= "<td>QUALIDADE: R&aacute;pida e eficaz</td>";
-//                                        $msg .= "<td><div align='center'>";
-//                                        $msg .= $qualidade;
-//                                        $msg .= "</div></td>";
                                         $msg .= "</tr>";
                                         $msg .= "<tr>";
-//                                        $msg .= "<td>CONTATO: Os contatos atendem a sua necessidade</td>";
-//                                        $msg .= "<td><div align='center'>";
-//                                        $msg .= $contato;
-//                                        $msg .= "</div></td>";
                                         $msg .= "</tr>";
                                         $msg .= "<tr>";
                                         $msg .= "<td rowspan='4'><div align='center'>PRODUTOS</div></td>";
-//                                        $msg .= "<td>ASPECTO VISUAL: Atende as expectativas</td>";
-//                                        $msg .= "<td><div align='center'>";
-//                                        $msg .= $aspectos_visuais;
-//                                        $msg .= "</div></td>";
                                         $msg .= "</tr>";
                                         $msg .= "<tr>";
                                         $msg .= "<td>Os produtos recebidos atendem as ESPECIFICAÇÕES solicitadas?</td>";
-                                        $msg .= "<td><div align='center'>";
+                                        $msg .= "<td>";
+                                        $msg .= "<div align='center'>";
                                         $msg .= $especificacoes;
-                                        $msg .= "</div></td>";
+                                        $msg .= "</div>";
+                                        $msg .= "</td>";
                                         $msg .= "</tr>";
                                         $msg .= "<tr>";
                                         $msg .= "<td>A EMBALAGEM garante a proteção dos produtos até o destino final?</td>";
-                                        $msg .= "<td><div align='center'>";
+                                        $msg .= "<td>";
+                                        $msg .= "<div align='center'>";
                                         $msg .= $embalagens;
-                                        $msg .= "</div></td>";
+                                        $msg .= "</div>";
+                                        $msg .= "</td>";
                                         $msg .= "</tr>";
                                         $msg .= "<tr>";
                                         $msg .= "<td>O PRAZO DE ENTREGA atende as suas necessidades?</td>";
-                                        $msg .= "<td><div align='center'>";
+                                        $msg .= "<td>";
+                                        $msg .= "<div align='center'>";
                                         $msg .= $prazo;
-                                        $msg .= "</div></td>";
+                                        $msg .= "</div>";
+                                        $msg .= "</td>";
                                         $msg .= "</tr>";
                                         $msg .= "</table>";
 
@@ -159,7 +153,7 @@
                                                     </div><!-- FIM DA DIV DO MENU LATERAL-->
                                                     <div class="span9 corPadrao margemTop50 alert alert-danger">
                                                         <hr /><br /><br /><br />
-                                                        <h3>SUAS RESPOSTAS N�O PUDERAM SER ENVIADAS!</h3> 
+                                                        <h3>SUAS RESPOSTAS NÃO PUDERAM SER ENVIADAS!</h3> 
                                                         <br />
                                                         <h3>TENTE NOVAMENTE!</h3>    
                                                         <br />
