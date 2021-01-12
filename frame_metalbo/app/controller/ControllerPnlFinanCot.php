@@ -63,8 +63,8 @@ class ControllerPnlFinanCot extends Controller {
             $sCnpj = $value[1];
         }
 
-        $iTotal = $this->Persistencia->somaTitulos();
-        $iAtraso = $this->Persistencia->somaTitAtraso();
+        $iTotal = $this->Persistencia->somaTitulos($sCnpj);
+        $iAtraso = $this->Persistencia->somaTitAtraso($sCnpj);
         $iMedia = $this->Persistencia->mediaFat($sCnpj);
         $iLimite = $this->Persistencia->limiteCred($sCnpj);
         //verifica se o limite de crédito está alcançado

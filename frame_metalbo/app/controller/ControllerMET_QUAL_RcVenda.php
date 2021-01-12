@@ -792,7 +792,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             echo $oMensagem->getRender();
             exit;
         }
-        if (($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) && ($oDados->situaca == 'Liberado' || $oDados->situaca == 'Apontada')) {
+        if (($oDados->sollibdevolucao == '' || $oDados->sollibdevolucao == null) && ($oDados->situaca == 'Liberado' || $oDados->situaca == 'Apontada' || $oDados->situaca == 'Reaberta')) {
             $aRetorno = $this->Persistencia->solicitaLibDevolucao($aCamposChave);
             if ($aRetorno[0]) {
                 $oMensagem = new Mensagem('Sucesso', 'Solicitação de liberação da devolução enviada!', Mensagem::TIPO_SUCESSO);

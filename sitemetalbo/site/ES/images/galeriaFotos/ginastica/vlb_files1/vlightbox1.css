@@ -1,0 +1,40 @@
+#vlightbox2 {
+	width:100%;
+	zoom:1;	
+}
+
+#vlightbox2 .vlightbox2 div{
+	left:0;
+	top:0;
+	width:100%;
+	height:72px;
+	background:#000 url(zoom-in.png) 50% 54% no-repeat;
+	opacity:0.6;
+	color:#FFF;	
+}
+#vlightbox2 .vlightbox2 {
+	display:-moz-inline-stack;
+	display:inline-block;
+	zoom:1;
+	*display:inline;
+	position:relative;
+	vertical-align:top;
+	margin:5px;
+	width:96px;
+	font-family:Trebuchet,Tahoma,Arial,sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	text-decoration:none;
+	text-align:center;
+	outline:none;
+}
+
+#vlightbox2 .vlightbox2 a{
+	margin:0;
+}
+#vlightbox2 .vlightbox2 img{
+	display:block;
+	border:none;
+	margin:0;
+}
+#vlightbox2 .vlightbox2 div {display:none}

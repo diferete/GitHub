@@ -1,0 +1,103 @@
+/* Design by http://www.dreamtemplate.com */
+@charset "utf-8";
+body {
+	margin:0;
+	padding:0;
+	width:100%;
+	color:#666666;
+	font:normal 12px/1.5em "Liberation sans", Arial, Helvetica, sans-serif;
+}
+.main {
+	background:#e1e1e1 url(../images/main_bg.gif) repeat-x left top;
+}
+.clr {
+	clear:both;
+	padding:0;
+	margin:0;
+	width:100%;
+	font-size:0;
+	line-height:0;
+}
+h2 {
+	margin:8px 0;
+	padding:8px 0;
+	font-size:25px;
+	font-weight:normal;
+	color:#3f3f3f;
+}
+p {
+	margin:8px 0;
+	padding:0 0 8px 0;
+}
+a {
+	color:#0e5b8c;
+	text-decoration:underline;
+}
+.header, .content, .menu_nav, .fbg, .footer, form, ol, ol li, ul, .content .mainbar, .content .sidebar {
+	margin:0;
+	padding:0;
+}
+.header {
+}
+.header_resize {
+	margin:0 auto;
+	padding:0;
+	width:960px;
+}
+.logo {
+	padding:0;
+	float:left;
+	width:auto;
+	height:93px;
+}
+h1 {
+	margin:0;
+	padding:32px 0 0;
+	font-size:64px;
+	font-weight:normal;
+	line-height:1.2em;
+	text-transform:none;
+}
+h1 a, h1 a:hover {
+	color:#0e5b8c;
+	text-decoration:none;
+}
+.menu_nav {
+	margin:0 auto;
+	padding:0 0 40px;
+	height:50px;
+	float:left;
+}
+.menu_nav ul {
+	list-style:none;
+	padding:0;
+	height:50px;
+	float:left;
+}
+.menu_nav ul li {
+	margin:0;
+	padding:0 0 0 4px;
+	float:left;
+}
+.menu_nav ul li a {
+	display:block;
+	margin:0;
+	padding:18px 0 0;
+	width:126px;
+	height:30px;
+	font-size:16px;
+	line-height:20px;
+	font-weight:normal;
+	color:#6e6e6e;
+	text-decoration:none;
+	text-align:center;
+	text-transform:uppercase;
+}
+.menu_nav ul li.active a, .menu_nav ul li a:hover {
+	text-decoration:none;
+	color:#fff;
+	font-weight:normal;
+	background:url(../images/menu_a.gif) no-repeat center top;
+}
+
+

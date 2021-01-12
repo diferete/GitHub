@@ -1,0 +1,13 @@
+To: webmaster@metalbo.com.br
+From: webmaster@metalbo.com.br
+Subject: Information Request
+
+ [required-Nome]
+ [E-mail]
+ [required-Endereço]
+ [Cidade]
+ [required-Estado]
+ [required-País]
+ [required-CEP]
+ [Assunto]
+ [Mensagem]

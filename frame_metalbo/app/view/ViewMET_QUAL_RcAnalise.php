@@ -84,7 +84,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oDropDown3->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Apontar inspeção', 'MET_QUAL_RcAnalise', 'criaTelaModalApontaInspecao', '', false, '', false, 'criaTelaModalApontaInspecao', true, 'Resultados de Inspeção de Recebimento da Reclamação', false, false);
 
         $this->setUsaDropdown(true);
-        if ($_SESSION['codsetor'] == 25) {
+        if ($_SESSION['codsetor'] == 2) {
             $this->addDropdown($oDropDown, $oDropDown2, $oDropDown3);
         } else {
             $this->addDropdown($oDropDown, $oDropDown2);
@@ -99,7 +99,7 @@ class ViewMET_QUAL_RcAnalise extends View {
 
 
 
-        if ($_SESSION['codsetor'] == 25) {
+        if ($_SESSION['codsetor'] == 2) {
             $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
 
