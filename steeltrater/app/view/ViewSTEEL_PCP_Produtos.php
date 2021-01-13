@@ -344,6 +344,11 @@ class ViewSTEEL_PCP_Produtos extends View {
         if (method_exists($oDados, 'getNcm')) {
             $oProNCM->setSValor($oDados->getNcm());
         }
+        
+        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Produtos","validaNCM","' . $oProNCM->getId() . '");';
+
+        $oProNCM->addEvento(Campo::EVENTO_SAIR, $sCallBack);
+        
         //Campos Abas
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $oAbaGeral->addCampos($oReferencia, $oLinha, array($oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes), $oLinha, array($oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes), $oLinha, array($oUnidadeMedCod, $oUnidadeMedDes, $oTipoControle), $oLinha, array($oPesoLiq, $oPesoBruto, $oVolume, $oPcUnidade), $oLinha, $oCodAnt, $oLinha, $oDescTecProd, $oProOrigem, $oProNCM);

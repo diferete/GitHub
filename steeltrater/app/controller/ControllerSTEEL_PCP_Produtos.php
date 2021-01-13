@@ -349,4 +349,18 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         }
     }
 
+    public function validaNCM($sDados) {
+        $aCampos = array();
+        parse_str($_REQUEST['campos'], $aCampos);
+
+        if ($aCampos['pro_ncm'] != '____.__.__-___') {
+            $iNCM = $this->Persistencia->buscaNCM($aCampos['pro_ncm']);
+
+            if ($iNCM == 0) {
+                $oMensagem = new Mensagem('ATENÇÃO', 'Esse número de NCM não está cadastrado', Mensagem::TIPO_ERROR);
+                echo $oMensagem->getRender();
+                echo "$('#" . $sDados . "').val('');";
+            }
+        }
+    }
 }

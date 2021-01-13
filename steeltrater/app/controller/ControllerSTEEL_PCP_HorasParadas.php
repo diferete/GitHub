@@ -18,7 +18,7 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
         $aChave[1] = $sFornoDes;
 
         $this->View->setAParametrosExtras($aChave);
-        
+
         $oMotivos = Fabrica::FabricarController('STEEL_PCP_ParMotivo');
         $aMotivos = $oMotivos->Persistencia->getArrayModel();
 
@@ -44,7 +44,6 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
     public function adicionaFiltroDet() {
         parent::adicionaFiltroDet();
         $this->Persistencia->adicionaFiltro('seq', $this->Model->getSeq());
-        
     }
 
     public function acaoLimpar($sForm, $sDados) {
@@ -115,12 +114,12 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
         if ($iHorasTotal >= 24) {
             $qDias = (int) ($iHorasTotal / 24);
             $qHoras = (int) ($iHorasTotal % 24);
-            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60),0);
+            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60), 0);
             $sTempoParada = $qDias . " dia(s), " . $qHoras . " horas e " . $qMin . " min.";
         } else {
             if ($iHorasTotal < 24 && $iHorasTotal >= 1) {
                 $qHoras = (int) ($iHorasTotal);
-                $qMin = round((($iHorasTotal - $qHoras) * 60),0);
+                $qMin = round((($iHorasTotal - $qHoras) * 60), 0);
                 $sTempoParada = $qHoras . " hora(s) e " . $qMin . " minutos";
             } else {
                 $qMin = (int) (($iHorasTotal) * 60);
@@ -192,12 +191,12 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
         if ($iHorasTotal >= 24) {
             $qDias = (int) ($iHorasTotal / 24);
             $qHoras = (int) ($iHorasTotal % 24);
-            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60),0);
+            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60), 0);
             $sTempoParada = $qDias . " dia(s), " . $qHoras . " horas e " . $qMin . " min.";
         } else {
             if ($iHorasTotal < 24 && $iHorasTotal >= 1) {
                 $qHoras = (int) ($iHorasTotal);
-                $qMin = round((($iHorasTotal - $qHoras) * 60),0);
+                $qMin = round((($iHorasTotal - $qHoras) * 60), 0);
                 $sTempoParada = $qHoras . " hora(s) e " . $qMin . " minutos";
             } else {
                 $qMin = (int) (($iHorasTotal) * 60);
@@ -217,6 +216,20 @@ class ControllerSTEEL_PCP_HorasParadas extends Controller {
         $aRetorno[0] = true;
         $aRetorno[1] = '';
         return $aRetorno;
+    }
+
+    public function carregaObs($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[1]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $this->Persistencia->adicionaFiltro('fornocod', $aCamposChave['fornocod']);
+        $this->Persistencia->adicionaFiltro('seq', $aCamposChave['seq']);
+
+        $oDados = $this->Persistencia->consultarWhere();
+        
+        echo '$("#' . $aDados[2] . '").val("' . $oDados->getObservacao() . '");';
     }
 
 }

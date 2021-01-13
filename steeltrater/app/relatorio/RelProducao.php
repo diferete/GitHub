@@ -226,17 +226,20 @@ $pdf->Ln(5);
 
 $pdf->Cell(279, 8, 'Tabela de Eficiência:', 'B', 1, 'J');
 
-$pdf->Cell(25, 5, 'Equipamento', 'B', 0, 'R');
+$pdf->Cell(38, 5, 'Equipamento', 'B', 0, 'R');
 $pdf->Cell(33, 5, 'Eficiencia fixa', 'B', 0, 'R');
-$pdf->Cell(48, 5, 'Produção no período', 'B', 0, 'R');
-$pdf->Cell(51, 5, 'Projeção S/H. paradas', 'B', 0, 'R');
-$pdf->Cell(51, 5, 'Projeção C/H. paradas', 'B', 0, 'R');
-$pdf->Cell(40, 5, 'Total H. Paradas', 'B', 0, 'R');
-$pdf->Cell(31, 5, 'Eficiência(%)', 'B', 1, 'R');
+$pdf->Cell(45, 5, 'Produção no período', 'B', 0, 'R');
+$pdf->Cell(45, 5, 'Projeção S/H. paradas', 'B', 0, 'R');
+$pdf->Cell(45, 5, 'Projeção C/H. paradas', 'B', 0, 'R');
+$pdf->Cell(41, 5, 'Total H. Paradas', 'B', 0, 'R');
+$pdf->Cell(32, 5, 'Eficiência(%)', 'B', 1, 'R');
+
 $pdf->Ln(2);
 if (isset($nTempFiltroH)) {
     if ($nTempFiltroH == 0) {
         $nTempFiltroH = 24;
+    }else{
+        $nTempFiltroH = $nTempFiltroH + 24;
     }
 } else {
     $nTempFiltroH = 24;
@@ -260,12 +263,12 @@ foreach ($aPesoEficEq as $key) {
         if ($iHorasTotal >= 24) {
             $qDias = (int) ($iHorasTotal / 24);
             $qHoras = (int) ($iHorasTotal % 24);
-            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60), 0);
-            $sTempoParada = $qDias . " dia(s) " . $qHoras . "h(s) e " . $qMin . "min.";
+            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60),0);
+            $sTempoParada = $qDias . "dia(s) " . $qHoras . "h e " . $qMin . "min.";
         } else {
             if ($iHorasTotal < 24 && $iHorasTotal >= 1) {
                 $qHoras = (int) ($iHorasTotal);
-                $qMin = round((($iHorasTotal - $qHoras) * 60), 0);
+                $qMin = round((($iHorasTotal - $qHoras) * 60),0);
                 $sTempoParada = $qHoras . "h(s) e " . $qMin . "min.";
             } else {
                 $qMin = (int) (($iHorasTotal) * 60);
@@ -281,13 +284,13 @@ foreach ($aPesoEficEq as $key) {
     }
 
     $pdf->SetFont('Arial', '', 9);
-    $pdf->Cell(25, 5, '  ' . $key[1], '', 0, 'R');
+    $pdf->Cell(38, 5, '  ' . $key[1], '', 0, 'R');
     $pdf->Cell(33, 5, '  ' . number_format($key[3], 2, ',', '.') . 'Kg/H', '', 0, 'R');
-    $pdf->Cell(48, 5, '  ' . number_format($key[0], 2, ',', '.') . 'Kg', '', 0, 'R');
-    $pdf->Cell(51, 5, '  ' . number_format($key[3] * $nTempFiltroH, 2, ',', '.') . 'Kg', '', 0, 'R');
-    $pdf->Cell(51, 5, '  ' . number_format($key[3] * $nTempFiltroH1, 2, ',', '.') . 'Kg', '', 0, 'R');
-    $pdf->Cell(40, 5, '  ' . $sTempoParada, '', 0, 'R');
-    $pdf->Cell(31, 5, '  ' . number_format($nEficiencia, 2, ',', '.') . '%', '', 1, 'R');
+    $pdf->Cell(42, 5, '  ' . number_format($key[0], 2, ',', '.'), '', 0, 'R');
+    $pdf->Cell(48, 5, '  ' . number_format($key[3] * $nTempFiltroH, 2, ',', '.'), '', 0, 'R');
+    $pdf->Cell(45, 5, '  ' . number_format($key[3] * $nTempFiltroH1, 2, ',', '.'), '', 0, 'R');
+    $pdf->Cell(41, 5, '  ' . $sTempoParada, '', 0, 'R');
+    $pdf->Cell(33, 5, '  ' . number_format($nEficiencia, 2, ',', '.') . '%', '', 1, 'R');
     $pdf->Cell(279, 2, '', 'T', 1, 'L');
 }
 

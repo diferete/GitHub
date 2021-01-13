@@ -104,7 +104,7 @@ class PersistenciaSTEEL_PCP_Produtos extends Persistencia {
         $this->adicionaRelacionamento('fecial', 'fecial', false, false);
         $this->adicionaRelacionamento('hedler', 'hedler', false, false);
 
-        
+
         ///////////////////////////////////////////////////////////////////////////////////
         $this->adicionaRelacionamento('pro_mva', 'pro_mva');
         $this->adicionaRelacionamento('pro_composto', 'pro_composto');
@@ -167,11 +167,11 @@ class PersistenciaSTEEL_PCP_Produtos extends Persistencia {
         $this->adicionaRelacionamento('pro_produtofilialfaturamento', 'pro_produtofilialfaturamento');
         $this->adicionaRelacionamento('pro_tipocoluna', 'pro_tipocoluna');
         $this->adicionaRelacionamento('fis_produtocompra', 'fis_produtocompra');
-        $this->adicionaRelacionamento('tms_produtopredominante', 'tms_produtopredominante');        
-        
+        $this->adicionaRelacionamento('tms_produtopredominante', 'tms_produtopredominante');
+
         ///////////////////////////////////////////////////////////////////////////////
-        
-        
+
+
         $this->setSTop('100');
         $this->adicionaOrderBy('pro_codigo', 1);
 
@@ -191,25 +191,28 @@ class PersistenciaSTEEL_PCP_Produtos extends Persistencia {
                 . 'and PRO_PRODUTO.PRO_FamiliaCodigo = "DELX_PRO_Subfamilia".PRO_FamiliaCodigo '
                 . 'and PRO_PRODUTO.PRO_SubFamiliaCodigo = "DELX_PRO_Subfamilia".PRO_SubFamiliaCodigo';
         $this->adicionaJoin('DELX_PRO_Subfamilia', null, 1, 'pro_grupocodigo', 'pro_grupocodigo', $sAndSubFam);
-    
-        
+
+
         $sAndFilial = ' and "STEEL_PCP_ProdutoFilial".fil_codigo =8993358000174 ';
-         $this->adicionaJoin('STEEL_PCP_ProdutoFilial', null, 1, 'pro_codigo', 'pro_codigo', $sAndFilial);
-        
+        $this->adicionaJoin('STEEL_PCP_ProdutoFilial', null, 1, 'pro_codigo', 'pro_codigo', $sAndFilial);
+    }
+
+    public function insereProdFilial($sProCod, $aCNPJ) {
         
     }
 
-    public function insereProdFilial($sProCod,$aCNPJ) {
-        
-    }
-    
-    public function geraSequencia(){
+    public function geraSequencia() {
         $sSql = "select max(pro_codigo)+1 as seq from pro_produto where pro_codigo >= 88880001 and pro_codigo < 95010396";
-        
+
         $result = $this->getObjetoSql($sSql);
         $row = $result->fetch(PDO::FETCH_OBJ);
         return $row->seq;
-        
+    }
+
+    public function buscaNCM($sDados) {
+        $sSql = "select COUNT(*) as total from FIS_NCM where fis_ncmcodigo = '" . $sDados."'";
+        $oNCM = $this->consultaSql($sSql);
+        return $oNCM->total;
     }
 
 }

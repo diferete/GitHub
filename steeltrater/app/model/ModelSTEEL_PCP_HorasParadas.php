@@ -20,7 +20,16 @@ class ModelSTEEL_PCP_HorasParadas {
     private $tempoparada;
     private $horasparadas;
     private $codmotivo;
-    
+    private $observacao;
+
+    function getObservacao() {
+        return $this->observacao;
+    }
+
+    function setObservacao($observacao) {
+        $this->observacao = $observacao;
+    }
+
     function getHorasparadas() {
         return $this->horasparadas;
     }
