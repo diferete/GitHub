@@ -62,13 +62,15 @@ class ViewUser extends View {
         $oUserNome = new Campo('Nome', 'usunome', Campo::TIPO_TEXTO, 4);
         $oUserNome->addValidacao(false, Validacao::TIPO_STRING);
         $oUserNome->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oUserNome->setBUpperCase(true);
 
         $oSobrenome = new Campo('Sobrenome', 'ususobrenome', Campo::TIPO_TEXTO, 4);
         $oSobrenome->addValidacao(false, Validacao::TIPO_STRING);
         $oSobrenome->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oSobrenome->setBUpperCase(true);
 
         $oUsuFone = new Campo('Telefone', 'usufone', Campo::TIPO_TEXTO, 3);
-//        $oUsuFone->addValidacao(FALSE, Validacao::TIPO_TELEFONE);
+        //$oUsuFone->addValidacao(FALSE, Validacao::TIPO_TELEFONE);
 
         $oUsuRamal = new Campo('Ramal', 'usuramal', Campo::TIPO_TEXTO, 1);
         $oUsuRamal->addValidacao(true, Validacao::TIPO_INTEIRO);
