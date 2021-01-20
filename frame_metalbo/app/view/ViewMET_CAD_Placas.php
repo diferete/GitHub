@@ -61,7 +61,7 @@ class ViewMET_CAD_Placas extends View {
         $oPlaca->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
         $oEmpcod = new Campo('CNPJ', 'empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oEmpcod->addValidacao(false, Validacao::TIPO_STRING,'','12');
+        $oEmpcod->addValidacao(false, Validacao::TIPO_STRING, '', '12');
 
         $oEmpdes = new Campo('Emp/Transp', 'empdes', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oEmpdes->setSIdPk($oEmpcod->getId());
@@ -85,8 +85,23 @@ class ViewMET_CAD_Placas extends View {
 
         $oCracha->addEvento(Campo::EVENTO_SAIR, $sCallBackCracha);
 
+        $oDataCad = new Campo('dataCad', 'dataCad', Campo::TIPO_TEXTO, 1);
+        $oDataCad->setSValor(date('Y-m-d'));
+        $oDataCad->setBOculto(true);
 
-        $this->addCampos($oDivisor1, array($oPlaca, $oEmpcod, $oEmpdes), $oDivisor2, array($oCracha, $oNome), array($oFilcgc));
+        $oHoraCad = new Campo('horaCad', 'horaCad', Campo::TIPO_TEXTO, 1);
+        $oHoraCad->setSValor(date('H:i:s'));
+        $oHoraCad->setBOculto(true);
+
+        $oNomeCad = new Campo('nomeCad', 'nomeCad', Campo::TIPO_TEXTO, 1);
+        $oNomeCad->setSValor($_SESSION['nome']);
+        $oNomeCad->setBOculto(true);
+
+        $oCodNomeCad = new Campo('codNomeCad', 'codNomeCad', Campo::TIPO_TEXTO, 1);
+        $oCodNomeCad->setSValor($_SESSION['codUser']);
+        $oCodNomeCad->setBOculto(true);
+
+        $this->addCampos($oDivisor1, array($oPlaca, $oEmpcod, $oEmpdes), $oDivisor2, array($oCracha, $oNome), array($oFilcgc, $oDataCad, $oHoraCad, $oNomeCad, $oCodNomeCad));
     }
 
 }

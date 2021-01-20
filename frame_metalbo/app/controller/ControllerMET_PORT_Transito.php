@@ -19,11 +19,24 @@ class ControllerMET_PORT_Transito extends Controller {
     public function beforeInsert() {
         parent::beforeInsert();
 
+        $sPlaca = $this->Model->getPlaca();
         $sMotivo = $this->Model->getMotivo();
         $this->Model->setMotorista(strtoupper($this->Model->getMotorista()));
         $this->Model->setHorachegou(date('H:i:s'));
         $this->Model->setDescmotivo(Util::limpaString($this->Model->getDescmotivo()));
 
+        if (strlen($sPlaca) > 0) {
+            $sPlaca = str_replace(' ', '', $sPlaca);
+            if (!(preg_match("/^([A-Z]){3}([0-9]){1,1}([A-Z]){1}([0-9]){2}$/i", $sPlaca) || preg_match("/^([A-Z]){3}-([0-9]){1}([A-Z]){1}([0-9]){2}$/i", $sPlaca) || preg_match("/^([A-Z]){3}([0-9]){4}$/i", $sPlaca) || preg_match("/^([A-Z]){3}-([0-9]){4}$/i", $sPlaca))) {
+                $oMsg = new Mensagem('Atenção', 'Placa não está nos padrões aceitos!', Mensagem::TIPO_WARNING);
+                echo $oMsg->getRender();
+
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
+        }
         if ($sMotivo != 'Selecionar') {
             $aRetorno = array();
             $aRetorno[0] = true;

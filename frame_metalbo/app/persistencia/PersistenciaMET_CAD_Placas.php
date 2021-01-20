@@ -19,6 +19,10 @@ class PersistenciaMET_CAD_Placas extends Persistencia {
         $this->adicionaRelacionamento('empdes', 'empdes');
         $this->adicionaRelacionamento('cracha', 'cracha');
         $this->adicionaRelacionamento('nome', 'nome');
+        $this->adicionaRelacionamento('dataCad', 'dataCad');
+        $this->adicionaRelacionamento('horaCad', 'horaCad');
+        $this->adicionaRelacionamento('nomeCad', 'nomeCad');
+        $this->adicionaRelacionamento('codNomeCad', 'codNomeCad');
 
         $this->adicionaOrderBy('placa');
     }

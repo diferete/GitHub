@@ -45,6 +45,8 @@ class PersistenciaProduto extends Persistencia {
 
             $this->adicionaFiltro('grucod', $aGrupo[0], Persistencia::LIGACAO_AND, Persistencia::ENTRE, $aGrupo[1]);
         }
+        
+        $this->setBNoLock(true);
     }
 
     /**

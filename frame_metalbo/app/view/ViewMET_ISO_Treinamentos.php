@@ -98,12 +98,12 @@ class ViewMET_ISO_Treinamentos extends View {
 
         $oNome = new Campo('Colaborador', 'nome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oNome->setSIdPk($oCracha->getId());
-        $oNome->setClasseBusca('MET_CAD_Funcionarios');
+        $oNome->setClasseBusca('MET_RH_Colaboradores');
         $oNome->addCampoBusca('numcad', '', '');
         $oNome->addCampoBusca('nomfun', '', '');
         $oNome->setSIdTela($this->getTela()->getid());
 
-        $oCracha->setClasseBusca('MET_CAD_Funcionarios');
+        $oCracha->setClasseBusca('MET_RH_Colaboradores');
         $oCracha->setSCampoRetorno('numcad', $this->getTela()->getId());
         $oCracha->addCampoBusca('nomfun', $oNome->getId(), $this->getTela()->getId());
         //////////////////////////////////////////////

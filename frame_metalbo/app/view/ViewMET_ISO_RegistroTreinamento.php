@@ -20,6 +20,7 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oData = new CampoConsulta('Data', 'data_treinamento', CampoConsulta::TIPO_DATA);
         $oTitTreinamento = new CampoConsulta('Treinamento', 'titulo_treinamento');
+        $oRevisao = new CampoConsulta('Rev.', 'revisao');
 
         $oAnexo = new CampoConsulta('Anexo', 'anexo_treinamento', CampoConsulta::TIPO_DOWNLOAD);
         $oAnexo->setSDiretorioManual('RTs');
@@ -39,7 +40,7 @@ class ViewMET_ISO_RegistroTreinamento extends View {
                 . 'var idCampos ="' . $oObs->getId() . '";'
                 . 'requestAjax("","MET_ISO_RegistroTreinamento","carregaObs","' . $this->getOGridDetalhe()->getSId() . '"+","+chave+","+idCampos+"");');
 
-        $this->addCamposDetalhe($oNr, $oFilcgc, $oSeq, $oData, $oTitTreinamento, $oAnexo);
+        $this->addCamposDetalhe($oNr, $oFilcgc, $oSeq, $oData, $oTitTreinamento, $oRevisao, $oAnexo);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
@@ -51,10 +52,11 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $oSeq = new CampoConsulta('Seq.', 'seq');
         $oData = new CampoConsulta('Data', 'data_treinamento', CampoConsulta::TIPO_DATA);
         $oTitTreinamento = new CampoConsulta('Treinamento', 'titulo_treinamento');
+        $oRevisao = new CampoConsulta('Rev.', 'revisao');
         $oAnexo = new CampoConsulta('Anexo', 'anexo_treinamento', CampoConsulta::TIPO_DOWNLOAD);
         $oAnexo->setSDiretorioManual('RTs');
 
-        $this->addCampos($oNr, $oFilcgc, $oSeq, $oData, $oTitTreinamento, $oAnexo);
+        $this->addCampos($oNr, $oFilcgc, $oSeq, $oData, $oTitTreinamento, $oRevisao, $oAnexo);
     }
 
     public function criaTela() {

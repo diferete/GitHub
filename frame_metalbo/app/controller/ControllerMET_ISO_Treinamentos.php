@@ -33,7 +33,7 @@ class ControllerMET_ISO_Treinamentos extends Controller {
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
 
-        $this->Persistencia->updateEscolaridade();        
+        $this->Persistencia->updateEscolaridade();
         $this->Persistencia->updateTreinamentos();
     }
 
@@ -47,15 +47,15 @@ class ControllerMET_ISO_Treinamentos extends Controller {
             $oRetorno = $this->Persistencia->buscaDadosColaborador($aDados);
             $oFuncao = $this->Persistencia->buscaDadosFuncao($oRetorno);
 
-            if ($oRetorno->sit == 'Demitido') {
-                $oRetorno->sit = 'Inativo';
+            if ($oRetorno->dessit == 'Demitido') {
+                $oRetorno->dessit = 'Inativo';
             } else {
-                $oRetorno->sit = 'Ativo';
+                $oRetorno->dessit = 'Ativo';
             }
             $script = '$("#' . $aIdCampos[0] . '").val("' . $oRetorno->nomfun . '");'
-                    . '$("#' . $aIdCampos[1] . '").val("' . $oRetorno->sit . '");'
-                    . '$("#' . $aIdCampos[2] . '").val("' . $oRetorno->setor . '");'
-                    . '$("#' . $aIdCampos[3] . '").val("' . $oRetorno->cargo . '");'
+                    . '$("#' . $aIdCampos[1] . '").val("' . $oRetorno->dessit . '");'
+                    . '$("#' . $aIdCampos[2] . '").val("' . $oRetorno->nomccu . '");'
+                    . '$("#' . $aIdCampos[3] . '").val("' . $oRetorno->titcar . '");'
                     . '$("#' . $aIdCampos[4] . '").val("' . $oRetorno->desgra . '");';
 
             if ($oFuncao->esc_exigida > $oRetorno->grains) {
@@ -131,26 +131,27 @@ class ControllerMET_ISO_Treinamentos extends Controller {
                      * */
                     $aTreinamento = explode(',', $value);
 
-                    if ($aTreinamento[0] != $aTreinamento[2]) {
-                        $sClasseTreinamento = 'current';
-                        $sEstiloTreinamento = 'border-color:orange;color:orange';
-                        $sTreinamento = $aTreinamento[1];
 
-                        $sLinha = $sLinha . '<div id="0" class="pearl ' . $sClasseTreinamento . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                    if ($aTreinamento[0] == $aTreinamento[2]) {
+                        $sClasseTreinamento = 'current';
+                        $sEstiloTreinamento = 'border-color:green;color:green';
+                        $sTreinamento = substr($aTreinamento[1], 0, 10);
+
+                        $sLinha = $sLinha . '<div id="0" class="pearl ' . $sClasseTreinamento . ' col-lg-1 col-md-1 col-sm-1 col-xs-1 ">'
                                 . '<div class="pearl-icon" style="' . $sEstiloTreinamento . '">'
-                                . '<i class="icon wb-close" aria-hidden="true"></i>'
+                                . '<i class="icon wb-check" aria-hidden="true"></i>'
                                 . '</div>'
                                 . '<span class="pearl-title" style="font-size:12px">' . $sTreinamento . '</span>'
                                 . '</div>';
                     }
-                    if ($aTreinamento[0] == $aTreinamento[2]) {
+                    if ($aTreinamento[0] != $aTreinamento[2]) {
                         $sClasseTreinamento = 'current';
-                        $sEstiloTreinamento = 'border-color:green;color:green';
-                        $sTreinamento = $aTreinamento[1];
+                        $sEstiloTreinamento = 'border-color:orange;color:orange';
+                        $sTreinamento = substr($aTreinamento[1], 0, 10);
 
-                        $sLinha = $sLinha . '<div id="0" class="pearl ' . $sClasseTreinamento . ' col-lg-2 col-md-2 col-sm-2  col-xs-2 ">'
+                        $sLinha = $sLinha . '<div id="0" class="pearl ' . $sClasseTreinamento . ' col-lg-1 col-md-1 col-sm-1  col-xs-1 ">'
                                 . '<div class="pearl-icon" style="' . $sEstiloTreinamento . '">'
-                                . '<i class="icon wb-check" aria-hidden="true"></i>'
+                                . '<i class="icon wb-close" aria-hidden="true"></i>'
                                 . '</div>'
                                 . '<span class="pearl-title" style="font-size:12px">' . $sTreinamento . '</span>'
                                 . '</div>';
@@ -171,7 +172,6 @@ class ControllerMET_ISO_Treinamentos extends Controller {
     }
 
     public function updateTreinamentos() {
-
         $this->Persistencia->updateTreinamentos();
     }
 

@@ -69,14 +69,19 @@ class PersistenciaMET_PORT_Transito extends Persistencia {
                 case $sRetPlaca->total >= '1':
                     break;
                 default:
-
-                    $sSqlCadPlaca = "insert into MET_CAD_Placas("
-                            . "filcgc,placa,empcod,empdes) "
-                            . "values("
-                            . "'" . $oDados->getFilcgc() . "',"
+                    $data = date('Y-m-d');
+                    $hora = date('H:i:s');
+                    $sSqlCadPlaca = "insert into MET_CAD_Placas"
+                            . "(filcgc,placa,empcod,empdes,dataCad,horaCad,nomeCad,codNomeCad) "
+                            . "values"
+                            . "('" . $oDados->getFilcgc() . "',"
                             . "'" . $sPlaca . "',"
                             . "'" . $oDados->getEmpcod() . "',"
-                            . "'" . $oDados->getEmpdes() . "')";
+                            . "'" . ltrim(rtrim($oDados->getEmpdes())) . "',"
+                            . "'" . $data . "',"
+                            . "'" . $hora . "',"
+                            . "'" . $_SESSION['nome'] . "',"
+                            . "'" . $_SESSION['codUser'] . "')";
                     $this->executaSql($sSqlCadPlaca);
                     break;
             }

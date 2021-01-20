@@ -27,39 +27,39 @@ class ViewMET_GerenciaFrete extends View {
         $oBotaoContPag->setILargura(30);
 
         $oNr = new CampoConsulta('Nr', 'nr');
-        
+
         $oCnpj = new CampoConsulta('CNPJ', 'cnpj');
-        
+
         $oEmpDes = new CampoConsulta('Empresa', 'Pessoa.empdes');
-        
+
         $oNrCon = new CampoConsulta('Conhecimento', 'nrconhe');
-        
+
         $oNrFat = new CampoConsulta('Fat.', 'nrfat');
-        
+
         $oNrNot = new CampoConsulta('Nota', 'nrnotaoc');
-        
+
         $oTotalKg = new CampoConsulta('Total Kg.', 'totakg', CampoConsulta::TIPO_DECIMAL);
-        
+
         $oTotalNf = new CampoConsulta('Total Nf.', 'totalnf', CampoConsulta::TIPO_DECIMAL);
-        
+
         $oFracaoFrete = new CampoConsulta('Fração Frete.', 'fracaofrete');
-        
+
         $oValSer = new CampoConsulta('Valor Serv.', 'valorserv', CampoConsulta::TIPO_DECIMAL);
-        
+
         $oCodTipo = new CampoConsulta('Tipo.', 'codtipo');
         $oCodTipo->addComparacao('1', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_PADRAO, CampoConsulta::MODO_COLUNA, true, 'VENDA');
         $oCodTipo->addComparacao('2', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_PADRAO, CampoConsulta::MODO_COLUNA, true, 'COMPRA');
-        
+
         $oDat = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
-        
+
         $oSit = new CampoConsulta('Situação', 'sit');
         $oSit->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, true, 'APROVADO');
         $oSit->addComparacao('E', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, true, 'ESPERA');
-        
+
         $oUser = new CampoConsulta('Usuário', 'usuario');
-        
+
         $oDatEm = new CampoConsulta('Emissão', 'dataem', CampoConsulta::TIPO_DATA);
-        
+
         $oDatVenc = new CampoConsulta('Vencimento', 'datafn', CampoConsulta::TIPO_DATA);
 
         $oFiltroCnpj = new Filtro($oCnpj, Filtro::CAMPO_SELECT, 3, 3, 3, 3);
@@ -105,7 +105,7 @@ class ViewMET_GerenciaFrete extends View {
             $val = (int) $key['cnpj'];
             $oCnpj->addItemSelect($val, $val . ' - ' . $key['empdes']);
         }
-        $oCnpj->addValidacao(false);
+        $oCnpj->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $oCnpj->setId('gerenciafrete_cnpj');
 
         $oSeqReg = new Campo('Seq.Regra', 'seqregra', Campo::TIPO_TEXTO, 1);
@@ -113,21 +113,21 @@ class ViewMET_GerenciaFrete extends View {
 
         $oNrCon = new Campo('Nr. Conhecimento', 'nrconhe', Campo::TIPO_TEXTO, 2);
         $oNrCon->setId('gerenciafrete_nrconhe');
-        $oNrCon->addValidacao(false);
+        $oNrCon->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $sCallBack2 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_GerenciaFrete","verificaConhecimento","");';
         $oNrCon->addEvento(Campo::EVENTO_SAIR, $sCallBack2);
         $oNrFat = new Campo('Nr. Fat.', 'nrfat', Campo::TIPO_TEXTO, 1);
-        $oNrFat->addValidacao(false);
+        $oNrFat->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $oNrFat->setId('gerenciafrete_nrfat');
         $oNrNot = new Campo('Nr. Nota', 'nrnotaoc', Campo::TIPO_TEXTO, 2);
-        $oNrNot->addValidacao(false);
+        $oNrNot->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $oTotalKg = new Campo('Total Kg.', 'totakg', Campo::TIPO_TEXTO, 1);
-        $oTotalKg->addValidacao(false);
+        $oTotalKg->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $oTotalNf = new Campo('Total Nf.', 'totalnf', Campo::TIPO_TEXTO, 1);
-        $oTotalNf->addValidacao(false);
+        $oTotalNf->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
 
         $oFracaoFrete = new Campo('Fração Frete.', 'fracaofrete', Campo::TIPO_TEXTO, 1);
-        $oFracaoFrete->addValidacao(false);
+        $oFracaoFrete->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $oFracaoFrete->setBCampoBloqueado(true);
 
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_GerenciaFrete","buscaDados","' . $oTotalNf->getId() . ',' . $oTotalKg->getId() . ',' . $oFracaoFrete->getId() . '");';
@@ -139,13 +139,13 @@ class ViewMET_GerenciaFrete extends View {
         $oNrNot->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
         $oValSer = new Campo('Valor Serv.', 'valorserv', Campo::TIPO_DECIMAL, 1);
-        $oValSer->addValidacao(false);
+        $oValSer->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $oValSer->setId('gerenciafrete_valorserv');
 
         $oCodtip = new Campo('Tipo', 'codtipo', Campo::TIPO_SELECT, 2);
         $oCodtip->addItemSelect('1', 'Venda');
         $oCodtip->addItemSelect('2', 'Compra');
-        $oCodtip->addValidacao(false);
+        $oCodtip->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $oCodtip->setId('gerenciafrete_codtip');
 
         $oDat = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1);
@@ -196,11 +196,11 @@ class ViewMET_GerenciaFrete extends View {
 
         $sDataEm = new Campo('Data de Emissão', 'dataem', Campo::TIPO_DATA, 2);
         $sDataEm->setId('gerenciafrete_dataem');
-        $sDataEm->addValidacao(false);
+        $sDataEm->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
 
         $sDataFn = new Campo('Data de Vencimento', 'datafn', Campo::TIPO_DATA, 2);
         $sDataFn->setId('gerenciafrete_datafn');
-        $sDataFn->addValidacao(false);
+        $sDataFn->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
 
         $this->addCampos(array($oNr, $oCnpj, $oNrFat, $sDataEm, $sDataFn), $oL, array($oCodtip, $oNrCon, $oNrNot, $oTotalNf, $oTotalKg, $oFracaoFrete, $oValSer, $oSit), $oL, $oSeqReg, $oGridFrete, $oL, array($oDat, $oHora, $oUser), $oL, $oObs);
     }

@@ -162,7 +162,7 @@ class ViewMET_PORT_Transito extends View {
 
         $oCpf = new campo('CPF Somente Nr.', 'cpf', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCpf->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oCpf->addValidacao(false, Validacao::TIPO_STRING,'','14');
+        $oCpf->addValidacao(false, Validacao::TIPO_STRING,'','11');
 
         $oMotorista = new Campo('Pessoa', 'motorista', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oMotorista->setSIdPk($oCpf->getId());

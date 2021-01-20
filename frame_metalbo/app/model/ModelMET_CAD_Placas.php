@@ -14,14 +14,10 @@ class ModelMET_CAD_Placas {
     private $placa;
     private $cracha;
     private $nome;
-
-    function getNome() {
-        return $this->nome;
-    }
-
-    function setNome($nome) {
-        $this->nome = $nome;
-    }
+    private $dataCad;
+    private $horaCad;
+    private $nomeCad;
+    private $codNomeCad;
 
     function getFilcgc() {
         return $this->filcgc;
@@ -43,6 +39,26 @@ class ModelMET_CAD_Placas {
         return $this->cracha;
     }
 
+    function getNome() {
+        return $this->nome;
+    }
+
+    function getDataCad() {
+        return $this->dataCad;
+    }
+
+    function getHoraCad() {
+        return $this->horaCad;
+    }
+
+    function getNomeCad() {
+        return $this->nomeCad;
+    }
+
+    function getCodNomeCad() {
+        return $this->codNomeCad;
+    }
+
     function setFilcgc($filcgc) {
         $this->filcgc = $filcgc;
     }
@@ -61,6 +77,26 @@ class ModelMET_CAD_Placas {
 
     function setCracha($cracha) {
         $this->cracha = $cracha;
+    }
+
+    function setNome($nome) {
+        $this->nome = $nome;
+    }
+
+    function setDataCad($dataCad) {
+        $this->dataCad = $dataCad;
+    }
+
+    function setHoraCad($horaCad) {
+        $this->horaCad = $horaCad;
+    }
+
+    function setNomeCad($nomeCad) {
+        $this->nomeCad = $nomeCad;
+    }
+
+    function setCodNomeCad($codNomeCad) {
+        $this->codNomeCad = $codNomeCad;
     }
 
 }
