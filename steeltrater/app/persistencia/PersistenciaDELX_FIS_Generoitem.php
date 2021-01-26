@@ -14,10 +14,8 @@ class PersistenciaDELX_FIS_Generoitem extends Persistencia {
 
         $this->setTabela('FIS_GENEROITEM');
 
-        $this->adicionaRelacionamento('fis_generoitemcodigo', 'fis_generoitemcodigo',true,true);
+        $this->adicionaRelacionamento('fis_generoitemcodigo', 'fis_generoitemcodigo', true, true);
         $this->adicionaRelacionamento('fis_generoitemdescricao', 'fis_generoitemdescricao');
-
-        $this->setSTop(50);
     }
 
 }

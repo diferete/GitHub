@@ -83,7 +83,7 @@ $sSql = "select filcgc,nr,tbrncqual.empcod,tbrncqual.empdes,celular,email,contat
         . "anexo1,anexo2,anexo3,situaca,obsSit,resp_venda_cod,resp_venda_nome,obs_fim,horafim,usucod_fim,usunome_fim,devolucao,"
         . "usuaponta,apontamento,tagsetor,tbrncqual.repcod,produtos,usuapontavenda,obs_aponta,reclamacao,tagexcecao,"
         . "nfdevolucao,nfsIpi,valorfrete,inspecao,correcao,obs_inspecao,hora_disposicao,resp_disposicao,anexo_inspecao,"
-        . "anexo_inspecao1,anexo_analise,anexo_analise1,procedencia,numcad,nomfun,obs_analiseret,sollibdevolucao,usulibdevolucao,"
+        . "anexo_inspecao1,anexo_analise,anexo_analise1,procedencia,numcad,nomfun,obs_analiseret,sollibdevolucao,usulibdevolucao,obslibdevolucao,"
         . "horalibdevolucao,usu_reabriu,hora_reabriu,motivo_reabriu,apontaNF,empfone,celular,empend,empendbair,usunome,cidnome,"
         . "case when ind = 'true' then 'x' else '' end as ind,"
         . "case when comer = 'true' then 'x' else '' end as comer,"
@@ -420,7 +420,7 @@ if ($row['usu_reabriu'] != null) {
     $h = $h + 9 + round((strlen($row['motivo_reabriu']) / 120) * 5);
 }
 if ($row['sollibdevolucao'] != null) {
-    $h = $h + 9;
+    $h = $h + 14;
 }
 if ($row['apontaNF'] != null) {
     $h = $h + 9;
@@ -483,11 +483,7 @@ $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
 if ($row['sollibdevolucao'] != null) {
     $pdf->Ln(2);
     $pdf->SetFont('arial', 'B', 10);
-    $pdf->Cell(22, 5, "Devolução:", 0, 0, 'L');
-    $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(35, 5, $row['sollibdevolucao'], 0, 0, 'L');
-    $pdf->SetFont('arial', 'B', 10);
-    $pdf->Cell(35, 5, "Usuário Sol. Dev.:", 0, 0, 'L');
+    $pdf->Cell(70, 5, "Responsável pela análise da devolução:", 0, 0, 'L');
     $pdf->SetFont('arial', '', 10);
     $pdf->Cell(50, 5, $row['usulibdevolucao'], 0, 0, 'L');
     $pdf->SetFont('arial', 'B', 10);
@@ -499,6 +495,10 @@ if ($row['sollibdevolucao'] != null) {
     $pdf->SetFont('arial', '', 10);
     $pdf->Cell(20, 5, date('H:i', strtotime($row['horalibdevolucao'])), 0, 1, 'L');
     $pdf->Ln(2);
+    $pdf->SetFont('arial', 'B', 10);
+    $pdf->Cell(30, 5, "Observação:", 0, 1, 'L');
+    $pdf->SetFont('arial', '', 10);
+    $pdf->MultiCell(205, 5, $row['obslibdevolucao'], 0, 'L');
 }
 
 $pdf = quebraPagina($pdf->GetY() + 10, $pdf);

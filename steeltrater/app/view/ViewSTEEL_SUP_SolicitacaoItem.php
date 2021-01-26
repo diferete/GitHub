@@ -108,6 +108,9 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oQuantItem = new Campo('Quantidade', 'SUP_SolicitacaoItemComQtd', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oQuantItem->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQuantItem->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', '1');
+        
+        $oLinha = new campo('','linha', Campo::TIPO_LINHA);
+        $oLinha->setApenasTela(true);
 
         $oPrioridade = new Campo('Prioridade', 'SUP_PrioridadeCodigo', Campo::TIPO_SELECT, 1, 1, 12, 12);
         foreach ($aDadosPrioridade as $key => $oPrioridadeVal) {
@@ -124,10 +127,12 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oDataEntrega->setSValor(date('d/m/Y', strtotime('+15 days')));
 
         $oUsuSol = new Campo('Solicitante', 'SUP_SolicitacaoItemUsuSol', Campo::TIPO_TEXTO, 3, 3, 12, 12);
+        $oUsuSol->setBCampoBloqueado(true);
         $oUsuSol->setSValor($_SESSION['nomedelsoft']);
 
         $oUsuComprador = new Campo('Usuário comprador', 'SUP_SolicitacaoItemUsuCom', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oUsuComprador->setSValor('Amanda.Pisetta');
+        $oUsuComprador->setBCampoBloqueado(true);
 
         $oObsItem = new Campo('Observação', 'SUP_SolicitacaoItemObservacao', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
         $oObsItem->setILinhasTextArea(3);
@@ -164,9 +169,9 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
         
         if ($sAcaoRotina == 'acaoVisualizar') {
-            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), array($oPrioridade, $oDataNecessidade, $oDataEntrega), array($oTipoDespesa, $oDespDesc), array($oUsuSol, $oUsuComprador), $oObsItem,  $oSitItem);
+            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem),$oLinha, array($oPrioridade, $oDataNecessidade, $oDataEntrega),$oLinha, array($oTipoDespesa, $oDespDesc),$oLinha, array($oUsuSol, $oUsuComprador), $oObsItem,  $oSitItem);
         } else {
-            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), array($oPrioridade, $oDataNecessidade, $oDataEntrega), array($oTipoDespesa, $oDespDesc), array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
+            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem),$oLinha, array($oPrioridade, $oDataNecessidade, $oDataEntrega),$oLinha, array($oTipoDespesa, $oDespDesc),$oLinha, array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
         }
 
 

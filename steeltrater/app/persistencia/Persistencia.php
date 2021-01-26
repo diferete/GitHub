@@ -35,6 +35,7 @@ class Persistencia {
     private $sTop;
     private $sWhereManual;
     private $sCase;
+    private $bNoLock;
     //tipos de junções (JOIN) entre as tabelas aceitos pelo sistema
     public static $TIPO_JOIN = array(" INNER JOIN ", " LEFT JOIN ", " RIGHT JOIN ");
 
@@ -102,6 +103,7 @@ class Persistencia {
         $this->oConn = Conexao::getConexao();
         $this->setBConsultaManual(false);
         $this->setSTop('500');
+        $this->setBNoLock(false);
     }
 
     /**
@@ -125,6 +127,16 @@ class Persistencia {
                 break;
         }
         return $iRetorno;
+    }
+
+    function getBNoLock() {
+        return $this->bNoLock;
+    }
+
+    function setBNoLock($bNoLock) {
+        if ($bNoLock) {
+            $this->bNoLock = ' (NOLOCK) ';
+        }
     }
 
     function getSCase() {
@@ -794,7 +806,7 @@ class Persistencia {
         foreach ($this->getListaJoin() as $aJoin) {
             $oPersJoin = Fabrica::FabricarPersistencia($aJoin['classe']);
 
-            $sJoin .= $aJoin['tipo'] . $oPersJoin->getTabela() . " \"" . $aJoin['alias'] . "\" ON ";
+            $sJoin .= $aJoin['tipo'] . $oPersJoin->getTabela() . " \"" . $aJoin['alias'] . "\" " . $this->getBNoLock() . " ON ";
 
             //se os campos de ligação forem passados por parâmetro
             if ($aJoin['campoOrigem'] != null) {
@@ -2148,7 +2160,7 @@ class Persistencia {
                 . $this->getCamposTotalizadores()
                 . $this->getCamposCalculados()
                 . $this->getCamposVirtuais()
-                . " FROM " . $this->getTabela() . $this->getStringJoin();
+                . " FROM " . $this->getTabela() . $this->getBNoLock() . $this->getStringJoin();
 
         return $sSql;
     }

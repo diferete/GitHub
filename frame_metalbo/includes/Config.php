@@ -62,8 +62,8 @@ class Config {
     const NOME_BD = 'rex_maquinas';
     const HOST_BD = 'MetalboServer';
     const PASS_BD = 'M@quinas@321';
+    
      
-
 
 
 
@@ -74,8 +74,8 @@ class Config {
       const PASS_BD  = 'Met@lbo@4321';
      * 
      */
+     
     
-
 
     /*
      * Configurações de nomes de elementos do sistema

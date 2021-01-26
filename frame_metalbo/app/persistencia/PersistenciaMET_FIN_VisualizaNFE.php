@@ -27,6 +27,7 @@ class PersistenciaMET_FIN_VisualizaNFE extends Persistencia {
         $this->adicionaOrderBy('nfsdtemiss', 1);
         $this->adicionaOrderBy('nfsnfnro', 1);
         $this->setSTop(75);
+        $this->setBNoLock(true);
     }
 
     public function buscaDadosNf($aCamposChave) {

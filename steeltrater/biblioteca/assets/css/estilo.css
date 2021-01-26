@@ -109,11 +109,15 @@
 
 .tr-bk-black{
     color:white;
-    background-color:black; 
+    background-color: black; 
 }
 .tr-bk-marrom{
     color:white;
     background-color: brown;
+}
+.tr-bk-vdclaro{
+    color:black;
+    background-color: #66ff66;
 }
 fieldset legend{
     width: inherit !important;

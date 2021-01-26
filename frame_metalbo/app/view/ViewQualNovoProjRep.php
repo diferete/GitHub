@@ -148,7 +148,7 @@ class ViewQualNovoProjRep extends View {
         $oRespProjCod->setBCampoBloqueado(true);
 
         $oRespProjNome = new Campo('Resp.Projetos', 'resp_proj_nome', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oRespProjNome->setSValor('Eloir Jordelino');
+        $oRespProjNome->setSValor('ELOIR KLUG');
         $oRespProjNome->setBCampoBloqueado(true);
 
         $oGrupo = new campo('Grupo', 'grucod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
