@@ -359,7 +359,7 @@ class Controller {
      * 
      * @return Objetct
      */
-    public function setValorModel($oModelOriginal, $sNomeCampo, $xValor = null, $aCamposTela) {
+    public function setValorModel(& $oModelOriginal, $sNomeCampo, $xValor = null, $aCamposTela) {
         $aMetodos = self::extractMetodos($sNomeCampo);
 
         $oModel = $oModelOriginal;
@@ -819,7 +819,7 @@ class Controller {
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
-        }
+        };
         //renderiza a tela
         $this->View->getTela()->getRender();
     }
@@ -1839,17 +1839,22 @@ class Controller {
                         }
                         //tira o incremental
                         array_pop($aCamposChave);
+
                         foreach ($aCamposChave as $key => $value) {
                             //retorna campo do model
-                            $aModel = explode('_', $key);
-                            if (count($aModel) > 1) {
-                                $aModel = $this->scrollFilhas($aModel);
-                                $sModelFiltro = $aModel[1];
+                            if (substr_count($key, '_') > 1) {
+                                $aModel = explode('_', $key);
+                                if (count($aModel) > 1) {
+                                    $aModel = $this->scrollFilhas($aModel);
+                                    $sModelFiltro = $aModel[1];
+                                } else {
+                                    $aModel = $this->scrollFilhas($aModel);
+                                    $sModelFiltro = $aModel[0];
+                                }
+                                $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                             } else {
-                                $aModel = $this->scrollFilhas($aModel);
-                                $sModelFiltro = $aModel[0];
+                                $this->Persistencia->adicionaFiltro($key, $value, Persistencia::LIGACAO_AND);
                             }
-                            $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                         }
                     }
                 }
@@ -4011,7 +4016,7 @@ class Controller {
         if ($oCampo->getITipo() == 0) {
             if ($xValor !== '') {
                 //valida tipo de data 
-                if (Util::validaDateTime($xValor)) {
+                if (Util::ValidaData($xValor, $oCampo->getITipo())) {
                     //altera valor de / para tipo dataSql
                     $xValorCampo = Util::dataMysql($xValor);
                     //setValor no campo data
@@ -4027,7 +4032,7 @@ class Controller {
         } else {
             if ($oCampo->getITipo() == 1) {
                 if ($xValor !== '') {
-                    if (Util::validaDateTime(Util::converteData($xValor))) {
+                    if (Util::ValidaData($xValor, $oCampo->getITipo())) {
                         //altera valor de / para tipo dataSql
                         $xValorCampo = Util::converteData($xValor);
                         //setValor no campo data

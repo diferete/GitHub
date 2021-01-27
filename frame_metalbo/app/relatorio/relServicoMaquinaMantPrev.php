@@ -7,44 +7,71 @@ include("../../includes/Config.php");
 
 date_default_timezone_set('America/Sao_Paulo');
 
+$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+
 $sUserRel = $_REQUEST['userRel'];
 $sData = date('d/m/Y');
 $sHora = date('H:i');
-$sSit ='';
+$sSit = '';
 $sFilcgc = '75483040000211';
 $sDias = '----';
-if(isset($_REQUEST['simple'])){
-        $sSimple = $_REQUEST['simple'];
-}else{
-        $sSimple=false;
+$sDataIni = '';
+$sDataFin = '';
+$sResp = '';
+$sSeq = '';
+$sMaqTip = '';
+$iCodSetor = '';
+$sSit = '';
+$sCodMaq = '';
+$sDesMaq = '';
+$sDias = '';
+$sTipo = '';
+if (isset($_REQUEST['simple'])) {
+    $sSimple = $_REQUEST['simple'];
+} else {
+    $sSimple = false;
 }
-$bApData= false;
-if(!isset($_REQUEST['dataini'])){
-$sNr1 = $_SERVER['QUERY_STRING'];
-$aNr1 = explode('&', $sNr1);
-$aNr2 = array();
-$i=0;
-foreach ($aNr1 as $key){
-    if(substr($key, 0, 2)=='nr'){
-        $aNr2[$i] = substr($key, 3);
-        $i++;
+$bApDataDa = false;
+$bApDataDf = false;
+if (!isset($_REQUEST['dataini'])) {
+    $sNr1 = $_SERVER['QUERY_STRING'];
+    $aNr1 = explode('&', $sNr1);
+    $aNr2 = array();
+    $i = 0;
+    foreach ($aNr1 as $key) {
+        if (substr($key, 0, 2) == 'nr') {
+            $aNr2[$i] = substr($key, 3);
+            $i++;
+        }
+        if (substr($key, 0, 3) == 'Sit') {
+            $sSit = substr($key, 4);
+        }
     }
-    if(substr($key, 0, 3)=='Sit'){
-        $sSit = substr($key, 4);
-    }
-}
-}else{
+} else {
     $sDataIni = $_REQUEST['dataini'];
     $sDataFin = $_REQUEST['datafinal'];
     $sResp = $_REQUEST['resp'];
-    $sSeq = $_REQUEST['MET_MP_Maquinas_seq']; 
+    $sSeq = $_REQUEST['MET_MP_Maquinas_seq'];
     $sMaqTip = $_REQUEST['MET_MP_Maquinas_maqtip'];
-    $sSetor = $_REQUEST['MET_MP_Maquinas_codsetor']; 
+    $iCodSetor = $_REQUEST['MET_MP_Maquinas_codsetor'];
+    if ($iCodSetor != '') {
+        $sqlF = "SELECT distinct(descsetor)  FROM  tbmanutmp
+            left outer join 
+            MetCad_Setores on MetCad_Setores.codsetor = tbmanutmp.codsetor WHERE tbmanutmp.codsetor =" . $iCodSetor;
+        $sthF = $PDO->query($sqlF);
+        $result = $sthF->fetch(PDO::FETCH_ASSOC);
+        $sSetor = $result['descsetor'];
+    }
     $sSit = $_REQUEST['sitmp'];
     $sCodMaq = $_REQUEST['codmaq'];
+    $sDesMaq = $_REQUEST['MET_MP_Maquinas_maquina'];
     $sDias = $_REQUEST['dias'];
-    if(isset($_REQUEST['apdata'])){
-        $bApData = $_REQUEST['apdata'];
+    $sTipo = $_REQUEST['tipo'];
+    if (isset($_REQUEST['apdataDa'])) {
+        $bApDataDa = $_REQUEST['apdataDa'];
+    }
+    if (isset($_REQUEST['apdataDf'])) {
+        $bApDataDf = $_REQUEST['apdataDf'];
     }
 }
 
@@ -74,18 +101,23 @@ $pdf->SetFont('Arial', 'B', 16);
 
 //cabeçalho
 $pdf->SetMargins(3, 0, 3);
-$pdf->SetTextColor(0,50,0);
+$pdf->SetTextColor(0, 50, 0);
 $pdf->SetFont('Arial', 'B', 15);
 // Move to the right
 $pdf->Cell(45);
 // Title
-$pdf->Cell(100, 10, 'Relatório Serviço Maquinas Man.Prev.', 0, 0, 'L');
+
+if (!$sSimple) {
+    $pdf->Cell(100, 10, 'Relatório Serviço Maquinas Man.Prev.', 0, 0, 'L');
+} else {
+    $pdf->Cell(100, 10, 'Serviços Cadastrados nas Maquinas', 0, 0, 'L');
+}
 
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 
 $pdf->SetFont('Arial', '', 10);
-$pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
+$pdf->MultiCell(50, 5, 'Usuário: ' . str_split($sUserRel, 14)[0], 0, 'L');
 $pdf->SetXY($x, $y + 5);
 $pdf->MultiCell(50, 5, 'Data: ' . $sData .
         '  Hora: ' . $sHora, 0, 'L');
@@ -93,21 +125,165 @@ $pdf->MultiCell(50, 5, 'Data: ' . $sData .
 $pdf->Ln(5);
 $pdf->Cell(0, 0, "", "B", 1, 'C');
 $pdf->Ln(3);
+if (isset($_REQUEST['dataini'])) {
+    /**
+     * Filtros escolhidos apresentação
+     */
+    $pdf->SetTextColor(0, 0, 0);
+//Filtros
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(15, 5, 'Filtros:', 0, 1, 'L');
+//Empresa
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(20, 5, 'Maquina: ', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    if ($sCodMaq != '') {
+        $pdf->Cell(100, 5, $sCodMaq . ' - ' . $sDesMaq, 0, 1, 'L');
+    } else {
+        $pdf->Cell(100, 5, 'Todas', 0, 1, 'L');
+    }
+    $pdf->Ln(1);
+//Setor
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(12, 5, 'Setor: ', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    if ($iCodSetor != '') {
+        $pdf->Cell(90, 5, $iCodSetor . ' - ' . $sSetor, 0, 1, 'L');
+    } else {
+        $pdf->Cell(15, 5, 'Todos', 0, 1, 'L');
+    }
+    $pdf->Ln(1);
+//Responsável
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(25, 5, 'Responsável: ', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    if ($sResp == '') {
+        $pdf->Cell(25, 5, 'Todos', 0, 0, 'L');
+    } else {
+        $pdf->Cell(25, 5, $sResp, 0, 0, 'L');
+    }
+//Célula
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(18, 5, 'Célula: ', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    if ($sSeq == '') {
+        $pdf->Cell(18, 5, 'Todos', 0, 0, 'L');
+    } else {
+        $pdf->Cell(18, 5, $sSeq, 0, 0, 'L');
+    }
+//Categoria
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(18, 5, 'Categoria: ', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    if ($sMaqTip == ' ') {
+        $pdf->Cell(20, 5, 'Todos', 0, 0, 'L');
+    } else {
+        $pdf->Cell(20, 5, $sMaqTip, 0, 0, 'L');
+    }
+//Situação
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(20, 5, 'Situação: ', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    if ($sSit != '') {
+        $pdf->Cell(25, 5, $sSit, 0, 1, 'L');
+    } else {
+        $pdf->Cell(25, 5, 'Todas', 0, 1, 'L');
+    }
 
-$PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
+    $pdf->Ln(2);
+    //Tipo de data a ser filtrada
+    if ($bApDataDa) {
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(45, 5, 'Filtro Data Abertura  ----', 0, 0, 'L');
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(25, 5, 'Data Inicial: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(25, 5, $sDataIni, 0, 0, 'L');
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(25, 5, 'Data Final: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(25, 5, $sDataFin, 0, 1, 'L');
+    }
+    if ($bApDataDf) {
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(45, 5, 'Filtro Data Fechamento  ----', 0, 0, 'L');
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(25, 5, 'Data Inicial: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(25, 5, $sDataIni, 0, 0, 'L');
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(25, 5, 'Data Final: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(25, 5, $sDataFin, 0, 1, 'L');
+    }
+    if (!$bApDataDa && !$bApDataDf) {
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(25, 5, 'Todos serviços da manutenção preventiva até a data atual!', 0, 1, 'L');
+    }
+
+    $pdf->Ln(2);
+    //Ordenação
+    if ($sTipo == 'MAQDES') {
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(23, 5, 'Ordenação: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(70, 5, 'Descrição da máquina!', 0, 0, 'L');
+    }
+    if ($sTipo == 'MAQ') {
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(23, 5, 'Ordenação: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(70, 5, 'Código da máquina!', 0, 0, 'L');
+    }
+    if ($sTipo == 'SETOR') {
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(23, 5, 'Ordenação: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(70, 5, 'Setor da máquina!', 0, 0, 'L');
+    }
+    if ($sTipo == 'DESSETOR') {
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(23, 5, 'Ordenação: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(70, 5, 'Descrição do setor da máquina!', 0, 0, 'L');
+    }
+    if ($sTipo == 'NR') {
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(23, 5, 'Ordenação: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(70, 5, 'NR da manutenção preventiva!', 0, 0, 'L');
+    }
+    if($sDias!='----'){
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(25, 5, 'Dias Restantes: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(20, 5, $sDias.' dias', 0, 0, 'L');
+    }else{
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(25, 5, 'Dias Restantes: ', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 9);
+        $pdf->Cell(20, 5, 'Todos', 0, 0, 'L');
+    }
+    
+}
+$pdf->Ln(5);
+$pdf->Cell(203, 2, '', 'B', 1, 'L');
+$pdf->Cell(203, 1, '', 'B', 1, 'L');
+$pdf->Ln(2);
 
 //Entra no Foreach caso relatório tela
-if(!isset($aNr2)){
+if (!isset($aNr2)) {
     $aNr2[1] = 'i';
 }
 
+$aServMaqAbertNaoApontados = 0;
 $aServMaqAbertAtrasados = 0;
 $aServMaqFinalAtrasados = 0;
 
 $iCont = 0;
 $iContAbe = 0;
 $iContFin = 0;
-foreach ($aNr2 as $sNr){
+foreach ($aNr2 as $sNr) {
 
     $sql = "select tbmanutmp.filcgc, tbmanutmp.nr, tbmanutmp.codmaq, tbmanutmp.codsetor, descsetor, tbitensmp.codsit, servico, ciclo, resp, dias, tbitensmp.sitmp,
             tbitensmp.userinicial, convert(varchar,tbitensmp.datafech,103) as datafech, 
@@ -122,189 +298,244 @@ foreach ($aNr2 as $sNr){
             tbservmp on tbitensmp.codsit = tbservmp.codsit 
             left outer join
             metmaq on tbitensmp.codmaq = metmaq.cod";
-$sql.=" and tbmanutmp.databert > '01/01/2010' ";   
-if($sFilcgc!=' '){
-    $sql.=" where tbmanutmp.filcgc = '" . $sFilcgc . "' "; 
-}    
-if($sNr!='i'&&$sNr!=' '){
-    $sql.=" and tbmanutmp.nr = '" . $sNr . "' "; 
-}
-if(isset($sDataIni) && $bApData==true){
-    $sql.=" and tbitensmp.databert between '" . $sDataIni . "' and '" . $sDataFin . "'"; 
-}
-if(isset($sCodMaq) && $sCodMaq!=''){
-    $sql.=" and tbmanutmp.codmaq = '" . $sCodMaq . "'"; 
-}
-if(isset($sResp) && $sResp!=''){
-    $sql.=" and tbservmp.resp = '" . $sResp . "'"; 
-}
-if(isset($sSeq) && $sSeq!=''){
-    $sql.=" and metmaq.seq = '" . $sSeq . "'";
-}
-if(isset($sMaqTip) && $sMaqTip!=' '){
-    $sql.=" and metmaq.maqtip = '" . $sMaqTip . "'";
-}
-if(isset($sSetor) && $sSetor!=''){
-    $sql.=" and metmaq.codsetor = '" . $sSetor . "'";
-}
-if($sSit == 'ABERTOS'){
-    $sql.=" and tbitensmp.sitmp = 'ABERTO' "; 
-}
-if($sSit == 'FINALIZADOS'){
-    $sql.=" and tbitensmp.sitmp = 'FINALIZADO' "; 
-}
-if($sDias!='----'){
-    $sql.=" and tbitensmp.dias <= " . $sDias . " "; 
-}
-
-$sql.=" ORDER BY tbmanutmp.maqmp, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
+    $sql .= " and tbmanutmp.databert > '01/01/2010' ";
+    if ($sFilcgc != '') {
+        $sql .= " where tbmanutmp.filcgc = '" . $sFilcgc . "' ";
+    }
+    if ($sNr != 'i' && $sNr != ' ') {
+        $sql .= " and tbmanutmp.nr = '" . $sNr . "' ";
+    }
+    if (isset($_REQUEST['dataini'])) {
+        if (isset($sCodMaq) && $sCodMaq != '') {
+            $sql .= " and tbmanutmp.codmaq = '" . $sCodMaq . "'";
+        }
+        if (isset($sResp) && $sResp != '') {
+            $sql .= " and tbservmp.resp = '" . $sResp . "'";
+        }
+        if (isset($sSeq) && $sSeq != '') {
+            $sql .= " and metmaq.seq = '" . $sSeq . "'";
+        }
+        if (isset($sMaqTip) && $sMaqTip != ' ') {
+            $sql .= " and metmaq.maqtip = '" . $sMaqTip . "'";
+        }
+        if (isset($iCodSetor) && $iCodSetor != '') {
+            $sql .= " and metmaq.codsetor = '" . $iCodSetor . "'";
+        }
+        if ($sSimple) {
+            $sql .= " and tbitensmp.sitmp = 'ABERTO' ";
+        } else {
+            if ($bApDataDf) {
+                $sql .= " and tbitensmp.datafech between '" . $sDataIni . "' and '" . $sDataFin . "'";
+                if ($sSit == 'ABERTOS') {
+                    $sql .= " and tbitensmp.sitmp = 'ABERTO' ";
+                }
+                if ($sSit == 'FINALIZADOS') {
+                    $sql .= " and tbitensmp.sitmp = 'FINALIZADO' ";
+                }
+            } else {
+                if ($bApDataDa) {
+                    $sql .= " and tbitensmp.databert between '" . $sDataIni . "' and '" . $sDataFin . "'";
+                    if ($sSit == 'ABERTOS') {
+                        $sql .= " and tbitensmp.sitmp = 'ABERTO' ";
+                    }
+                    if ($sSit == 'FINALIZADOS') {
+                        $sql .= " and tbitensmp.sitmp = 'FINALIZADO' ";
+                    }
+                } else {
+                    if ($sSit == 'ABERTOS') {
+                        $sql .= " and tbitensmp.sitmp = 'ABERTO' ";
+                    }
+                    if ($sSit == 'FINALIZADOS') {
+                        $sql .= " and tbitensmp.sitmp = 'FINALIZADO' ";
+                    }
+                }
+            }
+        }
+        if ($sDias != '----') {
+            $sql .= " and tbitensmp.dias <= " . $sDias . " ";
+        }
+        if ($sTipo == 'MAQDES') {
+            $sql .= " ORDER BY tbmanutmp.maqmp, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
         DAY(tbitensmp.databert) ";
-
+        }
+        if ($sTipo == 'MAQ') {
+            $sql .= " ORDER BY tbitensmp.codmaq, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
+        DAY(tbitensmp.databert) ";
+        }
+        if ($sTipo == 'SETOR') {
+            $sql .= " ORDER BY metmaq.codsetor, tbitensmp.codmaq, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
+        DAY(tbitensmp.databert) ";
+        }
+        if ($sTipo == 'DESSETOR') {
+            $sql .= " ORDER BY descsetor, tbmanutmp.maqmp, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
+        DAY(tbitensmp.databert) ";
+        }
+        if ($sTipo == 'NR') {
+            $sql .= " ORDER BY tbmanutmp.nr, tbmanutmp.maqmp, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
+        DAY(tbitensmp.databert) ";
+        }
+    } else {
+        if ($sSit == 'ABERTOS') {
+            $sql .= " and tbitensmp.sitmp = 'ABERTO' ";
+        }
+        if ($sSit == 'FINALIZADOS') {
+            $sql .= " and tbitensmp.sitmp = 'FINALIZADO' ";
+        }
+        $sql .= " ORDER BY tbmanutmp.maqmp, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
+        DAY(tbitensmp.databert) ";
+    }
     $sth = $PDO->query($sql);
 
-$iN = 0;
-$iCod = 0;
-while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-    if($iN != $row['codmaq']) {
-        
-        $pdf = quebraPagina($pdf->GetY()+15, $pdf);
-        $pdf->SetTextColor(0,0,255);
-        $pdf->Ln(5);
-        $pdf->Cell(199, 1, '', 'T', 1, 'L');
-        $pdf->SetFont('arial', 'B', 9);
-        $pdf->Cell(15, 5, 'Nr', 'R,L,B,T', 0, 'L');
-        $pdf->Cell(15, 5, 'Maquina', 'R,L,B,T', 0, 'L');
-        $pdf->Cell(77, 5, 'Descrição', 'R,L,B,T', 0, 'L');
-        $pdf->Cell(20, 5, 'Setor', 'R,L,B,T', 0, 'L');
-        $pdf->Cell(76, 5, 'Descrição','R,L,B,T', 1, 'L');
-        $pdf->Cell(199, 0, '', "B", 1, 'L');
-        
-        $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(15, 5, $row['nr'], 'R,L,B,T', 0, 'L');
-        $pdf->Cell(15, 5, $row['codmaq'], 'R,L,B,T', 0, 'L');
-        $pdf->Cell(77, 5, $row['maquina'], 'R,L,B,T', 0, 'L');
-        $pdf->Cell(20, 5, $row['codsetor'], 'R,L,B,T', 0, 'L');
-        $pdf->Cell(76, 5, $row['descsetor'], 'R,L,B,T', 1, 'L');
-        
-        $iN = $row['codmaq'];
-        $iCod= 0;
-    }
-        $pdf = quebraPagina($pdf->GetY()+5, $pdf);
-        
-        if($iCod!= $row['codsit']){
-        
-        $pdf = quebraPagina($pdf->GetY()+15, $pdf);
+    $iN = 0;
+    $iCod = 0;
+    while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+        if ($iN != $row['codmaq']) {
 
-        $pdf->SetTextColor(0,100,0);
+            $pdf = quebraPagina($pdf->GetY() + 15, $pdf);
+            $pdf->SetTextColor(0, 0, 255);
+            $pdf->Ln(5);
+            $pdf->Cell(199, 1, '', 'T', 1, 'L');
+            $pdf->SetFont('arial', 'B', 9);
+            $pdf->Cell(15, 5, 'Nr', 'R,L,B,T', 0, 'L');
+            $pdf->Cell(15, 5, 'Maquina', 'R,L,B,T', 0, 'L');
+            $pdf->Cell(77, 5, 'Descrição', 'R,L,B,T', 0, 'L');
+            $pdf->Cell(20, 5, 'Setor', 'R,L,B,T', 0, 'L');
+            $pdf->Cell(76, 5, 'Descrição', 'R,L,B,T', 1, 'L');
+            $pdf->Cell(199, 0, '', "B", 1, 'L');
 
-        if(!$sSimple){
-        $pdf->Cell(199, 3, '', '', 1, 'L');    
-        $pdf->SetFont('arial', 'B', 7);
-        $pdf->Cell(8, 4, 'CÓD.', 'B', 0, 'L');
-        $pdf->Cell(151, 4, 'SERVIÇO','B', 0, 'L');
-        $pdf->Cell(10, 4, 'CICLO', 'B', 0, 'L');
-        $pdf->Cell(34, 4, 'RESPONSÁVEL', 'B', 1, 'L');
-        }
-        
-        $pdf->SetFont('arial', 'B', 7);
-        $pdf->Cell(8, 5, $row['codsit'], 'B', 0, 'L');
-        $pdf->Cell(151, 5, rtrim($row['oqfazer']).' '.rtrim($row['servico']), 'B', 0, 'L');
-        $pdf->SetFont('arial', 'B', 9);
-        $pdf->Cell(10, 5, $row['ciclo'], 'B', 0, 'L');
-        $pdf->Cell(34, 5, $row['resp'], 'B', 1, 'L'); 
-        $pdf->SetTextColor(0,0,0);  
-        }
-        if(!$sSimple){
-        
-        if($iCod!= $row['codsit']){
-        $pdf->Ln(1);
-        $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(24, 5, 'Situação', 'L,B,T', 0, 'L');
-        $pdf->Cell(23, 5, 'Dias Restantes', 'L,B,T', 0, 'L');
-        $pdf->Cell(33, 5, 'Data Abertura', 'L,B,T', 0, 'L');
-        $pdf->Cell(45, 5, 'Usuário Inicial', 'L,B,T', 0, 'L');
-        $pdf->Cell(33, 5, 'Data Fechamento','L,B,T', 0, 'L');
-        $pdf->Cell(45, 5, 'Usuário Final', 'L,B,T,R', 1, 'L');
-        
-        }
-        $pdf = quebraPagina($pdf->GetY()+10, $pdf);
-        $iCod = $row['codsit'];
-        if($row['dias']<0 && $row['sitmp']=='ABERTO'){
-            $pdf->SetTextColor(255,0,0);
-        }else{
-            $pdf->SetTextColor(0,0,0);    
-        }
-        $pdf->SetFont('arial', '', 8);
-        $pdf->Cell(24, 5, $row['sitmp'], 'B,L', 0, 'L');
-        $pdf->Cell(23, 5, $row['dias'], 'B', 0, 'L');
-        $pdf->Cell(33, 5,$row['databert'], 'B', 0, 'L');  
-        $pdf->Cell(45, 5, $row['userinicial'], 'B', 0, 'L');
-        $pdf->Cell(33, 5, $row['datafech'], 'B', 0, 'L');
-        $pdf->Cell(45, 5, $row['userfinal'], 'B,R', 1, 'L'); 
+            $pdf->SetFont('arial', '', 9);
+            $pdf->Cell(15, 5, $row['nr'], 'R,L,B,T', 0, 'L');
+            $pdf->Cell(15, 5, $row['codmaq'], 'R,L,B,T', 0, 'L');
+            $pdf->Cell(77, 5, $row['maquina'], 'R,L,B,T', 0, 'L');
+            $pdf->Cell(20, 5, $row['codsetor'], 'R,L,B,T', 0, 'L');
+            $pdf->Cell(76, 5, $row['descsetor'], 'R,L,B,T', 1, 'L');
 
-        if(strlen($row['obs'])>3){
-            $pdf->SetTextColor(0,0,0);
-            $pdf->SetFont('arial', 'B', 8);
-            $pdf->Cell(8, 5,'OBS:', 'B,L', 0, 'L');
+            $iN = $row['codmaq'];
+            $iCod = 0;
+        }
+        $pdf = quebraPagina($pdf->GetY() + 5, $pdf);
+
+        if ($iCod != $row['codsit']) {
+
+            $pdf = quebraPagina($pdf->GetY() + 15, $pdf);
+
+            $pdf->SetTextColor(0, 100, 0);
+
+            if (!$sSimple) {
+                $pdf->Cell(199, 3, '', '', 1, 'L');
+                $pdf->SetFont('arial', 'B', 7);
+                $pdf->Cell(8, 4, 'CÓD.', 'B', 0, 'L');
+                $pdf->Cell(151, 4, 'SERVIÇO', 'B', 0, 'L');
+                $pdf->Cell(10, 4, 'CICLO', 'B', 0, 'L');
+                $pdf->Cell(34, 4, 'RESPONSÁVEL', 'B', 1, 'L');
+            }
+
+            $pdf->SetFont('arial', 'B', 7);
+            $pdf->Cell(8, 5, $row['codsit'], 'B', 0, 'L');
+            $pdf->Cell(151, 5, rtrim($row['oqfazer']) . ' ' . rtrim($row['servico']), 'B', 0, 'L');
+            $pdf->SetFont('arial', 'B', 9);
+            $pdf->Cell(10, 5, $row['ciclo'], 'B', 0, 'L');
+            $pdf->Cell(34, 5, $row['resp'], 'B', 1, 'L');
+            $pdf->SetTextColor(0, 0, 0);
+        }
+        if (!$sSimple) {
+
+            if ($iCod != $row['codsit']) {
+                $pdf->Ln(1);
+                $pdf->SetFont('arial', 'B', 8);
+                $pdf->Cell(24, 5, 'Situação', 'L,B,T', 0, 'L');
+                $pdf->Cell(23, 5, 'Dias Restantes', 'L,B,T', 0, 'L');
+                $pdf->Cell(33, 5, 'Data Abertura', 'L,B,T', 0, 'L');
+                $pdf->Cell(45, 5, 'Usuário Inicial', 'L,B,T', 0, 'L');
+                $pdf->Cell(33, 5, 'Data Fechamento', 'L,B,T', 0, 'L');
+                $pdf->Cell(45, 5, 'Usuário Final', 'L,B,T,R', 1, 'L');
+            }
+            $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+            $iCod = $row['codsit'];
+            if ($row['dias'] < 0 && $row['sitmp'] == 'ABERTO') {
+                $pdf->SetTextColor(255, 0, 0);
+            } else {
+                $pdf->SetTextColor(0, 0, 0);
+            }
             $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(195, 5,$row['obs'], 'B,R', 1, 'L'); 
-        }
-        }
-        
-        if(!$sSimple){
-        
-        $iCont++;
-        
-        if($row['sitmp']=='ABERTO'){
-            if($row['dias']<0){
-                $aServMaqAbertAtrasados++;
+            $pdf->Cell(24, 5, $row['sitmp'], 'B,L', 0, 'L');
+            $pdf->Cell(23, 5, $row['dias'], 'B', 0, 'L');
+            $pdf->Cell(33, 5, $row['databert'], 'B', 0, 'L');
+            $pdf->Cell(45, 5, $row['userinicial'], 'B', 0, 'L');
+            $pdf->Cell(33, 5, $row['datafech'], 'B', 0, 'L');
+            $pdf->Cell(45, 5, $row['userfinal'], 'B,R', 1, 'L');
+
+            if (strlen($row['obs']) > 3) {
+                $pdf->SetTextColor(0, 0, 0);
+                $pdf->SetFont('arial', 'B', 8);
+                $pdf->Cell(8, 5, 'OBS:', 'B,L', 0, 'L');
+                $pdf->SetFont('arial', '', 8);
+                $pdf->Cell(195, 5, $row['obs'], 'B,R', 1, 'L');
             }
-            $iContAbe++;
-        }else{
-            if($row['dias']<0 && $row['sitmp']=='FINALIZADO'){
-                $aServMaqFinalAtrasados++;
+        }
+
+        if (!$sSimple) {
+
+            $iCont++;
+
+            if ($row['sitmp'] == 'ABERTO') {
+                if ($row['dias'] < 0) {
+                    $aServMaqAbertAtrasados++;
+                }
+                if ($row['databert'] == NULL && $row['datafech'] == NULL) {
+                    $aServMaqAbertNaoApontados++;
+                } else {
+                    $iContAbe++;
+                }
+            } else {
+                if ($row['dias'] < 0 && $row['sitmp'] == 'FINALIZADO') {
+                    $aServMaqFinalAtrasados++;
+                }
+                $iContFin++;
             }
-            $iContFin++;
         }
-        }
+    }
 }
-}
-if(!$sSimple){
-$pdf->SetTextColor(0,0,0);  
-$pdf = quebraPagina($pdf->GetY()+35, $pdf);
-$pdf->Ln(5);
-$pdf->SetFont('Arial', 'BIU', 12);
-$pdf->Cell(0, 5, '1 - Total de Serviços', 0, 1);
-$pdf->Ln(5);
-$valX = $pdf->GetX();
-$valY = $pdf->GetY();
-$pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Total de Serviços: '.$iCont,'', 1, 'L');
-$pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Total Serviços Abertos: '.$iContAbe,'', 1, 'L');
-$pdf->SetFont('arial', 'B', 9);
-$pdf->Cell(28, 5, 'Total Serviços Finalizados: '.$iContFin,'', 1, 'L');
+if (!$sSimple) {
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf = quebraPagina($pdf->GetY() + 35, $pdf);
+    $pdf->Ln(5);
+    $pdf->SetFont('Arial', 'BIU', 12);
+    $pdf->Cell(0, 5, '1 - Total de Serviços', 0, 1);
+    $pdf->Ln(5);
+    $valX = $pdf->GetX();
+    $valY = $pdf->GetY();
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(28, 5, 'Total de Serviços: ' . $iCont, '', 1, 'L');
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(28, 5, 'Total Serviços Abertos: ' . $iContAbe, '', 1, 'L');
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(28, 5, 'Total Serviços Finalizados: ' . $iContFin, '', 1, 'L');
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(28, 5, 'Total Serviços Não Apontados: ' . $aServMaqAbertNaoApontados, '', 1, 'L');
 //$pdf->SetFont('arial', 'B', 9);
 //$pdf->Cell(28, 5, 'Serviços Abertos Atrasados: '.$aServMaqAbertAtrasados,'', 0, 'L');
-    $aData = array('Serviços Abertos em Dia' => ($iContAbe-$aServMaqAbertAtrasados),
-                    'Serviços Abertos Atrasados' => $aServMaqAbertAtrasados,
-                    'Serviços Finalizados em Dia' => ($iContFin-$aServMaqFinalAtrasados),
-                    'Serviços Finalizados Atrasados' => $aServMaqFinalAtrasados);
+    $aData = array('Serviços Abertos em Dia' => ($iContAbe - $aServMaqAbertAtrasados),
+        'Serviços Abertos Atrasados' => $aServMaqAbertAtrasados,
+        'Serviços Finalizados em Dia' => ($iContFin - $aServMaqFinalAtrasados),
+        'Serviços Finalizados Atrasados' => ($aServMaqFinalAtrasados),
+        'Serviços Não Apontados' => $aServMaqAbertNaoApontados);
 
-$col1=array (0,255,0);
-$col2=array (255,0,0);
-$col3=array (255,255,0);
-$col4=array (0,69,255);
-if(array_sum($aData)!=0){
-$pdf->SetXY(70, $valY);
-$pdf->PieChart(135, 200, $aData, '%l : %v  (%p)', array($col1,$col2,$col3,$col4));
-$pdf->SetXY($valX, $valY + 50);
-}
+    $col1 = array(0, 255, 0);
+    $col2 = array(255, 0, 0);
+    $col3 = array(255, 255, 0);
+    $col4 = array(0, 69, 255);
+    $col5 = array(100, 69, 255);
+    if (array_sum($aData) != 0) {
+        $pdf->SetXY(70, $valY);
+        $pdf->PieChart(135, 200, $aData, '%l : %v  (%p)', array($col1, $col2, $col3, $col4, $col5));
+        $pdf->SetXY($valX, $valY + 50);
+    }
 }
 $pdf->Output('I', 'relServicoMaquinaMantPrev.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
-
 //Função que quebra página em uma dada altura do PDF
+
 function quebraPagina($i, $pdf) {
     if ($i >= 278) {    // 275 é o tamanho da página
         $pdf->AddPage();   // adiciona se ultrapassar o limite da página

@@ -74,15 +74,15 @@ class PersistenciaMET_MP_Gerenciamento extends Persistencia {
                 from   tbitensmp left outer join    
                 tbservmp on tbitensmp.codsit =   tbservmp.codsit 
                 where sitmp <> 'FINALIZADO' and
-                dias<0 and nr = '" . $iNr . "' ";
+                dias<=0 and nr = '" . $iNr . "' ";
         } else {
             $sSql = "select  count (sitmp) as numero,resp
                 from   tbitensmp left outer join    
                 tbservmp on tbitensmp.codsit =   tbservmp.codsit 
                 where sitmp <> 'FINALIZADO' and
-                dias<0 ";
+                dias<=0 ";
         }
-        if ($sCodSet == '2') {
+        if ($sCodSet == '2'||$sCodSet=='31'||$sCodSet=='7'||$sCodSet=='32'||$sCodSet=='24'||$sCodSet=='9') {
             
         } else if ($sCodSet == '12') {
             $sSql .= " and tbservmp.resp = 'ELETRICA'";
@@ -108,8 +108,8 @@ class PersistenciaMET_MP_Gerenciamento extends Persistencia {
                 left outer join    
                 tbservmp on tbitensmp.codsit = tbservmp.codsit 
                 where sitmp <> 'FINALIZADO' 
-                and dias<0";
-        if ($sCodSet == '2') {
+                and dias<=0";
+        if ($sCodSet == '2'||$sCodSet=='31'||$sCodSet=='7'||$sCodSet=='32'||$sCodSet=='24'||$sCodSet=='9') {
             
         } else if ($sCodSet == '12') {
             $sSql .= " and tbservmp.resp = 'ELETRICA'";
@@ -151,8 +151,7 @@ class PersistenciaMET_MP_Gerenciamento extends Persistencia {
             $sCodSet = $Setor;
         }
 
-//        if ($sResp == null || $sResp == '') {
-            if ($sCodSet == '2') {
+            if ($sCodSet == '2'||$sCodSet=='31'||$sCodSet=='7'||$sCodSet=='32'||$sCodSet=='24'||$sCodSet=='9') {
                 
             } else if ($sCodSet == '12') {
                 $sSql .= " and tbservmp.resp = 'ELETRICA'";

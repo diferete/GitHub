@@ -229,7 +229,7 @@ class ControllerMET_MP_Gerenciamento extends Controller {
         $iSet = $_SESSION['codsetor'];
 
         if ($_REQUEST['metodo'] != 'getDadosConsulta' && $_REQUEST['metodo'] != 'getDadosScroll' || $iSet == 5) {
-            if ($iSet != 2 && $iSet != 12 && $iSet != 29) {
+            if ($iSet != 2 && $iSet != 12 && $iSet != 29 && $iSet != 31 && $iSet != 9 && $iSet != 32 && $iSet != 24) {
                 $this->Persistencia->adicionaFiltro('Setor.codsetor', $iSet);
                 $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor($iSet) . ') ');
             } else if ($iSet == 12) {
@@ -245,8 +245,15 @@ class ControllerMET_MP_Gerenciamento extends Controller {
         }
         //Parte participante da ordenação em ordem alfabética quando usuário realiza getDadosScroll
         if ($_REQUEST['metodo'] == 'getDadosScroll') {
+            $iNr = 0;
             $aWhere = $this->Persistencia->getListaWhere();
-            $oDesMaq = $this->Persistencia->retornaMaquina($aWhere[1]['valor']);
+            foreach ($aWhere as $key){
+                if($key['campo']=='nr'){
+                    $iNr = $key['valor'];
+                    break;
+                }
+            }
+            $oDesMaq = $this->Persistencia->retornaMaquina($iNr);
             $aWhere[1]['campo'] = 'maqmp';
             $aWhere[1]['valor'] = $oDesMaq->maqmp;
             $aWhere[1]['comparacao'] = 1;
@@ -254,4 +261,25 @@ class ControllerMET_MP_Gerenciamento extends Controller {
         }
     }
 
+    /**
+     * Retira o checkbox do filtro data de fechamento
+     */
+    public function mudaFoco1() {
+        echo "$('#apdataDf').prop('checked', false);";
+    }
+
+    /**
+     * Retira o checkbox do filtro data de abertura
+     */
+    public function mudaFoco2() {
+        echo "$('#apdataDa').prop('checked', false);";
+    }
+
+    /**
+     * Muda a situação para abertos quando aplicado o filtro de dias restantes
+     */
+    public function mudaSituacao(){
+        echo "$('#sitServicos').val('ABERTOS');";
+    }
+    
 }

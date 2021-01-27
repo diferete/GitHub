@@ -1787,6 +1787,31 @@ class FPDF {
         $this->SetTextColor(0);
     }
 
+    /**
+     * 
+     * @param type $w Comprimento
+     * @param type $h Altura
+     * @param type $txt Texto
+     * @param type $border Borda
+     * @param type $ln Indica onde a posição corrente deve ficar depois que a função for chamada. 
+     * @param type $align Alinhamento do Texto
+     * @param type $fill Fundo do da celula deve ser preenchido ou não
+     * @param type $link URL
+     */
+    public function MultiAlignCell($w, $h, $text, $border = 0, $ln = 0, $align = 'L', $fill = false) {
+        // Store reset values for (x,y) positions
+        $x = $this->GetX() + $w;
+        $y = $this->GetY();
+
+        // Make a call to FPDF's MultiCell
+        $this->MultiCell($w, $h, $text, $border, $align, $fill);
+
+        // Reset the line position to the right, like in Cell
+        if ($ln == 0) {
+            $this->SetXY($x, $y);
+        }
+    }
+
 }
 
 ?>

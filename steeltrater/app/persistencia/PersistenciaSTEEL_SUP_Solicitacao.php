@@ -31,7 +31,7 @@ class PersistenciaSTEEL_SUP_Solicitacao extends Persistencia {
 
         $this->adicionaFiltro('FIL_Codigo', '8993358000174');
 
-        $this->adicionaJoin('DELX_FIL_Empresa', null, 1, 'FIL_Codigo', 'fil_codigo');
+        $this->adicionaJoin('DELX_FIL_Empresa', null, 1, 'FIL_Codigo', 'FIL_Codigo');
 
         $this->adicionaOrderBy('SUP_SolicitacaoSeq', 1);
         $this->setSTop(25);

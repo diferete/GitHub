@@ -30,6 +30,7 @@ class Campo {
     private $aItensRadio; //Array que contém opções do Radio
     private $bValorCheck; //Define se o check vai esta clicado ou não
     private $bCampoBloqueado; // define se o campo tem a propriedade disabled
+    private $bDisabled;
     private $bFocus; //define se o campo terá p foco
     private $sClasseBusca;
     private $aCampoBusca;
@@ -85,6 +86,10 @@ class Campo {
     private $bNomeArquivo;
     private $sDiretorio;
     private $bUpperCase;
+    private $sTabelaUpload;
+    private $sParamSeq;
+
+    /**/
 
     const TIPO_DATA = 0;
     const TIPO_TEXTO = 1;
@@ -112,47 +117,58 @@ class Campo {
     const TIPO_LINHA = 24;
     const TIPO_CONTROLE = 25;
     const TIPO_SELECTMULTI = 26;
-    const TIPO_TESTE = 99;
     const CAMPO_SELECT = 27;
     const CAMPO_SELECTSIMPLE = 28;
     const TIPO_DECIMAL = 29;
     const TIPO_HISTORICO = 30;
+    /**/
     const DIVISOR_SUCCESS = 31;
     const DIVISOR_VERMELHO = 32;
     const DIVISOR_INFO = 33;
     const DIVISOR_WARNING = 34;
     const DIVISOR_DARK = 35;
+    /**/
     const TIPO_TAGS = 36;
     const TIPO_SELECTTAGS = 37;
     const TIPO_BOTAOSIMPLES = 38;
     const TIPO_DECIMAL_COMPOSTO = 39;
     const TIPO_BOTAO_MOSTRACONSULTA = 41;
     const TIPO_GRIDSIMPLE = 42;
+    const TIPO_UPLOADMULTI = 43;
+    const TIPO_TESTE = 99;
+    /**/
     const TAMANHO_NORMAL = 0;
     const TAMANHO_GRANDE = 2;
     const TAMANHO_PEQUENO = 1;
+    /**/
     const EVENTO_SAIR = 'blur';
     const EVENTO_CHANGE = 'change';
     const EVENTO_FOCUS = 'focus';
     const EVENTO_KEYUP = 'keyup';
     const EVENTO_ENTER = 'enter';
     const EVENTO_CLICK = 'click';
+    /**/
     const BADGE_SUCCESS = 'label-success';
     const BADGE_WARNING = 'label-warning';
     const BADGE_DANGER = 'label-danger';
     const BADGE_PRIMARY = 'label-primary';
+    /**/
     const FUNDO_AMARELO = 'fundo_amarelo';
     const FUNDO_AZUL = 'fundo_azul';
     const FUNDO_VERDE = 'fundo_verde';
     const FUNDO_MONEY = 'fundo_money';
     const FUNDO_VERMELHO = 'fundo_vermelho';
+    /**/
     const BUTTON_WARNING = 'btn-warning';
     const BUTTON_SUCCESS = 'btn-success';
     const BUTTON_PRIMARY = 'btn-primary';
+    /**/
     const GRIDVIEW_CORACTIVE = 'active';
     const GRIDVIEW_CORSUCCESS = 'success';
     const GRIDVIEW_CORINFO = 'info';
+    /**/
     const FONT_BOLD = 'bold';
+    /**/
     const TITULO_SUCCESS = 'success';
     const TITULO_DARK = 'dark';
     const TITULO_DANGER = 'danger';
@@ -183,6 +199,7 @@ class Campo {
         $this->setBCEP(false);
         $this->setBFone(false);
         $this->setBCampoBloqueado(false);
+        $this->setBDisabled(false);
         $this->setApenasTela(false);
         $this->setBFocus(false);
         $this->setBNCM(false);
@@ -200,10 +217,12 @@ class Campo {
         $this->setSCorTituloGridPainel(Campo::TITULO_DARK);
         $this->setICasaDecimal(2);
         $this->setBNomeArquivo(false);
+        $this->setICaracter('10000');
         $this->setBUpperCase(false);
+        $this->setITamMarginTopBadge(25);
 
 
-
+        $this->sController = $_REQUEST['classe'];
         $this->aItemsSelect = array();
         $this->aItensRadio = array();
         $this->aCampoBusca = array();
@@ -243,12 +262,36 @@ class Campo {
         }
     }
 
+    function getSParamSeq() {
+        return $this->sParamSeq;
+    }
+
+    function setSParamSeq($sParamSeq) {
+        $this->sParamSeq = $sParamSeq;
+    }
+
+    function getSTabelaUpload() {
+        return $this->sTabelaUpload;
+    }
+
+    function setSTabelaUpload($sTabelaUpload) {
+        $this->sTabelaUpload = $sTabelaUpload;
+    }
+
     function getBUpperCase() {
         return $this->bUpperCase;
     }
 
     function setBUpperCase($bUpperCase) {
         $this->bUpperCase = $bUpperCase;
+    }
+
+    function getBDisabled() {
+        return $this->bDisabled;
+    }
+
+    function setBDisabled($bDisabled) {
+        $this->bDisabled = $bDisabled;
     }
 
     function getBNomeArquivo() {
@@ -864,9 +907,15 @@ class Campo {
         $this->bCampoBloqueado = $bCampoBloqueado;
     }
 
-    public function verficaCampoBloqueado($arg) {
+    public function verificaCampoBloqueado($arg) {
         if ($arg or $this->getBSeq()) {
             return 'readonly="true"';
+        }
+    }
+
+    public function verificaBtnDisabled($arg) {
+        if ($arg or $this->getBSeq()) {
+            return 'disabled';
         }
     }
 
@@ -1231,7 +1280,7 @@ class Campo {
         $oCampoFormBusca->setSValorBusca($this->getNome());
 
 
-        $oCampoFormBusca->addCampoBusca($aCampoBusca[0], $sIdCampoRetorno, $sIdTela);
+        $oCampoFormBusca->addCampoBusca($aCampoBusca[0], null, null);
         $this->setSRetornoBusca($oCampoFormBusca->getId());
         //verifica se há valor inicial que deve ser carregado
         if ($this->getSValorCampoBusca() != null) {
@@ -1467,9 +1516,9 @@ class Campo {
             case self::TIPO_DATA:
                 $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<label class="control-label" for="input-date">' . $this->getLabel() . '</label>'
-                        . '<div class="input-group date" id="' . $this->getId() . '-group" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . ' >'
-                        . '<span class="input-group-addon"' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '><i class="icon wb-calendar"></i></span>'
-                        . '<input style="font-size:12px;" type="text" id="' . $this->getId() . '"  name="' . $this->getNome() . '" class="form-control" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '<div class="input-group date" id="' . $this->getId() . '-group" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . ' >'
+                        . '<span class="input-group-addon"' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '><i class="icon wb-calendar"></i></span>'
+                        . '<input style="font-size:12px;" type="text" id="' . $this->getId() . '"  name="' . $this->getNome() . '" class="form-control" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . '<script>'
@@ -1495,7 +1544,7 @@ class Campo {
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
-                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         //.'</div>'
                         . '</div>'
@@ -1508,7 +1557,6 @@ class Campo {
                 }
                 $sCampo .= '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
                         . '</script>';
-
                 //verifica se existe campo de busca e monta renderização
                 if ($this->getClasseBusca() != null) {
                     $sCampo .= $this->getBtnBusca();
@@ -1556,7 +1604,7 @@ class Campo {
                         //  .'<label for="input-money ">'.$this->getLabel().'</label>'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '' . $this->getSTipoMoeda() . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '' . $this->getSTipoMoeda() . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . '<script>'
@@ -1569,7 +1617,7 @@ class Campo {
                         //  .'<label for="input-money ">'.$this->getLabel().'</label>'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . '<script>'
@@ -1587,7 +1635,7 @@ class Campo {
                         //  .'<label for="input-money ">'.$this->getLabel().'</label>'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . '<script>'
@@ -1601,7 +1649,7 @@ class Campo {
                         //  .'<label for="input-money ">'.$this->getLabel().'</label>'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '</span><input type="text" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . '<script>'
@@ -1614,7 +1662,7 @@ class Campo {
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
-                        . '<select name="' . $this->getNome() . '" class="form-control" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                        . '<select name="' . $this->getNome() . '" class="form-control" id="' . $this->getId() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>';
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
                 }
@@ -1639,7 +1687,7 @@ class Campo {
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
-                        . '<select name="' . $this->getNome() . '" class="form-control select2-hidden-accessible" multiple="" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                        . '<select name="' . $this->getNome() . '" class="form-control select2-hidden-accessible" multiple="" id="' . $this->getId() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>';
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
                 }
@@ -1673,7 +1721,7 @@ class Campo {
                     }
                     $sCampo .= '<label class="radio-inline">'//class="radio-custom radio-success"
                             . '<input type="radio" name="' . $this->getNome() . '"  '
-                            . 'value="' . $key . '"' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . ' ' . $sChecked . '>' . $value
+                            . 'value="' . $key . '"' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . ' ' . $sChecked . '>' . $value
                             . '</label>';
                 }
                 $sCampo .= '</div>'
@@ -1725,7 +1773,7 @@ class Campo {
                 }
                 $sCampo = '<div style="margin-top:20px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div  style="margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '-group" class="checkbox-custom checkbox-success">'//class="checkbox-custom checkbox-success"
-                        . '<input  id="' . $this->getId() . '"  name="' . $this->getNome() . '" type="checkbox" value="true" ' . $sCheck . ' ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '<input  id="' . $this->getId() . '"  name="' . $this->getNome() . '" type="checkbox" value="true" ' . $sCheck . ' ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '</div>'
                         . '</div>'
@@ -1737,7 +1785,7 @@ class Campo {
                 $xValor = str_replace("\r", "", $xValor);
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<label style="margin-top:' . $this->getIMarginTop() . 'px;" for=' . $this->getId() . '>' . $this->getLabel() . ':</label>'
-                        . '<textarea style="font-size:12px;" maxlength="' . $this->getICaracter() . '" class="form-control" id="' . $this->getId() . '" name="' . $this->getNome() . '" rows="' . $this->getILinhasTextArea() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '<textarea style="font-size:12px;" maxlength="' . $this->getICaracter() . '" class="form-control" id="' . $this->getId() . '" name="' . $this->getNome() . '" rows="' . $this->getILinhasTextArea() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . $xValor
                         . '</textarea>'
                         . '</div>'
@@ -1752,7 +1800,7 @@ class Campo {
                 $xValor = str_replace("\r", "", $xValor);
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<label style="margin-top:' . $this->getIMarginTop() . 'px;" for=' . $this->getId() . '>' . $this->getLabel() . ':</label>'
-                        . '<textarea style="font-size:12px;" maxlength="' . $this->getICaracter() . '" class="form-control" id="' . $this->getId() . '" name="' . $this->getNome() . '" rows="' . $this->getILinhasTextArea() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '<textarea style="font-size:12px;" maxlength="' . $this->getICaracter() . '" class="form-control" id="' . $this->getId() . '" name="' . $this->getNome() . '" rows="' . $this->getILinhasTextArea() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . $xValor
                         . '</textarea>'
                         . '</div>'
@@ -1764,7 +1812,7 @@ class Campo {
             case self::TIPO_EDITOR:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<label for=' . $this->getId() . '>' . $this->getLabel() . ':</label>'
-                        . '<textarea class="form-control summernote" id="' . $this->getId() . '" name="' . $this->getNome() . '"  ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '<textarea class="form-control summernote" id="' . $this->getId() . '" name="' . $this->getNome() . '"  ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . $this->getSValor()
                         . '</textarea>'
                         . '</div>'
@@ -1784,7 +1832,7 @@ class Campo {
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'//style="margin-left: 0px; padding-left:0px"
                         . '<div class="input-group" id="' . $this->getId() . '-group" >'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
-                        . '<select name="' . $this->getNome() . '" class="form-control" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                        . '<select name="' . $this->getNome() . '" class="form-control" id="' . $this->getId() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . ' ' . $this->verificaBtnDisabled($this->getBDisabled()) . '>';
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
                 }
@@ -1824,7 +1872,7 @@ class Campo {
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
                         . '<input type="password" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . '" ' // IMPORTANTE!!!! REVER ID
-                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '"  ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '"  ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . $this->getRenderEventos();
@@ -1846,14 +1894,14 @@ class Campo {
                         . '<div class="input-group" id="' . $this->getId() . '">'
                         . '<label for="input-texto">' . $this->getLabel() . ':</label>'
                         . '<input type="password" name="' . $this->getNome() . '" class="form-control" '
-                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group" id="' . $this->getId() . '">'
                         . '<label for="input-texto">Confirma ' . $this->getLabel() . ':</label>'
                         . '<input type="password" name="' . $this->getNome() . '" class="form-control" '
-                        . 'id="' . $this->getId() . '-confirma" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'id="' . $this->getId() . '-confirma" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>'
                         . $this->getRenderEventos();
@@ -1867,7 +1915,7 @@ class Campo {
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input class="form-control ' . $this->getTamanho($this->getITamanho()) . '" type="text" autocomplete="off" name="' . $this->getNome() . '" ' . $this->getTamanho($this->getITamanho()) . '" placeholder = "Pesquisar.." ' // IMPORTANTE!!!! REVER ID
-                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '<span class="block" > '
                         . '<div class="form-group"> '
@@ -1943,9 +1991,9 @@ class Campo {
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '   <label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" autocomplete="off" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
-                        . 'id="' . $this->getId() . '"  placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'id="' . $this->getId() . '"  placeholder="' . $this->getSPlaceHolder() . '" value="' . $this->getSValor() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '   <span class="input-group-btn">';
-                $this->verficaCampoBloqueado($this->getBCampoBloqueado()) == true ? $sCampo .= '     <button title="Pesquisar" disabled type="button" class="btn ' . $this->getSTipoBotao() . ' ' . $sBtnSmall . '" id="' . $this->getId() . '-btn" style="margin-top: 22px; margin-rigth:0px;padding:6px 10px 6px 10px !important;" ><i class="icon wb-search" aria-hidden="true"></i></button>' : $sCampo .= '     <button title="Pesquisar" type="button" class="btn ' . $this->getSTipoBotao() . ' ' . $sBtnSmall . '" id="' . $this->getId() . '-btn" style="margin-top: 22px; margin-rigth:0px;padding:6px 10px 6px 10px !important;" ><i class="icon wb-search" aria-hidden="true"></i></button>';
+                $this->verificaCampoBloqueado($this->getBCampoBloqueado()) == true ? $sCampo .= '     <button title="Pesquisar" disabled type="button" class="btn ' . $this->getSTipoBotao() . ' ' . $sBtnSmall . '" id="' . $this->getId() . '-btn" style="margin-top: 22px; margin-rigth:0px;padding:6px 10px 6px 10px !important;" ><i class="icon wb-search" aria-hidden="true"></i></button>' : $sCampo .= '     <button title="Pesquisar" ' . $this->verificaBtnDisabled($this->getBDisabled()) . ' type="button" class="btn ' . $this->getSTipoBotao() . ' ' . $sBtnSmall . '" id="' . $this->getId() . '-btn" style="margin-top: 22px; margin-rigth:0px;padding:6px 10px 6px 10px !important;" ><i class="icon wb-search" aria-hidden="true"></i></button>';
                 $sCampo .= '   </span>'
                         . ' </div>'
                         . ' </div>'
@@ -1959,7 +2007,6 @@ class Campo {
                             . '});'
                             . '</script>';
                 }
-
                 $sCampo .= '<script>$("#' . $this->getId() . '-btn").click(function(){'
                         . $this->getBtnBuscaPk()
                         . '});'
@@ -2139,7 +2186,7 @@ class Campo {
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="hidden" style="margin-top:' . $this->getIMarginTop() . 'px;" name="' . $this->getNome() . '" class="controle form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
-                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '</div>';
                 break;
@@ -2147,7 +2194,7 @@ class Campo {
                 $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
-                        . '<select name="' . $this->getNome() . '" class="form-control" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                        . '<select name="' . $this->getNome() . '" class="form-control" id="' . $this->getId() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>';
 
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
@@ -2173,7 +2220,7 @@ class Campo {
                 $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<select name="' . $this->getNome() . '" style="height:108px; font-size:12px;" class="form-control" multiple=""  id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                        . '<select name="' . $this->getNome() . '" style="height:108px; font-size:12px;" class="form-control" multiple=""  id="' . $this->getId() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>';
 
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
@@ -2194,7 +2241,7 @@ class Campo {
                 $sCampo = '<div style="" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<select name="' . $this->getNome() . '" class="form-control input-sm" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                        . '<select name="' . $this->getNome() . '" class="form-control input-sm" id="' . $this->getId() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>';
 
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
@@ -2216,7 +2263,7 @@ class Campo {
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '"  id="' . $this->getId() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
-                        . 'placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . 'placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         . '<script>'
                         . '$("#' . $this->getId() . '").tagsInput();'
@@ -2238,6 +2285,37 @@ class Campo {
                         . ' $("#' . $this->getSIdTela() . '").hide();requestAjax("' . $this->getSIdTela() . '-form","' . $this->getClasseBusca() . '","mostraConsulta",""+abaSelecionada+",' . $this->getSIdTela() . ',' . $this->getSCampoRetorno() . ',' . $this->getId() . ',false");'
                         . '}); '
                         . '</script>';
+                break;
+            case self::TIPO_UPLOADMULTI:
+                /*
+                 * Documentação: http://plugins.krajee.com/file-input
+                 */
+                if ($this->getSValor() == '' || $this->getSValor() == null) {
+                    $sCampo = '$("#' . $this->getId() . '").fileinput("clear"); ';
+                }
+                $sCampo = '<div id="' . $this->getId() . '-group" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
+                        . '<div class="input-group dropzone" id="' . $this->getId() . '">'
+                        . '<input style="display:none" name="file" type="file" multiple />'
+                        . '</div>'
+                        . '<script>'
+                        . 'var sParam = "' . $this->getSParamSeq() . '";'
+                        . 'var aParam = [];'
+                        . 'aParam = sParam.split(",");'
+                        . 'var seq = $("#" + aParam[0] + "").val();'
+                        . 'var cnpj = aParam[1];'
+                        . '$("div#' . $this->getId() . '").dropzone({'
+                        . 'url: "index.php?classe=UploadMulti&metodo=Upload&parametros=' . $this->getSDiretorio() . ',uploads' . $this->getSTabelaUpload() . '" + "," + seq + "," + cnpj,' // url do arquivo php, que fara a cópia para o server
+                        . 'thumbnailWidth: "70",'
+                        . 'thumbnailHeight: "70",'
+                        . 'thumbnailMethod: "contain",'
+                        . 'addRemoveLinks: true,'
+                        . 'dictDefaultMessage: "Clique aqui ou arraste os arquivos",'
+                        . 'dictRemoveFile: "Remover",'
+                        . 'dictCancelUpload: "Cancelar"'
+                        . '});'
+                        . '</script>'
+                        . '</div>';
                 break;
         }
         return $sCampo;

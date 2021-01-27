@@ -255,31 +255,40 @@ class Util {
     }
 
     /**
-     * Valida campos com valor tipo DATE ou DATETIME
-     * 
-     * @param string $sData Recebe string data para converter
-     * */
-    public static function validaDateTime($sData) {
-        if (strtotime($sData)) {
-            $aData = explode(" ", $sData);
-            $sDataConvertida = Util::converteData($aData[0]);
+     * testa se o formato é data
+     */
+    public static function ValidaData($sData, $sParam) {
 
-            $data = explode("/", $sDataConvertida); // fatia a string $dat em pedados, usando / como referência
-            $d = $data[0];
-            $m = $data[1];
-            $y = $data[2];
+        switch ($sParam) {
+            //TIPO DATA
+            case 0:
+                $sData = Util::converteData($sData);
+                $aData = explode('/', $aData[0]);
+                // verifica se a data é válida!
+                // 1 = true (válida)
+                // 0 = false (inválida)
+                $res = checkdate($aData[1], $aData[0], $aData[2]);
+                if ($res == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
 
-            // verifica se a data é válida!
-            // 1 = true (válida)
-            // 0 = false (inválida)
-            $res = checkdate($m, $d, $y);
-            if ($res == 1) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
+            //TIPO TEXTO
+            case 1:
+                $sData = Util::converteData($sData);
+                $aData = explode(' ', $sData);
+                $aData = explode('/', $aData[0]);
+                // verifica se a data é válida!
+                // 1 = true (válida)
+                // 0 = false (inválida)
+                $res = checkdate($aData[1], $aData[0], $aData[2]);
+                if ($res == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            //TIPO TEXTO_DATETIME
         }
     }
 
@@ -291,34 +300,16 @@ class Util {
 
     public static function converteData($sData) {
         $aData = explode(" ", $sData);
+        $aHora = explode('.', $aData[1]);
         $data = explode('-', $aData[0]);
         $d = $data[2];
         $m = $data[1];
         $a = $data[0];
 
         $sDataConvertida = $d . "/" . $m . "/" . $a;
+        $sData = rtrim($sDataConvertida . ' ' . $aHora[0]);
 
-        return $sDataConvertida;
-    }
-
-    /**
-     * testa se o formato é data
-     */
-    public function ValidaData($dat) {
-        $data = explode("/", "$dat"); // fatia a string $dat em pedados, usando / como referência
-        $d = $data[0];
-        $m = $data[1];
-        $y = $data[2];
-
-        // verifica se a data é válida!
-        // 1 = true (válida)
-        // 0 = false (inválida)
-        $res = checkdate($m, $d, $y);
-        if ($res == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return $sData;
     }
 
     /**

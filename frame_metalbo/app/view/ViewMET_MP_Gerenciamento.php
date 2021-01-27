@@ -27,11 +27,11 @@ class ViewMET_MP_Gerenciamento extends View {
         $this->getTela()->setBUsaCarrGrid(true);
 
         $iSet = $_SESSION['codsetor'];
-
-        if ($iSet == 2) {
+        
+        if($iSet== 2){
             $this->setUsaAcaoIncluir(true);
             $this->setUsaAcaoExcluir(false);
-        } else {
+        }else{
             $this->setUsaAcaoIncluir(false);
             $this->setUsaAcaoExcluir(false);
         }
@@ -56,9 +56,9 @@ class ViewMET_MP_Gerenciamento extends View {
 
         $oCategoria = new CampoConsulta('Categoria', 'MET_MP_Maquinas.maqtip');
 
-        $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
-        $oFilCodMaq = new Filtro($oCodmaq, Filtro::CAMPO_BUSCADOBANCOPK, 1, 1, 12, 12, false);
+        $oFilCodMaq = new Filtro($oCodmaq, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilCodMaq->setSClasseBusca('MET_MP_Maquinas');
         $oFilCodMaq->setSCampoRetorno('cod', $this->getTela()->getSId());
         $oFilCodMaq->setSIdTela($this->getTela()->getSId());
@@ -96,12 +96,12 @@ class ViewMET_MP_Gerenciamento extends View {
         }
         $oFiltroSetor->setSLabel('');
 
-        if ($iSet != 2 && $iSet != 12 && $iSet != 29) {
+        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29 && $iSet!= 31 && $iSet!= 9 && $iSet!= 32 && $iSet!= 24){
             $oFiltroSetor->setSValor($iSet);
         }
 
         $oFiltroDesMaq = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, TRUE);
-
+        
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'TODOS', 'MET_MP_Gerenciamento', 'acaoMostraRelEspecifico', 'TODOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
@@ -115,6 +115,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $this->addDropdown($oDrop1);
         $this->addFiltro($oFiltroNr, $oFilCodMaq, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor, $oFiltroSituacao, $oFiltroDesMaq);
         $this->addCampos($oNr, $oCodmaq, $oDesMaq, $oSeq, $oCategoria, $oSetor, $oSetDes, $oSitmp);
+        
     }
 
     public function criaTela() {
@@ -223,6 +224,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $oSitmp->addItemSelect('ABERTOS', 'ABERTOS');
         $oSitmp->addItemSelect('FINALIZADOS', 'FINALIZADOS');
         $oSitmp->addValidacao(true, Validacao::TIPO_STRING);
+        $oSitmp->setId('sitServicos');
 
         //Filtro de células
         $oFiltroSeq = new Campo('Célula', 'MET_MP_Maquinas.seq', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
@@ -259,42 +261,63 @@ class ViewMET_MP_Gerenciamento extends View {
         }
         $oCategoriaFiltro->addValidacao(true, Validacao::TIPO_STRING);
 
-        $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
-        $oDatainicial->setSValor(Util::getPrimeiroDiaMes());
-        $oDatainicial->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
-        $oDatafinal = new Campo('Data Final', 'datafinal', Campo::TIPO_DATA, 2, 2, 12, 12);
-        $oDatafinal->setSValor(Util::getDataAtual());
-        $oDatafinal->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
+        $oDatainicial1 = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDatainicial1->setSValor(Util::getPrimeiroDiaMes());
+        $oDatainicial1->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
+        $oDatafinal1 = new Campo('Data Final', 'datafinal', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oDatafinal1->setSValor(Util::getDataAtual());
+        $oDatafinal1->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
 
-        $oAplicaFiltro = new Campo('Aplica Data', 'apdata', Campo::TIPO_CHECK, 2, 2, 12, 12);
-
-        $oSimplifica = new Campo('Resumido', 'simple', Campo::TIPO_CHECK, 1, 1, 1, 1);
+        $sCallBack1 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","mudaFoco1","");';
+        $sCallBack2 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","mudaFoco2","");';
+        
+        $oAplicaFiltroDA = new Campo('Filtro Data Abertura', 'apdataDa', Campo::TIPO_CHECK,3,3,12,12);
+        $oAplicaFiltroDA->setId('apdataDa');
+        $oAplicaFiltroDA->addEvento(Campo::EVENTO_CLICK, $sCallBack1);
+        
+        $oAplicaFiltroDF = new Campo('Filtro Data Fechamento', 'apdataDf', Campo::TIPO_CHECK,3,3,12,12);
+        $oAplicaFiltroDF->setId('apdataDf');
+        $oAplicaFiltroDF->addEvento(Campo::EVENTO_CLICK, $sCallBack2);
+        
+        $oSimplifica = new Campo('Consultar serviços cadastrados na(s) máquina(s)', 'simple', Campo::TIPO_CHECK,12,12,12,12);
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
+        $oLinha2 = new campo('', 'linha2', Campo::TIPO_LINHA, 12, 12, 12, 12);
+        $oLinha2->setApenasTela(true);
+        
+        $sCallBack3 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","mudaSituacao","");';
 
-        $oDiasRest = new Campo('Dias Restantes', 'dias', Campo::TIPO_SELECT, 2, 2, 12, 12);
+        $oDiasRest = new Campo('Dias Restantes', 'dias', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oDiasRest->addItemSelect('----', 'TODOS');
-        $oDiasRest->addItemSelect('0', '0 dias');
-        $oDiasRest->addItemSelect('1', '1 dias');
-        $oDiasRest->addItemSelect('3', '3 dias');
-        $oDiasRest->addItemSelect('5', '5 dias');
-        $oDiasRest->addItemSelect('7', '7 dias');
-        $oDiasRest->addItemSelect('15', '15 dias');
-        $oDiasRest->addItemSelect('30', '30 dias');
-        $oDiasRest->addItemSelect('60', '60 dias');
-        $oDiasRest->addItemSelect('90', '90 dias');
-        $oDiasRest->addItemSelect('120', '120 dias');
-        $oDiasRest->addItemSelect('166', '166 dias');
-        $oDiasRest->addItemSelect('180', '180 dias');
-        $oDiasRest->addItemSelect('365', '365 dias');
+        $oDiasRest->addItemSelect('0', '0 DIAS');
+        $oDiasRest->addItemSelect('1', '1 DIAS');
+        $oDiasRest->addItemSelect('3', '3 DIAS');
+        $oDiasRest->addItemSelect('5', '5 DIAS');
+        $oDiasRest->addItemSelect('7', '7 DIAS');
+        $oDiasRest->addItemSelect('15', '15 DIAS');
+        $oDiasRest->addItemSelect('30', '30 DIAS');
+        $oDiasRest->addItemSelect('60', '60 DIAS');
+        $oDiasRest->addItemSelect('90', '90 DIAS');
+        $oDiasRest->addItemSelect('120', '120 DIAS');
+        $oDiasRest->addItemSelect('166', '166 DIAS');
+        $oDiasRest->addItemSelect('180', '180 DIAS');
+        $oDiasRest->addItemSelect('365', '365 DIAS');
+        $oDiasRest->addEvento(Campo::EVENTO_CLICK, $sCallBack3);
+        
+        $oTipoOrdeBy = new Campo('Tipo de Ordenação', 'tipo', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oTipoOrdeBy->addItemSelect('MAQDES', 'DESCRIÇÃO MÁQUINA');
+        $oTipoOrdeBy->addItemSelect('MAQ', 'CÓD. MÁQUINA');
+        $oTipoOrdeBy->addItemSelect('SETOR', 'CÓD. SETOR');
+        $oTipoOrdeBy->addItemSelect('DESSETOR', 'DESCRIÇÃO SETOR');
+        $oTipoOrdeBy->addItemSelect('NR', 'NR');
 
         //adiciona os evento ao sair do campo codmaq
         $sEventoOp = 'var CodMaq =  $("#' . $oCodmaq->getId() . '").val();if(CodMaq !==""){requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","consultaDadosMaquina",'
                 . '"' . $oFiltroSeq->getId() . ',' . $oCategoriaFiltro->getId() . ',' . $oFiltroSetor->getId() . '");}';
         $oCodmaq->addEvento(Campo::EVENTO_SAIR, $sEventoOp);
 
-        $this->addCampos(array($oCodmaq, $oMaq_des), $oLinha1, array($oFiltroSeq, $oRespFiltro, $oSitmp), $oLinha1, array($oCategoriaFiltro, $oFiltroSetor), $oLinha1, array($oAplicaFiltro, $oDatainicial, $oDatafinal), $oLinha1, $oDiasRest, $oSimplifica);
+        $this->addCampos(array($oCodmaq, $oMaq_des), $oLinha1, array($oFiltroSeq, $oRespFiltro, $oSitmp), $oLinha1, array($oCategoriaFiltro, $oFiltroSetor, $oTipoOrdeBy), $oLinha1, $oLinha2, array($oDatainicial1, $oDatafinal1), $oAplicaFiltroDA, $oAplicaFiltroDF, $oLinha2, $oLinha1, $oDiasRest,$oSimplifica);
     }
 
 }

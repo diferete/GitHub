@@ -108,8 +108,8 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oQuantItem = new Campo('Quantidade', 'SUP_SolicitacaoItemComQtd', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oQuantItem->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQuantItem->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', '1');
-        
-        $oLinha = new campo('','linha', Campo::TIPO_LINHA);
+
+        $oLinha = new campo('', 'linha', Campo::TIPO_LINHA);
         $oLinha->setApenasTela(true);
 
         $oPrioridade = new Campo('Prioridade', 'SUP_PrioridadeCodigo', Campo::TIPO_SELECT, 1, 1, 12, 12);
@@ -167,15 +167,13 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
 
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        
+
         if ($sAcaoRotina == 'acaoVisualizar') {
-            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem),$oLinha, array($oPrioridade, $oDataNecessidade, $oDataEntrega),$oLinha, array($oTipoDespesa, $oDespDesc),$oLinha, array($oUsuSol, $oUsuComprador), $oObsItem,  $oSitItem);
+            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), $oLinha, array($oPrioridade, $oDataNecessidade, $oDataEntrega), $oLinha, array($oTipoDespesa, $oDespDesc), $oLinha, array($oUsuSol, $oUsuComprador), $oObsItem, $oSitItem);
         } else {
-            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem),$oLinha, array($oPrioridade, $oDataNecessidade, $oDataEntrega),$oLinha, array($oTipoDespesa, $oDespDesc),$oLinha, array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
+            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), $oLinha, array($oPrioridade, $oDataNecessidade, $oDataEntrega), $oLinha, array($oTipoDespesa, $oDespDesc), $oLinha, array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
         }
-
-
-        $this->addCamposFiltroIni($oSeqSol);
+        $this->addCamposFiltroIni($oFilCodigo, $oSeqSol);
     }
 
 }
