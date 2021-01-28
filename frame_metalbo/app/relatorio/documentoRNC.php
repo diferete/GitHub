@@ -195,11 +195,11 @@ $pdf->Cell(62, 5, $row['turno02'], 'B,T,R', 1, 'L', 1);
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(40, 5, 'DATA:', 'B,T,L', 0, 'L', 1);
 $pdf->SetFont('Arial', '', 8);
-$pdf->Cell(62, 5, Util::converteData($row['databert']), 'B,T,R', 0, 'L', 1);
+$pdf->Cell(62, 5, converteData($row['databert']), 'B,T,R', 0, 'L', 1);
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(40, 5, 'DATA:', 'B,T,L', 0, 'L', 1);
 $pdf->SetFont('Arial', '', 8);
-$pdf->Cell(62, 5, Util::converteData($row['databert']), 'B,T,R', 1, 'L', 1);
+$pdf->Cell(62, 5, converteData($row['databert']), 'B,T,R', 1, 'L', 1);
 
 $pdf->Ln(3);
 
@@ -312,4 +312,16 @@ function quebraPagina($i, $pdf) {
         $pdf->SetY(10);
     }
     return $pdf;
+}
+
+function converteData($sData) {
+    $data = explode('-', $sData);
+    $d = $data[2];
+    $m = $data[1];
+    $a = $data[0];
+
+    $sDataConvertida = $d . "/" . $m . "/" . $a;
+    $sData = rtrim($sDataConvertida);
+
+    return $sData;
 }
