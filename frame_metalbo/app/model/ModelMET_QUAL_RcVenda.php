@@ -58,7 +58,44 @@ class ModelMET_QUAL_RcVenda {
     private $procedencia;
     private $nfdevolucao;
     private $sollibdevolucao;
+    private $datalibvendas;
+    private $horalibvendas;
+    private $datalibanalise;
+    private $horalibanalise;
+    
+    function getDatalibvendas() {
+        return $this->datalibvendas;
+    }
 
+    function getHoralibvendas() {
+        return $this->horalibvendas;
+    }
+
+    function getDatalibanalise() {
+        return $this->datalibanalise;
+    }
+
+    function getHoralibanalise() {
+        return $this->horalibanalise;
+    }
+
+    function setDatalibvendas($datalibvendas) {
+        $this->datalibvendas = $datalibvendas;
+    }
+
+    function setHoralibvendas($horalibvendas) {
+        $this->horalibvendas = $horalibvendas;
+    }
+
+    function setDatalibanalise($datalibanalise) {
+        $this->datalibanalise = $datalibanalise;
+    }
+
+    function setHoralibanalise($horalibanalise) {
+        $this->horalibanalise = $horalibanalise;
+    }
+
+           
     function getSollibdevolucao() {
         return $this->sollibdevolucao;
     }

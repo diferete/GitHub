@@ -90,7 +90,7 @@ $sql = "select empcod,empdes,convert(varchar,empdtcad,103) as empdtcad "
         . "from widl.emp01 "
         . "where repcod in (" . $_REQUEST['rep'] . ") "
         . "and empdtcad between ('" . $dataIni . "') and ('" . $dataFim . "') "
-        . "order by empdtcad asc";
+        . "order by YEAR(empdtcad),MONTH(empdtcad),DAY(empdtcad)";
 $sth = $PDO->query($sql);
 $contador = 0;
 
@@ -113,6 +113,30 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 
     $pdf->Cell(205, 6, '', 'T', 1, 'C');
     $contador++;
+}
+
+$sSqlAnos = "select DISTINCT (YEAR(empdtcad)) as ano "
+        . "from widl.emp01 "
+        . "where repcod in ('285') "
+        . "and empdtcad between ('" . $dataIni . "') and ('" . $dataFim . "')";
+$sth2 = $PDO->query($sSqlAnos);
+
+$pdf->Ln(10);
+$pdf->SetFont('arial', 'B', 12);
+$pdf->Cell(10, 5, 'Totais por ano', 0, 1, 'L');
+$pdf->Ln(5);
+
+while ($row2 = $sth2->fetch(PDO::FETCH_ASSOC)) {
+
+    $sSqlQnt = "select count(*) as total from widl.emp01  where repcod in ('285') and year(empdtcad) = '" . $row2['ano'] . "'";
+    $sth3 = $PDO->query($sSqlQnt);
+
+    $row3 = $sth3->fetch(PDO::FETCH_ASSOC);
+
+    $pdf->SetFont('arial', 'B', 9);
+    $pdf->Cell(18, 5, 'Ano ' . $row2['ano'] . ':', 0, 0, 'L');
+    $pdf->SetFont('arial', '', 9);
+    $pdf->Cell(31, 5, $row3['total'], 0, 1);
 }
 
 $pdf->SetTextColor(0, 0, 0);

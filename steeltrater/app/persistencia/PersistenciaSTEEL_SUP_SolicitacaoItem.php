@@ -58,8 +58,10 @@ class PersistenciaSTEEL_SUP_SolicitacaoItem extends Persistencia {
         $this->adicionaRelacionamento('SUP_SolicitacaoItemDataEntrega', 'SUP_SolicitacaoItemDataEntrega');
         $this->adicionaRelacionamento('SUP_SolicitacaoItemPosicao', 'SUP_SolicitacaoItemPosicao');
 
-        $this->adicionaOrderBy('SUP_SolicitacaoItemSeq', 1);
 
+        $this->adicionaFiltro('FIL_Codigo', '8993358000174');
+
+        $this->adicionaOrderBy('SUP_SolicitacaoItemSeq', 1);
         $this->setSTop(50);
     }
 

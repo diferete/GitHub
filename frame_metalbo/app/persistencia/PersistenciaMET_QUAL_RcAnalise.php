@@ -87,6 +87,11 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
 
         $this->adicionaRelacionamento('procedencia', 'procedencia');
 
+        $this->adicionaRelacionamento('datalibvendas', 'datalibvendas');
+        $this->adicionaRelacionamento('horalibvendas', 'horalibvendas');
+        $this->adicionaRelacionamento('datalibanalise', 'datalibanalise');
+        $this->adicionaRelacionamento('horalibanalise', 'horalibanalise');
+
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
@@ -204,6 +209,8 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
      */
     public function apontaRC($aDados) {
 
+        $data = date('d/m/Y');
+        $hora = date('H:i:s');
         $aDados['apontamento'] = $this->preparaString($aDados['apontamento']);
         if ($aDados['anexo_analise'] == '') {
             $aDados['anexo_analise'] = null;
@@ -215,7 +222,9 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
                 . " apontamento = '" . $aDados['apontamento'] . "',"
                 . " anexo_analise = '" . $aDados['anexo_analise'] . "',"
                 . " anexo_analise1 = '" . $aDados['anexo_analise1'] . "',"
-                . " procedencia = '" . $aDados['procedencia'] . "',";
+                . " procedencia = '" . $aDados['procedencia'] . "',"
+                . " datalibanalise = '" . $data . "',"
+                . " horalibanalise = '" . $hora . "',";
         if ($aDados['numcad'] != '') {
             $sSql = $sSql . " numcad = '" . $aDados['numcad'] . "',";
         }
@@ -264,6 +273,8 @@ class PersistenciaMET_QUAL_RcAnalise extends Persistencia {
         $sSql = "update tbrncqual"
                 . " set obs_analiseret = '" . $aDados['obs_analiseret'] . "',"
                 . " situaca = 'Liberado',"
+                . " datalibanalise = '',"
+                . " horalibanalise = '',"
                 . " reclamacao = 'Aguardando' "
                 . " where filcgc ='" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
 

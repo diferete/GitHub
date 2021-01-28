@@ -287,8 +287,19 @@ class Util {
                     return true;
                 } else {
                     return false;
+                } //TIPO CONSULTA BETWEEN
+            case 2:
+                $aData = explode(' ', $sData);
+                $aData = explode('/', $aData[0]);
+                // verifica se a data é válida!
+                // 1 = true (válida)
+                // 0 = false (inválida)
+                $res = checkdate($aData[1], $aData[0], $aData[2]);
+                if ($res == 1) {
+                    return true;
+                } else {
+                    return false;
                 }
-            //TIPO TEXTO_DATETIME
         }
     }
 

@@ -163,7 +163,7 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oBotConf->setIMarginTop(6);
 
         $sGrid = $this->getOGridDetalhe()->getSId();
-        $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeqSolItem->getId() . ',' . $sGrid . '","' . $oSeqSol->getSValor() . ',' . $oSeqSolItem->getSValor() . '");';
+        $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeqSolItem->getId() . ',' . $sGrid . '","' . $aDados[0] . ',' . $oSeqSol->getSValor() . ',' . $oSeqSolItem->getSValor() . '");';
 
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
@@ -173,7 +173,7 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         } else {
             $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), $oLinha, array($oPrioridade, $oDataNecessidade, $oDataEntrega), $oLinha, array($oTipoDespesa, $oDespDesc), $oLinha, array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
         }
-        $this->addCamposFiltroIni($oFilCodigo, $oSeqSol);
+        $this->addCamposFiltroIni($oSeqSol);
     }
 
 }

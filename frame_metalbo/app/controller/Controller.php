@@ -378,7 +378,7 @@ class Controller {
             /* if (Util::ValidaData($xValorCampo)) {
               $xValorCampo = Util::dataMysql($xValorCampo);
               } */
-          
+
 
             //analisa o tipo de campo para tratamentos especiais
             foreach ($aCamposTela as $oCampoTela) {
@@ -1979,7 +1979,7 @@ class Controller {
                             $xValorCampo = '';
                         };
                     } else {
-                    //$xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
+                        //$xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
                         $xValorCampo = $this->getValorModel($oAtual, $sNomeCampo);
                         $xValorCampo = rtrim($xValorCampo);
                     }
@@ -3993,7 +3993,7 @@ class Controller {
         if ($oCampo->getITipo() == 0) {
             if ($xValor !== '') {
                 //valida tipo de data 
-                if (Util::validaDateTime($xValor)) {
+                if (Util::ValidaData($xValor, $oCampo->getITipo())) {
                     //altera valor de / para tipo dataSql
                     $xValorCampo = Util::dataMysql($xValor);
                     //setValor no campo data
@@ -4009,7 +4009,7 @@ class Controller {
         } else {
             if ($oCampo->getITipo() == 1) {
                 if ($xValor !== '') {
-                    if (Util::validaDateTime($xValor)) {
+                    if (Util::ValidaData($xValor, $oCampo->getITipo())) {
                         //altera valor de / para tipo dataSql
                         $xValorCampo = Util::converteData($xValor);
                         //setValor no campo data

@@ -44,8 +44,6 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $oObsEntregaSol = new CampoConsulta('ObsEntrega', 'SUP_SolicitacaoObsEntrega');
 
-        $oFilFilCod = new Filtro($oFilCod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-
         $oFilData = new Filtro($oDataHoraSol, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
 
         $oFilUsuSol = new Filtro($oUsuSol, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
@@ -59,7 +57,7 @@ class ViewSTEEL_SUP_Solicitacao extends View {
         $oFilSitSol->addItemSelect('E', 'ENCERRADO');
         $oFilSitSol->addItemSelect('R', 'REPROVADO');
 
-        $this->addFiltro($oFilFilCod, $oFilData, $oFilUsuSol, $oFilSitSol);
+        $this->addFiltro($oFilData, $oFilUsuSol, $oFilSitSol);
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);

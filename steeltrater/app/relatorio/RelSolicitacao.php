@@ -89,7 +89,8 @@ $dadosItens = $PDO->query($sSqlItens);
 while ($rowIten = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
 
     $sDescricao = $rowIten['SUP_SolicitacaoItemDescricao'] . ' ' . $rowIten['PRO_DescricaoTecnica'];
-
+    $sDescricao = str_replace(array("\n")," ",$sDescricao);
+    
     $total_string_width = $pdf->GetStringWidth($sDescricao);
     $column_width = 70;
     $number_of_lines = $total_string_width / ($column_width - 1);

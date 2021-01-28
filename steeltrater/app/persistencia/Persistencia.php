@@ -987,7 +987,11 @@ class Persistencia {
                 //tratamento especial para alguns tipos de comparação
                 switch ($aAtual['comparacao']) {
                     case self::ENTRE: //between
-                        $sValor = "'" . $aAtual['valor'] . "' AND '" . $aAtual['valorFim'] . "'";
+                        if(Util::ValidaData($aAtual['valor'], 2)) {
+                            $sValor = "'" . $aAtual['valor'] . " 00:00:00.000' AND '" . $aAtual['valorFim'] . " 23:59:59.999'";
+                        } else {
+                            $sValor = "'" . $aAtual['valor'] . "' AND '" . $aAtual['valorFim'] . "'";
+                        }
                         $sTabela = $this->isConsultaPorSql() ? $aAtual['campo'] : $sTabelaCampo . "." . $aAtual['campo'];
                         break;
                     case self::CONTEM: //like
@@ -1869,7 +1873,7 @@ class Persistencia {
           $fp = fopen("bloco1.txt", "w");
           fwrite($fp, $sSql);
           fclose($fp);
-         
+
 
         $result = $this->getObjetoSql($sSql);
 

@@ -135,7 +135,6 @@ class Campo {
     const TIPO_BOTAO_MOSTRACONSULTA = 41;
     const TIPO_GRIDSIMPLE = 42;
     const TIPO_UPLOADMULTI = 43;
-    const TIPO_TEXTO_DATETIME = 44;
     const TIPO_TESTE = 99;
     /**/
     const TAMANHO_NORMAL = 0;
@@ -2317,23 +2316,6 @@ class Campo {
                         . '});'
                         . '</script>'
                         . '</div>';
-                break;
-            case self::TIPO_TEXTO_DATETIME:
-                $sCampo = //'<div class="form-group">'
-                        '<div id="' . $this->getId() . '-campo"  style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
-                        . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<input type="text" style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
-                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
-                        . '</div>'
-                        //.'</div>'
-                        . '</div>'
-                        . $this->getRenderEventos()
-                        . '<script>';
-
-                $sCampo .= '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
-                        . '$("#' . $this->getId() . '").mask("99/99/9999 99:99:99");'
-                        . '</script>';
                 break;
         }
         return $sCampo;

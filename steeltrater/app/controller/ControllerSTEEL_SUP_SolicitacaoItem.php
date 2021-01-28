@@ -37,13 +37,15 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
             $this->Persistencia->adicionaFiltro('SUP_SolicitacaoSeq', $aParam[1]);
             $this->Persistencia->setChaveIncremento(false);
         } else {
-            $this->Persistencia->adicionaFiltro('SUP_SolicitacaoSeq', $aParam1[0]);
+            $this->Persistencia->adicionaFiltro('FIL_Codigo', $aParam1[0]);
+            $this->Persistencia->adicionaFiltro('SUP_SolicitacaoSeq', $aParam1[1]);
             $this->Persistencia->setChaveIncremento(false);
         }
     }
 
     public function adicionaFiltroDet() {
         parent::adicionaFiltroDet();
+        $this->Persistencia->adicionaFiltro('SUP_SolicitacaoItemSeq', $this->Model->getFIL_Codigo());
         $this->Persistencia->adicionaFiltro('SUP_SolicitacaoItemSeq', $this->Model->getSUP_SolicitacaoItemSeq());
     }
 

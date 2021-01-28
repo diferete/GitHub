@@ -17,7 +17,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $this->getTela()->setBMostraFiltro(true);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setiLarguraGrid(2200);
+        $this->getTela()->setiLarguraGrid(2800);
 
         $this->getTela()->setIAltura(550);
 
@@ -44,6 +44,11 @@ class ViewMET_QUAL_RcVenda extends View {
         $oAnexo2 = new CampoConsulta('Anexo 2', 'anexo2', CampoConsulta::TIPO_DOWNLOAD);
 
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
+
+        $oDataLibVendas = new CampoConsulta('Dt. lib. vendas', 'datalibvendas', CampoConsulta::TIPO_DATA);
+        $oHoraLibVendas = new CampoConsulta('Hr. lib. vendas', 'horalibvendas', CampoConsulta::TIPO_TIME);
+        $oDataLibAnalise = new CampoConsulta('Dt. lib. análise', 'datalibanalise', CampoConsulta::TIPO_DATA);
+        $oHoraLibAnalise = new CampoConsulta('Hr. lib. análise', 'horalibanalise', CampoConsulta::TIPO_TIME);
 
         ////////////////////////////////////////////// COLUNAS DE SITUAÇÃO /////////////////////////////////////////////////////////////////////////////
 
@@ -107,9 +112,9 @@ class ViewMET_QUAL_RcVenda extends View {
         $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
         if ($_SESSION['codUser'] == 46) {
-            $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+            $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
         } else {
-            $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+            $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
         }
 
 

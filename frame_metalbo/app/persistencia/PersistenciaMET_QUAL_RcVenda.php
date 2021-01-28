@@ -78,6 +78,11 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
 
         $this->adicionaRelacionamento('sollibdevolucao', 'sollibdevolucao');
 
+        $this->adicionaRelacionamento('datalibvendas', 'datalibvendas');
+        $this->adicionaRelacionamento('horalibvendas', 'horalibvendas');
+        $this->adicionaRelacionamento('datalibanalise', 'datalibanalise');
+        $this->adicionaRelacionamento('horalibanalise', 'horalibanalise');
+
         $this->adicionaJoin('Pessoa');
 
         $this->adicionaOrderBy('nr', 1);
@@ -150,10 +155,14 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
     }
 
     public function updateSitRC($aCamposChave, $sParam) {
+        $data = date('d/m/Y');
+        $hora = date('H:i:s');
         if ($sParam == 'Env.Qual') {
             $sSql = "update tbrncqual"
                     . " set situaca = 'Env.Qual',"
                     . " reclamacao = 'Em análise',"
+                    . " datalibvendas = '" . $data . "',"
+                    . " horalibvendas = '" . $hora . "',"
                     . " tagsetor = '25'"
                     . " where filcgc = '" . $aCamposChave['filcgc'] . "' and nr = '" . $aCamposChave['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
@@ -163,6 +172,8 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
             $sSql = "update tbrncqual"
                     . " set situaca = 'Env.Emb',"
                     . " reclamacao = 'Em análise',"
+                    . " datalibvendas = '" . $data . "',"
+                    . " horalibvendas = '" . $hora . "',"
                     . " tagsetor = '5'"
                     . " where filcgc = '" . $aCamposChave['filcgc'] . "' and nr = '" . $aCamposChave['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
@@ -172,6 +183,8 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
             $sSql = "update tbrncqual"
                     . " set situaca = 'Env.Exp',"
                     . " reclamacao = 'Em análise',"
+                    . " datalibvendas = '" . $data . "',"
+                    . " horalibvendas = '" . $hora . "',"
                     . " tagsetor = '3'"
                     . " where filcgc = '" . $aCamposChave['filcgc'] . "' and nr = '" . $aCamposChave['nr'] . "'";
             $aRetorno = $this->executaSql($sSql);
@@ -282,7 +295,9 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
 
     public function retornaRep($aDados) {
         $sSql = "update tbrncqual "
-                . "set situaca = 'Aguardando' "
+                . "set situaca = 'Aguardando', "
+                . " datalibvendas = '',"
+                . " horalibvendas = ''"
                 . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
         $aRetorna = $this->executaSql($sSql);
         return $aRetorna;

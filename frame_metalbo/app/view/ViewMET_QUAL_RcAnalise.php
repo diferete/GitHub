@@ -16,7 +16,9 @@ class ViewMET_QUAL_RcAnalise extends View {
         $this->setBScrollInf(false);
         $this->getTela()->setBMostraFiltro(true);
         $this->getTela()->setBUsaCarrGrid(true);
-        
+        $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setiLarguraGrid(2800);
+
         $this->getTela()->setIAltura(550);
 
         $oNr = new CampoConsulta('Nr', 'nr', CampoConsulta::TIPO_LARGURA);
@@ -37,6 +39,10 @@ class ViewMET_QUAL_RcAnalise extends View {
 
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
 
+        $oDataLibVendas = new CampoConsulta('Dt. lib. vendas', 'datalibvendas', CampoConsulta::TIPO_DATA);
+        $oHoraLibVendas = new CampoConsulta('Hr. lib. vendas', 'horalibvendas', CampoConsulta::TIPO_TIME);
+        $oDataLibAnalise = new CampoConsulta('Dt. lib. análise', 'datalibanalise', CampoConsulta::TIPO_DATA);
+        $oHoraLibAnalise = new CampoConsulta('Hr. lib. análise', 'horalibanalise', CampoConsulta::TIPO_TIME);
 
         $oSit = new CampoConsulta('Sit. Geral', 'situaca', CampoConsulta::TIPO_LARGURA);
         $oSit->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
@@ -95,7 +101,7 @@ class ViewMET_QUAL_RcAnalise extends View {
         $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
 
-        $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3);
+        $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
 
 
 

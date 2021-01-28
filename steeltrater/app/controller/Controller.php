@@ -819,7 +819,7 @@ class Controller {
         //adiciona botoes padrão
         if (!$this->getBDesativaBotaoPadrao()) {
             $this->View->addBotaoPadraoTela('');
-        };
+        }
         //renderiza a tela
         $this->View->getTela()->getRender();
     }
@@ -1984,7 +1984,7 @@ class Controller {
                             $xValorCampo = '';
                         };
                     } else {
-//                     $xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
+                        //$xValorCampo = str_replace("'","\\'",$this->getValorModel($oAtual,$sNomeCampo));
                         $xValorCampo = $this->getValorModel($oAtual, $sNomeCampo);
                         $xValorCampo = rtrim($xValorCampo);
                     }
@@ -2513,7 +2513,7 @@ class Controller {
             $sRetorno = str_replace("\n", "", $this->getValorModel($aModels[0], $sCampoRet));
 
             //monta a renderização do componente
-            $sRender = "$('#" . $sCampoRetorno . "').val('" . $sRetorno . "');";
+            $sRender = "$('#" . $sCampoRetorno . "').val('" . trim($sRetorno) . "');";
             echo $sRender;
         } else {
 
@@ -2911,25 +2911,6 @@ class Controller {
     }
 
     /**
-     * Método para cria a tela do painel financeiro
-     */
-    public function criaPainelFinanceiro($sDados, $sCampos) {
-        $aDados = explode(',', $sDados);
-        $aCampos = explode(',', $sCampos);
-        $this->pkDetalhe($aCampos);
-        $this->parametros = $sCampos;
-
-        $this->View->criaTela();
-        $this->View->getTela()->setSRender($aDados[3]);
-        //define o retorno somente do form
-        $this->View->getTela()->setBSomanteForm(true);
-        //seta o controler na view
-        $this->View->setTelaController($this->View->getController());
-        $this->View->adicionaBotoesEtapas($aDados[0], $aDados[1], $aDados[2], $aDados[3], $aDados[4], $aDados[5], $this->getControllerDetalhe());
-        $this->View->getTela()->getRender();
-    }
-
-    /**
      * Método que realiza a inclusão das informações contidas no 
      * objeto no banco de dados
      * 
@@ -3182,7 +3163,7 @@ class Controller {
           //array de controle de erros
           $aRetorno[0] = true;
 
-          $this->carregaModel();
+          $this->carregaModel($aCamposTela);
 
           $aRetorno = $this->beforeInsert();
 
@@ -3360,7 +3341,7 @@ class Controller {
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
             if ($oCampoBanco->getPersiste()) {
-                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), '', '');
+                $this->setValorModel($this->Model, $oCampoBanco->getNomeModel(), $xValor, $aCamposTela);
             }
         }
         $this->Model = $this->Persistencia->consultar();
@@ -3524,14 +3505,15 @@ class Controller {
             foreach ($aParam as $key => $value) {
                 $aChaves[] = $value;
             }
+
+            $sDados .= ',' . implode(',', $aChaves);
+
+
+            $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item (ou itens)?', Modal::TIPO_ERRO, true, true, true);
+            $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $this->getNomeClasse() . '","acaoExcluirRegDet","' . $sDados . '");');
+
+            echo $oMensagem->getRender();
         }
-        $sDados .= ',' . implode(',', $aChaves);
-
-
-        $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item (ou itens)?', Modal::TIPO_ERRO, true, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $this->getNomeClasse() . '","acaoExcluirRegDet","' . $sDados . '");');
-
-        echo $oMensagem->getRender();
     }
 
     public function acaoExcluirRegDet($sDados) {
@@ -3664,7 +3646,7 @@ class Controller {
 
             //Atualiza o Grid
             // $this->getDadosConsulta($aDados[1], false, null);
-            echo"$('#" . $aDados[1] . "-pesq').click();";
+            echo "$('#" . $aDados[1] . "-pesq').click();";
         } else {
             $oMensagemErro = new Mensagem('Falha', 'O registro não foi excluído!', Mensagem::TIPO_ERROR);
             echo $oMensagemErro->getRender();
