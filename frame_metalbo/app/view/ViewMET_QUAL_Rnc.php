@@ -97,13 +97,13 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oNomeFuncDetectou = new Campo('Usuário que Detectou', 'lidercausa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12); //lidecausa
         $oNomeFuncDetectou->setSIdPk($oCodFuncDetectou->getId());
-        $oNomeFuncDetectou->setClasseBusca('MET_CAD_Funcionarios');
+        $oNomeFuncDetectou->setClasseBusca('MET_RH_Colaboradores');
         $oNomeFuncDetectou->addCampoBusca('numcad', '', '');
         $oNomeFuncDetectou->addCampoBusca('nomfun', '', '');
         $oNomeFuncDetectou->setSIdTela($this->getTela()->getid());
         $oNomeFuncDetectou->setBCampoBloqueado(true);
 
-        $oCodFuncDetectou->setClasseBusca('MET_CAD_Funcionarios');
+        $oCodFuncDetectou->setClasseBusca('MET_RH_Colaboradores');
         $oCodFuncDetectou->setSCampoRetorno('numcad', $this->getTela()->getId());
         $oCodFuncDetectou->addCampoBusca('nomfun', $oNomeFuncDetectou->getId(), $this->getTela()->getId());
         //empresa
@@ -225,13 +225,13 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oPessoacausa = new Campo('Quem causou', 'nomfun', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oPessoacausa->setSIdPk($oUsercausa->getId());
-        $oPessoacausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oPessoacausa->setClasseBusca('MET_RH_Colaboradores');
         $oPessoacausa->addCampoBusca('numcad', '', '');
         $oPessoacausa->addCampoBusca('nomfun', '', '');
         $oPessoacausa->setSIdTela($this->getTela()->getid());
         $oPessoacausa->setApenasTela(true);
 
-        $oUsercausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsercausa->setClasseBusca('MET_RH_Colaboradores');
         $oUsercausa->setSCampoRetorno('numcad', $this->getTela()->getId());
         $oUsercausa->addCampoBusca('nomfun', $oPessoacausa->getId(), $this->getTela()->getId());
 
@@ -274,13 +274,13 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oNomePessoaRespCausa = new Campo('Responsável pelo Setor', 'respcausa', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12); //respcausa
         $oNomePessoaRespCausa->setSIdPk($oCodRespCausa->getId());
-        $oNomePessoaRespCausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oNomePessoaRespCausa->setClasseBusca('MET_RH_Colaboradores');
         $oNomePessoaRespCausa->addCampoBusca('numcad', '', '');
         $oNomePessoaRespCausa->addCampoBusca('nomfun', '', '');
         $oNomePessoaRespCausa->setSIdTela($this->getTela()->getid());
         $oNomePessoaRespCausa->setBCampoBloqueado(true);
 
-        $oCodRespCausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oCodRespCausa->setClasseBusca('MET_RH_Colaboradores');
         $oCodRespCausa->setSCampoRetorno('numcad', $this->getTela()->getId());
         $oCodRespCausa->addCampoBusca('nomfun', $oNomePessoaRespCausa->getId(), $this->getTela()->getId());
 
@@ -463,14 +463,14 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oPessoacausa = new Campo('Quem causou', 'nomfun', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oPessoacausa->setSIdPk($oUsercausa->getId());
-        $oPessoacausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oPessoacausa->setClasseBusca('MET_RH_Colaboradores');
         $oPessoacausa->addCampoBusca('numcad', '', '');
         $oPessoacausa->addCampoBusca('nomfun', '', '');
         $oPessoacausa->setSIdTela($this->getTela()->getid());
         $oPessoacausa->setApenasTela(true);
         $oPessoacausa->addValidacao(true, string, '', 10, 200);
 
-        $oUsercausa->setClasseBusca('MET_CAD_Funcionarios');
+        $oUsercausa->setClasseBusca('MET_RH_Colaboradores');
         $oUsercausa->setSCampoRetorno('numcad', $this->getTela()->getId());
         $oUsercausa->addCampoBusca('nomfun', $oPessoacausa->getId(), $this->getTela()->getId());
 
