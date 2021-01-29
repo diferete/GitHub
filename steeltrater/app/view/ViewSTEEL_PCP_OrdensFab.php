@@ -685,7 +685,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         //campo descrição do cliente adicionando o campo de busca
         $oEmp_des = new Campo('Razão Social', 'emp_razaosocial', Campo::TIPO_BUSCADOBANCO, 4);
         $oEmp_des->setSIdPk($oEmp_codigo->getId());
-        $oEmp_des->setClassebtn('DELX_CAD_Pessoa');
+        $oEmp_des->setClasseBusca('DELX_CAD_Pessoa');
         $oEmp_des->addCampoBusca('emp_codigo', '', '');
         $oEmp_des->addCampoBusca('emp_razaosocial', '', '');
         $oEmp_des->setSIdTela($this->getTela()->getId());

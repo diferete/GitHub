@@ -90,6 +90,7 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oProCod = new Campo('Código', 'PRO_Codigo', Campo::TIPO_BUSCADOBANCOPK, 3, 3, 12, 12);
         $oProCod->setSIdHideEtapa($this->getSIdHideEtapa());
         $oProCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
+        $oProCod->setBFocus(true);
 
         $oItemDesc = new Campo('Descrição', 'SUP_SolicitacaoItemDescricao', Campo::TIPO_BUSCADOBANCO, 5, 5, 12, 12);
         $oItemDesc->setSIdPk($oProCod->getId());
@@ -163,7 +164,7 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oBotConf->setIMarginTop(6);
 
         $sGrid = $this->getOGridDetalhe()->getSId();
-        $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeqSolItem->getId() . ',' . $sGrid . '","' . $aDados[0] . ',' . $oSeqSol->getSValor() . ',' . $oSeqSolItem->getSValor() . '");';
+        $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeqSolItem->getId() . ',' . $sGrid . ',' . $oProCod->getId() . '","' . $aDados[0] . ',' . $oSeqSol->getSValor() . ',' . $oSeqSolItem->getSValor() . '");';
 
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
