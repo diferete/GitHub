@@ -4115,9 +4115,10 @@ class Controller {
                     }
                 }
                 if ($sValor !== 'semModel') {
-                    if (Util::validaDateTime(trim($sValor))) {
+                    if (Util::ValidaData($sValor, 1)) {
                         $sValor = Util::converteData($sValor);
-                        $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
+                        $aValor = explode(" ", $sValor);
+                        $sRetorno = "$('#" . $Campo[1] . "').val('" . $aValor[0] . "').trigger('change');";
                         echo $sRetorno;
                     } else {
                         $sValor = str_replace("\n", " ", $sValor);

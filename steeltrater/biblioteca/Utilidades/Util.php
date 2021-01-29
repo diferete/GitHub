@@ -311,16 +311,28 @@ class Util {
 
     public static function converteData($sData) {
         $aData = explode(" ", $sData);
-        $aHora = explode('.', $aData[1]);
-        $data = explode('-', $aData[0]);
-        $d = $data[2];
-        $m = $data[1];
-        $a = $data[0];
+        if (sizeof($aData) > 1) {
+            $aHora = explode('.', $aData[1]);
+            $data = explode('-', $aData[0]);
+            $d = $data[2];
+            $m = $data[1];
+            $a = $data[0];
 
-        $sDataConvertida = $d . "/" . $m . "/" . $a;
-        $sData = rtrim($sDataConvertida . ' ' . $aHora[0]);
+            $sDataConvertida = $d . "/" . $m . "/" . $a;
+            $sData = rtrim($sDataConvertida . ' ' . $aHora[0]);
 
-        return $sData;
+            return $sData;
+        } else {
+            $data = explode('-', $aData[0]);
+            $d = $data[2];
+            $m = $data[1];
+            $a = $data[0];
+
+            $sDataConvertida = $d . "/" . $m . "/" . $a;
+            $sData = rtrim($sDataConvertida);
+
+            return $sData;
+        }
     }
 
     /**

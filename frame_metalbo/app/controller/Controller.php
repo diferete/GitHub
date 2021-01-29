@@ -1841,18 +1841,18 @@ class Controller {
                         array_pop($aCamposChave);
                         foreach ($aCamposChave as $key => $value) {
                             //retorna campo do model
-                            $aModel = explode('_', $key);
-                            if (count($aModel) > 1) {
-                                $aModel = $this->scrollFilhas($aModel);
-                                $sModelFiltro = $aModel[1];
-                            } else {
-                                $aModel = $this->scrollFilhas($aModel);
-                                $sModelFiltro = $aModel[0];
+                                $aModel = explode('_', $key);
+                                if (count($aModel) > 1) {
+                                    $aModel = $this->scrollFilhas($aModel);
+                                    $sModelFiltro = $aModel[1];
+                                } else {
+                                    $aModel = $this->scrollFilhas($aModel);
+                                    $sModelFiltro = $aModel[0];
+                                }
+                                $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                             }
-                            $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                         }
                     }
-                }
                 //monta filtro between por enquanto um por grid   
                 $sCampo = '';
                 $sVlrInicial = '';
@@ -4110,9 +4110,10 @@ class Controller {
                     }
                 }
                 if ($sValor !== 'semModel') {
-                    if (Util::validaDateTime(trim($sValor))) {
+                    if (Util::ValidaData($sValor, 1)) {
                         $sValor = Util::converteData($sValor);
-                        $sRetorno = "$('#" . $Campo[1] . "').val('" . $sValor . "').trigger('change');";
+                        $aValor = explode(" ", $sValor);
+                        $sRetorno = "$('#" . $Campo[1] . "').val('" . $aValor[0] . "').trigger('change');";
                         echo $sRetorno;
                     } else {
                         $sValor = str_replace("\n", " ", $sValor);

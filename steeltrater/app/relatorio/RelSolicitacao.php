@@ -54,8 +54,8 @@ $pdf->Cell(110, 10, '                  SOLICITAÇÃO DE COMPRAS ', 1, 0, 'L');
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 
-$pdf->SetFont('Arial', '', 10);
-$pdf->MultiCell(53, 5, 'Usuário: ' . $useRel, 'T,R', 'L');
+$pdf->SetFont('Arial', '', 8);
+$pdf->MultiCell(53, 5, 'Usuário: ' . strtoupper($useRel), 'T,R', 'L');
 $pdf->SetXY($x, $y + 5);
 $pdf->MultiCell(53, 5, 'Data: ' . $data .
         '  Hora: ' . $hora, 'B, R', 'L');
@@ -89,8 +89,8 @@ $dadosItens = $PDO->query($sSqlItens);
 while ($rowIten = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
 
     $sDescricao = $rowIten['SUP_SolicitacaoItemDescricao'] . ' ' . $rowIten['PRO_DescricaoTecnica'];
-    $sDescricao = str_replace(array("\n")," ",$sDescricao);
-    
+    $sDescricao = str_replace(array("\n"), " ", $sDescricao);
+
     $total_string_width = $pdf->GetStringWidth($sDescricao);
     $column_width = 70;
     $number_of_lines = $total_string_width / ($column_width - 1);
@@ -109,8 +109,7 @@ while ($rowIten = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(200, $height_of_cell, '', 0, 1, 'L');
     $pdf->MultiCell(200, 5, 'Observação: ' . $rowIten['SUP_SolicitacaoItemObservacao'], 0, 'L');
 
-    $pdf->Cell(200, 5, '', 'B', 1, 'L');
-    $pdf->Ln(2);
+    $pdf->Cell(200, 1, '', 'B', 1, 'L');
 }
 
 

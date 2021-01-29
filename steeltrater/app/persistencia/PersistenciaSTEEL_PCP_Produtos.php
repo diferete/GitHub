@@ -195,6 +195,8 @@ class PersistenciaSTEEL_PCP_Produtos extends Persistencia {
 
         $sAndFilial = ' and "STEEL_PCP_ProdutoFilial".fil_codigo =8993358000174 ';
         $this->adicionaJoin('STEEL_PCP_ProdutoFilial', null, 1, 'pro_codigo', 'pro_codigo', $sAndFilial);
+
+        $this->setBNoLock(true);
     }
 
     public function insereProdFilial($sProCod, $aCNPJ) {
@@ -210,7 +212,7 @@ class PersistenciaSTEEL_PCP_Produtos extends Persistencia {
     }
 
     public function buscaNCM($sDados) {
-        $sSql = "select COUNT(*) as total from FIS_NCM where fis_ncmcodigo = '" . $sDados."'";
+        $sSql = "select COUNT(*) as total from FIS_NCM where fis_ncmcodigo = '" . $sDados . "'";
         $oNCM = $this->consultaSql($sSql);
         return $oNCM->total;
     }
