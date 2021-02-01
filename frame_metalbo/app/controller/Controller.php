@@ -199,7 +199,7 @@ class Controller {
         $this->aControllerDependente[] = array('controller' => $oController,
             'campoModelPrincipal' => $sCampo);
     }
-
+    
     /**
      * Retorna o conteúdo do atributo aControllerDependente
      * 
@@ -2508,7 +2508,7 @@ class Controller {
             $sRetorno = str_replace("\n", "", $this->getValorModel($aModels[0], $sCampoRet));
 
             //monta a renderização do componente
-            $sRender = "$('#" . $sCampoRetorno . "').val('" . trim($sRetorno) . "');";
+            $sRender = "$('#" . $sCampoRetorno . "').val('" . addslashes(trim($sRetorno)) . "');";
             echo $sRender;
         } else {
 

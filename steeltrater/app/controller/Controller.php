@@ -2513,13 +2513,13 @@ class Controller {
             $sRetorno = str_replace("\n", "", $this->getValorModel($aModels[0], $sCampoRet));
 
             //monta a renderização do componente
-            $sRender = "$('#" . $sCampoRetorno . "').val('" . trim($sRetorno) . "');";
+            $sRender = "$('#" . $sCampoRetorno . "').val('" . addslashes(trim($sRetorno)) . "');";
             echo $sRender;
         } else {
 
             $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
-            // $sRender.=$sMsgErro->getRender();
-            // echo $sRender;
+            echo $sMsgErro->getRender();
+
             //limpa campo descriçao
             $sLimpa = "$('#" . $sCampoRetorno . "').val('');";
             echo $sLimpa;

@@ -122,7 +122,7 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oItemDesc->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","STEEL_SUP_SolicitacaoItem","buscaDadosProd","' . $oItemUnidade->getId() . '");');
 
         $oDataNecessidade = new campo('Dt da necessidade', 'SUP_SolicitacaoItemDataNecessi', Campo::TIPO_DATA, 2, 2, 12, 12);
-        $oDataNecessidade->setSValor(date('d/m/Y', strtotime('+15 days')));
+        $oDataNecessidade->setSValor(date('d/m/Y', strtotime('+5 days')));
 
         $oDataEntrega = new Campo('Dt de entrega', 'SUP_SolicitacaoItemDataEntrega', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataEntrega->setSValor(date('d/m/Y', strtotime('+15 days')));

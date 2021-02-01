@@ -25,6 +25,7 @@ class ViewMET_MP_Maquinas extends View {
         $oNomeclatura = new CampoConsulta('Nomeclatura', 'nomeclatura');
         $oSeq = new CampoConsulta('Célula', 'seq');
         $oSetor = new CampoConsulta('Setor', 'codsetor');
+        $oSit = new CampoConsulta('Situação', 'sitmaq');
 
         $oMaquinaFiltro = new Filtro($oNr, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
@@ -48,7 +49,7 @@ class ViewMET_MP_Maquinas extends View {
         $oFiltroSetor->setSLabel('');
         
         $iSet = $_SESSION['codsetor'];
-        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29){
+        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29 && $iSet!= 31 && $iSet!= 9 && $iSet!= 32 && $iSet!= 24){
             $oFiltroSetor->setSValor($iSet);
         }
         
@@ -62,16 +63,26 @@ class ViewMET_MP_Maquinas extends View {
 
         $oFiltroCodMaq = new Filtro($oCodmaq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
+        $oSitFiltro = new Filtro($oSit, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oSitFiltro->addItemSelect('', 'Todas Situações');
+        $oSitFiltro->addItemSelect('ATIVA', 'ATIVA');
+        $oSitFiltro->addItemSelect('REFORMA', 'REFORMA');    
+        $oSitFiltro->addItemSelect('MANUTENÇÃO', 'MANUTENÇÃO');    
+        $oSitFiltro->addItemSelect('INATIVA', 'INATIVA');    
+        $oSitFiltro->addItemSelect('ATIVA FERRAMENTAS MANUAIS', 'ATIVA FERRAMENTAS MANUAIS');    
+        $oSitFiltro->addItemSelect('ATIVA AUTOMOTRIZ', 'ATIVA AUTOMOTRIZ');
+        $oSitFiltro->setSLabel('');
+        
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(false);
-        $this->addFiltro($oFiltroCodMaq, $oMaquinaFiltro, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor);
+        $this->addFiltro($oFiltroCodMaq, $oMaquinaFiltro, $oSitFiltro, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor);
 
         $this->getTela()->setBMostraFiltro(true);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
-        $this->addCampos($oCodmaq, $oNr, $oMaqtip, $oNomeclatura, $oSeq, $oSetor);
+        $this->addCampos($oCodmaq, $oNr, $oMaqtip, $oNomeclatura, $oSeq, $oSetor, $oSit);
     }
 
     public function criaTela() {
