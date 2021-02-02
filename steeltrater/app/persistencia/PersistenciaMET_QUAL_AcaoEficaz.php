@@ -69,9 +69,13 @@ class PersistenciaMET_QUAL_AcaoEficaz extends Persistencia {
                     . "datafech = '" . $sData . "' "
                     . "where filcgc = '" . $aDados['filcgc'] . "' and nr ='" . $aDados['nr'] . "'  ";
             $aRetorno = $this->executaSql($sSql);
-            return $aRetorno;
+            if ($aRetorno[0]) {
+                return 0;
+            } else {
+                return 1;
+            }
         } else {
-            return $aRetorno[0] = false;
+            return 2;
         }
     }
 

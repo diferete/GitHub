@@ -384,12 +384,12 @@ class ViewMET_QUAL_QualAq extends View {
 
         $oSetorDes = new Campo('Descrição', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSetorDes->setSIdPk($oSetor->getId());
-        $oSetorDes->setClasseBusca('Setor');
+        $oSetorDes->setClasseBusca('MET_CAD_Setores');
         $oSetorDes->addCampoBusca('codsetor', '', '');
         $oSetorDes->addCampoBusca('descsetor', '', '');
         $oSetorDes->setSIdTela($this->getTela()->getid());
 
-        $oSetor->setClasseBusca('Setor');
+        $oSetor->setClasseBusca('MET_CAD_Setores');
         $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oSetor->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
 

@@ -61,7 +61,7 @@ class ControllerMET_QUAL_QualPlan extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sDados);
+        parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
         // "$('#".$sId."').each (function(){ this.reset();});";
         //verifica se está como 
@@ -181,6 +181,7 @@ class ControllerMET_QUAL_QualPlan extends Controller {
                 echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_QualPlan","getDadosGrid","' . $aDados[1] . '","criaConsutaApont");';
                 $sRetorno = "$('#" . $aDados[2] . "').fileinput('clear');";
                 echo $sRetorno;
+                echo '$("#modalAponta-btn").click();';
             } else {
                 $oMensagem = new Modal('Problema', 'Problemas ao finalizar plano de ação' . $aRet[1], Modal::TIPO_ERRO, false, true, true);
             }

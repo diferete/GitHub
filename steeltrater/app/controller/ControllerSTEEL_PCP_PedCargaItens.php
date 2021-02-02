@@ -2067,7 +2067,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sDados);
+        parent::acaoLimpar($sForm, $sDados);
         $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';
         echo $sScript;
     }

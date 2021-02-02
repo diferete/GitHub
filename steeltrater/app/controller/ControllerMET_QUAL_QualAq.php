@@ -321,7 +321,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
                 $sEstiloAq = 'border-color:black;color:black';
             }
             //Contenção
-            if (($aRetorno['contencao'] == false && $aRetorno['tipoacao'] == 'Ação Corretiva') || ($aRetorno['contencao'] == 'vazio' && $aRetorno['tipoacao'] == 'Ação Corretiva')) {
+            if (($aRetorno['contencao'] == false && $aRetorno['tipoacao'] == 'Ação Corretiva') || (is_string($aRetorno['contencao']) == 'vazio' && $aRetorno['tipoacao'] == 'Ação Corretiva')) {
                 $sCurrentCont = 'current';
                 $sEstiloCont = 'border-color:orange;color:orange';
                 if ($aRetorno['contencao'] == 'vazio') {
@@ -329,14 +329,13 @@ class ControllerMET_QUAL_QualAq extends Controller {
                 } else {
                     $sContencao = 'Apontamento Pendente';
                 }
-            }
-            if (is_bool($aRetorno['contencao']) == true || $aRetorno['tipoacao'] == 'Ação Preventiva') {
+            } else {
                 $sCurrentCont = 'current';
                 $sEstiloCont = 'border-color:green;color:green';
                 $sContencao = 'Ação Preventiva ou Finalizadas';
             }
             //Correção
-            if (($aRetorno['correcao'] == false && $aRetorno['tipoacao'] == 'Ação Corretiva') || ($aRetorno['correcao'] == 'vazio' && $aRetorno['tipoacao'] == 'Ação Corretiva')) {
+            if (($aRetorno['correcao'] == false && $aRetorno['tipoacao'] == 'Ação Corretiva') || (is_string($aRetorno['correcao']) == 'vazio' && $aRetorno['tipoacao'] == 'Ação Corretiva')) {
                 $sCurrentCorr = 'current';
                 $sEstiloCorr = 'border-color:orange;color:orange';
                 if ($aRetorno['correcao'] == 'vazio') {
@@ -344,8 +343,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
                 } else {
                     $sCorrecao = 'Apontamento Pendente';
                 }
-            }
-            if (is_bool($aRetorno['correcao']) == true || $aRetorno['tipoacao'] == 'Ação Preventiva') {
+            } else {
                 $sCurrentCorr = 'current';
                 $sEstiloCorr = 'border-color:green;color:green';
                 $sCorrecao = 'Ação Preventiva ou Finalizadas';
@@ -355,14 +353,13 @@ class ControllerMET_QUAL_QualAq extends Controller {
                 $sCurrentCausa = 'current';
                 $sEstiloCausa = 'border-color:orange;color:orange';
                 $sCausa = 'Sem dados inseridos';
-            }
-            if ($aRetorno['causa'] == true) {
+            } else {
                 $sCurrentCausa = 'current';
                 $sEstiloCausa = 'border-color:green;color:green';
                 $sCausa = 'Ao menos uma causa apontada';
             }
             //Plano            
-            if ($aRetorno['plano'] == false || $aRetorno['plano']) {
+            if ($aRetorno['plano'] == false || is_string($aRetorno['plano']) == 'vazio') {
                 $sCurrentPlano = 'current';
                 $sEstiloPlano = 'border-color:orange;color:orange';
                 if ($aRetorno['plano'] == 'vazio') {
@@ -370,14 +367,13 @@ class ControllerMET_QUAL_QualAq extends Controller {
                 } else {
                     $sPlano = 'Apontamento Pendente';
                 }
-            }
-            if (is_bool($aRetorno['plano']) == true) {
+            } else {
                 $sCurrentPlano = 'current';
                 $sEstiloPlano = 'border-color:green;color:green';
                 $sPlano = 'Finalizados';
             }
             //Eficácia
-            if ($aRetorno['eficaz'] == false || $aRetorno['eficaz'] == 'vazio') {
+            if ($aRetorno['eficaz'] == false || is_string($aRetorno['eficaz']) == 'vazio') {
                 $sCurrentEficaz = 'current';
                 $sEstiloEficaz = 'border-color:orange;color:orange';
                 if ($aRetorno['eficaz'] == 'vazio') {
@@ -385,8 +381,7 @@ class ControllerMET_QUAL_QualAq extends Controller {
                 } else {
                     $sEficaz = 'Apontamento Pendente';
                 }
-            }
-            if (is_bool($aRetorno['eficaz']) == true) {
+            } else {
                 $sCurrentEficaz = 'current';
                 $sEstiloEficaz = 'border-color:green;color:green';
                 $sEficaz = 'Finalizado';

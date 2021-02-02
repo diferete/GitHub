@@ -160,15 +160,22 @@ class ControllerMET_QUAL_AcaoEficaz extends Controller {
                 $oMensagem = new Mensagem('Sucesso', 'Apontamento realizado com sucesso!', Mensagem::TIPO_SUCESSO);
                 echo $oMensagem->getRender();
                 echo '$("#modalApontaEficaz-btn").click();';
-                $aRet1 = $this->Persistencia->finalizaAcao($aCampos);
-                if ($aRet1[0]) {
-                    $oMensagem1 = new Mensagem('Sucesso', 'Finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
-                    $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
-                    echo $sLimpa;
-                    echo $oMensagem1->getRender();
-                } else {
-                    $oMensagem1 = new Mensagem('Atenção', 'Problemas ao tentar Finalizar a AQ ou ainda existem avaliações de eficácia em aberto!' . $aRet[1], Mensagem::TIPO_WARNING);
-                    echo $oMensagem1->getRender();
+                $iRet = $this->Persistencia->finalizaAcao($aCampos);
+                switch ($iRet) {
+                    case 0:
+                        $oMensagem1 = new Mensagem('Sucesso', 'Sua AQ foi finalizada com sucesso! Não existem mais avaliações da eficácia em aberto.', Mensagem::TIPO_SUCESSO);
+                        $sLimpa = '$("#' . $aDados[0] . '").each (function(){ this.reset();});';
+                        echo $sLimpa;
+                        echo $oMensagem1->getRender();
+                        exit();
+                    case 1:
+                        $oMensagem1 = new Mensagem('Atenção', 'Problemas ao tentar Finalizar a AQ automaticamente, contate o Setor de TI.' . $aRet[1], Mensagem::TIPO_WARNING);
+                        echo $oMensagem1->getRender();
+                        exit();
+                    case 2:
+                        $oMensagem1 = new Mensagem('Atenção', 'Ainda existem avaliações de eficácia em aberto!' . $aRet[1], Mensagem::TIPO_WARNING);
+                        echo $oMensagem1->getRender();
+                        exit();
                 }
             } else {
                 $oMensagem = new Mensagem('Atenção', 'Problemas ao apontar eficácia!' . $aRet[1], Mensagem::TIPO_WARNING);
@@ -178,7 +185,6 @@ class ControllerMET_QUAL_AcaoEficaz extends Controller {
             $oMensagem = new Mensagem('Atenção', 'Favor preencher todos os campos', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
         }
-        echo 'requestAjax("' . $aDados[0] . '","MET_QUAL_AcaoEficaz","getDadosGrid","' . $aDados[1] . '","consultaEficaz");';
     }
 
     public function apontaRetEfi($sDados) {
