@@ -253,18 +253,17 @@ if (isset($_REQUEST['dataini'])) {
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(70, 5, 'NR da manutenção preventiva!', 0, 0, 'L');
     }
-    if($sDias!='----'){
+    if ($sDias != '----') {
         $pdf->SetFont('arial', 'B', 9);
         $pdf->Cell(25, 5, 'Dias Restantes: ', 0, 0, 'L');
         $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(20, 5, $sDias.' dias', 0, 0, 'L');
-    }else{
+        $pdf->Cell(20, 5, $sDias . ' dias', 0, 0, 'L');
+    } else {
         $pdf->SetFont('arial', 'B', 9);
         $pdf->Cell(25, 5, 'Dias Restantes: ', 0, 0, 'L');
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(20, 5, 'Todos', 0, 0, 'L');
     }
-    
 }
 $pdf->Ln(5);
 $pdf->Cell(203, 2, '', 'B', 1, 'L');
@@ -322,7 +321,11 @@ foreach ($aNr2 as $sNr) {
             $sql .= " and metmaq.codsetor = '" . $iCodSetor . "'";
         }
         if ($sSimple) {
-            $sql .= " and tbitensmp.sitmp = 'ABERTO' ";
+            if ($sSit == 'NAO APONTADOS') {
+                $sql .= " and tbitensmp.sitmp = 'ABERTO' and tbitensmp.databert is null and tbitensmp.datafech is null ";
+            } else {
+                $sql .= " and tbitensmp.sitmp = 'ABERTO' ";
+            }
         } else {
             if ($bApDataDf) {
                 $sql .= " and tbitensmp.datafech between '" . $sDataIni . "' and '" . $sDataFin . "'";
@@ -347,6 +350,9 @@ foreach ($aNr2 as $sNr) {
                     }
                     if ($sSit == 'FINALIZADOS') {
                         $sql .= " and tbitensmp.sitmp = 'FINALIZADO' ";
+                    }
+                    if ($sSit == 'NAO APONTADOS') {
+                        $sql .= " and tbitensmp.sitmp = 'ABERTO' and tbitensmp.databert is null and tbitensmp.datafech is null ";
                     }
                 }
             }
@@ -380,6 +386,9 @@ foreach ($aNr2 as $sNr) {
         }
         if ($sSit == 'FINALIZADOS') {
             $sql .= " and tbitensmp.sitmp = 'FINALIZADO' ";
+        }
+        if ($sSit == 'NAOAPONTADOS') {
+            $sql .= " and tbitensmp.sitmp = 'ABERTO' and tbitensmp.databert is null and tbitensmp.datafech is null ";
         }
         $sql .= " ORDER BY tbmanutmp.maqmp, tbitensmp.codsit, resp, YEAR(tbitensmp.databert), MONTH(tbitensmp.databert),
         DAY(tbitensmp.databert) ";

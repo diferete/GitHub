@@ -107,7 +107,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'TODOS', 'MET_MP_Gerenciamento', 'acaoMostraRelEspecifico', 'TODOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'ABERTOS', 'MET_MP_Gerenciamento', 'acaoMostraRelEspecifico', 'ABERTOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'FINALIZADOS', 'MET_MP_Gerenciamento', 'acaoMostraRelEspecifico', 'FINALIZADOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
-
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'NÃO APONTADOS', 'MET_MP_Gerenciamento', 'acaoMostraRelEspecifico', 'NAOAPONTADOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
 
         $this->getTela()->setSEventoClick('var chave=""; $("#' . $this->getTela()->getSId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","MET_MP_Gerenciamento","calculoPersonalizado",chave+",qualaqtempo");');
@@ -223,6 +223,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $oSitmp->addItemSelect('', 'TODOS');
         $oSitmp->addItemSelect('ABERTOS', 'ABERTOS');
         $oSitmp->addItemSelect('FINALIZADOS', 'FINALIZADOS');
+        $oSitmp->addItemSelect('NAO APONTADOS', 'NÃO APONTADOS');
         $oSitmp->addValidacao(true, Validacao::TIPO_STRING);
         $oSitmp->setId('sitServicos');
 
