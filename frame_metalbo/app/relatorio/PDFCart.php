@@ -5,6 +5,7 @@ $aDados = explode(',', $sDados);
 
 $sEmail = $_REQUEST['email'];
 $aDadosUF = explode(',', $_REQUEST['dadosUF']);
+$aDadosEMP = explode(',', $_REQUEST['dadosEMP']);
 
 date_default_timezone_set('America/Sao_Paulo');
 $data = date('d/m/Y');
@@ -192,9 +193,12 @@ if ($sEmail != '') {
 
     $oEmail->setAssunto(utf8_decode('Cotação do Catálogo Metalbo'));
     $oEmail->setMensagem(utf8_decode('Em anexo PDF com os itens.<hr><br/>'
-                    . '<b>E-mail: ' . $sEmail . '<br/>'
+                    . '<b>CNPJ: ' . $aDadosEMP[0] . '<br/>'
+                    . '<b>Empresa: ' . $aDadosEMP[1] . '<br/>'
                     . '<b>Estado: ' . $aDadosUF[0] . '<br/>'
                     . '<b>Cidade: ' . $aDadosUF[1] . '<br/>'
+                    . '<b>Fone: ' . $aDadosEMP[2] . '<br/>'
+                    . '<b>E-mail: ' . $sEmail . '<br/>'
                     . '<br/><br/><br/><b>Obrigado pelo contato. E-mail enviado automaticamente, favor não responder!</b>'));
     $oEmail->limpaDestinatariosAll();
 
