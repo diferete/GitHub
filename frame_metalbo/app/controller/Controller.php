@@ -199,7 +199,7 @@ class Controller {
         $this->aControllerDependente[] = array('controller' => $oController,
             'campoModelPrincipal' => $sCampo);
     }
-    
+
     /**
      * Retorna o conteúdo do atributo aControllerDependente
      * 
@@ -1554,6 +1554,7 @@ class Controller {
         $sCampos .= '&dir=' . $_SESSION["diroffice"];
         $sCampos .= $this->getSget();
         $sCampos .= '&output=email';
+        $sCampos .= '&emails=' . $_SESSION['email'];
 
         $oWindow = 'var win = window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "1366002941508","width=100,height=100,left=375,top=330");'
                 . 'setTimeout(function () { win.close();}, 1000);';
@@ -1841,18 +1842,18 @@ class Controller {
                         array_pop($aCamposChave);
                         foreach ($aCamposChave as $key => $value) {
                             //retorna campo do model
-                                $aModel = explode('_', $key);
-                                if (count($aModel) > 1) {
-                                    $aModel = $this->scrollFilhas($aModel);
-                                    $sModelFiltro = $aModel[1];
-                                } else {
-                                    $aModel = $this->scrollFilhas($aModel);
-                                    $sModelFiltro = $aModel[0];
-                                }
-                                $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
+                            $aModel = explode('_', $key);
+                            if (count($aModel) > 1) {
+                                $aModel = $this->scrollFilhas($aModel);
+                                $sModelFiltro = $aModel[1];
+                            } else {
+                                $aModel = $this->scrollFilhas($aModel);
+                                $sModelFiltro = $aModel[0];
                             }
+                            $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                         }
                     }
+                }
                 //monta filtro between por enquanto um por grid   
                 $sCampo = '';
                 $sVlrInicial = '';
