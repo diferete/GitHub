@@ -1277,7 +1277,8 @@ function shoppingList() {
                         + '<label  class="contactform-label">E-mail</label>'
                         + '<!-- NO SPACE -->'
                         + '<span class="contactform-input" style="margin: 0 5px;width: 300px;">'
-                        + '<input class="input-email-cart" placeholder="Seu e-mail" type="text" id="email" name="email" data-required="text" data-required-email="email"></span>'
+                        + '<input class="input-email-cart" placeholder="Seu e-mail" type="e-mail" id="email" name="email" data-required="text" data-required-email="email">'
+                        + '</span>'
                         + '</p>'
                         + '<div id="UF" class="select-location-div">'
                         + '<div >'
@@ -1324,9 +1325,21 @@ function shoppingList() {
                         + '</div>'
                         + '</div>'
                         + '</div>'
-                        + '<div id="send-form" style="text-align: center;margin: 0 0 10px 0;">'
+                        + '<div>' //essa aqui inicia 
+                        + '<span class="contactform-input" style="margin: 0 5px;width: 25%;">'
+                        + '<input class="input-cnpj-cart" type="text" placeholder="CNPJ" id="empCNPJ">'
+                        + '</span>'
+                        + '<span class="contactform-input" style="margin: 0 5px;width: 100px;">'
+                        + '<input class="input-empdes-cart" type="text" placeholder="Nome da empresa"  id="empDes">'
+                        + '</span>'
+                        + '<span class="contactform-input" style="margin: 0 5px;width: 20px;">'
+                        + '<input class="input-phone-cart" type="text" placeholder="Fone" onkeydown="maskara()" id="empFone">'
+                        + '</span>'
+                        + '<p id="waiting-msg-cnpj" class="msg-email hidden"></p>'
+                        + '</div>' //essa aqui termina
+                        + '<div id="send-form" style="text-align: center;margin: 10px 0 10px 0;">'
                         + '<input id="send-list" onclick="sendPdfEmail()" class="btn class-test" value="Enviar para Metalbo" type="button">'
-                        + '<input id="send-pdf" onclick="sendPdf()" class="btn class-test" value="Gerar lista" type="button">'
+                        + '<input id="send-pdf" onclick="visualizaPdf()" class="btn class-test" value="Gerar lista" type="button">'
                         + '</div>'
                         + '<p id="waiting-msg" class="msg-email hidden"></p>'
                         + '</div>';
@@ -1531,7 +1544,7 @@ function getES() {
 }
 
 //Função para gerar o PDF com os itens do carrinho de compras
-function sendPdf() {
+function visualizaPdf() {
 //Verifica se tem itens no carrinho
     var text = $("#shopping-cart").text();
     if (text <= 0) {
@@ -1558,13 +1571,16 @@ function sendPdfEmail() {
     var email = validateEmail($("#email").val());
     var uf = $('#UF-select').val();
     var es = $('#ES-select').val();
+    var cnpj = $('#empCNPJ').val();
+    var empdes = $('#empDes').val();
+    var fone = $('#empFone').val();
     //Verifica se tem itens no carrinho
     if (text <= 0) {
 //Se não, para a função e retorna 
         return;
     } else {
 //Vefirica valores
-        if (email == false || uf == null || es == null) {
+        if (email == false || uf == null || es == null || cnpj == null || empdes == null || fone == null) {
             $("#waiting-msg").text('Oops, e-mail inválido ou informações insuficientes!').addClass('email-error').removeClass('shake animated hidden').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
                 $("#waiting-msg").removeClass('shake animated');
             });
@@ -1578,12 +1594,16 @@ function sendPdfEmail() {
             var dadosUF = [];
             dadosUF[0] = $('#UF-select option:selected').html();
             dadosUF[1] = $('#ES-select option:selected').html();
+            var dadosEMP = [];
+            dadosEMP[0] = $('#empCNPJ').val();
+            dadosEMP[1] = $('#empDes').val();
+            dadosEMP[2] = $('#empFone').cleanVal();
             //Mostra mensagem notificando usuário que o e-mail está sendo enviado
             $("#waiting-msg").text('Olá, aguarde enquanto enviamos seu e-mail.').removeClass('shake animated hidden email-error email-success').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
                 $("#waiting-msg").removeClass('shake animated');
             });
             //Json que recebe confirmação ou erro ao enviar e-mail via PHP na frame Metalbo
-            $.getJSON('http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=PDF' + '&dados=' + codigos + '&email=' + $("#email").val() + '&dadosUF=' + dadosUF, function (result) {
+            $.getJSON('http://localhost/github/frame_metalbo/index.php?classe=MET_TEC_Catalogo&metodo=PDF' + '&dados=' + codigos + '&email=' + $("#email").val() + '&dadosUF=' + dadosUF + '&dadosEMP=' + dadosEMP, function (result) {
                 if (result == 'success') {
                     //Caso sucesso, mostra mensagem verde com mensagem de sucesso
                     $("#waiting-msg").text('E-mail foi enviado com sucesso, cheque sua caixa de entrada para uma cópia!').addClass('email-success').removeClass('shake animated hidden email-error').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
@@ -1675,4 +1695,13 @@ function verificaCarrinho(cod) {
 
 $(document).ready(function () {
     document.body.style.zoom = "90%";
-}); 
+});
+
+function maskara() {
+    console.log($("#empFone").val());
+    if ($("#empFone").val().length > 14) {
+        $("#empFone").mask("(00) 00000-0009");
+    } else {
+        $("#empFone").mask("(00) 0000-00009");
+    }
+}
