@@ -25,11 +25,11 @@ class ViewCot extends View {
 
         $oNr = new CampoConsulta('Cotação', 'nr', CampoConsulta::TIPO_TEXTO);
         $oNr->setILargura(50);
-        
+
         $oCnpj = new CampoConsulta('CNPJ', 'cnpj', CampoConsulta::TIPO_TEXTO);
-        
+
         $oCliente = new CampoConsulta('Cliente', 'cliente', CampoConsulta::TIPO_LARGURA, 200);
-        
+
         $oOdCompra = new CampoConsulta('Ordem de compra', 'odcompra', CampoConsulta::TIPO_TEXTO);
         $oOdCompra->setILargura(100);
 
@@ -152,14 +152,21 @@ class ViewCot extends View {
         $oOd->setITamanho(Campo::TAMANHO_PEQUENO);
         $oOd->setSValor(' ');
 
-        $CodRep = new Campo('Cod. Rep', 'codrep', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $CodRep->setBCampoBloqueado(true);
-        $CodRep->setITamanho(Campo::TAMANHO_PEQUENO);
-        $CodRep->addValidacao(false, Validacao::TIPO_INTEIRO, '', '1');
+        $CodRep = new Campo('Cod. Rep', 'codrep', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
-        $oRep = new Campo('Representante', 'rep', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oRep = new Campo('Representante', 'rep', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
+        $oRep->setSIdPk($CodRep->getId());
+        $oRep->setClasseBusca('Repcod');
+        $oRep->addCampoBusca('repcod', '', '');
+        $oRep->addCampoBusca('repdes', '', '');
+        $oRep->setSIdTela($this->getTela()->getid());
         $oRep->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oRep->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oRep->setBCampoBloqueado(true);
+        
+        $CodRep->setClasseBusca('Repcod');
+        $CodRep->setSCampoRetorno('repcod', $this->getTela()->getId());
+        $CodRep->addCampoBusca('repdes', $oRep->getId(), $this->getTela()->getId());
 
         $oConsemail = new Campo('Email', 'consemail', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oConsemail->setITamanho(Campo::TAMANHO_PEQUENO);
