@@ -58,6 +58,7 @@ class ControllerMET_TEC_Catalogo extends Controller {
         $_REQUEST['dados'] = $_REQUEST['dados'];
         $_REQUEST['email'] = $_REQUEST['email'];
         $_REQUEST['dadosUF'] = $_REQUEST['dadosUF'];
+        $_REQUEST['dadosEMP'] = $_REQUEST['dadosEMP'];
         $sReturn = require 'app/relatorio/PDFCart.php';
         
         
