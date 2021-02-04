@@ -162,7 +162,7 @@ class ViewMET_PORT_Transito extends View {
 
         $oCpf = new campo('CPF Somente Nr.', 'cpf', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCpf->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oCpf->addValidacao(false, Validacao::TIPO_STRING,'','11');
+        $oCpf->addValidacao(false, Validacao::TIPO_STRING, '', '11');
 
         $oMotorista = new Campo('Pessoa', 'motorista', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oMotorista->setSIdPk($oCpf->getId());
@@ -219,7 +219,7 @@ class ViewMET_PORT_Transito extends View {
         $oFilcgc->setBOculto(true);
 
         $oEmpresa = new Campo('Empresa', 'empdes', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oEmpresa->setSValor($oDados->getEmpdes());
+        $oEmpresa->setSValor(addslashes($oDados->getEmpdes()));
         $oEmpresa->setBCampoBloqueado(true);
 
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 1, 12, 12);
@@ -283,7 +283,7 @@ class ViewMET_PORT_Transito extends View {
         $oFilcgc->setBOculto(true);
 
         $oEmpresa = new Campo('Empresa', 'empdes', Campo::TIPO_TEXTO, 6, 6, 12, 12);
-        $oEmpresa->setSValor($oDados->getEmpdes());
+        $oEmpresa->setSValor(addslashes($oDados->getEmpdes()));
         $oEmpresa->setBCampoBloqueado(true);
 
         $oNr = new Campo('Nr', 'nr', Campo::TIPO_TEXTO, 1, 1, 1, 12, 12);
@@ -331,7 +331,7 @@ class ViewMET_PORT_Transito extends View {
         $oDescMotivo->setSValor($oDados->getDescmotivo());
         $oDescMotivo->setBCampoBloqueado(true);
         $oDescMotivo->setILinhasTextArea(4);
-
+        
         $this->addCampos(array($oNr, $oEmpresa), array($oMotivo, $oPlaca, $oPlacaCarr1, $oPlacaCarr2), $oDescMotivo, $oDivisor1, array($oDataSaida, $oHoraSaida, $oFilcgc), $oLinha, $oBtnInserir);
     }
 
