@@ -39,7 +39,7 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
                 . "left outer join vetorh..r018ccu on [vetorh].dbo.r034fun.codccu = vetorh..r018ccu.codccu "
                 . "left outer join vetorh..r022gra on vetorh.dbo.r034fun.grains = vetorh.dbo.r022gra.grains ";
 
-        $sSqlWhere = " and vetorh..r034fun.numcad not in(1,2,3,4) and vetorh.dbo.r034fun.codfil = 1 and vetorh.dbo.r034fun.numemp = 3 ";
+        $sSqlWhere = " and vetorh..r034fun.numcad not in(1,2,3,4) and vetorh.dbo.r034fun.codfil in(1,3) and vetorh.dbo.r034fun.numemp = 3 ";
         $this->setSWhereManual($sSqlWhere);
 
         return $sSql;
