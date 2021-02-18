@@ -83,7 +83,7 @@ class ViewCotIten extends View {
         parent::criaTela();
 
         $sAcaoRotina = $this->getSRotina();
-        
+
         if ($sAcaoRotina == 'acaoVisualizar') {
             $this->getTela()->setBUsaAltGrid(false);
             $this->getTela()->setBUsaDelGrid(false);
@@ -468,7 +468,7 @@ class ViewCotIten extends View {
     public function addeventoConc() {
         parent::addeventoConc();
         $aValor = $this->getAParametrosExtras();
-        $sRequest = 'requestAjax("","Cot","geraRelPdf","' . $aValor[2] . ',cotacao");';
+        $sRequest = 'requestAjax("","' . $this->getController() . '","geraPdfEmailCot","' . $aValor[2] . ',cotacao");';
 
         return $sRequest;
     }

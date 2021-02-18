@@ -282,4 +282,38 @@ class ControllerCotIten extends Controller {
         return "Valor Total: R$ " . $iTotal;
     }
 
+    public function geraPdfEmailCot($sDados) {
+        $sImg = $this->getSget();
+        $aDados = explode(',', $sDados);
+        $_REQUEST['nr'] = $aDados[0];
+        $_REQUEST['diroffice'] = $_SESSION['diroffice'];
+        $_REQUEST['emails'] = $_SESSION['email'];
+        $_REQUEST['cotacao'] = $aDados[1];
+        $_REQUEST['tabcab'] = $_SESSION['officecabcot'];
+        $_REQUEST['itencab'] = $_SESSION['officecabcotiten'];
+        $_REQUEST['repcod'] = $_SESSION['repoffice'];
+        $_REQUEST['imgrel'] = $sImg;
+        $_REQUEST['output'] = 'email';
+
+        $bRetorno = require 'app/relatorio/cotacao.php';
+
+        if ($bRetorno) {
+            $oCot = Fabrica::FabricarPersistencia('Cot');
+            $oCot->confirmaEnvioEmail($aDados[0]);
+            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo', Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function getSget() {
+        parent::getSget();
+
+        $oRepOffice = Fabrica::FabricarPersistencia('RepOffice');
+        $sImg = $oRepOffice->imgRel(null);
+        return $sImg;
+    }
+
 }

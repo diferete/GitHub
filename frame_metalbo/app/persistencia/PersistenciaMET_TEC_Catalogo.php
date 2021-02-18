@@ -118,7 +118,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
 
 
 
-//======================================SELECT FINAL PARA TRAZER TODOS OS DADOS NECESSÁRIOS============================================================//
+//====================================== SELECT FINAL PARA TRAZER TODOS OS DADOS NECESSÁRIOS ============================================================//
         $sSql = "select cxnormal,cxmaster,saco,widl.prod01.procod,pdftabvendas.preco,prodes,pround,promatcod,ProClasseG,widl.prod05.media,metmat.material,"
                 . "prodchamin,prodchamax,prodchamin,prodchamax,prodaltmin,prodaltmax,proddiamin,proddiamax,procommin,procommax,prodiapmin,prodiapmax,"
                 . "prodiaemin,prodiaemax,procomrmin,procomrmax,comphastma,comphastmi,diamhastmi,diamhastma,pfcmin,pfcmax,proanghel "

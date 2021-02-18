@@ -17,6 +17,9 @@ class ViewSolPedIten extends View {
     function criaGridDetalhe() {
         parent::criaGridDetalhe($sIdAba);
 
+        /**
+         * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
+         */
         $this->getOGridDetalhe()->setIAltura(300);
 
         $oNr = new CampoConsulta('Nrº', 'nr');
@@ -288,8 +291,7 @@ class ViewSolPedIten extends View {
 
         //adiciona os campos no fieldset
         $oFieldEmb->addCampos(array($oCaixaMaster, $oAguardMaster, $oQtSugMaster, $oQtCaixaMaster, $oDiver, $oBtnMaster, $oCaixaNormal, $oAguardNormal, $oQtSugNormal, $oQtCaixaNormal, $oBtnNormal));
-        //carrega o fieldset como oculto
-        //$oFieldEmb->setOculto(true);
+
         //campo para informar 
         $oLiberadoEmbalagem = new Campo('Embalagem', 'emb', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oLiberadoEmbalagem->setApenasTela(true);
@@ -358,7 +360,7 @@ class ViewSolPedIten extends View {
                 . 'var oEmpSaida = $("#' . $oEmpCod->getId() . '").val();'
                 . 'if($("#' . $oCodigo->getId() . '").val()!== ""){'
                 . 'requestAjax("","SolPedIten","acaoExitCodigo","' . $oPrcBruto->getId() . ','
-                . '' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . '     ","");  $("#' . $oQuant->getId() . '").trigger("blur");}');
+                . '' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . '","");  $("#' . $oQuant->getId() . '").trigger("blur");}');
 
         /*
          * Define os eventos no exit dos campos de desconto
@@ -374,8 +376,8 @@ class ViewSolPedIten extends View {
                 . '$("#' . $oTratamento->getId() . '").val(),$("#' . $oDescExtra1->getId() . '").val(),$("#' . $oDescExtra2->getId() . '").val(),'
                 . '"' . $oVlrUnit->getId() . '","' . $oVlrTot->getId() . '","' . $oQuant->getId() . '","' . $oDesconto->getId() . '","' . $oTratamento->getId() . '","' . $oDescExtra1->getId() . '","' . $oDescExtra2->getId() . '"); '
                 . '$("#' . $this->getTela()->getId() . '-form").formValidation("revalidateField", "' . $oVlrUnit->getNome() . '"); '
-                . ' calcEmbNormal("' . $oQuant->getId() . '","' . $oCaixaNormal->getId() . '","' . $oAguardNormal->getId() . '","' . $oFieldEmb->getSId() . '","' . $oQtSugNormal->getId() . '","' . $oQtCaixaNormal->getId() . '");'
-                . ' calcEmbMaster("' . $oQuant->getId() . '","' . $oCaixaMaster->getId() . '","' . $oAguardMaster->getId() . '","' . $oFieldEmb->getSId() . '","' . $oQtSugMaster->getId() . '","' . $oQtCaixaMaster->getId() . '","' . $oDiver->getId() . '");'
+                . ' calcEmbNormal("' . $oQuant->getId() . '","' . $oCaixaNormal->getId() . '","' . $oAguardNormal->getId() . '","' . $oQtSugNormal->getId() . '","' . $oQtCaixaNormal->getId() . '");'
+                . ' calcEmbMaster("' . $oQuant->getId() . '","' . $oCaixaMaster->getId() . '","' . $oAguardMaster->getId() . '","' . $oQtSugMaster->getId() . '","' . $oQtCaixaMaster->getId() . '","' . $oDiver->getId() . '");'
                 . ' calcPrecoKg("' . $oQuant->getId() . '","' . $oPesoProduto->getId() . '","' . $oVlrTot->getId() . '","' . $oPrecoKg->getId() . '")';
 
         /**
@@ -395,7 +397,7 @@ class ViewSolPedIten extends View {
          * Valida as quantidades de caixa
          */
 
-        $sCallBackQt = 'if($("#' . $oQuant->getId() . '").val() <= "0") {'
+        $sCallBackQt = 'if($("#' . $oQuant->getId() . '").val()<="0") {'
                 . 'return { valid: false, message: "Não pode ser zero!" };'
                 . '} else {'
                 . 'if(verifLoteMin("' . $oLoteMinimo->getId() . '","' . $oQuant->getId() . '") == false){'
@@ -408,6 +410,7 @@ class ViewSolPedIten extends View {
                 . '}else{return { valid: true };}'
                 . '}'
                 . '}';
+
 
         $oQuant->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sCallBackQt, Validacao::TRIGGER_SAIR);
 
@@ -426,6 +429,7 @@ class ViewSolPedIten extends View {
         //---Adiciona uma linha em branco---///
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
+        //adiciona botões nos grid detalhe
 
         $sAcaoDisp = 'var contdel = 0; '
                 . 'var chavedel = []; '
@@ -467,8 +471,7 @@ class ViewSolPedIten extends View {
     public function addeventoConc() {
         parent::addeventoConc();
         $aValor = $this->getAParametrosExtras();
-        $sRequest = 'requestAjax("","SolPed","geraRelPdf","' . $aValor[2] . ',solvenda");';
-
+        $sRequest = 'requestAjax("","' . $this->getController() . '","geraPdfEmailSol","' . $aValor[2] . ',solvenda");';
         return $sRequest;
     }
 

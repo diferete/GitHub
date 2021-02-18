@@ -115,8 +115,8 @@ class ControllerMET_TEC_Chamados extends Controller {
 
         // Para
         $oEmail->addDestinatario('alexandre@metalbo.com.br');
-        $oEmail->addDestinatarioCopia('avanei@metalbo.com.br');
-
+        $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
+        $oEmail->addDestinatarioCopia('jose@metalbo.com.br');
         if ($aCampos['anexo1'] != '') {
             $oEmail->addAnexo('Uploads/' . $aCampos['anexo1'] . '', utf8_decode($aCampos['anexo1']));
         }
@@ -139,7 +139,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         } else {
 
             $oMensagem2 = new Mensagem('Sucesso', 'SEU REGISTRO FOI INSERIDO!', Mensagem::TIPO_SUCESSO, 20000);
-            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, reenvie o e-mail. Utilize o botão: E-MAIL -> REENVIAR E-MAIL', Mensagem::TIPO_WARNING);
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, saia e tente utilize o botão: E-MAIL -> REENVIAR E-MAIL', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
             echo $oMensagem2->getRender();
 
@@ -228,19 +228,18 @@ class ControllerMET_TEC_Chamados extends Controller {
         if ($aCampos['obsfim'] == '') {
             $oMensagem = new Mensagem('Atenção', 'Preencha o campo OBSERVAÇÃO!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
+            exit;
+        }
+        if ($aCampos['tempo'] == '') {
+            $oMensagem = new Mensagem('Atenção', 'Preencha o campo TEMPO!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+            exit;
         } else {
             $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
             if ($aRetorno[0]) {
-                $bRetorno = $this->EnviaEmailFinalizaChamado($aCampos);
-                if ($bRetorno) {
-                    $oMsg = new Modal('Tudo certo', 'Chamado foi finalizado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
-                    echo "$('#criaModalApontaChamado-btn').click();";
-                    echo $oMsg->getRender();
-                } else {
-                    $oMsg = new Modal('Atenção', 'Erro ao tentar enviar e-mail de finalização do chamado', Modal::TIPO_AVISO, false, true, false);
-                    echo "$('#criaModalApontaChamado-btn').click();";
-                    echo $oMsg->getRender();
-                }
+                $oMsg = new Modal('Tudo certo', 'Chamado foi finalizado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
+                echo "$('#criaModalApontaChamado-btn').click();";
+                echo $oMsg->getRender();
             } else {
                 $oMsg = new Modal('Atenção', 'Erro ao tentar finalizar o chamado', Modal::TIPO_AVISO, false, true, false);
                 echo "$('#criaModalApontaChamado-btn').click();";
@@ -362,7 +361,7 @@ class ControllerMET_TEC_Chamados extends Controller {
         // Para
         $oEmail->addDestinatario($oDados->email);
         $oEmail->addDestinatarioCopia('alexandre@metalbo.com.br');
-        $oEmail->addDestinatarioCopia('avanei@metalbo.com.br');
+        $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
@@ -501,7 +500,8 @@ class ControllerMET_TEC_Chamados extends Controller {
             $oEmail->limpaDestinatariosAll();
 
             $oEmail->addDestinatario('alexandre@metalbo.com.br');
-            $oEmail->addDestinatarioCopia('avanei@metalbo.com.br');
+            $oEmail->addDestinatarioCopia('cleverton@metalbo.com.br');
+            $oEmail->addDestinatarioCopia('jose@metalbo.com.br');
             if ($oDados->anexo1 != '') {
                 $oEmail->addAnexo('Uploads/' . $oDados->anexo1 . '', utf8_decode($oDados->anexo1));
             }

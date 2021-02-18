@@ -461,7 +461,7 @@ class ControllerMET_QUAL_RcRep extends Controller {
 
         $oEmail->addDestinatario('almoxarifado@metalbo.com.br');
 
-        $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
+        //$oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
 
         $aRetorno = $oEmail->sendEmail();
     }

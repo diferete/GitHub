@@ -50,10 +50,6 @@ class ControllerMET_TEC_Chamados extends Controller {
         $str = str_replace(array("\r", "\n"), " ", $this->Model->getProblema());
         $this->Model->setProblema($str);
 
-        if ($this->Model->getFilcgc() == '83781641000158') {
-            $this->Model->setRepoffice('POLIAMIDOS');
-        }
-
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -65,10 +61,6 @@ class ControllerMET_TEC_Chamados extends Controller {
 
         $str = str_replace(array("\r", "\n"), " ", $this->Model->getProblema());
         $this->Model->setProblema($str);
-
-        if ($this->Model->getFilcgc() == '83781641000158') {
-            $this->Model->setRepoffice('POLIAMIDOS');
-        }
 
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -544,6 +536,10 @@ class ControllerMET_TEC_Chamados extends Controller {
         $aParame[4] = $this->Persistencia->buscaDadosSetores();
 
         $this->View->setAParametrosExtras($aParame);
+    }
+
+    public function teste() {
+        $this->Persistencia->teste();
     }
 
 }

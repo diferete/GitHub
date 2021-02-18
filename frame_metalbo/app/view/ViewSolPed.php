@@ -100,10 +100,30 @@ class ViewSolPed extends View {
         //---Define para não ter botão fechar---
         //$this->getTela()->setBTela(true);
         //----INICIO CAMPOS INICIAIS BLOQUEADOS----//
-        $oNr = new Campo('Sol', 'nr', Campo::TIPO_TEXTO, 1, 3, 3, 4);
+        $oNr = new Campo('Sol', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setITamanho(Campo::TAMANHO_PEQUENO);
         $oNr->setBCampoBloqueado(true);
         $oNr->setBFocus(true);
+        //--------------------campo de pesquisa
+        $oCnpj = new Campo('Cliente', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oCnpj->setBFocus(true);
+        $oCnpj->setSCorFundo(Campo::FUNDO_AMARELO);
+
+        $oEmpresa = new Campo('Razão Social', 'cliente', Campo::TIPO_BUSCADOBANCO, 4);
+        $oEmpresa->setSIdPk($oCnpj->getId());
+        $oEmpresa->setClasseBusca('Pessoa');
+        $oEmpresa->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
+        $oEmpresa->addCampoBusca('empcod', '', '');
+        $oEmpresa->addCampoBusca('empdes', '', '');
+        $oEmpresa->setSIdTela($this->getTela()->getid());
+        $oEmpresa->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oEmpresa->setSCorFundo(Campo::FUNDO_AMARELO);
+
+        $oCnpj->setClasseBusca('Pessoa');
+        $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
+        $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
 
         //---Campo usuário que pega da SESSION---//
         $oUserIns = new campo('Usuário', 'userins', Campo::TIPO_TEXTO, 2, 3, 3);
@@ -111,7 +131,7 @@ class ViewSolPed extends View {
         $oUserIns->setBCampoBloqueado(true);
 
         //---Campo Data Atual---///
-        $oData = new Campo('Data', 'data', Campo::TIPO_TEXTO, 1, 3, 3, 4);
+        $oData = new Campo('Data', 'data', Campo::TIPO_DATA, 1, 3, 3, 4);
         $oData->setITamanho(Campo::TAMANHO_PEQUENO);
         $oData->setBCampoBloqueado(true);
         $oData->setSValor(date('d/m/Y'));
@@ -122,40 +142,12 @@ class ViewSolPed extends View {
         date_default_timezone_set('America/Sao_Paulo');
         $oHora->setSValor(date('H:i'));
         $oHora->setBCampoBloqueado(true);
-        //---- FIM CAMPOS INICIAIS BLOQUEADOS----//
-        //---INICIO Campo pesquisa CNPJ---//
-        $oCnpj = new Campo('Cliente', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 6, 6, 12);
 
-        $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oCnpj->setBFocus(true);
-        $oCnpj->setSCorFundo(Campo::FUNDO_AMARELO); //'return { valid: true };';
-        $sCallBackCnpj = 'if(requestJSON(false, "SolPed","verifBloqCred", $("#' . $this->getTela()->getId() . '-form").serialize(), "' . $oCnpj->getNome() . '").retorno == "false"){;'
-                . 'return { valid: false, message: "Atenção, cliente está bloqueado no financeiro!" };'
-                . '}else{return { valid: true };};';
-        $oCnpj->addValidacao(true, Validacao::TIPO_CALLBACK, '', '2', '15', '', '', $sCallBackCnpj, Validacao::TRIGGER_SAIR);
-
-        $oEmpresa = new Campo('RazãoSocial', 'cliente', Campo::TIPO_BUSCADOBANCO, 4, 6, 6, 12);
-        $oEmpresa->setSIdPk($oCnpj->getId());
-        $oEmpresa->setClasseBusca('Pessoa');
-        $oEmpresa->addValidacao(false, Validacao::TIPO_STRING, '', '2');
-
-        /* definir sempre código pk e descrição */
-        $oEmpresa->addCampoBusca('empcod', '', '');
-        $oEmpresa->addCampoBusca('empdes', '', '');
-        $oEmpresa->setSIdTela($this->getTela()->getid());
-        $oEmpresa->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oEmpresa->setSCorFundo(Campo::FUNDO_AMARELO);
-        /* declara as informações */
-        $oCnpj->setClasseBusca('Pessoa');
-        $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
-        $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
-        //---FIM Campo pesquisa CNPJ---//
-        //---INICIO PESQUISA TIPO DE PAGAMENTO---//
-        $oCodPag = new Campo('Cod', 'codpgt', Campo::TIPO_BUSCADOBANCOPK, 1, 6, 6, 12);
+        $oCodPag = new Campo('Cod', 'codpgt', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oCodPag->addValidacao(false, Validacao::TIPO_INTEIRO, '', '1');
         $oCodPag->setITamanho(Campo::TAMANHO_PEQUENO);
 
-        $oCodPagDes = new Campo('Pag', 'cpgt', Campo::TIPO_BUSCADOBANCO, 4, 6, 6, 12);
+        $oCodPagDes = new Campo('Pagamento', 'cpgt', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oCodPagDes->setSIdPk($oCodPag->getId());
         $oCodPagDes->setClasseBusca('CondPag');
         $oCodPagDes->addCampoBusca('cpgcod', '', '');
@@ -167,36 +159,44 @@ class ViewSolPed extends View {
         $oCodPag->setClasseBusca('CondPag');
         $oCodPag->setSCampoRetorno('cpgcod', $this->getTela()->getId());
         $oCodPag->addCampoBusca('cpgdes', $oCodPagDes->getId(), $this->getTela()->getId());
-        //---FIM PESQUISA TIPO DE PAGAMENTO---//
+
         //---Campo Ordem de Compra---///
-        $oOd = new Campo('OrdemCompra', 'odcompra', Campo::TIPO_TEXTO, 2, 3, 3, 6);
+        $oOd = new Campo('Ordem de Compra', 'odcompra', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oOd->setITamanho(Campo::TAMANHO_PEQUENO);
         $oOd->setSValor(' ');
         $oOd->addValidacao(false, Validacao::TIPO_STRING);
 
         //---Campo Código de representante---///
-        $oCodRed = new Campo('CodRep', 'codrep', Campo::TIPO_TEXTO, 2, 3, 3, 6);
-        $oCodRed->setBCampoBloqueado(true);
-        $oCodRed->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oCodRed->addValidacao(false, Validacao::TIPO_INTEIRO, '', '1');
+        $oCodRep = new Campo('Cod. Rep', 'codrep', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
 
         //---Campo Descrição de Representante---///
-        $oRep = new Campo('Representante', 'rep', Campo::TIPO_TEXTO, 2, 3, 3, 12);
+        $oRep = new Campo('Representante', 'rep', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
+        $oRep->setSIdPk($oCodRep->getId());
+        $oRep->setClasseBusca('Repcod');
+        $oRep->addCampoBusca('repcod', '', '');
+        $oRep->addCampoBusca('repdes', '', '');
+        $oRep->setSIdTela($this->getTela()->getid());
         $oRep->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oRep->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oRep->setBCampoBloqueado(true);
+
+        $oCodRep->setClasseBusca('Repcod');
+        $oCodRep->setSCampoRetorno('repcod', $this->getTela()->getId());
+        $oCodRep->addCampoBusca('repdes', $oRep->getId(), $this->getTela()->getId());
+
         //evento para carrega o rep
-        $oCodPagDes->addEvento(Campo::EVENTO_SAIR, 'var oCnpj=$("#' . $oCnpj->getId() . '").val(); requestAjax("","SolPed","carregaRep","' . $oCodRed->getId() . ',' . $oRep->getId() . ',"+oCnpj+"","");');
+        $oCodPagDes->addEvento(Campo::EVENTO_SAIR, 'var oCnpj=$("#' . $oCnpj->getId() . '").val(); requestAjax("","SolPed","carregaRep","' . $oCodRep->getId() . ',' . $oRep->getId() . ',"+oCnpj+"","");');
 
         //---INICIO PESQUISA TIPO DE TRANSPORTADORA---//
-        $oTransp = new Campo('CodTransp', 'transcnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 6, 6, 12);
+        $oTransp = new Campo('CNPJ Transp.', 'transcnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 6, 6, 12);
         $oTransp->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oTransp->setSValor(' ');
+        $oTransp->setSValor('');
 
         $oTranspDes = new Campo('Transportadora', 'transp', Campo::TIPO_BUSCADOBANCO, 4, 6, 6, 12);
         $oTranspDes->setSIdPk($oTransp->getId());
         $oTranspDes->setClasseBusca('Transp');
         $oTranspDes->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oTranspDes->setSValor(' ');
+        $oTranspDes->setSValor('');
 
         /* definir sempre código pk e descrição */
         $oTranspDes->addCampoBusca('empcod', '', '');
@@ -211,32 +211,32 @@ class ViewSolPed extends View {
         $oFrete->addItemSelect('FOB', 'FOB');
 
         //---Campo Observação---///
-        $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 15);
+        $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObs->setSCorFundo(Campo::FUNDO_AMARELO);
         $oObs->setILinhasTextArea(4);
-        $oObs->setSValor(' ');
+        $oObs->setSValor('');
         $oObs->setICaracter(300);
 
         //---Campo Quantidade Exata---///
-        $oQtExata = new Campo('Quant.Exata', 'qtexata', Campo::TIPO_SELECT, 4, 5, 8, 10);
+        $oQtExata = new Campo('Quantidade exata', 'qtexata', Campo::TIPO_SELECT, 3, 3, 12, 12);
         $oQtExata->addItemSelect('N', 'CLIENTE NÃO SOLICITA QUANTIDADES EXATAS');
         $oQtExata->addItemSelect('S', 'CLIENTE SOLICITA QUANTIDADE EXATAS');
 
         //---Aviso do campo Quantidade Exata---//
-        $oAtencao = new Campo('Atenção à seleção', '', Campo::TIPO_BADGE, 1, 1, 1, 3);
+        $oAtencao = new Campo('Atenção à seleção de quantidades!', '', Campo::TIPO_BADGE, 1, 1, 12, 12);
         $oAtencao->setSEstiloBadge(Campo::BADGE_DANGER);
         $oAtencao->setITamFonteBadge(18);
         $oAtencao->setApenasTela(true);
 
         //---Campo data de entrega com eventos de validação (Não pode ser menor que a data atual e nem null)---//
-        $oDataEnt = new Campo('DataEntrega', 'dtent', Campo::TIPO_DATA, 2);
+        $oDataEnt = new Campo('Data entrega', 'dtent', Campo::TIPO_DATA, 2);
         $oDataEnt->setITamanho(Campo::TAMANHO_PEQUENO);
         $sEventoData = 'if (dataAtual("' . $oDataEnt->getId() . '","' . date('d/m/Y') . '") == false){ '
                 . 'return { valid: false, message: "Data menor que a data atual!" };'
                 . '}else{'
                 . 'return { valid: true };'
-                . '}; '
-                . 'if($("#' . $oDataEnt->getId() . '").val() == "") { '
+                . '};'
+                . 'if($("#' . $oDataEnt->getId() . '").val() == "") {'
                 . 'return { valid: false, message: "Data não pode ser em branco!" };'
                 . '}else{'
                 . 'return { valid: true };'
@@ -257,7 +257,7 @@ class ViewSolPed extends View {
 
         $oContato = new Campo('Contato', 'contato', Campo::TIPO_TEXTO, 3);
         $oContato->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oContato->setSValor(' ');
+        $oContato->setSValor('');
 
         $oEmail = new Campo('', 'email', Campo::TIPO_TEXTO, 1);
         $oEmail->setSValor('NV');
@@ -271,8 +271,6 @@ class ViewSolPed extends View {
         $this->addEtapa($oEtapas);
 
         //---Adiciona uma linha em branco---///
-        $oLinha = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
-        $oLinha->setApenasTela(true);
 
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
             //monta campo de controle para inserir ou alterar
@@ -285,10 +283,10 @@ class ViewSolPed extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
 
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRed, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oAcao, $oLinha, $oSituaca);
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRep, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oAcao, $oSituaca);
         } else {
 
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRed, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oSituaca);
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRep, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oSituaca);
         }
     }
 

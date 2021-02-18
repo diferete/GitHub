@@ -314,13 +314,37 @@ if ($row['anexo1'] != '' && (strstr(strtolower($row['anexo1']), 'png') || strstr
 }
 
 if ($row['anexo1'] != '' && (strstr(strtolower($row['anexo1']), 'pdf'))) {
+
     $sAnexo1 = $row['anexo1'];
-    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexo1);
-    for ($i = 0; $i < $pageCount; $i++) {
-        $tpl = $pdf->importPage($i + 1, '/MediaBox');
-        $pdf->addPage();
-        $pdf->useImportedPage($tpl, null, null, null, null, true);
-        $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+    $filepdf = fopen('' . $sDir . 'Uploads/' . $sAnexo1, "r");
+    if ($filepdf) {
+        $line_first = fgets($filepdf);
+        fclose($filepdf);
+    }
+
+    preg_match_all('!\d+!', $line_first, $matches);
+    // save that number in a variable
+    $pdfversion = implode('.', $matches[0]);
+    $NEW_PDF = $sDir . 'Uploads2/' . $sAnexo1;
+    $OLD_PDF = $sDir . 'Uploads/' . $sAnexo1;
+
+    if ($pdfversion > "1.4") {
+        shell_exec('"C:\Program Files\gs\gs9.53.3\bin\gswin64c" -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -sOutputFile="' . $NEW_PDF . '" "' . $OLD_PDF . '"');
+        $pageCount = $pdf->setSourceFile($NEW_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
+    } else {
+        $pageCount = $pdf->setSourceFile($OLD_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
     }
 }
 
@@ -337,12 +361,35 @@ if ($row['anexo2'] != '' && (strstr(strtolower($row['anexo2']), 'png') || strstr
 
 if ($row['anexo2'] != '' && (strstr(strtolower($row['anexo2']), 'pdf'))) {
     $sAnexo2 = $row['anexo2'];
-    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexo2);
-    for ($i = 0; $i < $pageCount; $i++) {
-        $tpl = $pdf->importPage($i + 1, '/MediaBox');
-        $pdf->addPage();
-        $pdf->useImportedPage($tpl, null, null, null, null, true);
-        $pdf->Cell(26, 5, "ANEXO 2", 0, 1, 'L');
+    $filepdf = fopen('' . $sDir . 'Uploads/' . $sAnexo2, "r");
+    if ($filepdf) {
+        $line_first = fgets($filepdf);
+        fclose($filepdf);
+    }
+
+    preg_match_all('!\d+!', $line_first, $matches);
+    // save that number in a variable
+    $pdfversion = implode('.', $matches[0]);
+    $NEW_PDF = $sDir . 'Uploads2/' . $sAnexo2;
+    $OLD_PDF = $sDir . 'Uploads/' . $sAnexo2;
+
+    if ($pdfversion > "1.4") {
+        shell_exec('"C:\Program Files\gs\gs9.53.3\bin\gswin64c" -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -sOutputFile="' . $NEW_PDF . '" "' . $OLD_PDF . '"');
+        $pageCount = $pdf->setSourceFile($NEW_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
+    } else {
+        $pageCount = $pdf->setSourceFile($OLD_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
     }
 }
 
@@ -360,12 +407,35 @@ if ($row['anexo3'] != '' && (strstr(strtolower($row['anexo3']), 'png') || strstr
 
 if ($row['anexo3'] != '' && (strstr(strtolower($row['anexo3']), 'pdf'))) {
     $sAnexo3 = $row['anexo3'];
-    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexo3);
-    for ($i = 0; $i < $pageCount; $i++) {
-        $tpl = $pdf->importPage($i + 1, '/MediaBox');
-        $pdf->addPage();
-        $pdf->useImportedPage($tpl, null, null, null, null, true);
-        $pdf->Cell(26, 5, "ANEXO 3", 0, 1, 'L');
+    $filepdf = fopen('' . $sDir . 'Uploads/' . $sAnexo3, "r");
+    if ($filepdf) {
+        $line_first = fgets($filepdf);
+        fclose($filepdf);
+    }
+
+    preg_match_all('!\d+!', $line_first, $matches);
+    // save that number in a variable
+    $pdfversion = implode('.', $matches[0]);
+    $NEW_PDF = $sDir . 'Uploads2/' . $sAnexo3;
+    $OLD_PDF = $sDir . 'Uploads/' . $sAnexo3;
+
+    if ($pdfversion > "1.4") {
+        shell_exec('"C:\Program Files\gs\gs9.53.3\bin\gswin64c" -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -sOutputFile="' . $NEW_PDF . '" "' . $OLD_PDF . '"');
+        $pageCount = $pdf->setSourceFile($NEW_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
+    } else {
+        $pageCount = $pdf->setSourceFile($OLD_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
     }
 }
 if (($row['anexo1'] != '') || ($row['anexo2'] != '') || ($row['anexo3'] != '')) {
@@ -536,12 +606,35 @@ if ($row['anexo_analise'] != '' && (strstr(strtolower($row['anexo_analise']), 'p
 
 if ($row['anexo_analise'] != '' && (strstr(strtolower($row['anexo_analise']), 'pdf'))) {
     $sAnexoAnalise = $row['anexo_analise'];
-    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexoAnalise);
-    for ($i = 0; $i < $pageCount; $i++) {
-        $tpl = $pdf->importPage($i + 1, '/MediaBox');
-        $pdf->addPage();
-        $pdf->useImportedPage($tpl, null, null, null, null, true);
-        $pdf->Cell(26, 5, "ANEXO ANÁLISE", 0, 1, 'L');
+    $filepdf = fopen('' . $sDir . 'Uploads/' . $sAnexoAnalise, "r");
+    if ($filepdf) {
+        $line_first = fgets($filepdf);
+        fclose($filepdf);
+    }
+
+    preg_match_all('!\d+!', $line_first, $matches);
+    // save that number in a variable
+    $pdfversion = implode('.', $matches[0]);
+    $NEW_PDF = $sDir . 'Uploads2/' . $sAnexoAnalise;
+    $OLD_PDF = $sDir . 'Uploads/' . $sAnexoAnalise;
+
+    if ($pdfversion > "1.4") {
+        shell_exec('"C:\Program Files\gs\gs9.53.3\bin\gswin64c" -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -sOutputFile="' . $NEW_PDF . '" "' . $OLD_PDF . '"');
+        $pageCount = $pdf->setSourceFile($NEW_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
+    } else {
+        $pageCount = $pdf->setSourceFile($OLD_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
     }
 }
 
@@ -558,12 +651,35 @@ if ($row['anexo_analise1'] != '' && (strstr(strtolower($row['anexo_analise1']), 
 
 if ($row['anexo_analise1'] != '' && (strstr(strtolower($row['anexo_analise1']), 'pdf'))) {
     $sAnexoAnalise1 = $row['anexo_analise1'];
-    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexoAnalise1);
-    for ($i = 0; $i < $pageCount; $i++) {
-        $tpl = $pdf->importPage($i + 1, '/MediaBox');
-        $pdf->addPage();
-        $pdf->useImportedPage($tpl, null, null, null, null, true);
-        $pdf->Cell(26, 5, "ANEXO ANÁLISE 1", 0, 1, 'L');
+    $filepdf = fopen('' . $sDir . 'Uploads/' . $sAnexoAnalise1, "r");
+    if ($filepdf) {
+        $line_first = fgets($filepdf);
+        fclose($filepdf);
+    }
+
+    preg_match_all('!\d+!', $line_first, $matches);
+    // save that number in a variable
+    $pdfversion = implode('.', $matches[0]);
+    $NEW_PDF = $sDir . 'Uploads2/' . $sAnexoAnalise1;
+    $OLD_PDF = $sDir . 'Uploads/' . $sAnexoAnalise1;
+
+    if ($pdfversion > "1.4") {
+        shell_exec('"C:\Program Files\gs\gs9.53.3\bin\gswin64c" -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -sOutputFile="' . $NEW_PDF . '" "' . $OLD_PDF . '"');
+        $pageCount = $pdf->setSourceFile($NEW_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
+    } else {
+        $pageCount = $pdf->setSourceFile($OLD_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
     }
 }
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -615,12 +731,35 @@ if ($row['anexo_inspecao'] != '' && (strstr(strtolower($row['anexo_inspecao']), 
 
 if ($row['anexo_inspecao'] != '' && (strstr(strtolower($row['anexo_inspecao']), 'pdf'))) {
     $sAnexoInspecao = $row['anexo_inspecao'];
-    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexoInspecao);
-    for ($i = 0; $i < $pageCount; $i++) {
-        $tpl = $pdf->importPage($i + 1, '/MediaBox');
-        $pdf->addPage();
-        $pdf->useImportedPage($tpl, null, null, null, null, true);
-        $pdf->Cell(26, 5, "ANEXO INSPEÇÃO", 0, 1, 'L');
+    $filepdf = fopen('' . $sDir . 'Uploads/' . $sAnexoInspecao, "r");
+    if ($filepdf) {
+        $line_first = fgets($filepdf);
+        fclose($filepdf);
+    }
+
+    preg_match_all('!\d+!', $line_first, $matches);
+    // save that number in a variable
+    $pdfversion = implode('.', $matches[0]);
+    $NEW_PDF = $sDir . 'Uploads2/' . $sAnexoInspecao;
+    $OLD_PDF = $sDir . 'Uploads/' . $sAnexoInspecao;
+
+    if ($pdfversion > "1.4") {
+        shell_exec('"C:\Program Files\gs\gs9.53.3\bin\gswin64c" -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -sOutputFile="' . $NEW_PDF . '" "' . $OLD_PDF . '"');
+        $pageCount = $pdf->setSourceFile($NEW_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
+    } else {
+        $pageCount = $pdf->setSourceFile($OLD_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
     }
 }
 
@@ -637,12 +776,35 @@ if ($row['anexo_inspecao1'] != '' && (strstr(strtolower($row['anexo_inspecao1'])
 
 if ($row['anexo_inspecao1'] != '' && (strstr(strtolower($row['anexo_inspecao1']), 'pdf'))) {
     $sAnexoInspecao1 = $row['anexo_inspecao1'];
-    $pageCount = $pdf->setSourceFile('' . $sDir . 'Uploads/' . $sAnexoInspecao1);
-    for ($i = 0; $i < $pageCount; $i++) {
-        $tpl = $pdf->importPage($i + 1, '/MediaBox');
-        $pdf->addPage();
-        $pdf->useImportedPage($tpl, null, null, null, null, true);
-        $pdf->Cell(26, 5, "ANEXO INSPEÇÃO 1", 0, 1, 'L');
+    $filepdf = fopen('' . $sDir . 'Uploads/' . $sAnexoInspecao1, "r");
+    if ($filepdf) {
+        $line_first = fgets($filepdf);
+        fclose($filepdf);
+    }
+
+    preg_match_all('!\d+!', $line_first, $matches);
+    // save that number in a variable
+    $pdfversion = implode('.', $matches[0]);
+    $NEW_PDF = $sDir . 'Uploads2/' . $sAnexoInspecao1;
+    $OLD_PDF = $sDir . 'Uploads/' . $sAnexoInspecao1;
+
+    if ($pdfversion > "1.4") {
+        shell_exec('"C:\Program Files\gs\gs9.53.3\bin\gswin64c" -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -sOutputFile="' . $NEW_PDF . '" "' . $OLD_PDF . '"');
+        $pageCount = $pdf->setSourceFile($NEW_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
+    } else {
+        $pageCount = $pdf->setSourceFile($OLD_PDF);
+        for ($i = 0; $i < $pageCount; $i++) {
+            $tpl = $pdf->importPage($i + 1, '/MediaBox');
+            $pdf->addPage();
+            $pdf->useImportedPage($tpl, null, null, null, null, true);
+            $pdf->Cell(26, 5, "ANEXO 1", 0, 1, 'L');
+        }
     }
 }
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -710,8 +872,7 @@ if ($sEmailRequest == 'S') {
     //enviar e-mail vendas
     $oEmail->addDestinatario($aRowMail['usuemail']);
     //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-
-    $oEmail->addAnexo('app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc . '.pdf'));
+    //$oEmail->addAnexo('app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc . '.pdf'));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

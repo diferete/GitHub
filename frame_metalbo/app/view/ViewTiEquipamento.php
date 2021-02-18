@@ -282,11 +282,13 @@ class ViewTiEquipamento extends View {
         $oSemEqp->addItemSelect('19','Camera');
         $oSemEqp->addItemSelect('20','Central Telefonica');
         $oSemEqp->addItemSelect('21','Quasro de computação');
+        
+        $oRelResum = new Campo("Resumido", 'resumido', Campo::TIPO_CHECK, 2, 2, 12, 12);
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $this->addCampos($oTipoEquip, $oSetorCod, $oLinha1, $oSituaca, $oLinha1, $oSistema, $oLinha1, array($oLicensa, $oOffice), $oLinha1, array($oIpFixo,$oSemEqp));
+        $this->addCampos($oTipoEquip, $oSetorCod, $oLinha1, $oSituaca, $oLinha1, $oSistema, $oLinha1, array($oLicensa, $oOffice), $oLinha1, array($oIpFixo,$oSemEqp), $oRelResum);
     }
 
 }

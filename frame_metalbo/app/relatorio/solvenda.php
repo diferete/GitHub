@@ -66,10 +66,10 @@ $pdf = new PDF('P', 'mm', 'A4'); //CRIA UM NOVO ARQUIVO PDF NO TAMANHO A4
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 //SETAR O TÍTULO DA PÁGINA
-$iNr = $_REQUEST['nr'];
+$NR = $_REQUEST['nr'];
 $sTabCab = $_REQUEST['tabcab'];
 $sTabIten = $_REQUEST['itencab'];
-$sDiretorio = $_REQUEST['dir'];
+$sDiretorio = $_REQUEST['diroffice'];
 if (isset($_REQUEST['logo'])) {
     $sLogo = $_REQUEST['logo'];
 } else {
@@ -86,7 +86,7 @@ $sSql = "  select " . $sTabCab . ".NR,CNPJ,CLIENTE,widl.emp01.empfone,
             from " . $sTabCab . " left outer join widl.EMP01
             on " . $sTabCab . ".CNPJ = widl.EMP01.empcod left outer join widl.CID01
             on widl.EMP01.cidcep = widl.CID01.cidcep
-            where " . $sTabCab . ".NR =" . $iNr;
+            where " . $sTabCab . ".NR =" . $NR;
 $dadoscab = $PDO->query($sSql);
 while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $nrsol = $row["NR"];
@@ -135,7 +135,7 @@ if ($_REQUEST['output'] == 'email') {
 
 $pdf->SetFont('Arial', 'B', 16);
 
-$pdf->Cell(190, 18, 'SOLICITAÇÃO DE VENDA Nº ' . $iNr . '', 0, 1, 'C');
+$pdf->Cell(190, 18, 'SOLICITAÇÃO DE VENDA Nº ' . $NR . '', 0, 1, 'C');
 $pdf->Ln(5);
 //cliente
 $pdf->SetFont('arial', '', 9);
@@ -207,21 +207,20 @@ $pdf->Cell(20, 5, 'R$ Total', 0, 1, 'L');
 /**
  * Select dos dados
  */
-$nrItens = $iNr;
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 //gera o somatório
 $sSql = "select sum(VLRTOT)as total,sum(coalesce(quant*propesprat,0))as peso,
 sum(VLRTOT+(VLRTOT*10/100))as totalipi 
 from " . $sTabIten . " inner join widl.prod01(nolock) 
 on " . $sTabIten . ".CODIGO = widl.prod01.procod   
-where NR =" . $nrItens;
+where NR =" . $NR;
 $row = $PDO->query($sSql);
 $rowTotal = $row->fetch(PDO::FETCH_OBJ);
 $total = $rowTotal->total;
 $totalPeso = $rowTotal->peso;
 $totalipi = $rowTotal->totalipi;
 
-$sSql = "select seq,CODIGO,DESCRICAO,QUANT,VLRUNIT,VLRTOT,pdfdisp from " . $sTabIten . " where NR =" . $nrItens . " order by seq";
+$sSql = "select seq,CODIGO,DESCRICAO,QUANT,VLRUNIT,VLRTOT,pdfdisp from " . $sTabIten . " where NR =" . $NR . " order by seq";
 $dadosItens = $PDO->query($sSql);
 while ($row = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     $seq = $row['seq'];
@@ -275,14 +274,10 @@ if (isset($sSt)) {
 }
 
 if ($_REQUEST['output'] == 'email') {
-    if ($sDiretorio == null) {
-        $pdf->Output('F', 'app/relatorio/representantes/solvenda' . $iNr . '.pdf'); // GERA O PDF NA TELA
-    } else {
-        $pdf->Output('F', 'app/relatorio/representantes/' . $sDiretorio . '/solvenda' . $iNr . '.pdf'); // GERA O PDF NA TELA
-    }
+    $pdf->Output('F', 'app/relatorio/representantes/' . $sDiretorio . '/solvenda' . $NR . '.pdf'); // GERA O PDF NA TELA
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
 } else {
-    $pdf->Output('I', 'solvenda' . $iNr . '.pdf');
+    $pdf->Output('I', 'solvenda' . $NR . '.pdf');
     Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  
 }
 
@@ -298,8 +293,8 @@ if ($_REQUEST['output'] == 'email') {
     $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
     $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
 
-    $oEmail->setAssunto(utf8_decode('Solicitação de venda nº' . $iNr));
-    $oEmail->setMensagem(utf8_decode('Anexo solicitação de venda nº' . $iNr));
+    $oEmail->setAssunto(utf8_decode('Solicitação de venda nº' . $NR));
+    $oEmail->setMensagem(utf8_decode('Anexo solicitação de venda nº' . $NR));
     $oEmail->limpaDestinatariosAll();
 
     // Para
@@ -308,21 +303,13 @@ if ($_REQUEST['output'] == 'email') {
     foreach ($aEmails as $sEmail) {
         $oEmail->addDestinatario($sEmail);
     }
-    if ($sDiretorio == null) {
-        $oEmail->addAnexo('app/relatorio/representantes/solvenda' . $iNr . '.pdf', utf8_decode('Solicitação nº' . $iNr . '.pdf'));
-    } else {
-        $oEmail->addAnexo('app/relatorio/representantes/' . $sDiretorio . '/solvenda' . $iNr . '.pdf', utf8_decode('Solicitação nº' . $iNr . '.pdf'));
-    }
+
+    $oEmail->addAnexo('app/relatorio/representantes/' . $sDiretorio . '/solvenda' . $NR . '.pdf', utf8_decode('Solicitação nº' . $NR . '.pdf'));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
-        //$oCot = Fabrica::FabricarPersistencia('SolPed');
-        //$oCot->confirmaEnvioEmail($iNr,$sTabCab);
-        //$oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
-        echo $oMensagem->getRender();
-        echo"$('#" . $aDados[1] . "-pesq').click();";
+        return true;
     } else {
-        $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
-        echo $oMensagem->getRender();
+        return false;
     }
 }
 /*

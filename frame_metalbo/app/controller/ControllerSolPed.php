@@ -301,7 +301,17 @@ class ControllerSolPed extends Controller {
         $_REQUEST['logo'] = 'comlogo';
         $_REQUEST['repcod'] = $_SESSION['repoffice'];
 
-        require 'app/relatorio/solvenda.php';
+        $bRetorno = require 'app/relatorio/solvenda.php';
+
+        if ($bRetorno) {
+            //$oCot = Fabrica::FabricarPersistencia('SolPed');
+            //$oCot->confirmaEnvioEmail($aDados[0]);
+            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo', Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
     }
 
     public function geraAnexoSolEmailSLogo($sDados) {
@@ -330,7 +340,17 @@ class ControllerSolPed extends Controller {
         $_REQUEST['logo'] = 'semlogo';
         $_REQUEST['repcod'] = $_SESSION['repoffice'];
 
-        require 'app/relatorio/solvenda.php';
+        $bRetorno = require 'app/relatorio/solvenda.php';
+
+        if ($bRetorno) {
+            //$oCot = Fabrica::FabricarPersistencia('Cot');
+            //$oCot->confirmaEnvioEmail($aDados[0]);
+            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo', Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
     }
 
 }

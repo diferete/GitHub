@@ -1403,7 +1403,7 @@ class Controller {
 
         $sCampos = htmlspecialchars_decode($aDados[2]);
 
-        $sCampos .= '&dir=' . $_SESSION['diroffice'];
+        $sCampos .= '&diroffice=' . $_SESSION['diroffice'];
 
         $aRel = explode(',', $sRel);
 
@@ -1544,21 +1544,6 @@ class Controller {
 
         $oMenSuccess = new Mensagem("Sucesso", "Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
         echo $oMenSuccess->getRender();
-    }
-
-    public function geraRelPdf($sDados) {
-        $aDados = explode(',', $sDados);
-        $sSistema = "app/relatorio";
-        $sRelatorio = $aDados[1] . '.php?';
-        $sCampos = 'nr=' . $aDados[0];
-        $sCampos .= '&dir=' . $_SESSION["diroffice"];
-        $sCampos .= $this->getSget();
-        $sCampos .= '&output=email';
-        $sCampos .= '&emails=' . $_SESSION['email'];
-
-        $oWindow = 'var win = window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "1366002941508","width=100,height=100,left=375,top=330");'
-                . 'setTimeout(function () { win.close();}, 1000);';
-        echo $oWindow;
     }
 
     /**

@@ -17,7 +17,7 @@ class ViewMET_TEC_Chamados extends View {
         $this->setAcaoFecharTela(true);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
-        $this->getTela()->setILarguraGrid(2200);
+        $this->getTela()->setILarguraGrid(2400);
         $this->getTela()->setBGridResponsivo(false);
 
         $this->setUsaFiltro(true);
@@ -78,6 +78,8 @@ class ViewMET_TEC_Chamados extends View {
 
         $oUsuFim = new CampoConsulta('Usu.Fim', 'usunomefim', CampoConsulta::TIPO_TEXTO);
 
+        $oAnexoFim = new CampoConsulta('AnexoFim', 'anexofim', CampoConsulta::TIPO_DOWNLOAD);
+
         $oProblema = new Campo('Problema apresentando', 'problema', Campo::TIPO_TEXTAREA, 6);
         $oProblema->setILinhasTextArea(6);
         $oProblema->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -95,8 +97,6 @@ class ViewMET_TEC_Chamados extends View {
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
-
-
         $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $oFilUsoSol = new Filtro($oUsuSol, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
@@ -108,7 +108,9 @@ class ViewMET_TEC_Chamados extends View {
         $oFilData = new Filtro($oDataCad, Filtro::CAMPO_DATA_ENTRE, 1, 1, 12, 12, true);
 
         $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilEmp->addItemSelect('', 'Todas');
         $oFilEmp->addItemSelect('75483040000211', 'Metalbo');
+        $oFilEmp->addItemSelect('8993358000174', 'Steeltrater');
         $oFilEmp->addItemSelect('83781641000158', 'Poliamidos');
         $oFilEmp->setSLabel('Empresas');
 
@@ -134,16 +136,19 @@ class ViewMET_TEC_Chamados extends View {
         $oDrop1 = new Dropdown('E-mail', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail de NOTIFICAÇÃO', $this->getController(), 'reenviaEmailTi', '', false, '', false, '', false, '', false, false);
 
-
         $oDrop2 = new Dropdown('E-mail', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail de FINALIZAÇÃO', $this->getController(), 'reenviaEmailFinaliza', '', false, '', false, '', false, '', false, false);
 
+        $oDrop3 = new Dropdown('Teste', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'teste', $this->getController(), 'teste', '', false, '', false, '', false, '', false, true);
+
+
         if ($sFiltroSetor == 2) {
-            $this->addDropdown($oDrop, $oDrop2);
-            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oHoraCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim);
+            $this->addDropdown($oDrop, $oDrop2, $oDrop3);
+            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oHoraCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim, $oAnexoFim);
         } else {
             $this->addDropdown($oDrop, $oDrop1);
-            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oHoraCad, $oDataInicio, $oHoraInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim);
+            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oHoraCad, $oDataInicio, $oHoraInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim, $oAnexoFim);
         }
     }
 

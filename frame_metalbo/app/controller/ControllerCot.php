@@ -302,11 +302,21 @@ class ControllerCot extends Controller {
         $_REQUEST['itencab'] = $aParam['itencab'];
         $_REQUEST['imgrel'] = $aParam['imgrel'];
         $_REQUEST['output'] = 'email';
-        $_REQUEST['dir'] = $_SESSION['diroffice'];
+        $_REQUEST['diroffice'] = $_SESSION['diroffice'];
         $_REQUEST['logo'] = 'comlogo';
         $_REQUEST['repcod'] = $_SESSION['repoffice'];
 
-        require 'app/relatorio/cotacao.php';
+        $bRetorno = require 'app/relatorio/cotacao.php';
+
+        if ($bRetorno) {
+            //$oCot = Fabrica::FabricarPersistencia('Cot');
+            //$oCot->confirmaEnvioEmail($aDados[0]);
+            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo', Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
     }
 
     public function geraAnexoCotEmailSLogo($sDados) {
@@ -330,11 +340,21 @@ class ControllerCot extends Controller {
         $_REQUEST['itencab'] = $aParam['itencab'];
         $_REQUEST['imgrel'] = $aParam['imgrel'];
         $_REQUEST['output'] = 'email';
-        $_REQUEST['dir'] = $_SESSION['diroffice'];
+        $_REQUEST['diroffice'] = $_SESSION['diroffice'];
         $_REQUEST['logo'] = 'semlogo';
         $_REQUEST['repcod'] = $_SESSION['repoffice'];
 
-        require 'app/relatorio/cotacao.php';
+        $bRetorno = require 'app/relatorio/cotacao.php';
+
+        if ($bRetorno) {
+            //$oCot = Fabrica::FabricarPersistencia('Cot');
+            //$oCot->confirmaEnvioEmail($aDados[0]);
+            $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo', Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+        }
     }
 
 }

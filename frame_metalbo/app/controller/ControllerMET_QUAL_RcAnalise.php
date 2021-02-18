@@ -353,13 +353,15 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         $oEmail->addDestinatario($aEmail[0]);
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
-
+        /*
         if ($aCampos['anexo_inspecao']) {
             $oEmail->addAnexo('Uploads/' . $aCampos['anexo_inspecao'], utf8_decode('' . $aCampos['anexo_inspecao'] . ''));
         }
         if ($aCampos['anexo_inspecao1']) {
             $oEmail->addAnexo('Uploads/' . $aCampos['anexo_inspecao1'], utf8_decode('' . $aCampos['anexo_inspecao1'] . ''));
         }
+         * 
+         */
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {

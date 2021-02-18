@@ -69,7 +69,7 @@ $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 $NR = $_REQUEST['nr'];
 $sTabCab = $_REQUEST['tabcab'];
 $sTabIten = $_REQUEST['itencab'];
-$sDiretorio = $_REQUEST['dir'];
+$sDiretorio = $_REQUEST['diroffice'];
 if (isset($_REQUEST['logo'])) {
     $sLogo = $_REQUEST['logo'];
 } else {
@@ -309,14 +309,9 @@ if ($_REQUEST['output'] == 'email') {
     $oEmail->addAnexo('app/relatorio/representantes/' . $sDiretorio . '/cotacao' . $NR . '.pdf', utf8_decode('Cotação de venda nº' . $NR . '.pdf'));
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
-        //$oCot = Fabrica::FabricarPersistencia('Cot');
-        //$oCot->confirmaEnvioEmail($NR);
-        //$oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
-        echo $oMensagem->getRender();
-        echo"$('#" . $aDados[1] . "-pesq').click();";
+        return true;
     } else {
-        $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
-        echo $oMensagem->getRender();
+        return false;
     }
 }
 /*

@@ -163,7 +163,7 @@ class ViewCot extends View {
         $oRep->setITamanho(Campo::TAMANHO_PEQUENO);
         $oRep->addValidacao(false, Validacao::TIPO_STRING, '', '1');
         $oRep->setBCampoBloqueado(true);
-        
+
         $CodRep->setClasseBusca('Repcod');
         $CodRep->setSCampoRetorno('repcod', $this->getTela()->getId());
         $CodRep->addCampoBusca('repdes', $oRep->getId(), $this->getTela()->getId());
@@ -176,15 +176,15 @@ class ViewCot extends View {
         //evento para carrega o rep
         $oCodPag->addEvento(Campo::EVENTO_SAIR, 'var oCnpj=$("#' . $oCnpj->getId() . '").val(); requestAjax("","Cot","carregaRep","' . $CodRep->getId() . ',' . $oRep->getId() . ',"+oCnpj+"","");');
 
-        $oTransp = new Campo('Cod. Transp', 'transcnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oTransp = new Campo('CNPJ Transp.', 'transcnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oTransp->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oTransp->setSValor(' ');
+        $oTransp->setSValor('');
 
         $oTranspDes = new Campo('Transportadora', 'transp', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oTranspDes->setSIdPk($oTransp->getId());
         $oTranspDes->setClasseBusca('Transp');
         $oTranspDes->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oTranspDes->setSValor(' ');
+        $oTranspDes->setSValor('');
 
         $oTranspDes->addCampoBusca('empcod', '', '');
         $oTranspDes->addCampoBusca('empdes', '', '');
@@ -199,7 +199,7 @@ class ViewCot extends View {
         $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObs->setSCorFundo(Campo::FUNDO_AMARELO);
         $oObs->setILinhasTextArea(4);
-        $oObs->setSValor(' ');
+        $oObs->setSValor('');
         $oObs->setICaracter(300);
 
         $oQtExata = new Campo('Quantidade exata', 'qtexata', Campo::TIPO_SELECT, 3, 3, 12, 12);
@@ -230,7 +230,7 @@ class ViewCot extends View {
 
         $oContato = new Campo('Contato', 'contato', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oContato->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oContato->setSValor(' ');
+        $oContato->setSValor('');
 
         $oSituaca = new Campo('', 'situaca', Campo::TIPO_TEXTO, 1);
         $oSituaca->setITamanho(Campo::TAMANHO_PEQUENO);

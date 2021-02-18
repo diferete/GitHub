@@ -43,7 +43,12 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $this->adicionaRelacionamento('dias', 'dias');
 
 
-        $this->setSTop('50');
+        $this->setSTop(50);
+        if ($_SESSION['codsetor'] != 2) {
+            $this->adicionaFiltro('setor', $_SESSION['codsetor']);
+            $this->adicionaFiltro('repoffice', $_SESSION['repofficedes']);
+            $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
+        }
         $this->adicionaOrderBy('nr', 1);
         $this->adicionaOrderBy('datacad', 1);
     }
@@ -54,9 +59,11 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $sth = $this->getObjetoSql($sSql);
         while ($aChamado = $sth->fetch(PDO::FETCH_ASSOC)) {
             date_default_timezone_set('America/Sao_Paulo');
-            $previsao = date_create($aChamado['previsao']);
-            $inicio = date_create($aChamado['datainicio']);
+
             $hoje = date_create(date('Y-m-d'));
+            $inicio = date_create($aChamado['datainicio']);
+            $previsao = date_create($aChamado['previsao']);
+
             $intervaloPrevisao = date_diff($inicio, $previsao);
             $intervaloAtual = date_diff($hoje, $previsao);
             $diasPrevisao = $intervaloPrevisao->format('%a');
@@ -65,11 +72,11 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
             if ($diasAtual > $diasPrevisao) {
                 $dias = '-' . $diasAtual;
             } else {
-                $dias = $diasPrevisao;
+                $dias = $diasAtual;
             }
 
             $sSqlUpdate = "update MET_TEC_Chamados set dias = " . $dias . " where nr = " . $aChamado['nr'] . " and filcgc = " . $aChamado['filcgc'] . "";
-            $debug = $this->executaSql($sSqlUpdate);
+            $this->executaSql($sSqlUpdate);
         }
     }
 
@@ -83,9 +90,13 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         $sSql = "select * from MET_TEC_Chamados where nr = '" . $aDados['nr'] . "' and filcgc = '" . $aDados['filcgc'] . "'";
         $oDados = $this->consultaSql($sSql);
 
-        $sSqlEmail = "select usuemail from MET_TEC_usuario where usucodigo = " . $oDados->usucod;
-        $oConsulta = $this->consultaSql($sSqlEmail);
-        $oDados->email = $oConsulta->usuemail;
+        if ($oDados->repoffice == 'METALBOF') {
+            return false;
+        } else {
+            $sSqlEmail = "select usuemail from tbusuario where usucodigo = " . $oDados->usucod;
+            $oConsulta = $this->consultaSql($sSqlEmail);
+            $oDados->email = $oConsulta->usuemail;
+        }
 
         return $oDados;
     }
@@ -157,9 +168,51 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
         return $aTotal;
     }
 
+    public function buscaDadosRep() {
+
+        $sSql = "select repoffice from  MET_TEC_Chamados where repoffice is not null  group by repoffice";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI] = $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+
+    public function buscaDadosSetores() {
+
+        $sSql = "select codsetor,descsetor from MetCad_Setores order by codsetor";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI] = $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+
     public function buscaDadosUsuario() {
 
         $sSql = "select usucod, usunome from MET_TEC_Chamados where usunome is not null  group by usucod, usunome";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow[$iI] = $key;
+            $iI++;
+        }
+        return $aRow;
+    }
+
+    public function buscaDadosEmp() {
+
+        $sSql = "select filcgc, empdes from MET_TEC_Chamados "
+                . "left outer join widl.emp01 "
+                . "on MET_TEC_Chamados.filcgc = widl.emp01.empcod "
+                . "group by filcgc, empdes";
         $sth = $this->getObjetoSql($sSql);
         $iI = 0;
         $aRow = Array();

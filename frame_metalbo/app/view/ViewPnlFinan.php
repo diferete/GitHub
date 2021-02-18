@@ -62,10 +62,13 @@ class ViewPnlFinan extends View {
         $oGrid->setSController('PnlFinan');
         $oGrid->addParam('empcod', $aValor[0]);
 
+        /*
         $oFieldAberto = new FieldSet('Títulos em aberto');
-        $oFieldAberto->addCampos(array($oGrid));
+        $oFieldAberto->addCampos(array());
+         * 
+         */
 
-        $this->addCampos(array($oCnpj, $oEmpDes), $oLinha, $oFieldAberto, $oNr);
+        $this->addCampos(array($oCnpj, $oEmpDes), $oLinha, $oGrid, $oNr);
     }
 
     public function criaConsulta() {

@@ -60,19 +60,25 @@ $sLicWind = $_REQUEST['equiplicenca'];
 $oSistema = $_REQUEST['equipsistema'];
 $oIp = $_REQUEST['ip'];
 $oSituac = $_REQUEST['situaca'];
+if (isset($_REQUEST['resumido'])) {
+    $oResum = $_REQUEST['resumido'];
+} else {
+    $oResum = false;
+}
+
 $sEqp = '';
-if(isset($_REQUEST['semeqp'])){
+if (isset($_REQUEST['semeqp'])) {
     $aDados = explode('&', $_SERVER['QUERY_STRING']);
-    foreach ($aDados as $skey){
-        if(strpos($skey, 'semeqp')!==false){
-            if($sEqp==''){
-                $sEqp = $sEqp.(explode('=', $skey)[1]);
-            }else{
-                $sEqp = $sEqp.",".(explode('=', $skey)[1]);
+    foreach ($aDados as $skey) {
+        if (strpos($skey, 'semeqp') !== false) {
+            if ($sEqp == '') {
+                $sEqp = $sEqp . (explode('=', $skey)[1]);
+            } else {
+                $sEqp = $sEqp . "," . (explode('=', $skey)[1]);
             }
-        }  
+        }
     }
-}else{
+} else {
     $sEqp = false;
 }
 $pdf->SetY(45);
@@ -124,8 +130,8 @@ if (($oSituac != 'Todas')) {
         $sql .= " and situaca = '" . $oSituac . "'";
     }
 }
-if($sEqp!=false){
-    $sql .= " and tbtiequipamento.eqtipcod not in (".$sEqp.")";
+if ($sEqp != false) {
+    $sql .= " and tbtiequipamento.eqtipcod not in (" . $sEqp . ")";
 }
 
 $sql .= " order by tbtiequipamento.codsetor,equipcod,office,equiplicenca ";
@@ -184,68 +190,118 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
             $aQuantEquipamentosSetor[$row['descsetor']] = 1;
         }
     }
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(5, 5, 'Nr:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 8);
-    $pdf->Cell(7, 5, $row['equipcod'], 0, 0);
+    if (!$oResum) {
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(5, 5, 'Nr:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(7, 5, $row['equipcod'], 0, 0);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(9, 5, 'Tipo:', 0, 0, 'L');
-    $pdf->SetFont('arial', 'U', 8);
-    $pdf->Cell(43, 5, $row['eqtipdescricao'], 0, 0);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(9, 5, 'Tipo:', 0, 0, 'L');
+        $pdf->SetFont('arial', 'U', 8);
+        $pdf->Cell(43, 5, $row['eqtipdescricao'], 0, 0);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(10, 5, 'Setor:', 0, 0, 'L');
-    $pdf->SetFont('arial', 'U', 8);
-    $pdf->Cell(59, 5, $row['descsetor'], 0, 0);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(10, 5, 'Setor:', 0, 0, 'L');
+        $pdf->SetFont('arial', 'U', 8);
+        $pdf->Cell(59, 5, $row['descsetor'], 0, 0);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(14, 5, 'Usuário:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 8);
-    $pdf->Cell(30, 5, $row['equipusuario'], 0, 1);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(14, 5, 'Usuário:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(30, 5, $row['equipusuario'], 0, 1);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(18, 5, 'Fabricante:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 8);
-    $pdf->Cell(46, 5, $row['equipfabricante'], 0, 0);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(18, 5, 'Fabricante:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(46, 5, $row['equipfabricante'], 0, 0);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(13, 5, 'Modelo:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 8);
-    $pdf->Cell(56, 5, $row['equipmodelo'], 0, 0);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(13, 5, 'Modelo:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(56, 5, $row['equipmodelo'], 0, 0);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(9, 5, 'S.O.:', 0, 0, 'L');
-    $pdf->SetFont('arial', 'U', 8);
-    $pdf->Cell(30, 5, $row['equipsistema'], 0, 1);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(9, 5, 'S.O.:', 0, 0, 'L');
+        $pdf->SetFont('arial', 'U', 8);
+        $pdf->Cell(30, 5, $row['equipsistema'], 0, 1);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(17, 5, 'Hostname:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 8);
-    $pdf->Cell(47, 5, $row['equiphostname'], 0, 0);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(17, 5, 'Hostname:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(47, 5, $row['equiphostname'], 0, 0);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(5, 5, 'IP:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 8);
-    $pdf->Cell(64, 5, $row['ipfixo'], 0, 0);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(5, 5, 'IP:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(64, 5, $row['ipfixo'], 0, 0);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(22, 5, 'MAC address:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 8);
-    $pdf->Cell(20, 5, $row['equipmac'], 0, 1);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(22, 5, 'MAC address:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(20, 5, $row['equipmac'], 0, 1);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(10, 4, 'Key:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 8);
-    $pdf->Cell(64, 4, $row['numlic'], 0, 1);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(10, 4, 'Key:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(64, 4, $row['numlic'], 0, 1);
 
-    $pdf->SetFont('arial', 'B', 8);
-    $pdf->Cell(22, 5, 'Obs:', 0, 0, 'L');
-    $pdf->SetFont('arial', '', 8);
-    $pdf->MultiCell(150, 5, $row['obs'], 0, 1);
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(22, 5, 'Obs:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->MultiCell(150, 5, $row['obs'], 0, 1);
 
-    $pdf->Cell(0, 1, "", "B", 1, 'C');
+        $pdf->Cell(0, 0, "", "B", 1, 'C');
+    } else {
+        
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(5, 5, 'Nr:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(7, 5, $row['equipcod'], 0, 0);
 
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(9, 5, 'Tipo:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(25, 5, $row['eqtipdescricao'], 0, 0);
+
+        $pdf->SetFont('arial', 'B', 7);
+        $pdf->Cell(10, 5, 'Setor:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 7);
+        $pdf->Cell(45, 5, $row['descsetor'], 0, 0);
+
+        $pdf->SetFont('arial', 'B', 7);
+        $pdf->Cell(14, 5, 'Usuário:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 7);
+        $pdf->Cell(30, 5, substr($row['equipusuario'], 0, 15), 0, 0);
+
+        $pdf->SetFont('arial', 'B', 7);
+        $pdf->Cell(9, 5, 'S.O.:', 0, 0, 'L');
+        $pdf->SetFont('arial', 'U', 7);
+        $pdf->Cell(25, 5, $row['equipsistema'], 0, 0);
+
+        $pdf->SetFont('arial', 'B', 7);
+        $pdf->Cell(9, 5, 'Sit:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 7);
+        $pdf->Cell(30, 5, $row['situaca'], 0, 1);
+        
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(17, 5, 'Hostname:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 8);
+        $pdf->Cell(47, 5, $row['equiphostname'], 0, 0);
+
+        $pdf->SetFont('arial', 'B', 7);
+        $pdf->Cell(5, 5, 'IP:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 7);
+        $pdf->Cell(64, 5, $row['ipfixo'], 0, 0);
+
+        $pdf->SetFont('arial', 'B', 7);
+        $pdf->Cell(22, 5, 'MAC address:', 0, 0, 'L');
+        $pdf->SetFont('arial', '', 7);
+        $pdf->Cell(20, 5, $row['equipmac'], 0, 1);
+
+        $pdf->Cell(198, 5, '', 'T', 0, 'J');
+        
+    }
     $icontaQnt++;
     if ($sEqpTipo == '1') {
         if ($row['equiplicenca'] == 'Ativado') {
@@ -258,7 +314,7 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Ln(2);
     $iContaAltura = $pdf->GetY() + 10;
 }
-
+if (!$oResum) {
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(50, 5, 'Quantidade de Equipamentos:', 0, 0, 'L');
 $pdf->SetFont('arial', '', 9);
@@ -295,35 +351,36 @@ $valY = $pdf->GetY();
  * Comprimento máximo das Barras de 1 á 3 e 0 como padrão
  * Quantidade de Divisões
  */
-if($aEquipamentos!=null){
-$iTam = count($aEquipamentos);
+if ($aEquipamentos != null) {
+    $iTam = count($aEquipamentos);
 
 //$pdf->ColunmDiagram(100, 150,$aEquipamentos, '%l : %v (%p)', null, 0, 5);
-$pdf->BarDiagram(195, $iTam * 8, $aEquipamentos, '%l : %v (%p)', null, 0, 10);
+    $pdf->BarDiagram(195, $iTam * 8, $aEquipamentos, '%l : %v (%p)', null, 0, 10);
 
-$pdf->AddPage();
-$pdf->Ln(10);
+    $pdf->AddPage();
+    $pdf->Ln(10);
 //Colunm diagram
-$pdf->SetFont('Arial', 'BIU', 12);
-$pdf->Cell(0, 5, '2 - Gráfico quantidade de Equipamentos ativados por Setor', 0, 1);
-$pdf->Ln(8);
-$valX = $pdf->GetX();
-$valY = $pdf->GetY();
+    $pdf->SetFont('Arial', 'BIU', 12);
+    $pdf->Cell(0, 5, '2 - Gráfico quantidade de Equipamentos ativados por Setor', 0, 1);
+    $pdf->Ln(8);
+    $valX = $pdf->GetX();
+    $valY = $pdf->GetY();
 
-/*
- * Largura do Campo do Gráfico
- * Altura do Campo Gráfico
- * Array de dados
- * %1 = texto
- * %v = valor
- * (%p) = porcentagem
- * Array de corres do Gráfico
- * Comprimento máximo das Barras de 1 á 3 e 0 como padrão
- * Quantidade de Divisões
- */
-$iTam2 = count($aQuantEquipamentosSetor);
+    /*
+     * Largura do Campo do Gráfico
+     * Altura do Campo Gráfico
+     * Array de dados
+     * %1 = texto
+     * %v = valor
+     * (%p) = porcentagem
+     * Array de corres do Gráfico
+     * Comprimento máximo das Barras de 1 á 3 e 0 como padrão
+     * Quantidade de Divisões
+     */
+    $iTam2 = count($aQuantEquipamentosSetor);
 
-$pdf->BarDiagram(195, $iTam2 * 8, $aQuantEquipamentosSetor, '%l : %v (%p)', null, 0, 10);
+    $pdf->BarDiagram(195, $iTam2 * 8, $aQuantEquipamentosSetor, '%l : %v (%p)', null, 0, 10);
+}
 }
 //number_format($quant, 2, ',', '.')
 $pdf->Output('I', 'Relatório Equip.pdf');

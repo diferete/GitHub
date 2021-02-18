@@ -483,7 +483,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                     $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 }
 
-                $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
+                //$oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
                 $aRetorno = $oEmail->sendEmail();
                 if ($aRetorno[0]) {
                     $oMensagem4 = new Mensagem('E-mail', 'Um e-mail foi enviado com sucesso para o setor responsável!', Mensagem::TIPO_SUCESSO);
@@ -742,7 +742,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $oEmail->addDestinatario('duda@metalbo.com.br');
         $oEmail->addDestinatarioCopia('almoxarifado@metalbo.com.br');
 
-        $oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
+        //$oEmail->addAnexo('app/relatorio/RC/RC' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf', utf8_decode('RC nº' . $aCamposChave['nr'] . '_empresa_' . $aCamposChave['filcgc'] . '.pdf'));
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
