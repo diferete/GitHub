@@ -99,10 +99,11 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_BOX) . 'Embalagem', 'MET_QUAL_RcVenda', 'verificaEmailSetor', '', false, 'Env.Emb', false, '', false, '', false, false);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CART) . 'Expedição', 'MET_QUAL_RcVenda', 'verificaEmailSetor', '', false, 'Env.Exp', false, '', false, '', false, false);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Representante', 'MET_QUAL_RcVenda', 'verificaEmailSetor', '', false, 'Env.Rep', false, '', false, '', false, false);
+        $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Vendas - Jaques', 'MET_QUAL_RcVenda', 'solicitaLibDevolucao', '', false, '', false, '', true, '', false, false);
 
         $oDropDown2 = new Dropdown('Apontamentos', Dropdown::TIPO_AVISO);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Apontar reclamação', 'MET_QUAL_RcVenda', 'criaTelaModalApontamento', '', false, '', false, 'criaTelaModalApontamento', true, 'Apontar reclamação', false, false);
-        $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Solicitar liberação devolução', 'MET_QUAL_RcVenda', 'solicitaLibDevolucao', '', false, '', false, '', true, '', false, false);
+
 
         $this->setUsaDropdown(true);
         $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
@@ -111,7 +112,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
         $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
-        if ($_SESSION['codUser'] == 46) {
+        if ($_SESSION['codUser'] == 19) {
             $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
         } else {
             $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
