@@ -241,7 +241,7 @@ class ViewSolPedIten extends View {
         $oQtSugMaster = new Campo('Qt. Sugerida', 'qtsug', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtSugMaster->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtSugMaster->setBCampoBloqueado(true);
-
+        
         //campo que retorna a quantidade de caixas master
         $oQtCaixaMaster = new Campo('Qt. Caixas', 'qtcaixa', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtCaixaMaster->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -250,6 +250,7 @@ class ViewSolPedIten extends View {
         $oDiver = new Campo('Divergência', 'diver', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDiver->setITamanho(Campo::TAMANHO_PEQUENO);
         $oDiver->setBCampoBloqueado(true);
+        $oDiver->setSCorFundo(Campo::FUNDO_AMARELO);
 
         //botão para aplicar a quantidade para arredondar a master
         $oBtnMaster = new Campo('Aplicar', 'btnMaster', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
