@@ -37,6 +37,11 @@ class ViewModulo extends View {
     function criaTela() {
         parent::criaTela();
 
+        $oTeste = new Campo('Cad. User', 'teste', Campo::TIPO_BOTAO_MOSTRACONSULTA, 1, 1, 12, 12);
+        $oTeste->setApenasTela(true);
+        $oTeste->setClasseBusca('User');
+        $oTeste->setSCampoRetorno('usucodigo', $this->getTela()->getId());
+
         $oModCod = new Campo('Código', 'modcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oModCod->setBCampoBloqueado(true);
 
@@ -44,7 +49,7 @@ class ViewModulo extends View {
         $oModDescricao->addValidacao(false, Validacao::TIPO_STRING, '', '2', '15');
         $oModDescricao->setBUpperCase(true);
 
-        $this->addCampos(array($oModCod, $oModDescricao));
+        $this->addCampos(array($oModCod, $oModDescricao), $oTeste);
     }
 
 }
