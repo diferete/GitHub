@@ -465,18 +465,18 @@ function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idQtSugMaster
     //alert();
     var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val());//$('#'+idQuantidade+'').val();
     var CaixaMaster = moedaParaNumero($('#' + idCaixaMaster + '').val());//$('#'+idCaixaMaster+'').val();
-    var qtsug = $('#' + idQtSugMaster + '').val();
-    var diver = qtsug - Quantidade;
-    $('#' + idDiver + '').val(diver);
 
     var resultadoMaster = Quantidade / CaixaMaster;
 
     var resultadoMasterArr = Math.ceil(resultadoMaster);
 
+    var qtsug = resultadoMasterArr * CaixaMaster;
+    var diver = qtsug - Quantidade;
+    $('#' + idDiver + '').val(diver);
+
     //vai listar como divergência e deve bloquear a inserção
     if (Quantidade > 0 && CaixaMaster > 0) {
         if (Quantidade != (resultadoMasterArr * CaixaMaster)) {
-            //  console.log('divergencia');
             $('#' + idDiverMaster + '').removeClass("label-warning");
             $('#' + idDiverMaster + '').removeClass("label-success");
             $('#' + idDiverMaster + '').addClass("label-danger");
@@ -487,7 +487,6 @@ function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idQtSugMaster
 
         } else
         {
-
             $('#' + idDiverMaster + '').removeClass("label-warning");
             $('#' + idDiverMaster + '').removeClass("label-danger");
             $('#' + idDiverMaster + '').addClass("label-success");
@@ -543,7 +542,7 @@ function calcPrecoKg(idQuant, idPeso, idVlrTot, idBadge) {
     //console.log(prcKg);
 
     prcKgArr = numeroParaMoeda(prcKg);
-    $('#' + idBadge + '').text('Preço por Kg ' + prcKgArr + '');
+    $('#' + idBadge + '').text('Preço por Kg: R$ ' + prcKgArr + '');
     return prcKgArr;
 
 
