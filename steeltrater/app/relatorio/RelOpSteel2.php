@@ -147,6 +147,8 @@ $Quanttotal = 0;
 
 while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
 
+    $sDescricao =  substr($row['prodes'], 0, 65);
+    $sDescricaoFinal = substr($row['prodesfinal'], 0, 65);
 
     $pdf->SetFont('Arial', '', 8);
     $pdf->Cell(12, 6, $row['op'], 'L,B,T', 0, 'C');
@@ -155,10 +157,10 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(15, 6, $row['prod'], 'L,B,T', 0, 'L');
 
     $pdf->SetFont('Arial', '', 7);
-    $pdf->Cell(95, 6, $row['prodes'], 'L,B,T', 0, 'L');
+    $pdf->MultiAlignCell(95, 6, $sDescricao, 'L,B,T', 0, 'L');
 
     $pdf->SetFont('Arial', '', 7);
-    $pdf->Cell(95, 6, $row['prodesfinal'], 'L,B,T', 0, 'L');
+    $pdf->MultiAlignCell(95, 6, $sDescricaoFinal, 'L,B,T', 0, 'L');
 
     // $pdf->SetFont('Arial','',7);
     // $pdf->Cell(14, 6, number_format($row['quant'], 2, ',', '.'),'L,B',0,'R');
