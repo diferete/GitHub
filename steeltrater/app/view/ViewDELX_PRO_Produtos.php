@@ -63,16 +63,19 @@ class ViewDELX_PRO_Produtos extends View {
         $oFilSubGrupo->setSClasseBusca('DELX_PRO_Subgrupo');
         $oFilSubGrupo->setSCampoRetorno('pro_subgrupocodigo', $this->getTela()->getSId());
         $oFilSubGrupo->setSIdTela($this->getTela()->getSId());
+        $oFilSubGrupo->setSParamBuscaPk($oFilGrupo->getId());
 
         $oFilFamilia = new Filtro($oFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFilFamilia->setSClasseBusca('DELX_PRO_Familia');
         $oFilFamilia->setSCampoRetorno('pro_familiacodigo', $this->getTela()->getSId());
         $oFilFamilia->setSIdTela($this->getTela()->getSId());
+        $oFilFamilia->setSParamBuscaPk($oFilGrupo->getId() . ',' . $oFilSubGrupo->getId());
 
         $oFilSubFamilia = new Filtro($oSubFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFilSubFamilia->setSClasseBusca('DELX_PRO_Subfamilia');
         $oFilSubFamilia->setSCampoRetorno('pro_subfamiliacodigo', $this->getTela()->getSId());
         $oFilSubFamilia->setSIdTela($this->getTela()->getSId());
+        $oFilSubFamilia->setSParamBuscaPk($oFilGrupo->getId() . ',' . $oFilSubGrupo->getId() . ',' . $oFilFamilia->getId());
 
         $this->addFiltro($oCodigofiltro, $oDescricaofiltro, $oFilGrupo, $oFilSubGrupo, $oFilFamilia, $oFilSubFamilia);
         $this->addCampos($oCodigo, $oDescricao, $oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes, $oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes, $oUnidadeMedCod, $oPesoLiq, $oPesoBruto
@@ -361,7 +364,7 @@ class ViewDELX_PRO_Produtos extends View {
         $oMetrosCub = new Campo('Metros Cub.', 'pro_volumem3', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $oFormula = new Campo('Formula do Calculo', 'pro_dimensoesgradeformula', Campo::TIPO_TEXTAREA, 4, 4, 12, 12);
-        $oFormula->setILinhasTextArea(8);       
+        $oFormula->setILinhasTextArea(8);
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

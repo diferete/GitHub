@@ -80,16 +80,19 @@ class ViewSTEEL_PCP_Produtos extends View {
         $oFilSubGrupo->setSClasseBusca('DELX_PRO_Subgrupo');
         $oFilSubGrupo->setSCampoRetorno('pro_subgrupocodigo', $this->getTela()->getSId());
         $oFilSubGrupo->setSIdTela($this->getTela()->getSId());
+        $oFilSubGrupo->setSParamBuscaPk($oFilGrupo->getId());
 
         $oFilFamilia = new Filtro($oFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFilFamilia->setSClasseBusca('DELX_PRO_Familia');
         $oFilFamilia->setSCampoRetorno('pro_familiacodigo', $this->getTela()->getSId());
         $oFilFamilia->setSIdTela($this->getTela()->getSId());
+        $oFilFamilia->setSParamBuscaPk($oFilGrupo->getId() . ',' . $oFilSubGrupo->getId());
 
         $oFilSubFamilia = new Filtro($oSubFamiliaCod, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFilSubFamilia->setSClasseBusca('DELX_PRO_Subfamilia');
         $oFilSubFamilia->setSCampoRetorno('pro_subfamiliacodigo', $this->getTela()->getSId());
         $oFilSubFamilia->setSIdTela($this->getTela()->getSId());
+        $oFilSubFamilia->setSParamBuscaPk($oFilGrupo->getId() . ',' . $oFilSubGrupo->getId() . ',' . $oFilFamilia->getId());
 
         $oFiltroReferencia = new Filtro($oRefCliente, Filtro::CAMPO_TEXTO_IGUAL, 2);
 
@@ -360,8 +363,8 @@ class ViewSTEEL_PCP_Produtos extends View {
         $oFIS_GeneroItemCodigo->setClasseBusca('DELX_FIS_Generoitem');
         $oFIS_GeneroItemCodigo->setSCampoRetorno('fis_generoitemcodigo', $this->getTela()->getid());
         $oFIS_GeneroItemCodigo->addCampoBusca('fis_generoitemdescricao', $oFIS_GeneroItemDescricao->getId(), $this->getTela()->getid());
-        
-        
+
+
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Produtos","validaNCM","' . $oProNCM->getId() . ',' . $oFIS_GeneroItemCodigo->getId() . '");';
 
         $oProNCM->addEvento(Campo::EVENTO_SAIR, $sCallBack);
@@ -370,7 +373,7 @@ class ViewSTEEL_PCP_Produtos extends View {
 
         //Campos Abas
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $oAbaGeral->addCampos($oReferencia, $oLinha, array($oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes), $oLinha, array($oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes), $oLinha, array($oUnidadeMedCod, $oUnidadeMedDes, $oTipoControle), $oLinha, array($oPesoLiq, $oPesoBruto, $oVolume, $oPcUnidade), $oLinha, $oCodAnt, $oLinha, $oDescTecProd, $oProOrigem, $oProNCM, array($oFIS_GeneroItemCodigo,$oFIS_GeneroItemDescricao));
+        $oAbaGeral->addCampos($oReferencia, $oLinha, array($oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes), $oLinha, array($oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes), $oLinha, array($oUnidadeMedCod, $oUnidadeMedDes, $oTipoControle), $oLinha, array($oPesoLiq, $oPesoBruto, $oVolume, $oPcUnidade), $oLinha, $oCodAnt, $oLinha, $oDescTecProd, $oProOrigem, $oProNCM, array($oFIS_GeneroItemCodigo, $oFIS_GeneroItemDescricao));
 
         $oTab->addItems($oAbaGeral);
         $this->addCampos(
