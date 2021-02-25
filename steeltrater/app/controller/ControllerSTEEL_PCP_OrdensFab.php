@@ -217,17 +217,32 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
                 $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
                 echo $oWindow;
             } else {
-                $sSistema = "app/relatorio";
-                $sRelatorio = 'RelOpSteel3.php?' . $sVethor;
+                if ($aTipOps[0] == 'Z') {
 
-                $sCampos .= $this->getSget();
+                    $sSistema = "app/relatorio";
+                    $sRelatorio = 'OpSteelZinc.php?' . $sVethor;
 
-                $sCampos .= '&email=N';
+                    $sCampos .= $this->getSget();
+
+                    $sCampos .= '&email=N';
 
 
-                $sCampos .= '&output=tela';
-                $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
-                echo $oWindow;
+                    $sCampos .= '&output=tela';
+                    $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
+                    echo $oWindow;
+                } else {
+                    $sSistema = "app/relatorio";
+                    $sRelatorio = 'RelOpSteel3.php?' . $sVethor;
+
+                    $sCampos .= $this->getSget();
+
+                    $sCampos .= '&email=N';
+
+
+                    $sCampos .= '&output=tela';
+                    $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
+                    echo $oWindow;
+                }
             }
         } else {
             $oModal = new Modal('Atenção!', 'Escolha apenas um tipo de OP para impressões múltiplas!', Modal::TIPO_AVISO, false);
@@ -259,17 +274,31 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         }
         $aTipOps = array_unique($aTipo);
         if (count($aTipOps) == 1) {
-            $sSistema = "app/relatorio";
-            $sRelatorio = 'OpSteelEtiqueta.php?' . $sVethor;
+            if($aTipOps[0] == 'Z'){
+                $sSistema = "app/relatorio";
+                $sRelatorio = 'OpSteelEtiquetaZinc.php?' . $sVethor;
 
-            $sCampos .= $this->getSget();
+                $sCampos .= $this->getSget();
 
-            $sCampos .= '&email=N';
+                $sCampos .= '&email=N';
 
 
-            $sCampos .= '&output=tela';
-            $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
-            echo $oWindow;
+                $sCampos .= '&output=tela';
+                $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
+                echo $oWindow;
+            }else{
+                $sSistema = "app/relatorio";
+                $sRelatorio = 'OpSteelEtiqueta.php?' . $sVethor;
+
+                $sCampos .= $this->getSget();
+
+                $sCampos .= '&email=N';
+
+
+                $sCampos .= '&output=tela';
+                $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
+                echo $oWindow;
+            }
         } else {
             $oModal = new Modal('Atenção!', 'Escolha apenas um tipo de OP para impressões múltiplas!', Modal::TIPO_AVISO, false);
             echo $oModal->getRender();
@@ -1075,5 +1104,5 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
     public function mostraTelaRelProducao($renderTo, $sMetodo = '') {
         parent::mostraTelaRelatorio($renderTo, 'RelProducao');
     }
-    
+   
 }

@@ -99,7 +99,8 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         $this->adicionaRelacionamento('nItemPedInsumo','nItemPedInsumo');
         $this->adicionaRelacionamento('nItemPedEnergia','nItemPedEnergia');
         
-        
+        $this->adicionaRelacionamento('receita_zinc','receita_zinc');
+        $this->adicionaRelacionamento('receita_zincdesc','receita_zincdesc');
       
         
         $this->adicionaOrderBy('op',1);

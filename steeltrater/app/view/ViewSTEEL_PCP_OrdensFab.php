@@ -212,8 +212,8 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oTipo->addItemSelect('P', 'Padrão - Tempera');
         $oTipo->addItemSelect('F', 'Fio Máquina - Industrialização');
         $oTipo->addItemSelect('A', 'Arame - Venda');
-
-
+        $oTipo->addItemSelect('Z', 'Zincagem');
+        $oTipo->addItemSelect('TZ', 'Têmpera / Zincagem');
 
         //cliente
         $oEmp_codigo = new Campo('Cliente', 'emp_codigo', Campo::TIPO_BUSCADOBANCOPK, 2);
@@ -368,10 +368,21 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oGridMat->getOGrid()->setIAltura(90);
         $oGridMat->getOGrid()->setBGridResponsivo(false);
 
+        $oReceitaZinc = new Campo('Cod. Receita Zincagem', 'receita_zinc', Campo::TIPO_BUSCADOBANCOPK, 2);
+        $oReceitaZinc->setId('Zincar');
+        
+        $oReceitaZincDes = new Campo('Des.Rec.Zincagem', 'receita_zincdesc', Campo::TIPO_BUSCADOBANCO, 5);
+        $oReceitaZincDes->setBOculto(true);
+        $oReceitaZincDes->setSIdPk($oReceitaZinc->getId());
+        $oReceitaZincDes->setClasseBusca('STEEL_PCP_Receitas');
+        $oReceitaZincDes->addCampoBusca('cod', '', '');
+        $oReceitaZincDes->addCampoBusca('peca', '', '');
+        $oReceitaZincDes->setSIdTela($this->getTela()->getId());
 
-
-
-
+        $oReceitaZinc->setClasseBusca('STEEL_PCP_Receitas');
+        $oReceitaZinc->setSCampoRetorno('cod', $this->getTela()->getId());
+        $oReceitaZinc->addCampoBusca('peca', $oReceitaZincDes->getId(), $this->getTela()->getId());
+        
         //busca campo material
         $oCodMat = new Campo('Material', 'matcod', Campo::TIPO_TEXTO, 1);
         $oCodMat->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -640,7 +651,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
 
 
-        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oDocumento, $oDataemi, $oSerie, $oChavNfe), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oNrcert), $oLinha, array($oXPed, $nItemPed, $nItemPedServico, $nItemPedIsumo, $nItemPedEnergia), $oField1, $oField2, $oFieldPeso);
+        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oDocumento, $oDataemi, $oSerie, $oChavNfe), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oReceitaZinc, $oReceitaZincDes), $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oNrcert), $oLinha, array($oXPed, $nItemPed, $nItemPedServico, $nItemPedIsumo, $nItemPedEnergia), $oField1, $oField2, $oFieldPeso);
     }
 
     /*
@@ -958,6 +969,12 @@ class ViewSTEEL_PCP_OrdensFab extends View {
                 break;
             case 'A':
                 $oTipoOP->setSValor('Arame - Venda');
+                break;
+            case 'Z':
+                $oTipoOP->setSValor('Zincagem');
+                break;
+            case 'TZ':
+                $oTipoOP->setSValor('Tempera / Zincagem');
                 break;
             default:
                 $oTipoOP->setSValor('Padrão');

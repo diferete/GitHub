@@ -95,6 +95,26 @@ class ModelSTEEL_PCP_OrdensFab {
     private $nItemPedInsumo;
     private $nItemPedEnergia;
     
+    private $receita_zinc;
+    private $receita_zincdesc; 
+    
+    
+    function getReceita_zinc() {
+        return $this->receita_zinc;
+    }
+
+    function getReceita_zincdesc() {
+        return $this->receita_zincdesc;
+    }
+
+    function setReceita_zinc($receita_zinc) {
+        $this->receita_zinc = $receita_zinc;
+    }
+
+    function setReceita_zincdesc($receita_zincdesc) {
+        $this->receita_zincdesc = $receita_zincdesc;
+    }   
+    
     function getNItemPedEnergia() {
         return $this->nItemPedEnergia;
     }
