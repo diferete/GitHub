@@ -287,7 +287,15 @@ class Filtro {
 
 
         if ($this->getSParamBuscaPk()) {
-            $sParam = ',$("#' . $this->getSParamBuscaPk() . '").val()';
+            $aArrayCampos = explode(',', $this->getSParamBuscaPk());
+            $sParam = '';
+            foreach ($aArrayCampos as $key => $value) {
+                if ($sParam == '') {
+                    $sParam = ',$("#' . $value . '").val()';
+                } else {
+                    $sParam = $sParam . ' + "," + $("#' . $value . '").val()';
+                }
+            }
         }
         $sAcao = ' $("#' . $sTela . '").hide();requestAjax("' . $sTela . '-form","' . $sClasseBusca . '","' . mostraConsulta . '",""+abaSelecionada+",' . $sTela . ',' . $sCampoBusca . ',' . $this->getId() . '"' . $sParam . ');';
 
@@ -552,7 +560,7 @@ class Filtro {
                         . '<select name="' . $this->getSNome() . '" class="form-control selectfiltro input-sm" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
-        }
+                }
                 $sCampo .= '<option value="Asc">A-Z</option>';
                 $sCampo .= '<option value="Desc">Z-A</option>';
 
