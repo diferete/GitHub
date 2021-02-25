@@ -18,14 +18,26 @@ class ControllerDELX_PRO_Familia extends Controller {
 
         $aCampos = array();
         parse_str($_REQUEST['campos'], $aCampos);
-        if (count($aCampos) > 0) {
-           if(isset($aCampos['pro_grupocodigofin'])){
-                $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aCampos['pro_grupocodigo'],0, Persistencia::ENTRE,$aCampos['pro_grupocodigofin']); 
-                $this->Persistencia->adicionaFiltro('pro_subgrupocodigo', $aCampos['pro_subgrupocodigo'],0, Persistencia::ENTRE,$aCampos['pro_subgrupocodigofin']);
-           }else{
-             $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aCampos['pro_grupocodigo']);
-             $this->Persistencia->adicionaFiltro('pro_subgrupocodigo', $aCampos['pro_subgrupocodigo']);
-           }
+        $aFiltro = $_REQUEST['parametrosCampos'];
+        sort($aFiltro);
+        $aFiltro = explode(',', $aFiltro[0]);
+        if (count($aCampos) > 0 || count($aFiltro) > 0) {
+            if (isset($aCampos['pro_grupocodigofin'])) {
+                $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aCampos['pro_grupocodigo'], 0, Persistencia::ENTRE, $aCampos['pro_grupocodigofin']);
+                $this->Persistencia->adicionaFiltro('pro_subgrupocodigo', $aCampos['pro_subgrupocodigo'], 0, Persistencia::ENTRE, $aCampos['pro_subgrupocodigofin']);
+            } else {
+                if (count($aCampos) > 0) {
+                    $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aCampos['pro_grupocodigo']);
+                    $this->Persistencia->adicionaFiltro('pro_subgrupocodigo', $aCampos['pro_subgrupocodigo']);
+                } else {
+                    if ($aFiltro[0] != '') {
+                        $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aFiltro[0]);
+                    }
+                    if ($aFiltro[1] != '') {
+                        $this->Persistencia->adicionaFiltro('pro_subgrupocodigo', $aFiltro[1]);
+                    }
+                }
+            }
         }
     }
 
