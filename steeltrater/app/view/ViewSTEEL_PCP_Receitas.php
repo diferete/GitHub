@@ -33,6 +33,7 @@ class ViewSTEEL_PCP_Receitas extends View {
         $oMaterial = new CampoConsulta('Material','material');
         $oClasse = new CampoConsulta('Classe','classe');
         $oDureza = new CampoConsulta('Dureza','dureza');
+        $oTipoReceira = new CampoConsulta('Tipo receita','tipoReceita');
         
         $oFiltro1 = new Filtro($oPeca, Filtro::CAMPO_TEXTO,3);
         $oFiltro2 = new Filtro($oCodRec, Filtro::CAMPO_TEXTO,2);
@@ -46,7 +47,7 @@ class ViewSTEEL_PCP_Receitas extends View {
         $this->getTela()->setIAltura(250);
         
         $this->addCamposGrid($oGridItens); 
-        $this->addCampos($oCodRec,$oData,$oPeca,$oTemp,$oMaterial,$oClasse,$oDureza);
+        $this->addCampos($oCodRec, $oTipoReceira, $oData,$oPeca,$oTemp,$oMaterial,$oClasse,$oDureza);
         
         
     }
@@ -113,6 +114,10 @@ class ViewSTEEL_PCP_Receitas extends View {
         $oEtapas->addItemEtapas('Itens da Receita', false, $this->addIcone(Base::ICON_CONFIRMAR));
         $this->addEtapa($oEtapas);
         
+        $oTipoReceita = new Campo('Tipo Receita', 'tipoReceita', Campo::TIPO_SELECTMULTI, 2, 2, 2, 2);
+        $oTipoReceita->addItemSelect('Têmpera', 'Têmpera');
+        $oTipoReceita->addItemSelect('Zincagem', 'Zincagem');
+        
         //adiciona campo de controle
         //monta campo de controle para inserir ou alterar
         $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2, 2, 12, 12);
@@ -141,7 +146,7 @@ class ViewSTEEL_PCP_Receitas extends View {
         $oCodInsumo->setSCampoRetorno('pro_codigo',$this->getTela()->getId());
                 
         $this->addCampos(array($oCod,$oData),array($oPeca,$oMaterial,$oClasse),
-                $oLabel1,array($oBitola,$oTempRev),$oLabel2,$oLabel1,
+                $oLabel1,array($oBitola,$oTempRev, $oTipoReceita),$oLabel2,$oLabel1,
                 array($oMetanol,$oXigenio,$oNitrogenio,$oAmonia),
                 array($oGpl,$oCo,$oCarbono),$oLabel3,array($oImagem,$oInstTrab,$oProgForno),$oAcao);
        

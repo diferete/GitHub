@@ -35,6 +35,7 @@ class PersistenciaSTEEL_PCP_Receitas extends Persistencia{
         $this->adicionaRelacionamento('codServ', 'codServ');
         $this->adicionaRelacionamento('codServMet','codServMet');
         $this->adicionaRelacionamento('codInsumo','codInsumo');
+        $this->adicionaRelacionamento('tipoReceita','tipoReceita');
         
         $this->adicionaOrderBy('cod',1);
         $this->setSTop('40');

@@ -30,6 +30,15 @@ class ModelSTEEL_PCP_Receitas {
     private $codServ;
     private $codServMet;
     private $codInsumo;
+    private $tipoReceita;
+    
+    function getTipoReceita() {
+        return $this->tipoReceita;
+    }
+
+    function setTipoReceita($tipoReceita) {
+        $this->tipoReceita = $tipoReceita;
+    }
     
     function getCodServ() {
         return $this->codServ;

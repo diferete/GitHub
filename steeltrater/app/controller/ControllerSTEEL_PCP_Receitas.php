@@ -139,5 +139,16 @@ class ControllerSTEEL_PCP_Receitas extends Controller {
                 exit();
             }  
        }
+       
+       public function antesDeCriarConsulta($sParametros = null) {
+        parent::antesDeCriarConsulta($sParametros);
+        $sChave = ($_REQUEST['parametros']);
+        $aCamposChave = explode(',', $sChave['parametros[']);
+            if(isset($aCamposChave[3])){
+                if($aCamposChave[3]=='Zincar'){
+                    $this->Persistencia->adicionaFiltro('tipoReceita', 'Zincagem');
+                }
+            }
+       }
          
 }
