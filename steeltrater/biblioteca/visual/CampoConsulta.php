@@ -49,6 +49,7 @@ class CampoConsulta {
     const TIPO_EDIT = 13;
     const TIPO_EDITDECIMAL = 14;
     const TIPO_EDITTEXTO = 15;
+    const TIPO_MVC = 16;
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
     const MODO_COLUNA = 1;
@@ -125,6 +126,23 @@ class CampoConsulta {
         if ($this->Tipo == 12) {
             $this->setBCampoIcone(true);
         }
+
+        if ($this->Tipo == 16) {
+            $this->setBCampoIcone(true);
+        }
+    }
+
+    /**
+     * Adiciona a classe e o método para a ação do botão
+     * 
+     * @param type $sClasse Classe para para instanciar
+     * @param type $sMetodo Método para chamar
+     * @param type $sTitulo do botão
+     */
+    function addDadosConsultaMVC($sClasse, $sMetodo, $sTitulo) {
+        $this->aMVC['classe'] = $sClasse;
+        $this->aMVC['metodo'] = $sMetodo;
+        $this->aMVC['titulo'] = $sTitulo;
     }
 
     function getICasaDecimal() {
@@ -378,7 +396,7 @@ class CampoConsulta {
     /**
      * Retorna o render do campo consulta
      */
-    public function getRender($sClasse, $xValor, $sParam = null) {
+    public function getRender($sClasse, $xValor, $sParam = null, $sIdTela) {
 
         if ($this->getBTruncate()) {
             $sClasse .= ' truncate';
@@ -801,6 +819,31 @@ class CampoConsulta {
                         . '}'
                         . '});'
                         . '</script>';
+                break;
+
+            case self:: TIPO_MVC:
+                if ($this->getBDisabled()) {
+                    $sDisabled = 'disabled';
+                }
+
+                $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+
+                $sAcao = '';
+                $sIdBtn = Base::getId();
+                $sCampo = '<td class=" tr-font"  style="width:' . $this->getILargura() . 'px">'
+                        . '<button type="button" class="' . $this->getSTipoBotao() . '" id="' . $sIdBtn . '" title="' . $this->aMVC['titulo'] . '" ' . $sDisabled . '></button>'
+                        . '</td>';
+                $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
+                        . 'var chave="";'
+                        . '$("#' . $sIdTela . 'consulta tbody .selected").each(function(){'
+                        . 'chave = $(this).find(".chave").html();';
+                $sCampo .= '});';
+                $sCampo .= '$("#' . $sIdTela . 'consulta").hide();';
+                $sCampo .= 'requestAjax("' . $sIdTela . '-formgridbelow","' . $this->aMVC['classe'] . '","' . $this->aMVC['metodo'] . '",abaSelecionada +"control,' . $sIdTela . ',' . $xValor . '");';
+                $sCampo .= '});</script>';
+
                 break;
         }
 
