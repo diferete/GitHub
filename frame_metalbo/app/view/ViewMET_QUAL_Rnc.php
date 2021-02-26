@@ -46,14 +46,27 @@ class ViewMET_QUAL_Rnc extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Cancelar', 'MET_QUAL_Rnc', 'acaoCancelaRnc', '', false, '', false, '', false, '', false, false);
 
         $oFiltroNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+
         $oFilCodProbl = new Filtro($oCodProbl, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
         $oFilFornecedor = new Filtro($oNomeFornecedor, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
         $oFiltroDescP = new Filtro($oDescprod, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+
         $oFilCodProd = new Filtro($oCodProd, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oFilCausadores = new Filtro($oUserCausa, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+
+        $oFilCausadores = new Filtro($oUserCausa, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
+
+        $oFilTipoRnc = new Filtro($oTipoRnc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilTipoRnc->addItemSelect('', 'Tipo - Todos');
+        $oFilTipoRnc->addItemSelect('Interno', 'Tipo - Interno');
+        $oFilTipoRnc->addItemSelect('Externo', 'Tipo - Externo');
+        $oFilTipoRnc->setSLabel('');
+
+        $oFilDatabert = new Filtro($oDatabert, Filtro::CAMPO_DATA_ENTRE, 1, 1, 12, 12, false);
 
 
-        $this->addFiltro($oFiltroNr, $oFilCodProd, $oFilCodProbl, $oFilFornecedor, $oFiltroDescP, $oFilCausadores);
+        $this->addFiltro($oFiltroNr, $oFilCodProd, $oFilCodProbl, $oFilFornecedor, $oFiltroDescP, $oFilCausadores, $oFilTipoRnc, $oFilDatabert);
         $this->addDropdown($oDrop1, $oDrop2);
         $this->addCampos($oNr, $oFilcgc, $oNome, $oTipoRnc, $oNomeFornecedor, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod, $oUserCausa);
     }
