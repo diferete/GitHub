@@ -730,7 +730,7 @@ class Grid {
         //adiciona where manual se caso seja necessário
         $oDados->Persistencia->setSWhereManual($this->getSWhereInicial());
 
-        $aDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo(), false);
+        $aDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo(), false, $this->getSId());
 
 
         $sGrid .= '</tr></thead>';
