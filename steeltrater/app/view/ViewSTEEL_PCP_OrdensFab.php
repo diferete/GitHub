@@ -14,6 +14,10 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $this->getTela()->setBGridResponsivo(false);
 
+
+        $oBtnReceitaZincagem = new CampoConsulta('', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_ENVIAR);
+        $oBtnReceitaZincagem->addDadosConsultaMVC('STEEL_PCP_OFReceitaZinc', 'TelaAlteraZincagem', 'Alterar receita da zincagem!');
+
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
@@ -58,6 +62,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oDocumento = new CampoConsulta('NotaEnt', 'documento');
         $oTipOrdem = new CampoConsulta('Tipo', 'tipoOrdem');
+        $oProcessozinc = new CampoConsulta('Rec. Zincagem', 'processozinc');
 
         $oNrCarga = new campoconsulta('NºCarga', 'nrCarga');
 
@@ -99,6 +104,12 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oFiltroSit->setSLabel('');
         $oFiltroSit->setBInline(true);
 
+        $oFiltroProcessozinc = new Filtro($oProcessozinc, Filtro::CAMPO_SELECT, 3, 2, 12, 12, true);
+        $oFiltroProcessozinc->addItemSelect('', 'Todos');
+        $oFiltroProcessozinc->addItemSelect('S', 'Receita Zincagem Apontados');
+        $oFiltroProcessozinc->addItemSelect('N', 'Receita Zincagem Não Apontados');
+        $oFiltroProcessozinc->setSLabel('');
+
         $oFilRec = new Filtro($oReceita, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFilRec->setSClasseBusca('STEEL_PCP_Receitas');
         $oFilRec->setSCampoRetorno('cod', $this->getTela()->getSId());
@@ -106,7 +117,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oOFilOpret = new Filtro($oOp_retrabalho, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2);
 
-        $this->addFiltro($oOpFiltro, $oCodigoFiltro, $oDescricaoFiltro, $oFilEmpresa, $oDocFiltro, $oTipoAcaoFiltro, $oFiltroReferencia, $oFilRec, $oFilData, $oFiltroSit);
+        $this->addFiltro($oOpFiltro, $oCodigoFiltro, $oDescricaoFiltro, $oFilEmpresa, $oDocFiltro, $oTipoAcaoFiltro, $oFiltroReferencia, $oFilRec, $oFilData, $oFiltroSit, $oFiltroProcessozinc);
 
         $this->setUsaAcaoExcluir(FALSE);
         $this->setUsaAcaoVisualizar(true);
@@ -114,7 +125,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
 
-        $this->addCampos($oOp, $oBotaoModal, $oBotaoFat, $oBotaoPeso, $oSituacao, $oNrCarga, $Pendencia, $oData, $oCodigo, $oReferencia, $oProdes, $oPeso, $oRetrabalho, $oDocumento, $oReceita, $oTipOrdem);
+        $this->addCampos($oOp, $oBtnReceitaZincagem, $oBotaoModal, $oBotaoFat, $oBotaoPeso, $oSituacao, $oNrCarga, $Pendencia, $oData, $oCodigo, $oReferencia, $oProdes, $oPeso, $oRetrabalho, $oDocumento, $oReceita, $oTipOrdem, $oProcessozinc);
 
 
         $this->setUsaDropdown(true);
@@ -129,7 +140,10 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oDrop3 = new Dropdown('Retrabalho', Dropdown::TIPO_AVISO);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Colocar em Retrabalho', 'STEEL_PCP_OrdensFab', 'msgRetrabalhoOp', '', false, '', false, '', false, '', false, false);
 
-        $this->addDropdown($oDrop1, $oDrop2, $oDrop3);
+        $oDrop4 = new Dropdown('Receita Zincagem', Dropdown::TIPO_PRIMARY);
+        $oDrop4->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Apontamento Receita Zincagem', 'STEEL_PCP_OFReceitaZinc', 'TelaAlteraZincagem', '', true, '', false, '', false, '', false, false);
+
+        $this->addDropdown($oDrop1, $oDrop2, $oDrop3, $oDrop4);
         $this->getTela()->setiAltura(750);
     }
 
@@ -359,9 +373,6 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oRevenidoDesc->setBComparacaoColuna(true);
         $oProdFinalGrid = new CampoConsulta('Produto Final', 'STEEL_PCP_pesqArame.pro_descricao');
 
-
-
-
         $oGridMat->addCampos($oSeqMatGrid, $oProDesGrid, $oMatDesGrid, $oRecDesGrid, $oDurNucMin, $oDurNuMax, $oRevenidoDesc, $oProdFinalGrid);
         $oGridMat->setSController('STEEL_PCP_prodMatReceita');
         $oGridMat->addParam('seqmat', '0');
@@ -370,7 +381,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oReceitaZinc = new Campo('Cod. Receita Zincagem', 'receita_zinc', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oReceitaZinc->setId('Zincar');
-        
+
         $oReceitaZincDes = new Campo('Des.Rec.Zincagem', 'receita_zincdesc', Campo::TIPO_BUSCADOBANCO, 5);
         $oReceitaZincDes->setBOculto(true);
         $oReceitaZincDes->setSIdPk($oReceitaZinc->getId());
@@ -382,7 +393,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oReceitaZinc->setClasseBusca('STEEL_PCP_Receitas');
         $oReceitaZinc->setSCampoRetorno('cod', $this->getTela()->getId());
         $oReceitaZinc->addCampoBusca('peca', $oReceitaZincDes->getId(), $this->getTela()->getId());
-        
+
         //busca campo material
         $oCodMat = new Campo('Material', 'matcod', Campo::TIPO_TEXTO, 1);
         $oCodMat->setSCorFundo(Campo::FUNDO_AMARELO);

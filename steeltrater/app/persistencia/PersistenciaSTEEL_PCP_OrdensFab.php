@@ -101,7 +101,7 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia{
         
         $this->adicionaRelacionamento('receita_zinc','receita_zinc');
         $this->adicionaRelacionamento('receita_zincdesc','receita_zincdesc');
-      
+        $this->adicionaRelacionamento('processozinc','processozinc');
         
         $this->adicionaOrderBy('op',1);
         $this->setSTop('100');

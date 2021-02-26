@@ -20,8 +20,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         $this->verificaCampos();
         $this->verificaOp();
         $this->buscaChave();
-
-
+        $this->apontaReceitaZincagem();
+        
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -35,11 +35,24 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         $oFabintens = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
         $oFabintens->itensOrdem($this->Model);
 
-
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
         return $aRetorno;
+    }
+
+    /**
+     * Método responsável por inserir apontamento caso seja zincagem ou têmpera/zincagem
+     */
+    public function apontaReceitaZincagem() {
+        
+        if ($this->Model->getTipoOrdem() == 'Z') {
+            $this->Model->setProcessozinc('S');
+        }
+        if ($this->Model->getTipoOrdem() == 'TZ') {
+            $this->Model->setProcessozinc('N');
+        }
+        
     }
 
     public function beforeInsert() {
@@ -48,7 +61,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         $this->verificaCampos();
         $this->verificaOp();
         $this->buscaChave();
-
+        $this->apontaReceitaZincagem();
 
 
         $aRetorno = array();
@@ -274,7 +287,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         }
         $aTipOps = array_unique($aTipo);
         if (count($aTipOps) == 1) {
-            if($aTipOps[0] == 'Z'){
+            if ($aTipOps[0] == 'Z') {
                 $sSistema = "app/relatorio";
                 $sRelatorio = 'OpSteelEtiquetaZinc.php?' . $sVethor;
 
@@ -286,7 +299,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
                 $sCampos .= '&output=tela';
                 $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
                 echo $oWindow;
-            }else{
+            } else {
                 $sSistema = "app/relatorio";
                 $sRelatorio = 'OpSteelEtiqueta.php?' . $sVethor;
 
@@ -603,6 +616,23 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
             echo $oModal->getRender();
             exit();
         }
+        //verifica otipo OP zincagem
+        if ($this->Model->getTipoOrdem() == 'Z' && ($this->Model->getReceita_zinc() == '' || $this->Model->getReceita_zincdesc() == '')) {
+            $oModal = new Modal('Atenção', 'Verifique o campo Receita Zincagem, não pode ser vazio para o tipo de OP zincagem!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }
+        //verifica otipo OP têmpera/zincagem
+        if ($this->Model->getTipoOrdem() == 'TZ' && ($this->Model->getReceita_zinc() == '' || $this->Model->getReceita_zincdesc() == '')) {
+            $oModal = new Modal('Atenção', 'Verifique o campo Receita Zincagem, não pode ser vazio para o tipo de OP têmpera/zincagem!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }
+        if($this->Model->getTipoOrdem() !== 'TZ' && $this->Model->getTipoOrdem() !== 'Z'){
+            $this->Model->setReceita_zinc('');
+            $this->Model->setReceita_zincdesc('');
+        }
+
         //cnpjs da fey, se tiver eles deve validar xped e ntitemped
         if ($this->Model->getEmp_codigo() == '16746136000185' || $this->Model->getEmp_codigo() == '84229624000175' || $this->Model->getEmp_codigo() == '84229624000418') {
             //verifica os campos xped, seq, seq, seq, seq
@@ -1104,5 +1134,5 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
     public function mostraTelaRelProducao($renderTo, $sMetodo = '') {
         parent::mostraTelaRelatorio($renderTo, 'RelProducao');
     }
-   
+
 }
