@@ -90,6 +90,17 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         $this->setSTop(50);
     }
 
+    public function getRepOffice() {
+        $sSql = 'select officedes from tbrepoffice';
+        $result = $this->getObjetoSql($sSql);
+        $aRet = array();
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            array_push($aRet, $oRowBD->officedes);
+        }
+        
+        return $aRet;
+    }
+
     /**
      * Método que busca os dados para montar o e-mail de encaminhamento para análise.
      */

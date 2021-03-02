@@ -46,8 +46,11 @@ class ViewMET_QUAL_RcVenda extends View {
         $oAnexo3 = new CampoConsulta('Anexo 3', 'anexo3', CampoConsulta::TIPO_DOWNLOAD);
 
         $oDataLibVendas = new CampoConsulta('Dt. lib. vendas', 'datalibvendas', CampoConsulta::TIPO_DATA);
+
         $oHoraLibVendas = new CampoConsulta('Hr. lib. vendas', 'horalibvendas', CampoConsulta::TIPO_TIME);
+
         $oDataLibAnalise = new CampoConsulta('Dt. lib. análise', 'datalibanalise', CampoConsulta::TIPO_DATA);
+
         $oHoraLibAnalise = new CampoConsulta('Hr. lib. análise', 'horalibanalise', CampoConsulta::TIPO_TIME);
 
         ////////////////////////////////////////////// COLUNAS DE SITUAÇÃO /////////////////////////////////////////////////////////////////////////////
@@ -109,9 +112,18 @@ class ViewMET_QUAL_RcVenda extends View {
         $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
 
         $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
-        $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
-        $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos);
+
+        $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, true);
+
+        $oFilOfficeDes = new Filtro($oOfficeDes, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilOfficeDes->addItemSelect('', 'TODOS');
+        foreach ($this->getAParametrosExtras() as $key => $value) {
+            $oFilOfficeDes->addItemSelect($value, $value);
+        }
+
+        $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos, $oFilOfficeDes);
         if ($_SESSION['codUser'] == 19) {
             $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
         } else {

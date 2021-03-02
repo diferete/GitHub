@@ -12,6 +12,12 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $this->carregaClassesMvc('MET_QUAL_RcVenda');
     }
 
+    public function adicionaFiltrosExtras() {
+        parent::adicionaFiltrosExtras();
+        $aRepOffice = $this->Persistencia->getRepOffice();
+        $this->View->setAParametrosExtras($aRepOffice);
+    }
+
     /*
      * Busca dados da NF e coloca o valor nos campos via jquery
      * */
