@@ -155,9 +155,9 @@ class ModelSTEEL_PCP_Produtos {
     private $pro_tipocoluna;
     private $fis_produtocompra;
     private $tms_produtopredominante;
-    
+
     function getSTEEL_PCP_ProdutoFilial() {
-        if(!isset($this->STEEL_PCP_ProdutoFilial)){
+        if (!isset($this->STEEL_PCP_ProdutoFilial)) {
             $this->STEEL_PCP_ProdutoFilial = Fabrica::FabricarModel('STEEL_PCP_ProdutoFilial');
         }
         return $this->STEEL_PCP_ProdutoFilial;
@@ -167,7 +167,6 @@ class ModelSTEEL_PCP_Produtos {
         $this->STEEL_PCP_ProdutoFilial = $STEEL_PCP_ProdutoFilial;
     }
 
-    
     function getPro_mva() {
         return $this->pro_mva;
     }
@@ -663,8 +662,9 @@ class ModelSTEEL_PCP_Produtos {
     function setTms_produtopredominante($tms_produtopredominante) {
         $this->tms_produtopredominante = $tms_produtopredominante;
     }
+
 /////////////////////////////////////////////////////////////////////////////////////////    
-    
+
     function getMatriz() {
         return $this->matriz;
     }
