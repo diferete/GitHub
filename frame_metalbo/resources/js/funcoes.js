@@ -431,7 +431,6 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idQtSug, idQt
     //vai listar como divergência e deve bloquear a inserção
     if (Quantidade > 0 && CaixaNormal > 0) {
         if (Quantidade != (resultadoNormalArr * CaixaNormal)) {
-            //  console.log('divergencia');
             $('#' + idDiverNormal + '').removeClass("label-warning");
             $('#' + idDiverNormal + '').removeClass("label-success");
             $('#' + idDiverNormal + '').addClass("label-danger");
@@ -462,19 +461,19 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idQtSug, idQt
  * @returns {Boolean}
  */
 function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idQtSugMaster, idQtCaixaMaster, idDiver) {
-    //alert();
-    var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val());//$('#'+idQuantidade+'').val();
-    var CaixaMaster = moedaParaNumero($('#' + idCaixaMaster + '').val());//$('#'+idCaixaMaster+'').val();
+
+    var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val());
+    var CaixaMaster = moedaParaNumero($('#' + idCaixaMaster + '').val());
 
     var resultadoMaster = Quantidade / CaixaMaster;
 
     var resultadoMasterArr = Math.ceil(resultadoMaster);
 
+    //calcula divergencia entre a quantidade solicitada e a quantidade mínima de uma caixa master.
     var qtsug = resultadoMasterArr * CaixaMaster;
     var diver = qtsug - Quantidade;
     $('#' + idDiver + '').val(diver);
 
-    //vai listar como divergência e deve bloquear a inserção
     if (Quantidade > 0 && CaixaMaster > 0) {
         if (Quantidade != (resultadoMasterArr * CaixaMaster)) {
             $('#' + idDiverMaster + '').removeClass("label-warning");
