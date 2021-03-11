@@ -151,9 +151,8 @@ class ViewMET_QUAL_QualAq extends View {
         $oFilcgc->addCampoBusca('fil_fantasia', $oFilDes->getId(), $this->getTela()->getId());
 
 
-        $oDataImp = new campo('Implantação', 'dtimp', Campo::TIPO_TEXTO, 2, 6, 6, 6);
+        $oDataImp = new campo('Implantação', 'dtimp', Campo::TIPO_DATA, 2, 6, 6, 6);
         $oDataImp->setSValor(date('d/m/Y'));
-        $oDataImp->setBCampoBloqueado(true);
 
         $oHora = new Campo('Hora', 'horimp', Campo::TIPO_TEXTO, 2, 3, 3, 3);
         $oHora->setITamanho(Campo::TAMANHO_PEQUENO);
