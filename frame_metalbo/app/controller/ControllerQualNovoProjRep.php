@@ -27,6 +27,24 @@ class ControllerQualNovoProjRep extends Controller {
             $aRetorno[1] = '';
             return $aRetorno;
         } else {
+            $quant = $this->Model->getQuant_pc();
+            if ($quant == '0' || $quant == '0,00') {
+
+                $oMsg = new Mensagem('Atenção', 'Quantidade não pode ser 0!', Mensagem::TIPO_WARNING, '70000');
+                echo $oMsg->getRender();
+
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            } else {
+                $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
             $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
 
             $aRetorno = array();
@@ -50,6 +68,24 @@ class ControllerQualNovoProjRep extends Controller {
             $aRetorno[1] = '';
             return $aRetorno;
         } else {
+            $quant = $this->Model->getQuant_pc();
+            if ($quant == '0' || $quant = '0,00') {
+
+                $oMsg = new Mensagem('Atenção', 'Quantidade não pode ser 0!', Mensagem::TIPO_WARNING, '70000');
+                echo $oMsg->getRender();
+
+                $aRetorno = array();
+                $aRetorno[0] = false;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            } else {
+                $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
+
+                $aRetorno = array();
+                $aRetorno[0] = true;
+                $aRetorno[1] = '';
+                return $aRetorno;
+            }
             $this->Model->setQuant_pc($this->ValorSql($this->Model->getQuant_pc()));
 
             $aRetorno = array();
