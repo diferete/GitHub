@@ -40,6 +40,8 @@ class ViewSTEEL_PCP_Produtos extends View {
 
         $oNcm = new campoConsulta('NCM', 'pro_ncm');
 
+        $oCest = new campoConsulta('CEST', 'pro_produtocest');
+
         $oGrupoCod = new CampoConsulta('Grupo', 'pro_grupocodigo');
 
         $oGrupoDes = new CampoConsulta('Descrição', 'DELX_PRO_Grupo.pro_grupodescricao');
@@ -97,7 +99,7 @@ class ViewSTEEL_PCP_Produtos extends View {
         $oFiltroReferencia = new Filtro($oRefCliente, Filtro::CAMPO_TEXTO_IGUAL, 2);
 
         $this->addFiltro($oCodigofiltro, $oDescricaofiltro, $oFilGrupo, $oFilSubGrupo, $oFilFamilia, $oFilSubFamilia, $oFiltroReferencia);
-        $this->addCampos($oBotaoModal, $oCodigo, $oRefCliente, $oDescricao, $oNcm, $oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes, $oUnidadeMedCod, $oBloqueio
+        $this->addCampos($oBotaoModal, $oCodigo, $oRefCliente, $oDescricao, $oNcm, $oCest, $oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes, $oUnidadeMedCod, $oBloqueio
         ); // $oPesoLiq,$oBloqueio,$oMotivoBloqueio,$oSubFamiliaCod, $oSubFamiliaDes,$oSubGrupoCod, $oSubGrupoDes, $oFamiliaCod, $oFamiliaDes,   
     }
 
