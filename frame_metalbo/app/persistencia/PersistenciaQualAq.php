@@ -43,7 +43,10 @@ class PersistenciaQualAq extends Persistencia {
         $this->adicionaRelacionamento('obscancela', 'obscancela');
         $this->adicionaRelacionamento('usucancela', 'usucancela');
 
-        $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
+        if ($_SESSION['codsetor'] != 25 && $_SESSION['codsetor'] != 2) {
+            $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
+            $sSetor = $_SESSION['codsetor'];
+        }
 
         $this->adicionaJoin('EmpRex');
 
@@ -52,14 +55,9 @@ class PersistenciaQualAq extends Persistencia {
     }
 
     public function fechaAq($aDados) {
-        $user = $_SESSION['nome'];
-        date_default_timezone_set('America/Sao_Paulo');
-        $sHora = date('H:i');
-        $sData = date('d/m/Y');
-
-
-        $sSql = "update tbacaoqual set sit = 'Finalizada', userfech = '" . $user . "', horafech = '" . $sHora . "', datafech = '" . $sData . "' 
-         where filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr ='" . $aDados['nr'] . "'";
+          $sSql = "update tbacaoqual set sit = 'Finalizada' "
+                . "where filcgc = '" . $aDados['EmpRex_filcgc'] . "' "
+                . "and nr ='" . $aDados['nr'] . "'";
         $aRetorno = $this->executaSql($sSql);
         return $aRetorno;
     }
@@ -231,17 +229,14 @@ class PersistenciaQualAq extends Persistencia {
         if ($oEficaz->total == 0) {
             $aRowAq['eficaz'] = 'vazio';
         } else {
-            $sSqlEficaz = $sSqlEficaz . " and sitfim is null";
-            $oEficaz = $this->consultaSql($sSqlPlan);
+            $sSqlEficaz = $sSqlEficaz . " and sit is null";
+            $oEficaz = $this->consultaSql($sSqlEficaz);
             if ($oEficaz->total == 0) {
                 $aRowAq['eficaz'] = true;
             } else {
                 $aRowAq['eficaz'] = false;
             }
         }
-
-
-
 
         return $aRowAq;
     }
