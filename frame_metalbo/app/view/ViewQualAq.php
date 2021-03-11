@@ -104,7 +104,7 @@ class ViewQualAq extends View {
 
         $oDrop3 = new Dropdown('Movimentação', Dropdown::TIPO_DARK);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Iniciar ação da qualidade', 'QualAq', 'startAq', '', false, '', false, '', false, '', false, false);
-        //$oDrop3->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Finalizar ação da qualidade', 'QualAq', 'msgFechaAq', '', false, ''); //msgAbreAq
+        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Finalizar ação da qualidade', 'QualAq', 'msgFechaAq', '', false, '', false, '', false, '', false, false);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DESBLOQUEADO) . 'Reabrir ação da qualidade', 'QualAq', 'msgAbreAq', '', false, '', false, '', false, '', false, false);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar ação da qualidade', 'QualAq', 'criaModalCancelaAq', '', false, '', false, 'criaTelaModalCancelaAq', true, 'Cancelar Aq', false, false);
         $oDrop3->addItemDropdown($this->addIcone(Base::ICON_FILE) . 'Ata de reunião', 'QualAta', 'acaoMostraTelaApontdiv', '', true, '', false, '', false, '', false, false);
@@ -157,9 +157,8 @@ class ViewQualAq extends View {
         $oFilcgc->addCampoBusca('fildes', $oFilDes->getId(), $this->getTela()->getId());
 
 
-        $oDataImp = new campo('Implantação', 'dtimp', Campo::TIPO_TEXTO, 2, 6, 6, 6);
+        $oDataImp = new campo('Implantação', 'dtimp', Campo::TIPO_DATA, 2, 6, 6, 6);
         $oDataImp->setSValor(date('d/m/Y'));
-        $oDataImp->setBCampoBloqueado(true);
 
         $oHora = new Campo('Hora', 'horimp', Campo::TIPO_TEXTO, 2, 3, 3, 3);
         $oHora->setITamanho(Campo::TAMANHO_PEQUENO);
