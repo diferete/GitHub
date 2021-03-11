@@ -230,6 +230,23 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
         if ($iEtapa > 1) {
             //busca a etapa anterior
             $iEtapa = $iEtapa - 1;
+            //verifica se a op está marcada como apontamento = sim
+            $oVerifApontAnt = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
+            $oVerifApontAnt->Persistencia->adicionaFiltro('op', $aOp[1]);
+            $oVerifApontAnt->Persistencia->adicionaFiltro('opseq', $iEtapa);
+            $oReceita = $oVerifApontAnt->Persistencia->consultarWhere();
+            $sReceita = $oReceita->getReceita();
+            $sEtapa = $oReceita->getReceita_seq();
+            //verifica os itens da receita
+            $oItensReceita = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
+            $oItensReceita->Persistencia->adicionaFiltro('cod', $sReceita);
+            $oItensReceita->Persistencia->adicionaFiltro('seq', $sEtapa);
+            $oItensRecDados = $oItensReceita->Persistencia->consultarWhere();
+            $sAponta = $oItensRecDados->getRecApont();
+            if($sAponta='NÃO'){
+                $iEtapa=$iEtapa -1;
+            }
+            
             $iCountEtapaAnt = $this->Persistencia->etapaAntFinalizada($aOp[1], $iEtapa);
             if ($iCountEtapaAnt == 0) {
                 $oModal = new Modal('Atenção!', 'Etapa anterior não foi FINALIZADA, por favor finalize a etapa anterior!', Modal::TIPO_AVISO, false, true, true);
@@ -578,10 +595,10 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
             exit();
         }
 
-        // $oMensagem = new Modal('Atenção!', 'A OP nº' . $aCamposChave['op'] . ' foi finalizada!', Modal::TIPO_SUCESSO, false, true, true);
-        // $oMensagem->setSBtnConfirmarFunction('requestAjax("' . $aDados[0] . '-form","STEEL_PCP_ordensFabApontEtapas","finalizaOpGeral","' . $sDados . '");');
+       // $oMensagem = new Modal('Atenção!', 'A OP nº' . $aCamposChave['op'] . ' foi finalizada!', Modal::TIPO_SUCESSO, false, true, true);
+       // $oMensagem->setSBtnConfirmarFunction('requestAjax("' . $aDados[0] . '-form","STEEL_PCP_ordensFabApontEtapas","finalizaOpGeral","' . $sDados . '");');
         $this->finalizaOpGeral($sDados);
-        // echo $oMensagem->getRender();
+       // echo $oMensagem->getRender();
     }
 
     public function finalizaOpGeral($sDados) {
