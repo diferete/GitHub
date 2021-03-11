@@ -21,7 +21,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         $this->verificaOp();
         $this->buscaChave();
         $this->apontaReceitaZincagem();
-        
+
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -45,14 +45,13 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
      * Método responsável por inserir apontamento caso seja zincagem ou têmpera/zincagem
      */
     public function apontaReceitaZincagem() {
-        
+
         if ($this->Model->getTipoOrdem() == 'Z') {
             $this->Model->setProcessozinc('S');
         }
         if ($this->Model->getTipoOrdem() == 'TZ') {
             $this->Model->setProcessozinc('N');
         }
-        
     }
 
     public function beforeInsert() {
@@ -514,6 +513,8 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
     }
 
     public function mostraTelaRelOpForno($renderTo, $sMetodo = '') {
+        $parame = $this->Persistencia->buscaForno();
+        $this->View->setAParametrosExtras($parame);
         parent::mostraTelaRelatorio($renderTo, 'RelOpSteelForno');
     }
 
@@ -628,7 +629,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
             echo $oModal->getRender();
             exit();
         }
-        if($this->Model->getTipoOrdem() !== 'TZ' && $this->Model->getTipoOrdem() !== 'Z'){
+        if ($this->Model->getTipoOrdem() !== 'TZ' && $this->Model->getTipoOrdem() !== 'Z') {
             $this->Model->setReceita_zinc('');
             $this->Model->setReceita_zincdesc('');
         }
