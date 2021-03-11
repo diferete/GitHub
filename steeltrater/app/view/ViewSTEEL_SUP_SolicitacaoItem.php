@@ -106,9 +106,10 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oItemUnidade = new Campo('Un.Medida', 'SUP_SolicitacaoItemUnidade', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oItemUnidade->setBCampoBloqueado(true);
 
-        $oQuantItem = new Campo('Quantidade', 'SUP_SolicitacaoItemComQtd', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        $oQuantItem = new Campo('Quantidade', 'SUP_SolicitacaoItemComQtd', Campo::TIPO_DECIMAL_COMPOSTO, 1, 1, 12, 12);
         $oQuantItem->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQuantItem->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', '1');
+        $oQuantItem->setICasaDecimal(4);
 
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHA);
         $oLinha->setApenasTela(true);
