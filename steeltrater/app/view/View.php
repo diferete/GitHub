@@ -95,6 +95,15 @@ abstract class View {
     private $bGravaHistoricoInserir;
     private $sIdsTelas;
     private $bOcultaFechar;
+    private $bScrollInfDetalhe;
+
+    function getBScrollInfDetalhe() {
+        return $this->bScrollInfDetalhe;
+    }
+
+    function setBScrollInfDetalhe($bScrollInfDetalhe) {
+        $this->bScrollInfDetalhe = $bScrollInfDetalhe;
+    }
 
     function getBOcultaFechar() {
         return $this->bOcultaFechar;
@@ -2110,7 +2119,7 @@ abstract class View {
     /**
      * Adiciona botões padrão nas telas de cadastro
      */
-	  public function addBotaoPadraoTela($sCampoIncremento) {
+    public function addBotaoPadraoTela($sCampoIncremento) {
         //busca campo autoincremento para atualizar registro
 
         $sClasse = $this->getController();
@@ -2149,44 +2158,45 @@ abstract class View {
             $this->getTela()->addBotoes($oBtnFechar);
         }
     }
-   /* public function addBotaoPadraoTela($sCampoIncremento) {
-        //busca campo autoincremento para atualizar registro
 
-        $sClasse = $this->getController();
-        //adição dos botões no form
-        if ($this->getBEtapa()) {
-            $sMetodo = 'acaoDetalhe'; //$this->getSRotina();
-            $sIdEtapas = $this->idEtapa();
-            $sIdBody = $this->getTela()->getId() . '-body';
-            //define o controle da etapa inicial
-            $sEtapaInicial = '1';
-            $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . '-form,' . $this->getTela()->getSRenderHide() . ',' . $sIdEtapas . ',' . $sEtapaInicial . ',' . $sIdBody . ',' . $this->getTela()->getId() . ',' . $this->getSIdControleUpAlt() . ',' . $this->getTela()->getAbaSel() . '");';
-            $oBtnAdd = new Botao('Próximo', Botao::TIPO_PROXIMO, '');
-            $this->getTela()->setAcaoConfirmar($sAcao);
-            $this->getTela()->setIdBtnConfirmar($oBtnAdd->getId());
-            $this->getTela()->addBotoes($oBtnAdd);
-        } else {
-            if (!($this->getBOcultaBotTela())) {
-                $sCampoIncremento .= $this->getSIdUpload();
-                $sMetodo = $this->getSRotina();
-                $oBtnAdd = new Botao('', Botao::TIPO_CONFIRMAR, '');
-                $oBtnAdd->setRequestAjax('requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . ',' . $this->getTela()->getSRenderHide() . ',' . $sCampoIncremento . ',' . $this->getTela()->getAbaSel() . '");'); //"'.$this->getSIdUpload().'"
-                $this->getTela()->addBotoes($oBtnAdd);
-            }
+    /* public function addBotaoPadraoTela($sCampoIncremento) {
+      //busca campo autoincremento para atualizar registro
 
-            $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
-            $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);
-            $this->getTela()->addBotoes($oBtnLimpar);
-        }
-        //desativa botao fechar
-        if (!($this->getBOcultaFechar())) {
-            $sAcaoClose = '';
-            $sAcaoClose = $this->getTela()->getSAcaoClose();
-            $sAcao = '' . $sAcaoClose . '$("#' . $this->getTela()->getId() . '").remove();$("#' . $this->getTela()->getSRenderHide() . 'consulta").toggle();';
-            $oBtnFechar = new Botao('', Botao::TIPO_FECHAR, $sAcao);
-            $this->getTela()->addBotoes($oBtnFechar);
-        }
-    }*/
+      $sClasse = $this->getController();
+      //adição dos botões no form
+      if ($this->getBEtapa()) {
+      $sMetodo = 'acaoDetalhe'; //$this->getSRotina();
+      $sIdEtapas = $this->idEtapa();
+      $sIdBody = $this->getTela()->getId() . '-body';
+      //define o controle da etapa inicial
+      $sEtapaInicial = '1';
+      $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . '-form,' . $this->getTela()->getSRenderHide() . ',' . $sIdEtapas . ',' . $sEtapaInicial . ',' . $sIdBody . ',' . $this->getTela()->getId() . ',' . $this->getSIdControleUpAlt() . ',' . $this->getTela()->getAbaSel() . '");';
+      $oBtnAdd = new Botao('Próximo', Botao::TIPO_PROXIMO, '');
+      $this->getTela()->setAcaoConfirmar($sAcao);
+      $this->getTela()->setIdBtnConfirmar($oBtnAdd->getId());
+      $this->getTela()->addBotoes($oBtnAdd);
+      } else {
+      if (!($this->getBOcultaBotTela())) {
+      $sCampoIncremento .= $this->getSIdUpload();
+      $sMetodo = $this->getSRotina();
+      $oBtnAdd = new Botao('', Botao::TIPO_CONFIRMAR, '');
+      $oBtnAdd->setRequestAjax('requestAjax("' . $this->getTela()->getId() . '-form","' . $sClasse . '","' . $sMetodo . '","' . $this->getTela()->getId() . ',' . $this->getTela()->getSRenderHide() . ',' . $sCampoIncremento . ',' . $this->getTela()->getAbaSel() . '");'); //"'.$this->getSIdUpload().'"
+      $this->getTela()->addBotoes($oBtnAdd);
+      }
+
+      $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
+      $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);
+      $this->getTela()->addBotoes($oBtnLimpar);
+      }
+      //desativa botao fechar
+      if (!($this->getBOcultaFechar())) {
+      $sAcaoClose = '';
+      $sAcaoClose = $this->getTela()->getSAcaoClose();
+      $sAcao = '' . $sAcaoClose . '$("#' . $this->getTela()->getId() . '").remove();$("#' . $this->getTela()->getSRenderHide() . 'consulta").toggle();';
+      $oBtnFechar = new Botao('', Botao::TIPO_FECHAR, $sAcao);
+      $this->getTela()->addBotoes($oBtnFechar);
+      }
+      } */
 
     public function addBotaoApont() {
         $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';

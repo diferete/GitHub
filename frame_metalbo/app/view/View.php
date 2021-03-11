@@ -95,6 +95,16 @@ abstract class View {
     private $bGravaHistoricoInserir;
     private $sIdsTelas;
     private $bOcultaFechar;
+    private $bScrollInfDetalhe;
+
+    function getBScrollInfDetalhe() {
+        return $this->bScrollInfDetalhe;
+    }
+
+    function setBScrollInfDetalhe($bScrollInfDetalhe) {
+        $this->bScrollInfDetalhe = $bScrollInfDetalhe;
+        $oTela = $this->getTela(); //->setBScrollInf($bScrollInf);
+    }
 
     function getBOcultaFechar() {
         return $this->bOcultaFechar;
@@ -2110,7 +2120,7 @@ abstract class View {
     /**
      * Adiciona botões padrão nas telas de cadastro
      */
-	  public function addBotaoPadraoTela($sCampoIncremento) {
+    public function addBotaoPadraoTela($sCampoIncremento) {
         //busca campo autoincremento para atualizar registro
 
         $sClasse = $this->getController();
@@ -2149,7 +2159,7 @@ abstract class View {
             $this->getTela()->addBotoes($oBtnFechar);
         }
     }
-   
+
     public function addBotaoApont() {
         $sAcao = '$("#' . $this->getTela()->getId() . '-form").each (function(){ this.reset();});';
         $oBtnLimpar = new Botao('', Botao::TIPO_LIMPAR, $sAcao);
