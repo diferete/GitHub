@@ -90,6 +90,11 @@ class CampoConsulta {
     const ICONE_BOTAOSUCCES = 'btn btn-success btn-xs ladda-button btn-grid';
     const ICONE_BOTAODANGER = 'btn btn-danger btn-xs ladda-button btn-grid';
     const ICONE_APONTAR = 'btn-xs btn-icon btn-dark btn-outline icon wb-pencil';
+    const ICONE_ALERTA = 'btn-xs btn-icon btn-warning btn-outline icon wb-alert';
+    const ICONE_MARTELO = 'btn-xs btn-icon btn-dark btn-outline icon wb-hammer';
+    const ICONE_BLOQUEAR = 'btn-xs btn-icon btn-danger btn-outline icon wb-lock';
+    const ICONE_DESBLOQUEAR = 'btn-xs btn-icon btn-primary btn-outline icon wb-unlock';
+    const ICONE_RELOGIO = 'btn-xs btn btn-outline btn-success icon icon wb-time';
 
     /**
      *  Método construtor que passa o label e o nome do campo no model
@@ -396,7 +401,7 @@ class CampoConsulta {
     /**
      * Retorna o render do campo consulta
      */
-    public function getRender($sClasse, $xValor, $sParam = null, $sIdTela) {
+    public function getRender($sClasse, $xValor, $sParam = null) {
 
         if ($this->getBTruncate()) {
             $sClasse .= ' truncate';
@@ -836,12 +841,13 @@ class CampoConsulta {
                         . '<button type="button" class="' . $this->getSTipoBotao() . '" id="' . $sIdBtn . '" title="' . $this->aMVC['titulo'] . '" ' . $sDisabled . '></button>'
                         . '</td>';
                 $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
-                        . 'var chave="";'
-                        . '$("#' . $sIdTela . 'consulta tbody .selected").each(function(){'
-                        . 'chave = $(this).find(".chave").html();';
-                $sCampo .= '});';
-                $sCampo .= '$("#' . $sIdTela . 'consulta").hide();';
-                $sCampo .= 'requestAjax("' . $sIdTela . '-formgridbelow","' . $this->aMVC['classe'] . '","' . $this->aMVC['metodo'] . '",abaSelecionada +"control,' . $sIdTela . ',' . $xValor . '");';
+                        . '$("#tabmenusuperior li").each(function(){'
+                        . 'if($(this).hasClass( "active" )){'
+                        . 'abaSelecionada=$(this).attr("id");}'
+                        . '}); '
+                        . 'var idGrid = $("#"+abaSelecionada+"' . $this->getSNomeGrid() . '").text();';
+                $sCampo .= ' $("#"+idGrid+"consulta").hide(); ';
+                $sCampo .= 'requestAjax(""+idGrid+"-formgridbelow","' . $this->aMVC['classe'] . '","' . $this->aMVC['metodo'] . '",abaSelecionada +"control,"+idGrid+",' . $xValor . '");';
                 $sCampo .= '});</script>';
 
                 break;
