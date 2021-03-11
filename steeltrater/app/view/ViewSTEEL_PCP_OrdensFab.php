@@ -748,6 +748,8 @@ class ViewSTEEL_PCP_OrdensFab extends View {
     public function RelOpSteelForno() {
         parent::criaTelaRelatorio();
 
+        $aDados = $this->getAParametrosExtras();
+
         $this->setTituloTela('Relatório de ordens de produção apontadas por forno');
         $this->setBTela(true);
 
@@ -783,10 +785,9 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oEmp_codigo->setSCampoRetorno('emp_codigo', $this->getTela()->getId());
         $oEmp_codigo->addCampoBusca('emp_razaosocial', $oEmp_des->getId(), $this->getTela()->getId());
 
+        $oFieldForno = new FieldSet('Adicionar um forno específico!');
         //busca do forno
-
         $oFornoCod = new Campo('Forno', 'fornocod', Campo::TIPO_BUSCADOBANCOPK, 2);
-
 
         //campo descrição do forno adicionando o campo de busca
         $oFornodes = new Campo('Descrição Forno', 'fornodes', Campo::TIPO_BUSCADOBANCO, 4);
@@ -801,6 +802,19 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oFornoCod->setClasseBusca('STEEL_PCP_Forno');
         $oFornoCod->setSCampoRetorno('fornocod', $this->getTela()->getId());
         $oFornoCod->addCampoBusca('fornodes', $oFornodes->getId(), $this->getTela()->getId());
+
+        $oFieldForno->addCampos(array($oFornoCod, $oFornodes));
+        $oFieldForno->setOculto(true);
+
+        $oFieldFornos = new FieldSet('Adicionar mais de um forno!');
+
+        $oFornos = new Campo('Fornos', 'fornos', Campo::TIPO_SELECTTAGS, 8, 8, 8, 8);
+        foreach ($aDados as $key => $oValue) {
+            $oFornos->addItemSelect($key, $key . ' - ' . $oValue);
+        }
+
+        $oFieldFornos->addCampos($oFornos);
+        $oFieldFornos->setOculto(true);
 
         $oRetrabalho = new Campo('Retrabalho', 'retrabalho', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3, 3);
         $oRetrabalho->setSValor('Incluir');
@@ -832,7 +846,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oTurnoEnt->addItemSelect('Turno D', 'Turno D');
         $oTurnoEnt->addItemSelect('Geral', 'Geral');
 
-        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $oTurnoEnt), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
+        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, $oFieldForno, $oLinha1, $oFieldFornos, $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $oTurnoEnt), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
     }
 
     public function criaModalAponta() {
