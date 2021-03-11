@@ -56,7 +56,20 @@ $iEmpCodigo = $_REQUEST['emp_codigo'];
 $sEmpDescricao = $_REQUEST['emp_razaosocial'];
 $sFornodes = $_REQUEST['fornodes'];
 $iFornoCod = $_REQUEST['fornocod'];
-$iFornos = $_REQUEST['fornos'];
+$sFornos = '';
+$iForno = 0;
+$aQueryStryng = explode('&', $_SERVER['QUERY_STRING']);
+foreach ($aQueryStryng as $skey) {
+    $aDados = explode('=', $skey);
+    if ($aDados[0] == 'fornos') {
+        if ($iForno == 0) {
+            $sFornos .= "'" . $aDados[1] . "'";
+            $iForno++;
+        } else {
+            $sFornos .= "," . "'" . $aDados[1] . "'";
+        }
+    }
+}
 $sListaEtapa = '';
 if (isset($_REQUEST['listaEtapa'])) {
     $sListaEtapa = $_REQUEST['listaEtapa'];
@@ -82,6 +95,9 @@ if ($iEmpCodigo !== '') {
 }
 if ($iFornoCod !== '') {
     $sSqli .= " and STEEL_PCP_ordensFabApont.fornocod ='" . $iFornoCod . "'";
+}
+if ($sFornos !== '') {
+    $sSqli .= " and STEEL_PCP_ordensFabApont.fornocod in(" . $sFornos . ")";
 }
 if ($sSituacao !== 'Todas') {
     if ($sSituacao == 'Processo') {
