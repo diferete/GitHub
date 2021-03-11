@@ -1712,7 +1712,7 @@ class Controller {
         $aCampos = $this->View->$aGridMetodo[1]();
 
 
-        $this->getDadosConsulta($aGridMetodo[0], $bReload, $sCampoConsulta, $aCampos, true, true, false, $sIdTela);
+        $this->getDadosConsulta($aGridMetodo[0], $bReload, $sCampoConsulta, $aCampos, true, true, false);
     }
 
     /**
@@ -1720,7 +1720,7 @@ class Controller {
      */
     public function getDadosScroll($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false) {
         $this->setBPesqScroll(true);
-        $this->getDadosConsulta($sDadosReload, $bReload, $sCampoConsulta, $aColuna, $bGridCampo, true, $sIdTela);
+        $this->getDadosConsulta($sDadosReload, $bReload, $sCampoConsulta, $aColuna, $bGridCampo, true);
     }
 
     /**
@@ -1733,7 +1733,7 @@ class Controller {
         $nomeGrid = $aDados[0];
         $aCampos = $this->View->$nomeGrid();
         $this->afterGetdadoGrid();
-        $this->getDadosConsulta($sDadosReload, true, null, $aCampos, true, false, $sIdTela);
+        $this->getDadosConsulta($sDadosReload, true, null, $aCampos, true, false);
     }
 
     /**
@@ -1744,7 +1744,7 @@ class Controller {
         $aParam = explode('=', $aDados[0]);
         $this->Persistencia->adicionaFiltro($aParam[0], $aParam[1]);
         $this->antesDetalhe($aParam[1]);
-        $this->getDadosConsulta($sDados, true, null, null, null, false, $sIdTela);
+        $this->getDadosConsulta($sDados, true, null, null, null, false);
     }
 
     /**
@@ -1756,7 +1756,7 @@ class Controller {
      * $sRenderTo onde será renderizados os dados
      * $bConsultaPorSql define se a consulta será manual = true ou false pela persistencia
      */
-    public function getDadosConsulta($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela) {
+    public function getDadosConsulta($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela = '') {
         //realiza a busca dos filtros
         $this->beforFiltroConsulta();
         //verifica se tem order by
@@ -1956,7 +1956,7 @@ class Controller {
 
                 if ($campoAtual->getBCampoIcone() == true) {
                     $sChave = $this->Persistencia->getChaveModel($oAtual);
-                    $sDados .= $campoAtual->getRender($sConsulta, $sChave, $sParam, $sIdTela);
+                    $sDados .= $campoAtual->getRender($sConsulta, $sChave, $sParam);
                 } else {
                     if ($campoAtual->getTipo() == CampoConsulta::TIPO_DATA) {
                         if ($this->getValorModel($oAtual, $sNomeCampo)) {
@@ -1980,11 +1980,11 @@ class Controller {
 
                     if ($aRetornoFormat[0]) {
                         $sChave = $this->Persistencia->getChaveModel($oAtual);
-                        $sDados .= $campoAtual->getRender($aRetornoFormat[1] . $sConsulta, $xValorCampo, $sChave, $sIdTela);
+                        $sDados .= $campoAtual->getRender($aRetornoFormat[1] . $sConsulta, $xValorCampo, $sChave);
                         $aRetornoFormat[0] = false;
                     } else {
                         $sChave = $this->Persistencia->getChaveModel($oAtual);
-                        $sDados .= $campoAtual->getRender($sConsulta, $xValorCampo, $sChave, $sIdTela);
+                        $sDados .= $campoAtual->getRender($sConsulta, $xValorCampo, $sChave);
                     }
                 }
             }
@@ -2032,7 +2032,8 @@ class Controller {
             //mostra contator de registros 
 
             $sNrReg = 'var nrReg = $("#' . $aDadosAtualizar[0] . ' > tbody > tr").length ;'
-                    . ' $("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de ' . $iTotalReg . '. Clique para carregar!"); ';
+                    . 'var totalRegFixo = $("#' . $aDadosAtualizar[0] . '-totalRegFixo").val();'
+                    . '$("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de " + totalRegFixo + ". Clique para carregar!"); ';
             echo $sNrReg;
         } else {
             //retorna os dados
@@ -2662,7 +2663,7 @@ class Controller {
         $aColunas = $_REQUEST['colunas'];
         $aTotalizador = json_decode($_REQUEST['summary'], true);
 
-        $aDados = $this->getDadosConsulta(true, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela);
+        $aDados = $this->getDadosConsulta(true, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false);
 
         $oPDF = new PDF($sTitulo);
         $oPDF->addColunas($aColunas);
@@ -3046,7 +3047,7 @@ class Controller {
             $msg = "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
             echo $msg;
             echo $oMsg->getRender();
-            $this->getDadosConsulta($aDados[2], true, null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela);
+            $this->getDadosConsulta($aDados[2], true, null, $aColuna = null, $bGridCampo = false, $bScroll = false);
             $oFocus = new Base();
             echo $oFocus->focus($aDados[3]);
 
@@ -3129,7 +3130,7 @@ class Controller {
             $msg = "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
             echo $msg;
             echo $oMsg->getRender();
-            $this->getDadosConsulta($aDados[2], true, null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela);
+            $this->getDadosConsulta($aDados[2], true, null, $aColuna = null, $bGridCampo = false, $bScroll = false);
             //gera a atualização do grid
             //monta os filtros
         } else {
@@ -3539,7 +3540,7 @@ class Controller {
                 // Retorna Mensagem Informando o Sucesso da Exlusão do registro
                 $oMensagemSucesso = new Mensagem('Sucesso!', 'Seu registro foi deletado...', Mensagem::TIPO_SUCESSO);
                 echo $oMensagemSucesso->getRender();
-                $this->getDadosConsulta($idGrid, false, null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela);
+                $this->getDadosConsulta($idGrid, false, null, $aColuna = null, $bGridCampo = false, $bScroll = false);
             } else {
                 $oMensagemErro = new Mensagem('Falha', 'O registro não foi excluído!', Mensagem::TIPO_ERROR);
                 echo $oMensagemErro->getRender();
