@@ -23,6 +23,9 @@ class PersistenciaSTEEL_PCP_ReceitasItens extends Persistencia {
         $this->adicionaRelacionamento('Tempo','tempo');
         $this->adicionaRelacionamento('Resfriamento','resfriamento');
         $this->adicionaRelacionamento('recApont','recApont');
+        $this->adicionaRelacionamento('CamadaEspessura','CamadaEspessura');
+        $this->adicionaRelacionamento('TempoZinc','TempoZinc');
+        $this->adicionaRelacionamento('PesoDoCesto','PesoDoCesto');
         
         $this->adicionaJoin('STEEL_PCP_Tratamentos');
        
