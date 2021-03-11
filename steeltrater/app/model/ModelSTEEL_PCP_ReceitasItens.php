@@ -17,6 +17,33 @@ class ModelSTEEL_PCP_ReceitasItens {
     private $tempo;
     private $resfriamento;
     private $recApont;
+    private $CamadaEspessura;
+    private $TempoZinc;
+    private $PesoDoCesto;
+    
+    function getCamadaEspessura() {
+        return $this->CamadaEspessura;
+    }
+
+    function getTempoZinc() {
+        return $this->TempoZinc;
+    }
+
+    function getPesoDoCesto() {
+        return $this->PesoDoCesto;
+    }
+
+    function setCamadaEspessura($CamadaEspessura) {
+        $this->CamadaEspessura = $CamadaEspessura;
+    }
+
+    function setTempoZinc($TempoZinc) {
+        $this->TempoZinc = $TempoZinc;
+    }
+
+    function setPesoDoCesto($PesoDoCesto) {
+        $this->PesoDoCesto = $PesoDoCesto;
+    }
     
     function getRecApont() {
         return $this->recApont;
