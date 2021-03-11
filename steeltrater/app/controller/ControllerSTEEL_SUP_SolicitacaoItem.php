@@ -45,7 +45,7 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
 
     public function adicionaFiltroDet() {
         parent::adicionaFiltroDet();
-        $this->Persistencia->adicionaFiltro('SUP_SolicitacaoItemSeq', $this->Model->getFIL_Codigo());
+        $this->Persistencia->adicionaFiltro('FIL_Codigo', $this->Model->getFIL_Codigo());
         $this->Persistencia->adicionaFiltro('SUP_SolicitacaoItemSeq', $this->Model->getSUP_SolicitacaoItemSeq());
     }
 
