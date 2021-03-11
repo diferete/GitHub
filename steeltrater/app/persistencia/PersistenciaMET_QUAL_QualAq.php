@@ -44,7 +44,11 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         $this->adicionaRelacionamento('obscancela', 'obscancela');
         $this->adicionaRelacionamento('usucancela', 'usucancela');
 
-        $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
+        if ($_SESSION['codsetor'] != 25 && $_SESSION['codsetor'] != 2) {
+            $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
+            $sSetor = $_SESSION['codsetor'];
+        }
+
 
         $this->adicionaJoin('DELX_FIL_Empresa', null, 1, 'filcgc', 'fil_codigo');
 
@@ -232,8 +236,8 @@ class PersistenciaMET_QUAL_QualAq extends Persistencia {
         if ($oEficaz->total == 0) {
             $aRowAq['eficaz'] = 'vazio';
         } else {
-            $sSqlEficaz = $sSqlEficaz . " and sitfim is null";
-            $oEficaz = $this->consultaSql($sSqlPlan);
+            $sSqlEficaz = $sSqlEficaz . " and sit is null";
+            $oEficaz = $this->consultaSql($sSqlEficaz);
             if ($oEficaz->total == 0) {
                 $aRowAq['eficaz'] = true;
             } else {
