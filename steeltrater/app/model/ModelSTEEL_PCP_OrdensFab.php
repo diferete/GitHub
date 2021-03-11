@@ -96,8 +96,16 @@ class ModelSTEEL_PCP_OrdensFab {
     private $nItemPedEnergia;
     
     private $receita_zinc;
-    private $receita_zincdesc; 
+    private $receita_zincdesc;
+    private $processozinc;
     
+    function getProcessozinc() {
+        return $this->processozinc;
+    }
+
+    function setProcessozinc($processozinc) {
+        $this->processozinc = $processozinc;
+    }
     
     function getReceita_zinc() {
         return $this->receita_zinc;
