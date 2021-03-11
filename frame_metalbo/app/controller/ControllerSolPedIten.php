@@ -246,6 +246,7 @@ class ControllerSolPedIten extends Controller {
         parent::calculoPersonalizado($sParametros);
         $sNr = '';
         if (isset($_REQUEST['metodo'])) {
+            $sTeste = $_REQUEST['metodo'];
             if ($_REQUEST['metodo'] == "acaoTelaDetalhe") {
                 if (isset($_REQUEST['parametrosCampos'])) {
                     $aParam = $_REQUEST['parametrosCampos'];
@@ -270,6 +271,14 @@ class ControllerSolPedIten extends Controller {
                 }
             }
             if ($_REQUEST['metodo'] == "LimparDisp") {
+                if (isset($_REQUEST['parametrosCampos'])) {
+                    $aParam = $_REQUEST['parametrosCampos'];
+                    $sChave = htmlspecialchars_decode($aParam['parametrosCampos[0']);
+                    $aChave = explode('=', $sChave);
+                    $sNr = explode('&', $aChave[1])[0];
+                }
+            }
+            if ($_REQUEST['metodo'] == "getDadosScroll") {
                 if (isset($_REQUEST['parametrosCampos'])) {
                     $aParam = $_REQUEST['parametrosCampos'];
                     $sChave = htmlspecialchars_decode($aParam['parametrosCampos[0']);
