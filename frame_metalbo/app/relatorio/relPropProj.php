@@ -933,7 +933,7 @@ $pdf->Cell(100, 5, $row['dtanalisecritica'], 0, 1);
 $pdf->SetFont('arial', 'B', 9);
 $pdf->Cell(65, 5, 'Comentários:', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
-$pdf->Cell(25, 5, $row['comenCrit'], 0, 1, 'L');
+$pdf->MultiAlignCell(180, 5, $row['comenCrit'], 0, 1, 'L');
 
 $pdf->Cell(12, 10, '', 0, 1, 'L');
 //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
