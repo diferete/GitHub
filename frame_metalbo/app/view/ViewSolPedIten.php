@@ -17,6 +17,8 @@ class ViewSolPedIten extends View {
     function criaGridDetalhe() {
         parent::criaGridDetalhe($sIdAba);
 
+        $this->getOGridDetalhe()->setBScrollInf(false);
+        $this->getOGridDetalhe()->setBUsaCarrGrid(true);
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
@@ -39,6 +41,10 @@ class ViewSolPedIten extends View {
         $oVlrUnit = new CampoConsulta('Vlr. Unit.', 'vlrunit', Campo::TIPO_MONEY);
 
         $oVlrTot = new CampoConsulta('Vlr. Total.', 'vlrtot', Campo::TIPO_MONEY);
+        $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+        $oVlrTot->setBComparacaoColuna(true);
+        $oVlrTot->setSOperacao('personalizado');
+        $oVlrTot->setSTituloOperacao('Total: R$');
 
         $oDisp = new CampoConsulta('Disp.', 'pdfdisp');
         $oDisp->setILargura(30);
@@ -49,7 +55,10 @@ class ViewSolPedIten extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
+        
+        $this->getOGridDetalhe();
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $oNr = new CampoConsulta('Nº', 'nr');
 
         $oSeq = new CampoConsulta('Seq', 'seq');
@@ -76,7 +85,7 @@ class ViewSolPedIten extends View {
         $oDisp = new CampoConsulta('Disp.', 'pdfdisp');
         $oDisp->setILargura(30);
 
-        $this->addCampos($oSeq, $oCodigo, $oDesc, $oQuant, $oVlrUnit, $oVlrTot, $oDisp, $oNr);
+        $this->addCampos($oNr, $oSeq, $oCodigo, $oDesc, $oQuant, $oVlrUnit, $oVlrTot, $oDisp);
     }
 
     public function criaTela() {
@@ -241,7 +250,7 @@ class ViewSolPedIten extends View {
         $oQtSugMaster = new Campo('Qt. Sugerida', 'qtsug', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtSugMaster->setITamanho(Campo::TAMANHO_PEQUENO);
         $oQtSugMaster->setBCampoBloqueado(true);
-        
+
         //campo que retorna a quantidade de caixas master
         $oQtCaixaMaster = new Campo('Qt. Caixas', 'qtcaixa', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQtCaixaMaster->setITamanho(Campo::TAMANHO_PEQUENO);
