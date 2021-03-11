@@ -17,12 +17,18 @@ class ViewCotIten extends View {
     function criaGridDetalhe() {
         parent::criaGridDetalhe($sIdAba);
 
+        $this->getOGridDetalhe()->setBScrollInf(false);
+        $this->getOGridDetalhe()->setBUsaCarrGrid(true);
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
         $this->getOGridDetalhe()->setIAltura(300);
 
         $oNr = new CampoConsulta('Nrº', 'nr');
+        $oNr->setILargura(10);
+
+        $oSeq = new CampoConsulta('Seq', 'seq');
+        $oSeq->setILargura(30);
 
         $oCodigo = new CampoConsulta('Código', 'codigo');
         $oCodigo->setILargura(50);
@@ -30,27 +36,33 @@ class ViewCotIten extends View {
         $oDesc = new CampoConsulta('Descrição', 'descricao');
         $oDesc->setILargura(500);
 
-        $oSeq = new CampoConsulta('Seq', 'seq');
-        $oSeq->setILargura(30);
+        $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
 
         $oVlrUnit = new CampoConsulta('Vlr. Unit.', 'vlrunit', Campo::TIPO_MONEY);
 
-        $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
-
         $oVlrTot = new CampoConsulta('Vlr. Total.', 'vlrtot', Campo::TIPO_MONEY);
+        $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
+        $oVlrTot->setBComparacaoColuna(true);
+        $oVlrTot->setSOperacao('personalizado');
+        $oVlrTot->setSTituloOperacao('Total: R$');
 
         $oDisp = new CampoConsulta('Disp.', 'pdfdisp');
         $oDisp->setILargura(30);
 
-        $this->addCamposDetalhe($oSeq, $oCodigo, $oDesc, $oQuant, $oVlrUnit, $oVlrTot, $oDisp, $oNr);
-
+        $this->addCamposDetalhe($oNr, $oSeq, $oCodigo, $oDesc, $oQuant, $oVlrUnit, $oVlrTot, $oDisp);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $this->getOGridDetalhe();
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $oNr = new CampoConsulta('Nº', 'nr');
+
+        $oSeq = new CampoConsulta('Seq', 'seq');
+        $oSeq->setILargura(30);
 
         $oCodigo = new CampoConsulta('Código', 'codigo');
         $oCodigo->setILargura(50);
@@ -58,25 +70,22 @@ class ViewCotIten extends View {
         $oDesc = new CampoConsulta('Descrição', 'descricao');
         $oDesc->setILargura(500);
 
-        $oSeq = new CampoConsulta('Seq', 'seq');
-        $oSeq->setILargura(30);
+        $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
 
         $oVlrUnit = new CampoConsulta('Vlr. Unit.', 'vlrunit', Campo::TIPO_MONEY);
         $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oVlrUnit->setBComparacaoColuna(true);
 
-        $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
-
         $oVlrTot = new CampoConsulta('Vlr. Total.', 'vlrtot', Campo::TIPO_MONEY);
-        $oVlrTot->setSOperacao('personalizado');
-        $oVlrTot->setSTituloOperacao('Total: R$');
         $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
         $oVlrTot->setBComparacaoColuna(true);
+        $oVlrTot->setSOperacao('personalizado');
+        $oVlrTot->setSTituloOperacao('Total: R$');
 
         $oDisp = new CampoConsulta('Disp.', 'pdfdisp');
         $oDisp->setILargura(30);
 
-        $this->addCampos($oSeq, $oCodigo, $oDesc, $oQuant, $oVlrUnit, $oVlrTot, $oDisp, $oNr);
+        $this->addCampos($oNr, $oSeq, $oCodigo, $oDesc, $oQuant, $oVlrUnit, $oVlrTot, $oDisp);
     }
 
     public function criaTela() {
