@@ -730,7 +730,7 @@ class Grid {
         //adiciona where manual se caso seja necessário
         $oDados->Persistencia->setSWhereManual($this->getSWhereInicial());
 
-        $aDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo(), false, $this->getSId());
+        $aDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo(), false);
 
 
         $sGrid .= '</tr></thead>';
@@ -769,7 +769,7 @@ class Grid {
                     . '</script>';
         }
 
-        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
+        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-totalRegFixo" name="totalRegFixo" value="' . $aDados[1] . '"><div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-totalRegFixo" name="totalRegFixo" value="' . $aDados[1] . '"><div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
         $sGrid .= '<span name="paramGrid" id="' . $this->getAbaSel() . '' . $this->getSNomeGrid() . '" style="display:none;">' . $this->getSId() . '</span>'
                 . '</tr></tbody></table></div></div>';

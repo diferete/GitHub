@@ -696,7 +696,7 @@ class Grid {
             //verifica se tem ordeby
             $sOrderBy = "";
 
-            $sGrid .= '<th  class="asc" style="' . $sLargura . '' . $sOculta . '" id=' . $sIdTh . ' ' . $sOrderBy . '>' . $oCampoAtual->getSLabel() . '</th>';
+            $sGrid .= '<th  class="asc" style="' . $sLargura . ' ' . $sOculta . '" id=' . $sIdTh . ' ' . $sOrderBy . '>' . $oCampoAtual->getSLabel() . '</th>';
             if ($oCampoAtual->getBOrderBy()) {
                 $sOrderBy = '<script>'
                         . '$("#' . $sIdTh . '").click(function(){'
@@ -730,7 +730,7 @@ class Grid {
         //adiciona where manual se caso seja necessário
         $oDados->Persistencia->setSWhereManual($this->getSWhereInicial());
 
-        $aDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo(), false, $this->getSId());
+        $aDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo(), false);
 
 
         $sGrid .= '</tr></thead>';
