@@ -18,6 +18,9 @@
         <!-- Estilo personalizado -->
         <link rel="stylesheet" href="biblioteca/assets/css/estilo.css">
 
+        <!-- FOOTABLE -->       
+        <link rel="stylesheet" href="biblioteca/footable/footable.core.min.css">
+        <link rel="stylesheet" href="biblioteca/footable/footable.core.css">
         <!-- Plugins -->
         <link rel="stylesheet" href="biblioteca/assets/vendor/animsition/animsition.css">
         <link rel="stylesheet" href="biblioteca/assets/vendor/asscrollable/asScrollable.css">
@@ -461,7 +464,7 @@
                 <!-- End Navbar Collapse -->
 
                 <!-- Site Navbar Seach -->
-                <div class="collapse navbar-search-overlap" id="site-navbar-search">
+                <!--<div class="collapse navbar-search-overlap" id="site-navbar-search">
                     <form role="search">
                         <div class="form-group">
                             <div class="input-search">
@@ -472,7 +475,7 @@
                             </div>
                         </div>
                     </form>
-                </div>
+                </div>-->
                 <!-- End Site Navbar Seach -->
             </div>
         </nav>
@@ -541,7 +544,7 @@
                 </a>
             </div>-->
         </div>
-        <div class="site-gridmenu">
+        <!--<div class="site-gridmenu">
             <div>
                 <div>
                     <ul>
@@ -596,7 +599,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div>-->
 
 
         <!-- Page -->
@@ -616,66 +619,163 @@
 
                                 <div class="tab-pane active" id="tabmenu-1control" role="tabpanel"> <!--NAO PODE REMOVER INÍCIO DA MARCAÇÃO-->
 
-                                    <div  class="dropzone" id="meuId">  
-                                        <div class="fallback"> 
-                                            <input name="fileToUpload" type="file" multiple  /> 
-                                        </div> 
+                                    <div class="col-lg-6">
+                                        <!-- Panel Row Toggler -->
+                                        <div class="panel">
+                                            <header class="panel-heading">
+                                                <h3 class="panel-title">Row Toggler</h3>
+                                            </header>
+                                            <div class="panel-body">
+                                                <table class="table toggle-circle tablet breakpoint no-paging footable-loaded footable" id="exampleRowToggler">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="footable-visible footable-first-column footable-sortable">First Name<span class="footable-sort-indicator"></span></th>
+                                                            <th class="footable-visible footable-last-column footable-sortable footable-sorted-desc">Last Name<span class="footable-sort-indicator"></span></th>
+                                                            <th data-hide="all" class="footable-sortable" style="display: none;">Job Title<span class="footable-sort-indicator"></span></th>
+                                                            <th data-hide="all" class="footable-sortable" style="display: none;">DOB<span class="footable-sort-indicator"></span></th>
+                                                            <th data-hide="all" class="footable-sortable" style="display: none;">Status<span class="footable-sort-indicator"></span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="footable-even footable-detail-show" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Shona</td>
+                                                            <td class="footable-visible footable-last-column">Woldt</td>
+                                                            <td style="display: none;">Airline Transport Pilot</td>
+                                                            <td style="display: none;">3 Oct 2015</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-dark">Disabled</span>
+                                                            </td>
+                                                        </tr><tr class="footable-row-detail" style="display: none;"><td class="footable-row-detail-cell" colspan="2"><div class="footable-row-detail-inner"><div class="footable-row-detail-row"><div class="footable-row-detail-name">Job Title:</div><div class="footable-row-detail-value">Airline Transport Pilot</div></div><div class="footable-row-detail-row"><div class="footable-row-detail-name">DOB:</div><div class="footable-row-detail-value">3 Oct 2015</div></div><div class="footable-row-detail-row"><div class="footable-row-detail-name">Status:</div><div class="footable-row-detail-value">
+                                                                            <span class="label label-table label-dark">Disabled</span>
+                                                                        </div></div></div></td></tr><tr class="footable-odd" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Maxine</td>
+                                                            <td class="footable-visible footable-last-column">Woldt</td>
+                                                            <td style="display: none;">Business Services Sales Representative</td>
+                                                            <td style="display: none;">17 Oct 2014</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-dark">Disabled</span>
+                                                            </td>
+                                                        </tr><tr class="footable-row-detail" style="display: none;"><td class="footable-row-detail-cell" colspan="2"><div class="footable-row-detail-inner"><div class="footable-row-detail-row"><div class="footable-row-detail-name">Job Title:</div><div class="footable-row-detail-value">Business Services Sales Representative</div></div><div class="footable-row-detail-row"><div class="footable-row-detail-name">DOB:</div><div class="footable-row-detail-value">17 Oct 2014</div></div><div class="footable-row-detail-row"><div class="footable-row-detail-name">Status:</div><div class="footable-row-detail-value">
+                                                                            <span class="label label-table label-dark">Disabled</span>
+                                                                        </div></div></div></td></tr><tr class="footable-even" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Lorraine</td>
+                                                            <td class="footable-visible footable-last-column">Mcgaughy</td>
+                                                            <td style="display: none;">Hemodialysis Technician</td>
+                                                            <td style="display: none;">11 Nov 2014</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-dark">Active</span>
+                                                            </td>
+                                                        </tr><tr class="footable-odd" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Granville</td>
+                                                            <td class="footable-visible footable-last-column">Leonardo</td>
+                                                            <td style="display: none;">Business Services Sales Representative</td>
+                                                            <td style="display: none;">19 Apr 2013</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-danger">Suspended</span>
+                                                            </td>
+                                                        </tr><tr class="footable-even" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Lauri</td>
+                                                            <td class="footable-visible footable-last-column">Hyland</td>
+                                                            <td style="display: none;">Blackjack Supervisor</td>
+                                                            <td style="display: none;">15 Nov 2014</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-danger">Suspended</span>
+                                                            </td>
+                                                        </tr><tr class="footable-odd" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Maple</td>
+                                                            <td class="footable-visible footable-last-column">Halladay</td>
+                                                            <td style="display: none;">Aviation Tactical Readiness Officer</td>
+                                                            <td style="display: none;">30 Dec 2015</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-danger">Suspended</span>
+                                                            </td>
+                                                        </tr><tr class="footable-even" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Lizzee</td>
+                                                            <td class="footable-visible footable-last-column">Goodlow</td>
+                                                            <td style="display: none;">Technical Services Librarian</td>
+                                                            <td style="display: none;">1 Nov 2014</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-danger">Suspended</span>
+                                                            </td>
+                                                        </tr><tr class="footable-odd" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Easer</td>
+                                                            <td class="footable-visible footable-last-column">Dragoo</td>
+                                                            <td style="display: none;">Drywall Stripper</td>
+                                                            <td style="display: none;">13 Dec 2014</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-success">Active</span>
+                                                            </td>
+                                                        </tr><tr class="footable-even" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Isidra</td>
+                                                            <td class="footable-visible footable-last-column">Boudreaux</td>
+                                                            <td style="display: none;">Traffic Court Referee</td>
+                                                            <td style="display: none;">22 Jun 2014</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-success">Active</span>
+                                                            </td>
+                                                        </tr><tr class="footable-odd" style="display: table-row;">
+                                                            <td class="footable-visible footable-first-column"><span class="footable-toggle"></span>Judi</td>
+                                                            <td class="footable-visible footable-last-column">Badgett</td>
+                                                            <td style="display: none;">Electrical Lineworker</td>
+                                                            <td style="display: none;">23 Jun 2013</td>
+                                                            <td style="display: none;">
+                                                                <span class="label label-table label-success">Active</span>
+                                                            </td>
+                                                        </tr></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <!-- End Panel Row Toggler -->
                                     </div>
-                                    <script>
-                                        $("div#meuId").dropzone({url: "http://localhost:8080/frame_metalbo/index.php?classe=Upload&metodo=dropZone",
-                                            addRemoveLinks: true});
-                                    </script>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>
+        <script src="biblioteca/assets/vendor/animsition/jquery.animsition.js"></script>
+        <script src="biblioteca/assets/vendor/asscroll/jquery-asScroll.js"></script>
+        <script src="biblioteca/assets/vendor/mousewheel/jquery.mousewheel.js"></script>
+        <script src="biblioteca/assets/vendor/asscrollable/jquery.asScrollable.all.js"></script>
+        <script src="biblioteca/assets/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
 
+        <!-- Plugins -->
+        <script src="biblioteca/assets/vendor/switchery/switchery.min.js"></script>
+        <script src="biblioteca/assets/vendor/intro-js/intro.js"></script>
+        <script src="biblioteca/assets/vendor/screenfull/screenfull.js"></script>
+        <script src="biblioteca/assets/vendor/slidepanel/jquery-slidePanel.js"></script>
 
-            <script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script>
-            <script src="biblioteca/assets/vendor/animsition/jquery.animsition.js"></script>
-            <script src="biblioteca/assets/vendor/asscroll/jquery-asScroll.js"></script>
-            <script src="biblioteca/assets/vendor/mousewheel/jquery.mousewheel.js"></script>
-            <script src="biblioteca/assets/vendor/asscrollable/jquery.asScrollable.all.js"></script>
-            <script src="biblioteca/assets/vendor/ashoverscroll/jquery-asHoverScroll.js"></script>
+        <!-- Scripts -->
+        <script src="biblioteca/assets/js/core.js"></script>
+        <script src="biblioteca/assets/js/site.js"></script>
 
-            <!-- Plugins -->
-            <script src="biblioteca/assets/vendor/switchery/switchery.min.js"></script>
-            <script src="biblioteca/assets/vendor/intro-js/intro.js"></script>
-            <script src="biblioteca/assets/vendor/screenfull/screenfull.js"></script>
-            <script src="biblioteca/assets/vendor/slidepanel/jquery-slidePanel.js"></script>
+        <script src="biblioteca/assets/js/sections/menu.js"></script>
+        <script src="biblioteca/assets/js/sections/menubar.js"></script>
+        <script src="biblioteca/assets/js/sections/gridmenu.js"></script>
+        <script src="biblioteca/assets/js/sections/sidebar.js"></script>
 
-            <!-- Scripts -->
-            <script src="biblioteca/assets/js/core.js"></script>
-            <script src="biblioteca/assets/js/site.js"></script>
+        <script src="biblioteca/assets/js/configs/config-colors.js"></script>
+        <script src="biblioteca/assets/js/configs/config-tour.js"></script>
 
-            <script src="biblioteca/assets/js/sections/menu.js"></script>
-            <script src="biblioteca/assets/js/sections/menubar.js"></script>
-            <script src="biblioteca/assets/js/sections/gridmenu.js"></script>
-            <script src="biblioteca/assets/js/sections/sidebar.js"></script>
+        <script src="biblioteca/assets/js/components/asscrollable.js"></script>
+        <script src="biblioteca/assets/js/components/animsition.js"></script>
+        <script src="biblioteca/assets/js/components/slidepanel.js"></script>
+        <script src="biblioteca/assets/js/components/switchery.js"></script>
+        <!-- Plugins For This Page -->
+        <script src="biblioteca/assets/vendor/matchheight/jquery.matchHeight-min.js"></script>
+        <script src="biblioteca/assets/js/plugins/responsive-tabs.js"></script>
+        <script src="biblioteca/assets/js/plugins/closeable-tabs.js"></script>
+        <script src="biblioteca/assets/js/components/tabs.js"></script>
+        <script src="resources/js/ajax.js"></script>
 
-            <script src="biblioteca/assets/js/configs/config-colors.js"></script>
-            <script src="biblioteca/assets/js/configs/config-tour.js"></script>
+        <script src="biblioteca/assets/js/components/animate-list.js"></script>
+        <script src="biblioteca/assets/js/components/panel.js"></script>
 
-            <script src="biblioteca/assets/js/components/asscrollable.js"></script>
-            <script src="biblioteca/assets/js/components/animsition.js"></script>
-            <script src="biblioteca/assets/js/components/slidepanel.js"></script>
-            <script src="biblioteca/assets/js/components/switchery.js"></script>
-            <!-- Plugins For This Page -->
-            <script src="biblioteca/assets/vendor/matchheight/jquery.matchHeight-min.js"></script>
-            <script src="biblioteca/assets/js/plugins/responsive-tabs.js"></script>
-            <script src="biblioteca/assets/js/plugins/closeable-tabs.js"></script>
-            <script src="biblioteca/assets/js/components/tabs.js"></script>
-            <script src="resources/js/ajax.js"></script>
+        <script src="biblioteca/assets/examples/js/layouts/panel-transition.js"></script>
 
-            <script src="biblioteca/assets/js/components/animate-list.js"></script>
-            <script src="biblioteca/assets/js/components/panel.js"></script>
-
-            <script src="biblioteca/assets/examples/js/layouts/panel-transition.js"></script>
-
-
-
-
+        <script src="biblioteca/footable/footable.js"></script>
+        <script src="biblioteca/footable/footable.all.min.js"></script>
     </body>
 </html>

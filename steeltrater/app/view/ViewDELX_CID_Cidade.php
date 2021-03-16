@@ -18,14 +18,14 @@ class ViewDELX_CID_Cidade extends View {
         $oCidade = new CampoConsulta('Cidade', 'cid_descricao');
         $oIBGE = new CampoConsulta('Cod.IBGE', 'cid_cidadecodibge');
         $oDescricaofiltro = new Filtro($oCidade, Filtro::CAMPO_TEXTO, 5);
-        $oCodigofiltro = new Filtro($oCodcidade,Filtro::CAMPO_TEXTO_IGUAL,3);
+        $oCodigofiltro = new Filtro($oCodcidade, Filtro::CAMPO_TEXTO_IGUAL, 3);
         $oEstadofiltro = new Filtro($oEstado, Filtro::CAMPO_TEXTO, 2);
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oCodigofiltro,$oDescricaofiltro, $oEstadofiltro);
+        $this->addFiltro($oCodigofiltro, $oDescricaofiltro, $oEstadofiltro);
 
         $this->setBScrollInf(false);
         $this->addCampos($oPais, $oCodcidade, $oEstado, $oCidade, $oIBGE);

@@ -12,14 +12,8 @@ class ViewSTEEL_PCP_ordensFabListaPesq extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-
-
-
-
         $oNr = new CampoConsulta('Nr', 'nr');
         $oPrioridade = new CampoConsulta('Prior.', 'prioridade');
-
-
 
         $oOp = new CampoConsulta('Op', 'op');
         $oSit = new CampoConsulta('Sit.', 'situacao');
@@ -34,13 +28,6 @@ class ViewSTEEL_PCP_ordensFabListaPesq extends View {
 
         $oForDes = new CampoConsulta('Forno', 'fornodes');
         $oCliente = new CampoConsulta('Cliente', 'STEEL_PCP_ordensFab.emp_razaosocial');
-
-
-
-
-
-
-
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);

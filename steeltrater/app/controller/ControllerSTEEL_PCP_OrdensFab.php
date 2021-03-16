@@ -195,6 +195,9 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
 
         parent::acaoMostraRelEspecifico($sDados);
 
+        $aDados = explode(",", $sDados);
+        $sTipoEtiqueta = $aDados[2];
+
         $aOps = $_REQUEST['parametrosCampos'];
         sort($aOps);
         $sVethor = '';
@@ -214,7 +217,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         $aTipOps = array_unique($aTipo);
         if (count($aTipOps) == 1) {
 
-            if ($aTipOps[0] == 'P') {
+            if ($aTipOps[0] == 'P' || ($sTipoEtiqueta == '' && $aTipOps[0] == 'TZ')) {
                 // exemplo.php?vetor[]=valor1&vetor[]=valor2&vetor[]=valor3
 
                 $sSistema = "app/relatorio";
@@ -229,7 +232,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
                 $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
                 echo $oWindow;
             } else {
-                if ($aTipOps[0] == 'Z') {
+                if (($aTipOps[0] == 'Z' || $aTipOps[0] == 'TZ') && $sTipoEtiqueta == 'Zinc') {
 
                     $sSistema = "app/relatorio";
                     $sRelatorio = 'OpSteelZinc.php?' . $sVethor;
@@ -268,6 +271,9 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
     public function acaoMostraRelEspecificoEtiq($sDados) {
         parent::acaoMostraRelEspecifico($sDados);
 
+        $aDados = explode(",", $sDados);
+        $sTipoEtiqueta = $aDados[2];
+
         $aOps = $_REQUEST['parametrosCampos'];
         sort($aOps);
         $sVethor = '';
@@ -286,14 +292,13 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         }
         $aTipOps = array_unique($aTipo);
         if (count($aTipOps) == 1) {
-            if ($aTipOps[0] == 'Z') {
+            if (($aTipOps[0] == 'Z' || $aTipOps[0] == 'TZ') && $sTipoEtiqueta == 'Zinc') {
                 $sSistema = "app/relatorio";
                 $sRelatorio = 'OpSteelEtiquetaZinc.php?' . $sVethor;
 
                 $sCampos .= $this->getSget();
 
                 $sCampos .= '&email=N';
-
 
                 $sCampos .= '&output=tela';
                 $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sRel . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
@@ -629,6 +634,9 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
             echo $oModal->getRender();
             exit();
         }
+        //Verifica campo para ser apenas receita do tipo zincagem.
+        $this->verificaTipoZincagem();
+
         if ($this->Model->getTipoOrdem() !== 'TZ' && $this->Model->getTipoOrdem() !== 'Z') {
             $this->Model->setReceita_zinc('');
             $this->Model->setReceita_zincdesc('');
@@ -966,6 +974,167 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
                 }
             }
         }
+        //----------------------SE A OP FOR TZ--------------------------------
+        if ($this->Model->getTipoOrdem() == 'TZ') {
+            //INSUMO----------------------------------------------------
+            $oItemsTabela->Persistencia->limpaFiltro();
+            $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
+            $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita());
+            $oItemsTabela->Persistencia->adicionaFiltro('tipo', 'INSUMO');
+            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+            $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();
+            //alimenta array insumo
+            $aDadosFat['insumo'][] = $oDadosInsumo;
+            if ($oDadosInsumo->getProd() == null) {
+                //mensagem e gravamos tabela = 0
+                $oMensagem = new Mensagem('Atenção!', 'Não há INSUMO cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING, 5000);
+                echo $oMensagem->getRender();
+                $aErro['pendencia'] = 'Atenção';
+                $aErro['pendenciaobs'] .= 'Não há INSUMO cadastrado na tabela de preço! ';
+            }
+            //SERVIÇO--------------------------------------------------
+            $oItemsTabela->Persistencia->limpaFiltro();
+            $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
+            $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita());
+            $oItemsTabela->Persistencia->adicionaFiltro('tipo', 'SERVIÇO');
+            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+            $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+            //alimenta array serviço
+            $aDadosFat['servico'][] = $oDadosServico;
+            if ($oDadosServico->getProd() == null) {
+                //mensagem e gravamos tabela = 0
+                $oMensagem = new Mensagem('Atenção!', 'Não há SERVIÇO cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING, 5000);
+                echo $oMensagem->getRender();
+                $aErro['pendencia'] = 'Atenção';
+                $aErro['pendenciaobs'] .= 'Não há SERVIÇO cadastrado na tabela de preço! ';
+            }
+            //-----------------------------------------------------------  
+            //ENERGIA--------------------------------------------------
+            //VERIFICA PARAMETRO ANTES
+            if ($this->paramInsumoEnergia() == 'SIM') {
+                $oItemsTabela->Persistencia->limpaFiltro();
+                $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
+                $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita());
+                $oItemsTabela->Persistencia->adicionaFiltro('tipo', 'ENERGIA');
+                $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+                $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+                //alimenta array serviço
+                $aDadosFat['energia'][] = $oDadosServico;
+                if ($oDadosServico->getProd() == null) {
+                    //mensagem e gravamos tabela = 0
+                    $oMensagem = new Mensagem('Atenção!', 'Não há ENERGIA cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING, 5000);
+                    echo $oMensagem->getRender();
+                    $aErro['pendencia'] = 'Atenção';
+                    $aErro['pendenciaobs'] .= 'Não há insumo ENERGIA cadastrado na tabela de preço! ';
+                }
+            }
+            //BUSCA PREÇO DA ZINCAGEM
+            $oItemsTabela->Persistencia->limpaFiltro();
+            $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
+            $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita_zinc());
+            $oItemsTabela->Persistencia->adicionaFiltro('tipo', 'INSUMO');
+            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+            $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();
+            //alimenta array insumo
+            $aDadosFat['insumo'][] = $oDadosInsumo;
+            if ($oDadosInsumo->getProd() == null) {
+                //mensagem e gravamos tabela = 0
+                $oMensagem = new Mensagem('Atenção!', 'Não há INSUMO DE ZINCAGEM cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING, 5000);
+                echo $oMensagem->getRender();
+                $aErro['pendencia'] = 'Atenção';
+                $aErro['pendenciaobs'] .= 'Não há INSUMO DE ZINCAGEM cadastrado na tabela de preço! ';
+            }
+            //SERVIÇO ZINCAGEM--------------------------------------------------
+            $oItemsTabela->Persistencia->limpaFiltro();
+            $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
+            $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita_zinc());
+            $oItemsTabela->Persistencia->adicionaFiltro('tipo', 'SERVIÇO');
+            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+            $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+            //alimenta array serviço
+            $aDadosFat['servico'][] = $oDadosServico;
+            if ($oDadosServico->getProd() == null) {
+                //mensagem e gravamos tabela = 0
+                $oMensagem = new Mensagem('Atenção!', 'Não há SERVIÇO DE ZINCAGEM cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING, 5000);
+                echo $oMensagem->getRender();
+                $aErro['pendencia'] = 'Atenção';
+                $aErro['pendenciaobs'] .= 'Não há SERVIÇO DE ZINCAGEM cadastrado na tabela de preço! ';
+            }
+            //ENERGIA--------------------------------------------------
+            //VERIFICA PARAMETRO ANTES
+            if ($this->paramInsumoEnergia() == 'SIM') {
+                $oItemsTabela->Persistencia->limpaFiltro();
+                $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
+                $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita_zinc());
+                $oItemsTabela->Persistencia->adicionaFiltro('tipo', 'ENERGIA');
+                $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+                $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+                //alimenta array serviço
+                $aDadosFat['energia'][] = $oDadosServico;
+                if ($oDadosServico->getProd() == null) {
+                    //mensagem e gravamos tabela = 0
+                    $oMensagem = new Mensagem('Atenção!', 'Não há ENERGIA DE ZINCAGEM cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING, 5000);
+                    echo $oMensagem->getRender();
+                    $aErro['pendencia'] = 'Atenção';
+                    $aErro['pendenciaobs'] .= 'Não há insumo ENERGIA DE ZINCAGEM cadastrado na tabela de preço! ';
+                }
+            }
+        }
+        //SE FOR OP ZINCAGEM Z
+
+        if ($this->Model->getTipoOrdem() == 'Z') {
+            //BUSCA PREÇO DA ZINCAGEM
+            $oItemsTabela->Persistencia->limpaFiltro();
+            $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
+            $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita_zinc());
+            $oItemsTabela->Persistencia->adicionaFiltro('tipo', 'INSUMO');
+            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+            $oDadosInsumo = $oItemsTabela->Persistencia->consultarWhere();
+            //alimenta array insumo
+            $aDadosFat['insumo'][] = $oDadosInsumo;
+            if ($oDadosInsumo->getProd() == null) {
+                //mensagem e gravamos tabela = 0
+                $oMensagem = new Mensagem('Atenção!', 'Não há INSUMO DE ZINCAGEM cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING, 5000);
+                echo $oMensagem->getRender();
+                $aErro['pendencia'] = 'Atenção';
+                $aErro['pendenciaobs'] .= 'Não há INSUMO DE ZINCAGEM cadastrado na tabela de preço! ';
+            }
+            //SERVIÇO ZINCAGEM--------------------------------------------------
+            $oItemsTabela->Persistencia->limpaFiltro();
+            $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
+            $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita_zinc());
+            $oItemsTabela->Persistencia->adicionaFiltro('tipo', 'SERVIÇO');
+            $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+            $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+            //alimenta array serviço
+            $aDadosFat['servico'][] = $oDadosServico;
+            if ($oDadosServico->getProd() == null) {
+                //mensagem e gravamos tabela = 0
+                $oMensagem = new Mensagem('Atenção!', 'Não há SERVIÇO DE ZINCAGEM cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING, 5000);
+                echo $oMensagem->getRender();
+                $aErro['pendencia'] = 'Atenção';
+                $aErro['pendenciaobs'] .= 'Não há SERVIÇO DE ZINCAGEM cadastrado na tabela de preço! ';
+            }
+            //ENERGIA--------------------------------------------------
+            //VERIFICA PARAMETRO ANTES
+            if ($this->paramInsumoEnergia() == 'SIM') {
+                $oItemsTabela->Persistencia->limpaFiltro();
+                $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
+                $oItemsTabela->Persistencia->adicionaFiltro('receita', $this->Model->getReceita_zinc());
+                $oItemsTabela->Persistencia->adicionaFiltro('tipo', 'ENERGIA');
+                $oItemsTabela->Persistencia->adicionaFiltro('STEEL_PCP_Produtos.pro_ncm', $oProdDados->getPro_ncm());
+                $oDadosServico = $oItemsTabela->Persistencia->consultarWhere();
+                //alimenta array serviço
+                $aDadosFat['energia'][] = $oDadosServico;
+                if ($oDadosServico->getProd() == null) {
+                    //mensagem e gravamos tabela = 0
+                    $oMensagem = new Mensagem('Atenção!', 'Não há ENERGIA DE ZINCAGEM cadastrado na tabela de preço! ', Mensagem::TIPO_WARNING, 5000);
+                    echo $oMensagem->getRender();
+                    $aErro['pendencia'] = 'Atenção';
+                    $aErro['pendenciaobs'] .= 'Não há insumo ENERGIA DE ZINCAGEM cadastrado na tabela de preço! ';
+                }
+            }
+        }
 
         //-----------------------SE A OP FOR FIO MÁQUINA----------------------
 
@@ -1134,6 +1303,24 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
      */
     public function mostraTelaRelProducao($renderTo, $sMetodo = '') {
         parent::mostraTelaRelatorio($renderTo, 'RelProducao');
+    }
+
+    public function verificaTipoZincagem() {
+
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oControllerReceitaZinc = Fabrica::FabricarController('STEEL_PCP_receitas');
+        $oControllerReceitaZinc->Persistencia->adicionaFiltro('cod', $aCamposChave['receita_zinc']);
+        $oSteelDados = $oControllerReceitaZinc->Persistencia->consultarWhere();
+
+        if ($oSteelDados->getTipoReceita() != 'Zincagem' && ($aCamposChave['tipoOrdem'] == 'Z' || $aCamposChave['tipoOrdem'] == 'TZ')) {
+            echo "$('#Zincar').val('');";
+            echo "$('#ZincarDes').val('');";
+            $oMenSuccess = new Mensagem("Atenção", "Receita Zincagem Incorreta!", Mensagem::TIPO_ERROR);
+            echo $oMenSuccess->getRender();
+            exit();
+        }
     }
 
 }

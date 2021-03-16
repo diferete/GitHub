@@ -243,9 +243,9 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oSupEscala->addItemSelect('HRA', 'HRA');
         $oSupEscala->addItemSelect('HB', 'HB');
 
-        $oCamDurMin = new Campo('Exp.CamadaMin', 'expCamadaMin', Campo::TIPO_TESTE, 2);
+        $oCamDurMin = new Campo('Espes.CamadaMin', 'expCamadaMin', Campo::TIPO_TESTE, 2);
 
-        $oCamDurMax = new Campo('Exp.CamadaMax', 'expCamadaMax', Campo::TIPO_TESTE, 2);
+        $oCamDurMax = new Campo('Espes.CamadaMax', 'expCamadaMax', Campo::TIPO_TESTE, 2);
 
 
         $oSeqMat = new Campo('Seq.Mat.', 'seqmat', Campo::TIPO_TEXTO, 1);

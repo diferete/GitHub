@@ -146,8 +146,6 @@ $sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repno
         . "convert(varchar,valPappTer,103) as valPappTer,"
         . "valPappResp,etapProj,result,cliprov,valproj,comenvalproj,respvalproj,"
         . "SUM(vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd) as custotot,"
-        . "((vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd)/quant_pc)as custoPorCentoQuant,"
-        . "((vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd)/lotemin) as custoPorCentoLoteMin,"
         . "convert(varchar,dtaprovaoperacional,103) as dtaprovaoperacional,"
         . "usuaprovaoperacional,usuaprovafinanceiro,respAnaliseCri,"
         . "convert(varchar,dtaprovafinanceiro,103) as  dtaprovafinanceiro,"
@@ -187,6 +185,28 @@ $sql = "select nr,sitvendas,sitcliente,sitgeralproj,sitproj,desc_novo_prod,repno
 
 $sth = $PDO->query($sql);
 $row = $sth->fetch(PDO::FETCH_ASSOC);
+
+
+if ($row['quant_pc'] == '0' || $row['quant_pc'] == '0,00') {
+    $row['custoPorCentoQuant'] = 0.00;
+} else {
+    $sSqlcustoPorCentoQuant = 'select ((vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd)/quant_pc)as custoPorCentoQuant '
+            . 'from tbqualNovoProjeto '
+            . "where filcgc ='" . $FilcgcRex . "' and nr = '" . $sNr . "' ";
+    $sth = $PDO->query($sSqlcustoPorCentoQuant);
+    $aValor = $sth->fetch(PDO::FETCH_ASSOC);
+    $row['custoPorCentoQuant'] = $aValor['custoPorCentoQuant'];
+}
+if ($row['lotemin'] == '0' || $row['lotemin'] == '0,00') {
+    $row['custoPorCentoLoteMin'] = 0.00;
+} else {
+    $sSqlcustoPorCentoLoteMin = 'select ((vlrDesenProj+vlrFerramen+vlrMatPrima+vlrAcabSuper+vlrTratTer+vlrCustProd)/lotemin) as custoPorCentoLoteMin '
+            . 'from tbqualNovoProjeto '
+            . "where filcgc ='" . $FilcgcRex . "' and nr = '" . $sNr . "' ";
+    $sth = $PDO->query($sSqlcustoPorCentoLoteMin);
+    $aValor = $sth->fetch(PDO::FETCH_ASSOC);
+    $row['custoPorCentoLoteMin'] = $aValor['custoPorCentoLoteMin'];
+}
 
 $sProj = 'Projetos';
 $sCusto = 'Custos';

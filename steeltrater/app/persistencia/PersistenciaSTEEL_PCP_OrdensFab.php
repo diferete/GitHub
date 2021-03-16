@@ -258,7 +258,6 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia {
     }
 
     public function buscaTratamento() {
-
         $sql = "select * from STEEL_PCP_tratamentos";
         $result = $this->getObjetoSql($sql);
         $aRetorno = array();

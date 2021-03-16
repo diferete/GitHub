@@ -41,6 +41,7 @@ class ControllerSTEEL_PCP_OFReceitaZinc extends Controller {
     public function beforeUpdate() {
         parent::beforeUpdate();
 
+        $this->verificaTipoZincagem();
         $this->apontaReceitaZincagem();
 
         $aRetorno = array();
@@ -75,6 +76,24 @@ class ControllerSTEEL_PCP_OFReceitaZinc extends Controller {
 
         if ($this->Model->getReceita_zinc() !== '' && $this->Model->getReceita_zinc() !== null) {
             $this->Model->setProcessozinc('S');
+        }
+    }
+
+    public function verificaTipoZincagem() {
+
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oControllerReceitaZinc = Fabrica::FabricarController('STEEL_PCP_receitas');
+        $oControllerReceitaZinc->Persistencia->adicionaFiltro('cod', $aCamposChave['receita_zinc']);
+        $oSteelDados = $oControllerReceitaZinc->Persistencia->consultarWhere();
+
+        if ($oSteelDados->getTipoReceita() != 'Zincagem') {
+            echo "$('#Zincar').val('');";
+            echo "$('#ZincarDes').val('');";
+            $oMenSuccess = new Mensagem("Atenção", "Receita Zincagem Incorreta!", Mensagem::TIPO_ERROR);
+            echo $oMenSuccess->getRender();
+            exit();
         }
     }
 

@@ -28,7 +28,7 @@ class PersistenciaMET_QUAL_Contencao extends Persistencia {
         $this->adicionaRelacionamento('situaca', 'situaca');
         $this->adicionaRelacionamento('apontamento', 'apontamento');
         $this->adicionaRelacionamento('dtaponta', 'dtaponta');
-        
+
         $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
 
         $this->adicionaOrderBy('seq', 1);
@@ -58,7 +58,7 @@ class PersistenciaMET_QUAL_Contencao extends Persistencia {
 
         $aRet = $this->executaSql($sSql);
         return $aRet;
-}
+    }
 
     public function retContencao() {
         $aCampos = array();

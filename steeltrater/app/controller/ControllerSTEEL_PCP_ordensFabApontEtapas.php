@@ -243,10 +243,10 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
             $oItensReceita->Persistencia->adicionaFiltro('seq', $sEtapa);
             $oItensRecDados = $oItensReceita->Persistencia->consultarWhere();
             $sAponta = $oItensRecDados->getRecApont();
-            if($sAponta='NÃO'){
-                $iEtapa=$iEtapa -1;
+            if ($sAponta = 'NÃO') {
+                $iEtapa = $iEtapa - 1;
             }
-            
+
             $iCountEtapaAnt = $this->Persistencia->etapaAntFinalizada($aOp[1], $iEtapa);
             if ($iCountEtapaAnt == 0) {
                 $oModal = new Modal('Atenção!', 'Etapa anterior não foi FINALIZADA, por favor finalize a etapa anterior!', Modal::TIPO_AVISO, false, true, true);
@@ -268,6 +268,24 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
             exit();
         }
 
+
+        //verifica se existe alguma op com o tipo de zincagem e ainda não foi apontada a receita (tipo N)
+        $oDadosOrdFab = Fabrica::FabricarController('STEEL_PCP_ordensFab');
+        $oDadosOrdFab->Persistencia->adicionaFiltro('op', $aOp[1]);
+        $oModelDadosOrdFab = $oDadosOrdFab->Persistencia->consultarWhere();
+        $sProcZinc = $oModelDadosOrdFab->getProcessozinc();
+
+        $oReceitaZinc = Fabrica::FabricarController('STEEL_PCP_Receitas');
+        $oReceitaZinc->Persistencia->adicionaFiltro('cod', $oDados->getReceita());
+        $oRecDados = $oReceitaZinc->Persistencia->consultarWhere();
+
+        if ($oRecDados->getTipoReceita() == "Zincagem" && $sProcZinc == 'N') {
+            $oModal = new Modal('Atenção!', 'Receita zincagem não apontada! \n Verifique a Receita de Zincagem na OP!', Modal::TIPO_ERRO, false, true, true);
+            echo'$("#modalApontaIniciar-btn").click();';
+            echo $oModal->getRender();
+            exit();
+        }
+        //-------------------------------------------------------------------
         //busca os fornos para listar
         $oFornoUser = Fabrica::FabricarController('STEEL_PCP_fornoUser');
         $oDadosForno = $oFornoUser->pesqFornoUser();
@@ -324,7 +342,26 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
           fornodes = '".$aCampos['fornodes']."', */
 
         $oEtapaApont = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
-        $aRetorno = $oEtapaApont->Persistencia->apontaIniciarEtapa($aCamposChave);
+        //verifica se op é zincagem se op = TZ e etapa zincagem não atualiza forno
+        $oEtapaApont->Persistencia->adicionaFiltro('op', $aCamposChave['op']);
+        $oEtapaApont->Persistencia->adicionaFiltro('opseq', $aCamposChave['opseq']);
+        $oDadosOrdensFabItens = $oEtapaApont->Persistencia->consultarWhere();
+        //verifica se receita tipo zincagem
+        $oReceita = Fabrica::FabricarController('STEEL_PCP_Receitas');
+        $oReceita->Persistencia->adicionaFiltro('cod', $oDadosOrdensFabItens->getReceita());
+        $oReceitaDados = $oReceita->Persistencia->consultarWhere();
+        //verifica o tipo de op
+        $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+        $oOp->Persistencia->adicionaFiltro('op', $aCamposChave['op']);
+        $oOpDados = $oOp->Persistencia->consultarWhere();
+        //marca flag como N se op tipo TZ e etapa pertence a receita de zincagem
+        $sAtualizaFabApon = 'S';
+
+        if ($oOpDados->getTipoOrdem() == 'TZ' && $oReceitaDados->getTipoReceita() == 'Zincagem') {
+            $sAtualizaFabApon = 'N';
+        }
+
+        $aRetorno = $oEtapaApont->Persistencia->apontaIniciarEtapa($aCamposChave, $sAtualizaFabApon);
 
         echo'$("#modalApontaIniciar-btn").click();';
         echo'$("#modalApontaIniciarGeren-btn").click();';
@@ -354,7 +391,6 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
             echo $oModal->getRender();
             exit();
         }
-
 
         $oApontOp = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
         $oApontOp->Persistencia->adicionaFiltro('op', $aOp[1]);
@@ -595,10 +631,10 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
             exit();
         }
 
-       // $oMensagem = new Modal('Atenção!', 'A OP nº' . $aCamposChave['op'] . ' foi finalizada!', Modal::TIPO_SUCESSO, false, true, true);
-       // $oMensagem->setSBtnConfirmarFunction('requestAjax("' . $aDados[0] . '-form","STEEL_PCP_ordensFabApontEtapas","finalizaOpGeral","' . $sDados . '");');
+        // $oMensagem = new Modal('Atenção!', 'A OP nº' . $aCamposChave['op'] . ' foi finalizada!', Modal::TIPO_SUCESSO, false, true, true);
+        // $oMensagem->setSBtnConfirmarFunction('requestAjax("' . $aDados[0] . '-form","STEEL_PCP_ordensFabApontEtapas","finalizaOpGeral","' . $sDados . '");');
         $this->finalizaOpGeral($sDados);
-       // echo $oMensagem->getRender();
+        // echo $oMensagem->getRender();
     }
 
     public function finalizaOpGeral($sDados) {

@@ -95,7 +95,7 @@ foreach ($aOps as $key => $aOp) {
                 STEEL_PCP_tratamentos.tratcod,tratrevencomp 
                 from STEEL_PCP_ordensFabItens left outer join STEEL_PCP_tratamentos 
                 on STEEL_PCP_ordensFabItens.tratamento = STEEL_PCP_tratamentos.tratcod  
-                where op =" . $aOp . " order by receita_seq";
+                where op =" . $aOp . " order by opseq, receita_seq";
 
     $dadosItensOp = $PDO->query($sSqlItens);
 

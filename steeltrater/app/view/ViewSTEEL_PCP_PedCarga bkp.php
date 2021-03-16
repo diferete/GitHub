@@ -14,7 +14,7 @@ class ViewSTEEL_PCP_PedCarga extends View {
 
         $oBotaoLiberar = new CampoConsulta('Lib.Fat', 'libFat', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoLiberar->setSTitleAcao('Libera o faturamento!');
-        $oBotaoLiberar->addAcao('STEEL_PCP_PedCarga', 'msgLibFat', '', ''); //finalizaOP Controller
+        $oBotaoLiberar->addAcao('STEEL_PCP_PedCarga', 'msgLibFat'); //finalizaOP Controller
         $oBotaoLiberar->setBHideTelaAcao(true);
         $oBotaoLiberar->setILargura(30);
 
@@ -46,10 +46,10 @@ class ViewSTEEL_PCP_PedCarga extends View {
         //Dropdown
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Relatório Romaneio Carga', 'STEEL_PCP_PedCarga', 'acaoMostraRelCarga', '', false, 'RelRomaneioCarga', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Relatório Romaneio Carga', 'STEEL_PCP_PedCarga', 'acaoMostraRelCarga', '', false, 'RelRomaneioCarga', false, '', false, '', true);
 
         $oDrop2 = new Dropdown('Movimentações', Dropdown::TIPO_DARK);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar Situação', 'STEEL_PCP_PedCarga', 'msgRetornaSit', '', false, '', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar Situação', 'STEEL_PCP_PedCarga', 'msgRetornaSit', '', false, '');
 
         $this->addDropdown($oDrop1, $oDrop2);
         $this->getTela()->setiAltura(700);

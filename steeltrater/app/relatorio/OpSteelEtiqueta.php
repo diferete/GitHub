@@ -81,7 +81,7 @@ foreach ($aOps as $key => $aOp) {
                 STEEL_PCP_tratamentos.tratcod,tratrevencomp 
                 from STEEL_PCP_ordensFabItens left outer join STEEL_PCP_tratamentos 
                 on STEEL_PCP_ordensFabItens.tratamento = STEEL_PCP_tratamentos.tratcod  
-                where op =" . $aOp . " order by receita_seq";
+                where op =" . $aOp . " order by opseq, receita_seq";
 
     $dadosItensOp = $PDO->query($sSqlItens);
 
@@ -122,119 +122,117 @@ foreach ($aOps as $key => $aOp) {
     }
 
     //inicia os dados da op
-    $pdf->Cell(20, 5, $pdf->Image($sLogo, $pdf->GetX(), $pdf->GetY(), 20), 1, 0, 'L');
+    $pdf->Cell(74, 6, $pdf->Image($sLogo, $pdf->GetX() + 25, $pdf->GetY(), 30), 1, 1, 'C');
 
-    $pdf->SetFont('Arial', '', 10);
+    $pdf->SetFont('Arial', '', 13);
 
     if ($row['retrabalho'] == 'Sim' || $row['retrabalho'] == 'Sim S/Cobrança') {
-        $pdf->SetFont('Arial', '', 8);
-        $pdf->Cell(54, 5, 'ORDEM DE PRODUÇÃO - RETRABALHO', 1, 1, 'C');
-        $pdf->Code39(20, $pdf->GetY() + 1, $row['op'], 1, 5);
-        $pdf->Cell(74, 7, ' ', 'L,B,T,R', 1, 'C');
+        $pdf->SetFont('Arial', '', 10.5);
+        $pdf->Cell(74, 8, 'ORDEM DE PRODUÇÃO - RETRABALHO', 1, 1, 'C');
+        $pdf->Code39(10, $pdf->GetY() + 1, $row['op'], 1.4, 7);
+        $pdf->Cell(74, 9, ' ', 'L,B,T,R', 1, 'C');
     } else {
-        $pdf->Cell(54, 5, 'ORDEM DE PRODUÇÃO ', 1, 1, 'C');
-        $pdf->Code39(20, $pdf->GetY() + 1, $row['op'], 1, 5);
-        $pdf->Cell(74, 7, ' ', 'L,B,T,R', 1, 'C');
+        $pdf->Cell(74, 8, 'ORDEM DE PRODUÇÃO ', 1, 1, 'C');
+        $pdf->Code39(10, $pdf->GetY() + 1, $row['op'], 1.4, 7);
+        $pdf->Cell(74, 9, ' ', 'L,B,T,R', 1, 'C');
     }
 
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(37, 4, 'Data: ' . $data, 'L,B,R', 0, 'L');
-    $pdf->Cell(37, 4, 'Número: ' . $row['op'], 'L,B,R', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(37, 5, 'Data: ' . $data, 'L,B,R', 0, 'L');
+    $pdf->Cell(37, 5, 'Número: ' . $row['op'], 'L,B,R', 1, 'L');
 
     //$row['data']
     //dados da ordem de produção
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(10, 4, 'Cliente:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(64, 4, substr($row['emp_razaosocial'], 0, 40), 'B,R', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->MultiAlignCell(74, 5, 'Cliente: ' . substr($row['emp_razaosocial'], 0, 40), 'B,R,L', 1, 'L');
     //nota fiscal do cliente
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(17, 5, 'NF do cliente:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(20, 5, $row['documento'], 'B,R', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(22, 5, 'NF do cliente:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(15, 5, $row['documento'], 'B,R', 0, 'L');
 
     //op do cliente
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(17, 5, 'Op do cliente:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(20, 5, $row['opcliente'], 'B,R', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(22, 5, 'Op do cliente:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(15, 5, $row['opcliente'], 'B,R', 1, 'L');
 
     //produto
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(74, 5, $row['referencia'] . " - " . $row['prodes'], 'L,B,R', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->MultiAlignCell(74, 5, $row['referencia'] . " - " . $row['prodes'], 'L,B,R', 1, 'L');
 
     if ($row['retrabalho'] == 'Sim') {
         //OP origem
-        $pdf->SetFont('Arial', 'B', 7);
-        $pdf->Cell(20, 5, 'OP Origem:', 'B,L', 0, 'L');
-        $pdf->SetFont('Arial', 'B', 7);
-        $pdf->Cell(54, 5, $row['op_retrabalho'], 'B,R', 1, 'L');
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(25, 5, 'OP Origem:', 'B,L', 0, 'L');
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(49, 5, $row['op_retrabalho'], 'B,R', 1, 'L');
     }
 
     //material
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(12, 5, 'Material:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(20, 5, $rowMat['matdes'], 'B,R', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(14, 5, 'Material:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(18, 5, $rowMat['matdes'], 'B,R', 0, 'L');
 
     //dureza Nuc
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(20, 5, 'Dureza Núcleo:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(22, 5, substr(number_format($row['durezaNucMin'], 0, ',', '.') . " - " .
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(22, 5, 'Dureza Núcleo:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(20, 5, substr(number_format($row['durezaNucMin'], 0, ',', '.') . " - " .
                     number_format($row['durezaNucMax'], 0, ',', '.') . "  " . $row['NucEscala'], 0, 15), 'B,R', 1, 'L');
 
     //dureza Superf
     if (($row['durezaSuperfMin'] != 0) && ($row['durezaSuperfMax'] != 0)) {
-        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(30, 5, 'Dureza Superficial:', 'L,B', 0, 'L');
-        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(44, 5, number_format($row['durezaSuperfMin'], 0, ',', '.') . " - " .
                 number_format($row['durezaSuperfMax'], 0, ',', '.') . "  " . $row['SuperEscala'], 'B,R', 1, 'L');
     } else if ($row['durezaSuperfMax'] != 0) {
-        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(30, 5, 'Dureza Superficial:', 'L,B', 0, 'L');
-        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(44, 5, "Max " . number_format($row['durezaSuperfMax'], 0, ',', '.') . "  " . $row['SuperEscala'], 'B,R', 1, 'L');
     } else if ($row['durezaSuperfMin'] != 0) {
-        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(30, 5, 'Dureza Superficial:', 'L,B', 0, 'L');
-        $pdf->SetFont('Arial', 'B', 7);
+        $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(44, 5, "Min " . number_format($row['durezaSuperfMin'], 0, ',', '.') . "  " . $row['SuperEscala'], 'B,R', 1, 'L');
     }
 
     //quantidade de peças
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(16, 5, 'Qt. de peças:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 7);
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(18, 5, 'Qt. de peças:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
     $pdf->Cell(12, 5, number_format($row['quant'], 2, ',', '.'), 'B,R', 0, 'L');
 
     //peso
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(13, 5, 'Peso total:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(11, 5, number_format($row['peso'], 2, ',', '.'), 'B,R', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(15, 5, 'Peso total:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(12, 5, number_format($row['peso'], 2, ',', '.'), 'B,R', 0, 'L');
     //Inicio Parte feita pelo Cleverton Hoffmann
     //receita/it nr.:
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(10, 5, 'Receita:', 'B,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(12, 5, $row['receita'], 'B,R', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(11, 5, 'Receita:', 'B,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(6, 5, $row['receita'], 'B,R', 1, 'L');
 
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(74, 4, 'TRATAMENTO TÉRMICO', 1, 1, 'C');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(74, 6, 'TRATAMENTO TÉRMICO', 1, 1, 'C');
 
     //Etapas do processo
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(40, 4, 'Etap.Proc.', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(42, 5, 'Etap.Proc.', 'L,B', 0, 'L');
 
     //Temp.ºC
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(17, 4, 'Temp.ºC', 'L,B', 0, 'C');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(16, 5, 'Temp.ºC', 'L,B', 0, 'C');
 
     //Tempo
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(17, 4, 'Tempo', 'L,B,R', 1, 'C');
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->Cell(16, 5, 'Tempo', 'L,B,R', 1, 'C');
 
     $conter = array(1, 1);
     //Austenitização //Revenir e Eneg. 
@@ -250,18 +248,18 @@ foreach ($aOps as $key => $aOp) {
             $rowReve = $dadosReven->fetch(PDO::FETCH_ASSOC);
         }
 
-        $pdf->SetFont('Arial', 'B', 5);
+        $pdf->SetFont('Arial', 'B', 7);
         $sReveComplemento = $rowReve['tratrevencomp'];
-        $pdf->Cell(40, 4, $rowIten['tratdes'] . ' ' . $rowReve['tratrevencomp'], 'L,B', 0, 'L');
+        $pdf->Cell(42, 5, $rowIten['tratdes'] . ' ' . $rowReve['tratrevencomp'], 'L,B', 0, 'L');
 
         //Temp.ºC
-        $pdf->SetFont('Arial', 'B', 6);
-        $pdf->Cell(17, 4, number_format($rowIten['temperatura'], 0, ',', '.'), 'L,B', 0, 'C');
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(16, 5, number_format($rowIten['temperatura'], 0, ',', '.'), 'L,B', 0, 'C');
 
         //Tempo
-        $pdf->SetFont('Arial', 'B', 6);
-        $pdf->Cell(17, 4, number_format($rowIten['tempo'], 0, ',', '.'), 'L,B,R', 1, 'C');
-        
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(16, 5, number_format($rowIten['tempo'], 0, ',', '.'), 'L,B,R', 1, 'C');
+
         if ($iK == 0) {
             //Camada (MM)
             if (($row['expCamadaMin'] != '') || ($row['expCamadaMax'] != '')) {
@@ -271,52 +269,52 @@ foreach ($aOps as $key => $aOp) {
                 $sCamada = ' ------- ';
             }
             $iK++;
-        }         
+        }
     }
 
     //Camada (MM)
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(74, 4, 'Camada (MM):         '. $sCamada, 'L,B,R', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(74, 5, 'Camada (MM):         ' . $sCamada, 'L,B,R', 1, 'L');
 
     //Inspeção sistema de dosagem:
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(15, 4, 'Inspeção dosagem:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 7);
-    $pdf->Cell(22, 4, '', 'T,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(35, 5, 'Inspeção dosagem:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(39, 5, '', 'B,R', 1, 'L');
 
     //Inspeção separação:
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(15, 4, 'Inspeção separação:', 'L,B,T', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(22, 4, '', 'T,B,R', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(35, 5, 'Inspeção separação:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(39, 5, '', 'B,R', 1, 'L');
 
     //Inspeção início da saída:
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(15, 4, 'Inspeção início da saída:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(22, 4, '', 'B,R', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(35, 5, 'Inspeção início da saída:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(39, 5, '', 'B,R', 1, 'L');
 
     //Inspeção fim da saída:
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(15, 4, 'Inspeção fim da saída:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(22, 4, '', 'B,R', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(35, 5, 'Inspeção fim da saída:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(39, 5, '', 'B,R', 1, 'L');
 
     //Entrega Prev
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(20, 4, 'Entrega Prevista:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(17, 4, $row['dataprev'], 'B,R', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(35, 5, 'Entrega Prevista:', 'L,B', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(39, 5, $row['dataprev'], 'B,R', 1, 'L');
 
     //Produtividade 
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(15, 4, 'Produtividade:', 'L,B', 0, 'L');
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(22, 4, '', 'B,R', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(35, 5, 'Produtividade:', 'L', 0, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(39, 5, '', 'R', 1, 'L');
 
     //Observações
-    $pdf->SetFont('Arial', 'B', 6);
-    $pdf->Cell(74, 4, 'Obs.: ' . $rowMat['obs'] . ' - ' . $row['obs'], 1, 1, 'L');
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->MultiAlignCell(74, 5, 'Obs.: ' . $rowMat['obs'] . ' - ' . $row['obs'], 1, 1, 'L');
 
     //Fim Parte feita pelo Cleverton Hoffmann
     $pdf->Ln();

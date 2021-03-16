@@ -67,23 +67,44 @@ if (isset($_REQUEST['resumido'])) {
 
 //busca os dados do banco
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sSqli = "select STEEL_PCP_ordensFabApont.op,STEEL_PCP_ordensFabApont.fornodes, STEEL_PCP_ordensFabApont.fornocod, steel_pcp_ordensfabapont.turnoSteel,
-               STEEL_PCP_ordensFabApont.prodes,convert(varchar,steel_pcp_ordensfabapont.dataent_forno,103)as dataent_forno,
-               convert(varchar,steel_pcp_ordensfabapont.horaent_forno,8)as horaent_forno,
-               convert(varchar,steel_pcp_ordensfabapont.datasaida_forno,103)as datasaida_forno,
-               convert(varchar,steel_pcp_ordensfabapont.horasaida_forno,8)as horasaida_forno,STEEL_PCP_ordensFab.peso,quant,documento,
-               STEEL_PCP_ordensFab.situacao,steel_pcp_ordensfab.emp_razaosocial,emp_pessoa.emp_fantasia,convert(varchar,data,103)as data,
-               steel_pcp_ordensfabapont.dataent_forno as dataent_forno2,tratdes, SUBSTRING(steel_pcp_ordensfabapont.usernome, 1,16) as userEntrada,
-               DATEDIFF(Minute,steel_pcp_ordensfabapont.horaent_forno,steel_pcp_ordensfabapont.horasaida_forno) as minutosh,
-               DATEDIFF(minute,steel_pcp_ordensfabapont.dataent_forno, steel_pcp_ordensfabapont.datasaida_forno) as minutosd,
-               eficienciaHora,
-               DATEDIFF(minute,'" . $dtinicial . "', '" . $dtfinal . "') as diferencaFiltro
-               from STEEL_PCP_ordensFabApont left outer join STEEL_PCP_ordensFab
-               on STEEL_PCP_ordensFabApont.op = STEEL_PCP_ordensFab.op left outer join steel_pcp_ordensfabitens
-               on STEEL_PCP_ordensFab.op = steel_pcp_ordensfabitens.op and steel_pcp_ordensfabitens.opseq = 1 left outer join steel_pcp_tratamentos
-	       on steel_pcp_ordensfabitens.tratamento = steel_pcp_tratamentos.tratcod left outer join emp_pessoa
-	       on steel_pcp_ordensfab.emp_codigo = emp_pessoa.emp_codigo
-               where steel_pcp_ordensfabapont.dataent_forno between '" . $dtinicial . "' and '" . $dtfinal . "'";
+$sSqli = "SELECT "
+        . "steel_pcp_ordensfabapont.op,"
+        . "steel_pcp_ordensfabapont.fornodes,"
+        . "steel_pcp_ordensfabapont.fornocod,"
+        . "steel_pcp_ordensfabapont.turnosteel,"
+        . "steel_pcp_ordensfabapont.prodes,"
+        . "CONVERT(VARCHAR, steel_pcp_ordensfabapont.dataent_forno, 103) AS dataent_forno,"
+        . "CONVERT(VARCHAR, steel_pcp_ordensfabapont.horaent_forno, 8) AS horaent_forno,"
+        . "CONVERT(VARCHAR, steel_pcp_ordensfabapont.datasaida_forno, 103) AS datasaida_forno,"
+        . "CONVERT(VARCHAR, steel_pcp_ordensfabapont.horasaida_forno, 8) AS horasaida_forno,"
+        . "CONVERT(VARCHAR, data, 103) AS data,"
+        . "steel_pcp_ordensfab.peso,quant,documento,steel_pcp_ordensfab.situacao,steel_pcp_ordensfab.emp_razaosocial,emp_pessoa.emp_fantasia,"
+        . "steel_pcp_ordensfabapont.dataent_forno AS dataent_forno2, tratdes,"
+        . "Substring(steel_pcp_ordensfabapont.usernome, 1, 16) AS userEntrada,"
+        . "Datediff(minute, steel_pcp_ordensfabapont.horaent_forno,steel_pcp_ordensfabapont.horasaida_forno) AS minutosh,"
+        . "Datediff(minute, steel_pcp_ordensfabapont.dataent_forno,steel_pcp_ordensfabapont.datasaida_forno) AS minutosd,"
+        . "Datediff(minute, '" . $dtinicial . "', '" . $dtfinal . "') AS diferencaFiltro,"
+        . "eficienciahora,"
+        /* ------------ adicionados dados da fabitens ------------ */
+        . "steel_pcp_ordensfabitens.temperatura,"
+        . "steel_pcp_ordensfabitens.tempo,"
+        . "steel_pcp_ordensfabitens.tratamento,"
+        . "steel_pcp_ordensfabitens.CamadaEspessura,"
+        . "steel_pcp_ordensfabitens.TempoZinc,"
+        . "steel_pcp_ordensfabitens.PesoDoCesto"
+        /* ------------ ----------------------------- ------------ */
+        . "FROM steel_pcp_ordensfabapont"
+        . "LEFT OUTER JOIN steel_pcp_ordensfab "
+        . "ON steel_pcp_ordensfabapont.op = steel_pcp_ordensfab.op "
+        . "LEFT OUTER JOIN steel_pcp_ordensfabitens "
+        . "ON steel_pcp_ordensfab.op = steel_pcp_ordensfabitens.op "
+        //. "AND steel_pcp_ordensfabitens.opseq = 1 "
+        . "LEFT OUTER JOIN steel_pcp_tratamentos "
+        . "ON steel_pcp_ordensfabitens.tratamento = steel_pcp_tratamentos.tratcod "
+        . "LEFT OUTER JOIN emp_pessoa "
+        . "ON steel_pcp_ordensfab.emp_codigo = emp_pessoa.emp_codigo "
+        . "WHERE  steel_pcp_ordensfabapont.dataent_forno BETWEEN "
+        . "'" . $dtinicial . "' AND '" . $dtfinal . "'";
 if ($iEmpCodigo !== '') {
     $sSqli .= " and steel_pcp_ordensfab.emp_codigo ='" . $iEmpCodigo . "'";
 }
@@ -238,7 +259,7 @@ $pdf->Ln(2);
 if (isset($nTempFiltroH)) {
     if ($nTempFiltroH == 0) {
         $nTempFiltroH = 24;
-    }else{
+    } else {
         $nTempFiltroH = $nTempFiltroH + 24;
     }
 } else {
@@ -263,12 +284,12 @@ foreach ($aPesoEficEq as $key) {
         if ($iHorasTotal >= 24) {
             $qDias = (int) ($iHorasTotal / 24);
             $qHoras = (int) ($iHorasTotal % 24);
-            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60),0);
+            $qMin = round(((($iHorasTotal - ($qDias * 24)) - $qHoras) * 60), 0);
             $sTempoParada = $qDias . "dia(s) " . $qHoras . "h e " . $qMin . "min.";
         } else {
             if ($iHorasTotal < 24 && $iHorasTotal >= 1) {
                 $qHoras = (int) ($iHorasTotal);
-                $qMin = round((($iHorasTotal - $qHoras) * 60),0);
+                $qMin = round((($iHorasTotal - $qHoras) * 60), 0);
                 $sTempoParada = $qHoras . "h(s) e " . $qMin . "min.";
             } else {
                 $qMin = (int) (($iHorasTotal) * 60);

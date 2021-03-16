@@ -62,7 +62,12 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oDocumento = new CampoConsulta('NotaEnt', 'documento');
         $oTipOrdem = new CampoConsulta('Tipo', 'tipoOrdem');
-        $oProcessozinc = new CampoConsulta('Rec. Zincagem', 'processozinc');
+        $oProcessozinc = new CampoConsulta('Rec. Zinc.', 'processozinc');
+        $oProcessozinc->addComparacao("S", CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VDCLARO, CampoConsulta::MODO_COLUNA, false, '');
+        $oProcessozinc->addComparacao("N", CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, '');
+        $oProcessozinc->addComparacao("", CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, false, '');
+        $oProcessozinc->setBComparacaoColuna(true);
+        $oProcessozinc->setILargura(15);
 
         $oNrCarga = new campoconsulta('NºCarga', 'nrCarga');
 
@@ -96,7 +101,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         //   $oOpAntesFiltro = new Filtro($oOpAntes, Filtro::CAMPO_TEXTO_IGUAL, 2);
 
         $oFiltroSit = new Filtro($oSituacao, Filtro::CAMPO_SELECT, 3, 2, 12, 12, true);
-        $oFiltroSit->addItemSelect('Todos', 'Todos');
+        $oFiltroSit->addItemSelect('Todos', 'Todas Situações');
         $oFiltroSit->addItemSelect('Aberta', 'Aberta');
         $oFiltroSit->addItemSelect('Processo', 'Processo');
         $oFiltroSit->addItemSelect('Finalizado', 'Finalizado');
@@ -104,8 +109,18 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oFiltroSit->setSLabel('');
         $oFiltroSit->setBInline(true);
 
-        $oFiltroProcessozinc = new Filtro($oProcessozinc, Filtro::CAMPO_SELECT, 3, 2, 12, 12, true);
-        $oFiltroProcessozinc->addItemSelect('', 'Todos');
+        $oFiltroTip = new Filtro($oTipOrdem, Filtro::CAMPO_SELECT, 3, 2, 12, 12);
+        $oFiltroTip->addItemSelect('', 'Todos Tipos');
+        $oFiltroTip->addItemSelect('P', 'Padrão - Tempera');
+        $oFiltroTip->addItemSelect('F', 'Fio Máquina - Industrialização');
+        $oFiltroTip->addItemSelect('A', 'Arame - Venda');
+        $oFiltroTip->addItemSelect('Z', 'Zincagem');
+        $oFiltroTip->addItemSelect('TZ', 'Têmpera / Zincagem');
+        $oFiltroTip->setSLabel('');
+        $oFiltroTip->setBInline(true);
+
+        $oFiltroProcessozinc = new Filtro($oProcessozinc, Filtro::CAMPO_SELECT, 3, 2, 12, 12);
+        $oFiltroProcessozinc->addItemSelect('', 'Todos tipos de Rec. Zinc.');
         $oFiltroProcessozinc->addItemSelect('S', 'Receita Zincagem Apontados');
         $oFiltroProcessozinc->addItemSelect('N', 'Receita Zincagem Não Apontados');
         $oFiltroProcessozinc->setSLabel('');
@@ -117,7 +132,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oOFilOpret = new Filtro($oOp_retrabalho, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2);
 
-        $this->addFiltro($oOpFiltro, $oCodigoFiltro, $oDescricaoFiltro, $oFilEmpresa, $oDocFiltro, $oTipoAcaoFiltro, $oFiltroReferencia, $oFilRec, $oFilData, $oFiltroSit, $oFiltroProcessozinc);
+        $this->addFiltro($oOpFiltro, $oCodigoFiltro, $oDescricaoFiltro, $oFilEmpresa, $oDocFiltro, $oTipoAcaoFiltro, $oFiltroReferencia, $oFilRec, $oFilData, $oFiltroSit, $oFiltroProcessozinc, $oFiltroTip);
 
         $this->setUsaAcaoExcluir(FALSE);
         $this->setUsaAcaoVisualizar(true);
@@ -125,13 +140,15 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
 
-        $this->addCampos($oOp, $oBtnReceitaZincagem, $oBotaoModal, $oBotaoFat, $oBotaoPeso, $oSituacao, $oNrCarga, $Pendencia, $oData, $oCodigo, $oReferencia, $oProdes, $oPeso, $oRetrabalho, $oDocumento, $oReceita, $oTipOrdem, $oProcessozinc);
+        $this->addCampos($oOp, $oBtnReceitaZincagem, $oBotaoModal, $oBotaoFat, $oBotaoPeso, $oProcessozinc, $oSituacao, $oNrCarga, $Pendencia, $oData, $oCodigo, $oReferencia, $oProdes, $oPeso, $oRetrabalho, $oDocumento, $oReceita, $oTipOrdem);
 
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecifico', '', false, 'OpSteel1', false, '', false, '', true, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Etiqueta  Térmica', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecificoEtiq', '', false, 'OpSteelEtiqueta', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar Zincagem', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecifico', 'Zinc', false, 'OpSteelZinc', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Etiqueta  Térmica Zincagem', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecificoEtiq', 'Zinc', false, 'OpSteelEtiquetaZinc', false, '', false, '', true, false);
         $oDrop2 = new Dropdown('Açao', Dropdown::TIPO_DARK);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Cancelar OP', 'STEEL_PCP_OrdensFab', 'msgCancelaOp', '', false, '', false, '', false, '', false, false);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar para Aberta', 'STEEL_PCP_OrdensFab', 'msgAbertaOp', '', false, '', false, '', false, '', false, false);
@@ -389,10 +406,13 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oReceitaZincDes->addCampoBusca('cod', '', '');
         $oReceitaZincDes->addCampoBusca('peca', '', '');
         $oReceitaZincDes->setSIdTela($this->getTela()->getId());
+        $oReceitaZincDes->setId('ZincarDes');
 
         $oReceitaZinc->setClasseBusca('STEEL_PCP_Receitas');
         $oReceitaZinc->setSCampoRetorno('cod', $this->getTela()->getId());
         $oReceitaZinc->addCampoBusca('peca', $oReceitaZincDes->getId(), $this->getTela()->getId());
+        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","verificaTipoZincagem","");';
+        $oReceitaZinc->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
         //busca campo material
         $oCodMat = new Campo('Material', 'matcod', Campo::TIPO_TEXTO, 1);
@@ -785,9 +805,10 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oEmp_codigo->setSCampoRetorno('emp_codigo', $this->getTela()->getId());
         $oEmp_codigo->addCampoBusca('emp_razaosocial', $oEmp_des->getId(), $this->getTela()->getId());
 
-        $oFieldForno = new FieldSet('Adicionar um forno específico!');
         //busca do forno
+
         $oFornoCod = new Campo('Forno', 'fornocod', Campo::TIPO_BUSCADOBANCOPK, 2);
+
 
         //campo descrição do forno adicionando o campo de busca
         $oFornodes = new Campo('Descrição Forno', 'fornodes', Campo::TIPO_BUSCADOBANCO, 4);
@@ -803,18 +824,11 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oFornoCod->setSCampoRetorno('fornocod', $this->getTela()->getId());
         $oFornoCod->addCampoBusca('fornodes', $oFornodes->getId(), $this->getTela()->getId());
 
-        $oFieldForno->addCampos(array($oFornoCod, $oFornodes));
-        $oFieldForno->setOculto(true);
-
-        $oFieldFornos = new FieldSet('Adicionar mais de um forno!');
 
         $oFornos = new Campo('Fornos', 'fornos', Campo::TIPO_SELECTTAGS, 8, 8, 8, 8);
         foreach ($aDados as $key => $oValue) {
             $oFornos->addItemSelect($key, $key . ' - ' . $oValue);
         }
-
-        $oFieldFornos->addCampos($oFornos);
-        $oFieldFornos->setOculto(true);
 
         $oRetrabalho = new Campo('Retrabalho', 'retrabalho', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3, 3);
         $oRetrabalho->setSValor('Incluir');
@@ -846,7 +860,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oTurnoEnt->addItemSelect('Turno D', 'Turno D');
         $oTurnoEnt->addItemSelect('Geral', 'Geral');
 
-        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, $oFieldForno, $oLinha1, $oFieldFornos, $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $oTurnoEnt), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
+        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oFornos), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $oTurnoEnt), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
     }
 
     public function criaModalAponta() {

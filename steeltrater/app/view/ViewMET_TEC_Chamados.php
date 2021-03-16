@@ -195,13 +195,13 @@ class ViewMET_TEC_Chamados extends View {
 
         $oDescSetor = new Campo('Setor solicitante', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oDescSetor->setSIdPk($oSetor->getId());
-        $oDescSetor->setClasseBusca('Setor');
+        $oDescSetor->setClasseBusca('MET_CAD_Setores');
         $oDescSetor->addCampoBusca('codsetor', '', '');
         $oDescSetor->addCampoBusca('descsetor', '', '');
         $oDescSetor->setSIdTela($this->getTela()->getid());
         $oDescSetor->setSValor($_SESSION['descsetor']);
 
-        $oSetor->setClasseBusca('Setor');
+        $oSetor->setClasseBusca('MET_CAD_Setores');
         $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oSetor->addCampoBusca('descsetor', $oDescSetor->getId(), $this->getTela()->getId());
 

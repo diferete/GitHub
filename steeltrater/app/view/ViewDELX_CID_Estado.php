@@ -19,7 +19,7 @@ class ViewDELX_CID_Estado extends View {
         $oIntra = new CampoConsulta('Aliquota Intra.', 'cid_estadoaliquotaintra');
         $oInter = new CampoConsulta('Aliquota Inter.', 'cid_estadoaliquotainter');
         $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 5);
-        
+
 
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
@@ -28,7 +28,7 @@ class ViewDELX_CID_Estado extends View {
         $this->addFiltro($oDescricaofiltro);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oCodpais,$oCodestado,$oDescricao,$oIbge,$oIntra, $oInter);
+        $this->addCampos($oCodpais, $oCodestado, $oDescricao, $oIbge, $oIntra, $oInter);
     }
 
     public function criaTela() {
@@ -37,12 +37,12 @@ class ViewDELX_CID_Estado extends View {
 
         $oCodpais = new Campo('Cod.país', 'cid_paiscodigo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oCodestado = new Campo('Cod.Estado', 'cid_estadocodigo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oDescricao= new Campo('Descrição', 'cid_estadodescricao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDescricao = new Campo('Descrição', 'cid_estadodescricao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oIbge = new Campo('IBGE', 'cid_estadoibge', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oIntra = new Campo('Aliquota Intra', 'cid_estadoaliquotaintra', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oInter = new Campo('Aliquota Inter', 'cid_estadoaliquotainter', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        
-        $this->addCampos(array($oCodpais,$oCodestado,$oDescricao,$oIbge,$oIntra, $oInter));
+
+        $this->addCampos(array($oCodpais, $oCodestado, $oDescricao, $oIbge, $oIntra, $oInter));
     }
 
 }

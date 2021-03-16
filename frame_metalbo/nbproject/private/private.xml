@@ -12,12 +12,11 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/relatorio/rc.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/relatorio/cotacao.php</file>
             <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerSolPedIten.php</file>
             <file>file:/C:/wamp64/www/GitHub/frame_metalbo/index.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerSolPed.php</file>
-            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/controller/ControllerPnlFinan.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/biblioteca/fpdf/fpdf.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/persistencia/PersistenciaSolPedIten.php</file>
+            <file>file:/C:/wamp64/www/GitHub/frame_metalbo/app/view/ViewSolPedIten.php</file>
         </group>
     </open-files>
 </project-private>
