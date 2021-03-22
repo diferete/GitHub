@@ -55,8 +55,8 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
 
         $oPedidoValorTotal = new CampoConsulta('Valor total', 'sup_pedidovalortotal', CampoConsulta::TIPO_DECIMAL);
 
-        $oDrop1 = new Dropdown('Teste', Dropdown::TIPO_PRIMARY, Dropdown::ICON_INFO, 2, 2, 12, 12);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', $this->getController(), 'acaoMostraRelConsulta', '', false, 'VisualizaPedidoCompra', false, '', false, '', false, false);
+        $oDrop1 = new Dropdown('IMPRIMIR PEDIDO DE COMPRA', Dropdown::TIPO_PRIMARY, Dropdown::TIPO_PADRAO, 3, 3, 12, 12);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Imprimir', $this->getController(), 'acaoMostraRelConsulta', '', false, 'RelPedidoCompra', false, '', false, '', false, false);
 
         $oFilFil_Codigo = new Filtro($oFil_Codigo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
         $oFilPedidoSeq = new Filtro($oPedidoSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);

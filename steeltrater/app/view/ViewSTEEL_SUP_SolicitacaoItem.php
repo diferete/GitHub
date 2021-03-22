@@ -26,7 +26,7 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oItemDesc = new CampoConsulta('Descricao', 'SUP_SolicitacaoItemDescricao');
 
         $oItemQnt = new CampoConsulta('Qnt.', 'SUP_SolicitacaoItemComQtd', CampoConsulta::TIPO_DECIMAL);
-        $oItemQnt->setICasaDecimal(0);
+        $oItemQnt->setICasaDecimal(4);
 
         $oPrioridade = new CampoConsulta('Prioridade', 'SUP_PrioridadeCodigo');
 
