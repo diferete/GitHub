@@ -39,7 +39,7 @@ class ControllerMET_QUAL_RcRep extends Controller {
 
         $bProd = true;
         foreach ($aProd as $key => $value) {
-            $aProdProdutos = explode(',', $value);
+            $aProdProdutos = explode('-', $value);
             $iCount = count($aProdProdutos);
             if ($iCount < 4) {
                 $bProd = false;
@@ -73,7 +73,7 @@ class ControllerMET_QUAL_RcRep extends Controller {
                 $aRetorno[1] = '';
                 return $aRetorno;
             }
-            if (($oTag == '' || $oTag == null ) && ($oProd != '' || $oProd != null) && ($oDisposicao != null)) {
+            if (($oTag == '' || $oTag == null ) && ($bProd == true) && ($oDisposicao != null)) {
 
                 $aRetorno = array();
                 $aRetorno[0] = true;
@@ -101,7 +101,7 @@ class ControllerMET_QUAL_RcRep extends Controller {
 
         $bProd = true;
         foreach ($aProd as $key => $value) {
-            $aProdProdutos = explode(',', $value);
+            $aProdProdutos = explode('-', $value);
             $iCount = count($aProdProdutos);
             if ($iCount < 4) {
                 $bProd = false;
@@ -135,7 +135,7 @@ class ControllerMET_QUAL_RcRep extends Controller {
                 $aRetorno[1] = '';
                 return $aRetorno;
             }
-            if (($oTag == '' || $oTag == null ) && ($oProd != '' || $oProd != null) && ($oDisposicao != null)) {
+            if (($oTag == '' || $oTag == null ) && ($bProd == true) && ($oDisposicao != null)) {
 
                 $aRetorno = array();
                 $aRetorno[0] = true;
@@ -180,34 +180,55 @@ class ControllerMET_QUAL_RcRep extends Controller {
         $aAnalise = array();
         parse_str($sChave, $aAnalise);
 
-        $oAnalise = $this->Persistencia->buscaDadosRC($aAnalise);
+        if ($sChave == '') {
+            $sScriptLabel = '$("label[for=' . $aDados[2] . ']").text("");';
+            $sScriptLabel2 = '$("label[for=' . $aDados[3] . ']").text("");';
+            $sScriptDados = '$("#' . $aDados[2] . '").val("");';
+            $sProblemas = '$("#' . $aDados[3] . '").val("");';
+
+            echo $sScriptLabel;
+            echo $sScriptLabel2;
+            echo $sScriptDados;
+            echo $sProblemas;
+        } else {
+
+            $oAnalise = $this->Persistencia->buscaDadosRC($aAnalise);
 
 
-        $sAnalise = Util::limpaString($oAnalise->obs_aponta);
+            $sAnalise = Util::limpaString($oAnalise->obs_aponta);
 
 
-        switch ($oAnalise->tagsetor) {
-            case 3:
-                $sSetor = 'Expedição';
-                break;
-            case 5:
-                $sSetor = 'Embalagem';
-                break;
-            case 25:
-                $sSetor = 'Qualidade';
-                break;
-            default:
-                $sSetor = 'Vendas';
-                break;
+            switch ($oAnalise->tagsetor) {
+                case 3:
+                    $sSetor = 'Expedição';
+                    break;
+                case 5:
+                    $sSetor = 'Embalagem';
+                    break;
+                case 25:
+                    $sSetor = 'Qualidade';
+                    break;
+                default:
+                    $sSetor = 'Vendas';
+                    break;
+            }
+
+            $sProblema = $oAnalise->aplicacao . ' -  ' . Util::limpaString($oAnalise->naoconf);
+            if ($oAnalise->situaca == 'Cancelada') {
+                $sAnalise = Util::limpaString($oAnalise->motivocancela);
+                $sScriptLabel = '$("label[for=' . $aDados[2] . ']").text("Motivo do Cancelamento da análise:");';
+            } else {
+                $sScriptLabel = '$("label[for=' . $aDados[2] . ']").text("Análise aprensentada pelo setor responsável - ' . $sSetor . ':");';
+            }
+            $sScriptLabel2 = '$("label[for=' . $aDados[3] . ']").text("Problema descrito pelo Representante:");';
+            $sScriptDados = '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
+            $sProblemas = '$("#' . $aDados[3] . '").val("' . $sProblema . '");';
+
+            echo $sScriptLabel;
+            echo $sScriptLabel2;
+            echo $sScriptDados;
+            echo $sProblemas;
         }
-
-        $sProblema = $oAnalise->aplicacao . ' -  ' . Util::limpaString($oAnalise->naoconf);
-
-        $sScriptDados = '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
-        $sProblemas = '$("#' . $aDados[3] . '").val("' . $sProblema . '");';
-
-        echo $sScriptDados;
-        echo $sProblemas;
     }
 
     public function buscaNf($sDados) {
