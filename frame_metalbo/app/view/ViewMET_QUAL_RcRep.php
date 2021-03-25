@@ -84,12 +84,12 @@ class ViewMET_QUAL_RcRep extends View {
 
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
-        $oAnaliseVendas = new Campo('Resposta apresentada pelo setor de Vendas', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oAnaliseVendas = new Campo('', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oAnaliseVendas->setILinhasTextArea(6);
         $oAnaliseVendas->setSCorFundo(Campo::FUNDO_AMARELO);
         $oAnaliseVendas->setBCampoBloqueado(true);
 
-        $oProblema = new Campo('Problema descrito pelo Representante', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oProblema = new Campo('', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oProblema->setILinhasTextArea(6);
         $oProblema->setSCorFundo(Campo::FUNDO_MONEY);
         $oProblema->setBCampoBloqueado(true);

@@ -133,12 +133,12 @@ class ViewMET_QUAL_RcVenda extends View {
 
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
-        $oAnaliseSetor = new Campo('Análise aprensentada pelo setor responsável', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oAnaliseSetor = new Campo('', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oAnaliseSetor->setILinhasTextArea(6);
         $oAnaliseSetor->setSCorFundo(Campo::FUNDO_AMARELO);
         $oAnaliseSetor->setBCampoBloqueado(true);
 
-        $oProblema = new Campo('Problema descrito pelo Representante', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oProblema = new Campo('', '', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oProblema->setILinhasTextArea(6);
         $oProblema->setSCorFundo(Campo::FUNDO_MONEY);
         $oProblema->setBCampoBloqueado(true);
@@ -260,7 +260,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oProd->setILinhasTextArea(5);
         $oProd->setSCorFundo(Campo::FUNDO_AMARELO);
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////        
 
 
         $oAplicacao = new Campo('Problema', 'aplicacao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
