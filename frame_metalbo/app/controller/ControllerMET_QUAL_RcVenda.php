@@ -45,38 +45,59 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $aAnalise = array();
         parse_str($sChave, $aAnalise);
 
-        $oAnalise = $this->Persistencia->buscaDadosRC($aAnalise);
+        if ($sChave == '') {
+            $sScriptLabel = '$("label[for=' . $aDados[2] . ']").text("");';
+            $sScriptLabel2 = '$("label[for=' . $aDados[3] . ']").text("");';
+            $sScriptDados = '$("#' . $aDados[2] . '").val("");';
+            $sProblemas = '$("#' . $aDados[3] . '").val("");';
 
-        $sAnalise = Util::limpaString($oAnalise->apontamento);
+            echo $sScriptLabel;
+            echo $sScriptLabel2;
+            echo $sScriptDados;
+            echo $sProblemas;
+        } else {
+            $oAnalise = $this->Persistencia->buscaDadosRC($aAnalise);
 
-        if ($sAnalise == '') {
-            $sAnalise = Util::limpaString($oAnalise->obs_aponta);
+            $sAnalise = Util::limpaString($oAnalise->apontamento);
+
+            if ($sAnalise == '') {
+                $sAnalise = Util::limpaString($oAnalise->obs_aponta);
+            }
+
+            switch ($oAnalise->tagsetor) {
+                case 3:
+                    $sSetor = 'Expedição';
+                    break;
+                case 5:
+                    $sSetor = 'Embalagem';
+                    break;
+                case 25:
+                    $sSetor = 'Qualidade';
+                    break;
+                default:
+                    $sSetor = 'Vendas';
+                    break;
+            }
+
+            $sProblema = $oAnalise->aplicacao . ' -  ' . Util::limpaString($oAnalise->naoconf);
+
+            if ($oAnalise->situaca == 'Cancelada') {
+                $sAnalise = Util::limpaString($oAnalise->motivocancela);
+                $sScriptLabel = '$("label[for=' . $aDados[2] . ']").text("Motivo do Cancelamento da análise:");';
+            } else {
+                $sScriptLabel = '$("label[for=' . $aDados[2] . ']").text("Análise aprensentada pelo setor responsável - ' . $sSetor . ':");';
+            }
+            $sScriptLabel2 = '$("label[for=' . $aDados[3] . ']").text("Problema descrito pelo Representante:");';
+            $sScriptDados = '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
+            $sProblemas = '$("#' . $aDados[3] . '").val("' . $sProblema . '");';
+
+
+
+            echo $sScriptLabel;
+            echo $sScriptLabel2;
+            echo $sScriptDados;
+            echo $sProblemas;
         }
-
-        switch ($oAnalise->tagsetor) {
-            case 3:
-                $sSetor = 'Expedição';
-                break;
-            case 5:
-                $sSetor = 'Embalagem';
-                break;
-            case 25:
-                $sSetor = 'Qualidade';
-                break;
-            default:
-                $sSetor = 'Vendas';
-                break;
-        }
-
-        $sProblema = $oAnalise->aplicacao . ' -  ' . Util::limpaString($oAnalise->naoconf);
-
-        $sScriptLabel = '$("label[for=' . $aDados[2] . ']").text("Análise aprensentada pelo setor responsável - ' . $sSetor . ':");';
-        $sScriptDados = '$("#' . $aDados[2] . '").val("' . $sAnalise . '");';
-        $sProblemas = '$("#' . $aDados[3] . '").val("' . $sProblema . '");';
-
-        echo $sScriptLabel;
-        echo $sScriptDados;
-        echo $sProblemas;
     }
 
     public function limpaUploads($aIds) {
@@ -841,7 +862,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             echo $oMensagem->getRender();
             exit;
         }
-        if ($aRet[3] == 'Aguardando') {
+        if ($aRet[3] == 'Aguardando' || ($aRet[0] != 'Cancelada' || $aRet[0] != 'Finalizada' || $aRet[0] != 'Aguardando')) {
             $this->Persistencia->adicionaFiltro('filcgc', $aCamposChave['filcgc']);
             $this->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
 
@@ -869,12 +890,9 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         $sChave = htmlspecialchars_decode($aDados[3]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
-        if ($oDados->sollibdevolucao == 'Aguardando') {
-            $aRet = $this->Persistencia->liberaDevolucao($aCamposChave);
-            if ($aRet[0]) {
-                $this->enviaEmailLiberaDevolucao($sDados);
-            }
+        $aRet = $this->Persistencia->liberaDevolucao($aCamposChave);
+        if ($aRet[0]) {
+            $this->enviaEmailLiberaDevolucao($sDados);
         }
     }
 
