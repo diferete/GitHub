@@ -57,6 +57,20 @@ $sFornodes = $_REQUEST['fornodes'];
 $iFornoCod = $_REQUEST['fornocod'];
 $sTurnoSteel = $_REQUEST['turnoSteel'];
 $sListaEtapa = '';
+$sFornos = '';
+$iForno = 0;
+$aQueryStryng = explode('&', $_SERVER['QUERY_STRING']);
+foreach ($aQueryStryng as $skey) {
+    $aDados = explode('=', $skey);
+    if ($aDados[0] == 'fornos') {
+        if ($iForno == 0) {
+            $sFornos .= "'" . $aDados[1] . "'";
+            $iForno++;
+        } else {
+            $sFornos .= "," . "'" . $aDados[1] . "'";
+        }
+    }
+}
 if (isset($_REQUEST['listaEtapa'])) {
     $sListaEtapa = $_REQUEST['listaEtapa'];
 }
@@ -68,59 +82,67 @@ if (isset($_REQUEST['resumido'])) {
 //busca os dados do banco
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 $sSqli = "SELECT "
-        . "steel_pcp_ordensfabapont.op,"
-        . "steel_pcp_ordensfabapont.fornodes,"
-        . "steel_pcp_ordensfabapont.fornocod,"
-        . "steel_pcp_ordensfabapont.turnosteel,"
-        . "steel_pcp_ordensfabapont.prodes,"
-        . "CONVERT(VARCHAR, steel_pcp_ordensfabapont.dataent_forno, 103) AS dataent_forno,"
-        . "CONVERT(VARCHAR, steel_pcp_ordensfabapont.horaent_forno, 8) AS horaent_forno,"
-        . "CONVERT(VARCHAR, steel_pcp_ordensfabapont.datasaida_forno, 103) AS datasaida_forno,"
-        . "CONVERT(VARCHAR, steel_pcp_ordensfabapont.horasaida_forno, 8) AS horasaida_forno,"
-        . "CONVERT(VARCHAR, data, 103) AS data,"
-        . "steel_pcp_ordensfab.peso,quant,documento,steel_pcp_ordensfab.situacao,steel_pcp_ordensfab.emp_razaosocial,emp_pessoa.emp_fantasia,"
-        . "steel_pcp_ordensfabapont.dataent_forno AS dataent_forno2, tratdes,"
-        . "Substring(steel_pcp_ordensfabapont.usernome, 1, 16) AS userEntrada,"
-        . "Datediff(minute, steel_pcp_ordensfabapont.horaent_forno,steel_pcp_ordensfabapont.horasaida_forno) AS minutosh,"
-        . "Datediff(minute, steel_pcp_ordensfabapont.dataent_forno,steel_pcp_ordensfabapont.datasaida_forno) AS minutosd,"
-        . "Datediff(minute, '" . $dtinicial . "', '" . $dtfinal . "') AS diferencaFiltro,"
-        . "eficienciahora,"
+        . "STEEL_PCP_ordensFabItens.op,"
+        . "STEEL_PCP_ordensFabItens.fornodes,"
+        . "STEEL_PCP_ordensFabItens.fornocod,"
+        . "STEEL_PCP_ordensFabItens.turnoSteel,"
+        . "STEEL_PCP_ordensFabApont.prodes,"
+        . "convert(varchar,STEEL_PCP_ordensFabItens.dataent_forno,103)as dataent_forno,"
+        . "convert(varchar,STEEL_PCP_ordensFabItens.horaent_forno,8)as horaent_forno,"
+        . "convert(varchar,STEEL_PCP_ordensFabItens.datasaida_forno,103)as datasaida_forno,"
+        . "convert(varchar,STEEL_PCP_ordensFabItens.horasaida_forno,8)as horasaida_forno,"
+        . "STEEL_PCP_ordensFab.peso,"
+        . "quant,"
+        . "documento,"
+        . "STEEL_PCP_ordensFab.situacao,"
+        . "steel_pcp_ordensfab.emp_razaosocial,"
+        . "emp_pessoa.emp_fantasia,"
+        . "convert(varchar,data,103)as data,"
+        . "STEEL_PCP_ordensFabItens.dataent_forno as dataent_forno2,"
+        . "tratdes,"
+        . "SUBSTRING(STEEL_PCP_ordensFabItens.usernome, 1,16) as userEntrada,"
+        . "DATEDIFF(Minute,STEEL_PCP_ordensFabItens.horaent_forno,STEEL_PCP_ordensFabItens.horasaida_forno) as minutosh,"
+        . "DATEDIFF(minute,STEEL_PCP_ordensFabItens.dataent_forno, STEEL_PCP_ordensFabItens.datasaida_forno) as minutosd,"
+        . "eficienciaHora,"
         /* ------------ adicionados dados da fabitens ------------ */
         . "steel_pcp_ordensfabitens.temperatura,"
         . "steel_pcp_ordensfabitens.tempo,"
         . "steel_pcp_ordensfabitens.tratamento,"
         . "steel_pcp_ordensfabitens.CamadaEspessura,"
         . "steel_pcp_ordensfabitens.TempoZinc,"
-        . "steel_pcp_ordensfabitens.PesoDoCesto"
+        . "steel_pcp_ordensfabitens.PesoDoCesto,"
         /* ------------ ----------------------------- ------------ */
-        . "FROM steel_pcp_ordensfabapont"
+        . "DATEDIFF(minute,'" . $dtinicial . "', '" . $dtfinal . "') as diferencaFiltro "
+        . "FROM steel_pcp_ordensfabitens "
+        . "LEFT OUTER JOIN STEEL_PCP_ordensFabApont "
+        . "ON steel_pcp_ordensfabitens.op = STEEL_PCP_ordensFabApont.op "
         . "LEFT OUTER JOIN steel_pcp_ordensfab "
-        . "ON steel_pcp_ordensfabapont.op = steel_pcp_ordensfab.op "
-        . "LEFT OUTER JOIN steel_pcp_ordensfabitens "
-        . "ON steel_pcp_ordensfab.op = steel_pcp_ordensfabitens.op "
-        //. "AND steel_pcp_ordensfabitens.opseq = 1 "
+        . "ON STEEL_PCP_ordensFabApont.op = steel_pcp_ordensfab.op "
         . "LEFT OUTER JOIN steel_pcp_tratamentos "
         . "ON steel_pcp_ordensfabitens.tratamento = steel_pcp_tratamentos.tratcod "
         . "LEFT OUTER JOIN emp_pessoa "
         . "ON steel_pcp_ordensfab.emp_codigo = emp_pessoa.emp_codigo "
-        . "WHERE  steel_pcp_ordensfabapont.dataent_forno BETWEEN "
-        . "'" . $dtinicial . "' AND '" . $dtfinal . "'";
+        . "WHERE  steel_pcp_ordensfabitens.dataent_forno BETWEEN '" . $dtinicial . "' AND '" . $dtfinal . "'";
+
 if ($iEmpCodigo !== '') {
     $sSqli .= " and steel_pcp_ordensfab.emp_codigo ='" . $iEmpCodigo . "'";
 }
 if ($iFornoCod !== '') {
-    $sSqli .= " and STEEL_PCP_ordensFabApont.fornocod ='" . $iFornoCod . "'";
+    $sSqli .= " and steel_pcp_ordensfabitens.fornocod ='" . $iFornoCod . "'";
+}
+if ($sFornos !== '') {
+    $sSqli .= " and steel_pcp_ordensfabitens.fornocod in(" . $sFornos . ")";
 }
 if ($sTurnoSteel != 'Todos') {
-    $sSqli .= " and steel_pcp_ordensfabapont.turnoSteel = '" . $sTurnoSteel . "' ";
+    $sSqli .= " and steel_pcp_ordensfabitens.turnoSteel = '" . $sTurnoSteel . "' ";
 }
 
-$sSqli .= " and STEEL_PCP_ordensFabApont.situacao='Finalizado' ";
+$sSqli .= " and steel_pcp_ordensfabitens.situacao = 'Finalizado' ";
 
 $sSqli .= " and retrabalho<>'Retorno não Ind.' ";
 
 
-$sSqli .= "order by dataent_forno2, STEEL_PCP_ordensFabApont.fornodes, steel_pcp_ordensfabapont.turnoSteel, horaent_forno";
+$sSqli .= "ORDER  BY dataent_forno2,steel_pcp_ordensfabitens.fornodes,steel_pcp_ordensfabitens.turnosteel,horaent_forno";
 
 $dadosRela = $PDO->query($sSqli);
 
@@ -129,7 +151,20 @@ $pdf->SetFont('Arial', 'B', 9);
 $pdf->Cell(30, 10, 'Filtros escolhidos:', '', 0, 'L', 0);
 
 if ($sFornodes == null) {
-    $sFornodes = 'Todos';
+    if ($sFornos == null) {
+        $sFornoDesFiltro = 'Todos';
+    } else {
+        $sSqlFornoDes = "select fornodes from STEEL_PCP_FORNO where fornocod in (" . $sFornos . ")";
+        $fornodes = $PDO->query($sSqlFornoDes);
+        $sFornoDesFiltro = '';
+        while ($rowFornoFiltro = $fornodes->fetch(PDO::FETCH_ASSOC)) {
+            if ($sFornoDesFiltro == '') {
+                $sFornoDesFiltro = $rowFornoFiltro['fornodes'];
+            } else {
+                $sFornoDesFiltro .= ', ' . $rowFornoFiltro['fornodes'];
+            }
+        }
+    }
 }
 if ($iEmpCodigo == null) {
     $iEmpCodigo = 'Todos';
@@ -139,15 +174,13 @@ $sEmpDescricao = substr($sEmpDescricao, 0, 58) . '.';
 $pdf->SetFont('Arial', '', 8);
 $pdf->Cell(50, 10, 'Data inicial: ' . $dtinicial .
         '   Data final: ' . $dtfinal .
-        '   Forno: ' . $sFornodes .
+        '   Forno: ' . $sFornoDesFiltro .
         '   Cliente: ' . $iEmpCodigo .
         '   Razão Social: ' . $sEmpDescricao .
         ' ', '', 1, 'L', 0);
 
 $pdf->Cell(0, 3, '', '', 1, 'L');
 
-$Pesototal = 0;
-$Quanttotal = 0;
 if ($bRes) {
     $pdf->SetFont('Arial', 'B', 8);
     $pdf->Cell(17, 5, 'OP', 'B,T,L,R', 0, 'C', 0);
@@ -172,6 +205,8 @@ if ($bRes) {
     $pdf->SetFont('Arial', 'B', 8);
     $pdf->Cell(15, 5, 'PESO', 'B,T,L,R', 1, 'C', 0);
 }
+
+$Pesototal = 0;
 $aPesoEficEq = array();
 $aPesoEq = array();
 $aPesoTur = array();
@@ -192,7 +227,7 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
         $aPesoEficEq[$row['fornodes']] = [$row['peso'], $row['fornodes'], $row['minutosd'] + $row['minutosh'], (float) number_format($row['eficienciaHora'], 2, ',', '.'), $row['fornocod']];
     } else {
         $aPesoEq[$row['fornodes']] = [$aPesoEq[$row['fornodes']][0] + $row['peso'], $row['fornodes']];
-        $aPesoEficEq[$row['fornodes']] = [$aPesoEficEq[$row['fornodes']][0] + $row['peso'], $row['fornodes'], $aPesoEficEq[$row['fornodes']][2] + ($row['minutosd'] + $row['minutosh']), (float) number_format($row['eficienciaHora'], 2, ',', '.'), $row['fornocod']];
+        $aPesoEficEq[$row['fornodes']] = [$aPesoEficEq[$row['fornodes']][0] + $row['peso'], $row['fornodes'], $aPesoEficEq[$row['fornodes']][2] + ($row['minutosd'] + $row['minutosh']), (float) number_format($aPesoEficEq[$row['fornodes']][3], 2, ',', '.'), $row['fornocod']];
     }
 
     $sForno = $row['fornodes'];
@@ -313,6 +348,7 @@ foreach ($aPesoEficEq as $key) {
     $pdf->Cell(41, 5, '  ' . $sTempoParada, '', 0, 'R');
     $pdf->Cell(33, 5, '  ' . number_format($nEficiencia, 2, ',', '.') . '%', '', 1, 'R');
     $pdf->Cell(279, 2, '', 'T', 1, 'L');
+    $nEficiencia = 0;
 }
 
 $pdf->Ln(10);
