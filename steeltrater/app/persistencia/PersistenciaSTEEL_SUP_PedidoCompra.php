@@ -16,6 +16,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
 
         $this->adicionaRelacionamento('FIL_Codigo', 'FIL_Codigo', true, true);
         $this->adicionaRelacionamento('SUP_PedidoSeq', 'SUP_PedidoSeq', true, true, true);
+        $this->adicionaRelacionamento('SUP_PedidoFornecedor', 'DELX_CAD_Pessoa.emp_codigo', false, false);
         $this->adicionaRelacionamento('SUP_PedidoFornecedor', 'SUP_PedidoFornecedor');
         $this->adicionaRelacionamento('SUP_PedidoRepresentante', 'SUP_PedidoRepresentante');
         $this->adicionaRelacionamento('SUP_PedidoNegociador', 'SUP_PedidoNegociador');
@@ -74,16 +75,21 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
         $this->adicionaRelacionamento('SUP_PedidoVlrAcrescimo', 'SUP_PedidoVlrAcrescimo');
         $this->adicionaRelacionamento('SUP_PedidoDataValidade', 'SUP_PedidoDataValidade');
         $this->adicionaRelacionamento('SUP_PedidoBxPrevisao', 'SUP_PedidoBxPrevisao');
-        $this->adicionaRelacionamento('SUP_PedidoOrcamento', 'SUP_PedidoOrcamento');
-        $this->adicionaRelacionamento('SUP_PedidoEnvEmaForn', 'SUP_PedidoEnvEmaForn');
-        $this->adicionaRelacionamento('SUP_PedidoCondicaoPagDescritiv', 'SUP_PedidoCondicaoPagDescritiv');
-        $this->adicionaRelacionamento('FIN_FormaPagamentoCodigo', 'FIN_FormaPagamentoCodigo');
-        $this->adicionaRelacionamento('SUP_PedidoUsuarioAprovador', 'SUP_PedidoUsuarioAprovador');
-        $this->adicionaRelacionamento('SUP_PedidoEquipamento', 'SUP_PedidoEquipamento');
-        $this->adicionaRelacionamento('SUP_PedidoUsuarioResponsavel', 'SUP_PedidoUsuarioResponsavel');
+
+        /*         * **************************************************************************
+          $this->adicionaRelacionamento('SUP_PedidoOrcamento', 'SUP_PedidoOrcamento');
+          $this->adicionaRelacionamento('SUP_PedidoEnvEmaForn', 'SUP_PedidoEnvEmaForn');
+          $this->adicionaRelacionamento('SUP_PedidoCondicaoPagDescritiv', 'SUP_PedidoCondicaoPagDescritiv');
+          $this->adicionaRelacionamento('FIN_FormaPagamentoCodigo', 'FIN_FormaPagamentoCodigo');
+          $this->adicionaRelacionamento('SUP_PedidoUsuarioAprovador', 'SUP_PedidoUsuarioAprovador');
+          $this->adicionaRelacionamento('SUP_PedidoEquipamento', 'SUP_PedidoEquipamento');
+          $this->adicionaRelacionamento('SUP_PedidoUsuarioResponsavel', 'SUP_PedidoUsuarioResponsavel');
+         * **************************************************************************** */
 
         $this->adicionaOrderBy('sup_pedidoseq', 1);
         $this->adicionaFiltro('FIL_Codigo', '8993358000174');
+        $this->adicionaJoin('DELX_CAD_Pessoa', null, 1, 'SUP_PedidoFornecedor', 'emp_codigo');
+        $this->setSTop(75);
     }
 
 }
