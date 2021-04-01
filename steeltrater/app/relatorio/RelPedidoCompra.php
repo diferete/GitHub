@@ -85,18 +85,24 @@ $dadosRela = $PDO->query($sSql);
 $rowDados = $dadosRela->fetch(PDO::FETCH_ASSOC);
 
 /* DADOS DO FORNECEDOR */
-$sSqlEnderecoFornecedor = "select "
-        . "EMP_EnderecoLogradouro,"
-        . "EMP_EnderecoEmail,"
-        . "EMP_EnderecoNumero,"
-        . "EMP_EnderecoBairro,"
-        . "EMP_EnderecoInscEstadual,"
-        . "CID_LogradouroCEP,"
+$sSqlEnderecoFornecedor = "SELECT "
+        . "emp_enderecologradouro,"
+        . "EMP_EnderecoTelefoneDDD,"
+        . "emp_enderecoemail,"
+        . "emp_endereconumero,"
+        . "emp_enderecobairro,"
+        . "emp_enderecoinscestadual,"
+        . "cid_logradourocep,"
         . "EMP_EnderecoTelefone,"
-        . "EMP_PessoaEnderecoLocalizacao,"
-        . "EMP_EnderecoTelefoneDDD "
-        . "from EMP_PESSOAENDERECO"
-        . " where EMP_Codigo = " . $rowDados['CNPJFornecedor'];
+        . "emp_pessoaenderecolocalizacao,"
+        . "emp_pessoaendereco.CID_Codigo,"
+        . "emp_enderecotelefoneddd,"
+        . "CID_Descricao,"
+        . "CID_EstadoCodigo "
+        . "FROM emp_pessoaendereco "
+        . "left outer join CID_CIDADE "
+        . "on emp_pessoaendereco.CID_Codigo = CID_CIDADE.CID_Codigo "
+        . "where EMP_Codigo = " . $rowDados['CNPJFornecedor'];
 $endFornecedor = $PDO->query($sSqlEnderecoFornecedor);
 $rowEndFornecedor = $endFornecedor->fetch(PDO::FETCH_ASSOC);
 
@@ -237,38 +243,51 @@ $pdf->Cell(35, 5, mask($rowDados['CNPJFornecedor'], '##.###.###/####-##'), 'R', 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'Endereco ', 'L', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
-$pdf->Cell(115, 5, $rowEndFornecedor['EMP_EnderecoLogradouro'] . '-' . $rowEndFornecedor['EMP_EnderecoNumero'] . '-' . $rowEndFornecedor['EMP_EnderecoBairro'], '', 0, 'L');
+$pdf->Cell(115, 5, $rowEndFornecedor['emp_enderecologradouro'] . ' - ' . $rowEndFornecedor['emp_endereconumero'] . ' - ' . $rowEndFornecedor['emp_enderecobairro'], '', 0, 'L');
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(30, 5, 'Incrição Estadual ', '', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
-$pdf->Cell(35, 5, $rowEndFornecedor['EMP_EnderecoInscEstadual'], 'R', 1, 'L');
+$pdf->Cell(35, 5, $rowEndFornecedor['emp_enderecoinscestadual'], 'R', 1, 'L');
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'Cidade ', 'L', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
-$pdf->Cell(180, 5, $rowEndFornecedor['EMP_PessoaEnderecoLocalizacao'] . ' (' . $rowEndFornecedor['CID_LogradouroCEP'] . ')', 'R', 1, 'L');
+$pdf->Cell(180, 5, $rowEndFornecedor['CID_Descricao'] . ' - ' . $rowEndFornecedor['CID_EstadoCodigo'] . ' (' . $rowEndFornecedor['cid_logradourocep'] . ')', 'R', 1, 'L');
+
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'Fone ', 'L,B', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
-$pdf->Cell(80, 5, formatPhone($rowEndFornecedor['EMP_EnderecoTelefone']), 'B', 0, 'L');
+$pdf->Cell(80, 5, $rowEndFornecedor['EMP_EnderecoTelefone'], 'B', 0, 'L');
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'E-mail ', 'B', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
-$pdf->Cell(80, 5, $rowEndFornecedor['EMP_EnderecoEmail'], 'R,B', 1, 'L');
+$pdf->Cell(80, 5, $rowEndFornecedor['emp_enderecoemail'], 'R,B', 1, 'L');
+
+if ($rowDados['SUP_PEDIDOOBSERVACAO'] != '') {
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->Cell(20, 5, 'Observações Pedido ', 'L,T', 0, 'L');
+    $pdf->Cell(180, 5, '', 'R,T', 1, 'L');
+    $pdf->SetFont('Arial', 'B', 7);
+    $pdf->Cell(200, 5, $rowDados['SUP_PEDIDOOBSERVACAO'], 'B,R,L', 1, 'L');
+}
+
 //TRANSPORTADORA
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(70, 5, 'Transportador', 'L', 0, 'L');
-$pdf->Cell(20, 5, 'CNPJ', '', 0, 'L');
-$pdf->Cell(20, 5, 'Telefone', '', 0, 'L');
-$pdf->Cell(90, 5, 'Valor Frete', 'L,R', 1, 'L');
-$pdf->SetFont('Arial', '', 8);
+$pdf->Cell(30, 5, 'CNPJ', '', 0, 'L');
+$pdf->Cell(23, 5, 'Telefone', '', 0, 'L');
+$pdf->Cell(54, 5, 'Tipo de Frete', '', 0, 'L');
+$pdf->Cell(23, 5, 'Valor Frete', 'R', 1, 'L');
 
+$pdf->SetFont('Arial', '', 7);
 $pdf->Cell(70, 5, $rowTransportador['EMP_RazaoSocial'], 'B,L', 0, 'L');
-$pdf->Cell(20, 5, mask($rowDados['SUP_PedidoTransportador'], '##.###.###/####-##'), 'B', 0, 'L');
-$pdf->Cell(20, 5, '(' . $rowTransportador['EMP_EnderecoTelefoneDDD'] . ')' . $rowTransportador['EMP_EnderecoTelefone'], 'B', 0, 'L');
-$pdf->Cell(90, 5, $rowDados['SUP_PedidoVlrFrete'], 'L,B,R', 1, 'L');
+$pdf->Cell(30, 5, mask($rowDados['SUP_PedidoTransportador'], '##.###.###/####-##'), 'B', 0, 'L');
+$pdf->Cell(23, 5, formatPhone($rowTransportador['EMP_EnderecoTelefone']), 'B', 0, 'L');
+$pdf->Cell(54, 5, substr($rowTipoFrete['FRE_TipoFreteDescricao'], 0, 34), 'B', 0, 'L');
+$pdf->Cell(23, 5, $rowDados['SUP_PedidoVlrFrete'], 'B,R', 1, 'L');
+
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(90, 5, 'Tipo movimento', 'L', 0, 'L');
@@ -287,18 +306,11 @@ if ($rowDados['SUP_PEDIDOMOEDADATA'] == '01/01/1753') {
 }
 $pdf->Cell(25, 5, $rowDados['SUP_PEDIDOMOEDAVALORNEG'], 'R,B', 1, 'L');
 $pdf->SetFont('Arial', 'B', 8);
-$pdf->Cell(30, 5, 'Último Aprovador:', 'L,B', 0, 'L');
+$pdf->Cell(200, 5, 'Último Aprovador:', 'L,B,R', 1, 'L');
 $pdf->SetFont('Arial', '', 8);
-$pdf->Cell(60, 5, /* $rowDados['SUP_PedidoUsuarioAprovador'] */ '', 'B', 0, 'L');
-$pdf->SetFont('Arial', 'B', 8);
-$pdf->Cell(20, 5, 'Tipo de Frete:', 'L,B', 0, 'L');
-$pdf->SetFont('Arial', '', 8);
-$pdf->Cell(90, 5, $rowTipoFrete['FRE_TipoFreteDescricao'], 'R,B', 1, 'L');
+//$pdf->Cell(60, 5, /* $rowDados['SUP_PedidoUsuarioAprovador'] */ '', 'B', 0, 'L');
 $pdf->Ln(2);
 //----------------------FIM FORNECEDOR----------------------------------//
-
-$pdf->SetFont('Arial', 'B', 8);
-$pdf->Cell(200, 5, 'Itens do Pedido', '', 1, 'C');
 
 /* DADOS DOS ITENS */
 $sSqlItens = "select "
@@ -319,10 +331,17 @@ $dadosItens = $PDO->query($sSqlItens);
 $iTotalQuant = 0;
 $iTotalDesItens = 0;
 $iK = 0;
-
 while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     $iNumLinha = 0;
+
+    if ($pdf->GetY() >= 270) {
+        $iK = 0;
+    }
+    $pdf = quebraPagina($pdf->GetY(), $pdf);
+
     if ($iK == 0) {
+        $pdf->SetFont('Arial', 'B', 8);
+        $pdf->Cell(200, 5, 'Itens do Pedido', '', 1, 'C');
         $pdf->SetFillColor(180, 180, 180);
         $pdf->SetFont('Arial', 'B', 7);
         $pdf->Cell(20, 5, 'Código', 'L,B,T', 0, 'C', true);
@@ -336,6 +355,9 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(9, 5, '%IPI ', 'L,B,T', 0, 'L', true);
         $pdf->Cell(10, 5, '%ICMS ', 'L,B,T', 0, 'L', true);
         $pdf->Cell(12, 5, 'Entrega ', 'L,B,T,R', 1, 'L', true);
+        $pdf->Ln(2);
+    } else {
+        $pdf->Ln(2);
     }
 
     $sDescricao = str_replace(array("\n"), " ", $rowItens['SUP_PedidoItemDescricao']);
@@ -426,34 +448,26 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
             . "order by SUP_PEDIDOITEM.SUP_PedidoSeq desc";
     $dadosTopCinco = $PDO->query($sqlTopCinco);
 
+    $btop5 = false;
     while ($rowTopCinco = $dadosTopCinco->fetch(PDO::FETCH_ASSOC)) {
-
-        if ($iK == 0) {
-            $pdf->SetFont('Arial', 'B', 7);
-            $pdf->SetFillColor(230, 240, 240);
-            $pdf->Cell(200, 5, 'HISTÓRICO DE PEDIDOS DO ITEM ' . $rowItens['PRO_Codigo'], 1, 1, 'C', true);
-        }
-
         $pdf->SetFont('Arial', 'B', 6);
         $pdf->Cell(10, 4, 'Od:' . $rowTopCinco['SUP_PedidoSeq'], 'L,T,B', 0, 'L');
         $pdf->Cell(18, 4, 'Vlr Un.:' . number_format($rowTopCinco['SUP_PedidoItemValor'], 2, ',', '.'), 'T,B', 0, 'L');
         $pdf->Cell(12, 4, $rowTopCinco['SUP_PedidoItemDataNeces'], 'T,B,R', 0, 'L');
-
         $iK = 1;
+        $btop5 = true;
     }
-    if ($iK == 1) {
-        $pdf->Cell(200, 3, '', '', 1, 'L');
-        $pdf->Ln(5);
-        $iK = 0;
-    } else {
-        $iK = 1;
+    if ($iK == 1 && $btop5 == true) {
+        $pdf->Cell(200, 1, '', '', 1, 'L');
+        $pdf->Ln(3);
+        $iK = 2;
     }
-
+    $iK = 1;
     $pdf->Ln(0.2);
 }
 
 
-
+$pdf = quebraPagina($pdf->GetY(), $pdf);
 /* IMPOSTOS GERAL DO PEDIDO */
 $sSqlImpostosPedido = "select "
         . "SUP_PedidoImpostoCodigo,"
@@ -479,7 +493,7 @@ while ($rowImpostosPedidos = $dadosImpostosPedido->fetch(PDO::FETCH_ASSOC)) {
     }
 }
 
-
+$pdf = quebraPagina($pdf->GetY() + 10, $pdf);
 $pdf->Ln(4);
 $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(30, 4, 'Total Quantidade', 'L,T,R', 0, 'L');
@@ -521,13 +535,13 @@ $pdf->SetTextColor(0, 0, 255);
 $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(33, 4, number_format($rowDados['SUP_PedidoValorTotal'], 2, ',', '.'), 'L,B,R', 0, 'R');
 $pdf->Cell(2, 4, '', '', 1, 'L');
-
+$pdf = quebraPagina($pdf->GetY(), $pdf);
 $pdf->SetTextColor(0, 0, 0);
 $pdf->Ln(3);
 $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(40, 4, 'Telefone', 'L,T', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
-$pdf->Cell(160, 4, '47) 35470751', 'R,T', 1, 'L');
+$pdf->Cell(160, 4, '(47) 3547-0751', 'R,T', 1, 'L');
 $pdf->SetFont('Arial', 'B', 7);
 $pdf->Cell(40, 4, 'Usuário Comprador', 'L', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
@@ -537,7 +551,7 @@ $pdf->Cell(40, 4, 'e-mail', 'L,B', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
 $pdf->Cell(160, 4, $rowDados['USU_Email'], 'R,B', 1, 'L');
 
-
+$pdf = quebraPagina($pdf->GetY(), $pdf);
 $pdf->Ln(2);
 $pdf->SetFont('Arial', '', 7);
 $pdf->Cell(99, 4, 'Depto.Compras ', 'L,T,R', 0, 'L');
@@ -552,21 +566,25 @@ $pdf->Output('I', 'RelPedidoCompra.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE 
 
 function mask($val, $mask) {
-    if (strlen($val) < 14 && $val != null) {
-        $val = str_pad($val, 14, '0', STR_PAD_LEFT);
-    }
-    $maskared = '';
-    $k = 0;
-    for ($i = 0; $i <= strlen($mask) - 1; $i++) {
-        if ($mask[$i] == '#') {
-            if (isset($val[$k]))
-                $maskared .= $val[$k++];
-        } else {
-            if (isset($mask[$i]))
-                $maskared .= $mask[$i];
+    if ($val == null) {
+        return 0;
+    } else {
+        if (strlen($val) < 14) {
+            $val = str_pad($val, 14, '0', STR_PAD_LEFT);
         }
+        $maskared = '';
+        $k = 0;
+        for ($i = 0; $i <= strlen($mask) - 1; $i++) {
+            if ($mask[$i] == '#') {
+                if (isset($val[$k]))
+                    $maskared .= $val[$k++];
+            } else {
+                if (isset($mask[$i]))
+                    $maskared .= $mask[$i];
+            }
+        }
+        return $maskared;
     }
-    return $maskared;
 }
 
 function formatPhone($phone) {
@@ -578,4 +596,14 @@ function formatPhone($phone) {
     }
 
     return $phone; // return number without format
+}
+
+function quebraPagina($i, $pdf) {
+
+    if ($i >= 270) {    // 275 é o tamanho da página
+        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
+        $pdf->SetY(10);
+    }
+
+    return $pdf;
 }
