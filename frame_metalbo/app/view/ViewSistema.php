@@ -194,7 +194,7 @@ class ViewSistema extends View {
                 . '<i style="font-size:16px;color:#0f5539" class="icon wb-arrow-down" aria-hidden="true"></i>'
                 . '<span style="font-size:17px;color:#0f5539"> Módulos</span>'
                 . '</a>'
-                . '<ul class="dropdown-menu" role="menu" style="width:20%">'
+                . '<ul class="dropdown-menu" role="menu" style="width:30%">'
                 . '<li role="presentation">'
                 . '<div class="mega-content">'
                 . '<div class="row">'
