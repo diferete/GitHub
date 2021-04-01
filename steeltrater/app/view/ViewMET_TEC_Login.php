@@ -1,11 +1,13 @@
 <?php
 
 class ViewMET_TEC_Login extends View {
+
     public function criaTela() {
         parent::criaTela();
         $this->addCampos();
     }
-     function getTelaLogin() {
+
+    function getTelaLogin() {
         //verifica se tem o cookie
         if (isset($_COOKIE['loginUser'])) {
             $sUser = $_COOKIE['loginUser'];
@@ -18,8 +20,8 @@ class ViewMET_TEC_Login extends View {
         } else {
             $sPass = '';
         };
-        
-        if (isset($_REQUEST['soluser'])){
+
+        if (isset($_REQUEST['soluser'])) {
             $bSoluser = $_REQUEST['soluser'];
         }
 
@@ -63,8 +65,9 @@ class ViewMET_TEC_Login extends View {
                 . ' <input type="button" class="btn btn-block btn-success margin-top-40" id="btn_entrar" value="ENTRAR" onclick="requestAjax(\'frm-login\',\'MET_TEC_Login\',\'logaSistema\',\'\')" />'
                 . '</form>'
                 . '<p><a href="#" data-target="#style2538359449931f24b2" data-toggle="modal" id="solicita">Clique aqui para solicitar um usuário.</a></p>'
-                . '<a target="_blank" href="https://www.youtube.com/channel/UCO6rJtl4ePqsWRTztRFkE5w"><img src="biblioteca/assets/images/youtube.png" /></a>'
-                . '       <a target="_blank" href="http://facebook.com/metalbo.oficial"><img src="biblioteca/assets/images/face.png" /></a>'
+                . '<a target="_blank" href="https://www.youtube.com/channel/UCO6rJtl4ePqsWRTztRFkE5w"><img style="margin: 10px;" src="biblioteca/assets/images/youtube.png" /></a>'
+                . '<a target="_blank" href="http://facebook.com/metalbo.oficial"><img style="margin: 10px;" src="biblioteca/assets/images/face.png" /></a>'
+                . '<a target="_blank" href="http://177.84.0.34:8080/DelsoftX/servlet/loginerp?"><img style="width:30%;margin:10px;" src="biblioteca/assets/images/delsoft.png" /></a>'
                 . '</div>'
                 . '</div>'
                 . '<div id="resultado">'
@@ -190,24 +193,24 @@ class ViewMET_TEC_Login extends View {
                 . '</html>';
 
 
-        if ($bSoluser){
-           $sTelaIncial.='<script>'
-          .' $(document).ready(function () { '
-          .' $("#solicita").click();  ' 
-          .' alert();'
-          .'}); '
-          .'</script>';
+        if ($bSoluser) {
+            $sTelaIncial .= '<script>'
+                    . ' $(document).ready(function () { '
+                    . ' $("#solicita").click();  '
+                    . ' alert();'
+                    . '}); '
+                    . '</script>';
         }
         //verifica se tem a senha salva
-       /*  if (isset($_COOKIE['pass'])) {
-         $sTelaIncial.='<script>'
+        /*  if (isset($_COOKIE['pass'])) {
+          $sTelaIncial.='<script>'
           .' $(document).ready(function () { '
-          .' $("#btn_entrar").click();  ' 
+          .' $("#btn_entrar").click();  '
           .'}); '
           .'</script>';
-         }*/
-          
-        
+          } */
+
+
         return $sTelaIncial;
     }
 
