@@ -19,11 +19,13 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
         $this->setUsaFiltro(true);
         $this->setUsaDropdown(true);
         $this->setUsaAcaoExcluir(false);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
 
         $oFil_Codigo = new CampoConsulta('CNPJ', 'fil_codigo');
         $oFil_Codigo->setILargura(80);
 
-        $oPedidoSeq = new CampoConsulta('Seq', 'sup_pedidoseq');
+        $oPedidoSeq = new CampoConsulta('Pedido', 'sup_pedidoseq');
         $oPedidoSeq->setILargura(5);
 
         $oSituacao = new CampoConsulta('Situacao', 'sup_pedidosituacao');
@@ -43,7 +45,7 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
 
         $oPedidoHora = new CampoConsulta('Hora', 'sup_pedidohora');
 
-        $oPedidoFornecedor = new CampoConsulta('CNPJ Forne.', 'sup_pedidofornecedor');
+        $oPedidoFornecedor = new CampoConsulta('Fornecedor', 'DELX_CAD_Pessoa.emp_razaosocial');
 
         /*         * ********** DAR JOIN TABELA DE FORNECEDORES ************* */
         $oPedidoFornecedorRazao = new CampoConsulta('Fornecedor', 'sup_pedidofornecedorrazao');
@@ -58,13 +60,12 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
         $oDrop1 = new Dropdown('IMPRIMIR PEDIDO DE COMPRA', Dropdown::TIPO_PRIMARY, Dropdown::TIPO_PADRAO, 3, 3, 12, 12);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Imprimir', $this->getController(), 'acaoMostraRelConsulta', '', false, 'RelPedidoCompra', false, '', false, '', false, false);
 
-        $oFilFil_Codigo = new Filtro($oFil_Codigo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oFilPedidoSeq = new Filtro($oPedidoSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFilPedidoSeq = new Filtro($oPedidoSeq, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->addDropdown($oDrop1);
-        $this->addFiltro($oFilFil_Codigo);
+        $this->addFiltro($oFilPedidoSeq);
 
-        $this->addCampos($oFil_Codigo, $oPedidoSeq, $oSituacao, $oPedidoTipo, $oPedidoData, $oPedidoHora, $oPedidoFornecedor, $oPedidoValorTotal);
+        $this->addCampos($oFil_Codigo, $oPedidoSeq, $oSituacao, $oPedidoTipo, $oPedidoData, $oPedidoFornecedor, $oPedidoValorTotal);
     }
 
     public function criaTela() {
