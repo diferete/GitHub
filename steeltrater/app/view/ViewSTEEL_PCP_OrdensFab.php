@@ -771,6 +771,10 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $aDados = $this->getAParametrosExtras();
 
         $this->setTituloTela('Relatório de ordens de produção apontadas por forno');
+        $oField = new FieldSet('Filtro forno');
+        $oField->setOculto(true);
+        $oField1 = new FieldSet('Filtro vários fornos');
+        $oField1->setOculto(true);
         $this->setBTela(true);
 
         $oDatainicial = new Campo('Data Entrada', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
@@ -860,7 +864,12 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oTurnoEnt->addItemSelect('Turno D', 'Turno D');
         $oTurnoEnt->addItemSelect('Geral', 'Geral');
 
-        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oFornos), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $oTurnoEnt), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
+
+        $oField->addCampos(array($oFornoCod, $oFornodes));
+        $oField1->addCampos(array($oFornos));
+
+
+        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, $oField, $oLinha1, $oField1, $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $oTurnoEnt), $oLinha1, $oRetrabalho, $sLabe2, $oListaEtapa, $oLinha1, $oXls);
     }
 
     public function criaModalAponta() {
@@ -1483,7 +1492,13 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         //Relatório Faturamento
         $this->setTituloTela('Relatório de Produção');
+        $oField = new FieldSet('Filtro forno');
+        $oField->setOculto(true);
+        $oField1 = new FieldSet('Filtro vários fornos');
+        $oField1->setOculto(true);
         $this->setBTela(true);
+
+        $aDados = $this->getAParametrosExtras();
 
         //cliente
         $oEmp_codigo = new Campo('Cliente', 'emp_codigo', Campo::TIPO_BUSCADOBANCOPK, 2);
@@ -1527,6 +1542,12 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oFornoCod->setSCampoRetorno('fornocod', $this->getTela()->getId());
         $oFornoCod->addCampoBusca('fornodes', $oFornodes->getId(), $this->getTela()->getId());
 
+
+        $oFornos = new Campo('Fornos', 'fornos', Campo::TIPO_SELECTTAGS, 8, 8, 8, 8);
+        foreach ($aDados as $key => $oValue) {
+            $oFornos->addItemSelect($key, $key . ' - ' . $oValue);
+        }
+
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
@@ -1540,7 +1561,15 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oTurnoEnt->addItemSelect('Turno D', 'Turno D');
         $oTurnoEnt->addItemSelect('Geral', 'Geral');
 
-        $this->addCampos(array($oEmp_codigo, $oEmp_des), $oLinha1, array($oFornoCod, $oFornodes), $oLinha1, array($oTurnoEnt, $oResumido), $oLinha1, array($oDatainicial, $oDatafinal));
+        $oXls = new Campo('Exportar para Excel', 'excelprod', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
+        $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
+        $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","relatorioExcelProducao");';
+        $oXls->getOBotao()->addAcao($sAcaoLib);
+
+        $oField->addCampos(array($oFornoCod, $oFornodes));
+        $oField1->addCampos(array($oFornos));
+
+        $this->addCampos(array($oEmp_codigo, $oEmp_des), $oLinha1, $oField, $oField1, $oLinha1, array($oTurnoEnt, $oResumido), $oLinha1, array($oDatainicial, $oDatafinal), $oLinha1, $oXls);
     }
 
 }
