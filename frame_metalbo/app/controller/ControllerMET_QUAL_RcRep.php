@@ -38,9 +38,16 @@ class ControllerMET_QUAL_RcRep extends Controller {
         $aProd = explode(';', $sProd);
 
         $bProd = true;
+        $iCount = 0;
         foreach ($aProd as $key => $value) {
             $aProdProdutos = explode('-', $value);
-            $iCount = count($aProdProdutos);
+
+            foreach ($aProdProdutos as $key => $value) {
+                $value = trim($value);
+                if ($value != '') {
+                    $iCount++;
+                }
+            }
             if ($iCount < 4) {
                 $bProd = false;
             }
@@ -100,9 +107,16 @@ class ControllerMET_QUAL_RcRep extends Controller {
         $aProd = explode(';', $sProd);
 
         $bProd = true;
+        $iCount = 0;
         foreach ($aProd as $key => $value) {
             $aProdProdutos = explode('-', $value);
-            $iCount = count($aProdProdutos);
+
+            foreach ($aProdProdutos as $key => $value) {
+                $value = trim($value);
+                if ($value != '') {
+                    $iCount++;
+                }
+            }
             if ($iCount < 4) {
                 $bProd = false;
             }
