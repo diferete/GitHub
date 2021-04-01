@@ -1,1 +1,2 @@
-insert into MET_TEC_LogMensagens (filcgc,seq,usucodigo,datalog,horalog,mensagem,lida,usunome) values (75483040000211,1,46,'16/03/2021','10:49:18','Erro - ERRO AO INSERIR - Seu registro não foi inserido!','N','ALEXANDRE DE SOUZA')
+update tbsessao set usulastacesso = '2021-3-31 14:10:47' 
+            where usucodigo ='46' and usunome = 'Alexandre de Souza' and usuidsessao = '1aurcuitvpe9t7773jncqn2dmk'

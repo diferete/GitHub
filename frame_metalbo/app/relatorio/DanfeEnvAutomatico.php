@@ -133,7 +133,7 @@ function enviaXMLDanfe($DirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     $oEmail->setMensagem(utf8_decode('<span>Seguem XML e DANFE referente a NF.: <b> ' . $aDados[1] . '</b></span>'
                     . '<br/><br/>'
                     . '<br/><span style="font-size:50px;color:red;">E-mail enviado automaticamente, favor não responder!</span>'));
-    
+
     $oEmail->limpaDestinatariosAll();
 
     if ($aDadosNF['nfscliuf'] == 'EX') {
