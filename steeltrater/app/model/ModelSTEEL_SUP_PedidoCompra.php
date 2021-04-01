@@ -68,13 +68,28 @@ class ModelSTEEL_SUP_PedidoCompra {
     private $SUP_PedidoVlrAcrescimo;
     private $SUP_PedidoDataValidade;
     private $SUP_PedidoBxPrevisao;
-    private $SUP_PedidoOrcamento;
-    private $SUP_PedidoEnvEmaForn;
-    private $SUP_PedidoCondicaoPagDescritiv;
-    private $FIN_FormaPagamentoCodigo;
-    private $SUP_PedidoUsuarioAprovador;
-    private $SUP_PedidoEquipamento;
-    private $SUP_PedidoUsuarioResponsavel;
+
+    /*     * ****************************
+      private $SUP_PedidoOrcamento;
+      private $SUP_PedidoEnvEmaForn;
+      private $SUP_PedidoCondicaoPagDescritiv;
+      private $FIN_FormaPagamentoCodigo;
+      private $SUP_PedidoUsuarioAprovador;
+      private $SUP_PedidoEquipamento;
+      private $SUP_PedidoUsuarioResponsavel;
+     * ************************************ */
+    private $DELX_CAD_Pessoa;
+
+    function getDELX_CAD_Pessoa() {
+        if (!isset($this->DELX_CAD_Pessoa)) {
+            $this->DELX_CAD_Pessoa = Fabrica::FabricarModel('DELX_CAD_Pessoa');
+        }
+        return $this->DELX_CAD_Pessoa;
+    }
+
+    function setDELX_CAD_Pessoa($DELX_CAD_Pessoa) {
+        $this->DELX_CAD_Pessoa = $DELX_CAD_Pessoa;
+    }
 
     function getFIL_Codigo() {
         return $this->FIL_Codigo;
@@ -316,34 +331,6 @@ class ModelSTEEL_SUP_PedidoCompra {
         return $this->SUP_PedidoBxPrevisao;
     }
 
-    function getSUP_PedidoOrcamento() {
-        return $this->SUP_PedidoOrcamento;
-    }
-
-    function getSUP_PedidoEnvEmaForn() {
-        return $this->SUP_PedidoEnvEmaForn;
-    }
-
-    function getSUP_PedidoCondicaoPagDescritiv() {
-        return $this->SUP_PedidoCondicaoPagDescritiv;
-    }
-
-    function getFIN_FormaPagamentoCodigo() {
-        return $this->FIN_FormaPagamentoCodigo;
-    }
-
-    function getSUP_PedidoUsuarioAprovador() {
-        return $this->SUP_PedidoUsuarioAprovador;
-    }
-
-    function getSUP_PedidoEquipamento() {
-        return $this->SUP_PedidoEquipamento;
-    }
-
-    function getSUP_PedidoUsuarioResponsavel() {
-        return $this->SUP_PedidoUsuarioResponsavel;
-    }
-
     function setFIL_Codigo($FIL_Codigo) {
         $this->FIL_Codigo = $FIL_Codigo;
     }
@@ -582,34 +569,6 @@ class ModelSTEEL_SUP_PedidoCompra {
 
     function setSUP_PedidoBxPrevisao($SUP_PedidoBxPrevisao) {
         $this->SUP_PedidoBxPrevisao = $SUP_PedidoBxPrevisao;
-    }
-
-    function setSUP_PedidoOrcamento($SUP_PedidoOrcamento) {
-        $this->SUP_PedidoOrcamento = $SUP_PedidoOrcamento;
-    }
-
-    function setSUP_PedidoEnvEmaForn($SUP_PedidoEnvEmaForn) {
-        $this->SUP_PedidoEnvEmaForn = $SUP_PedidoEnvEmaForn;
-    }
-
-    function setSUP_PedidoCondicaoPagDescritiv($SUP_PedidoCondicaoPagDescritiv) {
-        $this->SUP_PedidoCondicaoPagDescritiv = $SUP_PedidoCondicaoPagDescritiv;
-    }
-
-    function setFIN_FormaPagamentoCodigo($FIN_FormaPagamentoCodigo) {
-        $this->FIN_FormaPagamentoCodigo = $FIN_FormaPagamentoCodigo;
-    }
-
-    function setSUP_PedidoUsuarioAprovador($SUP_PedidoUsuarioAprovador) {
-        $this->SUP_PedidoUsuarioAprovador = $SUP_PedidoUsuarioAprovador;
-    }
-
-    function setSUP_PedidoEquipamento($SUP_PedidoEquipamento) {
-        $this->SUP_PedidoEquipamento = $SUP_PedidoEquipamento;
-    }
-
-    function setSUP_PedidoUsuarioResponsavel($SUP_PedidoUsuarioResponsavel) {
-        $this->SUP_PedidoUsuarioResponsavel = $SUP_PedidoUsuarioResponsavel;
     }
 
 }
