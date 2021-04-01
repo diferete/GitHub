@@ -1302,9 +1302,11 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
      * Imprime o relatório de produção
      */
     public function mostraTelaRelProducao($renderTo, $sMetodo = '') {
+        $parame = $this->Persistencia->buscaForno();
+        $this->View->setAParametrosExtras($parame);
         parent::mostraTelaRelatorio($renderTo, 'RelProducao');
     }
-        
+
     public function relatorioExcelProducao() {
         //Explode string parametros
         $sDados = $_REQUEST['campos'];
