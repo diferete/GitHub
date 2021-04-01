@@ -45,7 +45,9 @@ $sSql = "select "
         . "SUP_PedidoValorProduto,"
         . "SUP_PedidoValorServico,"
         . "SUP_PedidoValorTotal,"
-        . "SUP_PedidoValorTotalDesconto,"
+        . "SUP_PEDIDOVLRDESCONTO,"
+        . "SUP_PEDIDOVALORDESCONTOSERVICO,"
+        . "convert(varchar,SUP_PEDIDOMOEDADATA,103)as SUP_PEDIDOMOEDADATA,"
         . "SUP_PedidoImpostoBCalculo,"
         . "SUP_PedidoImpostoValor,"
         . "SUP_PedidoObservacao,"
@@ -59,24 +61,26 @@ $sSql = "select "
         . "SUM(SUP_PedidoVlrFrete + SUP_PedidoVlrDespesa + SUP_PedidoVlrSeguro) as FreteDespesasSeguro,"
         . "SUP_PedidoTipoMovimento,"
         . "SUP_PedidoUsuario,"
-        . "SUP_PedidoUsuarioAprovador,"
+        . "/*SUP_PedidoUsuarioAprovador,*/"
         . "SUP_PedidoTransportador, "
         . "USU_Nome, "
         . "USU_Email,"
-        . "SUP_PEDIDOMOEDAVALORNEG "
+        . "SUP_PEDIDOMOEDAVALORNEG,"
+        . "SUP_PEDIDOOBSERVACAO "
         . "from SUP_PEDIDO "
         . "left outer join USU_USUARIO "
         . "on SUP_PEDIDO.SUP_PedidoUsuario = USU_USUARIO.USU_Codigo "
         . "left outer join EMP_PESSOA "
-        . "on SUP_PEDIDO.SUP_PedidoFornecedor = emp_pessoa.EMP_CNPJ "
+        . "on SUP_PEDIDO.SUP_PedidoFornecedor = emp_pessoa.EMP_Codigo "
         . "left outer join SUP_PEDIDOIMPOSTO "
         . "on SUP_PEDIDO.SUP_PedidoSeq = SUP_PEDIDOIMPOSTO.SUP_PedidoSeq "
         . "where SUP_PEDIDO.SUP_PedidoSeq = " . $SUP_PedidoSeq . " "
         . "and SUP_PEDIDO.FIL_Codigo = " . $Fil_Codigo . " "
-        . "group by SUP_PedidoData,SUP_PedidoIdentificador,SUP_PEDIDO.SUP_PedidoFornecedor,emp_pessoa.EMP_RazaoSocial,SUP_PedidoTransportador,"
-        . "SUP_PedidoValorProduto,SUP_PedidoValorServico,SUP_PedidoValorTotal,SUP_PedidoValorTotalDesconto,SUP_PedidoImpostoBCalculo,"
-        . "SUP_PedidoImpostoValor,SUP_PedidoObservacao,SUP_PedidoCondicaoPag,SUP_PedidoTipo,SUP_PedidoMoeda,SUP_PedidoTipoFrete,"
-        . "SUP_PedidoVlrFrete,SUP_PedidoVlrDespesa,SUP_PedidoVlrSeguro,SUP_PedidoTipoMovimento,SUP_PedidoUsuario,SUP_PedidoTransportador,SUP_PedidoUsuarioAprovador, USU_Nome, USU_Email, SUP_PEDIDOMOEDAVALORNEG";
+        . "group by SUP_PedidoData,SUP_PedidoIdentificador,SUP_PEDIDO.SUP_PedidoFornecedor,emp_pessoa.EMP_RazaoSocial,SUP_PedidoTransportador,SUP_PEDIDOMOEDADATA,"
+        . "SUP_PedidoValorProduto,SUP_PedidoValorServico,SUP_PedidoValorTotal,SUP_PEDIDOVLRDESCONTO,SUP_PedidoImpostoBCalculo,"
+        . "SUP_PedidoImpostoValor,SUP_PedidoObservacao,SUP_PedidoCondicaoPag,SUP_PedidoTipo,SUP_PedidoMoeda,SUP_PedidoTipoFrete,SUP_PEDIDOVALORDESCONTOSERVICO,"
+        . "SUP_PedidoVlrFrete,SUP_PedidoVlrDespesa,SUP_PedidoVlrSeguro,SUP_PedidoTipoMovimento,SUP_PedidoUsuario,SUP_PedidoTransportador,/*SUP_PedidoUsuarioAprovador,*/ USU_Nome, USU_Email, SUP_PEDIDOMOEDAVALORNEG,"
+        . "SUP_PEDIDOOBSERVACAO";
 $dadosRela = $PDO->query($sSql);
 $rowDados = $dadosRela->fetch(PDO::FETCH_ASSOC);
 
@@ -203,7 +207,7 @@ $pdf->Cell(180, 5, 'BRAÇO DO TROMBUDO - SANTA CATARINA (89178000)', 'R', 1, 'L'
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'Fone ', 'L,B', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
-$pdf->Cell(80, 5, '(47) 35470751', 'B', 0, 'L');
+$pdf->Cell(80, 5, '(47) 3547-0751', 'B', 0, 'L');
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'E-mail ', 'B', 0, 'L');
@@ -223,7 +227,7 @@ $pdf->Cell(22, 5, $rowDados['CNPJFornecedor'], '', 0, 'L');
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'Razão Social ', '', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
-$pdf->Cell(73, 5, substr($rowDados['Fornecedor'],0,48), '', 0, 'L');
+$pdf->Cell(73, 5, substr($rowDados['Fornecedor'], 0, 48), '', 0, 'L');
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(30, 5, 'CNPJ ', '', 0, 'L');
@@ -247,7 +251,7 @@ $pdf->Cell(180, 5, $rowEndFornecedor['EMP_PessoaEnderecoLocalizacao'] . ' (' . $
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'Fone ', 'L,B', 0, 'L');
 $pdf->SetFont('Arial', '', 7);
-$pdf->Cell(80, 5, '(' . $rowEndFornecedor['EMP_EnderecoTelefoneDDD'] . ')' . $rowEndFornecedor['EMP_EnderecoTelefone'], 'B', 0, 'L');
+$pdf->Cell(80, 5, formatPhone($rowEndFornecedor['EMP_EnderecoTelefone']), 'B', 0, 'L');
 
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'E-mail ', 'B', 0, 'L');
@@ -276,12 +280,16 @@ $pdf->SetFont('Arial', '', 8);
 $pdf->Cell(90, 5, $rowTipoMovimento['NFS_TipoMovimentoDescricao'], 'L,B', 0, 'L');
 $pdf->Cell(40, 5, $rowCondPag['CPG_Descricao'], 'L,B', 0, 'L');
 $pdf->Cell(20, 5, $rowDados['SUP_PedidoMoeda'], 'B', 0, 'L');
-$pdf->Cell(25, 5, $rowDados['SUP_PedidoData'], 'B', 0, 'L');
+if ($rowDados['SUP_PEDIDOMOEDADATA'] == '01/01/1753') {
+    $pdf->Cell(25, 5, ' /  /  ', 'B', 0, 'L');
+} else {
+    $pdf->Cell(25, 5, $rowDados['SUP_PEDIDOMOEDADATA'], 'B', 0, 'L');
+}
 $pdf->Cell(25, 5, $rowDados['SUP_PEDIDOMOEDAVALORNEG'], 'R,B', 1, 'L');
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(30, 5, 'Último Aprovador:', 'L,B', 0, 'L');
 $pdf->SetFont('Arial', '', 8);
-$pdf->Cell(60, 5, $rowDados['SUP_PedidoUsuarioAprovador'], 'B', 0, 'L');
+$pdf->Cell(60, 5, /* $rowDados['SUP_PedidoUsuarioAprovador'] */ '', 'B', 0, 'L');
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(20, 5, 'Tipo de Frete:', 'L,B', 0, 'L');
 $pdf->SetFont('Arial', '', 8);
@@ -309,12 +317,11 @@ $sSqlItens = "select "
         . "and FIL_Codigo = " . $Fil_Codigo . "";
 $dadosItens = $PDO->query($sSqlItens);
 $iTotalQuant = 0;
-$iTotalIPI = 0;
-$iTotalICMS = 0;
 $iTotalDesItens = 0;
 $iK = 0;
-while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
 
+while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
+    $iNumLinha = 0;
     if ($iK == 0) {
         $pdf->SetFillColor(180, 180, 180);
         $pdf->SetFont('Arial', 'B', 7);
@@ -331,70 +338,92 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
         $pdf->Cell(12, 5, 'Entrega ', 'L,B,T,R', 1, 'L', true);
     }
 
+    $sDescricao = str_replace(array("\n"), " ", $rowItens['SUP_PedidoItemDescricao']);
 
-    /* IMPOSTOS GERAL DO PEDIDO */
-    $sSqlImpostos = "select "
-            . "SUP_PedidoImpostoCodigo,"
-            . "SUP_PedidoImpostoBCalculo,"
-            . "SUP_PedidoImpostoValor "
-            . "from "
-            . "SUP_PEDIDOIMPOSTO "
+    $total_string_width = $pdf->GetStringWidth($sDescricao);
+    $column_width = 70;
+    $number_of_lines = $total_string_width / ($column_width - 3);
+    $number_of_lines = ceil($number_of_lines);
+    $line_height = 4;
+    $height_of_cell = $number_of_lines * $line_height;
+    $height_of_cell = ceil($height_of_cell);
+
+    $pdf->SetFont('Arial', '', 6);
+    $pdf->Cell(6, $height_of_cell, $rowItens['SUP_PedidoItemSeq'], 'L,B,T', 0, 'L');
+    $pdf->Cell(14, $height_of_cell, $rowItens['PRO_Codigo'], 'L,B,T', 0, 'L');
+    $pdf->MultiAlignCell(70, 4, $rowItens['SUP_PedidoItemDescricao'], 'L,B,T', 0, 'L');
+    $pdf->Cell(6, $height_of_cell, rtrim($rowItens['SUP_PedidoItemUnidade']), 'L,B,T', 0, 'C');
+    $pdf->Cell(16, $height_of_cell, number_format($rowItens['SUP_PedidoItemComQtd'], 6, ',', '.'), 'L,B,T', 0, 'R');
+    $pdf->Cell(15, $height_of_cell, number_format($rowItens['SUP_PedidoItemComConv'], 6, ',', '.'), 'L,B,T', 0, 'R');
+    $pdf->Cell(15, $height_of_cell, number_format($rowItens['SUP_PedidoItemValor'], 5, ',', '.'), 'L,B,T', 0, 'R');
+    $pdf->Cell(14, $height_of_cell, number_format($rowItens['SUP_PedidoItemComQtd'] * $rowItens['SUP_PedidoItemValor'], 2, ',', '.'), 'L,B,T', 0, 'R');
+    $pdf->Cell(13, $height_of_cell, number_format($rowItens['SUP_PedidoItemVlrDesconto'], 2, ',', '.'), 'L,B,T', 0, 'R');
+
+
+    /* IMPOSTOS POR ITEM */
+    $sSqlImpostosItem = "select "
+            . "SUP_PedidoItemIImposto,"
+            . "SUP_PedidoItemIValor,"
+            . "SUP_PedidoItemIAliquota "
+            . "from SUP_PEDIDOITEMI "
             . "where SUP_PedidoSeq = " . $SUP_PedidoSeq . " "
-            . "and FIL_Codigo = " . $Fil_Codigo . "";
-    $dadosImposts = $PDO->query($sSqlImpostos);
-    $rowImpostos = $dadosImposts->fetch(PDO::FETCH_ASSOC);
+            . "and SUP_PedidoItemSeq =" . $rowItens['SUP_PedidoItemSeq'] . " "
+            . "and FIL_Codigo = " . $Fil_Codigo . " "
+            . "order by SUP_PedidoItemIImposto desc";
+    $dadosImpostosItem = $PDO->query($sSqlImpostosItem);
     /* Tabela com os tipos de impostos para comparação
       FIS_ImpostoCodigo	FIS_ImpostoDescricao
       1	ICMS
       3	IPI */
 
-    $pdf->SetFont('Arial', '', 6);
-    $pdf->Cell(6, 4, $rowItens['SUP_PedidoItemSeq'], 'L,B,T', 0, 'L');
-    $pdf->Cell(14, 4, $rowItens['PRO_Codigo'], 'L,B,T', 0, 'L');
-    $pdf->Cell(70, 4, substr($rowItens['SUP_PedidoItemDescricao'],0,56), 'L,B,T', 0, 'L');
-    $pdf->Cell(6, 4, rtrim($rowItens['SUP_PedidoItemUnidade']), 'L,B,T', 0, 'C');
-    $pdf->Cell(16, 4, number_format($rowItens['SUP_PedidoItemComQtd'], 6, ',', '.'), 'L,B,T', 0, 'R');
-    $pdf->Cell(15, 4, number_format($rowItens['SUP_PedidoItemComConv'], 6, ',', '.'), 'L,B,T', 0, 'R');
-    $pdf->Cell(15, 4, number_format($rowItens['SUP_PedidoItemValor'], 5, ',', '.'), 'L,B,T', 0, 'R');
-    $pdf->Cell(14, 4, number_format($rowItens['SUP_PedidoItemComQtd'] * $rowItens['SUP_PedidoItemValor'], 2, ',', '.'), 'L,B,T', 0, 'R');
-    $pdf->Cell(13, 4, number_format($rowItens['SUP_PedidoItemVlrDesconto'], 2, ',', '.'), 'L,B,T', 0, 'R');
-    //%IPI
-    if ($rowImpostos['SUP_PedidoImpostoCodigo'] == '3') {
-        $pdf->Cell(9, 4, number_format($rowImpostos['SUP_PedidoImpostoValor'], 3, ',', '.'), 'L,B,T', 0, 'L');
-        $iTotalIPI = $rowImpostos['SUP_PedidoImpostoValor'] + $iTotalIPI;
-    } else {
-        $pdf->Cell(9, 4, '0,000', 'L,B,T', 0, 'L');
+    $bIpi = false;
+    $bIcms = false;
+    while ($rowImpostosItem = $dadosImpostosItem->fetch(PDO::FETCH_ASSOC)) {
+        //%IPI
+        if ($rowImpostosItem['SUP_PedidoItemIImposto'] == '3') {
+            $pdf->Cell(9, $height_of_cell, number_format($rowImpostosItem['SUP_PedidoItemIAliquota'], 3, ',', '.'), 'L,B,T', 0, 'L');
+            $bIpi = true;
+        }
+        //%ICMS
+        if ($rowImpostosItem['SUP_PedidoItemIImposto'] == '1' && $bIpi == false) {
+            $pdf->Cell(9, $height_of_cell, '0,000', 'L,B,T', 0, 'L');
+            $pdf->Cell(10, $height_of_cell, number_format($rowImpostosItem['SUP_PedidoItemIAliquota'], 3, ',', '.'), 'L,B,T', 0, 'L');
+            $bIcms = true;
+        } elseif ($rowImpostosItem['SUP_PedidoItemIImposto'] == '1' && $bIpi == true) {
+            $pdf->Cell(10, $height_of_cell, number_format($rowImpostosItem['SUP_PedidoItemIAliquota'], 3, ',', '.'), 'L,B,T', 0, 'L');
+            $bIcms = true;
+        }
+    }
+    if ($bIpi == true && $bIcms == false) {
+        $pdf->Cell(10, $height_of_cell, '0,00000', 'L,B,T', 0, 'L');
+    } elseif ($bIpi == false && $bIcms == false) {
+        $pdf->Cell(9, $height_of_cell, '0,000', 'L,B,T', 0, 'L');
+        $pdf->Cell(10, $height_of_cell, '0,00000', 'L,B,T', 0, 'L');
     }
 
-    //%ICMS
-    if ($rowImpostos['SUP_PedidoImpostoCodigo'] == '1') {
-        $pdf->Cell(10, 4, number_format($rowImpostos['SUP_PedidoImpostoValor'], 3, ',', '.'), 'L,B,T', 0, 'L');
-        $iTotalICMS = $rowImpostos['SUP_PedidoImpostoValor'] + $iTotalICMS;
-    } else {
-        $pdf->Cell(10, 4, '0,00000', 'L,B,T', 0, 'L');
-    }
-
-    $pdf->Cell(12, 4, $rowItens['SUP_PedidoItemDataEntrega'], 'L,B,T,R', 1, 'L');
+    $pdf->Cell(12, $height_of_cell, $rowItens['SUP_PedidoItemDataEntrega'], 'L,B,T,R', 1, 'L');
 
     $iTotalQuant = $rowItens['SUP_PedidoItemComQtd'] + $iTotalQuant;
     $iTotalDesItens = $rowItens['SUP_PedidoItemVlrDesconto'] + $iTotalDesItens;
 
-    $sqlTopCinco = "select top 5
-                    SUP_PEDIDOITEM.SUP_PedidoSeq,
-                    PRO_Codigo,
-                    SUP_PedidoItemDescricao,
-                    SUP_PedidoItemUnidade,
-                    SUP_PedidoItemQtd,
-                    SUP_PedidoItemValor,
-                    SUP_PedidoItemValorTotal,
-                    SUP_PedidoItemIImposto,
-                    SUP_PedidoItemDataNeces
-                    from SUP_PEDIDOITEM
-                    left outer join SUP_PEDIDOITEMI on
-                    SUP_PEDIDOITEM.SUP_PedidoSeq = SUP_PEDIDOITEMI.SUP_PedidoSeq
-                    where SUP_PEDIDOITEM.FIL_Codigo = " . $Fil_Codigo . "
-                    and PRO_Codigo = " . $rowItens['PRO_Codigo'] . "
-                    and SUP_PEDIDOITEM.SUP_PedidoSeq < " . $SUP_PedidoSeq . " order by SUP_PEDIDOITEM.SUP_PedidoSeq desc";
+    $sqlTopCinco = "select "
+            . "top 5 "
+            . "SUP_PEDIDOITEM.SUP_PedidoSeq, "
+            . "PRO_Codigo,"
+            . "SUP_PedidoItemDescricao,"
+            . "SUP_PedidoItemUnidade,"
+            . "SUP_PedidoItemQtd,"
+            . "SUP_PedidoItemValor,"
+            . "SUP_PedidoItemValorTotal,"
+            . "SUP_PedidoItemIImposto,"
+            . "convert(varchar,SUP_PedidoItemDataNeces,103)as SUP_PedidoItemDataNeces "
+            . "from SUP_PEDIDOITEM "
+            . "left outer join SUP_PEDIDOITEMI "
+            . "on SUP_PEDIDOITEM.SUP_PedidoSeq = SUP_PEDIDOITEMI.SUP_PedidoSeq "
+            . "where SUP_PEDIDOITEM.FIL_Codigo = " . $Fil_Codigo . " "
+            . "and PRO_Codigo = " . $rowItens['PRO_Codigo'] . " "
+            . "and SUP_PEDIDOITEM.SUP_PedidoSeq < " . $SUP_PedidoSeq . " "
+            . "order by SUP_PEDIDOITEM.SUP_PedidoSeq desc";
     $dadosTopCinco = $PDO->query($sqlTopCinco);
 
     while ($rowTopCinco = $dadosTopCinco->fetch(PDO::FETCH_ASSOC)) {
@@ -402,12 +431,13 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
         if ($iK == 0) {
             $pdf->SetFont('Arial', 'B', 7);
             $pdf->SetFillColor(230, 240, 240);
-            $pdf->Cell(200, 5, 'HISTÓRICO DE PEDIDOS DO ITEM', 1, 1, 'C', true);
+            $pdf->Cell(200, 5, 'HISTÓRICO DE PEDIDOS DO ITEM ' . $rowItens['PRO_Codigo'], 1, 1, 'C', true);
         }
 
-        $pdf->SetFont('Arial', 'B', 7);
-        $pdf->Cell(12, 4, 'OD: ' . $rowTopCinco['SUP_PedidoSeq'], 'L,T,B', 0, 'L');
-        $pdf->Cell(28, 4, 'Valor Un.: ' . number_format($rowTopCinco['SUP_PedidoItemValor'], 2, ',', '.'), 'T,B,R', 0, 'L');
+        $pdf->SetFont('Arial', 'B', 6);
+        $pdf->Cell(10, 4, 'Od:' . $rowTopCinco['SUP_PedidoSeq'], 'L,T,B', 0, 'L');
+        $pdf->Cell(18, 4, 'Vlr Un.:' . number_format($rowTopCinco['SUP_PedidoItemValor'], 2, ',', '.'), 'T,B', 0, 'L');
+        $pdf->Cell(12, 4, $rowTopCinco['SUP_PedidoItemDataNeces'], 'T,B,R', 0, 'L');
 
         $iK = 1;
     }
@@ -420,6 +450,33 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     }
 
     $pdf->Ln(0.2);
+}
+
+
+
+/* IMPOSTOS GERAL DO PEDIDO */
+$sSqlImpostosPedido = "select "
+        . "SUP_PedidoImpostoCodigo,"
+        . "SUP_PedidoImpostoBCalculo,"
+        . "SUP_PedidoImpostoValor "
+        . "from "
+        . "SUP_PEDIDOIMPOSTO "
+        . "where SUP_PedidoSeq = " . $SUP_PedidoSeq . " "
+        . "and FIL_Codigo = " . $Fil_Codigo . "";
+$dadosImpostosPedido = $PDO->query($sSqlImpostosPedido);
+$iTotalIPI = 0;
+$iTotalICMS = 0;
+while ($rowImpostosPedidos = $dadosImpostosPedido->fetch(PDO::FETCH_ASSOC)) {
+    /* Tabela com os tipos de impostos para comparação
+      FIS_ImpostoCodigo	FIS_ImpostoDescricao
+      1	ICMS
+      3	IPI */
+    if ($rowImpostosPedidos['SUP_PedidoImpostoCodigo'] == '3') {
+        $iTotalIPI = $rowImpostosPedidos['SUP_PedidoImpostoValor'];
+    }
+    if ($rowImpostosPedidos['SUP_PedidoImpostoCodigo'] == '1') {
+        $iTotalICMS = $rowImpostosPedidos['SUP_PedidoImpostoValor'];
+    }
 }
 
 
@@ -444,7 +501,7 @@ $pdf->Cell(28, 4, number_format($iTotalIPI, 2, ',', '.'), 'L,B,R', 0, 'R');
 $pdf->Cell(5, 4, '', '', 0, 'L');
 $pdf->Cell(28, 4, number_format($iTotalICMS, 2, ',', '.'), 'L,B,R', 0, 'R');
 $pdf->Cell(5, 4, '', '', 0, 'L');
-$pdf->Cell(28, 4, number_format($rowDados['SUP_PedidoValorTotalDesconto'], 2, ',', '.'), 'L,B,R', 0, 'R');
+$pdf->Cell(28, 4, number_format($rowDados['SUP_PEDIDOVLRDESCONTO'] + $rowDados['SUP_PEDIDOVALORDESCONTOSERVICO'], 2, ',', '.'), 'L,B,R', 0, 'R');
 $pdf->Cell(5, 4, '', '', 0, 'L');
 $pdf->Cell(28, 4, number_format($iTotalDesItens, 2, ',', '.'), 'L,B,R', 0, 'R');
 $pdf->Cell(5, 4, '', '', 0, 'L');
@@ -495,6 +552,9 @@ $pdf->Output('I', 'RelPedidoCompra.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE 
 
 function mask($val, $mask) {
+    if (strlen($val) < 14 && $val != null) {
+        $val = str_pad($val, 14, '0', STR_PAD_LEFT);
+    }
     $maskared = '';
     $k = 0;
     for ($i = 0; $i <= strlen($mask) - 1; $i++) {
@@ -507,4 +567,15 @@ function mask($val, $mask) {
         }
     }
     return $maskared;
+}
+
+function formatPhone($phone) {
+    $formatedPhone = preg_replace('/[^0-9]/', '', $phone);
+    $matches = [];
+    preg_match('/^([0-9]{2})([0-9]{4,5})([0-9]{4})$/', $formatedPhone, $matches);
+    if ($matches) {
+        return '(' . $matches[1] . ') ' . $matches[2] . '-' . $matches[3];
+    }
+
+    return $phone; // return number without format
 }
