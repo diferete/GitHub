@@ -77,39 +77,58 @@ if (isset($_REQUEST['listaEtapa'])) {
 
 //busca os dados do banco
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
-$sSqli = "select STEEL_PCP_ordensFabApont.op,STEEL_PCP_ordensFabApont.fornodes, steel_pcp_ordensfabapont.turnoSteel,
-               STEEL_PCP_ordensFabApont.prodes,convert(varchar,steel_pcp_ordensfabapont.dataent_forno,103)as dataent_forno,
-               convert(varchar,steel_pcp_ordensfabapont.horaent_forno,8)as horaent_forno,
-               convert(varchar,steel_pcp_ordensfabapont.datasaida_forno,103)as datasaida_forno,
-               convert(varchar,steel_pcp_ordensfabapont.horasaida_forno,8)as horasaida_forno,STEEL_PCP_ordensFab.peso,quant,documento,
-               STEEL_PCP_ordensFab.situacao,steel_pcp_ordensfab.emp_razaosocial,emp_pessoa.emp_fantasia,convert(varchar,data,103)as data,
-               steel_pcp_ordensfabapont.dataent_forno as dataent_forno2,tratdes, SUBSTRING(steel_pcp_ordensfabapont.usernome, 1,16) as userEntrada
-               from STEEL_PCP_ordensFabApont left outer join STEEL_PCP_ordensFab
-               on STEEL_PCP_ordensFabApont.op = STEEL_PCP_ordensFab.op left outer join steel_pcp_ordensfabitens
-               on STEEL_PCP_ordensFab.op = steel_pcp_ordensfabitens.op and steel_pcp_ordensfabitens.opseq = 1 left outer join steel_pcp_tratamentos
-	       on steel_pcp_ordensfabitens.tratamento = steel_pcp_tratamentos.tratcod left outer join emp_pessoa
-	       on steel_pcp_ordensfab.emp_codigo = emp_pessoa.emp_codigo
-               where steel_pcp_ordensfabapont.dataent_forno between '" . $dtinicial . "' and '" . $dtfinal . "'";
+$sSqli = "SELECT steel_pcp_ordensfabitens.op,"
+        . "steel_pcp_ordensfabitens.fornodes,"
+        . "steel_pcp_ordensfabitens.turnosteel,"
+        . "steel_pcp_ordensfabapont.prodes,"
+        . "CONVERT(VARCHAR,steel_pcp_ordensfabapont.dataent_forno,103) AS dataent_forno,"
+        . "CONVERT(VARCHAR,steel_pcp_ordensfabapont.horaent_forno,8) AS horaent_forno,"
+        . "CONVERT(VARCHAR,steel_pcp_ordensfabapont.datasaida_forno,103) AS datasaida_forno,"
+        . "CONVERT(VARCHAR,steel_pcp_ordensfabapont.horasaida_forno,8) AS horasaida_forno,"
+        . "steel_pcp_ordensfab.peso,"
+        . "quant,"
+        . "documento,"
+        . "steel_pcp_ordensfab.situacao,"
+        . "steel_pcp_ordensfab.emp_razaosocial,"
+        . "emp_pessoa.emp_fantasia,"
+        . "CONVERT(VARCHAR,data,103) AS data,"
+        . "steel_pcp_ordensfabapont.dataent_forno AS dataent_forno2,"
+        . "tratdes,"
+        . "Substring(steel_pcp_ordensfabapont.usernome, 1, 16) AS userEntrada "
+        . "FROM steel_pcp_ordensfabitens "
+        . "LEFT OUTER JOIN steel_pcp_ordensfab "
+        . "ON steel_pcp_ordensfabitens.op = steel_pcp_ordensfab.op "
+        . "LEFT OUTER JOIN STEEL_PCP_ordensFabApont "
+        . "ON steel_pcp_ordensfabitens.op = STEEL_PCP_ordensFabApont.op "
+        . "LEFT OUTER JOIN steel_pcp_tratamentos "
+        . "ON steel_pcp_ordensfabitens.tratamento = steel_pcp_tratamentos.tratcod "
+        . "LEFT OUTER JOIN emp_pessoa "
+        . "ON steel_pcp_ordensfab.emp_codigo = emp_pessoa.emp_codigo "
+        . "left outer join STEEL_PCP_receitasItens "
+        . "ON STEEL_PCP_ordensFabItens.receita = STEEL_PCP_receitasItens.cod "
+        . "and STEEL_PCP_ordensFabItens.receita_seq = STEEL_PCP_receitasItens.seq "
+        . "WHERE steel_pcp_ordensfabapont.dataent_forno BETWEEN '" . $dtinicial . "' AND '" . $dtfinal . "' "
+        . "and recApont = 'SIM' ";
 if ($iEmpCodigo !== '') {
     $sSqli .= " and steel_pcp_ordensfab.emp_codigo ='" . $iEmpCodigo . "'";
 }
 if ($iFornoCod !== '') {
-    $sSqli .= " and STEEL_PCP_ordensFabApont.fornocod ='" . $iFornoCod . "'";
+    $sSqli .= " and steel_pcp_ordensfabitens.fornocod ='" . $iFornoCod . "'";
 }
 if ($sFornos !== '') {
-    $sSqli .= " and STEEL_PCP_ordensFabApont.fornocod in(" . $sFornos . ")";
+    $sSqli .= " and steel_pcp_ordensfabitens.fornocod in(" . $sFornos . ")";
 }
 if ($sSituacao !== 'Todas') {
     if ($sSituacao == 'Processo') {
-        $sSqli .= " and STEEL_PCP_ordensFabApont.situacao='Processo' ";
+        $sSqli .= " and steel_pcp_ordensfabitens.situacao = 'Processo' ";
     } else {
-        $sSqli .= " and STEEL_PCP_ordensFabApont.situacao='Finalizado' ";
+        $sSqli .= " and steel_pcp_ordensfabitens.situacao = 'Finalizado' ";
     }
 }
 if ($sRetrabalho != 'Incluir') {
-    $sSqli .= " and retrabalho='" . $sRetrabalho . "' ";
+    $sSqli .= " and retrabalho = '" . $sRetrabalho . "' ";
 } else {
-    $sSqli .= " and retrabalho<>'Retorno não Ind.' ";
+    $sSqli .= " and retrabalho <> 'Retorno não Ind.' ";
 }
 
 $sSqli .= "order by dataent_forno2";
@@ -121,7 +140,20 @@ $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(32, 10, 'Filtros escolhidos:', '', 0, 'L', 0);
 
 if ($sFornodes == null) {
-    $sFornodes = 'Todos';
+    if ($sFornos == null) {
+        $sFornoDesFiltro = 'Todos';
+    } else {
+        $sSqlFornoDes = "select fornodes from STEEL_PCP_FORNO where fornocod in (" . $sFornos . ")";
+        $fornodes = $PDO->query($sSqlFornoDes);
+        $sFornoDesFiltro = '';
+        while ($rowFornoFiltro = $fornodes->fetch(PDO::FETCH_ASSOC)) {
+            if ($sFornoDesFiltro == '') {
+                $sFornoDesFiltro = $rowFornoFiltro['fornodes'];
+            } else {
+                $sFornoDesFiltro .= ', ' . $rowFornoFiltro['fornodes'];
+            }
+        }
+    }
 }
 if ($iEmpCodigo == null) {
     $iEmpCodigo = 'Todos';
@@ -131,7 +163,7 @@ if ($iEmpCodigo == null) {
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(50, 10, 'Data inicial: ' . $dtinicial .
         '   Data final: ' . $dtfinal .
-        '   Forno: ' . $sFornodes .
+        '   Forno: ' . $sFornoDesFiltro .
         '   Situação: ' . $sSituacao .
         '   Retrabalho: ' . $sRetrabalho .
         ' ', '', 1, 'L', 0);
@@ -180,7 +212,7 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
     $pdf->SetFont('Arial', '', 7);
     $pdf->Cell(13, 5, $row['horaent_forno'], 'B,T,L,R', 0, 'L');
     $pdf->SetFont('Arial', '', 7);
-    $pdf->Cell(11, 5, $row['turnoSteel'], 'B,T,L,R', 0, 'L');
+    $pdf->Cell(11, 5, $row['turnosteel'], 'B,T,L,R', 0, 'L');
     $pdf->SetFont('Arial', '', 6);
     $pdf->Cell(20, 5, $row['userEntrada'] . '.', 'B,T,L,R', 0, 'L');
     $pdf->SetFont('Arial', '', 6);
@@ -203,7 +235,7 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
     if ($sListaEtapa) {
         $sSqliEtapas = "select opseq,tratamento,tratdes,situacao,fornodes,
                         convert(varchar,dataent_forno,103)as dataent_forno,
-                        horaent_forno,turnoSteel,usernome,
+                        horaent_forno,turnosteel,usernome,
                         convert(varchar,datasaida_forno,103)as datasaida_forno,
                         horasaida_forno,usernomesaida,turnoSteelSaida
                         from STEEL_PCP_ordensFabItens left outer join STEEL_PCP_tratamentos
@@ -222,7 +254,7 @@ while ($row = $dadosRela->fetch(PDO::FETCH_ASSOC)) {
             $pdf->Cell(18, 5, $rowEtapas['dataent_forno'], 0, 0, 'L');
             $pdf->SetFont('Arial', '', 7);
             $pdf->Cell(20, 5, 'Hora:' . substr($rowEtapas['horaent_forno'], 0, 8), 0, 0, 'L');
-            $pdf->Cell(15, 5, $rowEtapas['turnoSteel'], 0, 0, 'L');
+            $pdf->Cell(15, 5, $rowEtapas['turnosteel'], 0, 0, 'L');
             $pdf->Cell(40, 5, $rowEtapas['usernome'], 0, 0, 'L');
 
 
