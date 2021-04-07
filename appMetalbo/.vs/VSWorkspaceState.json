@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\api",
+    "\\src\\app\\fat-metalbo",
+    "\\src\\app\\lista-fofatizacao-detalhe",
+    "\\src\\app\\lista-fosfatizacao",
+    "\\src\\app\\principal"
+  ],
+  "SelectedNode": "\\src\\app\\api\\conexao.service.ts",
+  "PreviewInSolutionExplorer": false
+}

@@ -62,23 +62,22 @@ class Config {
       const HOST_BD = 'MetalboServer';
     const PASS_BD = 'M@quinas@321';*/
     
-    /*
+    
     const TIPO_BD = self::BD_SQLSERVER;
     const PORTA_BD = 1433;
     const USER_BD  = 'sa';
     const NOME_BD  = 'PROTOT';
     const HOST_BD  = 'METALBOBASE';
     const PASS_BD  = 'Met@lbo@4321';
-     * 
-     */
+     
     
-    
+    /*
       const TIPO_BD = self::BD_SQLSERVER;
       const PORTA_BD = 1433;
       const USER_BD  = 'sa';
       const NOME_BD  = 'METALBOBASE';
       const HOST_BD  = 'METALBOBASE';
-      const PASS_BD  = 'Met@lbo@4321';
+      const PASS_BD  = 'Met@lbo@4321';*/
     
 }
 

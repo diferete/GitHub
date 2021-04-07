@@ -1,0 +1,27 @@
+﻿<ion-header>
+    <ion-toolbar color="azulPoliamidos">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Faturamento Poliamidos</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item>
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-label>Data Inicial</ion-label>
+        <ion-datetime displayFormat="DD/MMM/YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="dataInicial"
+            monthShortNames='Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setetembro, Outubro, Novembro, Dezembro'
+            cancelText="Cancelar" doneText="Selecionar"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-label>Data Final</ion-label>
+        <ion-datetime displayFormat="DD/MMM/YYYY" pickerFormat="DD MMM YYYY" [(ngModel)]="dataInicial"
+            monthShortNames='Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setetembro, Outubro, Novembro, Dezembro'
+            cancelText="Cancelar" doneText="Selecionar"></ion-datetime>
+    </ion-item>
+    <ion-button expand="full" fill="outline">Pesquisar</ion-button>
+</ion-content>

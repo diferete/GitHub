@@ -37,6 +37,8 @@ class ViewSTEEL_PCP_TabItemPreco extends View {
     function criaGridDetalhe() {
         parent::criaGridDetalhe($sIdAba);
 
+        $this->getOGridDetalhe()->setBFiltroDetalhe(true);
+
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
@@ -55,6 +57,17 @@ class ViewSTEEL_PCP_TabItemPreco extends View {
         $oTipo->addComparacao('INSUMO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oTipo->addComparacao('SERVIÇO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, '');
         $oTipo->addComparacao('ENERGIA', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_ROXO, CampoConsulta::MODO_COLUNA, false, '');
+
+        $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $aChave = $_REQUEST['parametrosCampos'];
+        sort($aChave);
+        $oFilNr->setSValor($aChave[0]);
+        $oFilNr->setBCampoBloqueado(true);
+
+        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+
+        $this->getOGridDetalhe()->addFiltroDetalhe($oFilNr, $oFilSeq);
+
         $this->addCamposDetalhe($oNr, $oSeq, $oRec, $oRecDes, $oPro, $oProdDes, $oPre, $oNcm, $oTipo);
         $this->addGriTela($this->getOGridDetalhe());
     }

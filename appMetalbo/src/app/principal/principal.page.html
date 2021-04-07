@@ -1,0 +1,137 @@
+﻿<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="logout()">
+                <!--  <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>-->
+                <ion-icon slot="icon-only" name="enter-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+</ion-header>
+<!-- <ion-header>
+      <ion-toolbar color="verdeMetalbo">
+          <ion-buttons slot="start">
+              <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>
+
+          </ion-title>
+      </ion-toolbar>
+  </ion-header>-->
+
+<ion-content>
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Puxe para atualizar..."
+            refreshingSpinner="crescent" refreshingText="Atualizando seus dados...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+
+
+    <img src="./assets/img/MetalboAppStart.png">
+
+    <!--<ion-card style="margin-top:15px;margin-bottom:15px;">
+        <ion-card-header>
+            <ion-card-subtitle style="align-content:center;color:black;text-align:center;">Metalbo Fixadores
+            </ion-card-subtitle>
+        </ion-card-header>
+    </ion-card>-->
+    <div class="header_buttons_allign">
+
+        <ion-button size="small" color="secondary" (click)='getPedCompra()'>
+            <ion-icon name="arrow-redo-sharp" style="margin-right: 2px;"></ion-icon>
+        </ion-button>
+        <!--<ion-button size="small" color="secondary">
+            <ion-icon name="stats-chart-sharp"></ion-icon>
+        </ion-button>
+        <ion-button size="small" color="tertiary">
+            <ion-icon name="beer-sharp"></ion-icon>
+        </ion-button>
+        <ion-button size="small" color="danger">
+            <ion-icon name="alert-sharp" style="margin-right: 2px;"></ion-icon>
+        </ion-button>-->
+    </div>
+
+    <!--<ion-button color="verdeMetalbo" expand="block" (click)='getPainelFat()'>Atualizar</ion-button> -->
+    <ion-list *ngIf="painelFatMetalbo=='Faturamento Metalbo'">
+        <ion-list-header color="verdeMetalbo" class="gradGreen">
+            <ion-label style="color:aliceblue;font-size:17px;margin: 0px 0px 6px 0px;">{{painelFatMetalbo}}
+            </ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let p of painelDadosFatMetalbo; let i = index">
+            <ion-col size="6">{{p.title}} </ion-col>
+            <ion-col size="6" [ngClass]="{'redFat': p.title=='Fat. Hoje' || p.title=='Fat. Mês',
+                        'blueFat': p.title=='Peso Hoje' || p.title=='Peso Mês'
+                         }"><b>{{p.value}}</b></ion-col>
+        </ion-item>
+
+    </ion-list>
+
+    <ion-list *ngIf="painelPedMetalbo=='Pedidos Metalbo'">
+        <ion-list-header color="verdeMetalbo" class="gradGreen">
+            <ion-label style="color:aliceblue; font-size:17px;margin: 0px 0px 6px 0px;">{{painelPedMetalbo}}
+            </ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let p of painelDadosPedMetalbo; let i = index">
+            <ion-col size="6">{{p.title}} </ion-col>
+            <ion-col size="6" [ngClass]="{'redFat': p.title=='Valor Hoje' || p.title=='Valor Mês',
+                        'blueFat': p.title=='Pedidos Hoje' || p.title=='Pedidos Mês'
+                         }"><b>{{p.value}}</b></ion-col>
+        </ion-item>
+
+    </ion-list>
+
+    <ion-list *ngIf="painelProdMetalbo=='Produção Metalbo'">
+        <ion-list-header color="vermelhoSteel" class="gradGreen">
+            <ion-label style="color:aliceblue;font-size:17px;margin: 0px 0px 6px 0px;">{{painelProdMetalbo}}
+            </ion-label>
+        </ion-list-header>
+
+        <ion-item *ngFor="let p of painelDadosProdMetalbo; let i = index">
+            <ion-col size="6">{{p.title}}</ion-col>
+            <ion-col size="6" [ngClass]="{'blueFat': p.title=='Total Mês' || p.title=='Parafuso Mês' || p.title=='Porcas Mês' || p.title=='Maq Quente Mês'
+                         }"><b>{{p.value}}</b></ion-col>
+        </ion-item>
+
+    </ion-list>
+
+
+    <ion-list *ngIf="painelFatSteel=='Faturamento SteelTrater'">
+        <ion-list-header color="vermelhoSteel" class="gradRed">
+            <ion-label style="color:aliceblue;font-size:17px;margin: 0px 0px 6px 0px;">{{painelFatSteel}}
+            </ion-label>
+        </ion-list-header>
+
+        <ion-item *ngFor="let p of painelDadosFatSteel; let i = index">
+            <ion-col size="6">{{p.title}}</ion-col>
+            <ion-col size="6" [ngClass]="{'redFat': p.title=='Serviço/Insumo Mês' || p.title=='Serviço Mês' || p.title=='Insumo Mês' ,
+                        'blueFat': p.title=='Peso Total Mês' || p.title=='Peso PO/PF etc Mês' ||  p.title=='Peso Fio Máq Mês'
+                         }"><b>{{p.value}}</b></ion-col>
+        </ion-item>
+
+    </ion-list>
+
+
+    <ion-list *ngIf="painelProdSteel=='Produção SteelTrater'">
+        <ion-list-header color="vermelhoSteel" class="gradRed">
+            <ion-label style="color:aliceblue;font-size:17px;margin: 0px 0px 6px 0px;">{{painelProdSteel}}
+            </ion-label>
+        </ion-list-header>
+
+        <ion-item *ngFor="let p of painelDadosProdSteel; let i = index">
+            <ion-col size="6">{{p.title}}</ion-col>
+            <ion-col size="6" [ngClass]="{'redFat': p.title=='Serviço/Insumo Mês' || p.title=='Serviço Mês' || p.title=='Insumo Mês' ,
+                        'blueFat': p.title=='Produção total Mês' || p.title=='Fornos contínuos Mês' ||  p.title=='Fio Máquina Mês'
+                         }"><b>{{p.value}}</b></ion-col>
+        </ion-item>
+
+    </ion-list>
+
+
+
+</ion-content>

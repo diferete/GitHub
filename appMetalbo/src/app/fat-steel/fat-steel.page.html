@@ -1,0 +1,94 @@
+﻿<ion-header>
+    <ion-toolbar color="vermelhoSteel">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Faturamento SteelTrater</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Puxe para atualizar..."
+            refreshingSpinner="crescent" refreshingText="Atualizando seus dados...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-item class="inner_border">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-label class="month_select">Selecione o mês</ion-label>
+        <ion-datetime displayFormat="MMM/YYYY" [(ngModel)]="dataMes" pickerFormat="MMM YYYY"
+            monthShortNames='Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setetembro, Outubro, Novembro, Dezembro'
+            cancelText="Cancelar" doneText="Selecionar" (ionChange)='getFat()'></ion-datetime>
+    </ion-item>
+
+    <ion-row>
+        <ion-col size="12">
+            <ion-card style="margin-bottom:5px !important">
+                <ion-card-header style="text-align:center;">
+                    <ion-card-subtitle style="font-size:15px;">Total de serviços e insumos
+                    </ion-card-subtitle>
+                    <ion-card-subtitle style="color:red;font-size:18px;">{{totalFat}}
+                    </ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+        <ion-col size="12">
+            <ion-card class="card_settings">
+                <ion-card-header>
+                    <ion-card-subtitle>Serviços</ion-card-subtitle>
+                    <ion-card-subtitle style="color:black">{{totalServico}}</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+
+
+        <ion-col size="12">
+            <ion-card class="card_settings">
+                <ion-card-header>
+                    <ion-card-subtitle>Insumos</ion-card-subtitle>
+                    <ion-card-subtitle style="color:black">{{totalInsumo}}</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+
+
+        <ion-col size="12">
+            <ion-card class="card_settings">
+                <ion-card-header>
+                    <ion-card-subtitle>PO/PF *etc</ion-card-subtitle>
+                    <ion-card-subtitle style="color:black">{{pesoPoPf}}</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+
+        <ion-col size="12">
+            <ion-card class="card_settings">
+                <ion-card-header>
+                    <ion-card-subtitle>Fio Máquina</ion-card-subtitle>
+                    <ion-card-subtitle style="color:black">{{pesoMaq}}</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+
+    <ion-button color="verdeMetalbo" expand="block" (click)='getFat()'>Atualizar</ion-button>
+
+    <ion-list>
+        <!--  <ion-list-header color="vermelhoSteel">
+            <ion-label style="color:aliceblue"> Faturamento Diário </ion-label>
+        </ion-list-header>-->
+        <div class="divisor">
+            <ion-label> Faturamento Diário </ion-label>
+        </div>
+        <ion-item *ngFor="let p of fatDiario; let i = index" (click)='getDadosFat(p)'>
+            <ion-col size="5">{{p.dataChar}}</ion-col>
+            <ion-col size="5"><b>R$ {{p.ValorFat}}</b></ion-col>
+            <ion-col size="2">
+                <ion-chip outline color="success">
+                    <ion-label>></ion-label>
+                </ion-chip>
+            </ion-col>
+        </ion-item>
+
+    </ion-list>
+</ion-content>

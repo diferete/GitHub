@@ -86,10 +86,7 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $oColaborador->setSValor($aParam[2]);
         $oColaborador->setBCampoBloqueado(true);
 
-        $oData = new Campo('Data', 'data_treinamento', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        date_default_timezone_set('America/Sao_Paulo');
-        $oData->setSValor(date('d/m/Y'));
-        $oData->setBOculto(true);
+        $oData = new Campo('Data', 'data_treinamento', Campo::TIPO_DATA, 2, 2, 12, 12);
 
         $oCodTitulo = new Campo('...', 'cod_treinamento', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oCodTitulo->setSIdHideEtapa($this->getSIdHideEtapa());
@@ -127,7 +124,7 @@ class ViewMET_ISO_RegistroTreinamento extends View {
 
         $oTitulo->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","MET_ISO_RegistroTreinamento","buscaDadosDocumento","' . $oCodTitulo->getId() . ',' . $oTitulo->getId() . ',' . $oRevisao->getId() . '");');
 
-        $this->addCampos(array($oNr, $oFilcgc, $oSeq, $oUsuario, $oData, $oColaborador), array($oCodTitulo, $oTitulo, $oRevisao, $oAnexo), $oObs, $oBotConf);
+        $this->addCampos(array($oNr, $oFilcgc, $oSeq, $oUsuario, $oColaborador), array($oCodTitulo, $oTitulo, $oData, $oRevisao, $oAnexo), $oObs, $oBotConf);
         $this->addCamposFiltroIni($oNr, $oFilcgc);
     }
 

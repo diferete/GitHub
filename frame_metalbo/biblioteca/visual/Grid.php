@@ -549,8 +549,12 @@ class Grid {
         }
     }
 
-    public function addFiltroDetalhe($oFiltro) {
-        $this->aFiltro[] = $oFiltro;
+    public function addFiltroDetalhe() {
+        $aDados = func_get_args();
+
+        foreach ($aDados as $FiltroAtual) {
+            $this->aFiltro[] = $FiltroAtual;
+        }
     }
 
     /**

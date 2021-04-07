@@ -1,0 +1,59 @@
+﻿<ion-header>
+    <ion-toolbar color="verdeMetalbo">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Fosfatização Metalbo</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown"
+                               pullingText="Puxe para atualizar..."
+                               refreshingSpinner="crescent"
+                               refreshingText="Atualizando seus dados...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-button color="vermelhoSteel" expand="block" (click)='getLista()'>Atualizar</ion-button>
+    <ion-row>
+        <ion-col size="12" style="padding:0px;">
+            <ion-card>
+                <ion-card-header>
+                    <ion-card-subtitle>Total em espera:<b> {{total}}</b></ion-card-subtitle>
+                    <!-- <ion-card-subtitle style="color:black"></ion-card-subtitle>-->
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+
+    </ion-row>
+    <ion-list>
+
+        <div class="divisor">
+            <ion-label> Itens em espera </ion-label>
+        </div>
+        <ion-item>
+            <ion-col size="8" style="background-color:darkgray !important; font-size:12px; font-stretch: expanded;"><b>Material</b></ion-col>
+            <ion-col size="4" style="background-color:darkgray !important;font-size:12px; font-stretch: expanded"><b>Prioridade</b></ion-col>
+        </ion-item>
+        <ion-item *ngFor="let p of listaDiario; let i = index"
+                  (click)='getDadosDetalhe(p)'>
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="8" style="font-size:14px;">{{p.descmat}} </ion-col>
+                    <ion-col size="2" style="font-size:14px;"><b>{{p.seqprio}}</b></ion-col>
+                    <ion-col size="2"><ion-chip outline color="success"><ion-label>></ion-label></ion-chip></ion-col>
+                </ion-row>
+                <ion-row style="color:green; background-color:ghostwhite">
+                    <ion-col size="6" style="font-size:13px;"><b>Empresa: </b>{{p.empresa}}</ion-col>
+                    <ion-col size="6" style="font-size:13px;"><b>Setor: </b>{{p.setor}}</ion-col>
+                </ion-row>
+            </ion-grid>
+           
+
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

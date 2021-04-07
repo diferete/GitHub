@@ -1,0 +1,17 @@
+﻿<ion-header>
+  <ion-toolbar color="verdeMetalbo">
+    <ion-title style="color:aliceblue">
+      Página não encontrada!
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="not-found-content">
+  <div class="illustration-wrapper">
+    <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+      <app-image-shell [src]="'./assets/sample-images/page-not-found.svg'" [alt]="'not found page'"></app-image-shell>
+    </app-aspect-ratio>
+  </div>
+  
+  <ion-button class="go-home-btn" [routerLink]="['/principal']" expand="block" fill="outline">Voltar para página incial</ion-button>
+</ion-content>

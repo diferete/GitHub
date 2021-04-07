@@ -1,0 +1,21 @@
+﻿<ion-header>
+    <ion-toolbar color="vermelhoSteel">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Produção por etapas {{data}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+
+        <ion-item *ngFor="let p of etapas; let i = index">
+            <ion-col size="6">{{p.etapa}}</ion-col>
+            <ion-col size="6"><b>{{p.peso}}</b></ion-col>
+
+        </ion-item>
+
+    </ion-list>
+    <ion-button expand="full" color="verdeMetalbo" (click)="voltar()">Voltar</ion-button>
+</ion-content>

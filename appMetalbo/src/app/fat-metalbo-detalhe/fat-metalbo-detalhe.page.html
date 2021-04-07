@@ -1,0 +1,62 @@
+﻿<ion-header>
+    <ion-toolbar color="verdeMetalbo">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Resumo do dia {{data}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-col size="6">Peso</ion-col>
+            <ion-col size="6" style="color:blue"><b>{{peso}} Kg</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Valor Líquido</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{VlrLiq}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">IPI</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{ipi}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Média com IPI</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{mcipi}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Média sem IPI</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{msipi}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Exportação</ion-col>
+            <ion-col size="6" style="color:green"><b>R$ {{expor}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Sucata</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{sucata}}</b></ion-col>
+        </ion-item>
+
+
+        <!--  <div class="divisor">
+            <ion-label> Faturamento Mensal </ion-label>
+        </div> -->
+
+
+
+    </ion-list>
+    <ion-button expand="full" color="vermelhoSteel" (click)="voltar()">Voltar</ion-button>
+
+</ion-content>
+<ion-footer>
+    <ion-toolbar>
+
+    </ion-toolbar>
+</ion-footer>

@@ -31,6 +31,15 @@ class ModelTiEquipamento {
     private $numlic;
     private $office;
     private $licoffice;
+    private $equipimagem;
+    
+    function getEquipimagem() {
+        return $this->equipimagem;
+    }
+
+    function setEquipimagem($equipimagem) {
+        $this->equipimagem = $equipimagem;
+    }
     
     function getLicoffice() {
         return $this->licoffice;

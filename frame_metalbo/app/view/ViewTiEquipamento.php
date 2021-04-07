@@ -94,6 +94,8 @@ class ViewTiEquipamento extends View {
 
         $oNFE = new Campo('NFE', 'nfe', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
 
+        $oEquipImagem = new Campo('Imagem Equipamento', 'equipimagem', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
+
         $oEquipCod = new Campo('Código', 'equipcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oEquipCod->setBCampoBloqueado(true);
 
@@ -119,6 +121,7 @@ class ViewTiEquipamento extends View {
         $oSistema->addItemSelect('Windows Server 2008', 'Windows Server 2008');
         $oSistema->addItemSelect('Windows Server 2012', 'Windows Server 2012');
         $oSistema->addItemSelect('Windows Server 2016', 'Windows Server 2016');
+        $oSistema->addItemSelect('Windows Server 2019', 'Windows Server 2019');
 
         $oLicensa = new Campo('Licença Windows', 'equiplicenca', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oLicensa->addItemSelect('Ativado', 'Ativado');
@@ -176,6 +179,7 @@ class ViewTiEquipamento extends View {
         $oRam->addItemSelect('16GB', '16GB');
         $oRam->addItemSelect('32GB', '32GB');
         $oRam->addItemSelect('64GB', '64GB');
+        $oRam->addItemSelect('128GB', '128GB');
 
         $oHd = new Campo('Hd', 'equiphd', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oHd->addItemSelect('500GB', '500GB');
@@ -183,6 +187,10 @@ class ViewTiEquipamento extends View {
         $oHd->addItemSelect('2TB', '2TB');
         $oHd->addItemSelect('3TB', '3TB');
         $oHd->addItemSelect('4TB', '4TB');
+        $oHd->addItemSelect('5TB', '5TB');
+        $oHd->addItemSelect('6TB', '6TB');
+        $oHd->addItemSelect('7TB', '7TB');
+        $oHd->addItemSelect('8TB', '8TB');
 
         $oFieldHard->addCampos(array($oCpu, $oRam, $oHd,));
 
@@ -210,7 +218,7 @@ class ViewTiEquipamento extends View {
 
         $oNumeroLicenca = new Campo('Número:', 'numlic', Campo::TIPO_TEXTO, 3, 3, 12, 12);
 
-        $this->addCampos(array($oEquipCod, $oEquipTipo, $oHora, $oData, $oSituaca), array($oUsuario, $oPessoa), $oFilcgc, $oCodSetor, array($oFabricante, $oModelo), array($oSistema, $oNFE), array($oLicensa, $oNumeroLicenca), array($oOffice, $oLicOffice), $oFieldHard, $oFieldNetwork, $oObs);
+        $this->addCampos(array($oEquipCod, $oEquipTipo, $oHora, $oData, $oSituaca), array($oUsuario, $oPessoa), $oFilcgc, $oCodSetor, array($oFabricante, $oModelo, $oEquipImagem), array($oSistema, $oNFE), array($oLicensa, $oNumeroLicenca), array($oOffice, $oLicOffice), $oFieldHard, $oFieldNetwork, $oObs);
     }
 
     public function relTiEquip() {

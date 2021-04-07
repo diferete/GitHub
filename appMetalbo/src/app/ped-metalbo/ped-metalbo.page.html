@@ -1,0 +1,64 @@
+﻿<ion-header>
+    <ion-toolbar color="verdeMetalbo" >
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title class="colorFontPed">Pedidos Metalbo</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown"
+                               pullingText="Puxe para atualizar..."
+                               refreshingSpinner="crescent"
+                               refreshingText="Atualizando seus dados...">
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-item>
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-label>Selecione o Mês</ion-label>
+        <ion-datetime displayFormat="MMM/YYYY" [(ngModel)]="dataMes" pickerFormat="MMM YYYY" monthShortNames='janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setetembro, outubro, novembro, dezembro' cancelText="Cancelar" doneText="Selecionar"></ion-datetime>
+    </ion-item>
+    <ion-button color="vermelhoSteel" expand="block" (click)='getPed()'>Atualizar</ion-button>
+
+    <ion-row>
+        <ion-col size="6" style="padding:0px;">
+            <ion-card>
+                <ion-card-header>
+                    <ion-card-subtitle>Total</ion-card-subtitle>
+                    <ion-card-subtitle style="color:black">{{vlrTotal}}</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+
+        <ion-col size="6" style="padding:0px;">
+            <ion-card>
+                <ion-card-header>
+                    <ion-card-subtitle>Peso</ion-card-subtitle>
+                    <ion-card-subtitle style="color:black">{{pesoTotal}}</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+
+    <!--Lista dos mêses-->
+    <ion-list>
+
+        <div class="divisor">
+            <ion-label> Pedidos Diário </ion-label>
+        </div>
+        <ion-item *ngFor="let p of pedDiario; let i = index"
+                  (click)='getDadosPed(p)'>
+            <ion-col size="5">{{p.dataconv}}</ion-col>
+            <ion-col size="5"><b>{{p.peso}} Kg</b></ion-col>
+            <ion-col size="2">
+                <ion-chip outline color="success">
+                    <ion-label>></ion-label>
+                </ion-chip>
+            </ion-col>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

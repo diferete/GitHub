@@ -369,16 +369,24 @@ class Filtro {
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="form-group form-group-filter" id="' . $this->getId() . '">'
                         . '<div class="input-group"> '
-                        . '<input class="form-control input-sm" name="' . $this->getSNome() . '" id="' . $this->getId() . '" type="text" placeholder="' . $this->getSLabel() . '" value="' . $this->aFiltroValor[0] . '"> '
+                        . '<input class="form-control input-sm" name="' . $this->getSNome() . '" id="' . $this->getId() . '" type="text" placeholder="' . $this->getSLabel() . '" value="' . $this->getSValor() . '" ';
+                if ($this->getBCampoBloqueado()) {
+                    $sCampo = $sCampo .= ' readonly="true"';
+                }
+                $sCampo = $sCampo .= '> '
                         . '<div class="input-group-btn"> '
                         . '<button type="button" class="btn btn-default btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="-1"> '
                         . '<span class="caret"></span> '
                         . '</button> '
-                        . '<ul class="dropdown-menu" id="' . $this->getId() . '-tipoFiltro">'
-                        . '<li><a href="javascript:void(0)" class="small" data-value="contem" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="contem" type="radio" checked/>&nbsp;Contém</a></li>'
-                        . '<li><a href="javascript:void(0)" class="small" data-value="comeca" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="comeca" type="radio" />&nbsp;Começa</a></li>'
-                        . '<li><a href="javascript:void(0)" class="small" data-value="igual" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="igual" type="radio"/>&nbsp;Igual</a></li>'
-                        . '</ul>'
+                        . '<ul class="dropdown-menu" id="' . $this->getId() . '-tipoFiltro">';
+                if ($this->getBCampoBloqueado()) {
+                    $sCampo = $sCampo .= '<li><a href="javascript:void(0)" class="small" data-value="igual" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="igual" type="radio" checked/>&nbsp;Igual</a></li>';
+                } else {
+                    $sCampo = $sCampo .= '<li><a href="javascript:void(0)" class="small" data-value="contem" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="contem" type="radio" checked/>&nbsp;Contém</a></li>'
+                            . '<li><a href="javascript:void(0)" class="small" data-value="comeca" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="comeca" type="radio" />&nbsp;Começa</a></li>'
+                            . '<li><a href="javascript:void(0)" class="small" data-value="igual" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="igual" type="radio"/>&nbsp;Igual</a></li>';
+                }
+                $sCampo = $sCampo .= '</ul>'
                         . '</div> '
                         . '</div> '
                         . '</div> '
@@ -391,17 +399,26 @@ class Filtro {
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
                         . '<div class="input-group form-group  form-group-filter" id="' . $this->getId() . '">'
                         . '<div class="input-group"> '
-                        . '<input type="text" name="' . $this->getSNome() . '" class="form-control input-sm" id="' . $this->getId() . '" placeholder="' . $this->getSLabel() . '" value="' . $this->aFiltroValor[0] . '">'
+                        . '<input class="form-control input-sm" name="' . $this->getSNome() . '" id="' . $this->getId() . '" type="text" placeholder="' . $this->getSLabel() . '" value="' . $this->getSValor() . '" ';
+                if ($this->getBCampoBloqueado()) {
+                    $sCampo = $sCampo .= ' readonly="true"';
+                }
+                $sCampo = $sCampo .= '> '
                         . '<div class="input-group-btn">'
                         . '<button type="button" class="btn btn-default btn-outline dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="-1">'
                         . '<span class="caret"></span>'
                         . '</button>'
-                        . '<ul class="dropdown-menu" id="' . $this->getId() . '-tipoFiltro">'
-                        . '<li><a href="javascript:void(0)" class="small" data-value="igual" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="igual" type="radio" checked/>&nbsp;Igual</a></li>'
-                        . '<li><a href="javascript:void(0)" class="small" data-value="maior" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="maior" type="radio"/>&nbsp;Maior</a></li>'
-                        . '<li><a href="javascript:void(0)" class="small" data-value="menor" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="menor" type="radio"/>&nbsp;Menor</a></li>'
-                        . '<li><a href="javascript:void(0)" class="small" data-value="diferente" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="diferente" type="radio"/>&nbsp;Diferente</a></li>'
-                        . '</ul>'
+                        . '<ul class="dropdown-menu" id="' . $this->getId() . '-tipoFiltro">';
+                if ($this->getBCampoBloqueado()) {
+                    $sCampo = $sCampo .= '<li><a href="javascript:void(0)" class="small" data-value="igual" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="igual" type="radio" checked/>&nbsp;Igual</a></li>';
+                } else {
+                    $sCampo = $sCampo .= '<li><a href="javascript:void(0)" class="small" data-value="contem" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="contem" type="radio" checked/>&nbsp;Contém</a></li>'
+                            . '<li><a href="javascript:void(0)" class="small" data-value="igual" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="igual" type="radio"/>&nbsp;Igual</a></li>'
+                            . '<li><a href="javascript:void(0)" class="small" data-value="maior" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="maior" type="radio"/>&nbsp;Maior</a></li>'
+                            . '<li><a href="javascript:void(0)" class="small" data-value="menor" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="menor" type="radio"/>&nbsp;Menor</a></li>'
+                            . '<li><a href="javascript:void(0)" class="small" data-value="diferente" tabIndex="-1"><input name="' . $this->getSNome() . '-tipo" value="diferente" type="radio"/>&nbsp;Diferente</a></li>';
+                }
+                $sCampo = $sCampo .= '</ul>'
                         . '</div>'
                         . '</div> '
                         . '</div>'
@@ -549,29 +566,6 @@ class Filtro {
                     $sCampo .= '<br /><br />';
                 }
 
-                break;
-
-            case self::FILTRO_AZ:
-
-                $sCampo = '<div  class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
-                        . '<div class="form-group form-group-filter">'
-                        . '<div class="input-group" id="' . $this->getId() . '-group">'
-                        . '<label for="' . $this->getId() . '">' . $this->getSLabel() . '  </label>'
-                        . '<select name="' . $this->getSNome() . '" class="form-control selectfiltro input-sm" id="' . $this->getId() . '" ' . $this->verficaCampoBloqueado($this->getBCampoBloqueado()) . '>';
-                foreach ($this->getAItemsSelect() as $key => $svalue) {
-                    $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
-                }
-                $sCampo .= '<option value="Asc">A-Z</option>';
-                $sCampo .= '<option value="Desc">Z-A</option>';
-
-
-                $sCampo .= '</select>'
-                        . '</div>  '
-                        . $this->getRenderEventos()
-                        . '</div></div>';
-                if ($this->getBQuebraLinha() == true) {
-                    $sCampo .= '<br /><br />';
-                }
                 break;
         }
         return $sCampo;

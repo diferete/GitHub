@@ -1,0 +1,68 @@
+﻿<ion-header>
+    <ion-toolbar color="vermelhoSteel">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Produção SteelTrater</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item>
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-label>Selecione o Mês</ion-label>
+        <ion-datetime displayFormat="MMM/YYYY" [(ngModel)]="dataMes" pickerFormat="MMM YYYY" monthShortNames='janeiro, fevereiro, março, abril, maio, junho, julho, agosto, setetembro, outubro, novembro, dezembro' cancelText="Cancelar" doneText="Selecionar"></ion-datetime>
+    </ion-item>
+    <ion-button color="verdeMetalbo" expand="block" (click)='getProd()'>Atualizar</ion-button>
+
+    <ion-row>
+        <ion-col size="12">
+            <ion-card style="margin-bottom:0px !important">
+                <ion-card-header>
+                    <ion-card-subtitle style="text-align:center">Produção total</ion-card-subtitle>
+                    <ion-card-subtitle style="color:red; text-align:center; font-size:18px;">{{totalProducao}}</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+        <ion-col size="6">
+            <ion-card style="margin-bottom:0px !important">
+                <ion-card-header>
+                    <ion-card-subtitle>Fornos</ion-card-subtitle>
+                    <ion-card-subtitle style="color:black">{{totalFornos}}</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+
+
+        <ion-col size="6">
+            <ion-card style="margin-bottom:0px !important">
+                <ion-card-header>
+                    <ion-card-subtitle>Fio Máquina Ind.</ion-card-subtitle>
+                    <ion-card-subtitle style="color:black">{{totalFio}}</ion-card-subtitle>
+                </ion-card-header>
+            </ion-card>
+        </ion-col>
+
+    </ion-row>
+
+    <ion-list>
+        <!--  <ion-list-header color="vermelhoSteel">
+            <ion-label style="color:aliceblue"> Faturamento Diário </ion-label>
+        </ion-list-header>-->
+        <div class="divisor">
+            <ion-label> Produção Diária </ion-label>
+        </div>
+        <ion-item *ngFor="let p of prodDiario; let i = index"
+                  (click)='getDadosProdDetalhe(p)'>
+            <ion-col size="5">{{p.data}}</ion-col>
+            <ion-col size="5"><b>{{p.peso}} Kg</b></ion-col>
+            <ion-col size="2">
+                <ion-chip outline color="success">
+                    <ion-label>></ion-label>
+                </ion-chip>
+            </ion-col>
+        </ion-item>
+
+    </ion-list>
+
+</ion-content>

@@ -74,6 +74,10 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         //  $oOpAntes = new CampoConsulta('Op anterior', 'opantes');
 
         $oReceita = new campoconsulta('Receita', 'receita');
+        
+        $oOpCliente = new CampoConsulta('Op Cliente','opcliente');
+        
+        $oFiltroOpCli = new Filtro($oOpCliente,Filtro::CAMPO_TEXTO_IGUAL, 2);
 
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL, 1);
         $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 2);
@@ -132,7 +136,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         $oOFilOpret = new Filtro($oOp_retrabalho, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2);
 
-        $this->addFiltro($oOpFiltro, $oCodigoFiltro, $oDescricaoFiltro, $oFilEmpresa, $oDocFiltro, $oTipoAcaoFiltro, $oFiltroReferencia, $oFilRec, $oFilData, $oFiltroSit, $oFiltroProcessozinc, $oFiltroTip);
+        $this->addFiltro($oOpFiltro, $oCodigoFiltro, $oDescricaoFiltro, $oFilEmpresa, $oDocFiltro, $oTipoAcaoFiltro, $oFiltroReferencia, $oFilRec, $oFilData, $oFiltroSit, $oFiltroProcessozinc, $oFiltroTip, $oFiltroOpCli);
 
         $this->setUsaAcaoExcluir(FALSE);
         $this->setUsaAcaoVisualizar(true);
@@ -414,6 +418,10 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","verificaTipoZincagem","");';
         $oReceitaZinc->addEvento(Campo::EVENTO_SAIR, $sCallBack);
 
+        $oPesoCesto = new Campo('Peso Cesto', 'PesoDoCesto', Campo::TIPO_DECIMAL, 1);
+        $oPesoCesto->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oPesoCesto->setId('PesoCestoId');
+        
         //busca campo material
         $oCodMat = new Campo('Material', 'matcod', Campo::TIPO_TEXTO, 1);
         $oCodMat->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -682,7 +690,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
 
 
-        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oDocumento, $oDataemi, $oSerie, $oChavNfe), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oReceitaZinc, $oReceitaZincDes), $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oNrcert), $oLinha, array($oXPed, $nItemPed, $nItemPedServico, $nItemPedIsumo, $nItemPedEnergia), $oField1, $oField2, $oFieldPeso);
+        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oDocumento, $oDataemi, $oSerie, $oChavNfe), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oReceitaZinc, $oReceitaZincDes, $oPesoCesto), $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oNrcert), $oLinha, array($oXPed, $nItemPed, $nItemPedServico, $nItemPedIsumo, $nItemPedEnergia), $oField1, $oField2, $oFieldPeso);
     }
 
     /*

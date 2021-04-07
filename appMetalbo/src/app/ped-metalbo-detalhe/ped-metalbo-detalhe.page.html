@@ -1,0 +1,56 @@
+﻿<ion-header>
+    <ion-toolbar color="verdeMetalbo">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Resumo do dia {{data}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-col size="6">Peso</ion-col>
+            <ion-col size="6" style="color:blue"><b>{{Peso}} Kg</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Acumulado Peso</ion-col>
+            <ion-col size="6"style="color:blue"><b>{{AcumuPeso}} Kg</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Valor C/Ipi</ion-col>
+            <ion-col size="6"style="color:red"><b>R$ {{ValorCipi}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Acumulado Valor</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{AcumuValor}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Média sem IPI</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{MediaSipi}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Média com IPI</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{MediaCipi}}</b></ion-col>
+        </ion-item>
+        <ion-item>
+            <ion-col size="6">Nr. Pedidos</ion-col>
+            <ion-col size="6"><b>{{NrPed}}</b></ion-col>
+        </ion-item>
+
+        <!--  <div class="divisor">
+        <ion-label> Faturamento Mensal </ion-label>
+    </div> -->
+
+
+
+    </ion-list>
+    <ion-button expand="full" color="vermelhoSteel" (click)="voltar()">Voltar</ion-button>
+
+
+</ion-content>

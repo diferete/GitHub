@@ -1,0 +1,68 @@
+﻿<ion-header>
+    <ion-toolbar color="vermelhoSteel">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Resumo do dia {{data}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-col size="6">Valor total</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{ValorFat}}</b></ion-col>
+        </ion-item>
+
+
+        <ion-item>
+            <ion-col size="6">Serviço</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{ValorServ}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Insumo</ion-col>
+            <ion-col size="6" style="color:red"><b>R$ {{ValorInsumo}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Serviço PO/PF etc</ion-col>
+            <ion-col size="6"><b>R$ {{ValorServicoAcab}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Insumo PO/PF etc</ion-col>
+            <ion-col size="6"><b>R$ {{ValorInsumoAcab}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Serviço Fio Máq</ion-col>
+            <ion-col size="6"><b>R$ {{ValorServicoFio}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Insumo Fio Máq</ion-col>
+            <ion-col size="6"><b>R$ {{ValorInsumoFio}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Peso total</ion-col>
+            <ion-col size="6" style="color:blue"><b>{{PesoInd}} Kg</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Peso PO/PF etc</ion-col>
+            <ion-col size="6" style="color:blue"><b>{{PesoIndAcab}} Kg</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Peso Fio Máq</ion-col>
+            <ion-col size="6" style="color:blue"><b>{{PesoIndFio}} Kg</b></ion-col>
+        </ion-item>
+
+
+
+    </ion-list>
+
+
+    <ion-button expand="full" color="verdeMetalbo" (click)="voltar()">Voltar</ion-button>
+</ion-content>

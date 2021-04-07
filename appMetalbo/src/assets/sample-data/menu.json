@@ -1,0 +1,49 @@
+{
+  "FATURAMENTO": [
+    {
+      "title": "Fat. Metalbo",
+      "url": "/app/categories",
+      "ionicIcon": "list-outline"
+    },
+    {
+      "title": "Fat. SteelTrater",
+      "url": "/app/user",
+      "ionicIcon": "list-outline"
+    },
+    {
+      "title": "Fat. Poliamidos",
+      "url": "/contact-card",
+      "ionicIcon": "list-outline"
+    }
+  ],
+  "PRODUCAO": [
+    {
+      "title": "Prod. Metalbo",
+      "url": "/app/categories",
+      "customIcon": "./assets/custom-icons/side-menu/forms.svg"
+    },
+    {
+      "title": "Prod. SteelTrater",
+      "url": "/app/user",
+      "customIcon": "./assets/custom-icons/side-menu/forms.svg"
+    },
+    {
+      "title": "Prod. Poliamidos",
+      "url": "/contact-card",
+      "customIcon": "./assets/custom-icons/side-menu/forms.svg"
+    }
+  ],
+  "SISTEMA": [
+    {
+      "title": "LogOut",
+      "url": "/auth/login",
+      "ionicIcon": "log-in-outline"
+    },
+    {
+      "title": "Minha Conta",
+      "url": "/auth/signup",
+      "ionicIcon": "person-add-outline"
+    }
+  ]
+
+}

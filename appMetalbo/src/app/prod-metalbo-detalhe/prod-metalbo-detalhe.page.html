@@ -1,0 +1,49 @@
+﻿<ion-header>
+    <ion-toolbar color="verdeMetalbo">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Resumo do dia {{data}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-col size="6">Total Geral(Sem Rosq.)</ion-col>
+            <ion-col size="6" style="color:blue"><b>{{TotalSemRosq}} Kg</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Parafusos</ion-col>
+            <ion-col size="6" style="color:blue"><b>{{Parafusos}} Kg</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Porcas</ion-col>
+            <ion-col size="6" style="color:blue"><b>{{Porca}} Kg</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Máquina Quente</ion-col>
+            <ion-col size="6" style="color:red"><b>{{MaqQuente}} Kg</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="6">Rosqueadeiras</ion-col>
+            <ion-col size="6" style="color:red"><b>{{Rosq}} Kg</b></ion-col>
+        </ion-item>
+
+        
+
+        <!--  <div class="divisor">
+            <ion-label> Faturamento Mensal </ion-label>
+        </div> -->
+
+
+
+    </ion-list>
+    <ion-button expand="full" color="vermelhoSteel" (click)="voltar()">Voltar</ion-button>
+
+
+</ion-content>

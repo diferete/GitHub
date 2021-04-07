@@ -1,0 +1,47 @@
+﻿<ion-header>
+    <ion-toolbar color="verdeMetalbo">
+        <ion-buttons slot="start">
+            <ion-back-button style="color:aliceblue" defaultHref="app/principal"></ion-back-button>
+        </ion-buttons>
+        <ion-title style="color:aliceblue">Resumo da entrada</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-col size="4">Código:</ion-col>
+            <ion-col size="8" style="color:blue"><b>{{codigo}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="4">Material:</ion-col>
+            <ion-col size="8" style="color:blue"><b>{{descmat}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="4">Prioridade:</ion-col>
+            <ion-col size="8" style="color:blue"><b>{{prioridade}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="4">Situação:</ion-col>
+            <ion-col size="8" style="color:blue"><b>{{sit}}</b></ion-col>
+        </ion-item>
+
+        <ion-item>
+            <ion-col size="4">Seq:</ion-col>
+            <ion-col size="8" style="color:blue"><b>{{seq}}</b></ion-col>
+        </ion-item>
+
+
+    </ion-list>
+    <ion-button style="margin-top:30px;" expand="full" color="vermelhoSteel" (click)="msgLiberaLista()">Liberar pátio</ion-button>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-button expand="full" color="verdeMetalbo" (click)="voltar()">Voltar</ion-button>
+    </ion-toolbar>
+</ion-footer>
+

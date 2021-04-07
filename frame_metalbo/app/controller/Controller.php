@@ -4133,6 +4133,15 @@ class Controller {
                 case $sFiltro == 'scroll':
                     $sTipoFiltro = Persistencia::MENOR;
                     break;
+                case $sFiltro == 'maior':
+                    $sTipoFiltro = Persistencia::MAIOR;
+                    break;
+                case $sFiltro == 'diferente':
+                    $sTipoFiltro = Persistencia::DIFERENTE;
+                    break;
+                case $sFiltro == 'menor':
+                    $sTipoFiltro = Persistencia::MENOR;
+                    break;
             }
         } else {
             $sTipoFiltro = Persistencia::IGUAL;
