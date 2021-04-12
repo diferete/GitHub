@@ -120,7 +120,11 @@ const routes: Routes = [
   },
   {
     path: 'ped-compra-metalbo',
-    loadChildren: () => import('./ped-compra-metalbo/ped-compra-metalbo.module').then(m => m.PedCompraMetalboPageModule)
+    loadChildren: () => import('./ped-compras/ped-compra-metalbo.module').then(m => m.PedCompraMetalboPageModule)
+  },
+  {
+    path: 'ped-compras-detalhe',
+    loadChildren: () => import('./ped-compras-detalhe/ped-compras-detalhe.module').then(m => m.PedComprasDetalhePageModule)
   },
   {
     path: '**',
