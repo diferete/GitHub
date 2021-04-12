@@ -6,7 +6,7 @@ import { ConexaoService } from './conexao.service';
 import { LoadingController } from '@ionic/angular';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class FatMetalboService {
 
@@ -26,7 +26,6 @@ export class FatMetalboService {
     }
 
     getFatMetalbo(usutoken, usucod, mes) {
-       // console.log('mes é ' + mes);
         this.presentLoading('');
         let dadosEnv = {
             classe: "MET_TEC_MobileFat",
@@ -39,14 +38,12 @@ export class FatMetalboService {
         };
 
         return new Promise((resolve, reject) => {
-            
             this.http.post(this.conexao.link, dadosEnv)
                 .subscribe((result: any) => {
                     setTimeout(() => {
                         this.loading.dismiss();
                     });
                     resolve(result);
-                    
                 },
                     (error) => {
                         setTimeout(() => {
@@ -55,8 +52,6 @@ export class FatMetalboService {
                         reject('Sem conexão!');
                     });
         });
-
-
     }
 
     //Faturamento steeltrater
@@ -79,7 +74,7 @@ export class FatMetalboService {
                     setTimeout(() => {
                         this.loading.dismiss();
                     });
-                   // console.log(result);
+                    // console.log(result);
                 },
                     (error) => {
                         reject('Sem conexão!');
@@ -91,8 +86,8 @@ export class FatMetalboService {
 
     }
 
-    
-    //Faturamento steeltrater
+
+    //Pedidos Metalbo
     getPedMetalbo(usutoken, usucod, mes) {
         this.presentLoading('');
         let dadosEnv = {
@@ -125,14 +120,14 @@ export class FatMetalboService {
     }
 
     //Produção Metalbo
-    getProdMetaldo(usutoken, usucod,mes, empresa) {
+    getProdMetaldo(usutoken, usucod, mes, empresa) {
         this.presentLoading('');
         let dadosEnv = {
             classe: "MET_TEC_MobileFat",
             metodo: "getProdMetalbo",
             dados: {
                 "mes": mes,
-                "empresa":empresa,
+                "empresa": empresa,
             },
             usucodigo: usucod,
             usutoken: usutoken
@@ -189,7 +184,7 @@ export class FatMetalboService {
 
     //produção etapas
     getEtapasSteel(usutoken, usucod, data) {
-        
+
         this.presentLoading('');
         let dadosEnv = {
             classe: "MET_TEC_MobileFat",
@@ -201,7 +196,7 @@ export class FatMetalboService {
             usutoken: usutoken
         };
 
-      
+
 
         return new Promise((resolve, reject) => {
             this.http.post(this.conexao.link, dadosEnv)
@@ -221,7 +216,7 @@ export class FatMetalboService {
         });
     }
 
-/*retorna a lista em espera fosfatização*/
+    /*retorna a lista em espera fosfatização*/
     getListaEsperaFosfatizacao(usutoken, usucod, mes) {
         // console.log('mes é ' + mes);
         this.presentLoading('');
@@ -256,7 +251,7 @@ export class FatMetalboService {
 
     }
 
-/*Gera o update da lista fosfatização*/
+    /*Gera o update da lista fosfatização*/
     /*retorna a lista em espera fosfatização*/
     setListaEsperaFosfatizacao(usutoken, usucod, seq) {
         // console.log('mes é ' + mes);
