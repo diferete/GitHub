@@ -11,7 +11,7 @@ import { AlertController } from '@ionic/angular';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class PainelfatprodService {
     loading: any;
@@ -42,12 +42,12 @@ export class PainelfatprodService {
 
         await alert.present();
     }
-    
+
     getPainel(usutoken, usucod) {
 
         this.presentLoading('');
-        
-        
+
+
         return new Promise((resolve, reject) => {
             let dadosEnv = {
                 classe: "MET_TEC_MobileFat",
@@ -60,10 +60,10 @@ export class PainelfatprodService {
             };
 
 
-           // alert('3-Token enviado '+dadosEnv.usutoken);
+            // alert('3-Token enviado '+dadosEnv.usutoken);
             this.http.post(this.conexao.link, dadosEnv)
                 .subscribe((result: any) => {
-                    console.log(result);
+                    //console.log(result);
                     setTimeout(() => {
                         this.loading.dismiss();
                     });
@@ -78,7 +78,7 @@ export class PainelfatprodService {
                     });
         });
 
-       
+
     }
-    
+
 }
