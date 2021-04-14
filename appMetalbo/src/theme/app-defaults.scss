@@ -1,15 +1,18 @@
 ion-title {
-  font-weight: 400;
-  letter-spacing: 0.4px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+}
+ion-item {
+    --padding-start: 0px;
 }
 .colorFontPed {
     color: aliceblue !important;
 }
 
 .gradGreen {
-    background-image: linear-gradient(to right, #0f5539, #3CB371) !important;
+    background-image: linear-gradient(to right, #0f5539, #3cb371) !important;
 }
 
 .gradRed {
-    background-image: linear-gradient(to right, #cc181e, #FF6347) !important;
+    background-image: linear-gradient(to right, #cc181e, #ff6347) !important;
 }

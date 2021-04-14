@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="verdeMetalbo">
+    <ion-buttons slot="start">
+      <ion-back-button style="color:aliceblue" defaultHref="app/principal" text="Voltar"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color:aliceblue">{{empresa}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Puxe para atualizar..."
+      refreshingSpinner="crescent" refreshingText="Atualizando seus dados...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-item class="inner_border">
+    <ion-icon name="calendar-outline"></ion-icon>
+    <ion-label class="month_select">Selecione o mês</ion-label>
+    <ion-datetime displayFormat="MMM/YYYY" [(ngModel)]="dataMes" pickerFormat="MMM YYYY"
+      monthShortNames='Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setetembro, Outubro, Novembro, Dezembro'
+      cancelText="Cancelar" doneText="Selecionar" (ionChange)='getPedCompras()'></ion-datetime>
+  </ion-item>
+
+  <ion-list>
+    <div class="divisor">
+      <ion-label>{{contador}} pedidos de compra</ion-label>
+    </div>
+    <ion-item *ngFor="let p of aPedCompra; let i = index" (click)='getDadosPedCompras(p)'>
+      <ion-col size="3">{{p.sup_pedidoseq}}</ion-col>
+      <ion-col size="7" style="font-size: 12px;"><b>{{p.fornecedor}}</b></ion-col>
+      <ion-col size="2">
+        <ion-chip outline color="success">
+          <ion-label>></ion-label>
+        </ion-chip>
+      </ion-col>
+    </ion-item>
+  </ion-list>
+</ion-content>

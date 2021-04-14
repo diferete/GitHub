@@ -67,7 +67,6 @@ export class FatMetalboPage implements OnInit {
                 valorParaEnviar: dataconv
             }
         };
-        //console.log(navigationExtras);
         this.router.navigate(['fat-metalbo-detalhe'], navigationExtras);
     }
     //pull do refresh
@@ -94,12 +93,11 @@ export class FatMetalboPage implements OnInit {
                 //console.log('data tela ' + this.dataMes);
                 return this.fatMetalboService.getFatMetalbo(usutoken, usucod, this.dataMes);
             }).then((result: any) => {
+                console.log(result.DADOS)
                 this.vlrTotal = result.DADOS.total;
                 this.pesoTotal = result.DADOS.totalPeso;
 
                 this.fatDiario = result.DADOS.diario;
-
-                //console.log('teste dados '+result.DADOS.diario);
             });
 
     }

@@ -27,6 +27,7 @@ class PersistenciaMET_ISO_Treinamentos extends Persistencia {
         $this->adicionaRelacionamento('tagTreinamento', 'tagTreinamento');
 
         $this->setSTop('75');
+        $this->adicionaOrderBy('nr', 1);
     }
 
     public function buscaDadosColaborador($aDados) {
@@ -41,7 +42,7 @@ class PersistenciaMET_ISO_Treinamentos extends Persistencia {
                 . "left outer join [vetorh].dbo.r010sit on [vetorh].dbo.r034fun.sitafa = [vetorh].dbo.r010sit.codsit "
                 . "left outer join vetorh..r024car on vetorh..r024car.codcar = vetorh..r034fun.codcar "
                 . "left outer join vetorh..r018ccu on [vetorh].dbo.r034fun.codccu = vetorh..r018ccu.codccu "
-                . "left outer join vetorh..r022gra on vetorh.dbo.r034fun.grains = vetorh.dbo.r022gra.grains where vetorh.dbo.r034fun.numcad =  " . $aDados['cracha'];
+                . "left outer join vetorh..r022gra on vetorh.dbo.r034fun.grains = vetorh.dbo.r022gra.grains where vetorh.dbo.r034fun.numcad =  " . $aDados['cracha']. "";
         $oDados = $this->consultaSql($sSql);
         return $oDados;
     }

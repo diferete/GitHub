@@ -1,2 +1,1 @@
-update tbsessao set usulastacesso = '2021-4-7 07:54:21' 
-            where usucodigo ='46' and usunome = 'ALEXANDRE DE SOUZA' and usuidsessao = 'vnp81fe625a3e429ki1ndlsl60'
+update MET_ISO_Treinamentos set tagTreinamento = 'N' where nr = 78 and filcgc = 75483040000211

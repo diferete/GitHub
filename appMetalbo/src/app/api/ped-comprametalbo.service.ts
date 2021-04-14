@@ -44,7 +44,6 @@ export class PedCompraMetalboService {
             this.loading.dismiss();
           });
           resolve(result);
-
         },
           (error) => {
             setTimeout(() => {
@@ -53,8 +52,35 @@ export class PedCompraMetalboService {
             reject('Sem conexão!');
           });
     });
-
-
   }
 
+  gerenPedidoCompra(usutoken, usucod, sit, seq, cnpj) {
+    this.presentLoading('');
+    let dadosEnv = {
+      classe: "STEEL_SUP_PedidoCompra",
+      metodo: "gerenPedidoCompra", dados: {
+        "sit": sit,
+        "seq": seq,
+        "cnpj": cnpj,
+        "usucodigo": usucod,
+      },
+      usucodigo: usucod,
+      usutoken: usutoken
+    };
+    return new Promise((resolve, reject) => {
+      this.http.post(this.conexao.link, dadosEnv)
+        .subscribe((result: any) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          resolve(result);
+        },
+          (error) => {
+            setTimeout(() => {
+              this.loading.dismiss();
+            });
+            reject('Sem conexão!');
+          });
+    });
+  }
 }

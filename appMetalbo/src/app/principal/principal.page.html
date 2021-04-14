@@ -12,50 +12,36 @@
     </ion-toolbar>
 
 </ion-header>
-<!-- <ion-header>
-      <ion-toolbar color="verdeMetalbo">
-          <ion-buttons slot="start">
-              <ion-menu-button></ion-menu-button>
-          </ion-buttons>
-          <ion-title>
-
-          </ion-title>
-      </ion-toolbar>
-  </ion-header>-->
 
 <ion-content>
-
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Puxe para atualizar..."
             refreshingSpinner="crescent" refreshingText="Atualizando seus dados...">
         </ion-refresher-content>
     </ion-refresher>
 
-
-
     <img src="./assets/img/MetalboAppStart.png">
+    <ion-list *ngIf="painelPedCompraMetalbo==true" class="lista-botoes">
+        <ion-list-header color="primary">
+            <ion-label class="label-pedido">Pedidos de compras
+            </ion-label>
+        </ion-list-header>
+        <div class="header_buttons_allign">
+            <ion-button size="small" color="roxoSteel" (click)='getPedCompra(8993358000174)' class="button-md-pedidos">
+                SteelTrater
+                <ion-badge color="danger" class="badge-pedidos">{{countDadosBadgeComprasSteeltrater}}</ion-badge>
+            </ion-button>
+            <ion-button size="small" color="verdeMetalbo" (click)='getPedCompra(75483040000211)'
+                class="button-md-pedidos">Filial
+                <ion-badge color="danger" class="badge-pedidos">{{countDadosBadgeComprasFilial}}</ion-badge>
+            </ion-button>
+            <ion-button size="small" color="vermelhoSteel" (click)='getPedCompra(75483040000130)'
+                class="button-md-pedidos">Matriz
+                <ion-badge color="danger" class="badge-pedidos">{{countDadosBadgeComprasMatriz}}</ion-badge>
+            </ion-button>
+        </div>
+    </ion-list>
 
-    <!--<ion-card style="margin-top:15px;margin-bottom:15px;">
-        <ion-card-header>
-            <ion-card-subtitle style="align-content:center;color:black;text-align:center;">Metalbo Fixadores
-            </ion-card-subtitle>
-        </ion-card-header>
-    </ion-card>-->
-    <div class="header_buttons_allign">
-
-        <ion-button size="small" color="secondary" (click)='getPedCompra()'>
-            <ion-icon name="arrow-redo-sharp" style="margin-right: 2px;"></ion-icon>
-        </ion-button>
-        <!--<ion-button size="small" color="secondary">
-            <ion-icon name="stats-chart-sharp"></ion-icon>
-        </ion-button>
-        <ion-button size="small" color="tertiary">
-            <ion-icon name="beer-sharp"></ion-icon>
-        </ion-button>
-        <ion-button size="small" color="danger">
-            <ion-icon name="alert-sharp" style="margin-right: 2px;"></ion-icon>
-        </ion-button>-->
-    </div>
 
     <!--<ion-button color="verdeMetalbo" expand="block" (click)='getPainelFat()'>Atualizar</ion-button> -->
     <ion-list *ngIf="painelFatMetalbo=='Faturamento Metalbo'">

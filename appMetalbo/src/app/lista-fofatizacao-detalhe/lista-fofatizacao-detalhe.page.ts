@@ -8,9 +8,9 @@ import { LoadingController } from '@ionic/angular';
 
 
 @Component({
-  selector: 'app-lista-fofatizacao-detalhe',
-  templateUrl: './lista-fofatizacao-detalhe.page.html',
-  styleUrls: ['./lista-fofatizacao-detalhe.page.scss'],
+    selector: 'app-lista-fofatizacao-detalhe',
+    templateUrl: './lista-fofatizacao-detalhe.page.html',
+    styleUrls: ['./lista-fofatizacao-detalhe.page.scss'],
 })
 export class ListaFofatizacaoDetalhePage implements OnInit {
     dados: any;
@@ -36,7 +36,7 @@ export class ListaFofatizacaoDetalhePage implements OnInit {
                 this.prioridade = this.dados.seqprio;
                 this.sit = this.dados.situacao;
                 this.seq = this.dados.seq;
-                
+
             }
         });
     }
@@ -76,7 +76,7 @@ export class ListaFofatizacaoDetalhePage implements OnInit {
 
         await alert.present();
     }
-    
+
 
     //mensagem confirmação
     async AlertConfirm() {
@@ -88,7 +88,7 @@ export class ListaFofatizacaoDetalhePage implements OnInit {
                 {
                     text: 'Cancelar',
                     role: 'cancel',
-                  //  cssClass: 'secondary',
+                    //  cssClass: 'secondary',
                     handler: (blah) => {
                         //console.log('Confirm Cancel: blah');
                     }
@@ -104,8 +104,8 @@ export class ListaFofatizacaoDetalhePage implements OnInit {
         await alert.present();
     }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
     //mensagem liberacao
     msgLiberaLista() {
@@ -127,7 +127,7 @@ export class ListaFofatizacaoDetalhePage implements OnInit {
             }).then((result: any) => {
                 usucod = result;
                 // console.log('data tela ' + this.dataMes);
-                return this.fatMetalboService.setListaEsperaFosfatizacao(usutoken, usucod,this.seq);
+                return this.fatMetalboService.setListaEsperaFosfatizacao(usutoken, usucod, this.seq);
             }).then((result: any) => {
                 if (result.DADOS.retorno == true) {
                     this.mensagemSucessoRetorno();
@@ -135,7 +135,7 @@ export class ListaFofatizacaoDetalhePage implements OnInit {
                 } else {
                     this.mensagemErroRetorno(result.DADOS.mensagem);
                 }
-             });
+            });
     }
 
     voltar() {

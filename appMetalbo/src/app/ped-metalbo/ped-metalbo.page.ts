@@ -94,21 +94,5 @@ export class PedMetalboPage implements OnInit {
 
                 this.pedDiario = result.DADOS.diario;
             });
-
-
-
-        /* this.fatMetalboService.getPedMetalbo(this.dataMes).then((result: any) => {
-             console.log(result.DADOS);
-             this.vlrTotal = result.DADOS.vlrcomipi;
-             this.pesoTotal = result.DADOS.pesoMes;
- 
-             this.pedDiario = result.DADOS.diario;
-             //console.log(this.fatDiario);
- 
-         })
-             .catch((error: any) => {
-                 this.mensagemAlertInternet();
-             });*/
-
     }
 }

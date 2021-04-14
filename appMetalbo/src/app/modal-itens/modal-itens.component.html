@@ -20,11 +20,11 @@
     </ion-col>
   </ion-grid>
   <ion-list>
-    <ion-item *ngFor="let p of itens; let i = index" (click)='getDadosPedCompras(p)'>
+    <ion-item *ngFor="let p of itens; let i = index">
       <ion-col size="7" style="font-size: 12px;">{{p.sup_pedidoitemdescricao}}</ion-col>
       <ion-col size="3" style="font-size: 12px;"><b>R$ {{p.sup_pedidoitemvalor}}</b></ion-col>
-      <ion-col size="3" style="font-size: 12px;" offset="-0.3"><b>{{p.sup_pedidoitemcomqtd}}
-          {{p.sup_pedidoitemunidade}}</b></ion-col>
+      <ion-col size="3" style="font-size: 12px;" offset="-0.3">
+        <b>{{p.sup_pedidoitemcomqtd}}{{p.sup_pedidoitemunidade}}</b></ion-col>
     </ion-item>
   </ion-list>
 </ion-content>

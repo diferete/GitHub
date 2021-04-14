@@ -2,9 +2,9 @@
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-ped-metalbo-detalhe',
-  templateUrl: './ped-metalbo-detalhe.page.html',
-  styleUrls: ['./ped-metalbo-detalhe.page.scss'],
+    selector: 'app-ped-metalbo-detalhe',
+    templateUrl: './ped-metalbo-detalhe.page.html',
+    styleUrls: ['./ped-metalbo-detalhe.page.scss'],
 })
 export class PedMetalboDetalhePage implements OnInit {
     dados: any;
@@ -35,8 +35,8 @@ export class PedMetalboDetalhePage implements OnInit {
         });
     }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 
     voltar() {
