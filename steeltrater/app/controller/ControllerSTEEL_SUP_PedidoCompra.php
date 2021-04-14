@@ -20,12 +20,18 @@ class ControllerSTEEL_SUP_PedidoCompra extends Controller {
         foreach ($aPainel as $key => $value) {
             if ($value == 'Compras') {
                 $aRetornoDados = $this->Persistencia->buscaBadgeCompras();
-
                 $aRetorno['PainelCompras'] = true;
                 $aRetorno['CountBadgeCompras'] = $aRetornoDados;
                 return $aRetorno;
+            } else {
+                $aRetorno['PainelCompras'] = false;
+                $aDados['steeltrater'] = 0;
+                $aDados['filial'] = 0;
+                $aDados['matriz'] = 0;
+                $aRetorno['CountBadgeCompras'] = $aDados;
             }
         }
+        return $aRetorno;
     }
 
     public function getDadosPedidoCompras($Dados) {

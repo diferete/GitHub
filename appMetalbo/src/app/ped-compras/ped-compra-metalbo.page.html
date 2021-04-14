@@ -18,8 +18,10 @@
     <ion-label class="month_select">Selecione o mês</ion-label>
     <ion-datetime displayFormat="MMM/YYYY" [(ngModel)]="dataMes" pickerFormat="MMM YYYY"
       monthShortNames='Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setetembro, Outubro, Novembro, Dezembro'
-      cancelText="Cancelar" doneText="Selecionar" (ionChange)='getPedCompras()'></ion-datetime>
+      cancelText="Cancelar" doneText="Selecionar"></ion-datetime>
   </ion-item>
+
+  <ion-button color="roxoSteel" expand="block" (click)='getPedCompras()'>Atualizar</ion-button>
 
   <ion-list>
     <div class="divisor">
