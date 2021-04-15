@@ -6,6 +6,7 @@ include("../../includes/Config.php");
 
 $Fil_Codigo = $_REQUEST['FIL_Codigo'];
 $SUP_PedidoSeq = $_REQUEST['SUP_PedidoSeq'];
+$meses = $_REQUEST['mes'];
 
 class PDF extends FPDF {
 
@@ -345,42 +346,48 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFillColor(180, 180, 180);
         $pdf->SetFont('Arial', 'B', 7);
         $pdf->Cell(20, 5, 'Código', 'L,B,T', 0, 'C', true);
-        $pdf->Cell(70, 5, 'Descrição', 'L,B,T', 0, 'L', true);
+        $pdf->Cell(85, 5, 'Descrição', 'L,B,T', 0, 'L', true);
         $pdf->Cell(6, 5, 'Und', 'L,B,T', 0, 'C', true);
         $pdf->Cell(16, 5, 'Quantidade', 'L,B,T', 0, 'L', true);
-        $pdf->Cell(15, 5, 'Conversor', 'L,B,T', 0, 'L', true);
         $pdf->Cell(15, 5, 'Unitário ', 'L,B,T', 0, 'L', true);
         $pdf->Cell(14, 5, 'Total ', 'L,B,T', 0, 'L', true);
         $pdf->Cell(13, 5, 'Desconto', 'L,B,T', 0, 'L', true);
         $pdf->Cell(9, 5, '%IPI ', 'L,B,T', 0, 'L', true);
         $pdf->Cell(10, 5, '%ICMS ', 'L,B,T', 0, 'L', true);
         $pdf->Cell(12, 5, 'Entrega ', 'L,B,T,R', 1, 'L', true);
-        $pdf->Ln(2);
+        $pdf->Ln(1);
     } else {
-        $pdf->Ln(2);
+        $pdf->Ln(1);
     }
 
     $sDescricao = str_replace(array("\n"), " ", $rowItens['SUP_PedidoItemDescricao']);
-
-    $total_string_width = $pdf->GetStringWidth($sDescricao);
+    $total_string_width = mb_strlen(trim($sDescricao));
+    $total_string_width2 = $pdf->GetStringWidth($sDescricao);
     $column_width = 70;
-    $number_of_lines = $total_string_width / ($column_width - 3);
-    $number_of_lines = ceil($number_of_lines);
+    $column_width2 = 85;
+    $number_of_lines = $total_string_width / ($column_width - 1);
+    $number_of_lines2 = $total_string_width2 / ($column_width2 - 1);
+    //Determina o número de linhas para a 1 e 2 linha de acordo com as divisões realizadas
+    if($number_of_lines2<1.5 && $number_of_lines2>1.005 && $total_string_width>63 && $number_of_lines!=1){
+        $number_of_lines = ceil($number_of_lines2);
+    }else{
+        $number_of_lines = ceil($number_of_lines);
+    }
+    
     $line_height = 4;
     $height_of_cell = $number_of_lines * $line_height;
     $height_of_cell = ceil($height_of_cell);
-
-    $pdf->SetFont('Arial', '', 6);
-    $pdf->Cell(6, $height_of_cell, $rowItens['SUP_PedidoItemSeq'], 'L,B,T', 0, 'L');
-    $pdf->Cell(14, $height_of_cell, $rowItens['PRO_Codigo'], 'L,B,T', 0, 'L');
-    $pdf->MultiAlignCell(70, 4, $rowItens['SUP_PedidoItemDescricao'], 'L,B,T', 0, 'L');
-    $pdf->Cell(6, $height_of_cell, rtrim($rowItens['SUP_PedidoItemUnidade']), 'L,B,T', 0, 'C');
-    $pdf->Cell(16, $height_of_cell, number_format($rowItens['SUP_PedidoItemComQtd'], 6, ',', '.'), 'L,B,T', 0, 'R');
-    $pdf->Cell(15, $height_of_cell, number_format($rowItens['SUP_PedidoItemComConv'], 6, ',', '.'), 'L,B,T', 0, 'R');
-    $pdf->Cell(15, $height_of_cell, number_format($rowItens['SUP_PedidoItemValor'], 5, ',', '.'), 'L,B,T', 0, 'R');
-    $pdf->Cell(14, $height_of_cell, number_format($rowItens['SUP_PedidoItemComQtd'] * $rowItens['SUP_PedidoItemValor'], 2, ',', '.'), 'L,B,T', 0, 'R');
-    $pdf->Cell(13, $height_of_cell, number_format($rowItens['SUP_PedidoItemVlrDesconto'], 2, ',', '.'), 'L,B,T', 0, 'R');
-
+    
+    $pdf->SetFont('Arial', 'B', 6);
+    $pdf->SetFillColor(255, 250, 245);
+    $pdf->Cell(6, $height_of_cell, $rowItens['SUP_PedidoItemSeq'], 'L,B,T', 0, 'L', true);
+    $pdf->Cell(14, $height_of_cell, $rowItens['PRO_Codigo'], 'L,B,T', 0, 'L', true);
+    $pdf->MultiAlignCell(85, 4, trim($sDescricao), 1, 0, 'L', true);
+    $pdf->Cell(6, $height_of_cell, rtrim($rowItens['SUP_PedidoItemUnidade']), 'L,B,T', 0, 'C', true);
+    $pdf->Cell(16, $height_of_cell, number_format($rowItens['SUP_PedidoItemComQtd'], 6, ',', '.'), 'L,B,T', 0, 'R', true);
+    $pdf->Cell(15, $height_of_cell, number_format($rowItens['SUP_PedidoItemValor'], 5, ',', '.'), 'L,B,T', 0, 'R', true);
+    $pdf->Cell(14, $height_of_cell, number_format($rowItens['SUP_PedidoItemComQtd'] * $rowItens['SUP_PedidoItemValor'], 2, ',', '.'), 'L,B,T', 0, 'R', true);
+    $pdf->Cell(13, $height_of_cell, number_format($rowItens['SUP_PedidoItemVlrDesconto'], 2, ',', '.'), 'L,B,T', 0, 'R', true);
 
     /* IMPOSTOS POR ITEM */
     $sSqlImpostosItem = "select "
@@ -403,33 +410,37 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     while ($rowImpostosItem = $dadosImpostosItem->fetch(PDO::FETCH_ASSOC)) {
         //%IPI
         if ($rowImpostosItem['SUP_PedidoItemIImposto'] == '3') {
-            $pdf->Cell(9, $height_of_cell, number_format($rowImpostosItem['SUP_PedidoItemIAliquota'], 3, ',', '.'), 'L,B,T', 0, 'L');
+            $pdf->Cell(9, $height_of_cell, number_format($rowImpostosItem['SUP_PedidoItemIAliquota'], 3, ',', '.'), 'L,B,T', 0, 'L', true);
             $bIpi = true;
         }
         //%ICMS
         if ($rowImpostosItem['SUP_PedidoItemIImposto'] == '1' && $bIpi == false) {
             $pdf->Cell(9, $height_of_cell, '0,000', 'L,B,T', 0, 'L');
-            $pdf->Cell(10, $height_of_cell, number_format($rowImpostosItem['SUP_PedidoItemIAliquota'], 3, ',', '.'), 'L,B,T', 0, 'L');
+            $pdf->Cell(10, $height_of_cell, number_format($rowImpostosItem['SUP_PedidoItemIAliquota'], 3, ',', '.'), 'L,B,T', 0, 'L', true);
             $bIcms = true;
         } elseif ($rowImpostosItem['SUP_PedidoItemIImposto'] == '1' && $bIpi == true) {
-            $pdf->Cell(10, $height_of_cell, number_format($rowImpostosItem['SUP_PedidoItemIAliquota'], 3, ',', '.'), 'L,B,T', 0, 'L');
+            $pdf->Cell(10, $height_of_cell, number_format($rowImpostosItem['SUP_PedidoItemIAliquota'], 3, ',', '.'), 'L,B,T', 0, 'L', true);
             $bIcms = true;
         }
     }
     if ($bIpi == true && $bIcms == false) {
-        $pdf->Cell(10, $height_of_cell, '0,00000', 'L,B,T', 0, 'L');
+        $pdf->Cell(10, $height_of_cell, '0,00000', 'L,B,T', 0, 'L', true);
     } elseif ($bIpi == false && $bIcms == false) {
-        $pdf->Cell(9, $height_of_cell, '0,000', 'L,B,T', 0, 'L');
-        $pdf->Cell(10, $height_of_cell, '0,00000', 'L,B,T', 0, 'L');
+        $pdf->Cell(9, $height_of_cell, '0,000', 'L,B,T', 0, 'L', true);
+        $pdf->Cell(10, $height_of_cell, '0,00000', 'L,B,T', 0, 'L', true);
     }
 
-    $pdf->Cell(12, $height_of_cell, $rowItens['SUP_PedidoItemDataEntrega'], 'L,B,T,R', 1, 'L');
+    $pdf->Cell(12, $height_of_cell, $rowItens['SUP_PedidoItemDataEntrega'], 'L,B,T,R', 1, 'L', true);
 
     $iTotalQuant = $rowItens['SUP_PedidoItemComQtd'] + $iTotalQuant;
     $iTotalDesItens = $rowItens['SUP_PedidoItemVlrDesconto'] + $iTotalDesItens;
-
+    $datainicial = '';
+    if($meses=='6'){
+        $datainicial  = date('d/m/Y', strtotime('-6 months'));
+    }else{
+        $datainicial  = date("d/m/".(date("Y")-1));
+    }
     $sqlTopCinco = "select "
-            . "top 5 "
             . "SUP_PEDIDOITEM.SUP_PedidoSeq, "
             . "PRO_Codigo,"
             . "SUP_PedidoItemDescricao,"
@@ -445,25 +456,33 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
             . "where SUP_PEDIDOITEM.FIL_Codigo = " . $Fil_Codigo . " "
             . "and PRO_Codigo = " . $rowItens['PRO_Codigo'] . " "
             . "and SUP_PEDIDOITEM.SUP_PedidoSeq < " . $SUP_PedidoSeq . " "
-            . "order by SUP_PEDIDOITEM.SUP_PedidoSeq desc";
+            . "and SUP_PedidoItemDataNeces BETWEEN '" .$datainicial. "' AND '" .$data. "' "
+            . "order by SUP_PEDIDOITEM.SUP_PedidoSeq desc"; 
     $dadosTopCinco = $PDO->query($sqlTopCinco);
 
     $btop5 = false;
     while ($rowTopCinco = $dadosTopCinco->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFont('Arial', 'B', 6);
-        $pdf->Cell(10, 4, 'Od:' . $rowTopCinco['SUP_PedidoSeq'], 'L,T,B', 0, 'L');
-        $pdf->Cell(18, 4, 'Vlr Un.:' . number_format($rowTopCinco['SUP_PedidoItemValor'], 2, ',', '.'), 'T,B', 0, 'L');
-        $pdf->Cell(12, 4, $rowTopCinco['SUP_PedidoItemDataNeces'], 'T,B,R', 0, 'L');
+        $pdf->Cell(6, 4,'', '', 0, 'L');
+        $pdf->SetFillColor(255, 255, 250);
+        $pdf->Cell(27, 4, 'Pedido de Compra:  ', 'L,T,B', 0, 'R', true);
+        $pdf->Cell(32, 4, $rowTopCinco['SUP_PedidoSeq'], 'T,B,R', 0, 'R', true);
+        $pdf->Cell(13, 4, 'Valor:  ', 'T,B,L', 0, 'L', true);
+        $pdf->Cell(30, 4, number_format($rowTopCinco['SUP_PedidoItemValor'], 2, ',', '.'), 'T,B,R', 0, 'R', true);
+        $pdf->Cell(15, 4, 'Quantidade:  ', 'T,B', 0, 'L', true);
+        $pdf->Cell(30, 4, number_format($rowTopCinco['SUP_PedidoItemQtd'], 2, ',', '.'), 'T,B,R', 0, 'R', true);
+        $pdf->Cell(10, 4, 'Data:  ', 'T,B', 0, 'R', true);
+        $pdf->Cell(37, 4, $rowTopCinco['SUP_PedidoItemDataNeces'], 'T,B,R', 1, 'R', true);
         $iK = 1;
         $btop5 = true;
     }
     if ($iK == 1 && $btop5 == true) {
-        $pdf->Cell(200, 1, '', '', 1, 'L');
-        $pdf->Ln(3);
+        $pdf->Cell(200, 0, '', '', 1, 'L');
+        //$pdf->Ln(0.05);
         $iK = 2;
-    }
+}
     $iK = 1;
-    $pdf->Ln(0.2);
+   // $pdf->Ln(0.05);
 }
 
 

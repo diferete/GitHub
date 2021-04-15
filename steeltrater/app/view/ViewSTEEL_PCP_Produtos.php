@@ -161,6 +161,7 @@ class ViewSTEEL_PCP_Produtos extends View {
         if (method_exists($oDados, 'getProdes')) {
             $oGrupoCod->setSValor('102');
         }
+        $oGrupoCod->setId('GrupoCod');
         //-----------------------------------------------------------
 
         $oGrupoDes = new Campo('Descrição', 'DELX_PRO_Grupo.pro_grupodescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -173,11 +174,14 @@ class ViewSTEEL_PCP_Produtos extends View {
         if (method_exists($oDados, 'getProdes')) {
             $oGrupoDes->setSValor('STEELTRATER PRODUTO CLIENTES');
         }
+        $oGrupoDes->setId('GrupoDes');
 
         $oGrupoCod->setClasseBusca('DELX_PRO_Grupo');
         $oGrupoCod->setSCampoRetorno('pro_grupocodigo', $this->getTela()->getId());
         $oGrupoCod->addCampoBusca('pro_grupodescricao', $oGrupoDes->getId(), $this->getTela()->getId());
-
+        $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Produtos","verificaCampoGrupo","");';
+        $oGrupoCod->addEvento(Campo::EVENTO_SAIR, $sCallBack);
+        
         //-------------------------------------------------------------
 
         $oSubGrupoCod = new Campo('Sub.Grupo', 'pro_subgrupocodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
@@ -185,6 +189,7 @@ class ViewSTEEL_PCP_Produtos extends View {
         if (method_exists($oDados, 'getProdes')) {
             $oSubGrupoCod->setSValor('1');
         }
+        $oSubGrupoCod->setId('SubGrupoCod');
 
         $oSubGrupoDes = new Campo('Descrição', 'DELX_PRO_Subgrupo.pro_subgrupodescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubGrupoDes->setSIdPk($oSubGrupoCod->getId());
@@ -196,12 +201,14 @@ class ViewSTEEL_PCP_Produtos extends View {
         if (method_exists($oDados, 'getProdes')) {
             $oSubGrupoDes->setSValor('PRODUTO CLIENTES');
         }
-
+        $oSubGrupoDes->setId('SubGrupoDes');
 
         $oSubGrupoCod->setClasseBusca('DELX_PRO_Subgrupo');
         $oSubGrupoCod->setSCampoRetorno('pro_subgrupocodigo', $this->getTela()->getId());
         $oSubGrupoCod->addCampoBusca('pro_subgrupodescricao', $oSubGrupoDes->getId(), $this->getTela()->getId());
 
+        $sCallBack1 = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Produtos","verificaCampoSubGrupo","");';
+        $oSubGrupoCod->addEvento(Campo::EVENTO_SAIR, $sCallBack1);
         //----------------------------------------------------------------
 
         $oFamiliaCod = new Campo('Família', 'pro_familiacodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
@@ -209,6 +216,7 @@ class ViewSTEEL_PCP_Produtos extends View {
         if (method_exists($oDados, 'getProdes')) {
             $oFamiliaCod->setSValor('1');
         }
+        $oFamiliaCod->setId('FamiliaCod');
 
         $oFamiliaDes = new Campo('Descrição', 'DELX_PRO_Familia.pro_familiadescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oFamiliaDes->setSIdPk($oFamiliaCod->getId());
@@ -220,12 +228,15 @@ class ViewSTEEL_PCP_Produtos extends View {
         if (method_exists($oDados, 'getProdes')) {
             $oFamiliaDes->setSValor('PRODUTO CLIENTES');
         }
-
+        $oFamiliaDes->setId('FamiliaDes');
 
         $oFamiliaCod->setClasseBusca('DELX_PRO_Familia');
         $oFamiliaCod->setSCampoRetorno('pro_familiacodigo', $this->getTela()->getId());
         $oFamiliaCod->addCampoBusca('pro_familiadescricao', $oFamiliaDes->getId(), $this->getTela()->getId());
 
+        $sCallBack2 = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Produtos","verificaCampoFamilia","");';
+        $oFamiliaCod->addEvento(Campo::EVENTO_SAIR, $sCallBack2);
+        
         //-----------------------------------------------------------------------
 
         $oSubFamiliaCod = new Campo('Sub.Fam', 'pro_subfamiliacodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
@@ -233,6 +244,7 @@ class ViewSTEEL_PCP_Produtos extends View {
         if (method_exists($oDados, 'getProdes')) {
             $oSubFamiliaCod->setSValor('1');
         }
+        $oSubFamiliaCod->setId('SubFamiliaCod');
 
         $oSubFamiliaDes = new Campo('Descrição', 'DELX_PRO_Subfamilia.pro_subfamiliadescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubFamiliaDes->setSIdPk($oSubFamiliaCod->getId());
@@ -244,11 +256,14 @@ class ViewSTEEL_PCP_Produtos extends View {
         if (method_exists($oDados, 'getProdes')) {
             $oSubFamiliaDes->setSValor('PRODUTO CLIENTES');
         }
+        $oSubFamiliaDes->setId('SubFamiliaDes');
 
         $oSubFamiliaCod->setClasseBusca('DELX_PRO_Subfamilia');
         $oSubFamiliaCod->setSCampoRetorno('pro_subfamiliacodigo', $this->getTela()->getId());
         $oSubFamiliaCod->addCampoBusca('pro_subfamiliadescricao', $oSubFamiliaDes->getId(), $this->getTela()->getId());
 
+        $sCallBack3 = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Produtos","verificaCampoSubFamilia","");';
+        $oSubFamiliaCod->addEvento(Campo::EVENTO_SAIR, $sCallBack3);
         //-------------------------------------------------------------------------
 
         $oUnidadeMedCod = new Campo('Un.Medida', 'pro_unidademedida', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);

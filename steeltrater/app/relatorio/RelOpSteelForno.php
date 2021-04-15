@@ -81,10 +81,10 @@ $sSqli = "SELECT steel_pcp_ordensfabitens.op,"
         . "steel_pcp_ordensfabitens.fornodes,"
         . "steel_pcp_ordensfabitens.turnosteel,"
         . "steel_pcp_ordensfabapont.prodes,"
-        . "CONVERT(VARCHAR,steel_pcp_ordensfabapont.dataent_forno,103) AS dataent_forno,"
-        . "CONVERT(VARCHAR,steel_pcp_ordensfabapont.horaent_forno,8) AS horaent_forno,"
-        . "CONVERT(VARCHAR,steel_pcp_ordensfabapont.datasaida_forno,103) AS datasaida_forno,"
-        . "CONVERT(VARCHAR,steel_pcp_ordensfabapont.horasaida_forno,8) AS horasaida_forno,"
+        . "CONVERT(VARCHAR,steel_pcp_ordensfabitens.dataent_forno,103) AS dataent_forno,"
+        . "CONVERT(VARCHAR,steel_pcp_ordensfabitens.horaent_forno,8) AS horaent_forno,"
+        . "CONVERT(VARCHAR,steel_pcp_ordensfabitens.datasaida_forno,103) AS datasaida_forno,"
+        . "CONVERT(VARCHAR,steel_pcp_ordensfabitens.horasaida_forno,8) AS horasaida_forno,"
         . "steel_pcp_ordensfab.peso,"
         . "quant,"
         . "documento,"
@@ -107,7 +107,7 @@ $sSqli = "SELECT steel_pcp_ordensfabitens.op,"
         . "left outer join STEEL_PCP_receitasItens "
         . "ON STEEL_PCP_ordensFabItens.receita = STEEL_PCP_receitasItens.cod "
         . "and STEEL_PCP_ordensFabItens.receita_seq = STEEL_PCP_receitasItens.seq "
-        . "WHERE steel_pcp_ordensfabapont.dataent_forno BETWEEN '" . $dtinicial . "' AND '" . $dtfinal . "' "
+        . "WHERE steel_pcp_ordensfabitens.dataent_forno BETWEEN '" . $dtinicial . "' AND '" . $dtfinal . "' "
         . "and recApont = 'SIM' ";
 if ($iEmpCodigo !== '') {
     $sSqli .= " and steel_pcp_ordensfab.emp_codigo ='" . $iEmpCodigo . "'";
@@ -131,21 +131,20 @@ if ($sRetrabalho != 'Incluir') {
     $sSqli .= " and retrabalho <> 'Retorno não Ind.' ";
 }
 
-$sSqli .= "order by dataent_forno2";
+$sSqli .= "order by dataent_forno2 , horaent_forno, op";
 
 $dadosRela = $PDO->query($sSqli);
 
 //Filtros escolhidos
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(32, 10, 'Filtros escolhidos:', '', 0, 'L', 0);
-
+$sFornoDesFiltro = '';
 if ($sFornodes == null) {
     if ($sFornos == null) {
         $sFornoDesFiltro = 'Todos';
     } else {
         $sSqlFornoDes = "select fornodes from STEEL_PCP_FORNO where fornocod in (" . $sFornos . ")";
         $fornodes = $PDO->query($sSqlFornoDes);
-        $sFornoDesFiltro = '';
         while ($rowFornoFiltro = $fornodes->fetch(PDO::FETCH_ASSOC)) {
             if ($sFornoDesFiltro == '') {
                 $sFornoDesFiltro = $rowFornoFiltro['fornodes'];

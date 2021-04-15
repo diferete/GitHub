@@ -54,6 +54,7 @@ $dtfinal = $_REQUEST['datafinal'];
 $iEmpCodigo = $_REQUEST['emp_codigo'];
 $sEmpDescricao = $_REQUEST['emp_razaosocial'];
 $sFornodes = $_REQUEST['fornodes'];
+$sFornoDesFiltro = $sFornodes;
 $iFornoCod = $_REQUEST['fornocod'];
 $sTurnoSteel = $_REQUEST['turnoSteel'];
 $sListaEtapa = '';
@@ -103,7 +104,7 @@ $sSqli = "SELECT "
         . "SUBSTRING(STEEL_PCP_ordensFabItens.usernome, 1,16) as userEntrada,"
         . "DATEDIFF(Minute,STEEL_PCP_ordensFabItens.horaent_forno,STEEL_PCP_ordensFabItens.horasaida_forno) as minutosh,"
         . "DATEDIFF(minute,STEEL_PCP_ordensFabItens.dataent_forno, STEEL_PCP_ordensFabItens.datasaida_forno) as minutosd,"
-        . "eficienciaHora,"
+        . "STEEL_PCP_FORNO.eficienciaHora,"
         /* ------------ adicionados dados da fabitens ------------ */
         . "steel_pcp_ordensfabitens.temperatura,"
         . "steel_pcp_ordensfabitens.tempo,"
@@ -114,6 +115,8 @@ $sSqli = "SELECT "
         /* ------------ ----------------------------- ------------ */
         . "DATEDIFF(minute,'" . $dtinicial . "', '" . $dtfinal . "') as diferencaFiltro "
         . "FROM steel_pcp_ordensfabitens "
+        . "LEFT OUTER JOIN STEEL_PCP_FORNO "
+        . "ON steel_pcp_ordensfabitens.fornocod = STEEL_PCP_FORNO.fornocod "
         . "LEFT OUTER JOIN STEEL_PCP_ordensFabApont "
         . "ON steel_pcp_ordensfabitens.op = STEEL_PCP_ordensFabApont.op "
         . "LEFT OUTER JOIN steel_pcp_ordensfab "
@@ -142,7 +145,7 @@ $sSqli .= " and steel_pcp_ordensfabitens.situacao = 'Finalizado' ";
 $sSqli .= " and retrabalho<>'Retorno não Ind.' ";
 
 
-$sSqli .= "ORDER  BY dataent_forno2,steel_pcp_ordensfabitens.fornodes,steel_pcp_ordensfabitens.turnosteel,horaent_forno";
+$sSqli .= "ORDER  BY dataent_forno2, horaent_forno, op, steel_pcp_ordensfabitens.fornodes,steel_pcp_ordensfabitens.turnosteel";
 
 $dadosRela = $PDO->query($sSqli);
 

@@ -38,6 +38,10 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
     public function beforeInsert() {
         parent::beforeInsert();
 
+        $this->verificaCampoGrupo();
+        $this->verificaCampoSubGrupo();
+        $this->verificaCampoFamilia();
+        $this->verificaCampoSubFamilia();
         $this->Model->setPro_cadastrodatahora(date('d/m/Y h:m:s'));
         //seta código caso não foi setado pelo usuário
         if ($this->Model->getPro_codigo() == null || $this->Model->getPro_codigo() == '') {
@@ -88,6 +92,10 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         $this->Model->setPro_alteracaousuario($_SESSION['nomedelsoft']);
         $this->preencheModelcomDados();
         $this->validacaoProdutos();
+        $this->verificaCampoGrupo();
+        $this->verificaCampoSubGrupo();
+        $this->verificaCampoFamilia();
+        $this->verificaCampoSubFamilia();
 
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -365,6 +373,85 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
                 $genero = substr($aCampos['pro_ncm'], 0, 2);
                 echo "$('#" . $aDados[1] . "').val('" . $genero . "').focus().blur();";
             }
+        }
+    }
+
+    public function verificaCampoGrupo() {
+
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $oControllerGrupo = Fabrica::FabricarController('STEEL_PCP_GrupoProd');
+        $oControllerGrupo->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
+        $oDados = $oControllerGrupo->Persistencia->consultarWhere();
+        if ($oDados->getPRO_GrupoCodigo() == null || $oDados->getPRO_GrupoDescricao() == null) {
+            echo "$('#GrupoCod').val('');";
+            echo "$('#GrupoDes').val('');";
+            $oMenSuccess = new Mensagem("Atenção", "Grupo inexistente!", Mensagem::TIPO_ERROR);
+            echo $oMenSuccess->getRender();
+            exit();
+        }
+        
+    }
+
+    public function verificaCampoSubGrupo() {
+
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        
+        $oControllerSubGrupo = Fabrica::FabricarController('STEEL_PCP_SubgrupoProd');
+        $oControllerSubGrupo->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
+        $oControllerSubGrupo->Persistencia->adicionaFiltro('PRO_SubGrupoCodigo', $aCamposChave['pro_subgrupocodigo']);
+        $oDados = $oControllerSubGrupo->Persistencia->consultarWhere();
+        if ($oDados->getPRO_SubGrupoCodigo() == null || $oDados->getPRO_SubGrupoDescricao() == null) {
+            echo "$('#SubGrupoCod').val('');";
+            echo "$('#SubGrupoDes').val('');";
+            $oMenSuccess = new Mensagem("Atenção", "SubGrupo inexistente!", Mensagem::TIPO_ERROR);
+            echo $oMenSuccess->getRender();
+            exit();
+        }
+    }
+
+    public function verificaCampoFamilia() {
+
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        
+        $oControllerFamilia = Fabrica::FabricarController('STEEL_PCP_FamProd');
+        $oControllerFamilia->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
+        $oControllerFamilia->Persistencia->adicionaFiltro('PRO_SubGrupoCodigo', $aCamposChave['pro_subgrupocodigo']);
+        $oControllerFamilia->Persistencia->adicionaFiltro('PRO_FamiliaCodigo', $aCamposChave['pro_familiacodigo']);
+        $oDados = $oControllerFamilia->Persistencia->consultarWhere();
+        if ($oDados->getPRO_FamiliaCodigo() == null || $oDados->getPRO_FamiliaDescricao() == null) {
+            echo "$('#FamiliaCod').val('');";
+            echo "$('#FamiliaDes').val('');";
+            $oMenSuccess = new Mensagem("Atenção", "Familia inexistente!", Mensagem::TIPO_ERROR);
+            echo $oMenSuccess->getRender();
+            exit();
+        }
+    }
+
+    public function verificaCampoSubFamilia() {
+
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        
+        $oControllerSubFamilia = Fabrica::FabricarController('STEEL_PCP_SubFamProd');
+        $oControllerSubFamilia->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
+        $oControllerSubFamilia->Persistencia->adicionaFiltro('PRO_SubGrupoCodigo', $aCamposChave['pro_subgrupocodigo']);
+        $oControllerSubFamilia->Persistencia->adicionaFiltro('PRO_FamiliaCodigo', $aCamposChave['pro_familiacodigo']);
+        $oControllerSubFamilia->Persistencia->adicionaFiltro('PRO_SubFamiliaCodigo', $aCamposChave['pro_subfamiliacodigo']);
+        $oDados = $oControllerSubFamilia->Persistencia->consultarWhere();
+        if ($oDados->getPRO_SubFamiliaCodigo() == null || $oDados->getPRO_SubFamiliaDescricao() == null) {
+            echo "$('#SubFamiliaCod').val('');";
+            echo "$('#SubFamiliaDes').val('');";
+            $oMenSuccess = new Mensagem("Atenção", "SubFamilia inexistente!", Mensagem::TIPO_ERROR);
+            echo $oMenSuccess->getRender();
+            exit();
         }
     }
 
