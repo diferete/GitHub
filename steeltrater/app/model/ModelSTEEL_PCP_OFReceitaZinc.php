@@ -12,7 +12,25 @@ class ModelSTEEL_PCP_OFReceitaZinc {
     private $receita_zinc;
     private $receita_zincdesc;
     private $processozinc;
+    private $tipoOrdem;
     private $situacao;
+    private $PesoDoCesto;
+    
+    function getPesoDoCesto() {
+        return $this->PesoDoCesto;
+    }
+
+    function setPesoDoCesto($PesoDoCesto) {
+        $this->PesoDoCesto = $PesoDoCesto;
+    }
+    
+    function getTipoOrdem() {
+        return $this->tipoOrdem;
+    }
+
+    function setTipoOrdem($tipoOrdem) {
+        $this->tipoOrdem = $tipoOrdem;
+    }
     
     function getSituacao() {
         return $this->situacao;

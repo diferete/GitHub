@@ -98,6 +98,15 @@ class ModelSTEEL_PCP_OrdensFab {
     private $receita_zinc;
     private $receita_zincdesc;
     private $processozinc;
+    private $PesoDoCesto;
+    
+    function getPesoDoCesto() {
+        return $this->PesoDoCesto;
+    }
+
+    function setPesoDoCesto($PesoDoCesto) {
+        $this->PesoDoCesto = $PesoDoCesto;
+    }
     
     function getProcessozinc() {
         return $this->processozinc;

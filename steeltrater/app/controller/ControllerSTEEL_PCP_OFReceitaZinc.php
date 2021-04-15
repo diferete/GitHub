@@ -41,9 +41,10 @@ class ControllerSTEEL_PCP_OFReceitaZinc extends Controller {
     public function beforeUpdate() {
         parent::beforeUpdate();
 
+        $this->opFinalizadaEmProcesso();
         $this->verificaTipoZincagem();
         $this->apontaReceitaZincagem();
-
+        
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -95,6 +96,26 @@ class ControllerSTEEL_PCP_OFReceitaZinc extends Controller {
             echo $oMenSuccess->getRender();
             exit();
         }
+        
+        //Busca o Peso do Cesto do tratamento da Receita Zincagem
+        if($aCamposChave['PesoDoCesto']=='0,00'||$aCamposChave['PesoDoCesto']==0){
+            $oControllerReceitaItensZinc = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
+            $oControllerReceitaItensZinc->Persistencia->adicionaFiltro('cod', $aCamposChave['receita_zinc']);
+            $oItensDados = $oControllerReceitaItensZinc->Persistencia->consultarWhere();
+            echo "$('#PesoCestoId').val('".$oItensDados->getPesoDoCesto()."');";
+        }
+        
+    }
+    
+    public function opFinalizadaEmProcesso(){
+        
+        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        if($aCamposChave['situacao']=='Finalizado'){
+            $this->Model->setSituacao('Processo');
+            $this->Persistencia->alteraDadosApont($aCamposChave['op']);
+        }        
     }
 
 }

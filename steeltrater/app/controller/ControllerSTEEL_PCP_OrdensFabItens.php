@@ -51,7 +51,7 @@ class ControllerSTEEL_PCP_OrdensFabItens extends Controller {
             $this->Model->setResfriamento($oReceitaItens->getResfriamento());
             $this->Model->setCamadaEspessura($oReceitaItens->getCamadaEspessura());
             $this->Model->setTempoZinc($oReceitaItens->getTempoZinc());
-            $this->Model->setPesoDoCesto($oReceitaItens->getPesoDoCesto());
+            $this->Model->setPesoDoCesto($oModelFab->getPesoDoCesto());
                         
             $this->Persistencia->inserir();
         }
@@ -98,7 +98,7 @@ class ControllerSTEEL_PCP_OrdensFabItens extends Controller {
             $this->Model->setResfriamento($oReceitaItens->getResfriamento());
             $this->Model->setCamadaEspessura($oReceitaItens->getCamadaEspessura());
             $this->Model->setTempoZinc($oReceitaItens->getTempoZinc());
-            $this->Model->setPesoDoCesto($oReceitaItens->getPesoDoCesto());
+            $this->Model->setPesoDoCesto($oModelFab->getPesoDoCesto());
             
             $this->Persistencia->inserir();
         }

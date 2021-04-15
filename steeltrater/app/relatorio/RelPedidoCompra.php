@@ -5,7 +5,7 @@ require '../../biblioteca/fpdf/fpdf.php';
 include("../../includes/Config.php");
 
 $Fil_Codigo = $_REQUEST['FIL_Codigo'];
-$SUP_PedidoSeq = $_REQUEST['SUP_PedidoSeq'];
+$SUP_PedidoSeq = $_REQUEST['sup_PedidoSeq'];
 $meses = $_REQUEST['mes'];
 
 class PDF extends FPDF {
