@@ -13,22 +13,13 @@
       refreshingSpinner="crescent" refreshingText="Atualizando seus dados...">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-item class="inner_border">
-    <ion-icon name="calendar-outline"></ion-icon>
-    <ion-label class="month_select">Selecione o mês</ion-label>
-    <ion-datetime displayFormat="MMM/YYYY" [(ngModel)]="dataMes" pickerFormat="MMM YYYY"
-      monthShortNames='Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setetembro, Outubro, Novembro, Dezembro'
-      cancelText="Cancelar" doneText="Selecionar"></ion-datetime>
-  </ion-item>
-
-  <ion-button color="roxoSteel" expand="block" (click)='getPedCompras()'>Atualizar</ion-button>
 
   <ion-list>
     <div class="divisor">
       <ion-label>{{contador}} pedidos de compra</ion-label>
     </div>
     <ion-item *ngFor="let p of aPedCompra; let i = index" (click)='getDadosPedCompras(p)'>
-      <ion-col size="3">{{p.sup_pedidoseq}}</ion-col>
+      <ion-col size="3">{{p.nr}}</ion-col>
       <ion-col size="7" style="font-size: 12px;"><b>{{p.fornecedor}}</b></ion-col>
       <ion-col size="2">
         <ion-chip outline color="success">

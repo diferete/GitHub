@@ -21,6 +21,7 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
         $this->setUsaAcaoExcluir(false);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
+        $this->getTela()->setiAltura(800);
 
         $oFil_Codigo = new CampoConsulta('CNPJ', 'fil_codigo');
         $oFil_Codigo->setILargura(80);
@@ -58,9 +59,9 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
         $oPedidoValorTotal = new CampoConsulta('Valor total', 'sup_pedidovalortotal', CampoConsulta::TIPO_DECIMAL);
 
         $oDrop1 = new Dropdown('IMPRIMIR PEDIDO DE COMPRA', Dropdown::TIPO_PRIMARY, Dropdown::TIPO_PADRAO, 3, 3, 12, 12);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Imprimir', $this->getController(), 'acaoMostraRelConsulta', '', false, 'RelPedidoCompra', false, '', false, '', false, false);
-
-        $oFilPedidoSeq = new Filtro($oPedidoSeq, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Imprimir últimos 6 mêses', $this->getController(), 'acaoMostraRelConsulta', '', false, 'RelPedidoCompra,mes=6', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Imprimir últimos 12 mêses', $this->getController(), 'acaoMostraRelConsulta', '', false, 'RelPedidoCompra,mes=12', false, '', false, '', false, false);
+        $oFilPedidoSeq = new Filtro($oPedidoSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
         $this->addDropdown($oDrop1);
         $this->addFiltro($oFilPedidoSeq);

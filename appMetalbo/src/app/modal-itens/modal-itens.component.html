@@ -8,23 +8,26 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
+  <ion-grid style="font-weight: 600;background-color: darkgray;">
     <ion-col style="padding-left: 3px;" size="4">
       Descrição
     </ion-col>
-    <ion-col size="4" offset="4">
-      Preço
+    <ion-col size="4" offset="2">
+      Vlr Un.
     </ion-col>
-    <ion-col size="4" offset="1">
+    <ion-col size="4">
       Qnt
+    </ion-col>
+    <ion-col size="4" offset="0.5">
+      Vlr Ttl.
     </ion-col>
   </ion-grid>
   <ion-list>
     <ion-item *ngFor="let p of itens; let i = index">
-      <ion-col size="7" style="font-size: 12px;">{{p.sup_pedidoitemdescricao}}</ion-col>
-      <ion-col size="3" style="font-size: 12px;"><b>R$ {{p.sup_pedidoitemvalor}}</b></ion-col>
-      <ion-col size="3" style="font-size: 12px;" offset="-0.3">
-        <b>{{p.sup_pedidoitemcomqtd}}{{p.sup_pedidoitemunidade}}</b></ion-col>
+      <ion-col size="5" style="font-size: 11px;"><b>{{p.itemdescricao}}</b></ion-col>
+      <ion-col size="3" style="font-size: 11px;">R$ {{p.itemvalor}}</ion-col>
+      <ion-col size="3" style="font-size: 11px;" offset="-0.8">{{p.itemqtd}} {{p.itemunidade}}</ion-col>
+      <ion-col size="3" style="font-size: 11px;" offset="-0.8">R$ {{p.itemvalortotal}}</ion-col>
     </ion-item>
   </ion-list>
 </ion-content>

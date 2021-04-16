@@ -16,11 +16,11 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 export class PedComprasDetalhePage implements OnInit {
 
   dados: any;
-  seq: any;
+  nr: any;
   data: any;
   fornecedor: any;
   itens: [];
-  valor: any;
+  valorTotal: any;
   solicitante: any;
   observacao: any;
   valorFrete: any;
@@ -38,14 +38,14 @@ export class PedComprasDetalhePage implements OnInit {
       let getNav = this.router.getCurrentNavigation();
       if (getNav.extras.state) {
         this.dados = getNav.extras.state.valorParaEnviar;
-        this.seq = this.dados.sup_pedidoseq;
-        this.data = this.dados.sup_pedidodata;
+        this.nr = this.dados.nr;
+        this.data = this.dados.data;
         this.fornecedor = this.dados.fornecedor;
         this.itens = this.dados.itens;
-        this.valor = this.dados.sup_pedidovalortotal;
-        this.solicitante = this.dados.sup_pedidousuario;
-        this.observacao = this.dados.sup_pedidoobservacao;
-        this.valorFrete = this.dados.sup_pedidovlrfrete;
+        this.valorTotal = this.dados.valorTotal;
+        this.solicitante = this.dados.usuario;
+        this.observacao = this.dados.observacao;
+        this.valorFrete = this.dados.valorFrete;
         this.cnpj = this.dados.cnpj;
       }
     });
@@ -75,7 +75,7 @@ export class PedComprasDetalhePage implements OnInit {
         usucod = result;
 
       }).then((result: any) => {
-        console.log(usutoken, usucod, sit, this.seq, this.cnpj);
+        console.log(usutoken, usucod, sit, this.nr, this.cnpj);
       });
   }
 
@@ -93,7 +93,7 @@ export class PedComprasDetalhePage implements OnInit {
     }
     const alert = await this.alertController.create({
       header: 'Atenção!',
-      message: 'Deseja <strong>' + this.teste + '</strong> o pedido de compra número: <strong>' + this.seq + ' </strong>?',
+      message: 'Deseja <strong>' + this.teste + '</strong> o pedido de compra número: <strong>' + this.nr + ' </strong>?',
       buttons: [
         {
           text: 'Cancelar',
@@ -124,7 +124,7 @@ export class PedComprasDetalhePage implements OnInit {
         return this.StorageServ.retornaUsuCod();
       }).then((result: any) => {
         usucod = result;
-        return this.pedCompraMetalboService.gerenPedidoCompra(usutoken, usucod, sit, this.seq, this.cnpj);
+        return this.pedCompraMetalboService.gerenPedidoCompra(usutoken, usucod, sit, this.nr, this.cnpj);
       }).then((result: any) => {
         if (result.DADOS.retorno == true) {
           this.mensagemSucessoRetorno(result.DADOS.mensagem);

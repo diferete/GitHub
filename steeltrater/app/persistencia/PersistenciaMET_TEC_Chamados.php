@@ -76,7 +76,7 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
             }
 
             $sSqlUpdate = "update MET_TEC_Chamados set dias = " . $dias . " where nr = " . $aChamado['nr'] . " and filcgc = " . $aChamado['filcgc'] . "";
-            $this->executaSql($sSqlUpdate);
+            $debug = $this->executaSql($sSqlUpdate);
         }
     }
 

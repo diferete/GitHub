@@ -25,13 +25,13 @@ export class PedCompraMetalboService {
     return this.loading.present();
   }
 
-  getPedCompras(usutoken, usucod, mes, cnpj) {
+  getPedCompras(usutoken, usucod, cnpj) {
     this.presentLoading('');
     let dadosEnv = {
       classe: "STEEL_SUP_PedidoCompra",
       metodo: "getDadosPedidoCompras", dados: {
-        "mes": mes,
         "cnpj": cnpj,
+        "usucodigo": usucod,
       },
       usucodigo: usucod,
       usutoken: usutoken

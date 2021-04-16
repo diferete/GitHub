@@ -53,6 +53,7 @@ export class PainelcomprasService {
         classe: "STEEL_SUP_PedidoCompra",
         metodo: "getDadosBadgeCompras",
         dados: {
+          "usucodigo": usucod,
 
         },
         usucodigo: usucod,
