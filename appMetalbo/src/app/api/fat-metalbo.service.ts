@@ -20,7 +20,8 @@ export class FatMetalboService {
     async presentLoading(message: string) {
 
         this.loading = await this.loadingController.create({
-            message
+            message,
+            duration: 7000
         });
         return this.loading.present();
     }

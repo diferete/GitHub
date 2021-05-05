@@ -8,15 +8,11 @@ import { PedComprasDetalhePageRoutingModule } from './ped-compras-detalhe-routin
 
 import { PedComprasDetalhePage } from './ped-compras-detalhe.page';
 import { ModalItensComponent } from '../modal-itens/modal-itens.component';
+import { ModalItensAntigosComponent } from '../modal-itens-antigos/modal-itens-antigos.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    PedComprasDetalhePageRoutingModule
-  ],
-  declarations: [PedComprasDetalhePage, ModalItensComponent],
-  entryComponents: [ModalItensComponent]
+  imports: [CommonModule, FormsModule, IonicModule, PedComprasDetalhePageRoutingModule],
+  declarations: [PedComprasDetalhePage, ModalItensComponent, ModalItensAntigosComponent],
+  entryComponents: [ModalItensComponent, ModalItensAntigosComponent],
 })
-export class PedComprasDetalhePageModule { }
+export class PedComprasDetalhePageModule {}

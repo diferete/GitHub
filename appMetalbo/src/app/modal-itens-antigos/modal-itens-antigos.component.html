@@ -24,6 +24,20 @@
         <ion-col size="2" style="font-size: 10px" offset="0.2">{{ item.itemqtd }}{{ item.itemunidade }}</ion-col>
         <ion-col size="3" style="font-size: 10px" offset="0.8">{{ item.itemvalortotal }}</ion-col>
       </ion-item>
+      <ion-grid style="font-weight: 600; background-color: rgba(202, 202, 202, 0.637)">
+        <ion-col size="5" style="font-size: 10px">Nr ped.</ion-col>
+        <ion-col size="4" style="font-size: 10px" offset="1">Valor</ion-col>
+        <ion-col size="4" style="font-size: 10px" offset="2">Qt.</ion-col>
+        <ion-col size="4" style="font-size: 10px" offset="2.6">Total</ion-col>
+      </ion-grid>
+      <ion-item *ngFor="let antigo of item.antigos">
+        <ion-col size="2" style="font-size: 10px">
+          <b>{{ antigo.nr }}</b>
+        </ion-col>
+        <ion-col size="3" style="font-size: 10px" offset="0.5">{{ antigo.itemvalor }}</ion-col>
+        <ion-col size="4" style="font-size: 10px">{{ antigo.itemqtd }}{{ item.itemunidade }}</ion-col>
+        <ion-col size="3" style="font-size: 10px">{{ antigo.itemvalortotal }}</ion-col>
+      </ion-item>
     </ion-item-group>
   </ion-list>
 </ion-content>

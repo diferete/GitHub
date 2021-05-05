@@ -26,7 +26,8 @@ export class PainelcomprasService {
   async presentLoading(message: string) {
 
     this.loading = await this.loadingController.create({
-      message
+      message,
+      duration: 7000
     });
     return this.loading.present();
   }
@@ -64,7 +65,6 @@ export class PainelcomprasService {
       // alert('3-Token enviado '+dadosEnv.usutoken);
       this.http.post(this.conexao.link, dadosEnv)
         .subscribe((result: any) => {
-          console.log(result);
           setTimeout(() => {
             this.loading.dismiss();
           });

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
 import { ConexaoService } from './conexao.service';
 import { LoadingController } from '@ionic/angular';
 
@@ -13,20 +12,31 @@ export class PedCompraMetalboService {
   loading: any;
 
   constructor(private http: HttpClient,
+    private toastController: ToastController,
     public conexao: ConexaoService,
     public loadingController: LoadingController) { }
 
   //MENSAGEM DE LOADING
-  async presentLoading(message: string) {
 
-    this.loading = await this.loadingController.create({
-      message
+  async presentLoading() {
+    this.loading = await this.toastController.create({
+      message: 'Carregando!',
+      color: 'dark',
+      duration: 9000
     });
     return this.loading.present();
   }
+  /*
+    async presentLoading(message: string) {
+      this.loading = await this.loadingController.create({
+        message,
+        duration: 7000
+      });
+      return this.loading.present();
+    }*/
 
   getPedCompras(usutoken, usucod, cnpj) {
-    this.presentLoading('');
+    this.presentLoading();
     let dadosEnv = {
       classe: "STEEL_SUP_PedidoCompra",
       metodo: "getDadosPedidoCompras", dados: {
@@ -54,8 +64,10 @@ export class PedCompraMetalboService {
     });
   }
 
+  getPedComprasAntigas() { }
+
   gerenPedidoCompra(usutoken, usucod, sit, seq, cnpj) {
-    this.presentLoading('');
+    this.presentLoading();
     let dadosEnv = {
       classe: "STEEL_SUP_PedidoCompra",
       metodo: "gerenPedidoCompra", dados: {

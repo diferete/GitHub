@@ -1,66 +1,68 @@
 <ion-header>
   <ion-toolbar color="verdeMetalbo">
     <ion-buttons slot="start">
-      <ion-back-button style="color:aliceblue" defaultHref="app/principal" text="Voltar"></ion-back-button>
+      <ion-back-button style="color: aliceblue" defaultHref="app/principal" text="Voltar"></ion-back-button>
     </ion-buttons>
-    <ion-title style="color:aliceblue">Detalhes</ion-title>
+    <ion-title style="color: aliceblue">Detalhes</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-col size="6">Nr</ion-col>
-      <ion-col size="6"><b>{{nr}}</b></ion-col>
-    </ion-item>
-    <ion-item>
-      <ion-col size="6">Data</ion-col>
-      <ion-col size="6"><b>{{data}}</b></ion-col>
+      <ion-col size="2">Nr</ion-col>
+      <ion-col size="4"><b>{{nr}}</b></ion-col>
+      <ion-col size="2">Data</ion-col>
+      <ion-col size="4"><b>{{data}}</b></ion-col>
     </ion-item>
     <ion-item>
       <ion-col size="5">Fornecedor</ion-col>
-      <ion-col size="7" style="font-size: 14px;"><b>{{fornecedor}}</b></ion-col>
+      <ion-col size="7" style="font-size: 14px"><b>{{fornecedor}}</b></ion-col>
     </ion-item>
     <ion-item button (click)="modalItens()" color="warning">
-      <ion-label style="padding-left: 5px"><b>Lista de itens do pedido</b></ion-label>
+      <ion-icon name="list-outline"></ion-icon>
+      <ion-label style="padding-left: 5px"><b>Listar itens</b></ion-label>
+    </ion-item>
+    <ion-item button (click)="modalItensAntigos()" color="tertiary" *ngIf="cnpj == '8993358000174'">
+      <ion-icon name="list-outline"></ion-icon>
+      <ion-label style="padding-left: 5px"><b>Listar itens com compras anteriores</b></ion-label>
     </ion-item>
     <ion-item>
-      <ion-col size="6">Valor frete</ion-col>
-      <ion-col size="6"><b>R$ {{valorFrete}}</b></ion-col>
+      <ion-col size="2">Frete</ion-col>
+      <ion-col size="4" style="font-size: 15px"><b>R$ {{valorFrete}}</b></ion-col>
+      <ion-col size="1">Ipi</ion-col>
+      <ion-col size="5" style="font-size: 15px"><b>R$ {{ipi}}</b></ion-col>
+    </ion-item>
+    <ion-item>
+      <ion-col size="6">Descontos</ion-col>
+      <ion-col size="6"><b>R$ {{descontos}}</b></ion-col>
     </ion-item>
     <ion-item>
       <ion-col size="6">Valor total</ion-col>
-      <ion-col size="6"><b>R$ {{valorTotal}}</b></ion-col>
+      <ion-col size="6" style="font-size: 18px; color: red"><b>R$ {{valorTotal}}</b></ion-col>
     </ion-item>
-    <ion-item>
+    <!--<ion-item>
       <ion-col size="6">Solicitante</ion-col>
       <ion-col size="6"><b>{{solicitante}}</b></ion-col>
-    </ion-item>
+    </ion-item>-->
     <ion-item>
       <ion-col size="3">Obs.</ion-col>
-      <ion-col size="7" style="font-size: 12px;"><b>{{observacao}}</b></ion-col>
+      <ion-col size="7" style="font-size: 12px"><b>{{observacao}}</b></ion-col>
     </ion-item>
   </ion-list>
 
   <ion-list class="lista-botoes">
     <ion-list-header color="primary">
-      <ion-label class="label-pedido">Gerenciar
-      </ion-label>
+      <ion-label class="label-pedido">Gerenciar </ion-label>
     </ion-list-header>
     <div class="header_buttons_allign">
-      <ion-button color="success" class="button-gerencia" (click)="msgLiberaLista('a')">
-        Aprovar pedido
-      </ion-button>
-      <ion-button color="danger" class="button-gerencia" (click)="msgLiberaLista('r')">
-        Reprovar pedido
-      </ion-button>
+      <ion-button color="success" class="button-gerencia" (click)="msgLiberaLista('a')"> Aprovar pedido </ion-button>
+      <ion-button color="danger" class="button-gerencia" (click)="msgLiberaLista('r')"> Reprovar pedido </ion-button>
     </div>
   </ion-list>
-
-
-  <ion-button expand="full" color="roxoSteel" (click)="voltar()">Voltar</ion-button>
 </ion-content>
+
 <ion-footer>
   <ion-toolbar>
-
+    <ion-button expand="full" color="roxoSteel" (click)="voltar()">Voltar</ion-button>
   </ion-toolbar>
 </ion-footer>

@@ -18,7 +18,7 @@ export class BlockingResolver implements Resolve<any> {
 
   async presentLoader() {
     this.loadingElement = await this.loadingController.create({
-      message: 'Loading ...'
+      message: 'Carregando ...'
     });
 
     await this.loadingElement.present();
