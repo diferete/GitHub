@@ -5,7 +5,8 @@ require '../../biblioteca/fpdf/fpdf.php';
 include("../../includes/Config.php");
 
 $Fil_Codigo = $_REQUEST['FIL_Codigo'];
-$SUP_PedidoSeq = $_REQUEST['sup_PedidoSeq'];
+$SUP_PedidoSeq = 0;
+$SUP_PedidoSeq = $_REQUEST['SUP_PedidoSeq'];
 $meses = $_REQUEST['mes'];
 
 class PDF extends FPDF {
@@ -368,16 +369,16 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     $number_of_lines = $total_string_width / ($column_width - 1);
     $number_of_lines2 = $total_string_width2 / ($column_width2 - 1);
     //Determina o número de linhas para a 1 e 2 linha de acordo com as divisões realizadas
-    if($number_of_lines2<1.5 && $number_of_lines2>1.005 && $total_string_width>63 && $number_of_lines!=1){
+    if ($number_of_lines2 < 1.5 && $number_of_lines2 > 1.005 && $total_string_width > 63 && $number_of_lines != 1) {
         $number_of_lines = ceil($number_of_lines2);
-    }else{
+    } else {
         $number_of_lines = ceil($number_of_lines);
     }
-    
+
     $line_height = 4;
     $height_of_cell = $number_of_lines * $line_height;
     $height_of_cell = ceil($height_of_cell);
-    
+
     $pdf->SetFont('Arial', 'B', 6);
     $pdf->SetFillColor(255, 250, 245);
     $pdf->Cell(6, $height_of_cell, $rowItens['SUP_PedidoItemSeq'], 'L,B,T', 0, 'L', true);
@@ -435,10 +436,10 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     $iTotalQuant = $rowItens['SUP_PedidoItemComQtd'] + $iTotalQuant;
     $iTotalDesItens = $rowItens['SUP_PedidoItemVlrDesconto'] + $iTotalDesItens;
     $datainicial = '';
-    if($meses=='6'){
-        $datainicial  = date('d/m/Y', strtotime('-6 months'));
-    }else{
-        $datainicial  = date("d/m/".(date("Y")-1));
+    if ($meses == '6') {
+        $datainicial = date('d/m/Y', strtotime('-6 months'));
+    } else {
+        $datainicial = date("d/m/" . (date("Y") - 1));
     }
     $sqlTopCinco = "select "
             . "SUP_PEDIDOITEM.SUP_PedidoSeq, "
@@ -448,41 +449,74 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
             . "SUP_PedidoItemQtd,"
             . "SUP_PedidoItemValor,"
             . "SUP_PedidoItemValorTotal,"
-            . "SUP_PedidoItemIImposto,"
             . "convert(varchar,SUP_PedidoItemDataNeces,103)as SUP_PedidoItemDataNeces "
             . "from SUP_PEDIDOITEM "
-            . "left outer join SUP_PEDIDOITEMI "
-            . "on SUP_PEDIDOITEM.SUP_PedidoSeq = SUP_PEDIDOITEMI.SUP_PedidoSeq "
             . "where SUP_PEDIDOITEM.FIL_Codigo = " . $Fil_Codigo . " "
             . "and PRO_Codigo = " . $rowItens['PRO_Codigo'] . " "
             . "and SUP_PEDIDOITEM.SUP_PedidoSeq < " . $SUP_PedidoSeq . " "
-            . "and SUP_PedidoItemDataNeces BETWEEN '" .$datainicial. "' AND '" .$data. "' "
-            . "order by SUP_PEDIDOITEM.SUP_PedidoSeq desc"; 
+            . "and SUP_PedidoItemDataNeces BETWEEN '" . $datainicial . "' AND '" . $data . "' "
+            . "order by SUP_PEDIDOITEM.SUP_PedidoSeq desc";
     $dadosTopCinco = $PDO->query($sqlTopCinco);
 
+    $iTotalValor = 0;
+    $iMes = 0;
+    $iAno = 0;
     $btop5 = false;
     while ($rowTopCinco = $dadosTopCinco->fetch(PDO::FETCH_ASSOC)) {
+        if ($iMes == 0) {
+            $iMes = explode("/", $rowTopCinco['SUP_PedidoItemDataNeces'])[1];
+            $iAno = explode("/", $rowTopCinco['SUP_PedidoItemDataNeces'])[2];
+            $iTotalValor = $rowTopCinco['SUP_PedidoItemQtd'] * $rowTopCinco['SUP_PedidoItemValor'];
+        } else {
+            if ($iMes == explode("/", $rowTopCinco['SUP_PedidoItemDataNeces'])[1]) {
+                $iTotalValor = $iTotalValor + $rowTopCinco['SUP_PedidoItemQtd'] * $rowTopCinco['SUP_PedidoItemValor'];
+            } else {
+                $pdf->Cell(6, 4, '', '', 0, 'L');
+                $pdf->Cell(27, 4, '', 'L,T', 0, 'R', true);
+                $pdf->Cell(32, 4, '', 'T', 0, 'R', true);
+                $pdf->Cell(13, 4, '', 'T', 0, 'L', true);
+                $pdf->Cell(29, 4, '', 'T', 0, 'R', true);
+                $pdf->Cell(30, 4, 'Valor Total sem Impostos R$: ', 'T', 0, 'L', true);
+                $pdf->Cell(16, 4, number_format($iTotalValor, 2, ',', '.'), 'T', 0, 'R', true);
+                $pdf->Cell(15, 4, 'Mês/Ano:    ', 'T', 0, 'R', true);
+                $pdf->Cell(32, 4, $iMes . '/' . $iAno, 'R,T', 1, 'R', true);
+                $iTotalValor = $rowTopCinco['SUP_PedidoItemQtd'] * $rowTopCinco['SUP_PedidoItemValor'];
+                $iMes = explode("/", $rowTopCinco['SUP_PedidoItemDataNeces'])[1];
+                $iAno = explode("/", $rowTopCinco['SUP_PedidoItemDataNeces'])[2];
+            }
+        }
         $pdf->SetFont('Arial', 'B', 6);
-        $pdf->Cell(6, 4,'', '', 0, 'L');
+        $pdf->Cell(6, 4, '', '', 0, 'L');
         $pdf->SetFillColor(255, 255, 250);
         $pdf->Cell(27, 4, 'Pedido de Compra:  ', 'L,T,B', 0, 'R', true);
         $pdf->Cell(32, 4, $rowTopCinco['SUP_PedidoSeq'], 'T,B,R', 0, 'R', true);
-        $pdf->Cell(13, 4, 'Valor:  ', 'T,B,L', 0, 'L', true);
-        $pdf->Cell(30, 4, number_format($rowTopCinco['SUP_PedidoItemValor'], 2, ',', '.'), 'T,B,R', 0, 'R', true);
-        $pdf->Cell(15, 4, 'Quantidade:  ', 'T,B', 0, 'L', true);
-        $pdf->Cell(30, 4, number_format($rowTopCinco['SUP_PedidoItemQtd'], 2, ',', '.'), 'T,B,R', 0, 'R', true);
+        $pdf->Cell(15, 4, 'Valor Unitário', 'T,B,L', 0, 'L', true);
+        $pdf->Cell(29, 4,'R$ '. number_format($rowTopCinco['SUP_PedidoItemValor'], 5, ',', '.'), 'T,B,R', 0, 'R', true);
+        $pdf->Cell(15, 4, 'Quantidade:  ', 'T,B,L', 0, 'L', true);
+        $pdf->Cell(29, 4, number_format($rowTopCinco['SUP_PedidoItemQtd'], 2, ',', '.'), 'T,B,R', 0, 'R', true);
         $pdf->Cell(10, 4, 'Data:  ', 'T,B', 0, 'R', true);
         $pdf->Cell(37, 4, $rowTopCinco['SUP_PedidoItemDataNeces'], 'T,B,R', 1, 'R', true);
         $iK = 1;
         $btop5 = true;
     }
+    if ($iMes != 0) {
+        $pdf->Cell(6, 4, '', '', 0, 'L');
+        $pdf->Cell(27, 4, '', 'L,B,T', 0, 'R', true);
+        $pdf->Cell(32, 4, '', 'B,T', 0, 'R', true);
+        $pdf->Cell(13, 4, '', 'B,T', 0, 'L', true);
+        $pdf->Cell(29, 4, '', 'B,T', 0, 'R', true);
+        $pdf->Cell(30, 4, 'Valor Total sem Impostos R$: ', 'B,T', 0, 'L', true);
+        $pdf->Cell(16, 4, number_format($iTotalValor, 2, ',', '.'), 'B,T', 0, 'R', true);
+        $pdf->Cell(15, 4, 'Mês/Ano:    ', 'B,T', 0, 'R', true);
+        $pdf->Cell(32, 4, $iMes . '/' . $iAno, 'R,B,T', 1, 'R', true);
+    }
     if ($iK == 1 && $btop5 == true) {
         $pdf->Cell(200, 0, '', '', 1, 'L');
         //$pdf->Ln(0.05);
         $iK = 2;
-}
+    }
     $iK = 1;
-   // $pdf->Ln(0.05);
+    // $pdf->Ln(0.05);
 }
 
 

@@ -17,7 +17,7 @@ class ViewMET_TEC_Chamados extends View {
         $this->setAcaoFecharTela(true);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
-        $this->getTela()->setILarguraGrid(2400);
+        $this->getTela()->setILarguraGrid(2200);
         $this->getTela()->setBGridResponsivo(false);
 
         $this->setUsaFiltro(true);
