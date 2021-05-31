@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="verdeMetalbo">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: aliceblue" defaultHref="app/principal" text="Voltar"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: aliceblue">Solicitação nr.: {{nr}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <div class="divisor">
+      <ion-label>Itens</ion-label>
+    </div>
+    <ion-item *ngFor="let p of itens; let i = index; trackBy:trackByFn">
+      <ion-col size="3" style="font-size: 11px">{{p.codigo}}</ion-col>
+      <ion-col size="6" style="font-size: 11px">{{p.itemdescricao}}</ion-col>
+      <ion-input
+        type="tel"
+        style="font-size: 13px"
+        [(ngModel)]="p.itemqtd"
+        (focusout)="msgAlteraQnt(nr,p.codigo,p.itemqtd)"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>
