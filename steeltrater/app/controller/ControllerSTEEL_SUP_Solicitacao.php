@@ -102,4 +102,37 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $this->Model->setSUP_SolicitacaoUsuCanc('');
     }
 
+    public function getDadosSolicitacaoCompras() {
+
+        $aRetorno = $this->Persistencia->getDadosSolicitacaoCompras();
+
+        return $aRetorno;
+    }
+
+    public function getQuantidades($Dados) {
+        $nr = $Dados->nr;
+        $cod = $Dados->codigo;
+        $qnt = $Dados->qnt;
+
+        $aRetorno = array();
+
+        $sRetorno = $this->Persistencia->getQuantidades($nr, $cod);
+
+        if ($qnt != $sRetorno) {
+            $aRetorno['retorno'] = true;
+        } else {
+            $aRetorno['retorno'] = false;
+        }
+
+        return $aRetorno;
+    }
+
+    public function alteraQuantidades($Dados) {
+        $nr = $Dados->nr;
+        $cod = $Dados->codigo;
+        $qnt = $Dados->qnt;
+
+        $sRetorno = $this->Persistencia->alteraQuantidades($nr, $cod, $qnt);
+    }
+
 }
