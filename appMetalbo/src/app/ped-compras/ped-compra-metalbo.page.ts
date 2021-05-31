@@ -13,21 +13,22 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['./ped-compra-metalbo.page.scss'],
 })
 export class PedCompraMetalboPage implements OnInit {
-
   cnpj: any;
   empresa: any;
   contador: number;
 
   aPedCompra: [];
 
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
     public menu: MenuController,
     private route: ActivatedRoute,
     public pedCompraMetalboService: PedCompraMetalboService,
     public alertController: AlertController,
     public StorageServ: StorageService,
-    public loadingController: LoadingController) {
-    this.route.queryParams.subscribe(params => {
+    public loadingController: LoadingController
+  ) {
+    this.route.queryParams.subscribe((params) => {
       let getNav = this.router.getCurrentNavigation();
       if (getNav.extras.state) {
         this.cnpj = getNav.extras.state.valorParaEnviar;
@@ -45,8 +46,7 @@ export class PedCompraMetalboPage implements OnInit {
 
     await alert.present();
   }
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ionViewWillEnter() {
     this.getPedCompras();
@@ -60,10 +60,12 @@ export class PedCompraMetalboPage implements OnInit {
       .then((result: any) => {
         usutoken = result;
         return this.StorageServ.retornaUsuCod();
-      }).then((result: any) => {
+      })
+      .then((result: any) => {
         usucod = result;
         return this.pedCompraMetalboService.getPedCompras(usutoken, usucod, this.cnpj);
-      }).then((result: any) => {
+      })
+      .then((result: any) => {
         console.log(result.DADOS);
         this.aPedCompra = result.DADOS.pedidos;
         this.empresa = result.DADOS.empresa;
@@ -74,8 +76,8 @@ export class PedCompraMetalboPage implements OnInit {
   getDadosPedCompras(sup_pedidoseq) {
     let navigationExtras: NavigationExtras = {
       state: {
-        valorParaEnviar: sup_pedidoseq
-      }
+        valorParaEnviar: sup_pedidoseq,
+      },
     };
     this.router.navigate(['ped-compras-detalhe'], navigationExtras);
   }
@@ -87,5 +89,4 @@ export class PedCompraMetalboPage implements OnInit {
       event.target.complete();
     }, 1000);
   }
-
 }
