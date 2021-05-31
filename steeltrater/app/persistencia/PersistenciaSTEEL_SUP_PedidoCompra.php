@@ -331,7 +331,6 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
             case 8993358000174:
                 $aRetorno = array();
                 $aI = array();
-                $aTeste = array();
                 $sSqlItens = "select "
                         . "pro_codigo,"
                         . "sup_pedidoitemdescricao,"
