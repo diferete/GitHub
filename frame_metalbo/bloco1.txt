@@ -1,1 +1,1 @@
-update MET_ISO_Treinamentos set tagTreinamento = 'N' where nr = 78 and filcgc = 75483040000211
+update MET_TEC_Chamados set dias = -17 where nr = 1110 and filcgc = 75483040000211
