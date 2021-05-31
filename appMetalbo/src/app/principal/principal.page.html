@@ -44,6 +44,17 @@
     </div>
   </ion-list>
 
+  <ion-list class="lista-botoes">
+    <ion-list-header color="primary">
+      <ion-label class="label-pedido">Solicitações</ion-label>
+    </ion-list-header>
+    <div class="header_buttons_allign">
+      <ion-button size="small" color="roxoSteel" (click)="getSolCompras()" class="button-md-pedidos">
+        SteelTrater
+      </ion-button>
+    </div>
+  </ion-list>
+
   <!--<ion-button color="verdeMetalbo" expand="block" (click)='getPainelFat()'>Atualizar</ion-button> -->
   <ion-list *ngIf="painelFatMetalbo=='Faturamento Metalbo'">
     <ion-list-header color="verdeMetalbo" class="gradGreen">
