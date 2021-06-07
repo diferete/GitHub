@@ -69,28 +69,6 @@ export class SolComprasItensPage implements OnInit {
     await alert.present();
   }
 
-  //erro retorno
-  async mensagemErroRetorno(erro, mensagem) {
-    const alert = await this.alertController.create({
-      header: 'Atenção!',
-      subHeader: 'Não foi possível ' + mensagem + ' a solicitação!',
-      message: erro,
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
-
-  //sucesso
-  async mensagemSucessoRetorno(mensagem) {
-    const alert = await this.alertController.create({
-      header: 'Sucesso!',
-      subHeader: 'Solicitação ' + mensagem + '!',
-      message: '',
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
-
   //mensagem confirmação
   async AlertConfirm(nr, codigo, qnt) {
     const alert = await this.alertController.create({
@@ -128,10 +106,31 @@ export class SolComprasItensPage implements OnInit {
       })
       .then((result: any) => {
         if (result.DADOS.retorno == true) {
-          //this.AlertConfirm(codigo, qnt);
-          //this.mensagemSucessoRetorno(result.DADOS.mensagem);
+          this.mensagemSucessoRetorno(codigo);
+        } else {
+          this.mensagemErroRetorno();
         }
       });
+  }
+
+  //erro retorno
+  async mensagemErroRetorno() {
+    const alert = await this.alertController.create({
+      header: 'Atenção!',
+      message: 'Não foi possível alterar a quantidade do item, tente novamente!',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
+  //sucesso
+  async mensagemSucessoRetorno(codigo) {
+    const alert = await this.alertController.create({
+      header: 'Sucesso!',
+      message: 'Quantidade alterada do item ' + codigo + '!',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 
   ngOnInit() {}

@@ -54,36 +54,6 @@ export class SolComprasService {
     });
   }
 
-  gerenSolicitacaoCompra(usutoken, usucod, sit, seq) {
-    this.presentLoading();
-    let dadosEnv = {
-      classe: 'STEEL_SUP_Solicitacao',
-      metodo: 'gerenSolicitacaoCompra',
-      dados: {
-        sit: sit,
-        seq: seq,
-      },
-      usucodigo: usucod,
-      usutoken: usutoken,
-    };
-    return new Promise((resolve, reject) => {
-      this.http.post(this.conexao.link, dadosEnv).subscribe(
-        (result: any) => {
-          setTimeout(() => {
-            this.loading.dismiss();
-          });
-          resolve(result);
-        },
-        (error) => {
-          setTimeout(() => {
-            this.loading.dismiss();
-          });
-          reject('Sem conexão!');
-        }
-      );
-    });
-  }
-
   getQuantidades(usutoken, usucod, nr, codigo, qnt) {
     this.presentLoading();
     let dadosEnv = {
@@ -124,6 +94,36 @@ export class SolComprasService {
         nr: nr,
         codigo: codigo,
         qnt: qnt,
+      },
+      usucodigo: usucod,
+      usutoken: usutoken,
+    };
+    return new Promise((resolve, reject) => {
+      this.http.post(this.conexao.link, dadosEnv).subscribe(
+        (result: any) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          resolve(result);
+        },
+        (error) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          reject('Sem conexão!');
+        }
+      );
+    });
+  }
+  gerenSolicitacaoCompra(usutoken, usucod, sit, nr) {
+    this.presentLoading();
+    let dadosEnv = {
+      classe: 'STEEL_SUP_Solicitacao',
+      metodo: 'gerenSolicitacaoCompra',
+      dados: {
+        sit: sit,
+        nr: nr,
+        usucodigo: usucod,
       },
       usucodigo: usucod,
       usutoken: usutoken,

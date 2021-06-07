@@ -14,9 +14,10 @@ export class SolComprasDetalhePage implements OnInit {
   dados: any;
   nr: any;
   data: any;
-  usucad: any;
+  solicitante: any;
   itens: [];
   situacao: any;
+  teste: boolean;
 
   constructor(
     public alertController: AlertController,
@@ -32,7 +33,7 @@ export class SolComprasDetalhePage implements OnInit {
         this.dados = getNav.extras.state.valorParaEnviar;
         this.nr = this.dados.nr;
         this.data = this.dados.data;
-        this.usucad = this.dados.usucad;
+        this.solicitante = this.dados.solicitante;
         this.itens = this.dados.itens;
       }
     });
@@ -61,7 +62,7 @@ export class SolComprasDetalhePage implements OnInit {
         {
           text: 'Cancelar',
           role: 'cancel',
-          handler: (blah) => {},
+          handler: () => {},
         },
         {
           text: this.situacao,
@@ -71,7 +72,6 @@ export class SolComprasDetalhePage implements OnInit {
         },
       ],
     });
-
     await alert.present();
   }
 
@@ -92,7 +92,7 @@ export class SolComprasDetalhePage implements OnInit {
       .then((result: any) => {
         if (result.DADOS.retorno == true) {
           this.mensagemSucessoRetorno(result.DADOS.mensagem);
-          this.voltar();
+          this.navBack();
         } else {
           this.mensagemErroRetorno(result.DADOS.erro, result.DADOS.mensagem);
         }
@@ -142,5 +142,9 @@ export class SolComprasDetalhePage implements OnInit {
       },
     };
     this.router.navigate(['sol-compras-itens'], navigationExtras);
+  }
+
+  navBack() {
+    this.router.navigate(['sol-compras']);
   }
 }
