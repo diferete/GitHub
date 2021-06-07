@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- Required meta tags -->
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112382958-1"></script>
+        <!-- <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-112382958-1');
+        </script>
+        -->
+
+        <meta charset="utf-8">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/line-icons.css">
+        <link rel="stylesheet" href="css/owl.carousel.css">
+        <link rel="stylesheet" href="css/owl.theme.css">
+        <link rel="stylesheet" href="css/nivo-lightbox.css">
+        <link rel="stylesheet" href="css/magnific-popup.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/menu_sideslide.css">
+        <link rel="stylesheet" href="css/main.css">    
+        <link rel="stylesheet" href="css/responsive.css">
+        <link rel="stylesheet" href="css/bootstrap-sweetalert/sweet-alert.css">
+        <script src="css/bootstrap-sweetalert/sweet-alert.js"></script>
+
+
+        <!-- Color CSS Styles  -->
+        <link rel="stylesheet" type="text/css" href="css/colors/blue.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/metalbostyle.css" media="screen" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Grayrids">
+        <title>Poliamidos</title>
+        <link rel="icon" type="image/png" href="img/favicons/favicon.png">
+        <link rel="apple-touch-icon" sizes="57x57" href="img/favicons/faviconx57.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="img/favicons/faviconx72.png">
+
+
+
+    </head>
+
+    <body>
+        <!-- Menu superior lateral -->
+        <header id="slider-area">  
+            <div class="menu-wrap">
+                <nav class="menu">
+                    <div class="icon-list navbar-collapse">
+
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#" onclick="mensagemErro('Caro usuário!', 'Este recurso está em desenvolvimento e logo será liberado!');">Baixar nota fiscal eletrônica.</a>
+                            </li>
+                            <li class="nav-item">
+                                <a data-target="#envcurriculo" data-toggle="modal" class="nav-link page-scroll" href="#">Enviar Curriculo</a>
+                            </li>  
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#" onclick="mensagemErro('Caro usuário!', 'Este recurso está em desenvolvimento e logo será liberado!');">Contato Técnico</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#" onclick="mensagemErro('Caro usuário!', 'Este recurso está em desenvolvimento e logo será liberado!');">Solicitar usuário</a>
+                            </li> 
+                        </ul>            
+                    </div>
+                </nav> 
+                <button class="close-button" id="close-button"><i class="lnr lnr-cross"></i></button>
+            </div> 
+
+
+            <div class="modal fade" id="envcurriculo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <!-- Blog Item Starts -->
+                                <div class="pricing-table">
+                                    <div class="blog-item-wrapper">
+                                        <form action="php/form-upload.php" accept-charset="utf-8" id="uploadForm" enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Nome" id="nome" class="form-control"   name="nome" required data-error="Por favor entre com seu nome">
+                                                        <div class="help-block with-errors"></div>
+                                                    </div>                                 
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Seu email" id="e-mail" class="form-control" name="email" required data-error="Por favor digite seu e-mail">
+                                                        <div class="help-block with-errors"></div>
+                                                    </div> 
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <input type="file" id="arquivo" class="form-control btn-default" name="curriculo" required data-error="Insira um arquvio válido">                                                <div class="help-block with-errors"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="submit-button text-center">
+                                                        <button class="btn btn-common" id="submit" type="submit">Enviar mensagem!</button>
+                                                        <div id="msgSubmit" class="h3 text-center hidden"></div> 
+                                                        <div class="clearfix"></div> 
+                                                    </div>
+                                                </div>
+                                            </div>                     
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pricing-table">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+
+
+
+
+            <!--Menu superior -->   
+            <nav class="navbar navbar-expand-md fixed-top scrolling-navbar mainmenu-area">
+                <div class="container">          
+                    <a class="navbar-brand" href="index.html"><img src="img/logo/logopng.png" /></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="lnr lnr-menu"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#slider-area">Início</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#representantes">Representantes</a>
+                            </li>  
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#produtos">Produtos</a> 
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#institucional">Institucional</a>
+                            </li>            
+
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#noticias">Notícias</a>
+                            </li>    
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#contact">Contato</a>
+                            </li> 
+                        </ul> 
+                        <div>
+                            <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                                <li class="nav-item">
+                                    <a class="nav-link page-scroll"><img title="English" src="img/flags/eng.jpg" alt="English"></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link page-scroll"><img title="Español" src="img/flags/spa.jpg" alt="Español"></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link page-scroll"><img title="Deutsch" src="img/flags/ger.jpg" alt="Deutsch"></a>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="menu-button" id="open-button"><i class="lnr lnr-menu"></i></button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav> 
+
+
+
+            <!--Slides do Site-->
+            <div id="carousel-area">
+                <div id="carousel-slider" class="carousel slides" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-slider" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-slider" data-slide-to="1"></li>
+                        <li data-target="#carousel-slider" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item">
+                            <img src="img/slider/bg-2.jpg" alt="">
+                            <div class="carousel-caption">
+                                <h1>MATÉRIA-PRIMA <br> CRITERIOSAMENTE SELECIONADA</h1>  
+                            </div>
+                        </div>
+                        <div class="carousel-item active">
+                            <img src="img/slider/bg-1.jpg" alt="">
+                            <div class="carousel-caption">
+                                <h1 class="text-center">QUALIDADE EM COLAS E DERIVADOS DO AMIDO!</h1>
+                                <a href="#produtos" class="btn btn-lg btn-common">CONHEÇA NOSSOS PRODUTOS!</a>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="img/slider/bg-3.jpg" alt="">
+                            <div class="carousel-caption">
+                                <h1  class="hoverBtn">A 25 ANOS NO MERCADO!</h1> 
+                                <p>Presente na história da indústria Brasileira! </p>
+                                <a href="nossa_historia.html" class="btn btn-lg btn-common" target="new" >CONHEÇA NOSSA HISTÓRIA!</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel-slider" role="button" data-slide="prev">
+                        <i class="lnr  lnr-arrow-left"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-slider" role="button" data-slide="next">
+                        <i class="lnr  lnr-arrow-right"></i>
+                    </a>
+                </div>
+            </div>  
+        </header>
+
+        <!-- Serviços prestados -->
+        <section  class="section">
+            <div class="container">
+                <div class="section-header">          
+                    <h2 class="section-title">Poliamidos <span>Colas e Alimentos!</span></h2>
+                    <!-- <hr class="lines wow zoomIn" data-wow-delay="0.3s"> -->
+                </div> 
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="item-boxes wow fadeInDown" data-wow-delay="0.2s">
+                            <div class="icon">
+                                <i class="lnr lnr-cog"></i>
+                            </div>
+                            <h4>PRESENÇA NO CAMPO</h4>
+                            <p>A poliamidos coloca a disposição do agricultor, suporte técnico profissional para orientar e esclarecer dúvidas relacionadas as culturas trabalhadas. Trazendo assim um resultado direto na qualidade da matéria-prima.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="item-boxes wow fadeInDown" data-wow-delay="0.4s">
+                            <div class="icon">
+                                <i class="fa fa-dribbble"></i>
+                            </div>
+                            <h4>ABRANGÊNCIA EM EXPANSÃO!</h4>
+                            <p>A Poliamidos vem atendendo toda a região Sul e a maior parte do Sudeste visando expandir seu mercado em breve para atender todo o território nacional com representantes em regiões estratégicas.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="item-boxes wow fadeInDown" data-wow-delay="0.6s">
+                            <div class="icon">
+                                <i class="lnr lnr-chart-bars"></i>
+                            </div>
+                            <h4>EXCELÊNCIA NA FABRICAÇÃO!</h4>
+                            <p>Buscando novas tecnologias e variedades para as culturas, repassando aos nossos parceiros, objetivando e assegurando-lhes assim maior produtividade e qualidade da sua colheita, e consequentemente maior lucratividade.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Representantes -->
+        <div id="representantes"></div>
+        <section id="download" class="section">
+            <div class="container">
+                <div class="section-header">          
+                    <h5 class="section-title">Encontre o seu representante!</h5>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="section pricing-section">
+            <div class="container">
+                <div class="row pricing-tables">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <img alt="#" src="img/representantes/mp.jpg" style="max-width: 100%;height:100%;"/>
+                            <div class="pricing-details">
+                                <span>M. PASSOS REP. COMERCIAIS</span>
+                                <p>Responsável por atender a região dos estados de Santa Catarina e Rio Grande do Sul.</p>
+                            </div>
+                            <div class="plan-button">
+                                <a href="#" data-target="#buscarep1" data-toggle="modal" class="btn btn-common">CONTATO</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <img src="img/representantes/lr.jpg" style="max-width: 100%;height:100%;"/>
+                            <div class="pricing-details">
+                                <span>LEACIR RODRIGUES</span>
+                                <p>Atendendo todo o estado de São Paulo e também o estado do Paraná.</p>
+                            </div>
+                            <div class="plan-button">
+                                <a href="#" data-target="#buscarep2" data-toggle="modal" class="btn btn-common">CONTATO</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <img src="img/representantes/rep.jpg" alt="" style="max-width: 100%;height:100%;" />
+                            <div class="pricing-details">
+                                <span>MOLINARI REPRESENTAÇÕES</span>
+                                <p>Cobrindo os estados de Minas Gerais e Goiás sempre pronto para atender você.</p>
+                            </div>
+                            <div class="plan-button">
+                                <a href="#" data-target="#buscarep3" data-toggle="modal" class="btn btn-common">CONTATO</a>
+                                <!-- <a href="#" class="btn btn-common"></a>
+                                <a class="btn btn-common" onclick="toggler('selEstado');">Busque agora</a>  -->
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <img src="img/representantes/todos.png" alt="" style="max-width: 100%;height:100%;"/> 
+                        </div>
+                    </div>-->
+                </div>
+
+                <div id="selEstado" class="pricing-table table-left hidden" style="background-image: url(assets/images/pageheaderbg.jpg);" >
+                    <div class="container-fluid">
+                        <h1>ONDE VOCÊ ESTÁ?</h1>
+                        <h3 style='color: #bfbfbf;'> Selecione seu estado para encontrar nosso representante comercial mais próximo.</h3>
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
+                                <select id="estado" class="form-control-lg">
+                                    <option value="0" selected>Selecione o seu Estado (UF)</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="MG">Minas Gerais</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RJ">Rio de Janeiro</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SP">São Paulo</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-4"></div>
+                        </div> 
+                    </div><!-- End .container-fluid -->
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="modal fade" id="buscarep1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <!-- Blog Item Starts -->
+                            <div class="pricing-table">
+                                <div class="blog-item-wrapper">
+                                    <div class="blog-item-img">
+                                        <a href="single-post.html"></a>                
+                                    </div>
+                                    <div class="blog-item-text"> 
+                                        <h5><span class="col-sm-12">M. Passos Representações LTDA</span></h5>
+                                        <hr>
+                                        <div class="meta-tags">
+                                            <span>SC/RS</span>
+                                        </div>
+                                        <p id="endereco">
+                                            Travessa Marcilio Dias, 40 - AP 103<br/>
+                                            Jardim América - Rio do Sul<br/>
+                                            SC - BRASIL<br/>
+                                            CEP 89.160-186<br/>
+                                            Fone (47)98883-3971<br/>
+                                            Fone2 (47)98412-7789<br/>
+                                            Email<a style="color:#000" href="mailto:mateus@poliamidos.com.br"> mateus@poliamidos.com.br</a><br/>
+                                        </p> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pricing-table">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="modal fade" id="buscarep2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <!-- Blog Item Starts -->
+                            <div class="pricing-table">
+                                <div class="blog-item-wrapper">
+                                    <div class="blog-item-img">
+                                        <a href="single-post.html"></a>                
+                                    </div>
+                                    <div class="blog-item-text"> 
+                                        <h5><span class="col-sm-12">Leacir Rodrigues</span></h5>
+                                        <hr>
+                                        <div class="meta-tags">
+                                            <span>SP/PR</span>
+                                        </div>
+                                        <p id="endereco">
+                                            Rua Baruaré, 477<br/>
+                                            Lapa - São Paulo<br/>
+                                            SP - BRASIL<br/>
+                                            CEP 05.223-090<br/>
+                                            Cel (11)99602-5208<br/>
+                                            Email<a style="color:#000" href="mailto:leacir2rodrigues@gmail.com"> leacir2rodrigues@gmail.com</a><br/>
+                                        </p> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pricing-table">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="buscarep3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <!-- Blog Item Starts -->
+                            <div class="pricing-table">
+                                <div class="blog-item-wrapper">
+                                    <div class="blog-item-img">
+                                        <a href="single-post.html"></a>                
+                                    </div>
+                                    <div class="blog-item-text"> 
+                                        <h5><span class="col-sm-12">Molinari Representações LTDA</span></h5>
+                                        <hr>
+                                        <div class="meta-tags">
+                                            <span>MG/GO</span>
+                                        </div>
+                                        <p id="endereco">
+                                            Av. Barão de Piunhy, 247 - Sala 203<br/>
+                                            Centro - Formiga<br/>
+                                            MG - BRASIL<br/>
+                                            CEP 35.570-000<br/>
+                                            Fone (37)99931-6699<br/>
+                                            Fone2 (37)98842-4969<br/>
+                                            Email<a style="color:#000" href="mailto:marcelo.molinari@hotmail.com"> marcelo.molinari@hotmail.com</a><br/>
+                                        </p> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pricing-table">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--Produtos -->
+        <div id="produtos"></div>
+        <section id="download" class="section">
+            <div class="container">
+                <div class="section-header">          
+                    <h5 class="section-title">Confira nosso catálogo de produtos!</h5>
+                </div>
+            </div>
+        </section>
+
+        <div id="pricing" class="section pricing-section">
+            <div class="container">
+                <div class="row pricing-tables">
+                    <!--<div class="col-sm-5">
+                        <div class="pricing-table table-left">
+                            <a href="https://issuu.com/revistabicicleta/docs/lista_de_pre__o_-_2017" target="_blank" rel="noreferrer nofollow"><img class="img-thumbnail" src="img/catalogo/catalogo-capa.jpg" alt="catalogo"> </a>
+                            <div class="plan-button">
+                                <a href="https://issuu.com/revistabicicleta/docs/lista_de_pre__o_-_2017" target="new"  class="btn btn-common">Visualizar</a>
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="col-lg-12">
+                        <div class="pricing-table table-left">
+                            <div class="pricing-details">
+                                <img src="img/produtos/produtos.png" alt="" class="img-thumbnail"/>
+                                <!-- <span>CONHEÇA A VARIEDADE DOS PRODUTOS METALBO!</span>-->
+                                <p><br/><br/>A Poliamidos conta com uma ampla linha de elementos derivados do amido, como adesivos líquidos, dextrina, pregelatinizados, fécula de mandioca/amido de milho, entre outros, utilizados
+                                    em larga escala no setor papeleiro, para fixar substratos papel/papel, também nos setores alimentício e têxtil. O Sagu, amiláceo, obtido da fécula de mandioca, beneficiado através de processo tecnológico adequado, também é um produto da Poliamidos.</p>
+                                <p> Precisa de nosso catálogo? <br/>
+                            </div>
+                            <div class="plan-button"  style="margin-top: 117px;">
+                                <a href="http://www.poliamidos.com.br/pt-br/?p=produtos" class="btn btn-common">Confira!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Institucional -->
+        <div id="institucional"></div>
+        <section id="download" class="section section-md">
+            <div class="container">
+                <div class="section-header">          
+                    <h2 class="section-title">25 ANOS PRESENTE NA INDÚSTRIA BRASILEIRA!</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">            
+                        <div class="download-area text-center">
+                            <a href="nossa_historia.html" class="btn btn-border" target="new" >Conheça nossa história</a>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--<section id="features" class="section" data-stellar-background-ratio="0.2">
+            <div class="container">
+                <div class="section-header">          
+                    <h2 class="section-title">Fique por dentro das novidades da Metalbo acessando nosso informativo!</h2>
+                </div>
+            </div>
+        </section>
+        <div id="pricing" class="section pricing-section">
+            <div class="container">
+                <div class="row pricing-tables">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <div class="pricing-details">
+                                <a href="http://metalbo.com.br/Metalboletim/" target="new" > <img alt="" src="img/institucional/metalboletim.png" style="max-width: 100%;height:100%;"/></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+
+        <!-- Notícias  -->
+        <div id="noticias"></div>
+        <section id="blog" class="section">
+            <!-- Container Starts -->
+            <div class="container">
+                <div class="section-header">          
+                    <h2 class="section-title" style="margin-top: 50px;">Notícias <span>Poliamidos</span></h2>
+                    <hr class="lines">
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 blog-item">
+                        <!-- Blog Item Starts -->
+                        <div class="blog-item-wrapper">
+                            <div class="blog-item-text"> 
+                                <h3>
+                                    <a>FIMAN 2018</a>
+                                </h3>
+                                <hr class="lines">
+                                <div class="meta-tags">
+                                    <span class="date"><i class="lnr lnr-calendar-full"></i>28 de Fevereiro de 2018</span>
+                                    <!-- <span class="comments"><a href="#"><i class="lnr lnr-bubble"></i> 24 Comments</a></span>-->
+                                </div>
+                                <p>
+                                    <strong>Evento!</strong> Estaremos participando da FIMAN 2018, a Feira Internacional da Mandioca que acontece em Paranavaí no Paraná do dia 20 a 22 de Novembro. Marcando presença e mostrando mais da nossa empresa. 
+                                </p>
+                                <!-- <a href="single-post.html" class="btn btn-common btn-rm">Read More</a> -->
+                            </div>
+                        </div>
+                        <!-- Blog Item Wrapper Ends-->
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 blog-item">
+                        <!-- Blog Item Starts -->
+                        <div class="blog-item-wrapper">
+                            <div class="blog-item-text"> 
+                                <h3>
+                                    <a></a>
+                                </h3>
+                                <hr class="lines">
+                                <div class="meta-tags">
+                                    <span class="date"><i class="lnr lnr-calendar-full"></i></span>
+                                    <!--<span class="comments"><a href="#"><i class="lnr lnr-bubble"></i> 24 Comments</a></span> -->
+                                </div>
+                                <p>
+
+                                </p>
+                                <!-- <a href="single-post.html" class="btn btn-common btn-rm">Read More</a> -->
+                            </div>
+                        </div>
+                        <!-- Blog Item Wrapper Ends-->
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 blog-item">
+                        <!-- Blog Item Starts -->
+                        <div class="blog-item-wrapper">
+                            <div class="blog-item-text">    
+                                <h3>
+                                    <a></a>
+                                </h3>
+                                <hr class="lines">
+                                <div class="meta-tags">
+                                    <span class="date"><i class="lnr lnr-calendar-full"></i></span>
+                                    <!-- <span class="comments"><a href="#"><i class="lnr lnr-bubble"></i> 24 Comments</a></span> -->
+                                </div>
+                                <p>
+
+                                </p>
+                                <!-- <a href="single-post.html" class="btn btn-common btn-rm">Read More</a> -->
+                            </div>
+                        </div>
+                        <!-- Blog Item Wrapper Ends-->
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <br/>
+        </section>
+        <!-- blog Section End -->
+
+        <div id="subscribe" class="section">
+            <div class="container  newsletter">
+                <div class="section-header">
+                    <h2 class="section-title">Fique por dentro! <span>Cadastre seu e-mail agora!</span></h2>
+                    <hr class="lines">
+                    <!-- <p class="section-subtitle">Subscribe to get all latest news from us.</p> -->
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-md-8">
+                        <form accept-charset="utf-8" class="text-center form-inline">
+                            <input class="mb-20 form-control" name="email" id="letter" placeholder="Informe seu e-mail!" onfocus="desabilita();">
+                            <div class="help-block with-errors" style="color: red" id="validaletter">Informe um valor válido!</div>
+                            <div class="help-block with-errors" style="color: green" id="validaSucesso">Cadastrado com sucesso!</div>
+                            <div class="help-block with-errors" style="color: red" id="validaBackphp">Algo deu errado no cadastro!</div>
+                            <a class="sub_btn" onclick="newsletter();">Cadastrar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Contact Section Start -->
+        <section id="contact" class="section">      
+            <div class="contact-form">
+                <div class="container">
+                    <div class="row justify-content-md-center">          
+                        <div class="col-md-9">
+                            <div class="contact-block">
+                                <div class="section-header">          
+                                    <h2 class="section-title">Entre em contato com a Poliamidos!<span> </span></h2>
+                                    <hr/>
+                                </div>
+                                <form  accept-charset="utf-8" id="contactForm">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nome" id="name" class="form-control"   name="nome" required data-error="Por favor entre com seu nome">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Seu email" id="email" class="form-control" name="email" required data-error="Por favor digite seu e-mail">
+                                                <div class="help-block with-errors"></div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Assunto" id="msg_subject" class="form-control" name="assunto" required data-error="Informe um assunto">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <select id="msg_estado" class="col-lg-12 form-control-sm">
+                                                    <option value="0" selected>Selecione o seu Estado (UF)</option>
+                                                    <option value="Acre">Acre</option>
+                                                    <option value="Alagoas">Alagoas</option>
+                                                    <option value="Amapa">Amapá</option>
+                                                    <option value="Amazonas">Amazonas</option>
+                                                    <option value="Bahia">Bahia</option>
+                                                    <option value="Ceara">Ceará</option>
+                                                    <option value="Distrito Federal">Distrito Federal</option>
+                                                    <option value="Espirito Santo">Espírito Santo</option>
+                                                    <option value="Goias">Goiás</option>
+                                                    <option value="Maranhao">Maranhão</option>
+                                                    <option value="Mato Grosso">Mato Grosso</option>
+                                                    <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
+                                                    <option value="Minas Gerais">Minas Gerais</option>
+                                                    <option value="Para">Pará</option>
+                                                    <option value="Paraiba">Paraíba</option>
+                                                    <option value="Parana">Paraná</option>
+                                                    <option value="Pernambuco">Pernambuco</option>
+                                                    <option value="Piaui">Piauí</option>
+                                                    <option value="Rio de Janeiro">Rio de Janeiro</option>
+                                                    <option value="Rio Grande do Norte">Rio Grande do Norte</option>
+                                                    <option value="Rio Grande do Sul">Rio Grande do Sul</option>
+                                                    <option value="Rondonia">Rondônia</option>
+                                                    <option value="Roraima">Roraima</option>
+                                                    <option value="Santa Catarina">Santa Catarina</option>
+                                                    <option value="Sao Paulo">São Paulo</option>
+                                                    <option value="Sergipe">Sergipe</option>
+                                                    <option value="Tocantins">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <textarea   placeholder="Digite sua mensagem" id="message" class="form-control"  name ="mensagem" rows="11" data-error="Digite sua mensagem" required></textarea>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                            <div class="submit-button text-center">
+                                                <button class="btn btn-common" id="submit" type="submit">Enviar mensagem!</button>
+                                                <div id="msgSubmit" class="h3 text-center hidden"></div> 
+                                                <div class="clearfix"></div> 
+                                            </div>
+                                        </div>
+                                    </div>                     
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </section>
+
+        <!-- <section id="download" class="section" style="background: #e80018; padding-bottom: 30px;">
+
+            <div class="row">
+                <div class="col-md-2"> 
+                    <h3>Endereço</h3>
+                    Metalbo Indústria de Fixadores Metálicos LTDA.<br>
+                    Rodovia SC-426 Trevo BR-470 <br>
+                    Centro - Trombudo Central<br>
+                    SC - BRASIL<br>
+                    CEP: 89176-000<br>
+                    Fone: 55 (47) 3544-8400 <br>
+                    Fax: 55 (47) 3544-0396<br>
+                </div> 
+
+                <div class="col-md-2" > 
+                    <h3>Contatos</h3>
+                    <strong>Geral:  </strong>contato@metalbo.com.br <br/>
+                    <strong>Comercial: </strong>contato@metalbo.com.br <br/>
+                    <strong>Nfe: </strong>nfe@metalbo.com.br <br/>
+                    <strong>Compras: </strong>compras@metalbo.com.br <br/>
+                </div> 
+
+                <div class="col-md-2" > 
+                    <h3>Sites </h3>
+                    www.poliamidos.com.br <br/>
+                    www.steeltrater.com.br <br/>
+                    www.metalbo.com.br/metalboletim <br/>
+                </div> 
+            </div>
+        </section>
+        -->
+
+
+        <!-- Footer Section Start -->
+
+        <div  id="googleMap">
+            <div class="map-icon" data-latitude="-27.285582" data-longitude="-49.782763"><i class="map-button">MAPA</i></div>
+        </div>
+
+        <footer>          
+            <div class="row">
+                <div class="col-md-3"> 
+                    <h3>Endereço</h3>
+                    Hedler Indústria de Alimentos Ltda<br>
+                    Estrada Geral, S/N <br>
+                    Vila Teodoro - Trombudo Central<br>
+                    SC - BRASIL<br>
+                    CEP: 89176-000<br>
+                    PABX: 55 (47) 3544-0182<br>
+                </div><br> 
+
+                <div class="col-md-3" > 
+                    <h3>Contatos</h3>
+                    <strong>Adesivos: </strong><a href="mailto:assistenciatecnica@poliamidos.com.br">assistenciatecnica@poliamidos.com.br</a><br/>
+                    <strong>Alimentos: </strong><a href="mailto:desenvolvimento@poliamidos.com.br">desenvolvimento@poliamidos.com.br</a><br/>
+                    <strong>Qualidade: </strong><a href="mailto:laboratorio2@poliamidos.com.br">laboratorio2@poliamidos.com.br</a><br/>
+                    <strong>Vendas:  </strong><a href="mailto:vendas@poliamidos.com.br">vendas@poliamidos.com.br</a><br/>
+                </div><br> 
+
+                <div class="col-md-2" > 
+                    <h3>Sites do Grupo </h3>
+                    <a href="http://www.poliamidos.com.br/pt-br/" target="new">www.poliamidos.com.br</a><br/>
+                    <a href="http://www.steeltrater.com.br/" target="new">www.steeltrater.com.br</a><br/>
+                    <a href="http://www.metalbo.com.br" target="new">www.metalbo.com.br</a><br/>
+                </div><br> 
+
+                <div class="col-md-4"> 
+                    <img class="site-info" src="img/footer/footer-logo.png" alt=""/><p class="footer-font">Todos os direitos reservados - Hedler Indústria de Alimentos LTDA - 2018</p>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer Section End --> 
+
+        <!-- Go To Top Link -->
+        <a href="#" class="back-to-top">
+            <i class="lnr lnr-arrow-up"></i>
+        </a>
+
+
+        <!-- jQuery first, then Tether, then Bootstrap JS. -->
+        <script src="js/jquery-min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/classie.js"></script>
+        <script src="js/jquery.mixitup.js"></script>
+        <script src="js/nivo-lightbox.js"></script>
+        <script src="js/owl.carousel.js"></script>   
+        <script src="js/jquery.stellar.min.js"></script>     
+        <script src="js/jquery.nav.js"></script>    
+        <script src="js/scrolling-nav.js"></script>    
+        <script src="js/jquery.easing.min.js"></script>    
+        <script src="js/wow.js"></script>   
+        <script src="js/menu.js"></script>
+        <script src="js/jquery.counterup.min.js"></script>    
+        <script src="js/jquery.magnific-popup.min.js"></script>    
+        <script src="js/waypoints.min.js"></script>    
+        <script src="js/form-validator.min.js"></script>
+        <script src="js/contact-upload-script.js"></script>
+        <script src="js/contact-form-script.js"></script>     
+        <script src="js/main.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/plugins.min.js"></script>
+        <script src="css/bootstrap-sweetalert/sweet-alert.js"></script>
+
+
+        <!-- Google Maps JS Only for Contact Pages -->
+        <script type="text/javascript">
+                                function myMap() {
+                                    var mapProp = {
+                                        center: new google.maps.LatLng(-27.305679, -49.837046),
+                                        zoom: 16,
+                                        mapTypeId: 'satellite'
+                                    };
+                                    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp, marker);
+
+                                    var marker = new google.maps.Marker({
+                                        position: new google.maps.LatLng(-27.305679, -49.837046),
+                                        map: map
+                                    });
+                                }
+
+                                /*
+                                 var myap;
+                                 var defult = new google.maps.LatLng(-27.285984, -49.782527);
+                                 var mapCoordinates = new google.maps.LatLng(-27.285984, -49.782527);
+                                 
+                                 
+                                 var markers = [];
+                                 var image = new google.maps.MarkerImage(
+                                 'img/map-marker.png',
+                                 new google.maps.Size(84, 70),
+                                 new google.maps.Point(0, 0),
+                                 new google.maps.Point(60, 60)
+                                 );
+                                 
+                                 function addMarker() {
+                                 markers.push(new google.maps.Marker({
+                                 position: defult,
+                                 raiseOnDrag: false,
+                                 icon: image,
+                                 map: map,
+                                 draggable: false
+                                 }));
+                                 
+                                 }
+                                 
+                                 function initialize() {
+                                 var mapOptions = {
+                                 backgroundColor: "#fff",
+                                 zoom: 8,
+                                 disableDefaultUI: true,
+                                 center: mapCoordinates,
+                                 zoomControl: false,
+                                 scaleControl: false,
+                                 scrollwheel: false,
+                                 disableDoubleClickZoom: true,
+                                 mapTypeId: google.maps.MapTypeId.ROADMAP,
+                                 styles: [{
+                                 "featureType": "landscape.natural",
+                                 "elementType": "geometry.fill",
+                                 "stylers": [{
+                                 "color": "#ffffff"
+                                 }]
+                                 }, {
+                                 "featureType": "landscape.man_made",
+                                 "stylers": [{
+                                 "color": "#ffffff"
+                                 }, {
+                                 "visibility": "off"
+                                 }]
+                                 }, {
+                                 "featureType": "water",
+                                 "stylers": [{
+                                 "color": "#80C8E5"
+                                 }, {
+                                 "saturation": 0
+                                 }]
+                                 }, {
+                                 "featureType": "road.arterial",
+                                 "elementType": "geometry",
+                                 "stylers": [{
+                                 "color": "#999999"
+                                 }]
+                                 }, {
+                                 "elementType": "labels.text.stroke",
+                                 "stylers": [{
+                                 "visibility": "off"
+                                 }]
+                                 }, {
+                                 "elementType": "labels.text",
+                                 "stylers": [{
+                                 "color": "#333333"
+                                 }]
+                                 }
+                                 
+                                 , {
+                                 "featureType": "road.local",
+                                 "stylers": [{
+                                 "color": "#dedede"
+                                 }]
+                                 }, {
+                                 "featureType": "road.local",
+                                 "elementType": "labels.text",
+                                 "stylers": [{
+                                 "color": "#666666"
+                                 }]
+                                 }, {
+                                 "featureType": "transit.station.bus",
+                                 "stylers": [{
+                                 "saturation": -57
+                                 }]
+                                 }, {
+                                 "featureType": "road.highway",
+                                 "elementType": "labels.icon",
+                                 "stylers": [{
+                                 "visibility": "off"
+                                 }]
+                                 }, {
+                                 "featureType": "poi",
+                                 "stylers": [{
+                                 "visibility": "off"
+                                 }]
+                                 }
+                                 
+                                 ]
+                                 
+                                 };
+                                 map = new google.maps.Map(document.getElementById('google-map'), mapOptions);
+                                 addMarker();
+                                 
+                                 }
+                                 google.maps.event.addDomListener(window, 'load', initialize);
+                                 */
+                                function toggler(selEstado) {
+                                    $("#" + selEstado).toggle();
+                                }
+                                $("#validaletter").hide();
+                                $("#validaSucesso").hide();
+                                $("#validaBackphp").hide();
+
+
+        </script>
+
+        <!-- Google Maps API -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDmTT1TKNI-O7aqkCt7AtGI1KWNsNlZOxs&callback=myMap"></script>
+
+    </body>
+</html>

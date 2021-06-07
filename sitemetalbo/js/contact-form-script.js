@@ -5,7 +5,6 @@ $("#contactForm").validator().on("submit", function (event) {
         formError();
         submitMSG(false, "Preencha os campos do formulário!");
     } else {
-        alert('we in, boys');
         // everything looks good!
         event.preventDefault();
         submitForm();
@@ -126,14 +125,6 @@ function submitForm() {
             break;
     }
 
-
-
-    console.log(nome + ' nome');
-    console.log(email + ' e-mail');
-    console.log(assunto + ' assunto');
-    console.log(uf + ' estado');
-    console.log(cidade + ' cidade');    
-    console.log(mensagem + ' mensagem');
 
     $.ajax({
         type: "POST",

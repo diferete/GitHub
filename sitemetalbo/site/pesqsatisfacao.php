@@ -8,11 +8,11 @@
         <link rel="shortcut icon" href="images/metalb.ico" type="image/x-icon" />
     </head>
     <body>
-        <? include("estrutura/topo.php");?>
+        <!--<? include("estrutura/topo.php");?>-->
         <div class="container-fluid"
              <div class="row-fluid">
                 <div class="span2">
-                    <? include("estrutura/menulat.php"); ?>
+                    <!--<? include("estrutura/menulat.php"); ?>-->
                 </div><!-- FIM DA DIV DO MENU LATERAL-->
                 <div class="span12 margemTop50 paragrafo " style="margin-left:60px">                             
                     <form action="questionario2.php" method="post" enctype="application/x-www-form-urlencoded" 
