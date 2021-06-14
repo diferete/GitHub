@@ -171,7 +171,7 @@ class ControllerMET_GerenciaFrete extends Controller {
             //Script que passa o valor da sequencia e o id do campo oculto
             $htmlSelectG .= '<script>'
                     . '$("#' . $sIdtr . '").click(function(){'
-                    . 'requestAjax("", "MET_GerenciaFrete","isereDadosModel","' . $aA['seq'] . ',' . $iIdSeq . '");});'
+                    . 'requestAjax("", "MET_GerenciaFrete","isereDadosModel","' . $aA['seq'] . '&' . $iIdSeq . '&'.number_format($aA['totalfrete'], 2, '.', ''). '&'.number_format($aA['freteminimo'], 2, '.', '').'");});'
                     . '</script>';
             $htmlSelectG .= '</tr>';
         }
@@ -206,10 +206,12 @@ class ControllerMET_GerenciaFrete extends Controller {
      * @param type $sDados
      */
     public function isereDadosModel($sDados) {
-        $aDados = explode(',', $sDados);
+        $aDados = explode('&', $sDados);
         echo "$('#" . $aDados[1] . "').val(" . $aDados[0] . ");";
+        echo "$('#valorservfrete2').val(" . $aDados[2] . ");";
+        echo "$('#valorservfrete3').val(" . $aDados[3] . ");";
     }
-
+//valorservfrete2
     /**
      * Mostra tela relatório de Frete
      * @param type $renderTo
@@ -303,7 +305,9 @@ class ControllerMET_GerenciaFrete extends Controller {
 
         if ($this->Persistencia->verificaConhec($aCamposChave) > 0) {
             $oModal = new Mensagem('Atenção', 'Conhecimento digitado já foi inserido!', Mensagem::TIPO_ERROR);
+            echo ' $("#gerenciafrete_nrconhe").val("");';
             echo $oModal->getRender();
+            echo ' $("#gerenciafrete_nrconhe").focus();';
             exit();
         }
     }
