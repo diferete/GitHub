@@ -185,7 +185,7 @@ $pdf->Cell(0,5,'','T',1,'L');
    $pdf->Cell(18, 6, $row['data'],'L,B,T',0,'C');
        
    $pdf->SetFont('Arial','',6);
-   $pdf->Cell(83, 6, $row['prodes'],'L,B,T',0,'L');
+   $pdf->Cell(83, 6, substr($row['prodes'], 0, 65),'L,B,T',0,'L');
    
   // $pdf->SetFont('Arial','',7);
   // $pdf->Cell(14, 6, number_format($row['quant'], 2, ',', '.'),'L,B',0,'R');
