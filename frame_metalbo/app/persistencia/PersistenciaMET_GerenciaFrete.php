@@ -33,6 +33,8 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
         $this->adicionaRelacionamento('obsfinal', 'obsfinal');
         $this->adicionaRelacionamento('dataem', 'dataem');
         $this->adicionaRelacionamento('datafn', 'datafn');
+        $this->adicionaRelacionamento('valorserv2', 'valorserv2');
+        $this->adicionaRelacionamento('valorserv3', 'valorserv3');
 
         $this->adicionaOrderBy('nr', 1);
         $this->adicionaJoin('Pessoa', null, 1, 'cnpj', 'empcod');
@@ -62,7 +64,7 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
      * @return type
      */
     public function verificaConhec($aValores) {
-        $sSql = "select count(nrconhe) as total from tbgerecfrete where nrconhe = " . $aValores['nrconhe'] . " "
+        $sSql = "select count(nrconhe) as total from tbgerecfrete where nrconhe like '" . $aValores['nrconhe'] . "' "
                 . "and cnpj = " . $aValores['cnpj'] . " ";
 
         $result = $this->getObjetoSql($sSql);
@@ -160,24 +162,36 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                     freteminimo money)    
                 insert into tbnt2#               
                 select seq, ref, ROUND(
-                    ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2) * imposto/100 
-                    +ROUND(ROUND( fretevalor  * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio *FracaoFrete,2)+taxa2 +tas +(nfsvlrtot *gris)  ,2),2 ) as totalfrete,
+                    ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)/0.7875 ,2 ) as totalfrete,
                     ROUND(
-                    ROUND(ROUND( fretevalor * nfsvlrtot ,2)  +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) *imposto/100 
-                    +ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+ (nfsvlrtot *gris)  ,2),2 ) as freteminimo
+                    ROUND(ROUND( fretevalor * nfsvlrtot ,2)  +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2)/0.7875 ,2) as freteminimo
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ not in(11,12,13,14,15)
+                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ not in(11,12,13,14,15,16)
                 insert into tbnt2#
                 select seq, ref, ROUND(
-                    ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2) * imposto/100 
-                    +ROUND(ROUND( fretevalor  * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio *FracaoFrete,2)+taxa2 +tas +(nfsvlrtot *gris)  ,2),2 ) as totalfrete,
+                    ROUND(ROUND( (fretevalor * nfsvlrtot) ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2) ,2 ) as totalfrete,
                     ROUND(
-                    ROUND(ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) *imposto/100 
-                    +ROUND(ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+ (nfsvlrtot *gris)  ,2),2 ) as freteminimo
+                    ROUND(ROUND( (fretevalor * nfsvlrtot) ,2)  +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) ,2) as freteminimo
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ in(11,12,13,14,15)";
+                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ in(16)
+                insert into tbnt2#
+                select seq, ref, ROUND(
+                    ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)/0.7875 ,2 )  as totalfrete,
+                    ROUND(
+                    ROUND(ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2)/0.7875  ,2) as freteminimo
+                    from tbfrete left outer join tbnt#
+                    on tbfrete.cnpj = tbnt#.cnpj
+                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ in(11,13,14,15)
+                insert into tbnt2#
+                select seq, ref, ROUND(
+                    ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)/0.7375 ,2 )  as totalfrete,
+                    ROUND(
+                    ROUND(ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2)/0.7375  ,2) as freteminimo
+                    from tbfrete left outer join tbnt#
+                    on tbfrete.cnpj = tbnt#.cnpj
+                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ in(12)";
 
                 $result1 = $PDOnew->exec($sSql1);
             }
@@ -221,15 +235,13 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
 
             if ($aRetorno == 1) {
 
-                $sSql1 = "select seq, ref, ROUND (coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( (pesoNota * fretepeso),0)+coalesce( pedagio *FracaoFrete,0)+ TAXA2 +
-                    coalesce(  nfsvlrtot  *gris,0) ,2) *imposto/100 + ROUND (coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce( pedagio *FracaoFrete,0)+ TAXA2 +
-                    coalesce(  nfsvlrtot  *gris,0) ,2)  AS totalfrete
+                $sSql1 = "select seq, ref, ROUND (coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( (pesoNota * fretepeso),0)+coalesce( pedagio *FracaoFrete,0)+ TAXA2 + tas +
+                    coalesce(nfsvlrtot  *gris,0) ,2)/imposto  AS totalfrete
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
                     where  tbfrete.cnpj = " . $aValores['cnpj'] . " ";
                 $result = $PDOnew->query($sSql1);
             }
-
             $iI = 0;
             while ($key = $result->fetch($PDOnew::FETCH_ASSOC)) {
                 $aRow1[$iI] = $key;
