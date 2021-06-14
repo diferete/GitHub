@@ -257,7 +257,7 @@ class ControllerMET_QUAL_RcRep extends Controller {
         . "$('#" . $aParam[1] . "').val('" . number_format($oRow->nfsvlrtot, 2, ',', '.') . "');"
         . "$('#" . $aParam[2] . "').val('" . number_format($oRow->nfspesolq, 2, ',', '.') . "');"
         . "$('#" . $aParam[3] . "').val('" . $oRow->nfsclicgc . "');"
-        . "$('#" . $aParam[4] . "').val('" . $oRow->nfsclinome . "');";
+        . "$('#" . $aParam[4] . "').val('" . addslashes(rtrim($oRow->nfsclinome)) . "');";
     }
 
     public function limpaUploads($aIds) {
