@@ -1207,7 +1207,7 @@ function buscaCNPJ(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMuni
 /**
  * funçao para chamar json com dados do CNPJ
  */
-function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, idIBGE, sClasse, sNrSeq) {
+function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, idIBGE, sClasse, sNrSeq, idEmpcod) {
     if (sEmpcod !== '') {
         $.ajax({
             type: 'REQUEST',
@@ -1216,7 +1216,8 @@ function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idC
             dataType: 'jsonp',
             success: function (data) {
                 if (data.status == 'ERROR') {
-                    mensagemSlide('warning', data.message, data.status);
+                    mensagemSlide('warning', data.message, 'ATENÇÃO', 15000);
+                    $("#" + idEmpcod + "").val('').focus();
                 } else {
                     mensagemSlide('info', 'Buscando dados do CNPJ!', 'Aguarde!');
 
