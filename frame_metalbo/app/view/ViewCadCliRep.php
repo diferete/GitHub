@@ -179,7 +179,8 @@ class ViewCadCliRep extends View {
                 . '"' . $oEmpnr->getId() . '",'
                 . '"' . $oCodIBGE->getId() . '",'
                 . '"' . $this->getController() . '",'
-                . '$("#' . $oNr->getId() . '").val())';
+                . '$("#' . $oNr->getId() . '").val(),'
+                . '"' . $oEmpcod->getId() . '")';
 
 
         $oEmpcod->addEvento(Campo::EVENTO_SAIR, $sAcaoExit);
