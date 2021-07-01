@@ -142,23 +142,25 @@ class PersistenciaCadCliRep extends Persistencia {
                 . " where empcnpj='" . $sDados . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
-
-        $sRetorno = $oRow->total;
-        if ($sRetorno > 0) {
-            $bRetorno = false;
+        $iCount = $oRow->total;
+        
+        if ($iCount > 0) {
+            $iRetorno = 1;
         } else {
             $sSql = "select  COUNT(*) as total"
                     . " from pdfempcad"
                     . " where empcod = '" . $sDados . "'";
             $result = $this->getObjetoSql($sSql);
             $oRow = $result->fetch(PDO::FETCH_OBJ);
-            if ($sRetorno > 0) {
-                $bRetorno = false;
+            $iCount = $oRow->total;
+            
+            if ($iCount > 0) {
+                $iRetorno = 2;
             } else {
-                $bRetorno = true;
+                $iRetorno = 0;
             }
         }
-        return $bRetorno;
+        return $iRetorno;
     }
 
     public function buscaRespVenda($sDados) {
