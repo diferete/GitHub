@@ -75,18 +75,18 @@ class ViewMET_QUAL_RcVenda extends View {
         $oReclamacao->addComparacao('Cliente', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, null);
         $oReclamacao->setBComparacaoColuna(true);
 
+        $oProcedencia = new CampoConsulta('Procede', 'procedencia', CampoConsulta::TIPO_TEXTO);
+        $oProcedencia->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
+        $oProcedencia->addComparacao('PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oProcedencia->addComparacao('NÃO PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
+        $oProcedencia->setBComparacaoColuna(true);
+
         $oDevolucao = new CampoConsulta('Devolução', 'devolucao', CampoConsulta::TIPO_TEXTO);
         $oDevolucao->addComparacao('Aceita', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Indeferida', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Não se aplica', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
         $oDevolucao->setBComparacaoColuna(true);
-
-        $oProcedencia = new CampoConsulta('Procede', 'procedencia', CampoConsulta::TIPO_TEXTO);
-        $oProcedencia->addComparacao('Aguardando', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, false, null);
-        $oProcedencia->addComparacao('PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
-        $oProcedencia->addComparacao('NÃO PROCEDE', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, false, null);
-        $oProcedencia->setBComparacaoColuna(true);
 
         $oLibDevolucao = new CampoConsulta('Liberação', 'sollibdevolucao', CampoConsulta::TIPO_TEXTO);
 ////////////////////////////////////////////// DROPDOWNS //////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +96,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_LAPIS) . 'Retornar', 'MET_QUAL_RcVenda', 'criaTelaModalRetorna', '', false, '', false, 'criaTelaModalRetorna', true, 'Retornar para o Representante', false, false);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_CHAVE) . 'Reabrir', 'MET_QUAL_RcVenda', 'reabrirRC', '', false, '', false, '', true, '', false, false);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Cancelar', 'MET_QUAL_RcVenda', 'criaTelaModalCancela', '', false, '', false, 'criaTelaModalCancela', true, 'Cancelar reclamação', false, false);
+        $oDropDown->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Retornar para Análise', 'MET_QUAL_RcVenda', 'notificaRetornoAnalise', '', false, '', false, '', true, '', false, false);
 
         $oDropDown1 = new Dropdown('Encaminhar E-mails', Dropdown::TIPO_INFO, Dropdown::ICON_EMAIL);
         $oDropDown1->addItemDropdown($this->addIcone(Base::ICON_QUAL) . 'Qualidade', 'MET_QUAL_RcVenda', 'verificaEmailSetor', '', false, 'Env.Qual', false, '', false, '', false, false);
@@ -123,7 +124,41 @@ class ViewMET_QUAL_RcVenda extends View {
             $oFilOfficeDes->addItemSelect($value, $value);
         }
 
-        $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos, $oFilOfficeDes);
+        $oFilSituaca = new Filtro($oSit, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilSituaca->addItemSelect('', 'TODOS');
+        $oFilSituaca->addItemSelect('Aguardando', 'Aguardando');
+        $oFilSituaca->addItemSelect('Liberado', 'Liberado');
+        $oFilSituaca->addItemSelect('Env.Exp', 'Env.Exp');
+        $oFilSituaca->addItemSelect('Env.Emb', 'Env.Emb');
+        $oFilSituaca->addItemSelect('Env.Qual', 'Env.Qual');
+        $oFilSituaca->addItemSelect('Apontada', 'Apontada');
+        $oFilSituaca->addItemSelect('Finalizada', 'Finalizada');
+        $oFilSituaca->addItemSelect('Cancelada', 'Cancelada');
+
+        $oFilReclamacao = new Filtro($oReclamacao, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilReclamacao->addItemSelect('', 'TODOS');
+        $oFilReclamacao->addItemSelect('Aguardando', 'Aguardando');
+        $oFilReclamacao->addItemSelect('Em análise', 'Em análise');
+        $oFilReclamacao->addItemSelect('Transportadora', 'Transportadora');
+        $oFilReclamacao->addItemSelect('Representante', 'Representante');
+        $oFilReclamacao->addItemSelect('Interna', 'Interna');
+        $oFilReclamacao->addItemSelect('Cliente', 'Cliente');
+
+        $oFilProcedencia = new Filtro($oProcedencia, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilProcedencia->addItemSelect('', 'TODOS');
+        $oFilProcedencia->addItemSelect('Aguardando', 'Aguardando');
+        $oFilProcedencia->addItemSelect('PROCEDE', 'PROCEDE');
+        $oFilProcedencia->addItemSelect('NÃO PROCEDE', 'NÃO PROCEDE');
+
+        $oFilDevolucao = new Filtro($oDevolucao, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilDevolucao->addItemSelect('', 'TODOS');
+        $oFilDevolucao->addItemSelect('Aceita', 'Aceita');
+        $oFilDevolucao->addItemSelect('Indeferida', 'Indeferida');
+        $oFilDevolucao->addItemSelect('Não se aplica', 'Não se aplica');
+        $oFilDevolucao->addItemSelect('Aguardando', 'Aguardando');
+
+      
+        $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos, $oFilOfficeDes, $oFilSituaca, $oFilReclamacao, $oFilProcedencia, $oFilDevolucao);
         if ($_SESSION['codUser'] == 19) {
             $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
         } else {
