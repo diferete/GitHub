@@ -28,7 +28,11 @@ class PersistenciaMET_TEC_Updates extends Persistencia {
     }
 
     public function getDadosVersoes() {
-        $sSql = "select top 5 * from MET_TEC_Updates where codsetor in ('00','" . $_SESSION['codsetor'] . "') order by versao desc,sequpdates desc";
+        if ($_SESSION['codsetor'] == 2) {
+            $sSql = "select top 5 * from MET_TEC_Updates order by versao desc,sequpdates desc";
+        } else {
+            $sSql = "select top 5 * from MET_TEC_Updates where codsetor in ('00','" . $_SESSION['codsetor'] . "') order by versao desc,sequpdates desc";
+        }
         $result = $this->getObjetoSql($sSql);
         $aArrSql = array();
         while ($oRow = $result->fetch(PDO::FETCH_OBJ)) {
