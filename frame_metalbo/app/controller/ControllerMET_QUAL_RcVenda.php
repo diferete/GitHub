@@ -500,7 +500,7 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 }
                 if ($aRet[0] == 'Env.Emb') {
                     //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-                    $oEmail->addDestinatario('embalagem@metalbo.com.br');
+                    $oEmail->addDestinatario('ean@metalbo.com.br');
                     $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 }
                 if ($aRet[0] == 'Env.Exp') {
@@ -804,6 +804,106 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         } else {
             $oMensagem = new Mensagem('Atenção', 'Não está em condições de ser Reaberta!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
+        }
+    }
+
+    public function notificaRetornoAnalise($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
+        if ($oDados->situaca == 'Apontada' && $oDados->devolucao == 'Aguardando') {
+            $oMsg3 = new Modal('Retornar para análise', 'Deseja retornar essa RC para o setor de Análise?', Modal::TIPO_AVISO, true, true, true);
+            $oMsg3->setSBtnConfirmarFunction('requestAjax("","MET_QUAL_RcVenda","retornarRCAnalise","' . $sDados . '");');
+            echo $oMsg3->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção', 'A RC não está em condições de ser retornada!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function retornarRCAnalise($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aRetorno = $this->Persistencia->retornarRCAnalise($aCamposChave);
+        if ($aRetorno[0]) {
+            $oMensagem = new Mensagem('Sucesso', 'RC retornada para análise!', Mensagem::TIPO_SUCESSO);
+            $oMensagem2 = new Mensagem('Aguarde', 'Um e-mail será enviado para notificar o setor de análise', Mensagem::TIPO_WARNING, 5000);
+            echo $oMensagem->getRender();
+            echo $oMensagem2->getRender();
+            echo 'requestAjax("","MET_QUAL_RcVenda","enviaEmailRetornoAnalise","' . $sDados . '");';
+        } else {
+            $oMensagem = new Mensagem('Atenção', 'Problemas ao tentar retornar a RC para análise, tente novamente ou comunique o TI!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function enviaEmailRetornoAnalise($sDados) {
+
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $data = date('d/m/Y');
+        $hora = date('H:m');
+
+        $oEmail = new Email();
+        $oEmail->setMailer();
+        $oEmail->setEnvioSMTP();
+        $oEmail->setServidor(Config::SERVER_SMTP);
+        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setAutentica(true);
+        $oEmail->setUsuario(Config::EMAIL_SENDER);
+        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
+        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
+        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail Sistema Web Metalbo'));
+
+        $oEmail->setAssunto(utf8_decode('RECLAMAÇÃO DE CLIENTE Nº ' . $oDados->nr . ''));
+
+
+        $oEmail->setMensagem(utf8_decode('A reclamação de Nº ' . $oDados->nr . ' foi retornada pelo setor de Vendas!<hr><br/>'
+                        . '<b> Responsável de Vendas: ' . $oDados->resp_venda_nome . '<b><br/>'
+                        . '<b>Data do retorno: ' . $data . ' </b><br/>'
+                        . '<b>Hora: ' . $hora . '  </b><br/><br/><br/>'
+                        . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
+                        . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+        $oEmail->limpaDestinatariosAll();
+
+        // Para       
+        switch ($oDados->tagsetor) {
+            case 3:
+                //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                $oEmail->addDestinatario('embalagem@metalbo.com.br');
+                $oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
+                $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
+                break;
+            case 5:
+                //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                $oEmail->addDestinatario('ean@metalbo.com.br');
+                $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
+                break;
+            case 25:
+                //$oEmail->addDestinatario('alexandre@metalbo.com.br');
+                $oEmail->addDestinatario('duda@metalbo.com.br');
+                break;
+        }
+
+        $aRetorno = $oEmail->sendEmail();
+        if ($aRetorno[0]) {
+            $oMensagem4 = new Mensagem('E-mail', 'Um e-mail foi enviado com sucesso para o setor responsável pela Análise!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem4->getRender();
+            echo "$('#" . $aDados[0] . "-pesq').click();";
+        } else {
+            $oMensagem5 = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente ou relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem5->getRender();
         }
     }
 
