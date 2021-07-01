@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 import { SolComprasService } from '../api/sol-compras.service';
 import { StorageService } from '../api/storage.service';
-import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-sol-compras-itens',

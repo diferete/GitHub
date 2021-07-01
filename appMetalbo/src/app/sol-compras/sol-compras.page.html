@@ -23,7 +23,7 @@
       <ion-label>Solicitações</ion-label>
     </div>
     <ion-item *ngFor="let p of aSolCompra; let i = index" (click)="getDadosSolCompras(p)">
-      <ion-col size="3">{{p.nr}}</ion-col>
+      <ion-col size="3" style="font-size: 20px">{{p.nr}}</ion-col>
       <ion-col size="7" style="font-size: 12px"><b>{{p.observacao}}</b></ion-col>
       <ion-col size="2">
         <ion-chip outline color="success">
