@@ -239,32 +239,42 @@ class ControllerCadCliRep extends Controller {
         $aDadosEMP = explode('|', $aDados[0]);
         $aIdCampos = explode('|', $aDados[1]);
         if ($aDadosEMP[0] != '') {
-            $bRet = $this->Persistencia->buscaCNPJ($aDadosEMP[0]);
-            if ($bRet == false) {
-                $oMensagem = new Modal('Atenção', 'Esse CNPJ já está cadastrado ou não foi liberado para metalbo!', Modal::TIPO_ERRO, false, true, true);
-                echo $oMensagem->getRender();
-            } else {
-                $sSetValorCampos = '$("#' . $aIdCampos[0] . '").val("' . $aDadosEMP[0] . '");'
-                        . '$("#' . $aIdCampos[1] . '").val("' . str_replace(".", "", $aDadosEMP[1]) . '");'
-                        . '$("#' . $aIdCampos[2] . '").val("' . $aDadosEMP[2] . '");'
-                        . '$("#' . $aIdCampos[3] . '").val("' . $aDadosEMP[3] . '");'
-                        . '$("#' . $aIdCampos[4] . '").val("' . $aDadosEMP[4] . '");'
-                        . '$("#' . $aIdCampos[5] . '").val("' . $aDadosEMP[5] . '");'
-                        . '$("#' . $aIdCampos[6] . '").val("' . $aDadosEMP[6] . '");'
-                        . '$("#' . $aIdCampos[7] . '").val("' . $aDadosEMP[7] . '");'
-                        . '$("#' . $aIdCampos[8] . '").val("' . $aDadosEMP[8] . '");'
-                        . '$("#' . $aIdCampos[9] . '").val("' . $aDadosEMP[9] . '");'
-                        . '$("#' . $aIdCampos[10] . '").val("' . $aDadosEMP[10] . '");'
-                        . '$("#' . $aIdCampos[11] . '").val("' . $aDadosEMP[11] . '");';
-                echo $sSetValorCampos;
-                $oMensagem = new Mensagem('Sucesso', 'Busca efetuada com sucesso!', Mensagem::TIPO_SUCESSO);
-                echo $oMensagem->getRender();
-                if (strlen($aDados[1]) > 45 || strlen($aDados[2]) > 35) {
-                    $oMsg = new Mensagem('Atenção', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP sem adicionar pontos', Mensagem::TIPO_ERROR, '10000');
-                    echo $oMsg->getRender();
-                }
+            $iRet = $this->Persistencia->buscaCNPJ($aDadosEMP[0]);
+            switch ($iRet) {
+                case 0:
+                    $sSetValorCampos = '$("#' . $aIdCampos[0] . '").val("' . $aDadosEMP[0] . '");'
+                            . '$("#' . $aIdCampos[1] . '").val("' . str_replace(".", "", $aDadosEMP[1]) . '");'
+                            . '$("#' . $aIdCampos[2] . '").val("' . $aDadosEMP[2] . '");'
+                            . '$("#' . $aIdCampos[3] . '").val("' . $aDadosEMP[3] . '");'
+                            . '$("#' . $aIdCampos[4] . '").val("' . $aDadosEMP[4] . '");'
+                            . '$("#' . $aIdCampos[5] . '").val("' . $aDadosEMP[5] . '");'
+                            . '$("#' . $aIdCampos[6] . '").val("' . $aDadosEMP[6] . '");'
+                            . '$("#' . $aIdCampos[7] . '").val("' . $aDadosEMP[7] . '");'
+                            . '$("#' . $aIdCampos[8] . '").val("' . $aDadosEMP[8] . '");'
+                            . '$("#' . $aIdCampos[9] . '").val("' . $aDadosEMP[9] . '");'
+                            . '$("#' . $aIdCampos[10] . '").val("' . $aDadosEMP[10] . '");'
+                            . '$("#' . $aIdCampos[11] . '").val("' . $aDadosEMP[11] . '");';
+                    echo $sSetValorCampos;
+                    $oMensagem = new Mensagem('Sucesso', 'Busca efetuada com sucesso!', Mensagem::TIPO_SUCESSO);
+                    echo $oMensagem->getRender();
+                    if (strlen($aDados[1]) > 45 || strlen($aDados[2]) > 35) {
+                        $oMsg = new Mensagem('Atenção', 'Abreviar Razão Social e Fantasia. Ex: COM, IND, MAQ, EQUIP sem adicionar pontos', Mensagem::TIPO_ERROR, '10000');
+                        echo $oMsg->getRender();
+                    }
+                    echo 'buscaIBGE("CadCliRep","' . Util::removeAcentos($aDadosEMP[6]) . '","' . $aDadosEMP[8] . '","' . $aIdCampos[12] . '","' . $aDadosEMP[12] . '");';
+                    break;
+                case 1:
+                    $oMensagem = new Modal('Atenção', 'Esse CNPJ/Cliente possui cadastro!', Modal::TIPO_ERRO, false, true, true);
+                    echo $oMensagem->getRender();
+                    echo "$('#" . $aIdCampos[13] . "').val('').focus().blur();";
 
-                echo 'buscaIBGE("CadCliRep","' . Util::removeAcentos($aDadosEMP[6]) . '","' . $aDadosEMP[8] . '","' . $aIdCampos[12] . '","' . $aDadosEMP[12] . '");';
+                    break;
+                case 2:
+                    $oMensagem = new Modal('Atenção', 'Esse CNPJ/Cliente está aguardando Liberação para cadastro!', Modal::TIPO_ERRO, false, true, true);
+                    echo $oMensagem->getRender();
+                    echo "$('#" . $aIdCampos[13] . "').val('').focus().blur();";
+
+                    break;
             }
         } else {
             exit;
