@@ -358,7 +358,7 @@ if ($row['anexo2'] != '' && (strstr(strtolower($row['anexo2']), 'png') || strstr
         $pdf->AddPage();
         $pdf->SetXY(10, 10);
         $sAnexo2 = $row['anexo2'];
-        $pdf->Cell(26, 5, "ANEXO 2", 0, 1, 'L');    
+        $pdf->Cell(26, 5, "ANEXO 2", 0, 1, 'L');
         $pdf->Image('' . $sDir . 'Uploads/' . $sAnexo2, null, null, 190, 250);
     }
 }
@@ -606,7 +606,7 @@ if ($row['apontaNF'] != null) {
 $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
 //PARTE DOS ANEXOS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //ANEXO ANÁLISE 1
-if ($row['anexo_analise'] != '' && (strstr(strtolower($row['anexo_analise']), 'png') || strstr(strtolower($row['anexo_analise']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg'))) {
+if ($row['anexo_analise'] != '' && (strstr(strtolower($row['anexo_analise']), 'png') || strstr(strtolower($row['anexo_analise']), 'jpg') || strstr(strtolower($row['anexo_analise']), 'jpeg'))) {
     if (isset($row['anexo_analise'])) {
         $pdf->AddPage();
         $pdf->SetXY(10, 10);
@@ -655,7 +655,7 @@ if ($row['anexo_analise'] != '' && (strstr(strtolower($row['anexo_analise']), 'p
 }
 
 //ANEXO ANÁLISE 2
-if ($row['anexo_analise1'] != '' && (strstr(strtolower($row['anexo_analise1']), 'png') || strstr(strtolower($row['anexo_analise1']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg'))) {
+if ($row['anexo_analise1'] != '' && (strstr(strtolower($row['anexo_analise1']), 'png') || strstr(strtolower($row['anexo_analise1']), 'jpg') || strstr(strtolower($row['anexo_analise1']), 'jpeg'))) {
     if (isset($row['anexo_analise1'])) {
         $pdf->AddPage();
         $pdf->SetXY(10, 10);
@@ -739,7 +739,7 @@ $pdf->MultiCell(190, 5, $row['inspecao'], 0, 'L');
 
 //PARTE DOS ANEXOS xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 //ANEXO INSPEÇÃO
-if ($row['anexo_inspecao'] != '' && (strstr(strtolower($row['anexo_inspecao']), 'png') || strstr(strtolower($row['anexo_inspecao']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg'))) {
+if ($row['anexo_inspecao'] != '' && (strstr(strtolower($row['anexo_inspecao']), 'png') || strstr(strtolower($row['anexo_inspecao']), 'jpg') || strstr(strtolower($row['anexo_inspecao']), 'jpeg'))) {
     if (isset($row['anexo_inspecao'])) {
         $pdf->AddPage();
         $pdf->SetXY(10, 10);
@@ -788,7 +788,7 @@ if ($row['anexo_inspecao'] != '' && (strstr(strtolower($row['anexo_inspecao']), 
 }
 
 //ANEXO INSPEÇÃO 1
-if ($row['anexo_inspecao1'] != '' && (strstr(strtolower($row['anexo_inspecao1']), 'png') || strstr(strtolower($row['anexo_inspecao1']), 'jpg') || strstr(strtolower($row['anexo1']), 'jpeg'))) {
+if ($row['anexo_inspecao1'] != '' && (strstr(strtolower($row['anexo_inspecao1']), 'png') || strstr(strtolower($row['anexo_inspecao1']), 'jpg') || strstr(strtolower($row['anexo_inspecao1']), 'jpeg'))) {
     if (isset($row['anexo_inspecao1'])) {
         $pdf->AddPage();
         $pdf->SetXY(10, 10);
