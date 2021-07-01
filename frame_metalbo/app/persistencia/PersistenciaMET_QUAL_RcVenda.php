@@ -97,7 +97,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
             array_push($aRet, $oRowBD->officedes);
         }
-        
+
         return $aRet;
     }
 
@@ -372,6 +372,34 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
                 . "where filcgc = '" . $aCampos['filcgc'] . "' and nr = '" . $aCampos['nr'] . "'";
         $aRetorna = $this->executaSql($sSql);
         return $aRetorna;
+    }
+
+    public function retornarRCAnalise($aDados) {
+        
+        $oDados = $this->buscaDadosRC($aDados);
+
+        switch ($oDados->tagsetor) {
+            case 3:
+                $sSetor = 'Env.Exp';
+                break;
+
+            case 5:
+                $sSetor = 'Env.Emb';
+                break;
+
+            case 25:
+                $sSetor = 'Env.Qual';
+                break;
+        }
+
+        $sSql = "update tbrncqual set "
+                . "situaca = '" . $sSetor . "',"
+                . "procedencia = 'Aguardando' "
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+
+        $aRetorno = $this->executaSql($sSql);
+
+        return $aRetorno;
     }
 
 }
