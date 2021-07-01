@@ -148,12 +148,12 @@ class ViewMET_PORT_Colaboradores extends View {
 
         $oPessoa = new Campo('Pessoa', 'pessoa', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oPessoa->setSIdPk($oCracha->getId());
-        $oPessoa->setClasseBusca('MET_CAD_Funcionarios');
+        $oPessoa->setClasseBusca('MET_RH_Colaboradores');
         $oPessoa->addCampoBusca('numcad', '', '');
         $oPessoa->addCampoBusca('nomfun', '', '');
         $oPessoa->setSIdTela($this->getTela()->getid());
 
-        $oCracha->setClasseBusca('MET_CAD_Funcionarios');
+        $oCracha->setClasseBusca('MET_RH_Colaboradores');
         $oCracha->setSCampoRetorno('numcad', $this->getTela()->getId());
         $oCracha->addCampoBusca('nomfun', $oPessoa->getId(), $this->getTela()->getId());
 
