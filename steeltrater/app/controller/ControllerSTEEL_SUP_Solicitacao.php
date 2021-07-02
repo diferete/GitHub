@@ -132,7 +132,49 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $cod = $Dados->codigo;
         $qnt = $Dados->qnt;
 
-        $sRetorno = $this->Persistencia->alteraQuantidades($nr, $cod, $qnt);
+        $bRetorno = $this->Persistencia->alteraQuantidades($nr, $cod, $qnt);
+
+        if ($bRetorno[0]) {
+            $aRetorno['retorno'] = true;
+        } else {
+            $aRetorno['retorno'] = false;
+        }
+
+        return $aRetorno;
+    }
+
+    public function gerenSolicitacaoCompra($Dados) {
+        $sit = $Dados->sit;
+        $nr = $Dados->nr;
+        $usucodigo = $Dados->usucodigo;
+
+        switch ($sit) {
+            case 'a':
+                $aRetorno = $this->Persistencia->gerenSolicitacaoCompra($sit, $nr, $usucodigo);
+                $aIonic = array();
+                $aIonic['retorno'] = $aRetorno[0];
+                if ($aRetorno[0]) {
+                    $aIonic['mensagem'] = 'aprovada com sucesso';
+                } else {
+                    $aIonic['erro'] = $aRetorno[1];
+                    $aIonic['mensagem'] = 'aprovar';
+                }
+                break;
+
+            case 'r':
+                $aRetorno = $this->Persistencia->gerenSolicitacaoCompra($sit, $nr, $usucodigo);
+                $aIonic = array();
+                $aIonic['retorno'] = $aRetorno[0];
+                if ($aRetorno[0]) {
+                    $aIonic['mensagem'] = 'reprovada com sucesso';
+                } else {
+                    $aIonic['erro'] = $aRetorno[1];
+                    $aIonic['mensagem'] = 'reprovar';
+                }
+                break;
+        }
+
+        return $aIonic;
     }
 
 }

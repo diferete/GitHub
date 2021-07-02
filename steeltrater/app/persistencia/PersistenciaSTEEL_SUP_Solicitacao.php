@@ -69,7 +69,7 @@ class PersistenciaSTEEL_SUP_Solicitacao extends Persistencia {
             $aData = explode(' ', $row->sup_solicitacaodatahora);
             $aDados['data'] = Util::converteData($aData[0]);
             $aDados['observacao'] = $row->sup_solicitacaoobservacao;
-            $aDados['usucad'] = $row->sup_solicitacaousucadastro;
+            $aDados['solicitante'] = $row->sup_solicitacaousucadastro;
             $aRetornoItens = $this->getDadosItens($row->sup_solicitacaoseq);
             $aDados['itens'] = $aRetornoItens;
             $aPedidos[] = $aDados;
@@ -115,7 +115,8 @@ class PersistenciaSTEEL_SUP_Solicitacao extends Persistencia {
 
     public function alteraQuantidades($nr, $cod, $qnt) {
 
-        $qntd = number_format($qnt, 3, '', '');
+        $qntd = str_replace('.', '', $qnt);
+        $qntd = number_format($qntd, 0, '', '');
 
 
         $sSql = "update sup_solicitacaoitem "
@@ -124,6 +125,70 @@ class PersistenciaSTEEL_SUP_Solicitacao extends Persistencia {
                 . "where SUP_SolicitacaoSeq = " . $nr . " and  PRO_Codigo = " . $cod . "";
         $aRetorno = $this->executaSql($sSql);
 
+        return $aRetorno;
+    }
+
+    public function gerenSolicitacaoCompra($sit, $nr, $usucodigo) {
+
+        $sSql = "select usunomeDelsoft from met_tec_usuario(nolock) where usucodigo = " . $usucodigo;
+        $oUsuNomeDelsoft = $this->consultaSql($sSql);
+        date_default_timezone_set('America/Sao_Paulo');
+        $sData = date('Y-m-d H:i:s' . '.000');
+
+        if ($sit == 'a') {
+            $sSit = 'L';
+            $sHistorico = 'LIBERADO';
+            $iAprovacao = 2;
+        } elseif ($sit == 'r') {
+            $sSit = 'R';
+            $iAprovacao = 6;
+            $sHistorico = 'REPROVADO';
+        }
+        /* tabela de cabeçalho */
+        $sSqlUpdateCabecalho = "update "
+                . "sup_solicitacao "
+                . "set sup_solicitacaosituacao = '" . $sSit . "',"
+                . "sup_solicitacaofaseapr = " . $iAprovacao . " "
+                . "where fil_codigo = 8993358000174 "
+                . "and sup_solicitacaoseq = " . $nr . "";
+        $aRetorno = $this->executaSql($sSqlUpdateCabecalho);
+        if ($aRetorno[0]) {
+            // tabela de itens
+            $sSqlUpdateItens = "update "
+                    . "sup_solicitacaoitem "
+                    . "set sup_solicitacaoitemsituacao = '" . $sSit . "' "
+                    . "where fil_codigo = 8993358000174 "
+                    . "and sup_solicitacaoseq = " . $nr . "";
+            $aRetorno = $this->executaSql($sSqlUpdateItens);
+            if ($sit == 'a' && $aRetorno[0]) {
+                // tabela de histórico
+                $sSqlInsertHistorico = "SET DATEFORMAT ymd;"
+                        . "insert into sup_solicitacaoaprhist("
+                        . "fil_codigo,"
+                        . "sup_solicitacaoseq,"
+                        . "sup_solicitacaoaprhistseq,"
+                        . "sup_solicitacaoaprhistdata,"
+                        . "sup_solicitacaoaprhistsituacao,"
+                        . "sup_solicitacaoaprhistusuario,"
+                        . "sup_solicitacaoaprhistobs,"
+                        . "sup_solicitacaoaprhistdesc"
+                        . ")values("
+                        . "8993358000174,"
+                        . "" . $nr . ","
+                        . "(select ("
+                        . "case "
+                        . "when max(sup_solicitacaoaprhistseq) is null "
+                        . "then 1 else max(sup_solicitacaoaprhistseq)+1 end) as SEQ from sup_solicitacaoaprhist "
+                        . "where fil_codigo = 8993358000174 "
+                        . "and sup_solicitacaoseq = " . $nr . "),"
+                        . "CAST(N'" . $sData . "' AS DateTime),"
+                        . "'" . $sSit . "',"
+                        . "'" . $oUsuNomeDelsoft->usunomedelsoft . "',"
+                        . "'',"
+                        . "'" . $sHistorico . "')";
+                $aRetorno = $this->executaSql($sSqlInsertHistorico);
+            }
+        }
         return $aRetorno;
     }
 

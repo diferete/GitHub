@@ -1963,7 +1963,15 @@ class Controller {
             }
 
 
-            $sDados .= '<td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>'; //td do check
+            $iTipoGrid = $this->View->getTela()->getITipoGrid();
+            switch ($iTipoGrid) {
+                case null:
+                    $sDados .= '<td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;padding-top: 7px !important;"></td>'; //td do check
+                    break;
+                case 2:
+                    $sDados .= '<td class="select-checkbox2 sorting_1 select-checkbox2" style="width: 30px;"></td>'; //td do check
+                    break;
+            }
             $aLinha = array(); //inicializa o vetor que conterá a linha atual
             //carrega os campos que serão mostrados na consulta
             foreach ($aCampos as $campoAtual) {
@@ -2011,7 +2019,7 @@ class Controller {
 
             //monta td das chaves primaria
             $sChave = $this->Persistencia->getChaveModel($oAtual);
-            $sDados .= '<td class="hidden chave">' . $sChave . '</td>';
+            $sDados .= '<td class = "hidden chave">' . $sChave . '</td>';
             $sDados .= '</tr>';
         }
         //pega o total de linhas na querys
@@ -2517,8 +2525,8 @@ class Controller {
             echo $sRender;
         } else {
 
-            $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
-            echo $sMsgErro->getRender();
+            /* $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
+              echo $sMsgErro->getRender(); */
 
             //limpa campo descriçao
             $sLimpa = "$('#" . $sCampoRetorno . "').val('');";

@@ -58,6 +58,10 @@ class ViewMET_TEC_Usuario extends View {
         $oUsucodigo->setITamanho(Campo::TAMANHO_PEQUENO);
         $oUsucodigo->setBCampoBloqueado(TRUE);
 
+        $oUsuCracha = new Campo('Crachá', 'usucracha', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oUsuCracha->addValidacao(false, Validacao::TIPO_STRING);
+        $oUsuCracha->setITamanho(Campo::TAMANHO_PEQUENO);
+
         $oUserNome = new Campo('Nome', 'usunome', Campo::TIPO_TEXTO, 4);
         $oUserNome->addValidacao(false, Validacao::TIPO_STRING);
         $oUserNome->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -120,9 +124,6 @@ class ViewMET_TEC_Usuario extends View {
         $oCodSetor->setClasseBusca('MET_CAD_Setores');
         $oCodSetor->addCampoBusca('descsetor', null, $this->getTela()->getId()); //sempre setar o nome do modulo referente a pesquisa
 
-
-
-
         $oLabelDadosUsuarios = new Campo('Dados do Usuário:', '', Campo::TIPO_LABEL);
         $oLabelDadosLogin = new Campo('Dados de Login:', '', Campo::TIPO_LABEL);
 
@@ -144,8 +145,8 @@ class ViewMET_TEC_Usuario extends View {
         $oTurnoSteel->addItemSelect('Turno C', 'Turno C');
         $oTurnoSteel->addItemSelect('Turno D', 'Turno D');
         $oTurnoSteel->addItemSelect('Geral', 'Geral');
-
-        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), $oLinha, array($oUserNome, $oSobrenome), $oLinha, array($oUsuFone, $oUsuRamal, $oUsuEmail), $oLinha, array($oCodSetor, $oFilcgc), $oLinha, array($oUsutipo, $oOfficeCod), $oLinha, array($oUsuimagem, $oNomeDelsoft), $oLinha, $oLinha, $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv, $oLinha, array($oCodSisMetalbo, $oTurnoSteel));
+        
+        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), $oLinha, array($oUsuCracha, $oUserNome, $oSobrenome), $oLinha, array($oUsuFone, $oUsuRamal, $oUsuEmail), $oLinha, array($oCodSetor, $oFilcgc), $oLinha, array($oUsutipo, $oOfficeCod), $oLinha, array($oUsuimagem, $oNomeDelsoft), $oLinha, $oLinha, $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv, $oLinha, array($oCodSisMetalbo, $oTurnoSteel));
     }
 
 }

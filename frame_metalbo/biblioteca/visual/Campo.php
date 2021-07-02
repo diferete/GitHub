@@ -135,6 +135,7 @@ class Campo {
     const TIPO_BOTAO_MOSTRACONSULTA = 41;
     const TIPO_GRIDSIMPLE = 42;
     const TIPO_UPLOADMULTI = 43;
+    const TIPO_TEXTO_GRANDE = 44;
     const TIPO_TESTE = 99;
     /**/
     const TAMANHO_NORMAL = 0;
@@ -1544,6 +1545,67 @@ class Campo {
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<input type="text" style="font-weight:' . $this->getSFont() . '" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
+                        . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '</div>'
+                        //.'</div>'
+                        . '</div>'
+                        . $this->getRenderEventos()
+                        . '<script>';
+                if ($this->getBUpperCase() == true) {
+                    $sCampo .= '$( "#' . $this->getId() . '").blur(function(){'
+                            . '$( "#' . $this->getId() . '").val($( "#' . $this->getId() . '").val().toUpperCase());'
+                            . '}); ';
+                }
+                $sCampo .= '$( "#' . $this->getId() . '").addClass( "' . $this->getSCorFundo() . '" ); '
+                        . '</script>';
+                //verifica se existe campo de busca e monta renderização
+                if ($this->getClasseBusca() != null) {
+                    $sCampo .= $this->getBtnBusca();
+                    $sCampo .= $this->getCampoClasseBusca();
+                    $sCampo .= $this->getAcaoExitCampo();
+                }
+                if ($this->getBCNPJ()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '").mask("99.999.999/9999-99");'
+                            . '</script>';
+                }
+                if ($this->getBCPF()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("999.999.999-99");'
+                            . '</script>';
+                }
+                if ($this->getBCEP()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '  ").mask("99.999-999");'
+                            . '</script>';
+                }
+                if ($this->getBFone()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '  ").mask("(99) 9999-9999");'
+                            . '</script>';
+                }
+                if ($this->getBOculto()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . '-campo").hide();'
+                            . '</script>';
+                }
+                if ($this->getBTime()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("99:99");'
+                            . '</script>';
+                }
+                if ($this->getBNCM()) {
+                    $sCampo .= '<script>'
+                            . '$("#' . $this->getId() . ' ").mask("9999.99.99-999");'
+                            . '</script>';
+                }  //7318.24.00-000
+                break;
+            case self::TIPO_TEXTO_GRANDE:
+                $sCampo = //'<div class="form-group">'
+                        '<div id="' . $this->getId() . '-campo"  style="margin-top:' . $this->getIMarginTop() . 'px !important" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
+                        . '<div class="input-group" id="' . $this->getId() . '-group">'
+                        . '<label style="font-size: 20px;" class="control-label" for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
+                        . '<input type="text" style="font-weight:' . $this->getSFont() . ';height: 50px;font-size: 40px;" name="' . $this->getNome() . '" class="form-control ' . $this->getTamanho($this->getITamanho()) . ' " ' // IMPORTANTE!!!! REVER ID
                         . 'id="' . $this->getId() . '" placeholder="' . $this->getSPlaceHolder() . '" value="' . htmlspecialchars($this->getSValor()) . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '</div>'
                         //.'</div>'

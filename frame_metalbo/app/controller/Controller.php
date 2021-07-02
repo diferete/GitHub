@@ -1403,7 +1403,7 @@ class Controller {
 
         $sCampos = htmlspecialchars_decode($aDados[2]);
 
-        $sCampos .= '&diroffice=' . $_SESSION['diroffice'];
+        $sCampos .= '&dir=' . $_SESSION['diroffice'];
 
         $aRel = explode(',', $sRel);
 
@@ -1544,6 +1544,20 @@ class Controller {
 
         $oMenSuccess = new Mensagem("Sucesso", "Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
         echo $oMenSuccess->getRender();
+    }
+
+    public function geraRelPdf($sDados) {
+        $aDados = explode(',', $sDados);
+        $sSistema = "app/relatorio";
+        $sRelatorio = $aDados[1] . '.php?';
+        $sCampos = 'nr=' . $aDados[0];
+        $sCampos .= '&dir=' . $_SESSION["diroffice"];
+        $sCampos .= $this->getSget();
+        $sCampos .= '&output=email';
+
+        $oWindow = 'var win = window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "1366002941508","width=100,height=100,left=375,top=330");'
+                . 'setTimeout(function () { win.close();}, 1000);';
+        echo $oWindow;
     }
 
     /**
@@ -1799,17 +1813,17 @@ class Controller {
 
                                 $iCont++;
                             } else {
-                                //verifica se deve conter a tabela
-                                $aCampoTabela = explode('.', $aFiltroGrid[0]);
-                                if (!isset($aCampoTabela[1])) {
-                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]));
-                                } else {
-                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]), "", $aCampoTabela[0]);
+                                    //verifica se deve conter a tabela
+                                    $aCampoTabela = explode('.', $aFiltroGrid[0]);
+                                    if (!isset($aCampoTabela[1])) {
+                                        $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]));
+                                    } else {
+                                        $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]), "", $aCampoTabela[0]);
+                                    }
+                                    //adicionaFiltro($sCampo,$sValor,$iTipoLigacao = 0,$iTipoComparacao = 0,$sValorFim = "",$sTabelaCampo="", $sCampoType = "") 
                                 }
-                                //adicionaFiltro($sCampo,$sValor,$iTipoLigacao = 0,$iTipoComparacao = 0,$sValorFim = "",$sTabelaCampo="", $sCampoType = "")
                             }
                         }
-                    }
                     //verifica se tem filtro scroll infinito
                     if ($aFiltroGrid[1] == 'scroll') {
                         //tratar qdo é chave composta
@@ -1944,7 +1958,15 @@ class Controller {
             }
 
 
-            $sDados .= '<td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;"></td>'; //td do check
+            $iTipoGrid = $this->View->getTela()->getITipoGrid();
+            switch ($iTipoGrid) {
+                case null:
+                    $sDados .= '<td class="select-checkbox sorting_1 select-checkbox" style="width: 30px;padding-top: 7px !important;"></td>'; //td do check
+                    break;
+                case 2:
+                    $sDados .= '<td class="select-checkbox2 sorting_1 select-checkbox2" style="width: 30px;"></td>'; //td do check
+                    break;
+            }
             $aLinha = array(); //inicializa o vetor que conterá a linha atual
             //carrega os campos que serão mostrados na consulta
             foreach ($aCampos as $campoAtual) {
@@ -1992,7 +2014,7 @@ class Controller {
 
             //monta td das chaves primaria
             $sChave = $this->Persistencia->getChaveModel($oAtual);
-            $sDados .= '<td class="hidden chave">' . $sChave . '</td>';
+            $sDados .= '<td class = "hidden chave">' . $sChave . '</td>';
             $sDados .= '</tr>';
         }
         //pega o total de linhas na querys
@@ -2499,8 +2521,9 @@ class Controller {
             echo $sRender;
         } else {
 
-            $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
-            echo $sMsgErro->getRender();
+            /* $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
+              echo $sMsgErro->getRender(); */
+
             //limpa campo descriçao
             $sLimpa = "$('#" . $sCampoRetorno . "').val('');";
             echo $sLimpa;

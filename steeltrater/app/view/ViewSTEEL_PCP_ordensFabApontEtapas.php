@@ -100,13 +100,16 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oTurno->addItemSelect('Turno C', 'Turno C');
         $oTurno->addItemSelect('Turno D', 'Turno D');
         $oTurno->addItemSelect('Geral', 'Geral');
-        $oTurno->setSValor($oOuserDados->getTurnoSteel());
-
+        //$oTurno->setSValor($oOuserDados->getTurnoSteel());
+        //
         //campo dos fornos para somente carregar
         $oFornoCod = new campo('', 'fornocod', Campo::TIPO_TEXTO, 1);
         $oFornoCod->setBOculto(true);
+
         $oFornoDes = new Campo('', 'fornodes', Campo::TIPO_TEXTO, 2);
         $oFornoDes->setBOculto(true);
+        $oFornoDes->setBCampoBloqueado(true);
+        $oFornoDes->setSCorFundo(Campo::FUNDO_AMARELO);
 
         //-----------------------combo dos fornos---------------------------
         $oFornoChoice = new campo('Forno / Trefila *INICIAL', 'fornoCombo', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
@@ -115,9 +118,10 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         }
         $sCombo = 'var textCombo = $("#' . $oFornoChoice->getId() . ' option:selected").text(); '
                 . 'var valueCombo = $("#' . $oFornoChoice->getId() . '").val(); '
-                . '$("#' . $oFornoCod->getId() . '").val(valueCombo); $("#' . $oFornoDes->getId() . '").val(textCombo); ';
+                . '$("#' . $oFornoCod->getId() . '").val(valueCombo); '
+                . '$("#' . $oFornoDes->getId() . '").val(textCombo); ';
         $oFornoChoice->addEvento(Campo::EVENTO_CHANGE, $sCombo);
-        //-----------------------------------------------------------------
+        //-----------------------------------------------------------------//
         //EVENTO QUE AO SELECIONAR O FORNO AO PESQUISAR MUDA NO FORNO COMBO E NOS CAMPOS TEXTO
         $sComboGrid = 'var textComboGrid = $("#' . $oFornoChoiceGrid->getId() . ' option:selected").text(); '
                 . 'var valueComboGrid = $("#' . $oFornoChoiceGrid->getId() . '").val(); '
@@ -134,16 +138,15 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
             $oFornoChoiceGrid->setSValor($_COOKIE['cookfornocod']);
         } else {
             $oFornoArr = $aDados[0];
-
             if (method_exists($oFornoArr, 'getFornocod')) {
                 $oFornoCod->setSValor($oFornoArr->getFornocod());
+                $oFornoDes->setSValor($oFornoArr->getFornodes());
                 $oFornoChoice->setSValor($oFornoArr->getFornocod());
-                $oFornoChoiceGrid->setSValor($_COOKIE['cookfornocod']);
+                $oFornoChoiceGrid->setSValor($oFornoArr->getFornocod());
             }
         }
 
-        $oFornoDes->setBCampoBloqueado(true);
-        $oFornoDes->setSCorFundo(Campo::FUNDO_AMARELO);
+
         if (isset($_COOKIE['cookfornodes'])) {
             $oFornoDes->setSValor($_COOKIE['cookfornodes']);
         }/* else{
@@ -153,44 +156,53 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
           }} */
         //--------------------------------------------------------------------    
 
-        $oCodUser = new campo('coduser', 'coduser', Campo::TIPO_TEXTO, 1, 1, 1, 1);
-        $oCodUser->setSValor($_SESSION['codUser']);
+        $oCracha = new Campo('Crachá', 'cracha', Campo::TIPO_TEXTO_GRANDE, 2, 2, 12, 12);
+        $oCracha->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', '1', '5');
+        $oCracha->setApenasTela(true);
+        $oCracha->setBFocus(true);
+        $oCracha->setSCorFundo(Campo::FUNDO_VERMELHO);
+
+        $oAtencao = new Campo('<- PREENCHA ESSE CAMPO COM SEU CRACHÁ!', '', Campo::TIPO_BADGE, 1, 1, 12, 12);
+        $oAtencao->setSEstiloBadge(Campo::BADGE_PRIMARY);
+        $oAtencao->setITamFonteBadge(18);
+        $oAtencao->setApenasTela(true);
+
+        $oCodUser = new campo('coduser', 'coduser', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oCodUser->setBCampoBloqueado(true);
         $oCodUser->setBOculto(true);
+        //$oCodUser->setSValor($_SESSION['codUser']);
 
-        $oUserNome = new campo('user', 'usernome', Campo::TIPO_TEXTO, 2, 2, 2, 2);
-        $oUserNome->setSValor($_SESSION['nome']);
+        $oUserNome = new campo('Colaborador', 'usernome', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUserNome->setBCampoBloqueado(true);
-        $oUserNome->setBOculto(true);
+        $oUserNome->setSCorFundo(Campo::FUNDO_AMARELO);
+        //$oUserNome->setBOculto(true);
+        //$oUserNome->setSValor($_SESSION['nome']);
 
-        $oCorrida = new campo('Corrida', 'corrida', Campo::TIPO_TEXTO, 3, 3, 3, 3);
+        $oCorrida = new campo('Corrida', 'corrida', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oCorrida->setSCorFundo(Campo::FUNDO_VERDE);
-        // $oCorrida->addEvento(Campo::EVENTO_ENTER, 'if(event.which == 13){event.preventDefault();}');
+        //$oCorrida->addEvento(Campo::EVENTO_ENTER, 'if(event.which == 13){event.preventDefault();}');
         //if(event.which == 13){event.preventDefault();}
 
-        /* $oOp = new Campo('OP', 'op', Campo::TIPO_TEXTO, 2, 2, 6, 6);
-          $oOp->setSCorFundo(Campo::FUNDO_AMARELO);
-          $oOp->addValidacao(false, Validacao::TIPO_STRING,'','1','100'); */
-        $oOp = new Campo('OP', 'op', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 6, 6);
+        $oOp = new Campo('OP', 'op', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oOp->setSCorFundo(Campo::FUNDO_AMARELO);
         $oOp->addValidacao(false, Validacao::TIPO_STRING, '', '1', '100');
         $oOp->setClasseBusca('STEEL_PCP_ordensFabListaPesq');
         $oOp->setSCampoRetorno('op', $this->getTela()->getId());
-        $oOp->setBFocus(true);
 
         $oCorrida->addEvento(Campo::EVENTO_ENTER, 'if(event.which == 13){event.preventDefault();};$("#' . $oOp->getId() . '" ).focus();$("#' . $oOp->getId() . '" ).val("");');
-
 
         if (isset($aOps['op'])) {
             $oOp->setSValor($aOps['op']);
         }
 
+        $sDadosCracha = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabApontEtapas","buscaDadosCracha","' . $oCodUser->getId() . ',' . $oUserNome->getId() . ',' . $oOp->getId() . ',' . $oTurno->getId() . '");';
+        $oCracha->addEvento(Campo::EVENTO_SAIR, $sDadosCracha . $sComboGrid);
 
         $oLinha = new Campo('', 'linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
 
         //botao inserir apontamento
-        $oBtnInserir = new Campo('Iniciar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
+        $oBtnIniciar = new Campo('Iniciar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
 //----------------------------------------------------------------------------------------------------------
         //grid para carregar inicio do processo
         $oGridInicioProcesso = new Campo('Início do processo', 'apontInicio', Campo::TIPO_GRIDVIEW, 12, 12, 12, 12);
@@ -210,6 +222,8 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
 //----------------------------------------------------------------------------------------------------------
         $oGridEnt = new campo('Etapas do processo', 'gridEnt', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
         $oGridEnt->getOGrid()->setAbaSel($this->getSIdAbaSelecionada());
+        $oGridEnt->getOGrid()->setITipoGrid(2);
+        //$oGridEnt->getOGrid()->setILarguraGrid(2800);
 
         $oOpGrid = new CampoConsulta('Op', 'op');
         //botao que inicia um processo
@@ -245,21 +259,29 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
 
 
         $oReceitaSeq = new CampoConsulta('Etapa', 'receita_seq');
+
         $oTratamento = new CampoConsulta('Tratamento', 'STEEL_PCP_Tratamentos.tratdes');
         $oTratamento->setILargura(220);
+
         $oFornodesConsulta = new CampoConsulta('Forno/Trefila', 'fornodes');
+
         $oTurnoEntrada = new CampoConsulta('Turno.Entrada', 'turnoSteel');
+
         $oDataEntConsulta = new CampoConsulta('Data Ent.', 'dataent_forno', CampoConsulta::TIPO_DATA);
+
         $oHoraEntConsulta = new CampoConsulta('Hora Ent.', 'horaent_forno', CampoConsulta::TIPO_TIME);
+
         $oTurnoSaida = new CampoConsulta('Turno.Saída', 'turnoSteelSaida');
+
         $oDataSaidaConsulta = new CampoConsulta('Data Saída', 'datasaida_forno', CampoConsulta::TIPO_DATA);
+
         $oHoraSaidaConsulta = new CampoConsulta('Hora Saída', 'horasaida_forno', CampoConsulta::TIPO_TIME);
 
         $oSituacaoConsulta = new CampoConsulta('Situação', 'situacao');
         $oSituacaoConsulta->addComparacao('Processo', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AZUL, CampoConsulta::MODO_COLUNA, false, '');
         $oSituacaoConsulta->addComparacao('Finalizado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oSituacaoConsulta->setBComparacaoColuna(true);
-        $oSituacaoConsulta->setILargura(11);
+        $oSituacaoConsulta->setILargura(15);
 
         $oUserEntConsulta = new campoconsulta('Usuário Ent.', 'usernome');
         $oUserSaidaConsulta = new campoconsulta('Usuário Saída', 'usernomesaida');
@@ -298,9 +320,10 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
                 . '"' . $this->getTela()->getId() . ',' . $oGridInicioProcesso->getId() . ',' . $oOp->getId() . ','
                 . '' . $oFornoChoice->getId() . ',' . $oFornoCod->getId() . ','
                 . '' . $oFornoDes->getId() . ',' . $oTurno->getId() . ',' . $oBtnAtualizar->getId() . ',' . $oCorrida->getId() . '");';
-        $oBtnInserir->setSAcaoBtn($sAcao);
-        $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
+        $oBtnIniciar->setSAcaoBtn($sAcao);
+        $this->getTela()->setIdBtnConfirmar($oBtnIniciar->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
+
 
         $sAcaoFinalizar = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabApontEtapas","msgFinalizaOPgeral",'
                 . '"' . $this->getTela()->getId() . ',' . $oGridInicioProcesso->getId() . ',' . $oOp->getId() . ','
@@ -310,24 +333,26 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oBotaoFinalizarGeral->getOBotao()->setId('btn_finalizargeralApontaEtapa');
         $oBotaoFinalizarGeral->getOBotao()->addAcao($sAcaoFinalizar);
 
+        /*
+          //msgRetornaApontSaida
+          $sAcaoReabrirGeral = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabApontEtapas","msgRetornaApontSaida",'
+          . '"' . $this->getTela()->getId() . ',' . $oGridInicioProcesso->getId() . ',' . $oOp->getId() . ','
+          . '' . $oFornoChoice->getId() . ',' . $oFornoCod->getId() . ','
+          . '' . $oFornoDes->getId() . ',' . $oTurno->getId() . ',' . $oBtnAtualizar->getId() . '");';
+          $oBotaoReabrirGeral = new Campo('Reabrir OP', '', Campo::TIPO_BOTAOSIMPLES, 2, 2, 2, 2);
+          $oBotaoReabrirGeral->getOBotao()->setSStyleBotao(Botao::TIPO_WARNING);
+          $oBotaoReabrirGeral->getOBotao()->addAcao($sAcaoReabrirGeral); */
 
-        //msgRetornaApontSaida
-        $sAcaoReabrirGeral = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabApontEtapas","msgRetornaApontSaida",'
-                . '"' . $this->getTela()->getId() . ',' . $oGridInicioProcesso->getId() . ',' . $oOp->getId() . ','
-                . '' . $oFornoChoice->getId() . ',' . $oFornoCod->getId() . ','
-                . '' . $oFornoDes->getId() . ',' . $oTurno->getId() . ',' . $oBtnAtualizar->getId() . '");';
-        $oBotaoReabrirGeral = new Campo('Reabrir OP', '', Campo::TIPO_BOTAOSIMPLES, 2, 2, 2, 2);
-        $oBotaoReabrirGeral->getOBotao()->setSStyleBotao(Botao::TIPO_WARNING);
-        $oBotaoReabrirGeral->getOBotao()->addAcao($sAcaoReabrirGeral);
-
-        //turno para fechamento geral
-        $oTurnoFinal = new campo('Turno final', 'turnoSteelFinal', Campo::CAMPO_SELECTSIMPLE, 2, 2, 2, 2);
-        $oTurnoFinal->addItemSelect('Turno A', 'Turno A');
-        $oTurnoFinal->addItemSelect('Turno B', 'Turno B');
-        $oTurnoFinal->addItemSelect('Turno C', 'Turno C');
-        $oTurnoFinal->addItemSelect('Turno D', 'Turno D');
-        $oTurnoFinal->addItemSelect('Geral', 'Geral');
-        $oTurnoFinal->setSValor($oOuserDados->getTurnoSteel());
+        /*
+          //turno para fechamento geral
+          $oTurnoFinal = new campo('Turno final', 'turnoSteelFinal', Campo::CAMPO_SELECTSIMPLE, 2, 2, 2, 2);
+          $oTurnoFinal->addItemSelect('Turno A', 'Turno A');
+          $oTurnoFinal->addItemSelect('Turno B', 'Turno B');
+          $oTurnoFinal->addItemSelect('Turno C', 'Turno C');
+          $oTurnoFinal->addItemSelect('Turno D', 'Turno D');
+          $oTurnoFinal->addItemSelect('Geral', 'Geral');
+          $oTurnoFinal->setSValor($oOuserDados->getTurnoSteel());
+         */
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
 
@@ -343,14 +368,14 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         //se tipo da op igual fio máquina adiciona campos referente ao fio máquina
         if ($oDadosOp->getTipoOrdem() == 'F') {
             $oCorrida->setBFocus(true);
-            $this->addCampos($oOpsForno, $oDivApontaOp, array($oTurno, $oFornoChoice, $oCorrida, $oOp, $oBtnInserir), $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oCodUser, $oUserNome), array($oFornoCod, $oFornoDes));
+            $this->addCampos($oOpsForno, array($oCracha, $oAtencao, $oCodUser), $oUserNome, $oDivApontaOp, array($oTurno, $oFornoChoice, $oCorrida, $oOp, $oBtnIniciar), $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oFornoCod, $oFornoDes));
         } else {
             if ($oDadosOp->getTipoOrdem() == 'P') {
                 $oOp->setBFocus(true);
-                $this->addCampos($oOpsForno, $oDivApontaOp, array($oTurno, $oFornoChoice, $oOp, $oBtnInserir), $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oCodUser, $oUserNome), array($oFornoCod, $oFornoDes));
+                $this->addCampos($oOpsForno, array($oCracha, $oAtencao, $oCodUser), $oUserNome, $oDivApontaOp, array($oTurno, $oFornoChoice, $oOp, $oBtnIniciar), $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oFornoCod, $oFornoDes));
             } else {
-                $oCorrida->setBFocus(true);
-                $this->addCampos($oOpsForno, $oDivApontaOp, array($oTurno, $oFornoChoice, $oCorrida, $oOp, $oBtnInserir), $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oCodUser, $oUserNome), array($oFornoCod, $oFornoDes));
+                //$oCorrida->setBFocus(true);
+                $this->addCampos($oOpsForno, array($oCracha, $oAtencao, $oCodUser), $oUserNome, $oDivApontaOp, array($oTurno, $oFornoChoice, $oCorrida, $oOp, $oBtnIniciar), $oBtnAtualizar, $oLabelCorrida, $oGridInicioProcesso, $oGridEnt, /* $oLinha1,$oTurnoFinal, */ $oLinha1, $oBotaoFinalizarGeral, /* $oBotaoReabrirGeral, */ array($oFornoCod, $oFornoDes));
             }
         }
     }
@@ -472,7 +497,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
             $oHoraEnt->addValidacao(false, Validacao::TIPO_STRING);
             //user entrada
             $oUserEntcodigo = new Campo('Cod.Usuário Entrada', 'coduser', Campo::TIPO_BUSCADOBANCOPK, 3);
-            $oUserEntcodigo->setSValor($_SESSION['codUser']);
+            $oUserEntcodigo->setSValor($aCamposTela['coduser']);
             $oUserEntcodigo->addValidacao(false, Validacao::TIPO_STRING);
 
             //campo descrição do usuário
@@ -482,7 +507,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
             $oUserEntdes->addCampoBusca('usucodigo', '', '');
             $oUserEntdes->addCampoBusca('usunome', '', '');
             $oUserEntdes->setSIdTela($this->getTela()->getId());
-            $oUserEntdes->setSValor($_SESSION['nome']);
+            $oUserEntdes->setSValor($aCamposTela['usernome']);
             $oUserEntdes->addValidacao(false, Validacao::TIPO_STRING);
 
             //declarar o campo descrição
@@ -500,12 +525,12 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
             $oHoraEnt->setBCampoBloqueado(true);
 
             $oCodUser = new campo('CodUser', 'coduser', Campo::TIPO_TEXTO, 1, 1, 1, 1);
-            $oCodUser->setSValor($_SESSION['codUser']);
+            $oCodUser->setSValor($aCamposTela['coduser']);
             $oCodUser->setBCampoBloqueado(true);
             $oCodUser->setBOculto(true);
 
             $oUserNome = new campo('Usuário', 'usernome', Campo::TIPO_TEXTO, 2, 2, 2, 2);
-            $oUserNome->setSValor($_SESSION['nome']);
+            $oUserNome->setSValor($aCamposTela['usernome']);
             $oUserNome->setBCampoBloqueado(true);
         }
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
@@ -629,7 +654,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
 
             //user saida
             $oUserSaicodigo = new Campo('Cod.Usuário Saída', 'coduser', Campo::TIPO_BUSCADOBANCOPK, 3);
-            $oUserSaicodigo->setSValor($_SESSION['codUser']);
+            $oUserSaicodigo->setSValor($aCamposTela['coduser']);
 
             //campo descrição do usuário
             $oUserSaides = new Campo('Descrição', 'usernome', Campo::TIPO_BUSCADOBANCO, 4);
@@ -638,7 +663,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
             $oUserSaides->addCampoBusca('usucodigo', '', '');
             $oUserSaides->addCampoBusca('usunome', '', '');
             $oUserSaides->setSIdTela($this->getTela()->getId());
-            $oUserSaides->setSValor($_SESSION['nome']);
+            $oUserSaides->setSValor($aCamposTela['usernome']);
 
             //declarar o campo descrição
             $oUserSaicodigo->setClasseBusca('MET_TEC_Usuario');
@@ -654,12 +679,12 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
             $oHoraSaida->setBCampoBloqueado(true);
 
             $oCodUser = new campo('CodUser', 'coduser', Campo::TIPO_TEXTO, 1, 1, 1, 1);
-            $oCodUser->setSValor($_SESSION['codUser']);
+            $oCodUser->setSValor($aCamposTela['coduser']);
             $oCodUser->setBCampoBloqueado(true);
             $oCodUser->setBOculto(true);
 
             $oUserNome = new campo('Usuário', 'usernome', Campo::TIPO_TEXTO, 2, 2, 2, 2);
-            $oUserNome->setSValor($_SESSION['nome']);
+            $oUserNome->setSValor($aCamposTela['usernome']);
             $oUserNome->setBCampoBloqueado(true);
         }
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHA, 12, 12, 12, 12);

@@ -466,7 +466,7 @@ class Form {
                 . '              </div> '
                 . '             <div class="modal-footer"> '
                 . '                <button type="button" id="' . $sId . '-btn" class="btn btn-danger" data-dismiss="modal">Fechar</button> '
-                //  .'               <button type="button" class="btn btn-primary">Save changes</button> '
+                //.'               <button type="button" class="btn btn-primary">Save changes</button> '
                 . '             </div> '
                 . '           </div> '
                 . '         </div> '
@@ -508,7 +508,7 @@ class Form {
                 $sEtapa = $oEtapa->getRender();
             }
         } else {
-            $sEtapa = '<h3 class="panel-title">' . $this->getTitulo() . '</h3>';
+            $sEtapa = '<h2 class="panel-title">' . $this->getTitulo() . '</h2>';
         }
         //monta somente o form
         $sForm = '<form class="form-horizontal" id="' . $this->getId() . '-form" >'

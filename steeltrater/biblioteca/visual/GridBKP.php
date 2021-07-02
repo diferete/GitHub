@@ -51,7 +51,6 @@ class Grid {
     private $sNomeGrid;
     private $bDesativaRetornoConsulta;
     private $bFiltroDetalhe;
-    private $iTipoGrid;
 
     /**
      * Construtor da classe Grid 
@@ -61,7 +60,7 @@ class Grid {
      *  @param string $sTelaMuitoPequena Define o valor para telas de celulares pequenos
      *
      */
-    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 400, $iLarguraGrid = 1850) {
+    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 400, $iLarguraGrid = 1800) {
         $this->sId = Base::getId();
         $this->aColunas = array();
         $this->aBotoes = array();
@@ -84,14 +83,6 @@ class Grid {
         $this->setBMostraFiltro(false);
         $this->setSNomeGrid('paramGrid');
         $this->setBFiltroDetalhe(false);
-    }
-
-    function getITipoGrid() {
-        return $this->iTipoGrid;
-    }
-
-    function setITipoGrid($iTipoGrid) {
-        $this->iTipoGrid = $iTipoGrid;
     }
 
     function getBFiltroDetalhe() {
@@ -689,36 +680,13 @@ class Grid {
 
 
         $sGrid .= '<div id="' . $this->getSId() . 'resize" class="col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >';
-        $sGrid .= '<div class="label-dark" style="margin-top:10px; height: 25px;"><span class="label label-dark">' . $this->getSTituloConsulta() . '</span></div>';
+        $sGrid .= '<div class="label-dark" style="margin-top:10px;"><span class="label label-dark">' . $this->getSTituloConsulta() . '</span></div>';
 
         $sGrid .= '<div class="containerTable">';
-        $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px !important;margin:0 auto;">';
+        $this->getBGridResponsivo() == true ? $sGrid .= '<div class="classe-vazia">' : $sGrid .= '<div class="classe-vazia" style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;">';
 
-        $iTipoGrid = $this->getITipoGrid();
-        switch ($iTipoGrid) {
-            case null:
-                $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
-                        . '<thead>'
-                        . '<tr role ="row">'
-                        . '<th style="width: 20px;">'
-                        . '<button type="button" id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox">'
-                        . '</button>'
-                        . '</th>';
-                break;
-            case 2:
-                $sGrid .= '<table id="' . $this->getSId() . '"class="table table-hover" data-selectable="selectable" data-row-selectable="true">'
-                        . '<thead>'
-                        . '<tr role ="row">'
-                        . '<th class="width-50">'
-                        . '<span class="checkbox-custom checkbox-primary" style="left: 4px;">'
-                        . '<input id="' . $this->getSId() . '-chk" title="Seleciona todos" class="selectable-all" type="checkbox">'
-                        . '<label>'
-                        . '</label>'
-                        . '</span>'
-                        . '</th>';
-                break;
-        }
-
+        $sGrid .= '<table id="' . $this->getSId() . '" class="display compact cell-border" cellspacing="0" width="100%" style="background-color:#E8E8E8" >'//display compact
+                . '<thead><tr role ="row"><th style="width: 20px;"><button type="button" id="' . $this->getSId() . '-chk" title="Seleciona todos" class=" btn-checkbox"></button></th>';
         //monta o cabeçalho baseado nos campos do cria consulta
         foreach ($this->aColunas as $key => $oCampoAtual) {
             $sLargura = '';
@@ -732,7 +700,7 @@ class Grid {
             //verifica se tem ordeby
             $sOrderBy = "";
 
-            $sGrid .= '<th style="' . $sLargura . ' ' . $sOculta . '" id=' . $sIdTh . ' ' . $sOrderBy . '>' . $oCampoAtual->getSLabel() . '</th>';
+            $sGrid .= '<th  class="asc" style="' . $sLargura . ' ' . $sOculta . '" id=' . $sIdTh . ' ' . $sOrderBy . '>' . $oCampoAtual->getSLabel() . '</th>';
             if ($oCampoAtual->getBOrderBy()) {
                 $sOrderBy = '<script>'
                         . '$("#' . $sIdTh . '").click(function(){'
@@ -749,8 +717,7 @@ class Grid {
             }
         }
         //monta th da chave primaria
-        $sGrid .= '<th class="hidden">'
-                . '</th>';
+        $sGrid .= '<th class="hidden"></th>';
         //carrega os campos da consulta
         $oDados = Fabrica::FabricarController($this->getController());
         $oDados->filtroInicial();
@@ -770,8 +737,10 @@ class Grid {
         $aDados = $oDados->getDadosConsulta(NULL, $bConsultaPorSql = false, $this->getSCampoConsulta(), $this->getArrayCampos(), $this->getBGridCampo(), false);
 
 
-        $sGrid .= '</tr>'
-                . '</thead>';
+        $sGrid .= '</tr></thead>';
+
+
+
 
         if ($this->getBScrollInf()) {
             $sEventoCarr = 'var lastregCarr = $("#' . $this->getSId() . ' tr:last" ).find(".chave").html();  '
@@ -798,21 +767,19 @@ class Grid {
             $sBotCarregar = '<button type="button" id="' . $this->getSId() . '-botcarr" class="btn btn-dark btn-outline btn-xs '
                     . 'ladda-button" data-style="expand-left" data-plugin="ladda" >'
                     . '<span class="ladda-label" id="' . $this->getSId() . '-nrReg">' . $aDados[2] . ' registros listados do total de ' . $aDados[1] . '. Clique para carregar!</span>'
-                    . '<span class="ladda-spinner"></span>'
-                    . '</button> '
+                    . '<span class="ladda-spinner"></span></button> '
                     . '<script>'
                     . '$("#' . $this->getSId() . '-botcarr").click(function(){' . $sEventoCarr . '});'
                     . '</script>';
         }
 
-        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="width:' . $this->getILarguraGrid() . 'px !important;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px !important"><tbody><tr class="tr-destaque">';
+        $this->getBGridResponsivo() == true ? $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="margin-bottom:5px;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover"><tbody><tr class="tr-destaque">' : $sGrid .= '<tbody id="' . $this->getSId() . 'body">' . $aDados[0] . '</tbody></table></div>' . $sBotCarregar . '<input style="font-size:12px; display:none;" type="text" id="' . $this->getSId() . '-lastenv" name="lastpk" value=""><div style="width:' . $this->getILarguraGrid() . 'px;margin:0 auto;" class="panel"><table id="' . $this->getSId() . '-summary" class="table table-hover" style=" width:' . $this->getILarguraGrid() . 'px"><tbody><tr class="tr-destaque">';
         $sGrid .= $oDados->getDadosFoot($this->getArrayCampos(), $this->getBGridCampo(), $this->getAParametros());
         $sGrid .= '<span name="paramGrid" id="' . $this->getAbaSel() . '' . $this->getSNomeGrid() . '" style="display:none;">' . $this->getSId() . '</span>'
-                . '</tr>'
-                . '</tbody>'
-                . '</table>'
-                . '</div>'
-                . '</div>';
+                . '</tr></tbody></table></div></div>';
+
+
+
         $sGrid .= '</div>';
 
 
@@ -975,18 +942,9 @@ class Grid {
                 . '      leftColumns: 0'
                 . '  },'
                 . 'columnDefs: [ {'
-                . 'orderable: false,';
-        switch ($iTipoGrid) {
-            case null:
-                $sGrid .= 'className: "select-checkbox",';
-
-                break;
-            case 2:
-                $sGrid .= 'className: "select-checkbox2",';
-
-                break;
-        }
-        $sGrid .= 'targets:   0'
+                . 'orderable: false,'
+                . 'className: "select-checkbox",'
+                . 'targets:   0'
                 . '} ],'
                 . 'select: {'
                 . 'style:    "os",'

@@ -13,26 +13,27 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         parent::criaConsulta();
 
         $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setITipoGrid(2);
 
 
-        $oBtnReceitaZincagem = new CampoConsulta('', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_ENVIAR);
+        $oBtnReceitaZincagem = new CampoConsulta('Alt. Receita', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_ENVIAR);
         $oBtnReceitaZincagem->addDadosConsultaMVC('STEEL_PCP_OFReceitaZinc', 'TelaAlteraZincagem', 'Alterar receita da zincagem!');
 
-        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal = new CampoConsulta('Apontamentos', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Analisar apontamentos!');
         $oBotaoModal->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalAponta', 'modalAponta', '');
         $this->addModais($oBotaoModal);
 
-        $oBotaoFat = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_FLAG);
+        $oBotaoFat = new CampoConsulta('Itens NF', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_FLAG);
         $oBotaoFat->setBHideTelaAcao(true);
         $oBotaoFat->setILargura(15);
         $oBotaoFat->setSTitleAcao('Itens que vão para nota fiscal!');
         $oBotaoFat->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalFat', 'modalFat', '');
         $this->addModais($oBotaoFat);
 
-        $oBotaoPeso = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_APONTAR);
+        $oBotaoPeso = new CampoConsulta('Balança', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_APONTAR);
         $oBotaoPeso->setBHideTelaAcao(true);
         $oBotaoPeso->setILargura(15);
         $oBotaoPeso->setSTitleAcao('Apontar peso balança!');
