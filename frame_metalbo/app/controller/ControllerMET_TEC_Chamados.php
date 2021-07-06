@@ -539,6 +539,7 @@ class ControllerMET_TEC_Chamados extends Controller {
     }
 
     public function teste() {
+        
         $this->Persistencia->teste();
     }
 

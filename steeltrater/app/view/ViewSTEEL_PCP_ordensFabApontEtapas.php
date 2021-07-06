@@ -36,6 +36,8 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oGridOpsPes = new campo('Ops em processo', 'gridEnt', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
         $oGridOpsPes->getOGrid()->setAbaSel($this->getSIdAbaSelecionada());
         $oGridOpsPes->getOGrid()->setIAltura(50);
+        $oGridOpsPes->getOGrid()->setILarguraGrid(2500);
+
 
         $oBotaoCarregarOps = new CampoConsulta('Carregar', 'carregarOps', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoCarregarOps->setSTitleAcao('Carregar dados para lançar!');
@@ -294,6 +296,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oGridEnt->addParam('op', '0');
         $oGridEnt->getOGrid()->setIAltura(170);
         $oGridEnt->getOGrid()->setBGridResponsivo(false);
+        $oGridEnt->getOGrid()->setILarguraGrid(2500);
 
         //atualizar
         //botao atualizar

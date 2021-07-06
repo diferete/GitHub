@@ -79,9 +79,15 @@ class ViewSTEEL_PCP_Certificado extends View {
     public function criaTela() {
         parent::criaTela();
 
+        $sMetodo = $_REQUEST['metodo'];
+
         $oTab = new TabPanel();
         $oAbaPadrao = new AbaTabPanel('PADRÃO');
         $oAbaPadrao->setBActive(true);
+
+        $oAbaFioMaquina = new AbaTabPanel('FIO MÁQUINA');
+
+        $oAbaLog = new AbaTabPanel('LOG');
 
         $this->addLayoutPadrao('Aba');
 
@@ -94,7 +100,7 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oNr = new Campo('Nr.', 'nrcert', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oNr->setBCampoBloqueado(true);
 
-        $oOp = new Campo('Op', 'op', Campo::TIPO_BUSCADOBANCOPK, 1, 2, 12, 12);
+        $oOp = new Campo('Op', 'op', Campo::TIPO_BUSCADOBANCOPK, 3, 3, 12, 12);
         $oOp->setClasseBusca('STEEL_PCP_OrdensFab');
         $oOp->setSCampoRetorno('op', $this->getTela()->getId());
         $oOp->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -108,7 +114,6 @@ class ViewSTEEL_PCP_Certificado extends View {
         }
 
         $oNotaSteel = new Campo('Nota retorno', 'notasteel', Campo::TIPO_TEXTO, 1, 2, 12, 12);
-        $oNotaSteel->setBFocus(true);
 
         $oDataRetorno = new Campo('Data Retorno', 'dataNotaRetorno', Campo::TIPO_DATA, 2, 2, 2, 2);
 
@@ -199,7 +204,9 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oLabel1->setApenasTela(true);
 
         $oSupDurMin = new Campo('Dur.SuperfMin', 'durezaSuperfMin', Campo::TIPO_DECIMAL, 2);
+        $oSupDurMin->setId("CertSupDurMin");
         $oSupDurMax = new Campo('Dur.SuperfMax', 'durezaSuperfMax', Campo::TIPO_DECIMAL, 2);
+        $oSupDurMax->setId("CertSupDurMax");
 
         $oSupEscala = new Campo('Escala', 'SuperEscala', Campo::CAMPO_SELECTSIMPLE, 1);
         $oSupEscala->addItemSelect('HRC', 'HRC');
@@ -207,10 +214,12 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oSupEscala->addItemSelect('HRB', 'HRB');
         $oSupEscala->addItemSelect('HRA', 'HRA');
         $oSupEscala->addItemSelect('HB', 'HB');
+        $oSupEscala->setId("CertSupEscala");
 
         $oNucDurMin = new Campo('Dur.NucMin', 'durezaNucMin', Campo::TIPO_DECIMAL, 2);
+        $oNucDurMin->setId("CertNucDurMin");
         $oNucDurMax = new Campo('Dur.NucMax', 'durezaNucMax', Campo::TIPO_DECIMAL, 2);
-
+        $oNucDurMax->setId("CertNucDurMax");
 
         $oNucEscala = new Campo('Escala', 'NucEscala', Campo::CAMPO_SELECTSIMPLE, 1);
         $oNucEscala->addItemSelect('HRC', 'HRC');
@@ -218,10 +227,12 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oNucEscala->addItemSelect('HRB', 'HRB');
         $oNucEscala->addItemSelect('HRA', 'HRA');
         $oNucEscala->addItemSelect('HB', 'HB');
+        $oNucEscala->setId("CertNucEscala");
 
         $oCamDurMin = new Campo('Exp.CamadaMin', 'expCamadaMin', Campo::TIPO_TESTE, 2);
-
+        $oCamDurMin->setId("CertexpCamadaMin");
         $oCamDurMax = new Campo('Exp.CamadaMax', 'expCamadaMax', Campo::TIPO_TESTE, 2);
+        $oCamDurMax->setId("CertexpCamadaMax");
 
         $oInsEneg = new Campo('Insp.Enegrecimento', 'inspeneg', Campo::CAMPO_SELECTSIMPLE, 2);
         $oInsEneg->addItemSelect('Bom', 'Bom');
@@ -229,6 +240,7 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oInsEneg->addItemSelect('Ruim', 'Ruim');
         $oInsEneg->addItemSelect('Não Aplicável', 'Não Aplicável');
         $oInsEneg->setSValor('Tolerável');
+        $oInsEneg->setId("Certinspeneg");
 
         $oDataEmi = new Campo('Emissão', 'dataemissao', Campo::TIPO_TEXTO, 1);
         $oDataEmi->setSValor(date('d/m/Y'));
@@ -247,31 +259,63 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oStatusEmail->setBCampoBloqueado(true);
         $oStatusEmail->setSValor('NãoEnv');
 
+        //conclusão
+        $oConclusao = new campo('Conclusão', 'conclusao', Campo::TIPO_TEXTAREA, 10);
+        $oConclusao->setId("CertConclusao");
 
+        $oRnc = new campo('Número da RNC', 'rnc', Campo::TIPO_TEXTO, 2, 2, 2, 2);
+        $oRnc->setId("Certrnc");
         //ativa o fechamento da tela ao inserir
         $this->getTela()->setBFecharTelaIncluir(true);
 
-        if ($oDadosOp == null) {
-            //adiciona os eventos ao sair do campo op e do botao pesquisar
-            $sEventoOp = 'var OpSteel =  $("#' . $oOp->getId() . '").val();if(OpSteel !==""){requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Certificado","consultaOpDados",'
-                    . '"' . $oEmp_codigo->getId() . ',' . $oEmp_des->getId() . ',' . $oCodProd->getId() . ',' . $oProduto->getId()
-                    . ',' . $oOpcliente->getId() . ',' . $oPeso->getId() . ',' . $oNotaClient->getId() . ',' . $oQuant->getId() . '");}'
-                    . 'else{$("#' . $oEmp_codigo->getId() . '").val(""); $("#' . $oEmp_des->getId() . '").val(""); '
-                    . '$("#' . $oCodProd->getId() . '").val(""); $("#' . $oProduto->getId() . '").val(""); '
-                    . '$("#' . $oOpcliente->getId() . '").val(""); $("#' . $oPeso->getId() . '").val("");  '
-                    . '$("#' . $oNotaClient->getId() . '").val(""); $("#' . $oQuant->getId() . '").val("");};';
-            $oOp->addEvento(Campo::EVENTO_SAIR, $sEventoOp);
-        }
+        if ($sMetodo == 'acaoMostraTela') {
 
+            $oEmp_codigo->setBCampoBloqueado(true);
+            $oEmp_des->setBCampoBloqueado(true);
+            $oCodProd->setBCampoBloqueado(true);
+            $oProduto->setBCampoBloqueado(true);
+            $oOpcliente->setBCampoBloqueado(true);
+            $oPeso->setBCampoBloqueado(true);
+            $oNotaClient->setBCampoBloqueado(true);
+            $oQuant->setBCampoBloqueado(true);
+            $oDataEnsaio->setBCampoBloqueado(true);
+
+            if ($oDadosOp == null) {
+                //adiciona os eventos ao teclar enter no campo op e do botao pesquisar
+                $sEventoOp = 'var OpSteel =  $("#' . $oOp->getId() . '").val();if(OpSteel !==""){requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Certificado","consultaOpDados",'
+                        . '"' . $oEmp_codigo->getId() . ',' . $oEmp_des->getId() . ',' . $oCodProd->getId() . ',' . $oProduto->getId()
+                        . ',' . $oOpcliente->getId() . ',' . $oPeso->getId() . ',' . $oNotaClient->getId() . ',' . $oQuant->getId() . ',leitor,'
+                        . '' . $oSupDurMin->getId() . ',' . $oSupDurMax->getId() . ',' . $oSupEscala->getId() . ','
+                        . '' . $oNucDurMin->getId() . ',' . $oNucDurMax->getId() . ',' . $oNucEscala->getId() . ','
+                        . '' . $oCamDurMin->getId() . ',' . $oCamDurMax->getId() . ',' . $oInsEneg->getId() . ',' . $oConclusao->getId() . ',' . $oAbaFioMaquina->getId() . ',' . $oAbaPadrao->getId() . '");}'
+                        . 'else{$("#' . $oEmp_codigo->getId() . '").val(""); $("#' . $oEmp_des->getId() . '").val(""); '
+                        . '$("#' . $oCodProd->getId() . '").val(""); $("#' . $oProduto->getId() . '").val(""); '
+                        . '$("#' . $oOpcliente->getId() . '").val(""); $("#' . $oPeso->getId() . '").val("");  '
+                        . '$("#' . $oNotaClient->getId() . '").val(""); $("#' . $oQuant->getId() . '").val("");'
+                        . '$("#' . $oSupDurMin->getId() . '").val(""); $("#' . $oSupDurMax->getId() . '").val(""); $("#' . $oSupEscala->getId() . '").val("");'
+                        . '$("#' . $oNucDurMin->getId() . '").val(""); $("#' . $oNucDurMax->getId() . '").val(""); $("#' . $oNucEscala->getId() . '").val("");'
+                        . '$("#' . $oCamDurMin->getId() . '").val(""); $("#' . $oCamDurMax->getId() . '").val(""); $("#' . $oInsEneg->getId() . '").val(""); $("#' . $oConclusao->getId() . '").val("");};';
+                $oOp->addEvento(Campo::EVENTO_ENTER, $sEventoOp);
+            }
+        } else {
+            if ($oDadosOp == null) {
+                //adiciona os eventos ao sair do campo op e do botao pesquisar
+                $sEventoOp = 'var OpSteel =  $("#' . $oOp->getId() . '").val();if(OpSteel !==""){requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Certificado","consultaOpDados",'
+                        . '"' . $oEmp_codigo->getId() . ',' . $oEmp_des->getId() . ',' . $oCodProd->getId() . ',' . $oProduto->getId()
+                        . ',' . $oOpcliente->getId() . ',' . $oPeso->getId() . ',' . $oNotaClient->getId() . ',' . $oQuant->getId() . '");}'
+                        . 'else{$("#' . $oEmp_codigo->getId() . '").val(""); $("#' . $oEmp_des->getId() . '").val(""); '
+                        . '$("#' . $oCodProd->getId() . '").val(""); $("#' . $oProduto->getId() . '").val(""); '
+                        . '$("#' . $oOpcliente->getId() . '").val(""); $("#' . $oPeso->getId() . '").val("");  '
+                        . '$("#' . $oNotaClient->getId() . '").val(""); $("#' . $oQuant->getId() . '").val("");};';
+                $oOp->addEvento(Campo::EVENTO_SAIR, $sEventoOp);
+            }
+        }
         //busca obs do produto material receita
         if (method_exists($oDadosOp, 'getSeqmat')) {//if(method_exists($oDadosOp, 'getquant'))
             $oProdMatReceita = Fabrica::FabricarController('STEEL_PCP_prodMatReceita');
             $oProdMatReceita->Persistencia->adicionaFiltro('seqmat', $oDadosOp->getSeqmat());
             $oDadosProdMat = $oProdMatReceita->Persistencia->consultarWhere();
         }
-
-        //conclusão
-        $oConclusao = new campo('Conclusão', 'conclusao', Campo::TIPO_TEXTAREA, 10);
 
         // $xValor = str_replace("<br>", "&#10", $xValor);
         //        $xValor = str_replace("\r", "", $xValor);
@@ -284,21 +328,30 @@ class ViewSTEEL_PCP_Certificado extends View {
             $oConclusao->setSValor('' . $sReceitaObs . '  ' . $sOpObs . '   Foram atingidas suas especificações conforme solicitado no documento de remessa.');
         }
 
-
-
-        $oAbaFioMaquina = new AbaTabPanel('FIO MÁQUINA');
-
-        $oAbaLog = new AbaTabPanel('LOG');
-
         $oFioDurezaSol = new Campo('Dureza.Solicitada(HRB)', 'fioDurezaSol', Campo::TIPO_DECIMAL, 2);
+        $oFioDurezaSol->setId('CertFioDurezaSol');
+
         $oFioEsferio = new campo('Esferiodização(%)', 'fioEsferio', Campo::TIPO_DECIMAL, 2);
+        $oFioEsferio->setId('CertFioEsferio');
+
         $oFioDescarbonetaTotal = new campo('Descarb.Total(µm)', 'fioDescarbonetaTotal', Campo::TIPO_DECIMAL, 2);
+        $oFioDescarbonetaTotal->setId('CertFioDescarbonetaTotal');
+
         $oFioDescarbonetaParcial = new campo('Descarb.Parcial(µm)', 'fioDescarbonetaParcial', Campo::TIPO_DECIMAL, 2);
+        $oFioDescarbonetaParcial->setId('CertFioDescarbonetaParcial');
+
         $oDiamFinalMin = new campo('Diâmetro Final Mínimo(mm)', 'DiamFinalMin', Campo::TIPO_DECIMAL, 3);
+        $oDiamFinalMin->setId('CertDiamFinalMin');
+
         $oDiamFinalMax = new campo('Diâmetro Final Máximo(mm)', 'DiamFinalMax', Campo::TIPO_DECIMAL, 3);
+        $oDiamFinalMax->setId('CertDiamFinalMax');
 
         $oMicroGrafia = new campo('Micrografia', 'micrografia', Campo::TIPO_TEXTO, 6, 6, 6, 6);
         $oMicroGrafia->setSValor('Isento de Ferrita Delta, carbonetação e Descarbonetação');
+        $oMicroGrafia->setId('CertMicroGrafia');
+
+        $oLinha2 = new Campo('', 'linha', Campo::TIPO_LINHABRANCO, 8, 8, 8, 8);
+        $oLinha2->setApenasTela(true);
 
         $oAbaPadrao->addCampos(array($oSupDurMin, $oSupDurMax, $oSupEscala), array($oNucDurMin, $oNucDurMax, $oNucEscala), array($oCamDurMin, $oCamDurMax, $oInsEneg), $oMicroGrafia
         );
@@ -307,10 +360,42 @@ class ViewSTEEL_PCP_Certificado extends View {
 
         $oAbaLog->addCampos($oDataEmi, $oHora, $oUser, $oStatusEmail);
 
-        $oTab->addItems($oAbaPadrao, $oAbaFioMaquina, $oAbaLog);
+        if ($sMetodo == 'acaoMostraTela') {
 
-        $this->addCampos(array($oNr, $oOp, $oNotaSteel, $oDataRetorno), array($oEmp_codigo, $oEmp_des), array($oOpcliente, $oNotaClient, $oCodProd, $oProduto), array($oQuant, $oPeso, $oDataEnsaio), $oLinha1, $oLabel1, $oLinha1, $oTab, $oConclusao
-        );
+            $sLabe2 = new campo('<h5 style="color:red">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;'
+                    . '* Ao apontar OP sem leitor tecle Enter no teclado para carregar os dados!</h5>', 'obs2', Campo::TIPO_LABEL, 12, 12, 12, 12);
+            $sLabe2->setApenasTela(true);
+            $sLabe2->setIMarginTop(4);
+
+            $sAcaoImprimir = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_GeraCertificado","acaoMostraRelCargaEtiquetasLeitor",'
+                    . '"' . $this->getTela()->getId() . ',' . $oNr->getId() . ',' . $oOp->getId() . ',' . $oRnc->getSValor() . '");';
+            $oBotaoImprimirGeral = new Campo('Imprimir', 'btn_imprimecertificado', Campo::TIPO_BOTAOSMALL_SUB, 2, 2, 2, 2);
+            $oBotaoImprimirGeral->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
+            $oBotaoImprimirGeral->getOBotao()->setId('btn_imprimecertificado');
+            $oBotaoImprimirGeral->getOBotao()->addAcao($sAcaoImprimir);
+            
+            $sAcaoFinalizar = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Certificado","acaoInserirLeitor",'
+                    . '"' . $this->getTela()->getId() . ',' . $oNr->getId() . ',' . $oOp->getId() . ',' . $oRnc->getSValor() . '");';
+            $oBotaoFinalizarGeral = new Campo('Gravar', 'btn_gravarcertificado', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
+            $oBotaoFinalizarGeral->getOBotao()->setId('btn_gravarcertificado');
+            $oBotaoFinalizarGeral->getOBotao()->addAcao($sAcaoFinalizar);
+
+            $this->setBTela(true);
+            $this->setBOcultaBotTela(true);
+            $this->setBOcultaFechar(true);
+            $oOp->setBFocus(true);
+            $oTab->addItems($oAbaPadrao, $oAbaFioMaquina, $oAbaLog);
+
+            $this->addCampos(array($oNr, $oOp), $sLabe2, array($oEmp_codigo, $oEmp_des), array($oOpcliente, $oNotaClient, $oCodProd, $oProduto), array($oQuant, $oPeso, $oDataEnsaio, $oRnc), $oLinha1, $oLabel1, $oLinha1, $oTab, $oLinha2, $oConclusao, $oLinha1, array($oLinha2, $oBotaoFinalizarGeral, $oBotaoImprimirGeral)
+            );
+        } else {
+
+            $oNotaSteel->setBFocus(true);
+            $oTab->addItems($oAbaPadrao, $oAbaFioMaquina, $oAbaLog);
+
+            $this->addCampos(array($oNr, $oOp, $oNotaSteel, $oDataRetorno), array($oEmp_codigo, $oEmp_des), array($oOpcliente, $oNotaClient, $oCodProd, $oProduto), array($oQuant, $oPeso, $oDataEnsaio), $oLinha1, $oLabel1, $oLinha1, $oTab, $oConclusao
+            );
+        }
     }
 
     /**
@@ -530,7 +615,7 @@ class ViewSTEEL_PCP_Certificado extends View {
         $oAbaLog->addCampos($oDataEmi, $oHora, $oUser, $oStatusEmail);
 
         //$oTab->addItems($oAbaPadrao,$oAbaFioMaquina,$oAbaLog);
-        if ($oDadosOp->getTipoOrdem() == 'P') {
+        if ($oDadosOp->getTipoOrdem() == 'P' || $oDadosOp->getTipoOrdem() == 'TZ' || $oDadosOp->getTipoOrdem() == 'Z') {
             $oAbaPadrao->setBActive(true);
             $oTab->addItems($oAbaPadrao, $oAbaLog);
         }

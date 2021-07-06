@@ -88,6 +88,7 @@ class Campo {
     private $bUpperCase;
     private $sTabelaUpload;
     private $sParamSeq;
+    private $iLarguraGrid;
 
     /**/
 
@@ -186,7 +187,7 @@ class Campo {
      *  @param string $sTelaMuitoPequena Define o valor para telas de celulares pequenos
      *  @param integer $iAlturaGrid Define a altura se o campo for grid
      */
-    public function __construct($sLabel, $sNome, $iTipo = self::TIPO_TEXTO, $sTelaGrande = '3', $sTelaMedia = '6', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltGrid = 400) {
+    public function __construct($sLabel, $sNome, $iTipo = self::TIPO_TEXTO, $sTelaGrande = '3', $sTelaMedia = '6', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltGrid = 400, $iLarguraGrid = 1800) {
         $this->sId = Base::getId();
         $this->setLabel($sLabel);
         $this->setNome($sNome);
@@ -210,6 +211,7 @@ class Campo {
         $this->setIAltura('100');
         $this->setITamanho(Campo::TAMANHO_PEQUENO);
         $this->setIAlturaGrid($iAltGrid);
+        $this->setILarguraGrid($iLarguraGrid);
         $this->setSTipoBotao(Campo::BUTTON_PRIMARY);
         $this->setSCorCabGridView(Campo::GRIDVIEW_CORACTIVE);
         $this->setIMarginTop(0);
@@ -261,6 +263,14 @@ class Campo {
                 $this->setApenasTela(true);
                 break;
         }
+    }
+
+    function getILarguraGrid() {
+        return $this->iLarguraGrid;
+    }
+
+    function setILarguraGrid($iLarguraGrid) {
+        $this->iLarguraGrid = $iLarguraGrid;
     }
 
     function getSParamSeq() {

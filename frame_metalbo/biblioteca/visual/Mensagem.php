@@ -151,11 +151,6 @@ class Mensagem {
                 . '};'
                 . 'toastr["' . $sTipo . '"]("' . $this->getSMsg() . '", "' . $this->getSTitulo() . '");';
 
-        if ($sTipo != 'success') {
-            $oObjController = Fabrica::FabricarController('MET_TEC_LogMensagens');
-            $oObjController->gravaLog($this->getSTitulo(), $this->getSMsg(), $this->getITipo());
-        }
-
         return $sMensagem;
     }
 

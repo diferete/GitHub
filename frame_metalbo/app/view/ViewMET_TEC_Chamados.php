@@ -19,6 +19,7 @@ class ViewMET_TEC_Chamados extends View {
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setILarguraGrid(2400);
         $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setITipoGrid(2);
 
         $this->setUsaFiltro(true);
         $sFiltroSetor = $_SESSION['codsetor'];

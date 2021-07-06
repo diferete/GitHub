@@ -237,18 +237,74 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
     }
 
     public function teste() {
-        $sSql = "select * from rex_maquinas.dbo.met_tec_chamados";
+        $sSql = "select * "
+                . "from rex_maquinas.dbo.met_tec_chamados";
         $sth = $this->getObjetoSql($sSql);
         while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
-            $sSqlSel = "select count(*) as total,datacad from metalbobase.dbo.met_tec_chamados where nr = " . $key['nr'] . " and filcgc = " . $key['filcgc'] . " group by datacad";
+            $sSqlSel = "select count(*) as total,"
+                    . "datacad "
+                    . "from metalbobase.dbo.met_tec_chamados "
+                    . "where nr = " . $key['nr'] . " "
+                    . "and filcgc = " . $key['filcgc'] . " "
+                    . "group by datacad";
             $oObj = $this->consultaSql($sSqlSel);
             if ($oObj->total == 0 || $oObj == false) {
-                $sSqlInsert = "insert into metalbobase.dbo.met_tec_chamados (filcgc,nr,usucod,usunome,datacad,horacad,repoffice,"
-                        . "setor,descsetor,tipo,subtipo,subtipo_nome,problema,situaca,usunomeinicio,usunomefim,"
-                        . "datainicio,horainicio,datafim,horafim,obsfim,anexo1,anexo2,anexo3,anexofim,previsao,dias)"
-                        . "values(" . $key['filcgc'] . "," . $key['nr'] . "," . $key['usucod'] . ",'" . $key['usunome'] . "','" . $key['datacad'] . "','" . $key['horacad'] . "','" . $key['repoffice'] . "',"
-                        . "" . $key['setor'] . ",'" . $key['descsetor'] . "'," . $key['tipo'] . "," . $key['subtipo'] . ",'" . $key['subtipo_nome'] . "','" . $key['problema'] . "','" . $key['situaca'] . "','" . $key['usunomeinicio'] . "','" . $key['usunomefim'] . "',"
-                        . "'" . $key['datainicio'] . "','" . $key['horainicio'] . "','" . $key['datafim'] . "','" . $key['horafim'] . "','" . $key['obsfim'] . "','" . $key['anexo1'] . "','" . $key['anexo2'] . "','" . $key['anexo3'] . "','" . $key['anexofim'] . "','" . $key['previsao'] . "','" . $key['dias'] . "')";
+                $sSqlInsert = "insert into metalbobase.dbo.met_tec_chamados "
+                        . "(filcgc,"
+                        . "nr,"
+                        . "usucod,"
+                        . "usunome,"
+                        . "datacad,"
+                        . "horacad,"
+                        . "repoffice,"
+                        . "setor,"
+                        . "descsetor,"
+                        . "tipo,"
+                        . "subtipo,"
+                        . "subtipo_nome,"
+                        . "problema,"
+                        . "situaca,"
+                        . "usunomeinicio,"
+                        . "usunomefim,"
+                        . "datainicio,"
+                        . "horainicio,"
+                        . "datafim,"
+                        . "horafim,"
+                        . "obsfim,"
+                        . "anexo1,"
+                        . "anexo2,"
+                        . "anexo3,"
+                        . "anexofim,"
+                        . "previsao,"
+                        . "dias"
+                        . ")values("
+                        . "" . $key['filcgc'] . ","
+                        . "" . $key['nr'] . ","
+                        . "" . $key['usucod'] . ","
+                        . "'" . $key['usunome'] . "',"
+                        . "'" . $key['datacad'] . "',"
+                        . "'" . $key['horacad'] . "',"
+                        . "'" . $key['repoffice'] . "',"
+                        . "" . $key['setor'] . ","
+                        . "'" . $key['descsetor'] . "',"
+                        . "" . $key['tipo'] . ","
+                        . "" . $key['subtipo'] . ","
+                        . "'" . $key['subtipo_nome'] . "',"
+                        . "'" . $key['problema'] . "',"
+                        . "'" . $key['situaca'] . "',"
+                        . "'" . $key['usunomeinicio'] . "',"
+                        . "'" . $key['usunomefim'] . "',"
+                        . "'" . $key['datainicio'] . "',"
+                        . "'" . $key['horainicio'] . "',"
+                        . "'" . $key['datafim'] . "',"
+                        . "'" . $key['horafim'] . "',"
+                        . "'" . $key['obsfim'] . "',"
+                        . "'" . $key['anexo1'] . "',"
+                        . "'" . $key['anexo2'] . "',"
+                        . "'" . $key['anexo3'] . "',"
+                        . "'" . $key['anexofim'] . "',"
+                        . "'" . $key['previsao'] . "',"
+                        . "'" . $key['dias'] . "')";
                 $aRet = $this->executaSql($sSqlInsert);
             }
         }

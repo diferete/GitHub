@@ -12,7 +12,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->getTela()->setBGridResponsivo(false);
+        //$this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setITipoGrid(2);
 
 
@@ -75,10 +75,12 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         //  $oOpAntes = new CampoConsulta('Op anterior', 'opantes');
 
         $oReceita = new campoconsulta('Receita', 'receita');
-        
-        $oOpCliente = new CampoConsulta('Op Cliente','opcliente');
-        
-        $oFiltroOpCli = new Filtro($oOpCliente,Filtro::CAMPO_TEXTO_IGUAL, 2);
+
+        $oOpCliente = new CampoConsulta('Op Cliente', 'opcliente');
+
+        $oInspecao = new CampoConsulta('Certificado', 'nrcert');
+
+        $oFiltroOpCli = new Filtro($oOpCliente, Filtro::CAMPO_TEXTO_IGUAL, 2);
 
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL, 1);
         $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 2);
@@ -145,7 +147,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $this->setBScrollInf(true);
         $this->getTela()->setBUsaCarrGrid(true);
 
-        $this->addCampos($oOp, $oBtnReceitaZincagem, $oBotaoModal, $oBotaoFat, $oBotaoPeso, $oProcessozinc, $oSituacao, $oNrCarga, $Pendencia, $oData, $oCodigo, $oReferencia, $oProdes, $oPeso, $oRetrabalho, $oDocumento, $oReceita, $oTipOrdem);
+        $this->addCampos($oOp, $oBtnReceitaZincagem, $oBotaoModal, $oBotaoFat, $oBotaoPeso, $oProcessozinc, $oSituacao, $oNrCarga, $oInspecao, $Pendencia, $oData, $oCodigo, $oReferencia, $oProdes, $oPeso, $oRetrabalho, $oDocumento, $oReceita, $oTipOrdem);
 
 
         $this->setUsaDropdown(true);
@@ -244,6 +246,20 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oChavNfe = new Campo('Chave NFE', 'nfsnfechv', Campo::TIPO_TEXTO, 5, 5, 5, 5);
         $oChavNfe->setBCampoBloqueado(true);
 
+//        $oSeqItem = new Campo('Seq.Item','seqitem_nf', Campo::TIPO_TEXTO,1,1,1,1);
+//        $oSeqItem->setBCampoBloqueado(true);
+//        $oSeqItem->setSValor('0');
+//        //coloca o valor da sequencia
+//       if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
+//            if (method_exists($oDados, 'getNfsitseq')) {
+//                $oSeqItem->setSValor($oDados->getNfsitseq());
+//            }
+//        } else {
+//            if (method_exists($oDados, 'getNfseq')) {
+//                $oSeqItem->setSValor($oDados->getNfseq());
+//            }
+//        }
+
         $oTipo = new Campo('Tipo OP', 'tipoOrdem', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
         $oTipo->addItemSelect('P', 'Padrão - Tempera');
         $oTipo->addItemSelect('F', 'Fio Máquina - Industrialização');
@@ -326,7 +342,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
         //produto final
         $oProdFinal = new Campo('Produto.Final', 'prodFinal', Campo::TIPO_BUSCADOBANCOPK, 2);
-        // $oProdFinal->setBCampoBloqueado(true);
+        $oProdFinal->addValidacao(false, Validacao::TIPO_STRING);
 
         $oProdFinalDes = new Campo('DescFinal', 'prodesFinal', Campo::TIPO_BUSCADOBANCO, 5);
         $oProdFinalDes->setBOculto(true);
@@ -422,7 +438,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oPesoCesto = new Campo('Peso Cesto', 'PesoDoCesto', Campo::TIPO_DECIMAL, 1);
         $oPesoCesto->setSCorFundo(Campo::FUNDO_AMARELO);
         $oPesoCesto->setId('PesoCestoId');
-        
+
         //busca campo material
         $oCodMat = new Campo('Material', 'matcod', Campo::TIPO_TEXTO, 1);
         $oCodMat->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -765,13 +781,15 @@ class ViewSTEEL_PCP_OrdensFab extends View {
             $oTipoTratamento->addItemSelect($key, $key . ' - ' . $oValue);
         }
 
+        $oTipoZinc = new campo('Lista OPs de Zincagem', 'zincagem', Campo::TIPO_CHECK, 6, 6, 6, 6);
+
         //para mostrar a parte de imprimir a planilha no excel
         $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_OrdensFab","relatorioExcelOp");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $sLabel), $oLinha1, array($oTipoTratamento), $oLinha1, $oRetrabalho, $sLabe2, $oLinha1, $oXls);
+        $this->addCampos(array($oDatainicial, $oDatafinal), $oLinha1, array($oEmp_codigo, $oEmp_des), $oLinha1, array($oSituaRel, $sLabel), $oLinha1, array($oTipoTratamento), $oLinha1, array($oRetrabalho, $oTipoZinc), $sLabe2, $oLinha1, $oXls);
     }
 
     public function RelOpSteelForno() {
