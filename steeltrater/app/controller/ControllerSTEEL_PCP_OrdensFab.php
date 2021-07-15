@@ -17,7 +17,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
     public function beforeUpdate() {
         parent::beforeUpdate();
 
-        $this->verificaCampos();
+        $this->verificaCampos('alterar');
         $this->verificaOp();
         $this->buscaChave();
         $this->apontaReceitaZincagem();
@@ -57,7 +57,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
     public function beforeInsert() {
         parent::beforeInsert();
 
-        $this->verificaCampos();
+        $this->verificaCampos('incluir');
         $this->verificaOp();
         $this->buscaChave();
         $this->apontaReceitaZincagem();
@@ -74,8 +74,6 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         //verifica o outro incremento inserido
         $iAutoInc = $this->Persistencia->getMaxRegistro('op');
         $this->Model->setOp($iAutoInc);
-
-
 
         $oFabintens = Fabrica::FabricarController('STEEL_PCP_OrdensFabItens');
         $oFabintens->itensOrdem($this->Model);
@@ -561,7 +559,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         //. "$("#'.$aDados[1].'").val("'.$oDados->getProdes().'");';
     }
 
-    public function verificaCampos() {
+    public function verificaCampos($sAcao) {
         //validar se cliente tem na base e atualizar seu nome conforme cadastro
         $oCliente = Fabrica::FabricarController('DELX_CAD_Pessoa');
         $oCliente->Persistencia->adicionaFiltro('emp_codigo', $this->Model->getEmp_codigo());
@@ -586,6 +584,20 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
             echo $oModal->getRender();
             exit();
         }
+
+        //validar se produto final tem na base e atualizar seu nome conforme cadastro
+        $oCodProdFin = Fabrica::FabricarController('STEEL_PCP_pesqArame');
+        $oCodProdFin->Persistencia->adicionaFiltro('pro_codigo', $this->Model->getProdFinal());
+        $iContProdFin = $oCodProdFin->Persistencia->getCount();
+        if ($iContProdFin > 0) {
+            $oProdResultFin = $oCodProdFin->Persistencia->consultarWhere();
+            $this->Model->setProdesFinal($oProdResultFin->getPro_descricao());
+        } else {
+            $oModal = new Modal('Atenção', 'Esse produto final não está no seu cadastro de produtos!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }
+
         //validar se receita tem na base e atualizar seu nome conforme cadastro
         $oReceita = Fabrica::FabricarController('STEEL_PCP_Receitas');
         $oReceita->Persistencia->adicionaFiltro('cod', $this->Model->getReceita());
@@ -649,6 +661,79 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
                 $oMensagem = new Mensagem('Atenção, esse cliente exige XPED e NITEMPED', 'Atenção fique atento........', Mensagem::TIPO_ERROR, 10000);
                 echo $oMensagem->getRender();
                 exit();
+            }
+        }
+
+        //verifica se há op com mesmo cliente,nota,serie,seqitem
+        //valida sequencia se já não há op conforme param
+        $oParamValidaSeq = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
+        $oParamValidaSeq->Persistencia->adicionaFiltro('parametro', 'BLOQUEIA OP COM MESMA NOTA E SEQUÊNCIA');
+        $oParamValidaSeqData = $oParamValidaSeq->Persistencia->consultarWhere();
+
+        if ($sAcao == 'incluir') {
+            if ($oParamValidaSeqData->getValor() == 'SIM') {
+                //verifica se origem é xml
+                if ($this->Model->getOrigem() == 'XML') {
+                    //verifica se há a sequência do item
+                    if (($this->Model->getSeqitem_nf() == '0') || ($this->Model->getSeqitem_nf() == null) || ($this->Model->getSeqitem_nf() == '')) {
+                        $oMensagem = new Mensagem('Atenção, não está gravado a sequência do item!', 'Mas o processo pode continuar', Mensagem::TIPO_INFO, 10000);
+                        echo $oMensagem->getRender();
+                    }
+                    //verificar se trouxe o valor corretamente seq do item 
+                    if (($this->Model->getSeqprodnf() == '0') || ($this->Model->getSeqprodnf() == null) || ($this->Model->getSeqprodnf() == '')) {
+                        $oMensagem = new Mensagem('Atenção, não está gravado a sequência de importação!', 'Mas o processo pode continuar', Mensagem::TIPO_INFO, 10000);
+                        echo $oMensagem->getRender();
+                    } else {
+                        //verifica se há op sem ser cancelada e não pode ser retrabalho 
+                        $oOrdem = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+                        $oOrdem->Persistencia->adicionaFiltro('documento', $this->Model->getDocumento());
+                        $oOrdem->Persistencia->adicionaFiltro('serie_nf', $this->Model->getSerie_nf());
+                        $oOrdem->Persistencia->adicionaFiltro('seqitem_nf', $this->Model->getSeqitem_nf());
+                        $oOrdem->Persistencia->adicionaFiltro('seqprodnf', $this->Model->getSeqprodnf());
+                        $oOrdem->Persistencia->adicionaFiltro('retrabalho', 'Não');
+                        $oOrdem->Persistencia->adicionaFiltro('situacao', 'Cancelada', 0, 10);
+                        $iCount = 0;
+                        $iCount = $oOrdem->Persistencia->getCount();
+                        //mostra mensagem de validação e para o processo
+                        if ($iCount > 0) {
+                            $oMensagem = new Mensagem('Atenção, já existe um registro com essa nota, '
+                                    . 'série e número de importação!', 'Por favor verifique se não há duplicação!', Mensagem::TIPO_ERROR, 10000);
+                            echo $oMensagem->getRender();
+                            exit();
+                        }
+                    }
+                }
+                //valida romanei sem a sequencia de importação
+                if ($this->Model->getOrigem() == 'Romaneio') {
+                    //verifica se há a sequência do item
+                    if (($this->Model->getSeqitem_nf() == '0') || ($this->Model->getSeqitem_nf() == null) || ($this->Model->getSeqitem_nf() == '')) {
+                        $oMensagem = new Mensagem('Atenção, não está gravado a sequência do item!', 'Mas o processo pode continuar', Mensagem::TIPO_INFO, 10000);
+                        echo $oMensagem->getRender();
+                    }
+                    //verificar se trouxe o valor corretamente seq do item 
+                    if (($this->Model->getSeqprodnf() == '0') || ($this->Model->getSeqprodnf() == null) || ($this->Model->getSeqprodnf() == '')) {
+                        $oMensagem = new Mensagem('Atenção, não está gravado a sequência de importação!', 'Mas o processo pode continuar', Mensagem::TIPO_INFO, 10000);
+                        echo $oMensagem->getRender();
+                    } else {
+                        //verifica se há op sem ser cancelada e não pode ser retrabalho 
+                        $oOrdem = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
+                        $oOrdem->Persistencia->adicionaFiltro('documento', $this->Model->getDocumento());
+                        $oOrdem->Persistencia->adicionaFiltro('serie_nf', $this->Model->getSerie_nf());
+                        $oOrdem->Persistencia->adicionaFiltro('seqitem_nf', $this->Model->getSeqitem_nf());
+                        //$oOrdem->Persistencia->adicionaFiltro('seqprodnf',$this->Model->getSeqprodnf());
+                        $oOrdem->Persistencia->adicionaFiltro('retrabalho', 'Não');
+                        $oOrdem->Persistencia->adicionaFiltro('situacao', 'Cancelada', 0, 10);
+                        $iCount = 0;
+                        $iCount = $oOrdem->Persistencia->getCount();
+                        //mostra mensagem de validação e para o processo
+                        if ($iCount > 0) {
+                            $oMensagem = new Mensagem('Atenção, já existe um registro com essa nota, '
+                                    . 'série e número de importação!', 'Por favor verifique se não há duplicação!', Mensagem::TIPO_ERROR, 10000);
+                            echo $oMensagem->getRender();
+                            exit();
+                        }
+                    }
+                }
             }
         }
 
@@ -724,6 +809,7 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
         $this->Model->setOp_retrabalho($aCamposChave['op']);
         $this->Model->setRetrabalho('Sim');
         $this->Model->setSituacao('Aberta');
+        $this->Model->setNrcert(null);
         $aRetorno[0] = $this->Persistencia->inserir();
 
         //itens da op
@@ -1345,6 +1431,14 @@ class ControllerSTEEL_PCP_OrdensFab extends Controller {
             $oMenSuccess = new Mensagem("Atenção", "Receita Zincagem Incorreta!", Mensagem::TIPO_ERROR);
             echo $oMenSuccess->getRender();
             exit();
+        }
+
+        //Busca o Peso do Cesto do tratamento da Receita Zincagem
+        if ($aCamposChave['PesoDoCesto'] == '0,00' || $aCamposChave['PesoDoCesto'] == 0) {
+            $oControllerReceitaItensZinc = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
+            $oControllerReceitaItensZinc->Persistencia->adicionaFiltro('cod', $aCamposChave['receita_zinc']);
+            $oItensDados = $oControllerReceitaItensZinc->Persistencia->consultarWhere();
+            echo "$('#PesoCestoId').val('" . $oItensDados->getPesoDoCesto() . "');";
         }
     }
 

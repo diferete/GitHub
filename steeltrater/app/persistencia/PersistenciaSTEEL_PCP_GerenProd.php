@@ -28,6 +28,9 @@ Class PersistenciaSTEEL_PCP_GerenProd extends Persistencia{
          on STEEL_PCP_ordensFabItens.tratamento = STEEL_PCP_tratamentos.tratcod left outer join STEEL_PCP_receitasItens
          on STEEL_PCP_ordensFabItens.receita = STEEL_PCP_receitasItens.cod
          and STEEL_PCP_ordensFabItens.receita_seq = STEEL_PCP_receitasItens.seq ";
+         if(isset($aDados['Z'])){
+            $sSqlDados.=" and STEEL_PCP_ordensFabItens.receita in(select cod from STEEL_PCP_receitas where tipoReceita = 'Zincagem') "; 
+         }
         
          //condições
             $sSqlDados .= "where dataent_forno between '".$aDados['dataini']."' and '".$aDados['datafin']."' 

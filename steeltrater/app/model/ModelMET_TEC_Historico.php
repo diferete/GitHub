@@ -8,29 +8,26 @@
 class ModelMET_TEC_Historico {
 
     private $seq;
-    private $filcgc;
-    private $usucodigo;
-    private $usunome;
+    private $usuario;
     private $data;
     private $hora;
     private $classe;
     private $historico;
-    private $acao;
+
+    function getHistorico() {
+        return $this->historico;
+    }
+
+    function setHistorico($historico) {
+        $this->historico = $historico;
+    }
 
     function getSeq() {
         return $this->seq;
     }
 
-    function getFilcgc() {
-        return $this->filcgc;
-    }
-
-    function getUsucodigo() {
-        return $this->usucodigo;
-    }
-
-    function getUsunome() {
-        return $this->usunome;
+    function getUsuario() {
+        return $this->usuario;
     }
 
     function getData() {
@@ -45,28 +42,12 @@ class ModelMET_TEC_Historico {
         return $this->classe;
     }
 
-    function getHistorico() {
-        return $this->historico;
-    }
-
-    function getAcao() {
-        return $this->acao;
-    }
-
     function setSeq($seq) {
         $this->seq = $seq;
     }
 
-    function setFilcgc($filcgc) {
-        $this->filcgc = $filcgc;
-    }
-
-    function setUsucodigo($usucodigo) {
-        $this->usucodigo = $usucodigo;
-    }
-
-    function setUsunome($usunome) {
-        $this->usunome = $usunome;
+    function setUsuario($usuario) {
+        $this->usuario = $usuario;
     }
 
     function setData($data) {
@@ -79,14 +60,6 @@ class ModelMET_TEC_Historico {
 
     function setClasse($classe) {
         $this->classe = $classe;
-    }
-
-    function setHistorico($historico) {
-        $this->historico = $historico;
-    }
-
-    function setAcao($acao) {
-        $this->acao = $acao;
     }
 
 }

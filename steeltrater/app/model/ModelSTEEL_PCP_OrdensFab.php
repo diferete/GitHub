@@ -99,6 +99,17 @@ class ModelSTEEL_PCP_OrdensFab {
     private $receita_zincdesc;
     private $processozinc;
     private $PesoDoCesto;
+    private $seqitem_nf;
+    
+    function getSeqitem_nf() {
+        return $this->seqitem_nf;
+    }
+
+    function setSeqitem_nf($seqitem_nf) {
+        $this->seqitem_nf = $seqitem_nf;
+    }
+
+        
     
     function getPesoDoCesto() {
         return $this->PesoDoCesto;

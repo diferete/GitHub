@@ -248,7 +248,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         //adiciona filtro da chave primária
         $this->parametros = $sCampos;
         //carrega o model
-        $this->carregaModel($sCampos);
+        $this->carregaModel();
         $this->Persistencia->adicionaFiltro('pdv_pedidofilial', $this->Model->getPdv_PedidoFilial());
         $this->Persistencia->adicionaFiltro('pdv_pedidocodigo', $this->Model->getPdv_pedidocodigo());
         $this->Persistencia->adicionaFiltro('pdv_pedidoitemseq', $this->Model->getPdv_pedidoitemseq());
@@ -273,7 +273,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
         $oOpSteel = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
         $oOpSteel->Persistencia->adicionaFiltro('op', $aCampos['op']);
         $oOpDados = $oOpSteel->Persistencia->consultarWhere();
-        if ($oOpDados->getTipoOrdem() == 'P' || $oOpDados->getTipoOrdem() == 'Z' || $oOpDados->getTipoOrdem() == 'TZ') {
+        if ($oOpDados->getTipoOrdem() == 'P' || $oOpDados->getTipoOrdem() == 'Z' || $oOpDados->getTipoOrdem() == 'TZ'){
             $oSTEEL_PCP_ParametrosProd = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
             $oSTEEL_PCP_ParametrosProd->Persistencia->adicionaFiltro('parametro', 'BLOQUEIA CARGA OP TÊMPERA NÃO APONTADA');
             $oSteelDados = $oSTEEL_PCP_ParametrosProd->Persistencia->consultarWhere();
@@ -781,7 +781,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             //valida se todos os itens estao cadastrados
             if ($this->paramInsumoEnergia() == 'SIM') {
                 $aInsumosServParam = array('SERVIÇO', 'INSUMO', 'ENERGIA');
-            } else {
+             } else {
                 $aInsumosServParam = array('SERVIÇO', 'INSUMO');
             }
             //busca a unidade de medida
@@ -790,45 +790,57 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
             $oProdUn->Persistencia->adicionaFiltro('pro_codigo', $this->Model->getPDV_PedidoItemProduto());
             $oProdDados = $oProdUn->Persistencia->consultarWhere();
 
+            //valida a tabela de preço
             if ($this->paramValidaTabPreco() == 'SIM') {
                 foreach ($aInsumosServParam as $key => $value) {
+                    //verifica parametro de zincagem, se não ativado esse parâmetro muda o tipo da op para P 
+                    if($this->paramZincagem()=='NÃO'){
+                        $oDadosOp->setTipoOrdem('P');
+                    }
                     //se op tipo tempera normal
-                    if ($oDadosOp->getTipoOrdem() == 'P' || $oDadosOp->getTipoOrdem() == 'TZ') {
-                        //primeiro buca com receita de zincagem
-                        $this->validaTabelaPadrao($value, $oTabCliDados->getNr(), $oDadosOp->getReceita(), $oProdDados->getPro_ncm());
-                        //se op for do tipo tempera e zincagem analisa tabela de preço da zincagem tbm
-                        if ($oDadosOp->getTipoOrdem() == 'TZ') {
+                    if($oDadosOp->getTipoOrdem() == 'P' || $oDadosOp->getTipoOrdem() == 'TZ'){
+                      //primeiro buca com receita de zincagem
+                      $this->validaTabelaPadrao($value, $oTabCliDados->getNr(), $oDadosOp->getReceita(), $oProdDados->getPro_ncm());
+                      //se op for do tipo tempera e zincagem analisa tabela de preço da zincagem tbm
+                      if($oDadosOp->getTipoOrdem() == 'TZ'){
                             $this->validaTabelaPadrao($value, $oTabCliDados->getNr(), $oDadosOp->getReceita_zinc(), $oProdDados->getPro_ncm());
-                        }
+                      }
                     }
                     //se op de zincagem
-                    if ($oDadosOp->getTipoOrdem() == 'Z') {
-                        $this->validaTabelaPadrao($value, $oTabCliDados->getNr(), $oDadosOp->getReceita_zinc(), $oProdDados->getPro_ncm());
+                    if ($oDadosOp->getTipoOrdem() == 'Z'){
+                      $this->validaTabelaPadrao($value, $oTabCliDados->getNr(), $oDadosOp->getReceita_zinc(), $oProdDados->getPro_ncm());  
                     }
                 }
             } //<== fim da validacao
             //verifica parametro se insere insumo de energia ou não 
             if ($this->paramInsumoEnergia() == 'SIM') {
-                if ($oDadosOp->getTipoOrdem() == 'P') {
-                    $aInsumosServ = array('RETORNO', 'SERVIÇO', 'INSUMO', 'ENERGIA');
-                }
-                if ($oDadosOp->getTipoOrdem() == 'TZ') {
-                    $aInsumosServ = array('RETORNO', 'SERVIÇO', 'INSUMO', 'ENERGIA', 'SERVIÇOZ', 'INSUMOZ', 'ENERGIAZ');
-                }
-                if ($oDadosOp->getTipoOrdem() == 'Z') {
-                    $aInsumosServ = array('RETORNO', 'SERVIÇOZ', 'INSUMOZ', 'ENERGIAZ');
-                }
+                //verifica parametro de zincagem, se não ativado esse parâmetro muda o tipo da op para P 
+                 if($this->paramZincagem()=='NÃO'){
+                    $oDadosOp->setTipoOrdem('P');
+                 }
+                  if($oDadosOp->getTipoOrdem() == 'P'){
+                     $aInsumosServ = array('RETORNO', 'SERVIÇO', 'INSUMO', 'ENERGIA');
+                   }
+                   if($oDadosOp->getTipoOrdem() == 'TZ'){
+                     $aInsumosServ = array('RETORNO', 'SERVIÇO', 'INSUMO', 'ENERGIA', 'SERVIÇOZ', 'INSUMOZ', 'ENERGIAZ');
+                   }
+                   if($oDadosOp->getTipoOrdem() == 'Z'){
+                     $aInsumosServ = array('RETORNO', 'SERVIÇOZ', 'INSUMOZ', 'ENERGIAZ');
+                   }
             } else {
-                // $aInsumosServ = array('RETORNO', 'SERVIÇO', 'INSUMO');
-                if ($oDadosOp->getTipoOrdem() == 'P') {
-                    $aInsumosServ = array('RETORNO', 'SERVIÇO', 'INSUMO');
+               //verifica parametro de zincagem, se não ativado esse parâmetro muda o tipo da op para P 
+                if($this->paramZincagem()=='NÃO'){
+                    $oDadosOp->setTipoOrdem('P');
                 }
-                if ($oDadosOp->getTipoOrdem() == 'TZ') {
-                    $aInsumosServ = array('RETORNO', 'SERVIÇO', 'INSUMO', 'SERVIÇOZ', 'INSUMOZ');
-                }
-                if ($oDadosOp->getTipoOrdem() == 'Z') {
-                    $aInsumosServ = array('RETORNO', 'SERVIÇOZ', 'INSUMOZ');
-                }
+                if($oDadosOp->getTipoOrdem() == 'P'){
+                     $aInsumosServ = array('RETORNO', 'SERVIÇO', 'INSUMO');
+                   }
+                  if($oDadosOp->getTipoOrdem() == 'TZ'){
+                     $aInsumosServ = array('RETORNO', 'SERVIÇO', 'INSUMO', 'SERVIÇOZ', 'INSUMOZ');
+                   }
+                   if($oDadosOp->getTipoOrdem() == 'Z'){
+                     $aInsumosServ = array('RETORNO', 'SERVIÇOZ', 'INSUMOZ');
+                   }
             }
             //validação para ver se há todos os itens na tabela de preço
 
@@ -881,6 +893,9 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                             $sInfAdicional .= ' Sua NF ' . $oDadosOp->getDocumento();
                             if ($oDadosOp->getEmp_codigo() == '76812379000104') {
                                 $sInfAdicional .= ' Pedido ' . $oDadosOp->getXPed();
+                            }
+							if ($oDadosOp->getEmp_codigo() == '85778074000106') {
+                                $sInfAdicional .= ' Sua OF ' . $oDadosOp->getOpcliente();
                             }
                         } else {
                             $sInfAdicional .= 'Sua NF - ' . $oDadosOp->getDocumento();
@@ -1097,8 +1112,8 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                         }
 
                         break;
-                    //busca o serviço referente a zincagem
-                    //-----------------busca o serviço-------------------------------------------------------------------------------------------
+                  //busca o serviço referente a zincagem
+                //-----------------busca o serviço-------------------------------------------------------------------------------------------
                     case "SERVIÇOZ":
                         $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');
                         $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
@@ -1166,9 +1181,9 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                         }
 
                         break;
-
-                    //carrega o insumo de zincagem
-                    case "INSUMOZ":
+                        
+                 //carrega o insumo de zincagem
+                 case "INSUMOZ":
                         $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');
                         $oItemsTabela->Persistencia->adicionaFiltro('nr', $oTabCliDados->getNr());
                         $oItemsTabela->Persistencia->adicionaFiltro('receita', $oDadosOp->getReceita_zinc());
@@ -1236,7 +1251,7 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
                         }
 
                         break;
-                    //--------------------------BUSCA ENERGIA ELÉTRICA ZINCATEM------------------------------------------------
+                  //--------------------------BUSCA ENERGIA ELÉTRICA ZINCATEM------------------------------------------------
                     case 'ENERGIAZ' :
 
                         $oItemsTabela = Fabrica::FabricarController('STEEL_PCP_TabItemPreco');
@@ -2657,6 +2672,16 @@ class ControllerSTEEL_PCP_PedCargaItens extends Controller {
     public function paramInsumoEnergia() {
         $oSTEEL_PCP_ParametrosProd = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
         $oSTEEL_PCP_ParametrosProd->Persistencia->adicionaFiltro('parametro', 'ATIVA FATURAMENTO INSUMO ENERGIA');
+        $oSteelDados = $oSTEEL_PCP_ParametrosProd->Persistencia->consultarWhere();
+        $sRetorno = $oSteelDados->getValor();
+        return $sRetorno;
+    }
+    /**
+     * Verifica parametro referente a faturamento de zincagem
+     */
+    public function paramZincagem() {
+        $oSTEEL_PCP_ParametrosProd = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
+        $oSTEEL_PCP_ParametrosProd->Persistencia->adicionaFiltro('parametro', 'ATIVA FATURAMENTO ZINCAGEM');
         $oSteelDados = $oSTEEL_PCP_ParametrosProd->Persistencia->consultarWhere();
         $sRetorno = $oSteelDados->getValor();
         return $sRetorno;

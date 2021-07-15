@@ -10,101 +10,31 @@ class ControllerSTEEL_SUP_PedidoCompra extends Controller {
 
     public function __construct() {
         $this->carregaClassesMvc('STEEL_SUP_PedidoCompra');
-        $this->setControllerDetalhe('STEEL_SUP_PedidoCompraItem');
-        $this->setSMetodoDetalhe('acaoTelaDetalhe');
     }
 
-    public function antesDeCriarTela($sParametros = null) {
-        parent::antesDeCriarTela($sParametros);
+    /*     * *********************APLICATIVO************************* */
 
-        $aCondPag = $this->Persistencia->buscaCondPag();
-
-        $this->View->setOObjTela($aCondPag);
-    }
-
-    public function adicionaFiltrosExtras() {
-        parent::adicionaFiltrosExtras();
-        $this->Persistencia->adicionaFiltro('FIL_Codigo', $this->Model->getDELX_FIL_Empresa()->getFil_codigo());
-        $this->Persistencia->adicionaFiltro('SUP_PedidoSeq', $this->Model->getSUP_PedidoSeq());
-    }
-
-    function montaProxEtapa() {
-        parent::montaProxEtapa();
-        $aRetorno[0] = $this->Model->getFil_codigo();
-        $aRetorno[1] = $this->Model->getSUP_SolicitacaoSeq();
-        return $aRetorno;
-    }
-
-    public function antesAlterar($sParametros = null) {
-        parent::antesAlterar($sParametros);
-
-        $sChave = htmlspecialchars_decode($sParametros[0]);
-        $this->carregaModelString($sChave);
-        $this->Model = $this->Persistencia->consultar();
-
-        if (trim($this->Model->getSUP_PedidoSituacao()) != 'A') {
-            $aOrdem = explode('=', $sChave);
-            $oMensagem = new Mensagem('Atenção!', 'A solicitação não pode ser alterada somente visualizado!', Mensagem::TIPO_ERROR);
-            $this->setBDesativaBotaoPadrao(true);
-            echo $oMensagem->getRender();
-        }
-    }
-
-    public function beforeUpdate() {
-        parent::beforeUpdate();
-
-        $this->carregaDefault();
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
-    public function beforeInsert() {
-        parent::beforeInsert();
-
-        $this->carregaDefault();
-
-        $aRetorno = array();
-        $aRetorno[0] = true;
-        $aRetorno[1] = '';
-        return $aRetorno;
-    }
-
-    public function carregaDefault() {
-        $this->Model->setSUP_PedidoObservacao('');
-        $this->Model->setSUP_PedidoMoedaData('1753-01-01 00:00:00.000');
-        $this->Model->setSUP_PedidoMoedaValorNeg(0);
-        $this->Model->setSUP_PedidoCCTCod(0);
-        $this->Model->setSUP_PedidoFornecedorEnd(0);
-        $this->Model->setSUP_PedidoFornecedorAssociado('N');
-        $this->Model->setSUP_PedidoDataValidade('1753-01-01 00:00:00.000');
-        $this->Model->setSUP_PedidoBxPrevisao('N');
-    }
-
-    public function getDadosBadgeCompras($oDados) {
+    public function getDadosBadgePedCompras($oDados) {
 
         $oMET_TEC_MobileFat = Fabrica::FabricarPersistencia('MET_TEC_MobileFat');
         $aPainel = $oMET_TEC_MobileFat->getPainelApp();
 
-        $aRetorno['PainelCompras'] = false;
+        $aRetorno['PainelPedidoCompras'] = false;
         $aDados['steeltrater'] = 0;
         $aDados['filial'] = 0;
         $aDados['matriz'] = 0;
-        $aRetorno['CountBadgeCompras'] = $aDados;
+        $aRetorno['CountBadgePedCompras'] = $aDados;
         foreach ($aPainel as $key => $value) {
             if ($value == 'Compras') {
-                $aRetornoDados = $this->Persistencia->buscaBadgeCompras($oDados);
-                $aRetorno['PainelCompras'] = true;
-                $aRetorno['CountBadgeCompras'] = $aRetornoDados;
+                $aRetornoDados = $this->Persistencia->buscaBadgePedCompras($oDados);
+                $aRetorno['PainelPedidoCompras'] = true;
+                $aRetorno['CountBadgePedCompras'] = $aRetornoDados;
             }
         }
         return $aRetorno;
     }
 
     public function getDadosPedidoCompras($Dados) {
-
 
         $cnpj = $Dados->cnpj;
         $usucodigo = $Dados->usucodigo;

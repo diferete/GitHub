@@ -37,7 +37,7 @@ class ControllerSTEEL_PCP_pesqArame extends Controller {
     public function beforeInsert() {
         parent::beforeInsert();
         
-        $this->Model->setPro_cadastrodatahora(date('d/m/Y h:m:s'));
+        $this->Model->setPro_cadastrodatahora(date('d/m/Y H:i:s'));
         //seta código caso não foi setado pelo usuário
         if($this->Model->getPro_codigo()==null || $this->Model->getPro_codigo()==''){
             $oProdSeq = Fabrica::FabricarController('STEEL_PCP_Produtos');
@@ -69,7 +69,7 @@ class ControllerSTEEL_PCP_pesqArame extends Controller {
     public function beforeUpdate() {
         parent::beforeUpdate();
         
-        $this->Model->setPro_alteracaodatahora(date('d/m/Y h:m:s'));
+        $this->Model->setPro_alteracaodatahora(date('d/m/Y H:i:s'));
         $this->Model->setPro_alteracaousuario($_SESSION['nomedelsoft']);
         $this->preencheModelcomDados();
         $this->validacaoProdutos();

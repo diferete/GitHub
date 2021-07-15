@@ -285,7 +285,7 @@ class ControllerMET_TEC_Chamados extends Controller {
             $aRetorno = $this->Persistencia->cancelaChamado($aCampos);
             if ($aRetorno[0]) {
                 $oMsg = new Modal('Tudo certo', 'Chamado foi cancelado com sucesso', Modal::TIPO_SUCESSO, false, true, false);
-                $this->EnviaEmailFinalizaChamado($aDados);
+                //$this->EnviaEmailFinalizaChamado($aDados);
                 echo "$('#" . $aDados[1] . "-btn').click();";
                 echo $oMsg->getRender();
             } else {

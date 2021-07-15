@@ -1,14 +1,14 @@
 <?php
 
-/*
+/* 
  * Classe que implementa o model da produção steeltrater
  * 
  * @author Avanei Martendal
  * @since 25/06/2018
  */
 
-class ModelSTEEL_PCP_OrdensFabItens {
-
+class ModelSTEEL_PCP_OrdensFabItens{
+    
     private $op;
     private $opseq;
     private $receita;
@@ -38,7 +38,7 @@ class ModelSTEEL_PCP_OrdensFabItens {
     private $CamadaEspessura;
     private $TempoZinc;
     private $PesoDoCesto;
-
+    
     function getCamadaEspessura() {
         return $this->CamadaEspessura;
     }
@@ -61,8 +61,8 @@ class ModelSTEEL_PCP_OrdensFabItens {
 
     function setPesoDoCesto($PesoDoCesto) {
         $this->PesoDoCesto = $PesoDoCesto;
-    }
-
+    }    
+    
     function getDiamMin() {
         return $this->diamMin;
     }
@@ -79,6 +79,7 @@ class ModelSTEEL_PCP_OrdensFabItens {
         $this->diamMax = $diamMax;
     }
 
+    
     function getTurnoSteelSaida() {
         return $this->turnoSteelSaida;
     }
@@ -87,6 +88,7 @@ class ModelSTEEL_PCP_OrdensFabItens {
         $this->turnoSteelSaida = $turnoSteelSaida;
     }
 
+        
     function getFornocod() {
         return $this->fornocod;
     }
@@ -183,11 +185,12 @@ class ModelSTEEL_PCP_OrdensFabItens {
         $this->turnoSteel = $turnoSteel;
     }
 
+        
     function getSTEEL_PCP_Tratamentos() {
-        if (!isset($this->STEEL_PCP_Tratamentos)) {
+        if(!isset($this->STEEL_PCP_Tratamentos)){
             $this->STEEL_PCP_Tratamentos = Fabrica::FabricarModel('STEEL_PCP_Tratamentos');
         }
-
+        
         return $this->STEEL_PCP_Tratamentos;
     }
 
@@ -195,6 +198,7 @@ class ModelSTEEL_PCP_OrdensFabItens {
         $this->STEEL_PCP_Tratamentos = $STEEL_PCP_Tratamentos;
     }
 
+        
     function getReceita_seq() {
         return $this->receita_seq;
     }
@@ -203,6 +207,7 @@ class ModelSTEEL_PCP_OrdensFabItens {
         $this->receita_seq = $receita_seq;
     }
 
+        
     function getOp() {
         return $this->op;
     }
@@ -275,4 +280,6 @@ class ModelSTEEL_PCP_OrdensFabItens {
         $this->resfriamento = $resfriamento;
     }
 
+        
+   
 }

@@ -250,7 +250,7 @@ class ControllerMET_TEC_Mobile extends Controller {
     /**
      * Retorna o Menu de um aplicativo
      */
-    public function getMenu($Dados) {
+    public function getMenu() {
         $aRetorno = array();
         $aRetDados = array();
         $oMod = Fabrica::FabricarController('MET_TEC_ModUsuario');

@@ -40,6 +40,12 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         $aDadosParam['datafin'] = Util::getDataAtual();
         $aDadosParam['tipoOp'] = "'F'";
         $aDadosPesoFio = $this->Persistencia->geraGerenProd($aDadosParam);
+        //produção somente zincagem
+        $aDadosParam['busca'] = 'ProdTotal';
+        $aDadosParam['dataini'] = Util::getDataAtual();
+        $aDadosParam['datafin'] = Util::getDataAtual();
+        $aDadosParam['tipoOp'] = "'TZ','Z'";
+        $aDadosPesoZincagem = $this->Persistencia->geraGerenProd($aDadosParam); //!!!verificar novo procedimento
         //apontamento por etapa diário
         $aDadosParam = array();
         $aDadosParam['busca'] = 'ProdTotal';
@@ -81,6 +87,13 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         $aDadosParam['datafin'] = $aCamposChave['datafin'];
         $aDadosParam['tipoOp'] = "'F'";
         $aDadosPesoFioMensal = $this->Persistencia->geraGerenProd($aDadosParam);
+
+        //produção somente zincagem
+        $aDadosParam['busca'] = 'ProdTotal';
+        $aDadosParam['dataini'] = $aCamposChave['dataini'];
+        $aDadosParam['datafin'] = $aCamposChave['datafin'];
+        $aDadosParam['tipoOp'] = "'TZ','Z'";
+        // $aDadosPesoZincMes = $this->Persistencia->geraGerenProd($aDadosParam);  //!!!somente linha de zincagem
         //apontamento por etapa diário
         $aDadosParam = array();
         $aDadosParam['busca'] = 'ProdTotal';
@@ -126,6 +139,20 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
             $sHtmlDiario .= '<tr><td>' . $keyEtapa . '</td><td> ' . number_format($ValueEtapa, 2, ',', '.') . ' Kg</td></tr>';
         }
 
+        //por linha zincagem somente etapas
+        $aDadosParam = array();
+        $aDadosEtapa = array();
+        $aDadosParam['busca'] = 'ProdForno';
+        $aDadosParam['dataini'] = Util::getDataAtual();
+        $aDadosParam['datafin'] = Util::getDataAtual();
+        $aDadosParam['tipoOp'] = "'TZ','Z'";
+        $aDadosParam['Z'] = 'S';
+        $aDadosEtapaZinc = $this->Persistencia->geraProdEtapas($aDadosParam);
+        $sHtmlDiario .= '<tr><td colspan="2" align="center" style="color:blue;font-size:14px;background:#f3f7f9">Zincagem</td></tr>';
+        foreach ($aDadosEtapaZinc as $keyEtapaZ => $ValueEtapaZ) {
+            $sHtmlDiario .= '<tr><td>' . $keyEtapaZ . '</td><td> ' . number_format($ValueEtapaZ, 2, ',', '.') . ' Kg</td></tr>';
+        }
+
         echo '$("#' . $aDados[2] . ' > tbody >").remove();';
         echo '$("#' . $aDados[2] . ' > tbody").append(\'' . $sHtmlDiario . '\');';
 
@@ -157,6 +184,22 @@ class ControllerSTEEL_PCP_GerenProd extends Controller {
         foreach ($aDadosEtapa as $keyEtapa => $ValueEtapa) {
             $sHtmlDiario .= '<tr><td>' . $keyEtapa . '</td><td> ' . number_format($ValueEtapa, 2, ',', '.') . ' Kg</td></tr>';
         }
+
+        //por linha zincagem somente etapas
+        $aDadosParam = array();
+        $aDadosEtapa = array();
+        $aDadosParam['busca'] = 'ProdForno';
+        $aDadosParam['dataini'] = $aCamposChave['dataini'];
+        $aDadosParam['datafin'] = $aCamposChave['datafin'];
+        $aDadosParam['tipoOp'] = "'TZ','Z'";
+        $aDadosParam['Z'] = 'S';
+        $aDadosEtapaZincMensal = $this->Persistencia->geraProdEtapas($aDadosParam);
+        $sHtmlDiario .= '<tr><td colspan="2" align="center" style="color:blue;font-size:14px;background:#f3f7f9">Zincagem</td></tr>';
+        foreach ($aDadosEtapaZincMensal as $keyEtapaZMensal => $ValueEtapaZMensal) {
+            $sHtmlDiario .= '<tr><td>' . $keyEtapaZMensal . '</td><td> ' . number_format($ValueEtapaZMensal, 2, ',', '.') . ' Kg</td></tr>';
+        }
+
+
 
         echo '$("#' . $aDados[3] . ' > tbody >").remove();';
         echo '$("#' . $aDados[3] . ' > tbody").append(\'' . $sHtmlDiario . '\');';

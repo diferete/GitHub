@@ -38,7 +38,7 @@ class ControllerPOL_PCP_Produtos extends Controller {
     public function beforeInsert() {
         parent::beforeInsert();
 
-        $this->Model->setPro_cadastrodatahora(date('d/m/Y h:m:s'));
+        $this->Model->setPro_cadastrodatahora(date('d/m/Y H:i:s'));
         //seta código caso não foi setado pelo usuário
         if ($this->Model->getPro_codigo() == null || $this->Model->getPro_codigo() == '') {
             $oProdSeq = Fabrica::FabricarController('POL_PCP_Produtos');
@@ -375,7 +375,7 @@ class ControllerPOL_PCP_Produtos extends Controller {
             }
         }
     }
-    
+
     public function verificaCampoGrupo() {
 
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
@@ -392,7 +392,6 @@ class ControllerPOL_PCP_Produtos extends Controller {
             echo $oMenSuccess->getRender();
             exit();
         }
-        
     }
 
     public function verificaCampoSubGrupo() {
@@ -400,7 +399,7 @@ class ControllerPOL_PCP_Produtos extends Controller {
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        
+
         $oControllerSubGrupo = Fabrica::FabricarController('STEEL_PCP_SubgrupoProd');
         $oControllerSubGrupo->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
         $oControllerSubGrupo->Persistencia->adicionaFiltro('PRO_SubGrupoCodigo', $aCamposChave['pro_subgrupocodigo']);
@@ -419,7 +418,7 @@ class ControllerPOL_PCP_Produtos extends Controller {
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        
+
         $oControllerFamilia = Fabrica::FabricarController('STEEL_PCP_FamProd');
         $oControllerFamilia->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
         $oControllerFamilia->Persistencia->adicionaFiltro('PRO_SubGrupoCodigo', $aCamposChave['pro_subgrupocodigo']);
@@ -439,7 +438,7 @@ class ControllerPOL_PCP_Produtos extends Controller {
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        
+
         $oControllerSubFamilia = Fabrica::FabricarController('STEEL_PCP_SubFamProd');
         $oControllerSubFamilia->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
         $oControllerSubFamilia->Persistencia->adicionaFiltro('PRO_SubGrupoCodigo', $aCamposChave['pro_subgrupocodigo']);

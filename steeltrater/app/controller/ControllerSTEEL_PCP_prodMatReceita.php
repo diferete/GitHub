@@ -20,6 +20,8 @@ class ControllerSTEEL_PCP_prodMatReceita extends Controller {
         $this->Persistencia->adicionaFiltro('cod', $this->Model->getCod());
         $this->Persistencia->adicionaFiltro('prodfinal', $this->Model->getProdFinal());
         
+        $this->verificaCamposProdMatRec($this->Model->getProd(),$this->Model->getMatcod(), $this->Model->getCod(), $this->Model->getProdFinal());
+        
         $iCont =$this->Persistencia->getCount();
         if($iCont>0){
             $oModal = new Modal('Atenção!','Já existe uma registro desse produto, material, receita!', Modal::TIPO_INFO);
@@ -172,6 +174,58 @@ class ControllerSTEEL_PCP_prodMatReceita extends Controller {
         
         $this->View->setAParametrosExtras($oDados); 
     }
+    
+    public function beforeUpdate() {
+        parent::beforeUpdate();
+        
+        $this->verificaCamposProdMatRec($this->Model->getProd(),$this->Model->getMatcod(), $this->Model->getCod(), $this->Model->getProdFinal());
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+
+    public function verificaCamposProdMatRec($iCodProd, $iCodMat, $iCodRec, $iCodProdFin){
+        
+        $oProdDados = Fabrica::FabricarController('DELX_PRO_Produtos');
+        $oProdDados->Persistencia->adicionaFiltro('pro_codigo',$iCodProd);
+        $oDadosProd = $oProdDados->Persistencia->consultarWhere();
+        if($oDadosProd->getPro_codigo()==null){
+            $oModal = new Modal('Atenção', 'Verifique o campo Produto, não informado corretamente!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        }     
+        
+        $oMatDados = Fabrica::FabricarController('STEEL_PCP_material');
+        $oMatDados->Persistencia->adicionaFiltro('matcod',$iCodMat);
+        $oDadosMat = $oMatDados->Persistencia->consultarWhere();
+        if($oDadosMat->getMatcod()==null){
+            $oModal = new Modal('Atenção', 'Verifique o campo Material, não informado corretamente!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        } 
+        
+        $oRecDados = Fabrica::FabricarController('STEEL_PCP_receitas');
+        $oRecDados->Persistencia->adicionaFiltro('cod',$iCodRec);
+        $oDadosRec = $oRecDados->Persistencia->consultarWhere();
+        if($oDadosRec->getCod()==null){
+            $oModal = new Modal('Atenção', 'Verifique o campo Receita, não informado corretamente!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        } 
+        
+        $oProdFinDados = Fabrica::FabricarController('STEEL_PCP_pesqArame');
+        $oProdFinDados->Persistencia->adicionaFiltro('pro_codigo',$iCodProdFin);
+        $oDadosFin = $oProdFinDados->Persistencia->consultarWhere();
+        if($oDadosFin->getPro_codigo()==null){
+            $oModal = new Modal('Atenção', 'Verifique o campo Produto final, não informado corretamente!', Modal::TIPO_ERRO);
+            echo $oModal->getRender();
+            exit();
+        } 
+        
+    }
+    
     
          
 }
