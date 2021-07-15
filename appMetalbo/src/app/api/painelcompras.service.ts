@@ -9,25 +9,25 @@ import { async } from '@angular/core/testing';
 import { LoadingController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PainelcomprasService {
   loading: any;
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     public conexao: ConexaoService,
     public Storage: NativeStorage,
     public StorageServ: StorageService,
     public loadingController: LoadingController,
-    public alertController: AlertController,) { }
+    public alertController: AlertController
+  ) {}
 
   //MENSAGEM DE LOADING
   async presentLoading(message: string) {
-
     this.loading = await this.loadingController.create({
       message,
-      duration: 7000
+      duration: 7000,
     });
     return this.loading.present();
   }
@@ -44,42 +44,69 @@ export class PainelcomprasService {
     await alert.present();
   }
 
-  getBadgeCount(usutoken, usucod) {
-
+  getBadgePedCount(usutoken, usucod) {
     this.presentLoading('');
-
 
     return new Promise((resolve, reject) => {
       let dadosEnv = {
-        classe: "STEEL_SUP_PedidoCompra",
-        metodo: "getDadosBadgeCompras",
+        classe: 'STEEL_SUP_PedidoCompra',
+        metodo: 'getDadosBadgePedCompras',
         dados: {
-          "usucodigo": usucod,
-
+          usucodigo: usucod,
         },
         usucodigo: usucod,
         usutoken: usutoken,
       };
 
-
       // alert('3-Token enviado '+dadosEnv.usutoken);
-      this.http.post(this.conexao.link, dadosEnv)
-        .subscribe((result: any) => {
+      this.http.post(this.conexao.link, dadosEnv).subscribe(
+        (result: any) => {
           setTimeout(() => {
             this.loading.dismiss();
           });
           resolve(result);
         },
-          (error) => {
-            setTimeout(() => {
-              this.loading.dismiss();
-            });
-            reject('Sem conexão!');
-            this.mensagemAlertInternet();
+        (error) => {
+          setTimeout(() => {
+            this.loading.dismiss();
           });
+          reject('Sem conexão!');
+          this.mensagemAlertInternet();
+        }
+      );
     });
-
-
   }
 
+  getBadgeSolCount(usutoken, usucod) {
+    this.presentLoading('');
+
+    return new Promise((resolve, reject) => {
+      let dadosEnv = {
+        classe: 'STEEL_SUP_Solicitacao',
+        metodo: 'getDadosBadgeSolCompras',
+        dados: {
+          usucodigo: usucod,
+        },
+        usucodigo: usucod,
+        usutoken: usutoken,
+      };
+
+      // alert('3-Token enviado '+dadosEnv.usutoken);
+      this.http.post(this.conexao.link, dadosEnv).subscribe(
+        (result: any) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          resolve(result);
+        },
+        (error) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          reject('Sem conexão!');
+          this.mensagemAlertInternet();
+        }
+      );
+    });
+  }
 }

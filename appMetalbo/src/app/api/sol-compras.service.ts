@@ -26,12 +26,14 @@ export class SolComprasService {
     return this.loading.present();
   }
 
-  getSolCompras(usutoken, usucod) {
+  getSolCompras(usutoken, usucod, cnpj) {
     this.presentLoading();
     let dadosEnv = {
       classe: 'STEEL_SUP_Solicitacao',
       metodo: 'getDadosSolicitacaoCompras',
-      dados: {},
+      dados: {
+        cnpj: cnpj,
+      },
       usucodigo: usucod,
       usutoken: usutoken,
     };
@@ -54,7 +56,7 @@ export class SolComprasService {
     });
   }
 
-  getQuantidades(usutoken, usucod, nr, codigo, qnt) {
+  getQuantidades(usutoken, usucod, nr, codigo, qnt, cnpj) {
     this.presentLoading();
     let dadosEnv = {
       classe: 'STEEL_SUP_Solicitacao',
@@ -63,6 +65,7 @@ export class SolComprasService {
         nr: nr,
         codigo: codigo,
         qnt: qnt,
+        cnpj: cnpj,
       },
       usucodigo: usucod,
       usutoken: usutoken,
@@ -85,7 +88,7 @@ export class SolComprasService {
     });
   }
 
-  alteraQuantidades(usutoken, usucod, nr, codigo, qnt) {
+  alteraQuantidades(usutoken, usucod, nr, codigo, qnt, cnpj) {
     this.presentLoading();
     let dadosEnv = {
       classe: 'STEEL_SUP_Solicitacao',
@@ -94,6 +97,7 @@ export class SolComprasService {
         nr: nr,
         codigo: codigo,
         qnt: qnt,
+        cnpj: cnpj,
       },
       usucodigo: usucod,
       usutoken: usutoken,
@@ -115,7 +119,8 @@ export class SolComprasService {
       );
     });
   }
-  gerenSolicitacaoCompra(usutoken, usucod, sit, nr) {
+
+  gerenSolicitacaoCompra(usutoken, usucod, sit, nr, cnpj) {
     this.presentLoading();
     let dadosEnv = {
       classe: 'STEEL_SUP_Solicitacao',
@@ -124,6 +129,7 @@ export class SolComprasService {
         sit: sit,
         nr: nr,
         usucodigo: usucod,
+        cnpj: cnpj,
       },
       usucodigo: usucod,
       usutoken: usutoken,
