@@ -38,7 +38,6 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oGridOpsPes->getOGrid()->setIAltura(50);
         $oGridOpsPes->getOGrid()->setILarguraGrid(2500);
 
-
         $oBotaoCarregarOps = new CampoConsulta('Carregar', 'carregarOps', CampoConsulta::TIPO_FINALIZAR);
         $oBotaoCarregarOps->setSTitleAcao('Carregar dados para lançar!');
         $oBotaoCarregarOps->addAcao('STEEL_PCP_ordensFabApontEtapasGeren', 'carregaDadosOps', '', '');
@@ -159,7 +158,8 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         //--------------------------------------------------------------------    
 
         $oCracha = new Campo('Crachá', 'cracha', Campo::TIPO_TEXTO_GRANDE, 2, 2, 12, 12);
-        $oCracha->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', '1', '5');
+        $oCracha->setId('apontEtapaCracha');
+        $oCracha->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', '1', '6');
         $oCracha->setApenasTela(true);
         $oCracha->setBFocus(true);
         $oCracha->setSCorFundo(Campo::FUNDO_VERMELHO);
@@ -198,7 +198,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         }
 
         $sDadosCracha = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabApontEtapas","buscaDadosCracha","' . $oCodUser->getId() . ',' . $oUserNome->getId() . ',' . $oOp->getId() . ',' . $oTurno->getId() . '");';
-        $oCracha->addEvento(Campo::EVENTO_SAIR, $sDadosCracha . $sComboGrid);
+        $oCracha->addEvento(Campo::EVENTO_CHANGE, $sDadosCracha . $sComboGrid);
 
         $oLinha = new Campo('', 'linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
@@ -296,7 +296,6 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oGridEnt->addParam('op', '0');
         $oGridEnt->getOGrid()->setIAltura(170);
         $oGridEnt->getOGrid()->setBGridResponsivo(false);
-        $oGridEnt->getOGrid()->setILarguraGrid(2500);
 
         //atualizar
         //botao atualizar
@@ -451,33 +450,37 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
 
 
         //-----------------------combo dos fornos---------------------------
-        $oFornoChoice = new campo('Forno / Trefila inicial', 'fornoCombo', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
+        $oFornoChoice = new campo('Forno / Trefila inicial', 'fornoCombo', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
         foreach ($aFornosServico as $keyForno => $oValueForno) {
             $oFornoChoice->addItemSelect($oValueForno->getFornocod(), $oValueForno->getSTEEL_PCP_Forno()->getFornodes());
-            if ($keyForno == 0) {
-                //busca forno/trefina padrão se está presente
-                //verifica se o forno do cadastro está presente entre os fornos do serviço
-                if (isset($_COOKIE['cookfornocod'])) {
-                    $oFornoServicoBusca = Fabrica::FabricarController('STEEL_PCP_ServicoEquip');
-                    $oFornoServicoBusca->Persistencia->adicionaFiltro('tratcod', $oDados->getSTEEL_PCP_Tratamentos()->getTratcod());
-                    $oFornoServicoBusca->Persistencia->adicionaFiltro('fornocod', $_COOKIE['cookfornocod']);
-                    $iCountBusca = $oFornoServicoBusca->Persistencia->getCount();
-                    if ($iCountBusca > 0) {
-                        $oFornoChoice->setSValor($_COOKIE['cookfornocod']);
-                        $oFornoCod->setSValor($_COOKIE['cookfornocod']);
-                        $oFornoDes->setSvalor($_COOKIE['cookfornodes']);
-                    } else {
-                        $oFornoChoice->setSValor($oValueForno->getFornocod());
-                        $oFornoCod->setSValor($oValueForno->getFornocod());
-                        $oFornoDes->setSvalor($oValueForno->getSTEEL_PCP_Forno()->getFornodes());
-                    }
-                } else {
-                    $oFornoChoice->setSValor($oValueForno->getFornocod());
-                    $oFornoCod->setSValor($oValueForno->getFornocod());
-                    $oFornoDes->setSvalor($oValueForno->getSTEEL_PCP_Forno()->getFornodes());
-                }
-            }
+//            if ($keyForno == 0) {
+//                //busca forno/trefina padrão se está presente
+//                //verifica se o forno do cadastro está presente entre os fornos do serviço
+//                if (isset($_COOKIE['cookfornocod'])) {
+//                    $oFornoServicoBusca = Fabrica::FabricarController('STEEL_PCP_ServicoEquip');
+//                    $oFornoServicoBusca->Persistencia->adicionaFiltro('tratcod', $oDados->getSTEEL_PCP_Tratamentos()->getTratcod());
+//                    $oFornoServicoBusca->Persistencia->adicionaFiltro('fornocod', $_COOKIE['cookfornocod']);
+//                    $iCountBusca = $oFornoServicoBusca->Persistencia->getCount();
+//                    if ($iCountBusca > 0) {
+//                        $oFornoChoice->setSValor($_COOKIE['cookfornocod']);
+//                        $oFornoCod->setSValor($_COOKIE['cookfornocod']);
+//                        $oFornoDes->setSvalor($_COOKIE['cookfornodes']);
+//                    } else {
+//                        $oFornoChoice->setSValor($oValueForno->getFornocod());
+//                        $oFornoCod->setSValor($oValueForno->getFornocod());
+//                        $oFornoDes->setSvalor($oValueForno->getSTEEL_PCP_Forno()->getFornodes());
+//                    }
+//                } else {
+//                    $oFornoChoice->setSValor($oValueForno->getFornocod());
+//                    $oFornoCod->setSValor($oValueForno->getFornocod());
+//                    $oFornoDes->setSvalor($oValueForno->getSTEEL_PCP_Forno()->getFornodes());
+//                }
+//            }
         }
+        $oFornoChoice->setSValor($aCamposTela['fornocod']);
+        $oFornoCod->setSValor($aCamposTela['fornocod']);
+        $oFornoDes->setSvalor($aCamposTela['fornodes']);
+
         $sCombo = 'var textCombo = $("#' . $oFornoChoice->getId() . ' option:selected").text(); '
                 . 'var valueCombo = $("#' . $oFornoChoice->getId() . '").val(); '
                 . '$("#' . $oFornoCod->getId() . '").val(valueCombo); $("#' . $oFornoDes->getId() . '").val(textCombo); ';
