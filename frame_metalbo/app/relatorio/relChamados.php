@@ -178,10 +178,10 @@ if (!$bRelAnt) {
         }
         $iCont++;
         $iContRep++;
-        if (!isset($aSubTip[$row['subtipo_nome']])) {
-            $aSubTip[$row['subtipo_nome']] = [1, $row['subtipo_nome']];
+        if (!isset($aSubTip[$row['tipo'].trim($row['subtipo_nome'])])) {
+            $aSubTip[$row['tipo'].trim($row['subtipo_nome'])] = [1, trim($row['subtipo_nome'])];
         } else {
-            $aSubTip[$row['subtipo_nome']] = [$aSubTip[$row['subtipo_nome']][0] = $aSubTip[$row['subtipo_nome']][0] + 1, $row['subtipo_nome']];
+            $aSubTip[$row['tipo'].trim($row['subtipo_nome'])] = [$aSubTip[$row['tipo'].trim($row['subtipo_nome'])][0] + 1, trim($row['subtipo_nome'])];
         }
         //Contador de Chamados por representantes
         if ($row['repoffice'] == '' || $row['repoffice'] == null || $row['repoffice'] == 'METALBOF' || $row['repoffice'] == 'POLIAMIDOS') {
@@ -208,7 +208,7 @@ if (!$bRelAnt) {
     }
     $pdf->Ln(5);
     $pdf->SetFont('Arial', 'BIU', 12);
-    $pdf->Cell(0, 5, '1 - Quantidade de chamados por empresa', 0, 1);
+    $pdf->Cell(0, 5, '1 - Quantidade de chamdos por empresa', 0, 1);
     $pdf->Ln(5);
     $valX = $pdf->GetX();
     $valY = $pdf->GetY();
@@ -391,6 +391,7 @@ if (!$bRelAnt) {
     if ($sSit != 'Todos') {
         $sql1 .= " and situaca = '" . $sSit . "'";
     }
+    $sql1 .= " ORDER BY codsetor";
     $sth1 = $PDO->query($sql1);
 
     $aSet = array();
