@@ -102,9 +102,32 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $this->Model->setSUP_SolicitacaoUsuCanc('');
     }
 
-    public function getDadosSolicitacaoCompras() {
+    /*     * ****************************APLICATIVO********************************** */
 
-        $aRetorno = $this->Persistencia->getDadosSolicitacaoCompras();
+    public function getDadosBadgeSolCompras($oDados) {
+
+        $oMET_TEC_MobileFat = Fabrica::FabricarPersistencia('MET_TEC_MobileFat');
+        $aPainel = $oMET_TEC_MobileFat->getPainelApp();
+
+        $aRetorno['PainelSolCompras'] = false;
+        $aDados['steeltrater'] = 0;
+        $aDados['matriz'] = 0;
+        $aRetorno['CountBadgeSolCompras'] = $aDados;
+        foreach ($aPainel as $key => $value) {
+            if ($value == 'Solicitações') {
+                $aRetornoDados = $this->Persistencia->buscaBadgeSolCompras($oDados);
+                $aRetorno['PainelSolCompras'] = true;
+                $aRetorno['CountBadgeSolCompras'] = $aRetornoDados;
+            }
+        }
+        return $aRetorno;
+    }
+
+    public function getDadosSolicitacaoCompras($Dados) {
+
+        $cnpj = $Dados->cnpj;
+
+        $aRetorno = $this->Persistencia->getDadosSolicitacaoCompras($cnpj);
 
         return $aRetorno;
     }
@@ -112,16 +135,19 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
     public function getQuantidades($Dados) {
         $nr = $Dados->nr;
         $cod = $Dados->codigo;
+        $cnpj = $Dados->cnpj;
         $qnt = $Dados->qnt;
 
         $aRetorno = array();
 
-        $sRetorno = $this->Persistencia->getQuantidades($nr, $cod);
+        intval($sRetorno = $this->Persistencia->getQuantidades($nr, $cod, $cnpj));
 
         if ($qnt != $sRetorno) {
             $aRetorno['retorno'] = true;
+            $aRetorno['qntteste'] = $sRetorno;
         } else {
             $aRetorno['retorno'] = false;
+            $aRetorno['qntteste'] = $sRetorno;
         }
 
         return $aRetorno;
@@ -131,8 +157,9 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $nr = $Dados->nr;
         $cod = $Dados->codigo;
         $qnt = $Dados->qnt;
+        $cnpj = $Dados->cnpj;
 
-        $bRetorno = $this->Persistencia->alteraQuantidades($nr, $cod, $qnt);
+        $bRetorno = $this->Persistencia->alteraQuantidades($nr, $cod, $qnt, $cnpj);
 
         if ($bRetorno[0]) {
             $aRetorno['retorno'] = true;
@@ -147,29 +174,30 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $sit = $Dados->sit;
         $nr = $Dados->nr;
         $usucodigo = $Dados->usucodigo;
+        $cnpj = $Dados->cnpj;
 
         switch ($sit) {
             case 'a':
-                $aRetorno = $this->Persistencia->gerenSolicitacaoCompra($sit, $nr, $usucodigo);
+                $aRetorno = $this->Persistencia->gerenSolicitacaoCompra($sit, $nr, $usucodigo, $cnpj);
                 $aIonic = array();
                 $aIonic['retorno'] = $aRetorno[0];
                 if ($aRetorno[0]) {
-                    $aIonic['mensagem'] = 'aprovada com sucesso';
+                    $aIonic['mensagem'] = 'APROVADA com sucesso';
                 } else {
                     $aIonic['erro'] = $aRetorno[1];
-                    $aIonic['mensagem'] = 'aprovar';
+                    $aIonic['mensagem'] = 'APROVAR';
                 }
                 break;
 
             case 'r':
-                $aRetorno = $this->Persistencia->gerenSolicitacaoCompra($sit, $nr, $usucodigo);
+                $aRetorno = $this->Persistencia->gerenSolicitacaoCompra($sit, $nr, $usucodigo, $cnpj);
                 $aIonic = array();
                 $aIonic['retorno'] = $aRetorno[0];
                 if ($aRetorno[0]) {
-                    $aIonic['mensagem'] = 'reprovada com sucesso';
+                    $aIonic['mensagem'] = 'REPROVADA com sucesso';
                 } else {
                     $aIonic['erro'] = $aRetorno[1];
-                    $aIonic['mensagem'] = 'reprovar';
+                    $aIonic['mensagem'] = 'REPROVAR';
                 }
                 break;
         }
