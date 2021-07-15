@@ -46,7 +46,9 @@ class PersistenciaSTEEL_PCP_GeraCertificado extends Persistencia{
         
         $this->adicionaRelacionamento('nrcert','nrcert');
         
-        $this->adicionaOrderBy('op',1);
+        $this->adicionaOrderBy('nrcert',1);
+        //$this->adicionaOrderBy('op',1);
+        
         $this->setSTop('200');
     }
     /**

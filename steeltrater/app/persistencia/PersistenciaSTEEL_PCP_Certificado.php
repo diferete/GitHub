@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /*
  * Classe que implementa a persistencia de cidade
@@ -56,9 +56,9 @@ class PersistenciaSTEEL_PCP_Certificado extends Persistencia {
         $this->adicionaRelacionamento('dataNotaRetorno', 'dataNotaRetorno');
         
         $this->adicionaRelacionamento('micrografia','micrografia');
+        $this->adicionaRelacionamento('rnc','rnc');
         
-        
-        $this->setSTop('200');
+        $this->setSTop('25');
         $this->adicionaOrderBy('nrcert', 1);
     }
     

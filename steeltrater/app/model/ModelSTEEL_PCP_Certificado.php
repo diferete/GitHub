@@ -50,6 +50,15 @@ class ModelSTEEL_PCP_Certificado {
     private $dataNotaRetorno;
     
     private $micrografia;
+    private $rnc;
+    
+    function getRnc() {
+        return $this->rnc;
+    }
+
+    function setRnc($rnc) {
+        $this->rnc = $rnc;
+    }
     
     function getMicrografia() {
         return $this->micrografia;

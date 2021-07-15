@@ -63,7 +63,12 @@ class ViewSTEEL_PCP_GeraCertificado extends View {
 
         $this->addCampos($oBotaoConsulta, $oOp, $oGeraCert, $oSituacao, $oData, $oCodigo, $oProdes, $oQuant, $oCliente, $oNotaEnt);
 
-        $this->getTela()->setiAltura(500);
+        $this->setUsaDropdown(true);
+        $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Relatório Etiquetas', 'STEEL_PCP_GeraCertificado', 'acaoMostraRelCargaEtiquetas', '', false, 'RelRomaneioCarga', false, '', false, '', true, false);
+        $this->addDropdown($oDrop1);
+
+        $this->getTela()->setiAltura(750);
     }
 
 }
