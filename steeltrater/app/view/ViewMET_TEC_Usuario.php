@@ -59,8 +59,12 @@ class ViewMET_TEC_Usuario extends View {
         $oUsucodigo->setBCampoBloqueado(TRUE);
 
         $oUsuCracha = new Campo('Crachá', 'usucracha', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oUsuCracha->setId('IdCadastroUsuarioCracha');
         $oUsuCracha->addValidacao(false, Validacao::TIPO_STRING);
         $oUsuCracha->setITamanho(Campo::TAMANHO_PEQUENO);
+        
+        $sDadosCracha = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_TEC_USUARIO","atualizaDadosCracha","");';
+        $oUsuCracha->addEvento(Campo::EVENTO_CHANGE, $sDadosCracha);
 
         $oUserNome = new Campo('Nome', 'usunome', Campo::TIPO_TEXTO, 4);
         $oUserNome->addValidacao(false, Validacao::TIPO_STRING);
