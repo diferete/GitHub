@@ -375,7 +375,7 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
         echo'$("#modalApontaIniciarGeren-btn").click();';
         echo'$("#btn_atualizarApontEtapaSteel").click();';
         echo'$("#btn_atualizarApontEtapaSteelGeren").click();';
-
+        echo '$("#apontEtapaCracha").val("").focus();';
 
         // $oEtapaApont->getDadosGrid($aDados[1], 'gridApontaEtapa');
     }
@@ -764,6 +764,8 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
                         . '$("#' . $aIDs[2] . '").focus();';
                 echo $sScript;
             }
+            echo '$("#apontEtapaCracha").val("' . ltrim($aDados['cracha'], '0') . '").focus();';
+            echo '$("#' . $aIDs[2] . '").focus();';
         }
     }
 
