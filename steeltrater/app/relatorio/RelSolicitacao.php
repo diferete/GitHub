@@ -54,8 +54,8 @@ $pdf->Cell(110, 10, '                  SOLICITAÇÃO DE COMPRAS ', 1, 0, 'L');
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 
-$pdf->SetFont('Arial', '', 8);
-$pdf->MultiCell(53, 5, 'Usuário: ' . strtoupper($useRel), 'T,R', 'L');
+$pdf->SetFont('Arial', '', 10);
+$pdf->MultiCell(53, 5, 'Usuário: ' . $useRel, 'T,R', 'L');
 $pdf->SetXY($x, $y + 5);
 $pdf->MultiCell(53, 5, 'Data: ' . $data .
         '  Hora: ' . $hora, 'B, R', 'L');
@@ -73,9 +73,9 @@ $pdf->SetFont('Arial', '', 7);
 $pdf->Cell(83, 5, 'Produto', 'L,B,T', 0, 'L');
 $pdf->Cell(8, 5, 'Und.', 'L,B,T', 0, 'L');
 $pdf->Cell(36, 5, 'Solicitante', 'L,B,T', 0, 'L');
-$pdf->Cell(36, 5, 'Comprador', 'L,B,T', 0, 'L');
+$pdf->Cell(30, 5, 'Comprador', 'L,B,T', 0, 'L');
 $pdf->Cell(25, 5, 'Data Necessidade', 'L,B,T', 0, 'L');
-$pdf->Cell(12, 5, 'Qnt.', 'L,B,T,R', 1, 'L');
+$pdf->Cell(18, 5, 'Qnt.', 'L,B,T,R', 1, 'L');
 
 $sSqlItens = "SELECT SUP_SolicitacaoItemUnidade, SUP_SOLICITACAOITEM.PRO_Codigo, SUP_SolicitacaoItemDescricao,PRO_DescricaoTecnica, "
         . "SUP_SolicitacaoItemUsuSol, SUP_SolicitacaoItemUsuCom, "
@@ -103,9 +103,9 @@ while ($rowIten = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     $pdf->MultiAlignCell(70, 5, $sDescricao, 0, 'L');
     $pdf->Cell(8, 5, $rowIten['SUP_SolicitacaoItemUnidade'], 0, 'L');
     $pdf->Cell(36, 5, $rowIten['SUP_SolicitacaoItemUsuSol'], 0, 'L');
-    $pdf->Cell(36, 5, $rowIten['SUP_SolicitacaoItemUsuCom'], 0, 'L');
+    $pdf->Cell(30, 5, $rowIten['SUP_SolicitacaoItemUsuCom'], 0, 'L');
     $pdf->Cell(25, 5, $rowIten['SUP_SolicitacaoItemDataNecessi'], 0, 'L');
-    $pdf->Cell(12, 5, number_format($rowIten['SUP_SolicitacaoItemComQtd'], 2), 0, 1, 'L');
+    $pdf->Cell(18, 5, number_format($rowIten['SUP_SolicitacaoItemComQtd'], 4, ',', '.'), 0, 1, 'L');
     $pdf->Cell(200, $height_of_cell, '', 0, 1, 'L');
     $pdf->MultiCell(200, 5, 'Observação: ' . $rowIten['SUP_SolicitacaoItemObservacao'], 0, 'L');
 
