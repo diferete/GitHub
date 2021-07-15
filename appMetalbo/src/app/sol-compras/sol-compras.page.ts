@@ -14,9 +14,11 @@ import { LoadingController } from '@ionic/angular';
 })
 export class SolComprasPage implements OnInit {
   cnpj: any;
+  empresa: any;
   contador: number;
 
   aSolCompra: [];
+
   constructor(
     public router: Router,
     public menu: MenuController,
@@ -63,10 +65,11 @@ export class SolComprasPage implements OnInit {
       })
       .then((result: any) => {
         usucod = result;
-        return this.solComprasService.getSolCompras(usutoken, usucod);
+        return this.solComprasService.getSolCompras(usutoken, usucod, this.cnpj);
       })
       .then((result: any) => {
         this.aSolCompra = result.DADOS.solicitacoes;
+        this.empresa = result.DADOS.empresa;
         this.contador = result.DADOS.contador;
       });
   }

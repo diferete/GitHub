@@ -17,7 +17,7 @@ export class SolComprasDetalhePage implements OnInit {
   solicitante: any;
   itens: [];
   situacao: any;
-  teste: boolean;
+  cnpj: any;
 
   constructor(
     public alertController: AlertController,
@@ -31,6 +31,7 @@ export class SolComprasDetalhePage implements OnInit {
       let getNav = this.router.getCurrentNavigation();
       if (getNav.extras.state) {
         this.dados = getNav.extras.state.valorParaEnviar;
+        this.cnpj = this.dados.cnpj;
         this.nr = this.dados.nr;
         this.data = this.dados.data;
         this.solicitante = this.dados.solicitante;
@@ -87,7 +88,7 @@ export class SolComprasDetalhePage implements OnInit {
       })
       .then((result: any) => {
         usucod = result;
-        return this.solComprasService.gerenSolicitacaoCompra(usutoken, usucod, sit, this.nr);
+        return this.solComprasService.gerenSolicitacaoCompra(usutoken, usucod, sit, this.nr, this.cnpj);
       })
       .then((result: any) => {
         if (result.DADOS.retorno == true) {

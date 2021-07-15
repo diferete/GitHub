@@ -62,6 +62,7 @@ export class PrincipalPage implements OnInit {
   painelProdMetalbo: any;
   painelProdSteel: any;
   painelPedCompraMetalbo: boolean;
+  painelSolCompras: boolean;
   //dados enviar
   storeUsucod: any;
   storeUsuToken: any;
@@ -74,6 +75,8 @@ export class PrincipalPage implements OnInit {
   countDadosBadgeComprasSteeltrater: any;
   countDadosBadgeComprasFilial: any;
   countDadosBadgeComprasMatriz: any;
+  countDadosBadgeSolComprasSteeltrater: any;
+  countDadosBadgeSolComprasMatriz: any;
   //Dados para enviar
   dadosEnv = [];
 
@@ -84,7 +87,8 @@ export class PrincipalPage implements OnInit {
   ionViewWillEnter() {
     this.menu.enable(true);
     this.statusBar.backgroundColorByHexString('#cc181e');
-    this.getPainelCompras();
+    this.getPainelPedidoCompras();
+    this.getPainelSolCompras();
     this.getPainelFat();
   }
 
@@ -99,14 +103,46 @@ export class PrincipalPage implements OnInit {
 
   doRefresh(event) {
     setTimeout(() => {
-      this.getPainelCompras();
+      this.getPainelPedidoCompras();
+      this.getPainelSolCompras();
       this.getPainelFat();
       console.log('Async operation has ended');
       event.target.complete();
     }, 1000);
   }
 
-  getPainelCompras() {
+  getPainelPedidoCompras() {
+    //variáveis usuário e token
+    let usutoken;
+    let usucod;
+    //solicita o token do storage
+    this.StorageServ.retornaToken().then((result: any) => {
+      usutoken = result;
+      //solicita o código do usuário
+      this.StorageServ.retornaUsuCod().then((result: any) => {
+        usucod = result;
+
+        //solicita os dados do servidor sistema.metalbo.com.br
+        this.painelComprasService.getBadgePedCount(usutoken, usucod).then((result: any) => {
+          //verifica se o token é válido
+          if (result.bTOKEN == false) {
+            console.log('Token inválido!');
+            this.mensagemToken();
+            this.StorageServ.removeDados();
+            this.router.navigate(['/auth/login']);
+          } else {
+            //libera os dados para o painel
+            this.painelPedCompraMetalbo = result.DADOS.PainelPedidoCompras;
+            this.countDadosBadgeComprasSteeltrater = result.DADOS.CountBadgePedCompras.steeltrater;
+            this.countDadosBadgeComprasFilial = result.DADOS.CountBadgePedCompras.filial;
+            this.countDadosBadgeComprasMatriz = result.DADOS.CountBadgePedCompras.matriz;
+          }
+        });
+      });
+    });
+  }
+
+  getPainelSolCompras() {
     //variáveis usuário e token
     let usutoken;
     let usucod;
@@ -117,7 +153,7 @@ export class PrincipalPage implements OnInit {
       this.StorageServ.retornaUsuCod().then((result: any) => {
         usucod = result;
         //solicita os dados do servidor sistema.metalbo.com.br
-        this.painelComprasService.getBadgeCount(usutoken, usucod).then((result: any) => {
+        this.painelComprasService.getBadgeSolCount(usutoken, usucod).then((result: any) => {
           //verifica se o token é válido
           if (result.bTOKEN == false) {
             console.log('Token inválido!');
@@ -126,10 +162,9 @@ export class PrincipalPage implements OnInit {
             this.router.navigate(['/auth/login']);
           } else {
             //libera os dados para o painel
-            this.painelPedCompraMetalbo = result.DADOS.PainelCompras;
-            this.countDadosBadgeComprasSteeltrater = result.DADOS.CountBadgeCompras.steeltrater;
-            this.countDadosBadgeComprasFilial = result.DADOS.CountBadgeCompras.filial;
-            this.countDadosBadgeComprasMatriz = result.DADOS.CountBadgeCompras.matriz;
+            this.painelSolCompras = result.DADOS.PainelSolCompras;
+            this.countDadosBadgeSolComprasSteeltrater = result.DADOS.CountBadgeSolCompras.steeltrater;
+            this.countDadosBadgeSolComprasMatriz = result.DADOS.CountBadgeSolCompras.matriz;
           }
         });
       });
@@ -209,7 +244,12 @@ export class PrincipalPage implements OnInit {
     this.router.navigate(['ped-compra-metalbo'], navigationExtras);
   }
 
-  getSolCompras() {
-    this.router.navigate(['sol-compras']);
+  getSolCompras(cnpj) {
+    let navigationExtras: NavigationExtras = {
+      state: {
+        valorParaEnviar: cnpj,
+      },
+    };
+    this.router.navigate(['sol-compras'], navigationExtras);
   }
 }

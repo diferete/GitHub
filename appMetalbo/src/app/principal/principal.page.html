@@ -24,7 +24,8 @@
   </ion-refresher>
 
   <img src="./assets/img/MetalboAppStart.png" />
-  <ion-list *ngIf="painelPedCompraMetalbo==true" class="lista-botoes">
+
+  <ion-list *ngIf="painelPedCompraMetalbo == true" class="lista-botoes">
     <ion-list-header color="primary">
       <ion-label class="label-pedido">Pedidos de compras </ion-label>
     </ion-list-header>
@@ -44,13 +45,18 @@
     </div>
   </ion-list>
 
-  <ion-list class="lista-botoes">
+  <ion-list *ngIf="painelSolCompras == true" class="lista-botoes">
     <ion-list-header color="primary">
       <ion-label class="label-pedido">Solicitações</ion-label>
     </ion-list-header>
     <div class="header_buttons_allign">
-      <ion-button size="small" color="roxoSteel" (click)="getSolCompras()" class="button-md-pedidos">
+      <ion-button size="small" color="roxoSteel" (click)="getSolCompras(8993358000174)" class="button-md-pedidos">
         SteelTrater
+        <ion-badge color="danger" class="badge-pedidos">{{countDadosBadgeSolComprasSteeltrater}}</ion-badge>
+      </ion-button>
+      <ion-button size="small" color="vermelhoSteel" (click)="getSolCompras(75483040000130)" class="button-md-pedidos"
+        >Matriz
+        <ion-badge color="danger" class="badge-pedidos">{{countDadosBadgeSolComprasMatriz}}</ion-badge>
       </ion-button>
     </div>
   </ion-list>

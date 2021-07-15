@@ -13,7 +13,8 @@ export class SolComprasItensPage implements OnInit {
   dados: any;
   nr: any;
   itens: [];
-  retorno: boolean;
+  cnpj: any;
+  //retorno: boolean;
 
   constructor(
     public alertController: AlertController,
@@ -36,7 +37,7 @@ export class SolComprasItensPage implements OnInit {
     return index;
   }
 
-  msgAlteraQnt(nr, codigo, qnt) {
+  msgAlteraQnt(nr, codigo, qnt, cnpj) {
     let usutoken;
     let usucod;
 
@@ -47,11 +48,11 @@ export class SolComprasItensPage implements OnInit {
       })
       .then((result: any) => {
         usucod = result;
-        return this.solComprasService.getQuantidades(usutoken, usucod, nr, codigo, qnt);
+        return this.solComprasService.getQuantidades(usutoken, usucod, nr, codigo, qnt, cnpj);
       })
       .then((result: any) => {
         if (result.DADOS.retorno == true) {
-          this.AlertConfirm(nr, codigo, qnt);
+          this.AlertConfirm(nr, codigo, qnt, cnpj);
           //this.mensagemSucessoRetorno(result.DADOS.mensagem);
         }
       });
@@ -69,7 +70,7 @@ export class SolComprasItensPage implements OnInit {
   }
 
   //mensagem confirmação
-  async AlertConfirm(nr, codigo, qnt) {
+  async AlertConfirm(nr, codigo, qnt, cnpj) {
     const alert = await this.alertController.create({
       header: 'Atenção!',
       message: 'Atenção, o item ' + codigo + ' teve sua quantidade alterada! Deseja gravar essa quantidade?',
@@ -82,7 +83,7 @@ export class SolComprasItensPage implements OnInit {
         {
           text: 'Sim',
           handler: () => {
-            this.alteraQuantitade(nr, codigo, qnt);
+            this.alteraQuantitade(nr, codigo, qnt, cnpj);
           },
         },
       ],
@@ -90,7 +91,7 @@ export class SolComprasItensPage implements OnInit {
     await alert.present();
   }
 
-  alteraQuantitade(nr, codigo, qnt) {
+  alteraQuantitade(nr, codigo, qnt, cnpj) {
     let usutoken;
     let usucod;
 
@@ -101,7 +102,7 @@ export class SolComprasItensPage implements OnInit {
       })
       .then((result: any) => {
         usucod = result;
-        return this.solComprasService.alteraQuantidades(usutoken, usucod, nr, codigo, qnt);
+        return this.solComprasService.alteraQuantidades(usutoken, usucod, nr, codigo, qnt, cnpj);
       })
       .then((result: any) => {
         if (result.DADOS.retorno == true) {
