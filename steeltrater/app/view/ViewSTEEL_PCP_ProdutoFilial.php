@@ -36,7 +36,7 @@ class ViewSTEEL_PCP_ProdutoFilial extends View {
         $this->getTela()->setBMostraFiltro(true);
         $this->getTela()->setiAltura(400);
         $this->getTela()->setBGridResponsivo(false);
-                
+        
         $this->setBScrollInf(false);
         $this->addCampos($oFantasia,$oGrupo,$oSubGrupo,$oFamilia,$oSubFamilia,
                 $oDataBloqueio,$oItemMovEst,$oProdutoComp,$oTipoContFat,$oResEstEstPedid);

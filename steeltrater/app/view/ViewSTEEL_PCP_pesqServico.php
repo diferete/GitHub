@@ -1,20 +1,19 @@
 <?php
 
-/*
+/* 
  * @author Avanei Martendal
  * @since 26/03/2019
  */
 
-class ViewSTEEL_PCP_pesqServico extends View {
-
-    public function criaConsulta() {
+class ViewSTEEL_PCP_pesqServico extends View{
+     public function criaConsulta() {
         parent::criaConsulta();
-
+        
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Produto Filial!');
-        $oBotaoModal->addAcao('STEEL_PCP_ProdutoFilial', 'criaTelaModalFilialProd', 'modalFilialProd', '');
+        $oBotaoModal->addAcao('STEEL_PCP_ProdutoFilial', 'criaTelaModalFilialProd', 'modalFilialProd');
         $this->addModais($oBotaoModal);
 
 
@@ -24,19 +23,19 @@ class ViewSTEEL_PCP_pesqServico extends View {
         $this->setUsaAcaoVisualizar(true);
 
         $this->getTela()->setiAltura(600);
-        // $this->getTela()->setILarguraGrid(2300);
-        // $this->getTela()->setBGridResponsivo(false);
+       // $this->getTela()->setILarguraGrid(2300);
+       // $this->getTela()->setBGridResponsivo(false);
 
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
 
         $oCodigo = new CampoConsulta('Código', 'pro_codigo');
-
-        $oRefCliente = new CampoConsulta('Referencia', 'pro_referencia');
-
+        
+        $oRefCliente = new CampoConsulta('Referencia','pro_referencia');
+        
         $oDescricao = new CampoConsulta('Descrição', 'pro_descricao');
-
-        $oNcm = new campoConsulta('NCM', 'pro_ncm');
+        
+        $oNcm = new campoConsulta('NCM','pro_ncm');
 
         $oGrupoCod = new CampoConsulta('Grupo', 'pro_grupocodigo');
 
@@ -60,12 +59,12 @@ class ViewSTEEL_PCP_pesqServico extends View {
 
         $oPesoBruto = new CampoConsulta('Peso bruto', 'pro_pesobruto', CampoConsulta::TIPO_DECIMAL);
 
-        $oBloqueio = new CampoConsulta('Data Bloqueio', 'STEEL_PCP_ProdutoFilial.pro_filialdtbloqueado');
-        $oBloqueio->addComparacao('1753-01-01 00:00:00.000', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, '');
-
-        $oMotivoBloqueio = new CampoConsulta('Motivo Bloqueio', 'STEEL_PCP_ProdutoFilial.pro_filialmotivobloqueio');
-
-
+        $oBloqueio = new CampoConsulta('Data Bloqueio','STEEL_PCP_ProdutoFilial.pro_filialdtbloqueado');
+        $oBloqueio->addComparacao('1753-01-01 00:00:00.000', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_VERMELHO,CampoConsulta::MODO_COLUNA);  
+        
+        $oMotivoBloqueio = new CampoConsulta('Motivo Bloqueio','STEEL_PCP_ProdutoFilial.pro_filialmotivobloqueio');
+        
+            
         $oCodigofiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12);
         $oDescricaofiltro = new Filtro($oDescricao, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, true);
 
@@ -88,59 +87,62 @@ class ViewSTEEL_PCP_pesqServico extends View {
         $oFilSubFamilia->setSClasseBusca('DELX_PRO_Subfamilia');
         $oFilSubFamilia->setSCampoRetorno('pro_subfamiliacodigo', $this->getTela()->getSId());
         $oFilSubFamilia->setSIdTela($this->getTela()->getSId());
+        
+        $oFiltroReferencia = new Filtro($oRefCliente, Filtro::CAMPO_TEXTO_IGUAL,2);
 
-        $oFiltroReferencia = new Filtro($oRefCliente, Filtro::CAMPO_TEXTO_IGUAL, 2);
-
-        $this->addFiltro($oCodigofiltro, $oDescricaofiltro, $oFilGrupo, $oFilSubGrupo, $oFilFamilia, $oFilSubFamilia, $oFiltroReferencia);
-        $this->addCampos($oCodigo, $oRefCliente, $oDescricao, $oNcm, $oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes, $oUnidadeMedCod, $oBloqueio
-        ); // $oPesoLiq,$oBloqueio,$oMotivoBloqueio,$oSubFamiliaCod, $oSubFamiliaDes,$oSubGrupoCod, $oSubGrupoDes, $oFamiliaCod, $oFamiliaDes,   
+        $this->addFiltro($oCodigofiltro, $oDescricaofiltro, $oFilGrupo, $oFilSubGrupo, $oFilFamilia, $oFilSubFamilia,$oFiltroReferencia);
+        $this->addCampos( $oCodigo, $oRefCliente,$oDescricao,$oNcm, 
+                $oGrupoCod, $oGrupoDes,$oSubGrupoCod, $oSubGrupoDes, 
+                $oUnidadeMedCod,$oBloqueio
+        );// $oPesoLiq,$oBloqueio,$oMotivoBloqueio,$oSubFamiliaCod, $oSubFamiliaDes,$oSubGrupoCod, $oSubGrupoDes, $oFamiliaCod, $oFamiliaDes,   
     }
 
     public function criaTela() {
         parent::criaTela();
-        $sAcao = $this->getSRotina();
-        if ($sAcao == 'acaoIncluir') {
-            $this->setBTela(true);
+       $sAcao = $this->getSRotina();
+       if($sAcao=='acaoIncluir'){
+            $this->setBTela(true); 
         }
         //parametros passando de outra tela
         $oDados = $this->getAParametrosExtras();
-        //-------------------------------------------------    
-
-
+    //-------------------------------------------------    
+        
+        
 
         $oTab = new TabPanel();
         $oAbaGeral = new AbaTabPanel('Cadastro Simplificado de produtos SteelTrater');
         $oAbaGeral->setBActive(true);
 
         $this->addLayoutPadrao('Aba');
-        //--------------------------------------------------
+    //--------------------------------------------------
         $oCodigo = new Campo('Produto', 'pro_codigo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oCodigo->setSCorFundo(Campo::FUNDO_AMARELO);
         $oCodigo->setBCampoBloqueado(true);
 
-        //----------------------------------------------------
+    //----------------------------------------------------
         $oDescricao = new Campo('Descrição do Produto', 'pro_descricao', Campo::TIPO_TEXTO, 5, 5, 12, 12);
         $oDescricao->setSCorFundo(Campo::FUNDO_AMARELO);
         $oDescricao->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco', '5');
         $oDescricao->setBFocus(true);
-
-        //--------------------------------------------------------
+        
+    //--------------------------------------------------------
         $oUsuCad = new Campo('Usuário do Cadastro', 'pro_cadastrousuario', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUsuCad->setSValor($_SESSION['nomedelsoft']);
         $oUsuCad->setBCampoBloqueado(true);
-
-        $oDataHoraCad = new Campo('Data Cadastro', 'pro_cadastrodatahora', Campo::TIPO_DATA, 2, 2, 2, 2);
+        
+        $oDataHoraCad = new Campo('Data Cadastro','pro_cadastrodatahora', Campo::TIPO_DATA,2,2,2,2);
         $oDataHoraCad->setBCampoBloqueado(true);
-
-        $oUsuAlt = new campo('Usuário Alteração', 'pro_alteracaousuario', Campo::TIPO_TEXTO, 2, 2, 2, 2);
+        
+        $oUsuAlt = new campo('Usuário Alteração','pro_alteracaousuario', Campo::TIPO_TEXTO,2,2,2,2);
         $oUsuAlt->setBCampoBloqueado(true);
-
-        $oDataHoraAlt = new Campo('Data Alteração', 'pro_alteracaodatahora', Campo::TIPO_DATA, 2, 2, 2, 2);
+        
+        $oDataHoraAlt = new Campo('Data Alteração','pro_alteracaodatahora', Campo::TIPO_DATA,2,2,2,2);
         $oDataHoraAlt->setBCampoBloqueado(true);
 
         $oLinha = new Campo('', 'linha', Campo::TIPO_LINHA);
         $oLinha->setApenasTela(true);
-        //--------------------------------------------------------
+    //--------------------------------------------------------
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Aba Geral
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,7 +150,7 @@ class ViewSTEEL_PCP_pesqServico extends View {
         $oGrupoCod = new Campo('Grupo', 'pro_grupocodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oGrupoCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
         $oGrupoCod->setSValor('100');
-        //-----------------------------------------------------------
+    //-----------------------------------------------------------
 
         $oGrupoDes = new Campo('Descrição', 'DELX_PRO_Grupo.pro_grupodescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oGrupoDes->setSIdPk($oGrupoCod->getId());
@@ -162,9 +164,9 @@ class ViewSTEEL_PCP_pesqServico extends View {
         $oGrupoCod->setClasseBusca('DELX_PRO_Grupo');
         $oGrupoCod->setSCampoRetorno('pro_grupocodigo', $this->getTela()->getId());
         $oGrupoCod->addCampoBusca('pro_grupodescricao', $oGrupoDes->getId(), $this->getTela()->getId());
-
-        //-------------------------------------------------------------
-
+        
+    //-------------------------------------------------------------
+       
         $oSubGrupoCod = new Campo('Sub.Grupo', 'pro_subgrupocodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oSubGrupoCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
         $oSubGrupoCod->setSValor('1');
@@ -177,14 +179,14 @@ class ViewSTEEL_PCP_pesqServico extends View {
         $oSubGrupoDes->setSIdTela($this->getTela()->getid());
         $oSubGrupoDes->setBCampoBloqueado(true);
         $oSubGrupoDes->setSValor('SERVIÇOS PARAF. METALBO');
-
+        
 
         $oSubGrupoCod->setClasseBusca('DELX_PRO_Subgrupo');
         $oSubGrupoCod->setSCampoRetorno('pro_subgrupocodigo', $this->getTela()->getId());
         $oSubGrupoCod->addCampoBusca('pro_subgrupodescricao', $oSubGrupoDes->getId(), $this->getTela()->getId());
 
-        //----------------------------------------------------------------
-
+    //----------------------------------------------------------------
+        
         $oFamiliaCod = new Campo('Família', 'pro_familiacodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oFamiliaCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
         $oFamiliaCod->setSValor('1');
@@ -197,18 +199,18 @@ class ViewSTEEL_PCP_pesqServico extends View {
         $oFamiliaDes->setSIdTela($this->getTela()->getid());
         $oFamiliaDes->setBCampoBloqueado(true);
         $oFamiliaDes->setSValor('SERVIÇOS');
-
+        
 
         $oFamiliaCod->setClasseBusca('DELX_PRO_Familia');
         $oFamiliaCod->setSCampoRetorno('pro_familiacodigo', $this->getTela()->getId());
         $oFamiliaCod->addCampoBusca('pro_familiadescricao', $oFamiliaDes->getId(), $this->getTela()->getId());
 
-        //-----------------------------------------------------------------------
-
+    //-----------------------------------------------------------------------
+        
         $oSubFamiliaCod = new Campo('Sub.Fam', 'pro_subfamiliacodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oSubFamiliaCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
         $oSubFamiliaCod->setSValor('1');
-
+        
         $oSubFamiliaDes = new Campo('Descrição', 'DELX_PRO_Subfamilia.pro_subfamiliadescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubFamiliaDes->setSIdPk($oSubFamiliaCod->getId());
         $oSubFamiliaDes->setClasseBusca('DELX_PRO_Subfamilia');
@@ -216,14 +218,14 @@ class ViewSTEEL_PCP_pesqServico extends View {
         $oSubFamiliaDes->addCampoBusca('pro_subfamiliadescricao', '', '');
         $oSubFamiliaDes->setSIdTela($this->getTela()->getid());
         $oSubFamiliaDes->setBCampoBloqueado(true);
-        $oSubFamiliaDes->setSValor('SERVIÇOS');
+        $oSubFamiliaDes->setSValor('SERVIÇOS');         
 
         $oSubFamiliaCod->setClasseBusca('DELX_PRO_Subfamilia');
         $oSubFamiliaCod->setSCampoRetorno('pro_subfamiliacodigo', $this->getTela()->getId());
         $oSubFamiliaCod->addCampoBusca('pro_subfamiliadescricao', $oSubFamiliaDes->getId(), $this->getTela()->getId());
 
-        //-------------------------------------------------------------------------
-
+    //-------------------------------------------------------------------------
+        
         $oUnidadeMedCod = new Campo('Un.Medida', 'pro_unidademedida', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oUnidadeMedCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
         $oUnidadeMedCod->setSValor('KG');
@@ -240,61 +242,57 @@ class ViewSTEEL_PCP_pesqServico extends View {
         $oUnidadeMedCod->setSCampoRetorno('pro_unidademedida', $this->getTela()->getId());
         $oUnidadeMedCod->addCampoBusca('pro_unidademedidadescricao', $oUnidadeMedDes->getId(), $this->getTela()->getId());
 
-        //------------------------------------------------------------------------
-
+    //------------------------------------------------------------------------
+        
         $oTipoControle = new Campo('Tipo Controle do Estoque', 'pro_tipocontrole', Campo::TIPO_SELECT, 2, 2, 12, 12);
         $oTipoControle->addItemSelect('E', 'Estoque Total');
         $oTipoControle->addItemSelect('F', 'Estoque Físico');
         $oTipoControle->addItemSelect('D', 'Débito Direto');
         $oTipoControle->addItemSelect('C', 'Consignado');
-
-        //------------------------------------------------------------------------
+    
+    //------------------------------------------------------------------------
 
         $oPesoLiq = new Campo('Peso líquido', 'pro_pesoliquido', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oPesoLiq->setSValor('0');
-
-        //------------------------------------------------------------------------
+     
+    //------------------------------------------------------------------------
 
         $oPesoBruto = new Campo('Peso bruto', 'pro_pesobruto', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oPesoBruto->setSValor('0');
-
-        //-------------------------------------------------------------------------
+     
+    //-------------------------------------------------------------------------
 
         $oVolume = new Campo('Volume', 'pro_volume', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oVolume->setSValor('0');
-
-        //--------------------------------------------------------------------------
+        
+    //--------------------------------------------------------------------------
 
         $oPcUnidade = new Campo('Pçs unidade', 'pro_volumepc', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
         $oPcUnidade->setSValor('0');
-
-        //---------------------------------------------------------------------------
+        
+    //---------------------------------------------------------------------------
 
         $oCodAnt = new Campo('Cod.antigo "Dados Adicionais"', 'pro_codigoantigo', Campo::TIPO_TEXTO, 4, 4, 12, 12);
-        if (method_exists($oDados, 'getProdes')) {
-            $oCodAnt->setSValor($oDados->getEmpcod());
-        }
-
-        //---------------------------------------------------------------------------
+        if(method_exists($oDados, 'getProdes')){$oCodAnt->setSValor($oDados->getEmpcod());}
+        
+    //---------------------------------------------------------------------------
 
         $oDescTecProd = new Campo('Desc. técnica', 'pro_descricaotecnica', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oDescTecProd->setILinhasTextArea(3);
-
-
-        //---------------------------------------------------------------------------
+       
+    
+    //---------------------------------------------------------------------------
 
         $oReferencia = new Campo('Referência', 'pro_referencia', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oReferencia->setSCorFundo(Campo::FUNDO_AMARELO);
-        if (method_exists($oDados, 'getProcod')) {
-            $oReferencia->setSValor($oDados->getProcod());
-        }
-
-
+         if(method_exists($oDados, 'getProcod')){$oReferencia->setSValor($oDados->getProcod());} 
+         
+       
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Aba Inf. Fiscal
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
+       
 
         $oProOrigem = new Campo('Origem', 'pro_origem', Campo::TIPO_SELECT, 4, 4, 12, 12);
         $oProOrigem->addItemSelect('0', 'Nacional.');
@@ -314,16 +312,22 @@ class ViewSTEEL_PCP_pesqServico extends View {
         $oProNCM->setSCampoRetorno('fis_ncmcodigo', $this->getTela()->getid());
         $oProNCM->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!');
         $oProNCM->setBNCM(true);
-        if (method_exists($oDados, 'getNcm')) {
-            $oProNCM->setSValor($oDados->getNcm());
-        }
-        //Campos Abas
+        if(method_exists($oDados, 'getNcm')){$oProNCM->setSValor($oDados->getNcm());}
+            //Campos Abas
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        $oAbaGeral->addCampos($oReferencia, $oLinha, array($oGrupoCod, $oGrupoDes, $oSubGrupoCod, $oSubGrupoDes), $oLinha, array($oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes), $oLinha, array($oUnidadeMedCod, $oUnidadeMedDes, $oTipoControle), $oLinha, array($oPesoLiq, $oPesoBruto, $oVolume, $oPcUnidade), $oLinha, $oCodAnt, $oLinha, $oDescTecProd, $oProOrigem, $oProNCM);
+           $oAbaGeral->addCampos($oReferencia,$oLinha,
+                    array($oGrupoCod, $oGrupoDes,$oSubGrupoCod,$oSubGrupoDes),$oLinha,
+                    array($oFamiliaCod, $oFamiliaDes, $oSubFamiliaCod, $oSubFamiliaDes),$oLinha,
+                    array($oUnidadeMedCod, $oUnidadeMedDes, $oTipoControle),$oLinha,
+                    array($oPesoLiq, $oPesoBruto, $oVolume, $oPcUnidade),$oLinha, 
+                   $oCodAnt,$oLinha, $oDescTecProd,$oProOrigem,$oProNCM);
 
-        $oTab->addItems($oAbaGeral);
-        $this->addCampos(
-                array($oCodigo, $oDescricao,), $oLinha, $oTab, $oLinha, array($oUsuCad, $oDataHoraCad), array($oUsuAlt, $oDataHoraAlt));
-    }
+            $oTab->addItems($oAbaGeral);
+            $this->addCampos(
+                    array($oCodigo, $oDescricao,),$oLinha, $oTab,$oLinha,
+                    array($oUsuCad,$oDataHoraCad),array($oUsuAlt,$oDataHoraAlt));
+        }
+    
 
 }
+

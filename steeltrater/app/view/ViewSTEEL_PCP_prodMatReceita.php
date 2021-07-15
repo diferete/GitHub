@@ -134,7 +134,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oCodigo->addCampoBusca('pro_descricao', $oProdes->getId(), $this->getTela()->getId());
 
         $oMatCod = new Campo('Material', 'matcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oMatCod->addValidacao(true, Validacao::TIPO_STRING);
+        $oMatCod->addValidacao(false, Validacao::TIPO_STRING);
         if ($sAcao == 'acaoAlterar') {
             $oMatCod->setBCampoBloqueado(true);
         }
@@ -157,7 +157,7 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oMatCod->addCampoBusca('matdes', $oMatdes->getId(), $this->getTela()->getId());
 
         $oRecCod = new Campo('Receita', 'cod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oRecCod->addValidacao(true, Validacao::TIPO_STRING);
+        $oRecCod->addValidacao(false, Validacao::TIPO_STRING);
         if ($sAcao == 'acaoAlterar') {
             $oRecCod->setBCampoBloqueado(true);
         }
@@ -182,7 +182,6 @@ class ViewSTEEL_PCP_prodMatReceita extends View {
         $oRecCod->setSCampoRetorno('cod', $this->getTela()->getId());
         $oRecCod->addCampoBusca('peca', $oRecdes->getId(), $this->getTela()->getId());
         //produto final
-
 
         $oCodigoFinal = new Campo('Produto.Final', 'prodfinal', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oCodigoFinal->addValidacao(false, Validacao::TIPO_STRING);

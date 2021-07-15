@@ -17,7 +17,7 @@ class ViewMET_TEC_ItemMenu extends View {
         $this->setTitulo('Itens Menu');
     }
 
-    function criaGridDetalhe() {
+    function criaGridDetalhe($sIdAba) {
         parent::criaGridDetalhe($sIdAba);
 
         /**
@@ -43,7 +43,7 @@ class ViewMET_TEC_ItemMenu extends View {
     function criaTela() {
         parent::criaTela();
 
-        $this->criaGridDetalhe();
+        $this->criaGridDetalhe($sIdAba);
         /* Dados pk menu */
         $aValor = $this->getAParametrosExtras();
         $oModCod = new Campo('Módulo', 'MET_TEC_Modulo.modcod', Campo::TIPO_TEXTO, 1);

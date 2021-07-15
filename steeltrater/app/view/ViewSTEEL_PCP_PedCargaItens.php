@@ -19,7 +19,7 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Apontar certificado de qualidade!');
-        $oBotaoModal->addAcao('STEEL_PCP_Certificado', 'criaTelaModalAponta', 'modalApontaItem', '');
+        $oBotaoModal->addAcao('STEEL_PCP_Certificado', 'criaTelaModalAponta', 'modalApontaItem','');
         $this->addModais($oBotaoModal);
 
         $oNr = new CampoConsulta('Filial', 'PDV_PedidoFilial');
@@ -61,7 +61,7 @@ class ViewSTEEL_PCP_PedCargaItens extends View {
 
         $oSeqOrd = new CampoConsulta('Seq OD', 'pdv_pedidoitemseqordemcompra', CampoConsulta::TIPO_EDITTEXTO);
         $oSeqOrd->addAcao('STEEL_PCP_PedCargaItens', 'gravaSeqOd', '', '');
-
+        
         $this->getTela()->setIAltura(400);
 
         $this->setUsaAcaoExcluir(true);

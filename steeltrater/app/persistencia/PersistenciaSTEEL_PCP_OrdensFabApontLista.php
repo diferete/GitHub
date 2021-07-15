@@ -37,6 +37,7 @@ class PersistenciaSTEEL_PCP_OrdensFabApontLista extends Persistencia{
         $this->adicionaRelacionamento('temprev', 'temprev');
         $this->adicionaRelacionamento('referencia','referencia');
         $this->adicionaRelacionamento('tratrevencomp','tratrevencomp');
+        $this->adicionaRelacionamento('retrabalho','retrabalho');
        
         $this->adicionaOrderBy('temprev',1);
         $this->setSTop('300');

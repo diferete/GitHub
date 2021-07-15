@@ -16,15 +16,15 @@ class ViewDELX_CID_IbgeCidade extends View {
         $oDes = new CampoConsulta('Cidade', 'cid_ibgecidadedescricao');
         $oCodigofiltro = new Filtro($oCod, Filtro::CAMPO_TEXTO_IGUAL, 5);
         $oDescricaofiltro = new Filtro($oDes, Filtro::CAMPO_TEXTO, 5);
-
+        
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoVisualizar(true);
-        $this->addFiltro($oCodigofiltro, $oDescricaofiltro);
+        $this->addFiltro($oCodigofiltro,$oDescricaofiltro);
 
         $this->setBScrollInf(false);
-        $this->addCampos($oCod, $oDes);
+        $this->addCampos($oCod,$oDes);
     }
 
     public function criaTela() {
@@ -34,7 +34,7 @@ class ViewDELX_CID_IbgeCidade extends View {
         $oCod = new Campo('Cod.CidadeIBGE', 'cid_ibgecidadecodigo', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oDes = new Campo('Cidade', 'cid_ibgecidadedescricao', Campo::TIPO_TEXTO, 4, 4, 12, 12);
 
-        $this->addCampos(array($oCod, $oDes));
+        $this->addCampos(array($oCod,$oDes));
     }
 
 }

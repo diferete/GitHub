@@ -64,9 +64,10 @@ class ViewSTEEL_PCP_TabItemPreco extends View {
         $oFilNr->setSValor($aChave[0]);
         $oFilNr->setBCampoBloqueado(true);
 
-        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+       // $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFiltroProdDesc = new Filtro($oProdDes, Filtro::CAMPO_TEXTO, 7, 7, 12, 12, false);
 
-        $this->getOGridDetalhe()->addFiltroDetalhe($oFilNr, $oFilSeq);
+        $this->getOGridDetalhe()->addFiltroDetalhe($oFilNr, $oFiltroProdDesc);
 
         $this->addCamposDetalhe($oNr, $oSeq, $oRec, $oRecDes, $oPro, $oProdDes, $oPre, $oNcm, $oTipo);
         $this->addGriTela($this->getOGridDetalhe());

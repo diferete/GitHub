@@ -10,7 +10,6 @@ class ModelSTEEL_SUP_PedidoCompra {
 
     private $FIL_Codigo;
     private $SUP_PedidoSeq;
-    private $DELX_FIL_Empresa;
     private $SUP_PedidoFornecedor;
     private $SUP_PedidoRepresentante;
     private $SUP_PedidoNegociador;
@@ -98,13 +97,6 @@ class ModelSTEEL_SUP_PedidoCompra {
 
     function getSUP_PedidoSeq() {
         return $this->SUP_PedidoSeq;
-    }
-
-    function getDELX_FIL_Empresa() {
-        if (!isset($this->DELX_FIL_Empresa)) {
-            $this->DELX_FIL_Empresa = Fabrica::FabricarModel('DELX_FIL_Empresa');
-        }
-        return $this->DELX_FIL_Empresa;
     }
 
     function getSUP_PedidoFornecedor() {
@@ -345,10 +337,6 @@ class ModelSTEEL_SUP_PedidoCompra {
 
     function setSUP_PedidoSeq($SUP_PedidoSeq) {
         $this->SUP_PedidoSeq = $SUP_PedidoSeq;
-    }
-
-    function setDELX_FIL_Empresa($DELX_FIL_Empresa) {
-        $this->DELX_FIL_Empresa = $DELX_FIL_Empresa;
     }
 
     function setSUP_PedidoFornecedor($SUP_PedidoFornecedor) {

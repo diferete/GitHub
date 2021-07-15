@@ -94,8 +94,8 @@ class PersistenciaMET_TEC_Chamados extends Persistencia {
             return false;
         } else {
             $sSqlEmail = "select usuemail from tbusuario where usucodigo = " . $oDados->usucod;
-            $oConsulta = $this->consultaSql($sSqlEmail);
-            $oDados->email = $oConsulta->usuemail;
+        $oConsulta = $this->consultaSql($sSqlEmail);
+        $oDados->email = $oConsulta->usuemail;
         }
 
         return $oDados;

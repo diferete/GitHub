@@ -56,29 +56,19 @@ class ViewMET_TEC_Chamados extends View {
 
         $oUsuSol = new CampoConsulta('User', 'usunome', CampoConsulta::TIPO_TEXTO);
 
-        $oSetor = new CampoConsulta('Setor', 'descsetor', CampoConsulta::TIPO_TEXTO);
+        $oSetor = new CampoConsulta('Setor', 'setor', CampoConsulta::TIPO_TEXTO);
 
         $oRep = new CampoConsulta('Rep.', 'repoffice', CampoConsulta::TIPO_TEXTO);
 
         $oDataCad = new CampoConsulta('Dt.Cad.', 'datacad', CampoConsulta::TIPO_DATA);
 
-        $oHoraCad = new CampoConsulta('Hr. Cad.', 'horacad', CampoConsulta::TIPO_TIME);
-
         $oDataInicio = new CampoConsulta('Dt.Ini.', 'datainicio', CampoConsulta::TIPO_DATA);
-
-        $oHoraInicio = new CampoConsulta('Hr. Ini.', 'horainicio', CampoConsulta::TIPO_TIME);
-
-        $oDataPrevisao = new CampoConsulta('Previsão', 'previsao', CampoConsulta::TIPO_DATA);
-
-        $oDias = new CampoConsulta('Dias', 'dias');
 
         $oUsuInicio = new CampoConsulta('Usu.Ini.', 'usunomeinicio', CampoConsulta::TIPO_TEXTO);
 
         $oDataFim = new CampoConsulta('Dt.Fim', 'datafim', CampoConsulta::TIPO_DATA);
 
         $oUsuFim = new CampoConsulta('Usu.Fim', 'usunomefim', CampoConsulta::TIPO_TEXTO);
-
-        $oAnexoFim = new CampoConsulta('AnexoFim', 'anexofim', CampoConsulta::TIPO_DOWNLOAD);
 
         $oProblema = new Campo('Problema apresentando', 'problema', Campo::TIPO_TEXTAREA, 6);
         $oProblema->setILinhasTextArea(6);
@@ -97,22 +87,7 @@ class ViewMET_TEC_Chamados extends View {
 
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
-        $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-
-        $oFilUsoSol = new Filtro($oUsuSol, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
-        $oFilUsoSol->setSLabel('Usuário solicitante');
-
-        $oFilUsuIni = new Filtro($oUsuInicio, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
-        $oFilUsuIni->setSLabel('Responsável que iniciou');
-
-        $oFilData = new Filtro($oDataCad, Filtro::CAMPO_DATA_ENTRE, 1, 1, 12, 12, true);
-
-        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
-        $oFilEmp->addItemSelect('', 'Todas');
-        $oFilEmp->addItemSelect('75483040000211', 'Metalbo');
-        $oFilEmp->addItemSelect('8993358000174', 'Steeltrater');
-        $oFilEmp->addItemSelect('83781641000158', 'Poliamidos');
-        $oFilEmp->setSLabel('Empresas');
+        $oFilEmp = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
 
         $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
         $oFilSit->addItemSelect('Todos', 'Todos');
@@ -128,7 +103,7 @@ class ViewMET_TEC_Chamados extends View {
         $oFilTipo->addItemSelect('2', 'SOFTWARE');
         $oFilTipo->addItemSelect('3', 'SERVIÇOS');
 
-        $this->addFiltro($oFilNr, $oFilSetor, $oFilUsoSol, $oFilUsuIni, $oFilData, $oFilEmp, $oFilTipo, $oFilSit);
+        $this->addFiltro($oFilNr, $oFilEmp, $oFilTipo, $oFilSit);
 
         $oDrop = new Dropdown('Cancelar', Dropdown::TIPO_ERRO, Dropdown::ICON_ERRO);
         $oDrop->addItemDropdown($this->addIcone(Base::ICON_DELETAR) . 'Cancelar chamado', $this->getController(), 'criaTelaModalCancelaChamado', '', false, '', false, 'criaTelaModalCancelaChamado', true, 'Cancelar chamado', false, false);
@@ -142,10 +117,10 @@ class ViewMET_TEC_Chamados extends View {
 
         if ($sFiltroSetor == 2) {
             $this->addDropdown($oDrop, $oDrop2);
-            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oHoraCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim, $oAnexoFim);
+            $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
         } else {
             $this->addDropdown($oDrop, $oDrop1);
-            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oHoraCad, $oDataInicio, $oHoraInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim, $oAnexoFim);
+            $this->addCampos($oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oUsuInicio, $oDataInicio, $oUsuFim, $oDataFim);
         }
     }
 
@@ -189,21 +164,9 @@ class ViewMET_TEC_Chamados extends View {
         $oHoraCad->setBCampoBloqueado(true);
         $oHoraCad->setSValor(date('H:i'));
 
-        $oSetor = new Campo('Cód. Setor', 'setor', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        $oSetor->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
+        $oSetor = new Campo('Setor', 'setor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oSetor->setBCampoBloqueado(true);
         $oSetor->setSValor($_SESSION['codsetor']);
-
-        $oDescSetor = new Campo('Setor solicitante', 'descsetor', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
-        $oDescSetor->setSIdPk($oSetor->getId());
-        $oDescSetor->setClasseBusca('MET_CAD_Setores');
-        $oDescSetor->addCampoBusca('codsetor', '', '');
-        $oDescSetor->addCampoBusca('descsetor', '', '');
-        $oDescSetor->setSIdTela($this->getTela()->getid());
-        $oDescSetor->setSValor($_SESSION['descsetor']);
-
-        $oSetor->setClasseBusca('MET_CAD_Setores');
-        $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
-        $oSetor->addCampoBusca('descsetor', $oDescSetor->getId(), $this->getTela()->getId());
 
         $oLinha = new Campo('Dados a inserir', 'linha1', Campo::DIVISOR_VERMELHO, 12, 12, 12, 12);
         $oLinha->setApenasTela(true);
@@ -212,6 +175,7 @@ class ViewMET_TEC_Chamados extends View {
         $oTipo->addItemSelect('1', 'HARDWARE');
         $oTipo->addItemSelect('2', 'SOFTWARE');
         $oTipo->addItemSelect('3', 'SERVIÇOS');
+
 
         $oSubTipoCod = new Campo('Cód. Subtipo', 'subtipo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubTipoCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
@@ -234,7 +198,6 @@ class ViewMET_TEC_Chamados extends View {
 
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oProblema->setILinhasTextArea(3);
-        $oProblema->setBFocus(true);
         $oProblema->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 10, 1000);
 
         $oSituaca = new Campo('', 'situaca');
@@ -244,7 +207,7 @@ class ViewMET_TEC_Chamados extends View {
         $oTabGeral->addCampos(array($oTipo, $oSubTipoCod, $oSubTipo), $oProblema, $oSituaca);
         $oTabAnexos->addCampos($oAnexo1, $oAnexo2, $oAnexo3);
         $oTab->addItems($oTabGeral, $oTabAnexos);
-        $this->addCampos(array($oNr, $oFilcgc, $oUsuCod, $oUsuNome, $oSetor, $oDescSetor, $oRepOffice, $oDataCad, $oHoraCad), $oLinha, $oTab);
+        $this->addCampos(array($oNr, $oFilcgc, $oUsuCod, $oUsuNome, $oSetor, $oRepOffice, $oDataCad, $oHoraCad), $oLinha, $oTab);
     }
 
     public function criaModalIniciaChamado() {
@@ -274,9 +237,6 @@ class ViewMET_TEC_Chamados extends View {
         $oDataInicio->setSValor(date('d/m/Y'));
         $oDataInicio->setBCampoBloqueado(true);
 
-        $oDataPrevista = new Campo('Previsão', 'previsao', Campo::TIPO_DATA, 2, 2, 12, 12);
-        $oDataPrevista->addValidacao(false, Validacao::TIPO_STRING, 'Preencha este campo', '10');
-
         $oHoraInicio = new Campo('Hora Início', 'horainicio', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
         $oHoraInicio->setSValor(date('H:i'));
@@ -292,7 +252,9 @@ class ViewMET_TEC_Chamados extends View {
         $oBtnInicio->getOBotao()->addAcao($sAcaoInicio);
         $oBtnInicio->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
 
-        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataInicio, $oHoraInicio, $oDataPrevista), $oProblema, $oUsunomeInicio, array($oBtnInicio));
+
+
+        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataInicio, $oHoraInicio), $oProblema, $oUsunomeInicio, array($oBtnInicio));
     }
 
     public function criaModalFinalizaChamado() {
@@ -313,33 +275,28 @@ class ViewMET_TEC_Chamados extends View {
         $oSolicitante->setSValor($oDados->getUsunome());
         $oSolicitante->setBCampoBloqueado(true);
 
-        $oDataFim = new Campo('Data fim', 'datafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oDataFim->setSValor(date('d/m/Y'));
-        $oDataFim->setBCampoBloqueado(true);
-
-        $oHoraFim = new Campo('Hora fim', 'horafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        date_default_timezone_set('America/Sao_Paulo');
-        $oHoraFim->setSValor(date('H:i'));
-        $oHoraFim->setBCampoBloqueado(true);
-
-        $oTempo = new Campo('Tempo gasto', 'tempo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oTempo->setBTime(true);
-
         $oProblema = new Campo('Problema', 'problema', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oProblema->setSValor(Util::limpaString($oDados->getProblema()));
         $oProblema->setBCampoBloqueado(true);
         $oProblema->setILinhasTextArea(5);
 
+        $oDataFim = new Campo('Data Início', 'datafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDataFim->setSValor(date('d/m/Y'));
+        $oDataFim->setBCampoBloqueado(true);
+
+        $oHoraFim = new Campo('Hora Início', 'horafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        date_default_timezone_set('America/Sao_Paulo');
+        $oHoraFim->setSValor(date('H:i'));
+        $oHoraFim->setBCampoBloqueado(true);
+
         $oUsunomeFim = new Campo('', 'usunomefim', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oUsunomeFim->setBOculto(true);
         $oUsunomeFim->setSValor($_SESSION['nome']);
 
-        $oObsFim = new Campo('O que foi feito', 'obsfim', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
-        $oObsFim->setILinhasTextArea(5);
+        $oObsFim = new Campo('O que foi feito', 'obsfim', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
+        $oObsFim->setILinhasTextArea(3);
         $oObsFim->setBFocus(true);
         $oObsFim->addValidacao(false, Validacao::TIPO_STRING, '', '5');
-
-        $oAnexoFinal = new Campo('Anexo', 'anexofim', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
 
         //botão inserir os dados
         $oBtnFim = new Campo('Finalizar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
@@ -348,7 +305,7 @@ class ViewMET_TEC_Chamados extends View {
         $oBtnFim->getOBotao()->addAcao($sAcaoFim);
         $oBtnFim->getOBotao()->setSStyleBotao(Botao::TIPO_SUCCESS);
 
-        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim, $oTempo), $oProblema, $oUsunomeFim, array($oObsFim, $oAnexoFinal), array($oBtnFim));
+        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, $oObsFim, array($oBtnFim));
     }
 
     public function criaModalCancelaChamado($sDados) {
@@ -373,11 +330,11 @@ class ViewMET_TEC_Chamados extends View {
         $oProblema->setSValor(Util::limpaString($oDados->getProblema()));
         $oProblema->setBCampoBloqueado(true);
 
-        $oDataFim = new Campo('Data Cancelou', 'datafim', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oDataFim = new Campo('Data Início', 'datafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDataFim->setSValor(date('d/m/Y'));
         $oDataFim->setBCampoBloqueado(true);
 
-        $oHoraFim = new Campo('Hora Cancelou', 'horafim', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oHoraFim = new Campo('Hora Início', 'horafim', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         date_default_timezone_set('America/Sao_Paulo');
         $oHoraFim->setSValor(date('H:i'));
         $oHoraFim->setBCampoBloqueado(true);
@@ -386,11 +343,9 @@ class ViewMET_TEC_Chamados extends View {
         $oUsunomeFim->setBOculto(true);
         $oUsunomeFim->setSValor($_SESSION['nome']);
 
-        $oObsFim = new Campo('Motivo do cancelamento', 'obsfim', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
-        $oObsFim->setILinhasTextArea(4);
+        $oObsFim = new Campo('Motivo do cancelamento', 'obsfim', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
+        $oObsFim->setILinhasTextArea(3);
         $oObsFim->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', 5);
-
-        $oAnexoFim = new Campo('Anexo', 'anexofim', Campo::TIPO_UPLOAD, 6, 6, 12, 12);
 
         //botão inserir os dados
         $oBtnCancela = new Campo('Cancelar', '', Campo::TIPO_BOTAOSMALL_SUB, 2);
@@ -401,7 +356,7 @@ class ViewMET_TEC_Chamados extends View {
 
 
 
-        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, array($oObsFim, $oAnexoFim), array($oBtnCancela));
+        $this->addCampos(array($oNr, $oFilcgc, $oSolicitante, $oDataFim, $oHoraFim), $oProblema, $oUsunomeFim, $oObsFim, array($oBtnCancela));
     }
 
     public function relChamados() {
@@ -412,7 +367,6 @@ class ViewMET_TEC_Chamados extends View {
         $aDados2 = $aDados[1];
         $aDados3 = $aDados[2];
         $aDados4 = $aDados[3];
-        $aDados5 = $aDados[4];
 
         $this->setTituloTela('Relatório de Chamados Tecnologia da Informação');
         $this->setBTela(true);
@@ -425,7 +379,7 @@ class ViewMET_TEC_Chamados extends View {
         }
 
         //SubTipo
-        $oSubTipo = new Campo('Sub.Tipo', 'subtipo_nome', Campo::TIPO_SELECT, 3, 3, 12, 12);
+        $oSubTipo = new Campo('Sub.Tipo', 'subtipo_nome', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
         $oSubTipo->addItemSelect('Todos', 'Todos SubTipos');
         foreach ($aDados2 as $key3) {
             $oSubTipo->addItemSelect($key3['subtipo_nome'], $key3['subtipo_nome']);
@@ -438,19 +392,17 @@ class ViewMET_TEC_Chamados extends View {
             $oUsuario->addItemSelect($key3['usunome'], $key3['usunome']);
         }
 
-        $oTipo = new Campo('Tipo', 'tipo', Campo::CAMPO_SELECT, 2, 2, 12, 12);
+        $oTipo = new Campo('Tipo', 'tipo', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oTipo->addItemSelect('Todos', 'Todos Tipos');
         $oTipo->addItemSelect('1', 'HARDWARE');
         $oTipo->addItemSelect('2', 'SOFTWARE');
         $oTipo->addItemSelect('3', 'SERVIÇOS');
 
         //Representante
-        $oRep = new Campo('Representantes', 'repr', Campo::CAMPO_SELECT, 2, 2, 12, 12);
+        $oRep = new Campo('Representantes', 'repr', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oRep->addItemSelect('Todos', 'Todos representantes');
         foreach ($aDados1 as $key3) {
-            if ($key3['repoffice'] != 'POLIAMIDOS' && $key3['repoffice'] != 'METALBOF') {
-                $oRep->addItemSelect($key3['repoffice'], $key3['repoffice']);
-            }
+            $oRep->addItemSelect($key3['repoffice'], $key3['repoffice']);
         }
 
         $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
@@ -470,40 +422,7 @@ class ViewMET_TEC_Chamados extends View {
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $oFieldRelAnt = new FieldSet('Relatório Chamados Antigos Sistema_Metalbo');
-
-        $oRelAntigo = new Campo("Relatório Antigo", 'relant', Campo::TIPO_CHECK, 2, 2, 12, 12);
-
-        //Usuário
-        $oSetor = new Campo('Setores', 'setor', Campo::TIPO_SELECT, 2, 2, 12, 12);
-        $oSetor->addItemSelect('Todos', 'Todos Setores');
-        foreach ($aDados5 as $key4) {
-            $oSetor->addItemSelect($key4['codsetor'], $key4['descsetor']);
-        }
-
-        $oTipoAnt = new Campo('Tipo', 'tipoant', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
-        $oTipoAnt->addItemSelect('Todos', 'Todos Tipos');
-        $oTipoAnt->addItemSelect('HARDWARE', 'HARDWARE');
-        $oTipoAnt->addItemSelect('SOFTWARE', 'SOFTWARE');
-        $oTipoAnt->addItemSelect('SERVIÇOS', 'SERVIÇOS');
-        $oTipoAnt->addItemSelect('RELATORIOS', 'RELATORIOS');
-
-        $oSitAnt = new Campo('Situação', 'sitant', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
-        $oSitAnt->addItemSelect('Todos', 'Todas Situações');
-        $oSitAnt->addItemSelect('AGUARDANDO', 'AGUARDANDO');
-        $oSitAnt->addItemSelect('EM ANDAMENTO', 'EM ANDAMENTO');
-        $oSitAnt->addItemSelect('FINALIZADO', 'FINALIZADO');
-        $oSitAnt->addItemSelect('CANCELADO', 'CANCELADO');
-
-        $oFieldRelAnt->addCampos(array($oTipoAnt, $oSitAnt, $oRelAntigo));
-        $oFieldRelAnt->setOculto(true);
-
-        $oFieldRelAtual = new FieldSet('Relatório Chamados Atual ');
-        $oFieldRelAtual->addCampos(array($oEmpresa, $oUsuario), $oLinha1, array($oRep, $oSubTipo), $oLinha1, array($oTipo, $oSit));
-
-        $oApenasGrafico = new Campo("Somente Gráfico", 'apgrafico', Campo::TIPO_CHECK, 2, 2, 12, 12);
-
-        $this->addCampos($oFieldRelAtual, $oLinha1, $oFieldRelAnt, $oLinha1, array($oSetor, $oDatainicial, $oDatafinal), $oApenasGrafico);
+        $this->addCampos(array($oEmpresa, $oUsuario), $oLinha1, array($oTipo, $oSubTipo), $oLinha1, array($oRep, $oSit), $oLinha1, array($oDatainicial, $oDatafinal));
     }
 
 }

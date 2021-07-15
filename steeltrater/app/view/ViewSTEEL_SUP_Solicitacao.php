@@ -42,7 +42,7 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $oObsSol = new CampoConsulta('Observacao', 'SUP_SolicitacaoObservacao');
 
-        $oObsEntregaSol = new CampoConsulta('ObsEntrega', 'SUP_SolicitacaoObsEntrega');
+        //$oObsEntregaSol = new CampoConsulta('ObsEntrega', 'SUP_SolicitacaoObsEntrega');
 
         $oFilData = new Filtro($oDataHoraSol, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
 
@@ -64,7 +64,7 @@ class ViewSTEEL_SUP_Solicitacao extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'STEEL_SUP_Solicitacao', 'acaoMostraRelEspecifico', '', false, 'OpSteel1', false, '', false, '', true, false);
         $this->addDropdown($oDrop1);
 
-        $this->addCampos($oFilCod, $oSeqSol, $oTipoSol, $oSitSol, $oUsuSol, $oDataHoraSol, $oObsSol, $oObsEntregaSol);
+        $this->addCampos($oFilCod, $oSeqSol, $oTipoSol, $oSitSol, $oUsuSol, $oDataHoraSol, $oObsSol);
     }
 
     public function criaTela() {

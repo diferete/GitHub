@@ -12,8 +12,8 @@ class ViewSTEEL_PCP_OrdensFab extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        //$this->getTela()->setBGridResponsivo(false);
-        $this->getTela()->setITipoGrid(2);
+        $this->getTela()->setBGridResponsivo(false);
+       // $this->getTela()->setITipoGrid(2);
 
 
         $oBtnReceitaZincagem = new CampoConsulta('Alt. Receita', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_ENVIAR);
@@ -75,12 +75,12 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         //  $oOpAntes = new CampoConsulta('Op anterior', 'opantes');
 
         $oReceita = new campoconsulta('Receita', 'receita');
-
-        $oOpCliente = new CampoConsulta('Op Cliente', 'opcliente');
-
+        
+        $oOpCliente = new CampoConsulta('Op Cliente','opcliente');
+        
         $oInspecao = new CampoConsulta('Certificado', 'nrcert');
-
-        $oFiltroOpCli = new Filtro($oOpCliente, Filtro::CAMPO_TEXTO_IGUAL, 2);
+        
+        $oFiltroOpCli = new Filtro($oOpCliente,Filtro::CAMPO_TEXTO_IGUAL, 2);
 
         $oOpFiltro = new Filtro($oOp, Filtro::CAMPO_TEXTO_IGUAL, 1);
         $oCodigoFiltro = new Filtro($oCodigo, Filtro::CAMPO_TEXTO_IGUAL, 2);
@@ -438,7 +438,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oPesoCesto = new Campo('Peso Cesto', 'PesoDoCesto', Campo::TIPO_DECIMAL, 1);
         $oPesoCesto->setSCorFundo(Campo::FUNDO_AMARELO);
         $oPesoCesto->setId('PesoCestoId');
-
+        
         //busca campo material
         $oCodMat = new Campo('Material', 'matcod', Campo::TIPO_TEXTO, 1);
         $oCodMat->setSCorFundo(Campo::FUNDO_AMARELO);
@@ -782,7 +782,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         }
 
         $oTipoZinc = new campo('Lista OPs de Zincagem', 'zincagem', Campo::TIPO_CHECK, 6, 6, 6, 6);
-
+        
         //para mostrar a parte de imprimir a planilha no excel
         $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);

@@ -118,7 +118,7 @@ class ViewSTEEL_PCP_ReceitasItens extends View {
 
         $oCamadaEspessura = new Campo('Camada Espessura', 'CamadaEspessura', Campo::TIPO_DECIMAL, 2, 2, 12, 12);
 
-        $oTempoZinc = new Campo('Tempo Zincagem', 'TempoZinc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oTempoZinc = new Campo('Tempo Zinc/minutos', 'TempoZinc', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         //$oTempoZinc->setBTime(true);
 
         $oPesoDoCesto = new Campo('Peso do Cesto', 'PesoDoCesto', Campo::TIPO_DECIMAL_COMPOSTO, 1, 1, 12, 12);

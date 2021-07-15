@@ -157,11 +157,12 @@ class ViewSTEEL_PCP_Produtos extends View {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Grupo
         $oGrupoCod = new Campo('Grupo', 'pro_grupocodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oGrupoCod->setId('GrupoCod');
         $oGrupoCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
         if (method_exists($oDados, 'getProdes')) {
             $oGrupoCod->setSValor('102');
         }
-        $oGrupoCod->setId('GrupoCod');
+
         //-----------------------------------------------------------
 
         $oGrupoDes = new Campo('Descrição', 'DELX_PRO_Grupo.pro_grupodescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
@@ -181,15 +182,15 @@ class ViewSTEEL_PCP_Produtos extends View {
         $oGrupoCod->addCampoBusca('pro_grupodescricao', $oGrupoDes->getId(), $this->getTela()->getId());
         $sCallBack = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Produtos","verificaCampoGrupo","");';
         $oGrupoCod->addEvento(Campo::EVENTO_SAIR, $sCallBack);
-        
+
         //-------------------------------------------------------------
 
         $oSubGrupoCod = new Campo('Sub.Grupo', 'pro_subgrupocodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oSubGrupoCod->setId('SubGrupoCod');
         $oSubGrupoCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
         if (method_exists($oDados, 'getProdes')) {
             $oSubGrupoCod->setSValor('1');
         }
-        $oSubGrupoCod->setId('SubGrupoCod');
 
         $oSubGrupoDes = new Campo('Descrição', 'DELX_PRO_Subgrupo.pro_subgrupodescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubGrupoDes->setSIdPk($oSubGrupoCod->getId());
@@ -211,12 +212,12 @@ class ViewSTEEL_PCP_Produtos extends View {
         $oSubGrupoCod->addEvento(Campo::EVENTO_SAIR, $sCallBack1);
         //----------------------------------------------------------------
 
-        $oFamiliaCod = new Campo('Família', 'pro_familiacodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oFamiliaCod = new Campo('Família', 'pro_familiacodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);        
+        $oFamiliaCod->setId('FamiliaCod');
         $oFamiliaCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
         if (method_exists($oDados, 'getProdes')) {
             $oFamiliaCod->setSValor('1');
         }
-        $oFamiliaCod->setId('FamiliaCod');
 
         $oFamiliaDes = new Campo('Descrição', 'DELX_PRO_Familia.pro_familiadescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oFamiliaDes->setSIdPk($oFamiliaCod->getId());
@@ -236,16 +237,16 @@ class ViewSTEEL_PCP_Produtos extends View {
 
         $sCallBack2 = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Produtos","verificaCampoFamilia","");';
         $oFamiliaCod->addEvento(Campo::EVENTO_SAIR, $sCallBack2);
-        
+
         //-----------------------------------------------------------------------
 
         $oSubFamiliaCod = new Campo('Sub.Fam', 'pro_subfamiliacodigo', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oSubFamiliaCod->setId('SubFamiliaCod');
         $oSubFamiliaCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
         if (method_exists($oDados, 'getProdes')) {
             $oSubFamiliaCod->setSValor('1');
         }
-        $oSubFamiliaCod->setId('SubFamiliaCod');
-
+        
         $oSubFamiliaDes = new Campo('Descrição', 'DELX_PRO_Subfamilia.pro_subfamiliadescricao', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $oSubFamiliaDes->setSIdPk($oSubFamiliaCod->getId());
         $oSubFamiliaDes->setClasseBusca('DELX_PRO_Subfamilia');
