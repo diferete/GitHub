@@ -2206,7 +2206,7 @@ class Campo {
                         . '</div>';
                 break;
             case self::TIPO_LINHA:
-                $sCampo = '<div><hr style="margin:7px; "><div>';
+                $sCampo = '<div><hr style="margin:7px; "></div>';
                 break;
             case self::DIVISOR_SUCCESS:
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '" >'
