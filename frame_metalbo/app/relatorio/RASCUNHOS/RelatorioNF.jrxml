@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="https://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jasperreports.sourceforge.net/jasperreports https://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RelatorioBase" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="489d093b-2f1c-402b-919f-bff05d2474ba">
+	<property name="ireport.zoom" value="1.2100000000000009"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="filtroSql" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select tbnf.nfnr, tbnf.nfvalor, tbnf.nfod, tbnf.nfdataemiss,
+tbnf.nfdesconto, tbnf.pescodigo,tbnfiten.nfseq,prodes,
+nfun,NFQT,(nfun * nfqt) as valor_total_item,unidade,
+ tbpessoa.pesnome, (nfvalor - nfdesconto) as vlr_com_desconto
+from tbnfiten
+left outer join tbnf on tbnfiten.nfnr = tbnf.nfnr
+left outer join tbproduto on  tbproduto.procod = tbnfiten.procod
+left outer join tbunidade on tbunidade.uncod = tbproduto.uncod
+left outer join tbpessoa on tbnf.pescodigo = tbpessoa.pescodigo
+$P{filtroSql}]]>
+	</queryString>
+	<field name="nfnr" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nfvalor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nfod" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nfdataemiss" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nfdesconto" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pescodigo" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nfseq" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="prodes" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nfun" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NFQT" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valor_total_item" class="java.math.BigDecimal"/>
+	<field name="unidade" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pesnome" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vlr_com_desconto" class="java.math.BigDecimal"/>
+	<variable name="vlr_com_desconto_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_com_desconto}]]></variableExpression>
+	</variable>
+	<variable name="nfnr_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{nfnr}]]></variableExpression>
+	</variable>
+	<variable name="pesnome_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{pesnome}]]></variableExpression>
+	</variable>
+	<variable name="pescodigo_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{pescodigo}]]></variableExpression>
+	</variable>
+	<variable name="valor_total_item_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Nome" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_total_item}]]></variableExpression>
+	</variable>
+	<variable name="vlr_com_desconto_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_com_desconto}]]></variableExpression>
+	</variable>
+	<variable name="vlr_com_desconto_3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_com_desconto}]]></variableExpression>
+	</variable>
+	<variable name="vlr_com_desconto_4" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{vlr_com_desconto}]]></variableExpression>
+	</variable>
+	<variable name="valor_total_item_2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_total_item}]]></variableExpression>
+	</variable>
+	<group name="Nome">
+		<groupExpression><![CDATA[$F{nfnr}]]></groupExpression>
+		<groupHeader>
+			<band height="38">
+				<textField>
+					<reportElement x="14" y="0" width="100" height="13" uuid="7a9ce238-8dfb-4bc9-bf2d-f12156e35c02"/>
+					<textFieldExpression><![CDATA[$F{nfnr}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="126" y="0" width="289" height="13" uuid="fee23f95-6b97-4c3e-b649-ede55bdef52b"/>
+					<textFieldExpression><![CDATA[$F{pesnome}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="293" y="25" width="60" height="10" uuid="f865f70b-74dd-4861-9fab-1e87ba29fddb"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Qt]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="359" y="25" width="41" height="10" uuid="c19b1442-d436-4c3b-ac21-a0a1530f3cdc"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Unidade]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="421" y="25" width="54" height="10" uuid="8fac10bb-33b6-4732-ae93-e760115f0a95"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Vlr. Unitário]]></text>
+				</staticText>
+				<textField pattern="dd/MM/yyyy">
+					<reportElement x="422" y="1" width="100" height="15" uuid="efb9a5a1-e43e-4405-ae4c-6b175bf6245d"/>
+					<textFieldExpression><![CDATA[$F{nfdataemiss}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="485" y="25" width="54" height="10" uuid="1a04e738-828f-467c-b90f-1b198518a854"/>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="28">
+				<textField pattern="#,##0.00;(#,##0.00)">
+					<reportElement x="422" y="5" width="100" height="15" forecolor="#CC0000" uuid="0074e3c6-260a-4e64-869c-36c1d1804628"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{valor_total_item_1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="253" y="5" width="100" height="15" forecolor="#CC0000" uuid="70175416-1c8a-4cbb-a0a7-bd6dcf07d7e4"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[Total]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="422" y="2" width="100" height="1" uuid="44e5a14d-4786-40a9-a5d8-f66e60fc68b7"/>
+				</line>
+				<line>
+					<reportElement x="0" y="21" width="555" height="1" uuid="c5b07550-9e4b-48cc-a445-e8236f81b55f"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="46" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="33" uuid="4faf2d37-9a1f-4a56-8ebc-b7e7a87e5958"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="33" uuid="0cde163f-02a0-4cb8-92ef-f7edadabd614"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[ENTRADA DE NOTAS FISCAIS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="19" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="7" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="32" y="0" width="249" height="14" uuid="79778635-fb86-4e19-9f6e-c0d6b2a0c3bc"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prodes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="293" y="0" width="60" height="14" uuid="22ec4452-be13-432e-9a54-a5525ff6c10c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NFQT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="359" y="0" width="56" height="14" uuid="3c278275-34b9-4f69-ba16-a5800c9a0258"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{unidade}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="421" y="0" width="54" height="14" uuid="e36e0e6f-e32b-42f4-be77-5d7ae77bb5a8"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nfun}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="475" y="0" width="80" height="15" uuid="4308b9b5-dfa8-479d-bf39-5117a37a321b"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor_total_item}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="63" splitType="Stretch">
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="422" y="21" width="100" height="20" uuid="32a76341-13ce-4cad-9a10-ccad63919a6c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valor_total_item_2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="215" y="22" width="167" height="20" uuid="51c49cc0-cdeb-4b05-936d-2d3b260aae0c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL DAS ENTRADAS]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
