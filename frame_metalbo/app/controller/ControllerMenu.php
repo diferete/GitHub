@@ -61,40 +61,124 @@ class ControllerMenu extends Controller {
             ++$iCont;
         }
         $sMsg = '<div class="example-wrap" id="perfilPrincipal">'
-                . '<div class="example example-well col-md-8" style="height:700px">'
-                . '<div class="example example-well">'
-                . '<div class="page-header text-center">'
+                . '<div>'
+                . '<div class = "example-well col-md-12" style = "height:700px" id = "telaInicialLogin">'
+                . '<div class = "page-aside">'
+                . '<div class = "page-aside-switch">'
+                . '<i class = "icon wb-chevron-left" aria-hidden = "true"></i>'
+                . '<i class = "icon wb-chevron-right" aria-hidden = "true"></i>'
+                . '</div>'
+                . '<div class = "page-aside-inner">'
+                . '<section class = "page-aside-section">'
+                . '<h5 class = "page-aside-title">Minhas empresas</h5>'
+                . '<div class = "list-group">';
+        $sMsg = $sMsg . $this->getEmpresasAdicionais();
+        $sMsg = $sMsg . '</div>'
+                . '</section>'
+                . '<section class = "page-aside-section">'/*
+                  . '<h5 class = "page-aside-title">Meus ícones</h5>'
+                  . '<div class = "list-group">'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-image" aria-hidden = "true"></i>Images</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-volume-high" aria-hidden = "true"></i>Audio</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-camera" aria-hidden = "true"></i>Video</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-file" aria-hidden = "true"></i>Notes</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-link-intact" aria-hidden = "true"></i>Links</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-order" aria-hidden = "true"></i>Files</a>'
+                  . '</div>'
+                  . '</section>' */
+                . '</div>'
+                . '</div>'
+                . '<div id="icoAtualiza2">'
+                . '<h4 style="text-align-last:end;margin-top:10px;margin-left:5px;cursor:pointer;" title="Atualizações">'
+                . '<i class = "icon wb-list" aria-hidden = "true" ></i>'
+                . 'Atualizações '
+                . '</h4>'
+                . '</div>'
+                . '<div class = "page-header text-center">'
                 . '</br>'
-                . '<h1 class="page-title">Bem-vindo!</h1>'
-                . '<img class="img-circle img-bordered img-bordered-primary" width="150" height="150" src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1">'
-                . '<h2 class="page-title">' . $_SESSION["nome"] . '</h2>'
+                . '<h1 class = "page-title">Bem-vindo!</h1>'
+                . '<img class = "img-circle img-bordered img-bordered-primary" width = "150" height = "150" src = "Uploads/' . $_SESSION["usuimagem"] . '" id = "img-perfil1">'
+                . '<h2 class = "page-title">' . $_SESSION["nome"] . '</h2>'
                 . '<div>'
                 . '</div>'
                 . '</br>'
-                . '<div style="position: absolute;bottom: 0;left: 0;top: 650px">'
-                . '<p class="page-description">'
-                . '<a target="_blank" href="http://metalbo.com.br/" style="margin: 10px;text-decoration: none;">metalbo.com.br</a>'
-                . '<a target="_blank" href="https://facebook.com/metalbo.oficial" style="margin: 10px;text-decoration: none;"> '
-                . '<button type="button" class="btn btn-labeled btn-xs social-facebook">'
-                . '<span class="btn-label">'
-                . '<i class="icon bd-facebook" aria-hidden="true"></i>'
-                . '</span> Metalbo'
+                . '<div>'
+                . '<p class = "page-description">'
+                . '<a target = "_blank" href = "http://metalbo.com.br/steeltrater" style = "margin: 10px;text-decoration: none;"> '
+                . '<button type = "button" style = "color: purple;border: none;background: transparent;">'
+                . '<span>'
+                . '<i aria-hidden = "true"></i>'
+                . '</span> steeltrater.com.br'
                 . '</button>'
                 . '</a>'
-                . '<a target="_blank" href="https://www.youtube.com/channel/UCO6rJtl4ePqsWRTztRFkE5w" style="margin: 10px;text-decoration: none;">'
-                . '<button type="button" class="btn btn-labeled btn-xs social-youtube">'
-                . '<span class="btn-label">'
-                . '<i class="icon bd-youtube" aria-hidden="true"></i>'
-                . '</span> Treinamentos'
+                . '<a target = "_blank" href = "http://177.84.0.34:8080/DelsoftXPRO/servlet/loginerp"" style="margin: 10px;text-decoration: none;">'
+                . '<button type="button" style="color: red;border: none;background: transparent;">'
+                . '<span>'
+                . '<i aria-hidden="true"></i>'
+                . '</span> DelsoftX'
                 . '</button>'
                 . '</a>'
-                . '</div>'
                 . '</div>'
                 . '</br>'
+                . '</div>'
+                . '</div>'
+                . $this->montaTabela()
+                . '<script>'
+                . '$("#icoAtualiza2").click(function(){'
+                . 'if ($("#tabelaAtualizacoes").is(":visible")) {'
+                . '$("#tabelaAtualizacoes").hide();'
+                . '} else {'
+                . '$("#tabelaAtualizacoes").toggle("show");'
+                . '}'
+                . 'if ($("#icoAtualiza").is(":visible")) {'
+                . '$("#icoAtualiza").hide();'
+                . '} else {'
+                . ' $("#icoAtualiza").toggle("show");'
+                . '}'
+                . 'if ($("#icoAtualiza2").is(":visible")) {'
+                . '$("#icoAtualiza2").hide();'
+                . '} else {'
+                . ' $("#icoAtualiza2").toggle("show");'
+                . '}'
+                . '$("#telaInicialLogin").toggleClass("col-md-8","col-md-12");'
+                . '});'
+                . '$("#icoAtualiza").click(function(){'
+                . 'if ($("#tabelaAtualizacoes").is(":visible")) {'
+                . '$("#tabelaAtualizacoes").hide();'
+                . '} else {'
+                . '$("#tabelaAtualizacoes").toggle("show");'
+                . '}'
+                . 'if ($("#icoAtualiza").is(":visible")) {'
+                . '$("#icoAtualiza").hide();'
+                . '} else {'
+                . ' $("#icoAtualiza").toggle("show");'
+                . '}'
+                . 'if ($("#icoAtualiza2").is(":visible")) {'
+                . '$("#icoAtualiza2").hide();'
+                . '} else {'
+                . ' $("#icoAtualiza2").toggle("show");'
+                . '}'
+                . '$("#telaInicialLogin").toggleClass("col-md-8","col-md-12");'
+                . '});'
+                . '$("#8993358000174-empresa").click(function(){'
+                . '$("#logo").attr("src","biblioteca/assets/images/logoS.png");'
+                . '$("#logo").attr("title","Steeltrater").removeClass("logo_poliamidos").addClass("logo_empresas");'
+                . '});'
+                . '$("#83781641000158-empresa").click(function(){'
+                . '$("#logo").attr("src","biblioteca/assets/images/logoP.png");'
+                . '$("#logo").attr("title","Poliamidos").removeClass("logo_poliamidos").removeClass("logo_empresas").addClass("logo_poliamidos");'
+                . '});'
+                . '$("#75483040000130-empresa").click(function(){'
+                . '$("#logo").attr("src","biblioteca/assets/images/logoM.png");'
+                . '$("#logo").attr("title","Metalbo").removeClass("logo_poliamidos").addClass("logo_empresas");'
+                . '});'
+                . '$("#75483040000211-empresa").click(function(){'
+                . '$("#logo").attr("src","biblioteca/assets/images/logoM.png");'
+                . '$("#logo").attr("title","Metalbo").removeClass("logo_poliamidos").addClass("logo_empresas");'
+                . '});'
+                . '</script>'
+                . '</div>'
                 . '</div>';
-        $sMsg = $sMsg . $this->montaTabela();
-        $sMsg = $sMsg . '</div>';
-
         echo "$('#tabmenucont').empty(); $('#tabmenusuperior').empty();$('#menu').empty();$('#menu').append('" . $sEstruturaMenu . "'); ";
         echo "$('#tabmenucont').append('" . $sMsg . "');";
     }
@@ -105,7 +189,7 @@ class ControllerMenu extends Controller {
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
 
-        $this->Persistencia->adicionaFiltro('modcod', $this->Model->getModulo()->getModcod());
+        $this->Persistencia->adicionaFiltro('modcod', $this->Model->getMET_TEC_Modulo()->getModcod());
         $this->Persistencia->adicionaFiltro('mencodigo', $this->Model->getMencodigo());
     }
 
@@ -115,7 +199,7 @@ class ControllerMenu extends Controller {
     function montaProxEtapa() {
         parent::montaProxEtapa();
         $aRetorno[0] = $this->Model->getMencodigo();
-        $aRetorno[1] = $this->Model->getModulo()->getModcod();
+        $aRetorno[1] = $this->Model->getMET_TEC_Modulo()->getModcod();
         return $aRetorno;
     }
 
@@ -123,39 +207,101 @@ class ControllerMenu extends Controller {
         $oControllerUpdates = Fabrica::FabricarController('MET_TEC_Updates');
         $aBuscaUpdates = $oControllerUpdates->getDadosUpdates();
 
-        $html = '</div>'
-                . '<div class="col-md-4">'
-                . '<h4 style="margin-top:30px;margin-left:5px"><i class="icon wb-book" aria-hidden="true"></i>Atualizações '
-                . '  </h4> '
-                . ' <div class="example table-responsive" style="margin-left:5px;"> '
-                . '   <table class="table table-striped"> '
-                . '     <thead> '
-                . '       <tr> '
-                . '         <th style="font-size:16px;font-weight:600;">Versão</th> '
-                . '         <th style="font-size:16px;font-weight:600;">Updates</th> '
-                . '         <th style="font-size:16px;font-weight:600;">Doc.</th> '
-                . '       </tr>  '
-                . '     </thead> '
-                . '     <tbody> ';
+        $html = '<h4 id="icoAtualiza" style = "text-align: center;margin-top: 0px;margin-left: 5px;cursor: pointer;display: none;">'
+                . '<i class = "icon wb-list" aria-hidden = "true" ></i> Atualizações'
+                . '</h4> '
+                . '<div class = "col-md-4" style="display:none;" id = "tabelaAtualizacoes">'
+                . '<div class = "table-responsive" style = "margin-left:5px;"> '
+                . '<table class = "table table-striped"> '
+                . '<thead> '
+                . '<tr> '
+                . '<th style = "font-size:16px;font-weight:600;">Versão</th> '
+                . '<th style = "font-size:16px;font-weight:600;">Updates</th> '
+                . '<th style = "font-size:16px;font-weight:600;">Doc.</th> '
+                . '</tr> '
+                . '</thead> '
+                . '<tbody> ';
         foreach ($aBuscaUpdates as $key => $value) {
             $href = '';
-            $html = $html . '       <tr> '
-                    . '         <td><span class="badge badge-dark">' . $value->versao . '</span></td> '
-                    . '         <td style="width:450px">' . $value->updates . '</td> ';
+            $html = $html . ' <tr> '
+                    . ' <td><span class = "badge badge-dark">' . $value->versao . '</span></td> '
+                    . ' <td style = "width:450px">' . $value->updates . '</td> ';
             if ($value->anexo != '') {
-                $html = $html . '         <td><a href="http://localhost/github/frame_metalbo/uploads/' . $value->anexo . '" target="_blank"  rel=”noopener”>Clique aqui</a></td> ';
+                $html = $html . ' <td><a href = "http://localhost/github/frame_metalbo/uploads/' . $value->anexo . '" target = "_blank" rel = ”noopener”>Clique aqui</a></td> ';
             } else {
-                $html = $html . '         <td></td> ';
+                $html = $html . ' <td></td> ';
             }
-            $html = $html . '       </tr> ';
+            $html = $html . ' </tr> ';
         }
-        $html = $html . '     </tbody>'
-                . '   </table>'
-                . ' </div>';
+        $html = $html . ' </tbody>'
+                . '</table>'
+                . '</div>';
 
         return $html;
     }
 
+    public function getEmpresasAdicionais() {
+
+        $html = $this->getEmpresaPadrao();
+
+        $oPersistenciaUsuario = Fabrica::FabricarPersistencia('User');
+        $aBuscaUpdates = $oPersistenciaUsuario->getEmpresasAdicionais();
+        foreach ($aBuscaUpdates as $key => $aValue) {
+            $sClasse = str_replace(' ', '_', $aValue[0]);
+            $html = $html . '<a id="' . $aValue[1] . '-empresa" class = "list-group-item ' . $sClasse . '-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>' . $aValue[0] . '</a>';
+        }
+        return $html;
+    }
+
+    function getEmpresaPadrao() {
+        $sEmpresa = $_SESSION['filcgc'];
+
+        /* 5572480000189 FECIAL
+          8993358000174 STEELTRATER
+          10540966000175 FECULARIA BOEWING
+          75483040000130 METALBO MATRIZ
+          75483040000211 METALBO FILIAL
+          83781641000158 HEDLER */
+
+        $html = '';
+
+        switch ($sEmpresa) {
+            case 8993358000174:
+                $html = '<a id="8993358000174-empresa" class = "list-group-item Steeltrater-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>Steeltrater</a>';
+
+                break;
+            case 75483040000130:
+                $html = '<a id="75483040000130-empresa" style="color:#0f5539" class = "list-group-item Metalbo_Matriz-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>Metalbo Matriz</a>';
+
+                break;
+            case 75483040000211:
+                $html = '<a id="75483040000211-empresa" style="color:#0f5539" class = "list-group-item Metalbo_Filial-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>Metalbo Filial</a>';
+
+                break;
+            case 83781641000158:
+                $html = '<a id="83781641000158-empresa" style="color:blue" class = "list-group-item Poliamidos-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>Poliamidos</a>';
+
+                break;
+        }
+        return $html;
+    }
+
+    /*
+      public function getFavoritos() {
+      $html = '';
+      $oMET_TEC_FavMenu = Fabrica::FabricarController('MET_TEC_FavMenu');
+      $aFavoritos = $oMET_TEC_FavMenu->getFavoritos();
+      foreach ($array as $key => $value) {
+      $html = $html . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-image" aria-hidden = "true"></i>Images</a>';
+
+      $sMenuId = $avalue[0] . '-fav';
+      $sString .= '<li role="presentation" id="menu-' . $sMenuId . '">'
+      . '                <a href="javascript:void(0)" title="Abre a tela ' . $avalue[1] . '"  onclick="verificaTab(\\\'menu-' . $sMenuId . '\\\',\\\'' . $sMenuId . '\\\',\\\'' . $avalue[2] . '\\\',\\\'' . $avalue[3] . '\\\',\\\'tabmenu-' . $sMenuId . '\\\'); "role="menuitem">'
+      . '                  <span class="icon fa-star-o"></span>' . $avalue[1] . '<span title="Deleta favorito" onclick="requestAjax(\\\'menu-' . $sMenuId . '\\\',\\\'FavMenu\\\',\\\'msgdeletaFav\\\',\\\'' . utf8_encode($avalue[2]) . ',' . utf8_encode($avalue[3]) . ',\\\');" class="icon wb-trash pull-right fav-red"></span></a>'
+      . '              </li>';
+      }
+      return $html;
+      } */
 }
 
 ?>
