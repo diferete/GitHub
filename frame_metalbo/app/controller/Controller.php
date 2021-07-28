@@ -1813,17 +1813,17 @@ class Controller {
 
                                 $iCont++;
                             } else {
-                                    //verifica se deve conter a tabela
-                                    $aCampoTabela = explode('.', $aFiltroGrid[0]);
-                                    if (!isset($aCampoTabela[1])) {
-                                        $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]));
-                                    } else {
-                                        $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]), "", $aCampoTabela[0]);
-                                    }
-                                    //adicionaFiltro($sCampo,$sValor,$iTipoLigacao = 0,$iTipoComparacao = 0,$sValorFim = "",$sTabelaCampo="", $sCampoType = "") 
+                                //verifica se deve conter a tabela
+                                $aCampoTabela = explode('.', $aFiltroGrid[0]);
+                                if (!isset($aCampoTabela[1])) {
+                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]));
+                                } else {
+                                    $this->Persistencia->adicionaFiltro($aFiltroGrid[0], $aFiltroGrid[1], Persistencia::LIGACAO_AND, $this->tipoFiltro($aFiltroGrid[2]), "", $aCampoTabela[0]);
                                 }
+                                //adicionaFiltro($sCampo,$sValor,$iTipoLigacao = 0,$iTipoComparacao = 0,$sValorFim = "",$sTabelaCampo="", $sCampoType = "")
                             }
                         }
+                    }
                     //verifica se tem filtro scroll infinito
                     if ($aFiltroGrid[1] == 'scroll') {
                         //tratar qdo é chave composta
@@ -4397,44 +4397,52 @@ class Controller {
             }
         }
 
-        if ($sAcao == 'Alterar') {
-            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setFilcgc($_SESSION['filcgc']);
-            $oHist->Model->setUsucodigo($_SESSION['codUser']);
-            $oHist->Model->setUsunome($_SESSION['nome']);
-            $oHist->Model->setClasse($this->getNomeClasse());
-            $oHist->Model->setHora(date('H:i:s'));
-            $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico($aCampos['historico']);
-            $oHist->Model->setAcao('Alterado registro: ' . $sStringItems);
-            $oHist->Persistencia->setModel($oHist->Model);
-            $oHist->Persistencia->inserir();
-        }
-        if ($sAcao == 'Inserir') {
-            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setFilcgc($_SESSION['filcgc']);
-            $oHist->Model->setUsucodigo($_SESSION['codUser']);
-            $oHist->Model->setUsunome($_SESSION['nome']);
-            $oHist->Model->setClasse($this->getNomeClasse());
-            $oHist->Model->setHora(date('H:i:s'));
-            $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico($aCampos['historico']);
-            $oHist->Model->setAcao('Inserido registro: ' . $sStringItems);
-            $oHist->Persistencia->setModel($oHist->Model);
-            $oHist->Persistencia->inserir();
-        }
-        if ($sAcao == 'Excluir') {
-            $sStringItems = $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setFilcgc($_SESSION['filcgc']);
-            $oHist->Model->setUsucodigo($_SESSION['codUser']);
-            $oHist->Model->setUsunome($_SESSION['nome']);
-            $oHist->Model->setClasse($this->getNomeClasse());
-            $oHist->Model->setHora(date('H:i:s'));
-            $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico();
-            $oHist->Model->setAcao('Exclusão do item ' . $sDados);
-            $oHist->Persistencia->setModel($oHist->Model);
-            $oHist->Persistencia->inserir();
+        switch ($sAcao) {
+            case 'Alterar':
+                $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+                $oHist->Model->setFilcgc($_SESSION['filcgc']);
+                $oHist->Model->setUsucodigo($_SESSION['codUser']);
+                $oHist->Model->setUsunome($_SESSION['nome']);
+                $oHist->Model->setClasse($this->getNomeClasse());
+                $oHist->Model->setHora(date('H:i:s'));
+                $oHist->Model->setData(date('d/m/Y'));
+                $oHist->Model->setHistorico($aCampos['historico']);
+                $oHist->Model->setAcao('Alterado registro: ' . $sStringItems);
+                $oHist->Persistencia->setModel($oHist->Model);
+                $oHist->Persistencia->inserir();
+
+                break;
+
+            case 'Inserir':
+                $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+                $oHist->Model->setFilcgc($_SESSION['filcgc']);
+                $oHist->Model->setUsucodigo($_SESSION['codUser']);
+                $oHist->Model->setUsunome($_SESSION['nome']);
+                $oHist->Model->setClasse($this->getNomeClasse());
+                $oHist->Model->setHora(date('H:i:s'));
+                $oHist->Model->setData(date('d/m/Y'));
+                $oHist->Model->setHistorico($aCampos['historico']);
+                $oHist->Model->setAcao('Inserido registro: ' . $sStringItems);
+                $oHist->Persistencia->setModel($oHist->Model);
+                $oHist->Persistencia->inserir();
+
+                break;
+
+
+            case 'Excluir':
+                $sStringItems = $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+                $oHist->Model->setFilcgc($_SESSION['filcgc']);
+                $oHist->Model->setUsucodigo($_SESSION['codUser']);
+                $oHist->Model->setUsunome($_SESSION['nome']);
+                $oHist->Model->setClasse($this->getNomeClasse());
+                $oHist->Model->setHora(date('H:i:s'));
+                $oHist->Model->setData(date('d/m/Y'));
+                $oHist->Model->setHistorico($aCampos['historico']);
+                $oHist->Model->setAcao('Exclusão do item ' . $sDados);
+                $oHist->Persistencia->setModel($oHist->Model);
+                $oHist->Persistencia->inserir();
+
+                break;
         }
     }
 
