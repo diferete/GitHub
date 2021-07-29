@@ -61,7 +61,7 @@ class Grid {
      *  @param string $sTelaMuitoPequena Define o valor para telas de celulares pequenos
      *
      */
-    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 400, $iLarguraGrid = 1850) {
+    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 500, $iLarguraGrid = 2000) {
         $this->sId = Base::getId();
         $this->aColunas = array();
         $this->aBotoes = array();
