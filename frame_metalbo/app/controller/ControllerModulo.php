@@ -40,22 +40,4 @@ class ControllerModulo extends Controller {
         }
     }
 
-//    public function teste() {
-//        $this->Persistencia->teste();
-//        $omsg = new Mensagem('Acabou', 'acabou', Mensagem::TIPO_SUCESSO);
-//        echo $omsg->getRender();
-//    }
-
-    public function testaXmlEdita() {
-        require 'app/relatorio/DANFE4.php';
-    }
-
-    public function testePrecoProd() {
-        $this->Persistencia->testePrecoProd();
-    }
-
-    public function verificaMovProduto() {
-        $this->Persistencia->verificaMovProduto();
-    }
-
 }

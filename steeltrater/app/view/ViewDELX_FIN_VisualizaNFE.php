@@ -23,12 +23,12 @@ class ViewDELX_FIN_VisualizaNFE extends View {
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBMostraFiltro(true);
+        $this->getTela()->setBGridResponsivo(false);
 
         $oBotaoEmitXml = new CampoConsulta('', 'emiteXml', CampoConsulta::TIPO_ACAO, CampoConsulta::ICONE_ENVIAR);
         $oBotaoEmitXml->setSTitleAcao('Envia XML!');
         $oBotaoEmitXml->addAcao('DELX_FIN_VisualizaNFE', 'enviaXML', '', '');
         $oBotaoEmitXml->setBHideTelaAcao(true);
-        $oBotaoEmitXml->setILargura(30);
 
         $oFilcgc = new CampoConsulta('Emp.', 'nfsfilcgc');
         $oFilcgc->setBColOculta(true);

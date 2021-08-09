@@ -157,7 +157,7 @@ class ViewMET_QUAL_RcVenda extends View {
         $oFilDevolucao->addItemSelect('Não se aplica', 'Não se aplica');
         $oFilDevolucao->addItemSelect('Aguardando', 'Aguardando');
 
-      
+
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos, $oFilOfficeDes, $oFilSituaca, $oFilReclamacao, $oFilProcedencia, $oFilDevolucao);
         if ($_SESSION['codUser'] == 19) {
             $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);

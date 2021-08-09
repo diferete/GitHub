@@ -1,0 +1,530 @@
+﻿<!DOCTYPE html>
+<html>
+    <!-- class="no-js" lang="en"-->
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+        <meta name="description" content="bootstrap admin template">
+        <meta name="author" content="">
+        <title>Steeltrater | Sistema</title>
+        <link rel="shortcut icon" href="biblioteca/assets/images/favicon.ico">
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="biblioteca/assets/css/bootstrap.min.css?1626977462">
+        <link rel="stylesheet" href="biblioteca/assets/css/bootstrap-extend.min.css?1626977462">
+        <link rel="stylesheet" href="biblioteca/assets/css/site.min.css?1626977462">
+        <!-- ok--><!-- Estilo personalizado -->
+        <link rel="stylesheet" href="biblioteca/assets/css/estilo.css?1626977462">
+        <!-- FormValidation -->
+        <link rel="stylesheet" href="biblioteca/assets/vendor/formvalidation/formValidation.css">
+        <!-- Plugins -->
+        <link rel="stylesheet" href="biblioteca/assets/vendor/animsition/animsition.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/asscrollable/asScrollable.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/switchery/switchery.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/intro-js/introjs.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/slidepanel/slidePanel.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/flag-icon-css/flag-icon.css">
+        <link rel="stylesheet" href="biblioteca/assets/vendor/bootstrap-sweetalert/sweet-alert.css">
+        <!--Tag input-->
+        <link rel="stylesheet" type="text/css" href="biblioteca/tagsinput/src/jquery.tagsinput.css" />
+        <!-- Datatables -->
+        <link rel="stylesheet" type="text/css" href="biblioteca/datatables/media/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Select/css/select.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="biblioteca/datatables/extensions/Buttons/css/buttons.dataTables.min.css">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="biblioteca/assets/fonts/web-icons/web-icons.min.css">
+        <link rel="stylesheet" href="biblioteca/assets/fonts/brand-icons/brand-icons.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="biblioteca/assets/fonts/font-awesome/font-awesome.css">
+        <!-- Scripts -->
+        <script src="biblioteca/assets/vendor/modernizr/modernizr.js"></script>
+        <script src="biblioteca/assets/vendor/breakpoints/breakpoints.js"></script>
+        <script src="biblioteca/assets/vendor/jquery/jquery.js"></script>
+        <script type="text/javascript"src="biblioteca/datatables/media/js/jquery.dataTables.js"></script>
+        <script type="text/javascript"src="biblioteca/datatables/extensions/Select/js/dataTables.select.min.js"></script> 
+        <script type="text/javascript"src="biblioteca/datatables/extensions/Buttons/js/dataTables.buttons.min.js"></script><!-- Datepicker-->
+        <link href="biblioteca/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css"/>
+        <!-- Select2 -->
+        <link href="biblioteca/assets/css/select2.css" rel="stylesheet" type="text/css"/>
+        <!-- File upload -->
+        <link href="biblioteca/assets/css/jquery.fileupload.css" rel="stylesheet" type="text/css" />
+        <!-- Toastr -->
+        <link rel="stylesheet" href="biblioteca/assets/vendor/toastr/toastr.css">
+        <!-- FormValidation -->
+        <script src="biblioteca/assets/vendor/formvalidation/formValidation.min.js"></script>
+        <script src="biblioteca/assets/vendor/formvalidation/framework/bootstrap.min.js"></script>
+        <script src="biblioteca/assets/vendor/formvalidation/language/pt_BR.js"></script><!-- FieldSet Collapse -->
+        <link href="biblioteca/assets/vendor/jquery-coolfieldset/css/jquery.coolfieldset.css" rel="stylesheet" type="text/css" />
+        <script src="biblioteca/assets/vendor/jquery-coolfieldset/js/jquery.coolfieldset.min.js"></script><!-- FileInput -->
+        <link href="biblioteca/assets/vendor/bootstrap-fileinput/css/fileinput.css" rel="stylesheet" type="text/css"/>
+        <!-- Summernote - Editor de Texto-->
+        <link rel="stylesheet" href="biblioteca/assets/vendor/summernote/summernote.css">
+        <script src="biblioteca/assets/vendor/summernote/summernote.min.js"></script>
+        <script src="biblioteca/assets/vendor/summernote/lang/summernote-pt-BR.js"></script>
+        <script>Breakpoints();</script>
+    </head>
+    <body id="body">
+        <!--class="site-menubar-unfold" data-auto-menubar="false"-->
+        <script>var classeBusca;
+            var metodoBusca;
+            var idbusca;
+            var campoBusca;
+            var campoValor;
+            var campoRetId;
+            var controleRequest = "s";
+            var abaSelecionada;
+        </script>
+        <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega " role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle hamburger hamburger-arrow-left navbar-toggle-left hided "data-toggle="menubar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="hamburger-bar"></span>
+                </button>
+                <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse" data-toggle="collapse">
+                    <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+                </button>
+                <a href="https://sistema.metalbo.com.br/steeltrater" target="_blank" rel="noopener"> 
+                    <img class="navbar-brand-logo" style ="margin-top:10px; margin-left:10px" id="logo" src="Uploads/logo.png" title="Steeltrater"> 
+                </a>
+            </div>
+            <div class="navbar-container container-fluid">
+                <!-- Navbar Collapse -->
+                <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+                    <!-- Navbar Toolbar -->
+                    <ul class="nav navbar-toolbar">
+                        <li class="hidden-float" id="toggleMenubar">
+                            <a data-toggle="menubar" href="#" role="button"><i class="icon hamburger hamburger-arrow-left">
+                                    <span class="sr-only">Toggle menubar</span><span class="hamburger-bar"></span></i></a>
+                        </li>
+                        <!--INICIA O MENU SUPERIOR--><!--fim acesso modulos-->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-down" aria-expanded="false" role="button">
+                                <span style="font-size:16px;color:gold" class="icon wb-star"></span>
+                                <span style="font-size:17px;color:#0f5539"> Favoritos</span></a>
+                            <ul class="dropdown-menu" role="menu" id="favGeral-1">
+                                <li role="presentation" id="menu-1-fav" >                
+                                    <a href="javascript:void(0)" title="Abre a tela Menu"  onclick="verificaTab('menu-1-fav', '1-fav', 'MET_TEC_Menu', 'mostraconsulta', 'tabmenu-1-fav');"role="menuitem">                   
+                                        <span class="icon fa-star-o"></span>Menu<span title="Deleta favorito" onclick="requestAjax('menu-1-fav', 'FavMenu', 'msgdeletaFav', 'MET_TEC_Menu,mostraconsulta,');" class="icon wb-trash pull-right fav-red"></span></a>               
+                                </li>
+                                <li role="presentation" id="menu-2-fav" >                
+                                    <a href="javascript:void(0)" title="Abre a tela Tabela Preço SteelTrater"  onclick="verificaTab('menu-2-fav', '2-fav', 'STEEL_PCP_TabCabPreco', 'mostraconsulta', 'tabmenu-2-fav');"role="menuitem">                   <span class="icon fa-star-o"></span>Tabela Preço SteelTrater<span title="Deleta favorito" onclick="requestAjax('menu-2-fav', 'FavMenu', 'msgdeletaFav', 'STEEL_PCP_TabCabPreco,mostraconsulta,');" class="icon wb-trash pull-right fav-red"></span>
+                                    </a>               
+                                </li>
+                                <li role="presentation" id="menu-3-fav" >                
+                                    <a href="javascript:void(0)" title="Abre a tela E-mails gerenciais"  onclick="verificaTab('menu-3-fav', '3-fav', 'STEEL_PCP_GerenProd', 'acaoMostraTelaGerenEmail', 'tabmenu-3-fav');"role="menuitem">                   <span class="icon fa-star-o"></span>E-mails gerenciais<span title="Deleta favorito" onclick="requestAjax('menu-3-fav', 'FavMenu', 'msgdeletaFav', 'STEEL_PCP_GerenProd,acaoMostraTelaGerenEmail,');" class="icon wb-trash pull-right fav-red"></span></a>               
+                                </li>
+                                <li role="presentation" id="menu-4-fav" >                <a href="javascript:void(0)" title="Abre a tela Módulos"  onclick="verificaTab('menu-4-fav', '4-fav', 'MET_TEC_Modulo', 'mostraconsulta', 'tabmenu-4-fav');"role="menuitem">                   <span class="icon fa-star-o"></span>Módulos<span title="Deleta favorito" onclick="requestAjax('menu-4-fav', 'FavMenu', 'msgdeletaFav', 'MET_TEC_Modulo,mostraconsulta,');" class="icon wb-trash pull-right fav-red"></span></a>               </li>
+                                <li role="presentation" id="menu-5-fav" >                <a href="javascript:void(0)" title="Abre a tela Módulos do Usuário"  onclick="verificaTab('menu-5-fav', '5-fav', 'MET_TEC_ModUsuario', 'mostraconsulta', 'tabmenu-5-fav');"role="menuitem">                   <span class="icon fa-star-o"></span>Módulos do Usuário<span title="Deleta favorito" onclick="requestAjax('menu-5-fav', 'FavMenu', 'msgdeletaFav', 'MET_TEC_ModUsuario,mostraconsulta,');" class="icon wb-trash pull-right fav-red"></span></a>               </li>
+                                <li role="presentation" id="menu-6-fav" >                <a href="javascript:void(0)" title="Abre a tela Requisição HTTP"  onclick="verificaTab('menu-6-fav', '6-fav', 'MET_TEC_Mobile', 'acaoMostraTela', 'tabmenu-6-fav');"role="menuitem">                   <span class="icon fa-star-o"></span>Requisição HTTP<span title="Deleta favorito" onclick="requestAjax('menu-6-fav', 'FavMenu', 'msgdeletaFav', 'MET_TEC_Mobile,acaoMostraTela,');" class="icon wb-trash pull-right fav-red"></span></a>               </li>
+                                <li role="presentation" id="menu-7-fav" >                <a href="javascript:void(0)" title="Abre a tela MET_TEC_Chamados"  onclick="verificaTab('menu-7-fav', '7-fav', 'MET_TEC_Chamados', 'mostraconsulta', 'tabmenu-7-fav');"role="menuitem">                   <span class="icon fa-star-o"></span>MET_TEC_Chamados<span title="Deleta favorito" onclick="requestAjax('menu-7-fav', 'FavMenu', 'msgdeletaFav', 'MET_TEC_Chamados,mostraconsulta,');" class="icon wb-trash pull-right fav-red"></span></a>               </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown dropdown-fw dropdown-mega">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="fade" role="button"><i style="font-size:16px;color:#0f5539" class="icon wb-arrow-down" aria-hidden="true"></i><span style="font-size:17px;color:#0f5539"> Módulos</span></a>
+                            <ul class="dropdown-menu" role="menu" style="width:30%">
+                                <li role="presentation">
+                                    <div class="mega-content">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="list-group bg-blue-grey-100 bg-inherit"> <a class="list-group-item blue-grey-500" href="javascript:void(0)" onclick="requestAjax('', 'MET_TEC_Menu', 'recarregaMenu', '1')"><i class="icon wb-large-point" aria-hidden="true"></i> TI</a>  <a class="list-group-item blue-grey-500" href="javascript:void(0)" onclick="requestAjax('', 'MET_TEC_Menu', 'recarregaMenu', '30')"><i class="icon wb-large-point" aria-hidden="true"></i> Produção SteelTrater</a>  <a class="list-group-item blue-grey-500" href="javascript:void(0)" onclick="requestAjax('', 'MET_TEC_Menu', 'recarregaMenu', '31')"><i class="icon wb-large-point" aria-hidden="true"></i> Qualidade</a>  <a class="list-group-item blue-grey-500" href="javascript:void(0)" onclick="requestAjax('', 'MET_TEC_Menu', 'recarregaMenu', '35')"><i class="icon wb-large-point" aria-hidden="true"></i> PCP Steeltrater</a>  <a class="list-group-item blue-grey-500" href="javascript:void(0)" onclick="requestAjax('', 'MET_TEC_Menu', 'recarregaMenu', '32')"><i class="icon wb-large-point" aria-hidden="true"></i> TI SteelTrater</a>  <a class="list-group-item blue-grey-500" href="javascript:void(0)" onclick="requestAjax('', 'MET_TEC_Menu', 'recarregaMenu', '33')"><i class="icon wb-large-point" aria-hidden="true"></i> Apontamento Steeltrater</a>  <a class="list-group-item blue-grey-500" href="javascript:void(0)" onclick="requestAjax('', 'MET_TEC_Menu', 'recarregaMenu', '39')"><i class="icon wb-large-point" aria-hidden="true"></i> PCP Poliamidos</a> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                        </li>
+                    </ul>
+                    <li class="dropdown dropdown-fw dropdown-mega"> <a type="button" href="http://177.84.0.34:8080/DelsoftX/servlet/loginerp?" target="_blank" ><i class="icon wb-calendar" aria-hidden="true"></i><i class="icon wb-users" aria-hidden="true"></i>&nbspNfe/ Fiscal/ Contábil</a></li>
+                    <!--fim acesso modulos-->
+                    </ul>
+                    </li></ul><!-- End Navbar Toolbar --><!--MENU DA DIREITA --></ul></li></ul><!-- End Navbar Toolbar --><!--MENU DA DIREITA -->
+                    <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up" aria-expanded="false" role="button"><span class="flag-icon flag-icon-br"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation"><a href="javascript:void(0)" role="menuitem"><span class="flag-icon flag-icon-us"></span> English</a></li>
+                                <li role="presentation"><a href="javascript:void(0)" role="menuitem"><span class="flag-icon flag-icon-ar"></span> Español</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" href="javascript:void(0)" title="Informações do Usuário" aria-expanded="false" data-animation="scale-up" role="button"><i style="font-size:16px" class="icon wb-user" aria-hidden="true"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+                                <li class="dropdown-menu-header" role="presentation">
+                                    <h5>Informações do usuário</h5>
+                                </li>
+                                <li class="list-group" role="presentation">
+                                    <div data-role="container">
+                                        <div data-role="content">
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10"><i class="icon wb-user bg-green-600 white icon-circle" aria-hidden="true"></i></div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">Nome: Avanei Martendal</h6>
+                                                        <h6 class="media-heading">Login: avanei@rexmaquinas.com.br</h6>
+                                                        <h6 class="media-heading">Setor: TECNOLOGIA DA INFORMAÇÃO - TI</h6>
+                                                        <h6 class="media-heading">Login: avanei@rexmaquinas.com.br</h6>
+                                                        <h6 class="media-heading">Código: 3</h6>
+                                                        <h6 class="media-heading">Email: avanei@rexmaquinas.com.br</h6>
+                                                        <h6 class="media-heading">Rep:</h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a class="list-group-item" href="javascript:void(0)" role="menuitem">
+                                                <div class="media">
+                                                    <div class="media-left padding-right-10"><i class="icon wb-order bg-green-600 white icon-circle" aria-hidden="true"></i></div>
+                                                    <div class="media-body">
+                                                        <h6 class="media-heading">Base: METALBOBASE</h6>
+                                                        <h6 class="media-heading">Servidor: METALBOBASE2</h6>
+                                                        <h6 class="media-heading">Versão: v1.2.10</h6>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            </li>
+                                            </ul>
+                                            <li class="dropdown"><a class="navbar-avatar avatar-lg dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button" style="padding: 20px 10px 0 0;"><span class="avatar avatar-online"><img id="on-line" src="Uploads/a6fe7715d9f383648bce5739bb2c9ee6.jpg" style="height: 30px;"><i></i></span></a><ul class="dropdown-menu" role="menu"><li role="presentation"><a href="javascript:void(0)" role="menuitem" onclick="verificaTab('menu-1-p', '1-p', 'MET_TEC_Profile', 'acaoMostraTelaPerfil', 'usucodigo=3,tabmenu-1-pcontrol', 'Meu Perfil');"><i class="icon wb-user" aria-hidden="true"></i> Perfil</a></li><li class="divider" role="presentation"></li><li role="presentation"><a href="javascript:void(0)" role="menuitem" onclick="requestAjax('', 'Usuario', 'acaoLogout', '')"><i class="icon wb-power" aria-hidden="true"></i> Logout</a></li></ul></li>
+                                            </ul>
+                                            <!-- End Navbar Toolbar Right --></div><!-- End Navbar Collapse --><!-- Site Navbar Seach --><div class="collapse navbar-search-overlap" id="site-navbar-search"><form role="search"><div class="form-group"><div class="input-search"><i class="input-search-icon wb-search" aria-hidden="true"></i><input type="text" class="form-control" name="site-search" placeholder="Search..."><button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search"data-toggle="collapse" aria-label="Close"></button></div></div></form></div><!-- End Site Navbar Seach --></div>
+                                    </nav>
+                                    <div class="site-menubar">
+                                        <div class="site-menubar-body">
+                                            <div>
+                                                <div>
+                                                    <ul class="site-menu" id="menu">
+                                                        <li class="site-menu-category">TI</li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Cadastros</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-1-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Usuários" onclick="verificaTab('menu-1-1', '1-1', 'MET_TEC_Usuario', 'mostraconsulta', 'tabmenu-1-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-1', 'MET_TEC_FavMenu', 'msgInsFav', 'UsuÃ¡rios,MET_TEC_Usuario,mostraconsulta');";></i><span class="site-menu-title">Usuários</span></a></li>
+                                                                <li class="site-menu-item" id="menu-1-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Módulos" onclick="verificaTab('menu-1-2', '1-2', 'MET_TEC_Modulo', 'mostraconsulta', 'tabmenu-1-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-2', 'MET_TEC_FavMenu', 'msgInsFav', 'MÃ³dulos,MET_TEC_Modulo,mostraconsulta');";></i><span class="site-menu-title">Módulos</span></a></li>
+                                                                <li class="site-menu-item" id="menu-1-3"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Tipo de usuário" onclick="verificaTab('menu-1-3', '1-3', 'MET_TEC_UsuTipo', 'mostraconsulta', 'tabmenu-1-3');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-3', 'MET_TEC_FavMenu', 'msgInsFav', 'Tipo de usuÃ¡rio,MET_TEC_UsuTipo,mostraconsulta');";></i><span class="site-menu-title">Tipo de usuário</span></a></li>
+                                                                <li class="site-menu-item" id="menu-1-4"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Módulos do Usuário" onclick="verificaTab('menu-1-4', '1-4', 'MET_TEC_ModUsuario', 'mostraconsulta', 'tabmenu-1-4');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-4', 'MET_TEC_FavMenu', 'msgInsFav', 'MÃ³dulos do UsuÃ¡rio,MET_TEC_ModUsuario,mostraconsulta');";></i><span class="site-menu-title">Módulos do Usuário</span></a></li>
+                                                                <li class="site-menu-item" id="menu-1-5"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Menu" onclick="verificaTab('menu-1-5', '1-5', 'MET_TEC_Menu', 'mostraconsulta', 'tabmenu-1-5');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-5', 'MET_TEC_FavMenu', 'msgInsFav', 'Menu,MET_TEC_Menu,mostraconsulta');";></i><span class="site-menu-title">Menu</span></a></li>
+                                                                <li class="site-menu-item" id="menu-1-6"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Setor " onclick="verificaTab('menu-1-6', '1-6', 'MET_CAD_Setores', 'mostraconsulta', 'tabmenu-1-6');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-6', 'MET_TEC_FavMenu', 'msgInsFav', 'Setor ,MET_CAD_Setores,mostraconsulta');";></i><span class="site-menu-title">Setor </span></a></li>
+                                                                <li class="site-menu-item" id="menu-1-7"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Sessões" onclick="verificaTab('menu-1-7', '1-7', 'MET_TEC_Sessao', 'mostraconsulta', 'tabmenu-1-7');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-7', 'MET_TEC_FavMenu', 'msgInsFav', 'SessÃµes,MET_TEC_Sessao,mostraconsulta');";></i><span class="site-menu-title">Sessões</span></a></li>
+                                                                <li class="site-menu-item" id="menu-1-8"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Solicitacao usuário" onclick="verificaTab('menu-1-8', '1-8', 'MET_TEC_Soluser', 'mostraconsulta', 'tabmenu-1-8');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-8', 'MET_TEC_FavMenu', 'msgInsFav', 'Solicitacao usuÃ¡rio,MET_TEC_Soluser,mostraconsulta');";></i><span class="site-menu-title">Solicitacao usuário</span></a></li>
+                                                                <li class="site-menu-item" id="menu-1-9"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Painel Mobile" onclick="verificaTab('menu-1-9', '1-9', 'MET_TEC_MobilePainel', 'mostraconsulta', 'tabmenu-1-9');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-9', 'MET_TEC_FavMenu', 'msgInsFav', 'Painel Mobile,MET_TEC_MobilePainel,mostraconsulta');";></i><span class="site-menu-title">Painel Mobile</span></a></li>
+                                                                <li class="site-menu-item" id="menu-1-10"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Painel Usuário" onclick="verificaTab('menu-1-10', '1-10', 'MET_TEC_MobilePainelUser', 'mostraconsulta', 'tabmenu-1-10');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-1-10', 'MET_TEC_FavMenu', 'msgInsFav', 'Painel UsuÃ¡rio,MET_TEC_MobilePainelUser,mostraconsulta');";></i><span class="site-menu-title">Painel Usuário</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Empresas</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-2-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Cad. Empresas" onclick="verificaTab('menu-2-1', '2-1', 'DELX_FIL_empresa', 'mostraconsulta', 'tabmenu-2-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-2-1', 'MET_TEC_FavMenu', 'msgInsFav', 'Cad. Empresas,DELX_FIL_empresa,mostraconsulta');";></i><span class="site-menu-title">Cad. Empresas</span></a></li>
+                                                                <li class="site-menu-item" id="menu-2-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Logo empresa" onclick="verificaTab('menu-2-2', '2-2', 'MET_TEC_Emplogo', 'mostraconsulta', 'tabmenu-2-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-2-2', 'MET_TEC_FavMenu', 'msgInsFav', 'Logo empresa,MET_TEC_Emplogo,mostraconsulta');";></i><span class="site-menu-title">Logo empresa</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Representantes</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-3-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Cad. Representantes" onclick="verificaTab('menu-3-1', '3-1', 'DELX_COM_Repcod', 'mostraconsulta', 'tabmenu-3-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-3-1', 'MET_TEC_FavMenu', 'msgInsFav', 'Cad. Representantes,DELX_COM_Repcod,mostraconsulta');";></i><span class="site-menu-title">Cad. Representantes</span></a></li>
+                                                                <li class="site-menu-item" id="menu-3-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Cad. Escritórios" onclick="verificaTab('menu-3-2', '3-2', 'MET_COM_Repoffice', 'mostraconsulta', 'tabmenu-3-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-3-2', 'MET_TEC_FavMenu', 'msgInsFav', 'Cad. EscritÃ³rios,MET_COM_Repoffice,mostraconsulta');";></i><span class="site-menu-title">Cad. Escritórios</span></a></li>
+                                                                <li class="site-menu-item" id="menu-3-3"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Escritórios x Representante" onclick="verificaTab('menu-3-3', '3-3', 'MET_COM_Repcodoffice', 'mostraconsulta', 'tabmenu-3-3');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-3-3', 'MET_TEC_FavMenu', 'msgInsFav', 'EscritÃ³rios x Representante,MET_COM_Repcodoffice,mostraconsulta');";></i><span class="site-menu-title">Escritórios x Representante</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Cadastros Gerais</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-4-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Nota Fiscal" onclick="verificaTab('menu-4-1', '4-1', 'DELX_NFS_NotaFiscal', 'mostraconsulta', 'tabmenu-4-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-1', 'MET_TEC_FavMenu', 'msgInsFav', 'Nota Fiscal,DELX_NFS_NotaFiscal,mostraconsulta');";></i><span class="site-menu-title">Nota Fiscal</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Nota Fiscal Item" onclick="verificaTab('menu-4-2', '4-2', 'DELX_NFS_NotaFiscalItem', 'mostraconsulta', 'tabmenu-4-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-2', 'MET_TEC_FavMenu', 'msgInsFav', 'Nota Fiscal Item,DELX_NFS_NotaFiscalItem,mostraconsulta');";></i><span class="site-menu-title">Nota Fiscal Item</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-3"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Tipo Movimento" onclick="verificaTab('menu-4-3', '4-3', 'DELX_NFS_TipoMovimento', 'mostraconsulta', 'tabmenu-4-3');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-3', 'MET_TEC_FavMenu', 'msgInsFav', 'Tipo Movimento,DELX_NFS_TipoMovimento,mostraconsulta');";></i><span class="site-menu-title">Tipo Movimento</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-4"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Tipo Frete" onclick="verificaTab('menu-4-4', '4-4', 'DELX_FRE_TipoFrete', 'mostraconsulta', 'tabmenu-4-4');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-4', 'MET_TEC_FavMenu', 'msgInsFav', 'Tipo Frete,DELX_FRE_TipoFrete,mostraconsulta');";></i><span class="site-menu-title">Tipo Frete</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-5"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Tipo Despesa" onclick="verificaTab('menu-4-5', '4-5', 'DELX_TDS_TipoDespesa', 'mostraconsulta', 'tabmenu-4-5');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-5', 'MET_TEC_FavMenu', 'msgInsFav', 'Tipo Despesa,DELX_TDS_TipoDespesa,mostraconsulta');";></i><span class="site-menu-title">Tipo Despesa</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-6"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Atividade" onclick="verificaTab('menu-4-6', '4-6', 'DELX_MNV_Atividade', 'mostraconsulta', 'tabmenu-4-6');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-6', 'MET_TEC_FavMenu', 'msgInsFav', 'Atividade,DELX_MNV_Atividade,mostraconsulta');";></i><span class="site-menu-title">Atividade</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-7"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Atividade Econômica" onclick="verificaTab('menu-4-7', '4-7', 'DELX_ATI_AtividadeEconomica', 'mostraconsulta', 'tabmenu-4-7');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-7', 'MET_TEC_FavMenu', 'msgInsFav', 'Atividade EconÃ´mica,DELX_ATI_AtividadeEconomica,mostraconsulta');";></i><span class="site-menu-title">Atividade Econômica</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-8"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Banco Conta" onclick="verificaTab('menu-4-8', '4-8', 'DELX_FIN_BancoConta', 'mostraconsulta', 'tabmenu-4-8');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-8', 'MET_TEC_FavMenu', 'msgInsFav', 'Banco Conta,DELX_FIN_BancoConta,mostraconsulta');";></i><span class="site-menu-title">Banco Conta</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-9"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Moeda" onclick="verificaTab('menu-4-9', '4-9', 'DELX_MOE_Moeda', 'mostraconsulta', 'tabmenu-4-9');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-9', 'MET_TEC_FavMenu', 'msgInsFav', 'Moeda,DELX_MOE_Moeda,mostraconsulta');";></i><span class="site-menu-title">Moeda</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-10"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Condição Pagamento" onclick="verificaTab('menu-4-10', '4-10', 'DELX_CPG_CondicaoPagamento', 'mostraconsulta', 'tabmenu-4-10');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-10', 'MET_TEC_FavMenu', 'msgInsFav', 'CondiÃ§Ã£o Pagamento,DELX_CPG_CondicaoPagamento,mostraconsulta');";></i><span class="site-menu-title">Condição Pagamento</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-11"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Pessoa Contato" onclick="verificaTab('menu-4-11', '4-11', 'DELX_EMP_PessoaContato', 'mostraconsulta', 'tabmenu-4-11');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-11', 'MET_TEC_FavMenu', 'msgInsFav', 'Pessoa Contato,DELX_EMP_PessoaContato,mostraconsulta');";></i><span class="site-menu-title">Pessoa Contato</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-12"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Pessoa Endereço" onclick="verificaTab('menu-4-12', '4-12', 'DELX_EMP_PessoaEndereco', 'mostraconsulta', 'tabmenu-4-12');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-12', 'MET_TEC_FavMenu', 'msgInsFav', 'Pessoa EndereÃ§o,DELX_EMP_PessoaEndereco,mostraconsulta');";></i><span class="site-menu-title">Pessoa Endereço</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-13"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Pessoa Info. Pessoal" onclick="verificaTab('menu-4-13', '4-13', 'DELX_EMP_PessoaInfPessoal', 'mostraconsulta', 'tabmenu-4-13');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-13', 'MET_TEC_FavMenu', 'msgInsFav', 'Pessoa Info. Pessoal,DELX_EMP_PessoaInfPessoal,mostraconsulta');";></i><span class="site-menu-title">Pessoa Info. Pessoal</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-14"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Prod. Receita" onclick="verificaTab('menu-4-14', '4-14', 'STEEL_PCP_ProdReceita', 'mostraconsulta', 'tabmenu-4-14');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-14', 'MET_TEC_FavMenu', 'msgInsFav', 'Prod. Receita,STEEL_PCP_ProdReceita,mostraconsulta');";></i><span class="site-menu-title">Prod. Receita</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-15"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Motivo" onclick="verificaTab('menu-4-15', '4-15', 'DELX_MOT_Motivo', 'mostraconsulta', 'tabmenu-4-15');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-15', 'MET_TEC_FavMenu', 'msgInsFav', 'Motivo,DELX_MOT_Motivo,mostraconsulta');";></i><span class="site-menu-title">Motivo</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-16"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Forno" onclick="verificaTab('menu-4-16', '4-16', 'STEEL_PCP_Forno', 'mostraconsulta', 'tabmenu-4-16');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-16', 'MET_TEC_FavMenu', 'msgInsFav', 'Forno,STEEL_PCP_Forno,mostraconsulta');";></i><span class="site-menu-title">Forno</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-17"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Carteira" onclick="verificaTab('menu-4-17', '4-17', 'DELX_FIN_Carteira', 'mostraconsulta', 'tabmenu-4-17');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-17', 'MET_TEC_FavMenu', 'msgInsFav', 'Carteira,DELX_FIN_Carteira,mostraconsulta');";></i><span class="site-menu-title">Carteira</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-18"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Lista Fornos" onclick="verificaTab('menu-4-18', '4-18', 'STEEL_PCP_listaFornos', 'mostraconsulta', 'tabmenu-4-18');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-18', 'MET_TEC_FavMenu', 'msgInsFav', 'Lista Fornos,STEEL_PCP_listaFornos,mostraconsulta');";></i><span class="site-menu-title">Lista Fornos</span></a></li>
+                                                                <li class="site-menu-item" id="menu-4-19"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Ordens Fab. Apont." onclick="verificaTab('menu-4-19', '4-19', 'STEEL_PCP_ordensFabApont', 'mostraconsulta', 'tabmenu-4-19');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-4-19', 'MET_TEC_FavMenu', 'msgInsFav', 'Ordens Fab. Apont.,STEEL_PCP_ordensFabApont,mostraconsulta');";></i><span class="site-menu-title">Ordens Fab. Apont.</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Produtos</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-5-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Produtos" onclick="verificaTab('menu-5-1', '5-1', 'DELX_PRO_Produtos', 'mostraconsulta', 'tabmenu-5-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-5-1', 'MET_TEC_FavMenu', 'msgInsFav', 'Produtos,DELX_PRO_Produtos,mostraconsulta');";></i><span class="site-menu-title">Produtos</span></a></li>
+                                                                <li class="site-menu-item" id="menu-5-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Grupo de produtos" onclick="verificaTab('menu-5-2', '5-2', 'DELX_PRO_Grupo', 'mostraconsulta', 'tabmenu-5-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-5-2', 'MET_TEC_FavMenu', 'msgInsFav', 'Grupo de produtos,DELX_PRO_Grupo,mostraconsulta');";></i><span class="site-menu-title">Grupo de produtos</span></a></li>
+                                                                <li class="site-menu-item" id="menu-5-3"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Subgrupo de produtos" onclick="verificaTab('menu-5-3', '5-3', 'DELX_PRO_Subgrupo', 'mostraconsulta', 'tabmenu-5-3');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-5-3', 'MET_TEC_FavMenu', 'msgInsFav', 'Subgrupo de produtos,DELX_PRO_Subgrupo,mostraconsulta');";></i><span class="site-menu-title">Subgrupo de produtos</span></a></li>
+                                                                <li class="site-menu-item" id="menu-5-4"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Família de produtos" onclick="verificaTab('menu-5-4', '5-4', 'DELX_PRO_Familia', 'mostraconsulta', 'tabmenu-5-4');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-5-4', 'MET_TEC_FavMenu', 'msgInsFav', 'FamÃ­lia de produtos,DELX_PRO_Familia,mostraconsulta');";></i><span class="site-menu-title">Família de produtos</span></a></li>
+                                                                <li class="site-menu-item" id="menu-5-5"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Subfamília " onclick="verificaTab('menu-5-5', '5-5', 'DELX_PRO_Subfamilia', 'mostraconsulta', 'tabmenu-5-5');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-5-5', 'MET_TEC_FavMenu', 'msgInsFav', 'SubfamÃ­lia ,DELX_PRO_Subfamilia,mostraconsulta');";></i><span class="site-menu-title">Subfamília </span></a></li>
+                                                                <li class="site-menu-item" id="menu-5-6"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Unidade de Medida" onclick="verificaTab('menu-5-6', '5-6', 'DELX_PRO_UnidadeMedida', 'mostraconsulta', 'tabmenu-5-6');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-5-6', 'MET_TEC_FavMenu', 'msgInsFav', 'Unidade de Medida,DELX_PRO_UnidadeMedida,mostraconsulta');";></i><span class="site-menu-title">Unidade de Medida</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Pessoas</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-6-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Pessoa" onclick="verificaTab('menu-6-1', '6-1', 'DELX_CAD_Pessoa', 'mostraconsulta', 'tabmenu-6-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-6-1', 'MET_TEC_FavMenu', 'msgInsFav', 'Pessoa,DELX_CAD_Pessoa,mostraconsulta');";></i><span class="site-menu-title">Pessoa</span></a></li>
+                                                                <li class="site-menu-item" id="menu-6-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Cad. Representantes" onclick="verificaTab('menu-6-2', '6-2', 'DELX_COM_Repcod', 'mostraconsulta', 'tabmenu-6-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-6-2', 'MET_TEC_FavMenu', 'msgInsFav', 'Cad. Representantes,DELX_COM_Repcod,mostraconsulta');";></i><span class="site-menu-title">Cad. Representantes</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Cidades/Região/País </span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-7-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Cidade" onclick="verificaTab('menu-7-1', '7-1', 'DELX_CID_Cidade', 'mostraconsulta', 'tabmenu-7-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-7-1', 'MET_TEC_FavMenu', 'msgInsFav', 'Cidade,DELX_CID_Cidade,mostraconsulta');";></i><span class="site-menu-title">Cidade</span></a></li>
+                                                                <li class="site-menu-item" id="menu-7-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela IBGE Cidade" onclick="verificaTab('menu-7-2', '7-2', 'DELX_CID_IbgeCidade', 'mostraconsulta', 'tabmenu-7-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-7-2', 'MET_TEC_FavMenu', 'msgInsFav', 'IBGE Cidade,DELX_CID_IbgeCidade,mostraconsulta');";></i><span class="site-menu-title">IBGE Cidade</span></a></li>
+                                                                <li class="site-menu-item" id="menu-7-3"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Estado" onclick="verificaTab('menu-7-3', '7-3', 'DELX_CID_Estado', 'mostraconsulta', 'tabmenu-7-3');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-7-3', 'MET_TEC_FavMenu', 'msgInsFav', 'Estado,DELX_CID_Estado,mostraconsulta');";></i><span class="site-menu-title">Estado</span></a></li>
+                                                                <li class="site-menu-item" id="menu-7-4"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Logradouro" onclick="verificaTab('menu-7-4', '7-4', 'DELX_CID_Logradouro', 'mostraconsulta', 'tabmenu-7-4');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-7-4', 'MET_TEC_FavMenu', 'msgInsFav', 'Logradouro,DELX_CID_Logradouro,mostraconsulta');";></i><span class="site-menu-title">Logradouro</span></a></li>
+                                                                <li class="site-menu-item" id="menu-7-5"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela País" onclick="verificaTab('menu-7-5', '7-5', 'DELX_CID_Pais', 'mostraconsulta', 'tabmenu-7-5');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-7-5', 'MET_TEC_FavMenu', 'msgInsFav', 'PaÃ­s,DELX_CID_Pais,mostraconsulta');";></i><span class="site-menu-title">País</span></a></li>
+                                                                <li class="site-menu-item" id="menu-7-6"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Região" onclick="verificaTab('menu-7-6', '7-6', 'DELX_CID_Regiao', 'mostraconsulta', 'tabmenu-7-6');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-7-6', 'MET_TEC_FavMenu', 'msgInsFav', 'RegiÃ£o,DELX_CID_Regiao,mostraconsulta');";></i><span class="site-menu-title">Região</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Relatório Gerais</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub"> </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Testes Ale</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-9-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela STEEL_SUP_Solicitacao" onclick="verificaTab('menu-9-1', '9-1', 'STEEL_SUP_Solicitacao', 'mostraconsulta', 'tabmenu-9-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-9-1', 'MET_TEC_FavMenu', 'msgInsFav', 'STEEL_SUP_Solicitacao,STEEL_SUP_Solicitacao,mostraconsulta');";></i><span class="site-menu-title">STEEL_SUP_Solicitacao</span></a></li>
+                                                                <li class="site-menu-item" id="menu-9-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela MET_CAD_Maquinas" onclick="verificaTab('menu-9-2', '9-2', 'MET_CAD_Maquinas', 'mostraconsulta', 'tabmenu-9-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-9-2', 'MET_TEC_FavMenu', 'msgInsFav', 'MET_CAD_Maquinas,MET_CAD_Maquinas,mostraconsulta');";></i><span class="site-menu-title">MET_CAD_Maquinas</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Migração</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-10-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Migra DelX" onclick="verificaTab('menu-10-1', '10-1', 'MET_TEC_MigraWinX', 'acaoMostraTela', 'tabmenu-10-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-10-1', 'MET_TEC_FavMenu', 'msgInsFav', 'Migra DelX,MET_TEC_MigraWinX,acaoMostraTela');";></i><span class="site-menu-title">Migra DelX</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Temporário</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-11-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela testePedCarga" onclick="verificaTab('menu-11-1', '11-1', 'STEEL_PCP_PedCarga', 'mostraconsulta', 'tabmenu-11-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-1', 'MET_TEC_FavMenu', 'msgInsFav', 'testePedCarga,STEEL_PCP_PedCarga,mostraconsulta');";></i><span class="site-menu-title">testePedCarga</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela testePedCargaItens" onclick="verificaTab('menu-11-2', '11-2', 'STEEL_PCP_PedCargaItens', 'mostraconsulta', 'tabmenu-11-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-2', 'MET_TEC_FavMenu', 'msgInsFav', 'testePedCargaItens,STEEL_PCP_PedCargaItens,mostraconsulta');";></i><span class="site-menu-title">testePedCargaItens</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-3"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Tabela Preço" onclick="verificaTab('menu-11-3', '11-3', 'STEEL_PCP_Preco', 'mostraconsulta', 'tabmenu-11-3');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-3', 'MET_TEC_FavMenu', 'msgInsFav', 'Tabela PreÃ§o,STEEL_PCP_Preco,mostraconsulta');";></i><span class="site-menu-title">Tabela Preço</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-4"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Pesq. Preço Cliente" onclick="verificaTab('menu-11-4', '11-4', 'STEEL_PCP_TabCli', 'mostraconsulta', 'tabmenu-11-4');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-4', 'MET_TEC_FavMenu', 'msgInsFav', 'Pesq. PreÃ§o Cliente,STEEL_PCP_TabCli,mostraconsulta');";></i><span class="site-menu-title">Pesq. Preço Cliente</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-5"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Param. Vend. Item" onclick="verificaTab('menu-11-5', '11-5', 'STEEL_PCP_ParamVendasItem', 'mostraconsulta', 'tabmenu-11-5');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-5', 'MET_TEC_FavMenu', 'msgInsFav', 'Param. Vend. Item,STEEL_PCP_ParamVendasItem,mostraconsulta');";></i><span class="site-menu-title">Param. Vend. Item</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-6"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Sequencia" onclick="verificaTab('menu-11-6', '11-6', 'MET_TEC_Sequencia', 'mostraconsulta', 'tabmenu-11-6');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-6', 'MET_TEC_FavMenu', 'msgInsFav', 'Sequencia,MET_TEC_Sequencia,mostraconsulta');";></i><span class="site-menu-title">Sequencia</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-7"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Teste Pedido Parcela" onclick="verificaTab('menu-11-7', '11-7', 'STEEL_PCP_PedidoParcela', 'mostraconsulta', 'tabmenu-11-7');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-7', 'MET_TEC_FavMenu', 'msgInsFav', 'Teste Pedido Parcela,STEEL_PCP_PedidoParcela,mostraconsulta');";></i><span class="site-menu-title">Teste Pedido Parcela</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-8"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Tabela Preco" onclick="verificaTab('menu-11-8', '11-8', 'STEEL_PCP_TabCabPreco', 'mostraconsulta', 'tabmenu-11-8');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-8', 'MET_TEC_FavMenu', 'msgInsFav', 'Tabela Preco,STEEL_PCP_TabCabPreco,mostraconsulta');";></i><span class="site-menu-title">Tabela Preco</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-9"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Tabela Preco Item" onclick="verificaTab('menu-11-9', '11-9', 'STEEL_PCP_TabItemPreco', 'mostraconsulta', 'tabmenu-11-9');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-9', 'MET_TEC_FavMenu', 'msgInsFav', 'Tabela Preco Item,STEEL_PCP_TabItemPreco,mostraconsulta');";></i><span class="site-menu-title">Tabela Preco Item</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-10"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Pesquisa Ordens Fab" onclick="verificaTab('menu-11-10', '11-10', 'STEEL_PCP_OrdensFabPesq', 'mostraconsulta', 'tabmenu-11-10');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-10', 'MET_TEC_FavMenu', 'msgInsFav', 'Pesquisa Ordens Fab,STEEL_PCP_OrdensFabPesq,mostraconsulta');";></i><span class="site-menu-title">Pesquisa Ordens Fab</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-11"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Produto Filial Teste" onclick="verificaTab('menu-11-11', '11-11', 'STEEL_PCP_ProdutoFilial', 'mostraconsulta', 'tabmenu-11-11');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-11', 'MET_TEC_FavMenu', 'msgInsFav', 'Produto Filial Teste,STEEL_PCP_ProdutoFilial,mostraconsulta');";></i><span class="site-menu-title">Produto Filial Teste</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-12"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Teste Cadastro Frota" onclick="verificaTab('menu-11-12', '11-12', 'STEEL_PCP_Placa', 'mostraconsulta', 'tabmenu-11-12');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-12', 'MET_TEC_FavMenu', 'msgInsFav', 'Teste Cadastro Frota,STEEL_PCP_Placa,mostraconsulta');";></i><span class="site-menu-title">Teste Cadastro Frota</span></a></li>
+                                                                <li class="site-menu-item" id="menu-11-13"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Novo Prod" onclick="verificaTab('menu-11-13', '11-13', 'STEEL_PCP_SubFamProd', 'mostraconsulta', 'tabmenu-11-13');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-11-13', 'MET_TEC_FavMenu', 'msgInsFav', 'Novo Prod,STEEL_PCP_SubFamProd,mostraconsulta');";></i><span class="site-menu-title">Novo Prod</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li class="site-menu-item has-sub">
+                                                            <a href="javascript:void(0)" data-slug="layout"><i class="site-menu-icon wb-list" aria-hidden="true"  style="color:green"></i><span class="site-menu-title">Tecnologia</span><span class="site-menu-arrow"></span></a>
+                                                            <ul class="site-menu-sub">
+                                                                <li class="site-menu-item" id="menu-12-1"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Agendamentos" onclick="verificaTab('menu-12-1', '12-1', 'MET_TEC_agendamentos', 'mostraconsulta', 'tabmenu-12-1');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-12-1', 'MET_TEC_FavMenu', 'msgInsFav', 'Agendamentos,MET_TEC_agendamentos,mostraconsulta');";></i><span class="site-menu-title">Agendamentos</span></a></li>
+                                                                <li class="site-menu-item" id="menu-12-2"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Chamados" onclick="verificaTab('menu-12-2', '12-2', 'MET_TEC_Chamados', 'mostraconsulta', 'tabmenu-12-2');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-12-2', 'MET_TEC_FavMenu', 'msgInsFav', 'Chamados,MET_TEC_Chamados,mostraconsulta');";></i><span class="site-menu-title">Chamados</span></a></li>
+                                                                <li class="site-menu-item" id="menu-12-3"> <a href="#" data-slug="layout-menu-collapsed" title="Abre a tela Requisição HTTP" onclick="verificaTab('menu-12-3', '12-3', 'MET_TEC_Mobile', 'acaoMostraTela', 'tabmenu-12-3');"><i style="color:gold;" class="site-menu-icon icon wb-star" title="Adiciona a Favoritos!" aria-hidden="true" onclick="requestAjax('menu-12-3', 'MET_TEC_FavMenu', 'msgInsFav', 'RequisiÃ§Ã£o HTTP,MET_TEC_Mobile,acaoMostraTela');";></i><span class="site-menu-title">Requisição HTTP</span></a></li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Page -->
+                                    <div class="page animsition">
+                                        <!-- <div class="page-header"><h1 class="page-title">Menu Expended</h1></div>-->
+                                        <div class="page-content">
+                                            <div class="panel">
+                                                <div class="panel-body">
+
+
+
+
+
+                                                    <div class="nav-tabs-horizontal nav-tabs-inverse">
+                                                        <ul class="nav nav-tabs nav-tabs-solid" data-plugin="nav-tabs" role="tablist" id="tabmenusuperior"></ul>
+                                                        <div class="tab-content padding-top-15" id="tabmenucont">
+
+
+
+                                                            <div class="example-wrap" id="perfilPrincipal">
+                                                                <div>
+                                                                    <div class = "example-well col-md-12" style = "height:700px" id = "telaInicialLogin">
+
+                                                                        <div class="page-aside">
+                                                                            <div class="page-aside-switch">
+                                                                                <i class="icon wb-chevron-left" aria-hidden="true"></i>
+                                                                                <i class="icon wb-chevron-right" aria-hidden="true"></i>
+                                                                            </div>
+                                                                            <div class="page-aside-inner">
+                                                                                <section class="page-aside-section">
+                                                                                    <h5 class="page-aside-title">Minhas empresas</h5>
+                                                                                    <div class="list-group">
+                                                                                        <a class="list-group-item active" href="javascript:void(0)"><i class="icon wb-dashboard" aria-hidden="true"></i>Overview</a>
+                                                                                        <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-pluse" aria-hidden="true"></i>Activity</a>
+                                                                                        <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-heart" aria-hidden="true"></i>Dearest</a>
+                                                                                        <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-folder" aria-hidden="true"></i>Folders</a>
+                                                                                    </div>
+                                                                                </section>
+                                                                                <section class="page-aside-section">
+                                                                                    <h5 class="page-aside-title">Meus ícones</h5>
+                                                                                    <div class="list-group">
+                                                                                        <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-image" aria-hidden="true"></i>Images</a>
+                                                                                        <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-volume-high" aria-hidden="true"></i>Audio</a>
+                                                                                        <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-camera" aria-hidden="true"></i>Video</a>
+                                                                                        <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-file" aria-hidden="true"></i>Notes</a>
+                                                                                        <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-link-intact" aria-hidden="true"></i>Links</a>
+                                                                                        <a class="list-group-item" href="javascript:void(0)"><i class="icon wb-order" aria-hidden="true"></i>Files</a>
+                                                                                    </div>
+                                                                                </section>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class = "page-header text-center">
+                                                                            </br>
+                                                                            <h1 class = "page-title">Bem-vindo!</h1>
+                                                                            <img class = "img-circle img-bordered img-bordered-primary" width = "150" height = "150" src = "Uploads/a6fe7715d9f383648bce5739bb2c9ee6.jpg" id = "img-perfil1">
+                                                                            <h2 class = "page-title">Avanei Martendal</h2>
+                                                                            <div></div>
+                                                                            </br>
+
+                                                                            </br>
+                                                                        </div>
+
+
+
+
+
+
+                                                                    </div>
+                                                                    <h4 id="icoAtualiza" style = "text-align: center;margin-top: 0px;margin-left: 5px;cursor: pointer;display: none;"><i class = "icon wb-arrow-left" aria-hidden = "true" ></i> Atualizações</h4>
+                                                                    <div class = "col-md-4" style="display:none;" id = "tabelaAtualizacoes">
+                                                                        <div class = "table-responsive" style = "margin-left:5px;">
+                                                                            <table class = "table table-striped">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th style = "font-size:16px;font-weight:600;">Versão</th>
+                                                                                        <th style = "font-size:16px;font-weight:600;">Updates</th>
+                                                                                        <th style = "font-size:16px;font-weight:600;">Doc.</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>  </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                        <script>$("#icoAtualiza2").click(function () {
+                                                                                if ($("#tabelaAtualizacoes").is(":visible")) {
+                                                                                    $("#tabelaAtualizacoes").hide();
+                                                                                } else {
+                                                                                    $("#tabelaAtualizacoes").toggle("show");
+                                                                                }
+                                                                                if ($("#icoAtualiza").is(":visible")) {
+                                                                                    $("#icoAtualiza").hide();
+                                                                                } else {
+                                                                                    $("#icoAtualiza").toggle("show");
+                                                                                }
+                                                                                if ($("#icoAtualiza2").is(":visible")) {
+                                                                                    $("#icoAtualiza2").hide();
+                                                                                } else {
+                                                                                    $("#icoAtualiza2").toggle("show");
+                                                                                }
+                                                                                $("#telaInicialLogin").toggleClass("col-md-8", "col-md-12");
+                                                                            });
+                                                                            $("#icoAtualiza").click(function () {
+                                                                                if ($("#tabelaAtualizacoes").is(":visible")) {
+                                                                                    $("#tabelaAtualizacoes").hide();
+                                                                                } else {
+                                                                                    $("#tabelaAtualizacoes").toggle("show");
+                                                                                }
+                                                                                if ($("#icoAtualiza").is(":visible")) {
+                                                                                    $("#icoAtualiza").hide();
+                                                                                } else {
+                                                                                    $("#icoAtualiza").toggle("show");
+                                                                                }
+                                                                                if ($("#icoAtualiza2").is(":visible")) {
+                                                                                    $("#icoAtualiza2").hide();
+                                                                                } else {
+                                                                                    $("#icoAtualiza2").toggle("show");
+                                                                                }
+                                                                                $("#telaInicialLogin").toggleClass("col-md-8", "col-md-12");
+                                                                            });
+                                                                        </script>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--final-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Page --><!-- Footer --><!-- File Input--><script src="biblioteca/assets/vendor/bootstrap-fileinput/js/plugins/canvas-to-blob.js" type="text/javascript"></script><script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script><script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput_locale_pt-BR.js" ></script><!-- Core--><script src="biblioteca/jquery-number/jquery.number.js"></script><script src="biblioteca/jquery-number/jquery.number.min.js"></script><script src="biblioteca/assets/vendor/bootstrap/bootstrap.js"></script><script src="biblioteca/assets/vendor/animsition/jquery.animsition.js"></script><script src="biblioteca/assets/vendor/asscroll/jquery-asScroll.js"></script><script src="biblioteca/assets/vendor/mousewheel/jquery.mousewheel.js"></script><script src="biblioteca/assets/vendor/asscrollable/jquery.asScrollable.all.js"></script><script src="biblioteca/assets/vendor/ashoverscroll/jquery-asHoverScroll.js"></script><!-- Plugins --><script src="biblioteca/assets/vendor/switchery/switchery.min.js"></script><script src="biblioteca/assets/vendor/intro-js/intro.js"></script><script src="biblioteca/assets/vendor/screenfull/screenfull.js"></script><script src="biblioteca/assets/vendor/slidepanel/jquery-slidePanel.js"></script>  <script src="biblioteca/assets/vendor/bootstrap-sweetalert/sweet-alert.js"></script><!-- Selectable --><script src="biblioteca/assets/js/components/selectable.js"></script><script src="biblioteca/assets/js/plugins/selectable.js"></script><!-- Scripts --><script src="biblioteca/assets/js/core.js"></script><script src="biblioteca/assets/js/site.js"></script><script src="biblioteca/assets/js/sections/menu.js"></script><script src="biblioteca/assets/js/sections/menubar.js"></script><script src="biblioteca/assets/js/sections/gridmenu.js"></script><script src="biblioteca/assets/js/sections/sidebar.js"></script><script src="biblioteca/assets/js/configs/config-colors.js"></script><script src="biblioteca/assets/js/configs/config-tour.js"></script><script src="biblioteca/assets/js/components/asscrollable.js"></script><script src="biblioteca/assets/js/components/animsition.js"></script><script src="biblioteca/assets/js/components/slidepanel.js"></script><script src="biblioteca/assets/js/components/switchery.js"></script><script src="biblioteca/assets/vendor/matchheight/jquery.matchHeight-min.js"></script><script src="biblioteca/assets/js/plugins/responsive-tabs.js"></script><script src="biblioteca/assets/js/plugins/closeable-tabs.js"></script><script src="biblioteca/assets/js/components/tabs.js"></script><script src="resources/js/funcoes.js?1626977462 "></script><script src="resources/js/ajax.js"></script><!-- Datepicker--><script src="biblioteca/assets/js/moment.js" type="text/javascript"></script><script src="biblioteca/assets/js/bootstrap-datepicker.min.js" type="text/javascript"></script><script src="biblioteca/assets/js/locales/bootstrap-datepicker.pt-BR.min.js" type="text/javascript"></script><script src="biblioteca/assets/js/jquery.maskedinput.js" type="text/javascript"></script><!--Taginput--><script src="biblioteca/tagsinput/src/jquery.tagsinput.js"></script><!-- Select2 --><script src="biblioteca/assets/js/select2.min.js" type="text/javascript"></script><!-- Mascara de dinheiro --><script src="biblioteca/assets/js/jquery.maskMoney.js" type="text/javascript"></script><!-- Toastr --><script src="biblioteca/assets/vendor/toastr/toastr.js"></script> <!-- Plugins For This Page -->
+                                        <link rel="stylesheet" href="biblioteca/assets/vendor/formvalidation/formValidation.css">
+                                        <script>(function (document, window, $) {
+                                                                        "use strict";var Site = window.Site;$(document).ready(function () {
+                                                                            Site.run();toastr["success"]("SISTEMA ON LINE", "PRONTO!");});})(document, window, jQuery);function carregapesq() {
+                                                                        if (classeBusca !== undefined && classeBusca != "") {
+                                                                            var cont = $("#carregapesq").val().length; if (cont > 4) {
+                                                                                console.log(controleRequest);requestAjax("", classeBusca, metodoBusca, campoRetId + "," + idbusca + "," + campoBusca + "," + campoValor + "," + $("#carregapesq").val());
+                                                                                controleRequest = "request";
+                                                                                console.log(controleRequest);
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    ;
+                                        </script>
+                                        </body>
+                                        <script>function verificaTab(id, iMenuId, SupItem1, SupItem2, tab, tela, parametros) {
+                                                var addnewtab = 's';
+                                                if (typeof tela == 'undefined') {
+                                                    tela = ''
+                                                }
+                                                var tabname = 'tab' + id;
+                                                $('#perfilPrincipal').hide();
+                                                $('#tabmenusuperior > li').each(function () {
+                                                    if (tabname == $(this).attr('id')) {
+                                                        addnewtab = 'n';
+                                                    }
+                                                });
+                                                if (addnewtab == 's') {
+                                                    newTab(id, tela);
+                                                    requestAjax(iMenuId, SupItem1, SupItem2, tab, parametros);
+                                                } else {
+                                                    ativaTab(tabname);
+                                                }
+                                            }
+                                            function newTab(id, nomeTela) {
+                                                var titulo = '';
+                                                titulo = $('#' + id + ' span').text() + nomeTela;
+                                                titulo2 = $('#' + id + ' > a').text() + nomeTela;
+                                                if (titulo == '') {
+                                                    titulo = titulo2;
+                                                }
+                                                ;
+                                                var tabmenu = 'tab' + id;
+                                                controleAbas(tabmenu);
+                                                $('#tabmenusuperior > li').removeClass("active");
+                                                $('#tabmenucont > div').removeClass("active");
+                                                $('#tabmenusuperior').append('<li class="active" role="presentation" id=' + tabmenu + ' onclick="controleAbas(\'' + tabmenu + '\')"> ' + '<a data-toggle="tab" href="#' + tabmenu + 'control" aria-controls="' + tabmenu + 'control" ' + 'role="tab"> ' + '<span class="close" data-close="tab" aria-label="Close" > ' + '<strong title="FECHAR" onclick="ativaPerfil()">×</strong> ' + '</span> ' + ' ' + titulo + ' ' + ' </a> ' + ' </li>');
+                                                $('#tabmenucont').append('<div class="tab-pane active" id="' + tabmenu + 'control" role="tabpanel"> ' + '<div class="carregando" id="' + tabmenu + 'control-carregando"></div> ' + ' ' + '</div>');
+                                            }
+                                            ;
+                                            function ativaTab(tabname) {
+                                                $('#tabmenusuperior > li').removeClass("active");
+                                                $('#tabmenucont > div').removeClass("active");
+                                                $('#tabmenusuperior > #' + tabname).addClass("active");
+                                                $('#tabmenucont > #' + tabname + 'control').addClass("active");
+                                            }
+                                            function controleAbas(tabId) {
+                                                abaSelecionada = tabId;
+                                            }
+                                            function ativaPerfil() {
+                                                var countTabs = 0;
+                                                $('#tabmenusuperior > li').each(function () {
+                                                    countTabs++;
+                                                });
+                                                if (countTabs > 1) {
+                                                    abaSelecionada = tabId;
+                                                }
+                                                if (countTabs == 1) {
+                                                    showPerfil();
+                                                }
+                                            }
+                                            function showPerfil() {
+                                                $('#perfilPrincipal').show();
+                                            }
+                                        </script><script> $(document).ready(function () {
+                                                document.body.style.zoom = "88%";
+                                            });
+                                        </script> 
+                                        </html>

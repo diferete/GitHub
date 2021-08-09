@@ -58,7 +58,7 @@ class ViewMET_PORT_Colaboradores extends View {
         $oDataChegou = new CampoConsulta('Dt. Chegada', 'datachegou', CampoConsulta::TIPO_DATA);
 
         $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_EDIT);
-        $oHoraChegou->addAcao('MET_PORT_Colaboradores', 'gravaHora','','');
+        $oHoraChegou->addAcao('MET_PORT_Colaboradores', 'gravaHora', '', '');
         $oHoraChegou->setBTime(true);
 
         $oDataEntra = new CampoConsulta('Dt. Entrada', 'dataentrou', CampoConsulta::TIPO_DATA);

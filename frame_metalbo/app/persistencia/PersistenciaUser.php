@@ -31,6 +31,12 @@ class PersistenciaUser extends Persistencia {
         $this->adicionaRelacionamento('ususit', 'ususit');
         $this->adicionaRelacionamento('senhaProvisoria', 'senhaProvisoria');
         $this->adicionaRelacionamento('usunomeDelsoft', 'usunomeDelsoft');
+        
+        $this->adicionaRelacionamento('emp_steeltrater', 'emp_steeltrater');
+        $this->adicionaRelacionamento('emp_poliamidos', 'emp_poliamidos');
+        $this->adicionaRelacionamento('emp_metalbo_filial', 'emp_metalbo_filial');
+        $this->adicionaRelacionamento('emp_metalbo_matriz', 'emp_metalbo_matriz');
+        
         $this->adicionaJoin('UsuTipo');
         $this->adicionaJoin('Setor');
         $this->adicionaJoin('RepOffice');
@@ -188,6 +194,30 @@ class PersistenciaUser extends Persistencia {
         $sRetorno = $oRow->descsetor;
 
         return $sRetorno;
+    }
+
+    public function getEmpresasAdicionais() {
+
+        $sSql = "select emp_steeltrater,emp_poliamidos,emp_metalbo_matriz,emp_metalbo_filial from tbusuario where usucodigo =" . $_SESSION['codUser'];
+        $oRow = $this->consultaSql($sSql);
+        if ($oRow->emp_steeltrater !== null) {
+            $aDados['steeltrater'][0] = 'Steeltrater';
+            $aDados['steeltrater'][1] = $oRow->emp_steeltrater;
+        }
+        if ($oRow->emp_poliamidos !== null) {
+            $aDados['poliamidos'][0] = 'Poliamidos';
+            $aDados['poliamidos'][1] = $oRow->emp_poliamidos;
+        }
+        if ($oRow->emp_metalbo_matriz !== null) {
+            $aDados['matriz'][0] = 'Metalbo Matriz';
+            $aDados['matriz'][1] = $oRow->emp_metalbo_matriz;
+        }
+        if ($oRow->emp_metalbo_filial !== null) {
+            $aDados['filial'][0] = 'Metalbo Filial';
+            $aDados['filial'][1] = $oRow->emp_metalbo_filial;
+        }
+
+        return $aDados;
     }
 
 }

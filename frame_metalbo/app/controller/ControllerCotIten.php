@@ -81,7 +81,6 @@ class ControllerCotIten extends Controller {
     public function acaoLimpar($sForm, $sDados) {
         parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
-        // "$('#".$sId."').each (function(){ this.reset();});";
         //verifica se está como 
         $sScript = 'if( $("#' . $aParam[1] . '").is(":checked") ){'
                 . '$("#' . $sForm . '").each (function(){ this.reset();});'
@@ -179,7 +178,7 @@ class ControllerCotIten extends Controller {
         $sChave = htmlspecialchars_decode($aDados[0]);
         $this->carregaModelString($sChave);
         $this->Persistencia->adicionafiltro('nr', $this->Model->getNr());
-        $this->Persistencia->adicionafiltro('seq', $this->Model->getSeq());
+        // $this->Persistencia->adicionafiltro('seq', $this->Model->getSeq());
 
         foreach ($aDados as $sChaveAtual) {
             $sChave = htmlspecialchars_decode($sChaveAtual);
@@ -194,8 +193,6 @@ class ControllerCotIten extends Controller {
                 echo $oMensagemSucesso->getRender();
             }
         }
-        $this->Persistencia->limpaFiltro();
-        $this->Persistencia->adicionafiltro('nr', $this->Model->getNr());
         $this->getDadosConsulta($idGrid, TRUE, null);
     }
 
@@ -211,7 +208,7 @@ class ControllerCotIten extends Controller {
         $sChave = htmlspecialchars_decode($aChaves[0]);
         $this->carregaModelString($sChave);
         $this->Persistencia->adicionafiltro('nr', $this->Model->getNr());
-        $this->Persistencia->adicionafiltro('seq', $this->Model->getSeq());
+        //$this->Persistencia->adicionafiltro('seq', $this->Model->getSeq()); 
 
 
         foreach ($aChaves as $sChaveAtual) {
@@ -227,8 +224,6 @@ class ControllerCotIten extends Controller {
                 echo $oMensagemSucesso->getRender();
             }
         }
-        $this->Persistencia->limpaFiltro();
-        $this->Persistencia->adicionafiltro('nr', $this->Model->getNr());
         $this->getDadosConsulta($sDados, TRUE, null);
     }
 
@@ -272,14 +267,6 @@ class ControllerCotIten extends Controller {
                     $sNr = explode('&', $aChave[1])[0];
                 }
             }
-            if ($_REQUEST['metodo'] == "getDadosScroll") {
-                if (isset($_REQUEST['parametrosCampos'])) {
-                    $aParam = $_REQUEST['parametrosCampos'];
-                    $sChave = htmlspecialchars_decode($aParam['parametrosCampos[0']);
-                    $aChave = explode('=', $sChave);
-                    $sNr = explode('&', $aChave[1])[0];
-                }
-            }
         } else {
             $aCamposTela = $this->getArrayCampostela();
             $sNr = $aCamposTela['nr'];
@@ -311,8 +298,8 @@ class ControllerCotIten extends Controller {
         $bRetorno = require 'app/relatorio/cotacao.php';
 
         if ($bRetorno) {
-            //$oCot = Fabrica::FabricarPersistencia('Cot');
-            //$oCot->confirmaEnvioEmail($aDados[0]);
+            $oCot = Fabrica::FabricarPersistencia('Cot');
+            $oCot->confirmaEnvioEmail($aDados[0]);
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
         } else {

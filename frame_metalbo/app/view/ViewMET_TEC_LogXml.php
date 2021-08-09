@@ -41,7 +41,7 @@ class ViewMET_TEC_LogXml extends View {
 
         $oFiltroCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
-        $this->addFiltro($oFiltroNf,$oFiltroCliente);
+        $this->addFiltro($oFiltroNf, $oFiltroCliente);
 
         $this->addCamposGrid($oLogXml);
 

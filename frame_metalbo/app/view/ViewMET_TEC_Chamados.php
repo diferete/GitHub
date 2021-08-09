@@ -19,6 +19,7 @@ class ViewMET_TEC_Chamados extends View {
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setILarguraGrid(2400);
         $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setIAltura(500);
         $this->getTela()->setITipoGrid(2);
 
         $this->setUsaFiltro(true);
@@ -137,15 +138,12 @@ class ViewMET_TEC_Chamados extends View {
         $oDrop1 = new Dropdown('E-mail', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail de NOTIFICAÇÃO', $this->getController(), 'reenviaEmailTi', '', false, '', false, '', false, '', false, false);
 
+
         $oDrop2 = new Dropdown('E-mail', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Reenviar e-mail de FINALIZAÇÃO', $this->getController(), 'reenviaEmailFinaliza', '', false, '', false, '', false, '', false, false);
 
-        $oDrop3 = new Dropdown('Teste', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
-        $oDrop3->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'teste', $this->getController(), 'teste', '', false, '', false, '', false, '', false, true);
-
-
         if ($sFiltroSetor == 2) {
-            $this->addDropdown($oDrop, $oDrop2, $oDrop3);
+            $this->addDropdown($oDrop, $oDrop2);
             $this->addCampos($oBotaoModal, $oNr, $oFilcgc, $oSit, $oUsuSol, $oSetor, $oRep, $oTipo, $oSubTipo, $oDataCad, $oHoraCad, $oUsuInicio, $oDataInicio, $oHoraInicio, $oDataPrevisao, $oDias, $oUsuFim, $oDataFim, $oAnexoFim);
         } else {
             $this->addDropdown($oDrop, $oDrop1);

@@ -96,7 +96,7 @@ export class PrincipalPage implements OnInit {
   async presentLoading(message: string) {
     this.loading = await this.loadingController.create({
       message,
-      duration: 7000,
+      duration: 2000,
     });
     return this.loading.present();
   }

@@ -18,6 +18,7 @@ export class PedComprasDetalhePage implements OnInit {
   data: any;
   fornecedor: any;
   itens: [];
+  antigos: [];
   valorTotal: any;
   solicitante: any;
   valorFrete: any;
@@ -44,6 +45,7 @@ export class PedComprasDetalhePage implements OnInit {
         this.data = this.dados.data;
         this.fornecedor = this.dados.fornecedor;
         this.itens = this.dados.itens;
+        console.log(this.itens);
         this.valorTotal = this.dados.valorTotal;
         this.solicitante = this.dados.usuario;
         this.observacao = this.dados.observacao;

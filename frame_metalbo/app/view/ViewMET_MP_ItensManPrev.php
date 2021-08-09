@@ -266,17 +266,17 @@ class ViewMET_MP_ItensManPrev extends View {
 
         $oL = new Campo('', '', Campo::TIPO_LINHA, 12, 12, 12, 12);
 
-        $sGrid = $this->getOGridDetalhe()->getSId();
         //NOVO-------------------------------------------------------------------------------------------
         $oBotConf = new Campo('INSERIR', '', Campo::TIPO_BOTAOSMALL, 1, 1, 2, 2);
         $oBotConf->setIMarginTop(6);
-        if ($sAcaoRotina != 'acaoVisualizar') {
-            $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' .
-                    $oSeq->getId() . ',' . $sGrid . ',' . $oCodSit->getId() . ',' . $oServ->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
+        if ($sAcaoRotina == 'acaoVisualizar') {
+            $oBotConf->getOBotao()->setBDesativado(true);
         }
 
+        $sGrid = $this->getOGridDetalhe()->getSId();
         //id form, id incremento, id do grid, id focus,    
-
+        $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' .
+                $oSeq->getId() . ',' . $sGrid . ',' . $oCodSit->getId() . ',' . $oServ->getId() . '","' . $oFilcgc->getSValor() . ',' . $oNr->getSValor() . '");';
         $oBotConf->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);

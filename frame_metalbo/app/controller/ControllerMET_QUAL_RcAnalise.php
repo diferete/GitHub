@@ -345,7 +345,7 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
                         . '<tr><td><b>Inspeção: </b></td><td> ' . $aCampos['inspecao'] . ' </td></tr>'
                         . '<tr><td><b>Observação: </b></td><td> ' . $aCampos['obs_inspecao'] . ' </td></tr>'
                         . '</table><br/><br/>'
-                        . '<b>Para mais informações, consulte o anexo!</b><br/>'
+                        //. '<b>Para mais informações, consulte o anexo!</b><br/>'
                         . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
 
         $oEmail->limpaDestinatariosAll();
@@ -354,14 +354,12 @@ class ControllerMET_QUAL_RcAnalise extends Controller {
         //$oEmail->addDestinatario('alexandre@metalbo.com.br');
 
         /*
-        if ($aCampos['anexo_inspecao']) {
-            $oEmail->addAnexo('Uploads/' . $aCampos['anexo_inspecao'], utf8_decode('' . $aCampos['anexo_inspecao'] . ''));
-        }
-        if ($aCampos['anexo_inspecao1']) {
-            $oEmail->addAnexo('Uploads/' . $aCampos['anexo_inspecao1'], utf8_decode('' . $aCampos['anexo_inspecao1'] . ''));
-        }
-         * 
-         */
+          if ($aCampos['anexo_inspecao']) {
+          $oEmail->addAnexo('Uploads/' . $aCampos['anexo_inspecao'], utf8_decode('' . $aCampos['anexo_inspecao'] . ''));
+          }
+          if ($aCampos['anexo_inspecao1']) {
+          $oEmail->addAnexo('Uploads/' . $aCampos['anexo_inspecao1'], utf8_decode('' . $aCampos['anexo_inspecao1'] . ''));
+          } */
 
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {

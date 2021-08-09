@@ -17,6 +17,10 @@ class ModelUser {
     private $usucracha;
     private $usufone;
     private $usuramal;
+    private $emp_steeltrater;
+    private $emp_poliamidos;
+    private $emp_metalbo_filial;
+    private $emp_metalbo_matriz;
     private $usubloqueado;
     private $usuemail;
     private $senhaemail;
@@ -28,6 +32,38 @@ class ModelUser {
     private $ususit;
     private $senhaProvisoria;
     private $usunomeDelsoft;
+
+    function getEmp_steeltrater() {
+        return $this->emp_steeltrater;
+    }
+
+    function getEmp_poliamidos() {
+        return $this->emp_poliamidos;
+    }
+
+    function getEmp_metalbo_filial() {
+        return $this->emp_metalbo_filial;
+    }
+
+    function getEmp_metalbo_matriz() {
+        return $this->emp_metalbo_matriz;
+    }
+
+    function setEmp_steeltrater($emp_steeltrater) {
+        $this->emp_steeltrater = $emp_steeltrater;
+    }
+
+    function setEmp_poliamidos($emp_poliamidos) {
+        $this->emp_poliamidos = $emp_poliamidos;
+    }
+
+    function setEmp_metalbo_filial($emp_metalbo_filial) {
+        $this->emp_metalbo_filial = $emp_metalbo_filial;
+    }
+
+    function setEmp_metalbo_matriz($emp_metalbo_matriz) {
+        $this->emp_metalbo_matriz = $emp_metalbo_matriz;
+    }
 
     function getSenhaemail() {
         return $this->senhaemail;

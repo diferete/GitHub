@@ -17,6 +17,30 @@ class ViewMET_TEC_ItemMenu extends View {
         $this->setTitulo('Itens Menu');
     }
 
+    /**
+     * Método que realiza a criação dos campos da tela de consulta
+     */
+    function criaConsulta() {
+        parent::criaConsulta();
+
+        $oMenu = new CampoConsulta('Menu', 'MET_TEC_Menu.mencodigo');
+
+        $oMenuDes = new CampoConsulta('Menu Desc.', 'MET_TEC_Menu.mendes');
+
+        $oIteCodigo = new CampoConsulta('Sub.Menu', 'itecodigo');
+
+        $oItenDes = new CampoConsulta('Sub.Menu Desc.', 'itedescricao');
+
+        $oIteclasse = new CampoConsulta('Classe', 'iteclasse');
+
+        $oIteMetodo = new CampoConsulta('Metodo', 'itemetodo');
+
+        $oIteOrdem = new CampoConsulta('Ordem', 'iteordem');
+
+
+        $this->addCampos($oMenu, $oMenuDes, $oIteCodigo, $oItenDes, $oIteclasse, $oIteMetodo, $oIteOrdem);
+    }
+
     function criaGridDetalhe($sIdAba) {
         parent::criaGridDetalhe($sIdAba);
 
@@ -24,16 +48,21 @@ class ViewMET_TEC_ItemMenu extends View {
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
          */
         $this->getOGridDetalhe()->setIAltura(200);
-        //  $oModCodG = new CampoConsulta('Módulo','Modulo.modcod');
-        //  $oModDesG = new CampoConsulta('Módulo','Modulo.modescricao');
+
         $oMenuG = new CampoConsulta('Menu', 'MET_TEC_Menu.mencodigo');
+
         $oMenuDesG = new CampoConsulta('Menu Desc.', 'MET_TEC_Menu.mendes');
+
         $oIteCodigoG = new CampoConsulta('Sub.Menu', 'itecodigo');
+
         $oItenDes = new CampoConsulta('Sub.Menu Desc.', 'itedescricao');
+
         $oIteclasseG = new CampoConsulta('Classe', 'iteclasse');
+
         $oIteMetodoG = new CampoConsulta('Metodo', 'itemetodo');
+
         $oIteOrdemG = new CampoConsulta('Ordem', 'iteordem');
-        $this->addCamposDetalhe(/* $oModCodG,$oModDesG, */$oMenuG, $oMenuDesG, $oIteCodigoG, $oItenDes, $oIteclasseG, $oIteMetodoG, $oIteOrdemG);
+        $this->addCamposDetalhe($oMenuG, $oMenuDesG, $oIteCodigoG, $oItenDes, $oIteclasseG, $oIteMetodoG, $oIteOrdemG);
         $this->addGriTela($this->getOGridDetalhe());
     }
 
@@ -73,6 +102,10 @@ class ViewMET_TEC_ItemMenu extends View {
         //$oMenDes->setBOculto(true);
         $oMenDes->setSValor($aValor[3]);
 
+        $oRotina = new Campo('Rotina?', 'rotina', Campo::TIPO_RADIO, 1, 1, 12, 12);
+        $oRotina->addItenRadio('S', 'SIM');
+        $oRotina->addItenRadio('N', 'NÃO');
+
         $oIteCodigo = new Campo('Codigo', 'itecodigo', Campo::TIPO_TEXTO, 1);
         $oIteCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
         $oIteCodigo->setBFocus(true);
@@ -103,30 +136,10 @@ class ViewMET_TEC_ItemMenu extends View {
         //$oBotConf->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        $this->addCampos(array($oModCod, $oModdes, $oMenCodigo, $oMenDes), array($oIteCodigo, $oIteDesc, $oIteOrdem), array($oIteclasse, $oIteMetodo), array($oUrl, $oIcone, $oBotConf));
+        $this->addCampos(array($oModCod, $oModdes, $oMenCodigo, $oMenDes), array($oIteCodigo, $oIteDesc, $oIteOrdem, $oRotina), array($oIteclasse, $oIteMetodo), array($oUrl, $oIcone, $oBotConf));
 
         //adiciona objetos campos para servirem como filtros iniciais do grid
         $this->addCamposFiltroIni($oModCod, $oMenCodigo);
-    }
-
-    /**
-     * Método que realiza a criação dos campos da tela de consulta
-     */
-    function criaConsulta() {
-        parent::criaConsulta();
-
-        //   $oModCod = new CampoConsulta('Módulo','Modulo.modcod');
-        //   $oModDes = new CampoConsulta('Módulo','Modulo.modescricao');
-        $oMenu = new CampoConsulta('Menu', 'MET_TEC_Menu.mencodigo');
-        $oMenuDes = new CampoConsulta('Menu Desc.', 'MET_TEC_Menu.mendes');
-        $oIteCodigo = new CampoConsulta('Sub.Menu', 'itecodigo');
-        $oItenDes = new CampoConsulta('Sub.Menu Desc.', 'itedescricao');
-        $oIteclasse = new CampoConsulta('Classe', 'iteclasse');
-        $oIteMetodo = new CampoConsulta('Metodo', 'itemetodo');
-        $oIteOrdem = new CampoConsulta('Ordem', 'iteordem');
-
-
-        $this->addCampos(/* $oModCod,$oModDes, */$oMenu, $oMenuDes, $oIteCodigo, $oItenDes, $oIteclasse, $oIteMetodo, $oIteOrdem);
     }
 
     /**

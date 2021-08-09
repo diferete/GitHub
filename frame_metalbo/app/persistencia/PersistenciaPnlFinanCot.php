@@ -34,24 +34,27 @@ class PersistenciaPnlFinanCot extends Persistencia {
     public function consultaManual() {
         parent::consultaManual();
 
-        $sSql = "select widl.REC001.recdtemiss as 'widl.REC001.recdtemiss',
-       widl.REC001.empcod as 'widl.REC001.empcod',
-       widl.emp01.empdes as 'widl.emp01.empdes',
-       widl.REC001.recdocto as 'widl.REC001.recdocto',
-       widl.REC0012.recprdtpro as 'widl.REC001.recprdtpro',
-       widl.REC0012.recprdtpgt as 'widl.REC001.recprdtpgt',
-       widl.REC0012.recparnro as 'widl.REC001.recparnro',
-       widl.REC0012.recprvlr as 'widl.REC001.recprvlr',
-       widl.REC0012.recprvlpgt as 'widl.REC001.recprvlpgt',
-       widl.REC0012.recprindtr as 'widl.REC001.recprindtr',
-       widl.REC0012.recprtirec as 'widl.REC001.recprtirec',
-       DATEDIFF(day,CONVERT (date, SYSDATETIME()),recprdtpro) as 'widl.REC001.diasvenc',
-       widl.BANCOS.bcodes as 'widl.REC001.bcodes',
-       widl.REC0012.recprnro as 'widl.REC001.recprnro'   
-          from widl.REC001(nolock) left outer join 
-          widl.REC0012(nolock) on widl.REC001.recdocto = widl.REC0012.recdocto left outer join 
-          widl.EMP01(nolock) on widl.REC001.empcod = widl.EMP01.empcod left outer join  
-          widl.BANCOS(nolock) on widl.REC0012.recprbconr = widl.BANCOS.bconro";
+        $sSql = "select widl.REC001.recdtemiss as 'widl.REC001.recdtemiss',"
+                . "widl.REC001.empcod as 'widl.REC001.empcod',"
+                . "widl.emp01.empdes as 'widl.emp01.empdes',"
+                . "widl.REC001.recdocto as 'widl.REC001.recdocto',"
+                . "widl.REC0012.recprdtpro as 'widl.REC001.recprdtpro',"
+                . "widl.REC0012.recprdtpgt as 'widl.REC001.recprdtpgt',"
+                . "widl.REC0012.recparnro as 'widl.REC001.recparnro',"
+                . "widl.REC0012.recprvlr as 'widl.REC001.recprvlr',"
+                . "widl.REC0012.recprvlpgt as 'widl.REC001.recprvlpgt',"
+                . "widl.REC0012.recprindtr as 'widl.REC001.recprindtr',"
+                . "widl.REC0012.recprtirec as 'widl.REC001.recprtirec',"
+                . "DATEDIFF(day,CONVERT (date, SYSDATETIME()),recprdtpro) as 'widl.REC001.diasvenc',"
+                . "widl.BANCOS.bcodes as 'widl.REC001.bcodes',"
+                . "widl.REC0012.recprnro as 'widl.REC001.recprnro' "
+                . "from widl.REC001(nolock) "
+                . "left outer join widl.REC0012(nolock) "
+                . "on widl.REC001.recdocto = widl.REC0012.recdocto "
+                . "left outer join widl.EMP01(nolock) "
+                . "on widl.REC001.empcod = widl.EMP01.empcod "
+                . "left outer join idl.BANCOS(nolock) "
+                . "on widl.REC0012.recprbconr = widl.BANCOS.bconro";
 
 
 
@@ -63,11 +66,11 @@ class PersistenciaPnlFinanCot extends Persistencia {
           and widl.REC001.filcgc = '75483040000211'
           and tpdcod in (1,3) */
         //  $this->adicionaFiltro('empcod', '44170801000170'); // tem que retirar
-        $sWhereManual = " and recprdtpgt = '1753-01-01'
-          and widl.REC001.recdocto NOT LIKE 'T%' 
-          and widl.REC001.recdocto NOT LIKE 'D%' 
-          and widl.REC001.filcgc = '75483040000211'
-          and tpdcod in (1,3)  order by recprdtpro ";
+        $sWhereManual = " and recprdtpgt = '1753-01-01' "
+                . "and widl.REC001.recdocto NOT LIKE 'T%' "
+                . "and widl.REC001.recdocto NOT LIKE 'D%' "
+                . "and widl.REC001.filcgc = '75483040000211' "
+                . "and tpdcod in (1,3)  order by recprdtpro ";
         $this->setSWhereManual($sWhereManual);
 
         return $sSql;
@@ -75,16 +78,10 @@ class PersistenciaPnlFinanCot extends Persistencia {
 
     public function somaTitulos($sCnpj) {
 
-        $sSql = "select SUM(recprvlr)as total 
-            from widl.REC001 left outer join       
-            widl.REC0012 on widl.REC001.recdocto = widl.REC0012.recdocto left outer join 
-            widl.EMP01 on widl.REC001.empcod = widl.EMP01.empcod 
-            where widl.EMP01.empcod  ='" . $sCnpj . "'
-            and widl.REC001.recdocto NOT LIKE 'T%'
-            and widl.REC001.recdocto NOT LIKE 'D%'
-            and widl.REC001.filcgc = '75483040000211'
-            and recprdtpgt = '1753-01-01'
-            and tpdcod in (1,3)  ";
+        $sSql = "select SUM(recprvlr)as total "
+                . "from widl.REC001 (nolock) "
+                . "left outer join widl.REC0012 "
+                . "on widl.REC001.recdocto = widl.REC0012.recdocto left outer join             widl.EMP01 on widl.REC001.empcod = widl.EMP01.empcod             where widl.EMP01.empcod  ='" . $sCnpj . "'            and widl.REC001.recdocto NOT LIKE 'T%'            and widl.REC001.recdocto NOT LIKE 'D%'            and widl.REC001.filcgc = '75483040000211'            and recprdtpgt = '1753-01-01'            and tpdcod in (1,3)  ";
 
 
         $result = $this->getObjetoSql($sSql);

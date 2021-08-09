@@ -33,18 +33,21 @@ class ViewNfent extends View {
         $oVlrTot = new CampoConsulta('Valor Total', 'nfvlrtot', CampoConsulta::TIPO_DECIMAL);
         $oVlrTot->setILargura(200);
 
-        $oNfFinan = new CampoConsulta('Financeiro', 'nf_finan');
-
         $oEmpresa = new CampoConsulta('Empresa', 'empcnpj');
+
+        $oNfFinan = new CampoConsulta('Financeiro', 'nf_finan');
         $oNfFinan->addComparacao('Com Financeiro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oNfFinan->addComparacao('Com Financeiro', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
         $oNfFinan->setILargura(200);
 
         $oUserCadastro = new CampoConsulta('Usuário', 'nfusuins');
         $oUserCadastro->setILargura(200);
+
         $oHoraData = new CampoConsulta('Data Lanç.', 'nfhorains');
         $oHoraData->setILargura(200);
+
         $this->setUsaDropdown(true);
+
         $oDrop1 = new Dropdown('Financeiro ', Dropdown::TIPO_PADRAO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_CONFIG) . 'Adiciona Financeiro', 'Contpagar', 'acaoMostraTelaIncluir', '', true, '', false, '', false, '', false, false);
 

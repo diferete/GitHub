@@ -161,7 +161,7 @@ class ViewMET_ISO_FuncDesc extends View {
         $oDataRevisao = new Campo('data', 'data_revisao', Campo::TIPO_DATA, 1, 1, 12, 12);
         $oDataRevisao->setSValor(date('d/m/Y'));
 
-        $oObs = new Campo('Obs.', 'observacao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
+        $oObs = new Campo('Descrição da Alteração', 'observacao', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObs->setILinhasTextArea(3);
 
         $oEscExigida = new Campo('Esc. Exigida', 'esc_exigida', Campo::TIPO_SELECT, 2, 2, 12, 12);

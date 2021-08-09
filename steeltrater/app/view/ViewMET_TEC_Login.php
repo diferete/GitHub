@@ -44,6 +44,9 @@ class ViewMET_TEC_Login extends View {
                 . '<title>Metalbo | Acesso ao Sistema</title>'
                 . '</head>'
                 . '<body class="page-login-v3 layout-full">'
+                /*. '<video autoplay muted loop id="myVideo">'
+                . '<source src="biblioteca/assets/images/login.mp4" type="video/mp4">'
+                . '</video>'*/
                 . '<div id="conteudo">'
                 . '<div class="page animsition vertical-align text-center" data-animsition-in="fade-in"'
                 . 'data-animsition-out="fade-out">'

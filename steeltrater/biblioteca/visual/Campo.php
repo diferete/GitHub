@@ -89,6 +89,7 @@ class Campo {
     private $sTabelaUpload;
     private $sParamSeq;
     private $iLarguraGrid;
+    private $sValorCheck;
 
     /**/
 
@@ -137,6 +138,7 @@ class Campo {
     const TIPO_GRIDSIMPLE = 42;
     const TIPO_UPLOADMULTI = 43;
     const TIPO_TEXTO_GRANDE = 44;
+    const TIPO_CHECK_STRING = 45;
     const TIPO_TESTE = 99;
     /**/
     const TAMANHO_NORMAL = 0;
@@ -267,6 +269,14 @@ class Campo {
 
     function getILarguraGrid() {
         return $this->iLarguraGrid;
+    }
+
+    function getSValorCheck() {
+        return $this->sValorCheck;
+    }
+
+    function setSValorCheck($sValorCheck) {
+        $this->sValorCheck = $sValorCheck;
     }
 
     function setILarguraGrid($iLarguraGrid) {
@@ -1781,25 +1791,49 @@ class Campo {
                         . '</div>';
                 break;
             case self::TIPO_RADIO:
+
+
                 $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="radio-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '<div id="' . $this->getId() . '" >';
+                $radioCount = 0;
                 foreach ($this->getAItensRadio() as $key => $value) {
-                    //verifica o item que deve checar em um update
                     $sChecked = "";
                     if ($this->getSValor() == $key) {
                         $sChecked = 'checked="true";';
                     }
-                    $sCampo .= '<label class="radio-inline">'//class="radio-custom radio-success"
-                            . '<input type="radio" name="' . $this->getNome() . '"  '
-                            . 'value="' . $key . '"' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . ' ' . $sChecked . '>' . $value
-                            . '</label>';
+                    $sCampo .= '<div class="radio-custom radio-primary radio-inline">'
+                            . '<input id="' . $this->getId() . '-radio' . $radioCount . '" type="radio" name="' . $this->getNome() . '"  value="' . $key . '"' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . ' ' . $sChecked . '>'
+                            . '<label for = "' . $this->getId() . '-radio' . $radioCount . '" style="white-space: nowrap">' . $value . '</label>'
+                            . '</div>';
+                    $radioCount++;
                 }
                 $sCampo .= '</div>'
                         . '</div>'
                         . '</div>'
                         . $this->getRenderEventos();
+
+                /*
+                  $sCampo = '<div class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                  . '<div class="radio-group">'
+                  . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
+                  . '<div id="' . $this->getId() . '" >';
+                  foreach ($this->getAItensRadio() as $key => $value) {
+                  //verifica o item que deve checar em um update
+                  $sChecked = "";
+                  if ($this->getSValor() == $key) {
+                  $sChecked = 'checked="true";';
+                  }
+                  $sCampo .= '<label class="radio-inline">'//class="radio-custom radio-success"
+                  . '<input type="radio" name="' . $this->getNome() . '"  '
+                  . 'value="' . $key . '"' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . ' ' . $sChecked . '>' . $value
+                  . '</label>';
+                  }
+                  $sCampo .= '</div>'
+                  . '</div>'
+                  . '</div>'
+                  . $this->getRenderEventos(); */
                 break;
             case self::TIPO_UPLOAD:
                 /*
@@ -1846,6 +1880,22 @@ class Campo {
                 $sCampo = '<div style="margin-top:20px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div  style="margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '-group" class="checkbox-custom checkbox-success">'//class="checkbox-custom checkbox-success"
                         . '<input  id="' . $this->getId() . '"  name="' . $this->getNome() . '" type="checkbox" value="true" ' . $sCheck . ' ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
+                        . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
+                        . '</div>'
+                        . '</div>'
+                        . $this->getRenderEventos();
+                break;
+
+            case self::TIPO_CHECK_STRING:
+                if ($this->getBValorCheck()) {
+                    $this->setSValor($this->getSValorCheck());
+                }
+                if (!empty($this->getSValor())) {
+                    $sCheck = 'checked';
+                }
+                $sCampo = '<div style="margin-top:20px" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
+                        . '<div  style="margin-top:' . $this->getIMarginTop() . 'px;" id="' . $this->getId() . '-group" class="checkbox-custom checkbox-success">'//class="checkbox-custom checkbox-success"
+                        . '<input  id="' . $this->getId() . '"  name="' . $this->getNome() . '" type="checkbox" value="' . $this->getSValorCheck() . '" ' . $sCheck . ' ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
                         . '</div>'
                         . '</div>'

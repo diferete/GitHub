@@ -1,9 +1,10 @@
 <?php
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Implementa a view da classe QualNovoProjVenda
+ * 
+ * @author Avanei Martendal
+ * @since 09/08/2017
  */
 
 class ViewQualNovoProjRep extends View {

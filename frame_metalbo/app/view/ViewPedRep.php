@@ -11,22 +11,37 @@ class ViewPedRep extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+        $this->setBScrollInf(true);
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoVisualizar(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->getTela()->setIAltura(250);
+
         //adiciona o grid de itens de pedido
         $oGridItensPed = new Campo('Itens do Pedido', 'Itens Ped', Campo::TIPO_GRID, 12, 12, 12, 12);
+
         $oPdvnr = new CampoConsulta('Nr.Pedido', 'pdvnro');
         $oPdvnr->setILargura(30);
+
         $oSeq = new CampoConsulta('Seq.', 'pdvproseq');
         $oSeq->setILargura(25);
+
         $oCodigo = new CampoConsulta('Código', 'procod');
         $oCodigo->setILargura(60);
+
         $oDesProPed = new CampoConsulta('Descrição', 'pdvprodes');
         $oDesProPed->setILargura(350);
+
         $oQtProPed = new CampoConsulta('Quantidade', 'pdvproqtdp', CampoConsulta::TIPO_DECIMAL);
         $oQtProPed->setILargura(80);
+
         $oVlrUnit = new CampoConsulta('Vlr. Unit', 'pdvprovlta', CampoConsulta::TIPO_DECIMAL);
         $oVlrUnit->setILargura(80);
+
         $oTotal = new CampoConsulta('Total', 'total', CampoConsulta::TIPO_DECIMAL);
         $oTotal->setILargura(80);
+
         $oTotalFat = new CampoConsulta('Tot.Faturado', 'totalfat', CampoConsulta::TIPO_DECIMAL);
 
         $oGridItensPed->addCampos($oPdvnr, $oSeq, $oCodigo, $oDesProPed, $oQtProPed, $oVlrUnit, $oTotal, $oTotalFat);
@@ -37,15 +52,22 @@ class ViewPedRep extends View {
 
         //notas do pedido
         $oGridNotas = new Campo('Notas do Pedido', 'Notas Ped', Campo::TIPO_GRID, 12, 12, 12, 12);
+
         $oNf = new CampoConsulta('Nota', 'nfsnfnro');
         $oNf->setILargura(60);
+
         $oNfCod = new CampoConsulta('Código', 'nfsitcod');
         $oNfCod->setILargura(60);
+
         $oDesProNota = new CampoConsulta('Descrição', 'nfsitdes');
         $oDesProNota->setILargura(400);
+
         $oQtProNota = new CampoConsulta('Quantidade', 'nfsitqtd', CampoConsulta::TIPO_DECIMAL);
+
         $oDataEmi = new CampoConsulta('Emissão', 'nfsitdtemi', CampoConsulta::TIPO_DATA);
+
         $oPedido = new CampoConsulta('Pedido', 'nfsitpdvnr');
+
         $oNfSeq = new CampoConsulta('Seq.', 'nfsitseq');
 
         $oGridNotas->addCampos($oNf, $oNfSeq, $oNfCod, $oDesProNota, $oQtProNota, $oDataEmi, $oPedido);
@@ -56,10 +78,15 @@ class ViewPedRep extends View {
 
 
         $oPdvnro = new CampoConsulta('Nr.Pedido', 'pdvnro');
+
         $oOd = new CampoConsulta('Ord. Compra', 'pdvordcomp');
+
         $oCnpj = new CampoConsulta('Cnpj', 'Pessoa.empcod');
+
         $oEmpDes = new CampoConsulta('Cliente', 'Pessoa.empdes');
+
         $oSituaca = new CampoConsulta('Situação', 'situaca');
+
         $oSituaca->addComparacao('LIBERADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
         $oSituaca->addComparacao('CANCELADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
         $oSituaca->addComparacao('FATURADO', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
@@ -68,8 +95,11 @@ class ViewPedRep extends View {
         $oDtEntre = new CampoConsulta('Entrega', 'pdvdtentre', CampoConsulta::TIPO_DATA);
 
         $oFiltroPdvnro = new Filtro($oPdvnro, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+
         $oFiltroCli = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+
         $oFiltroOd = new Filtro($oOd, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+
         $oFilCnpj = new Filtro($oCnpj, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
         $oFilCnpj->setSClasseBusca('Pessoa');
         $oFilCnpj->setSCampoRetorno('empcod', $this->getTela()->getSId());
@@ -79,17 +109,12 @@ class ViewPedRep extends View {
         $this->addFiltro($oFiltroPdvnro, $oFiltroOd, $oFiltroCli, $oFilCnpj);
 
         $this->setUsaDropdown(true);
+
         $oDrop2 = new Dropdown('Pedido de venda', Dropdown::TIPO_PRIMARY);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', 'PedRep', 'acaoMostraRelConsulta', '', false, 'RepPedido', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Visualizar', 'PedRep', 'acaoMostraRelConsulta', '', false, 'RepPedido');
         $this->addDropdown($oDrop2);
 
         $this->addCampos($oPdvnro, $oOd, $oCnpj, $oEmpDes, $oSituaca, $oEmissao, $oDtEntre);
-        $this->setBScrollInf(true);
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoVisualizar(false);
-        $this->setUsaAcaoIncluir(false);
-        $this->getTela()->setIAltura(250);
 
 
 

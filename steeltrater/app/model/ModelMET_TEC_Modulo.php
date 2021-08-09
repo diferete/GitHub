@@ -1,9 +1,11 @@
 <?php
-class ModelMET_TEC_Modulo{
+
+class ModelMET_TEC_Modulo {
+
     private $modcod;
     private $modescricao;
     private $modApp;
-    
+
     function getModApp() {
         return $this->modApp;
     }
@@ -12,7 +14,6 @@ class ModelMET_TEC_Modulo{
         $this->modApp = $modApp;
     }
 
-        
     function getModcod() {
         return $this->modcod;
     }
@@ -29,11 +30,11 @@ class ModelMET_TEC_Modulo{
         $this->modescricao = $modescricao;
     }
 
-
 }
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+/*
+     * To change this license header, choose License Headers in Project Properties.
+     * To change this template file, choose Tools | Templates
+     * and open the template in the editor.
+     */
 

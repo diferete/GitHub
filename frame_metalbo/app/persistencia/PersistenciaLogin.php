@@ -248,7 +248,6 @@ class PersistenciaLogin extends Persistencia {
     }
 
     /*
-
      * Verifica e altera campo tag_bloq 
      * Conforme quantidade de tentativas erradas de login, podendo bloquear o usuário caso ultrapasse 3 erros
      */
@@ -272,7 +271,7 @@ class PersistenciaLogin extends Persistencia {
     }
 
     /*
-     * Reseta o campo tag_block para o valor 0
+     * Reseta o campo tag_block para o valor 0 caso a senha esteja correta
      * Resetando a quantidade de possibilidades de senha errada para 3
      */
 

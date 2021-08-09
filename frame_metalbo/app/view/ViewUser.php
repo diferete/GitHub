@@ -70,7 +70,7 @@ class ViewUser extends View {
         $oSobrenome->setBUpperCase(true);
 
         $oUsuFone = new Campo('Telefone', 'usufone', Campo::TIPO_TEXTO, 3);
-        //$oUsuFone->addValidacao(FALSE, Validacao::TIPO_TELEFONE);
+//        $oUsuFone->addValidacao(FALSE, Validacao::TIPO_TELEFONE);
 
         $oUsuRamal = new Campo('Ramal', 'usuramal', Campo::TIPO_TEXTO, 1);
         $oUsuRamal->addValidacao(true, Validacao::TIPO_INTEIRO);
@@ -106,6 +106,21 @@ class ViewUser extends View {
         $oFilcgc->setClasseBusca('EmpRex');
         $oFilcgc->setSCampoRetorno('filcgc', $this->getTela()->getId());
 
+        $oFieldEmpresas = new FieldSet('Empresas adicionais');
+        $oFieldEmpresas->setOculto(true);
+
+        $oEmpSteel = new Campo('Steeltrater', 'emp_steeltrater', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
+        $oEmpSteel->setSValorCheck('8993358000174');
+
+        $oEmpPoliamidos = new Campo('Poliamidos', 'emp_poliamidos', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
+        $oEmpPoliamidos->setSValorCheck('83781641000158');
+
+        $oEmpMetFilial = new Campo('Metalbo Filial', 'emp_metalbo_filial', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
+        $oEmpMetFilial->setSValorCheck('75483040000211');
+
+        $oEmpMetMatriz = new Campo('Metalbo Matriz', 'emp_metalbo_matriz', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
+        $oEmpMetMatriz->setSValorCheck('75483040000130');
+
         $oOfficeCod = new Campo('Escritório Rep.', 'RepOffice.officecod', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oOfficeCod->setClasseBusca('RepOffice');
         $oOfficeCod->setSCampoRetorno('officecod', $this->getTela()->getId());
@@ -129,7 +144,8 @@ class ViewUser extends View {
 
         $oSenhaProv = new campo('Senha provisória', 'senhaProvisoria', Campo::TIPO_CHECK, 4);
 
-        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), array($oUserNome, $oSobrenome), array($oUsuFone, $oUsuRamal), array($oUsuEmail, $oUsuSenhaEmail), array($oCodSetor, $oFilcgc), array($oUsutipo, $oOfficeCod), array($oUsuimagem, $oNomeDelsoft), $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv);
+        $oFieldEmpresas->addCampos(array($oEmpSteel, $oEmpPoliamidos, $oEmpMetFilial, $oEmpMetMatriz));
+        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), array($oUserNome, $oSobrenome), array($oUsuFone, $oUsuRamal), array($oUsuEmail, $oUsuSenhaEmail), array($oCodSetor, $oFilcgc), $oFieldEmpresas,array($oUsutipo, $oOfficeCod), array($oUsuimagem, $oNomeDelsoft), $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv);
     }
 
 }

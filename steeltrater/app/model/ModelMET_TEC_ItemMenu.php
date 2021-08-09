@@ -1,18 +1,29 @@
 <?php
+
 /**
  * Classe que implementa o Model do objeto ItemMenu 
  */
-class ModelMET_TEC_ItemMenu{
+class ModelMET_TEC_ItemMenu {
+
     private $MET_TEC_Modulo;
     private $MET_TEC_Menu;
-    private $itecodigo; 
+    private $itecodigo;
     private $itedescricao;
     private $iteordem;
     private $iteclasse;
     private $itemetodo;
     private $url;
     private $iconApp;
-    
+    private $rotina;
+
+    function getRotina() {
+        return $this->rotina;
+    }
+
+    function setRotina($rotina) {
+        $this->rotina = $rotina;
+    }
+
     function getUrl() {
         return $this->url;
     }
@@ -29,9 +40,8 @@ class ModelMET_TEC_ItemMenu{
         $this->iconApp = $iconApp;
     }
 
-        
     function getMET_TEC_Menu() {
-        if(!isset($this->MET_TEC_Menu)){
+        if (!isset($this->MET_TEC_Menu)) {
             $this->MET_TEC_Menu = Fabrica::FabricarModel('MET_TEC_Menu');
         }
         return $this->MET_TEC_Menu;
@@ -41,9 +51,8 @@ class ModelMET_TEC_ItemMenu{
         $this->MET_TEC_Menu = $MET_TEC_Menu;
     }
 
-        
     function getMET_TEC_Modulo() {
-        if(!isset($this->MET_TEC_Modulo)){
+        if (!isset($this->MET_TEC_Modulo)) {
             $this->MET_TEC_Modulo = Fabrica::FabricarModel('MET_TEC_Modulo');
         }
         return $this->MET_TEC_Modulo;
@@ -52,11 +61,6 @@ class ModelMET_TEC_ItemMenu{
     function setMET_TEC_Modulo($MET_TEC_Modulo) {
         $this->MET_TEC_Modulo = $MET_TEC_Modulo;
     }
-
-    
-   
-
-     
 
     function getItecodigo() {
         return $this->itecodigo;
@@ -78,10 +82,6 @@ class ModelMET_TEC_ItemMenu{
         return $this->itemetodo;
     }
 
-   
-
-   
-
     function setItecodigo($itecodigo) {
         $this->itecodigo = $itecodigo;
     }
@@ -102,6 +102,6 @@ class ModelMET_TEC_ItemMenu{
         $this->itemetodo = $itemetodo;
     }
 
-
 }
+
 ?>

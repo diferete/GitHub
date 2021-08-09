@@ -1338,8 +1338,8 @@ function shoppingList() {
                         + '<p id="waiting-msg-cnpj" class="msg-email hidden"></p>'
                         + '</div>' //essa aqui termina
                         + '<div id="send-form" style="text-align: center;margin: 10px 0 10px 0;">'
-                        + '<input id="send-list" onclick="sendPdfEmail()" class="btn class-test" value="Enviar para Metalbo" type="button">'
-                        + '<input id="send-pdf" onclick="visualizaPdf()" class="btn class-test" value="Gerar lista" type="button">'
+                        + '<input id="send-list" onclick="sendPdfEmail()" class="btn class-send" value="Enviar para Metalbo" type="button">'
+                        + '<input id="send-pdf" onclick="visualizaPdf()" class="btn class-view" value="Visualizar lista" type="button">'
                         + '</div>'
                         + '<p id="waiting-msg" class="msg-email hidden"></p>'
                         + '</div>';

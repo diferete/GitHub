@@ -250,7 +250,7 @@ class ViewQualNovoProj extends View {
 
         $oAnexoFree = new campo('Anexo 3', 'anexo3', Campo::TIPO_UPLOAD, 2);
 
-        $oFieldAnexo = new FieldSet('Anexos representante');
+        $oFieldAnexo = new FieldSet('Anexos representane');
         $oFieldAnexo->addCampos(array($oAnexoDesenho, $oAnexoDoc, $oAnexoFree));
         $oFieldAnexo->setOculto(true);
 
@@ -564,6 +564,10 @@ class ViewQualNovoProj extends View {
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
+
+
+
+
 
         $this->addCampos($oObsAprovCli, array($oBtnInserir, $oFilcgc, $oNr));
     }

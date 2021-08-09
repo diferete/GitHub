@@ -196,6 +196,25 @@ class ControllerSTEEL_PCP_ordensFabApontEnt extends Controller {
         $oOp = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
         $oOp->Persistencia->adicionaFiltro('op',$aCampos['op']);
         $oDadosOp = $oOp->Persistencia->consultarWhere();
+        
+        //Verifica se o forno vinculado ao tratamento corresponde ao tratamento cadastrado na OP. FORNO TREFILA x ETAPA----------------------------------------------
+        $oOpReceitaItens = Fabrica::FabricarController('STEEL_PCP_receitasItens');
+        $oOpReceitaItens->Persistencia->adicionaFiltro('cod', $oDadosOp->getReceita());
+        $oOpReceitaItens->Persistencia->adicionaFiltro('recApont', 'SIM');
+        $oDadosOpReceitaItens = $oOpReceitaItens->Persistencia->consultarWhere();
+        $iTrat = $oDadosOpReceitaItens->getSTEEL_PCP_Tratamentos()->getTratcod();
+        
+        $oOpServEquip = Fabrica::FabricarController('STEEL_PCP_ServicoEquip');
+        $oOpServEquip->Persistencia->adicionaFiltro('tratcod', $iTrat);
+        $oOpServEquip->Persistencia->adicionaFiltro('fornocod', $aCampos['fornocod']);
+        $iCont2 = $oOpServEquip->Persistencia->getCount();
+        if($iCont2==0){
+            $oModal = new Modal('Atenção!', 'Forno selecionado incorreto, verifique o cadastro Forno Trefila X Etapa ou Altere o forno!', Modal::TIPO_AVISO, false);
+            echo $oModal->getRender();
+            exit();
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------
+        
         //verifica se temos codigo de forno setado
         if($aCampos['fornocod']==null || $aCampos['fornocod']==''){
             $oModal = new Modal('Atenção!', 'Usuário não possui forno/trefila vinculado ao seu usuário!', Modal::TIPO_AVISO, false);

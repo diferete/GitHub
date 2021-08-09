@@ -1,11 +1,13 @@
 <?php
 
-/* 
- *Classe que implementa o modelo de dados dos usuários
+/*
+ * Classe que implementa o modelo de dados dos usuários
  * @author Avanei Martendal
  * @since 25/12/2015
  */
-class ModelMET_TEC_Usuario{
+
+class ModelMET_TEC_Usuario {
+
     private $usucodigo;
     private $usunome;
     private $ususobrenome;
@@ -15,29 +17,55 @@ class ModelMET_TEC_Usuario{
     private $usucracha;
     private $usufone;
     private $usuramal;
- 
+    private $emp_steeltrater;
+    private $emp_poliamidos;
+    private $emp_metalbo_filial;
+    private $emp_metalbo_matriz;
     private $usubloqueado;
-
     private $usuemail;
     private $filcgc;
     private $officecod;
-    
     private $MET_TEC_UsuTipo;
-
     private $MET_CAD_Setores;
-    
     private $ususalvasenha;
-    
     private $ususit;
-    
     private $senhaProvisoria;
-    
     private $usunomeDelsoft;
-    
     private $codsismetalbo;
-    
     private $turnoSteel;
-    
+
+    function getEmp_metalbo_filial() {
+        return $this->emp_metalbo_filial;
+    }
+
+    function getEmp_metalbo_matriz() {
+        return $this->emp_metalbo_matriz;
+    }
+
+    function setEmp_metalbo_filial($emp_metalbo_filial) {
+        $this->emp_metalbo_filial = $emp_metalbo_filial;
+    }
+
+    function setEmp_metalbo_matriz($emp_metalbo_matriz) {
+        $this->emp_metalbo_matriz = $emp_metalbo_matriz;
+    }
+
+    function getEmp_steeltrater() {
+        return $this->emp_steeltrater;
+    }
+
+    function getEmp_poliamidos() {
+        return $this->emp_poliamidos;
+    }
+
+    function setEmp_steeltrater($emp_steeltrater) {
+        $this->emp_steeltrater = $emp_steeltrater;
+    }
+
+    function setEmp_poliamidos($emp_poliamidos) {
+        $this->emp_poliamidos = $emp_poliamidos;
+    }
+
     function getTurnoSteel() {
         return $this->turnoSteel;
     }
@@ -46,7 +74,6 @@ class ModelMET_TEC_Usuario{
         $this->turnoSteel = $turnoSteel;
     }
 
-        
     function getOfficecod() {
         return $this->officecod;
     }
@@ -55,7 +82,6 @@ class ModelMET_TEC_Usuario{
         $this->officecod = $officecod;
     }
 
-            
     function getCodsismetalbo() {
         return $this->codsismetalbo;
     }
@@ -64,7 +90,6 @@ class ModelMET_TEC_Usuario{
         $this->codsismetalbo = $codsismetalbo;
     }
 
-                
     function getUsunomeDelsoft() {
         return $this->usunomeDelsoft;
     }
@@ -73,11 +98,6 @@ class ModelMET_TEC_Usuario{
         $this->usunomeDelsoft = $usunomeDelsoft;
     }
 
-        
-    
-    
-   
-        
     function getSenhaProvisoria() {
         return $this->senhaProvisoria;
     }
@@ -86,7 +106,6 @@ class ModelMET_TEC_Usuario{
         $this->senhaProvisoria = $senhaProvisoria;
     }
 
-        
     function getUsusit() {
         return $this->ususit;
     }
@@ -95,7 +114,6 @@ class ModelMET_TEC_Usuario{
         $this->ususit = $ususit;
     }
 
-        
     function getUsusalvasenha() {
         return $this->ususalvasenha;
     }
@@ -104,9 +122,8 @@ class ModelMET_TEC_Usuario{
         $this->ususalvasenha = $ususalvasenha;
     }
 
-        
     function getMET_TEC_UsuTipo() {
-        if(!isset($this->MET_TEC_UsuTipo)){
+        if (!isset($this->MET_TEC_UsuTipo)) {
             $this->MET_TEC_UsuTipo = Fabrica::FabricarModel('MET_TEC_UsuTipo');
         }
         return $this->MET_TEC_UsuTipo;
@@ -116,9 +133,8 @@ class ModelMET_TEC_Usuario{
         $this->MET_TEC_UsuTipo = $MET_TEC_UsuTipo;
     }
 
-        
     function getMET_CAD_Setores() {
-        if(!isset($this->MET_CAD_Setores)){
+        if (!isset($this->MET_CAD_Setores)) {
             $this->MET_CAD_Setores = Fabrica::FabricarModel('MET_CAD_Setores');
         }
         return $this->MET_CAD_Setores;
@@ -128,9 +144,6 @@ class ModelMET_TEC_Usuario{
         $this->MET_CAD_Setores = $MET_CAD_Setores;
     }
 
-    
-   
-        
     function getFilcgc() {
         return $this->filcgc;
     }
@@ -139,7 +152,6 @@ class ModelMET_TEC_Usuario{
         $this->filcgc = $filcgc;
     }
 
-        
     function getUsuemail() {
         return $this->usuemail;
     }
@@ -148,7 +160,6 @@ class ModelMET_TEC_Usuario{
         $this->usuemail = $usuemail;
     }
 
-        
     function getUsucodigo() {
         return $this->usucodigo;
     }
@@ -164,8 +175,6 @@ class ModelMET_TEC_Usuario{
     function getUsusenha() {
         return $this->ususenha;
     }
-
-  
 
     function getUsubloqueado() {
         return $this->usubloqueado;
@@ -187,11 +196,9 @@ class ModelMET_TEC_Usuario{
         $this->ususenha = $ususenha;
     }
 
-
     function setUsubloqueado($usubloqueado) {
         $this->usubloqueado = $usubloqueado;
     }
-
 
     function getUsuimagem() {
         return $this->usuimagem;
@@ -200,7 +207,6 @@ class ModelMET_TEC_Usuario{
     function setUsuimagem($usuimagem) {
         $this->usuimagem = $usuimagem;
     }
-
 
     function getUsusobrenome() {
         return $this->ususobrenome;
@@ -218,7 +224,6 @@ class ModelMET_TEC_Usuario{
         return $this->usuramal;
     }
 
-
     function setUsusobrenome($ususobrenome) {
         $this->ususobrenome = $ususobrenome;
     }
@@ -234,10 +239,5 @@ class ModelMET_TEC_Usuario{
     function setUsuramal($usuramal) {
         $this->usuramal = $usuramal;
     }
-    
-
-
-
-
 
 }

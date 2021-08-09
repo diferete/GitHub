@@ -80,7 +80,7 @@ class ControllerLogin extends Controller {
             $this->Persistencia->limpaTag_Bloq();
         
             
-            } else {
+        } else {
             //monta class para registrar login incorreto
             $oLoginErro = Fabrica::FabricarController('LoginErro');
             $oLoginErro->geraLoginErro();

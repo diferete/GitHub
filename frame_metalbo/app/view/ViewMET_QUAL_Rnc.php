@@ -63,7 +63,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oFilTipoRnc->addItemSelect('Externo', 'Tipo - Externo');
         $oFilTipoRnc->setSLabel('');
 
-        $oFilDatabert = new Filtro($oDatabert, Filtro::CAMPO_DATA_ENTRE, 1, 1, 12, 12, false);
+        $oFilDatabert = new Filtro($oDatabert, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
 
 
         $this->addFiltro($oFiltroNr, $oFilCodProd, $oFilCodProbl, $oFilFornecedor, $oFiltroDescP, $oFilCausadores, $oFilTipoRnc, $oFilDatabert);
@@ -145,7 +145,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oCodProd = new Campo('Codigo', 'codprod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCodProd->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodProd->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oCodProd->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '4');
+        $oCodProd->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório!', '3');
 
 
         //campo descrição do produto adicionando o campo de busca
@@ -463,6 +463,7 @@ class ViewMET_QUAL_Rnc extends View {
         $oTipo->addItemSelect('Todos', 'Todos');
         $oTipo->addItemSelect('Porca', 'Porca');
         $oTipo->addItemSelect('Parafuso', 'Parafuso');
+        $oTipo->addItemSelect('FioMaq', 'Fio Máquina');
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
@@ -532,7 +533,7 @@ class ViewMET_QUAL_Rnc extends View {
 
         // $sCheck = new campo('Aplicar', 'func', Campo::TIPO_CHECK, 3, 3, 12, 12);
 
-        $sSelectRelatorio = new Campo('Tipo de Relatório', 'tiprel', Campo::CAMPO_SELECTSIMPLE, 5, 8, 12, 12);
+        $sSelectRelatorio = new Campo('Tipo de Relatório', 'tiprel', Campo::CAMPO_SELECTSIMPLE, 6, 6, 12, 12);
         $sSelectRelatorio->addItemSelect('1', 'COMPLETO');
         $sSelectRelatorio->addItemSelect('2', 'QUANTIDADES CONFORME SITUAÇÃO, TIPO DE FIXADOR E ORIGEM DAS RNCs');
         $sSelectRelatorio->addItemSelect('3', 'PESO NÃO CONFORME DE ACORDO COM A DECISÃO');

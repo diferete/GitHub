@@ -111,6 +111,14 @@ class ViewMET_GerenciaFrete extends View {
         $oSeqReg = new Campo('Seq.Regra', 'seqregra', Campo::TIPO_TEXTO, 1);
         $oSeqReg->setBOculto(true);
 
+        $oValorServ2 = new Campo('Valor 2', 'valorserv2', Campo::TIPO_TEXTO, 1);
+        $oValorServ2->setId('valorservfrete2');
+        $oValorServ2->setBOculto(true);
+
+        $oValorServ3 = new Campo('Valor 3', 'valorserv3', Campo::TIPO_TEXTO, 1);
+        $oValorServ3->setId('valorservfrete3');
+        $oValorServ3->setBOculto(true);
+
         $oNrCon = new Campo('Nr. Conhecimento', 'nrconhe', Campo::TIPO_TEXTO, 2);
         $oNrCon->setId('gerenciafrete_nrconhe');
         $oNrCon->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
@@ -202,7 +210,7 @@ class ViewMET_GerenciaFrete extends View {
         $sDataFn->setId('gerenciafrete_datafn');
         $sDataFn->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
 
-        $this->addCampos(array($oNr, $oCnpj, $oNrFat, $sDataEm, $sDataFn), $oL, array($oCodtip, $oNrCon, $oNrNot, $oTotalNf, $oTotalKg, $oFracaoFrete, $oValSer, $oSit), $oL, $oSeqReg, $oGridFrete, $oL, array($oDat, $oHora, $oUser), $oL, $oObs);
+        $this->addCampos(array($oNr, $oCnpj, $oNrFat, $sDataEm, $sDataFn), $oL, array($oCodtip, $oNrCon, $oNrNot, $oTotalNf, $oTotalKg, $oFracaoFrete, $oValSer, $oSit), $oL, $oSeqReg, $oValorServ2, $oValorServ3, $oGridFrete, $oL, array($oDat, $oHora, $oUser), $oL, $oObs);
     }
 
     /**

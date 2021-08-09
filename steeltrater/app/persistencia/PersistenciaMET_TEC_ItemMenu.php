@@ -23,6 +23,7 @@ class PersistenciaMET_TEC_ItemMenu extends Persistencia {
         $this->adicionaRelacionamento('itemetodo', 'itemetodo');
         $this->adicionaRelacionamento('url', 'url');
         $this->adicionaRelacionamento('iconApp', 'iconApp');
+        $this->adicionaRelacionamento('rotina', 'rotina');
 
         $this->adicionaJoin('MET_TEC_Modulo');
         $this->adicionaJoin('MET_TEC_Menu');
@@ -72,6 +73,32 @@ class PersistenciaMET_TEC_ItemMenu extends Persistencia {
             $aRetorno[] = $aSubMenu;
         }
         return $aRetorno;
+    }
+
+    public function getRotinasAdicionais() {
+        $sSql = "select "
+                . "mencodigo,"
+                . "itedescricao,"
+                . "iteclasse,"
+                . "itemetodo,"
+                . "iteordem "
+                . "from MET_TEC_itenmenu "
+                . "left outer join MET_TEC_modusuario on "
+                . "MET_TEC_itenmenu.modcod = MET_TEC_modusuario.modcod "
+                . "where rotina = 'S' "
+                . "and usucodigo = " . $_SESSION['codUser'];
+        $result = $this->getObjetoSql($sSql);
+        $aRotinas = array();
+        while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+            $aItenMenu = array();
+            $aItenMenu[] = $row->mencodigo;
+            $aItenMenu[] = $row->itedescricao;
+            $aItenMenu[] = $row->iteclasse;
+            $aItenMenu[] = $row->itemetodo;
+            $aItenMenu[] = $row->iteordem;
+            $aRotinas[] = $aItenMenu;
+        }
+        return $aRotinas;
     }
 
 }

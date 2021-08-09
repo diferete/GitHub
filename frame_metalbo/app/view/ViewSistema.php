@@ -81,6 +81,8 @@ class ViewSistema extends View {
                 . '<!-- Fonts -->'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/web-icons/web-icons.min.css">'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/brand-icons/brand-icons.min.css">'
+                . '<link rel="stylesheet" href="biblioteca/assets/fonts/ionicons/ionicons.min.css">'
+                . '<link rel="stylesheet" href="biblioteca/assets/fonts/font-awesome/font-awesome.min.css">'
                 //. '<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic">'
                 . '<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">'
                 . '<link rel="stylesheet" href="biblioteca/assets/fonts/font-awesome/font-awesome.css">'
@@ -138,16 +140,8 @@ class ViewSistema extends View {
                 . '<button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse" data-toggle="collapse">'
                 . '<i class="icon wb-more-horizontal" aria-hidden="true"></i>'
                 . '</button>'
-                //.'<div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">'
                 . '<a href="https://sistema.metalbo.com.br/" target="_blank" rel="noopener">'
-                . '<img class="navbar-brand-logo" style ="margin-top:10px; margin-left:10px" id="logo" src="Uploads/' . $_SESSION['imgLogo'] . '" title="Metalbo"> </a>'
-                //.'<span class="navbar-brand-text"> </span>'
-                //.'</div>'
-                /* .'<button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"'
-                  .'data-toggle="collapse">'
-                  .'<span class="sr-only">Toggle Search</span>'
-                  .'<i class="icon wb-search" aria-hidden="true"></i>'
-                  .'</button>' */
+                . '<img class="navbar-brand-logo logo_empresas" id="logo" src="Uploads/logo.png" title="Metalbo"> </a>'
                 . '</div>'
                 . '<div class="navbar-container container-fluid">'
                 . '<!-- Navbar Collapse -->'
@@ -162,22 +156,6 @@ class ViewSistema extends View {
                 . '</i>'
                 . '</a>'
                 . '</li>'
-                /*
-                 * Tela Cheia
-                  .'<li class="hidden-xs" id="toggleFullscreen">'
-                  .'<a class="icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">'
-                  .'<span class="sr-only">Toggle fullscreen</span>'
-                  .'</a>'
-                  .'</li>'
-                 */
-                /*
-                 * Pesquisar
-                  .'<li class="hidden-float">'
-                  .'<a class="icon wb-search" data-toggle="collapse" href="#" data-target="#site-navbar-search" role="button">'
-                  .'<span class="sr-only">Toggle Search</span>'
-                  .'</a>'
-                  .'</li>'
-                 */
                 . '<!--INICIA O MENU SUPERIOR-->'
                 . '<!--fim acesso modulos-->'
                 . '<li class="dropdown">'
@@ -214,25 +192,6 @@ class ViewSistema extends View {
                 . '<!-- End Navbar Toolbar -->'
                 . '<!--MENU DA DIREITA -->'
                 . '<ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">'
-                /* . '<li class="dropdown">'
-                  . '<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"'
-                  . ' aria-expanded="false" role="button">'
-                  . '<span class="flag-icon flag-icon-br"></span>'
-                  . '</a>'
-                  . '<ul class="dropdown-menu" role="menu">'
-                  . '<li role="presentation">'
-                  . '<a href="javascript:void(0)" role="menuitem">'
-                  . '<span class="flag-icon flag-icon-us"></span> English</a>'
-                  . '</li>'
-                  . '<li role="presentation">'
-                  . '<a href="javascript:void(0)" role="menuitem">'
-                  . '<span class="flag-icon flag-icon-ar"></span> Español</a>'
-                  . '</li>'
-                  . '</ul>'
-                  . '</li>'
-                  . '<li id="notificationList" onclick="testeMsg()" class="dropdown">'
-                  . $this->montaListaNotificacoes()
-                  . '</li> ' */
                 . '<li class="dropdown">'
                 . '<a data-toggle="dropdown" href="javascript:void(0)" title="Informações do Usuário" aria-expanded="false"'
                 . ' data-animation="scale-up" role="button">'
@@ -252,6 +211,7 @@ class ViewSistema extends View {
                 . '</div>'
                 . '<div class="media-body">'
                 . '<h6 class="media-heading">Nome: ' . $_SESSION['nome'] . '</h6>'
+                . '<h6 class="media-heading">Login: ' . $_SESSION['loginUser'] . '</h6>'
                 . '<h6 class="media-heading">Setor: ' . $sSetor . '</h6>'
                 . '<h6 class="media-heading">Login: ' . $_SESSION['loginUser'] . '</h6>'
                 . '<h6 class="media-heading">Código: ' . $_SESSION['codUser'] . '</h6>'
@@ -275,175 +235,22 @@ class ViewSistema extends View {
                 . '</li>'
                 . '</ul>'
                 . '<li class="dropdown">'
-                . '<a class="navbar-avatar avatar-lg dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"'
-                . ' data-animation="scale-up" role="button">'
+                . '<a class="navbar-avatar avatar-lg dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button" style="padding: 20px 10px 0 0;">'
                 . '<span class="avatar avatar-online">'
                 . '<img id="on-line" src="Uploads/' . $_SESSION["usuimagem"] . '" style="height: 30px;">'
-                . '<i></i>'
+                /*. '<i></i>'*/
                 . '</span>'
                 . '</a>'
                 . '<ul class="dropdown-menu" role="menu">'
                 . '<li role="presentation">'
                 . '<a href="javascript:void(0)" role="menuitem" onclick="verificaTab(\'menu-1-p\',\'1-p\',\'Profile\',\'acaoMostraTelaPerfil\',\'usucodigo=' . $_SESSION["codUser"] . ',tabmenu-1-pcontrol\',\'Meu Perfil\');"><i class="icon wb-user" aria-hidden="true"></i> Perfil</a>'
                 . '</li>'
-                /* .'<li role="presentation">'
-                  .'<a href="javascript:void(0)" role="menuitem"><i class="icon wb-payment" aria-hidden="true"></i> Billing</a>'
-                  .'</li>'
-                  .'<li role="presentation">'
-                  .'<a href="javascript:void(0)" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>'
-                  .'</li>' */
                 . '<li class="divider" role="presentation"></li>'
                 . '<li role="presentation">'
                 . '<a href="javascript:void(0)" role="menuitem" onclick="requestAjax(\'\',\'Usuario\',\'acaoLogout\',\'\')"><i class="icon wb-power" aria-hidden="true"></i> Logout</a>'
                 . '</li>'
                 . '</ul>'
                 . '</li>'
-                // .'<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                // .'<div class="media">'
-                // .'<div class="media-left padding-right-10">'
-                // .'<i class="icon wb-settings bg-red-600 white icon-circle" aria-hidden="true"></i>'
-                // .'</div>'
-                // .'<div class="media-body">'
-                // .'<h6 class="media-heading">Settings updated</h6>'
-                // .'<time class="media-meta" datetime="2015-06-11T14:05:00+08:00">2 days ago</time>'
-                // .'</div>'
-                // .'</div>'
-                // .'</a>'
-                // .'<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                // .'<div class="media">'
-                // .'<div class="media-left padding-right-10">'
-                // .'<i class="icon wb-calendar bg-blue-600 white icon-circle" aria-hidden="true"></i>'
-                // .'</div>'
-                // .'<div class="media-body">'
-                // .'<h6 class="media-heading">Event started</h6>'
-                // .'<time class="media-meta" datetime="2015-06-10T13:50:18+08:00">3 days ago</time>'
-                // .'</div>'
-                // .'</div>'
-                // .'</a>'
-                // .'<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                // .'<div class="media">'
-                // .'<div class="media-left padding-right-10">'
-                // .'<i class="icon wb-chat bg-orange-600 white icon-circle" aria-hidden="true"></i>'
-                // .'</div>'
-                // .'<div class="media-body">'
-                // .'<h6 class="media-heading">Message received</h6>'
-                // .'<time class="media-meta" datetime="2015-06-10T12:34:48+08:00">3 days ago</time>'
-                // .'</div>'
-                // .'</div>'
-                // .'</a>'
-                // .'</div>'
-                // .'</div>'
-                // .'</li>'
-                // .'<li class="dropdown-menu-footer" role="presentation">'
-                // .'<a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">'
-                // .'<i class="icon wb-settings" aria-hidden="true"></i>'
-                // .'</a>'
-                // .'<a href="javascript:void(0)" role="menuitem">'
-                // .' All notifications'
-                // .'</a>'
-                // .'</li>'
-                // .'</ul>'
-                // .'</li>'
-                // .'<li class="dropdown">'
-                // .'<a data-toggle="dropdown" href="javascript:void(0)" title="Messages" aria-expanded="false"'
-                // .' data-animation="scale-up" role="button">'
-                // .'<i class="icon wb-envelope" aria-hidden="true"></i>'
-                // .'<span class="badge badge-info up">3</span>'
-                // .'</a>'
-                // .'<ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">'
-                // .'<li class="dropdown-menu-header" role="presentation">'
-                // .'<h5>MESSAGES</h5>'
-                // .'<span class="label label-round label-info">New 3</span>'
-                // .'</li>'
-                // .'<li class="list-group" role="presentation">'
-                // .'<div data-role="container">'
-                // .'<div data-role="content">'
-                // .'<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                // .'<div class="media">'
-                // .'<div class="media-left padding-right-10">'
-                // .'<span class="avatar avatar-sm avatar-online">'
-                // .'<img src="biblioteca/assets/portraits/2.jpg" alt="..." />'
-                // .'<i></i>'
-                // .'</span>'
-                // .'</div>'
-                // .'<div class="media-body">'
-                // .'<h6 class="media-heading">Mary Adams</h6>'
-                // .'<div class="media-meta">'
-                // .'<time datetime="2015-06-17T20:22:05+08:00">30 minutes ago</time>'
-                // .'</div>'
-                // .'<div class="media-detail">Anyways, i would like just do it</div>'
-                // .'</div>'
-                // .'</div>'
-                // .'</a>'
-                // .'<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                // .'<div class="media">'
-                // .'<div class="media-left padding-right-10">'
-                // .'<span class="avatar avatar-sm avatar-off">'
-                // .'<img src="biblioteca/assets/portraits/3.jpg" alt="..." />'
-                // .'<i></i>'
-                // .'</span>'
-                // .'</div>'
-                // .'<div class="media-body">'
-                // .'<h6 class="media-heading">Caleb Richards</h6>'
-                // .'<div class="media-meta">'
-                // .'<time datetime="2015-06-17T12:30:30+08:00">12 hours ago</time>'
-                // .'</div>'
-                // .'<div class="media-detail">I checheck the document. But there seems</div>'
-                // .'</div>'
-                // .'</div>'
-                // .'</a>'
-                // .'<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                // .'<div class="media">'
-                // .'<div class="media-left padding-right-10">'
-                // .'<span class="avatar avatar-sm avatar-busy">'
-                // .'<img src="biblioteca/assets/portraits/4.jpg" alt="..." />'
-                // .'<i></i>'
-                // .'</span>'
-                // .'</div>'
-                // .'<div class="media-body">'
-                // .'<h6 class="media-heading">June Lane</h6>'
-                // .'<div class="media-meta">'
-                // .'<time datetime="2015-06-16T18:38:40+08:00">2 days ago</time>'
-                // .'</div>'
-                // .'<div class="media-detail">Lorem ipsum Id consectetur et minim</div>'
-                // .'</div>'
-                // .'</div>'
-                // .'</a>'
-                // .'<a class="list-group-item" href="javascript:void(0)" role="menuitem">'
-                // .'<div class="media">'
-                // .'<div class="media-left padding-right-10">'
-                // .'<span class="avatar avatar-sm avatar-away">'
-                // .'<img src="biblioteca/assets/portraits/5.jpg" alt="..." />'
-                // .'<i></i>'
-                // .'</span>'
-                // .'</div>'
-                // .'<div class="media-body">'
-                // .'<h6 class="media-heading">Edward Fletcher</h6>'
-                // .'<div class="media-meta">'
-                // .'<time datetime="2015-06-15T20:34:48+08:00">3 days ago</time>'
-                // .'</div>'
-                // .'<div class="media-detail">Dolor et irure cupidatat commodo nostrud nostrud.</div>'
-                // .'</div>'
-                // .'</div>'
-                // .'</a>'
-                // .'</div>'
-                // .'</div>'
-                // .'</li>'
-                // .'<li class="dropdown-menu-footer" role="presentation">'
-                // .'<a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">'
-                // .'<i class="icon wb-settings" aria-hidden="true"></i>'
-                // .'</a>'
-                // .'<a href="javascript:void(0)" role="menuitem">'
-                // .' See all messages'
-                // .'</a>'
-                // .'</li>'
-                // .'</ul>'
-                // .'</li>'
-                // .'<li id="toggleChat">'
-                // .'<a data-toggle="site-sidebar" href="javascript:void(0)" title="Chat" data-url="../site-sidebar.tpl">'
-                // .'<i class="icon wb-chat" aria-hidden="true"></i>'
-                // .'</a>'
-                // .'</li>'
                 . '</ul>'
                 . '<!-- End Navbar Toolbar Right -->'
                 . '</div>'
@@ -469,81 +276,12 @@ class ViewSistema extends View {
                 . '<div>'
                 . '<div>'
                 . '<ul class="site-menu" id="menu">'
-                //chamar string do menu
                 . $this->menuSistema()
                 . '</ul>'
                 . '</div>'
                 . '</div>'
                 . '</div>'
-                // .'<div class="site-menubar-footer">'
-                // .'<a href="javascript: void(0);" class="fold-show" data-placement="top" data-toggle="tooltip"'
-                // .' data-original-title="Settings">'
-                // .'<span class="icon wb-settings" aria-hidden="true"></span>'
-                // .'</a>'
-                // .'<a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Lock">'
-                // .'<span class="icon wb-eye-close" aria-hidden="true"></span>'
-                // .'</a>'
-                // .'<a href="javascript: void(0);" data-placement="top" data-toggle="tooltip" data-original-title="Logout" onclick="requestAjax(\'\',\'usuario\',\'acaoLogout\',\'\'>'
-                // .'<span class="icon wb-power" aria-hidden="true"></span>'
-                // .'</a>'
-                // .'</div>'
                 . '</div>'
-                /* .'<div class="site-gridmenu">'
-                  .'<div>'
-                  .'<div>'
-                  .'<ul>'
-                  .'<li>'
-                  .'<a href="../apps/mailbox/mailbox.html">'
-                  .'<i class="icon wb-envelope"></i>'
-                  .'<span>Mailbox</span>'
-                  .'</a>'
-                  .'</li>'
-                  .'<li>'
-                  .'<a href="../apps/calendar/calendar.html">'
-                  .'<i class="icon wb-calendar"></i>'
-                  .'<span>Calendar</span>'
-                  .'</a>'
-                  .'</li>'
-                  .'<li>'
-                  .'<a href="../apps/contacts/contacts.html">'
-                  .'<i class="icon wb-user"></i>'
-                  .'<span>Contacts</span>'
-                  .'</a>'
-                  .'</li>'
-                  .'<li>'
-                  .'<a href="../apps/media/overview.html">'
-                  .'<i class="icon wb-camera"></i>'
-                  .'<span>Media</span>'
-                  .'</a>'
-                  .'</li>'
-                  .'<li>'
-                  .'<a href="../apps/documents/categories.html">'
-                  .'<i class="icon wb-order"></i>'
-                  .'<span>Documents</span>'
-                  .'</a>'
-                  .'</li>'
-                  .'<li>'
-                  .'<a href="../apps/projects/projects.html">'
-                  .'<i class="icon wb-image"></i>'
-                  .'<span>Project</span>'
-                  .'</a>'
-                  .'</li>'
-                  .'<li>'
-                  .'<a href="../apps/forum/forum.html">'
-                  .'<i class="icon wb-chat-group"></i>'
-                  .'<span>Forum</span>'
-                  .'</a>'
-                  .'</li>'
-                  .'<li>'
-                  .'<a href="../index.html">'
-                  .'<i class="icon wb-dashboard"></i>'
-                  .'<span>Dashboard</span>'
-                  .'</a>'
-                  .'</li>'
-                  .'</ul>'
-                  .'</div>'
-                  .'</div>'
-                  .'</div>' */
                 . '<!-- Page -->'
                 . '<div class="page animsition">'
                 . '<!-- <div class="page-header">'
@@ -555,7 +293,7 @@ class ViewSistema extends View {
                 . '<div class="nav-tabs-horizontal nav-tabs-inverse">'
                 . '<ul class="nav nav-tabs nav-tabs-solid" data-plugin="nav-tabs" role="tablist" id="tabmenusuperior">'
                 . '</ul>'
-                . '<div class="tab-content padding-top-15" id="tabmenucont">'/* ONDE VAMOS CRIAR A TELA */
+                . '<div class="tab-content padding-top-15" id="tabmenucont">'
                 . $this->montMsgInicial()
                 . '</div>'
                 . '</div><!--final-->'
@@ -634,16 +372,6 @@ class ViewSistema extends View {
                 . ' toastr["success"]("SISTEMA ON LINE", "PRONTO!");'
                 . ' });'
                 . ' })(document, window, jQuery);'
-//                . ' var menuRecolhido = false;'
-//                . ' $("#toggleMenubar").click(function(){'
-//                . ' if(!menuRecolhido){'
-//                . ' $("#logo").attr("src","biblioteca/assets/images/m.png");'
-//                . ' menuRecolhido = true;'
-//                . ' }else{'
-//                . ' $("#logo").attr("src","biblioteca/assets/images/logo.png");'
-//                . ' menuRecolhido = false;'
-//                . ' }'
-//                . ' });'
                 . ' function carregapesq(){'
                 . ' if (classeBusca !== undefined && classeBusca != ""){'
                 . ' var cont = $("#carregapesq").val().length; '
@@ -651,8 +379,6 @@ class ViewSistema extends View {
                 . ' console.log(controleRequest);'
                 . ' requestAjax("",classeBusca,metodoBusca,campoRetId+","+idbusca+","+campoBusca+","+campoValor+","+$("#carregapesq").val());'
                 . ' controleRequest ="request";'
-                //.' controleRequest ="n";'&& controleRequest === "s"
-                //. ' console.log(controleRequest);'
                 . ' }'
                 . ' }'
                 . ' };'
@@ -665,7 +391,6 @@ class ViewSistema extends View {
                 . '$(document).ready(function() { '
                 . 'document.body.style.zoom = "89%";  '
                 . '}); '
-                //. 'if (typeof jQuery !== "undefined") {console.log(jQuery.fn.jquery);}'
                 . '</script> '
                 . '</html>';
 
@@ -733,8 +458,8 @@ class ViewSistema extends View {
                 . "$('#tabmenusuperior > li').each(function(){"
                 . " if(tabname == $(this).attr('id')){ "
                 . " addnewtab='n';"
-                . " } "
-                . " }); "
+                . "} "
+                . "}); "
                 . "if(addnewtab=='s'){ "
                 . " newTab(id,tela);"
                 . "requestAjax(iMenuId, SupItem1, SupItem2, tab,parametros);"
@@ -746,10 +471,7 @@ class ViewSistema extends View {
                 . "function newTab(id,nomeTela){ var titulo=''; "
                 . "titulo = $('#'+id+' span').text()+nomeTela; "
                 . "titulo2 = $('#'+id+' > a').text()+nomeTela; "
-                // ."alert(id);"
-                // ."alert(titulo2);"
                 . "if(titulo==''){"
-                // ."alert('entrou');"
                 . "titulo=titulo2;};"
                 . "var tabmenu = 'tab'+id;"
                 . "controleAbas(tabmenu);"
@@ -770,11 +492,6 @@ class ViewSistema extends View {
                 . " '</div>'"
                 . ");"
                 . "};"
-                //. "function FechaCarregando(tabId) {"
-                //. "var abaAtiva = $('#'+ tabID +'-carregando');"
-                //. "var abaAtiva = $('.carregando');"
-                //. "alert('Fecha:'+ tabId+ '-carregando');"
-                //. "abaAtiva.hide();"
                 . "function ativaTab(tabname){"
                 . "$('#tabmenusuperior > li').removeClass(\"active\");"
                 . "$('#tabmenucont > div').removeClass(\"active\");"
@@ -785,13 +502,10 @@ class ViewSistema extends View {
                 . "abaSelecionada = tabId;"
                 . "}"
                 . "function ativaPerfil(){"
-                //. "alert('Ativou');"
                 . "var countTabs=0;"
                 . "$('#tabmenusuperior > li').each(function(){"
-                //. "alert('Entrou each');"
                 . "countTabs++;"
-                //. "alert(countTabs);"
-                . "});"
+                . "}); "
                 . "if (countTabs > 1) {"
                 . "abaSelecionada = tabId;"
                 . "}"
@@ -800,16 +514,9 @@ class ViewSistema extends View {
                 . "} "
                 . "}"
                 . "function showPerfil(){"
-                //. "alert('chegou no show perfil');"
                 . "$('#perfilPrincipal').show();"
                 . "}";
 
-        /*
-         * '$("#' . $sIdTela . 'consulta tbody .selected").each(function(){'
-          . 'contChave[contP]=$(this).find(".chave").html();'
-          . 'contP++;'
-          . '});';
-         */
 
 
         return $sTab;
@@ -836,16 +543,49 @@ class ViewSistema extends View {
      */
     public function montMsgInicial() {
         $sMsg = '<div class="example-wrap" id="perfilPrincipal">'
-                . '<div class="example example-well col-md-8" style="height:700px">'
-                . '<div class="page-header text-center">'
+                . '<div>'
+                . '<div class = "example-well col-md-12" style = "height:700px" id = "telaInicialLogin">'
+                . '<div class = "page-aside">'
+                . '<div class = "page-aside-switch">'
+                . '<i class = "icon wb-chevron-left" aria-hidden = "true"></i>'
+                . '<i class = "icon wb-chevron-right" aria-hidden = "true"></i>'
+                . '</div>'
+                . '<div class = "page-aside-inner">'
+                . '<section class = "page-aside-section">'
+                . '<h5 class = "page-aside-title">Minhas empresas</h5>'
+                . '<div class = "list-group">';
+        $sMsg = $sMsg . $this->getEmpresasAdicionais();
+        $sMsg = $sMsg . '</div>'
+                . '</section>'
+                . '<section class = "page-aside-section">'/*
+                  . '<h5 class = "page-aside-title">Meus ícones</h5>'
+                  . '<div class = "list-group">'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-image" aria-hidden = "true"></i>Images</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-volume-high" aria-hidden = "true"></i>Audio</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-camera" aria-hidden = "true"></i>Video</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-file" aria-hidden = "true"></i>Notes</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-link-intact" aria-hidden = "true"></i>Links</a>'
+                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-order" aria-hidden = "true"></i>Files</a>'
+                  . '</div>'
+                  . '</section>' */
+                . '</div>'
+                . '</div>'
+                . '<div id="icoAtualiza2">'
+                . '<h4 style="text-align-last:end;margin-top:10px;margin-left:5px;cursor:pointer;" title="Atualizações">'
+                . '<i class = "icon wb-list" aria-hidden = "true" ></i>'
+                /*. 'Atualizações '*/
+                . '</h4>'
+                . '</div>'
+                . '<div class = "page-header text-center">'
                 . '</br>'
-                . '<h1 class="page-title">Bem-vindo!</h1>'
-                . '<img class="img-circle img-bordered img-bordered-primary" width="150" height="150" src="Uploads/' . $_SESSION["usuimagem"] . '" id="img-perfil1">'
-                . '<h2 class="page-title">' . $_SESSION["nome"] . '</h2>'
+                /*. '<h1 class = "page-title">Bem vindo, '. $_SESSION["nome"] .'</h1>'*/
+                . '<img class = "img-circle" width = "150" height = "150" src = "Uploads/' . $_SESSION["usuimagem"] . '" id = "img-perfil1">'
+                /*. '<h2 class = "page-title">' . $_SESSION["nome"] . '</h2>'*/
+                . '<h1 class = "page-title">Bem-vindo, '. $_SESSION["nome"] .'</h1>'
                 . '<div>'
                 . '</div>'
-                . '</br>'
-                . '<div style="position: absolute;bottom: 0;left: 0;top: 650px">'
+                . '</br>'/*
+                . '<div style="top: 650px">'
                 . '<p class="page-description">'
                 . '<a target="_blank" href="http://metalbo.com.br/" style="margin: 10px;text-decoration: none;">metalbo.com.br</a>'
                 . '<a target="_blank" href="https://facebook.com/metalbo.oficial" style="margin: 10px;text-decoration: none;"> '
@@ -862,10 +602,66 @@ class ViewSistema extends View {
                 . '</span> Treinamentos'
                 . '</button>'
                 . '</a>'
-                . '</div>'
+                . '</div>'*/
                 . '</br>'
                 . '</div>'
+                . '</div>'
                 . $this->montaTabela()
+                . '<script>'
+                . '$("#icoAtualiza2").click(function(){'
+                . 'if ($("#tabelaAtualizacoes").is(":visible")) {'
+                . '$("#tabelaAtualizacoes").hide();'
+                . '} else {'
+                . '$("#tabelaAtualizacoes").toggle("show");'
+                . '}'
+                . 'if ($("#icoAtualiza").is(":visible")) {'
+                . '$("#icoAtualiza").hide();'
+                . '} else {'
+                . ' $("#icoAtualiza").toggle("show");'
+                . '}'
+                . 'if ($("#icoAtualiza2").is(":visible")) {'
+                . '$("#icoAtualiza2").hide();'
+                . '} else {'
+                . ' $("#icoAtualiza2").toggle("show");'
+                . '}'
+                . '$("#telaInicialLogin").toggleClass("col-md-8","col-md-12");'
+                . '});'
+                . '$("#icoAtualiza").click(function(){'
+                . 'if ($("#tabelaAtualizacoes").is(":visible")) {'
+                . '$("#tabelaAtualizacoes").hide();'
+                . '} else {'
+                . '$("#tabelaAtualizacoes").toggle("show");'
+                . '}'
+                . 'if ($("#icoAtualiza").is(":visible")) {'
+                . '$("#icoAtualiza").hide();'
+                . '} else {'
+                . ' $("#icoAtualiza").toggle("show");'
+                . '}'
+                . 'if ($("#icoAtualiza2").is(":visible")) {'
+                . '$("#icoAtualiza2").hide();'
+                . '} else {'
+                . ' $("#icoAtualiza2").toggle("show");'
+                . '}'
+                . '$("#telaInicialLogin").toggleClass("col-md-8","col-md-12");'
+                . '});'
+                . '$("#8993358000174-empresa").click(function(){'
+                . '$("#logo").attr("src","biblioteca/assets/images/logoS.png");'
+                . '$("#logo").attr("title","Steeltrater").removeClass("logo_poliamidos").addClass("logo_empresas");'
+                . '});'
+                . '$("#83781641000158-empresa").click(function(){'
+                . '$("#logo").attr("src","biblioteca/assets/images/logoP.png");'
+                . '$("#logo").attr("title","Poliamidos").removeClass("logo_poliamidos").removeClass("logo_empresas").addClass("logo_poliamidos");'
+                . '});'
+                . '$("#75483040000130-empresa").click(function(){'
+                . '$("#logo").attr("src","biblioteca/assets/images/logoM.png");'
+                . '$("#logo").attr("title","Metalbo").removeClass("logo_poliamidos").addClass("logo_empresas");'
+                . '});'
+                . '$("#75483040000211-empresa").click(function(){'
+                . '$("#logo").attr("src","biblioteca/assets/images/logoM.png");'
+                . '$("#logo").attr("title","Metalbo").removeClass("logo_poliamidos").addClass("logo_empresas");'
+                . '});'
+                . '</script>'
+                . '</div>'
                 . '</div>';
         return $sMsg;
     }
@@ -875,7 +671,7 @@ class ViewSistema extends View {
      */
     public function favMenu() {
         $oFavMenu = Fabrica::FabricarController('FavMenu');
-        $sString = $oFavMenu->getFavMenu(false);
+        $sString = $oFavMenu->getFavMenu();
         return $sString;
     }
 
@@ -883,39 +679,102 @@ class ViewSistema extends View {
         $oControllerUpdates = Fabrica::FabricarController('MET_TEC_Updates');
         $aBuscaUpdates = $oControllerUpdates->getDadosUpdates();
 
-        $html = '</div>'
-                . '<div class="col-md-4">'
-                . '<h4 style="margin-top:30px;margin-left:5px"><i class="icon wb-book" aria-hidden="true"></i>Atualizações '
-                . '  </h4> '
-                . ' <div class="example table-responsive" style="margin-left:5px;"> '
-                . '   <table class="table table-striped"> '
-                . '     <thead> '
-                . '       <tr> '
-                . '         <th style="font-size:16px;font-weight:600;">Versão</th> '
-                . '         <th style="font-size:16px;font-weight:600;">Updates</th> '
-                . '         <th style="font-size:16px;font-weight:600;">Doc.</th> '
-                . '       </tr>  '
-                . '     </thead> '
-                . '     <tbody> ';
+        $html = '<h4 id="icoAtualiza" style = "text-align: center;margin-top: 0px;margin-left: 5px;cursor: pointer;display: none;">'
+                . '<i class = "icon wb-list" aria-hidden = "true" ></i> Atualizações'
+                . '</h4> '
+                . '<div class = "col-md-4" style="display:none;" id = "tabelaAtualizacoes">'
+                . '<div class = "table-responsive" style = "margin-left:5px;"> '
+                . '<table class = "table table-striped"> '
+                . '<thead> '
+                . '<tr> '
+                . '<th style = "font-size:16px;font-weight:600;">Versão</th> '
+                . '<th style = "font-size:16px;font-weight:600;">Updates</th> '
+                . '<th style = "font-size:16px;font-weight:600;">Doc.</th> '
+                . '</tr> '
+                . '</thead> '
+                . '<tbody> ';
         foreach ($aBuscaUpdates as $key => $value) {
             $href = '';
-            $html = $html . '       <tr> '
-                    . '         <td><span class="badge badge-dark">' . $value->versao . '</span></td> '
-                    . '         <td style="width:450px">' . $value->updates . '</td> ';
+            $html = $html . ' <tr> '
+                    . ' <td><span class = "badge badge-dark">' . $value->versao . '</span></td> '
+                    . ' <td style = "width:450px">' . $value->updates . '</td> ';
             if ($value->anexo != '') {
-                $html = $html . '         <td><a href="http://localhost/github/frame_metalbo/uploads/' . $value->anexo . '" target="_blank"  rel=”noopener”>Clique aqui</a></td> ';
+                $html = $html . ' <td><a href = "http://localhost/github/frame_metalbo/uploads/' . $value->anexo . '" target = "_blank" rel = ”noopener”>Clique aqui</a></td> ';
             } else {
-                $html = $html . '         <td></td> ';
+                $html = $html . ' <td></td> ';
             }
-            $html = $html . '       </tr> ';
+            $html = $html . ' </tr> ';
         }
-        $html = $html . '     </tbody>'
-                . '   </table>'
-                . ' </div>';
+        $html = $html . ' </tbody>'
+                . '</table>'
+                . '</div>';
 
         return $html;
     }
 
+    public function getEmpresasAdicionais() {
+
+        $html = $this->getEmpresaPadrao();
+
+        $oPersistenciaUsuario = Fabrica::FabricarPersistencia('User');
+        $aBuscaEmpresas = $oPersistenciaUsuario->getEmpresasAdicionais();
+        foreach ($aBuscaEmpresas as $key => $aValue) {
+            $sClasse = str_replace(' ', '_', $aValue[0]);
+            $html = $html . '<a id="' . $aValue[1] . '-empresa" class = "list-group-item ' . $sClasse . '-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>' . $aValue[0] . '</a>';
+        }
+        return $html;
+    }
+
+    function getEmpresaPadrao() {
+        $sEmpresa = $_SESSION['filcgc'];
+
+        /* 5572480000189 FECIAL
+          8993358000174 STEELTRATER
+          10540966000175 FECULARIA BOEWING
+          75483040000130 METALBO MATRIZ
+          75483040000211 METALBO FILIAL
+          83781641000158 HEDLER */
+
+        $html = '';
+
+        switch ($sEmpresa) {
+            case 8993358000174:
+                $html = '<a id="8993358000174-empresa" class = "list-group-item Steeltrater-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>Steeltrater</a>';
+
+                break;
+            case 75483040000130:
+                $html = '<a id="75483040000130-empresa" style="color:#0f5539" class = "list-group-item Metalbo_Matriz-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>Metalbo Matriz</a>';
+
+                break;
+            case 75483040000211:
+                $html = '<a id="75483040000211-empresa" style="color:#0f5539" class = "list-group-item Metalbo_Filial-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>Metalbo Filial</a>';
+
+                break;
+            case 83781641000158:
+                $html = '<a id="83781641000158-empresa" style="color:blue" class = "list-group-item Poliamidos-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i>Poliamidos</a>';
+
+                break;
+        }
+
+        return $html;
+    }
+
+    /*
+      public function getFavoritos() {
+      $html = '';
+      $oMET_TEC_FavMenu = Fabrica::FabricarController('MET_TEC_FavMenu');
+      $aFavoritos = $oMET_TEC_FavMenu->getFavoritos();
+      foreach ($array as $key => $value) {
+      $html = $html . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-image" aria-hidden = "true"></i>Images</a>';
+
+      $sMenuId = $avalue[0] . '-fav';
+      $sString .= '<li role="presentation" id="menu-' . $sMenuId . '">'
+      . '                <a href="javascript:void(0)" title="Abre a tela ' . $avalue[1] . '"  onclick="verificaTab(\\\'menu-' . $sMenuId . '\\\',\\\'' . $sMenuId . '\\\',\\\'' . $avalue[2] . '\\\',\\\'' . $avalue[3] . '\\\',\\\'tabmenu-' . $sMenuId . '\\\'); "role="menuitem">'
+      . '                  <span class="icon fa-star-o"></span>' . $avalue[1] . '<span title="Deleta favorito" onclick="requestAjax(\\\'menu-' . $sMenuId . '\\\',\\\'FavMenu\\\',\\\'msgdeletaFav\\\',\\\'' . utf8_encode($avalue[2]) . ',' . utf8_encode($avalue[3]) . ',\\\');" class="icon wb-trash pull-right fav-red"></span></a>'
+      . '              </li>';
+      }
+      return $html;
+      } */
 }
 
 ?>

@@ -235,6 +235,35 @@ class PersistenciaSTEEL_PCP_ordensFabApontEtapas extends Persistencia {
         return $aDadosRetorno;
     }
 
+    public function finalizarOP($aOp) {
+        //Adiciona a data e hora do momento
+        date_default_timezone_set('America/Sao_Paulo');
+        $sData = Util::getDataAtual();
+        $sHora = date('H:i');
+        $user = $aOp['coduser'];
+        $nomeuser = $aOp['usernome'];
+        //busca ultimo turno
+        $sTurnoFinal = $this->retornaUltimoTurno($aOp['op']);
+
+
+        $oOuser = Fabrica::FabricarController('MET_TEC_Usuario');
+        $oOuser->Persistencia->adicionaFiltro('usucodigo', $user);
+        $oOuserDados = $oOuser->Persistencia->consultarWhere();
+
+        //Realiza a inserçao da data e da hora na tabela
+        $sSql = "update STEEL_PCP_OrdensFabApont set situacao='Finalizado', datasaida_forno='" . $sData . "',horasaida_forno='" . $sHora . "',codusersaida='" . $user . "',usernomesaida='" . $nomeuser . "', turnoSteelSaida ='" . $sTurnoFinal . "' where op='" . $aOp['op'] . "'   ";
+        $aRetorno = $this->executaSql($sSql);
+
+        $sSql = "update STEEL_PCP_ordensFab set situacao = 'Finalizado' where op ='" . $aOp['op'] . "' and situacao <>'Retornado' ";
+        $this->executaSql($sSql);
+
+        //baixa da lista 
+        $sSql = "update STEEL_PCP_ordensFabLista set situacao='Finalizado' where op='" . $aOp['op'] . "'";
+        $this->executaSql($sSql);
+
+        return $aRetorno;
+    }
+
     /**
      * Retorna turno do último lançamento
      */
@@ -252,6 +281,20 @@ class PersistenciaSTEEL_PCP_ordensFabApontEtapas extends Persistencia {
         $sSql = "select usucodigo,usunome,turnosteel from MET_TEC_Usuario where usucracha = " . $sCracha . "";
         $oObjCracha = $this->consultaSql($sSql);
         return $oObjCracha;
+    }
+
+    public function getDadosOp($aOp) {
+        $aCampos = array();
+        $sSql = "select fornocod,fornodes,turnosteel,coduser,usernome from steel_pcp_ordensfabapont where OP = " . $aOp[1] . "";
+        $oObjOP = $this->consultaSql($sSql);
+
+        $aCampos['fornocod'] = $oObjOP->fornocod;
+        $aCampos['fornodes'] = $oObjOP->fornodes;
+        $aCampos['turnosteel'] = $oObjOP->turnosteel;
+        $aCampos['coduser'] = $oObjOP->coduser;
+        $aCampos['usernome'] = $oObjOP->usernome;
+
+        return $aCampos;
     }
 
 }

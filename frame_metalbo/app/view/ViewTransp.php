@@ -10,21 +10,26 @@ class ViewTransp extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
+        
+        
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaAcaoVisualizar(true);
 
         $oEmpoCod = new CampoConsulta('Código', 'empcod');
+        
         $oEmpDes = new CampoConsulta('Empresa', 'empdes');
+        
         $oEmpSit = new CampoConsulta('Situação', 'empativo');
         $oEmpSit->addComparacao('B', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
 
         $oCidade = new CampoConsulta('Cidade', 'Cidcep.cidnome');
 
-
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoIncluir(false);
-        $this->setUsaAcaoVisualizar(true);
         $FiltroEmpcod = new Filtro($oEmpoCod, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+        
         $FiltroEmpdes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        
         $this->addCampos($oEmpoCod, $oEmpDes, $oEmpSit, $oCidade);
         $this->addFiltro($FiltroEmpcod, $FiltroEmpdes);
         $this->setBScrollInf(TRUE);

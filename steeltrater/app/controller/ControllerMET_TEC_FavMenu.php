@@ -153,4 +153,10 @@ class ControllerMET_TEC_FavMenu extends Controller {
         }
     }
 
+    public function getFavoritos() {
+        $aFav = $this->Persistencia->getFavMenu();
+        return $aFav;
+        
+    }
+
 }

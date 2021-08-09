@@ -15,8 +15,11 @@ class ViewPessoa extends View {
         $this->getTela()->setBMostraFiltro(true);
 
         $oEmpoCod = new CampoConsulta('Código', 'empcod', CampoConsulta::TIPO_LARGURA, 20);
+        
         $oEmpDes = new CampoConsulta('Empresa', 'empdes', CampoConsulta::TIPO_LARGURA, 20);
+        
         $oEmpFant = new CampoConsulta('Fantasia', 'empfant', CampoConsulta::TIPO_LARGURA, 20);
+        
         $oEmpSit = new CampoConsulta('Situação', 'empativo');
         $oEmpSit->addComparacao('B', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
 

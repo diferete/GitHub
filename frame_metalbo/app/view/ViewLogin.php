@@ -2,6 +2,11 @@
 
 class ViewLogin extends View {
 
+    public function criaTela() {
+        parent::criaTela();
+        $this->addCampos();
+    }
+
     function getTelaLogin() {
         //verifica se tem o cookie
         if (isset($_COOKIE['loginUser'])) {
@@ -14,9 +19,9 @@ class ViewLogin extends View {
             $sPass = $_COOKIE['pass'];
         } else {
             $sPass = '';
-        };
-        
-        if (isset($_REQUEST['soluser'])){
+        }
+
+        if (isset($_REQUEST['soluser'])) {
             $bSoluser = $_REQUEST['soluser'];
         }
 
@@ -45,9 +50,9 @@ class ViewLogin extends View {
                 . '<div class="page-content vertical-align-middle">'
                 . '<div class="panel">'
                 . '<div class="panel-body">'
-                . '<div class="brand">'				
+                . '<div class="brand">'
                 //. '<img class="brand-img" src="biblioteca/assets/images/grupo-rex.jpg" alt="Metalbo: Uma empresa do grupo Rex Máquinas" style="max-width: 320px; width: 100%;">'
-				. '<img class="brand-img" src="biblioteca/assets/images/logo.png" alt="Metalbo" style="max-width: 320px; width: 100%;">'
+                . '<img class="brand-img" src="biblioteca/assets/images/logo.png" alt="Metalbo" style="max-width: 320px; width: 100%;">'
                 . '</div>'
                 . '<form method="post" id="frm-login">'
                 . '<div class="form-group form-material floating" style="margin-left:0 !important">'
@@ -188,15 +193,24 @@ class ViewLogin extends View {
                 . '</html>';
 
 
-        if ($bSoluser){
-           $sTelaIncial.='<script>'
+        if ($bSoluser) {
+            $sTelaIncial .= '<script>'
+                    . ' $(document).ready(function () { '
+                    . ' $("#solicita").click();  '
+                    . ' alert();'
+                    . '}); '
+                    . '</script>';
+        }
+        //verifica se tem a senha salva
+        /*  if (isset($_COOKIE['pass'])) {
+          $sTelaIncial.='<script>'
           .' $(document).ready(function () { '
-          .' $("#solicita").click();  ' 
+          .' $("#btn_entrar").click();  '
           .'}); '
           .'</script>';
-        }
-          
-        
+          } */
+
+
         return $sTelaIncial;
     }
 

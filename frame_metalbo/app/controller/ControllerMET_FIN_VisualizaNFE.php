@@ -92,10 +92,6 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
         }
     }
 
-    public function enviaXmlAutomatizado() {
-        require 'app/relatorio/DanfeEnvAutomatico.php';
-    }
-
     /**
      * Monta Wizard linha do tempo OnClick para Gerenciar Projetos
      * */
@@ -115,6 +111,10 @@ class ControllerMET_FIN_VisualizaNFE extends Controller {
     }
 
     public function enviaXmlsManual() {
+        require 'app/relatorio/DanfeEnvAutomatico.php';
+    }
+
+    public function enviaXmlAutomatizado() {
         require 'app/relatorio/DanfeEnvAutomatico.php';
     }
 

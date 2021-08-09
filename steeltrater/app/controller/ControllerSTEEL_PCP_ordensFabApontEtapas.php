@@ -196,134 +196,139 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
 
         $aCamposTela = $this->getArrayCampostela();
 
-        if ($aCamposTela['cracha'] == '') {
-            $oMsg = new Mensagem('Atenção', 'FAVOR INFORMAR O NÚMERO DO SEU CRACHÁ!', Mensagem::TIPO_WARNING, 10000);
+        if ($aDados[0] == 'modalApontaIniciar') {
+            if ($aCamposTela['cracha'] == '') {
+                $oMsg = new Mensagem('Atenção', 'FAVOR INFORMAR O NÚMERO DO SEU CRACHÁ!', Mensagem::TIPO_WARNING, 10000);
+                echo '$("#modalApontaIniciar-btn").click();';
+                echo '$("#modalApontaIniciarGeren-btn").click();';
+                echo $oMsg->getRender();
+                exit();
+            }
+        }
+
+        //se a tela aponta iniciar verifica se a OP está apontada na tabela de cima
+        if ($aDados[0] == 'modalApontaIniciar') {
+            $oApontOpMaster = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
+            $oApontOpMaster->Persistencia->adicionaFiltro('op', $aOp[1]);
+            $iTotal = $oApontOpMaster->Persistencia->getCount();
+            if ($iTotal == 0) {
+                $oModal = new Modal('Atenção!', 'Está OP não foi iniciada, aponte o início do apontamento na tela superior!', Modal::TIPO_AVISO, false, true, true);
+                echo $oModal->getRender();
+                echo '$("#modalApontaIniciar-btn").click();';
+                exit();
+            }
+        }
+
+
+        //limpa a modal
+        echo'$("#modalApontaIniciar-modal >").remove();';
+
+        $oApontOp = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
+        $oApontOp->Persistencia->adicionaFiltro('op', $aOp[1]);
+        $oApontOp->Persistencia->adicionaFiltro('opseq', $aOpEtapa[1]);
+
+        $oDados = $oApontOp->Persistencia->consultarWhere();
+        //verifica a situacao, caso seja finalizado ou processo avisa e fecha a tela
+        if ($oDados->getSituacao() == 'Processo' || $oDados->getSituacao() == 'Finalizado') {
+            $oModal = new Modal('Atenção!', 'OP com situação ' . $oDados->getSituacao() . ', não é possível iniciar o apontamento!', Modal::TIPO_AVISO, false, true, true);
+            echo $oModal->getRender();
             echo'$("#modalApontaIniciar-btn").click();';
             echo'$("#modalApontaIniciarGeren-btn").click();';
-            echo $oMsg->getRender();
             exit();
-        } else {
-
-            //se a tela aponta iniciar verifica se a OP está apontada na tabela de cima
-            if ($aDados[0] == 'modalApontaIniciar') {
-                $oApontOpMaster = Fabrica::FabricarController('STEEL_PCP_ordensFabApontEnt');
-                $oApontOpMaster->Persistencia->adicionaFiltro('op', $aOp[1]);
-                $iTotal = $oApontOpMaster->Persistencia->getCount();
-                if ($iTotal == 0) {
-                    $oModal = new Modal('Atenção!', 'Está OP não foi iniciada, aponte o início do apontamento na tela superior!', Modal::TIPO_AVISO, false, true, true);
-                    echo $oModal->getRender();
-                    echo '$("#modalApontaIniciar-btn").click();';
-                    exit();
-                }
-            }
-
-
-            //limpa a modal
-            echo'$("#modalApontaIniciar-modal >").remove();';
-
-            $oApontOp = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
-            $oApontOp->Persistencia->adicionaFiltro('op', $aOp[1]);
-            $oApontOp->Persistencia->adicionaFiltro('opseq', $aOpEtapa[1]);
-
-            $oDados = $oApontOp->Persistencia->consultarWhere();
-            //verifica a situacao, caso seja finalizado ou processo avisa e fecha a tela
-            if ($oDados->getSituacao() == 'Processo' || $oDados->getSituacao() == 'Finalizado') {
-                $oModal = new Modal('Atenção!', 'OP com situação ' . $oDados->getSituacao() . ', não é possível iniciar o apontamento!', Modal::TIPO_AVISO, false, true, true);
-                echo $oModal->getRender();
-                echo'$("#modalApontaIniciar-btn").click();';
-                echo'$("#modalApontaIniciarGeren-btn").click();';
-                exit();
-            }
-
-            //verifica se a op anterior não está finalizada
-            $iEtapa = $aOpEtapa[1];
-            if ($iEtapa > 1) {
-                //busca a etapa anterior
-                $iEtapa = $iEtapa - 1;
-                //verifica se a op está marcada como apontamento = sim
-                $oVerifApontAnt = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
-                $oVerifApontAnt->Persistencia->adicionaFiltro('op', $aOp[1]);
-                $oVerifApontAnt->Persistencia->adicionaFiltro('opseq', $iEtapa);
-                $oReceita = $oVerifApontAnt->Persistencia->consultarWhere();
-                $sReceita = $oReceita->getReceita();
-                $sEtapa = $oReceita->getReceita_seq();
-                //verifica os itens da receita
-                $oItensReceita = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
-                $oItensReceita->Persistencia->adicionaFiltro('cod', $sReceita);
-                $oItensReceita->Persistencia->adicionaFiltro('seq', $sEtapa);
-                $oItensRecDados = $oItensReceita->Persistencia->consultarWhere();
-                $sAponta = $oItensRecDados->getRecApont();
-                if ($sAponta = 'NÃO') {
-                    $iEtapa = $iEtapa - 1;
-                }
-
-                $iCountEtapaAnt = $this->Persistencia->etapaAntFinalizada($aOp[1], $iEtapa);
-                if ($iCountEtapaAnt == 0) {
-                    $oModal = new Modal('Atenção!', 'Etapa anterior não foi FINALIZADA, por favor finalize a etapa anterior!', Modal::TIPO_AVISO, false, true, true);
-                    echo $oModal->getRender();
-                    echo'$("#modalApontaIniciar-btn").click();';
-                    exit();
-                }
-            }
-
-            //verifica se há alguma etapa com situacao igual a processo
-            $oDadosProc = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
-            $oDadosProc->Persistencia->adicionaFiltro('op', $aOp[1]);
-            $oDadosProc->Persistencia->adicionaFiltro('situacao', 'Processo');
-            $iCountProc = $oDadosProc->Persistencia->getCount();
-            if ($iCountProc > 0) {
-                $oModal = new Modal('Atenção!', 'OP tem etapas com situação em Processo, finalize a etapa antes de iniciar uma nova!', Modal::TIPO_AVISO, false, true, true);
-                echo $oModal->getRender();
-                echo'$("#modalApontaIniciar-btn").click();';
-                exit();
-            }
-
-
-            //verifica se existe alguma op com o tipo de zincagem e ainda não foi apontada a receita (tipo N)
-            $oDadosOrdFab = Fabrica::FabricarController('STEEL_PCP_ordensFab');
-            $oDadosOrdFab->Persistencia->adicionaFiltro('op', $aOp[1]);
-            $oModelDadosOrdFab = $oDadosOrdFab->Persistencia->consultarWhere();
-            $sProcZinc = $oModelDadosOrdFab->getProcessozinc();
-
-            $oReceitaZinc = Fabrica::FabricarController('STEEL_PCP_Receitas');
-            $oReceitaZinc->Persistencia->adicionaFiltro('cod', $oDados->getReceita());
-            $oRecDados = $oReceitaZinc->Persistencia->consultarWhere();
-
-            if ($oRecDados->getTipoReceita() == "Zincagem" && $sProcZinc == 'N') {
-                $oModal = new Modal('Atenção!', 'Receita zincagem não apontada! \n Verifique a Receita de Zincagem na OP!', Modal::TIPO_ERRO, false, true, true);
-                echo'$("#modalApontaIniciar-btn").click();';
-                echo $oModal->getRender();
-                exit();
-            }
-            //-------------------------------------------------------------------
-            //busca os fornos para listar
-            $oFornoUser = Fabrica::FabricarController('STEEL_PCP_fornoUser');
-            $oDadosForno = $oFornoUser->pesqFornoUser();
-
-            //---busca forno----------------------------------------------------
-            $oForno = Fabrica::FabricarController('STEEL_PCP_Forno');
-            $oFornoAtual = $oForno->buscaForno($oDadosForno->getFornocod());
-
-            $aForno[] = $oFornoAtual;
-
-
-            $oFornos = Fabrica::FabricarController('STEEL_PCP_Forno');
-            $oFornoSel = $oFornos->Persistencia->getArrayModel();
-
-            $aForno[] = $oFornoSel;
-
-            //-------------------------------------------------------------------
-
-            $this->View->setAParametrosExtras($oDados);
-
-            $this->View->criaModalApontaIniciar($aForno, $aDados[1], $aDados[0], $aCamposTela);
-            //busca lista pela op
-
-            $this->View->getTela()->setSRender($aDados[0] . '-modal');
-
-            //renderiza a tela
-            $this->View->getTela()->getRender();
         }
+
+        //verifica se a op anterior não está finalizada
+        $iEtapa = $aOpEtapa[1];
+        if ($iEtapa > 1) {
+            //busca a etapa anterior
+            $iEtapa = $iEtapa - 1;
+            //verifica se a op está marcada como apontamento = sim
+            $oVerifApontAnt = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
+            $oVerifApontAnt->Persistencia->adicionaFiltro('op', $aOp[1]);
+            $oVerifApontAnt->Persistencia->adicionaFiltro('opseq', $iEtapa);
+            $oReceita = $oVerifApontAnt->Persistencia->consultarWhere();
+            $sReceita = $oReceita->getReceita();
+            $sEtapa = $oReceita->getReceita_seq();
+            //verifica os itens da receita
+            $oItensReceita = Fabrica::FabricarController('STEEL_PCP_ReceitasItens');
+            $oItensReceita->Persistencia->adicionaFiltro('cod', $sReceita);
+            $oItensReceita->Persistencia->adicionaFiltro('seq', $sEtapa);
+            $oItensRecDados = $oItensReceita->Persistencia->consultarWhere();
+            $sAponta = $oItensRecDados->getRecApont();
+            if ($sAponta == 'NÃO') {
+                $iEtapa = $iEtapa - 1;
+            }
+
+            $iCountEtapaAnt = $this->Persistencia->etapaAntFinalizada($aOp[1], $iEtapa);
+            if ($iCountEtapaAnt == 0) {
+                $oModal = new Modal('Atenção!', 'Etapa anterior não foi FINALIZADA, por favor finalize a etapa anterior!', Modal::TIPO_AVISO, false, true, true);
+                echo $oModal->getRender();
+                echo'$("#modalApontaIniciar-btn").click();';
+                exit();
+            }
+        }
+
+        //verifica se há alguma etapa com situacao igual a processo
+        $oDadosProc = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
+        $oDadosProc->Persistencia->adicionaFiltro('op', $aOp[1]);
+        $oDadosProc->Persistencia->adicionaFiltro('situacao', 'Processo');
+        $iCountProc = $oDadosProc->Persistencia->getCount();
+        if ($iCountProc > 0) {
+            $oModal = new Modal('Atenção!', 'OP tem etapas com situação em Processo, finalize a etapa antes de iniciar uma nova!', Modal::TIPO_AVISO, false, true, true);
+            echo $oModal->getRender();
+            echo'$("#modalApontaIniciar-btn").click();';
+            exit();
+        }
+
+
+        //verifica se existe alguma op com o tipo de zincagem e ainda não foi apontada a receita (tipo N)
+        $oDadosOrdFab = Fabrica::FabricarController('STEEL_PCP_ordensFab');
+        $oDadosOrdFab->Persistencia->adicionaFiltro('op', $aOp[1]);
+        $oModelDadosOrdFab = $oDadosOrdFab->Persistencia->consultarWhere();
+        $sProcZinc = $oModelDadosOrdFab->getProcessozinc();
+
+        $oReceitaZinc = Fabrica::FabricarController('STEEL_PCP_Receitas');
+        $oReceitaZinc->Persistencia->adicionaFiltro('cod', $oDados->getReceita());
+        $oRecDados = $oReceitaZinc->Persistencia->consultarWhere();
+
+        if ($oRecDados->getTipoReceita() == "Zincagem" && $sProcZinc == 'N') {
+            $oModal = new Modal('Atenção!', 'Receita zincagem não apontada! \n Verifique a Receita de Zincagem na OP!', Modal::TIPO_ERRO, false, true, true);
+            echo'$("#modalApontaIniciar-btn").click();';
+            echo $oModal->getRender();
+            exit();
+        }
+        //-------------------------------------------------------------------
+        //busca os fornos para listar
+        $oFornoUser = Fabrica::FabricarController('STEEL_PCP_fornoUser');
+        $oDadosForno = $oFornoUser->pesqFornoUser();
+
+        //---busca forno----------------------------------------------------
+        $oForno = Fabrica::FabricarController('STEEL_PCP_Forno');
+        $oFornoAtual = $oForno->buscaForno($oDadosForno->getFornocod());
+
+        $aForno[] = $oFornoAtual;
+
+
+        $oFornos = Fabrica::FabricarController('STEEL_PCP_Forno');
+        $oFornoSel = $oFornos->Persistencia->getArrayModel();
+
+        $aForno[] = $oFornoSel;
+
+        //-------------------------------------------------------------------
+
+        $this->View->setAParametrosExtras($oDados);
+
+        if ($aDados[0] == 'modalApontaIniciarGeren') {
+            $aCamposTela = $this->Persistencia->getDadosOp($aOp);
+        }
+
+        $this->View->criaModalApontaIniciar($aForno, $aDados[1], $aDados[0], $aCamposTela);
+        //busca lista pela op
+
+        $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+        //renderiza a tela
+        $this->View->getTela()->getRender();
     }
 
     /**
@@ -555,71 +560,72 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
 
         $aCamposTela = $this->getArrayCampostela();
 
-        if ($aCamposTela['cracha'] == '') {
-            $oMsg = new Mensagem('Atenção', 'FAVOR INFORMAR O NÚMERO DO SEU CRACHÁ!', Mensagem::TIPO_WARNING, 10000);
-            echo '$("#modalApontaFinalizar-btn").click();';
-            echo '$("#modalApontaFinalizarGeren-btn").click();';
-            echo $oMsg->getRender();
-            exit();
-        } else {
+        if ($aDados[0] == 'modalApontaFinalizar') {
+            if ($aCamposTela['cracha'] == '') {
+                $oMsg = new Mensagem('Atenção', 'FAVOR INFORMAR O NÚMERO DO SEU CRACHÁ!', Mensagem::TIPO_WARNING, 10000);
+                echo '$("#modalApontaFinalizar-btn").click();';
+                echo '$("#modalApontaFinalizarGeren-btn").click();';
+                echo $oMsg->getRender();
+                exit();
+            }
+        }
 
-            $oApontOp = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
-            $oApontOp->Persistencia->adicionaFiltro('op', $aOp[1]);
-            $oApontOp->Persistencia->adicionaFiltro('opseq', $aOpEtapa[1]);
+        $oApontOp = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
+        $oApontOp->Persistencia->adicionaFiltro('op', $aOp[1]);
+        $oApontOp->Persistencia->adicionaFiltro('opseq', $aOpEtapa[1]);
 
-            echo '$("#modalApontaFinalizar-modal >").remove();';
+        echo '$("#modalApontaFinalizar-modal >").remove();';
 
-            $oDados = $oApontOp->Persistencia->consultarWhere();
-            //verifica a situacao, caso seja finalizado ou processo avisa e fecha a tela
-            if ($oDados->getSituacao() == 'Processo') {
-                $oDadosProc = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
-                $oDadosProc->Persistencia->adicionaFiltro('op', $aOp[1]);
-                $oDadosProc->Persistencia->adicionaFiltro('situacao', 'Processo');
-                $iCountProc = $oDadosProc->Persistencia->getCount();
-                if ($iCountProc > 1) {
-                    $oModal = new Modal('Atenção!', 'OP tem etapas com situação em Processo!', Modal::TIPO_AVISO, false, true, true);
-                    echo $oModal->getRender();
-                    echo'$("#modalApontaFinalizar-btn").click();';
-                    echo'$("#modalApontaFinalizarGeren-btn").click();';
-                    exit();
-                }
-            } else {
-                $oModal = new Modal('Atenção!', 'OP com situação ' . $oDados->getSituacao() . ', não é possível finalizar o apontamento!', Modal::TIPO_AVISO, false, true, true);
+        $oDados = $oApontOp->Persistencia->consultarWhere();
+        //verifica a situacao, caso seja finalizado ou processo avisa e fecha a tela
+        if ($oDados->getSituacao() == 'Processo') {
+            $oDadosProc = Fabrica::FabricarController('STEEL_PCP_ordensFabItens');
+            $oDadosProc->Persistencia->adicionaFiltro('op', $aOp[1]);
+            $oDadosProc->Persistencia->adicionaFiltro('situacao', 'Processo');
+            $iCountProc = $oDadosProc->Persistencia->getCount();
+            if ($iCountProc > 1) {
+                $oModal = new Modal('Atenção!', 'OP tem etapas com situação em Processo!', Modal::TIPO_AVISO, false, true, true);
                 echo $oModal->getRender();
                 echo'$("#modalApontaFinalizar-btn").click();';
                 echo'$("#modalApontaFinalizarGeren-btn").click();';
                 exit();
             }
-
-
-            //busca os fornos para listar
-            $oFornoUser = Fabrica::FabricarController('STEEL_PCP_fornoUser');
-            $oDadosForno = $oFornoUser->pesqFornoUser();
-
-            //---busca forno----------------------------------------------------
-            $oForno = Fabrica::FabricarController('STEEL_PCP_Forno');
-            $oFornoAtual = $oForno->buscaForno($oDadosForno->getFornocod());
-
-            $aForno[] = $oFornoAtual;
-
-
-            $oFornos = Fabrica::FabricarController('STEEL_PCP_Forno');
-            $oFornoSel = $oFornos->Persistencia->getArrayModel();
-
-            $aForno[] = $oFornoSel;
-
-            //-------------------------------------------------------------------
-
-            $this->View->setAParametrosExtras($oDados);
-
-            $this->View->criaTelaModalApontaFinalizar($aForno, $aDados[1], $aDados[0], $aCamposTela);
-            //busca lista pela op
-
-            $this->View->getTela()->setSRender($aDados[0] . '-modal');
-
-            //renderiza a tela
-            $this->View->getTela()->getRender();
+        } else {
+            $oModal = new Modal('Atenção!', 'OP com situação ' . $oDados->getSituacao() . ', não é possível finalizar o apontamento!', Modal::TIPO_AVISO, false, true, true);
+            echo $oModal->getRender();
+            echo'$("#modalApontaFinalizar-btn").click();';
+            echo'$("#modalApontaFinalizarGeren-btn").click();';
+            exit();
         }
+
+
+        //busca os fornos para listar
+        $oFornoUser = Fabrica::FabricarController('STEEL_PCP_fornoUser');
+        $oDadosForno = $oFornoUser->pesqFornoUser();
+
+        //---busca forno----------------------------------------------------
+        $oForno = Fabrica::FabricarController('STEEL_PCP_Forno');
+        $oFornoAtual = $oForno->buscaForno($oDadosForno->getFornocod());
+
+        $aForno[] = $oFornoAtual;
+
+
+        $oFornos = Fabrica::FabricarController('STEEL_PCP_Forno');
+        $oFornoSel = $oFornos->Persistencia->getArrayModel();
+
+        $aForno[] = $oFornoSel;
+
+        //-------------------------------------------------------------------
+
+        $this->View->setAParametrosExtras($oDados);
+
+        $this->View->criaTelaModalApontaFinalizar($aForno, $aDados[1], $aDados[0], $aCamposTela);
+        //busca lista pela op
+
+        $this->View->getTela()->setSRender($aDados[0] . '-modal');
+
+        //renderiza a tela
+        $this->View->getTela()->getRender();
     }
 
     /**
@@ -659,8 +665,7 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
         $aDados = explode(',', $sDados);
         $aCamposChave = $this->getArrayCampostela();
         //se passa pelas validaçoes gera a finalizacao
-        $oApontSaida = Fabrica::FabricarController('STEEL_PCP_ordensFabApontSaida');
-        $aRetorno = $oApontSaida->Persistencia->finalizarOP($aCamposChave);
+        $aRetorno = $this->Persistencia->finalizarOP($aCamposChave);
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('Atenção!', 'O apontamento da OP ' . $aCamposChave['op'] . ' foi finalizado com sucesso!', Mensagem::TIPO_SUCESSO);
             echo $oMensagem->getRender();
@@ -747,25 +752,28 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
         $aDados = $this->getArrayCampostela();
         $aIDs = explode(',', $sDados);
 
+        $sCracha = ltrim($aDados['cracha'], '0');
+
         if ($aDados['cracha'] == '') {
             exit;
         } else {
-            $dadosCracha = $this->Persistencia->buscaDadosCracha($aDados['cracha']);
+            $dadosCracha = $this->Persistencia->buscaDadosCracha($sCracha);
             if ($dadosCracha == false) {
                 $oMensagem = new Mensagem('Atenção!', 'Colaborador não encontrado, verifique o número do crachá!', Mensagem::TIPO_WARNING, 7000);
                 echo $oMensagem->getRender();
                 $sScript = '$("#' . $aIDs[0] . '").val("");'
-                        . '$("#' . $aIDs[1] . '").val("");';
+                        . '$("#' . $aIDs[1] . '").val("");'
+                        . '$("#' . $aIDs[2] . '").val("");'
+                        . '$("#' . $aIDs[4] . '").val("").focus();';
                 echo $sScript;
             } else {
                 $sScript = '$("#' . $aIDs[0] . '").val(' . $dadosCracha->usucodigo . ');'
                         . '$("#' . $aIDs[1] . '").val("' . $dadosCracha->usunome . '");'
                         . '$("#' . $aIDs[3] . '").val("' . $dadosCracha->turnosteel . '").trigger("change");'
+                        . '$("#' . $aIDs[4] . '").val("' . $sCracha . '");'
                         . '$("#' . $aIDs[2] . '").focus();';
                 echo $sScript;
             }
-            echo '$("#apontEtapaCracha").val("' . ltrim($aDados['cracha'], '0') . '").focus();';
-            echo '$("#' . $aIDs[2] . '").focus();';
         }
     }
 

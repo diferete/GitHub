@@ -57,7 +57,7 @@ class ViewMET_MP_ServicoMaquina extends View {
         $oFiltroSetor->setSLabel('');
 
         $iSet = $_SESSION['codsetor'];
-        if ($iSet != 2 && $iSet != 12 && $iSet != 29) {
+        if ($iSet != 2 && $iSet != 12 && $iSet != 29 && $iSet != 31 && $iSet != 9 && $iSet != 32 && $iSet != 24) {
             $oFiltroSetor->setSValor($iSet);
             $oResponsavelFiltro->setSValor('OPERADOR');
         } else if ($iSet == 12) {

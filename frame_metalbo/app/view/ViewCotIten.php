@@ -147,6 +147,7 @@ class ViewCotIten extends View {
         $oCodigo->setClasseBusca('Produto');
         $oCodigo->setSCampoRetorno('procod', $this->getTela()->getId());
         $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
+        $oCodigo->setBFocus(true);
 
         //campo quantidade setanto o valor inicial como zero
         $oQuant = new Campo('Quant.', 'quant', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -362,12 +363,15 @@ class ViewCotIten extends View {
          * chama o método no php acaoExitCampo para trazer preço e embalagens
          * chama função do cálculo dos descontos
          */
-        $oCodigo->addEvento(Campo::EVENTO_SAIR, 'entradaCodigo("' . $oVlrUnit->getId() . '"); var oProcod=$("#' . $oCodigo->getId() . '").val(); var prcTabela =$("#' . $oPrcBruto->getId() . '").val(); var prcUnit =$("#' . $oVlrUnit->getId() . '").val();'
+        $oCodigo->addEvento(Campo::EVENTO_SAIR, 'entradaCodigo("' . $oVlrUnit->getId() . '");'
+                . 'var oProcod=$("#' . $oCodigo->getId() . '").val(); '
+                . 'var prcTabela =$("#' . $oPrcBruto->getId() . '").val(); '
+                . 'var prcUnit =$("#' . $oVlrUnit->getId() . '").val();'
                 . 'var oNrSaida = $("#' . $oNr->getId() . '").val();'
                 . 'var oEmpSaida = $("#' . $oEmpCod->getId() . '").val();'
                 . 'if($("#' . $oCodigo->getId() . '").val()!==""){'
-                . 'requestAjax("","SolPedIten","acaoExitCodigo","' . $oPrcBruto->getId() . ','
-                . '' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . '    ","");  $("#' . $oQuant->getId() . '").trigger("blur");}');
+                . 'requestAjax("","SolPedIten","acaoExitCodigo","' . $oPrcBruto->getId() . ',' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . '    ","");'
+                . '$("#' . $oQuant->getId() . '").trigger("blur").focus().select();}');
 
         /*
          * Define os eventos no exit dos campos de desconto

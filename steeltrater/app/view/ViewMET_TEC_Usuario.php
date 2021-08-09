@@ -62,7 +62,7 @@ class ViewMET_TEC_Usuario extends View {
         $oUsuCracha->setId('IdCadastroUsuarioCracha');
         $oUsuCracha->addValidacao(false, Validacao::TIPO_STRING);
         $oUsuCracha->setITamanho(Campo::TAMANHO_PEQUENO);
-        
+
         $sDadosCracha = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_TEC_USUARIO","atualizaDadosCracha","");';
         $oUsuCracha->addEvento(Campo::EVENTO_CHANGE, $sDadosCracha);
 
@@ -106,12 +106,23 @@ class ViewMET_TEC_Usuario extends View {
 
         $oFilcgc = new Campo('Empresa Padrão', 'filcgc', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oFilcgc->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
-
-
-
         $oFilcgc->setClasseBusca('DELX_FIL_empresa');
         $oFilcgc->setSCampoRetorno('fil_codigo', $this->getTela()->getId());
 
+        $oFieldEmpresas = new FieldSet('Empresas adicionais');
+        $oFieldEmpresas->setOculto(true);
+
+        $oEmpSteel = new Campo('Steeltrater', 'emp_steeltrater', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
+        $oEmpSteel->setSValorCheck('8993358000174');
+
+        $oEmpPoliamidos = new Campo('Poliamidos', 'emp_poliamidos', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
+        $oEmpPoliamidos->setSValorCheck('83781641000158');
+
+        $oEmpMetFilial = new Campo('Metalbo Filial', 'emp_metalbo_filial', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
+        $oEmpMetFilial->setSValorCheck('75483040000211');
+
+        $oEmpMetMatriz = new Campo('Metalbo Matriz', 'emp_metalbo_matriz', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
+        $oEmpMetMatriz->setSValorCheck('75483040000130');
 
         $oOfficeCod = new Campo('Escritório Rep.', 'officecod', Campo::TIPO_BUSCADOBANCOPK, 2);
 
@@ -149,8 +160,9 @@ class ViewMET_TEC_Usuario extends View {
         $oTurnoSteel->addItemSelect('Turno C', 'Turno C');
         $oTurnoSteel->addItemSelect('Turno D', 'Turno D');
         $oTurnoSteel->addItemSelect('Geral', 'Geral');
-        
-        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), $oLinha, array($oUsuCracha, $oUserNome, $oSobrenome), $oLinha, array($oUsuFone, $oUsuRamal, $oUsuEmail), $oLinha, array($oCodSetor, $oFilcgc), $oLinha, array($oUsutipo, $oOfficeCod), $oLinha, array($oUsuimagem, $oNomeDelsoft), $oLinha, $oLinha, $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv, $oLinha, array($oCodSisMetalbo, $oTurnoSteel));
+
+        $oFieldEmpresas->addCampos(array($oEmpSteel, $oEmpPoliamidos, $oEmpMetFilial, $oEmpMetMatriz));
+        $this->addCampos($oLabelDadosUsuarios, array($oUsucodigo, $oSit), $oLinha, array($oUsuCracha, $oUserNome, $oSobrenome), $oLinha, array($oUsuFone, $oUsuRamal, $oUsuEmail), $oLinha, array($oCodSetor, $oFilcgc), $oLinha, $oFieldEmpresas, array($oUsutipo, $oOfficeCod), $oLinha, array($oUsuimagem, $oNomeDelsoft), $oLinha, $oLinha, $oLabelDadosLogin, array($UsuLogin, $Ususenha), $UsuBloqueado, $oUsoSalva, $oSenhaProv, $oLinha, array($oCodSisMetalbo, $oTurnoSteel));
     }
 
 }

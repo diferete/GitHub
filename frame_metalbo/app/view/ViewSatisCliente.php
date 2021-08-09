@@ -49,13 +49,7 @@ class ViewSatisCliente extends View {
         $oGridItens->getOGrid()->setIAltura(450);
         $oGridItens->getOGrid()->setBScrollInf(false);
 
-
-
-
-
         //campos da consulta normal
-
-
 
         $oFilcgc = new CampoConsulta('CNPJ', 'filcgc');
         $oNr = new CampoConsulta('Número', 'nr');

@@ -13,7 +13,7 @@ class PersistenciaMET_TEC_Historico extends Persistencia {
         $this->setTabela('MET_TEC_Historico');
 
         $this->adicionaRelacionamento('seq', 'seq', true, true, true);
-        $this->adicionaRelacionamento('filcgc', 'filcgc');
+        $this->adicionaRelacionamento('filcgc', 'filcgc', true, true);
         $this->adicionaRelacionamento('usucodigo', 'usucodigo');
         $this->adicionaRelacionamento('usunome', 'usunome');
         $this->adicionaRelacionamento('data', 'data');

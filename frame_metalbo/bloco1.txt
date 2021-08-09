@@ -1,1 +1,2 @@
-update MET_TEC_Chamados set dias = -11 where nr = 1260 and filcgc = 75483040000211
+update tbsessao set usulastacesso = '2021-8-9 11:42:00' 
+            where usucodigo ='46' and usunome = 'ALEXANDRE DE SOUZA' and usuidsessao = 'h8p4li4jropdo6jl0svif080pm'

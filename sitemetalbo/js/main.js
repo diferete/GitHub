@@ -210,14 +210,29 @@ $.getJSON("https://sistema.metalbo.com.br/index.php?classe=NoticiaSite&metodo=ge
  });
  */
 /*
-$("#nome").one("click", function mensagemAlert() {
-    var campo = $("#nome").val();
-    if (campo == '') {
-        var sTit = "Caro usuário!";
-        var sMsg = "A Metalbo trabalha diretamente com Representantes para suas vendas por isso solicitamos entre em contato com eles para fazer suas COTAÇÕES e ORÇAMENTOS. Acesse a área de Representantes no site, clique em 'SELECIONE SEU ESTADO(UF)' e encontre o Representante que pode lhe atender ;)."
-        sweetAlert(sTit, sMsg, "info");
+ $("#nome").one("click", function mensagemAlert() {
+ var campo = $("#nome").val();
+ if (campo == '') {
+ var sTit = "Caro usuário!";
+ var sMsg = "A Metalbo trabalha diretamente com Representantes para suas vendas por isso solicitamos entre em contato com eles para fazer suas COTAÇÕES e ORÇAMENTOS. Acesse a área de Representantes no site, clique em 'SELECIONE SEU ESTADO(UF)' e encontre o Representante que pode lhe atender ;)."
+ sweetAlert(sTit, sMsg, "info");
+ }
+ });*/
+
+(() => {
+    if (!localStorage.pureJavaScriptCookies) {
+        document.querySelector(".box-cookies").classList.remove('hide');
     }
-});*/
+
+    const acceptCookies = () => {
+        document.querySelector(".box-cookies").classList.add('hide');
+        localStorage.setItem("pureJavaScriptCookies", "accept");
+    };
+
+    const btnCookies = document.querySelector(".btn-cookies");
+
+    btnCookies.addEventListener('click', acceptCookies);
+})();
 
 
 $(document).ready(function () {

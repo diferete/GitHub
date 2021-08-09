@@ -328,13 +328,13 @@ class ControllerMET_TEC_MobileFat extends Controller {
         $aDadosParam['busca'] = 'ProdTotal';
         $aDadosParam['dataini'] = $dataInicial;
         $aDadosParam['datafin'] = $dataOntem;
-        $aDadosParam['tipoOp'] = 'P';
+        $aDadosParam['tipoOp'] = "'P','TZ'";
         $aDadosPesoTemperaMensal = $oDadosProdSteel->Persistencia->geraGerenProd($aDadosParam);
         //separa por tipo de op fio maquina
         $aDadosParam['busca'] = 'ProdTotal';
         $aDadosParam['dataini'] = $dataInicial;
         $aDadosParam['datafin'] = $dataOntem;
-        $aDadosParam['tipoOp'] = 'F';
+        $aDadosParam['tipoOp'] = "'F'";
         $aDadosPesoFioMensal = $oDadosProdSteel->Persistencia->geraGerenProd($aDadosParam);
 
         $aRetorno['totalMensal'] = number_format($aDadosPesoGeralMensal['pesoTotal'], 2, ',', '.') . ' Kg';

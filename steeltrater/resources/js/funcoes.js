@@ -1,5 +1,4 @@
 var iContCamposReq = 0;
-
 function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll, metodo) {
 
     var dadosPesq = [];
@@ -7,7 +6,6 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
     var nome, valor, idSel = '';
     var valSel = '';
     var dadosSend = '';
-
     $(id + " :text").each(function () {
 
         dadosSend = '';
@@ -32,8 +30,6 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
         dadosPesq[countPesq] = dadosSend;
         countPesq++;
     });
-
-
     $('#' + idgrid + '-pesquisa').each(function () {
         $(this).find('select.selectfiltro').each(function () {
             idSel = $(this).attr("id");
@@ -44,16 +40,12 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
 
                     dadosSend = nome + '|' + valor;
                     dadosPesq[countPesq] = dadosSend;
-
                     countPesq++;
                 }
             }
             ;
         });
-
     });
-
-
     if (bscroll == true) {
         //alert(metodo);  
         dadosPesq[countPesq] = chavescroll + '|' + 'scroll';
@@ -69,13 +61,12 @@ function sendFiltrosGrid(id, classe, idgrid, campoconsulta, bscroll, chavescroll
 }
 
 function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, metodo, idPos, ordenacao) {
-    //console.log(ordenacao["ordenacao"]);
+//console.log(ordenacao["ordenacao"]);
     var dadosPesq = [];
     var countPesq = 0;
     var nome, valor, idSel = '';
     var valSel = '';
     var dadosSend = '';
-
     $(id + " :text").each(function () {
 
         dadosSend = '';
@@ -100,9 +91,6 @@ function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, me
         dadosPesq[countPesq] = dadosSend;
         countPesq++;
     });
-
-
-
     //teste para percorrer campos select
 
     $('#' + idgrid + '-pesquisa').each(function () {
@@ -115,18 +103,14 @@ function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, me
 
                     dadosSend = nome + '|' + valor;
                     dadosPesq[countPesq] = dadosSend;
-
                     countPesq++;
                 }
             }
             ;
         });
-
     });
-
-
     if (bscroll == true) {
-        //alert(metodo);  
+//alert(metodo);  
         dadosPesq[countPesq] = chavescroll + '|' + 'scroll';
         if (metodo == "") {
             requestAjax('', classe, 'getDadosScroll', idgrid + ',' + campoconsulta, dadosPesq, false, idPos);
@@ -143,7 +127,6 @@ function sendFiltros(id, classe, idgrid, campoconsulta, bscroll, chavescroll, me
 
 function serializeForm(id) {
     var serialize = $('#' + id + '-form').serialize();
-
     return serialize;
 }
 
@@ -152,13 +135,12 @@ function serializeForm(id) {
  */
 function MostraCarregando(aba) {
     var abaAtiva = $("#" + aba + "-carregando");
-
     //alert("Mostra: "+aba+"-carregando");
     abaAtiva.show();
 }
 
 function FechaCarregando(aba) {
-    //var abaAtiva = $("#" + aba + "-carregando");
+//var abaAtiva = $("#" + aba + "-carregando");
     var abaAtiva = $(".carregando");
     //  alert("Fecha: "+aba+"-carregando");
     abaAtiva.hide();
@@ -183,8 +165,6 @@ function carregaCamposReq(sCampo, sValor) {
         valor: sValor
     };
     iContCamposReq++;
-
-
 }
 /**
  * Método que deleta campo ficticio caso seja encontrado no array aCamposReq
@@ -256,13 +236,10 @@ function convItenSolRep(vlrUnit, idVlrUnit, vlrTot, idVlrTot, prcBruto, idPrcBru
 
     var valorUnitario = moedaParaNumero(vlrUnit);
     $('#' + idVlrUnit + '').val('' + valorUnitario + '');
-
     var valorTotal = moedaParaNumero(vlrTot);
     $('#' + idVlrTot + '').val('' + valorTotal + '');
-
     var valorBruto = moedaParaNumero(prcBruto);
     $('#' + idPrcBruto + '').val('' + valorBruto + '');
-
 }
 
 
@@ -288,30 +265,21 @@ function calcSolCot(quant, vlrBruto, vlrUnit, desconto, tratamento, desc1, desc2
 
     var quantidade = moedaParaNumero(quant);
     $('#' + idQuant + '').val('' + quantidade + '');
-
     var unitario = moedaParaNumero(vlrBruto);
     var desconto1 = moedaParaNumero(desconto);
     $('#' + idDesconto + '').val('' + desconto1 + '');
-
     var tot_desc1 = (desconto1 / 100) * unitario;
     unitario = unitario - tot_desc1;
-
-
-
-
     var desc_trat = moedaParaNumero(tratamento);
     $('#' + idTratamento + '').val('' + desc_trat + '');
-
     var tot_desc_trat = (desc_trat / 100) * unitario;
     unitario = unitario + tot_desc_trat;
     var desc_extra1 = moedaParaNumero(desc1);
     $('#' + idDesc1 + '').val('' + desc_extra1 + '');
-
     var tot_descextra1 = (desc_extra1 / 100) * unitario;
     unitario = unitario - tot_descextra1;
     var desc_extra2 = moedaParaNumero(desc2);
     $('#' + idDesc2 + '').val('' + desc_extra2 + '');
-
     var tot_descextra2 = (desc_extra2 / 100) * unitario;
     unitario = unitario - tot_descextra2;
     //Faz o arredondamento
@@ -322,14 +290,8 @@ function calcSolCot(quant, vlrBruto, vlrUnit, desconto, tratamento, desc1, desc2
     ///console.log(unitario);
     /*Faz o cálculo do valor total*/
     var total = (quantidade * unitario);
-
     unitario = numeroParaMoeda(unitario);
     total = numeroParaMoeda(total);
-
-
-
-
-
     $('#' + idVlrUnit + '').val('' + unitario + '');
     $('#' + idTotal + '').val('' + total + '');
 }
@@ -344,7 +306,7 @@ function calcSolCot(quant, vlrBruto, vlrUnit, desconto, tratamento, desc1, desc2
  */
 
 function decimalAdjust(type, value, exp) {
-    // If the exp is undefined or zero...
+// If the exp is undefined or zero...
     if (typeof exp === 'undefined' || +exp === 0) {
         return Math[type](value);
     }
@@ -354,7 +316,7 @@ function decimalAdjust(type, value, exp) {
     if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
         return NaN;
     }
-    // Shift
+// Shift
     value = value.toString().split('e');
     value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
     // Shift back
@@ -394,7 +356,7 @@ function entradaCodigo(idVlrUnit) {
  * @param {type} t
  * @returns {@var;d|@var;t|s|String}
  */
-function numeroParaMoeda(n, c, d, t){
+function numeroParaMoeda(n, c, d, t) {
     c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
     return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
 }
@@ -406,7 +368,7 @@ function numeroParaMoeda(n, c, d, t){
  */
 function moedaParaNumero(valor)
 {
-    //return isNaN(valor) == false ? parseFloat(valor) :   parseFloat(valor.replace("R$","").replace(".","").replace(",","."));
+//return isNaN(valor) == false ? parseFloat(valor) :   parseFloat(valor.replace("R$","").replace(".","").replace(",","."));
     return isNaN(valor) == false ? parseFloat(valor) : parseFloat(valor.replace("R$", "").replace(".", "").replace(",", "."));
 }
 /**
@@ -420,17 +382,14 @@ function moedaParaNumero(valor)
  * @returns {Boolean}
  */
 function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, idQtSug, idQtCaixaNormal) {
-    var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val());   //$('#'+idQuantidade+'').val();
+    var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val()); //$('#'+idQuantidade+'').val();
     var CaixaNormal = moedaParaNumero($('#' + idCaixaNormal + '').val());
-
     var resultadoNormal = Quantidade / CaixaNormal;
-
     var resultadoNormalArr = Math.ceil(resultadoNormal);
-
     //vai listar como divergência e deve bloquear a inserção
     if (Quantidade > 0 && CaixaNormal > 0) {
         if (Quantidade != (resultadoNormalArr * CaixaNormal)) {
-            //  console.log('divergencia');
+//  console.log('divergencia');
             $('#' + idDiverNormal + '').removeClass("label-warning");
             $('#' + idDiverNormal + '').removeClass("label-success");
             $('#' + idDiverNormal + '').addClass("label-danger");
@@ -440,7 +399,6 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, i
             $('#' + idQtSug + '').val(resultadoNormalArr * CaixaNormal);
             $('#' + idQtCaixaNormal + '').val(resultadoNormalArr);
             return false;
-
         } else
         {
 
@@ -467,21 +425,18 @@ function calcEmbNormal(idQuantidade, idCaixaNormal, idDiverNormal, idFieldSet, i
  * @returns {Boolean}
  */
 function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idFieldSet, idQtSugMaster, idQtCaixaMaster, idDiver) {
-    //alert();
-    var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val());//$('#'+idQuantidade+'').val();
-    var CaixaMaster = moedaParaNumero($('#' + idCaixaMaster + '').val());//$('#'+idCaixaMaster+'').val();
+//alert();
+    var Quantidade = moedaParaNumero($('#' + idQuantidade + '').val()); //$('#'+idQuantidade+'').val();
+    var CaixaMaster = moedaParaNumero($('#' + idCaixaMaster + '').val()); //$('#'+idCaixaMaster+'').val();
     var qtsug = $('#' + idQtSugMaster + '').val();
     var diver = qtsug - Quantidade;
     $('#' + idDiver + '').val(diver);
-
     var resultadoMaster = Quantidade / CaixaMaster;
-
     var resultadoMasterArr = Math.ceil(resultadoMaster);
-
     //vai listar como divergência e deve bloquear a inserção
     if (Quantidade > 0 && CaixaMaster > 0) {
         if (Quantidade != (resultadoMasterArr * CaixaMaster)) {
-            //  console.log('divergencia');
+//  console.log('divergencia');
             $('#' + idDiverMaster + '').removeClass("label-warning");
             $('#' + idDiverMaster + '').removeClass("label-success");
             $('#' + idDiverMaster + '').addClass("label-danger");
@@ -490,7 +445,6 @@ function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idFieldSet, i
             $('#' + idQtSugMaster + '').val(resultadoMasterArr * CaixaMaster);
             $('#' + idQtCaixaMaster + '').val(resultadoMasterArr);
             return false;
-
         } else
         {
 
@@ -500,7 +454,6 @@ function calcEmbMaster(idQuantidade, idCaixaMaster, idDiverMaster, idFieldSet, i
             $('#' + idDiverMaster + '').text('Embalagem OK!');
             $('#' + idQtSugMaster + '').val(resultadoMasterArr * CaixaMaster);
             $('#' + idQtCaixaMaster + '').val(resultadoMasterArr);
-
         }
     } else {
         $('#' + idDiver + '').val('0');
@@ -515,12 +468,9 @@ function calcMod(idQuant, idCxNormal) {
 
     var quantidade = moedaParaNumero($('#' + idQuant + '').val()); //   $('#'+idQuant+'').val();
     quantidade = quantidade * 100;
-
-    var caixaNormal = moedaParaNumero($('#' + idCxNormal + '').val());//$('#'+idCxNormal+'').val();
+    var caixaNormal = moedaParaNumero($('#' + idCxNormal + '').val()); //$('#'+idCxNormal+'').val();
     caixaNormal = caixaNormal * 100;
-
     var modulo = quantidade % caixaNormal;
-
     if (modulo > 0) {
 
         return true;
@@ -549,13 +499,11 @@ function calcPrecoKg(idQuant, idPeso, idVlrTot, idBadge) {
         var prcKg = 0;
     }
 
-    //console.log(prcKg);
+//console.log(prcKg);
 
     prcKgArr = numeroParaMoeda(prcKg);
     $('#' + idBadge + '').text('Preço por Kg ' + prcKgArr + '');
     return prcKgArr;
-
-
 }
 /**
  * Aplica quantidade caixa normal
@@ -577,20 +525,13 @@ function aplicaQtMaster(idQtSug, idQuant) {
  * Valida preço por kg
  */
 function bloqueaPrcKg(idSitLib, idVlrUnit, idBruto, quant, peso, vlrtot) {
-    //idQuant,idPeso,idVlrTot,idBadge
+//idQuant,idPeso,idVlrTot,idBadge
     var VlrUnit = moedaParaNumero($('#' + idVlrUnit + '').val());
     var PrecoBruto = moedaParaNumero($('#' + idBruto + '').val());
     var regra = $('#' + idSitLib + '').val();
-
-
     var quantidade = moedaParaNumero($('#' + quant + '').val());
-
     var totalpeso = moedaParaNumero($('#' + peso + '').val());
-
     var valor = moedaParaNumero($('#' + vlrtot + '').val());
-
-
-
     if (regra == 'Desconto') {
         var resultado = (VlrUnit * 100) / PrecoBruto;
         var porcento = 100 - resultado;
@@ -632,14 +573,9 @@ function retornaPorc(idvl1, idvlr2) {
 
     var valor1 = moedaParaNumero($('#' + idvl1 + '').val());
     var valor2 = moedaParaNumero($('#' + idvlr2 + '').val());
-
     var diferenca = (valor1 / valor2) * 100;
-
     var total = Math.ceil(100 - diferenca);
-
     return total;
-
-
 }
 
 /**
@@ -647,19 +583,15 @@ function retornaPorc(idvl1, idvlr2) {
  */
 function dataAtual(idData, dataAtual) {
     var dataEnt = $('#' + idData + '').val();
-
-
-
     var nova_data1 = parseInt(dataAtual.split("/")[2].toString() + dataAtual.split("/")[1].toString() + dataAtual.split("/")[0].toString());
-
     if (dataEnt != '') {
         var nova_data2 = parseInt(dataEnt.split("/")[2].toString() + dataEnt.split("/")[1].toString() + dataEnt.split("/")[0].toString());
     } else
     {
         var nova_data2 = 0;
     }
-    //  alert(nova_data1);
-    //  alert(nova_data2);
+//  alert(nova_data1);
+//  alert(nova_data2);
 
     if (nova_data1 > nova_data2) {
 
@@ -717,73 +649,62 @@ function calcNewproj(idPlan,
     }
     Quant = moedaParaNumero(Quant);
     $('#' + idQuant + '').val(numeroParaMoeda(Quant));
-
     var PrecoFinal = $('#' + idPrecoFinal + '').val();
     if (PrecoFinal == '') {
         $('#' + idPrecoFinal + '').val('0');
     }
     PrecoFinal = moedaParaNumero(PrecoFinal);
     $('#' + idPrecoFinal + '').val(numeroParaMoeda(PrecoFinal));
-
     var Lote = $('#' + idLote + '').val();
     if (Lote == '') {
         $('#' + idLote + '').val('0');
     }
     Lote = moedaParaNumero(Lote);
     $('#' + idLote + '').val(numeroParaMoeda(Lote));
-
     var Peso = $('#' + idPeso + '').val();
     if (Peso == '') {
         $('#' + idPeso + '').val('0');
     }
     Peso = moedaParaNumero(Peso);
     $('#' + idPeso + '').val(numeroParaMoeda(Peso));
-
     var Plan = $('#' + idPlan + '').val();
     if (Plan == '') {
         $('#' + idPlan + '').val('0');
     }
     Plan = moedaParaNumero(Plan);
     $('#' + idPlan + '').val(numeroParaMoeda(Plan));
-
     var Ferr = $('#' + idFerr + '').val();
     if (Ferr == '') {
         $('#' + idFerr + '').val('0');
     }
     Ferr = moedaParaNumero(Ferr);
     $('#' + idFerr + '').val(numeroParaMoeda(Ferr));
-
     var Mat = $('#' + idMat + '').val();
     if (Mat == '') {
         $('#' + idMat + '').val('0');
     }
     Mat = moedaParaNumero(Mat);
     $('#' + idMat + '').val(numeroParaMoeda(Mat));
-
     var Acab = $('#' + idAcab + '').val();
     if (Acab == '') {
         $('#' + idAcab + '').val('0');
     }
     Acab = moedaParaNumero(Acab);
     $('#' + idAcab + '').val(numeroParaMoeda(Acab));
-
     var Trat = $('#' + idTrat + '').val();
     if (Trat == '') {
         $('#' + idTrat + '').val('0');
     }
     Trat = moedaParaNumero(Trat);
     $('#' + idTrat + '').val(numeroParaMoeda(Trat));
-
     var Custo = $('#' + idCusto + '').val();
     if (Custo == '') {
         $('#' + idCusto + '').val('0');
     }
     Custo = moedaParaNumero(Custo);
     $('#' + idCusto + '').val(numeroParaMoeda(Custo));
-
     var CustoTotal = (Plan + Ferr + Mat + Acab + Trat + Custo);
     $('#' + idTotal + '').val(numeroParaMoeda(CustoTotal));
-
     if (Lote > Quant) {
         var CustoCento = (CustoTotal / Lote);
         $('#' + idCCento + '').val(numeroParaMoeda(CustoCento));
@@ -807,7 +728,6 @@ function dimenNewProj(codProdSimilar, idChMin, idChMax, idAltMin, idAltMax, idDi
                 + idCompMin + ',' + idCompMax + ',' + idDiamPmin + ',' + idDiamPmax + ',' + idDiamExMin + ',' + idDiamExMax + ',' + idCompPrMin + ','
                 + idCompPrMax + ',' + idCompHmin + ',' + idCompHmax + ',' + idDiamHmin + ',' + idDiamHmax + ',' + idCanecoMin + ',' + idCanecoMax + ','
                 + idAngHelice + ',' + idAcab + ',' + idMat + ',' + idClass + ',' + codProCod + ',' + idDiamMat;
-
         requestAjax("", sClasse, 'getDadosProdSimilar', campoValSim);
     }
 }
@@ -844,7 +764,6 @@ function NewProjRep(idQt) {
     }
     Qt = moedaParaNumero(Qt);
     $('#' + idQt + '').val(numeroParaMoeda(Qt));
-
 }
 
 /**
@@ -854,18 +773,12 @@ function strongPass() {
 
     var Pass1Val = $('#passwd1').val();
     var Pass2Val = $('#passwd2').val();
-
-
-
     var WeakPass = /(?=.{5,}).*/;
     var MediumPass = /^(?=\S*?[a-z])(?=\S*?[0-9])\S{5,}$/;
     var StrongPass = /^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])\S{5,}$/;
     var VryStrongPass = /^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?=\S*?[^\w\*])\S{5,}$/;
     var forca = 's';
     var same = 's';
-
-
-
     if (VryStrongPass.test(Pass1Val)) {
         $('#input1').removeClass('has-success has-error');
         $('#input1').addClass('has-success');
@@ -909,7 +822,6 @@ function strongPass() {
 
     if (forca == 's' && same == 's') {
         $('#botao1').prop('disabled', false);
-
     } else {
         $('#botao1').prop('disabled', true);
     }
@@ -923,7 +835,7 @@ function strongPass() {
 
 function callRequestRedefine() {
 
-    //chama classe para alterar a senha
+//chama classe para alterar a senha
     requestAjax('frm-redefini', 'User', 'redefinePasswdLogin');
 }
 /**
@@ -934,16 +846,12 @@ function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
 
     var Pass1Val = $('#' + idPass1 + '').val();
     var Pass2Val = $('#' + idPass2 + '').val();
-
     var WeakPass = /(?=.{5,}).*/;
     var MediumPass = /^(?=\S*?[a-z])(?=\S*?[0-9])\S{5,}$/;
     var StrongPass = /^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])\S{5,}$/;
     var VryStrongPass = /^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?=\S*?[^\w\*])\S{5,}$/;
     var forca = 's';
     var same = 's';
-
-
-
     if (VryStrongPass.test(Pass1Val)) {
         $('#' + idPass1 + '-group').removeClass('has-success has-error');
         $('#' + idBadge + '').removeClass('label-danger label-warning label-success');
@@ -978,19 +886,16 @@ function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
         $('#' + idPass1 + '-group').addClass('has-error');
         $('#' + idBadge + '').addClass('label-danger');
         $('#' + idBadge + '').text('Fraca a senha deve ter no mínimo 5 ou mais caracteres!');
-
         forca = 'n';
     }
 
-    //verifica se as senhas são iguais
+//verifica se as senhas são iguais
     if (Pass1Val !== Pass2Val) {
         $('#' + idPass2 + '-group').removeClass('has-success has-error');
         $('#' + idBadge2 + '').removeClass('label-danger label-warning label-success');
         $('#' + idPass2 + '-group').addClass('has-error');
         $('#' + idBadge2 + '').addClass('label-danger');
         $('#' + idBadge2 + '').text('Senhas diferentes, digite senhas iguais!');
-
-
         same = 'n';
     } else {
         $('#' + idPass2 + '-group').removeClass('has-success has-error');
@@ -998,8 +903,6 @@ function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
         $('#' + idPass2 + '-group').addClass('has-success');
         $('#' + idBadge2 + '').addClass('label-success');
         $('#' + idBadge2 + '').text('Senhas conferem!');
-
-
         same = 's';
     }
 
@@ -1007,7 +910,6 @@ function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
 
 
         $('#' + idBotao + '').prop('disabled', false);
-
     } else {
 
         $('#' + idBotao + '').prop('disabled', true);
@@ -1023,9 +925,6 @@ function strongPassSistema(idPass1, idPass2, idBadge, idBadge2, idBotao) {
 function verifLoteMin(sIdLote, sIdQt) {
     var loteqt = moedaParaNumero($('#' + sIdLote + '').val());
     var qt = moedaParaNumero($('#' + sIdQt + '').val());
-
-
-
     if (loteqt !== 0) {
         if (loteqt > qt) {
             return false;
@@ -1068,8 +967,6 @@ function cepBusca(sCep, sIdMunin, sIdEnd, sUf, sBairro) {
             $('#' + sUf + '').val('');
             $('#' + sBairro + '').val('');
             mensagemSlide('warning', 'Cep não encontrado nos correios!', 'Busca de Cep');
-
-
         });
     } else {
         $('#' + sIdMunin + '').val('');
@@ -1121,7 +1018,6 @@ function expandeField(id) {
 function buscaRespVenda(idCod, idVenda, nomeVenda, classe) {
     var idsCampos = idCod + ',' + idVenda + ',' + nomeVenda;
     requestAjax("", classe, 'getRespVenda', idsCampos);
-
 }
 
 function getUserEmail(codUser, idNome, idEmail, idCod, classe) {
@@ -1141,7 +1037,6 @@ function insereProd(proCod, proDes, quant, quantNConf, idProdTag, idProCod, idPr
 function maskDecimal(idCampo, c) {
 
     var valor = $('#' + idCampo + '').val();
-
     if (valor == '') {
         $('#' + idCampo + '').val('0');
     }
@@ -1157,56 +1052,38 @@ function maskDecimal(idCampo, c) {
  * @returns {undefined}
  */
 function precoNfEntradaSteel(idQuant, idUnit, idTot) {
-    // console.log('chegamos');
+// console.log('chegamos');
     var Quant = moedaParaNumero($('#' + idQuant + '').val());
     //console.log(Quantidade);
     var Unit = moedaParaNumero($('#' + idUnit + '').val());
-
     var total = Quant * Unit;
-
-
     $('#' + idTot + '').val(numeroParaMoeda(total));
-
 }
 
 
 function precoMontagemCarta(idRetornoQt, idRetornoVlr, idRetornoTotal, idInsumoQt, idInsumoVlr, idInsumoTotal,
         idServicoQt, idServicoVlr, idServicoTotal) {
-    //calculo do retorno
+//calculo do retorno
     var QtRet = moedaParaNumero($('#' + idRetornoQt + '').val());
-
     var VlrRet = moedaParaNumero($('#' + idRetornoVlr + '').val());
-
     var totalRetorno = QtRet * VlrRet;
-
-
     $('#' + idRetornoTotal + '').val(numeroParaMoeda(totalRetorno));
-
-
     //calculo do insumo
     var QtInsumo = moedaParaNumero($('#' + idInsumoQt + '').val());
-
     var VlrInsumo = moedaParaNumero($('#' + idInsumoVlr + '').val());
-
     var totalInsumo = QtInsumo * VlrInsumo;
-
     $('#' + idInsumoTotal + '').val(numeroParaMoeda(totalInsumo));
     //calculo do serviço
 
     var QtServico = moedaParaNumero($('#' + idServicoQt + '').val());
-
     var VlrServico = moedaParaNumero($('#' + idServicoVlr + '').val());
-
     var totalServico = QtServico * VlrServico;
-
     $('#' + idServicoTotal + '').val(numeroParaMoeda(totalServico));
-
 }
 
 
 function buscaCNPJ(sCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idCep, idMunicipio, idEndereco, idUf, idBairro, idComplemento, idNr, sClasse) {
     var campoVal = sCNPJ + ',' + idEmpdes + ',' + idEmpfant + ',' + idEmpfone + ',' + idEmail + ',' + idCep + ',' + idMunicipio + ',' + idEndereco + ',' + idUf + ',' + idBairro + ',' + idComplemento + ',' + idUf + ',' + idNr;
-
     requestAjax("", sClasse, 'getCNPJ', campoVal);
 }
 
@@ -1227,7 +1104,6 @@ function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idC
                     mensagemSlide('warning', data.message, data.status);
                 } else {
                     mensagemSlide('info', 'Buscando dados do CNPJ!', 'Aguarde!');
-
                     var fone = data.telefone.split('/');
                     var numero = data.numero;
                     if ($.isNumeric(numero)) {
@@ -1246,10 +1122,8 @@ function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idC
                     var bairro = data.bairro;
                     var complemento = data.complemento;
                     var nr = numero;
-
                     var ids = idCNPJ + '|' + idEmpdes + '|' + idEmpfant + '|' + idEmpfone + '|' + idEmail + '|' + idCep + '|' + idMunicipio + '|' + idEndereco + '|' + idUf + '|' + idBairro + '|' + idComplemento + '|' + idNr;
                     var valores = sEmpcod + '|' + empdes + '|' + empfant + '|' + empfone + '|' + email + '|' + cep + '|' + municipio + '|' + endereco + '|' + uf + '|' + bairro + '|' + complemento + '|' + nr;
-
                     requestAjax("", sClasse, 'getCNPJ', valores + ',' + ids);
                 }
             },
@@ -1258,13 +1132,12 @@ function cnpjBusca(sEmpcod, idCNPJ, idEmpdes, idEmpfant, idEmpfone, idEmail, idC
             }
 
         });
-
     }
 }
 
 function calculoPesoOpSteel(idPeso, idPesoBal, idCaixa, idDif) {
-   // alert('chegou');
-    // console.log('chegamos');
+// alert('chegou');
+// console.log('chegamos');
     var Peso = moedaParaNumero($('#' + idPeso + '').val());
     //console.log(Quantidade);
     var Bal = moedaParaNumero($('#' + idPesoBal + '').val());
@@ -1277,7 +1150,7 @@ function calculoPesoOpSteel(idPeso, idPesoBal, idCaixa, idDif) {
     $('#' + idDif + '').val(numeroParaMoeda(total));
 
 }
-
+    
 /*function fetchdata() {
  alert('got here');
  setInterval(fetchdata, 5000);

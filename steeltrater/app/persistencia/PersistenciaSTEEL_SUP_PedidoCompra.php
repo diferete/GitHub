@@ -92,14 +92,28 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
         $this->setSTop(75);
     }
 
+    public function afterInsert($aCampos) {
+        parent::afterInsert($aCampos);
+
+        $sSql = "update tec_sequencia set tec_sequencianumero = " . $aCampos['sup_pedidoseq'] . " "
+                . "where tec_sequenciaFilial = '8993358000174' and tec_sequenciaTabela ='SUP_PEDIDO'";
+
+        $this->executaSql($sSql);
+    }
+
+    /* APLICATIVO */
+
     public function buscaBadgePedCompras($oDados) {
         /**
          * Contador de pedidos aguardando aprovação
          */
         $aRetorno = array();
-
-        $sSql = "select COUNT(*) as total from sup_pedido(nolock) where sup_pedidosituacao = 'A' and fil_codigo = '8993358000174' ";
-        $s = $this->consultaSql($sSql);
+        if ($oDados->usucodigo == 22 || $oDados->usucodigo == 46) {
+            $sSql = "select COUNT(*) as total from sup_pedido(nolock) where sup_pedidosituacao = 'A' and fil_codigo = '8993358000174' ";
+            $s = $this->consultaSql($sSql);
+        } else {
+            $s->total = 0;
+        }
 
         /* matriz e filial */
         $sSql = "select usunomedelsoft from met_tec_usuario(nolock) where usucodigo = " . $oDados->usucodigo;
@@ -122,57 +136,62 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
 
         switch ($cnpj) {
             case 8993358000174:
+                if ($usucodigo == 22 || $usucodigo == 46) {
+                    $aDados = array();
+                    $aPedidos = array();
+                    $aRetorno = array();
+                    $iContador = 0;
 
-                $aDados = array();
-                $aPedidos = array();
-                $aRetorno = array();
-                $iContador = 0;
+                    $sSql = "select top 50 "
+                            . "sup_pedido.sup_pedidoseq,"
+                            . "sup_pedidovlrdesconto,"
+                            . "sup_pedidovalordescontoservico,"
+                            . "convert(varchar,sup_pedidodata,103) as sup_pedidodata,"
+                            . "emp_pessoa.emp_razaosocial as fornecedor,"
+                            . "sup_pedidovalortotal,"
+                            . "sup_pedidousuario,"
+                            . "sup_pedidovlrfrete,"
+                            . "sup_pedidoobservacao,"
+                            . "sup_pedidoimpostovalor "
+                            . "from sup_pedido(nolock) "
+                            . "left outer join emp_pessoa(nolock) "
+                            . "on sup_pedido.sup_PedidoFornecedor = emp_pessoa.emp_codigo "
+                            . "left outer join usu_usuario(nolock) "
+                            . "on sup_pedido.sup_pedidousuario = usu_usuario.usu_codigo "
+                            . "left outer join sup_pedidoimposto(nolock) "
+                            . "on sup_pedido.sup_pedidoseq = sup_pedidoimposto.sup_pedidoseq "
+                            . "and sup_pedido.fil_codigo = sup_pedidoimposto.fil_codigo "
+                            . "where sup_pedidosituacao = 'A' "
+                            . "and sup_pedido.fil_codigo = 8993358000174 "
+                            . "order by sup_pedido.sup_pedidoseq desc ";
 
-                $sSql = "select "
-                        . "sup_pedido.sup_pedidoseq,"
-                        . "sup_pedidovlrdesconto,"
-                        . "sup_pedidovalordescontoservico,"
-                        . "convert(varchar,sup_pedidodata,103) as sup_pedidodata,"
-                        . "emp_pessoa.emp_razaosocial as fornecedor,"
-                        . "sup_pedidovalortotal,"
-                        . "sup_pedidousuario,"
-                        . "sup_pedidovlrfrete,"
-                        . "sup_pedidoobservacao,"
-                        . "sup_pedidoimpostovalor "
-                        . "from sup_pedido(nolock) "
-                        . "left outer join emp_pessoa(nolock) "
-                        . "on sup_pedido.sup_PedidoFornecedor = emp_pessoa.emp_codigo "
-                        . "left outer join usu_usuario(nolock) "
-                        . "on sup_pedido.sup_pedidousuario = usu_usuario.usu_codigo "
-                        . "left outer join sup_pedidoimposto(nolock) "
-                        . "on sup_pedido.sup_pedidoseq = sup_pedidoimposto.sup_pedidoseq "
-                        . "and sup_pedido.fil_codigo = sup_pedidoimposto.fil_codigo "
-                        . "where sup_pedidosituacao = 'A' "
-                        . "and sup_pedido.fil_codigo = 8993358000174 "
-                        . " and sup_pedido.sup_pedidoseq > 150 "
-                        . "order by sup_pedido.sup_pedidoseq desc ";
-
-                $result = $this->getObjetoSql($sSql);
-                while ($row = $result->fetch(PDO::FETCH_OBJ)) {
-                    $aDados['nr'] = $row->sup_pedidoseq;
-                    $aDados['data'] = $row->sup_pedidodata;
-                    $aDados['fornecedor'] = $row->fornecedor;
-                    $aDados['valorTotal'] = number_format($row->sup_pedidovalortotal, 4, ',', '.');
-                    $aDados['usuario'] = $row->sup_pedidousuario;
-                    $aDados['observacao'] = $row->sup_pedidoobservacao;
-                    $aDados['valorFrete'] = number_format($row->sup_pedidovlrfrete, 4, ',', '.');
-                    $aDados['ipi'] = number_format($row->sup_pedidoimpostovalor, 4, ',', '.');
-                    $aDados['descontos'] = number_format($row->sup_pedidovlrdesconto + $row->sup_pedidovalordescontoservico, 2, ',', '.');
-                    $aDados['cnpj'] = $cnpj;
-                    $aRetornoItens = $this->getDadosItens($cnpj, $row->sup_pedidoseq);
-                    $aDados['itens'] = $aRetornoItens;
-                    $aPedidos[] = $aDados;
-                    $iContador++;
+                    $result = $this->getObjetoSql($sSql);
+                    while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+                        $aDados['nr'] = $row->sup_pedidoseq;
+                        $aDados['data'] = $row->sup_pedidodata;
+                        $aDados['fornecedor'] = $row->fornecedor;
+                        $aDados['valorTotal'] = number_format($row->sup_pedidovalortotal, 3, ',', '.');
+                        $aDados['usuario'] = $row->sup_pedidousuario;
+                        $aDados['observacao'] = $row->sup_pedidoobservacao;
+                        $aDados['valorFrete'] = number_format($row->sup_pedidovlrfrete, 3, ',', '.');
+                        $aDados['ipi'] = number_format($row->sup_pedidoimpostovalor, 3, ',', '.');
+                        $aDados['descontos'] = number_format($row->sup_pedidovlrdesconto + $row->sup_pedidovalordescontoservico, 3, ',', '.');
+                        $aDados['cnpj'] = $cnpj;
+                        $aRetornoItens = $this->getDadosItens($cnpj, $row->sup_pedidoseq);
+                        $aDados['itens'] = $aRetornoItens;
+                        $aPedidos[] = $aDados;
+                        $iContador++;
+                    }
+                    $aRetorno['empresa'] = 'SteelTrater';
+                    $aRetorno['pedidos'] = $aPedidos;
+                    $aRetorno['contador'] = $iContador;
+                    break;
+                } else {
+                    $aRetorno['empresa'] = 'SteelTrater';
+                    $aRetorno['pedidos'] = '';
+                    $aRetorno['contador'] = 0;
                 }
-                $aRetorno['empresa'] = 'SteelTrater';
-                $aRetorno['pedidos'] = $aPedidos;
-                $aRetorno['contador'] = $iContador;
-                break;
+
             case 75483040000211:
                 $aDados = array();
                 $aPedidos = array();
@@ -220,12 +239,12 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                     $aDados['nr'] = $row->pdcnro;
                     $aDados['data'] = $row->pdcimplant;
                     $aDados['fornecedor'] = $row->fornecedor;
-                    $aDados['valorTotal'] = number_format($row->valortotal, 2, ',', '.');
+                    $aDados['valorTotal'] = number_format($row->valortotal, 3, ',', '.');
                     $aDados['usuario'] = $row->pdcusu;
                     $aDados['observacao'] = trim($row->pdcobs);
-                    $aDados['valorFrete'] = number_format($row->pdcfrevalo, 2, ',', '.');
-                    $aDados['ipi'] = number_format($row->totalipi, 2, ',', '.');
-                    $aDados['descontos'] = number_format($row->desconto, 2, ',', '.');
+                    $aDados['valorFrete'] = number_format($row->pdcfrevalo, 3, ',', '.');
+                    $aDados['ipi'] = number_format($row->totalipi, 3, ',', '.');
+                    $aDados['descontos'] = number_format($row->desconto, 3, ',', '.');
                     $aDados['cnpj'] = $cnpj;
                     $aRetornoItens = $this->getDadosItens($cnpj, $row->pdcnro);
                     $aDados['itens'] = $aRetornoItens;
@@ -285,12 +304,12 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                     $aDados['nr'] = $row->pdcnro;
                     $aDados['data'] = $row->pdcimplant;
                     $aDados['fornecedor'] = $row->fornecedor;
-                    $aDados['valorTotal'] = number_format($row->valortotal, 2, ',', '.');
+                    $aDados['valorTotal'] = number_format($row->valortotal, 3, ',', '.');
                     $aDados['usuario'] = $row->pdcusu;
                     $aDados['observacao'] = trim($row->pdcobs);
-                    $aDados['valorFrete'] = number_format($row->pdcfrevalo, 2, ',', '.');
-                    $aDados['ipi'] = number_format($row->totalipi, 2, ',', '.');
-                    $aDados['descontos'] = number_format($row->desconto, 2, ',', '.');
+                    $aDados['valorFrete'] = number_format($row->pdcfrevalo, 3, ',', '.');
+                    $aDados['ipi'] = number_format($row->totalipi, 3, ',', '.');
+                    $aDados['descontos'] = number_format($row->desconto, 3, ',', '.');
                     $aDados['cnpj'] = $cnpj;
                     $aRetornoItens = $this->getDadosItens($cnpj, $row->pdcnro);
                     $aDados['itens'] = $aRetornoItens;
@@ -312,6 +331,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                 $aRetorno = array();
                 $aI = array();
                 $sSqlItens = "select "
+                        . "pro_codigo,"
                         . "sup_pedidoitemdescricao,"
                         . "sup_pedidoitemcomqtd,"
                         . "sup_pedidoitemunidade,"
@@ -322,11 +342,16 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                 $result = $this->getObjetoSql($sSqlItens);
 
                 while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+                    $aI['codigo'] = trim($row->pro_codigo);
                     $aI['itemdescricao'] = $row->sup_pedidoitemdescricao;
                     $aI['itemqtd'] = number_format($row->sup_pedidoitemcomqtd, 3, ',', '.');
-                    $aI['itemvalor'] = number_format($row->sup_pedidoitemvalor, 2, ',', '.');
-                    $aI['itemvalortotal'] = number_format($row->sup_pedidoitemvalor * $row->sup_pedidoitemcomqtd, 2, ',', '.');
+                    $aI['itemvalor'] = number_format($row->sup_pedidoitemvalor, 3, ',', '.');
+                    $aI['itemvalortotal'] = number_format($row->sup_pedidoitemvalor * $row->sup_pedidoitemcomqtd, 3, ',', '.');
                     $aI['itemunidade'] = $row->sup_pedidoitemunidade;
+                    $aComprasAnt = $this->getDadosComprasAnteriores($cnpj, $nr, trim($row->pro_codigo));
+                    if (!empty($aComprasAnt)) {
+                        $aI['antigos'] = $aComprasAnt;
+                    }
                     $aRetorno[] = $aI;
                 }
                 return $aRetorno;
@@ -337,7 +362,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                 $sSqlItens = "select "
                         . "prodes,"
                         . "pround,"
-                        . "pdcproqtda,"
+                        . "pdcproqtdp,"
                         . "pdcprovlru "
                         . "from rex_maquinas.widl.PEDC01(nolock) "
                         . "left outer join rex_maquinas.widl.PROD01(nolock) "
@@ -347,10 +372,11 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                 $result = $this->getObjetoSql($sSqlItens);
 
                 while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+                    $aI['codigo'] = trim($row->procod);
                     $aI['itemdescricao'] = $row->prodes;
-                    $aI['itemqtd'] = number_format($row->pdcproqtda, 3, ',', '.');
-                    $aI['itemvalor'] = number_format($row->pdcprovlru, 2, ',', '.');
-                    $aI['itemvalortotal'] = number_format($row->pdcprovlru * $row->pdcproqtda, 2, ',', '.');
+                    $aI['itemqtd'] = number_format($row->pdcproqtdp, 3, ',', '.');
+                    $aI['itemvalor'] = number_format($row->pdcprovlru, 3, ',', '.');
+                    $aI['itemvalortotal'] = number_format($row->pdcprovlru * $row->pdcproqtdp, 3, ',', '.');
                     $aI['itemunidade'] = $row->pround;
                     $aRetorno[] = $aI;
                 }
@@ -362,7 +388,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                 $sSqlItens = "select "
                         . "prodes,"
                         . "pround,"
-                        . "pdcproqtda,"
+                        . "pdcproqtdp,"
                         . "pdcprovlru "
                         . "from rex_maquinas.widl.PEDC01(nolock) "
                         . "left outer join rex_maquinas.widl.PROD01(nolock) "
@@ -372,14 +398,51 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                 $result = $this->getObjetoSql($sSqlItens);
 
                 while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+                    $aI['codigo'] = trim($row->procod);
                     $aI['itemdescricao'] = $row->prodes;
-                    $aI['itemqtd'] = number_format($row->pdcproqtda, 3, ',', '.');
-                    $aI['itemvalor'] = number_format($row->pdcprovlru, 2, ',', '.');
-                    $aI['itemvalortotal'] = number_format($row->pdcprovlru * $row->pdcproqtda, 2, ',', '.');
+                    $aI['itemqtd'] = number_format($row->pdcproqtdp, 3, ',', '.');
+                    $aI['itemvalor'] = number_format($row->pdcprovlru, 3, ',', '.');
+                    $aI['itemvalortotal'] = number_format($row->pdcprovlru * $row->pdcproqtdp, 3, ',', '.');
                     $aI['itemunidade'] = $row->pround;
                     $aRetorno[] = $aI;
                 }
                 return $aRetorno;
+        }
+    }
+
+    public function getDadosComprasAnteriores($cnpj, $nr, $codigo) {
+        switch ($cnpj) {
+            case 8993358000174:
+                $aRetorno = array();
+                $aI = array();
+                $sSql = "select top 5 "
+                        . "sup_pedidoseq,"
+                        . "sup_pedidoitemcomqtd,"
+                        . "sup_pedidoitemvalor,"
+                        . "sup_pedidoitemvalortotal "
+                        . "from sup_pedidoitem "
+                        . "where fil_codigo = " . $cnpj . " "
+                        . "and pro_codigo = " . $codigo . " "
+                        . "and sup_pedidoseq < " . $nr . " "
+                        . "order by sup_pedidoseq desc";
+                $result = $this->getObjetoSql($sSql);
+                while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+                    $aI['nr'] = $row->sup_pedidoseq;
+                    $aI['itemqtd'] = number_format($row->sup_pedidoitemcomqtd, 3, ',', '.');
+                    $aI['itemvalor'] = number_format($row->sup_pedidoitemvalor, 3, ',', '.');
+                    $aI['itemvalortotal'] = number_format($row->sup_pedidoitemvalor * $row->sup_pedidoitemcomqtd, 3, ',', '.');
+                    $aRetorno[] = $aI;
+                }
+                return $aRetorno;
+
+            case 75483040000211:
+
+
+                break;
+            case 75483040000130:
+
+
+                break;
         }
     }
 
@@ -493,6 +556,16 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                 $aRetorno = $this->executaSql($sSql);
                 return $aRetorno;
         }
+    }
+
+    public function buscaCondPag() {
+        $sSql = "select cpg_codigo,cpg_descricao from CPG_CondicaoPagamento";
+        $sth = $this->getObjetoSql($sSql);
+        $aRetorno = array();
+        while ($aCondPag = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRetorno[] = $aCondPag;
+        }
+        return $aRetorno;
     }
 
 }

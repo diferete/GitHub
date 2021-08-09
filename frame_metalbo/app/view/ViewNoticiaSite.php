@@ -8,7 +8,7 @@ class ViewNoticiaSite extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
+        
         $this->getTela()->setBGridResponsivo(true);
 
         $this->setUsaDropdown(true);
@@ -26,7 +26,7 @@ class ViewNoticiaSite extends View {
         $oSite->addComparacao('83781641000158', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
 
         $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
-
+        
         $oFilTitulo = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $this->addFiltro($oFilData, $oFilTitulo);
@@ -34,7 +34,7 @@ class ViewNoticiaSite extends View {
         $this->addDropdown($oFeed);
 
         $this->addCampos($oNr, $oSite, $oData, $oTitulo);
-
+        
         $oLinhaWhite = new Campo('', '', Campo::TIPO_LINHABRANCO);
 
         $oTexto = new Campo('Problema apresentando', '', Campo::TIPO_TEXTAREA, 12);

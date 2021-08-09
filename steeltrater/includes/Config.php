@@ -18,7 +18,7 @@ class Config {
     const PROJ_FOLDER = 'frame_avanei';
     const APP_FOLDER = 'app'; //sistemas
     const LIB_FOLDER = 'biblioteca'; //componentes
-//    const EXTJS_FOLDER = '/ext-4.2.1.883'; //pasta da biblioteca extjs
+    //const EXTJS_FOLDER = '/ext-4.2.1.883'; //pasta da biblioteca extjs
     //const JASPER_FOLDER = '/PHPJasperXML'; //pasta da biblioteca de relatório JasperXML
     const MAIL_FOLDER = '/PHPMailer'; //pasta da biblioteca de envio de emails
     const REPORT_FOLDER = '/relatorio'; //pasta onde se encontram os modelos XML dos relatórios
@@ -29,7 +29,7 @@ class Config {
     const ARQ_FOLDER_TEMP = 'temp'; //arquivos temporários de upload
     const JASPER_FOLDER = '/PHPJasperXML';
     const EMAIL_SENDER = 'metalboweb@gmail.com';
-    const PASWRD_EMAIL_SENDER = '3BS0deAgtLu4';
+    const PASWRD_EMAIL_SENDER = '7&t+Ah8*Qz!z';
     const SERVER_SMTP = 'smtp.gmail.com';
     const PORT_SMTP = 465;
     const PROTOCOLO_SMTP = 'ssl';
@@ -65,21 +65,28 @@ class Config {
     
     const TIPO_BD = self::BD_SQLSERVER;
     const PORTA_BD = 1433;
+    const USER_BD = 'sa';
+    const NOME_BD = 'METALBOBASE';
+    const HOST_BD = 'MetalboServer';
+    const PASS_BD = 'M@quinas@321';
+    
+    /*
+    const TIPO_BD = self::BD_SQLSERVER;
+    const PORTA_BD = 1433;
     const USER_BD  = 'sa';
     const NOME_BD  = 'PROTOT';
     const HOST_BD  = 'METALBOBASE';
-    const PASS_BD  = 'Met@lbo@4321';
+    const PASS_BD  = 'Met@lbo@4321';*/
      
     
     /*
-      const TIPO_BD = self::BD_SQLSERVER;
-      const PORTA_BD = 1433;
-      const USER_BD  = 'sa';
-      const NOME_BD  = 'METALBOBASE';
-      const HOST_BD  = 'METALBOBASE';
-      const PASS_BD  = 'Met@lbo@4321';
-     * 
-     */
+    const TIPO_BD = self::BD_SQLSERVER;
+    const PORTA_BD = 1433;
+    const USER_BD  = 'sa';
+    const NOME_BD  = 'METALBOBASE';
+    const HOST_BD  = 'METALBOBASE';
+    const PASS_BD  = 'Met@lbo@4321';*/
+    
      
      
 }

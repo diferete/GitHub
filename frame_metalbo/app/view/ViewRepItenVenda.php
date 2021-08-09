@@ -15,7 +15,7 @@ class ViewRepItenVenda extends View {
         $oCnpj = new Campo('Cliente', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2);
         $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
         $oCnpj->setSCorFundo(Campo::FUNDO_AMARELO);
-        // $oCnpj->addValidacao(false, Validacao::TIPO_STRING, '', '2');
+
         $oEmpresa = new Campo('Razão Social', 'cliente', Campo::TIPO_BUSCADOBANCO, 4);
         $oEmpresa->setSIdPk($oCnpj->getId());
         $oEmpresa->setClasseBusca('Pessoa');
@@ -24,6 +24,7 @@ class ViewRepItenVenda extends View {
         $oEmpresa->setSIdTela($this->getTela()->getid());
         $oEmpresa->setITamanho(Campo::TAMANHO_PEQUENO);
         $oEmpresa->setSCorFundo(Campo::FUNDO_AMARELO);
+
         $oCnpj->setClasseBusca('Pessoa');
         $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
@@ -48,18 +49,24 @@ class ViewRepItenVenda extends View {
 
         $oNr = new CampoConsulta('Nr.Sol', 'nr');
         $oNr->setILargura(30);
+
         $oCnpjPesq = new CampoConsulta('Cnpj', 'cnpj');
+
         $oCliente = new CampoConsulta('Cliente', 'cliente');
         $oCliente->setILargura(380);
+
         $oData = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
         $oData->setILargura(80);
+
         $oQuant = new CampoConsulta('Quant', 'quant', CampoConsulta::TIPO_DECIMAL);
         $oQuant->setILargura(100);
+
         $oVlrUnit = new CampoConsulta('Valor Unit.', 'vlrunit', CampoConsulta::TIPO_DECIMAL);
-        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oVlrUnit->setBComparacaoColuna(true);
 
         $oValorTot = new CampoConsulta('Valor Tot.', 'vlrtot', CampoConsulta::TIPO_MONEY);
+
         $oDcompra = new CampoConsulta('Od', 'odcompra');
 
         $oGridItens->addCampos($oNr, $oCnpjPesq, $oCliente, $oData, $oQuant, $oVlrUnit, $oValorTot, $oDcompra);
@@ -79,14 +86,21 @@ class ViewRepItenVenda extends View {
         $oGridVenda = new Grid("");
 
         $oNr = new CampoConsulta('Nr.Sol', 'nr');
+
         $oCnpj = new CampoConsulta('Cnpj', 'cnpj');
+
         $oCliente = new CampoConsulta('Cliente', 'cliente');
+
         $oData = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
+
         $oQuant = new CampoConsulta('Quant', 'quant', CampoConsulta::TIPO_DECIMAL);
+
         $oVlrUnit = new CampoConsulta('Valor Unit.', 'vlrunit', CampoConsulta::TIPO_MONEY);
         $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
         $oVlrUnit->setBComparacaoColuna(true);
+
         $oValorTot = new CampoConsulta('Valor Tot.', 'vlrtot', CampoConsulta::TIPO_MONEY);
+
         $oDcompra = new CampoConsulta('Od', 'odcompra');
 
         $oGridVenda->addCampos($oNr, $oCnpj, $oCliente, $oData, $oQuant, $oVlrUnit, $oValorTot, $oDcompra);

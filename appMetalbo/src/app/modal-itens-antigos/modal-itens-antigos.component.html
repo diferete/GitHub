@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Itens do pedido</ion-title>
+    <ion-title>Compras anteriores</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismissModal()" style="color: blue">Fechar</ion-button>
     </ion-buttons>
@@ -8,36 +8,29 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid style="font-weight: 600; background-color: rgb(202, 202, 202)">
-    <ion-col style="padding-left: 3px" size="4">Descrição</ion-col>
-    <ion-col size="4" offset="1.8">Valor</ion-col>
-    <ion-col size="4" offset="0.8">Qt.</ion-col>
-    <ion-col size="4" offset="1.3">Total</ion-col>
-  </ion-grid>
   <ion-list>
-    <ion-item-group *ngFor="let item of itens">
-      <ion-item>
-        <ion-col size="5" style="font-size: 11px">
-          <b>{{ item.itemdescricao }}</b>
-        </ion-col>
-        <ion-col size="2" style="font-size: 10px">{{ item.itemvalor }}</ion-col>
-        <ion-col size="2" style="font-size: 10px" offset="0.2">{{ item.itemqtd }}{{ item.itemunidade }}</ion-col>
-        <ion-col size="3" style="font-size: 10px" offset="0.8">{{ item.itemvalortotal }}</ion-col>
-      </ion-item>
-      <ion-grid style="font-weight: 600; background-color: rgba(202, 202, 202, 0.637)">
-        <ion-col size="5" style="font-size: 10px">Nr ped.</ion-col>
-        <ion-col size="4" style="font-size: 10px" offset="1">Valor</ion-col>
-        <ion-col size="4" style="font-size: 10px" offset="2">Qt.</ion-col>
-        <ion-col size="4" style="font-size: 10px" offset="2.6">Total</ion-col>
-      </ion-grid>
-      <ion-item *ngFor="let antigo of item.antigos">
-        <ion-col size="2" style="font-size: 10px">
-          <b>{{ antigo.nr }}</b>
-        </ion-col>
-        <ion-col size="3" style="font-size: 10px" offset="0.5">{{ antigo.itemvalor }}</ion-col>
-        <ion-col size="4" style="font-size: 10px">{{ antigo.itemqtd }}{{ item.itemunidade }}</ion-col>
-        <ion-col size="3" style="font-size: 10px">{{ antigo.itemvalortotal }}</ion-col>
-      </ion-item>
+    <ion-item-group *ngFor="let item of itens; let i = index">
+      <ion-item-group *ngIf="item.hasOwnProperty('antigos')">
+        <ion-item>
+          <ion-col style="font-size: 11px">
+            <b>{{ item.itemdescricao }}</b>
+          </ion-col>
+        </ion-item>
+        <ion-grid style="font-weight: 600; background-color: rgba(202, 202, 202, 0.637)">
+          <ion-col size="5" style="font-size: 10px">Nr ped.</ion-col>
+          <ion-col size="4" style="font-size: 10px" offset="1">Valor</ion-col>
+          <ion-col size="4" style="font-size: 10px" offset="2">Qt.</ion-col>
+          <ion-col size="4" style="font-size: 10px" offset="2.6">Total</ion-col>
+        </ion-grid>
+        <ion-item *ngFor="let antigo of item.antigos">
+          <ion-col size="2" style="font-size: 10px">
+            <b>{{ antigo.nr }}</b>
+          </ion-col>
+          <ion-col size="3" style="font-size: 10px" offset="0.5">{{ antigo.itemvalor }}</ion-col>
+          <ion-col size="4" style="font-size: 10px">{{ antigo.itemqtd }}{{ item.itemunidade }}</ion-col>
+          <ion-col size="3" style="font-size: 10px">{{ antigo.itemvalortotal }}</ion-col>
+        </ion-item>
+      </ion-item-group>
     </ion-item-group>
   </ion-list>
 </ion-content>

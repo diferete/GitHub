@@ -197,7 +197,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
             $oOp->setSValor($aOps['op']);
         }
 
-        $sDadosCracha = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabApontEtapas","buscaDadosCracha","' . $oCodUser->getId() . ',' . $oUserNome->getId() . ',' . $oOp->getId() . ',' . $oTurno->getId() . '");';
+        $sDadosCracha = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_ordensFabApontEtapas","buscaDadosCracha","' . $oCodUser->getId() . ',' . $oUserNome->getId() . ',' . $oOp->getId() . ',' . $oTurno->getId() . ',' . $oCracha->getId() . '");';
         $oCracha->addEvento(Campo::EVENTO_CHANGE, $sDadosCracha . $sComboGrid);
 
         $oLinha = new Campo('', 'linha', Campo::TIPO_LINHA, 12, 12, 12, 12);
@@ -225,7 +225,7 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
         $oGridEnt = new campo('Etapas do processo', 'gridEnt', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
         $oGridEnt->getOGrid()->setAbaSel($this->getSIdAbaSelecionada());
         $oGridEnt->getOGrid()->setITipoGrid(2);
-        //$oGridEnt->getOGrid()->setILarguraGrid(2800);
+        $oGridEnt->getOGrid()->setILarguraGrid(2800);
 
         $oOpGrid = new CampoConsulta('Op', 'op');
         //botao que inicia um processo

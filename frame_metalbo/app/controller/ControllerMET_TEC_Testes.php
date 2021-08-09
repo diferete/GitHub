@@ -26,6 +26,11 @@ class ControllerMET_TEC_Testes extends Controller {
         echo $oMensagem->getRender();
     }
 
+    public function expiraProj() {
+        $oExpira = Fabrica::FabricarController('Agendamentos');
+        $aExpira = $oExpira->atualizaEntProj();
+    }
+
     public function converteXML() {
 
         $xml = simplexml_load_file('app/arquivo.xml');
@@ -77,11 +82,6 @@ class ControllerMET_TEC_Testes extends Controller {
             $oMensagem = new Modal('E-mail', 'Problemas ao enviar o email, tente novamente no botão de E-mails, caso o problema persista, relate isso ao TI da Metalbo - ' . $aRetorno[1], Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
         }
-    }
-
-    public function expiraProj() {
-        $oExpira = Fabrica::FabricarController('Agendamentos');
-        $aExpira = $oExpira->atualizaEntProj();
     }
 
     public function atualizaEntProj() {

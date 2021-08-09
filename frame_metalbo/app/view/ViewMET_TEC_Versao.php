@@ -18,19 +18,19 @@ class ViewMET_TEC_Versao extends View {
 
         $this->getTela()->setILarguraGrid(1200);
         $this->setUsaFiltro(true);
-        
+
         $oSeq = new CampoConsulta('Seq.', 'seq');
-        
+
         $oTec = new CampoConsulta('Tecnologia', 'tec');
-        
+
         $oVersao = new CampoConsulta('Versão', 'versao');
-        
+
         $oData = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
-        
+
         $oHora = new CampoConsulta('Hora', 'hora');
-        
+
         $oUsuNome = new CampoConsulta('Usuário', 'usunome', CampoConsulta::TIPO_LARGURA, 20);
-        
+
         $oFVersao = new Filtro($oVersao, Filtro::CAMPO_TEXTO);
         $oFData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2);
 

@@ -45,7 +45,6 @@ class ViewMET_ISO_Treinamentos extends View {
         $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
         $oFilNome = new Filtro($oNome, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
-
         $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, false);
         $oFilSetor->setSClasseBusca('Setor');
         $oFilSetor->setSCampoRetorno('descsetor', $this->getTela()->getSId());

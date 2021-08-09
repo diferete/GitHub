@@ -390,9 +390,15 @@ class ControllerQualNovoProjProd extends Controller {
 
         $array = (array) $oObj;
         $sCount = 0;
+
         foreach ($array as $key => $value) {
             if ($value != 0 && $value != '') {
-                $sCount++;
+                $found = strpos($value, '-.');
+                if ($found > -1) {
+                    
+                } else {
+                    $sCount++;
+                }
             }
         }
 

@@ -142,7 +142,7 @@ class PersistenciaSolPed extends Persistencia {
         return $sBloq;
     }
 
-    public function confirmaEnvioEmail($iNr,$sTabela) {
+    public function confirmaEnvioEmail($iNr, $sTabela) {
         $sSql = "update " . $sTabela . " set email = 'EV' where nr = " . $iNr . "";
         $this->executaSql($sSql);
     }

@@ -888,8 +888,7 @@ body.site-gridmenu-active {
 }
 
 .page-title {
-    margin-top: 0;
-    margin-bottom: 0;
+    margin: 20px 0px;
     font-size: 26px
 }
 
@@ -956,6 +955,7 @@ body.site-gridmenu-active {
 }
 
 .page-aside {
+    z-index: 1;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -1032,55 +1032,6 @@ body.site-gridmenu-active {
     margin-bottom: 22px
 }
 
-.page-aside .list-group-item {
-    padding: 13px 30px;
-    margin-bottom: 1px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    border: none
-}
-
-.page-aside .list-group-item .icon {
-    color: #a3afb7
-}
-
-.page-aside .list-group-item .item-right {
-    float: right
-}
-
-.page-aside .list-group-item:focus,
-.page-aside .list-group-item:hover {
-    color: #62a8ea;
-    background-color: #f3f7f9;
-    border: none
-}
-
-.page-aside .list-group-item:focus>.icon,
-.page-aside .list-group-item:hover>.icon {
-    color: #62a8ea
-}
-
-.page-aside .list-group-item.active {
-    color: #62a8ea;
-    background-color: transparent
-}
-
-.page-aside .list-group-item.active>.icon {
-    color: #62a8ea
-}
-
-.page-aside .list-group-item.active:focus,
-.page-aside .list-group-item.active:hover {
-    color: #62a8ea;
-    background-color: #f3f7f9;
-    border: none
-}
-
-.page-aside .list-group-item.active:focus>.icon,
-.page-aside .list-group-item.active:hover>.icon {
-    color: #62a8ea
-}
 
 .page-aside .list-group.has-actions .list-group-item {
     cursor: pointer
@@ -2200,40 +2151,37 @@ screen and (min-width:1200px) and (min-width:768px) {
     }
 }
 
-.checkbox-custom,
-.radio-custom {
+
+.radio-custom,
+.checkbox-custom {
     position: relative;
     display: block;
     margin-top: 10px;
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
-
-.checkbox-custom label,
-.radio-custom label {
+.radio-custom label,
+.checkbox-custom label {
     min-height: 22px;
     margin-bottom: 0;
     font-weight: 300;
-    cursor: pointer
+    cursor: pointer;
 }
-
-.checkbox-custom input[type=checkbox],
-.radio-custom input[type=radio] {
+.radio-custom input[type="radio"],
+.checkbox-custom input[type="checkbox"] {
     position: absolute;
     margin-top: 0;
     margin-bottom: 0;
-    margin-left: -20px
+    margin-left: -20px;
 }
-
-.checkbox-custom.disabled label,
 .radio-custom.disabled label,
-fieldset[disabled] .checkbox-custom label,
-fieldset[disabled] .radio-custom label {
-    cursor: not-allowed
+.checkbox-custom.disabled label,
+fieldset[disabled] .radio-custom label,
+fieldset[disabled] .checkbox-custom label {
+    cursor: not-allowed;
 }
-
-.input-group-addon .checkbox-custom,
-.input-group-addon .radio-custom {
-    margin: 0
+.input-group-addon .radio-custom,
+.input-group-addon .checkbox-custom {
+    margin: 0;
 }
 
 .checkbox-custom {
@@ -2476,20 +2424,17 @@ fieldset[disabled] .radio-custom label {
 }
 
 .radio-custom {
-    padding-left: 20px
+    padding-left: 20px;
 }
-
 .radio-custom label {
     position: relative;
     display: inline-block;
     padding-left: 10px;
-    vertical-align: middle
+    vertical-align: middle;
 }
-
 .radio-custom label:empty {
-    padding-left: 0
+    padding-left: 0;
 }
-
 .radio-custom label::before {
     position: absolute;
     left: 0;
@@ -2499,16 +2444,15 @@ fieldset[disabled] .radio-custom label {
     margin-left: -20px;
     content: "";
     background-color: #fff;
-    border: 1px solid #e4eaec;
+    border: 1px solid #0000005c;
     border-radius: 50%;
-    -webkit-transition: border 300ms ease-in-out 0s, color 300ms ease-in-out 0s;
+    /*-webkit-transition: border 300ms ease-in-out 0s, color 300ms ease-in-out 0s;
     -o-transition: border 300ms ease-in-out 0s, color 300ms ease-in-out 0s;
-    transition: border 300ms ease-in-out 0s, color 300ms ease-in-out 0s
+    transition: border 300ms ease-in-out 0s, color 300ms ease-in-out 0s;*/
 }
-
 .radio-custom label::after {
     position: absolute;
-    top: 7px;
+    /*top: 7px;
     left: 7px;
     display: inline-block;
     width: 6px;
@@ -2518,54 +2462,47 @@ fieldset[disabled] .radio-custom label {
     background-color: transparent;
     border: 2px solid #76838f;
     border-radius: 50%;
-    -webkit-transition: -webkit-transform .1s cubic-bezier(.8, -.33, .2, 1.33);
-    -o-transition: -o-transform .1s cubic-bezier(.8, -.33, .2, 1.33);
-    transition: transform .1s cubic-bezier(.8, -.33, .2, 1.33);
-    -webkit-transform: scale(0, 0);
-    -ms-transform: scale(0, 0);
-    -o-transform: scale(0, 0);
-    transform: scale(0, 0)
+     -webkit-transition: -webkit-transform .1s cubic-bezier(.8, -.33, .2, 1.33);
+     -o-transition:      -o-transform .1s cubic-bezier(.8, -.33, .2, 1.33);
+     transition:         transform .1s cubic-bezier(.8, -.33, .2, 1.33);
+     -webkit-transform: scale(0, 0);
+     -ms-transform: scale(0, 0);
+     -o-transform: scale(0, 0);
+    transform: scale(0, 0);*/
 }
-
-.radio-custom input[type=radio] {
-    z-index: 1;
+.radio-custom input[type="radio"] {
+    z-index: 1;    
+    top: 10px;
     width: 20px;
     height: 20px;
-    opacity: 0
+    opacity: 0;
 }
-
-.radio-custom input[type=radio]:focus+label::before {
+.radio-custom input[type="radio"]:focus + label::before {
     outline: thin dotted;
     outline: 5px auto -webkit-focus-ring-color;
-    outline-offset: -2px
+    outline-offset: -2px;
 }
-
-.radio-custom input[type=radio]:checked+label::before {
+.radio-custom input[type="radio"]:checked + label::before {
     border-color: #e4eaec;
-    border-width: 10px
+    border-width: 10px;
 }
-
-.radio-custom input[type=radio]:checked+label::after {
+.radio-custom input[type="radio"]:checked + label::after {
     -webkit-transform: scale(1, 1);
     -ms-transform: scale(1, 1);
     -o-transform: scale(1, 1);
-    transform: scale(1, 1)
+    transform: scale(1, 1);
 }
-
-.radio-custom input[type=radio]:disabled+label {
-    opacity: .65
+.radio-custom input[type="radio"]:disabled + label {
+    opacity: .65;
 }
-
-.radio-custom input[type=radio]:disabled+label::before {
-    cursor: not-allowed
+.radio-custom input[type="radio"]:disabled + label::before {
+    cursor: not-allowed;
 }
-
 .radio-custom.radio-inline {
     display: inline-block;
     margin-top: 0;
-    margin-bottom: 0
+    margin-bottom: 0;
 }
-
 .radio-inline+.radio-inline {
     margin-left: 20px
 }
@@ -2577,11 +2514,13 @@ fieldset[disabled] .radio-custom label {
 }
 
 .radio-default input[type=radio]:checked+label::after {
-    border-color: #62a8ea
+    border-color: #005032;
 }
 
 .radio-primary input[type=radio]:checked+label::before {
-    border-color: #62a8ea
+    border-color: #005032;
+    width: 3px;
+    height: 3px;
 }
 
 .radio-primary input[type=radio]:checked+label::after {
@@ -2693,48 +2632,46 @@ fieldset[disabled] .radio-custom label {
 }
 
 @media (min-width:768px) {
-    .form-inline .checkbox-custom,
-    .form-inline .radio-custom {
+    .form-inline .radio-custom,
+    .form-inline .checkbox-custom {
         display: inline-block;
         margin-top: 0;
         margin-bottom: 0;
-        vertical-align: middle
+        vertical-align: middle;
     }
-    .form-inline .checkbox-custom label,
-    .form-inline .radio-custom label {
-        padding-left: 0
+    .form-inline .radio-custom label,
+    .form-inline .checkbox-custom label {
+        padding-left: 0;
     }
-    .form-inline .checkbox-custom input[type=checkbox],
-    .form-inline .radio-custom input[type=radio] {
+    .form-inline .radio-custom input[type="radio"],
+    .form-inline .checkbox-custom input[type="checkbox"] {
         position: relative;
-        margin-left: 0
+        margin-left: 0;
     }
     .form-inline .radio-custom label {
-        padding-left: 10px
+        padding-left: 10px;
     }
     .form-inline .checkbox-custom label {
-        padding-left: 10px
+        padding-left: 10px;
     }
-    .form-inline .checkbox-custom input[type=checkbox] {
+    .form-inline .checkbox-custom input[type="checkbox"] {
         position: absolute;
-        margin-left: -20px
+        margin-left: -20px;
     }
-    .form-inline .radio-custom input[type=radio] {
+    .form-inline .radio-custom input[type="radio"] {
         position: absolute;
-        margin-left: -20px
+        margin-left: -20px;
     }
 }
-
-.form-horizontal .checkbox-custom,
-.form-horizontal .radio-custom {
+.form-horizontal .radio-custom,
+.form-horizontal .checkbox-custom {
     padding-top: 7px;
     margin-top: 0;
-    margin-bottom: 0
+    margin-bottom: 0;
 }
-
-.form-horizontal .checkbox-custom,
-.form-horizontal .radio-custom {
-    min-height: 29px
+.form-horizontal .radio-custom,
+.form-horizontal .checkbox-custom {
+    min-height: 29px;
 }
 
 .form-material {
@@ -11601,7 +11538,8 @@ h4.example-title {
 .example-well {
     position: relative;
     margin-bottom: 30px;
-    background-color: #f3f7f9
+    /*background-color: #f3f7f9*/
+
 }
 
 .example-well .center {
@@ -11774,4 +11712,88 @@ h4.example-title {
 .btn-grid{
     text-align: center !important;
     padding: 6px 2px 6px 2px !important;
+}
+.page-aside .list-group-item {
+    padding: 13px 30px;
+    margin-bottom: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: none
+}
+/*
+.page-aside .list-group-item .icon {
+    color: #a3afb7
+}*/
+
+.page-aside .list-group-item .item-right {
+    float: right
+}
+
+.page-aside .list-group-item:focus,
+.page-aside .list-group-item:hover {
+    color: #62a8ea;
+    background-color: #f3f7f9;
+    border: none
+}
+
+.page-aside .list-group-item:focus>.icon,
+.page-aside .list-group-item:hover>.icon {
+    color: #62a8ea
+}
+
+.page-aside .list-group-item.active {
+    color: #62a8ea;
+    background-color: transparent
+}
+
+.page-aside .list-group-item.active>.icon {
+    color: #62a8ea
+}
+
+.page-aside .list-group-item.active:focus,
+.page-aside .list-group-item.active:hover {
+    color: #62a8ea;
+    background-color: #f3f7f9;
+    border: none
+}
+
+.page-aside .list-group-item.active:focus>.icon,
+.page-aside .list-group-item.active:hover>.icon {
+    color: #62a8ea
+}
+
+/*#5572480000189-empresa FECIAL*/
+.Fecial-empresa,.Fecial-empresa .icon{
+    color: yellow !important;
+}
+/*#8993358000174-empresa STEELTRATER*/
+.Steeltrater-empresa,.Steeltrater-empresa .icon{
+    color: #482377 !important;
+}
+/*#10540966000175-empresa FECULARIA BOEWING*/
+.FECULARIA-empresa,.FECULARIA-empresa .icon{
+    color: yellow !important;
+}
+/*#75483040000130-empresa METALBO MATRIZ*/
+.Metalbo_Matriz-empresa,.Metalbo_Matriz-empresa .icon{
+    color: green !important;
+}
+/*#75483040000211-empresa METALBO FILIAL*/
+.Metalbo_Filial-empresa,.Metalbo_Filial-empresa .icon{
+    color: green !important;
+}
+/*#83781641000158-empresa HEDLER*/
+.Poliamidos-empresa,.Poliamidos-empresa .icon{
+    color: blue !important;
+}
+.logo_poliamidos{
+    width: 30%;
+    height: 30%;
+    margin-top: 5px;
+    margin-left:10px;
+}
+.logo_empresas{
+    margin-top:10px;
+    margin-left:10px;
 }

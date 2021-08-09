@@ -356,7 +356,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         foreach ($aDados as $key => $value) {
 
             $aItem = explode('|', $value);
-            
+
             $sSql = "insert into #MetTecCxNormal (procod,cxnormal) "
                     . "select widl.prod01.procod,pcs "
                     . "from widl.prod01 "
