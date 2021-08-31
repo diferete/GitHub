@@ -129,7 +129,7 @@ export class PedComprasDetalhePage implements OnInit {
           this.mensagemSucessoRetorno(result.DADOS.mensagem);
           this.voltar();
         } else {
-          this.mensagemErroRetorno(result.DADOS.erro, result.DADOS.mensagem);
+          this.mensagemErroRetorno(result.DADOS.erro, result.DADOS.mensagem, result.DADOS.param);
         }
       });
   }
@@ -147,22 +147,33 @@ export class PedComprasDetalhePage implements OnInit {
   }
 
   //erro retorno
-  async mensagemErroRetorno(erro, mensagem) {
-    const alert = await this.alertController.create({
-      header: 'Atenção!',
-      subHeader: 'Não foi possível ' + mensagem + ' a solicitação!',
-      message: erro,
-      buttons: ['OK'],
-    });
+  async mensagemErroRetorno(erro, mensagem, param) {
+    if (param == 'C') {
+      const alert = await this.alertController.create({
+        header: 'Atenção!',
+        subHeader: erro,
+        message: erro,
+        buttons: ['OK'],
+      });
 
-    await alert.present();
+      await alert.present();
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Atenção!',
+        subHeader: 'Não foi possível ' + mensagem + ' o pedido de compras!',
+        message: erro,
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+    }
   }
 
   //sucesso
   async mensagemSucessoRetorno(mensagem) {
     const alert = await this.alertController.create({
       header: 'Sucesso!',
-      subHeader: 'Solicitação ' + mensagem + '!',
+      subHeader: 'Pedido ' + mensagem + '!',
       message: '',
       buttons: ['OK'],
     });
