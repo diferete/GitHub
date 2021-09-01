@@ -75,17 +75,24 @@ class ControllerMenu extends Controller {
         $sMsg = $sMsg . $this->getEmpresasAdicionais();
         $sMsg = $sMsg . '</div>'
                 . '</section>'
-                . '<section class = "page-aside-section">'/*
-                  . '<h5 class = "page-aside-title">Meus ícones</h5>'
-                  . '<div class = "list-group">'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-image" aria-hidden = "true"></i>Images</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-volume-high" aria-hidden = "true"></i>Audio</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-camera" aria-hidden = "true"></i>Video</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-file" aria-hidden = "true"></i>Notes</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-link-intact" aria-hidden = "true"></i>Links</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-order" aria-hidden = "true"></i>Files</a>'
-                  . '</div>'
-                  . '</section>' */
+                . '<section class = "page-aside-section">'
+                . '<h5 class = "page-aside-title">Rotinas</h5>'
+                . '<div class = "list-group">';
+        $sMsg = $sMsg . $this->getRotinasAdicionais();
+        $sMsg = $sMsg . '</div>'
+                . '</section>'
+                . '<section class = "page-aside-section">'
+                . '<h5 class = "page-aside-title">Informativo</h5>'
+                . '<div class = "list-group">';
+        $sMsg = $sMsg . $this->getInformativos();
+        $sMsg = $sMsg . '</div>'
+                . '</section>'
+                . '<script>'
+                . '$(document).ready(function () {'
+                . '$.getJSON("https://economia.awesomeapi.com.br/last/USD-BRL", function (dataDolar) {'
+                . '$("#informativo-Dolar2").append("US$ 1 = R$ " + numeroParaMoeda(dataDolar.USDBRL.bid));'
+                . '});}, 30000);'
+                . '</script>'
                 . '</div>'
                 . '</div>'
                 . '<div id="icoAtualiza2">'
@@ -190,7 +197,7 @@ class ControllerMenu extends Controller {
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
 
-        $this->Persistencia->adicionaFiltro('modcod', $this->Model->getMET_TEC_Modulo()->getModcod());
+        $this->Persistencia->adicionaFiltro('modcod', $this->Model->getModulo()->getModcod());
         $this->Persistencia->adicionaFiltro('mencodigo', $this->Model->getMencodigo());
     }
 
@@ -200,7 +207,7 @@ class ControllerMenu extends Controller {
     function montaProxEtapa() {
         parent::montaProxEtapa();
         $aRetorno[0] = $this->Model->getMencodigo();
-        $aRetorno[1] = $this->Model->getMET_TEC_Modulo()->getModcod();
+        $aRetorno[1] = $this->Model->getModulo()->getModcod();
         return $aRetorno;
     }
 
@@ -287,22 +294,38 @@ class ControllerMenu extends Controller {
         return $html;
     }
 
-    /*
-      public function getFavoritos() {
-      $html = '';
-      $oMET_TEC_FavMenu = Fabrica::FabricarController('MET_TEC_FavMenu');
-      $aFavoritos = $oMET_TEC_FavMenu->getFavoritos();
-      foreach ($array as $key => $value) {
-      $html = $html . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-image" aria-hidden = "true"></i>Images</a>';
+    public function getRotinasAdicionais() {
 
-      $sMenuId = $avalue[0] . '-fav';
-      $sString .= '<li role="presentation" id="menu-' . $sMenuId . '">'
-      . '                <a href="javascript:void(0)" title="Abre a tela ' . $avalue[1] . '"  onclick="verificaTab(\\\'menu-' . $sMenuId . '\\\',\\\'' . $sMenuId . '\\\',\\\'' . $avalue[2] . '\\\',\\\'' . $avalue[3] . '\\\',\\\'tabmenu-' . $sMenuId . '\\\'); "role="menuitem">'
-      . '                  <span class="icon fa-star-o"></span>' . $avalue[1] . '<span title="Deleta favorito" onclick="requestAjax(\\\'menu-' . $sMenuId . '\\\',\\\'FavMenu\\\',\\\'msgdeletaFav\\\',\\\'' . utf8_encode($avalue[2]) . ',' . utf8_encode($avalue[3]) . ',\\\');" class="icon wb-trash pull-right fav-red"></span></a>'
-      . '              </li>';
-      }
-      return $html;
-      } */
+        $oItemMenu = Fabrica::FabricarPersistencia('ItemMenu');
+        $aClasses = $oItemMenu->getRotinasAdicionais();
+
+        $html = '';
+        $iCont = 1;
+
+        foreach ($aClasses as $key => $aValue) {
+            $sMenuId = $iCont . '-' . $aValue[0] . '-rotinas';
+            $html = $html . '<a class = "list-group-item" href = "javascript:void(0)" title="Abre a tela ' . $aValue[1] . '"'
+                    . 'onclick="verificaTab(\\\'menu-' . $sMenuId . '\\\',\\\'' . $sMenuId . '\\\',\\\'' . $aValue[2] . '\\\',\\\'' . $aValue[3] . '\\\',\\\'tabmenu-' . $sMenuId . '\\\',\\\'' . $aValue[1] . '\\\'); "role="menuitem">'
+                    . '<i class = "icon wb-order" aria-hidden = "true"></i>' . $aValue[1] . '';
+            switch ($aValue[5]) {
+                case 41:
+                    $oItemMenu = Fabrica::FabricarPersistencia('ItemMenu');
+                    $iCont = $oItemMenu->getRotinasAdicionaisContadores($aValue);
+                    $html = $html . '<span class="badge badge-danger up" style="top:0px !important">' . $iCont . '</span>';
+                    break;
+            }
+            $html = $html . '</a>';
+
+            $iCont++;
+        }
+        return $html;
+    }
+
+    public function getInformativos() {
+        $html = '<span id="informativo-Dolar2" class = "list-group-item Steeltrater-empresa" href = "javascript:void(0)"><i class = "icon fa-line-chart" aria-hidden = "true"></i></span>';
+        return $html;
+    }
+
 }
 
 ?>
