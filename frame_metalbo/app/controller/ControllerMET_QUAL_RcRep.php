@@ -427,9 +427,10 @@ class ControllerMET_QUAL_RcRep extends Controller {
         $sIdGrid = $aDados[1];
         $sReenvia = $aDados[3];
 
-        $aRetornoEmail = require 'app/relatorio/rc.php';
+
 
         if ($sReenvia == 'reenvia') {
+            $aRetornoEmail = require 'app/relatorio/rc.php';
             if ($aRetornoEmail[0] == true) {
                 $oMsg = new Mensagem('Sucesso', 'Reclamação liberada para a Metalbo!', Mensagem::TIPO_SUCESSO);
                 echo '$("#' . $sIdGrid . '-pesq").click();';
@@ -438,9 +439,10 @@ class ControllerMET_QUAL_RcRep extends Controller {
             }
         }
         if ($sReenvia != 'reenvia') {
-            if ($aRetornoEmail[0] == true) {
-                $aUpdateSit = $this->Persistencia->liberaRC($aCamposChave);
-                if ($aUpdateSit[0] == true) {
+            $aUpdateSit = $this->Persistencia->liberaRC($aCamposChave);
+            if ($aUpdateSit[0] == true) {
+                $aRetornoEmail = require 'app/relatorio/rc.php';
+                if ($aRetornoEmail[0] == true) {
                     $oMsg = new Mensagem('Sucesso', 'Reclamação liberada para a Metalbo!', Mensagem::TIPO_SUCESSO);
                     echo '$("#' . $sIdGrid . '-pesq").click();';
                 } else {
