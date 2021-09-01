@@ -341,12 +341,19 @@ class ControllerSTEEL_PCP_ordensFabApontEtapas extends Controller {
         parse_str($sChave, $aCamposChave);
 
         if ($aCamposChave['fornocod'] == '' || $aCamposChave['fornocod'] == null) {
-            $oMensagem = new Mensagem('Atenção!', 'VERIFIQUE FORNO/TREFILA SELECIONADO', Mensagem::TIPO_ERROR);
+            $oMensagem = new Mensagem('Atenção!', 'VERIFIQUE FORNO/TREFILA SELECIONADO!', Mensagem::TIPO_ERROR);
             echo $oMensagem->getRender();
             exit();
         }
         if ($aCamposChave['fornodes'] == '' || $aCamposChave['fornodes'] == null) {
-            $oMensagem = new Mensagem('Atenção!', 'VERIFIQUE FORNO/TREFILA SELECIONADO', Mensagem::TIPO_ERROR);
+            $oMensagem = new Mensagem('Atenção!', 'VERIFIQUE FORNO/TREFILA SELECIONADO!', Mensagem::TIPO_ERROR);
+            echo $oMensagem->getRender();
+            exit();
+        }
+
+        //verifica se foi apontado forno da etapa
+        if (!isset($aCamposChave['fornoCombo'])) {
+            $oMensagem = new Mensagem('Atenção!', 'INFORME O FORNO / LINHA DO INÍCIO DA ETAPA!', Mensagem::TIPO_ERROR);
             echo $oMensagem->getRender();
             exit();
         }

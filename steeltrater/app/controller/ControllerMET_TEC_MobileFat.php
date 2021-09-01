@@ -341,9 +341,9 @@ class ControllerMET_TEC_MobileFat extends Controller {
         $aRetorno['totalMensalForno'] = number_format($aDadosPesoTemperaMensal['pesoTotal'], 2, ',', '.') . ' Kg';
         $aRetorno['totalMensalFio'] = number_format($aDadosPesoFioMensal['pesoTotal'], 2, ',', '.') . ' Kg';
 
-        $fp = fopen("bloco11.txt", "w");
+       /* $fp = fopen("bloco11.txt", "w");
         fwrite($fp, $dataOntem);
-        fclose($fp);
+        fclose($fp);*/
 
 
         $aDadosProdSteel = $oDadosProdSteel->Persistencia->getProdApp($dataInicial, $dataFinal);

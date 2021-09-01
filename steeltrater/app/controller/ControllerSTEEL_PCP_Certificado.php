@@ -184,7 +184,7 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
 
                     //Habilita campos antes de desabilitar caso tenha digitado OP errada
                     $this->habilitaCampos();
-                    
+
                     echo '$("#' . $aId[0] . '").val("");'
                     . '$("#' . $aId[1] . '").val("");'
                     . '$("#' . $aId[2] . '").val("");'
@@ -212,10 +212,13 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                     . '$("#CertDiamFinalMax").val("");'
                     . '$("#CertMicroGrafia").val("");'
                     . '$("#Certrnc").val("");'
+                    . '$("#CertificadoData").val("");'
+                    . '$("#CertificadoHora").val("");'
+                    . '$("#CertificadoUsuario").val("");'
                     . '$("#' . $aId[0] . '").val("' . $oDadosCert->getEmpcod() . '");'
                     . '$("#' . $aId[1] . '").val("' . $oDadosCert->getEmpdes() . '");'
                     . '$("#' . $aId[2] . '").val("' . $oDadosCert->getProcod() . '");'
-                    . '$("#' . $aId[3] . '").val("' . $oDadosCert->getProdes() . '");'
+                    . '$("#' . $aId[3] . '").val("' . addslashes($oDadosCert->getProdes()) . '");'
                     . '$("#' . $aId[4] . '").val("' . $oDadosCert->getOpcliente() . '");'
                     . '$("#' . $aId[5] . '").val("' . number_format($oDadosCert->getPeso(), 2, ',', '.') . '");'
                     . '$("#' . $aId[6] . '").val("' . $oDadosCert->getNotacliente() . '");'
@@ -237,7 +240,10 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                     . '$("#CertDiamFinalMin").val("' . $oDadosCert->getDiamFinalMin() . '");'
                     . '$("#CertDiamFinalMax").val("' . $oDadosCert->getDiamFinalMax() . '");'
                     . '$("#CertMicroGrafia").val("' . $oDadosCert->getMicrografia() . '");'
-                    . '$("#Certrnc").val("' . $oDadosCert->getRnc() . '");';
+                    . '$("#Certrnc").val("' . $oDadosCert->getRnc() . '");'
+                    . '$("#CertificadoData").val("' . date('d/m/Y') . '");'
+                    . '$("#CertificadoHora").val("' . date('H:i') . '");'
+                    . '$("#CertificadoUsuario").val("' . $_SESSION['nome'] . '");';
 
                     //Chama método para desabilitar e alterar foco
                     $this->desabilitaEalteraFoco($aId, $oDados);
@@ -288,15 +294,21 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                     . '$("#CertDiamFinalMin").val("");'
                     . '$("#CertDiamFinalMax").val("");'
                     . '$("#Certrnc").val("");'
+                    . '$("#CertificadoData").val("");'
+                    . '$("#CertificadoHora").val("");'
+                    . '$("#CertificadoUsuario").val("");'
                     . '$("#' . $aId[0] . '").val("' . $oDados->getEmp_codigo() . '");'
                     . '$("#' . $aId[1] . '").val("' . $oDados->getEmp_razaosocial() . '");'
                     . '$("#' . $aId[2] . '").val("' . $oDados->getProd() . '");'
-                    . '$("#' . $aId[3] . '").val("' . $oDados->getProdes() . '");'
+                    . '$("#' . $aId[3] . '").val("' . addslashes($oDados->getProdes()) . '");'
                     . '$("#' . $aId[4] . '").val("' . $oDados->getOpcliente() . '");'
                     . '$("#' . $aId[5] . '").val("' . number_format($oDados->getPeso(), 2, ',', '.') . '");'
                     . '$("#' . $aId[6] . '").val("' . $oDados->getDocumento() . '");'
                     . '$("#' . $aId[7] . '").val("' . number_format($oDados->getQuant(), 2, ',', '.') . '");'
-                    . '$("#' . $aId[18] . '").val("' . $oConclusao . '");');
+                    . '$("#' . $aId[18] . '").val("' . $oConclusao . '");'
+                    . '$("#CertificadoData").val("' . date('d/m/Y') . '");'
+                    . '$("#CertificadoHora").val("' . date('H:i') . '");'
+                    . '$("#CertificadoUsuario").val("' . $_SESSION['nome'] . '");');
 
                     //Habilita campos antes de desabilitar caso tenha digitado OP errada
                     $this->habilitaCampos();
@@ -316,7 +328,7 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 . '$("#' . $aId[0] . '").val("' . $oDados->getEmp_codigo() . '");'
                 . '$("#' . $aId[1] . '").val("' . $oDados->getEmp_razaosocial() . '");'
                 . '$("#' . $aId[2] . '").val("' . $oDados->getProd() . '");'
-                . '$("#' . $aId[3] . '").val("' . $oDados->getProdes() . '");'
+                . '$("#' . $aId[3] . '").val("' . addslashes($oDados->getProdes()) . '");'
                 . '$("#' . $aId[4] . '").val("' . $oDados->getOpcliente() . '");'
                 . '$("#' . $aId[5] . '").val("' . number_format($oDados->getPeso(), 2, ',', '.') . '");'
                 . '$("#' . $aId[6] . '").val("' . $oDados->getDocumento() . '");'
@@ -469,13 +481,13 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getDurezaNucMax()) < ($this->Model->getDurezaNucMin()) && ($oOp->getDurezaNucMax()!==".0000")) {
+            if (($oOp->getDurezaNucMax()) < ($this->Model->getDurezaNucMin()) && ($oOp->getDurezaNucMax() !== ".0000")) {
                 $aInfo = "Certificado não gravado! Dureza mínima do núcleo encontrada está acima da Dureza máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getDurezaNucMax()) < ($this->Model->getDurezaNucMax()) && ($oOp->getDurezaNucMax()!==".0000")) {
+            if (($oOp->getDurezaNucMax()) < ($this->Model->getDurezaNucMax()) && ($oOp->getDurezaNucMax() !== ".0000")) {
                 $aInfo = "Certificado não gravado! Dureza máxima do núcleo encontrada está acima da Dureza máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
@@ -500,13 +512,13 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getDurezaSuperfMax()) < ($this->Model->getDurezaSuperfMin()) && ($oOp->getDurezaSuperfMax()!==".0000")) {
+            if (($oOp->getDurezaSuperfMax()) < ($this->Model->getDurezaSuperfMin()) && ($oOp->getDurezaSuperfMax() !== ".0000")) {
                 $aInfo = "Certificado não gravado! Dureza minima da superfície encontrada está acima da Dureza máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getDurezaSuperfMax()) < ($this->Model->getDurezaSuperfMax()) && ($oOp->getDurezaSuperfMax()!==".0000")) {
+            if (($oOp->getDurezaSuperfMax()) < ($this->Model->getDurezaSuperfMax()) && ($oOp->getDurezaSuperfMax() !== ".0000")) {
                 $aInfo = "Certificado não gravado! Dureza máxima da superfície encontrada está acima da Dureza máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
@@ -531,13 +543,13 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getExpCamadaMax()) < ($this->Model->getExpCamadaMin()) && ($oOp->getExpCamadaMax()!==".0000")) {
+            if (($oOp->getExpCamadaMax()) < ($this->Model->getExpCamadaMin()) && ($oOp->getExpCamadaMax() !== ".0000")) {
                 $aInfo = "Certificado não gravado! Camada minima encontrada está acima da Camada máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getExpCamadaMax()) < ($this->Model->getExpCamadaMax()) && ($oOp->getExpCamadaMax()!==".0000")) {
+            if (($oOp->getExpCamadaMax()) < ($this->Model->getExpCamadaMax()) && ($oOp->getExpCamadaMax() !== ".0000")) {
                 $aInfo = "Certificado não gravado! Camada máxima encontrada está acima da Camada máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
@@ -556,7 +568,7 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 echo $oModal->getRender();
                 exit;
             }
-        } 
+        }
         return $aInfo;
     }
 
@@ -822,7 +834,7 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
             if ($aRetorno[0]) {
                 $aRetorno = $this->afterUpdate();
             }
-            
+
             if ($aRetorno[0]) {
 
                 $this->Persistencia->commit();
@@ -889,7 +901,7 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
             if ($aRetorno[0]) {
                 $aRetorno = $this->afterInsertDetalhe();
             }
-            
+
             //instancia a classe mensagem
             if ($aRetorno[0]) {
                 $oMsg = new Mensagem('Sucesso!', 'Registro inserido com sucesso...', Mensagem::TIPO_SUCESSO);
@@ -913,7 +925,7 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 exit;
             }
         }
-        
+
         $this->habilitaCampos();
         echo '$("#btn_imprimecertificado").click();';
     }
@@ -951,8 +963,8 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         echo '$("#CertNucEscala").prop("disabled", false);';
         echo '$("#CertexpCamadaMin").prop("disabled", false);';
         echo '$("#CertexpCamadaMax").prop("disabled", false);';
-        echo '$("#Certinspeneg").prop("disabled", false);';
         echo '$("#Certinspeneg").val("Tolerável");';
+        echo '$("#Certinspeneg").prop("disabled", false);';
         echo '$("#CertFioDurezaSol").prop("disabled", false);';
         echo '$("#CertFioEsferio").prop("disabled", false);';
         echo '$("#CertFioDescarbonetaTotal").prop("disabled", false);';

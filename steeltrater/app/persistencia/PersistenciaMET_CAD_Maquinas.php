@@ -13,9 +13,9 @@ class PersistenciaMET_CAD_Maquinas extends Persistencia {
 
         $this->setTabela('MET_CAD_Maquinas');
 
-        $this->adicionaRelacionamento('cod', 'cod', true, true, true);
         $this->adicionaRelacionamento('fil_codigo', 'fil_codigo', true, true);
         $this->adicionaRelacionamento('fil_codigo', 'DELX_FIL_Empresa.fil_codigo', false, false);
+        $this->adicionaRelacionamento('cod', 'cod', true, true, true);
         $this->adicionaRelacionamento('maquina', 'maquina');
         $this->adicionaRelacionamento('codigoMaq', 'codigoMaq');
         $this->adicionaRelacionamento('bitola', 'bitola');

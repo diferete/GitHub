@@ -11,7 +11,7 @@ class ModelMET_CAD_MaquinasImagens {
     private $cod;
     private $seq;
     private $obs;
-    private $link;
+    private $endimagem;
     private $data;
     private $coduser;
     private $MET_CAD_Maquinas;
@@ -75,12 +75,6 @@ class ModelMET_CAD_MaquinasImagens {
     function setObs($obs){
        $this->obs = $obs;
     }
-    function getLink(){
-       return $this->link;
-    }
-    function setLink($link){
-       $this->link = $link;
-    }
     function getData(){
        return $this->data;
     }
@@ -92,5 +86,12 @@ class ModelMET_CAD_MaquinasImagens {
     }
     function setCoduser($coduser){
        $this->coduser = $coduser;
+    }
+    function getEndimagem() {
+        return $this->endimagem;
+    }
+
+    function setEndimagem($endimagem) {
+        $this->endimagem = $endimagem;
     }
 }

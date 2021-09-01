@@ -231,27 +231,32 @@ class ViewSTEEL_PCP_Certificado extends View {
 
         $oCamDurMin = new Campo('Exp.CamadaMin', 'expCamadaMin', Campo::TIPO_TESTE, 2);
         $oCamDurMin->setId("CertexpCamadaMin");
+        
         $oCamDurMax = new Campo('Exp.CamadaMax', 'expCamadaMax', Campo::TIPO_TESTE, 2);
         $oCamDurMax->setId("CertexpCamadaMax");
 
         $oInsEneg = new Campo('Insp.Enegrecimento', 'inspeneg', Campo::CAMPO_SELECTSIMPLE, 2);
-        $oInsEneg->addItemSelect('Bom', 'Bom');
+        $oInsEneg->setId("Certinspeneg");
         $oInsEneg->addItemSelect('Tolerável', 'Tolerável');
+        $oInsEneg->addItemSelect('Bom', 'Bom');
         $oInsEneg->addItemSelect('Ruim', 'Ruim');
         $oInsEneg->addItemSelect('Não Aplicável', 'Não Aplicável');
-        $oInsEneg->setSValor('Tolerável');
-        $oInsEneg->setId("Certinspeneg");
+
 
         $oDataEmi = new Campo('Emissão', 'dataemissao', Campo::TIPO_TEXTO, 1);
+        $oDataEmi->setId('CertificadoData');
         $oDataEmi->setSValor(date('d/m/Y'));
         $oDataEmi->setBCampoBloqueado(true);
 
         $oHora = new Campo('Hora', 'hora', Campo::TIPO_TEXTO, 1, 2, 12, 12);
+        $oHora->setId('CertificadoHora');
         $oHora->setBCampoBloqueado(true);
         $oHora->setBTime(true);
         $oHora->setSValor(date('H:i'));
 
         $oUser = new Campo('Usuário', 'usuario', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oUser->setId('CertificadoUsuario');
+
         $oUser->setBCampoBloqueado(true);
         $oUser->setSValor($_SESSION['nome']);
 
@@ -373,7 +378,7 @@ class ViewSTEEL_PCP_Certificado extends View {
             $oBotaoImprimirGeral->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
             $oBotaoImprimirGeral->getOBotao()->setId('btn_imprimecertificado');
             $oBotaoImprimirGeral->getOBotao()->addAcao($sAcaoImprimir);
-            
+
             $sAcaoFinalizar = 'requestAjax("' . $this->getTela()->getId() . '-form","STEEL_PCP_Certificado","acaoInserirLeitor",'
                     . '"' . $this->getTela()->getId() . ',' . $oNr->getId() . ',' . $oOp->getId() . ',' . $oRnc->getSValor() . '");';
             $oBotaoFinalizarGeral = new Campo('Gravar', 'btn_gravarcertificado', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
@@ -393,7 +398,7 @@ class ViewSTEEL_PCP_Certificado extends View {
             $oNotaSteel->setBFocus(true);
             $oTab->addItems($oAbaPadrao, $oAbaFioMaquina, $oAbaLog);
 
-            $this->addCampos(array($oNr, $oOp, $oNotaSteel, $oDataRetorno), array($oEmp_codigo, $oEmp_des), array($oOpcliente, $oNotaClient, $oCodProd, $oProduto), array($oQuant, $oPeso, $oDataEnsaio), $oLinha1, $oLabel1, $oLinha1, $oTab, $oConclusao
+            $this->addCampos(array($oNr, $oOp, $oNotaSteel, $oDataRetorno), array($oEmp_codigo, $oEmp_des), array($oOpcliente, $oNotaClient, $oCodProd, $oProduto), array($oQuant, $oPeso, $oDataEnsaio, $oRnc), $oLinha1, $oLabel1, $oLinha1, $oTab, $oConclusao
             );
         }
     }

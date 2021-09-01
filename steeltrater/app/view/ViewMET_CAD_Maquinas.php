@@ -15,6 +15,8 @@ class ViewMET_CAD_Maquinas extends View {
         parent::criaConsulta();
  
         $this->setUsaAcaoVisualizar(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setITipoGrid(2);
 
         $ofil_des = new CampoConsulta('Empresa', 'DELX_FIL_Empresa.fil_fantasia', CampoConsulta::TIPO_TEXTO);
@@ -91,11 +93,11 @@ class ViewMET_CAD_Maquinas extends View {
 //        $oempcnpj = new CampoConsulta('empcnpj', 'empcnpj', CampoConsulta::TIPO_TEXTO);
 //        $otipmanut = new CampoConsulta('tipmanut', 'tipmanut', CampoConsulta::TIPO_TEXTO);
  
-        $oBtnCadastraFotos = new CampoConsulta('Cad.Fotos', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_ADICIONAR);
+        $oBtnCadastraFotos = new CampoConsulta('Cad.Fotos', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_ENVIAR);
         $oBtnCadastraFotos->addDadosConsultaMVC('MET_CAD_MaquinasImagens', 'TelaCadastraFotos', 'Cadastra imagens da máquina!');
                 
         $oDesEmp = new Filtro($ofil_des, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
-        $oCodigoMaqfiltro = new Filtro($ocod, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12);
+        $oCodigoMaqfiltro = new Filtro($ocodigoMaq, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12);
         $oDescricaoMaqfiltro = new Filtro($omaquina, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
         $oCodigoSetorfiltro = new Filtro($ocodsetor, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12);
         $oDesSitfiltro = new Filtro($ositmaq, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
@@ -109,7 +111,7 @@ class ViewMET_CAD_Maquinas extends View {
         $oDesSitfiltro->addItemSelect('ATIVA AUTOMOTRIZ', 'ATIVA AUTOMOTRIZ');
         
         $this->addFiltro($oDesEmp,$oCodigoMaqfiltro, $oDescricaoMaqfiltro, $oCodigoSetorfiltro, $oDesSitfiltro);
-        
+               
         $this->addCampos($ocod, $ofil_des, $oBtnCadastraFotos, $ocodigoMaq, $omaquina, $omaqtip, $omodelo, $oanofab, $ocapacidade, $oprodutividade, $otempoOpera, $oadequadoNr12, $ocodsetor, $ositmaq);
             
         

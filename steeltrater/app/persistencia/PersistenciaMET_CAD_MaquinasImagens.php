@@ -17,7 +17,7 @@ class PersistenciaMET_CAD_MaquinasImagens extends Persistencia {
         $this->adicionaRelacionamento('cod','MET_CAD_Maquinas.codigoMaq', false, false, false);    
         $this->adicionaRelacionamento('seq','seq', true, true, true);
         $this->adicionaRelacionamento('obs','obs');
-        $this->adicionaRelacionamento('link','link');
+        $this->adicionaRelacionamento('link','endimagem');
         $this->adicionaRelacionamento('data','data');
         $this->adicionaRelacionamento('coduser','coduser');
         $this->adicionaRelacionamento('coduser','MET_TEC_USUARIO.usucodigo', false, false, false);
@@ -26,7 +26,9 @@ class PersistenciaMET_CAD_MaquinasImagens extends Persistencia {
         $sAnd = ' and MET_CAD_MaquinasImagens.fil_codigo = MET_CAD_Maquinas.fil_codigo ';
         $this->adicionaJoin('MET_CAD_Maquinas', null, 1, 'cod', 'codigoMaq', $sAnd);
         $this->adicionaJoin('MET_TEC_USUARIO', null, 1, 'coduser', 'usucodigo');
-               
+        
+        
+        $this->setSTop('10');       
     } 
     
     public function getIncrementoFinal($iFilcodigo, $iCod){

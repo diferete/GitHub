@@ -28,7 +28,7 @@ class ViewMET_CAD_MaquinasImagens extends View {
         $oseq->setILargura(15);
         $oobs = new CampoConsulta('Observação', 'obs', CampoConsulta::TIPO_TEXTO);
         $oobs->setILargura(30);
-        $olink = new CampoConsulta('Anexo', 'link', CampoConsulta::TIPO_DOWNLOAD);
+        $olink = new CampoConsulta('Anexo', 'endimagem', CampoConsulta::TIPO_DOWNLOAD);
         $olink->setILargura(30);
         $odata = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
         $odata->setILargura(30);
@@ -44,7 +44,7 @@ class ViewMET_CAD_MaquinasImagens extends View {
 
     public function criaTela() {
         parent::criaTela();
-
+      
         $this->setBOcultaFechar(true);
         $this->setBOcultaBotTela(true);
         $oDados = $this->getAParametrosExtras()[0];
@@ -104,11 +104,9 @@ class ViewMET_CAD_MaquinasImagens extends View {
 
         $oobs = new Campo('Descrição', 'obs', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oobs->addValidacao(false, Validacao::TIPO_STRING);
-        $olink = new Campo('Link', 'link', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
-        $olink->setId('uploadImgMaquinas');
-        $olink->addValidacao(false, Validacao::TIPO_STRING);
-        
-        
+        $oimagem = new Campo('Anexo', 'endimagem', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
+        //$oimagem->addValidacao(false, Validacao::TIPO_STRING);
+                
         $odata = new Campo('Data', 'data', Campo::TIPO_DATA, 2, 2, 12, 12);
         $odata->setSValor(date('d/m/Y', strtotime("now")));
         $odata->setBCampoBloqueado(true);
@@ -151,7 +149,7 @@ class ViewMET_CAD_MaquinasImagens extends View {
         $oseq2->setILargura(15);
         $oobs2 = new CampoConsulta('Observação', 'obs', CampoConsulta::TIPO_TEXTO);
         $oobs2->setILargura(30);
-        $olink2 = new CampoConsulta('Anexo', 'link', CampoConsulta::TIPO_DOWNLOAD);
+        $olink2 = new CampoConsulta('Anexo', 'endimagem', CampoConsulta::TIPO_DOWNLOAD);
         $olink2->setILargura(30);
         $odata2 = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
         $odata2->setILargura(30);
@@ -168,7 +166,8 @@ class ViewMET_CAD_MaquinasImagens extends View {
         $oGridImagMaq->getOGrid()->setIAltura(300);
         $oGridImagMaq->getOGrid()->setBGridResponsivo(true);
 
-        $oBotInser = new Campo('INSERIR', '', Campo::TIPO_BOTAOSMALL, 1, 1, 2, 2);
+        $oBotInser = new Campo('INSERIR', 'test', Campo::TIPO_BOTAOSMALL, 1, 1, 2, 2);
+        $oBotInser->setApenasTela(true);
         $oBotInser->setIMarginTop(6);
         $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_CAD_MaquinasImagens","acaoInserirImagem","' . $this->getTela()->getId() . '-form,' .
                 $oseq->getId() . ',' . $oGridImagMaq->getId() . ',' . $ofil_codigo->getId() . ',' . $ocod->getId() . '","' . $ofil_codigo->getSValor() . ',' . $ocod->getSValor() . ',' . $oseq->getSValor() . '");';
@@ -177,49 +176,18 @@ class ViewMET_CAD_MaquinasImagens extends View {
         $this->getTela()->setIdBtnConfirmar($oBotInser->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
 
-        $oGridImagMaq->getOGrid()->setSEventoClick('var chave=""; $("#' . $oGridImagMaq->getId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
+        $oBotAlter = new Campo('ALTERAR', '', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 2, 2);
+        $oBotAlter->setIMarginTop(6);
+        $sAcao2 = ('var chave=""; $("#' . $oGridImagMaq->getId() . ' tbody .selected").each(function(){chave = $(this).find(".chave").html();}); '
                 . 'if(chave!==""){requestAjax("' . $this->getTela()->getId() . '-form","MET_CAD_MaquinasImagens","sendDadosCamposImagem","' . $oGridImagMaq->getId() . '"+","+chave+","+"' . $oseq->getId() . '"+",'
                 . '"+"' . $ofil_codigo->getId() . '"+","+"' . $ofil_Des->getId() . '"+","+"' . $ousuariocad->getId() . '"+","+"' . $ousuariocaddes->getId() . '"+","+"' . $odata->getId() . '"+","+"' . $ocod->getId() . '"+","+"' 
-                . $ocod_Des->getId() . '"+","+"' . $oobs->getId() . '"+","+"' . $olink->getId() . '");} ');
-//        //----------------------------------------------------------------------------------------------------------------
+                . $ocod_Des->getId() . '"+","+"' . $oobs->getId() . '"+","+"' . $oimagem->getId() . '");} ');
+        $oBotAlter->addAcaoBotao($sAcao2);
+        
+        //----------------------------------------------------------------------------------------------------------------
 
-        $this->addCampos(array($oseq, $ofil_codigo, $ofil_Des, $ousuariocad, $ousuariocaddes, $odata), $oLinha1, array($ocod, $ocod_Des), $oLinha1, $oobs, $oLinha1, array($olink), $oBotInser, $oLinha1, $oGridImagMaq);
+        $this->addCampos(array($oseq, $ofil_codigo, $ofil_Des, $ousuariocad, $ousuariocaddes, $odata), $oLinha1, array($ocod, $ocod_Des), $oLinha1, $oobs, $oLinha1, array($oimagem), array($oBotInser, $oBotAlter), $oLinha1, $oGridImagMaq);
 
-
-        //$this->addCamposFiltroIni($oseq, $ofil_codigo, $ocod);
     }
-
-//    public function gridImagMaq() {
-//        $oGridMaqImag = new Grid("");
-//
-//        $oDados = $this->getAParametrosExtras();
-//
-//        $ofil_des2 = new CampoConsulta('Empresa', 'DELX_FIL_Empresa.fil_fantasia', CampoConsulta::TIPO_TEXTO);
-//        $ofil_des2->setILargura(35);
-//        $ocodMaq2 = new CampoConsulta('Código', 'MET_CAD_Maquinas.codigoMaq', CampoConsulta::TIPO_TEXTO);
-//        $ocodMaq2->setILargura(20);
-//        $oseq2 = new CampoConsulta('Sequência', 'seq', CampoConsulta::TIPO_TEXTO);
-//        $oseq2->setILargura(30);
-//        $oobs2 = new CampoConsulta('Observação', 'obs', CampoConsulta::TIPO_TEXTO);
-//        $oobs2->setILargura(600);
-//        $olink2 = new CampoConsulta('Link', 'link', CampoConsulta::TIPO_DOWNLOAD);
-//        $olink2->setILargura(600);
-//        $odata2 = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
-//        $odesUser2 = new CampoConsulta('Usuário', 'MET_TEC_USUARIO.usunome', CampoConsulta::TIPO_TEXTO);
-//
-//        $oGridMaqImag->addCampos($ofil_des2, $ocodMaq2, $oseq2, $oobs2, $olink2, $odata2, $odesUser2);
-//
-//        if (method_exists($oDados, 'getFil_codigo')) {
-//            $oGridMaqImag->addParam('fil_codigo', $oDados->getFil_codigo());
-//        }
-//        if (method_exists($oDados, 'getCodigoMaq')) {
-//            $oGridMaqImag->addParam('cod', $oDados->getCodigoMaq());
-//        }
-//        $oGridMaqImag->getOGrid()->setIAltura(90);
-//        $oGridMaqImag->getOGrid()->setBGridResponsivo(true);
-//
-//        $aCampos = $oGridMaqImag->getArrayCampos();
-//        return $aCampos;
-//    }
 
 }

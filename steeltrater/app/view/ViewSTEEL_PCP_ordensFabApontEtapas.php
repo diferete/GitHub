@@ -46,13 +46,18 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
 
 
         $oOpGridPes = new CampoConsulta('Op', 'op');
+        
         $oProdutoGridPes = new CampoConsulta('Produto', 'prodes');
         $oProdutoGridPes->setILargura(500);
+        
         $oFornoGridPes = new CampoConsulta('Forno', 'fornodes');
 
         $oTurnoGridPes = new CampoConsulta('Turno', 'turnoSteel');
+        
         $oDataEntGridPes = new CampoConsulta('Data Ent', 'dataent_forno', CampoConsulta::TIPO_DATA);
+        
         $oHoraEntGridPes = new CampoConsulta('Hora Ent', 'horaent_forno', CampoConsulta::TIPO_TIME);
+        
         $oSituacaoGridPes = new CampoConsulta('Situação', 'situacao');
         $oSituacaoGridPes->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
         $oSituacaoGridPes->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_COLUNA, false, '');
@@ -443,10 +448,10 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
 
         //campo dos fornos para somente carregar
         $oFornoCod = new campo('', 'fornocod', Campo::TIPO_TEXTO, 1);
-        $oFornoCod->setBOculto(true);
+        //$oFornoCod->setBOculto(true);
 
         $oFornoDes = new Campo('', 'fornodes', Campo::TIPO_TEXTO, 2);
-        $oFornoDes->setBOculto(true);
+        //FornoDes->setBOculto(true);
 
 
         //-----------------------combo dos fornos---------------------------
@@ -483,7 +488,8 @@ class ViewSTEEL_PCP_ordensFabApontEtapas extends View {
 
         $sCombo = 'var textCombo = $("#' . $oFornoChoice->getId() . ' option:selected").text(); '
                 . 'var valueCombo = $("#' . $oFornoChoice->getId() . '").val(); '
-                . '$("#' . $oFornoCod->getId() . '").val(valueCombo); $("#' . $oFornoDes->getId() . '").val(textCombo); ';
+                . '$("#' . $oFornoCod->getId() . '").val(valueCombo);'
+                . '$("#' . $oFornoDes->getId() . '").val(textCombo);';
         $oFornoChoice->addEvento(Campo::EVENTO_CHANGE, $sCombo);
         //-----------------------------------------------------------------
 

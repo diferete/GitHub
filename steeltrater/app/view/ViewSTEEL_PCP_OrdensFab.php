@@ -13,27 +13,25 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         parent::criaConsulta();
 
         $this->getTela()->setBGridResponsivo(false);
-       // $this->getTela()->setITipoGrid(2);
 
-
-        $oBtnReceitaZincagem = new CampoConsulta('Alt. Receita', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_ENVIAR);
+        $oBtnReceitaZincagem = new CampoConsulta('', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_ENVIAR);
         $oBtnReceitaZincagem->addDadosConsultaMVC('STEEL_PCP_OFReceitaZinc', 'TelaAlteraZincagem', 'Alterar receita da zincagem!');
 
-        $oBotaoModal = new CampoConsulta('Apontamentos', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
+        $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Analisar apontamentos!');
         $oBotaoModal->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalAponta', 'modalAponta', '');
         $this->addModais($oBotaoModal);
 
-        $oBotaoFat = new CampoConsulta('Itens NF', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_FLAG);
+        $oBotaoFat = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_FLAG);
         $oBotaoFat->setBHideTelaAcao(true);
         $oBotaoFat->setILargura(15);
         $oBotaoFat->setSTitleAcao('Itens que vão para nota fiscal!');
         $oBotaoFat->addAcao('STEEL_PCP_OrdensFab', 'criaTelaModalFat', 'modalFat', '');
         $this->addModais($oBotaoFat);
 
-        $oBotaoPeso = new CampoConsulta('Balança', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_APONTAR);
+        $oBotaoPeso = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_APONTAR);
         $oBotaoPeso->setBHideTelaAcao(true);
         $oBotaoPeso->setILargura(15);
         $oBotaoPeso->setSTitleAcao('Apontar peso balança!');
@@ -136,6 +134,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oFilRec->setSClasseBusca('STEEL_PCP_Receitas');
         $oFilRec->setSCampoRetorno('cod', $this->getTela()->getSId());
         $oFilRec->setSIdTela($this->getTela()->getSId());
+        
 
         $oOFilOpret = new Filtro($oOp_retrabalho, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2);
 
@@ -156,6 +155,8 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Etiqueta  Térmica', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecificoEtiq', '', false, 'OpSteelEtiqueta', false, '', false, '', true, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar Zincagem', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecifico', 'Zinc', false, 'OpSteelZinc', false, '', false, '', true, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Etiqueta  Térmica Zincagem', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecificoEtiq', 'Zinc', false, 'OpSteelEtiquetaZinc', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Total por nota de entrada', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEntrada', 'Zinc', false, 'RelCompNfOp', false, '', false, '', true, false);
+        
         $oDrop2 = new Dropdown('Açao', Dropdown::TIPO_DARK);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Cancelar OP', 'STEEL_PCP_OrdensFab', 'msgCancelaOp', '', false, '', false, '', false, '', false, false);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Retornar para Aberta', 'STEEL_PCP_OrdensFab', 'msgAbertaOp', '', false, '', false, '', false, '', false, false);
@@ -243,22 +244,22 @@ class ViewSTEEL_PCP_OrdensFab extends View {
             }
         }
 
-        $oChavNfe = new Campo('Chave NFE', 'nfsnfechv', Campo::TIPO_TEXTO, 5, 5, 5, 5);
+        $oChavNfe = new Campo('Chave NFE', 'nfsnfechv', Campo::TIPO_TEXTO, 4, 4, 4, 4);
         $oChavNfe->setBCampoBloqueado(true);
-
-//        $oSeqItem = new Campo('Seq.Item','seqitem_nf', Campo::TIPO_TEXTO,1,1,1,1);
-//        $oSeqItem->setBCampoBloqueado(true);
-//        $oSeqItem->setSValor('0');
-//        //coloca o valor da sequencia
-//       if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
-//            if (method_exists($oDados, 'getNfsitseq')) {
-//                $oSeqItem->setSValor($oDados->getNfsitseq());
-//            }
-//        } else {
-//            if (method_exists($oDados, 'getNfseq')) {
-//                $oSeqItem->setSValor($oDados->getNfseq());
-//            }
-//        }
+        
+        $oSeqItem = new Campo('Seq.Item','seqitem_nf', Campo::TIPO_TEXTO,1,1,1,1);
+        $oSeqItem->setBCampoBloqueado(true);
+        $oSeqItem->setSValor('0');
+        //coloca o valor da sequencia
+       if ($sClasse !== 'ModelSTEEL_PCP_ImportaXml') {
+            if (method_exists($oDados, 'getNfsitseq')) {
+                $oSeqItem->setSValor($oDados->getNfsitseq());
+            }
+        } else {
+            if (method_exists($oDados, 'getNfseq')) {
+                $oSeqItem->setSValor($oDados->getNfseq());
+            }
+        }
 
         $oTipo = new Campo('Tipo OP', 'tipoOrdem', Campo::CAMPO_SELECTSIMPLE, 3, 3, 3, 3);
         $oTipo->addItemSelect('P', 'Padrão - Tempera');
@@ -707,7 +708,7 @@ class ViewSTEEL_PCP_OrdensFab extends View {
 
 
 
-        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oDocumento, $oDataemi, $oSerie, $oChavNfe), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oReceitaZinc, $oReceitaZincDes, $oPesoCesto), $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oNrcert), $oLinha, array($oXPed, $nItemPed, $nItemPedServico, $nItemPedIsumo, $nItemPedEnergia), $oField1, $oField2, $oFieldPeso);
+        $this->addCampos(array($oOp, $oOrigem, $oData, $oHora, $oUser, $oSeqProdNr, $oSituacao), $oLinha, array($oEmp_codigo, $oEmp_des, $oTipo), $oLinha, array($oDocumento, $oDataemi, $oSerie, $oSeqItem,$oChavNfe), $oLinha, array($oReferencia), $oLinha, array($oCodigo, $oProdes), $oLinha, array($oProdFinal, $oProdFinalDes, $oBtnPesqOp), $oLinha, $oGridMat, $oLinha, array($oReceitaZinc, $oReceitaZincDes, $oPesoCesto), $oLinha, array($oCodMat, $oMatDes, $oReceita, $oReceitaDes, $oSeqMat), $oLinha, array($oOpCli, $oQuant, $oPeso, $oValorUnit, $oValorEnt, $oTempRev), $oLinha, $oObs, $oLinha, array($oDataPrev, $oNrCarga, $oNrcert), $oLinha, array($oXPed, $nItemPed, $nItemPedServico, $nItemPedIsumo, $nItemPedEnergia), $oField1, $oField2, $oFieldPeso);
     }
 
     /*
