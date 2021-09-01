@@ -1274,7 +1274,7 @@ function shoppingList() {
                 //Variavel que vai ser alimentada com o HTML do carrinho de compras
                 var htmlCart = '<div id="send-form" style="text-align: center">'
                         + '<p class="contactform-field" style="display: inline-block;margin-bottom: 10px;">'
-                        + '<label  class="contactform-label">E-mail</label>'
+                        /*+ '<label  class="contactform-label">E-mail</label>'
                         + '<!-- NO SPACE -->'
                         + '<span class="contactform-input" style="margin: 0 5px;width: 300px;">'
                         + '<input class="input-email-cart" placeholder="Seu e-mail" type="e-mail" id="email" name="email" data-required="text" data-required-email="email">'
@@ -1338,8 +1338,8 @@ function shoppingList() {
                         + '<p id="waiting-msg-cnpj" class="msg-email hidden"></p>'
                         + '</div>' //essa aqui termina
                         + '<div id="send-form" style="text-align: center;margin: 10px 0 10px 0;">'
-                        + '<input id="send-list" onclick="sendPdfEmail()" class="btn class-send" value="Enviar para Metalbo" type="button">'
-                        + '<input id="send-pdf" onclick="visualizaPdf()" class="btn class-view" value="Visualizar lista" type="button">'
+                        + '<input id="send-list" onclick="sendPdfEmail()" class="btn class-send" value="Enviar para Metalbo" type="button">'*/
+                        + '<input id="send-pdf" onclick="visualizaPdf()" class="btn class-send" value="Visualizar lista" type="button">'
                         + '</div>'
                         + '<p id="waiting-msg" class="msg-email hidden"></p>'
                         + '</div>';
