@@ -46,7 +46,7 @@ class ViewItemMenu extends View {
         $this->criaGridDetalhe();
         /* Dados pk menu */
         $aValor = $this->getAParametrosExtras();
-        
+
         $oModCod = new Campo('Módulo', 'Modulo.modcod', Campo::TIPO_TEXTO, 1);
         $oModCod->setITamanho(Campo::TAMANHO_PEQUENO);
         $oModCod->setBCampoBloqueado(true);
@@ -70,6 +70,10 @@ class ViewItemMenu extends View {
         $oMenDes->setITamanho(Campo::TAMANHO_PEQUENO);
         $oMenDes->setSValor($aValor[3]);
 
+        $oRotina = new Campo('Rotina?', 'rotina', Campo::TIPO_RADIO, 1, 1, 12, 12);
+        $oRotina->addItenRadio('S', 'SIM');
+        $oRotina->addItenRadio('N', 'NÃO');
+
         $oIteCodigo = new Campo('Codigo', 'itecodigo', Campo::TIPO_TEXTO, 1);
         $oIteCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
         $oIteCodigo->setBFocus(true);
@@ -82,22 +86,22 @@ class ViewItemMenu extends View {
 
         $oIteOrdem = new Campo('Ordem', 'iteordem', Campo::TIPO_TEXTO, 1);
         $oIteOrdem->setITamanho(Campo::TAMANHO_PEQUENO);
-        
+
         $oIteclasse = new Campo('Classe', 'iteclasse', Campo::TIPO_TEXTO, 2);
         $oIteclasse->setITamanho(Campo::TAMANHO_PEQUENO);
-        
+
         $oIteMetodo = new Campo('Método', 'itemetodo', Campo::TIPO_TEXTO, 2);
         $oIteMetodo->setITamanho(Campo::TAMANHO_PEQUENO);
 
         $oBotConf = new Campo('Inserir', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $sGrid = $this->getOGridDetalhe()->getSId();
-        
+
         //id form,id incremento,id do grid, id focus,    
         $sAcao = $sAcao = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oIteCodigo->getId() . ',' . $sGrid . ',' . $oIteDesc->getId() . '","' . $oMenCodigo->getSValor() . ',' . $oModCod->getSValor() . '");';
         //$oBotConf->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        $this->addCampos(array($oModCod, $oModdes, $oMenCodigo, $oMenDes), array($oIteCodigo, $oIteDesc, $oIteOrdem), array($oIteclasse, $oIteMetodo, $oBotConf));
+        $this->addCampos(array($oModCod, $oModdes, $oMenCodigo, $oMenDes), array($oIteCodigo, $oIteDesc, $oIteOrdem, $oRotina), array($oIteclasse, $oIteMetodo, $oBotConf));
 
         //adiciona objetos campos para servirem como filtros iniciais do grid
         $this->addCamposFiltroIni($oModCod, $oMenCodigo);
