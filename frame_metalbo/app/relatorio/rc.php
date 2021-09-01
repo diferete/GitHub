@@ -852,6 +852,16 @@ if ($sEmailRequest == 'S') {
     $data = date('d/m/Y');
     $hora = date('H:m');
 
+
+    $bytes = filesize('app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf');
+
+    $decimals = 2;
+    $sz = 'BKMGTP';
+    $factor = floor((strlen($bytes) - 1) / 3);
+    $teste = $bytes / pow(1024, $factor);
+    $iSizeAnexo = number_format($teste, 0);
+    
+
     $oEmail = new Email();
     $oEmail->setMailer();
     $oEmail->setEnvioSMTP();
@@ -870,25 +880,31 @@ if ($sEmailRequest == 'S') {
 
     $oEmail->setAssunto(utf8_decode('Inserida nova RNC - Reclamação de cliente'));
 
-    $oEmail->setMensagem(utf8_decode('RECLAMAÇÃO Nº ' . $aRow['nr'] . ' FOI LIBERADA PELO REPRESENTANTE<hr><br/>'
-                    . '<b>Representante: ' . $_SESSION['nome'] . ' </b><br/>'
-                    . '<b>Escritório: ' . $aRow['officedes'] . ' </b><br/>'
-                    . '<b>Hora:' . $hora . '  </b><br/>'
-                    . '<b>Data do Cadastro: ' . $data . ' </b><br/><br/><br/>'
-                    . '<table border = 1 cellspacing = 2 cellpadding = 2 width = "100%">'
-                    . '<tr><td><b>Cnpj:</b></td><td> ' . $aRow['empcod'] . ' </td></tr>'
-                    . '<tr><td><b>Razão Social:</b></td><td> ' . $aRow['empdes'] . ' </td></tr>'
-                    . '<tr><td><b>Nota fiscal:</b></td><td> ' . $aRow['nf'] . ' </td></tr>'
-                    . '<tr><td><b>Data da NF.:</b></td><td> ' . $aRow['data'] . ' </td></tr>'
-                    . '<tr><td><b>Od. de compra:</b></td><td> ' . $aRow['odcompra'] . ' </td></tr>'
-                    . '<tr><td><b>Pedido Nº:</b></td><td> ' . $aRow['pedido'] . ' </td></tr>'
-                    . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($aRow['valor'], 2, ',', '.') . ' </td></tr>'
-                    . '<tr><td><b>Peso:</b></td><td> ' . number_format($aRow['peso'], 2, ',', '.') . ' </td></tr>'
-                    . '<tr><td><b>Aplicação: </b></td><td> ' . $aRow['aplicacao'] . '</td></tr>'
-                    . '<tr><td><b>Não conformidade:</b></td><td> ' . $aRow['naoconf'] . ' </td></tr>'
-                    . '</table><br/><br/>'
-                    . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
-                    . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>'));
+
+    $sMsg = 'RECLAMAÇÃO Nº ' . $aRow['nr'] . ' FOI LIBERADA PELO REPRESENTANTE<hr><br/>'
+            . '<b>Representante: ' . $_SESSION['nome'] . ' </b><br/>'
+            . '<b>Escritório: ' . $aRow['officedes'] . ' </b><br/>'
+            . '<b>Hora:' . $hora . '  </b><br/>'
+            . '<b>Data do Cadastro: ' . $data . ' </b><br/><br/><br/>'
+            . '<table border = 1 cellspacing = 2 cellpadding = 2 width = "100%">'
+            . '<tr><td><b>Cnpj:</b></td><td> ' . $aRow['empcod'] . ' </td></tr>'
+            . '<tr><td><b>Razão Social:</b></td><td> ' . $aRow['empdes'] . ' </td></tr>'
+            . '<tr><td><b>Nota fiscal:</b></td><td> ' . $aRow['nf'] . ' </td></tr>'
+            . '<tr><td><b>Data da NF.:</b></td><td> ' . $aRow['data'] . ' </td></tr>'
+            . '<tr><td><b>Od. de compra:</b></td><td> ' . $aRow['odcompra'] . ' </td></tr>'
+            . '<tr><td><b>Pedido Nº:</b></td><td> ' . $aRow['pedido'] . ' </td></tr>'
+            . '<tr><td><b>Valor: R$</b></td><td> ' . number_format($aRow['valor'], 2, ',', '.') . ' </td></tr>'
+            . '<tr><td><b>Peso:</b></td><td> ' . number_format($aRow['peso'], 2, ',', '.') . ' </td></tr>'
+            . '<tr><td><b>Aplicação: </b></td><td> ' . $aRow['aplicacao'] . '</td></tr>'
+            . '<tr><td><b>Não conformidade:</b></td><td> ' . $aRow['naoconf'] . ' </td></tr>'
+            . '</table><br/><br/>';
+    if ($iSizeAnexo > 20) {
+        $sMsg = $sMsg . '<b style="color:red" >ATENÇÃO: ANEXO COM TAMANHO SUPERIOR A 20MB NÃO PODE SER ENVIADO. ACESSE O SISTEMA WEB PARA VISUALIZAR O ARQUIVO COMPLETO</b><br/><br/><br/>';
+    }
+    $sMsg = $sMsg . '<a href = "https://sistema.metalbo.com.br">Clique aqui para acessar o sistema!</a>'
+            . '<br/><br/><br/><b>E-mail enviado automaticamente, favor não responder!</b>';
+
+    $oEmail->setMensagem(utf8_decode($sMsg));
 
     $oEmail->limpaDestinatariosAll();
 
@@ -900,7 +916,9 @@ if ($sEmailRequest == 'S') {
     //enviar e-mail vendas
     $oEmail->addDestinatario($aRowMail['usuemail']);
     //$oEmail->addDestinatario('alexandre@metalbo.com.br');
-    //$oEmail->addAnexo('app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc . '.pdf'));
+    if ($iSizeAnexo <= 20) {
+        $oEmail->addAnexo('app/relatorio/rc/RC' . $nr . '_empresa_' . $filcgc . '.pdf', utf8_decode('RC nº' . $nr . '_empresa_' . $filcgc . '.pdf'));
+    }
     $aRetorno = $oEmail->sendEmail();
     if ($aRetorno[0]) {
         $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);
