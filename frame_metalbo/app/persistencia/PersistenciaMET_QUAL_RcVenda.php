@@ -375,7 +375,7 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
     }
 
     public function retornarRCAnalise($aDados) {
-        
+
         $oDados = $this->buscaDadosRC($aDados);
 
         switch ($oDados->tagsetor) {
@@ -400,6 +400,14 @@ class PersistenciaMET_QUAL_RcVenda extends Persistencia {
         $aRetorno = $this->executaSql($sSql);
 
         return $aRetorno;
+    }
+
+    public function retornarDevolucao($aDados) {
+        $sSql = "update tbrncqual set "
+                . "sollibdevolucao = null "
+                . "where filcgc = '" . $aDados['filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $aRetorna = $this->executaSql($sSql);
+        return $aRetorna;
     }
 
 }
