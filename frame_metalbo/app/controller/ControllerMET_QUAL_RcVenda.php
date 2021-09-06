@@ -1179,4 +1179,36 @@ class ControllerMET_QUAL_RcVenda extends Controller {
         }
     }
 
+    public function notificaRetornoDevolucao($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $oDados = $this->Persistencia->buscaDadosRC($aCamposChave);
+        if ($oDados->sollibdevolucao == 'Aguardando') {
+            $oMsg3 = new Modal('Retornar', 'Deseja retornar essa RC para Análise?', Modal::TIPO_AVISO, true, true, true);
+            $oMsg3->setSBtnConfirmarFunction('requestAjax("","MET_QUAL_RcVenda","retornarDevolucao","' . $sDados . '");');
+            echo $oMsg3->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção', 'A RC não está em condições de ser retornada!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+    }
+
+    public function retornarDevolucao($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $aRetorno = $this->Persistencia->retornarDevolucao($aCamposChave);
+        if ($aRetorno[0]) {
+            echo "$('#" . $aDados[0] . "-pesq').click();";
+            $oMensagem = new Mensagem('Sucesso', 'RC retornada para análise!', Mensagem::TIPO_SUCESSO);
+            echo $oMensagem->getRender();
+        } else {
+            $oMensagem = new Mensagem('Atenção', 'Problemas ao tentar retornar a RC para análise, tente novamente ou comunique o TI!', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+    }
+
 }

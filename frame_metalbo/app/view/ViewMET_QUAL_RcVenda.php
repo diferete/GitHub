@@ -108,9 +108,17 @@ class ViewMET_QUAL_RcVenda extends View {
         $oDropDown2 = new Dropdown('Apontamentos', Dropdown::TIPO_AVISO);
         $oDropDown2->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Apontar reclamação', 'MET_QUAL_RcVenda', 'criaTelaModalApontamento', '', false, '', false, 'criaTelaModalApontamento', true, 'Apontar reclamação', false, false);
 
+        $oDropDown3 = new Dropdown('Gerenciar', Dropdown::TIPO_AVISO);
+        $oDropDown3->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Retornar', 'MET_QUAL_RcVenda', 'notificaRetornoDevolucao', '', false, '', false, '', true, '', false, false);
+
 
         $this->setUsaDropdown(true);
-        $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
+        if ($_SESSION['codUser'] == 19 || $_SESSION['codUser'] == 46) {
+            $this->addDropdown($oDropDown, $oDropDown3);
+        } else {
+            $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
+        }
+
 
         $oFilCli = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
@@ -159,7 +167,7 @@ class ViewMET_QUAL_RcVenda extends View {
 
 
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos, $oFilOfficeDes, $oFilSituaca, $oFilReclamacao, $oFilProcedencia, $oFilDevolucao);
-        if ($_SESSION['codUser'] == 19) {
+        if ($_SESSION['codUser'] == 19 || $_SESSION['codUser'] == 46) {
             $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
         } else {
             $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
