@@ -108,7 +108,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
          * Contador de pedidos aguardando aprovação
          */
         $aRetorno = array();
-        if ($oDados->usucodigo == 22 || $oDados->usucodigo == 46) {
+        if ($oDados->usucodigo == 22) {
             $sSql = "select COUNT(*) as total from sup_pedido(nolock) where sup_pedidosituacao = 'A' and fil_codigo = '8993358000174' ";
             $s = $this->consultaSql($sSql);
         } else {
@@ -119,7 +119,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
         $sSql = "select usunomedelsoft from met_tec_usuario(nolock) where usucodigo = " . $oDados->usucodigo;
         $oUsuNomeDelsoft = $this->consultaSql($sSql);
 
-        $sSql = "select count(*) as total from rex_maquinas.widl.PED01(nolock) where pdcsituaca = 'N' and pdcfutaut ='" . $oUsuNomeDelsoft->usunomedelsoft . "' and filcgc = 75483040000211";
+        $sSql = "select count(*) as total from rex_maquinas.widl.PED01(nolock) where pdcsituaca = 'N' and pdcfutaut ='" . $oUsuNomeDelsoft->usunomedelsoft . "' and filcgc = '75483040000211'";
         $f = $this->consultaSql($sSql);
 
         $sSql = "select count(*) as total from rex_maquinas.widl.PED01(nolock) where pdcsituaca = 'N' and pdcfutaut ='" . $oUsuNomeDelsoft->usunomedelsoft . "' and filcgc = '75483040000130'";
@@ -136,7 +136,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
 
         switch ($cnpj) {
             case 8993358000174:
-                if ($usucodigo == 22 || $usucodigo == 46) {
+                if ($usucodigo == 22) {
                     $aDados = array();
                     $aPedidos = array();
                     $aRetorno = array();
@@ -190,6 +190,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                     $aRetorno['empresa'] = 'SteelTrater';
                     $aRetorno['pedidos'] = '';
                     $aRetorno['contador'] = 0;
+                    break;
                 }
 
             case 75483040000211:
@@ -219,7 +220,8 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                         . "left outer join rex_maquinas.widl.PEDC01(nolock) "
                         . "on rex_maquinas.widl.PED01.filcgc = rex_maquinas.widl.PEDC01.filcgc "
                         . "and rex_maquinas.widl.PED01.pdcnro = rex_maquinas.widl.PEDC01.pdcnro "
-                        . "where pdcsituaca = 'N' "
+                        . "where "
+                        . "pdcsituaca = 'N' "
                         . "and pdcfutaut = '" . $oUsuNomeDelsoft->usunomedelsoft . "' "
                         . "and rex_maquinas.widl.PED01.filcgc = 75483040000211"
                         . "group by "
@@ -447,114 +449,123 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
     }
 
     public function gerenPedidoCompra($sit, $nr, $cnpj, $usucodigo) {
-        switch ($cnpj) {
-            case 8993358000174:
-                date_default_timezone_set('America/Sao_Paulo');
-                $sData = date('Y-m-d 00:00:00.000');
-                $sHora = date('Y-m-d H:i:s' . '.000');
 
-                $sSql = "select usunomeDelsoft from met_tec_usuario(nolock) where usucodigo = " . $usucodigo;
-                $oUsuNomeDelsoft = $this->consultaSql($sSql);
-                if ($sit == 'a') {
-                    $sHistorico = 'APROVAR';
-                    $sSit = 'L';
-                    $iAprovacao = 2;
-                } elseif ($sit == 'r') {
-                    $sHistorico = 'REPROVAR';
-                    $sSit = 'R';
-                    $iAprovacao = 6;
-                }
-                /* tabela de cabeçalho */
-                $sSqlUpdateCabecalho = "update "
-                        . "SUP_PEDIDO "
-                        . "set SUP_PedidoSituacao = '" . $sSit . "',"
-                        . "SUP_PedidoSeqAprovacao = " . $iAprovacao . ""
-                        . "where FIL_Codigo = " . $cnpj . " "
-                        . "and SUP_PedidoSeq = " . $nr . "";
-                $aRetorno = $this->executaSql($sSqlUpdateCabecalho);
-                if ($aRetorno[0]) {
-                    // tabela de itens
-                    $sSqlUpdateItens = "update "
-                            . "SUP_PEDIDOITEM "
-                            . "set SUP_PedidoItemSituacao = '" . $sSit . "' "
+        $bParam = $this->verificaPedSituaca($nr, $cnpj);
+
+        if (!$bParam) {
+            $aRetorno[0] = false;
+            $aRetorno[1] = 'C';
+            return $aRetorno;
+        } else {
+            switch ($cnpj) {
+                case 8993358000174:
+                    date_default_timezone_set('America/Sao_Paulo');
+                    $sData = date('Y-m-d 00:00:00.000');
+                    $sHora = date('Y-m-d H:i:s' . '.000');
+
+                    $sSql = "select usunomeDelsoft from met_tec_usuario(nolock) where usucodigo = " . $usucodigo;
+                    $oUsuNomeDelsoft = $this->consultaSql($sSql);
+                    if ($sit == 'a') {
+                        $sHistorico = 'APROVAR';
+                        $sSit = 'L';
+                        $iAprovacao = 2;
+                    } elseif ($sit == 'r') {
+                        $sHistorico = 'REPROVAR';
+                        $sSit = 'R';
+                        $iAprovacao = 6;
+                    }
+                    /* tabela de cabeçalho */
+                    $sSqlUpdateCabecalho = "update "
+                            . "SUP_PEDIDO "
+                            . "set SUP_PedidoSituacao = '" . $sSit . "',"
+                            . "SUP_PedidoSeqAprovacao = " . $iAprovacao . ""
                             . "where FIL_Codigo = " . $cnpj . " "
                             . "and SUP_PedidoSeq = " . $nr . "";
-                    $aRetorno = $this->executaSql($sSqlUpdateItens);
+                    $aRetorno = $this->executaSql($sSqlUpdateCabecalho);
                     if ($aRetorno[0]) {
-                        // tabela de histórico
-                        $sSqlInsertHistorico = "SET DATEFORMAT ymd;"
-                                . "insert into SUP_APROVACAOHIST("
-                                . "FIL_Codigo,"
-                                . "SUP_AprovacaoHistPedidoSeq,"
-                                . "SUP_AprovacaoHistSeq,"
-                                . "SUP_AprovacaoHistData,"
-                                . "SUP_AprovacaoHistPedidoSituaca,"
-                                . "SUP_AprovacaoHistUsuarioCodigo,"
-                                . "SUP_AprovacaoHistObs,"
-                                . "SUP_AprovacaoHistDataHora,"
-                                . "SUP_AprovacaoHistAcao,"
-                                . "SUP_AprovacaoHistEmails"
-                                . ")values("
-                                . "" . $cnpj . ","
-                                . "" . $nr . ","
-                                . "(select (case when max(SUP_AprovacaoHistSeq) is null then 1 else max(SUP_AprovacaoHistSeq)+1 end) as SEQ from SUP_APROVACAOHIST where FIL_Codigo = " . $cnpj . " and SUP_AprovacaoHistPedidoSeq = " . $nr . "),"
-                                . "CAST(N'" . $sData . "' AS DateTime),"
-                                . "'" . $sSit . "',"
-                                . "'" . $oUsuNomeDelsoft->usunomedelsoft . "',"
-                                . "'',"
-                                . "CAST(N'" . $sHora . "' AS DateTime),"
-                                . "'" . $sHistorico . "',"
-                                . "'')";
-                        $aRetorno = $this->executaSql($sSqlInsertHistorico);
+                        // tabela de itens
+                        $sSqlUpdateItens = "update "
+                                . "SUP_PEDIDOITEM "
+                                . "set SUP_PedidoItemSituacao = '" . $sSit . "' "
+                                . "where FIL_Codigo = " . $cnpj . " "
+                                . "and SUP_PedidoSeq = " . $nr . "";
+                        $aRetorno = $this->executaSql($sSqlUpdateItens);
+                        if ($aRetorno[0]) {
+                            // tabela de histórico
+                            $sSqlInsertHistorico = "SET DATEFORMAT ymd;"
+                                    . "insert into SUP_APROVACAOHIST("
+                                    . "FIL_Codigo,"
+                                    . "SUP_AprovacaoHistPedidoSeq,"
+                                    . "SUP_AprovacaoHistSeq,"
+                                    . "SUP_AprovacaoHistData,"
+                                    . "SUP_AprovacaoHistPedidoSituaca,"
+                                    . "SUP_AprovacaoHistUsuarioCodigo,"
+                                    . "SUP_AprovacaoHistObs,"
+                                    . "SUP_AprovacaoHistDataHora,"
+                                    . "SUP_AprovacaoHistAcao,"
+                                    . "SUP_AprovacaoHistEmails"
+                                    . ")values("
+                                    . "" . $cnpj . ","
+                                    . "" . $nr . ","
+                                    . "(select (case when max(SUP_AprovacaoHistSeq) is null then 1 else max(SUP_AprovacaoHistSeq)+1 end) as SEQ from SUP_APROVACAOHIST where FIL_Codigo = " . $cnpj . " and SUP_AprovacaoHistPedidoSeq = " . $nr . "),"
+                                    . "CAST(N'" . $sData . "' AS DateTime),"
+                                    . "'" . $sSit . "',"
+                                    . "'" . $oUsuNomeDelsoft->usunomedelsoft . "',"
+                                    . "'',"
+                                    . "CAST(N'" . $sHora . "' AS DateTime),"
+                                    . "'" . $sHistorico . "',"
+                                    . "'')";
+                            $aRetorno = $this->executaSql($sSqlInsertHistorico);
+                        }
                     }
-                }
-                return $aRetorno;
+                    return $aRetorno;
 
-            case 75483040000211:
-                date_default_timezone_set('America/Sao_Paulo');
-                $sSql = "select usunomeDelsoft from met_tec_usuario(nolock) where usucodigo = " . $usucodigo;
-                $oUsuNomeDelsoft = $this->consultaSql($sSql);
-                if ($sit == 'a') {
-                    $sData = date('d/m/Y');
-                    $sHora = date('H:i:s');
-                    $sSit = 0;
-                } elseif ($sit == 'r') {
-                    $sData = '01/01/1753';
-                    $sHora = '';
-                    $sSit = "'R'";
-                }
-                $sSql = "update rex_maquinas.widl.PED01 "
-                        . "set "
-                        . "pdcsituaca = " . $sSit . ","
-                        . "pdcaut = '" . $oUsuNomeDelsoft->usunomedelsoft . "',"
-                        . "pdcdta = '" . $sData . "',"
-                        . "pdchra = '" . $sHora . "' "
-                        . "where filcgc = 75483040000211 "
-                        . "and pdcnro = " . $nr . "";
-                $aRetorno = $this->executaSql($sSql);
-                return $aRetorno;
+                case 75483040000211:
+                    date_default_timezone_set('America/Sao_Paulo');
+                    $sSql = "select usunomeDelsoft from met_tec_usuario(nolock) where usucodigo = " . $usucodigo;
+                    $oUsuNomeDelsoft = $this->consultaSql($sSql);
+                    if ($sit == 'a') {
+                        $sData = date('d/m/Y');
+                        $sHora = date('H:i:s');
+                        $sSit = 0;
+                    } elseif ($sit == 'r') {
+                        $sData = '01/01/1753';
+                        $sHora = '';
+                        $sSit = "'R'";
+                    }
+                    $sSql = "update rex_maquinas.widl.PED01 "
+                            . "set "
+                            . "pdcsituaca = " . $sSit . ","
+                            . "pdcaut = '" . $oUsuNomeDelsoft->usunomedelsoft . "',"
+                            . "pdcdta = '" . $sData . "',"
+                            . "pdchra = '" . $sHora . "' "
+                            . "where filcgc = 75483040000211 "
+                            . "and pdcnro = " . $nr . "";
+                    $aRetorno = $this->executaSql($sSql);
+                    return $aRetorno;
 
-            case 75483040000130:
-                date_default_timezone_set('America/Sao_Paulo');
-                if ($sit == 'a') {
-                    $sData = date('d/m/Y');
-                    $sHora = date('H:i:s');
-                    $sSit = 0;
-                } elseif ($sit == 'r') {
-                    $sData = '01/01/1753';
-                    $sHora = '';
-                    $sSit = 'R';
-                }
-                $sSql = "update rex_maquinas.widl.PED01 "
-                        . "set "
-                        . "pdcsituaca = " . $sSit . ","
-                        . "pdcaut = 'IVO',"
-                        . "pdcdta = '" . $sData . "',"
-                        . "pdchra = '" . $sHora . "' "
-                        . "where filcgc = 75483040000130 "
-                        . "and pdcnro = " . $nr . "";
-                $aRetorno = $this->executaSql($sSql);
-                return $aRetorno;
+                case 75483040000130:
+                    date_default_timezone_set('America/Sao_Paulo');
+                    if ($sit == 'a') {
+                        $sData = date('d/m/Y');
+                        $sHora = date('H:i:s');
+                        $sSit = 0;
+                    } elseif ($sit == 'r') {
+                        $sData = '01/01/1753';
+                        $sHora = '';
+                        $sSit = 'R';
+                    }
+                    $sSql = "update rex_maquinas.widl.PED01 "
+                            . "set "
+                            . "pdcsituaca = " . $sSit . ","
+                            . "pdcaut = 'IVO',"
+                            . "pdcdta = '" . $sData . "',"
+                            . "pdchra = '" . $sHora . "' "
+                            . "where filcgc = 75483040000130 "
+                            . "and pdcnro = " . $nr . "";
+                    $aRetorno = $this->executaSql($sSql);
+                    return $aRetorno;
+            }
         }
     }
 
@@ -566,6 +577,22 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
             $aRetorno[] = $aCondPag;
         }
         return $aRetorno;
+    }
+
+    public function verificaPedSituaca($nr, $cnpj) {
+        $sSql = "select "
+                . "COUNT(*) as total "
+                . "from sup_pedido(nolock) "
+                . "where sup_pedidosituacao = 'A' "
+                . "and fil_codigo = '" . $cnpj . "' "
+                . "and sup_pedidoseq = " . $nr . "";
+        $oCount = $this->consultaSql($sSql);
+
+        if ($oCount->total == 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

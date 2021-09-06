@@ -57,10 +57,14 @@ class ControllerSTEEL_SUP_PedidoCompra extends Controller {
                 $aIonic = array();
                 $aIonic['retorno'] = $aRetorno[0];
                 if ($aRetorno[0]) {
-                    $aIonic['mensagem'] = 'aprovada com sucesso';
+                    $aIonic['mensagem'] = 'APROVADO com sucesso';
+                } elseif ($aRetorno[1] == 'C') {
+                    $aIonic['erro'] = 'Pedido já foi aprovado por outro sistema.';
+                    $aIonic['mensagem'] = 'APROVAR';
+                    $aIonic['param'] = 'C';
                 } else {
                     $aIonic['erro'] = $aRetorno[1];
-                    $aIonic['mensagem'] = 'aprovar';
+                    $aIonic['mensagem'] = 'APROVAR';
                 }
 
                 break;
@@ -70,10 +74,14 @@ class ControllerSTEEL_SUP_PedidoCompra extends Controller {
                 $aIonic = array();
                 $aIonic['retorno'] = $aRetorno[0];
                 if ($aRetorno[0]) {
-                    $aIonic['mensagem'] = 'reprovada com sucesso';
+                    $aIonic['mensagem'] = 'REPROVADO com sucesso';
+                } elseif ($aRetorno[1] == 'C') {
+                    $aIonic['erro'] = 'Pedido já foi reprovado por outro sistema.';
+                    $aIonic['mensagem'] = 'REPROVAR';
+                    $aIonic['param'] = 'C';
                 } else {
                     $aIonic['erro'] = $aRetorno[1];
-                    $aIonic['mensagem'] = 'reprovar';
+                    $aIonic['mensagem'] = 'REPROVAR';
                 }
                 break;
         }

@@ -260,89 +260,112 @@ class PersistenciaSTEEL_SUP_Solicitacao extends Persistencia {
         $sSql = "select usunomeDelsoft from met_tec_usuario(nolock) where usucodigo = " . $usucodigo;
         $oUsuNomeDelsoft = $this->consultaSql($sSql);
 
+        $bParam = $this->verificaSolSituaca($nr, $cnpj);
 
-        switch ($cnpj) {
-            case 8993358000174:
-                date_default_timezone_set('America/Sao_Paulo');
-                $sData = date('Y-m-d H:i:s' . '.000');
+        if (!$bParam) {
+            $aRetorno[0] = false;
+            $aRetorno[1] = 'C';
+            return $aRetorno;
+        } else {
+            switch ($cnpj) {
+                case 8993358000174:
+                    date_default_timezone_set('America/Sao_Paulo');
+                    $sData = date('Y-m-d H:i:s' . '.000');
 
-                if ($sit == 'a') {
-                    $sSit = 'L';
-                    $sHistorico = 'LIBERADO';
-                    $iAprovacao = 2;
-                } elseif ($sit == 'r') {
-                    $sSit = 'R';
-                    $iAprovacao = 6;
-                    $sHistorico = 'REPROVADO';
-                }
-                /* tabela de cabeçalho */
-                $sSqlUpdateCabecalho = "update "
-                        . "sup_solicitacao "
-                        . "set sup_solicitacaosituacao = '" . $sSit . "',"
-                        . "sup_solicitacaofaseapr = " . $iAprovacao . " "
-                        . "where fil_codigo = 8993358000174 "
-                        . "and sup_solicitacaoseq = " . $nr . "";
-                $aRetorno = $this->executaSql($sSqlUpdateCabecalho);
-                if ($aRetorno[0]) {
-                    // tabela de itens
-                    $sSqlUpdateItens = "update "
-                            . "sup_solicitacaoitem "
-                            . "set sup_solicitacaoitemsituacao = '" . $sSit . "' "
+                    if ($sit == 'a') {
+                        $sSit = 'L';
+                        $sHistorico = 'LIBERADO';
+                        $iAprovacao = 2;
+                    } elseif ($sit == 'r') {
+                        $sSit = 'R';
+                        $iAprovacao = 6;
+                        $sHistorico = 'REPROVADO';
+                    }
+                    /* tabela de cabeçalho */
+                    $sSqlUpdateCabecalho = "update "
+                            . "sup_solicitacao "
+                            . "set sup_solicitacaosituacao = '" . $sSit . "',"
+                            . "sup_solicitacaofaseapr = " . $iAprovacao . " "
                             . "where fil_codigo = 8993358000174 "
                             . "and sup_solicitacaoseq = " . $nr . "";
-                    $aRetorno = $this->executaSql($sSqlUpdateItens);
-                    if ($sit == 'a' && $aRetorno[0]) {
-                        // tabela de histórico
-                        $sSqlInsertHistorico = "SET DATEFORMAT ymd;"
-                                . "insert into sup_solicitacaoaprhist("
-                                . "fil_codigo,"
-                                . "sup_solicitacaoseq,"
-                                . "sup_solicitacaoaprhistseq,"
-                                . "sup_solicitacaoaprhistdata,"
-                                . "sup_solicitacaoaprhistsituacao,"
-                                . "sup_solicitacaoaprhistusuario,"
-                                . "sup_solicitacaoaprhistobs,"
-                                . "sup_solicitacaoaprhistdesc"
-                                . ")values("
-                                . "8993358000174,"
-                                . "" . $nr . ","
-                                . "(select ("
-                                . "case "
-                                . "when max(sup_solicitacaoaprhistseq) is null "
-                                . "then 1 else max(sup_solicitacaoaprhistseq)+1 end) as SEQ from sup_solicitacaoaprhist "
+                    $aRetorno = $this->executaSql($sSqlUpdateCabecalho);
+                    if ($aRetorno[0]) {
+                        // tabela de itens
+                        $sSqlUpdateItens = "update "
+                                . "sup_solicitacaoitem "
+                                . "set sup_solicitacaoitemsituacao = '" . $sSit . "' "
                                 . "where fil_codigo = 8993358000174 "
-                                . "and sup_solicitacaoseq = " . $nr . "),"
-                                . "CAST(N'" . $sData . "' AS DateTime),"
-                                . "'" . $sSit . "',"
-                                . "'" . $oUsuNomeDelsoft->usunomedelsoft . "',"
-                                . "'',"
-                                . "'" . $sHistorico . "')";
-                        $aRetorno = $this->executaSql($sSqlInsertHistorico);
+                                . "and sup_solicitacaoseq = " . $nr . "";
+                        $aRetorno = $this->executaSql($sSqlUpdateItens);
+                        if ($sit == 'a' && $aRetorno[0]) {
+                            // tabela de histórico
+                            $sSqlInsertHistorico = "SET DATEFORMAT ymd;"
+                                    . "insert into sup_solicitacaoaprhist("
+                                    . "fil_codigo,"
+                                    . "sup_solicitacaoseq,"
+                                    . "sup_solicitacaoaprhistseq,"
+                                    . "sup_solicitacaoaprhistdata,"
+                                    . "sup_solicitacaoaprhistsituacao,"
+                                    . "sup_solicitacaoaprhistusuario,"
+                                    . "sup_solicitacaoaprhistobs,"
+                                    . "sup_solicitacaoaprhistdesc"
+                                    . ")values("
+                                    . "8993358000174,"
+                                    . "" . $nr . ","
+                                    . "(select ("
+                                    . "case "
+                                    . "when max(sup_solicitacaoaprhistseq) is null "
+                                    . "then 1 else max(sup_solicitacaoaprhistseq)+1 end) as SEQ from sup_solicitacaoaprhist "
+                                    . "where fil_codigo = 8993358000174 "
+                                    . "and sup_solicitacaoseq = " . $nr . "),"
+                                    . "CAST(N'" . $sData . "' AS DateTime),"
+                                    . "'" . $sSit . "',"
+                                    . "'" . $oUsuNomeDelsoft->usunomedelsoft . "',"
+                                    . "'',"
+                                    . "'" . $sHistorico . "')";
+                            $aRetorno = $this->executaSql($sSqlInsertHistorico);
+                        }
                     }
-                }
-                return $aRetorno;
+                    return $aRetorno;
 
-            case 75483040000130:
-                date_default_timezone_set('America/Sao_Paulo');
-                $sData = date('d/m/Y');
-                $sHora = date('H:i:s');
+                case 75483040000130:
+                    date_default_timezone_set('America/Sao_Paulo');
+                    $sData = date('d/m/Y');
+                    $sHora = date('H:i:s');
 
-                if ($sit == 'a') {
-                    $sSit = 'A';
-                } elseif ($sit == 'r') {
-                    $sSit = 'R';
-                }
+                    if ($sit == 'a') {
+                        $sSit = 'A';
+                    } elseif ($sit == 'r') {
+                        $sSit = 'R';
+                    }
 
-                $sSql = "update rex_maquinas.widl.SOL01 "
-                        . "set solsituaca = '" . $sSit . "',"
-                        . "solusuapro = '" . $oUsuNomeDelsoft->usunomedelsoft . "',"
-                        . "soldtaapro = '" . $sData . "',"
-                        . "solhraapro = '" . $sHora . "' "
-                        . "where filcgc  = 75483040000130 "
-                        . "and solcod = " . $nr . "";
+                    $sSql = "update rex_maquinas.widl.SOL01 "
+                            . "set solsituaca = '" . $sSit . "',"
+                            . "solusuapro = '" . $oUsuNomeDelsoft->usunomedelsoft . "',"
+                            . "soldtaapro = '" . $sData . "',"
+                            . "solhraapro = '" . $sHora . "' "
+                            . "where filcgc  = 75483040000130 "
+                            . "and solcod = " . $nr . "";
 
-                $aRetorno = $this->executaSql($sSql);
-                return $aRetorno;
+                    $aRetorno = $this->executaSql($sSql);
+                    return $aRetorno;
+            }
+        }
+    }
+
+    public function verificaSolSituaca($nr, $cnpj) {
+        $sSql = "select "
+                . "COUNT(*) as total "
+                . "from sup_solicitacao(nolock) "
+                . "where sup_solicitacaosituacao = 'A' "
+                . "and fil_codigo = '" . $cnpj . "' "
+                . "and sup_solicitacaoseq = " . $nr . "";
+        $oCount = $this->consultaSql($sSql);
+
+        if ($oCount->total == 0) {
+            return false;
+        } else {
+            return true;
         }
     }
 

@@ -183,6 +183,10 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
                 $aIonic['retorno'] = $aRetorno[0];
                 if ($aRetorno[0]) {
                     $aIonic['mensagem'] = 'APROVADA com sucesso';
+                } elseif ($aRetorno[1] == 'C') {
+                    $aIonic['erro'] = 'Solicitação já foi aprovada por outro sistema.';
+                    $aIonic['mensagem'] = 'APROVAR';
+                    $aIonic['param'] = 'C';
                 } else {
                     $aIonic['erro'] = $aRetorno[1];
                     $aIonic['mensagem'] = 'APROVAR';
@@ -195,6 +199,10 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
                 $aIonic['retorno'] = $aRetorno[0];
                 if ($aRetorno[0]) {
                     $aIonic['mensagem'] = 'REPROVADA com sucesso';
+                } elseif ($aRetorno[1] == 'C') {
+                    $aIonic['erro'] = 'Solicitação já foi reprovada por outro sistema.';
+                    $aIonic['mensagem'] = 'REPROVAR';
+                    $aIonic['param'] = 'C';
                 } else {
                     $aIonic['erro'] = $aRetorno[1];
                     $aIonic['mensagem'] = 'REPROVAR';
