@@ -1018,10 +1018,10 @@ body.site-gridmenu-active {
 }
 
 .page-aside-title {
-    padding: 10px 30px;
+    /*padding: 10px 30px;*/
     margin: 20px 0 10px;
     overflow: hidden;
-    font-weight: 500;
+    font-weight: 500;   
     color: #526069;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -11714,7 +11714,7 @@ h4.example-title {
     padding: 6px 2px 6px 2px !important;
 }
 .page-aside .list-group-item {
-    padding: 13px 30px;
+    /*padding: 13px 30px;*/
     margin-bottom: 1px;
     overflow: hidden;
     text-overflow: ellipsis;

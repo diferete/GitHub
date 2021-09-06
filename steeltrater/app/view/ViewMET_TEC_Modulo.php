@@ -11,15 +11,12 @@ class ViewMET_TEC_Modulo extends View {
 
         $this->setUsaDropdown(true);
         $this->setUsaAcaoVisualizar(true);
-       
+
 
         $this->setaTiluloConsulta('Pesquisa de Módulos do Sistema');
         $oCodigo = new CampoConsulta('Modulo', 'modcod');
         $oModulo = new CampoConsulta('Descrição', 'modescricao');
         $oModApp = new CampoConsulta('Módulo do App', 'modApp');
-
-        $oTeste1 = new CampoConsulta('Teste 1', 'teste1');
-        $oTeste2 = new CampoConsulta('Teste 2', 'teste2');
 
         $oDropDown = new Dropdown('Testar Email', Dropdown::TIPO_PRIMARY, Dropdown::ICON_EMAIL);
         $oDropDown->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Testar Email', 'MET_TEC_Modulo', 'testarEmail', '', false, '', false, '', false, '', false, false);
@@ -31,13 +28,13 @@ class ViewMET_TEC_Modulo extends View {
 
         $this->addDropdown($oDropDown);
 
-        $this->addCampos($oCodigo, $oModulo, $oModApp, $oTeste1, $oTeste2);
+        $this->addCampos($oCodigo, $oModulo, $oModApp);
     }
 
     function criaTela() {
         parent::criaTela();
-        
-         $this->setBGravaHistoricoAlterar(true);
+
+        $this->setBGravaHistoricoAlterar(true);
 
         $oModCod = new Campo('Código', 'modcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oModCod->setBCampoBloqueado(true);
@@ -50,8 +47,12 @@ class ViewMET_TEC_Modulo extends View {
         $oModApp->addItemSelect('Não', 'Não');
         $oModApp->addItemSelect('Sim', 'Sim');
 
+        $oTeste = new Campo('teste', 'teste', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oTeste->setId('testeBalanca');
+        $oTeste->setApenasTela(true);
 
-        $this->addCampos(array($oModCod, $oModDescricao), $oLinha, $oModApp, $oLinha);
+
+        $this->addCampos(array($oModCod, $oModDescricao), $oTeste, $oLinha, $oModApp, $oLinha);
     }
 
 }

@@ -89,6 +89,18 @@ class ControllerMET_TEC_Menu extends Controller {
         $sMsg = $sMsg . $this->getRotinasAdicionais();
         $sMsg = $sMsg . '</div>'
                 . '</section>'
+                . '<section class = "page-aside-section">'
+                . '<h5 class = "page-aside-title">Informativo</h5>'
+                . '<div class = "list-group">';
+        $sMsg = $sMsg . $this->getInformativos();
+        $sMsg = $sMsg . '</div>'
+                . '</section>'
+                . '<script>'
+                . '$(document).ready(function () {'
+                . '$.getJSON("https://economia.awesomeapi.com.br/last/USD-BRL", function (dataDolar) {'
+                . '$("#informativo-Dolar2").append("US$ 1 = R$ " + numeroParaMoeda(dataDolar.USDBRL.bid));'
+                . '});}, 30000);'
+                . '</script>'
                 . '</div>'
                 . '</div>'
                 . '<div id="icoAtualiza2">'
@@ -303,10 +315,28 @@ class ControllerMET_TEC_Menu extends Controller {
             $sMenuId = $iCont . '-' . $aValue[0] . '-rotinas';
             $html = $html . '<a class = "list-group-item" href = "javascript:void(0)" title="Abre a tela ' . $aValue[1] . '"'
                     . 'onclick="verificaTab(\\\'menu-' . $sMenuId . '\\\',\\\'' . $sMenuId . '\\\',\\\'' . $aValue[2] . '\\\',\\\'' . $aValue[3] . '\\\',\\\'tabmenu-' . $sMenuId . '\\\',\\\'' . $aValue[1] . '\\\'); "role="menuitem">'
-                    . '<i class = "icon wb-order" aria-hidden = "true"></i>' . $aValue[1] . ''
-                    . '</a>';
+                    . '<i class = "icon wb-order" aria-hidden = "true"></i>' . $aValue[1] . '';
+            switch ($aValue[5]) {
+                case 41:
+                    $oMET_TEC_ItemMenu = Fabrica::FabricarPersistencia('MET_TEC_ItemMenu');
+                    $iCont = $oMET_TEC_ItemMenu->getRotinasAdicionaisContadores($aValue);
+                    if ($iCont > 0) {
+                        $html = $html . '<span class="badge badge-success up" style="top:0px !important">' . $iCont . '</span>';
+                    }
+                    break;
+            }
+            $html = $html . '</a>';
+
             $iCont++;
         }
+        return $html;
+    }
+
+    public function getInformativos() {
+        //$html = '<a id="informativo-Dolar" class = "list-group-item Steeltrater-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i></a>';
+
+        $html = '<span id="informativo-Dolar2" class = "list-group-item Steeltrater-empresa" href = "javascript:void(0)"><i class = "icon fa-line-chart" aria-hidden = "true"></i></span>';
+
         return $html;
     }
 

@@ -987,7 +987,7 @@ class Persistencia {
                 //tratamento especial para alguns tipos de comparação
                 switch ($aAtual['comparacao']) {
                     case self::ENTRE: //between
-                        if(Util::ValidaData($aAtual['valor'], 2)) {
+                        if (Util::ValidaData($aAtual['valor'], 2)) {
                             $sValor = "'" . $aAtual['valor'] . " 00:00:00.000' AND '" . $aAtual['valorFim'] . " 23:59:59.999'";
                         } else {
                             $sValor = "'" . $aAtual['valor'] . "' AND '" . $aAtual['valorFim'] . "'";
@@ -1192,7 +1192,19 @@ class Persistencia {
                 }
 
                 if ($iOrigemGroup === 0) {
-                    $sCampoTabela = $this->getTabelaCampo($sCampo) . "." . $sCampo;
+                    $iCount = 0;
+                    $bPo = strpos($sCampo, '.');
+                    if ($bPo == true) {
+                        $aCampo = explode('.', $sCampo);
+                        $iCount = count($aCampo);
+                        if ($iCount > 3) {
+                            $sCampoTabela = $sCampo;
+                        } else {
+                            $sCampoTabela = $this->getTabelaCampo($sCampo) . "." . $sCampo;
+                        }
+                    } else {
+                        $sCampoTabela = $this->getTabelaCampo($sCampo) . "." . $sCampo;
+                    }
                 }
             }
             $sGroupBy .= $sCampoTabela;
@@ -1869,10 +1881,10 @@ class Persistencia {
         $sSql .= $this->getSWhereManual(); //define partes do where manualmente
         $sSql .= $this->getStringGroupBy() . $this->getStringOrderBy() . $this->getStringLimit();
 
-        
-          $fp = fopen("bloco1.txt", "w");
-          fwrite($fp, $sSql);
-          fclose($fp);
+
+        $fp = fopen("bloco1.txt", "w");
+        fwrite($fp, $sSql);
+        fclose($fp);
 
 
         $result = $this->getObjetoSql($sSql);

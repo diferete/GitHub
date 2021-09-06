@@ -81,7 +81,8 @@ class PersistenciaMET_TEC_ItemMenu extends Persistencia {
                 . "itedescricao,"
                 . "iteclasse,"
                 . "itemetodo,"
-                . "iteordem "
+                . "iteordem, "
+                . "MET_TEC_itenmenu.modcod as modcod "
                 . "from MET_TEC_itenmenu "
                 . "left outer join MET_TEC_modusuario on "
                 . "MET_TEC_itenmenu.modcod = MET_TEC_modusuario.modcod "
@@ -96,9 +97,50 @@ class PersistenciaMET_TEC_ItemMenu extends Persistencia {
             $aItenMenu[] = $row->iteclasse;
             $aItenMenu[] = $row->itemetodo;
             $aItenMenu[] = $row->iteordem;
+            $aItenMenu[] = $row->modcod;
             $aRotinas[] = $aItenMenu;
         }
         return $aRotinas;
+    }
+
+    public function getRotinasAdicionaisContadores($aValue) {
+
+        switch ($aValue[4]) {
+            case 1:
+                /* Solicitações steeltrater */
+                
+                $sSql = "select COUNT(*) as total from sup_solicitacao(nolock) where sup_solicitacaosituacao = 'A' and fil_codigo = '8993358000174' ";
+                $s = $this->consultaSql($sSql);
+
+                $iCont = $s->total;
+                break;
+
+            case 2:
+                /* Pedidos steeltrater */
+                
+                $sSql = "select COUNT(*) as total from sup_pedido(nolock) where sup_pedidosituacao = 'A' and fil_codigo = '8993358000174' ";
+                $s = $this->consultaSql($sSql);
+
+                $iCont = $s->total;
+                break;
+            case 3:
+                /* Solicitações matriz/filial */
+
+                $sSql = "select count(*) as total from rex_maquinas.widl.SOL01(nolock) where solsituaca = 'I'";
+                $m = $this->consultaSql($sSql);
+
+                $iCont = $m->total;
+                break;
+            case 4:
+                /* Pedidos matriz/filial */
+
+                $sSql = "select count(*) as total from rex_maquinas.widl.PED01(nolock) where pdcsituaca = 'N' and pdcfutaut ='" . $_SESSION['nomedelsoft'] . "'";
+                $m = $this->consultaSql($sSql);
+
+                $iCont = $m->total;
+                break;
+        }
+        return $iCont;
     }
 
 }

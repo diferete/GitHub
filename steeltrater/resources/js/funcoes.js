@@ -1141,7 +1141,7 @@ function calculoPesoOpSteel(idPeso, idPesoBal, idCaixa, idDif) {
     var Peso = moedaParaNumero($('#' + idPeso + '').val());
     //console.log(Quantidade);
     var Bal = moedaParaNumero($('#' + idPesoBal + '').val());
-    
+
     var Caixa = moedaParaNumero($('#' + idCaixa + '').val());
 
     var total = Peso - (Bal - Caixa);
@@ -1150,8 +1150,57 @@ function calculoPesoOpSteel(idPeso, idPesoBal, idCaixa, idDif) {
     $('#' + idDif + '').val(numeroParaMoeda(total));
 
 }
-    
-/*function fetchdata() {
+
+
+function buscaIBGE(sClasse, municipio, ufIBGE, idCampo, sNrSeq) {
+    var municipioIBGE = municipio.replace(/\s/g, "-");
+    var codIBGE = [];
+    $.getJSON('https://servicodados.ibge.gov.br/api/v1/localidades/municipios/' + municipioIBGE + '', function (result) {
+        if ($.isArray(result)) {
+            result.forEach(function (e) {
+                if (e.microrregiao.mesorregiao.UF.sigla === ufIBGE) {
+                    codIBGE.push(e.id);
+                }
+            });
+        } else {
+            codIBGE.push(result.id);
+        }
+
+        if (codIBGE[0] === '' || codIBGE[0] === null) {
+            codIBGE[0] = 'VAZIO';
+        }
+        requestAjax("", sClasse, 'codigoIBGE', codIBGE[0] + '|' + idCampo + '|' + sNrSeq);
+    });
+}
+
+$(document).ready(function () {
+    $.getJSON("https://economia.awesomeapi.com.br/last/USD-BRL", function (dataDolar) {
+        $("#informativo-Dolar").append("US$ 1 = R$ " + numeroParaMoeda(dataDolar.USDBRL.bid));
+    });
+}, 30000);
+
+
+
+
+/*
+ setInterval(function () {
+ if ($('#testeBalanca').length == 0) {
+ //it doesn't exist
+ } else {
+ var dadosCampo = $('#testeBalanca').val();
+ $.get('testeTxt.txt', function (data) {
+ if (data == dadosCampo) {
+ } else {
+ console.log('diferente');
+ $('#testeBalanca').val(data);
+ }
+ }, 'text');
+ }
+ 
+ }, 1000);
+ 
+ 
+ /*function fetchdata() {
  alert('got here');
  setInterval(fetchdata, 5000);
  }*/
