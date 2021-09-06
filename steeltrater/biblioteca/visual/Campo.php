@@ -1844,31 +1844,52 @@ class Campo {
                 }
                 $sCampo = '<div id="' . $this->getId() . '-group" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<label>' . $this->getLabel() . '</label>'
-                        . '<input type="file"  id="' . $this->getId() . '" name="' . $this->getNome() . '"  >'
-                        . '</div>'
-                        . '<script>'
-                        . ' $("#' . $this->getId() . '").fileinput({'
+                        . '<input type="file" data-preview-file-type="text" id="' . $this->getId() . '" name="' . $this->getNome() . '">'
+                        . '</div>';
+                $sScript = '<script>'
+                        . '$("#' . $this->getId() . '").fileinput({'
                         . $this->getInitialPreview($this->getSValor())
-                        . $this->getExtensoes($this->getSExtensaoPermitidas())
-                        . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
-                        . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
                         . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '&parametros=' . $this->getSDiretorio() . ',' . $this->getBNomeArquivo() . '", ' // url do arquivo php, que fara a cópia para o server
+                        . 'previewFileType: "any",'
+                        . 'showUpload: false,'
+                        //. 'showRemove: false,'
+                        . 'browseOnZoneClick: true,'
+                        . 'showDrag: false,'
+                        . 'language: "pt-BR",'
+                        . 'showClose: false,'
+                        //. 'allowedFileTypes: ["jpg", "png", "jpeg", "doc", "pdf"], '
                         . 'overwriteInitial: true, '
-                        . 'initialCaption: "Selecione um arquivo...", '
-                        . 'uploadAsync: true, '
-                        . 'dropZoneEnabled : ' . $this->getBDropZone() . ', '                                    //desativa drag & drop
-                        . 'showUpload: false, '                                                              // hide upload button
-                        . 'showRemove: true, '                  //'.$this->getBDeleteBtn().'                        // hide remove button
-                        . 'showClose: true'                                     // mostrar botão fechar do plugin //. $this->getInitialPreview($this->getSValor());
+                        . $this->getExtensoes($this->getSExtensaoPermitidas())
+                        . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ''  //tamanho máximo do arquivo (em kb) //
                         . '}).on("fileuploaded", function(event, data) {'
                         . 'carregaCamposReq(data.response.campo, data.response.nome);'
                         . '})'
                         . '.on("fileclear", function(evt) {'
                         . 'deletaCampoReq(evt.currentTarget.name);'
-                        . '}); '
-                        . $sCampo
+                        //. '});'
+                        . '});'
+//                        . ' $("#' . $this->getId() . '").fileinput({'
+//                        . $this->getInitialPreview($this->getSValor())
+//                        . $this->getExtensoes($this->getSExtensaoPermitidas())
+//                        . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
+//                        . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
+//                        . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '&parametros=' . $this->getSDiretorio() . ',' . $this->getBNomeArquivo() . '", ' // url do arquivo php, que fara a cópia para o server
+//                        . 'overwriteInitial: true, '
+//                        . 'initialCaption: "Selecione um arquivo...", '
+//                        . 'uploadAsync: true, '
+//                        . 'dropZoneEnabled : ' . $this->getBDropZone() . ', '                                    //desativa drag & drop
+//                        . 'showUpload: false, '                                                              // hide upload button
+//                        . 'showRemove: true, '                  //'.$this->getBDeleteBtn().'                        // hide remove button
+//                        . 'showClose: true'                                     // mostrar botão fechar do plugin //. $this->getInitialPreview($this->getSValor());
+//                        . '}).on("fileuploaded", function(event, data) {'
+//                        . 'carregaCamposReq(data.response.campo, data.response.nome);'
+//                        . '})'
+//                        . '.on("fileclear", function(evt) {'
+//                        . 'deletaCampoReq(evt.currentTarget.name);'
+//                        . '}); '
                         . '</script>'
                         . $this->getRenderEventos();
+                $sCampo = $sCampo . $sScript;
                 break;
             case self::TIPO_CHECK:
                 if ($this->getBValorCheck()) {
