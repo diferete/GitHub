@@ -45,4 +45,110 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
         return $sSql;
     }
 
+    public function getDadosFunc($sDados) {
+
+        $bRetorno = $this->verificaCadastro($sDados);
+
+        if (!$bRetorno) {
+            $aDados = array();
+            $sSql = "select "
+                    . "tbfunc.nomfun,"
+                    . "setor,"
+                    . "tipsex "
+                    . "from vetorh.dbo.r034fun "
+                    . "left outer join tbfunc "
+                    . "on [vetorh].dbo.r034fun.numcad = tbfunc.numcad "
+                    . "where "
+                    . "cnpj = 75483040000211 "
+                    . "and vetorh.dbo.r034fun.numcad =" . $sDados;
+            $oResult = $this->consultaSql($sSql);
+
+            if ($oResult) {
+                $aDados['nome'] = trim($oResult->nomfun);
+                $aDados['setor'] = trim($oResult->setor);
+                $aDados['tipsex'] = trim($oResult->tipsex);
+                $aRetorno['dados'] = $aDados;
+            } else {
+                $aDados[0] = 'false';
+                $aDados[1] = 'E';
+                $aRetorno['dados'] = $aDados;
+            }
+        } else {
+            $aDados[0] = 'false';
+            $aDados[1] = 'C';
+            $aRetorno['dados'] = $aDados;
+        }
+        return $aRetorno;
+    }
+
+    public function gravaDadosFunc($sDados) {
+
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+        $sSqlSelect = "select "
+                . "tbfunc.nomfun,"
+                . "setor,"
+                . "tipsex "
+                . "from vetorh.dbo.r034fun "
+                . "left outer join tbfunc "
+                . "on [vetorh].dbo.r034fun.numcad = tbfunc.numcad "
+                . "where "
+                . "cnpj = 75483040000211 "
+                . "and vetorh.dbo.r034fun.numcad =" . $sDados;
+        $oResult = $this->consultaSql($sSqlSelect);
+
+
+        $sSqlInsert = "insert "
+                . "into MET_OutubroRosa"
+                . "(nr,"
+                . "cracha,"
+                . "datacad,"
+                . "horacad,"
+                . "nome,"
+                . "setor,"
+                . "tag,"
+                . "genero)"
+                . "values"
+                . "((select(case when max(nr) is null then 1 else max(nr)+1 end) as nr from MET_OutubroRosa),"
+                . "" . $sDados . ","
+                . "'" . $sData . "',"
+                . "'" . $sHora . "',"
+                . "'" . trim($oResult->nomfun) . "',"
+                . "'" . trim($oResult->setor) . "',"
+                . "'C',"
+                . "'" . trim($oResult->tipsex) . "')";
+        $aRetorno = $this->executaSql($sSqlInsert);
+
+        return $aRetorno;
+    }
+
+    public function updateDadosFunc($sDados) {
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+        $sSqlUpdate = "update "
+                . "MET_OutubroRosa "
+                . "set tag = 'A' "
+                . "where cracha = " . $sDados;
+        $aRetorno = $this->executaSql($sSqlUpdate);
+
+        return $aRetorno;
+    }
+
+    public function verificaCadastro($sDados) {
+        $sSqlSelect = "select COUNT(*) as total from MET_OutubroRosa where cracha = " . $sDados . "";
+        $oResult = $this->consultaSql($sSqlSelect);
+
+        if ($oResult->total > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
