@@ -1,0 +1,34 @@
+<?php
+/**
+ * Classe que implementa a estrutura de listas
+ * 
+ * @author Fernando Salla
+ * @since 30/06/2013 
+ */
+
+class Lista{
+    private $aItens = array();
+    
+    /**
+     * Retorna o array de itens da lista
+     * Pode ser retornada apenas a posição desejada ou todo o vetor
+     * 
+     * @param integer $iPosicao Posição do vetor a ser retornada (opcional)
+     * 
+     * @return Array
+     */
+    public function getArrayItem($iPosicao = -1){
+        return $iPosicao === -1 ? $this->aItens : $this->aItens[$iPosicao];
+    }
+    
+    /**
+     * Método que adiciona itens a lista
+     * 
+     * @param $xValor Valor a ser armazenado no campo que será manipulado pelo sistema
+     * @param $xDescricao Descrição a ser apresentada ao usuário 
+     */
+    public function addItem($xValor, $xDescricao){
+        $this->aItens[] = array($xValor,$xDescricao);
+    }
+}
+?>

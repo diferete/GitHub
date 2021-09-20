@@ -69,10 +69,12 @@ class PersistenciaMET_TEC_ModUsuario extends Persistencia {
                     where usucodigo =" . $_SESSION['codUser'] . " and modApp = 'Sim' ";
         $result = $this->getObjetoSql($sSql);
         while ($row = $result->fetch(PDO::FETCH_OBJ)) {
+            $aqt = array();
             $aqt[] = $row->modescricao;
             $aqt[] = $row->modcod;
+            $amod[] = $aqt;
         }
-        return $aqt;
+        return $amod;
     }
 
 }

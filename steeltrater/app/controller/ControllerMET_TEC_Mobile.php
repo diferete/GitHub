@@ -256,16 +256,18 @@ class ControllerMET_TEC_Mobile extends Controller {
         $oMod = Fabrica::FabricarController('MET_TEC_ModUsuario');
         $aModulo = $oMod->modSistemaApp();
 
-        $oMenu = Fabrica::FabricarController('MET_TEC_Menu');
-        $aMenu = $oMenu->getMenuApp($aModulo[1]);
+        foreach ($aModulo as $key => $modulo) {
+            $oMenu = Fabrica::FabricarController('MET_TEC_Menu');
+            $aMenu = $oMenu->getMenuApp($modulo[1]);
 
-        $oItemMenu = Fabrica::FabricarController('MET_TEC_ItemMenu');
-        foreach ($aMenu as $key => $aMenuSup) {
-            $aSub = $oItemMenu->getItemMenuApp($aModulo[1], $aMenuSup[1]);
-            foreach ($aSub as $key => $aValue) {
-                $aRetorno[$aMenuSup[0]][$key]['title'] = $aValue['itedescricao'];
-                $aRetorno[$aMenuSup[0]][$key]['url'] = $aValue['url'];
-                $aRetorno[$aMenuSup[0]][$key]['ionicIcon'] = $aValue['iconApp'];
+            $oItemMenu = Fabrica::FabricarController('MET_TEC_ItemMenu');
+            foreach ($aMenu as $key => $aMenuSup) {
+                $aSub = $oItemMenu->getItemMenuApp($modulo[1], $aMenuSup[1]);
+                foreach ($aSub as $key => $aValue) {
+                    $aRetorno[$aMenuSup[0]][$key]['title'] = $aValue['itedescricao'];
+                    $aRetorno[$aMenuSup[0]][$key]['url'] = $aValue['url'];
+                    $aRetorno[$aMenuSup[0]][$key]['ionicIcon'] = $aValue['iconApp'];
+                }
             }
         }
         return $aRetorno;

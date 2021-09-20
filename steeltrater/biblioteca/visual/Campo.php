@@ -1419,28 +1419,32 @@ class Campo {
 
             $aArquivo = explode('.', $ArquivoDir); //Explode arquivo, após o ponto obrigatoriamente será a extensao
             $nomeArquivo = $aArquivo[0];
-            $Extensao = $aArquivo[1];
+            $Extensao = strtolower($aArquivo[1]);
 
 
             $sRetorno = ' initialPreview: ['; //Incio InitialPreview
 
-            if (($Extensao == 'PNG') || ($Extensao == 'png') || ($Extensao == 'gif') || ($Extensao == 'GIF') || ($Extensao == 'jpg') || ($Extensao == 'JPG') || ($Extensao == 'jpeg') || ($Extensao == 'JPEG')) {
+            if (($Extensao == 'png') || ($Extensao == 'gif') || ($Extensao == 'jpg') || ($Extensao == 'jpeg')) {
                 $sRetorno .= '"<img src=\\\'uploads/' . $ArquivoDir . '\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'>"';
             }
 
-            if (($Extensao == 'pdf') || ($Extensao == 'PDF')) {
+            if (($Extensao == 'mov') || ($Extensao == 'mp4')) {
+                $sRetorno .= '"<video class=\\\'kv-preview-data file-preview-video\\\' controls style=\\\'width: 213px; height: 160px;\\\'><source src=\\\'uploads/' . $ArquivoDir . '\\\' type=\\\'video/mp4\\\'><div class=\\\'file-preview-other\\\'><span class=\\\'file-other-icon\\\'><i class=\\\'bi-file-earmark-fill\\\'></i></span></div></video>"';
+            }
+
+            if (($Extensao == 'pdf')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/pdf.png\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
             }
 
-            if (($Extensao == 'xls') || ($Extensao == 'xlsx') || ($Extensao == 'XLS') || ($Extensao == 'XLSX')) {
+            if (($Extensao == 'xls') || ($Extensao == 'xlsx')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/excel.png\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
             }
 
-            if (($Extensao == 'doc') || ($Extensao == 'DOC') || ($Extensao == 'docx') || ($Extensao == 'DOCX')) {
+            if (($Extensao == 'doc') || ($Extensao == 'docx')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/word.png\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
             }
 
-            if (($Extensao == 'ppt') || ($Extensao == 'pptx') || ($Extensao == 'PPT') || ($Extensao == 'PPTX')) {
+            if (($Extensao == 'ppt') || ($Extensao == 'pptx')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/powerpoint.png\\\' class=\\\'file-preview-image\\\' alt=\\\'' . $nomeArquivo . '\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
             }
 
@@ -1451,6 +1455,7 @@ class Campo {
             return $sRetorno;
         }
     }
+
 
     public function setExtensoesPermitidas() {
         $aExtensoes = func_get_args();
@@ -1857,9 +1862,8 @@ class Campo {
                         . 'showDrag: false,'
                         . 'language: "pt-BR",'
                         . 'showClose: false,'
-                        //. 'allowedFileTypes: ["jpg", "png", "jpeg", "doc", "pdf"], '
+                        . 'allowedFileExtensions: ["jpg", "png", "jpeg", "doc", "pdf", "txt", "xls", "xlsx"], '
                         . 'overwriteInitial: true, '
-                        . $this->getExtensoes($this->getSExtensaoPermitidas())
                         . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ''  //tamanho máximo do arquivo (em kb) //
                         . '}).on("fileuploaded", function(event, data) {'
                         . 'carregaCamposReq(data.response.campo, data.response.nome);'

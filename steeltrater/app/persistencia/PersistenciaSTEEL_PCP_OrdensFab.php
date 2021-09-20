@@ -201,11 +201,31 @@ class PersistenciaSTEEL_PCP_OrdensFab extends Persistencia {
 
         $result = $this->getObjetoSql($sql);
         $row = $result->fetch(PDO::FETCH_OBJ);
+        
+        //busca qndo há mais de um valor
+        $sSql2 = "select nfsitvlrun  "
+                . "  from rex_maquinas.widl.NFC003 "
+                . "  where nfsfilcgc ='75483040000211' "
+                . "  and nfsnfser = '2' "
+                . "  and nfsnfnro = '" . $aCamposChave['nfsnfnro'] . "' "
+                . "  and nfsitcod = '" . $aCamposChave['nfsitcod'] . "'"
+                . "  and nfsitqtd = '" . $aCamposChave['qtParam'] . "'";
+        
+         $result2 = $this->getObjetoSql($sSql2);
+         $aPreco = array();
+         while ($row2 = $result2->fetch(PDO::FETCH_OBJ)) {
+            $aPreco[] = $row2->nfsitvlrun;
+        }
+        //retorna contador array
+        $aCount = array_count_values($aPreco);
+        
+        $iCount = count($aCount);
 
 
         $aRetorno = array();
         $aRetorno[0] = $row->nfsitvlrun;
         $aRetorno[1] = $row->nfsitvlrto;
+        $aRetorno[2] =$iCount;
         return $aRetorno;
     }
 

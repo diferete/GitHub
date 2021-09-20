@@ -91,7 +91,7 @@ class CampoConsulta {
     const ICONE_BOTAODANGER = 'btn btn-danger btn-xs ladda-button btn-grid';
     const ICONE_APONTAR = 'btn-xs btn-icon btn-dark btn-outline icon wb-pencil';
     const ICONE_ALERTA = 'btn-xs btn-icon btn-warning btn-outline icon wb-alert';
-    const ICONE_MARTELO = 'btn-xs btn-icon btn-dark btn-outline icon wb-hammer';
+    const ICONE_MARTELO = 'btn-xs btn-icon btn-primary btn-outline icon wb-hammer';
     const ICONE_BLOQUEAR = 'btn-xs btn-icon btn-danger btn-outline icon wb-lock';
     const ICONE_DESBLOQUEAR = 'btn-xs btn-icon btn-primary btn-outline icon wb-unlock';
     const ICONE_RELOGIO = 'btn-xs btn btn-outline btn-success icon icon wb-time';

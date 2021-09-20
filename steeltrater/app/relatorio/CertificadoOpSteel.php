@@ -143,13 +143,13 @@ foreach ($aNrs as $key => $aNr) {
     $pdf->Cell(0, 2, '', '', 1, 'L');
     /////////////////////////////////////////////
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(50, 5, 'Empresa: ', '', 0, 'R');
+    $pdf->Cell(55, 5, 'Empresa: ', '', 0, 'R');
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(144, 5, $row['empdes'], '', 1, 'L');
     $pdf->Cell(0, 2, '', '', 1, 'L');
     /////////////////////////////////////////////
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(50, 5, 'Nota Fiscal de Recebimento: ', '', 0, 'R');
+    $pdf->Cell(55, 5, 'Nota Fiscal de Recebimento: ', '', 0, 'R');
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(80, 5, $row['notacliente'], '', 0, 'L');
 
@@ -160,7 +160,7 @@ foreach ($aNrs as $key => $aNr) {
     $pdf->Cell(0, 2, '', '', 1, 'L');
     ////////////////////////////////////////////
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(50, 5, 'Nota Fiscal de Retorno: ', '', 0, 'R');
+    $pdf->Cell(55, 5, 'Nota Fiscal de Retorno: ', '', 0, 'R');
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(80, 5, $row['notasteel'], '', 0, 'L');
 
@@ -171,7 +171,7 @@ foreach ($aNrs as $key => $aNr) {
     $pdf->Cell(0, 2, '', '', 1, 'L');
     ///////////////////////////////////////////
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(50, 5, 'Data de Realização do Ensaio: ', '', 0, 'R');
+    $pdf->Cell(55, 5, 'Data de Realização do Ensaio: ', '', 0, 'R');
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(80, 5, $row['dataensaio'], '', 0, 'L');
 
@@ -182,7 +182,7 @@ foreach ($aNrs as $key => $aNr) {
     $pdf->Cell(0, 2, '', '', 1, 'L');
     //////////////////////////////////////////
     $pdf->SetFont('Arial', '', 10);
-    $pdf->Cell(50, 5, 'Op do Cliente: ', '', 0, 'R');
+    $pdf->Cell(55, 5, 'Op do Cliente: ', '', 0, 'R');
     $pdf->SetFont('Arial', 'B', 10);
     $pdf->Cell(144, 5, $row['opcliente'], '', 1, 'L');
     $pdf->Cell(0, 2, '', '', 1, 'L');
@@ -192,7 +192,7 @@ foreach ($aNrs as $key => $aNr) {
     if (($row['tipoOrdem'] == "F") || ($row['tipoOrdem'] == "A")) {
 
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Descrição das peças: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Descrição das peças: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 9);
         $pdf->Cell(20, 5, $row['referencia'], '', 0, 'L');
         $pdf->Cell(120, 5, $row['prodesFinal'], '', 1, 'L');
@@ -207,13 +207,13 @@ foreach ($aNrs as $key => $aNr) {
         $pdf->Cell(0, 2, '', '', 1, 'L');
         /////////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Material: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Material: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, $row['matdes'], '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ////////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Tratamento Térmico: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Tratamento Térmico: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(36, 5, $row['receita_des'], '', 0, 'L');
         $pdf->Cell(0, 5, '', '', 1, 'L');
@@ -221,33 +221,33 @@ foreach ($aNrs as $key => $aNr) {
 
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Dureza Solicitada: ', '', 0, 'R'); ////////////////////////////////////////
+        $pdf->Cell(55, 5, 'Dureza Solicitada: ', '', 0, 'R'); ////////////////////////////////////////
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, number_format($row['fioDurezaSol'], 0, ',', '.') . "  HRB", '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Resistência a Tração: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Resistência a Tração: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, 'N/A', '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
 
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Descarbonetação (Parcial - Total): ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Descarbonetação (Parcial - Total): ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, number_format($row['fioDescarbonetaParcial'], 2, ',', '.') . ' - '
                 . number_format($row['fioDescarbonetaTotal'], 2, ',', '.') . ' µm', '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         //////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Esferoidização: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Esferoidização: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, number_format($row['fioEsferio'], 2, ',', '.') . ' %', '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         //////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Diametro Solicitado (Mín. - Máx.): ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Diametro Solicitado (Mín. - Máx.): ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, number_format($row['DiamFinalMin'], 2, ',', '.') . ' - '
                 . number_format($row['DiamFinalMax'], 2, ',', '.') . ' mm', '', 1, 'L');
@@ -262,13 +262,13 @@ foreach ($aNrs as $key => $aNr) {
         $pdf->Cell(0, 2, '', '', 1, 'L');
         /////////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Ordem de Produção: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Ordem de Produção: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, $row['op'], '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ////////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Execução no Processo: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Execução no Processo: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(36, 5, $row['receita_des'], 0, 'L');
@@ -277,33 +277,33 @@ foreach ($aNrs as $key => $aNr) {
 
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Dureza Obtida: ', '', 0, 'R'); ////////////////////////////////////////
+        $pdf->Cell(55, 5, 'Dureza Obtida: ', '', 0, 'R'); ////////////////////////////////////////
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, number_format($row['certFioDurezaSol'], 0, ',', '.') . "  HRB", '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ////////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Resistência a Tração: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Resistência a Tração: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, 'N/A', '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
 
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Descarbonetação (Parcial - Total): ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Descarbonetação (Parcial - Total): ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, number_format($row['certFioDescarbonetaParcial'], 2, ',', '.') . ' - '
                 . number_format($row['certFioDescarbonetaTotal'], 2, ',', '.') . ' µm', '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Esferoidização: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Esferoidização: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, number_format($row['certFioEsferio'], 2, ',', '.') . ' %', '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         //////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Diametro Encontrado (Mín. - Máx.): ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Diametro Encontrado (Mín. - Máx.): ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, number_format($row['certDiamFinalMin'], 2, ',', '.') . ' - '
                 . number_format($row['certDiamFinalMax'], 2, ',', '.') . ' mm', '', 1, 'L');
@@ -311,7 +311,7 @@ foreach ($aNrs as $key => $aNr) {
 
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Número da Receita: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Número da Receita: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, $row['receita'], '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
@@ -332,7 +332,7 @@ foreach ($aNrs as $key => $aNr) {
     if ($row['tipoOrdem'] == "P") {
 
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Descrição das peças: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Descrição das peças: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 9);
         $pdf->Cell(20, 5, $row['referencia'], '', 0, 'L');
         $pdf->Cell(120, 5, $row['prodes'], '', 1, 'L');
@@ -347,13 +347,13 @@ foreach ($aNrs as $key => $aNr) {
         $pdf->Cell(0, 2, '', '', 1, 'L');
         /////////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Material: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Material: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, $row['matdes'], '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ////////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Tratamento Térmico: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Tratamento Térmico: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $sk = '+';
         $ik = 0;
@@ -380,7 +380,7 @@ foreach ($aNrs as $key => $aNr) {
 
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Dureza Solicitada da Superfície: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Dureza Solicitada da Superfície: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         if (($row['durezaSuperfMin'] != 0) && ($row['durezaSuperfMax'] != 0)) {
             $pdf->Cell(144, 5, number_format($row['durezaSuperfMin'], 0, ',', '.') . " - " .
@@ -396,7 +396,7 @@ foreach ($aNrs as $key => $aNr) {
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Dureza Solicitada do Núcleo: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Dureza Solicitada do Núcleo: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
 
         if ((number_format($row['durezaNucMin'], 0, ',', '.') != '0') || (number_format($row['durezaNucMax'], 0, ',', '.') != '0')) {
@@ -409,13 +409,13 @@ foreach ($aNrs as $key => $aNr) {
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Resistência a Tração: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Resistência a Tração: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, 'N/A', '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Profundidade da Camada: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Profundidade da Camada: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         if ((number_format($row['expCamadaMin'], 3, ',', '.') != '0,000') || (number_format($row['expCamadaMax'], 3, ',', '.') != '0,000')) {
             $pdf->Cell(144, 5, number_format($row['expCamadaMin'], 3, ',', '.') . " - " .
@@ -434,13 +434,13 @@ foreach ($aNrs as $key => $aNr) {
         $pdf->Cell(0, 2, '', '', 1, 'L');
         /////////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Ordem de Produção: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Ordem de Produção: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, $row['op'], '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ////////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Execução no Processo: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Execução no Processo: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(36, 5, $oTratamento1 . ' ' . $oTratamento, '', 0, 'L');
@@ -449,7 +449,7 @@ foreach ($aNrs as $key => $aNr) {
 
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Dureza da Superfície: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Dureza da Superfície: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         if (($row['certDurezaSuperfMin'] != 0) && ($row['certDurezaSuperfMax'] != 0)) {
             $pdf->Cell(144, 5, number_format($row['certDurezaSuperfMin'], 0, ',', '.') . " - " .
@@ -464,7 +464,7 @@ foreach ($aNrs as $key => $aNr) {
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Dureza do Núcleo: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Dureza do Núcleo: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         if ((number_format($row['certDurezaNucMin'], 0, ',', '.') != '0') || (number_format($row['certDurezaNucMax'], 0, ',', '.') != '0')) {
             $pdf->Cell(144, 5, number_format($row['certDurezaNucMin'], 0, ',', '.') . " - " .
@@ -476,13 +476,13 @@ foreach ($aNrs as $key => $aNr) {
         ///////////////////////////////////////////
 
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Resistência a Tração: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Resistência a Tração: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, 'N/A', '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Profundidade da Camada: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Profundidade da Camada: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         if ((number_format($row['certExpCamadaMin'], 3, ',', '.') != '0,000') || (number_format($row['certExpCamadaMax'], 3, ',', '.') != '0,000')) {
             $pdf->Cell(144, 5, number_format($row['certExpCamadaMin'], 3, ',', '.') . " - " .
@@ -494,23 +494,23 @@ foreach ($aNrs as $key => $aNr) {
 
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Micrografia: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Micrografia: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
-        if($row['micrografia']==null){
-            $pdf->Cell(144, 5,'Isento de Ferrita Delta, carbonetação e Descarbonetação', '', 1, 'L');
-        }else{
+        if ($row['micrografia'] == null) {
+            $pdf->Cell(144, 5, 'Isento de Ferrita Delta, carbonetação e Descarbonetação', '', 1, 'L');
+        } else {
             $pdf->Cell(144, 5, $row['micrografia'], '', 1, 'L');
         }
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Número da Receita: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Número da Receita: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(144, 5, $row['receita'], '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
         ///////////////////////////////////////////
         $pdf->SetFont('Arial', '', 10);
-        $pdf->Cell(50, 5, 'Inspeção do Enegrecimento: ', '', 0, 'R');
+        $pdf->Cell(55, 5, 'Inspeção do Enegrecimento: ', '', 0, 'R');
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(119, 5, $row['inspeneg'], '', 1, 'L');
         $pdf->Cell(0, 2, '', '', 1, 'L');
@@ -559,20 +559,20 @@ if ($sEmailRequest == 'S') {
     /* testes */
     $oEmail->setEnvioSMTP();
     //$oEmail->setServidor('mail.construtoramatosteixeira.com.br');
-  /*  $oEmail->setServidor('smtp.terra.com.br');
-    $oEmail->setPorta(587);
+    /*  $oEmail->setServidor('smtp.terra.com.br');
+      $oEmail->setPorta(587);
+      $oEmail->setAutentica(true);
+      $oEmail->setUsuario('laboratorio@steeltrater.com.br');
+      $oEmail->setSenha('n2w5p7k4');
+      $oEmail->setRemetente(utf8_decode('laboratorio@steeltrater.com.br'), utf8_decode('Certificados SteelTrater')); */
+
+    $oEmail->setServidor('smtp.gmail.com');
+    $oEmail->setPorta(465);
     $oEmail->setAutentica(true);
-    $oEmail->setUsuario('laboratorio@steeltrater.com.br');
-    $oEmail->setSenha('n2w5p7k4');
-    $oEmail->setRemetente(utf8_decode('laboratorio@steeltrater.com.br'), utf8_decode('Certificados SteelTrater'));*/
-    
-     $oEmail->setServidor('smtp.gmail.com');
-        $oEmail->setPorta(465);
-        $oEmail->setAutentica(true);
-        $oEmail->setUsuario('metalboweb@gmail.com');
-        $oEmail->setSenha('7&t+Ah8*Qz!z');
-        $oEmail->setProtocoloSMTP('ssl');
-        $oEmail->setRemetente(utf8_decode('metalboweb@gmail.com'), utf8_decode('Certificados SteelTrater'));
+    $oEmail->setUsuario('metalboweb@gmail.com');
+    $oEmail->setSenha('7&t+Ah8*Qz!z');
+    $oEmail->setProtocoloSMTP('ssl');
+    $oEmail->setRemetente(utf8_decode('metalboweb@gmail.com'), utf8_decode('Certificados SteelTrater'));
 
     $oEmail->setAssunto(utf8_decode('Certificado(s) NF ' . $sNomeCert));
     $oEmail->setMensagem(utf8_decode($resp . '<br/><br/>Segue em anexo os certificados da nota fiscal  ' . $sNomeCert));
