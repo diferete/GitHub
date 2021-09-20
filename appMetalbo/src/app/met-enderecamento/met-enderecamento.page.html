@@ -1,0 +1,184 @@
+<ion-header>
+  <ion-toolbar color="verdeMetalbo">
+    <ion-buttons slot="start">
+      <ion-back-button style="color: aliceblue" defaultHref="app/met-enderecamento" text="Voltar"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color: aliceblue">End. Expedição</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-label> Filtros </ion-label>
+    </ion-list-header>
+
+    <ion-item style="padding-left: 10px">
+      <ion-label>Estante</ion-label>
+      <ion-select [(ngModel)]="estante" name="estante" okText="Ok" cancelText="Cancelar">
+        <ion-select-option value="">Todas</ion-select-option>
+        <ion-select-option value="EST.01">EST.01</ion-select-option>
+        <ion-select-option value="EST.02">EST.02</ion-select-option>
+        <ion-select-option value="EST.03">EST.03</ion-select-option>
+        <ion-select-option value="EST.04">EST.04</ion-select-option>
+        <ion-select-option value="EST.05">EST.05</ion-select-option>
+        <ion-select-option value="EST.06">EST.06</ion-select-option>
+        <ion-select-option value="EST.07">EST.07</ion-select-option>
+        <ion-select-option value="EST.08">EST.08</ion-select-option>
+        <ion-select-option value="EST.09">EST.09</ion-select-option>
+        <ion-select-option value="EST.10">EST.10</ion-select-option>
+        <ion-select-option value="EST.11">EST.11</ion-select-option>
+        <ion-select-option value="EST.12">EST.12</ion-select-option>
+        <ion-select-option value="EST.13">EST.13</ion-select-option>
+        <ion-select-option value="EST.14">EST.14</ion-select-option>
+        <ion-select-option value="EST.15">EST.15</ion-select-option>
+        <ion-select-option value="EST.16">EST.16</ion-select-option>
+        <ion-select-option value="EST.17">EST.17</ion-select-option>
+        <ion-select-option value="EST.18">EST.18</ion-select-option>
+        <ion-select-option value="EST.19">EST.19</ion-select-option>
+        <ion-select-option value="EST.20">EST.20</ion-select-option>
+        <ion-select-option value="EST.21">EST.21</ion-select-option>
+        <ion-select-option value="EST.22">EST.22</ion-select-option>
+        <ion-select-option value="EST.23">EST.23</ion-select-option>
+        <ion-select-option value="EST.24">EST.24</ion-select-option>
+        <ion-select-option value="EST.25">EST.25</ion-select-option>
+        <ion-select-option value="EST.26">EST.26</ion-select-option>
+        <ion-select-option value="EST.27">EST.27</ion-select-option>
+        <ion-select-option value="EST.28">EST.28</ion-select-option>
+        <ion-select-option value="EST.29">EST.29</ion-select-option>
+        <ion-select-option value="EST.30">EST.30</ion-select-option>
+        <ion-select-option value="EST.31">EST.31</ion-select-option>
+        <ion-select-option value="EST.32">EST.32</ion-select-option>
+        <ion-select-option value="EST.33">EST.33</ion-select-option>
+        <ion-select-option value="EST.34">EST.34</ion-select-option>
+        <ion-select-option value="EST.35">EST.35</ion-select-option>
+        <ion-select-option value="EST.36">EST.36</ion-select-option>
+        <ion-select-option value="EST.A">EST.A</ion-select-option>
+        <ion-select-option value="EST.B">EST.B</ion-select-option>
+        <ion-select-option value="EST.C">EST.C</ion-select-option>
+        <ion-select-option value="EST.D">EST.D</ion-select-option>
+        <ion-select-option value="EST.E">EST.E</ion-select-option>
+        <ion-select-option value="EST.F">EST.F</ion-select-option>
+        <ion-select-option value="EST.G">EST.H</ion-select-option>
+        <ion-select-option value="EST.H">EST.H</ion-select-option>
+        <ion-select-option value="EST.I">EST.I</ion-select-option>
+        <ion-select-option value="EST.J">EST.J</ion-select-option>
+        <ion-select-option value="EST.L">EST.L</ion-select-option>
+        <ion-select-option value="CORREDOR">CORREDOR</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item style="padding-left: 10px">
+      <ion-label>Nível</ion-label>
+      <ion-select [(ngModel)]="nivel" name="nivel" okText="Ok" cancelText="Cancelar">
+        <ion-select-option value="">Todas</ion-select-option>
+        <ion-select-option value="NIV.01">NIV.01</ion-select-option>
+        <ion-select-option value="NIV.02">NIV.02</ion-select-option>
+        <ion-select-option value="NIV.03">NIV.03</ion-select-option>
+        <ion-select-option value="NIV.04">NIV.04</ion-select-option>
+        <ion-select-option value="NIV.05">NIV.05</ion-select-option>
+        <ion-select-option value="NIV.06">NIV.06</ion-select-option>
+        <ion-select-option value="NIV.07">NIV.07</ion-select-option>
+        <ion-select-option value="NIV.08">NIV.08</ion-select-option>
+        <ion-select-option value="NIV.09">NIV.09</ion-select-option>
+        <ion-select-option value="NIV.10">NIV.10</ion-select-option>
+        <ion-select-option value="NIV.11">NIV.11</ion-select-option>
+        <ion-select-option value="NIV.12">NIV.11</ion-select-option>
+        <ion-select-option value="NIV.13">NIV.13</ion-select-option>
+        <ion-select-option value="NIV.14">NIV.14</ion-select-option>
+        <ion-select-option value="NIV.15">NIV.15</ion-select-option>
+        <ion-select-option value="NIV.16">NIV.16</ion-select-option>
+        <ion-select-option value="NIV.17">NIV.17</ion-select-option>
+        <ion-select-option value="NIV.18">NIV.18</ion-select-option>
+        <ion-select-option value="NIV.19">NIV.19</ion-select-option>
+        <ion-select-option value="NIV.20">NIV.20</ion-select-option>
+        <ion-select-option value="NIV.21">NIV.21</ion-select-option>
+        <ion-select-option value="NIV.22">NIV.22</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item style="padding-left: 10px">
+      <ion-label>Coluna</ion-label>
+      <ion-select [(ngModel)]="coluna" name="coluna" okText="Ok" cancelText="Cancelar">
+        <ion-select-option value="">Todas</ion-select-option>
+        <ion-select-option value="COL.01">COL.01</ion-select-option>
+        <ion-select-option value="COL.02">COL.02</ion-select-option>
+        <ion-select-option value="COL.03">COL.03</ion-select-option>
+        <ion-select-option value="COL.04">COL.04</ion-select-option>
+        <ion-select-option value="COL.05">COL.05</ion-select-option>
+        <ion-select-option value="COL.06">COL.06</ion-select-option>
+        <ion-select-option value="COL.07">COL.07</ion-select-option>
+        <ion-select-option value="COL.08">COL.08</ion-select-option>
+        <ion-select-option value="COL.09">COL.09</ion-select-option>
+        <ion-select-option value="COL.10">COL.10</ion-select-option>
+        <ion-select-option value="COL.11">COL.11</ion-select-option>
+        <ion-select-option value="COL.12">COL.11</ion-select-option>
+        <ion-select-option value="COL.13">COL.13</ion-select-option>
+        <ion-select-option value="COL.14">COL.14</ion-select-option>
+        <ion-select-option value="COL.15">COL.15</ion-select-option>
+        <ion-select-option value="COL.16">COL.16</ion-select-option>
+        <ion-select-option value="COL.17">COL.17</ion-select-option>
+        <ion-select-option value="COL.18">COL.18</ion-select-option>
+        <ion-select-option value="COL.19">COL.19</ion-select-option>
+        <ion-select-option value="COL.20">COL.20</ion-select-option>
+        <ion-select-option value="COL.21">COL.21</ion-select-option>
+        <ion-select-option value="COL.22">COL.22</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item style="padding-left: 10px">
+      <ion-label>Tipo</ion-label>
+      <ion-select [(ngModel)]="tipo" name="tipo" okText="Ok" cancelText="Cancelar">
+        <ion-select-option value="">Todos</ion-select-option>
+        <ion-select-option value="1">F</ion-select-option>
+        <ion-select-option value="2">E</ion-select-option>
+        <ion-select-option value="3">ND</ion-select-option>
+        <ion-select-option value="4">EXP</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item style="padding-left: 10px">
+      <ion-label>Código</ion-label>
+      <ion-input [(ngModel)]="codigo" type="number" name="codigo"></ion-input>
+    </ion-item>
+    <ion-button color="verdeMetalbo" expand="block" (click)="getLista()">Carregar</ion-button>
+  </ion-list>
+
+  <ion-item *ngFor="let p of listaItens; let i = index" (click)="getDadosDetalhe(p)">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10" style="font-size: 14px"><b>{{p.procod}}</b> </ion-col>
+        <ion-col size="2">
+          <ion-chip *ngIf="p.tipo == 'F'" outline style="color: green">
+            <ion-label>></ion-label>
+          </ion-chip>
+          <ion-chip *ngIf="p.tipo == 'ND'" outline style="color: blueviolet">
+            <ion-label>></ion-label>
+          </ion-chip>
+          <ion-chip *ngIf="p.tipo == 'E'" outline style="color: blue">
+            <ion-label>></ion-label>
+          </ion-chip>
+          <ion-chip *ngIf="p.tipo == 'EXP'" outline>
+            <ion-label>></ion-label>
+          </ion-chip>
+        </ion-col>
+        <ion-col size="12" style="font-size: 16px">{{p.prodes}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="p.tipo == 'F'" style="color: green; background-color: ghostwhite">
+        <ion-col size="8" style="font-size: 13px"><b>End.: </b>{{p.armdes}}</ion-col>
+        <ion-col size="4" style="font-size: 13px"><b>Tipo: </b>{{p.tipo}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="p.tipo == 'ND'" style="color: blueviolet; background-color: ghostwhite">
+        <ion-col size="8" style="font-size: 13px"><b>End.: </b>{{p.armdes}}</ion-col>
+        <ion-col size="4" style="font-size: 13px"><b>Tipo: </b>{{p.tipo}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="p.tipo == 'E'" style="color: blue; background-color: ghostwhite">
+        <ion-col size="8" style="font-size: 13px"><b>End.: </b>{{p.armdes}}</ion-col>
+        <ion-col size="4" style="font-size: 13px"><b>Tipo: </b>{{p.tipo}}</ion-col>
+      </ion-row>
+      <ion-row *ngIf="p.tipo == 'EXP'">
+        <ion-col size="8" style="font-size: 13px"><b>End.: </b>{{p.armdes}}</ion-col>
+        <ion-col size="4" style="font-size: 13px"><b>Tipo: </b>{{p.tipo}}</ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+</ion-content>
