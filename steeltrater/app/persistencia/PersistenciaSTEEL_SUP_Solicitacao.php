@@ -369,4 +369,33 @@ class PersistenciaSTEEL_SUP_Solicitacao extends Persistencia {
         }
     }
 
+    public function updateSitMontagem($oObjDadosSol) {
+        $sSql = "update sup_solicitacao set "
+                . "sup_solicitacaosituacao = 'M', "
+                . "SUP_SolicitacaoFaseApr = 99 "
+                . "where fil_codigo = " . $oObjDadosSol->getFIL_Codigo() . " "
+                . "and sup_solicitacaoseq = " . $oObjDadosSol->getSUP_SolicitacaoSeq() . " "
+                . "and sup_solicitacaosituacao = 'A' ";
+        $this->executaSql($sSql);
+    }
+
+    public function getSituacoes($aDados) {
+        $sSql = "select * from sup_solicitacao "
+                . "where fil_codigo = " . $aDados['FIL_Codigo'] . " "
+                . "and sup_solicitacaoseq = " . $aDados['SUP_SolicitacaoSeq'] . "";
+        $oRetorno = $this->consultaSql($sSql);
+        return $oRetorno;
+    }
+
+    public function liberaSolicitacao($aDados) {
+        $sSql = "update sup_solicitacao set "
+                . "sup_solicitacaosituacao = 'A', "
+                . "SUP_SolicitacaoFaseApr = 1 "
+                . "where fil_codigo = " . $aDados['FIL_Codigo'] . " "
+                . "and sup_solicitacaoseq = " . $aDados['SUP_SolicitacaoSeq'] . " "
+                . "and sup_solicitacaosituacao = 'M'";
+        $aRetorno = $this->executaSql($sSql);
+        return $aRetorno;
+    }
+
 }

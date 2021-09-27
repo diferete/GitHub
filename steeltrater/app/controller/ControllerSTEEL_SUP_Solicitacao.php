@@ -63,7 +63,7 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
 
-        if (trim($this->Model->getSUP_SolicitacaoSituacao()) != 'A') {
+        if (trim($this->Model->getSUP_SolicitacaoSituacao()) != 'A' && $this->Model->getSUP_SolicitacaoFaseApr() != 99) {
             $aOrdem = explode('=', $sChave);
             $oMensagem = new Mensagem('Atenção!', 'A solicitação não pode ser alterada somente visualizado!', Mensagem::TIPO_ERROR);
             $this->setBDesativaBotaoPadrao(true);
@@ -100,6 +100,40 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $this->Model->setSUP_SolicitacaoTipo('E');
         $this->Model->setSUP_SolicitacaoCCTCod(0);
         $this->Model->setSUP_SolicitacaoUsuCanc('');
+    }
+
+    public function afterInsert() {
+        parent::afterInsert();
+
+        $aCampos = $this->getArrayCampostela();
+        $this->Persistencia->adicionaFiltro('FIL_Codigo', $aCampos['FIL_Codigo']);
+        $this->Persistencia->adicionaFiltro('SUP_SolicitacaoSeq', $aCampos['SUP_SolicitacaoSeq']);
+        $oObjDadosSol = $this->Persistencia->consultar();
+        if (trim($oObjDadosSol->getSUP_SolicitacaoSituacao()) == 'A') {
+            $this->Persistencia->updateSitMontagem($oObjDadosSol);
+        }
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    public function afterUpdate() {
+        parent::afterUpdate();
+
+        $aCampos = $this->getArrayCampostela();
+        $this->Persistencia->adicionaFiltro('FIL_Codigo', $aCampos['FIL_Codigo']);
+        $this->Persistencia->adicionaFiltro('SUP_SolicitacaoSeq', $aCampos['SUP_SolicitacaoSeq']);
+        $oObjDadosSol = $this->Persistencia->consultar();
+        if (trim($oObjDadosSol->getSUP_SolicitacaoSituacao()) == 'A') {
+            $this->Persistencia->updateSitMontagem($oObjDadosSol);
+        }
+
+        $aRetorno = array();
+        $aRetorno[0] = true;
+        $aRetorno[1] = '';
+        return $aRetorno;
     }
 
     /*     * ****************************APLICATIVO********************************** */
@@ -211,6 +245,41 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         }
 
         return $aIonic;
+    }
+
+    public function msgLiberarSol($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+        $sClasse = $this->getNomeClasse();
+
+        $oRetorno = $this->Persistencia->getSituacoes($aCamposChave);
+
+        if ($oRetorno->sup_solicitacaofaseapr != 99 && trim($oRetorno->sup_solicitacaosituacao) != 'M') {
+            $oMsg = new Mensagem('Atenção!', 'A Solicitação ' . $aCamposChave['SUP_SolicitacaoSeq'] . ' não está em condições de ser Liberada para Compras!', Mensagem::TIPO_WARNING);
+            echo $oMsg->getRender();
+        } else {
+            $oModal = new Modal('Atenção!', 'Deseja liberara a Solicitação Nr ' . $aCamposChave['SUP_SolicitacaoSeq'] . ' para o setor de compras?', Modal::TIPO_AVISO, true, true, true);
+            $oModal->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","liberaSolicitacao","' . $sDados . '");');
+
+            echo $oModal->getRender();
+        }
+    }
+
+    public function liberaSolicitacao($sDados) {
+        $aDados = explode(',', $sDados);
+        $sChave = htmlspecialchars_decode($aDados[2]);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        $aRetorno = $this->Persistencia->liberaSolicitacao($aCamposChave);
+        if ($aRetorno[0]) {
+            $oMsg = new Mensagem('Sucesso', 'Solicitação liberada para Compras', Mensagem::TIPO_SUCESSO);
+        } else {
+            $oMsg = new Mensagem('ERRO.', 'Não foi possível liberar a Solicitação, entre em contato com o TI!', Mensagem::TIPO_ERROR);
+        }
+        echo $oMsg->getRender();
     }
 
 }

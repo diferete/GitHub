@@ -25,10 +25,16 @@ class ViewSTEEL_SUP_Solicitacao extends View {
 
         $oSeqSol = new CampoConsulta('Seq.', 'SUP_SolicitacaoSeq');
 
+        $oBotaoLiberaSol = new CampoConsulta('', '', CampoConsulta::TIPO_ACAO);
+        $oBotaoLiberaSol->setSTitleAcao('Liberar Solicitação para Compras!');
+        $oBotaoLiberaSol->addAcao('STEEL_SUP_Solicitacao', 'msgLiberarSol', '', '');
+        $oBotaoLiberaSol->setBHideTelaAcao(true);
+
         $oTipoSol = new CampoConsulta('Tipo', 'SUP_SolicitacaoTipo');
 
         $oSitSol = new CampoConsulta('Situacao', 'SUP_SolicitacaoSituacao');
         $oSitSol->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, true, 'EM ABERTO');
+        $oSitSol->addComparacao('M', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, true, 'EM MONTAGEM');
         $oSitSol->addComparacao('L', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, true, 'LIBERADO');
         $oSitSol->addComparacao('O', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VDCLARO, CampoConsulta::MODO_COLUNA, true, 'EM COMPRAS');
         $oSitSol->addComparacao('C', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA, true, 'CANCELADO');
@@ -64,7 +70,7 @@ class ViewSTEEL_SUP_Solicitacao extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'STEEL_SUP_Solicitacao', 'acaoMostraRelEspecifico', '', false, 'OpSteel1', false, '', false, '', true, false);
         $this->addDropdown($oDrop1);
 
-        $this->addCampos($oFilCod, $oSeqSol, $oTipoSol, $oSitSol, $oUsuSol, $oDataHoraSol, $oObsSol);
+        $this->addCampos($oFilCod, $oSeqSol, $oBotaoLiberaSol, $oTipoSol, $oSitSol, $oUsuSol, $oDataHoraSol, $oObsSol);
     }
 
     public function criaTela() {
