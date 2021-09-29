@@ -16,8 +16,10 @@ class ControllerMET_TEC_Chamados extends Controller {
         parent::antesDeCriarConsulta($sParametros);
 
         $this->Persistencia->updateTempoRestante();
+        $this->Persistencia->adicionaFiltro('situaca', 'FINALIZADO', 0, Persistencia::DIFERENTE);
+        $this->Persistencia->adicionaFiltro('situaca', 'CANCELADO', 0, Persistencia::DIFERENTE);
     }
-
+    
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
 

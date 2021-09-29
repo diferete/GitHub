@@ -347,7 +347,7 @@ class ViewMET_QUAL_RcRep extends View {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////       
-        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 2, 2, 12, 12);
+        $oDisposicao = new Campo('Disposição', 'disposicao', Campo::TIPO_RADIO, 3, 3, 12, 12);
         $oDisposicao->addItenRadio('1', 'Aceita Condicionalmente');
         $oDisposicao->addItenRadio('2', 'Devolver');
 

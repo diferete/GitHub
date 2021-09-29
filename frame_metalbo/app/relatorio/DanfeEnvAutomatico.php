@@ -14,7 +14,7 @@ $date = date_create(date("Y-m-d"));
 date_sub($date, date_interval_create_from_date_string("3 days"));
 $date = date_format($date, "d/m/Y");
 
-$sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '" . $date . "' and '" . date('d/m/Y') . "' and nfsnfesit = 'A' and nfsemailen <> 'S' and nfsfilcgc = '75483040000211'"; // and nfsnatcod1 <> 5151";
+$sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001(nolock) where nfsdtemiss between '" . $date . "' and '" . date('d/m/Y') . "' and nfsnfesit = 'A' and nfsemailen <> 'S' and nfsfilcgc = '75483040000211'"; // and nfsnatcod1 <> 5151";
 //$sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '19/03/2020' and '19/03/2020' and nfsnfesit = 'A' and nfsemailen <> 'S' and nfsfilcgc = '75483040000211' and nfsnatcod1 <> 5151";
 $sth = $PDO->query($sSqlNF);
 while ($aRow = $sth->fetch(PDO::FETCH_ASSOC)) {
@@ -24,7 +24,7 @@ while ($aRow = $sth->fetch(PDO::FETCH_ASSOC)) {
     $aDados[2] = $aRow['nfsnfser'];
 
     $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc, nfsdtsaida, nfshrsaida, rTRIM(nfstrauf) as nfstrauf , rTRIM(nfscliuf) as nfscliuf , nfsclicod, nfsclinome "
-            . "from widl.NFC001 "
+            . "from widl.NFC001(nolock) "
             . "where nfsfilcgc = '" . $aDados[0] . "' "
             . "and nfsnfnro = '" . $aDados[1] . "' "
             . "and nfsnfser = '" . $aDados[2] . "' ";
@@ -137,9 +137,9 @@ function enviaXMLDanfe($DirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     $oEmail->limpaDestinatariosAll();
 
     if ($aDadosNF['nfscliuf'] == 'EX') {
-        $sSqlContatos = "select empconemai from widl.EMP0103 where empcod = '" . $aDadosNF['nfsclicod'] . "' and empcontip = '14'";
+        $sSqlContatos = "select empconemai from widl.EMP0103(nolock) where empcod = '" . $aDadosNF['nfsclicod'] . "' and empcontip = '14'";
     } else {
-        $sSqlEMP = "select empcod from widl.emp01 where empcnpj = '" . $aDadosNF['nfsclicgc'] . "'";
+        $sSqlEMP = "select empcod from widl.EMP01(nolock) where empcnpj = '" . $aDadosNF['nfsclicgc'] . "'";
         $query = $PDO->query($sSqlEMP);
         $aRow = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -147,7 +147,7 @@ function enviaXMLDanfe($DirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
             $aRow['empcod'] = '75483040000130';
         }
 
-        $sSqlContatos = "select empconemai from widl.EMP0103 where empcod = '" . $aRow['empcod'] . "' and empcontip = '14'";
+        $sSqlContatos = "select empconemai from widl.EMP0103(nolock) where empcod = '" . $aRow['empcod'] . "' and empcontip = '14'";
     }
     $emailContatos = $PDO->query($sSqlContatos);
 

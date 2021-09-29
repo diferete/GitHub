@@ -26,9 +26,13 @@ class ControllerPrincipal extends Controller {
             if ($_REQUEST['metodo'] == 'acaoLogout') {
                 $bExecuta = true;
             } else
-            if ($_REQUEST['classe'] == 'SolCadUser' || $_REQUEST['classe'] == 'Agendamentos' || $_REQUEST['classe'] == 'BuscaRepSite' ||
+            if ($_REQUEST['classe'] == 'SolCadUser' ||
+                    $_REQUEST['classe'] == 'Agendamentos' ||
+                    $_REQUEST['classe'] == 'BuscaRepSite' ||
                     $_REQUEST['classe'] == 'NoticiaSite' ||
-                    $_REQUEST['classe'] == 'MovFornoSteel' || $_REQUEST['classe'] == 'MET_TEC_Catalogo') {
+                    $_REQUEST['classe'] == 'MovFornoSteel' ||
+                    $_REQUEST['classe'] == 'MET_RH_Colaboradores' ||
+                    $_REQUEST['classe'] == 'MET_TEC_Catalogo') {
                 $bExecuta = true;
             } else {
                 $bExecuta = $this->validaSessao();

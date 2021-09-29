@@ -1278,6 +1278,15 @@ function buscaIBGE(sClasse, municipio, ufIBGE, idCampo, sNrSeq) {
 }
 
 
+
+$(document).ready(function () {
+    $.getJSON("https://economia.awesomeapi.com.br/last/USD-BRL", function (dataDolar) {
+        $("#informativo-Dolar").append("US$ 1 = R$ " + numeroParaMoeda(dataDolar.USDBRL.bid));
+    });
+}, 30000);
+
+
+
 function testeMsg() {
 
 
@@ -1287,11 +1296,11 @@ function testeMsg() {
 
     }
 }
-
-$(document).ready(function () {
-    window.setTimeout(function () {
-        var link = document.getElementById("link").href;
-        var newTab = window.open(link, '_blank');
-        window.focus();
-    }, 5000);
-});
+/*
+ $(document).ready(function () {
+ window.setTimeout(function () {
+ var link = document.getElementById("link").href;
+ var newTab = window.open(link, '_blank');
+ window.focus();
+ }, 5000);
+ });*/

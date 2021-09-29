@@ -106,7 +106,7 @@ class ControllerMenu extends Controller {
                 /* . '<h1 class = "page-title">Bem vindo, '. $_SESSION["nome"] .'</h1>' */
                 . '<img class = "img-circle" width = "150" height = "150" src = "Uploads/' . $_SESSION["usuimagem"] . '" id = "img-perfil1">'
                 /* . '<h2 class = "page-title">' . $_SESSION["nome"] . '</h2>' */
-                . '<h1 class = "page-title">Bem vindo, ' . $_SESSION["nome"] . '</h1>'
+                . '<h1 class = "page-title">Bem-vindo, ' . $_SESSION["nome"] . '</h1>'
                 . '<div>'
                 . '</div>'
                 . '</br>'

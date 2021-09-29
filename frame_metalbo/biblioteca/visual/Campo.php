@@ -1419,28 +1419,32 @@ class Campo {
 
             $aArquivo = explode('.', $ArquivoDir); //Explode arquivo, após o ponto obrigatoriamente será a extensao
             $nomeArquivo = $aArquivo[0];
-            $Extensao = $aArquivo[1];
+            $Extensao = strtolower($aArquivo[1]);
 
 
             $sRetorno = ' initialPreview: ['; //Incio InitialPreview
 
-            if (($Extensao == 'PNG') || ($Extensao == 'png') || ($Extensao == 'gif') || ($Extensao == 'GIF') || ($Extensao == 'jpg') || ($Extensao == 'JPG') || ($Extensao == 'jpeg') || ($Extensao == 'JPEG')) {
+            if (($Extensao == 'png') || ($Extensao == 'gif') || ($Extensao == 'jpg') || ($Extensao == 'jpeg')) {
                 $sRetorno .= '"<img src=\\\'uploads/' . $ArquivoDir . '\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'>"';
             }
 
-            if (($Extensao == 'pdf') || ($Extensao == 'PDF')) {
+            if (($Extensao == 'mov') || ($Extensao == 'mp4')) {
+                $sRetorno .= '"<video class=\\\'kv-preview-data file-preview-video\\\' controls style=\\\'width: 213px; height: 160px;\\\'><source src=\\\'uploads/' . $ArquivoDir . '\\\' type=\\\'video/mp4\\\'><div class=\\\'file-preview-other\\\'><span class=\\\'file-other-icon\\\'><i class=\\\'bi-file-earmark-fill\\\'></i></span></div></video>"';
+            }
+
+            if (($Extensao == 'pdf')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/pdf.png\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
             }
 
-            if (($Extensao == 'xls') || ($Extensao == 'xlsx') || ($Extensao == 'XLS') || ($Extensao == 'XLSX')) {
+            if (($Extensao == 'xls') || ($Extensao == 'xlsx')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/excel.png\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
             }
 
-            if (($Extensao == 'doc') || ($Extensao == 'DOC') || ($Extensao == 'docx') || ($Extensao == 'DOCX')) {
+            if (($Extensao == 'doc') || ($Extensao == 'docx')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/word.png\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
             }
 
-            if (($Extensao == 'ppt') || ($Extensao == 'pptx') || ($Extensao == 'PPT') || ($Extensao == 'PPTX')) {
+            if (($Extensao == 'ppt') || ($Extensao == 'pptx')) {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/powerpoint.png\\\' class=\\\'file-preview-image\\\' alt=\\\'' . $nomeArquivo . '\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
             }
 
@@ -1844,31 +1848,51 @@ class Campo {
                 }
                 $sCampo = '<div id="' . $this->getId() . '-group" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<label>' . $this->getLabel() . '</label>'
-                        . '<input type="file"  id="' . $this->getId() . '" name="' . $this->getNome() . '"  >'
-                        . '</div>'
-                        . '<script>'
-                        . ' $("#' . $this->getId() . '").fileinput({'
+                        . '<input type="file" data-preview-file-type="text" id="' . $this->getId() . '" name="' . $this->getNome() . '">'
+                        . '</div>';
+                $sScript = '<script>'
+                        . '$("#' . $this->getId() . '").fileinput({'
                         . $this->getInitialPreview($this->getSValor())
-                        . $this->getExtensoes($this->getSExtensaoPermitidas())
-                        . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
-                        . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
                         . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '&parametros=' . $this->getSDiretorio() . ',' . $this->getBNomeArquivo() . '", ' // url do arquivo php, que fara a cópia para o server
+                        . 'previewFileType: "any",'
+                        . 'showUpload: false,'
+                        //. 'showRemove: false,'
+                        . 'browseOnZoneClick: true,'
+                        . 'showDrag: false,'
+                        . 'language: "pt-BR",'
+                        . 'showClose: false,'
+                        . 'allowedFileExtensions: ["jpg", "png", "jpeg", "doc", "pdf", "txt", "xls", "xlsx"], '
                         . 'overwriteInitial: true, '
-                        . 'initialCaption: "Selecione um arquivo...", '
-                        . 'uploadAsync: true, '
-                        . 'dropZoneEnabled : ' . $this->getBDropZone() . ', '                                    //desativa drag & drop
-                        . 'showUpload: false, '                                                              // hide upload button
-                        . 'showRemove: true, '                  //'.$this->getBDeleteBtn().'                        // hide remove button
-                        . 'showClose: true'                                     // mostrar botão fechar do plugin //. $this->getInitialPreview($this->getSValor());
+                        . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ''  //tamanho máximo do arquivo (em kb) //
                         . '}).on("fileuploaded", function(event, data) {'
                         . 'carregaCamposReq(data.response.campo, data.response.nome);'
                         . '})'
                         . '.on("fileclear", function(evt) {'
                         . 'deletaCampoReq(evt.currentTarget.name);'
-                        . '}); '
-                        . $sCampo
+                        //. '});'
+                        . '});'
+//                        . ' $("#' . $this->getId() . '").fileinput({'
+//                        . $this->getInitialPreview($this->getSValor())
+//                        . $this->getExtensoes($this->getSExtensaoPermitidas())
+//                        . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
+//                        . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
+//                        . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '&parametros=' . $this->getSDiretorio() . ',' . $this->getBNomeArquivo() . '", ' // url do arquivo php, que fara a cópia para o server
+//                        . 'overwriteInitial: true, '
+//                        . 'initialCaption: "Selecione um arquivo...", '
+//                        . 'uploadAsync: true, '
+//                        . 'dropZoneEnabled : ' . $this->getBDropZone() . ', '                                    //desativa drag & drop
+//                        . 'showUpload: false, '                                                              // hide upload button
+//                        . 'showRemove: true, '                  //'.$this->getBDeleteBtn().'                        // hide remove button
+//                        . 'showClose: true'                                     // mostrar botão fechar do plugin //. $this->getInitialPreview($this->getSValor());
+//                        . '}).on("fileuploaded", function(event, data) {'
+//                        . 'carregaCamposReq(data.response.campo, data.response.nome);'
+//                        . '})'
+//                        . '.on("fileclear", function(evt) {'
+//                        . 'deletaCampoReq(evt.currentTarget.name);'
+//                        . '}); '
                         . '</script>'
                         . $this->getRenderEventos();
+                $sCampo = $sCampo . $sScript;
                 break;
             case self::TIPO_CHECK:
                 if ($this->getBValorCheck()) {

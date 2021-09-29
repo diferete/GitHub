@@ -113,7 +113,7 @@ class ViewMET_QUAL_RcVenda extends View {
 
 
         $this->setUsaDropdown(true);
-        if ($_SESSION['codUser'] == 19 || $_SESSION['codUser'] == 46) {
+        if ($_SESSION['codUser'] == 19) {
             $this->addDropdown($oDropDown, $oDropDown3);
         } else {
             $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);

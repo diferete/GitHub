@@ -109,7 +109,15 @@ class ViewSistema extends View {
                 . '<link href="biblioteca/assets/vendor/jquery-coolfieldset/css/jquery.coolfieldset.css" rel="stylesheet" type="text/css" />'
                 . '<script src="biblioteca/assets/vendor/jquery-coolfieldset/js/jquery.coolfieldset.min.js"></script>'
                 . '<!-- FileInput -->'
-                . '<link href="biblioteca/assets/vendor/bootstrap-fileinput/css/fileinput.css" rel="stylesheet" type="text/css"/>'
+                /* . '<!-- bootstrap 5.x or 4.x is supported. You can also use the bootstrap css 3.3.x versions -->'
+                  . '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" crossorigin="anonymous">' */
+                . '<!-- default icons used in the plugin are from Bootstrap 5.x icon library (which can be enabled by loading CSS below) -->'
+                . '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">'
+                . '<!-- alternatively you can use the font awesome icon library if using with `fas` theme (or Bootstrap 4.x) by uncommenting below. -->'
+                . '<!-- link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" crossorigin="anonymous" -->'
+                . '<!-- the fileinput plugin styling CSS file -->'
+                . '<link href="biblioteca/fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />'
+                //. '<link href="biblioteca/assets/vendor/bootstrap-fileinput/css/fileinput.css" rel="stylesheet" type="text/css"/>'
                 . '<!-- Summernote - Editor de Texto-->'
                 . '<link rel="stylesheet" href="biblioteca/assets/vendor/summernote/summernote.css">'
                 . '<script src="biblioteca/assets/vendor/summernote/summernote.min.js"></script>'
@@ -235,10 +243,10 @@ class ViewSistema extends View {
                 . '</li>'
                 . '</ul>'
                 . '<li class="dropdown">'
-                . '<a class="navbar-avatar avatar-lg dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button" style="padding: 20px 10px 0 0;">'
+                . '<a class="navbar-avatar avatar-lg dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button">'
                 . '<span class="avatar avatar-online">'
                 . '<img id="on-line" src="Uploads/' . $_SESSION["usuimagem"] . '" style="height: 30px;">'
-                /*. '<i></i>'*/
+                /* . '<i></i>' */
                 . '</span>'
                 . '</a>'
                 . '<ul class="dropdown-menu" role="menu">'
@@ -308,9 +316,21 @@ class ViewSistema extends View {
                 . '<!-- End Page -->'
                 . '<!-- Footer -->'
                 . '<!-- File Input-->'
-                . '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/plugins/canvas-to-blob.js" type="text/javascript"></script>'
-                . '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>'
-                . '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput_locale_pt-BR.js" ></script>'
+                //. '<!-- piexif.min.js is needed for auto orienting image files OR when restoring exif data in resized images and when you'
+                //. '    wish to resize images before upload. This must be loaded before fileinput.min.js -->'
+                . '<script src="biblioteca/fileinput/js/plugins/piexif.min.js" type="text/javascript"></script>'
+                //. '<!-- bootstrap.bundle.min.js below is needed if you wish to zoom and preview file content in a detail modal'
+                //. '    dialog. bootstrap 5.x or 4.x is supported. You can also use the bootstrap js 3.3.x versions. -->'
+                //. '<!-- the main fileinput plugin script JS file -->'
+                . '<script src="biblioteca/fileinput/js/fileinput.min.js"></script>'
+                //. '<!-- following theme script is needed to use the Font Awesome 5.x theme (`fas`). Uncomment if needed. -->'
+                . '<script src="biblioteca/fileinput/themes/fas/theme.min.js"></script>'
+                //. '<!-- optionally if you need translation for your language then include the locale '
+                //. 'file as mentioned below (replace LANG.js with your language locale) -->'
+                . '<script src="biblioteca/fileinput/js/locales/pt-BR.js"></script>'
+                //. '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/plugins/canvas-to-blob.js" type="text/javascript"></script>'
+                //. '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>'
+                //. '<script src="biblioteca/assets/vendor/bootstrap-fileinput/js/fileinput_locale_pt-BR.js" ></script>' 
                 . '<!-- Core -->'
                 . '<script src="biblioteca/jquery-number/jquery.number.js"></script>'
                 . '<script src="biblioteca/jquery-number/jquery.number.min.js"></script>'
@@ -557,52 +577,33 @@ class ViewSistema extends View {
         $sMsg = $sMsg . $this->getEmpresasAdicionais();
         $sMsg = $sMsg . '</div>'
                 . '</section>'
-                . '<section class = "page-aside-section">'/*
-                  . '<h5 class = "page-aside-title">Meus ícones</h5>'
-                  . '<div class = "list-group">'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-image" aria-hidden = "true"></i>Images</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-volume-high" aria-hidden = "true"></i>Audio</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-camera" aria-hidden = "true"></i>Video</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-file" aria-hidden = "true"></i>Notes</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-link-intact" aria-hidden = "true"></i>Links</a>'
-                  . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-order" aria-hidden = "true"></i>Files</a>'
-                  . '</div>'
-                  . '</section>' */
+                . '<section class = "page-aside-section">'
+                . '<h5 class = "page-aside-title">Rotinas</h5>'
+                . '<div class = "list-group">';
+        $sMsg = $sMsg . $this->getRotinasAdicionais();
+        $sMsg = $sMsg . '</div>'
+                . '</section>'
+                . '<section class = "page-aside-section">'
+                . '<h5 class = "page-aside-title">Informativo</h5>'
+                . '<div class = "list-group">';
+        $sMsg = $sMsg . $this->getInformativos();
+        $sMsg = $sMsg . '</div>'
+                . '</section>'
                 . '</div>'
                 . '</div>'
                 . '<div id="icoAtualiza2">'
                 . '<h4 style="text-align-last:end;margin-top:10px;margin-left:5px;cursor:pointer;" title="Atualizações">'
                 . '<i class = "icon wb-list" aria-hidden = "true" ></i>'
-                /*. 'Atualizações '*/
+                /* . 'Atualizações ' */
                 . '</h4>'
                 . '</div>'
                 . '<div class = "page-header text-center">'
                 . '</br>'
-                /*. '<h1 class = "page-title">Bem vindo, '. $_SESSION["nome"] .'</h1>'*/
                 . '<img class = "img-circle" width = "150" height = "150" src = "Uploads/' . $_SESSION["usuimagem"] . '" id = "img-perfil1">'
-                /*. '<h2 class = "page-title">' . $_SESSION["nome"] . '</h2>'*/
-                . '<h1 class = "page-title">Bem-vindo, '. $_SESSION["nome"] .'</h1>'
+                . '<h1 class = "page-title">Bem-vindo, ' . $_SESSION["nome"] . '</h1>'
                 . '<div>'
                 . '</div>'
-                . '</br>'/*
-                . '<div style="top: 650px">'
-                . '<p class="page-description">'
-                . '<a target="_blank" href="http://metalbo.com.br/" style="margin: 10px;text-decoration: none;">metalbo.com.br</a>'
-                . '<a target="_blank" href="https://facebook.com/metalbo.oficial" style="margin: 10px;text-decoration: none;"> '
-                . '<button type="button" class="btn btn-labeled btn-xs social-facebook">'
-                . '<span class="btn-label">'
-                . '<i class="icon bd-facebook" aria-hidden="true"></i>'
-                . '</span> Metalbo'
-                . '</button>'
-                . '</a>'
-                . '<a target="_blank" href="https://www.youtube.com/channel/UCO6rJtl4ePqsWRTztRFkE5w" style="margin: 10px;text-decoration: none;">'
-                . '<button type="button" class="btn btn-labeled btn-xs social-youtube">'
-                . '<span class="btn-label">'
-                . '<i class="icon bd-youtube" aria-hidden="true"></i>'
-                . '</span> Treinamentos'
-                . '</button>'
-                . '</a>'
-                . '</div>'*/
+                . '</br>'
                 . '</br>'
                 . '</div>'
                 . '</div>'
@@ -759,22 +760,41 @@ class ViewSistema extends View {
         return $html;
     }
 
-    /*
-      public function getFavoritos() {
-      $html = '';
-      $oMET_TEC_FavMenu = Fabrica::FabricarController('MET_TEC_FavMenu');
-      $aFavoritos = $oMET_TEC_FavMenu->getFavoritos();
-      foreach ($array as $key => $value) {
-      $html = $html . '<a class = "list-group-item" href = "javascript:void(0)"><i class = "icon wb-image" aria-hidden = "true"></i>Images</a>';
+    public function getRotinasAdicionais() {
 
-      $sMenuId = $avalue[0] . '-fav';
-      $sString .= '<li role="presentation" id="menu-' . $sMenuId . '">'
-      . '                <a href="javascript:void(0)" title="Abre a tela ' . $avalue[1] . '"  onclick="verificaTab(\\\'menu-' . $sMenuId . '\\\',\\\'' . $sMenuId . '\\\',\\\'' . $avalue[2] . '\\\',\\\'' . $avalue[3] . '\\\',\\\'tabmenu-' . $sMenuId . '\\\'); "role="menuitem">'
-      . '                  <span class="icon fa-star-o"></span>' . $avalue[1] . '<span title="Deleta favorito" onclick="requestAjax(\\\'menu-' . $sMenuId . '\\\',\\\'FavMenu\\\',\\\'msgdeletaFav\\\',\\\'' . utf8_encode($avalue[2]) . ',' . utf8_encode($avalue[3]) . ',\\\');" class="icon wb-trash pull-right fav-red"></span></a>'
-      . '              </li>';
-      }
-      return $html;
-      } */
+        $oItemMenu = Fabrica::FabricarPersistencia('ItemMenu');
+        $aClasses = $oItemMenu->getRotinasAdicionais();
+
+        $html = '';
+        $iCont = 1;
+
+        foreach ($aClasses as $key => $aValue) {
+            $sMenuId = $iCont . '-' . $aValue[0] . '-rotinas';
+            $html = $html . '<a class = "list-group-item" href = "javascript:void(0)" title="Abre a tela ' . $aValue[1] . '"'
+                    . 'onclick="verificaTab(\'menu-' . $sMenuId . '\',\'' . $sMenuId . '\',\'' . $aValue[2] . '\',\'' . $aValue[3] . '\',\'tabmenu-' . $sMenuId . '\',\'' . $aValue[1] . '\'); "role="menuitem">'
+                    . '<i class = "icon wb-order" aria-hidden = "true"></i>' . $aValue[1] . '';
+            switch ($aValue[5]) {
+                case 41:
+                    $oItemMenu = Fabrica::FabricarPersistencia('ItemMenu');
+                    $iCont = $oItemMenu->getRotinasAdicionaisContadores($aValue);
+                    $html = $html . '<span class="badge badge-danger up" style="top:0px !important">' . $iCont . '</span>';
+                    break;
+            }
+            $html = $html . '</a>';
+
+            $iCont++;
+        }
+        return $html;
+    }
+
+    public function getInformativos() {
+        // $html = '<a id="informativo-Dolar" class = "list-group-item Steeltrater-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i></a>';
+
+        $html = '<span id="informativo-Dolar" class = "list-group-item Steeltrater-empresa" href = "javascript:void(0)"><i class = "icon fa-line-chart" aria-hidden = "true"></i></span>';
+
+        return $html;
+    }
+
 }
 
 ?>

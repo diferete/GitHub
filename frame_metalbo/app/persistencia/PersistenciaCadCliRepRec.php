@@ -629,6 +629,10 @@ null,
 'N',
 null/*,null,null,null,null*/)
 ";
+        
+        $fp = fopen("bloco1.txt", "w");
+        fwrite($fp, $sSql);
+        fclose($fp);
 
         $aRetorno = $this->executaSql($sSql);
         if ($aRetorno[0]) {

@@ -16,7 +16,7 @@ use NFePHP\DA\NFe\Danfe;
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc, nfsdtsaida, nfshrsaida, rTRIM(nfstrauf) as nfstrauf , rTRIM(nfscliuf) as nfscliuf , nfsclicod, nfsclinome "
-        . "from widl.NFC001 "
+        . "from widl.NFC001(nolock) "
         . "where nfsfilcgc = '" . $aDados[0] . "' "
         . "and nfsnfnro = '" . $aDados[1] . "' "
         . "and nfsnfser = '" . $aDados[2] . "' ";
@@ -125,9 +125,9 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     $oEmail->limpaDestinatariosAll();
 
     if ($aDadosNF['nfscliuf'] == 'EX') {
-        $sSqlContatos = "select empconemai from widl.EMP0103 where empcod = '" . $aDadosNF['nfsclicod'] . "' and empcontip = '14'";
+        $sSqlContatos = "select empconemai from widl.EMP0103(nolock) where empcod = '" . $aDadosNF['nfsclicod'] . "' and empcontip = '14'";
     } else {
-        $sSqlEMP = "select empcod from widl.emp01 where empcnpj = '" . $aDadosNF['nfsclicgc'] . "'";
+        $sSqlEMP = "select empcod from widl.EMP01(nolock) where empcnpj = '" . $aDadosNF['nfsclicgc'] . "'";
         $query = $PDO->query($sSqlEMP);
         $aRow = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -135,7 +135,7 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
             $aRow['empcod'] = '75483040000130';
         }
 
-        $sSqlContatos = "select empconemai from widl.EMP0103 where empcod = '" . $aRow['empcod'] . "' and empcontip = '14'";
+        $sSqlContatos = "select empconemai from widl.EMP0103(nolock) where empcod = '" . $aRow['empcod'] . "' and empcontip = '14'";
     }
     $emailContatos = $PDO->query($sSqlContatos);
 
@@ -217,7 +217,7 @@ function montaDadosExtras($aDadosNF, $aDados, $PDO) {
     if ($aDadosNF['nfstrauf'] == 'EX' || $aDadosNF['nfscliuf'] == 'EX' || $aDadosNF['nfstrauf'] == '') {
         $sSqlExtras = "select nfstrains, nfstranome, nfstraende, nfstrabair, nfstracep, "
                 . "nfstracid, nfspesobr, nfspesolq, nfsespecie, nfsmarca, nfsqtdvol "
-                . "from widl.NFC001 "
+                . "from widl.NFC001(nolock) "
                 . "where nfsfilcgc = '" . $aDados[0] . "' "
                 . "and nfsnfnro = '" . $aDados[1] . "' "
                 . "and nfsnfser = '" . $aDados[2] . "' ";
