@@ -22,8 +22,8 @@ class ViewMET_EXPORTA_Preco extends View {
         $oProdes = new CampoConsulta('Descrição', 'Produto.prodes', CampoConsulta::TIPO_LARGURA, 20);
         $oRevisao = new CampoConsulta('Revisão', 'revisao', CampoConsulta::TIPO_TEXTO);
 
-        $oFiltroDes = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
-        $oFiltroCod = new Filtro($oProcod, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
+        $oFiltroDes = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 4);
+        $oFiltroCod = new Filtro($oProcod, Filtro::CAMPO_TEXTO_IGUAL, 2);
 
         $this->addCampos($oProcod, $oProdes, $oPreco, $oRevisao);
         $this->addFiltro($oFiltroCod, $oFiltroDes);

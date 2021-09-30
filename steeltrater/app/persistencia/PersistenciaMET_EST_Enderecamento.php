@@ -51,7 +51,7 @@ class PersistenciaMET_EST_Enderecamento extends Persistencia {
             $sSql = $sSql . "and rex_maquinas.widl.armazena.armdes like '%" . $oDados->coluna . "%' ";
         }
         if ($oDados->tipo != '') {
-            $sSql = $sSql . "and rex_maquinas.widl.PROD01S1.cod like '%" . $oDados->tipo . "%' ";
+            $sSql = $sSql . "and rex_maquinas.widl.PROD01S1.tipend like '%" . $oDados->tipo . "%' ";
         }
         if ($oDados->codigo != '') {
             $sSql = $sSql . "and rex_maquinas.widl.PROD01S1.procod =  " . $oDados->codigo . " ";
@@ -77,6 +77,138 @@ class PersistenciaMET_EST_Enderecamento extends Persistencia {
         return $aRetorno['enderecos'] = $aRet;
     }
 
+    public function updateEndereco($oDados) {
+        $est = preg_replace('/\D/', '', $oDados->estante);
+        $nvl = preg_replace('/\D/', '', $oDados->nivel);
+        $col = preg_replace('/\D/', '', $oDados->coluna);
+        $armcod = $est . '.' . $nvl . '.' . $col;
+        $data = date('d/m/Y');        
+        $hora = date('H:i:s');
+
+        $sSql = "update "
+                . "rex_maquinas.widl.PROD01S1 "
+                . "set "
+                . "armcod = '" . $armcod . "',"
+                . "tipend = '" . $oDados->tipo . "' "
+                /* "data = '" . $data . "' " */
+                . "where procod = '" . $oDados->codigo . "' "
+                . "and armcod = '" . $oDados->armcod . "'";
+        $aRetorno = $this->executaSql($sSql);
+        if ($aRetorno[0]) {
+            $sAlm = $this->getAlmUsuario($oDados);
+            $sNomeDelsoft = "select usunomedelsoft from MET_TEC_usuario where usucodigo = " . $_SESSION['codUser'];
+            $oObjNomeDel = $this->consultaSql($sNomeDelsoft);
+            $sSqlHist = "insert "
+                    . "into rex_maquinas.dbo.MetEnd_HistEnd "
+                    . "("
+                    . "nome,"
+                    . "acao,"
+                    . "data,"
+                    . "hora,"
+                    . "procod,"
+                    . "endantes,"
+                    . "enddepois,"
+                    . "alm"
+                    . ")"
+                    . "values"
+                    . "("
+                    . "'" . $oObjNomeDel->usunomedelsoft . "',"
+                    . "'Alteração',"
+                    . "'" . $data . "',"
+                    . "'" . $hora . "',"
+                    . "" . $oDados->codigo . ","
+                    . "'" . $oDados->armcod . "',"
+                    . "'" . $armcod . "',"
+                    . "" . $sAlm . ""
+                    . ")";
+            $aRetorno = $this->executaSql($sSqlHist);
+            if ($aRetorno[0]) {
+                $aRetorno[2] = $armcod;
+                return $aRetorno;
+            } else {
+                return $aRetorno;
+            }
+        } else {
+            return $aRetorno;
+        }
+    }
+
+    public function getDescricao($oDados) {
+        $sSql = "select "
+                . "prodes "
+                . "from rex_maquinas.widl.prod01 "
+                . "where procod = " . $oDados->codigo;
+        $oObj = $this->consultaSql($sSql);
+        return $oObj->prodes;
+    }
+
+    public function insereNovoEndereco($oDados) {
+
+        $est = preg_replace('/\D/', '', $oDados->estante);
+        $nvl = preg_replace('/\D/', '', $oDados->nivel);
+        $col = preg_replace('/\D/', '', $oDados->coluna);
+        $armcod = $est . '.' . $nvl . '.' . $col;
+        $data = date('d/m/Y');
+        $hora = date('H:i:s');
+
+        $sAlm = $this->getAlmUsuario($oDados);
+
+        $sSqlInsEnd = "insert "
+                . "into rex_maquinas.widl.PROD01S1 "
+                . "("
+                . "procod,"
+                . "armcod,"
+                . "armpro,"
+                . "tipend,"
+                . "data,"
+                . "traseq"
+                . ")"
+                . "values"
+                . "("
+                . "" . $oDados->codigo . ","
+                . "'" . $armcod . "',"
+                . "0,"
+                . "" . $oDados->tipo . ","
+                . "'" . $data . "',"
+                . "0"
+                . ")";
+
+        $aRetorno = $this->executaSql($sSqlInsEnd);
+        if ($aRetorno[0]) {
+            $sNomeDelsoft = "select usunomedelsoft from MET_TEC_usuario where usucodigo = " . $_SESSION['codUser'];
+            $oObjNomeDel = $this->consultaSql($sNomeDelsoft);
+            $sSqlHist = "insert "
+                    . "into rex_maquinas.dbo.MetEnd_HistEnd "
+                    . "("
+                    . "nome,"
+                    . "acao,"
+                    . "data,"
+                    . "hora,"
+                    . "procod,"
+                    . "endantes,"
+                    . "enddepois,"
+                    . "alm"
+                    . ")"
+                    . "values"
+                    . "("
+                    . "'" . $oObjNomeDel->usunomedelsoft . "',"
+                    . "'Inserção',"
+                    . "'" . $data . "',"
+                    . "'" . $hora . "',"
+                    . "" . $oDados->codigo . ","
+                    . "'Inserção',"
+                    . "'" . $armcod . "',"
+                    . "" . $sAlm . ""
+                    . ")";
+            $this->executaSql($sSqlHist);
+            $aRetorno[0] = true;
+            $aRetorno[1] = '';
+            return $aRetorno;
+        } else {
+            return $aRetorno;
+        }
+    }
+
     public function getAlmUsuario($oDados) {
         $sSql = "select "
                 . "alm "
@@ -90,22 +222,110 @@ class PersistenciaMET_EST_Enderecamento extends Persistencia {
         return $oObj->alm;
     }
 
-    public function updateEndereco($oDados) {
+    public function addListaEspera($oDados) {
         $est = preg_replace('/\D/', '', $oDados->estante);
         $nvl = preg_replace('/\D/', '', $oDados->nivel);
         $col = preg_replace('/\D/', '', $oDados->coluna);
         $armcod = $est . '.' . $nvl . '.' . $col;
         $data = date('d/m/Y');
+        $hora = date('H:i:s');
 
-        $sSql = "update rex_maquinas.widl.PROD01S1 set "
-                . "armcod = '" . $armcod . "',"
-                . "tipend = '" . $oDados->tipo . "',"
-                . "data = '" . $data . "' "
-                . "where procod = '" . $oDados->codigo . "' "
-                . "and armcod = '" . $oDados->armcod . "'";
-        $aRetorno = $this->executaSql($sSql);
-        $aRetorno[2] = $armcod;
-        return $aRetorno;
+        $sAlm = $this->getAlmUsuario($oDados);
+
+        $sSqlVerifica = "select COUNT(*) as total "
+                . "from rex_maquinas.dbo.tbEndExp "
+                . "where cod =" . $oDados->codigo . " "
+                . "and endant = '" . $armcod . "' "
+                . "and sitend = 'Baixa Exp' "
+                . "and dataend = '" . $data . "'";
+        $oObjVerifica = $this->consultaSql($sSqlVerifica);
+
+        if ($oObjVerifica->total >= 1) {
+            $aRetorno[0] = false;
+            $aRetorno[1] = 'existe';
+            return $aRetorno;
+        } else {
+            $sNomeDelsoft = "select "
+                    . "usunomedelsoft "
+                    . "from MET_TEC_usuario "
+                    . "where usucodigo = " . $_SESSION['codUser'];
+            $oObjNomeDel = $this->consultaSql($sNomeDelsoft);
+
+            /* 60415809 27.06.03 HILSON DORNER 2021-09-20 Baixa Exp 16:57:26.0000000 NULL 2 NULL NULL */
+            $sSqlInsert = "insert "
+                    . "into rex_maquinas.dbo.tbEndExp"
+                    . "("
+                    . "cod,"
+                    . "endant,"
+                    . "endprox,"
+                    . "nome,"
+                    . "dataend,"
+                    . "sitend,"
+                    . "hora,"
+                    . "tipoend"
+                    . ")"
+                    . "values"
+                    . "("
+                    . "" . $oDados->codigo . ","
+                    . "'" . $armcod . "',"
+                    . "'',"
+                    . "'" . $oObjNomeDel->usunomedelsoft . "',"
+                    . "'" . $data . "',"
+                    . "'Baixa Exp',"
+                    . "'" . $hora . "',"
+                    . "2"
+                    . ")";
+
+            $aRetornoInsert = $this->executaSql($sSqlInsert);
+
+            if ($aRetornoInsert[0]) {
+                $sSqlDelete = "delete "
+                        . "from rex_maquinas.widl.PROD01S1 "
+                        . "where procod = " . $oDados->codigo . " "
+                        . "and armcod = '" . $armcod . "'";
+                $aRetornoDelete = $this->executaSql($sSqlDelete);
+
+                if ($aRetornoDelete[0]) {
+                    $sSqlHistorico = "insert "
+                            . "into rex_maquinas.dbo.MetEnd_HistEnd "
+                            . "("
+                            . "nome,"
+                            . "acao,"
+                            . "data,"
+                            . "hora,"
+                            . "procod,"
+                            . "endantes,"
+                            . "enddepois,"
+                            . "alm"
+                            . ")"
+                            . "values"
+                            . "("
+                            . "'" . $oObjNomeDel->usunomedelsoft . "',"
+                            . "'Baixa Exp',"
+                            . "'" . $data . "',"
+                            . "'" . $hora . "',"
+                            . "" . $oDados->codigo . ","
+                            . "'" . $armcod . "',"
+                            . "'Baixa Exp',"
+                            . "" . $sAlm . ""
+                            . ")";
+
+                    $aRetornoHistorico = $this->executaSql($sSqlHistorico);
+                    if ($aRetornoHistorico[0]) {
+                        $aRetorno[0] = true;
+                        $aRetorno[1] = '';
+                        return $aRetorno;
+                    } else {
+                        return $aRetorno;
+                    }
+                } else {
+                    return $aRetorno;
+                }
+            } else {
+                return $aRetorno;
+            }
+            return $aRetorno;
+        }
     }
 
 }

@@ -1857,8 +1857,9 @@ class Campo {
                         . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '&parametros=' . $this->getSDiretorio() . ',' . $this->getBNomeArquivo() . '", ' // url do arquivo php, que fara a cópia para o server
                         . 'previewFileType: "any",'
                         . 'showUpload: false,'
-                        //. 'showRemove: false,'
-                        . 'browseOnZoneClick: true,'
+                        . 'showRemove: false,'
+                        . 'browseOnZoneClick: false,'
+                        . 'dropZoneEnabled: false,'
                         . 'showDrag: false,'
                         . 'language: "pt-BR",'
                         . 'showClose: false,'

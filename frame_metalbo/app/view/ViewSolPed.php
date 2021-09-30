@@ -161,7 +161,7 @@ class ViewSolPed extends View {
         $oCodPag->addCampoBusca('cpgdes', $oCodPagDes->getId(), $this->getTela()->getId());
 
         //---Campo Ordem de Compra---///
-        $oOd = new Campo('Ordem de Compra', 'odcompra', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $oOd = new Campo('OrdemCompra', 'odcompra', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oOd->setITamanho(Campo::TAMANHO_PEQUENO);
         $oOd->setSValor(' ');
         $oOd->addValidacao(false, Validacao::TIPO_STRING);
@@ -188,15 +188,15 @@ class ViewSolPed extends View {
         $oCodPagDes->addEvento(Campo::EVENTO_SAIR, 'var oCnpj=$("#' . $oCnpj->getId() . '").val(); requestAjax("","SolPed","carregaRep","' . $oCodRep->getId() . ',' . $oRep->getId() . ',"+oCnpj+"","");');
 
         //---INICIO PESQUISA TIPO DE TRANSPORTADORA---//
-        $oTransp = new Campo('CNPJ Transp.', 'transcnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 6, 6, 12);
+        $oTransp = new Campo('CodTransp', 'transcnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 6, 6, 12);
         $oTransp->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oTransp->setSValor('');
+        $oTransp->setSValor(' ');
 
         $oTranspDes = new Campo('Transportadora', 'transp', Campo::TIPO_BUSCADOBANCO, 4, 6, 6, 12);
         $oTranspDes->setSIdPk($oTransp->getId());
         $oTranspDes->setClasseBusca('Transp');
         $oTranspDes->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oTranspDes->setSValor('');
+        $oTranspDes->setSValor(' ');
 
         /* definir sempre código pk e descrição */
         $oTranspDes->addCampoBusca('empcod', '', '');
@@ -257,7 +257,7 @@ class ViewSolPed extends View {
 
         $oContato = new Campo('Contato', 'contato', Campo::TIPO_TEXTO, 3);
         $oContato->setITamanho(Campo::TAMANHO_PEQUENO);
-        $oContato->setSValor('');
+        $oContato->setSValor(' ');
 
         $oEmail = new Campo('', 'email', Campo::TIPO_TEXTO, 1);
         $oEmail->setSValor('NV');
@@ -271,6 +271,8 @@ class ViewSolPed extends View {
         $this->addEtapa($oEtapas);
 
         //---Adiciona uma linha em branco---///
+        $oLinha = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha->setApenasTela(true);
 
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
             //monta campo de controle para inserir ou alterar
@@ -283,10 +285,10 @@ class ViewSolPed extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
 
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRep, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oAcao, $oSituaca);
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRep, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oAcao, $oLinha, $oSituaca);
         } else {
 
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $oCodRep, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oSituaca);
+            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRep, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oSituaca);
         }
     }
 

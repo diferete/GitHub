@@ -1,29 +1,18 @@
 <?php
-
 /**
  * Classe que implementa o Model do objeto ItemMenu 
  */
-class ModelItemMenu {
-
+class ModelItemMenu{
     private $Modulo;
     private $Menu;
-    private $itecodigo;
+    private $itecodigo; 
     private $itedescricao;
     private $iteordem;
     private $iteclasse;
     private $itemetodo;
-    private $rotina;
-
-    function getRotina() {
-        return $this->rotina;
-    }
-
-    function setRotina($rotina) {
-        $this->rotina = $rotina;
-    }
-
+    
     function getModulo() {
-        if (!isset($this->Modulo)) {
+        if(!isset($this->Modulo)){
             $this->Modulo = Fabrica::FabricarModel('Modulo');
         }
         return $this->Modulo;
@@ -34,7 +23,7 @@ class ModelItemMenu {
     }
 
     function getMenu() {
-        if (!isset($this->Menu)) {
+        if(!isset($this->Menu)){
             $this->Menu = Fabrica::FabricarModel('Menu');
         }
         return $this->Menu;
@@ -43,6 +32,8 @@ class ModelItemMenu {
     function setMenu($Menu) {
         $this->Menu = $Menu;
     }
+
+     
 
     function getItecodigo() {
         return $this->itecodigo;
@@ -64,6 +55,10 @@ class ModelItemMenu {
         return $this->itemetodo;
     }
 
+   
+
+   
+
     function setItecodigo($itecodigo) {
         $this->itecodigo = $itecodigo;
     }
@@ -84,6 +79,6 @@ class ModelItemMenu {
         $this->itemetodo = $itemetodo;
     }
 
-}
 
+}
 ?>

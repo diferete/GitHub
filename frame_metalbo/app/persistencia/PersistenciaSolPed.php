@@ -48,7 +48,7 @@ class PersistenciaSolPed extends Persistencia {
         $this->adicionaRelacionamento('userins', 'userins');
 
 
-        $this->setSTop('100');
+        $this->setSTop('200');
         $this->adicionaOrderBy('nr', 1);
     }
 
@@ -142,7 +142,7 @@ class PersistenciaSolPed extends Persistencia {
         return $sBloq;
     }
 
-    public function confirmaEnvioEmail($iNr, $sTabela) {
+    public function confirmaEnvioEmail($iNr,$sTabela) {
         $sSql = "update " . $sTabela . " set email = 'EV' where nr = " . $iNr . "";
         $this->executaSql($sSql);
     }

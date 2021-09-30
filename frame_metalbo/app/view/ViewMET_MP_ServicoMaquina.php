@@ -55,22 +55,22 @@ class ViewMET_MP_ServicoMaquina extends View {
             $iCont++;
         }
         $oFiltroSetor->setSLabel('');
-
+        
         $iSet = $_SESSION['codsetor'];
-        if ($iSet != 2 && $iSet != 12 && $iSet != 29 && $iSet != 31 && $iSet != 9 && $iSet != 32 && $iSet != 24) {
+        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29 && $iSet!= 31 && $iSet!= 9 && $iSet!= 32 && $iSet!= 24){
             $oFiltroSetor->setSValor($iSet);
             $oResponsavelFiltro->setSValor('OPERADOR');
-        } else if ($iSet == 12) {
+        }else if($iSet== 12){
             $oResponsavelFiltro->setSValor('ELETRICA');
-        } else if ($iSet == 29) {
+        }else if($iSet== 29){
             $oResponsavelFiltro->setSValor('MECANICA');
         }
 
         $this->setUsaAcaoExcluir(false);
-        if ($iSet == 2) {
+        if($iSet== 2){
             $this->setUsaAcaoAlterar(true);
             $this->setUsaAcaoIncluir(true);
-        } else {
+        }else{
             $this->setUsaAcaoAlterar(false);
             $this->setUsaAcaoIncluir(false);
         }
@@ -144,10 +144,10 @@ class ViewMET_MP_ServicoMaquina extends View {
         $oTip->setClasseBusca('MET_MP_CadastroMaquinas');
         $oTip->setSCampoRetorno('tipcod', $this->getTela()->getId());
         $oTip->addCampoBusca('tipdes', $oMaq_des->getId(), $this->getTela()->getId());
-
+        
         $oSetor = new campo('Setor', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSetor->setBFocus(true);
-
+        
         $oSetorDes = new Campo('Descrição', 'descsetor', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
         $oSetorDes->setSIdPk($oSetor->getId());
         $oSetorDes->setClasseBusca('Setor');
@@ -161,14 +161,14 @@ class ViewMET_MP_ServicoMaquina extends View {
         $oSetor->setClasseBusca('Setor');
         $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
         $oSetor->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
-
+        
         $oSitua = new Campo('Situação', 'sit', Campo::TIPO_SELECT, 1, 1, 12, 12);
         $oSitua->addItemSelect('ABERTO', 'ABERTO');
         $oSitua->addItemSelect('BLOQUEADO', 'BLOQUEADO');
 
         $oSer->setBFocus(true);
-
-        $this->addCampos(array($oSit, $oUser, $oData, $oHora), array($oTip, $oMaq_des), array($oSetor, $oSetorDes), array($oSer), array($oCiclo, $oResp, $oSitua));
+        
+        $this->addCampos(array($oSit, $oUser, $oData, $oHora), array($oTip, $oMaq_des),array($oSetor, $oSetorDes), array($oSer), array($oCiclo, $oResp, $oSitua));
     }
 
     public function relServicosMant() {
@@ -181,7 +181,7 @@ class ViewMET_MP_ServicoMaquina extends View {
         $aDesSetor = $aDado2[1];
         $aDado3 = $aDados[2];
         $aDado4 = $aDados[3];
-
+        
         $this->setTituloTela('Relatório dos Serviços da Manutenção Preventiva Cadastrados no Sistema');
         $this->setBTela(true);
 
@@ -202,7 +202,7 @@ class ViewMET_MP_ServicoMaquina extends View {
             $oRespFiltro->addItemSelect($key2['resp'], $key2['resp']);
         }
         $oRespFiltro->addValidacao(true, Validacao::TIPO_STRING);
-
+        
         $oTip = new Campo('TipCod', 'tipcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oTip->setBFocus(true);
 
@@ -224,11 +224,11 @@ class ViewMET_MP_ServicoMaquina extends View {
         $oSitua = new Campo('Situação', 'sit', Campo::CAMPO_SELECTSIMPLE, 1, 1, 12, 12);
         $oSitua->addItemSelect('ABERTO', 'ABERTO');
         $oSitua->addItemSelect('BLOQUEADO', 'BLOQUEADO');
-
+        
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
-
-        $this->addCampos(array($oTip, $oMaq_des), $oLinha1, array($oRespFiltro, $oSitua), $oLinha1, array($oFiltroSetor));
-    }
-
+        
+        $this->addCampos(array($oTip, $oMaq_des),$oLinha1, array($oRespFiltro, $oSitua), $oLinha1, array($oFiltroSetor));
+    }    
+    
 }

@@ -44,9 +44,9 @@ class ViewMET_TEC_Login extends View {
                 . '<title>Metalbo | Acesso ao Sistema</title>'
                 . '</head>'
                 . '<body class="page-login-v3 layout-full">'
-                /*. '<video autoplay muted loop id="myVideo">'
-                . '<source src="biblioteca/assets/images/login.mp4" type="video/mp4">'
-                . '</video>'*/
+                /* . '<video autoplay muted loop id="myVideo">'
+                  . '<source src="biblioteca/assets/images/login.mp4" type="video/mp4">'
+                  . '</video>' */
                 . '<div id="conteudo">'
                 . '<div class="page animsition vertical-align text-center" data-animsition-in="fade-in"'
                 . 'data-animsition-out="fade-out">'
@@ -62,7 +62,8 @@ class ViewMET_TEC_Login extends View {
                 . ' <label class="floating-label">E-mail</label>'
                 . '</div>'
                 . '<div class="form-group form-material floating">'
-                . ' <input type="password" class="form-control" name="loginsenha" style="font-size:14px;" value="' . $sPass . '" id="psswd"/>'
+                . ' <input type="password" class="form-control" name="loginsenha" onkeypress="capsLock(event)" style="font-size:14px;" value="' . $sPass . '" id="psswd"/>'
+                . '<div id="divMayus" style="visibility:hidden; color:red; font-size:12px; margin-top:12px">Atenção! Caps Lock ligado.</div> '
                 . ' <label class="floating-label">Senha</label>'
                 . '</div>'
                 . ' <input type="button" class="btn btn-block btn-success margin-top-40" id="btn_entrar" value="ENTRAR" onclick="requestAjax(\'frm-login\',\'MET_TEC_Login\',\'logaSistema\',\'\')" />'

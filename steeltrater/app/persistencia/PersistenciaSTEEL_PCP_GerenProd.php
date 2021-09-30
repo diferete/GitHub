@@ -58,6 +58,35 @@ Class PersistenciaSTEEL_PCP_GerenProd extends Persistencia{
             //faz o retorno dos dados
             return $aRetorno;
     }
+    
+        public function geraGerenProdEtapaForno($aDados){
+        
+         $sSqlDados =" select  steel_pcp_ordensfabitens.fornodes,sum(STEEL_PCP_ordensFab.peso) as pesoTotal   
+         from STEEL_PCP_ordensFabItens left outer join STEEL_PCP_ordensFab
+         on STEEL_PCP_ordensFabItens.op = STEEL_PCP_ordensFab.op left outer join STEEL_PCP_tratamentos
+         on STEEL_PCP_ordensFabItens.tratamento = STEEL_PCP_tratamentos.tratcod left outer join STEEL_PCP_receitasItens
+         on STEEL_PCP_ordensFabItens.receita = STEEL_PCP_receitasItens.cod
+         and STEEL_PCP_ordensFabItens.receita_seq = STEEL_PCP_receitasItens.seq left outer join STEEL_PCP_receitas
+         on STEEL_PCP_receitas.cod = STEEL_PCP_receitasItens.cod 
+         where dataent_forno between '".$aDados['dataini']."' and '".$aDados['datafin']."'
+					and STEEL_PCP_ordensFabItens.situacao in('Finalizado','Processo')
+		                        and retrabalho<>'Retorno não Ind.' 
+		                        and STEEL_PCP_receitasItens.recApont = 'SIM'  
+		                        and STEEL_PCP_ordensFab.tipoOrdem IN ('P','TZ') 
+		                        and steel_pcp_ordensfabitens.receita not in (select cod from STEEL_PCP_receitas where tipoReceita ='Zincagem')
+		                        group by steel_pcp_ordensfabitens.fornodes  ";
+            
+            
+            $result = $this->getObjetoSql($sSqlDados);
+            
+            while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+           
+            if($aDados['busca'] =='ProdForno'){
+                $aRetorno[$oRowBD->fornodes] = $oRowBD->pesototal;
+            }
+         }
+               return $aRetorno;
+        }
 
         public function geraGerenProd($aDados){
         $sSqlDados =' select ';

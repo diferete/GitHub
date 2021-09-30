@@ -12,29 +12,24 @@ class ControllerMET_MANUT_OSMaterial extends Controller {
         $this->carregaClassesMvc('MET_MANUT_OSMaterial');
     }
 
-    public function acaoInserirMaterial($sDados, $sCampos) {
-        $sChave = htmlspecialchars_decode($_REQUEST['campos']);
-        $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
+    public function acaoInserirMaterial() {
 
-        //Conta na persistencia para ver se o método é alterar ou inserir
-        $oMat = Fabrica::FabricarController('MET_MANUT_OSMaterial');
-        $oMat->Persistencia->adicionaFiltro('fil_codigo', $aCamposChave['fil_codigo']);
-        $oMat->Persistencia->adicionaFiltro('nr', $aCamposChave['nr']);
-        $oMat->Persistencia->adicionaFiltro('cod', $aCamposChave['cod']);
-        $oMat->Persistencia->adicionaFiltro('codmat', $aCamposChave['DELX_PRO_Produtos_pro_codigo']);
-        $oMatDados = $oMat->Persistencia->getCount();
+        $aCampos = $this->getArrayCampostela();
+        $this->verificacaoAntesDeInserirMaterial($aCampos);
+        //Adiciona filtros da classe pai antes de inserir verificando e para trazer autoincremento
+        $oOS = Fabrica::FabricarController('MET_MANUT_OS'); 
+        $oOS->Persistencia->adicionaFiltro('fil_codigo', $aCampos['fil_codigo']);
+        $oOS->Persistencia->adicionaFiltro('nr', $aCampos['nr']);
+        $oOS->Persistencia->adicionaFiltro('cod', $aCampos['cod']);
+        $Model = $oOS->Persistencia->consultarWhere();
+        $iInc = $this->Persistencia->getIncrementoMat($Model);
+        $aCampos['seq']= (int)$iInc;
 
-        //adiciona filtro da chave primária
-        $oMat->parametros = $sCampos;
+        $this->acaoIncluirDetMat($aCampos);
 
-        //se cont = 0 segue ação incluir
-        if ($oMatDados == 0) {
-            $oMat->acaoIncluirDetMat($sDados, $aCamposChave);
-        }
     }
 
-    public function acaoIncluirDetMat($sId, $aCamposChave) {
+    public function acaoIncluirDetMat($aCamposChave) {
 
         $aRetorno = $this->Persistencia->inserirMat($aCamposChave);
 
@@ -48,36 +43,20 @@ class ControllerMET_MANUT_OSMaterial extends Controller {
         }
     }
 
-    public function antesDeCriarConsulta($sParametros = null) {
-        parent::antesDeCriarConsulta($sParametros);
-
-        $sChave = ($_REQUEST['parametros']);
-        $aCamposChave = explode(',', $sChave['parametros[']);
-        $sChave1 = htmlspecialchars_decode($aCamposChave[0]);
-        $aCamposChave1 = array();
-        parse_str($sChave1, $aCamposChave1);
-
-        $this->Persistencia->adicionaFiltro('fil_codigo', $aCamposChave1['fil_codigo']);
-        $this->Persistencia->adicionaFiltro('nr', $aCamposChave1['nr']);
-    }
-
     public function msgExcluirMaterial($sDados) {
-        $sChave = htmlspecialchars_decode($sDados);
-        $aChaveDados = explode(',', $sChave);
-        $iCodProd = explode('=', $aChaveDados[2])[1];
-        $sChave2 = htmlspecialchars_decode($_REQUEST['campos']);
-        $sChave2 = $sChave2.'&pro_codigo='.$iCodProd;
-        
-        $oMensagem = new Modal('Atenção', 'Deseja excluir o material '.$iCodProd.' da manutenção!', Modal::TIPO_AVISO, true, true, true);
-        $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_MANUT_OSMaterial","excluirMaterial","' . $sChave2 . '");');
+
+        $aCampos = $this->getArrayCampostela();
+
+        $oMensagem = new Modal('Atenção', 'Deseja excluir o material seq ' . $aCampos['seq'] . ' da manutenção!', Modal::TIPO_AVISO, true, true, true);
+        $oMensagem->setSBtnConfirmarFunction('requestAjax("","MET_MANUT_OSMaterial","excluirMaterial","' . $sDados . '");');
 
         echo $oMensagem->getRender();
     }
 
-    public function excluirMaterial($sChave){
-        
+    public function excluirMaterial($sChave) {
+        $aDados = explode(',', $sChave);
         $aCamposChave = array();
-        parse_str($sChave, $aCamposChave);
+        parse_str($aDados[2], $aCamposChave);
         $aRetorno = $this->Persistencia->excluirMat($aCamposChave);
 
         if ($aRetorno[0]) {
@@ -89,38 +68,74 @@ class ControllerMET_MANUT_OSMaterial extends Controller {
             echo $oMsg->getRender();
         }
     }
-    
+
+    /**
+     * Método responsável por dar um click após o alterar ou excluir no botão atualizar do grid
+     * E após inserir dar um reset no form
+     * @param type $aCamposChaveAux
+     * @return string
+     */
     public function recarregarGrid() {
 
-        if($_REQUEST['metodo']=='excluirMaterial'){
-            $sChave = htmlspecialchars_decode($_REQUEST['parametros']['parametros[']);
-            $aChaveDados = explode(',', $sChave);
-        }else{
-            $sChave = ($_REQUEST['parametros']);
-            $aCamposChave = explode(',', $sChave['parametros[']);
-            $sForm = $aCamposChave[0];
+        if ($_REQUEST['metodo'] == 'excluirMaterial') {
+            echo "$('#btn_atualizarGridManut').click();";
+        } else {
+            $sScript = '$("#formMET_MANUT_OS-form").each (function(){ this.reset();});';
+            echo $sScript;
+            echo "$('#btn_atualizarGridManut').click(); ";
         }
-//        $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';
-//        echo $sScript;
-//        $sScript1 = '$("#' . $aCamposChave[1] . '").each (function(){ this.reset();});';
-//        echo $sScript1;
-//        $sScript2 = '$("#' . $aCamposChave[2] . '").each (function(){ this.reset();});';
-//        echo $sScript2;
-//        $sScript3 = '$("#' . $aCamposChave[3] . '").each (function(){ this.reset();});';
-//        echo $sScript3;
         
-//        $sScript1 = '$("#' . $aCamposChave[3] . '").each (function(){ this.reset();});';
-//        echo $sScript1;
-//        $this->getDadosConsulta($aCamposChave[2], true, null, $aColuna = null, true, $bScroll = false);
-//        $oBase = new Base();
-//        echo $oBase->formhide($sForm);// ->focus($aCamposChave[3]);
-
-//        echo"$('#" . $aCamposChave[3] . "-pesq').click();";
-
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
         return $aRetorno;
+    }
+    
+    /**
+     * Método que busca os dados pelo getArrayCamposTela e adiciona filtro antes da consulta do grid
+     */
+    public function afterGetdadoGrid() {
+        parent::afterGetdadoGrid();
+        
+        $this->Persistencia->limpaFiltro();
+        $aCampos = $this->getArrayCampostela();
+        
+        $this->Persistencia->adicionaFiltro('fil_codigo',$aCampos['fil_codigo']);
+        $this->Persistencia->adicionaFiltro('nr',$aCampos['nr']);
+        
+    }
+    
+    public function verificacaoAntesDeInserirMaterial($aCampos){
+        if ($aCampos['MET_MANUT_OSPesqProd_pro_codigo'] == null || $aCampos['MET_MANUT_OSPesqProd_pro_codigo'] == '') {
+            $oMensagem = new Mensagem('Atenção!', 'Material inexistente, digite um código válido!', Mensagem::TIPO_ERROR, 7000);
+            echo $oMensagem->getRender();
+            $sScript = '$("#CodmaterialManOs").val("");'
+                    . '$("#materialManOs").val("");'
+                    . '$("#CodmaterialManOs").val("").focus();';
+            echo $sScript;
+            exit;
+        }        
+        if ($aCampos['matnecessario'] == null || $aCampos['matnecessario'] == '') {
+            $oMensagem = new Mensagem('Atenção!', 'Material inexistente, digite uma descrição válida!', Mensagem::TIPO_ERROR, 7000);
+            echo $oMensagem->getRender();
+            $sScript = '$("#materialManOs").val("").focus();';
+            echo $sScript;
+            exit;
+        }
+        if ($aCampos['quantidade'] == null || $aCampos['quantidade'] == '' || $aCampos['quantidade'] == 0) {
+            $oMensagem = new Mensagem('Atenção!', 'Necessário informar quantidade, digite um valor válido!', Mensagem::TIPO_ERROR, 7000);
+            echo $oMensagem->getRender();
+            $sScript = '$("#QuantMaterialManOs").val("").focus();';
+            echo $sScript;
+            exit;
+        }
+        if ($aCampos['MET_MANUT_OSPesqProd_pro_codigo'] == 0 && ($aCampos['obsmat'] == '' || $aCampos['obsmat'] == null)) {
+            $oMensagem = new Mensagem('Atenção!', 'Digite um material na Observação Material!', Mensagem::TIPO_ERROR, 7000);
+            echo $oMensagem->getRender();
+            $sScript = '$("#ObsmanOs").val("").focus();';
+            echo $sScript;
+            exit;
+        }
     }
 
 }

@@ -235,7 +235,7 @@ class ControllerMenu extends Controller {
                     . ' <td><span class = "badge badge-dark">' . $value->versao . '</span></td> '
                     . ' <td style = "width:450px">' . $value->updates . '</td> ';
             if ($value->anexo != '') {
-                $html = $html . ' <td><a href = "http://localhost/github/frame_metalbo/uploads/' . $value->anexo . '" target = "_blank" rel = ”noopener”>Clique aqui</a></td> ';
+                $html = $html . ' <td><a href = "https://sistema.metalbo.com.br/uploads/' . $value->anexo . '" target = "_blank" rel = ”noopener”>Clique aqui</a></td> ';
             } else {
                 $html = $html . ' <td></td> ';
             }

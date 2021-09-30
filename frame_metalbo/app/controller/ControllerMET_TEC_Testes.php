@@ -83,7 +83,7 @@ class ControllerMET_TEC_Testes extends Controller {
             echo $oMensagem->getRender();
         }
     }
-
+    
     public function atualizaEntProj() {
 
         $aRetorno = $this->Persistencia->verificaSitEntProj();

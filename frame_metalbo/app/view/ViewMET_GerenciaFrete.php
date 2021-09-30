@@ -110,11 +110,11 @@ class ViewMET_GerenciaFrete extends View {
 
         $oSeqReg = new Campo('Seq.Regra', 'seqregra', Campo::TIPO_TEXTO, 1);
         $oSeqReg->setBOculto(true);
-
+        
         $oValorServ2 = new Campo('Valor 2', 'valorserv2', Campo::TIPO_TEXTO, 1);
         $oValorServ2->setId('valorservfrete2');
         $oValorServ2->setBOculto(true);
-
+        
         $oValorServ3 = new Campo('Valor 3', 'valorserv3', Campo::TIPO_TEXTO, 1);
         $oValorServ3->setId('valorservfrete3');
         $oValorServ3->setBOculto(true);

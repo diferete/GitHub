@@ -42,10 +42,10 @@ class ControllerMET_TEC_agendamentos extends Controller {
         foreach ($aDados as $key => $oValue) {
             $sIdAgenda = $oValue->agId;
         }
-
-        /* $fp = fopen("bloco2.txt", "w");
+		
+		  /*$fp = fopen("bloco2.txt", "w");
           fwrite($fp, 'CHEGOU');
-          fclose($fp); */
+          fclose($fp);*/
 
         $oMET_FIN_VisualizaNFE = Fabrica::FabricarController('MET_FIN_VisualizaNFE');
         $aRetEmail = $oMET_FIN_VisualizaNFE->enviaXmlAutomatizado();

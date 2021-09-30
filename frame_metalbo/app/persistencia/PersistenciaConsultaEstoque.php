@@ -196,7 +196,8 @@ class PersistenciaConsultaEstoque extends Persistencia {
                 . "as totalped from widl.PEDV01,widl.PEV01 where widl.PEV01.pdvnro = widl.PEDV01.pdvnro "
                 . "and widl.pev01.filcgc =  75483040000211 and empcod <> 75483040000211 and pdvsituaca = 'O' "
                 . "and pdvaprova = 'A' and widl.PEDV01.procod =" . $sProcod . " and (widl.pedv01.pdvproqtdp - widl.pedv01.pdvproqtdf)>=0 ";
-        $row = $this->consultaSql($sSql);
+        $result = $this->getObjetoSql($sSql);
+        $row = $result->fetch(PDO::FETCH_OBJ);
         $sTotal = $row->totalped;
         return $sTotal;
     }

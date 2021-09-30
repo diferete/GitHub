@@ -67,6 +67,8 @@ class ControllerMET_GerenciaFrete extends Controller {
         echo "$('#" . $aDados[1] . "').focus();";
         echo "$('#" . $aDados[0] . "').focus();";
         echo '$("#gerenciafrete_valorserv").focus();';
+        
+        $this->verificaNotaConhecimento();
     }
 
     public function calculoFracaoFrete($sDados) {
@@ -363,6 +365,19 @@ class ControllerMET_GerenciaFrete extends Controller {
 
         $oMenSuccess = new Mensagem("Sucesso", "Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
         echo $oMenSuccess->getRender();
+    }
+    
+    //Verifica se não existe nota digitada com um conhecimento já existente
+    public function verificaNotaConhecimento() {
+        $sDados = $_REQUEST['campos'];
+        $sChave = htmlspecialchars_decode($sDados);
+        $aCamposChave = array();
+        parse_str($sChave, $aCamposChave);
+
+        if ($this->Persistencia->verificaNotaConhec($aCamposChave) > 0) {
+            $oModal = new Mensagem('Atenção', 'Nota já possui Conhecimento inserido para a mesma!', Mensagem::TIPO_ERROR);
+            echo $oModal->getRender();
+        }
     }
     
 }

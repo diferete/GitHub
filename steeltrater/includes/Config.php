@@ -92,7 +92,7 @@ class Config {
     const PORTA_BD = 1433;
     const USER_BD  = 'sa';
     const NOME_BD  = 'METALBOBASE';
-    const HOST_BD  = 'METALBOBASE22';
+    const HOST_BD  = 'METALBOBASE';
     const PASS_BD  = 'Met@lbo@4321';
        
 }

@@ -7,21 +7,21 @@
  */
 
 class ModelMET_GerenciaFrete {
-
+    
     private $Pessoa;
-    private $nr;
-    private $cnpj;
-    private $nrconhe;
-    private $nrfat;
-    private $nrnotaoc;
-    private $totakg;
-    private $totalnf;
-    private $valorserv;
+    private $nr;  
+    private $cnpj; 
+    private $nrconhe; 
+    private $nrfat; 
+    private $nrnotaoc; 
+    private $totakg; 
+    private $totalnf; 
+    private $valorserv; 
     private $fracaofrete;
-    private $seqregra;
+    private $seqregra; 
     private $codtipo;
     private $data;
-    private $hora;
+    private $hora; 
     private $sit;
     private $usuario;
     private $obsfinal;
@@ -30,7 +30,7 @@ class ModelMET_GerenciaFrete {
     private $datafn;
     private $valorserv2;
     private $valorserv3;
-
+    
     function getValorserv3() {
         return $this->valorserv3;
     }
@@ -38,7 +38,7 @@ class ModelMET_GerenciaFrete {
     function setValorserv3($valorserv3) {
         $this->valorserv3 = $valorserv3;
     }
-
+    
     function getValorserv2() {
         return $this->valorserv2;
     }
@@ -46,7 +46,7 @@ class ModelMET_GerenciaFrete {
     function setValorserv2($valorserv2) {
         $this->valorserv2 = $valorserv2;
     }
-
+    
     function getDatafn() {
         return $this->datafn;
     }
@@ -54,7 +54,7 @@ class ModelMET_GerenciaFrete {
     function setDatafn($datafn) {
         $this->datafn = $datafn;
     }
-
+    
     function getDataem() {
         return $this->dataem;
     }
@@ -62,7 +62,7 @@ class ModelMET_GerenciaFrete {
     function setDataem($dataem) {
         $this->dataem = $dataem;
     }
-
+    
     function getPessoa() {
         if (!isset($this->Pessoa)) {
             $this->Pessoa = Fabrica::FabricarModel('Pessoa');
@@ -73,9 +73,9 @@ class ModelMET_GerenciaFrete {
     function setPessoa($Pessoa) {
         $this->Pessoa = $Pessoa;
     }
-
+    
     function getFracaofrete() {
-        return number_format($this->fracaofrete, 0);
+        return number_format($this->fracaofrete,0);
     }
 
     function getCodtipo() {
@@ -89,14 +89,14 @@ class ModelMET_GerenciaFrete {
     function setCodtipo($codtipo) {
         $this->codtipo = $codtipo;
     }
-
+    
     function getEmpdes() {
         return $this->empdes;
     }
 
     function setEmpdes($empdes) {
         $this->empdes = $empdes;
-    }
+    }        
 
     function getNr() {
         return $this->nr;
@@ -209,5 +209,5 @@ class ModelMET_GerenciaFrete {
     function setObsfinal($obsfinal) {
         $this->obsfinal = $obsfinal;
     }
-
+    
 }

@@ -31,4 +31,25 @@ class ControllerMET_EST_Enderecamento extends Controller {
         return $aIonic;
     }
 
+    public function getDescricao($oDados) {
+        $aRetorno = $this->Persistencia->getDescricao($oDados);
+        return $aRetorno;
+    }
+
+    public function insereNovoEndereco($oDados) {
+        $aRetorno = $this->Persistencia->insereNovoEndereco($oDados);
+        $aIonic = array();
+        $aIonic['retorno'] = $aRetorno[0];
+        $aIonic['mensagem'] = $aRetorno[1];
+        return $aIonic;
+    }
+
+    public function addListaEspera($oDados) {
+        $aRetorno = $this->Persistencia->addListaEspera($oDados);
+        $aIonic = array();
+        $aIonic['retorno'] = $aRetorno[0];
+        $aIonic['mensagem'] = $aRetorno[1];
+        return $aIonic;
+    }
+
 }

@@ -38,10 +38,9 @@ class ViewMET_TEC_LogXml extends View {
         $oLogXml->setBCampoBloqueado(true);
 
         $oFiltroNf = new Filtro($oNf, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+		$oFilCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO,3,3,12,12,false);
 
-        $oFiltroCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
-
-        $this->addFiltro($oFiltroNf, $oFiltroCliente);
+        $this->addFiltro($oFiltroNf,$oFilCliente);
 
         $this->addCamposGrid($oLogXml);
 

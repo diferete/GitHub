@@ -23,10 +23,9 @@ class ViewMET_FIN_VisualizaNFE extends View {
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setBMostraFiltro(true);
-        $this->getTela()->setITipoGrid(2);
 
-        $oBotaoEmitXml = new CampoConsulta('Enviar', 'emiteXml', CampoConsulta::TIPO_ACAO, CampoConsulta::ICONE_ENVIAR);
-        $oBotaoEmitXml->setSTitleAcao('Envia XML!');
+        $oBotaoEmitXml = new CampoConsulta('', 'emiteXml', CampoConsulta::TIPO_ACAO, CampoConsulta::ICONE_ENVIAR);
+        $oBotaoEmitXml->setSTitleAcao('Emite XML!');
         $oBotaoEmitXml->addAcao('MET_FIN_VisualizaNFE', 'enviaXML', '', '');
         $oBotaoEmitXml->setBHideTelaAcao(true);
         $oBotaoEmitXml->setILargura(30);

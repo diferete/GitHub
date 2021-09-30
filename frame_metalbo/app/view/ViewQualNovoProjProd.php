@@ -362,7 +362,7 @@ class ViewQualNovoProjProd extends View {
         $oUsuAnaliseEntrada->setSValor($_SESSION['nome']);
 
         $oDataAnaliseEntrada = new Campo('Dt. análise crítica entrada', 'dtanaliseentrada', Campo::TIPO_DATA, 2, 2, 12, 12);
-
+        
         $oFieldAnaliseCri->addCampos(array($oLabel1, $oLabel3), array($oDadosEnt, $oDadosEnt_obs), array($oReqLegal, $oReqLegal_obs), array($oReqadicional, $oReqadicional_obs), array($oReqadverif, $oReqadverif_obs), array($oReqadval, $oReqadval_obs), array($oReqproblem, $oReqproblem_obs), array($oUsuAnaliseEntrada, $oDataAnaliseEntrada), $oComen);
 
         $this->addCampos(array($oFilcgc, $oNr, $oDtimp, $oResp_proj_nome, $oResp_venda_nome, $oSitgeralproj, $oSitCliente), $oObsCli, array($oProcod, $oDesc_novo_prod), array($oProcodSimilar, $oProdsimilar), $oFieldDimen, array($oTipRosca, $oNormaDimem), array($oNormaRosca, $oNormaMec), array($oPpap, $oVolVenda), $oReqCli, array($oRespProj, $oRespProjNome, $oDataProd), $oFieldAnaliseCri);

@@ -13,7 +13,7 @@ class ControllerMET_VENDA_ExpItemCot extends Controller {
     }
 
     public function pkDetalhe($aChave) {
-        parent::pkDetalhe($aChave);
+        parent::pkDetalhe();
         $this->View->setAParametrosExtras($aChave);
     }
 
@@ -79,7 +79,7 @@ class ControllerMET_VENDA_ExpItemCot extends Controller {
     }
 
     public function acaoLimpar($sForm, $sDados) {
-        parent::acaoLimpar($sForm, $sCampos);
+        parent::acaoLimpar($sDados);
         $aParam = explode(',', $sDados);
         // "$('#".$sId."').each (function(){ this.reset();});";
         //verifica se está como 

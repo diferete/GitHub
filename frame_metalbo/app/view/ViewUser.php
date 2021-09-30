@@ -95,7 +95,7 @@ class ViewUser extends View {
         $oUsoSalva = new Campo('Grava senha para acesso', 'ususalvasenha', Campo::TIPO_CHECK, 5);
 
 
-        $oUsuimagem = new Campo('Imagem Perfil', 'usuimagem', Campo::TIPO_UPLOAD, 2, 2, 12, 12);
+        $oUsuimagem = new Campo('Imagem Perfil', 'usuimagem', Campo::TIPO_UPLOAD, 4, 4, 12, 12);
         $oUsuimagem->setExtensoesPermitidas('png', 'jpg', 'gif');
 
         $oNomeDelsoft = new campo('Nome Delsoft', 'usunomeDelsoft', Campo::TIPO_TEXTO, 4);

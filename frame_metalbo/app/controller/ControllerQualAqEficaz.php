@@ -41,6 +41,7 @@ class ControllerQualAqEficaz extends Controller {
         parent::acaoLimpar($sForm, $sDados);
         $aParam = explode(',', $sDados);
         $sScript = '$("#' . $sForm . '").each (function(){ this.reset();});';
+
         echo $sScript;
     }
 

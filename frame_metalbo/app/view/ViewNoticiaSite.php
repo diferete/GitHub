@@ -13,7 +13,7 @@ class ViewNoticiaSite extends View {
 
         $this->setUsaDropdown(true);
         $oFeed = new Dropdown('Feed', Dropdown::TIPO_PRIMARY);
-        $oFeed->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Publicar', 'NoticiaSite', 'getFeed', '', false, '', false, '', false, '', false, false);
+        $oFeed->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Publicar', 'NoticiaSite', 'getFeed', '', false, '');
 
         $oNr = new CampoConsulta('Nr', 'nr');
 
@@ -22,12 +22,12 @@ class ViewNoticiaSite extends View {
         $oTitulo = new CampoConsulta('Titulo', 'titulo');
 
         $oSite = new CampoConsulta('Site', 'filcgc');
-        $oSite->addComparacao('75483040000211', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
-        $oSite->addComparacao('83781641000158', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
+        $oSite->addComparacao('75483040000211', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
+        $oSite->addComparacao('83781641000158', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
 
-        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12);
         
-        $oFilTitulo = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilTitulo = new Filtro($oTitulo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
         $this->addFiltro($oFilData, $oFilTitulo);
 

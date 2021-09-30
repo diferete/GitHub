@@ -14,26 +14,27 @@ class ViewCondPag extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-
+        
 
         $this->setaTiluloConsulta('Condição de Pagamento');
 
         $oCpgCod = new CampoConsulta('Código', 'cpgcod');
         $oCpgDes = new CampoConsulta('Pagamento', 'cpgdes');
 
-
-        $oFiltroCpgCod = new Filtro($oCpgCod, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
-        $oFiltroCpgDes = new Filtro($oCpgDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        
+        $oFiltroCpgCod = new Filtro($oCpgCod, Filtro::CAMPO_TEXTO_IGUAL, 2);
+        $oFiltroCpgDes = new Filtro($oCpgDes, Filtro::CAMPO_TEXTO, 3);
 
         $this->addFiltro($oFiltroCpgCod, $oFiltroCpgDes);
         $this->addCampos($oCpgCod, $oCpgDes);
-
+       
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoVisualizar(true);
+
     }
 
     public function criaTela() {

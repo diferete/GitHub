@@ -85,6 +85,7 @@ class ViewMET_CAD_Placas extends View {
 
         $oCracha->addEvento(Campo::EVENTO_SAIR, $sCallBackCracha);
 
+
         $oDataCad = new Campo('dataCad', 'dataCad', Campo::TIPO_TEXTO, 1);
         $oDataCad->setSValor(date('Y-m-d'));
         $oDataCad->setBOculto(true);

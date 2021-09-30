@@ -18,20 +18,20 @@ class ViewMET_PORT_Colaboradores extends View {
         $this->setUsaAcaoVisualizar(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaDropdown(true);
-        $this->getTela()->setBGridResponsivo(false);
-
+         $this->getTela()->setBGridResponsivo(false);
+        
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
 
         $oExcluir = new Dropdown('Excluir', Dropdown::TIPO_AVISO, Dropdown::ICON_PADRAO);
-        $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Colaboradores', 'excluirRegistro', '', false, '', false, '', false, '', false, false);
+        $oExcluir->addItemDropdown($this->addIcone(Base::ICON_MARTELO) . 'Excluir Registro', 'MET_PORT_Colaboradores', 'excluirRegistro', '', false, '', false, '', false, '');
 
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);
         $oBotaoModal->setILargura(15);
         $oBotaoModal->setSTitleAcao('Aponta movimentação de Colaboradores!');
-        $oBotaoModal->addAcao('MET_PORT_Colaboradores', 'criaTelaModalApontamentoColaboradores', 'criaModalApontamentoColaboradores', '');
+        $oBotaoModal->addAcao('MET_PORT_Colaboradores', 'criaTelaModalApontamentoColaboradores', 'criaModalApontamentoColaboradores');
         $this->addModais($oBotaoModal);
 
 
@@ -50,15 +50,15 @@ class ViewMET_PORT_Colaboradores extends View {
         $oMotivo->setBComparacaoColuna(true);
 
         $oSituaca = new CampoConsulta('Sit.', 'situaca', CampoConsulta::TIPO_TEXTO);
-        $oSituaca->addComparacao('Entrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA, false, null);
-        $oSituaca->addComparacao('Saída', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, false, null);
-        $oSituaca->addComparacao('Chegada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, null);
+        $oSituaca->addComparacao('Entrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA);
+        $oSituaca->addComparacao('Saída', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA);
+        $oSituaca->addComparacao('Chegada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA);
         $oSituaca->setBComparacaoColuna(true);
 
         $oDataChegou = new CampoConsulta('Dt. Chegada', 'datachegou', CampoConsulta::TIPO_DATA);
 
         $oHoraChegou = new CampoConsulta('Hr. Chegada', 'horachegou', CampoConsulta::TIPO_EDIT);
-        $oHoraChegou->addAcao('MET_PORT_Colaboradores', 'gravaHora', '', '');
+        $oHoraChegou->addAcao('MET_PORT_Colaboradores', 'gravaHora');
         $oHoraChegou->setBTime(true);
 
         $oDataEntra = new CampoConsulta('Dt. Entrada', 'dataentrou', CampoConsulta::TIPO_DATA);
@@ -71,15 +71,15 @@ class ViewMET_PORT_Colaboradores extends View {
 
 
         ///////////////////////////////////Filtros///////////////////////////////
-        $oFilData = new Filtro($oDataChegou, Filtro::CAMPO_DATA_ENTRE, 1, 1, 12, 12, false);
+        $oFilData = new Filtro($oDataChegou, Filtro::CAMPO_DATA_ENTRE);
 
-        $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12, false);
+        $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12);
 
-        $oFilNR = new Filtro($oNr, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12, false);
+        $oFilNR = new Filtro($oNr, Filtro::CAMPO_INTEIRO, 3, 3, 12, 12);
 
-        $oFilColaborador = new Filtro($oPessoa, Filtro::CAMPO_TEXTO, 5, 5, 12, 12, false);
+        $oFilColaborador = new Filtro($oPessoa, Filtro::CAMPO_TEXTO, 5, 5, 12, 12);
 
-        $oFilMotivo = new Filtro($oMotivo, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilMotivo = new Filtro($oMotivo, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oFilMotivo->addItemSelect('Todos', 'Todos');
         $oFilMotivo->addItemSelect('1', 'Serviços');
         $oFilMotivo->addItemSelect('2', 'Visita');

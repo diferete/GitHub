@@ -30,7 +30,7 @@ class ViewQualGerenProj extends View {
         $oSitGeral = new CampoConsulta('Sit.Proj', 'sitgeralproj');
 
         $oDrop = new Dropdown('Teste', Dropdown::TIPO_PRIMARY);
-        $oDrop->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Teste Expira', $this->getController(), 'atualizaEntProj', '', false, '', false, '', false, '', false, true);
+        $oDrop->addItemDropdown($this->addIcone(Base::ICON_CONFIRMAR) . 'Teste Expira', $this->getController(), 'updateProjetos', '', false, '', false, '', false, '', false, true);
 
 
         $oFilRepNome = new Filtro($oRepNome, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 2, 2, false);

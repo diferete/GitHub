@@ -43,10 +43,7 @@ class PersistenciaQualAq extends Persistencia {
         $this->adicionaRelacionamento('obscancela', 'obscancela');
         $this->adicionaRelacionamento('usucancela', 'usucancela');
 
-        if ($_SESSION['codsetor'] != 25 && $_SESSION['codsetor'] != 2) {
-            $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
-            $sSetor = $_SESSION['codsetor'];
-        }
+        $this->adicionaFiltro('filcgc', $_SESSION['filcgc']);
 
         $this->adicionaJoin('EmpRex');
 
@@ -55,7 +52,7 @@ class PersistenciaQualAq extends Persistencia {
     }
 
     public function fechaAq($aDados) {
-        $sSql = "update tbacaoqual set sit = 'Finalizada' "
+          $sSql = "update tbacaoqual set sit = 'Finalizada' "
                 . "where filcgc = '" . $aDados['EmpRex_filcgc'] . "' "
                 . "and nr ='" . $aDados['nr'] . "'";
         $aRetorno = $this->executaSql($sSql);

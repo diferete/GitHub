@@ -1,4 +1,4 @@
-F<?php
+<?php
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -15,7 +15,7 @@ class ViewMET_VENDA_ExpItemCot extends View {
     }
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe($sIdAba);
+        parent::criaGridDetalhe();
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
@@ -47,12 +47,12 @@ class ViewMET_VENDA_ExpItemCot extends View {
         $oSeq = new CampoConsulta('Seq', 'seq');
         $oQuant = new CampoConsulta('Qt.', 'quant', CampoConsulta::TIPO_DECIMAL);
         $oVlrUnit = new CampoConsulta('Vlr. Unit.', 'vlrunit', Campo::TIPO_MONEY);
-        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, null);
+        $oVlrUnit->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA);
         $oVlrUnit->setBComparacaoColuna(true);
         $oVlrTot = new CampoConsulta('Vlr. Total.', 'vlrtot', Campo::TIPO_MONEY);
         $oVlrTot->setSOperacao('soma');
         $oVlrTot->setSTituloOperacao('Total: R$');
-        $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA, false, null);
+        $oVlrTot->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COR_AZUL, CampoConsulta::MODO_COLUNA);
         $oVlrTot->setBComparacaoColuna(true);
         $oDisp = new CampoConsulta('Disp.', 'pdfdisp');
         $oDisp->setILargura(30);

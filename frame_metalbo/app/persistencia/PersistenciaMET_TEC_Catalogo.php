@@ -118,7 +118,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
 
 
 
-//====================================== SELECT FINAL PARA TRAZER TODOS OS DADOS NECESSÁRIOS ============================================================//
+//======================================SELECT FINAL PARA TRAZER TODOS OS DADOS NECESSÁRIOS============================================================//
         $sSql = "select cxnormal,cxmaster,saco,widl.prod01.procod,pdftabvendas.preco,prodes,pround,promatcod,ProClasseG,widl.prod05.media,metmat.material,"
                 . "prodchamin,prodchamax,prodchamin,prodchamax,prodaltmin,prodaltmax,proddiamin,proddiamax,procommin,procommax,prodiapmin,prodiapmax,"
                 . "prodiaemin,prodiaemax,procomrmin,procomrmax,comphastma,comphastmi,diamhastmi,diamhastma,pfcmin,pfcmax,proanghel "
@@ -288,7 +288,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
     }
 
     function buscaSubG($sDados) {
-        $sSql = 'select subcod, subdes from widl.prod05 where grucod = ' . $sDados . ' and subcod not in(9,128,150,151,152,153,401,404,409,410,419,512,513,542,543,544,545,546,547,549,550,551,552,554,555,800,802,803,804,805,807,808,809)';
+                $sSql = 'select subcod, subdes from widl.prod05 where grucod = ' . $sDados . ' and subcod not in(9,128,150,151,152,153,401,404,409,410,419,512,513,542,543,544,545,546,547,549,550,551,552,554,555,800,802,803,804,805,807,808,809)';
         $result = $this->getObjetoSql($sSql);
         $aRetorno = array();
         $aDadosRet = array();
@@ -356,7 +356,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         foreach ($aDados as $key => $value) {
 
             $aItem = explode('|', $value);
-
+            
             $sSql = "insert into #MetTecCxNormal (procod,cxnormal) "
                     . "select widl.prod01.procod,pcs "
                     . "from widl.prod01 "

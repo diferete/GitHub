@@ -49,4 +49,44 @@ class ViewMET_MANUT_OSMaterial extends View {
  
         $this->addCampos($ofil_codigo, $onr, $ocod, $ocodmat, $odescricaomat, $ousermatcod, $ousermatdes, $odatamat);
     } 
+    
+     public function gridMaterialManutOS() {
+        $oGridMatNeces = new Grid("gridMatOS");
+        
+        $oBotaoExcluir = new CampoConsulta('Excluir', 'teste', CampoConsulta::TIPO_EXCLUIR);
+        $oBotaoExcluir->setILargura(5);
+        $oBotaoExcluir->setSTitleAcao('Excluir item!');
+        $oBotaoExcluir->addAcao('MET_MANUT_OSMaterial', 'msgExcluirMaterial', '', '');
+        $oBotaoExcluir->setBHideTelaAcao(true);
+        $oBotaoExcluir->setSNomeGrid('gridMaterialManutOS');
+        
+//        $ofil_cod3 = new CampoConsulta('Empresa', 'fil_codigo', CampoConsulta::TIPO_TEXTO);
+//        $ofil_cod3->setILargura(8);
+//        $ocodMaq3 = new CampoConsulta('Máquina', 'cod', CampoConsulta::TIPO_TEXTO);
+//        $ocodMaq3->setILargura(8);
+//        $ocodOS = new CampoConsulta('OS', 'nr', CampoConsulta::TIPO_TEXTO);
+//        $ocodOS->setILargura(8);
+        $oseqMat = new CampoConsulta('Seq', 'seq', CampoConsulta::TIPO_TEXTO);
+        $oseqMat->setILargura(8);
+        $ocodMat = new CampoConsulta('Código', 'codmat', CampoConsulta::TIPO_TEXTO);
+        $ocodMat->setILargura(8);
+        $odesMat = new CampoConsulta('Descrição', 'descricaomat', CampoConsulta::TIPO_TEXTO);
+        $odesMat->setILargura(220);
+        $odesMat->addComparacao('', CampoConsulta::COMPARACAO_DIFERENTE, CampoConsulta::COL_VDCLARO, CampoConsulta::MODO_LINHA, false, '');
+        $ocodUser = new CampoConsulta('Cod.', 'usermatcod', CampoConsulta::TIPO_TEXTO);
+        $ocodUser->setILargura(8);
+        $odesUser = new CampoConsulta('Usuário', 'usermatdes', CampoConsulta::TIPO_TEXTO);
+        $odesUser->setILargura(10);
+        $odata = new CampoConsulta('Data', 'datamat', CampoConsulta::TIPO_DATA);
+        $odata->setILargura(8);
+        $oquantidade = new CampoConsulta('Quantidade', 'quantidade', CampoConsulta::TIPO_TEXTO);
+        $oquantidade->setILargura(5);
+        $oobs1 = new CampoConsulta('Observação', 'obsmat', CampoConsulta::TIPO_TEXTO);
+        $oobs1->setILargura(220);
+               //, $ofil_cod3, $ocodMaq3, $ocodOS
+        $oGridMatNeces->addCampos($oBotaoExcluir, $oseqMat, $ocodMat, $odesMat, $oquantidade, $odata, $oobs1, $odesUser);
+
+        $aCampos = $oGridMatNeces->getArrayCampos();
+        return $aCampos;
+    }
 }

@@ -22,12 +22,12 @@ class ViewProduto extends View {
         $oProdes = new CampoConsulta('Descrição', 'prodes', CampoConsulta::TIPO_LARGURA, 20);
 
         $oProBloq = new CampoConsulta('Bloqueado', 'probloqpro');
-        $oProBloq->addComparacao('S', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
+        $oProBloq->addComparacao('S', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
 
         $oUn = new CampoConsulta('Unidade', 'pround', CampoConsulta::TIPO_LARGURA, 20);
 
-        $FiltroProcod = new Filtro($oProcod, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12, false);
-        $FiltroProdes = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
+        $FiltroProcod = new Filtro($oProcod, Filtro::CAMPO_TEXTO_IGUAL, 2);
+        $FiltroProdes = new Filtro($oProdes, Filtro::CAMPO_TEXTO, 3);
 
         $this->setUsaAcaoAlterar(false);
         $this->setUsaAcaoExcluir(false);

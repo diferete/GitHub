@@ -29,9 +29,9 @@ class ViewMET_CAD_Funcionarios extends View {
         $oNome = new CampoConsulta('Nome', 'nomfun', CampoConsulta::TIPO_TEXTO);
         $oCpf = new CampoConsulta('CPF', 'cpf', CampoConsulta::TIPO_TEXTO);
 
-        $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_INTEIRO, 1, 1, 12, 12, false);
-        $oFilCpf = new Filtro($oCpf, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oFilNome = new Filtro($oNome, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_INTEIRO, 1, 1, 12, 12);
+        $oFilCpf = new Filtro($oCpf, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilNome = new Filtro($oNome, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
 
         $this->addFiltro($oFilCracha, $oFilCpf, $oFilNome);

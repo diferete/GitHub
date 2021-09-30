@@ -276,6 +276,7 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $aRetorno = $this->Persistencia->liberaSolicitacao($aCamposChave);
         if ($aRetorno[0]) {
             $oMsg = new Mensagem('Sucesso', 'Solicitação liberada para Compras', Mensagem::TIPO_SUCESSO);
+            echo '$("#' . $aDados[1] . '-pesq").click();';
         } else {
             $oMsg = new Mensagem('ERRO.', 'Não foi possível liberar a Solicitação, entre em contato com o TI!', Mensagem::TIPO_ERROR);
         }

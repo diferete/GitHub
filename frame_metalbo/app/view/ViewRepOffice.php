@@ -30,7 +30,7 @@ class viewRepOffice extends View {
 
         $this->setUsaAcaoVisualizar(true);
 
-        $oFilOffice = new Filtro($oOfficeDes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $oFilOffice = new Filtro($oOfficeDes, Filtro::CAMPO_TEXTO);
 
         $this->addFiltro($oFilOffice);
 

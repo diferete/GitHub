@@ -48,7 +48,7 @@ class ViewCadCliRep extends View {
 
         $oFiltroUsuCad = new Filtro($oEmpusu, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, true);
 
-        $oFilSituaca = new Filtro($oSituaca, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+		$oFilSituaca = new Filtro($oSituaca, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFilSituaca->addItemSelect('', 'Todos');
         $oFilSituaca->addItemSelect('Aguardando', 'Aguardando');
         $oFilSituaca->addItemSelect('Liberado', 'Liberado');
@@ -100,7 +100,7 @@ class ViewCadCliRep extends View {
 
         $oSit = new Campo('', 'situaca', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oSit->setBCampoBloqueado(true);
-        $oSit->setSValor('Aguardando');
+        $oSit->setSValor('');
         $oSit->setBOculto(true);
 
         $oDtLib = new Campo('', 'dtlib', Campo::TIPO_TEXTO, 2, 2, 12, 12);
@@ -264,8 +264,8 @@ class ViewCadCliRep extends View {
 
         $this->addCampos($oFieldInf, array($oEmpcod, $oCNPJ, $oEmpDes), array($oEmpFant, $oTipoPessoa, $oConsFinal), array($oEmpFone, $oEmailComum, $oEmailNfe), array($oBanco, $oCarteira, $oComer, $oTransp), $oFieldEnd, array($oEmpIns, $oRep), array($oPagaSt, $oSimplesNacional, $oCert), $oEmpObs, array($oRespVenda, $oRespVendaNome));
     }
-
-    public function relCadCliRep() {
+    	
+	public function relCadCliRep() {
         parent::criaTelaRelatorio();
 
         $this->setTituloTela('Cadastros de cliente');
@@ -287,5 +287,4 @@ class ViewCadCliRep extends View {
 
         $this->addCampos(array($oRepCodOffice, $oRepOffice), array($oDataIni, $oDataFim));
     }
-
 }

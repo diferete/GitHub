@@ -87,7 +87,7 @@ class ViewMET_ISO_RegistroTreinamento extends View {
         $oColaborador->setBCampoBloqueado(true);
 
         $oData = new Campo('Data', 'data_treinamento', Campo::TIPO_DATA, 2, 2, 12, 12);
-
+        
         $oCodTitulo = new Campo('...', 'cod_treinamento', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
         $oCodTitulo->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodTitulo->setBOculto(true);

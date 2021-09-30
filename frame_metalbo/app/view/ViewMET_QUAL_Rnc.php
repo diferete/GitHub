@@ -533,7 +533,7 @@ class ViewMET_QUAL_Rnc extends View {
 
         // $sCheck = new campo('Aplicar', 'func', Campo::TIPO_CHECK, 3, 3, 12, 12);
 
-        $sSelectRelatorio = new Campo('Tipo de Relatório', 'tiprel', Campo::CAMPO_SELECTSIMPLE, 6, 6, 12, 12);
+        $sSelectRelatorio = new Campo('Tipo de Relatório', 'tiprel', Campo::CAMPO_SELECTSIMPLE, 6, 8, 12, 12);
         $sSelectRelatorio->addItemSelect('1', 'COMPLETO');
         $sSelectRelatorio->addItemSelect('2', 'QUANTIDADES CONFORME SITUAÇÃO, TIPO DE FIXADOR E ORIGEM DAS RNCs');
         $sSelectRelatorio->addItemSelect('3', 'PESO NÃO CONFORME DE ACORDO COM A DECISÃO');

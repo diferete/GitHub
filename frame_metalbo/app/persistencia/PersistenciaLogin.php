@@ -246,12 +246,11 @@ class PersistenciaLogin extends Persistencia {
         $oRetorno = $this->consultaSql($sSql);
         return $oRetorno;
     }
-
+	
     /*
      * Verifica e altera campo tag_bloq 
      * Conforme quantidade de tentativas erradas de login, podendo bloquear o usuário caso ultrapasse 3 erros
      */
-
     public function gerenciaBloqUser() {
         $sSqlSelect = "select * from tbusuario "
                 . "WHERE usulogin = '" . $this->Model->getLogin() . "'";
@@ -274,7 +273,6 @@ class PersistenciaLogin extends Persistencia {
      * Reseta o campo tag_block para o valor 0 caso a senha esteja correta
      * Resetando a quantidade de possibilidades de senha errada para 3
      */
-
     public function limpaTag_Bloq() {
         $sSqlSelect = "select * from tbusuario "
                 . "WHERE usulogin = '" . $this->Model->getLogin() . "'";
@@ -284,3 +282,10 @@ class PersistenciaLogin extends Persistencia {
     }
 
 }
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+

@@ -43,7 +43,7 @@ class ViewMET_ISO_Treinamentos extends View {
         $oFilNr = new Filtro($oNr, Filtro::CAMPO_INTEIRO, 1, 1, 12, 12, false);
         $oFilFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_INTEIRO, 2, 2, 12, 12, false);
         $oFilCracha = new Filtro($oCracha, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
-        $oFilNome = new Filtro($oNome, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+		$oFilNome = new Filtro($oNome, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
 
         $oFilSetor = new Filtro($oSetor, Filtro::CAMPO_BUSCADOBANCOPK, 3, 3, 12, 12, false);
         $oFilSetor->setSClasseBusca('Setor');

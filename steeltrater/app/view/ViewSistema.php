@@ -108,6 +108,7 @@ class ViewSistema extends View {
                 . '<!-- FieldSet Collapse -->'
                 . '<link href="biblioteca/assets/vendor/jquery-coolfieldset/css/jquery.coolfieldset.css" rel="stylesheet" type="text/css" />'
                 . '<script src="biblioteca/assets/vendor/jquery-coolfieldset/js/jquery.coolfieldset.min.js"></script>'
+                . '<!-- FileInput -->'
                 /* . '<!-- bootstrap 5.x or 4.x is supported. You can also use the bootstrap css 3.3.x versions -->'
                   . '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" crossorigin="anonymous">' */
                 . '<!-- default icons used in the plugin are from Bootstrap 5.x icon library (which can be enabled by loading CSS below) -->'
@@ -366,7 +367,12 @@ class ViewSistema extends View {
                 . '</div>'
                 . '</div>'
                 . '</div>'
-                . '</div>'
+                . '</div>';
+        $param = false;
+        if ($param == true) {
+            $sTela = $sTela . '<a id="link" href="http://192.168.0.252:8080/DelsoftXPRO/servlet/loginerp?" target="_blank"></a>';
+        }
+        $sTela = $sTela . '</div>'
                 . '<!-- End Page -->'
                 . '<!-- Footer -->'
                 . '<!-- File Input-->'

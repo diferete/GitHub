@@ -142,13 +142,13 @@ class ControllerMET_VENDA_ExpCot extends Controller {
         $sTabIten = $oCotIten->getTabela();
 
         $sCampos = '&tabcab=' . $sTabCab;
-        $sCampos .= '&itencab=' . $sTabIten;
+        $sCampos .='&itencab=' . $sTabIten;
 
 
         //busca a imagem padrão dos relatórios
         $oRepOffice = Fabrica::FabricarPersistencia('RepOffice');
         $sImg = $oRepOffice->imgRel(null);
-        $sCampos .= '&imgrel=' . $sImg;
+        $sCampos .='&imgrel=' . $sImg;
 
         return $sCampos;
     }
@@ -196,7 +196,7 @@ class ControllerMET_VENDA_ExpCot extends Controller {
             $oEmail->addDestinatarioCopia($sCopia);
         }
 
-        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/cotacao' . $aNr[1] . '.pdf', utf8_decode('Cotação de venda nº' . $aNr[1]. '.pdf'));
+        $oEmail->addAnexo('app/relatorio/representantes/' . $_SESSION['diroffice'] . '/cotacao' . $aNr[1] . '.pdf', utf8_decode('Cotação de venda nº' . $aNr[1]));
         $aRetorno = $oEmail->sendEmail();
         if ($aRetorno[0]) {
             $oMensagem = new Mensagem('E-mail', 'E-mail enviado com sucesso!', Mensagem::TIPO_SUCESSO);

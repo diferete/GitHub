@@ -233,21 +233,20 @@ class ControllerMET_MP_ItensManPrev extends Controller {
 
     public function antesCarregaDetalhe($aCampos) {
         parent::antesCarregaDetalhe($aCampos);
-
+        
 //        //Habilita a inserção de dados nos campos dos IDs
 //         echo  "$('#" . $aCampos[8][1] . "').prop('readonly', true);";
 //         echo  "$('#" . $aCampos[9][1] . "').prop('readonly', true);";
 //         echo  "$('#" . $aCampos[8][1] . "-btn').prop('disabled', true);";
-        if ($this->Model->getUserinicial() == "") {
+        if($this->Model->getUserinicial()==""){
             $oUserinic = ($_SESSION['nome']);
             $this->Model->setUserinicial($oUserinic);
         }
-        if ($this->Model->getDatabert() == null) {
+        if($this->Model->getDatabert()==null){
             $this->Model->setFezmanut('SIM');
         }
-        return $aCampos;
+         return $aCampos;
     }
-
 //    
 //    public function beforeUpdate() {
 //        parent::beforeUpdate();

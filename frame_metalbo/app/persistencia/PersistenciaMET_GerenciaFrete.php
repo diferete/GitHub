@@ -320,25 +320,25 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                     where  tbfrete.cnpj =10618249000119 and tbfrete.seq  in(26,27,28,29)
                     /*30,31*/
                     insert into tbnt#
-                    select tbfrete.seq, tbfrete.ref, ROUND(ROUND (coalesce( fretevalor * nfsvlrtot ,0)+  coalesce(((pesoNota -taxa) * (fretepeso)+taxa2),0)+ coalesce( pedagio *FracaoFrete,0)+
-                    coalesce(  nfsvlrtot  *gris,0),2)/ imposto ,2) as Totalfrete,ROUND(ROUND (coalesce( taxamin ,0)+  coalesce(((pesoNota -taxa) * (fretepeso)+taxa2),0)+
+                    select tbfrete.seq, tbfrete.ref, ROUND(ROUND (coalesce( 0.001 * nfsvlrtot ,0) + coalesce( fretevalor * nfsvlrtot ,0)+  coalesce(((pesoNota -taxa) * (fretepeso)+taxa2),0)+ coalesce( pedagio *FracaoFrete,0)+
+                    coalesce(  nfsvlrtot  *gris,0),2)/ imposto ,2) as Totalfrete,ROUND(ROUND (coalesce( 0.001 * nfsvlrtot ,0) + coalesce( taxamin ,0)+  coalesce(((pesoNota -taxa) * (fretepeso)+taxa2),0)+
                     coalesce(  nfsvlrtot  *gris,0),2)/ imposto ,2) as Freteminimo
                     from tbfrete left outer join tbnt2#
                     on tbfrete.cnpj = tbnt2#.cnpj
                     where  tbfrete.cnpj =10618249000119 and tbfrete.seq in(30,31)
                     /*32*/
                     insert into tbnt#
-                    select tbfrete.seq, tbfrete.ref,ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ ROUND(((pesoNota -taxa) * (fretepeso)+taxa2),2)+ ROUND( pedagio *FracaoFrete,2)+ROUND(  nfsvlrtot  *gris,2),2)
+                    select tbfrete.seq, tbfrete.ref,ROUND(ROUND(coalesce( 0.001 * nfsvlrtot ,0) + fretevalor * nfsvlrtot ,2)+ ROUND(((pesoNota -taxa) * (fretepeso)+taxa2),2)+ ROUND( pedagio *FracaoFrete,2)+ROUND(  nfsvlrtot  *gris,2),2)
                     as Totalfrete,
-                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ ROUND(((pesoNota -taxa) * (fretepeso)+taxa2),2)+ROUND(nfsvlrtot  *gris,2),2)/imposto ,2) as Freteminimo
+                    ROUND(ROUND(coalesce( 0.001 * nfsvlrtot ,0) + ROUND( fretevalor * nfsvlrtot ,2)+ ROUND(((pesoNota -taxa) * (fretepeso)+taxa2),2)+ROUND(nfsvlrtot  *gris,2),2)/imposto ,2) as Freteminimo
                     from tbfrete left outer join tbnt2#
                     on tbfrete.cnpj = tbnt2#.cnpj
                     where  tbfrete.cnpj =10618249000119 and tbfrete.seq in(32)
                     /*33*/
                     insert into tbnt#
-                    select tbfrete.seq, tbfrete.ref,ROUND(((ROUND ((fretevalor * nfsvlrtot),2)  + ROUND ((((pesoNota -taxa)*fretepeso) +taxa2),2) 
+                    select tbfrete.seq, tbfrete.ref,ROUND(((ROUND ( coalesce( 0.001 * nfsvlrtot ,0) + (fretevalor * nfsvlrtot),2)  + ROUND ((((pesoNota -taxa)*fretepeso) +taxa2),2) 
                     + ROUND ((nfsvlrtot * gris),2) + ROUND ((pedagio * FracaoFrete),2))/imposto),2) as Totalfrete,
-                    ROUND(((ROUND ((fretevalor * nfsvlrtot),2)  + ROUND ((((pesoNota -taxa)*fretepeso) +taxa2),2) 
+                    ROUND(((ROUND (coalesce( 0.001 * nfsvlrtot ,0) + (fretevalor * nfsvlrtot),2)  + ROUND ((((pesoNota -taxa)*fretepeso) +taxa2),2) 
                     + ROUND ((nfsvlrtot  *gris),2))/imposto),2) as Freteminimo
                     from tbfrete left outer join tbnt2#
                     on tbfrete.cnpj = tbnt2#.cnpj
@@ -466,38 +466,15 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
         return 1;
     }else{
         return $iRetorno;
+    }  
     }
+    
+    public function verificaNotaConhec($aValores) {
+        $sSql = "select count(nrnotaoc) as total from tbgerecfrete where nrnotaoc = " . $aValores['nrnotaoc'] . " "
+                . "and cnpj = " . $aValores['cnpj'] . " ";
 
-
-
-
-
-//   if (empcod = '') or (pagdocto = '') then
-//   begin
-//
-//   end
-//   else
-//   begin
-//      with sql_nrParcela do
-//        begin
-//          active := false;
-//          sql.Text :=  'select MAX(pagparnro) + 1 as parcela  '+
-//                        'from widl.CTP0011                    '+
-//                        'where filcgc =''75483040000211''       '+
-//                        'and empcod =:empcod        '+
-//                        'and pagdocto =:pagdocto ';
-//          parameters.ParamByName('empcod').Value := empcod;
-//          parameters.ParamByName('pagdocto').Value := pagdocto;
-//          active := true;
-//          if FieldByName('parcela').Value = null then
-//          begin
-//            result := '1';
-//          end
-//          else
-//          begin
-//            result := FieldByName('parcela').Value;
-//          end;
-//        end;
-//   end;
+        $result = $this->getObjetoSql($sSql);
+        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        return $oRow->total;
     }
 }

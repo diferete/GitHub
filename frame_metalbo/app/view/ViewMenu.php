@@ -25,17 +25,14 @@ class ViewMenu extends View {
         $oModulo = new CampoConsulta('Módulo', 'Modulo.modcod');
 
         $oModDes = new CampoConsulta('Módulo', 'Modulo.modescricao');
+        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO);
 
         $oMenuCod = new CampoConsulta('Cód. Menu', 'mencodigo');
 
         $oMenDes = new CampoConsulta('Descrição', 'mendes');
+        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO);
 
         $oMenOrdem = new CampoConsulta('Ordem', 'menordem');
-
-
-
-        $oFModDes = new Filtro($oModDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
-        $oFMenDes = new Filtro($oMenDes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
 
         $this->addFiltro($oFMenDes, $oFModDes);
 

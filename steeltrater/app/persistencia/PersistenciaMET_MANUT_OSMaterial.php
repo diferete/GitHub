@@ -11,18 +11,21 @@ class PersistenciaMET_MANUT_OSMaterial extends Persistencia {
         parent::__construct();
  
         $this->setTabela('MET_MANUT_OSMaterial');
-        $this->adicionaRelacionamento('fil_codigo','fil_codigo');
-        $this->adicionaRelacionamento('nr','nr');
-        $this->adicionaRelacionamento('cod','cod');
-        $this->adicionaRelacionamento('codmat','codmat', true, true);
+        $this->adicionaRelacionamento('seq','seq', true, true, true);
+        $this->adicionaRelacionamento('fil_codigo','fil_codigo', true, true);
+        $this->adicionaRelacionamento('nr','nr', true, true);
+        $this->adicionaRelacionamento('cod','cod', true, true);
+        $this->adicionaRelacionamento('codmat','codmat');
         $this->adicionaRelacionamento('descricaomat','descricaomat');
         $this->adicionaRelacionamento('usermatcod','usermatcod');
         $this->adicionaRelacionamento('usermatdes','usermatdes');
         $this->adicionaRelacionamento('datamat','datamat');
         $this->adicionaRelacionamento('quantidade','quantidade');
         $this->adicionaRelacionamento('obsmat','obsmat');
+        $this->adicionaRelacionamento('processoCompra','processoCompra');
+        $this->adicionaRelacionamento('numero', 'numero');
                 
-        $this->adicionaOrderBy('codmat',1);
+        $this->adicionaOrderBy('seq',1);
         $this->setSTop('30');
     } 
     
@@ -33,9 +36,13 @@ class PersistenciaMET_MANUT_OSMaterial extends Persistencia {
         $useRMatCod = $_SESSION['codUser'];  
         $useRMatDes = $_SESSION['nome'];  
         
-        $sSql = "INSERT INTO MET_MANUT_OSMaterial (fil_codigo, nr, cod, codmat, descricaomat, usermatcod, usermatdes, datamat, quantidade, obsmat) "
-                . "VALUES ('" . $aCamposChave['fil_codigo'] . "','" . $aCamposChave['nr'] . "','" . $aCamposChave['cod'] . "','" . $aCamposChave['DELX_PRO_Produtos_pro_codigo'] . "','" . $aCamposChave['matnecessario'] . "','" . $useRMatCod . "','" . $useRMatDes . "','" . $data . "','" 
-                . $aCamposChave['quantidade'] . "','" . $aCamposChave['obsmat'] . "')";
+        $sSql5 = 'SELECT COALESCE(MAX(numero),0)+1 AS proximo FROM MET_MANUT_OSMaterial';
+        $obj = $this->consultaSql($sSql5);
+        $inc1 = (int) $obj->proximo;
+        
+        $sSql = "INSERT INTO MET_MANUT_OSMaterial (seq, fil_codigo, nr, cod, codmat, descricaomat, usermatcod, usermatdes, datamat, quantidade, obsmat, processoCompra, numero, quantMatSol) "
+                . "VALUES ('" . $aCamposChave['seq'] . "','" . $aCamposChave['fil_codigo'] . "','" . $aCamposChave['nr'] . "','" . $aCamposChave['cod'] . "','" . $aCamposChave['MET_MANUT_OSPesqProd_pro_codigo'] . "','" . $aCamposChave['matnecessario'] . "','" . $useRMatCod . "','" . $useRMatDes . "','" . $data . "','" 
+                . $aCamposChave['quantidade'] . "','" . $aCamposChave['obsmat'] . "', 'NÃO SOLICITADO', ".$inc1.",".$aCamposChave['quantidade'].")";
         $aRetorno = $this->executaSql($sSql);
 
         return $aRetorno;
@@ -46,10 +53,21 @@ class PersistenciaMET_MANUT_OSMaterial extends Persistencia {
                 . "WHERE fil_codigo = " . $aCamposChave['fil_codigo'] 
                 . " AND nr = " . $aCamposChave['nr'] 
                 . " AND cod = " . $aCamposChave['cod'] 
-                . " AND codmat = " . $aCamposChave['pro_codigo'] ;
+                . " AND seq = " . $aCamposChave['seq'] ;
         $aRetorno = $this->executaSql($sSql);
 
         return $aRetorno;
+    }
+    
+    public function getIncrementoMat($oModelManut){
+        
+        $sSql = " SELECT COALESCE(MAX(seq),0)+1 AS proximo FROM MET_MANUT_OSMaterial "
+                . " WHERE fil_codigo = '" . $oModelManut->getFil_codigo() ."' "
+                . " AND nr = '" . $oModelManut->getNr() ."' "
+                . " AND cod = '" . $oModelManut->getCod()."' ";
+        
+        $obj = $this->consultaSql($sSql); 
+        return $obj->proximo;       
     }
     
 }

@@ -26,14 +26,14 @@ class ViewSolCadUser extends View {
         $oUsuEmail = new CampoConsulta('E-mail', 'usuemail', CampoConsulta::TIPO_LARGURA, 20);
 
         $oUsusit = new CampoConsulta('Sit.', 'ususit', CampoConsulta::TIPO_LARGURA, 20);
-        $oUsusit->addComparacao('Aguardando cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, false, null);
-        $oUsusit->addComparacao('Usuário cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oUsusit->addComparacao('Aguardando cadastro', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA);
+        $oUsusit->addComparacao('Usuário cadastrado', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oObs = new CampoConsulta('Obs', 'obs', CampoConsulta::TIPO_LARGURA, 20);
 
         $oData = new CampoConsulta('Data', 'dataSolUser', CampoConsulta::TIPO_DATA, 20);
 
-        $usuFil = new Filtro($oUsusit, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12, false);
+        $usuFil = new Filtro($oUsusit, Filtro::CAMPO_TEXTO_IGUAL, 3, 3, 12, 12);
         $this->addFiltro($usuFil);
 
         $this->addCampos($oUsucodigo, $oUsunome, $oUsusobre, $oUsuLogin, $oUsuEmail, $oUsusit, $oData, $oObs);

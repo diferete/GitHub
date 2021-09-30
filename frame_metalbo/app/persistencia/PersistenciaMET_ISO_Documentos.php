@@ -169,7 +169,7 @@ class PersistenciaMET_ISO_Documentos extends Persistencia {
         return $oRetorno;
     }
 
-    public function deletaDocumento($sFilcgc, $sNr) {
+    public function deletaDocumento($sFilcgc, $sNr, $sSeq) {
         //deletar planos existentes
         $sDelete = "delete from MET_ISO_DocRevisao where filcgc = '" . $sFilcgc . "' and nr ='" . $sNr . "'";
         $aDelete = $this->executaSql($sDelete);

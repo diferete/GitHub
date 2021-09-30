@@ -12,31 +12,32 @@ class ControllerMET_ItensManPrevConsulta extends Controller {
     public function __construct() {
         $this->carregaClassesMvc('MET_ItensManPrevConsulta');
     }
-
+    
     public function adicionaFiltrosExtras() {
         parent::adicionaFiltrosExtras();
-
-        $this->buscaCelulas();
+        
+        $this->buscaCelulas();   
+        
     }
-
-    public function buscaCelulas() {
-
+    public function buscaCelulas(){
+        
         $oControllerMaquina = Fabrica::FabricarController('MET_Maquinas');
         $aParame = $oControllerMaquina->buscaDados();
         $this->View->setAParametrosExtras($aParame);
     }
-
+    
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
-        $sCodSet = $_SESSION['codsetor'];
-        if ($sCodSet == '12') {
-            $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'ELETRICA');
-        } else if ($sCodSet == '29') {
-            $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'MECANICA');
-        } else if ($sCodSet == '14') {
-            $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'OPERADOR');
-        }
+        $sCodSet = $_SESSION['codsetor']; 
+        if($sCodSet=='12'){
+            $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'ELETRICA');    
+        }else if($sCodSet=='29'){     
+            $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'MECANICA');    
+        }else if($sCodSet=='14') {
+            $this->Persistencia->adicionaFiltro('MET_ServicoMaquina.resp', 'OPERADOR');  
+        }   
         $this->Persistencia->adicionaFiltro('sitmp', 'ABERTO');
     }
-
 }
+
+

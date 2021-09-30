@@ -19,7 +19,7 @@ class ViewTiEquipamentoTipo extends View {
         $oEquipDesc->setILargura(800);
 
 
-        $oFilEqpDesc = new Filtro($oEquipDesc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilEqpDesc = new Filtro($oEquipDesc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
         $this->addFiltro($oFilEqpDesc);
 
         $this->addCampos($oEquipTipCod, $oEquipDesc);

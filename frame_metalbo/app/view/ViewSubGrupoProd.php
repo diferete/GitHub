@@ -16,9 +16,9 @@ class ViewSubGrupoProd extends View {
         $oSubGrupo = new CampoConsulta('SubGrupo', 'subcod', CampoConsulta::TIPO_LARGURA, 20);
         $oSubDes = new CampoConsulta('SubGrupo Descrição', 'subdes', CampoConsulta::TIPO_LARGURA, 20);
 
-        $oFilSubCod = new Filtro($oSubGrupo, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oFilSubdes = new Filtro($oSubDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oFilGrupo = new Filtro($oGrucod, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilSubCod = new Filtro($oSubGrupo, Filtro::CAMPO_TEXTO, 2);
+        $oFilSubdes = new Filtro($oSubDes, Filtro::CAMPO_TEXTO, 2);
+        $oFilGrupo = new Filtro($oGrucod, Filtro::CAMPO_TEXTO, 2);
 
 
         $this->addFiltro($oFilSubCod, $oFilSubdes, $oFilGrupo);

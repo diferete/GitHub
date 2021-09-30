@@ -12,8 +12,14 @@ class ModelMET_CAD_Funcionarios {
     private $nomfun;
     private $cpf;
     private $cargo;
-    private $cnpj;
-    private $sit;
+
+    function getCargo() {
+        return $this->cargo;
+    }
+
+    function setCargo($cargo) {
+        $this->cargo = $cargo;
+    }
 
     function getNumcad() {
         return $this->numcad;
@@ -27,18 +33,6 @@ class ModelMET_CAD_Funcionarios {
         return $this->cpf;
     }
 
-    function getCargo() {
-        return $this->cargo;
-    }
-
-    function getCnpj() {
-        return $this->cnpj;
-    }
-
-    function getSit() {
-        return $this->sit;
-    }
-
     function setNumcad($numcad) {
         $this->numcad = $numcad;
     }
@@ -49,18 +43,6 @@ class ModelMET_CAD_Funcionarios {
 
     function setCpf($cpf) {
         $this->cpf = $cpf;
-    }
-
-    function setCargo($cargo) {
-        $this->cargo = $cargo;
-    }
-
-    function setCnpj($cnpj) {
-        $this->cnpj = $cnpj;
-    }
-
-    function setSit($sit) {
-        $this->sit = $sit;
     }
 
 }

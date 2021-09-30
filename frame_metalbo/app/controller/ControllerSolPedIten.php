@@ -30,6 +30,9 @@ class ControllerSolPedIten extends Controller {
      *
      */
     public function acaoExitCodigo($sDados) {
+
+
+
         $oVenda = Fabrica::FabricarController('TabVenda');
         $oVenda->buscaPrecoRep($sDados);
 
@@ -149,7 +152,7 @@ class ControllerSolPedIten extends Controller {
 
             $iCont = $this->Persistencia->getCount();
             if ($iCont > 0) {
-                $oMensagem = new Mensagem('Item repetido', 'Já existe(m) ' . $iCont . ' produto(s) igual(s) nessa solicitação!', Mensagem::TIPO_INFO);
+                $oMensagem = new Mensagem('Item repetido', 'Já existe ' . $iCont . ' produtos iguais nessa solicitação!', Mensagem::TIPO_INFO);
                 echo $oMensagem->getRender();
             }
         }

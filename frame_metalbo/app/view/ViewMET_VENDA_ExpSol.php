@@ -30,8 +30,8 @@ class ViewMET_VENDA_ExpSol extends View {
         $oDataLib = new CampoConsulta('Data Liberaçao', 'datalib', CampoConsulta::TIPO_DATA);
         $oDataLib->setILargura(80);
         $oEmail = new CampoConsulta('Email', 'email', CampoConsulta::TIPO_TEXTO);
-        $oEmail->addComparacao('NV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
-        $oEmail->addComparacao('EV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, false, null);
+        $oEmail->addComparacao('NV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+        $oEmail->addComparacao('EV', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA);
 
         $oData = new CampoConsulta('Data', 'data', CampoConsulta::TIPO_DATA);
         $oData->setILargura(100);
@@ -42,8 +42,8 @@ class ViewMET_VENDA_ExpSol extends View {
         $this->setUsaDropdown(true);
 
         $oDrop1 = new Dropdown('Liberações', Dropdown::TIPO_SUCESSO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Liberar para metalbo', 'MET_VENDA_ExpSol', 'msgLiberaMetalbo', '', false, '', false, '', false, '', false, false);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_COPIAR) . 'Gerar copia', 'MET_VENDA_ExpSol', 'msgCopiaSol', '', false, '', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Liberar para metalbo', 'MET_VENDA_ExpSol', 'msgLiberaMetalbo', '', false, '');
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_COPIAR) . 'Gerar copia', 'MET_VENDA_ExpSol', 'msgCopiaSol', '', false, '');
 
         $oDrop2 = new Dropdown('Visualizar', Dropdown::TIPO_PRIMARY);
         //verifica sessão de solicitação de venda
@@ -52,25 +52,25 @@ class ViewMET_VENDA_ExpSol extends View {
         } else {
             $sSolvenda = 'solvenda';
         }
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'MET_VENDA_ExpSol', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . '', false, '', false, '', false, false);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar sem logo', 'MET_VENDA_ExpSol', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',slogo', false, '', false, '', false, false);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'MET_VENDA_ExpSol', 'acaoMostraRelXls', '', false, 'solvendaxls', false, '', false, '', false, false);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'MET_VENDA_ExpSol', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',email,MET_VENDA_ExpSol,envMailSol', false, '', false, '', false, false);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'MET_VENDA_ExpSol', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',email,MET_VENDA_ExpSol,envMailSol,slogo', false, '', false, '', false, false);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Estoque', 'ConsultaEstoque', 'acaoMostraTelaEstoque', '', false, $_SESSION['officecabsoliten'], true, 'Consulta Estoques de Pedido', false, '', false, '', false, false);
-        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'MET_VENDA_ExpSol', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep', false, '', false, '', false, false);
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar', 'MET_VENDA_ExpSol', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . '');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar sem logo', 'MET_VENDA_ExpSol', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',slogo');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EXCEL) . 'Converte para excel', 'MET_VENDA_ExpSol', 'acaoMostraRelXls', '', false, 'solvendaxls');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'MET_VENDA_ExpSol', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',email,MET_VENDA_ExpSol,envMailSol');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'MET_VENDA_ExpSol', 'acaoMostraRelConsulta', '', false, '' . $sSolvenda . ',email,MET_VENDA_ExpSol,envMailSol,slogo');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Estoque', 'ConsultaEstoque', 'acaoMostraTelaEstoque', '', false, $_SESSION['officecabsoliten'], true, 'Consulta Estoques de Pedido');
+        $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'MET_VENDA_ExpSol', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep');
         $this->addDropdown($oDrop2);
         //descontosrep
 
-        $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
-        $oFilCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, false);
-        $oFilCnpj = new Filtro($oCnpj, Filtro::CAMPO_BUSCADOBANCOPK, 2, 2, 12, 12, false);
+        $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1);
+        $oFilCliente = new Filtro($oCliente, Filtro::CAMPO_TEXTO, 3);
+        $oFilCnpj = new Filtro($oCnpj, Filtro::CAMPO_BUSCADOBANCOPK, 2);
         $oFilCnpj->setSClasseBusca('Pessoa');
         $oFilCnpj->setSCampoRetorno('empcod', $this->getTela()->getSId());
         $oFilCnpj->setSIdTela($this->getTela()->getSId());
 
-        $oFilOd = new Filtro($oOdCompra, Filtro::CAMPO_TEXTO_IGUAL, 1, 1, 12, 12, false);
-        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
+        $oFilOd = new Filtro($oOdCompra, Filtro::CAMPO_TEXTO_IGUAL, 1);
+        $oFilData = new Filtro($oData, Filtro::CAMPO_DATA_ENTRE, 2);
 
         $this->addCampos($oNr, $oCnpj, $oCliente, $oOdCompra, $oUserLib, $oNrCot, $oGeraPed, $oData, $oEmail);
         $this->addFiltro($oFilSolNr, $oFilCliente, $oFilCnpj, $oFilOd, $oFilData);

@@ -16,10 +16,10 @@ class ControllerMET_TEC_Chamados extends Controller {
         parent::antesDeCriarConsulta($sParametros);
 
         $this->Persistencia->updateTempoRestante();
-        $this->Persistencia->adicionaFiltro('situaca', 'FINALIZADO', 0, Persistencia::DIFERENTE);
-        $this->Persistencia->adicionaFiltro('situaca', 'CANCELADO', 0, Persistencia::DIFERENTE);
+		$this->Persistencia->adicionaFiltro('situaca', 'FINALIZADO', 0, Persistencia::DIFERENTE);
+		$this->Persistencia->adicionaFiltro('situaca', 'CANCELADO', 0, Persistencia::DIFERENTE);
     }
-    
+
     public function antesAlterar($sParametros = null) {
         parent::antesAlterar($sParametros);
 
@@ -238,12 +238,12 @@ class ControllerMET_TEC_Chamados extends Controller {
         if ($aCampos['obsfim'] == '') {
             $oMensagem = new Mensagem('Atenção', 'Preencha o campo OBSERVAÇÃO!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
-            exit;
+			exit;
         }
-        if ($aCampos['tempo'] == '') {
+		if ($aCampos['tempo'] == '') {
             $oMensagem = new Mensagem('Atenção', 'Preencha o campo TEMPO!', Mensagem::TIPO_WARNING);
             echo $oMensagem->getRender();
-            exit;
+			exit;
         } else {
             $aRetorno = $this->Persistencia->finalizaChamado($aCampos);
             if ($aRetorno[0]) {

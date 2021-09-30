@@ -23,7 +23,7 @@ class ViewNotEmpQual extends View {
         $oEmpdes = new CampoConsulta('Empresa', 'empdes');
         $oEmpdes->setILargura(600);
         
-        $oFiltro = new Filtro($oEmpdes, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
+        $oFiltro = new Filtro($oEmpdes, Filtro::CAMPO_TEXTO);
 
 
 

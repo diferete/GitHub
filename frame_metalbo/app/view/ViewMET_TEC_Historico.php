@@ -29,9 +29,9 @@ class ViewMET_TEC_Historico extends View {
         $oClasse = new CampoConsulta('Classe', 'classe');
 
 
-        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_INTEIRO, 2, 2, 12, 12, false);
-        $oFilClasse = new Filtro($oClasse, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
-        $oFilUsuario = new Filtro($oUsuario, Filtro::CAMPO_TEXTO, 2, 2, 12, 12, false);
+        $oFilSeq = new Filtro($oSeq, Filtro::CAMPO_INTEIRO, 2, 2, 12, 12);
+        $oFilClasse = new Filtro($oClasse, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilUsuario = new Filtro($oUsuario, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
 
         $this->addFiltro($oFilSeq, $oFilClasse, $oFilUsuario);

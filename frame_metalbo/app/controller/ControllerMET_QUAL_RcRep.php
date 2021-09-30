@@ -25,8 +25,8 @@ class ControllerMET_QUAL_RcRep extends Controller {
 
         $this->View->setOObjTela($oReps);
     }
-
-    public function beforeUpdate() {
+	
+	public function beforeUpdate() {
         parent::beforeUpdate();
 
         $oLote = $this->Model->getLote();

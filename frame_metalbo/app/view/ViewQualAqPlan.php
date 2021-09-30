@@ -15,6 +15,9 @@ class ViewQualAqPlan extends View {
     function criaGridDetalhe($sAcaoRotina) {
         parent::criaGridDetalhe($sIdAba);
 
+        /**
+         * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
+         */
         $this->getOGridDetalhe()->setIAltura(400);
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
@@ -53,8 +56,10 @@ class ViewQualAqPlan extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
+
         $aDados = $_REQUEST['parametros'];
         $aDados = explode(',', $aDados['parametros[']);
+
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
         $oBotaoModal->setBHideTelaAcao(true);

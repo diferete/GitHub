@@ -187,6 +187,9 @@ class ControllerMET_TEC_MobileFat extends Controller {
                 $aRetorno['ProdSteel'][5]['title'] = 'Fio Máquina Mês';
                 $aRetorno['ProdSteel'][5]['value'] = number_format($aDadosProdSteel['ProdMensal']['PesoFio']['pesoTotal'], 2, ',', '.') . ' Kg';
 
+                $aRetorno['ProdSteel'][6]['title'] = 'Zincagem Mês';
+                $aRetorno['ProdSteel'][6]['value'] = number_format($aDadosProdSteel['ProdMensal']['DadosEtapaZinc'], 2, ',', '.') . ' Kg';
+
                 $aRetorno['PainelProdSteel'] = 'Produção SteelTrater';
             }
         }
@@ -313,23 +316,26 @@ class ControllerMET_TEC_MobileFat extends Controller {
         //primeiro dia
         $dataInicial = "01/$mes/$ano";
 
-        $dataFinal = date("t", mktime(0, 0, 0, $mes, '01', $ano)) . '/' . $mes . '/' . $ano; // Mágica, plim!   
+        $dataFinal = date("t", mktime(0, 0, 0, $mes, '01', $ano)) . '/' . $mes . '/' . $ano; // Mágica, plim!  
 
         $dataOntem = date("t", mktime(0, 0, 0, $mes, '01', $ano)) . '/' . $mes . '/' . $ano; //date("d/m/Y", mktime(0, 0, 0, $mes, $dia - 1, $ano));
 
         $oDadosProdSteel = Fabrica::FabricarController('STEEL_PCP_GerenProd');
+
         //traz produção mensal até dia ontem
         $aDadosParam = array();
         $aDadosParam['busca'] = 'ProdTotal';
         $aDadosParam['dataini'] = $dataInicial;
         $aDadosParam['datafin'] = $dataOntem;
         $aDadosPesoGeralMensal = $oDadosProdSteel->Persistencia->geraGerenProd($aDadosParam);
+
         //separa por tipo de op tempera
         $aDadosParam['busca'] = 'ProdTotal';
         $aDadosParam['dataini'] = $dataInicial;
         $aDadosParam['datafin'] = $dataOntem;
         $aDadosParam['tipoOp'] = "'P','TZ'";
         $aDadosPesoTemperaMensal = $oDadosProdSteel->Persistencia->geraGerenProd($aDadosParam);
+
         //separa por tipo de op fio maquina
         $aDadosParam['busca'] = 'ProdTotal';
         $aDadosParam['dataini'] = $dataInicial;
@@ -337,13 +343,31 @@ class ControllerMET_TEC_MobileFat extends Controller {
         $aDadosParam['tipoOp'] = "'F'";
         $aDadosPesoFioMensal = $oDadosProdSteel->Persistencia->geraGerenProd($aDadosParam);
 
+        $aDadosParam['busca'] = 'ProdTotal';
+        $aDadosParam['dataini'] = $dataInicial;
+        $aDadosParam['datafin'] = $dataOntem;
+        //$aDadosParam['tipoOp'] = 'F';
+        $aDadosEtapaMensalFio = $oDadosProdSteel->Persistencia->geraProdEtapas($aDadosParam);
+
+
+        //por linha zincagem somente etapas
+        $aDadosParam['busca'] = 'ProdForno';
+        $aDadosParam['dataini'] = $dataInicial;
+        $aDadosParam['datafin'] = $dataOntem;
+        $aDadosParam['tipoOp'] = "'TZ','Z'";
+        $aDadosParam['Z'] = 'S';
+        $aDadosEtapaZincMensal = $oDadosProdSteel->Persistencia->geraProdEtapas($aDadosParam);
+
         $aRetorno['totalMensal'] = number_format($aDadosPesoGeralMensal['pesoTotal'], 2, ',', '.') . ' Kg';
         $aRetorno['totalMensalForno'] = number_format($aDadosPesoTemperaMensal['pesoTotal'], 2, ',', '.') . ' Kg';
         $aRetorno['totalMensalFio'] = number_format($aDadosPesoFioMensal['pesoTotal'], 2, ',', '.') . ' Kg';
+        $aRetorno['totalMensalZinc'] = number_format($aDadosEtapaZincMensal['LINHA DE ZINCAGEM 1'] + $aDadosEtapaZincMensal['LINHA DE ZINCAGEM 2'] . '.0000', 2, ',', '.') . ' Kg';
+        $aRetorno['etapaTrefilaMensalFio'] = number_format($aDadosEtapaMensalFio['TREFILA'], 2, ',', '.') . ' Kg';
+        $aRetorno['etapaEsferoMensalFio'] = number_format($aDadosEtapaMensalFio['ESFEROIDIZAÇÃO DE FIO MÁQUINA'], 2, ',', '.') . ' Kg';
 
-       /* $fp = fopen("bloco11.txt", "w");
-        fwrite($fp, $dataOntem);
-        fclose($fp);*/
+        /* $fp = fopen("bloco11.txt", "w");
+          fwrite($fp, $dataOntem);
+          fclose($fp); */
 
 
         $aDadosProdSteel = $oDadosProdSteel->Persistencia->getProdApp($dataInicial, $dataFinal);

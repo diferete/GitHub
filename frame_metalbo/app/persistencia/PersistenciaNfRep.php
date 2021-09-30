@@ -69,6 +69,7 @@ class PersistenciaNfRep extends Persistencia {
 
         from widl.NFC001 (NOLOCK),widl.mov01 (NOLOCK)";
 
+
         $sSqlWhere = " and widl.nfc001.nfsmovcod = widl.MOV01.movcod  
         and nfsfilcgc = '75483040000211'
         and widl.NFC001.nfsnfser = 2 ";

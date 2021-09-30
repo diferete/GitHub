@@ -589,7 +589,7 @@ class ViewSistema extends View {
         $sMsg = $sMsg . $this->getInformativos();
         $sMsg = $sMsg . '</div>'
                 . '</section>'
-                . '</div>'
+                  . '</div>'
                 . '</div>'
                 . '<div id="icoAtualiza2">'
                 . '<h4 style="text-align-last:end;margin-top:10px;margin-left:5px;cursor:pointer;" title="Atualizações">'
@@ -700,7 +700,7 @@ class ViewSistema extends View {
                     . ' <td><span class = "badge badge-dark">' . $value->versao . '</span></td> '
                     . ' <td style = "width:450px">' . $value->updates . '</td> ';
             if ($value->anexo != '') {
-                $html = $html . ' <td><a href = "http://localhost/github/frame_metalbo/uploads/' . $value->anexo . '" target = "_blank" rel = ”noopener”>Clique aqui</a></td> ';
+                $html = $html . ' <td><a href = "https://sistema.metalbo.com.br/uploads/' . $value->anexo . '" target = "_blank" rel = ”noopener”>Clique aqui</a></td> ';
             } else {
                 $html = $html . ' <td></td> ';
             }
@@ -765,7 +765,7 @@ class ViewSistema extends View {
         $oItemMenu = Fabrica::FabricarPersistencia('ItemMenu');
         $aClasses = $oItemMenu->getRotinasAdicionais();
 
-        $html = '';
+      $html = '';
         $iCont = 1;
 
         foreach ($aClasses as $key => $aValue) {
@@ -779,13 +779,13 @@ class ViewSistema extends View {
                     $iCont = $oItemMenu->getRotinasAdicionaisContadores($aValue);
                     $html = $html . '<span class="badge badge-danger up" style="top:0px !important">' . $iCont . '</span>';
                     break;
-            }
+      }
             $html = $html . '</a>';
 
             $iCont++;
         }
-        return $html;
-    }
+      return $html;
+}
 
     public function getInformativos() {
         // $html = '<a id="informativo-Dolar" class = "list-group-item Steeltrater-empresa" href = "javascript:void(0)"><i class = "icon fa-building" aria-hidden = "true"></i></a>';

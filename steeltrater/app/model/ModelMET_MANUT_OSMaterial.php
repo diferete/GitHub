@@ -7,6 +7,7 @@
  
 class ModelMET_MANUT_OSMaterial {
 
+    private $seq;
     private $fil_codigo;
     private $nr;
     private $cod;
@@ -17,6 +18,32 @@ class ModelMET_MANUT_OSMaterial {
     private $datamat;
     private $quantidade;
     private $obsmat;
+    private $processoCompra;
+    private $numero;
+    
+    function getNumero() {
+        return $this->numero;
+    }
+
+    function setNumero($numero) {
+        $this->numero = $numero;
+    }
+    
+    function getProcessoCompra() {
+        return $this->processoCompra;
+    }
+
+    function setProcessoCompra($processoCompra) {
+        $this->processoCompra = $processoCompra;
+    } 
+    
+    function getSeq() {
+        return $this->seq;
+    }
+
+    function setSeq($seq) {
+        $this->seq = $seq;
+    }
     
     function getQuantidade() {
         return $this->quantidade;

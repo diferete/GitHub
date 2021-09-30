@@ -27,11 +27,11 @@ class ControllerMET_MANUT_OS extends Controller {
 
         if ($this->Model->getSituacao() <> 'Aberta') {
             $aOrdem = $aCamposChave['nr'];
-            $oMensagem = new Modal('Ordem não está em estado para apontar!', 'Ordem nº' . $aOrdem . ' está '.$this->Model->getSituacao().' não é permitido fazer alterações!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Ordem não está em estado para apontar!', 'Ordem nº' . $aOrdem . ' está ' . $this->Model->getSituacao() . ' não é permitido fazer alterações!', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
             exit();
         }
-        
+
         $oMensagem = new Modal('Apontar início da manutenção', 'Deseja apontar o início da manutenção da ordem nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","liberaManut","' . $sDados . '");');
 
@@ -62,13 +62,13 @@ class ControllerMET_MANUT_OS extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-        
+
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
-        
+
         if ($this->Model->getSituacao() <> 'Iniciada') {
             $aOrdem = $aCamposChave['nr'];
-            $oMensagem = new Modal('Ordem não está em estado para retornar para Aberta!', 'Ordem nº' . $aOrdem . ' está '.$this->Model->getSituacao().' não é permitido retornar!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Ordem não está em estado para retornar para Aberta!', 'Ordem nº' . $aOrdem . ' está ' . $this->Model->getSituacao() . ' não é permitido retornar!', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
             exit();
         }
@@ -103,14 +103,14 @@ class ControllerMET_MANUT_OS extends Controller {
 
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
-        
+
         if ($this->Model->getSituacao() == 'Encerrada') {
             $aOrdem = $aCamposChave['nr'];
-            $oMensagem = new Modal('Ordem não pode ser cancelada!', 'Ordem nº' . $aOrdem . ' está '.$this->Model->getSituacao().' não é permitido cancelar!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Ordem não pode ser cancelada!', 'Ordem nº' . $aOrdem . ' está ' . $this->Model->getSituacao() . ' não é permitido cancelar!', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
             exit();
         }
-        
+
         $oMensagem = new Modal('Cancelamento', 'Deseja cancelar a ordem nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","cancela","' . $sDados . '");');
 
@@ -138,13 +138,13 @@ class ControllerMET_MANUT_OS extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-        
+
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
 
         if ($this->Model->getSituacao() <> 'Iniciada') {
             $aOrdem = $aCamposChave['nr'];
-            $oMensagem = new Modal('Ordem não está em estado para encerrar!', 'Ordem nº' . $aOrdem . ' está '.$this->Model->getSituacao().' não é permitido encerrar!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Ordem não está em estado para encerrar!', 'Ordem nº' . $aOrdem . ' está ' . $this->Model->getSituacao() . ' não é permitido encerrar!', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
             exit();
         }
@@ -161,7 +161,7 @@ class ControllerMET_MANUT_OS extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-        
+
         $aRetorno = array();
         $aRetorno = $this->Persistencia->enc($aCamposChave);
 
@@ -185,32 +185,26 @@ class ControllerMET_MANUT_OS extends Controller {
             $oMensagem = new Modal('Ordem já está encerrada', 'Ordem nº' . $aOrdem[1] . ' já está encerrada, não é permitido fazer alterações!', Modal::TIPO_ERRO, false, true, true);
             $this->setBDesativaBotaoPadrao(true);
             echo $oMensagem->getRender();
-            //exit();
         }
         if ($this->Model->getSituacao() == 'Cancelada') {
             $aOrdem = explode('=', explode('&', $sParametros[0])[1]);
             $oMensagem = new Modal('Ordem já está Cancelada', 'Ordem nº' . $aOrdem[1] . ' já está cancelada, não é permitido fazer alterações!', Modal::TIPO_ERRO, false, true, true);
             $this->setBDesativaBotaoPadrao(true);
             echo $oMensagem->getRender();
-            //exit();
         }
     }
 
-//    public function relOs($renderTo, $sMetodo = '') {
-//        parent::mostraTelaRelatorio($renderTo, 'relOsPoli');
-//    }
-    
     /**
      * Antes de criar consulta atualiza a data de dias
      * @param type $sParametros
      */
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
-        
+
         $this->Persistencia->atualizaDataAntesdaConsulta();
-        
+        //      $this->Persistencia->atualizaServicos();
     }
-    
+
     /**
      * Mensagem para retornar a manutenção para situação iniciada
      */
@@ -220,13 +214,13 @@ class ControllerMET_MANUT_OS extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-        
+
         $this->carregaModelString($sChave);
         $this->Model = $this->Persistencia->consultar();
-        
+
         if ($this->Model->getSituacao() <> 'Encerrada') {
             $aOrdem = $aCamposChave['nr'];
-            $oMensagem = new Modal('Ordem não está em estado para retornar para Iniciada!', 'Ordem nº' . $aOrdem . ' está '.$this->Model->getSituacao().' não é permitido retornar!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Ordem não está em estado para retornar para Iniciada!', 'Ordem nº' . $aOrdem . ' está ' . $this->Model->getSituacao() . ' não é permitido retornar!', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
             exit();
         }
@@ -251,9 +245,9 @@ class ControllerMET_MANUT_OS extends Controller {
         echo $oMensagem->getRender();
         echo"$('#" . $aDados[1] . "-pesq').click();";
     }
-    
-    public function relOsSteel($renderTo, $sMetodo = ''){
-       parent::mostraTelaRelatorio($renderTo, 'relOsSteel'); 
+
+    public function relOsSteel($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'relOsSteel');
     }
 
     public function buscaDadosCrachaManut($sDados) {
@@ -281,7 +275,7 @@ class ControllerMET_MANUT_OS extends Controller {
             }
         }
     }
-    
+
     /**
      *  Gera xls das manutenções Steel
      */
@@ -307,17 +301,70 @@ class ControllerMET_MANUT_OS extends Controller {
         $oMenSuccess = new Mensagem("Sucesso", "Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
         echo $oMenSuccess->getRender();
     }
-    
+
     public function afterInsert() {
         parent::afterInsert();
-                
+
         echo '$("#manutCracha").val("").focus();';
-        
+
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
         return $aRetorno;
+    }
+
+    public function consultaDesMaq() {
+
+        $aCampos = $this->getArrayCampostela();
+
+        $oMaq = Fabrica::FabricarController('MET_CAD_Maquinas');
+        $oMaq->Persistencia->adicionaFiltro('fil_codigo', $aCampos['fil_codigo']);
+        $oMaq->Persistencia->adicionaFiltro('codigoMaq', $aCampos['cod']);
+        $iCont = $oMaq->Persistencia->getCount();
+
+        if ($iCont == 0) {
+            $oMensagem = new Mensagem('Atenção!', 'Código de máquina inexistente, digite um código válido!', Mensagem::TIPO_WARNING, 7000);
+            echo $oMensagem->getRender();
+            $sScript = '$("#codMaqManOS").val("");'
+                    . '$("#desMaqManOS").val("");'
+                    . '$("#codMaqManOS").val("").focus();';
+            echo $sScript;
+        }
+    }
+
+    public function consultaMaterial() {
+
+        $aCampos = $this->getArrayCampostela();
+
+        $oMaq = Fabrica::FabricarController('DELX_PRO_Produtos');
+        $oMaq->Persistencia->adicionaFiltro('pro_codigo', $aCampos['MET_MANUT_OSPesqProd_pro_codigo']);
+        $iCont = $oMaq->Persistencia->getCount();
+
+        if ($iCont == 0) {
+            $oMensagem = new Mensagem('Atenção!', 'Código de material inexistente, digite um código válido!', Mensagem::TIPO_WARNING, 7000);
+            echo $oMensagem->getRender();
+            $sScript = '$("#CodmaterialManOs").val("");'
+                    . '$("#materialManOs").val("");'
+                    . '$("#CodmaterialManOs").val("").focus();';
+            echo $sScript;
+        }
+        $oDadosMaq = $oMaq->Persistencia->consultarWhere();
+
+        $oContPar = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
+        $oContPar->Persistencia->adicionaFiltro('parametro', "PARAMENTRO PARA O SISTEMA DE CONSULTA DE MATERIAL OS");
+        $oModelDadosPar = $oContPar->Persistencia->consultarWhere();
+        $sDados = $oModelDadosPar->getObs();
+        $aGrupDados = explode(',', $sDados);
+
+        if (!in_array($oDadosMaq->getPro_grupocodigo() , $aGrupDados )) {
+            $oMensagem = new Mensagem('Atenção!', 'Código de material inexistente no grupo válido, digite um código válido!', Mensagem::TIPO_WARNING, 7000);
+            echo $oMensagem->getRender();
+            $sScript = '$("#CodmaterialManOs").val("");'
+                    . '$("#materialManOs").val("");'
+                    . '$("#CodmaterialManOs").val("").focus();';
+            echo $sScript;
+        } 
         
     }
-        
+
 }

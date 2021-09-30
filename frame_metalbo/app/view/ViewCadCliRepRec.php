@@ -12,13 +12,6 @@ class ViewCadCliRepRec extends View {
         parent::criaConsulta();
 
 
-        $this->getTela()->setILarguraGrid(1200);
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoIncluir(false);
-        $this->setUsaAcaoAlterar(true);
-        $this->setUsaAcaoVisualizar(true);
-        $this->setBScrollInf(false);
-        $this->getTela()->setBUsaCarrGrid(true);
 
         $oNr = new CampoConsulta('Nr.Cadastro', 'nr');
         $oNr->setILargura(1);
@@ -59,6 +52,15 @@ class ViewCadCliRepRec extends View {
         $this->addDropdown($oDrop1);
 
         $this->addCampos($oNr, $oEmpcod, $oEmpDes, $oDataCad, $oEmpusu, $oUsuCadVenda, $oSituaca);
+
+
+        $this->getTela()->setILarguraGrid(1200);
+        $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaAcaoAlterar(true);
+        $this->setUsaAcaoVisualizar(true);
+        $this->setBScrollInf(false);
+        $this->getTela()->setBUsaCarrGrid(true);
     }
 
     public function criaTela() {
