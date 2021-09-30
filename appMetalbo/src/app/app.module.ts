@@ -22,9 +22,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { IonicStorageModule } from '@ionic/storage';
 
-
-
-
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -35,17 +32,16 @@ import { IonicStorageModule } from '@ionic/storage';
     ComponentsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
-    IonicStorageModule.forRoot()
-      
+    IonicStorageModule.forRoot(),
   ],
   providers: [
-      StatusBar,
-      SplashScreen,
-      NativeStorage,
-      { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-      ConexaoService,
-      HTTP
+    StatusBar,
+    SplashScreen,
+    NativeStorage,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    ConexaoService,
+    HTTP,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

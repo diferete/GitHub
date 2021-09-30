@@ -150,6 +150,23 @@ const routes: Routes = [
     loadChildren: () => import('./sol-compras-itens/sol-compras-itens.module').then((m) => m.SolComprasItensPageModule),
   },
   {
+    path: 'met-enderecamento',
+    loadChildren: () =>
+      import('./met-enderecamento/met-enderecamento.module').then((m) => m.MetEnderecamentoPageModule),
+  },
+  {
+    path: 'met-enderecamento-detalhe',
+    loadChildren: () =>
+      import('./met-enderecamento-detalhe/met-enderecamento-detalhe.module').then(
+        (m) => m.MetEnderecamentoDetalhePageModule
+      ),
+  },
+  {
+    path: 'met-enderecamento-novo',
+    loadChildren: () =>
+      import('./met-enderecamento-novo/met-enderecamento-novo.module').then((m) => m.MetEnderecamentoNovoPageModule),
+  },
+  {
     path: '**',
     redirectTo: 'page-not-found',
   },

@@ -1,5 +1,5 @@
 ﻿<ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar color="verdeMetalbo">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -138,7 +138,7 @@
         size="6"
         [ngClass]="{'redFat': p.title=='Serviço/Insumo Mês' || p.title=='Serviço Mês' || p.title=='Insumo Mês' ,
                         'blueFat': p.title=='Produção total Mês' || p.title=='Fornos contínuos Mês' ||  p.title=='Fio Máquina Mês'
-                         }"
+                        ||  p.title=='Zincagem Mês' }"
         ><b>{{p.value}}</b></ion-col
       >
     </ion-item>

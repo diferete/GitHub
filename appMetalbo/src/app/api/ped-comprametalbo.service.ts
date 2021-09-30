@@ -37,7 +37,7 @@ export class PedCompraMetalboService {
     }*/
 
   getPedCompras(usutoken, usucod, cnpj) {
-    console.log(cnpj);
+    //console.log(cnpj);
     this.presentLoading();
     let dadosEnv = {
       classe: 'STEEL_SUP_PedidoCompra',

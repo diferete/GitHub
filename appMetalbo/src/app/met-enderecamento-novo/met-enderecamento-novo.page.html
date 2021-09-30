@@ -3,23 +3,24 @@
     <ion-buttons slot="start">
       <ion-back-button style="color: aliceblue" defaultHref="app/met-enderecamento" text="Voltar"></ion-back-button>
     </ion-buttons>
-    <ion-title style="color: aliceblue">Editar</ion-title>
+    <ion-title style="color: aliceblue">End. Novo</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
     <ion-list-header>
-      <ion-label> Dados </ion-label>
+      <ion-label> Filtros </ion-label>
     </ion-list-header>
+
     <ion-item style="padding-left: 10px">
-      <ion-col size="3">Código</ion-col>
-      <ion-col size="4"><b>{{codigo}}</b></ion-col>
+      <ion-label>Código</ion-label>
+      <ion-input [(ngModel)]="codigo" type="number" name="codigo" (ionBlur)="getDescricao()"></ion-input>
     </ion-item>
     <ion-item style="padding-left: 10px">
-      <ion-col size="3">Descrição</ion-col>
-      <ion-col class="item-text-wrap" size="9" style="font-size: 14px"><b>{{prodes}}</b></ion-col>
+      <ion-input [(ngModel)]="descricao" name="descricao" disabled></ion-input>
     </ion-item>
+
     <ion-item style="padding-left: 10px">
       <ion-label>Estante</ion-label>
       <ion-select [(ngModel)]="estante" name="estante" okText="Ok" cancelText="Cancelar">
@@ -144,10 +145,6 @@
       </ion-select>
     </ion-item>
 
-    <ion-button color="verdeMetalbo" expand="block" (click)="msgUpdateEndereco(dados)">Salvar</ion-button>
-
-    <ion-button color="vermelhoSteel" expand="block" (click)="msgUpdateAddListaEspera(dados)">
-      Add Lista Espera
-    </ion-button>
+    <ion-button color="verdeMetalbo" expand="block" (click)="msgConfInsereNovoEndereco()">Inserir</ion-button>
   </ion-list>
 </ion-content>

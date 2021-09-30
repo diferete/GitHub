@@ -91,6 +91,7 @@ export class MetEnderecamentoPage implements OnInit {
   ionViewWillEnter() {
     this.getLista();
   }
+
   //abre tela detalhe
   getDadosDetalhe(p) {
     let navigationExtras: NavigationExtras = {
@@ -99,5 +100,11 @@ export class MetEnderecamentoPage implements OnInit {
       },
     };
     this.router.navigate(['met-enderecamento-detalhe'], navigationExtras);
+  }
+
+  //abre tela cadastro novo
+  cadNovo() {
+    let navigationExtras: NavigationExtras = {};
+    this.router.navigate(['met-enderecamento-novo'], navigationExtras);
   }
 }

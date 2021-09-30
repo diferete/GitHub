@@ -1,124 +1,159 @@
 ﻿<ion-app>
   <ion-split-pane contentId="menu-content">
     <!-- our side menu  -->
-      <ion-menu menuId="custom" contentId="menu-content" class="app-sidemenu" (ionDidOpen)="menuOpened()">
-          <!-- (ionWillOpen)="onMenuOpen()"-->
+    <ion-menu menuId="custom" contentId="menu-content" class="app-sidemenu" (ionDidOpen)="menuOpened()">
+      <!-- (ionWillOpen)="onMenuOpen()"-->
 
-          <ion-header>
-              <ion-toolbar>
-                  <ion-row class="user-details-wrapper">
-                      <ion-col size="4">
-                          <app-aspect-ratio [ratio]="{w: 1, h: 1}">
-                              <app-image-shell class="user-avatar" animation="spinner" [src]="'./assets/img/user2.jpg'"></app-image-shell>
-                          </app-aspect-ratio>
-                      </ion-col>
-                      <ion-col class="user-info-wrapper" size="8">
-                          <h3 class="user-name">{{nome}}</h3>
-                          <!-- <h6 class="user-handle"></h6>-->
-                      </ion-col>
-                  </ion-row>
-                  <ion-row class="user-stats-wrapper user-details-wrapper">
-                      <ion-col>
-
-                          <!-- <span class="user-stat-name">Following</span> -->
-                      </ion-col>
-                      <ion-col>
-                          <!--  <span class="user-stat-value">537</span>
+      <ion-header>
+        <ion-toolbar>
+          <ion-row class="user-details-wrapper">
+            <ion-col size="4">
+              <app-aspect-ratio [ratio]="{ w: 1, h: 1 }">
+                <app-image-shell
+                  class="user-avatar"
+                  animation="spinner"
+                  [src]="'./assets/img/user2.jpg'"
+                ></app-image-shell>
+              </app-aspect-ratio>
+            </ion-col>
+            <ion-col class="user-info-wrapper" size="8">
+              <h3 class="user-name">{{ nome }}</h3>
+              <!-- <h6 class="user-handle"></h6>-->
+            </ion-col>
+          </ion-row>
+          <ion-row class="user-stats-wrapper user-details-wrapper">
+            <ion-col>
+              <!-- <span class="user-stat-name">Following</span> -->
+            </ion-col>
+            <ion-col>
+              <!--  <span class="user-stat-value">537</span>
                     <span class="user-stat-name">Followers</span>-->
-                      </ion-col>
-                  </ion-row>
-              </ion-toolbar>
-          </ion-header>
-          <ion-content>
-              <ion-list>
-                  <ion-list-header>
-                      <ion-label>INÍCIO</ion-label>
-                  </ion-list-header>
-                  <ion-menu-toggle>
-                      <ion-item [routerLink]="'/principal'">
-                          <ion-icon slot="start" name="star-outline"></ion-icon>
-                          <ion-label>
-                              Página inicial
-                          </ion-label>
-                      </ion-item>
-                  </ion-menu-toggle>
-              </ion-list>
+            </ion-col>
+          </ion-row>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list>
+          <ion-list-header>
+            <ion-label>INÍCIO</ion-label>
+          </ion-list-header>
+          <ion-menu-toggle>
+            <ion-item [routerLink]="'/principal'">
+              <ion-icon slot="start" name="star-outline"></ion-icon>
+              <ion-label> Página inicial </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
 
-              <ion-list *ngIf="FATURAMENTO">
-                  <ion-list-header>
-                      <ion-label>FATURAMENTO</ion-label>
-                  </ion-list-header>
-                  <ion-menu-toggle autoHide="false" *ngFor="let p of FATURAMENTO; let i = index">
-                      <ion-item [routerLink]="p.url">
-                          <ion-icon slot="start" [name]="p.ionicIcon? p.ionicIcon: ''" [src]="p.customIcon? p.customIcon: ''"></ion-icon>
-                          <ion-label>
-                              {{p.title}}
-                          </ion-label>
-                      </ion-item>
-                  </ion-menu-toggle>
-              </ion-list>
+        <ion-list *ngIf="FATURAMENTO">
+          <ion-list-header>
+            <ion-label>FATURAMENTO</ion-label>
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false" *ngFor="let p of FATURAMENTO; let i = index">
+            <ion-item [routerLink]="p.url">
+              <ion-icon
+                slot="start"
+                [name]="p.ionicIcon ? p.ionicIcon : ''"
+                [src]="p.customIcon ? p.customIcon : ''"
+              ></ion-icon>
+              <ion-label>
+                {{ p.title }}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
 
-              <ion-list *ngIf="PEDIDO">
-                  <ion-list-header>
-                      <ion-label>PEDIDOS</ion-label>
-                  </ion-list-header>
-                  <ion-menu-toggle autoHide="false" *ngFor="let p of PEDIDO; let i = index">
-                      <ion-item [routerLink]="p.url">
-                          <ion-icon slot="start" [name]="p.ionicIcon? p.ionicIcon: ''" [src]="p.customIcon? p.customIcon: ''"></ion-icon>
-                          <ion-label>
-                              {{p.title}}
-                          </ion-label>
-                      </ion-item>
-                  </ion-menu-toggle>
-              </ion-list>
+        <ion-list *ngIf="PEDIDO">
+          <ion-list-header>
+            <ion-label>PEDIDOS</ion-label>
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false" *ngFor="let p of PEDIDO; let i = index">
+            <ion-item [routerLink]="p.url">
+              <ion-icon
+                slot="start"
+                [name]="p.ionicIcon ? p.ionicIcon : ''"
+                [src]="p.customIcon ? p.customIcon : ''"
+              ></ion-icon>
+              <ion-label>
+                {{ p.title }}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
 
-              <ion-list *ngIf="PRODUCAO">
-                  <ion-list-header>
-                      <ion-label>PRODUÇÃO</ion-label>
-                  </ion-list-header>
-                  <ion-menu-toggle autoHide="false" *ngFor="let p of PRODUCAO; let i = index">
-                      <ion-item [routerLink]="p.url">
-                          <ion-icon slot="start" [name]="p.ionicIcon? p.ionicIcon: ''" [src]="p.customIcon? p.customIcon: ''"></ion-icon>
-                          <ion-label>
-                              {{p.title}}
-                          </ion-label>
-                      </ion-item>
-                  </ion-menu-toggle>
+        <ion-list *ngIf="PRODUCAO">
+          <ion-list-header>
+            <ion-label>PRODUÇÃO</ion-label>
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false" *ngFor="let p of PRODUCAO; let i = index">
+            <ion-item [routerLink]="p.url">
+              <ion-icon
+                slot="start"
+                [name]="p.ionicIcon ? p.ionicIcon : ''"
+                [src]="p.customIcon ? p.customIcon : ''"
+              ></ion-icon>
+              <ion-label>
+                {{ p.title }}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
 
-              </ion-list>
+        <ion-list *ngIf="FOSFATIZACAO">
+          <ion-list-header>
+            <ion-label>FOSFATIZAÇÃO</ion-label>
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false" *ngFor="let p of FOSFATIZACAO; let i = index">
+            <ion-item [routerLink]="p.url">
+              <ion-icon
+                slot="start"
+                [name]="p.ionicIcon ? p.ionicIcon : ''"
+                [src]="p.customIcon ? p.customIcon : ''"
+              ></ion-icon>
+              <ion-label>
+                {{ p.title }}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
 
-              <ion-list *ngIf="FOSFATIZACAO">
-                  <ion-list-header>
-                      <ion-label>FOSFATIZAÇÃO</ion-label>
-                  </ion-list-header>
-                  <ion-menu-toggle autoHide="false" *ngFor="let p of FOSFATIZACAO; let i = index">
-                      <ion-item [routerLink]="p.url">
-                          <ion-icon slot="start" [name]="p.ionicIcon? p.ionicIcon: ''" [src]="p.customIcon? p.customIcon: ''"></ion-icon>
-                          <ion-label>
-                              {{p.title}}
-                          </ion-label>
-                      </ion-item>
-                  </ion-menu-toggle>
+        <ion-list *ngIf="ENDERECAMENTOS">
+          <ion-list-header>
+            <ion-label>ENDEREÇAMENTOS</ion-label>
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false" *ngFor="let p of ENDERECAMENTOS; let i = index">
+            <ion-item [routerLink]="p.url">
+              <ion-icon
+                slot="start"
+                [name]="p.ionicIcon ? p.ionicIcon : ''"
+                [src]="p.customIcon ? p.customIcon : ''"
+              ></ion-icon>
+              <ion-label>
+                {{ p.title }}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
 
-              </ion-list>
-
-
-              <ion-list>
-                  <ion-list-header>
-                      <ion-label>SISTEMA</ion-label>
-                  </ion-list-header>
-                  <ion-menu-toggle autoHide="false" *ngFor="let p of SISTEMA; let i = index">
-                      <ion-item [routerLink]="p.url" (click)='logout()'>
-                          <ion-icon slot="start" [name]="p.ionicIcon? p.ionicIcon: ''" [src]="p.customIcon? p.customIcon: ''"></ion-icon>
-                          <ion-label>
-                              {{p.title}}
-                          </ion-label>
-                      </ion-item>
-                  </ion-menu-toggle>
-              </ion-list>
-
-          </ion-content>
-      </ion-menu>
+        <ion-list>
+          <ion-list-header>
+            <ion-label>SISTEMA</ion-label>
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false" *ngFor="let p of SISTEMA; let i = index">
+            <ion-item [routerLink]="p.url" (click)="logout()">
+              <ion-icon
+                slot="start"
+                [name]="p.ionicIcon ? p.ionicIcon : ''"
+                [src]="p.customIcon ? p.customIcon : ''"
+              ></ion-icon>
+              <ion-label>
+                {{ p.title }}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
     <!-- Main app content get's rendered in this router-outlet -->
     <ion-router-outlet id="menu-content"></ion-router-outlet>
   </ion-split-pane>

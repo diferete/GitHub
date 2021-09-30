@@ -63,7 +63,7 @@ export class EnderecamentoService {
   }
 
   updateEndereco(usutoken, usucod, estante, nivel, coluna, tipo, codigo, armcod) {
-        this.presentLoading();
+    this.presentLoading();
     let dadosEnv = {
       classe: 'MET_EST_Enderecamento',
       metodo: 'updateEndereco',
@@ -75,6 +75,106 @@ export class EnderecamentoService {
         tipo: tipo,
         codigo: codigo,
         armcod: armcod,
+      },
+      usucodigo: usucod,
+      usutoken: usutoken,
+    };
+    return new Promise((resolve, reject) => {
+      this.http.post(this.conexao.link, dadosEnv).subscribe(
+        (result: any) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          resolve(result);
+        },
+        (error) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          reject('Sem conexão!');
+        }
+      );
+    });
+  }
+
+  getDescricao(usutoken, usucod, cod) {
+    this.presentLoading();
+    let dadosEnv = {
+      classe: 'MET_EST_Enderecamento',
+      metodo: 'getDescricao',
+      dados: {
+        usucodigo: usucod,
+        codigo: cod,
+      },
+      usucodigo: usucod,
+      usutoken: usutoken,
+    };
+
+    return new Promise((resolve, reject) => {
+      this.http.post(this.conexao.link, dadosEnv).subscribe(
+        (result: any) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          resolve(result);
+        },
+        (error) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          reject('Sem conexão!');
+        }
+      );
+    });
+  }
+
+  updateAddListaEspera(usutoken, usucod, estante, nivel, coluna, tipo, codigo, armcod) {
+    this.presentLoading();
+    let dadosEnv = {
+      classe: 'MET_EST_Enderecamento',
+      metodo: 'addListaEspera',
+      dados: {
+        usucodigo: usucod,
+        estante: estante,
+        nivel: nivel,
+        coluna: coluna,
+        tipo: tipo,
+        codigo: codigo,
+        armcod: armcod,
+      },
+      usucodigo: usucod,
+      usutoken: usutoken,
+    };
+    return new Promise((resolve, reject) => {
+      this.http.post(this.conexao.link, dadosEnv).subscribe(
+        (result: any) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          resolve(result);
+        },
+        (error) => {
+          setTimeout(() => {
+            this.loading.dismiss();
+          });
+          reject('Sem conexão!');
+        }
+      );
+    });
+  }
+
+  insereNovoEndereco(usutoken, usucod, procod, estante, nivel, coluna, tipo) {
+    this.presentLoading();
+    let dadosEnv = {
+      classe: 'MET_EST_Enderecamento',
+      metodo: 'insereNovoEndereco',
+      dados: {
+        usucodigo: usucod,
+        codigo: procod,
+        estante: estante,
+        nivel: nivel,
+        coluna: coluna,
+        tipo: tipo,
       },
       usucodigo: usucod,
       usutoken: usutoken,

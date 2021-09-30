@@ -7,10 +7,10 @@ import { Storage } from '@ionic/storage';
 export class StorageService {
 
     constructor(public storage: Storage) { }
-   
+
 
     gravaDados(usucodigo, usunome, usologin, codsetor, usutoken, usuemail) {
-        
+
         this.storage.remove('usutoken');
 
         this.storage.set('usucodigo', usucodigo);
@@ -26,16 +26,16 @@ export class StorageService {
         this.storage.clear();
     }
 
-   
+
 
     retornaToken() {
-        
+
         let token: any;
         return new Promise((resolve, reject)=> {
-            //busca dados do usuário no storage
-            
+            //busca dados do usuï¿½rio no storage
+
             this.storage.get('usutoken').then(result => {
-                
+
                 if (result != null) {
 
                     token = result;
@@ -52,7 +52,7 @@ export class StorageService {
      }
 
     retornaUsuCod() {
-        
+
         let usucod: any;
           return new Promise((resolve, reject) => {
               this.storage.get('usucodigo').then(result => {
@@ -65,6 +65,6 @@ export class StorageService {
                   resolve('344');
               });
           });
-         
+
     }
 }

@@ -28,6 +28,8 @@ export class AppComponent {
   FOSFATIZACAO = [];
   /*Página de sistema*/
   SISTEMA = [];
+  /**/
+  ENDERECAMENTOS = [];
 
   constructor(
     private platform: Platform,
@@ -90,12 +92,13 @@ export class AppComponent {
       this.StorageServ.retornaUsuCod().then((result: any) => {
         usucod = result;
         this.MenuService.getMenu(usutoken, usucod).then((result: any) => {
-          // console.log('MENU ->->-> ' + result.DADOS.FOSFATIZAÇÃO);
+          //console.log('MENU ->->-> ' + result.DADOS.FOSFATIZAÇÃO);
           this.FATURAMENTO = result.DADOS.FATURAMENTO;
           this.PRODUCAO = result.DADOS.PRODUÇÃO;
           this.SISTEMA = result.DADOS.SISTEMA;
           this.PEDIDO = result.DADOS.PEDIDOS;
           this.FOSFATIZACAO = result.DADOS.FOSFATIZAÇÃO;
+          this.ENDERECAMENTOS = result.DADOS.ENDEREÇAMENTOS;
         });
       });
     });

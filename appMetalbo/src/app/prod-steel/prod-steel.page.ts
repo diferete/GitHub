@@ -16,6 +16,9 @@ export class ProdSteelPage implements OnInit {
   totalProducao: any;
   totalFornos: any;
   totalFio: any;
+  totalEsfero: any;
+  totalTrefila: any;
+  totalZinc: any;
   prodDiario: [];
 
   constructor(
@@ -47,7 +50,14 @@ export class ProdSteelPage implements OnInit {
     this.totalProducao = '0 Kg';
     this.totalFornos = '0 Kg';
     this.totalFio = '0 Kg';
+    this.totalZinc = '0 Kg';
+    this.totalEsfero = '0 Kg';
+    this.totalTrefila = '0 Kg';
     this.getProd();
+  }
+
+  alertTeste() {
+    alert(this.totalFornos);
   }
 
   doRefresh(event) {
@@ -72,12 +82,17 @@ export class ProdSteelPage implements OnInit {
       })
       .then((result: any) => {
         usucod = result;
+        console.log(this.dataMes);
         return this.fatMetalboService.getProdSteel(usutoken, usucod, this.dataMes);
       })
       .then((result: any) => {
+        console.log(result.DADOS);
         this.totalProducao = result.DADOS.totalMensal;
         this.totalFornos = result.DADOS.totalMensalForno;
         this.totalFio = result.DADOS.totalMensalFio;
+        this.totalEsfero = result.DADOS.etapaEsferoMensalFio;
+        this.totalTrefila = result.DADOS.etapaTrefilaMensalFio;
+        this.totalZinc = result.DADOS.totalMensalZinc;
 
         this.prodDiario = result.DADOS.diario;
         //console.log(this.prodDiario);
