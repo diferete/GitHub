@@ -60,6 +60,7 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
                     . "on [vetorh].dbo.r034fun.numcad = tbfunc.numcad "
                     . "where "
                     . "cnpj = 75483040000211 "
+                    . "and numemp = 3"
                     . "and vetorh.dbo.r034fun.numcad =" . $sDados;
             $oResult = $this->consultaSql($sSql);
 
@@ -91,7 +92,7 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
         $sSqlSelect = "select "
                 . "tbfunc.nomfun,"
                 . "setor,"
-                . "tipsex "
+                . "vetorh.dbo.r034fun.tipsex "
                 . "from vetorh.dbo.r034fun "
                 . "left outer join tbfunc "
                 . "on [vetorh].dbo.r034fun.numcad = tbfunc.numcad "

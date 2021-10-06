@@ -24,6 +24,7 @@ class PersistenciaMET_MANUT_OSMaterial extends Persistencia {
         $this->adicionaRelacionamento('obsmat','obsmat');
         $this->adicionaRelacionamento('processoCompra','processoCompra');
         $this->adicionaRelacionamento('numero', 'numero');
+        $this->adicionaRelacionamento('quantMatSol', 'quantMatSol');
                 
         $this->adicionaOrderBy('seq',1);
         $this->setSTop('30');

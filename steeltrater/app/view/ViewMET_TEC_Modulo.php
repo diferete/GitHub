@@ -34,8 +34,7 @@ class ViewMET_TEC_Modulo extends View {
     function criaTela() {
         parent::criaTela();
 
-        $this->setBGravaHistoricoAlterar(true);
-
+        
         $oModCod = new Campo('Código', 'modcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oModCod->setBCampoBloqueado(true);
 

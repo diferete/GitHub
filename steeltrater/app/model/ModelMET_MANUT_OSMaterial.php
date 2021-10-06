@@ -20,6 +20,15 @@ class ModelMET_MANUT_OSMaterial {
     private $obsmat;
     private $processoCompra;
     private $numero;
+    private $quantMatSol;
+    
+    function getQuantMatSol() {
+        return $this->quantMatSol;
+    }
+
+    function setQuantMatSol($quantMatSol) {
+        $this->quantMatSol = $quantMatSol;
+    }
     
     function getNumero() {
         return $this->numero;

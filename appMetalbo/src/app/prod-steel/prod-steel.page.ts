@@ -1,9 +1,10 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { StorageService } from '../api/storage.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { FatMetalboService } from '../api/fat-metalbo.service';
 import { Router, NavigationExtras } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { ProdSteelModalComponent } from '../prod-steel-modal/prod-steel-modal.component';
 
 @Component({
   selector: 'app-prod-steel',
@@ -26,10 +27,19 @@ export class ProdSteelPage implements OnInit {
     public alertController: AlertController,
     public fatMetalboService: FatMetalboService,
     private route: ActivatedRoute,
-    public router: Router
+    public router: Router,
+    private modalCtrl: ModalController
   ) {
     (this.data = new Date()), (this.dataMes = new Date().toDateString());
     //this.dataMes = new Date().toString().slice(0, 10);
+  }
+
+  async openModalProd(param) {
+    const modal = await this.modalCtrl.create({
+      component: ProdSteelModalComponent,
+      componentProps: { val: param },
+    });
+    await modal.present();
   }
 
   //mensagem internet
@@ -82,11 +92,9 @@ export class ProdSteelPage implements OnInit {
       })
       .then((result: any) => {
         usucod = result;
-        console.log(this.dataMes);
         return this.fatMetalboService.getProdSteel(usutoken, usucod, this.dataMes);
       })
       .then((result: any) => {
-        console.log(result.DADOS);
         this.totalProducao = result.DADOS.totalMensal;
         this.totalFornos = result.DADOS.totalMensalForno;
         this.totalFio = result.DADOS.totalMensalFio;

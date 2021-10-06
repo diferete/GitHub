@@ -63,7 +63,7 @@ class ViewCot extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'Cot', 'geraAnexoCotEmail', '', false, $sCotVenda, false, '', false, '', true, false);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'Cot', 'geraAnexoCotEmailSLogo', '', false, $sCotVenda, false, '', false, '', true, false);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'Cot', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep', '', false, '', false, '', false, false);
-        $this->addDropdown($oDrop2);
+        $this->addDropdown($oDrop2,$oDrop1);
 
 
         $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1);
@@ -198,7 +198,7 @@ class ViewCot extends View {
 
         $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 6, 6, 12, 12);
         $oObs->setSCorFundo(Campo::FUNDO_AMARELO);
-        $oObs->setILinhasTextArea(4);
+        $oObs->setILinhasTextArea(8);
         $oObs->setSValor('');
         $oObs->setICaracter(300);
 

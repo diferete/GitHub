@@ -253,7 +253,7 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
-
+        $this->verificaCodZeroMaterial($aCamposChave);
         $oRetorno = $this->Persistencia->getSituacoes($aCamposChave);
 
         if ($oRetorno->sup_solicitacaofaseapr != 99 && trim($oRetorno->sup_solicitacaosituacao) != 'M') {
@@ -272,7 +272,7 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
         $sChave = htmlspecialchars_decode($aDados[2]);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-
+        
         $aRetorno = $this->Persistencia->liberaSolicitacao($aCamposChave);
         if ($aRetorno[0]) {
             $oMsg = new Mensagem('Sucesso', 'Solicitação liberada para Compras', Mensagem::TIPO_SUCESSO);
@@ -281,6 +281,20 @@ class ControllerSTEEL_SUP_Solicitacao extends Controller {
             $oMsg = new Mensagem('ERRO.', 'Não foi possível liberar a Solicitação, entre em contato com o TI!', Mensagem::TIPO_ERROR);
         }
         echo $oMsg->getRender();
+    }
+
+    public function verificaCodZeroMaterial($aCamposChave) {
+
+        $oSolItem = Fabrica::FabricarController('STEEL_SUP_SolicitacaoItem');
+        $oSolItem->Persistencia->adicionaFiltro('FIL_Codigo', $aCamposChave['FIL_Codigo']);
+        $oSolItem->Persistencia->adicionaFiltro('SUP_SolicitacaoSeq', $aCamposChave['SUP_SolicitacaoSeq']);
+        $oSolItem->Persistencia->adicionaFiltro('PRO_Codigo', '0');
+        $iCont = $oSolItem->Persistencia->getCount();
+        if ($iCont != 0) {
+            $oMensagem = new Modal('Atenção', 'Não é possível liberar Solicitação. Existem itens com o código de material 0 (zero)!', Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+            exit();
+        }
     }
 
 }

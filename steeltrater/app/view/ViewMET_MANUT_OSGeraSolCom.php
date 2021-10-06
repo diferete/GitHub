@@ -22,12 +22,9 @@ class ViewMET_MANUT_OSGeraSolCom extends View {
 
         $ofil_codigo = new CampoConsulta('Empresa', 'fil_codigo', CampoConsulta::TIPO_TEXTO);
         $ofil_codigo->setBColOculta(true);
-        
         $onr = new CampoConsulta('OS', 'nr', CampoConsulta::TIPO_TEXTO);
-        
         $oInc = new CampoConsulta('Nr', 'numero', CampoConsulta::TIPO_TEXTO);
         $oInc->setBColOculta(true);
-
         $ocod = new CampoConsulta('Cod Maquina', 'cod', CampoConsulta::TIPO_TEXTO);
         $oseq = new CampoConsulta('Sequência', 'seq', CampoConsulta::TIPO_TEXTO);
         $ocodmat = new CampoConsulta('Cod Material', 'codmat', CampoConsulta::TIPO_TEXTO);
@@ -41,7 +38,7 @@ class ViewMET_MANUT_OSGeraSolCom extends View {
         $osituacaoCompra->addComparacao("SOLICITADO", CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_COLUNA, false, '');
 
         $this->setUsaDropdown(true);
-        $oDrop1 = new Dropdown('Apontamento', Dropdown::TIPO_INFO);
+        $oDrop1 = new Dropdown('Gerar solicitação', Dropdown::TIPO_INFO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_COPIAR) . 'Gerar solicitação compra', 'MET_MANUT_OSGeraSolCom', 'msgGeraSolOS', '', false, '', false, '', false, '', true, false);
 
         $oDrop2 = new Dropdown('Imprimir', Dropdown::TIPO_PRIMARY);
@@ -66,7 +63,7 @@ class ViewMET_MANUT_OSGeraSolCom extends View {
 
         $this->addFiltro($oNrfiltro, $oMaqCodfiltro, $oCodMatfiltro, $oFilData, $oDesSitfiltro);
 
-        $this->addCampos($onr, $ocod, $oseq, $ocodmat, $odescricaomat, $oquantidade, $oobsmat, $ousermatdes, $odatamat, $osituacaoCompra, $ofil_codigo, $oInc);
+        $this->addCampos($onr, $ocod, $oseq, $ocodmat, $odescricaomat, $oquantidade, $oobsmat, $osituacaoCompra, $odatamat, $ousermatdes, $ofil_codigo, $oInc);
     }
 
     public function criaTela() {

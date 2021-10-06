@@ -103,7 +103,7 @@ class ViewMET_MANUT_OS extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_PASTA) . 'Ordem completa', 'MET_MANUT_OS', 'acaoMostraRelConsulta', '', false, 'OrdemManut', false, '', false, '', false, false);
 
         $this->addDropdown($oDrop1, $oDrop2);
-
+        $this->getTela()->setBMostraFiltro(true);
         $this->setUsaAcaoExcluir(false);
         $this->setUsaAcaoIncluir(false);
 
@@ -118,7 +118,7 @@ class ViewMET_MANUT_OS extends View {
 
     public function criaTela() {
         parent::criaTela();
-        
+
         $sAcao = $this->getSRotina();
         $this->getTela()->setSId('formMET_MANUT_OS');
         $aDados = $this->getAParametrosExtras();
@@ -128,7 +128,7 @@ class ViewMET_MANUT_OS extends View {
         }
 
         $oField0 = new FieldSet('Apontamento');
-        
+
         $this->setTituloTela('Insere ordem de serviço');
 
         $ofil_codigo = new campo('Código Empresa', 'fil_codigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
@@ -168,7 +168,7 @@ class ViewMET_MANUT_OS extends View {
         $ocod->setClasseBusca('MET_CAD_Maquinas');
         $ocod->setSCampoRetorno('codigoMaq', $this->getTela()->getId());
         $ocod->addCampoBusca('maquina', $ocod_Des->getId(), $this->getTela()->getId());
-        
+
         $sConsDesMaq = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OS","consultaDesMaq");';
         $ocod->addEvento(Campo::EVENTO_CHANGE, $sConsDesMaq);
 
@@ -239,13 +239,13 @@ class ViewMET_MANUT_OS extends View {
         $oSeq->setBOculto(true);
         $oSeq->setBCampoBloqueado(true);
         $oSeq->setApenasTela(true);
-        
+
         $oProCod = new Campo('Código', 'MET_MANUT_OSPesqProd.pro_codigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oProCod->setId('CodmaterialManOs');
         $oProCod->setSIdHideEtapa($this->getSIdHideEtapa());
         $oProCod->setApenasTela(true);
 
-        $omatnecessario = new Campo('Material Necessário', 'matnecessario', Campo::TIPO_BUSCADOBANCO, 3,3,12,12);
+        $omatnecessario = new Campo('Material Necessário', 'matnecessario', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
         $omatnecessario->setId('materialManOs');
         $omatnecessario->setSCorFundo(Campo::FUNDO_AZUL);
         $omatnecessario->setSIdPk($oProCod->getId());
@@ -258,17 +258,17 @@ class ViewMET_MANUT_OS extends View {
         $oProCod->setClasseBusca('MET_MANUT_OSPesqProd');
         $oProCod->setSCampoRetorno('pro_codigo', $this->getTela()->getId());
         $oProCod->addCampoBusca('pro_descricao', $omatnecessario->getId(), $this->getTela()->getId());
-                
+
         $oQuant = new Campo('Quantidade', 'quantidade', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oQuant->setId('QuantMaterialManOs');
         $oQuant->setApenasTela(true);
-        
+
         $oObservacao = new Campo('Observação Material', 'obsmat', Campo::TIPO_TEXTAREA, 5);
         $oObservacao->setId('ObsmanOs');
         $oObservacao->setILinhasTextArea(1);
         $oObservacao->setSCorFundo(Campo::FUNDO_AMARELO);
         $oObservacao->setApenasTela(true);
-        
+
         $sConsMaterial = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OS","consultaMaterial");';
         $oProCod->addEvento(Campo::EVENTO_CHANGE, $sConsMaterial);
         /**
@@ -301,16 +301,16 @@ class ViewMET_MANUT_OS extends View {
         $oquantidade->setILargura(5);
         $oobs1 = new CampoConsulta('Observação', 'obsmat', CampoConsulta::TIPO_TEXTO);
         $oobs1->setILargura(220);
-        
+
         $oBotaoExcluir = new CampoConsulta('Excluir', 'teste', CampoConsulta::TIPO_EXCLUIR);
         $oBotaoExcluir->setILargura(5);
         $oBotaoExcluir->setSTitleAcao('Excluir item!');
         $oBotaoExcluir->addAcao('MET_MANUT_OSMaterial', 'msgExcluirMaterial', '', 'formMET_MANUT_OS-form');
         $oBotaoExcluir->setBHideTelaAcao(true);
         $oBotaoExcluir->setSNomeGrid('gridMaterialManutOS');
-        
+
         $oGridMatNeces->addCampos($oBotaoExcluir, $oseqMat, $ocodMat, $odesMat, $oquantidade, $odata, $oobs1, $odesUser);
-//$ofil_cod3, $ocodMaq3, $ocodOS
+        //$ofil_cod3, $ocodMaq3, $ocodOS
         $oGridMatNeces->setSController('MET_MANUT_OSMaterial');
         $oGridMatNeces->getOGrid()->setIAltura(200);
         $oGridMatNeces->getOGrid()->setBGridResponsivo(false);
@@ -320,19 +320,19 @@ class ViewMET_MANUT_OS extends View {
         $oBotInser->setApenasTela(true);
         $oBotInser->setIMarginTop(6);
         $sAcao1 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OSMaterial","acaoInserirMaterial","' . $this->getTela()->getId() . '-form,' .
-                $oSeq->getId() . ',' . $oProCod->getId() . ',' .$omatnecessario->getId() . ',' . $oGridMatNeces->getId() .'","");';
-             
+                $oSeq->getId() . ',' . $oProCod->getId() . ',' . $omatnecessario->getId() . ',' . $oGridMatNeces->getId() . '","");';
+
         $oBotInser->getOBotao()->addAcao($sAcao1);
-        
-         //botao atualizar
+
+        //botao atualizar
         $oBtnAtualizarGrid = new Campo('Atualizar', '', Campo::TIPO_BOTAOSMALL_SUB, 1);
         $oBtnAtualizarGrid->getOBotao()->setId('btn_atualizarGridManut');
-        $sAcaoAtualizarGrid =  'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OSMaterial","getDadosGrid","' . $oGridMatNeces->getId() . '","gridMaterialManutOS");';
+        $sAcaoAtualizarGrid = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OSMaterial","getDadosGrid","' . $oGridMatNeces->getId() . '","gridMaterialManutOS");';
         $oBtnAtualizarGrid->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
         $oBtnAtualizarGrid->getOBotao()->addAcao($sAcaoAtualizarGrid);
         $oBtnAtualizarGrid->setApenasTela(true);
-        $oField2->addCampos(array($oSeq, $oProCod,$omatnecessario, $oQuant, $oObservacao),array($oBotInser,$oBtnAtualizarGrid),$oGridMatNeces);
-        
+        $oField2->addCampos(array($oSeq, $oProCod, $omatnecessario, $oQuant, $oObservacao), array($oBotInser, $oBtnAtualizarGrid), $oGridMatNeces);
+
         $oresponsavel = new Campo('Responsável', 'responsavel', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oresponsavel->addItemSelect('MECANICA', 'MECANICA');
         $oresponsavel->addItemSelect('ELETRICA', 'ELÉTRICA');
@@ -357,11 +357,11 @@ class ViewMET_MANUT_OS extends View {
         $oLinha1->setApenasTela(true);
 
         $oField0->addCampos(array($oCracha, $ousuariocad, $ousuariocaddes, $odatacad, $ohoracad), $oLinha1, array($ocod, $ocod_Des), $oLinha1, array($oresponsavel, $oprevisao, $otipomanut), $oLinha1, $oproblema);
-        
+
         $sAcaoMet = $_REQUEST['metodo'];
-        
-        if($sAcaoMet == 'acaoMostraTelaAlterar'){
-            
+
+        if ($sAcaoMet == 'acaoMostraTelaAlterar') {
+
             $oCracha->setBCampoBloqueado(true);
             $ocod->setBCampoBloqueado(true);
             $ocod_Des->setBCampoBloqueado(true);
@@ -369,21 +369,19 @@ class ViewMET_MANUT_OS extends View {
             $oprevisao->setBCampoBloqueado(true);
             $otipomanut->setBCampoBloqueado(true);
             $oproblema->setBCampoBloqueado(true);
-            
-        }else{
-            
+        } else {
+
             $oField1->setOculto(true);
             $oField2->setOculto(true);
-            
         }
-        
+
         if ($sAcaoMet !== 'acaoMostraTela') {
             $this->addCampos(array($onr, $ofil_codigo, $ofil_Des, $osituacao), $oLinha1, $oField0, $oLinha1, $oField2, $oLinha1, $oField1, $oLinha1, $ocodsetor, $oobs);
         } else {
             $this->addCampos(array($onr, $ofil_codigo, $ofil_Des, $osituacao), $oLinha1, $oField0);
         }
-         if ($sAcao == 'acaoAlterar') {
-            $sAcaoBuscaIni ='requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OSMaterial","getDadosGrid","' . $oGridMatNeces->getId() . '","gridMaterialManutOS");';
+        if ($sAcao == 'acaoAlterar') {
+            $sAcaoBuscaIni = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OSMaterial","getDadosGrid","' . $oGridMatNeces->getId() . '","gridMaterialManutOS");';
             $this->getTela()->setSAcaoShow($sAcaoBuscaIni);
         }
     }
@@ -448,5 +446,5 @@ class ViewMET_MANUT_OS extends View {
 
         $this->addCampos(array($ocod, $oMaq_Des), $oLinha1, array($oresponsavel, $otipomanut), $oLinha1, array($oDataIniPrev, $oDataFimPrev), $oLinha1, array($oDataIni, $oDataFim), $oLinha1, $osituacao, $oXls);
     }
-    
+
 }

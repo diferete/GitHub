@@ -103,8 +103,8 @@ class PersistenciaMET_MANUT_OSGeraSolCom extends Persistencia {
                     SUP_SolicitacaoItemPosicao, SUP_SolicitacaoItemPesoLiqTot, SUP_SolicitacaoItemPesoBruTot, SUP_SolicitacaoItemValorPrevis, SUP_SolicitacaoItemCalculaDim)
                     VALUES (8993358000174, " . $inc . ", " . $inc1 . ", " . $oDadosMatOS->getCodmat()
                         . ", 1, '" . $oDadosMatOS->getDescricaomat() . "', '" . $oDadosPro->getPro_unidademedida()
-                        . "', 0, 0, 0, 0, " . $oDadosMatOS->getQuantidade() . ", 1, '" . $oDadosPro->getPro_unidademedida()
-                        . "', " . $oDadosMatOS->getQuantidade() . ",  CAST(N'" . $sData1 . "' AS DateTime), '" . $oUsuNomeDelsoft
+                        . "', 0, 0, 0, 0, " . $oDadosMatOS->getQuantMatSol() . ", 1, '" . $oDadosPro->getPro_unidademedida()
+                        . "', " . $oDadosMatOS->getQuantMatSol() . ",  CAST(N'" . $sData1 . "' AS DateTime), '" . $oUsuNomeDelsoft
                         . "', 'Amanda.Pisetta', 'Referente ao material seq " . $value['seq'] . " da OS nº " . $value['nr'] . " para a máquina " . $value['cod'] . $sObs . "', NULL, 0, 0, 0,
                     NULL, '1753-01-01 00:00:00.000', 0, 'A', NULL, 649, NULL, 0, NULL, NULL, 'N', 0, 0, NULL,
                     0, 0, 0, NULL, NULL,  CAST(N'" . $sData2 . "' AS DateTime), NULL, NULL, NULL, NULL, NULL) ";

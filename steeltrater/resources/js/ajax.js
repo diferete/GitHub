@@ -106,14 +106,13 @@ function requestAjax(idForm, classe, metodo, sparametros, aIdCampos, bDesativaCa
 
 function requestAjaxMobile(idForm, classe, metodo, sparametros, aIdCampos, bDesativaCarrega, idPos, ordenacao) {
     var myJSon = {
-        "classe": "MET_TEC_Mobile",
-        "metodo": "getMenu",
+        "classe": "MET_TEC_MobileFat",
+        "metodo": "getProdSteel",
         "dados": {
-            "usucodigo": "46",
-            "usutoken": "fWGNcQI6gMHwQGMQtSbQFLlQk"
+            "mes": "Thu Sep 30 2021"
         },
         "usucodigo": "46",
-        "usutoken": "fWGNcQI6gMHwQGMQtSbQFLlQk"
+        "usutoken": "jGvY2eHiwgIDwPLt4cikhORX0"
     };
     $.ajax({
         url: 'http://localhost/GitHub/steeltrater/index.php?classe=MET_TEC_Mobile&metodo=getRequisicao',

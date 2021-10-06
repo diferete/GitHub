@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Produção Individual</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()" style="color: blue">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid style="font-weight: 600; background-color: rgb(202, 202, 202)">
+    <ion-col style="padding-left: 3px" size="4">Descrição</ion-col>
+  </ion-grid>
+  <ion-list>
+    <ion-item-group>
+      <ion-col style="font-size: 11px">
+        <b>{{ val }}</b>
+      </ion-col>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

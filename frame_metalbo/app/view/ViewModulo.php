@@ -29,18 +29,18 @@ class ViewModulo extends View {
 
     function criaTela() {
         parent::criaTela();
-		
-
-        $oTeste = new Campo('Cad. User', 'teste', Campo::TIPO_BOTAO_MOSTRACONSULTA, 1, 1, 12, 12);
-        $oTeste->setApenasTela(true);
-        $oTeste->setClasseBusca('User');
-        $oTeste->setSCampoRetorno('usucodigo', $this->getTela()->getId());
 
         $oModCod = new Campo('Código', 'modcod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oModCod->setBCampoBloqueado(true);
 
         $oModDescricao = new Campo('Descrição', 'modescricao', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oModDescricao->addValidacao(false, Validacao::TIPO_STRING, '', '2', '15');
+
+        $oTeste = new Campo('teste', 'teste', Campo::TIPO_UPLOADMULTI, 12, 12, 12, 12);
+        $oTeste->setApenasTela(true);
+        $oTeste->setSDiretorio('xml-cte');
+        $oTeste->setSTabelaUpload('MET_TRA_XmlCte');
+        $oTeste->setSParamSeq($oModCod->getId() . ',' . '75483040000211');
 
         $this->addCampos(array($oModCod, $oModDescricao), $oTeste);
     }

@@ -933,6 +933,13 @@ class Campo {
             return 'readonly="true"';
         }
     }
+    
+      public function verificaCampoSelectBloqueado($arg) {
+        if ($arg or $this->getBSeq()) {
+            return ' disabled';
+        }
+    }
+
 
     public function verificaBtnDisabled($arg) {
         if ($arg or $this->getBSeq()) {
@@ -1428,11 +1435,7 @@ class Campo {
                 $sRetorno .= '"<img src=\\\'uploads/' . $ArquivoDir . '\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'>"';
             }
 
-            if (($Extensao == 'mov') || ($Extensao == 'mp4')) {
-                $sRetorno .= '"<video class=\\\'kv-preview-data file-preview-video\\\' controls style=\\\'width: 213px; height: 160px;\\\'><source src=\\\'uploads/' . $ArquivoDir . '\\\' type=\\\'video/mp4\\\'><div class=\\\'file-preview-other\\\'><span class=\\\'file-other-icon\\\'><i class=\\\'bi-file-earmark-fill\\\'></i></span></div></video>"';
-            }
-
-            if (($Extensao == 'pdf')) {
+            if ($Extensao == 'pdf') {
                 $sRetorno .= '"<a href=\\\'uploads/' . $ArquivoDir . '\\\' target=\\\'_blank\\\'> <img class=\\\'icone-upload\\\' src=\\\'biblioteca/assets/images/icones/pdf.png\\\' class=\\\'file-preview-image\\\' alt=\\\'Alt\\\' title=\\\'' . $nomeArquivo . '\\\'> </a>"';
             }
 
@@ -1455,7 +1458,6 @@ class Campo {
             return $sRetorno;
         }
     }
-
 
     public function setExtensoesPermitidas() {
         $aExtensoes = func_get_args();
@@ -1849,52 +1851,31 @@ class Campo {
                 }
                 $sCampo = '<div id="' . $this->getId() . '-group" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<label>' . $this->getLabel() . '</label>'
-                        . '<input type="file" data-preview-file-type="text" id="' . $this->getId() . '" name="' . $this->getNome() . '">'
-                        . '</div>';
-                $sScript = '<script>'
-                        . '$("#' . $this->getId() . '").fileinput({'
+                        . '<input type="file"  id="' . $this->getId() . '" name="' . $this->getNome() . '"  >'
+                        . '</div>'
+                        . '<script>'
+                        . ' $("#' . $this->getId() . '").fileinput({'
                         . $this->getInitialPreview($this->getSValor())
+                        . $this->getExtensoes($this->getSExtensaoPermitidas())
+                        . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
+                        . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
                         . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '&parametros=' . $this->getSDiretorio() . ',' . $this->getBNomeArquivo() . '", ' // url do arquivo php, que fara a cópia para o server
-                        . 'previewFileType: "any",'
-                        . 'showUpload: false,'
-                        . 'showRemove: false,'
-                        . 'browseOnZoneClick: false,'
-                        . 'dropZoneEnabled: false,'
-                        . 'showDrag: false,'
-                        . 'language: "pt-BR",'
-                        . 'showClose: false,'
-                        . 'allowedFileExtensions: ["jpg", "png", "jpeg", "doc", "pdf", "txt", "xls", "xlsx"], '
                         . 'overwriteInitial: true, '
-                        . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ''  //tamanho máximo do arquivo (em kb) //
+                        . 'initialCaption: "Selecione um arquivo...", '
+                        . 'uploadAsync: true, '
+                        . 'dropZoneEnabled : ' . $this->getBDropZone() . ', '                                    //desativa drag & drop
+                        . 'showUpload: false, '                                                              // hide upload button
+                        . 'showRemove: true, '                  //'.$this->getBDeleteBtn().'                        // hide remove button
+                        . 'showClose: true'                                     // mostrar botão fechar do plugin //. $this->getInitialPreview($this->getSValor());
                         . '}).on("fileuploaded", function(event, data) {'
                         . 'carregaCamposReq(data.response.campo, data.response.nome);'
                         . '})'
                         . '.on("fileclear", function(evt) {'
                         . 'deletaCampoReq(evt.currentTarget.name);'
-                        //. '});'
-                        . '});'
-//                        . ' $("#' . $this->getId() . '").fileinput({'
-//                        . $this->getInitialPreview($this->getSValor())
-//                        . $this->getExtensoes($this->getSExtensaoPermitidas())
-//                        . 'maxFileSize: ' . $this->getSTamanhoMaxKB() . ', '  //tamanho máximo do arquivo (em kb) //
-//                        . 'language: "pt-BR", '                                          // idioma para ser definida (obrigatório)
-//                        . 'uploadUrl: "index.php?classe=' . $this->getSClasseUp() . '&metodo=' . $this->getSMetodoUp() . '&nome=' . $this->getNome() . '&parametros=' . $this->getSDiretorio() . ',' . $this->getBNomeArquivo() . '", ' // url do arquivo php, que fara a cópia para o server
-//                        . 'overwriteInitial: true, '
-//                        . 'initialCaption: "Selecione um arquivo...", '
-//                        . 'uploadAsync: true, '
-//                        . 'dropZoneEnabled : ' . $this->getBDropZone() . ', '                                    //desativa drag & drop
-//                        . 'showUpload: false, '                                                              // hide upload button
-//                        . 'showRemove: true, '                  //'.$this->getBDeleteBtn().'                        // hide remove button
-//                        . 'showClose: true'                                     // mostrar botão fechar do plugin //. $this->getInitialPreview($this->getSValor());
-//                        . '}).on("fileuploaded", function(event, data) {'
-//                        . 'carregaCamposReq(data.response.campo, data.response.nome);'
-//                        . '})'
-//                        . '.on("fileclear", function(evt) {'
-//                        . 'deletaCampoReq(evt.currentTarget.name);'
-//                        . '}); '
+                        . '}); '
+                        . $sCampo
                         . '</script>'
                         . $this->getRenderEventos();
-                $sCampo = $sCampo . $sScript;
                 break;
             case self::TIPO_CHECK:
                 if ($this->getBValorCheck()) {
@@ -2342,7 +2323,7 @@ class Campo {
                 $sCampo = '<div style="margin-top:' . $this->getIMarginTop() . 'px;" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . ':</label>'
-                        . '<select name="' . $this->getNome() . '" class="form-control" id="' . $this->getId() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                        . '<select name="' . $this->getNome() . '" class="form-control" id="' . $this->getId() . '" ' . $this->verificaCampoSelectBloqueado($this->getBCampoBloqueado()) . '>';
 
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
@@ -2389,7 +2370,7 @@ class Campo {
                 $sCampo = '<div style="" class="campo-form col-lg-' . $this->getSTelaGrande() . ' col-md-' . $this->getSTelaMedia() . ' col-sm-' . $this->getSTelaPequena() . ' col-xs-' . $this->getSTelaMuitoPequena() . '">'
                         . '<div class="input-group" id="' . $this->getId() . '-group">'
                         . '<label for="' . $this->getId() . '">' . $this->getLabel() . '</label>'
-                        . '<select name="' . $this->getNome() . '" class="form-control input-sm" id="' . $this->getId() . '" ' . $this->verificaCampoBloqueado($this->getBCampoBloqueado()) . '>';
+                        . '<select name="' . $this->getNome() . '" class="form-control input-sm" id="' . $this->getId() . '" ' . $this->verificaCampoSelectBloqueado($this->getBCampoBloqueado()) . '>';
 
                 foreach ($this->getAItemsSelect() as $key => $svalue) {
                     $sCampo .= '<option value="' . $key . '">' . $svalue . '</option>';
