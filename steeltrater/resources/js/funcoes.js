@@ -1189,6 +1189,34 @@ function capsLock(e) {
 }
 
 
+function insereCCT(cctCodigo, cctDescricao, cctListaID, cctCodigoID, cctDescricaoID, classe) {
+    var aCCTCod = [];
+
+    if (cctCodigo === '' || cctDescricao === '') {
+    } else {
+        var ccts = $('#' + cctListaID).val();
+        if (ccts !== '') {
+            var aCCTDados = ccts.split(';');
+            $.each(aCCTDados, function (key, value) {
+                var aCCTValue = value.split('-');
+                aCCTCod.push($.trim(aCCTValue[0]));
+            });
+        }
+        var bVar = checkArr(aCCTCod, cctCodigo);
+        if (!bVar) {
+            var dados = cctCodigo + ';' + cctDescricao + ';' + cctListaID + ';' + cctCodigoID + ';' + cctDescricaoID;
+            requestAjax("", classe, 'insereCCT', dados);
+        } else {
+            mensagemSlide('warning', 'Centro de custo já existe na lista de filtros!', 'Atenção');
+        }
+    }
+}
+
+function checkArr(aArray, checkVal) {
+    return $.inArray(checkVal, aArray) !== -1;
+}
+
+
 
 /*
  setInterval(function () {

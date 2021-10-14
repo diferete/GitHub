@@ -133,4 +133,32 @@ class ControllerSTEEL_SUP_PedidoCompra extends Controller {
         }
     }
 
+    public function mostraTelaRelPedidosCompra($renderTo, $sMetodo = '') {
+        
+        $ateste = '';
+        
+        parent::mostraTelaRelatorio($renderTo, 'relPedidosCompra');
+    }
+
+    public function insereCCT($sDados) {
+        $aDados = explode(';', $sDados);
+
+        $sProd = $aDados[0] . ' - ' . utf8_encode($aDados[1]);
+
+
+        $sProduto = "$('#" . $aDados[2] . "_tag').val('" . $sProd . "');"
+                . "$('#" . $aDados[2] . "_tag').focus();"
+                . "$('#" . $aDados[3] . "').focus();"
+                . "$('#" . $aDados[2] . "_tag').focus();"
+                . "$('#" . $aDados[3] . "').focus();";
+        echo $sProduto;
+        $this->limpaCampos($aDados);
+    }
+
+    public function limpaCampos($aDados) {
+        $sLimpaCampos = '$("#' . $aDados[3] . '").val("");'
+                . '$("#' . $aDados[4] . '").val("");';
+        echo $sLimpaCampos;
+    }
+
 }

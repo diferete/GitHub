@@ -458,6 +458,7 @@ class ViewMET_TEC_Chamados extends View {
         $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDatainicial->setSValor(Util::getPrimeiroDiaMes());
         $oDatainicial->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
+        
         $oDatafinal = new Campo('Data Final', 'datafinal', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDatafinal->setSValor(Util::getDataAtual());
         $oDatafinal->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');

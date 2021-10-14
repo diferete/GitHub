@@ -2525,8 +2525,8 @@ class Controller {
             echo $sRender;
         } else {
 
-            /* $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
-              echo $sMsgErro->getRender(); */
+            $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
+            echo $sMsgErro->getRender();
 
             //limpa campo descriçao
             $sLimpa = "$('#" . $sCampoRetorno . "').val('');";
@@ -4445,7 +4445,7 @@ class Controller {
                 $oHist->Model->setAcao('Exclusão do item ' . $sDados);
                 $oHist->Persistencia->setModel($oHist->Model);
                 $oHist->Persistencia->inserir();
-                
+
                 break;
         }
     }

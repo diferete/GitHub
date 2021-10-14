@@ -63,7 +63,7 @@ class ViewCot extends View {
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email', 'Cot', 'geraAnexoCotEmail', '', false, $sCotVenda, false, '', false, '', true, false);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'Enviar para meu email s/ logo', 'Cot', 'geraAnexoCotEmailSLogo', '', false, $sCotVenda, false, '', false, '', true, false);
         $oDrop2->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Descontos', 'Cot', 'acaoMostraRelConsultaHTML', '', false, 'descontosrep', '', false, '', false, '', false, false);
-        $this->addDropdown($oDrop2,$oDrop1);
+        $this->addDropdown($oDrop2, $oDrop1);
 
 
         $oFilSolNr = new Filtro($oNr, Filtro::CAMPO_TEXTO_IGUAL, 1);
@@ -100,17 +100,18 @@ class ViewCot extends View {
         $oEmpresa = new Campo('Razão Social', 'cliente', Campo::TIPO_BUSCADOBANCO, 4);
         $oEmpresa->setSIdPk($oCnpj->getId());
         $oEmpresa->setClasseBusca('Pessoa');
-        $oEmpresa->addValidacao(false, Validacao::TIPO_STRING, '', '2');
-
         $oEmpresa->addCampoBusca('empcod', '', '');
         $oEmpresa->addCampoBusca('empdes', '', '');
         $oEmpresa->setSIdTela($this->getTela()->getid());
         $oEmpresa->setITamanho(Campo::TAMANHO_PEQUENO);
         $oEmpresa->setSCorFundo(Campo::FUNDO_AMARELO);
+        $oEmpresa->addValidacao(false, Validacao::TIPO_STRING, '', '2');
 
         $oCnpj->setClasseBusca('Pessoa');
         $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
+
+        $oCnpj->addEvento(Campo::EVENTO_SAIR, 'var oCnpj = $("#' . $oCnpj->getId() . '").val(); requestAjax("","Cot","retBloq",""+oCnpj+"","");;');
 
         //---Campo usuário que pega da SESSION---//
         $oUserIns = new campo('Usuário', 'userins', Campo::TIPO_TEXTO, 2, 3, 3);

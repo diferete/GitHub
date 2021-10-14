@@ -17,7 +17,10 @@ class ViewSTEEL_PED_Aprovacoes extends View {
 
         $this->setUsaFiltro(true);
         $this->setUsaDropdown(true);
+        $this->setUsaAcaoVisualizar(false);
+        $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoAlterar(false);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setiAltura(800);

@@ -69,6 +69,14 @@ class ControllerCot extends Controller {
         }
     }
 
+    public function retBloq($sDadods) {
+        $sRetorno = $this->Persistencia->retBloq($sDadods);
+        if ($sRetorno == 'B') {
+            $oMensagem = new Mensagem('Atenção', 'O Cliente está com FINANCEIRO bloqueado', Mensagem::TIPO_WARNING);
+            echo $oMensagem->getRender();
+        }
+    }
+
     /**
      * Libera solicitação para a metalbo
      */

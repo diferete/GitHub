@@ -16,8 +16,10 @@ class ViewSTEEL_SOL_Aprovacoes extends View {
         parent::criaConsulta();
 
         $this->setUsaFiltro(true);
-        $this->setUsaAcaoVisualizar(true);
+        $this->setUsaAcaoVisualizar(false);
+        $this->setUsaAcaoIncluir(false);
         $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoAlterar(false);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
 
@@ -39,6 +41,7 @@ class ViewSTEEL_SOL_Aprovacoes extends View {
         $oTipoSol = new CampoConsulta('Tipo', 'SUP_SolicitacaoTipo');
 
         $oSitSol = new CampoConsulta('Situacao', 'SUP_SolicitacaoSituacao');
+        $oSitSol->addComparacao('M', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, true, 'EM MONTAGEM');
         $oSitSol->addComparacao('A', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROXO, CampoConsulta::MODO_COLUNA, true, 'EM ABERTO');
         $oSitSol->addComparacao('L', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, true, 'LIBERADO');
         $oSitSol->addComparacao('O', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VDCLARO, CampoConsulta::MODO_COLUNA, true, 'EM COMPRAS');

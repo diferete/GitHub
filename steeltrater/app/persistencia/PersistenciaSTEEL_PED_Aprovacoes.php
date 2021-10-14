@@ -153,13 +153,13 @@ class PersistenciaSTEEL_PED_Aprovacoes extends Persistencia {
             case 75483040000211:
                 date_default_timezone_set('America/Sao_Paulo');
                 if ($sit == 'a') {
-                    $sData = date('d/m/Y');
-                    $sHora = date('H:i:s');
-                    $sSit = 0;
+                    $sData = date('d/m/Y'); //data aprova
+                    $sHora = date('H:i:s'); //hora aprova
+                    $sSit = 0; //aprovado
                 } elseif ($sit == 'r') {
                     $sData = '01/01/1753';
                     $sHora = '';
-                    $sSit = "'R'";
+                    $sSit = "'R'"; //reprovado
                 }
                 $sSql = "update rex_maquinas.widl.PED01 "
                         . "set "
@@ -175,13 +175,13 @@ class PersistenciaSTEEL_PED_Aprovacoes extends Persistencia {
             case 75483040000130:
                 date_default_timezone_set('America/Sao_Paulo');
                 if ($sit == 'a') {
-                    $sData = date('d/m/Y');
-                    $sHora = date('H:i:s');
-                    $sSit = 0;
+                    $sData = date('d/m/Y'); //data aprova
+                    $sHora = date('H:i:s'); //hora aprova
+                    $sSit = 0; //aprovado
                 } elseif ($sit == 'r') {
                     $sData = '01/01/1753';
                     $sHora = '';
-                    $sSit = 'R';
+                    $sSit = "'R'"; //reprovado
                 }
                 $sSql = "update rex_maquinas.widl.PED01 "
                         . "set "

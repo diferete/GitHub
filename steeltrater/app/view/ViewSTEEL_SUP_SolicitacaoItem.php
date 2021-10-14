@@ -109,15 +109,10 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oQuantItem = new Campo('Quantidade', 'SUP_SolicitacaoItemComQtd', Campo::TIPO_DECIMAL_COMPOSTO, 1, 1, 12, 12);
         $oQuantItem->setSCorFundo(Campo::FUNDO_AMARELO);
         $oQuantItem->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório', '1');
-		$oQuantItem->setICasaDecimal(4);
+        $oQuantItem->setICasaDecimal(4);
 
         $oLinha = new campo('', 'linha', Campo::TIPO_LINHA);
         $oLinha->setApenasTela(true);
-
-        $oPrioridade = new Campo('Prioridade', 'SUP_PrioridadeCodigo', Campo::TIPO_SELECT, 1, 1, 12, 12);
-        foreach ($aDadosPrioridade as $key => $oPrioridadeVal) {
-            $oPrioridade->addItemSelect($oPrioridadeVal->sup_prioridadecodigo, $oPrioridadeVal->sup_prioridadedescricao);
-        }
 
         $oProCod->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","STEEL_SUP_SolicitacaoItem","buscaDadosProd","' . $oItemUnidade->getId() . '");');
         $oItemDesc->addEvento(Campo::EVENTO_SAIR, 'requestAjax("' . $this->getTela()->getid() . '-form","STEEL_SUP_SolicitacaoItem","buscaDadosProd","' . $oItemUnidade->getId() . '");');
@@ -127,6 +122,11 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
 
         $oDataEntrega = new Campo('Dt de entrega', 'SUP_SolicitacaoItemDataEntrega', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDataEntrega->setSValor(date('d/m/Y', strtotime('+15 days')));
+
+        $oPrioridade = new Campo('Prioridade', 'SUP_PrioridadeCodigo', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        foreach ($aDadosPrioridade as $key => $oPrioridadeVal) {
+            $oPrioridade->addItemSelect($oPrioridadeVal->sup_prioridadecodigo, $oPrioridadeVal->sup_prioridadedescricao);
+        }
 
         $oUsuSol = new Campo('Solicitante', 'SUP_SolicitacaoItemUsuSol', Campo::TIPO_TEXTO, 3, 3, 12, 12);
         $oUsuSol->setBCampoBloqueado(true);
@@ -157,6 +157,24 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $oTipoDespesa->setSCampoRetorno('tds_codigo', $this->getTela()->getId());
         $oTipoDespesa->addCampoBusca('tds_descricao', $oDespDesc->getId(), $this->getTela()->getId());
 
+        $oCCT_CentroCusto = new Campo('Centro de Custo', 'SUP_SolicitacaoItemCCTCodigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oCCT_CentroCusto->setSIdHideEtapa($this->getSIdHideEtapa());
+        $oCCT_CentroCusto->addValidacao(false, Validacao::TIPO_STRING, 'Campo não pode estar em branco!', '0');
+        $oCCT_CentroCusto->setSValor('99990001');
+
+        $oCCT_Descricao = new Campo('Descrição', 'desccentrocusto', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oCCT_Descricao->setSIdPk($oCCT_CentroCusto->getId());
+        $oCCT_Descricao->setClasseBusca('STEEL_CCT_CentroCusto');
+        $oCCT_Descricao->addCampoBusca('cct_codigo', '', '');
+        $oCCT_Descricao->addCampoBusca('cct_descricao', '', '');
+        $oCCT_Descricao->setSIdTela($this->getTela()->getid());
+        $oCCT_Descricao->setBCampoBloqueado(true);
+        $oCCT_Descricao->setApenasTela(true);
+
+        $oCCT_CentroCusto->setClasseBusca('STEEL_CCT_CentroCusto');
+        $oCCT_CentroCusto->setSCampoRetorno('cct_codigo', $this->getTela()->getId());
+        $oCCT_CentroCusto->addCampoBusca('cct_descricao', $oCCT_Descricao->getId(), $this->getTela()->getId());
+
         $oSitItem = new Campo('Usuário comprador', 'SUP_SolicitacaoItemSituacao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oSitItem->setSValor('A');
         $oSitItem->setBOculto(true);
@@ -171,9 +189,9 @@ class ViewSTEEL_SUP_SolicitacaoItem extends View {
         $this->getTela()->setAcaoConfirmar($sAcao);
 
         if ($sAcaoRotina == 'acaoVisualizar') {
-            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), $oLinha, array($oPrioridade, $oDataNecessidade, $oDataEntrega), $oLinha, array($oTipoDespesa, $oDespDesc), $oLinha, array($oUsuSol, $oUsuComprador), $oObsItem, $oSitItem);
+            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), $oLinha, array($oDataNecessidade, $oDataEntrega, $oPrioridade), $oLinha, array($oTipoDespesa, $oDespDesc), array($oCCT_CentroCusto, $oCCT_Descricao), $oLinha, array($oUsuSol, $oUsuComprador), $oObsItem, $oSitItem);
         } else {
-            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), $oLinha, array($oPrioridade, $oDataNecessidade, $oDataEntrega), $oLinha, array($oTipoDespesa, $oDespDesc), $oLinha, array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
+            $this->addCampos(array($oFilCodigo, $oSeqSol, $oSeqSolItem), array($oProCod, $oItemDesc, $oItemUnidade, $oQuantItem), $oLinha, array($oDataNecessidade, $oDataEntrega, $oPrioridade), $oLinha, array($oTipoDespesa, $oDespDesc), array($oCCT_CentroCusto, $oCCT_Descricao), $oLinha, array($oUsuSol, $oUsuComprador), $oObsItem, $oBotConf, $oSitItem);
         }
         $this->addCamposFiltroIni($oSeqSol);
     }

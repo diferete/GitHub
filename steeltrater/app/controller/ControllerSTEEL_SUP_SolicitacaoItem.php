@@ -163,7 +163,6 @@ class ControllerSTEEL_SUP_SolicitacaoItem extends Controller {
         $this->Model->setSUP_SolicitacaoItemPesoBru($oParamDados->pro_pesobruto);
 
         $this->Model->setSUP_SolicitacaoItemGrade('');
-        $this->Model->setSUP_SolicitacaoItemCCTCodigo(null);
         $this->Model->setSUP_SolicitacaoItemPlano(0);
         $this->Model->setSUP_SolicitacaoItemConta(null);
         $this->Model->setSUP_SolicitacaoItemProjeto(null);
