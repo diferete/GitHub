@@ -63,6 +63,8 @@ $sql = "select convert(varchar,datacad,103)as datacad,
 	 situacao, 
 	 responsavel, 
 	 consumo, 
+         codserv,
+         oqfazer,
          MET_TEC_usuario3.usunome AS usuarioinic, 
 	 convert(varchar,datainic,103)as datainic, 
 	 convert(varchar,horainic,8)as horainic, 
@@ -104,6 +106,8 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $horaenc = $row['horaenc'];
     $userenc = $row['usuariofinal'];
     $material = $row['matnecessario'];
+    $codserv = $row['codserv'];
+    $oqfazer = $row['oqfazer'];
 
 //código máquina   
     $pdf->SetFont('arial', 'B', 12);
@@ -153,110 +157,144 @@ while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
     $pdf->Cell(50, 6, $previsao, 0, 1, 'L');
     $pdf->Ln(10);
 
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(50, 8, "Problema apresentado", 0, 1, 'L');
-    $pdf->Cell(199, 1, "", "B", 1, 'C');
-    $pdf->Ln(2);
-    $pdf->setFont('arial', '', 9);
-    $pdf->MultiCell(199, 7, $problema, 0, 'J');
-    $pdf->Ln(5);
 
-    $sql1 = "select convert(varchar,datamat,103)as datamat, codmat, descricaomat, quantidade, usermatdes, obsmat from MET_MANUT_OSMaterial where nr = " . $sNr . "";
-    $sth1 = $PDO->query($sql1);
-
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(25, 6, "Material necessário para compras", 0, 1, 'L');
-    $pdf->Ln(2);
-    $pdf->Cell(199, 1, "", "B", 1, 'C');
-    $pdf->SetFont('arial', 'B', 9);
-    $pdf->Cell(20, 6, 'CÓDIGO', 0, 0, 'L');
-    $pdf->Cell(100, 6, 'MATERIAL', 0, 0, 'L');
-    $pdf->Cell(25, 6, 'QUANTIDADE', 0, 0, 'L');
-    $pdf->Cell(35, 6, 'SOLICITANTE', 0, 0, 'L');
-    $pdf->Cell(20, 6, 'DATA', 0, 1, 'L');
-    $pdf->Cell(199, 1, "", "B", 1, 'C');
-
-    if ($sth1 != false) {
-        while ($row1 = $sth1->fetch(PDO::FETCH_ASSOC)) {
-
-            $pdf->setFont('arial', '', 8);
-            $pdf->Cell(20, 6, $row1['codmat'], 0, 0, 'L');
-            $pdf->Cell(100, 6, $row1['descricaomat'], 0, 0, 'L');
-            $pdf->Cell(25, 6, $row1['quantidade'], 0, 0, 'L');
-            $pdf->Cell(35, 6, substr($row1['usermatdes'], 0, 18), 0, 0, 'L');
-            $pdf->Cell(20, 6, $row1['datamat'], 0, 1, 'L');
-            $pdf->Cell(199, 6, 'Observação:    ' . $row1['obsmat'], 0, 1, 'L');
-            $pdf->Cell(199, 1, "", "B", 1, 'C');
-        }
-    }
-    if ($material != '') {
+    if ($codserv == null || $codserv == 0) {
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(50, 8, "Problema apresentado", 0, 1, 'L');
+        $pdf->Cell(199, 1, "", "B", 1, 'C');
         $pdf->Ln(2);
         $pdf->setFont('arial', '', 9);
-        $pdf->Cell(199, 6, 'MATERIAL: ' . $material, 0, 0, 'L');
+        $pdf->MultiCell(199, 7, $problema, 0, 'J');
+        $pdf->Ln(5);
+    } else {
+
+        $sql4 = "select codserv, servico, tipcod, ciclo, resp, sit, codsetor from MET_MANUT_OSServico where codserv = " . $codserv . "";
+        $sth4 = $PDO->query($sql4);
+
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(25, 6, "Serviços da manutenção preventiva", 0, 1, 'L');
+        $pdf->Ln(5);
+        $pdf->Cell(199, 1, "", "B", 1, 'C');
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(15, 6, 'CÓDIGO', 0, 0, 'L');
+        $pdf->Cell(40, 6, 'O QUE FAZER', 0, 0, 'L');
+        $pdf->Cell(50, 6, 'SERVIÇO', 0, 0, 'L');
+        $pdf->Cell(30, 6, 'CICLO', 0, 0, 'L');
+        $pdf->Cell(35, 6, 'RESPONSÁVEL', 0, 0, 'L');
+        $pdf->Cell(30, 6, 'SITUAÇÃO', 0, 1, 'L');
+        $pdf->Cell(199, 1, "", "B", 1, 'C');
+
+        if ($sth4 != false) {
+            while ($row4 = $sth4->fetch(PDO::FETCH_ASSOC)) {
+
+                $pdf->SetFont('arial', '', 9);
+                $pdf->Cell(15, 6, $row4['codserv'], 0, 0, 'L');
+                $pdf->Cell(40, 6, $oqfazer, 0, 0, 'L');
+                $pdf->Cell(50, 6, $row4['servico'], 0, 0, 'L');
+                $pdf->Cell(30, 6, $row4['ciclo'], 0, 0, 'L');
+                $pdf->Cell(35, 6, $row4['resp'], 0, 0, 'L');
+                $pdf->Cell(30, 6, $row4['sit'], 0, 1, 'L');
+            }
+        }
+    }
+        $pdf->Ln(5);
+
+        $sql1 = "select convert(varchar,datamat,103)as datamat, codmat, descricaomat, quantidade, usermatdes, obsmat from MET_MANUT_OSMaterial where nr = " . $sNr . "";
+        $sth1 = $PDO->query($sql1);
+
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(25, 6, "Material necessário para compras", 0, 1, 'L');
+        $pdf->Ln(5);
+        $pdf->Cell(199, 1, "", "B", 1, 'C');
+        $pdf->SetFont('arial', 'B', 9);
+        $pdf->Cell(20, 6, 'CÓDIGO', 0, 0, 'L');
+        $pdf->Cell(100, 6, 'MATERIAL', 0, 0, 'L');
+        $pdf->Cell(25, 6, 'QUANTIDADE', 0, 0, 'L');
+        $pdf->Cell(35, 6, 'SOLICITANTE', 0, 0, 'L');
+        $pdf->Cell(20, 6, 'DATA', 0, 1, 'L');
+        $pdf->Cell(199, 1, "", "B", 1, 'C');
+
+        if ($sth1 != false) {
+            while ($row1 = $sth1->fetch(PDO::FETCH_ASSOC)) {
+
+                $pdf->setFont('arial', '', 8);
+                $pdf->Cell(20, 6, $row1['codmat'], 0, 0, 'L');
+                $pdf->Cell(100, 6, $row1['descricaomat'], 0, 0, 'L');
+                $pdf->Cell(25, 6, $row1['quantidade'], 0, 0, 'L');
+                $pdf->Cell(35, 6, substr($row1['usermatdes'], 0, 18), 0, 0, 'L');
+                $pdf->Cell(20, 6, $row1['datamat'], 0, 1, 'L');
+                $pdf->Cell(199, 6, 'Observação:    ' . $row1['obsmat'], 0, 1, 'L');
+                $pdf->Cell(199, 1, "", "B", 1, 'C');
+            }
+        }
+        if ($material != '') {
+            $pdf->Ln(2);
+            $pdf->setFont('arial', '', 9);
+            $pdf->Cell(199, 6, 'MATERIAL: ' . $material, 0, 0, 'L');
+            $pdf->Ln(2);
+        }
+
+        $pdf->Ln(5);
+
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(50, 8, "Inicializou:", 0, 0, 'L');
+        $pdf->setFont('arial', '', 12);
+        $pdf->Cell(60, 8, $datainic, 0, 0, 'L');
+
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(25, 8, "Hora:", 0, 0, 'L');
+        $pdf->setFont('arial', '', 12);
+        $pdf->Cell(60, 8, $horainic, 0, 1, 'L');
+
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(50, 8, "Usuário:", 0, 0, 'L');
+        $pdf->setFont('arial', '', 12);
+        $pdf->Cell(60, 8, $userinic, 0, 1, 'L');
+
+        $pdf->Cell(0, 2, "", "T", 1, 'C');
+
+        $pdf->Ln(3);
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(60, 8, "Solução", 0, 1, 'L');
+        $pdf->Cell(199, 1, "", "B", 1, 'C');
         $pdf->Ln(2);
+        $pdf->setFont('arial', '', 9);
+//$pdf->SetXY(61,92);
+        $pdf->MultiCell(199, 7, $solucao, 0, 'J');
+        $pdf->Ln(5);
+
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(60, 8, "Consumo", 0, 1, 'L');
+        $pdf->Cell(199, 1, "", "B", 1, 'C');
+        $pdf->Ln(2);
+        $pdf->setFont('arial', '', 9);
+        $pdf->MultiCell(199, 7, $consumo, 0, 'J');
+
+        $pdf->Cell(60, 7, "", 0, 1, 'L');
+        $pdf->Cell(199, 1, "", "B", 1, 'C');
+
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(50, 8, "Encerramento:", 0, 0, 'L');
+        $pdf->setFont('arial', '', 12);
+        $pdf->Cell(60, 8, $dataenc, 0, 0, 'L');
+
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(25, 8, "Hora:", 0, 0, 'L');
+        $pdf->setFont('arial', '', 12);
+        $pdf->Cell(60, 8, $horaenc, 0, 1, 'L');
+
+        $pdf->SetFont('arial', 'B', 12);
+        $pdf->Cell(50, 8, "Usuário:", 0, 0, 'L');
+        $pdf->setFont('arial', '', 12);
+        $pdf->Cell(60, 8, $userenc, 0, 1, 'L');
+
+        $pdf->Cell(0, 2, "", "T", 1, 'C');
+        $pdf->Cell(60, 8, "Assinatura", 0, 1, 'L');
+        $pdf->Cell(0, 5, "", "B", 1, 'C');
     }
 
 
-    $pdf->Ln(5);
 
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(50, 8, "Inicializou:", 0, 0, 'L');
-    $pdf->setFont('arial', '', 12);
-    $pdf->Cell(60, 8, $datainic, 0, 0, 'L');
-
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(25, 8, "Hora:", 0, 0, 'L');
-    $pdf->setFont('arial', '', 12);
-    $pdf->Cell(60, 8, $horainic, 0, 1, 'L');
-
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(50, 8, "Usuário:", 0, 0, 'L');
-    $pdf->setFont('arial', '', 12);
-    $pdf->Cell(60, 8, $userinic, 0, 1, 'L');
-
-    $pdf->Cell(0, 2, "", "T", 1, 'C');
-
-    $pdf->Ln(3);
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(60, 8, "Solução", 0, 1, 'L');
-    $pdf->Cell(199, 1, "", "B", 1, 'C');
-    $pdf->Ln(2);
-    $pdf->setFont('arial', '', 9);
-//$pdf->SetXY(61,92);
-    $pdf->MultiCell(199, 7, $solucao, 0, 'J');
-    $pdf->Ln(5);
-
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(60, 8, "Consumo", 0, 1, 'L');
-    $pdf->Cell(199, 1, "", "B", 1, 'C');
-    $pdf->Ln(2);
-    $pdf->setFont('arial', '', 9);
-    $pdf->MultiCell(199, 7, $consumo, 0, 'J');
-
-    $pdf->Cell(60, 7, "", 0, 1, 'L');
-    $pdf->Cell(199, 1, "", "B", 1, 'C');
-
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(50, 8, "Encerramento:", 0, 0, 'L');
-    $pdf->setFont('arial', '', 12);
-    $pdf->Cell(60, 8, $dataenc, 0, 0, 'L');
-
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(25, 8, "Hora:", 0, 0, 'L');
-    $pdf->setFont('arial', '', 12);
-    $pdf->Cell(60, 8, $horaenc, 0, 1, 'L');
-
-    $pdf->SetFont('arial', 'B', 12);
-    $pdf->Cell(50, 8, "Usuário:", 0, 0, 'L');
-    $pdf->setFont('arial', '', 12);
-    $pdf->Cell(60, 8, $userenc, 0, 1, 'L');
-
-    $pdf->Cell(0, 2, "", "T", 1, 'C');
-    $pdf->Cell(60, 8, "Assinatura", 0, 1, 'L');
-    $pdf->Cell(0, 5, "", "B", 1, 'C');
-}
-
-
-
-$pdf->Output('', 'OrdemdeManutencao.pdf'); // GERA O PDF NA TELA
-Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
+    $pdf->Output('', 'OrdemdeManutencao.pdf'); // GERA O PDF NA TELA
+    Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE
+    

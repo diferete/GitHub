@@ -122,8 +122,10 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
         $oBotConf->getOBotao()->addAcao($sAcao);
         $oBotConf->setApenasTela(true);
 
+        $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha1->setApenasTela(true);
 
-        $this->addCampos(array($oPdcInicial, $oPdcFinal), array($oDatainicial, $oDatafinal), array($oCCT_Codigo, $oCCT_Descricao, $oBotConf), $oCcts);
+        $this->addCampos(array($oPdcInicial, $oPdcFinal), $oLinha1, array($oDatainicial, $oDatafinal), $oLinha1, array($oCCT_Codigo, $oCCT_Descricao, $oBotConf), $oLinha1, $oCcts);
     }
 
 }

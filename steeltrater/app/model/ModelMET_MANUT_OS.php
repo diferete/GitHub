@@ -33,7 +33,18 @@ class ModelMET_MANUT_OS {
     private $MET_CAD_Maquinas;
     private $DELX_FIL_Empresa;
     private $MET_TEC_USUARIO;
+    private $MET_MANUT_OSServico;
     
+    function getMET_MANUT_OSServico() {
+        if(!isset($this->MET_MANUT_OSServico)){
+            $this->MET_MANUT_OSServico = Fabrica::FabricarModel('MET_MANUT_OSServico');
+        }
+        return $this->MET_MANUT_OSServico;
+    }
+    
+    function setMET_MANUT_OSServico($MET_MANUT_OSServico) {
+        $this->MET_MANUT_OSServico = $MET_MANUT_OSServico;
+    }
     
     function getDELX_FIL_Empresa() {
         if(!isset($this->DELX_FIL_Empresa)){

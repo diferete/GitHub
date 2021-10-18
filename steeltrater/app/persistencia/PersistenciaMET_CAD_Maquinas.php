@@ -90,6 +90,7 @@ class PersistenciaMET_CAD_Maquinas extends Persistencia {
         $this->adicionaRelacionamento('empcnpj', 'empcnpj');
         $this->adicionaRelacionamento('tipmanut', 'tipmanut');
         $this->adicionaRelacionamento('obs', 'obs');
+        $this->adicionaRelacionamento('cct_codigo', 'cct_codigo');
 
         $this->adicionaOrderBy('cod', 1);
 

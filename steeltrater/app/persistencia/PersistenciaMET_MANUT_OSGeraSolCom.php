@@ -26,9 +26,9 @@ class PersistenciaMET_MANUT_OSGeraSolCom extends Persistencia {
         $this->adicionaRelacionamento('processoCompra', 'processoCompra');
         $this->adicionaRelacionamento('numero', 'numero', true, true, true);
         $this->adicionaRelacionamento('quantMatSol', 'quantMatSol');
-        
+
         $this->adicionaOrderBy('numero', 1);
-        
+
         $this->setSTop('50');
     }
 
@@ -86,29 +86,34 @@ class PersistenciaMET_MANUT_OSGeraSolCom extends Persistencia {
                 $oPro->Persistencia->adicionaFiltro('pro_codigo', $oDadosMatOS->getCodmat());
                 $oDadosPro = $oPro->Persistencia->consultarWhere();
 
+                //Busca a centro de custo da máquina
+                $oContMaq = Fabrica::FabricarController('MET_CAD_Maquinas');
+                $oContMaq->Persistencia->adicionaFiltro('fil_codigo', $value['fil_codigo']);
+                $oContMaq->Persistencia->adicionaFiltro('codigoMaq', $value['cod']);
+                $oMaqDados = $oContMaq->Persistencia->consultarWhere();
+                $cct_custo = $oMaqDados->getCct_codigo();
+
                 //Preenche a observação adicional caso o material seja diversos
                 $sObs = '';
                 if ($oDadosMatOS->getCodmat() == 0) {
                     $sObs = ". Material: " . $oDadosMatOS->getObsmat();
                 }
 
-                $sSql1 = "SET DATEFORMAT ymd;
-                    INSERT INTO SUP_SOLICITACAOITEM (FIL_Codigo, SUP_SolicitacaoSeq, SUP_SolicitacaoItemSeq, PRO_Codigo, SUP_PrioridadeCodigo, SUP_SolicitacaoItemDescricao, SUP_SolicitacaoItemUnidade,
-                    SUP_SolicitacaoItemDimPecas, SUP_SolicitacaoItemDimComprime, SUP_SolicitacaoItemDimLargura, SUP_SolicitacaoItemDimEspessur, SUP_SolicitacaoItemComQtd, SUP_SolicitacaoItemComConv,
-                    SUP_SolicitacaoItemComUnd, SUP_SolicitacaoItemQtd, SUP_SolicitacaoItemDataNecessi, SUP_SolicitacaoItemUsuSol, SUP_SolicitacaoItemUsuCom, SUP_SolicitacaoItemObservacao,
-                    SUP_SolicitacaoItemReferencia, SUP_SolicitacaoItemValor, SUP_SolicitacaoItemPesoLiq, SUP_SolicitacaoItemPesoBru, SUP_SolicitacaoItemDimUnidade, SUP_SolicitacaoItemDataAprVerb,
-                    SUP_SolicitacaoItemValorTotal, SUP_SolicitacaoItemSituacao, SUP_SolicitacaoItemGrade, SUP_SolicitacaoItemTipoDespCod, SUP_SolicitacaoItemCCTCodigo, SUP_SolicitacaoItemPlano,
-                    SUP_SolicitacaoItemConta, SUP_SolicitacaoItemProjeto, SUP_SolicitacaoItemOriTipo, SUP_SolicitacaoItemOriNumero, SUP_SolicitacaoItemOriItem, SUP_SolicitacaoItemConversor,
-                    SUP_SolicitacaoItemDimConv, SUP_SolicitacaoItemDimUndConv, SUP_SolicitacaoItemDimGQtd, SUP_SolicitacaoItemDimGFormula, SUP_SolicitacaoItemDimGExpres, SUP_SolicitacaoItemDataEntrega,
-                    SUP_SolicitacaoItemPosicao, SUP_SolicitacaoItemPesoLiqTot, SUP_SolicitacaoItemPesoBruTot, SUP_SolicitacaoItemValorPrevis, SUP_SolicitacaoItemCalculaDim)
-                    VALUES (8993358000174, " . $inc . ", " . $inc1 . ", " . $oDadosMatOS->getCodmat()
-                        . ", 1, '" . $oDadosMatOS->getDescricaomat() . "', '" . $oDadosPro->getPro_unidademedida()
-                        . "', 0, 0, 0, 0, " . $oDadosMatOS->getQuantMatSol() . ", 1, '" . $oDadosPro->getPro_unidademedida()
-                        . "', " . $oDadosMatOS->getQuantMatSol() . ",  CAST(N'" . $sData1 . "' AS DateTime), '" . $oUsuNomeDelsoft
-                        . "', 'Amanda.Pisetta', 'Referente ao material seq " . $value['seq'] . " da OS nº " . $value['nr'] . " para a máquina " . $value['cod'] . $sObs . "', NULL, 0, 0, 0,
-                    NULL, '1753-01-01 00:00:00.000', 0, 'A', NULL, 649, NULL, 0, NULL, NULL, 'N', 0, 0, NULL,
-                    0, 0, 0, NULL, NULL,  CAST(N'" . $sData2 . "' AS DateTime), NULL, NULL, NULL, NULL, NULL) ";
-
+                $sSql1 = "SET DATEFORMAT ymd;"
+                        . "INSERT INTO SUP_SOLICITACAOITEM ("
+                        . "FIL_Codigo, SUP_SolicitacaoSeq, SUP_SolicitacaoItemSeq, PRO_Codigo, SUP_PrioridadeCodigo, SUP_SolicitacaoItemDescricao, SUP_SolicitacaoItemUnidade,SUP_SolicitacaoItemDimPecas, SUP_SolicitacaoItemDimComprime, SUP_SolicitacaoItemDimLargura, "
+                        . "SUP_SolicitacaoItemDimEspessur, SUP_SolicitacaoItemComQtd, SUP_SolicitacaoItemComConv,SUP_SolicitacaoItemComUnd, SUP_SolicitacaoItemQtd, SUP_SolicitacaoItemDataNecessi, SUP_SolicitacaoItemUsuSol, SUP_SolicitacaoItemUsuCom, SUP_SolicitacaoItemObservacao,"
+                        . "SUP_SolicitacaoItemReferencia, SUP_SolicitacaoItemValor, SUP_SolicitacaoItemPesoLiq, SUP_SolicitacaoItemPesoBru, SUP_SolicitacaoItemDimUnidade, SUP_SolicitacaoItemDataAprVerb, SUP_SolicitacaoItemValorTotal, SUP_SolicitacaoItemSituacao,"
+                        . "SUP_SolicitacaoItemGrade, SUP_SolicitacaoItemTipoDespCod, SUP_SolicitacaoItemCCTCodigo, SUP_SolicitacaoItemPlano, SUP_SolicitacaoItemConta, SUP_SolicitacaoItemProjeto, SUP_SolicitacaoItemOriTipo, SUP_SolicitacaoItemOriNumero, SUP_SolicitacaoItemOriItem,"
+                        . "SUP_SolicitacaoItemConversor,SUP_SolicitacaoItemDimConv, SUP_SolicitacaoItemDimUndConv, SUP_SolicitacaoItemDimGQtd, SUP_SolicitacaoItemDimGFormula, SUP_SolicitacaoItemDimGExpres, SUP_SolicitacaoItemDataEntrega,SUP_SolicitacaoItemPosicao, "
+                        . "SUP_SolicitacaoItemPesoLiqTot, SUP_SolicitacaoItemPesoBruTot, SUP_SolicitacaoItemValorPrevis, SUP_SolicitacaoItemCalculaDim"
+                        . ")"
+                        . "VALUES"
+                        . "("
+                        . "8993358000174, " . $inc . ", " . $inc1 . ", " . $oDadosMatOS->getCodmat() . ", 1, '" . str_replace("'", "''", $oDadosMatOS->getDescricaomat()) . "', '" . $oDadosPro->getPro_unidademedida() . "', 0, 0, 0, 0, " . $oDadosMatOS->getQuantMatSol() . ", "
+                        . "1, '" . $oDadosPro->getPro_unidademedida() . "', " . $oDadosMatOS->getQuantMatSol() . ",  CAST(N'" . $sData1 . "' AS DateTime), '" . $oUsuNomeDelsoft . "', 'Amanda.Pisetta', "
+                        . "'Referente ao material seq " . $value['seq'] . " da OS nº " . $value['nr'] . " para a máquina " . $value['cod'] . $sObs . "', NULL, 0, 0, 0,NULL, '1753-01-01 00:00:00.000', 0, "
+                        . "'A', NULL, 649, " . $cct_custo . ", 0, NULL, NULL,'N', 0, 0, NULL,0, 0, 0, NULL, NULL,  CAST(N'" . $sData2 . "' AS DateTime), NULL, NULL, NULL, NULL, NULL) ";
                 $aRetorno1 = $this->executaSql($sSql1);
 
                 //Alteração da situação para SOLICITADO do item, após a inserção do mesmo na solicitação

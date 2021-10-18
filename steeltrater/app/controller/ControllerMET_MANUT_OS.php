@@ -202,7 +202,6 @@ class ControllerMET_MANUT_OS extends Controller {
         parent::antesDeCriarConsulta($sParametros);
 
         $this->Persistencia->atualizaDataAntesdaConsulta();
-        //      $this->Persistencia->atualizaServicos();
     }
 
     /**
@@ -336,9 +335,9 @@ class ControllerMET_MANUT_OS extends Controller {
 
         $aCampos = $this->getArrayCampostela();
 
-        $oMaq = Fabrica::FabricarController('DELX_PRO_Produtos');
-        $oMaq->Persistencia->adicionaFiltro('pro_codigo', $aCampos['MET_MANUT_OSPesqProd_pro_codigo']);
-        $iCont = $oMaq->Persistencia->getCount();
+        $oPro = Fabrica::FabricarController('DELX_PRO_Produtos');
+        $oPro->Persistencia->adicionaFiltro('pro_codigo', $aCampos['MET_MANUT_OSPesqProd_pro_codigo']);
+        $iCont = $oPro->Persistencia->getCount();
 
         if ($iCont == 0) {
             $oMensagem = new Mensagem('Atenção!', 'Código de material inexistente, digite um código válido!', Mensagem::TIPO_WARNING, 7000);
@@ -348,7 +347,7 @@ class ControllerMET_MANUT_OS extends Controller {
                     . '$("#CodmaterialManOs").val("").focus();';
             echo $sScript;
         }
-        $oDadosMaq = $oMaq->Persistencia->consultarWhere();
+        $oDadosMaq = $oPro->Persistencia->consultarWhere();
 
         $oContPar = Fabrica::FabricarController('STEEL_PCP_ParametrosProd');
         $oContPar->Persistencia->adicionaFiltro('parametro', "PARAMENTRO PARA O SISTEMA DE CONSULTA DE MATERIAL OS");
@@ -356,15 +355,54 @@ class ControllerMET_MANUT_OS extends Controller {
         $sDados = $oModelDadosPar->getObs();
         $aGrupDados = explode(',', $sDados);
 
-        if (!in_array($oDadosMaq->getPro_grupocodigo() , $aGrupDados )) {
+        if (!in_array($oDadosMaq->getPro_grupocodigo(), $aGrupDados)) {
             $oMensagem = new Mensagem('Atenção!', 'Código de material inexistente no grupo válido, digite um código válido!', Mensagem::TIPO_WARNING, 7000);
             echo $oMensagem->getRender();
             $sScript = '$("#CodmaterialManOs").val("");'
                     . '$("#materialManOs").val("");'
                     . '$("#CodmaterialManOs").val("").focus();';
             echo $sScript;
-        } 
-        
+        }
+    }
+
+    public function consultaServico() {
+
+        $aCampos = $this->getArrayCampostela();
+
+        $oSer = Fabrica::FabricarController('MET_MANUT_OSServico');
+        $oSer->Persistencia->adicionaFiltro('fil_codigo', $aCampos['fil_codigo']);
+        $oSer->Persistencia->adicionaFiltro('codserv', $aCampos['codserv']);
+        $iCont = $oSer->Persistencia->getCount();
+        $oServDados = $oSer->Persistencia->consultarWhere();
+        $oData = date('d/m/Y', strtotime('+' . $oServDados->getCiclo() . ' days'));
+        $sResponsavel = $oServDados->getResp();
+        $sTipo = 'MP';
+        $sCiclo = $oServDados->getCiclo();
+
+        if ($iCont == 0) {
+            $oMensagem = new Mensagem('Atenção!', 'Código de serviço inexistente, digite um código válido!', Mensagem::TIPO_WARNING, 7000);
+            echo $oMensagem->getRender();
+            $sScript = '$("#CodservicoManOs").val("");'
+                    . '$("#servicoManOs").val("");'
+                    . '$("#CodservicoManOs").val("").focus();'
+                    . '$("#diasManOs").val("");'
+                    . '$("#responsavelManOs").val("");'
+                    . '$("#previsaoManOs").val("");'
+                    . '$("#tipomanutManOs").val("");';
+            echo $sScript;
+        } else {
+            $sScript = '$("#diasManOs").val("");'
+                    . '$("#responsavelManOs").val("");'
+                    . '$("#previsaoManOs").val("");'
+                    . '$("#tipomanutManOs").val("");';
+            echo $sScript;
+        }
+
+        $sScript = '$("#diasManOs").val("' . $sCiclo . '");'
+                . '$("#responsavelManOs").val("' . $sResponsavel . '");'
+                . '$("#previsaoManOs").val("' . $oData . '");'
+                . '$("#tipomanutManOs").val("' . $sTipo . '");';
+        echo $sScript;
     }
 
 }

@@ -12,37 +12,32 @@ class ViewMET_MANUT_OS extends View {
         parent::criaConsulta();
 
         $this->setUsaAcaoVisualizar(true);
-        $this->getTela()->setIAltura(700);
+        $this->getTela()->setBGridResponsivo(false);
+        $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setITipoGrid(2);
 
         $ofil_des = new CampoConsulta('Empresa', 'DELX_FIL_Empresa.fil_fantasia', CampoConsulta::TIPO_TEXTO);
+//       $ofil_des->setBColOculta(true);
         $onr = new CampoConsulta('Ordem', 'nr', CampoConsulta::TIPO_TEXTO);
-        $onr->setILargura(30);
 
         $ocodMaq = new CampoConsulta('Cód', 'MET_CAD_Maquinas.codigoMaq', CampoConsulta::TIPO_TEXTO);
-        $ocodMaq->setILargura(20);
         $odesMaq = new CampoConsulta('Máquina', 'MET_CAD_Maquinas.maquina', CampoConsulta::TIPO_TEXTO);
-        $odesMaq->setILargura(500);
 
-        //$ocodserv = new CampoConsulta('SERVIÇO', 'codserv', CampoConsulta::TIPO_TEXTO);
+        $oAcao = new CampoConsulta('Ação', 'oqfazer');
+        $oServ = new CampoConsulta('Serviço', 'MET_MANUT_OSServico.servico');
 
         $oresponsavel = new CampoConsulta('Responsável', 'responsavel', CampoConsulta::TIPO_TEXTO);
-        $oresponsavel->setILargura(65);
 
         $ousuariocaddes = new CampoConsulta('Usuário inicial', 'MET_TEC_USUARIO.usunome', CampoConsulta::TIPO_TEXTO);
         $odatacad = new CampoConsulta('Data inicial', 'datacad', CampoConsulta::TIPO_DATA);
-        $odatacad->setILargura(55);
         $ohoracad = new CampoConsulta('Hora inicial', 'horacad', CampoConsulta::TIPO_TIME);
-        $ohoracad->setILargura(55);
 
         $oprevisao = new CampoConsulta('Previsão', 'previsao', CampoConsulta::TIPO_DATA);
-        $oprevisao->setILargura(55);
 
         $otipomanut = new CampoConsulta('Tipo', 'tipomanut', CampoConsulta::TIPO_TEXTO);
         $otipomanut->addComparacao('MP', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'PREVENTIVA');
         $otipomanut->addComparacao('MC', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'CORRETIVA');
         $otipomanut->setBComparacaoColuna(true);
-        $otipomanut->setILargura(65);
 
         $odias = new CampoConsulta('Dias Restantes', 'dias', CampoConsulta::TIPO_TEXTO);
         $odias->addComparacao('0', CampoConsulta::COMPARACAO_MENOR, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, '');
@@ -50,7 +45,6 @@ class ViewMET_MANUT_OS extends View {
         $odias->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COL_VDCLARO, CampoConsulta::MODO_COLUNA, false, '');
         $odias->addComparacao('', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, false, '');
         $odias->setBComparacaoColuna(true);
-        $odias->setILargura(50);
 
         //$ocodsetor = new CampoConsulta('SETOR', 'codsetor', CampoConsulta::TIPO_TEXTO);
         $oSituaca = new CampoConsulta('Situação', 'situacao');
@@ -58,7 +52,6 @@ class ViewMET_MANUT_OS extends View {
         $oSituaca->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, true, 'CANCELADA');
         $oSituaca->addComparacao('Iniciada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, true, 'INICIADA');
         $oSituaca->addComparacao('Encerrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_PADRAO, CampoConsulta::MODO_LINHA, true, 'ENCERRADA');
-        $oSituaca->setILargura(65);
 
         $oNrfiltro = new Filtro($onr, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12);
 //        $oDesEmpfiltro = new Filtro($ofil_des, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
@@ -111,9 +104,8 @@ class ViewMET_MANUT_OS extends View {
 
         $this->addFiltro($oDescricaoSituacaofiltro, $oNrfiltro, $oMaqDesfiltro, $oUsuariofiltro, $oFilData, $oTipofiltro, $oRespfiltro);
 
-        $this->addCampos($ofil_des, $onr, $ocodMaq, $odesMaq/* , $ocodserv */, $odatacad, $ohoracad, $ousuariocaddes, $oprevisao, $odias, $otipomanut, $oresponsavel/* , $ocodsetor */, $oSituaca);
+        $this->addCampos($onr, $ocodMaq, $odesMaq, $oAcao, $oServ, $odatacad, $ohoracad, $ousuariocaddes, $oprevisao, $odias, $otipomanut, $oresponsavel/* , $ocodsetor */, $oSituaca, $ofil_des);
 
-        $this->setBScrollInf(true);
     }
 
     public function criaTela() {
@@ -219,6 +211,49 @@ class ViewMET_MANUT_OS extends View {
         $osituacao = new Campo('Situação', 'situacao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $osituacao->setSValor('Aberta');
         $osituacao->setBCampoBloqueado(true);
+        
+        $oQueFazer = new Campo('O que fazer', 'oqfazer', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
+        $oQueFazer->addItemSelect('', '');
+        $oQueFazer->addItemSelect('AJUSTE', 'AJUSTE');
+        $oQueFazer->addItemSelect('ENGRAXE', 'ENGRAXE');
+        $oQueFazer->addItemSelect('LIMPAR', 'LIMPAR');
+        $oQueFazer->addItemSelect('LIMPAR OU TROCAR', 'LIMPAR OU TROCAR');
+        $oQueFazer->addItemSelect('LIMPEZA', 'LIMPEZA');
+        $oQueFazer->addItemSelect('LIMPEZA E ENGRAXE', 'LIMPEZA E ENGRAXE');
+        $oQueFazer->addItemSelect('LUBRIFICACAO', 'LUBRIFICACAO');
+        $oQueFazer->addItemSelect('LUBRIFICAR', 'LUBRIFICAR');
+        $oQueFazer->addItemSelect('REPOSICAO', 'REPOSICAO');
+        $oQueFazer->addItemSelect('TROCA', 'TROCA');
+        $oQueFazer->addItemSelect('VERIFICAR', 'VERIFICAR');
+        $oQueFazer->addItemSelect('VERIFICAR CONDICOES', 'VERIFICAR CONDICOES');
+        $oQueFazer->addItemSelect('VERIFICAR DESGASTE', 'VERIFICAR DESGASTE');
+        $oQueFazer->addItemSelect('VERIFICAR DESGASTE E AJUSTAR SE NECESSARIO', 'VERIFICAR DESGASTE E AJUSTAR SE NECESSARIO');
+        $oQueFazer->addItemSelect('VERIFICAR ESTADO', 'VERIFICAR ESTADO');
+        $oQueFazer->addItemSelect('VERIFICAR FOLGA', 'VERIFICAR FOLGA');
+        $oQueFazer->addItemSelect('VERIFICAR FOLGAS', 'VERIFICAR FOLGAS');
+        $oQueFazer->addItemSelect('VERIFICAR NECESSIDADE DE TROCA', 'VERIFICAR NECESSIDADE DE TROCA');
+        $oQueFazer->addItemSelect('VERIFICAR VAZAMENTO', 'VERIFICAR VAZAMENTO');
+        $oQueFazer->addItemSelect('APERTO', 'APERTO');     
+        
+        $oServPrevCod = new Campo('Código', 'codserv', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oServPrevCod->setId('CodservicoManOs');
+
+        $oServPrevDes = new Campo('Serviço', 'MET_MANUT_OSServico.servico', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oServPrevDes->setId('servicoManOs');
+        $oServPrevDes->setSCorFundo(Campo::FUNDO_AZUL);
+        $oServPrevDes->setSIdPk($oServPrevCod->getId());
+        $oServPrevDes->setClasseBusca('MET_MANUT_OSServico');
+        $oServPrevDes->addCampoBusca('codserv', '', '');
+        $oServPrevDes->addCampoBusca('servico', '', '');
+        $oServPrevDes->setSIdTela($this->getTela()->getid());
+        $oServPrevDes->setApenasTela(true);
+
+        $oServPrevCod->setClasseBusca('MET_MANUT_OSServico');
+        $oServPrevCod->setSCampoRetorno('codserv', $this->getTela()->getId());
+        $oServPrevCod->addCampoBusca('servico', $oServPrevDes->getId(), $this->getTela()->getId());
+                
+        $sConsServico = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OS","consultaServico");';
+        $oServPrevCod->addEvento(Campo::EVENTO_CHANGE, $sConsServico);
 
         $oField1 = new FieldSet('Fechamento');
         $osolucao = new Campo('Solução', 'solucao', Campo::TIPO_TEXTAREA, 6);
@@ -228,8 +263,6 @@ class ViewMET_MANUT_OS extends View {
         $oconsumo = new Campo('Consumo', 'consumo', Campo::TIPO_TEXTAREA, 6);
         $oconsumo->setILinhasTextArea(5);
         $oconsumo->setSCorFundo(Campo::FUNDO_AMARELO);
-
-        //        $ouserenc = new Campo('userenc', 'userenc', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $oField1->addCampos($osolucao, $oconsumo);
 
@@ -278,12 +311,6 @@ class ViewMET_MANUT_OS extends View {
         $oGridMatNeces->getOGrid()->setAbaSel($this->getSIdAbaSelecionada());
         $oGridMatNeces->setApenasTela(true);
 
-//        $ofil_cod3 = new CampoConsulta('Empresa', 'fil_codigo', CampoConsulta::TIPO_TEXTO);
-//        $ofil_cod3->setILargura(8);
-//        $ocodMaq3 = new CampoConsulta('Máquina', 'cod', CampoConsulta::TIPO_TEXTO);
-//        $ocodMaq3->setILargura(8);
-//        $ocodOS = new CampoConsulta('OS', 'nr', CampoConsulta::TIPO_TEXTO);
-//        $ocodOS->setILargura(8);
         $oseqMat = new CampoConsulta('Seq', 'seq', CampoConsulta::TIPO_TEXTO);
         $oseqMat->setILargura(8);
         $ocodMat = new CampoConsulta('Código', 'codmat', CampoConsulta::TIPO_TEXTO);
@@ -310,7 +337,6 @@ class ViewMET_MANUT_OS extends View {
         $oBotaoExcluir->setSNomeGrid('gridMaterialManutOS');
 
         $oGridMatNeces->addCampos($oBotaoExcluir, $oseqMat, $ocodMat, $odesMat, $oquantidade, $odata, $oobs1, $odesUser);
-        //$ofil_cod3, $ocodMaq3, $ocodOS
         $oGridMatNeces->setSController('MET_MANUT_OSMaterial');
         $oGridMatNeces->getOGrid()->setIAltura(200);
         $oGridMatNeces->getOGrid()->setBGridResponsivo(false);
@@ -333,15 +359,22 @@ class ViewMET_MANUT_OS extends View {
         $oBtnAtualizarGrid->setApenasTela(true);
         $oField2->addCampos(array($oSeq, $oProCod, $omatnecessario, $oQuant, $oObservacao), array($oBotInser, $oBtnAtualizarGrid), $oGridMatNeces);
 
+        $oDias = new Campo('Ciclo/Dias Restantes', 'dias', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oDias->setId('diasManOs');
+        $oDias->setBCampoBloqueado(true);
+        
         $oresponsavel = new Campo('Responsável', 'responsavel', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oresponsavel->setId('responsavelManOs');
         $oresponsavel->addItemSelect('MECANICA', 'MECANICA');
         $oresponsavel->addItemSelect('ELETRICA', 'ELÉTRICA');
         $oresponsavel->addItemSelect('OPERADOR', 'OPERADOR');
 
         $oprevisao = new Campo('Previsão de Entrega', 'previsao', Campo::TIPO_DATA, 2, 2, 12, 12);
+        $oprevisao->setId('previsaoManOs');
         $oprevisao->addValidacao(false, Validacao::TIPO_STRING);
 
         $otipomanut = new Campo('Tipo Manutenção', 'tipomanut', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $otipomanut->setId('tipomanutManOs');
         $otipomanut->addItemSelect('MC', 'CORRETIVA');
         $otipomanut->addItemSelect('MP', 'PREVENTIVA');
 
@@ -356,27 +389,29 @@ class ViewMET_MANUT_OS extends View {
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $oField0->addCampos(array($oCracha, $ousuariocad, $ousuariocaddes, $odatacad, $ohoracad), $oLinha1, array($ocod, $ocod_Des), $oLinha1, array($oresponsavel, $oprevisao, $otipomanut), $oLinha1, $oproblema);
+        $oField0->addCampos(array($oCracha, $ousuariocad, $ousuariocaddes, $odatacad, $ohoracad), $oLinha1, array($ocod, $ocod_Des), $oLinha1, array($oQueFazer, $oServPrevCod, $oServPrevDes), $oLinha1, array($oresponsavel, $oprevisao, $otipomanut, $oDias), $oLinha1, $oproblema);
 
         $sAcaoMet = $_REQUEST['metodo'];
 
         if ($sAcaoMet == 'acaoMostraTelaAlterar') {
 
+            $oServPrevCod->setBFocus(true);
             $oCracha->setBCampoBloqueado(true);
             $ocod->setBCampoBloqueado(true);
             $ocod_Des->setBCampoBloqueado(true);
-            $oresponsavel->setBCampoBloqueado(true);
+            //$oresponsavel->setBCampoBloqueado(true);
             $oprevisao->setBCampoBloqueado(true);
-            $otipomanut->setBCampoBloqueado(true);
+            //$otipomanut->setBCampoBloqueado(true);
             $oproblema->setBCampoBloqueado(true);
         } else {
-
+            
             $oField1->setOculto(true);
             $oField2->setOculto(true);
+            $this->setBOcultaFechar(true);
         }
 
         if ($sAcaoMet !== 'acaoMostraTela') {
-            $this->addCampos(array($onr, $ofil_codigo, $ofil_Des, $osituacao), $oLinha1, $oField0, $oLinha1, $oField2, $oLinha1, $oField1, $oLinha1, $ocodsetor, $oobs);
+            $this->addCampos(array($onr, $ofil_codigo, $ofil_Des, $osituacao), $oLinha1,  $oField0, $oLinha1, $oField2, $oLinha1, $oField1, $oLinha1, $ocodsetor, $oobs);
         } else {
             $this->addCampos(array($onr, $ofil_codigo, $ofil_Des, $osituacao), $oLinha1, $oField0);
         }
