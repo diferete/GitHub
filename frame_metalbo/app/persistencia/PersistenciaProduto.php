@@ -91,7 +91,7 @@ class PersistenciaProduto extends Persistencia {
             $aErro[1] = 'Não permitido acesso a este produto';
         } else {
             //verifica se está bloqueado
-            $sSql = "select procod,probloqpro from widl.prod01 where procod =" . $sProcod;
+            $sSql = "select procod,probloqpro from widl.prod01(nolock) where procod =" . $sProcod;
             $result = $this->getObjetoSql($sSql);
             $row = $result->fetch(PDO::FETCH_OBJ);
             if ($row->probloqpro == 'S') {
