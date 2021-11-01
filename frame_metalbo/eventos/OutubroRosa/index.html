@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="format-detection" content="telephone=no">
+        <title>Metalbo - Eventos</title>
+        <link rel="shortcut icon" href="../biblioteca/assets/images/favicon.ico">
+
+        <link href="https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700ii%7CRoboto:300,300i,400,400i,500,500i,700,700i,900,900i&amp;subset=cyrillic" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/ion.rangeSlider.css">
+        <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css">
+        <link rel="stylesheet" href="css/jquery.bxslider.css">
+        <link rel="stylesheet" href="css/jquery.fancybox.css">
+        <link rel="stylesheet" href="css/flexslider.css">
+        <link rel="stylesheet" href="css/swiper.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/media.css">
+        <link rel="stylesheet" href="css/animate.css">
+
+    </head>
+    <body>
+        <div class="se-pre-con"></div>
+        <!-- Header - start -->
+        <header class="header">
+
+            <!-- Topbar - start -->
+            <div class="header_top">
+                <div class="container">
+                    <ul class="contactinfo nav nav-pills">
+                        <li>
+                            <i class='fa fa-phone'></i> +55 47 3544-8400
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope"></i> contato@metalbo.com.br
+                        </li>
+                    </ul>	
+                </div>
+            </div>
+            <!-- Topbar - end -->
+
+            <!-- Logo, Shop-menu - start -->
+            <div class="header-middle">
+                <div class="container header-middle-cont">
+                    <div class="toplogo">
+                        <a>
+                            <img src="img/logo.png" alt="AllStore - MultiConcept eCommerce Template">
+                        </a>
+                    </div>
+                    <div class="shop-menu">
+                    </div>
+                </div>
+            </div>
+            <!-- Logo, Shop-menu - end -->
+
+            <!-- Topmenu - start -->
+            <div class="header-bottom">
+                <div class="container">
+                    <nav class="topmenu">
+
+                        <!-- Catalog menu - start -->
+
+                        <!-- Catalog menu - end -->
+
+                        <!-- Main menu - start -->
+                        <!-- Main menu - end -->
+
+                        <!-- Search - start -->
+                        <!-- Search - end -->
+                    </nav>		
+                </div>
+            </div>
+            <!-- Topmenu - end -->
+
+        </header>
+        <!-- Header - end -->
+
+
+        <!-- Main Content - start -->
+        <main>
+            <section class="container section">
+                <!-- Catalog Sidebar - start -->
+
+                <!-- Catalog Sidebar - end -->
+                <!-- Catalog Items | Table - start -->
+                <div id="titulo" style="color:deeppink;margin: 30px 0px 25px 0px;font-size: 48px;text-align: center;" >
+                    <h1>Outubro Rosa 2021</h1>
+                </div>
+                <div class="section-cont">
+                    <p id="waiting-msg-cad" class="msg-email" style="display:none;font-size:20px"></p>
+                    <div id="video" class="video_container">
+                        <video id="vid" class="video" autoplay controls>
+                            <source src="vids/video.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div id="send-form" style="text-align: center">
+                        <h2 style="font-size: 30px;">Digite o seu crachá</h2>
+                        <p class="contactform-field" style="display: inline-block;margin: 10px 5px;">
+                            <!-- NO SPACE -->
+                            <span class="contactform-input" >
+                                <input id="cracha" style="width:300px;" class="input-email-cart" placeholder="Seu Crachá" type="number" data-required="number">
+                            </span>
+                        </p>
+                        <div id="btn-cracha" style="text-align: center;margin: 10px 0 10px 0;">
+                            <input id="btn-send-cracha" onclick="getDadosFunc()" class="btn class-send" value="Enviar" type="button">
+                        </div>
+                        <p id="waiting-msg" class="msg-email hidden" style="font-size:20px"></p>
+                        <div  id="dadosHidden" style="display:none">
+                            <div> 
+                                <div>
+                                    <span class="contactform-input" >
+                                        <input class="input-cnpj-cart" style="margin:5px;width:100%;padding:10px;font-weight: 900" type="text" placeholder="Nome" id="nomeFun">
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="contactform-input">
+                                        <input class="input-empdes-cart"  style="margin:5px;width:100%;padding:10px;font-weight: 900" type="text" placeholder="Setor"  id="setorFun">
+                                    </span>
+                                </div>
+
+                            </div> 
+                            <div id="send-form" style="text-align: center;margin: 10px 0 10px 0;">
+                                <input id="send-list" onclick="gravaDadosFunc()" class="btn class-send" value="Confirmar cadastro" type="button">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Catalog Items | Table - end -->
+            </section>
+        </main>
+        <p id="tipsex" hidden></p>
+        <!-- Main Content - end -->
+
+
+        <!-- Footer - start -->
+        <footer class="footer-wrap" style="margin-top: auto;">
+            <div class="footer-top">
+                <div class="container">
+                    <div class="row">
+                        <div class="companyinfo">
+                            <a>
+                                <img src="img/logo-footer.png" alt="Metalbo Industria de Fixadores Metalicos LTDA">
+                                <p>Metalbo®</p>
+                                <p>Industria de Fixadores Metalicos LTDA</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row">
+                        <ul class="social-icons nav navbar-nav">
+                            <li>
+                                <a href="http://facebook.com/" rel="nofollow" target="_blank">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </footer>
+        <!-- Footer - end -->
+
+
+        <!-- jQuery plugins/scripts - start -->
+        <script src="js/jquery-1.11.2.min.js"></script>
+        <script src="js/jquery.bxslider.min.js"></script>
+        <script src="js/fancybox/fancybox.js"></script>
+        <script src="js/fancybox/helpers/jquery.fancybox-thumbs.js"></script>
+        <script src="js/jquery.flexslider-min.js"></script>
+        <script src="js/swiper.jquery.min.js"></script>
+        <script src="js/jquery.waypoints.min.js"></script>
+        <script src="js/progressbar.min.js"></script>
+        <script src="js/ion.rangeSlider.min.js"></script>
+        <script src="js/chosen.jquery.min.js"></script>
+        <script src="js/jQuery.Brazzers-Carousel.js"></script>
+        <script src="js/jquery.balloon.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js?v=9"></script>
+        <script src="js/gmap.js"></script>
+        <script src="js/jquery.mask.min.js"></script>
+        <!-- jQuery plugins/scripts - end -->
+
+    </body>
+</html>
