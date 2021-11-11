@@ -61,6 +61,7 @@ class PersistenciaMET_MANUT_OSMaterial extends Persistencia {
     }
 
     public function getIncrementoMat($oModelManut) {
+
         $sSql = " SELECT COALESCE(MAX(seq),0)+1 AS proximo FROM MET_MANUT_OSMaterial "
                 . " WHERE fil_codigo = '" . $oModelManut->getFil_codigo() . "' "
                 . " AND nr = '" . $oModelManut->getNr() . "' "

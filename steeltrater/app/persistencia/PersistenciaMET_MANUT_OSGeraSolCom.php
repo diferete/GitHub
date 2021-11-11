@@ -108,7 +108,7 @@ class PersistenciaMET_MANUT_OSGeraSolCom extends Persistencia {
                         . "SUP_SolicitacaoItemConversor,SUP_SolicitacaoItemDimConv, SUP_SolicitacaoItemDimUndConv, SUP_SolicitacaoItemDimGQtd, SUP_SolicitacaoItemDimGFormula, SUP_SolicitacaoItemDimGExpres, SUP_SolicitacaoItemDataEntrega,SUP_SolicitacaoItemPosicao, "
                         . "SUP_SolicitacaoItemPesoLiqTot, SUP_SolicitacaoItemPesoBruTot, SUP_SolicitacaoItemValorPrevis, SUP_SolicitacaoItemCalculaDim"
                         . ")"
-                        . "VALUES"
+                        . " VALUES"
                         . "("
                         . "8993358000174, " . $inc . ", " . $inc1 . ", " . $oDadosMatOS->getCodmat() . ", 1, '" . str_replace("'", "''", $oDadosMatOS->getDescricaomat()) . "', '" . $oDadosPro->getPro_unidademedida() . "', 0, 0, 0, 0, " . $oDadosMatOS->getQuantMatSol() . ", "
                         . "1, '" . $oDadosPro->getPro_unidademedida() . "', " . $oDadosMatOS->getQuantMatSol() . ",  CAST(N'" . $sData1 . "' AS DateTime), '" . $oUsuNomeDelsoft . "', 'Amanda.Pisetta', "

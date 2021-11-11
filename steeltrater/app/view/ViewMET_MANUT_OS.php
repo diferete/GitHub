@@ -11,7 +11,7 @@ class ViewMET_MANUT_OS extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->setUsaAcaoVisualizar(true);
+        $this->setUsaAcaoVisualizar(false);
         $this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setITipoGrid(2);

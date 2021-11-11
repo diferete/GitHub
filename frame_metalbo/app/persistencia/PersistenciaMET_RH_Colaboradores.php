@@ -103,7 +103,7 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
 
 
         $sSqlInsert = "insert "
-                . "into MET_OutubroRosa"
+                . "into MET_NovembroAzul"
                 . "(nr,"
                 . "cracha,"
                 . "datacad,"
@@ -113,7 +113,7 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
                 . "tag,"
                 . "genero)"
                 . "values"
-                . "((select(case when max(nr) is null then 1 else max(nr)+1 end) as nr from MET_OutubroRosa),"
+                . "((select(case when max(nr) is null then 1 else max(nr)+1 end) as nr from MET_NovembroAzul),"
                 . "" . $sDados . ","
                 . "'" . $sData . "',"
                 . "'" . $sHora . "',"
@@ -133,7 +133,7 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
         $sData = date('d/m/Y');
 
         $sSqlUpdate = "update "
-                . "MET_OutubroRosa "
+                . "MET_NovembroAzul "
                 . "set tag = 'A' "
                 . "where cracha = " . $sDados;
         $aRetorno = $this->executaSql($sSqlUpdate);
@@ -142,7 +142,7 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
     }
 
     public function verificaCadastro($sDados) {
-        $sSqlSelect = "select COUNT(*) as total from MET_OutubroRosa where cracha = " . $sDados . "";
+        $sSqlSelect = "select COUNT(*) as total from MET_NovembroAzul where cracha = " . $sDados . "";
         $oResult = $this->consultaSql($sSqlSelect);
 
         if ($oResult->total > 0) {

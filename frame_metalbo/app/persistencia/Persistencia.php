@@ -135,7 +135,7 @@ class Persistencia {
 
     function setBNoLock($bNoLock) {
         if ($bNoLock) {
-            $this->bNoLock = ' (NOLOCK) ';
+            $this->bNoLock = '(NOLOCK) ';
         }
     }
 
@@ -1891,7 +1891,7 @@ class Persistencia {
         fclose($fp);
          * 
          */
-
+        
         $result = $this->getObjetoSql($sSql);
 
         while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {

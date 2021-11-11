@@ -113,7 +113,7 @@ class ViewMET_QUAL_RcVenda extends View {
 
 
         $this->setUsaDropdown(true);
-        if ($_SESSION['codUser'] == 19 || $_SESSION['codUser'] == 46) {
+        if ($_SESSION['codUser'] == 19) {
             $this->addDropdown($oDropDown, $oDropDown3);
         } else {
             $this->addDropdown($oDropDown, $oDropDown1, $oDropDown2);
@@ -167,7 +167,7 @@ class ViewMET_QUAL_RcVenda extends View {
 
 
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos, $oFilOfficeDes, $oFilSituaca, $oFilReclamacao, $oFilProcedencia, $oFilDevolucao);
-        if ($_SESSION['codUser'] == 19 || $_SESSION['codUser'] == 46) {
+        if ($_SESSION['codUser'] == 19) {
             $this->addCampos($oBotaoModal, $oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);
         } else {
             $this->addCampos($oNr, $oSit, $oReclamacao, $oProcedencia, $oDevolucao, $oLibDevolucao, $oCliente, $oUser, $oOfficeDes, $oData, $oAnexo1, $oAnexo2, $oAnexo3, $oDataLibVendas, $oHoraLibVendas, $oDataLibAnalise, $oHoraLibAnalise);

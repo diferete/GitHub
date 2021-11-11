@@ -49,7 +49,11 @@ $pdf->SetFont('Arial', 'B', 16);
 // Move to the right
 $pdf->Cell(45);
 // Title
-$pdf->Cell(180, 15, 'TÍTULOS A RECEBER EM ABERTO', 0, 0, 'C');
+if (!isset($_REQUEST['pagoatraso'])) {
+    $pdf->Cell(180, 15, 'TÍTULOS A RECEBER EM ABERTO', 0, 0, 'C');
+} else {
+    $pdf->Cell(180, 15, 'TÍTULOS PAGOS COM ATRASO', 0, 0, 'C');
+}
 
 $x = $pdf->GetX();
 $y = $pdf->GetY();
@@ -92,36 +96,58 @@ $pdf->SetFont('arial', '', 8);
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 $sSql = "select replace(rTrim(replace(bcoagencia+bcoconta,' ','')),'-','') + CONVERT(varchar(20),recprcarco) + CONVERT(varchar(20),recprnrobc) AS NossoNumero,"
-        . "recprnrobc, bcodes,"
         . "replace(rTrim(replace(bcoagencia+''+bcoconta,' ','')),'-','')as agConta,"
-        . "recprcarco,recparnro,recprbconr,convert(varchar,recdtemiss,103) as recdtemiss,widl.REC001.empcod,empdes,widl.REC001.recdocto,"
-        . "convert(varchar,recprdtpro,103) as recprdtpro,MONTH(recprdtpro) as mes, recprdtpgt,"
-        . "recprvlr,recprvlpgt,recprindtr,recprtirec,"
+        . "convert(varchar,recdtemiss,103) as recdtemiss,"
+        . "convert(varchar,recprdtpro,103) as recprdtpro,"
+        . "convert(varchar,recprdtpgt,103) as datapag,"
+        . "DATEDIFF(day, widl.REC0012.recprdtpro, widl.REC0012.recprdtpgt) as diasAtraso,"
+        . "MONTH(recprdtpro) as mes,"
+        . "YEAR(recprdtpro) as ano,"
         . "DATEDIFF(day,CONVERT (date, SYSDATETIME()),recprdtpro) as dias,"
-        . "recof from widl.REC001(nolock) "
+        . "recprnrobc,"
+        . "bcodes,"
+        . "recprcarco,"
+        . "recparnro,"
+        . "recprbconr,"
+        . "widl.REC001.empcod,"
+        . "empdes,"
+        . "widl.REC001.recdocto, "
+        . "recprdtpgt,"
+        . "recprvlr,"
+        . "recprvlpgt,"
+        . "recprindtr,"
+        . "recprtirec,"
+        . "recof "
+        . "from widl.REC001(nolock) "
         . "left outer join widl.REC0012(nolock) "
         . "on widl.REC001.recdocto = widl.REC0012.recdocto "
         . "left outer join widl.EMP01(nolock) "
         . "on widl.REC001.empcod = widl.EMP01.empcod "
-        . "left outer join WIDL.BANCOS "
+        . "left outer join WIDL.BANCOS(nolock) "
         . "on WIDL.BANCOS.bconro = widl.REC0012.recprbconr "
-        . "where recprdtpgt = '1753-01-01' "
-        . "and widl.REC001.recdocto NOT LIKE 'T%' "
-        . "and widl.REC001.recdocto NOT LIKE 'D%' "
-        . "and widl.REC001.filcgc = '75483040000211' "
-        . "and tpdcod = 1 ";
+        . "where "
+        . "widl.REC001.filcgc = '75483040000211' "
+        . " and tpdcod = 1 ";
+if (!isset($_REQUEST['pagoatraso'])) {
+    $sSql = $sSql . " and recprdtpgt = '1753-01-01' "
+            . " and widl.REC001.recdocto NOT LIKE 'T%' "
+            . " and widl.REC001.recdocto NOT LIKE 'D%' ";
+} else {
+    $sSql = $sSql . " and DATEDIFF(day, widl.REC0012.recprdtpro, widl.REC0012.recprdtpgt) > 0 ";
+}
 if ($rep !== '') {
-    $sSql = $sSql . "and repcod in(" . $rep . ") ";
+    $sSql = $sSql . " and repcod in(" . $rep . ") ";
 }
 if ($empcod !== 'Todos') {
-    $sSql = $sSql . "and widl.REC001.empcod = " . $empcod . "";
-}if ($dataIni !== '' && $dataFim !== '') {
-    $sSql = $sSql . "and recprdtpro between '" . $dataIni . "' and '" . $dataFim . "'";
+    $sSql = $sSql . " and widl.REC001.empcod = " . $empcod . " ";
 }
-$sSql = $sSql . "group by "
+if ($dataIni !== '' && $dataFim !== '') {
+    $sSql = $sSql . " and recprdtpro between '" . $dataIni . "' and '" . $dataFim . "' ";
+}
+$sSql = $sSql . " group by "
         . "repcod,widl.REC001.empcod,recdtemiss,empdes,widl.REC001.recdocto,recprdtpro,recprdtpgt,recprvlr,recprvlpgt,recprindtr,recprtirec,"
         . "recof,recparnro, recprcarco,recprnrobc,recprbconr,recparnro,bcodes,bcoagencia,bcoconta "
-        . "order by mes asc";
+        . " order by dias asc, ano asc, mes asc ";
 
 
 $Dados = $PDO->query($sSql);
@@ -198,70 +224,139 @@ while ($row = $Dados->fetch(PDO::FETCH_ASSOC)) {
             $iTotal = $iTotal + $row['recprvlr'];
         }
     } else {
-        $pdf->SetTextColor(0, 0, 0);
-        if ($iEmp !== $row['empcod']) {
-            if ($iEmp != 0) {
-                $pdf->SetFont('arial', 'B', 9);
-                $pdf->Cell(25, 5, "Soma Cliente: ", 0, 0, 'L');
-                $pdf->SetFont('Arial', '', 10);
-                $pdf->Cell(120, 5, number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L');
+        if (!isset($_REQUEST['pagoatraso'])) {
+            $pdf->SetTextColor(0, 0, 0);
+            if ($iEmp !== $row['empcod']) {
+                if ($iEmp != 0) {
+                    $pdf->SetFont('arial', 'B', 9);
+                    $pdf->Cell(25, 5, "Soma Cliente: ", 0, 0, 'L');
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(120, 5, number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L');
+                    $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+                }
+                $pdf->Ln(5);
+                //Cabeçalhos
                 $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+                $pdf->SetFont('arial', 'B', 9);
+                $pdf->Cell(13, 5, "Cliente: ", 0, 0, 'L');
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->Cell(151, 5, $row['empdes'], 0, 0, 'L');
+
+                $pdf->SetFont('arial', 'B', 9);
+                $pdf->Cell(24, 5, 'CNPJ - Cliente: ', 0, 0, 'L');
+                $pdf->SetFont('arial', '', 10);
+                $pdf->Cell(50, 5, $row['empcod'], 0, 0, 'L');
+
+                $pdf->SetFont('arial', 'B', 9);
+                $pdf->Cell(25, 5, 'CNPJ - Metalbo: ', 0, 0, 'L');
+                $pdf->SetFont('arial', '', 9);
+                $pdf->Cell(25, 5, '75483040000130', 0, 1, 'L');
+
+                $pdf->Cell(289, 1, '', 'T', 1, 'C');
+
+                $pdf->SetFont('arial', '', 8);
+                $pdf->Cell(18, 5, "Docto", 0, 0, 'L');
+                $pdf->Cell(20, 5, "Emissão", 0, 0, 'L');
+                $pdf->Cell(20, 5, "Vencimento", 0, 0, 'L');
+                $pdf->Cell(15, 5, "Pedido", 0, 0, 'L');
+                $pdf->Cell(27, 5, "Vlr.Receber", 0, 0, 'L');
+                $pdf->Cell(26, 5, "Dias para pagar", 0, 0, 'L');
+                $pdf->Cell(66, 5, "Ag.-Beneficiario-Carteira-Nosso Número", 0, 0, 'L');
+                $pdf->Cell(15, 5, "Parcela", 0, 0, 'L');
+                $pdf->Cell(35, 5, "Banco", 0, 0, 'L');
+                $pdf->Cell(22, 5, "Nosso Numero", 0, 1, 'R');
+                $iEmp = $row['empcod'];
+                $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+                $iSomaCliente = 0;
             }
-            $pdf->Ln(5);
-            //Cabeçalhos
-            $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
-            $pdf->SetFont('arial', 'B', 9);
-            $pdf->Cell(13, 5, "Cliente: ", 0, 0, 'L');
-            $pdf->SetFont('Arial', '', 10);
-            $pdf->Cell(151, 5, $row['empdes'], 0, 0, 'L');
 
+            if ($row['dias'] < 0) {
+                $pdf->SetTextColor(255, 0, 0);
+            }
             $pdf->SetFont('arial', 'B', 9);
-            $pdf->Cell(24, 5, 'CNPJ - Cliente: ', 0, 0, 'L');
-            $pdf->SetFont('arial', '', 10);
-            $pdf->Cell(50, 5, $row['empcod'], 0, 0, 'L');
-
-            $pdf->SetFont('arial', 'B', 9);
-            $pdf->Cell(25, 5, 'CNPJ - Metalbo: ', 0, 0, 'L');
+            $pdf->Cell(18, 5, $row['recdocto'], 0, 0, 'L');
             $pdf->SetFont('arial', '', 9);
-            $pdf->Cell(25, 5, '75483040000130', 0, 1, 'L');
-
+            $pdf->Cell(20, 5, $row['recdtemiss'], 0, 0, 'L');
+            $pdf->Cell(20, 5, $row['recprdtpro'], 0, 0, 'L');
+            $pdf->Cell(15, 5, $row['recof'], 0, 0, 'L');
+            $pdf->Cell(27, 5, 'R$ ' . number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
+            $pdf->Cell(26, 5, $row['dias'], 0, 0, 'L');
+            $pdf->Cell(55, 5, str_replace(' ', '', $row['NossoNumero']), 0, 0, 'L');
+            $pdf->Cell(15, 5, $row['recparnro'], 0, 0, 'R');
+            $pdf->Cell(49, 5, $row['bcodes'], 0, 0, 'R');
+            $pdf->Cell(30, 5, $row['recprnrobc'], 0, 1, 'R');
             $pdf->Cell(289, 1, '', 'T', 1, 'C');
-
-            $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(18, 5, "Docto", 0, 0, 'L');
-            $pdf->Cell(20, 5, "Emissão", 0, 0, 'L');
-            $pdf->Cell(20, 5, "Vencimento", 0, 0, 'L');
-            $pdf->Cell(15, 5, "Pedido", 0, 0, 'L');
-            $pdf->Cell(27, 5, "Vlr.Receber", 0, 0, 'L');
-            $pdf->Cell(26, 5, "Dias para pagar", 0, 0, 'L');
-            $pdf->Cell(66, 5, "Ag.-Beneficiario-Carteira-Nosso Número", 0, 0, 'L');
-            $pdf->Cell(15, 5, "Parcela", 0, 0, 'L');
-            $pdf->Cell(35, 5, "Banco", 0, 0, 'L');
-            $pdf->Cell(22, 5, "Nosso Numero", 0, 1, 'R');
-            $iEmp = $row['empcod'];
             $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
-            $iSomaCliente = 0;
-        }
+            $iSomaCliente = $iSomaCliente + $row['recprvlr'];
+            $iTotal = $iTotal + $row['recprvlr'];
+        } else {
 
-        if ($row['dias'] < 0) {
+            $pdf->SetTextColor(0, 0, 0);
+            if ($iEmp !== $row['empcod']) {
+                if ($iEmp != 0) {
+                    $pdf->SetFont('arial', 'B', 9);
+                    $pdf->Cell(25, 5, "Soma Cliente: ", 0, 0, 'L');
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(120, 5, number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L');
+                    $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+                }
+                $pdf->Ln(5);
+                //Cabeçalhos
+                $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+                $pdf->SetFont('arial', 'B', 9);
+                $pdf->Cell(13, 5, "Cliente: ", 0, 0, 'L');
+                $pdf->SetFont('Arial', '', 10);
+                $pdf->Cell(151, 5, $row['empdes'], 0, 0, 'L');
+
+                $pdf->SetFont('arial', 'B', 9);
+                $pdf->Cell(24, 5, 'CNPJ - Cliente: ', 0, 0, 'L');
+                $pdf->SetFont('arial', '', 10);
+                $pdf->Cell(50, 5, $row['empcod'], 0, 0, 'L');
+
+                $pdf->SetFont('arial', 'B', 9);
+                $pdf->Cell(25, 5, 'CNPJ - Metalbo: ', 0, 0, 'L');
+                $pdf->SetFont('arial', '', 9);
+                $pdf->Cell(25, 5, '75483040000130', 0, 1, 'L');
+
+                $pdf->Cell(289, 1, '', 'T', 1, 'C');
+
+                $pdf->SetFont('arial', '', 8);
+                $pdf->Cell(18, 5, "Docto", 0, 0, 'L');
+                $pdf->Cell(20, 5, "Emissão", 0, 0, 'L');
+                $pdf->Cell(20, 5, "Vencimento", 0, 0, 'L');
+                $pdf->Cell(22, 5, "Pagamento", 0, 0, 'L');
+                $pdf->Cell(22, 5, "Dias de atraso", 0, 0, 'L');
+                $pdf->Cell(15, 5, "Pedido", 0, 0, 'L');
+                $pdf->Cell(27, 5, "Vlr.Receber", 0, 0, 'L');
+                $pdf->Cell(66, 5, "Ag.-Beneficiario-Carteira-Nosso Número", 0, 0, 'L');
+                $pdf->Cell(15, 5, "Parcela", 0, 0, 'L');
+                $pdf->Cell(37, 5, "Banco", 0, 0, 'L');
+                $pdf->Cell(22, 5, "Nosso Numero", 0, 1, 'R');
+                $iEmp = $row['empcod'];
+                $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+                $iSomaCliente = 0;
+            }
+
+            $pdf->SetFont('arial', 'B', 9);
+            $pdf->Cell(18, 5, $row['recdocto'], 0, 0, 'L');
+            $pdf->SetFont('arial', '', 9);
+            $pdf->Cell(20, 5, $row['recdtemiss'], 0, 0, 'L');
+            $pdf->Cell(20, 5, $row['recprdtpro'], 0, 0, 'L');
+            $pdf->Cell(22, 5, $row['datapag'], 0, 0, 'L');
             $pdf->SetTextColor(255, 0, 0);
+            $pdf->Cell(22, 5, $row['diasAtraso'], 0, 0, 'L');
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->Cell(15, 5, $row['recof'], 0, 0, 'L');
+            $pdf->Cell(27, 5, 'R$ ' . number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
+            $pdf->Cell(65, 5, str_replace(' ', '', $row['NossoNumero']), 0, 0, 'L');
+            $pdf->Cell(16, 5, $row['recparnro'], 0, 0, 'L');
+            $pdf->Cell(40, 5, $row['bcodes'], 0, 0, 'L');
+            $pdf->Cell(30, 5, $row['recprnrobc'], 0, 1, 'R');
+            $pdf->Cell(289, 1, '', 'T', 1, 'C');
+            $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
+            $iSomaCliente = $iSomaCliente + $row['recprvlr'];
+            $iTotal = $iTotal + $row['recprvlr'];
         }
-        $pdf->SetFont('arial', 'B', 9);
-        $pdf->Cell(18, 5, $row['recdocto'], 0, 0, 'L');
-        $pdf->SetFont('arial', '', 9);
-        $pdf->Cell(20, 5, $row['recdtemiss'], 0, 0, 'L');
-        $pdf->Cell(20, 5, $row['recprdtpro'], 0, 0, 'L');
-        $pdf->Cell(15, 5, $row['recof'], 0, 0, 'L');
-        $pdf->Cell(27, 5, 'R$ ' . number_format($row['recprvlr'], 2, ',', '.'), 0, 0, 'L');
-        $pdf->Cell(26, 5, $row['dias'], 0, 0, 'L');
-        $pdf->Cell(55, 5, str_replace(' ', '', $row['NossoNumero']), 0, 0, 'L');
-        $pdf->Cell(15, 5, $row['recparnro'], 0, 0, 'R');
-        $pdf->Cell(49, 5, $row['bcodes'], 0, 0, 'R');
-        $pdf->Cell(30, 5, $row['recprnrobc'], 0, 1, 'R');
-        $pdf->Cell(289, 1, '', 'T', 1, 'C');
-        $pdf = quebraPagina($pdf->GetY() + 10, $pdf);
-        $iSomaCliente = $iSomaCliente + $row['recprvlr'];
-        $iTotal = $iTotal + $row['recprvlr'];
     }
 }
 
@@ -274,8 +369,12 @@ $pdf->Cell(120, 5, 'R$ ' . number_format($iSomaCliente, 2, ',', '.'), 0, 1, 'L')
 $pdf->Ln(5);
 
 $pdf->SetFont('arial', 'B', 10);
-$pdf->Cell(65, 5, "TOTAL DOS TÍTULOS EM ABERTO: ", 0, 0, 'L');
-$pdf->Cell(120, 5, number_format($iTotal, 2, ',', '.'), 0, 1, 'L');
+if (!isset($_REQUEST['pagoatraso'])) {
+    $pdf->Cell(65, 5, "TOTAL DOS TÍTULOS EM ABERTO: ", 0, 0, 'L');
+} else {
+    $pdf->Cell(79, 5, "TOTAL DOS TÍTULOS PAGOS COM ATRASO: ", 0, 0, 'L');
+}
+$pdf->Cell(120, 5, 'R$ ' . number_format($iTotal, 2, ',', '.'), 0, 1, 'L');
 
 $pdf->Output('I', 'titulosEmAberto.pdf');
 Header('Pragma: public'); // FUNÇÃO USADA PELO FPDF PARA PUBLICAR NO IE  

@@ -1,19 +1,20 @@
-<?php 
- /*
+<?php
+
+/*
  * Implementa a classe view MET_CAD_Maquinas
  * @author Cleverton Hoffmann
  * @since 13/07/2021
  */
- 
+
 class ViewMET_CAD_Maquinas extends View {
- 
+
     public function __construct() {
         parent::__construct();
-       }
- 
-    public function criaConsulta() { 
+    }
+
+    public function criaConsulta() {
         parent::criaConsulta();
- 
+
         $this->setUsaAcaoVisualizar(true);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
@@ -24,18 +25,18 @@ class ViewMET_CAD_Maquinas extends View {
         $ocodigoMaq = new CampoConsulta('Cód', 'codigoMaq', CampoConsulta::TIPO_TEXTO); //Código da máquina física
         $ocod = new CampoConsulta('Nr', 'cod', CampoConsulta::TIPO_TEXTO);
         $omaquina = new CampoConsulta('Máquina', 'maquina', CampoConsulta::TIPO_TEXTO);
-    //    $obitola = new CampoConsulta('Bitola', 'bitola', CampoConsulta::TIPO_TEXTO);
-    //    $oseq = new CampoConsulta('Seq', 'seq', CampoConsulta::TIPO_TEXTO);
+        //    $obitola = new CampoConsulta('Bitola', 'bitola', CampoConsulta::TIPO_TEXTO);
+        //    $oseq = new CampoConsulta('Seq', 'seq', CampoConsulta::TIPO_TEXTO);
         $omaqtip = new CampoConsulta('Categoria', 'maqtip', CampoConsulta::TIPO_TEXTO);
-    //    $ocat = new CampoConsulta('Cat', 'cat', CampoConsulta::TIPO_TEXTO);
-    //    $onomeclatura = new CampoConsulta('Nomeclatura', 'nomeclatura', CampoConsulta::TIPO_TEXTO);
-    //    $ofabricante = new CampoConsulta('Fabricante', 'fabricante', CampoConsulta::TIPO_TEXTO);
+        //    $ocat = new CampoConsulta('Cat', 'cat', CampoConsulta::TIPO_TEXTO);
+        //    $onomeclatura = new CampoConsulta('Nomeclatura', 'nomeclatura', CampoConsulta::TIPO_TEXTO);
+        //    $ofabricante = new CampoConsulta('Fabricante', 'fabricante', CampoConsulta::TIPO_TEXTO);
         $omodelo = new CampoConsulta('Modelo', 'modelo', CampoConsulta::TIPO_TEXTO);
         $oanofab = new CampoConsulta('Ano Fab.', 'anofab', CampoConsulta::TIPO_TEXTO);
         $ocapacidade = new CampoConsulta('Capacidade', 'capacidade', CampoConsulta::TIPO_TEXTO);
         $oprodutividade = new CampoConsulta('Produtividade', 'produtividade', CampoConsulta::TIPO_TEXTO);
         $otempoOpera = new CampoConsulta('Tempo Operação', 'tempoopera', CampoConsulta::TIPO_TIME);
-    //    $ooperadores = new CampoConsulta('Operadores', 'operadores', CampoConsulta::TIPO_TEXTO);
+        //    $ooperadores = new CampoConsulta('Operadores', 'operadores', CampoConsulta::TIPO_TEXTO);
         $oadequadoNr12 = new CampoConsulta('Adequado Nr12', 'adequadonr12', CampoConsulta::TIPO_TEXTO);
         $ocodsetor = new CampoConsulta('Cod. Setor', 'codsetor', CampoConsulta::TIPO_TEXTO);
 //        $ofornecedor = new CampoConsulta('fornecedor', 'fornecedor', CampoConsulta::TIPO_DECIMAL);
@@ -92,10 +93,10 @@ class ViewMET_CAD_Maquinas extends View {
 //        $orelpatrimonio = new CampoConsulta('relpatrimonio', 'relpatrimonio', CampoConsulta::TIPO_TEXTO);
 //        $oempcnpj = new CampoConsulta('empcnpj', 'empcnpj', CampoConsulta::TIPO_TEXTO);
 //        $otipmanut = new CampoConsulta('tipmanut', 'tipmanut', CampoConsulta::TIPO_TEXTO);
- 
+
         $oBtnCadastraFotos = new CampoConsulta('Cad.Fotos', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_ENVIAR);
         $oBtnCadastraFotos->addDadosConsultaMVC('MET_CAD_MaquinasImagens', 'TelaCadastraFotos', 'Cadastra imagens da máquina!');
-                
+
         $oDesEmp = new Filtro($ofil_des, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
         $oCodigoMaqfiltro = new Filtro($ocodigoMaq, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12);
         $oDescricaoMaqfiltro = new Filtro($omaquina, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
@@ -109,17 +110,15 @@ class ViewMET_CAD_Maquinas extends View {
         $oDesSitfiltro->addItemSelect('INATIVA', 'INATIVA');
         $oDesSitfiltro->addItemSelect('ATIVA FERRAMENTAS MANUAIS', 'ATIVA FERRAMENTAS MANUAIS');
         $oDesSitfiltro->addItemSelect('ATIVA AUTOMOTRIZ', 'ATIVA AUTOMOTRIZ');
-        
-        $this->addFiltro($oDesEmp,$oCodigoMaqfiltro, $oDescricaoMaqfiltro, $oCodigoSetorfiltro, $oDesSitfiltro);
-               
+
+        $this->addFiltro($oDesEmp, $oCodigoMaqfiltro, $oDescricaoMaqfiltro, $oCodigoSetorfiltro, $oDesSitfiltro);
+
         $this->addCampos($ocod, $ofil_des, $oBtnCadastraFotos, $ocodigoMaq, $omaquina, $omaqtip, $omodelo, $oanofab, $ocapacidade, $oprodutividade, $otempoOpera, $oadequadoNr12, $ocodsetor, $ositmaq);
-            
-        
     }
- 
-    public function criaTela() { 
+
+    public function criaTela() {
         parent::criaTela();
- 
+
         $oTab = new TabPanel();
         $oAbaCadastro = new AbaTabPanel('CADASTRO');
         $oAbaCadastro->setBActive(true);
@@ -127,13 +126,13 @@ class ViewMET_CAD_Maquinas extends View {
         $oAbaNr = new AbaTabPanel('NR12');
 
         $oAbaSistemaSeg = new AbaTabPanel('SISTEMA DE SEGURANÇA');
-        
+
         $oAbaPartParad = new AbaTabPanel('SISTEMA DE PARTIDA E PARADA');
-        
+
         $oAbaFotos = new AbaTabPanel('FOTOS');
-        
+
         $this->addLayoutPadrao('Aba');
-        
+
         $ofil_codigo = new campo('Cód. Empresa', 'fil_codigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $ofil_codigo->setSValor('8993358000174');
 
@@ -150,28 +149,28 @@ class ViewMET_CAD_Maquinas extends View {
         $ofil_codigo->setClasseBusca('DELX_FIL_empresa');
         $ofil_codigo->setSCampoRetorno('fil_codigo', $this->getTela()->getId());
         $ofil_codigo->addCampoBusca('fil_fantasia', $ofil_Des->getId(), $this->getTela()->getId());
-        
+
         $ocodigoMaq = new Campo('Código', 'codigoMaq', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $ocodigoMaq->setId('codigoMaqMetCad');
         $ocodigoMaq->addValidacao(false, Validacao::TIPO_INTEIRO);
         $ocodigoMaq->setBFocus(true);
-        
+
         $ocod = new Campo('Nr', 'cod', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $ocod->setBCampoBloqueado(true);
         $omaquina = new Campo('Des. Máquina', 'maquina', Campo::TIPO_TEXTO, 4, 4, 12, 12);
         $omaquina->addValidacao(false, Validacao::TIPO_STRING);
-        
+
         //Consulta se já existe esse código para essa máquina não deixando inserir o mesmo.
         $sConsCodMaqRep = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_CAD_Maquinas","consultaCodMaqRep");';
         $ocodigoMaq->addEvento(Campo::EVENTO_CHANGE, $sConsCodMaqRep);
-        
+
         //$obitola = new Campo('Bitola', 'bitola', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        
+
         $oObs = new Campo('Observação', 'obs', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $oObs->addValidacao(true, Validacao::TIPO_STRING, 'Campo obrigatório', '1', '1000');
-        
+
         $oseq = new Campo('Célula', 'seq', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        
+
         $omaqtip = new Campo('Categoria', 'maqtip', Campo::CAMPO_SELECTSIMPLE, 1, 1, 12, 12);
         $omaqtip->addItemSelect('PO', 'PO');
         $omaqtip->addItemSelect('PF', 'PF');
@@ -179,7 +178,7 @@ class ViewMET_CAD_Maquinas extends View {
         $omaqtip->addItemSelect('MQ', 'MQ');
         $omaqtip->addItemSelect('ROSQ', 'ROSQ');
         $omaqtip->addItemSelect('DIVER', 'DIVER');
-        
+
         $ositmaq = new Campo('Situação', 'sitmaq', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $ositmaq->addItemSelect('ATIVA', 'ATIVA');
         $ositmaq->addItemSelect('REFORMA', 'REFORMA');
@@ -187,11 +186,11 @@ class ViewMET_CAD_Maquinas extends View {
         $ositmaq->addItemSelect('INATIVA', 'INATIVA');
         $ositmaq->addItemSelect('ATIVA FERRAMENTAS MANUAIS', 'ATIVA FERRAMENTAS MANUAIS');
         $ositmaq->addItemSelect('ATIVA AUTOMOTRIZ', 'ATIVA AUTOMOTRIZ');
-        
-       // $ocat = new Campo('Cat', 'cat', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        
+
+        // $ocat = new Campo('Cat', 'cat', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+
         $onomeclatura = new Campo('Tipo', 'nomeclatura', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-                
+
         $omodelo = new Campo('Modelo', 'modelo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oanofab = new Campo('Ano Fabricação', 'anofab', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $ocapacidade = new Campo('Capacidade', 'capacidade', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -204,7 +203,7 @@ class ViewMET_CAD_Maquinas extends View {
         $oadequadoNr12->addItemSelect('SIM', 'SIM');
         $oadequadoNr12->addItemSelect('NÃO', 'NAO');
         $oadequadoNr12->addItemSelect('PARCIAL', 'PARCIAL');
-        
+
         $ocodsetor = new campo('Setor', 'codsetor', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
 
         $oSetorDes = new Campo('Descrição', 'MET_CAD_setores.descsetor', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
@@ -234,7 +233,7 @@ class ViewMET_CAD_Maquinas extends View {
         $ofabricante->setClasseBusca('DELX_CAD_Pessoa');
         $ofabricante->setSCampoRetorno('emp_codigo', $this->getTela()->getId());
         $ofabricante->addCampoBusca('emp_razaosocial', $ofabricante_Des->getId(), $this->getTela()->getId());
-        
+
         $ofornecedor = new campo('Fornecedor', 'fornecedor', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
 
         $ofornecedor_Des = new Campo('Descrição', 'DELX_CAD_Pessoa2.emp_razaosocial', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
@@ -249,30 +248,29 @@ class ViewMET_CAD_Maquinas extends View {
         $ofornecedor->setClasseBusca('DELX_CAD_Pessoa');
         $ofornecedor->setSCampoRetorno('emp_codigo', $this->getTela()->getId());
         $ofornecedor->addCampoBusca('emp_razaosocial', $ofornecedor_Des->getId(), $this->getTela()->getId());
-       
+
         $oserie = new Campo('Número de Série', 'serie', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $opatrimonio = new Campo('Patrimônio', 'patrimonio', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $opeso02 = new Campo('Peso da Máquina', 'peso02', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        
+
         $oalimentacao = new Campo('Alimentação', 'alimentacao', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oalimentacao->addItemSelect('MANUAL', 'MANUAL');
         $oalimentacao->addItemSelect('SEMI-AUTOMÁTICA', 'SEMI-AUTOMÁTICA');
         $oalimentacao->addItemSelect('AUTOMÁTICA', 'AUTOMÁTICA');
-        
+
         //------------------------INICIO ABA SISTEMAS DE SEGURANÇA--------------------------//------------------------------------------------------
-        
         ///-----------------------Inicio Tipo de Proteção----------------------///
-        
+
         $oDivisor = new Campo('TIPOS DE PROTEÇÃO', 'ptfix', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor->setApenasTela(true);
-        
+
         //---------Inicio Proteções Fixas------------//
         $oprotFixa = new Campo('Proteções Fixas', 'protfixa', Campo::TIPO_RADIO, 5, 5, 12, 12);
         $oprotFixa->addItenRadio('INTEGRAL', 'Integral');
         $oprotFixa->addItenRadio('PARCIAL', 'Parcial');
         $oprotFixa->addItenRadio('NÃO', 'Não');
         $oprotFixa->addItenRadio('NÃO SE APLICA', 'Não se aplica');
-                
+
         $ometalica = new Campo('Metálica', 'metalica', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
         $ometalica->setSValorCheck('Sim');
         $omadeira = new Campo('Madeiras', 'madeira', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
@@ -285,14 +283,13 @@ class ViewMET_CAD_Maquinas extends View {
         $opoli->setSValorCheck('Sim');
         $ozonaProtFixa = new Campo('Zona protegida', 'zonaprotfixa', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         //---------Fim Proteções Fixas------------//
-        
         //---------Inicio Proteções Móveis------------//
         $oprotMovel = new Campo('Proteções Móveis', 'protmovel', Campo::TIPO_RADIO, 5, 5, 12, 12);
         $oprotMovel->addItenRadio('INTEGRAL', 'Integral');
         $oprotMovel->addItenRadio('PARCIAL', 'Parcial');
         $oprotMovel->addItenRadio('NÃO', 'Não');
         $oprotMovel->addItenRadio('NÃO SE APLICA', 'Não se aplica');
-        
+
         $ometalicaMov = new Campo('Metálica', 'metalicamov', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
         $ometalicaMov->setSValorCheck('Sim');
         $omadeiraMov = new Campo('Madeiras', 'madeiramov', Campo::TIPO_CHECK_STRING, 1, 1, 12, 12);
@@ -306,50 +303,47 @@ class ViewMET_CAD_Maquinas extends View {
         $ozonaProtMovel = new Campo('Zona protegida', 'zonaprotmovel', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $ozonaProtMovel->addValidacao(true, Validacao::TIPO_STRING, 'Campo obrigatório', '1', '1000');
         //---------Fim Proteções Móveis------------//
-        
+
         $oDivisor1 = new Campo('', 'ptfix1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
-     
+
         ///-----------------------Fim Tipo de Proteção----------------------///
-        
         ///-----------------------Inicio Dispositivos de Segurança----------------------///
-        
+
         $oDivisor2 = new Campo('DISPOSITIVOS DE SEGURANÇA', 'dpseg2', Campo::DIVISOR_INFO, 12, 12, 12, 12);
         $oDivisor2->setApenasTela(true);
-        
+
         //---------Inicio Chaves de Segurança------------//
         $ochaveseg = new Campo('Chaves de Segurança', 'chaveseg', Campo::TIPO_RADIO, 5, 5, 12, 12);
         $ochaveseg->addItenRadio('INTEGRAL', 'Integral');
         $ochaveseg->addItenRadio('PARCIAL', 'Parcial');
         $ochaveseg->addItenRadio('NÃO', 'Não');
         $ochaveseg->addItenRadio('NÃO SE APLICA', 'Não se aplica');
-        
+
         $omagnetica = new Campo('Magnetica', 'magnetica', Campo::TIPO_CHECK_STRING, 2, 2, 12, 12);
         $omagnetica->setSValorCheck('Sim');
         $oeletromec = new Campo('Eletromecânica', 'eletromec', Campo::TIPO_CHECK_STRING, 2, 2, 12, 12);
         $oeletromec->setSValorCheck('Sim');
         //---------Fim Chaves de Segurança------------//
-        
         //---------Inicio Interface de segurança------------//
         $ointseg = new Campo('Interface de Segurança', 'intseg', Campo::TIPO_RADIO, 5, 5, 12, 12);
         $ointseg->addItenRadio('INTEGRAL', 'Integral');
         $ointseg->addItenRadio('PARCIAL', 'Parcial');
         $ointseg->addItenRadio('NÃO', 'Não');
         $ointseg->addItenRadio('NÃO SE APLICA', 'Não se aplica');
-        
+
         $orelesSeg = new Campo('Relé de segurança', 'relesseg', Campo::TIPO_CHECK_STRING, 2, 2, 12, 12);
         $orelesSeg->setSValorCheck('Sim');
         $oclp = new Campo('CLP de segurança', 'clp', Campo::TIPO_CHECK_STRING, 2, 2, 12, 12);
         $oclp->setSValorCheck('Sim');
         //---------Fim Interface de segurança------------//
-        
         //---------Inicio Sensores de Segurança------------//
         $osisSeg = new Campo('Sensores de Segurança', 'sisseg', Campo::TIPO_RADIO, 5, 5, 12, 12);
         $osisSeg->addItenRadio('INTEGRAL', 'Integral');
         $osisSeg->addItenRadio('PARCIAL', 'Parcial');
         $osisSeg->addItenRadio('NÃO', 'Não');
         $osisSeg->addItenRadio('NÃO SE APLICA', 'Não se aplica');
-        
+
         $ocortLuz = new Campo('Cortina de Luz', 'cortluz', Campo::TIPO_CHECK_STRING, 2, 2, 12, 12);
         $ocortLuz->setSValorCheck('Sim');
         $olaser = new Campo('Laser m. feixes', 'laser', Campo::TIPO_CHECK_STRING, 2, 2, 12, 12);
@@ -362,120 +356,116 @@ class ViewMET_CAD_Maquinas extends View {
         $otapete->setSValorCheck('Sim');
         $obatente = new Campo('Batente (borda sensitiva)', 'batente', Campo::TIPO_CHECK_STRING, 3, 3, 12, 12);
         $obatente->setSValorCheck('Sim');
-        
+
         $ozonaProtSeg = new Campo('Zona protegida', 'zonaprotseg', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $ozonaProtSeg->addValidacao(true, Validacao::TIPO_STRING, 'Campo obrigatório', '1', '1000');
         //---------Fim Sensores de Segurança------------//
         ///-----------------------Fim Dispositivos de Segurança----------------------///
-        
+
         $oDivisor3 = new Campo('', 'dpSeg3', Campo::DIVISOR_INFO, 12, 12, 12, 12);
         $oDivisor3->setApenasTela(true);
-        
-        //------------------------FIM ABA SISTEMAS DE SEGURANÇA--------------------------//-----------------------------------------------------   
 
+        //------------------------FIM ABA SISTEMAS DE SEGURANÇA--------------------------//-----------------------------------------------------   
         //------------------------INICIO ABA SISTEMA DE PARTIDA E PARADA--------------------------//-----------------------------------------------------   
         $opartida = new Campo('Partida', 'partida', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $opartida->addItenRadio('Sim', 'Sim');
         $opartida->addItenRadio('Não', 'Não');
-        
+
         $opartidaBaixaTensao = new Campo('Extra Baixa Tensão', 'partidabaixatensao', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $opartidaBaixaTensao->addItenRadio('Sim', 'Sim');
         $opartidaBaixaTensao->addItenRadio('Não', 'Não');
-        
+
         $opartidaIsolacao = new Campo('Dupla Isolação', 'partidaisolacao', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $opartidaIsolacao->addItenRadio('Sim', 'Sim');
         $opartidaIsolacao->addItenRadio('Não', 'Não');
-        
+
         $oparada = new Campo('Parada', 'parada', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $oparada->addItenRadio('Sim', 'Sim');
         $oparada->addItenRadio('Não', 'Não');
-        
+
         $oparadaBaixaTensao = new Campo('Extra Baixa Tensão', 'paradabaixatensao', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $oparadaBaixaTensao->addItenRadio('Sim', 'Sim');
         $oparadaBaixaTensao->addItenRadio('Não', 'Não');
-        
+
         $oparadaIsolacao = new Campo('Dupla Isolação', 'paradaisolacao', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $oparadaIsolacao->addItenRadio('Sim', 'Sim');
         $oparadaIsolacao->addItenRadio('Não', 'Não');
-        
+
         $oemergencia = new Campo('Emergência', 'emergencia', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $oemergencia->addItenRadio('Sim', 'Sim');
         $oemergencia->addItenRadio('Não', 'Não');
-        
+
         $oemergenciaBaixaTensao = new Campo('Extra Baixa Tensão', 'emergenciabaixatensao', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $oemergenciaBaixaTensao->addItenRadio('Sim', 'Sim');
         $oemergenciaBaixaTensao->addItenRadio('Não', 'Não');
-        
+
         $oemerIso = new Campo('Dupla Isolação', 'emeriso', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $oemerIso->addItenRadio('Sim', 'Sim');
         $oemerIso->addItenRadio('Não', 'Não');
-                
+
         $orearme = new Campo('Rearme (Reset)', 'rearme', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $orearme->addItenRadio('Sim', 'Sim');
         $orearme->addItenRadio('Não', 'Não');
-        
+
         $oresetBaixaTensao = new Campo('Extra Baixa Tensão', 'resetbaixatensao', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $oresetBaixaTensao->addItenRadio('Sim', 'Sim');
         $oresetBaixaTensao->addItenRadio('Não', 'Não');
-        
+
         $oresetIso = new Campo('Dupla Isolação', 'resetiso', Campo::TIPO_RADIO, 2, 2, 12, 12);
         $oresetIso->addItenRadio('Sim', 'Sim');
         $oresetIso->addItenRadio('Não', 'Não');
-        
+
         $osPortugues = new Campo('Sinalização em língua portuguêsa', 'sportugues', Campo::TIPO_RADIO, 12, 12, 12, 12);
         $osPortugues->addItenRadio('Sim', 'Sim');
         $osPortugues->addItenRadio('Não', 'Não');
-        
+
         $ochoque = new Campo('Outras medidas de proteção contra choque elétrico', 'choque', Campo::TIPO_TEXTAREA, 12, 12, 12, 12);
         $ochoque->addValidacao(true, Validacao::TIPO_STRING, 'Campo obrigatório', 1, 1000);
-        
+
         //------------------------FIM ABA SISTEMA DE PARTIDA E PARADA--------------------------//-----------------------------------------------------   
-        
-        
-    //    $oemerCabo = new Campo('emerCabo', 'emerCabo', Campo::TIPO_TEXTO, 1, 1, 12, 12);        
-    //    $oemercaboBaixaTensao = new Campo('emercaboBaixaTensao', 'emercaboBaixaTensao', Campo::TIPO_TEXTO, 1, 1, 12, 12); 
-    //    $oemercaboIso = new Campo('emercaboIso', 'emercaboIso', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        
+        //    $oemerCabo = new Campo('emerCabo', 'emerCabo', Campo::TIPO_TEXTO, 1, 1, 12, 12);        
+        //    $oemercaboBaixaTensao = new Campo('emercaboBaixaTensao', 'emercaboBaixaTensao', Campo::TIPO_TEXTO, 1, 1, 12, 12); 
+        //    $oemercaboIso = new Campo('emercaboIso', 'emercaboIso', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 //        $orelpatrimonio = new Campo('relpatrimonio', 'relpatrimonio', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 //        $oempcnpj = new Campo('empcnpj', 'empcnpj', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 //        $otipmanut = new Campo('tipmanut', 'tipmanut', Campo::TIPO_TEXTO, 1, 1, 12, 12);
- 
+
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
         $oLinha2 = new campo('', 'linha2', Campo::TIPO_LINHA, 12, 12, 12, 12);
         $oLinha2->setApenasTela(true);
-        
+
         //Divisor sistema partida
         $oDivisor11 = new Campo('PARTIDA', 'divparpar1', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor11->setApenasTela(true);
-        
+
         //Divisor sistema parada
         $oDivisor12 = new Campo('PARADA', 'divparpar2', Campo::DIVISOR_INFO, 12, 12, 12, 12);
         $oDivisor12->setApenasTela(true);
-        
+
         //Divisore sistema 
         $oDivisor13 = new Campo('EMERGÊNCIA', 'divparpar3', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
         $oDivisor13->setApenasTela(true);
-        
+
         //Divisore sistema 
         $oDivisor14 = new Campo('REARME(RESET)', 'divparpar4', Campo::DIVISOR_WARNING, 12, 12, 12, 12);
         $oDivisor14->setApenasTela(true);
-                
+
         $oAbaCadastro->addCampos(array($ofil_codigo, $ofil_Des), $oLinha1, array($ocod, $ocodigoMaq, $omaquina), $oLinha1, array($oseq, $omaqtip), $oLinha1, $oObs);
 
-        $oAbaNr->addCampos($onomeclatura, $omodelo, array($ofabricante, $ofabricante_Des), $oLinha1, array($ofornecedor, $ofornecedor_Des), $oLinha1, array($oserie, $opatrimonio), $opeso02, array($oanofab, $oprodutividade, $ooperadores), array($ocapacidade , $otempoOpera, $oadequadoNr12), array($ocodsetor, $oSetorDes), array($oalimentacao, $ositmaq));
-                
-        $oAbaSistemaSeg->addCampos($oDivisor, $oLinha1, array($oprotFixa, $ometalica, $omadeira, $otela, $oacrilico, $opoli), $oLinha1, $ozonaProtFixa ,$oLinha1,$oLinha2, array($oprotMovel, $ometalicaMov, $omadeiraMov, $otelaMov, $oacrilicoMov, $opoliMov), $oLinha1, $ozonaProtMovel, $oDivisor1, $oDivisor2, $oLinha1, array($ochaveseg, $omagnetica, $oeletromec), $oLinha1, $oLinha2, array($ointseg, $orelesSeg, $oclp), $oLinha1, $oLinha2, array($osisSeg, $ocortLuz, $olaser, $ooptica, $oscanner, $otapete, $obatente), $oLinha1, $ozonaProtSeg, $oDivisor3);
-        
-        $oAbaPartParad->addCampos($oLinha1,$oDivisor11, $oLinha1, array($opartida, $opartidaBaixaTensao, $opartidaIsolacao), $oLinha1,$oDivisor12, $oLinha1, array($oparada, $oparadaBaixaTensao, $oparadaIsolacao), $oLinha1, $oDivisor13, $oLinha1, array($oemergencia, $oemergenciaBaixaTensao, $oemerIso), $oLinha1, $oDivisor14, $oLinha1, array($orearme, $oresetBaixaTensao, $oresetIso), $oLinha1, $oLinha2, $osPortugues,$oLinha1, $ochoque);
-        
-       // $oAbaFotos->addCampos($ocat, $orelpatrimonio, $oempcnpj, $otipmanut);
-        
-        $oTab->addItems($oAbaCadastro, $oAbaNr, $oAbaSistemaSeg, $oAbaPartParad/*, $oAbaFotos*/);
-        
+        $oAbaNr->addCampos($onomeclatura, $omodelo, array($ofabricante, $ofabricante_Des), $oLinha1, array($ofornecedor, $ofornecedor_Des), $oLinha1, array($oserie, $opatrimonio), $opeso02, array($oanofab, $oprodutividade, $ooperadores), array($ocapacidade, $otempoOpera, $oadequadoNr12), array($ocodsetor, $oSetorDes), array($oalimentacao, $ositmaq));
+
+        $oAbaSistemaSeg->addCampos($oDivisor, $oLinha1, array($oprotFixa, $ometalica, $omadeira, $otela, $oacrilico, $opoli), $oLinha1, $ozonaProtFixa, $oLinha1, $oLinha2, array($oprotMovel, $ometalicaMov, $omadeiraMov, $otelaMov, $oacrilicoMov, $opoliMov), $oLinha1, $ozonaProtMovel, $oDivisor1, $oDivisor2, $oLinha1, array($ochaveseg, $omagnetica, $oeletromec), $oLinha1, $oLinha2, array($ointseg, $orelesSeg, $oclp), $oLinha1, $oLinha2, array($osisSeg, $ocortLuz, $olaser, $ooptica, $oscanner, $otapete, $obatente), $oLinha1, $ozonaProtSeg, $oDivisor3);
+
+        $oAbaPartParad->addCampos($oLinha1, $oDivisor11, $oLinha1, array($opartida, $opartidaBaixaTensao, $opartidaIsolacao), $oLinha1, $oDivisor12, $oLinha1, array($oparada, $oparadaBaixaTensao, $oparadaIsolacao), $oLinha1, $oDivisor13, $oLinha1, array($oemergencia, $oemergenciaBaixaTensao, $oemerIso), $oLinha1, $oDivisor14, $oLinha1, array($orearme, $oresetBaixaTensao, $oresetIso), $oLinha1, $oLinha2, $osPortugues, $oLinha1, $ochoque);
+
+        // $oAbaFotos->addCampos($ocat, $orelpatrimonio, $oempcnpj, $otipmanut);
+
+        $oTab->addItems($oAbaCadastro, $oAbaNr, $oAbaSistemaSeg, $oAbaPartParad/* , $oAbaFotos */);
+
         $this->addCampos($oTab);
-    } 
-    
+    }
+
     public function relCadMaqSteel() {
         parent::criaTelaRelatorio();
 
@@ -488,4 +478,5 @@ class ViewMET_CAD_Maquinas extends View {
 
         $this->addCampos($oOrdData1);
     }
+
 }

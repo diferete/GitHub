@@ -15,10 +15,12 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-
         $this->setUsaFiltro(true);
         $this->setUsaDropdown(true);
         $this->setUsaAcaoExcluir(false);
+        $this->setUsaAcaoIncluir(false);
+        $this->setUsaAcaoAlterar(false);
+        $this->setUsaAcaoIncluir(false);
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setiAltura(800);
@@ -104,6 +106,21 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
         $oCCT_Codigo->setSCampoRetorno('cct_codigo', $this->getTela()->getId());
         $oCCT_Codigo->addCampoBusca('cct_descricao', $oCCT_Descricao->getId(), $this->getTela()->getId());
         $oCCT_Codigo->setApenasTela(true);
+        
+        $oCodEmp = new campo('CNPJ', 'SUP_PedidoFornecedor', Campo::TIPO_BUSCADOBANCOPK, 2, 4, 4, 4);
+
+        $oCodEmpDescricao = new Campo('Fornecedor', 'DELX_CAD_Pessoa.emp_razaosocial', Campo::TIPO_BUSCADOBANCO, 3, 8, 8, 8);
+        $oCodEmpDescricao->setSIdPk($oCodEmp->getId());
+        $oCodEmpDescricao->setClasseBusca('DELX_CAD_Pessoa');
+        $oCodEmpDescricao->addCampoBusca('emp_codigo', '', '');
+        $oCodEmpDescricao->addCampoBusca('emp_razaosocial', '', '');
+        $oCodEmpDescricao->setSIdTela($this->getTela()->getid());
+        $oCodEmpDescricao->setApenasTela(true);
+
+        $oCodEmp->setClasseBusca('DELX_CAD_Pessoa');
+        $oCodEmp->setSCampoRetorno('emp_codigo', $this->getTela()->getId());
+        $oCodEmp->addCampoBusca('emp_razaosocial', $oCodEmpDescricao->getId(), $this->getTela()->getId());
+        $oCodEmp->setApenasTela(true);
 
         $oCcts = new campo('Lista CCT', 'cct_codigos', Campo::TIPO_TAGS, 6, 6, 12, 12);
         $oCcts->setILinhasTextArea(5);
@@ -125,7 +142,7 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
 
-        $this->addCampos(array($oPdcInicial, $oPdcFinal), $oLinha1, array($oDatainicial, $oDatafinal), $oLinha1, array($oCCT_Codigo, $oCCT_Descricao, $oBotConf), $oLinha1, $oCcts);
+        $this->addCampos(array($oPdcInicial, $oPdcFinal), $oLinha1, array($oCodEmp, $oCodEmpDescricao), $oLinha1, array($oDatainicial, $oDatafinal), $oLinha1, array($oCCT_Codigo, $oCCT_Descricao, $oBotConf), $oLinha1, $oCcts);
     }
 
 }
