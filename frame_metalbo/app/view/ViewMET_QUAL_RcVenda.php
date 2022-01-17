@@ -127,13 +127,15 @@ class ViewMET_QUAL_RcVenda extends View {
         $oFilProdutos = new Filtro($oProd, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, true);
 
         $oFilOfficeDes = new Filtro($oOfficeDes, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
-        $oFilOfficeDes->addItemSelect('', 'TODOS');
+        $oFilOfficeDes->addItemSelect('', 'Representantes');
         foreach ($this->getAParametrosExtras() as $key => $value) {
             $oFilOfficeDes->addItemSelect($value, $value);
         }
+        $oFilOfficeDes->setSLabel('');
+
 
         $oFilSituaca = new Filtro($oSit, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
-        $oFilSituaca->addItemSelect('', 'TODOS');
+        $oFilSituaca->addItemSelect('', 'Sit. Geral');
         $oFilSituaca->addItemSelect('Aguardando', 'Aguardando');
         $oFilSituaca->addItemSelect('Liberado', 'Liberado');
         $oFilSituaca->addItemSelect('Env.Exp', 'Env.Exp');
@@ -142,28 +144,32 @@ class ViewMET_QUAL_RcVenda extends View {
         $oFilSituaca->addItemSelect('Apontada', 'Apontada');
         $oFilSituaca->addItemSelect('Finalizada', 'Finalizada');
         $oFilSituaca->addItemSelect('Cancelada', 'Cancelada');
+        $oFilSituaca->setSLabel('');
 
         $oFilReclamacao = new Filtro($oReclamacao, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
-        $oFilReclamacao->addItemSelect('', 'TODOS');
+        $oFilReclamacao->addItemSelect('', 'Reclamação');
         $oFilReclamacao->addItemSelect('Aguardando', 'Aguardando');
         $oFilReclamacao->addItemSelect('Em análise', 'Em análise');
         $oFilReclamacao->addItemSelect('Transportadora', 'Transportadora');
         $oFilReclamacao->addItemSelect('Representante', 'Representante');
         $oFilReclamacao->addItemSelect('Interna', 'Interna');
         $oFilReclamacao->addItemSelect('Cliente', 'Cliente');
+        $oFilReclamacao->setSLabel('');
 
         $oFilProcedencia = new Filtro($oProcedencia, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
-        $oFilProcedencia->addItemSelect('', 'TODOS');
+        $oFilProcedencia->addItemSelect('', 'Procedencia');
         $oFilProcedencia->addItemSelect('Aguardando', 'Aguardando');
         $oFilProcedencia->addItemSelect('PROCEDE', 'PROCEDE');
         $oFilProcedencia->addItemSelect('NÃO PROCEDE', 'NÃO PROCEDE');
+        $oFilProcedencia->setSLabel('');
 
         $oFilDevolucao = new Filtro($oDevolucao, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
-        $oFilDevolucao->addItemSelect('', 'TODOS');
+        $oFilDevolucao->addItemSelect('', 'Devoluções');
         $oFilDevolucao->addItemSelect('Aceita', 'Aceita');
         $oFilDevolucao->addItemSelect('Indeferida', 'Indeferida');
         $oFilDevolucao->addItemSelect('Não se aplica', 'Não se aplica');
         $oFilDevolucao->addItemSelect('Aguardando', 'Aguardando');
+        $oFilDevolucao->setSLabel('');
 
 
         $this->addFiltro($oFilNr, $oFilCli, $oFilProdutos, $oFilOfficeDes, $oFilSituaca, $oFilReclamacao, $oFilProcedencia, $oFilDevolucao);

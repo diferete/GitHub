@@ -105,6 +105,9 @@ class PersistenciaMET_MANUT_OS extends Persistencia {
         $sSql = "update MET_MANUT_OS set situacao = 'Encerrada', "
                 . "userenc ='" . $iCodUser . "', "
                 . "dataenc ='" . Util::getDataAtual() . "', "
+                . "solucao =' " . $aDados['solucao'] . "', "
+                . "consumo =' " . $aDados['consumo'] . "', "
+                . "obs =' " . $aDados['obs'] . "', "
                 . "horaenc ='" . date('H:i') . "'  where nr =" . $aDados['nr'] . " and fil_codigo=" . $aDados['fil_codigo'];
         $aRetorno = $this->executaSql($sSql);
 
@@ -114,8 +117,8 @@ class PersistenciaMET_MANUT_OS extends Persistencia {
             $oMan->Persistencia->adicionaFiltro('fil_codigo', $aDados['fil_codigo']);
             $oMan->Persistencia->adicionaFiltro('nr', $aDados['nr']);
             $oManDados = $oMan->Persistencia->consultarWhere();
-            
-            if ($oManDados->getTipomanut()=='MP') {
+
+            if ($oManDados->getTipomanut() == 'MP') {
                 $oSer = Fabrica::FabricarController('MET_MANUT_OSServico');
                 $oSer->Persistencia->adicionaFiltro('fil_codigo', $aDados['fil_codigo']);
                 $oSer->Persistencia->adicionaFiltro('codserv', $oManDados->getCodserv());
@@ -126,10 +129,10 @@ class PersistenciaMET_MANUT_OS extends Persistencia {
                     datacanc, horacanc, userretor, dataretor, horaretor, userenc, dataenc, 
                     horaenc, tipomanut, dias, codsetor, obs, situacao, oqfazer, fezmanut, matnecessario)
                     SELECT fil_codigo, (SELECT COALESCE(MAX(nr),0)+1 AS nr FROM MET_MANUT_OS where fil_codigo=" . $aDados['fil_codigo'] . "), cod, " . $iCodUser . ", '" . Util::getDataAtual() . "', '" . date('H:i') . "', codserv, '', '',
-                    '', '" . date('d/m/Y', strtotime('+'.$oServDados->getCiclo().' days')) . "', responsavel, '', '', '', '',
+                    '', '" . date('d/m/Y', strtotime('+' . $oServDados->getCiclo() . ' days')) . "', responsavel, '', '', '', '',
                     '', '', '', '', '', '', '',
-                    '', tipomanut, ".$oServDados->getCiclo().", codsetor, '', 'Aberta', oqfazer, '', '' 
-                    FROM MET_MANUT_OS WHERE nr=" . $aDados['nr'] . " and fil_codigo=" . $aDados['fil_codigo']."";
+                    '', tipomanut, " . $oServDados->getCiclo() . ", codsetor, '', 'Aberta', oqfazer, '', '' 
+                    FROM MET_MANUT_OS WHERE nr=" . $aDados['nr'] . " and fil_codigo=" . $aDados['fil_codigo'] . "";
                 $aRetorno = $this->executaSql($sSql2);
             }
         }
@@ -153,6 +156,65 @@ class PersistenciaMET_MANUT_OS extends Persistencia {
         $sSql = "select usucodigo,usunome from MET_TEC_Usuario where usucracha = " . $sCracha . "";
         $oObjCracha = $this->consultaSql($sSql);
         return $oObjCracha;
+    }
+
+    /**
+     * Retorna setores de todas as máquinas
+     * @param type $sCracha
+     * @return type
+     */
+    public function buscaDadosSetores() {
+        $sSql = "SELECT DISTINCT (MET_CAD_Maquinas.codsetor), descsetor from MET_CAD_Maquinas
+                left OUTER JOIN Met_Cad_Setores on MET_CAD_Maquinas.codsetor = Met_Cad_Setores.codsetor WHERE MET_CAD_Maquinas.codsetor is NOT NULL
+                AND fil_codigo = 8993358000174";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow1 = Array();
+        $aRow2 = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow1[$iI] = $key['codsetor'];
+            $aRow2[$iI] = $key['descsetor'];
+            $iI++;
+        }
+        $aRow[0] = $aRow1;
+        $aRow[1] = $aRow2;
+        return $aRow;
+    }
+
+    /**
+     * Retorna as células de todas as máquinas
+     * @param type $sCracha
+     * @return type
+     */
+    public function buscaDadosCelulaSetor($iCod) {
+        $sSql = "SELECT seq FROM MET_CAD_Maquinas WHERE codsetor = " . $iCod . " and seq is not null group by seq";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow1 = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow1[$iI] = $key['seq'];
+            $iI++;
+        }
+        $aRow[0] = $aRow1;
+        return $aRow;
+    }
+
+    /**
+     * Retorna as células de todas as máquinas
+     * @param type $sCracha
+     * @return type
+     */
+    public function buscaDadosCelula() {
+        $sSql = "SELECT seq FROM MET_CAD_Maquinas WHERE seq is not null group by seq";
+        $sth = $this->getObjetoSql($sSql);
+        $iI = 0;
+        $aRow1 = Array();
+        while ($key = $sth->fetch(PDO::FETCH_ASSOC)) {
+            $aRow1[$iI] = $key['seq'];
+            $iI++;
+        }
+        $aRow1;
+        return $aRow1;
     }
 
 }

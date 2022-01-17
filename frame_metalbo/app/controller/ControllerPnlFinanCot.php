@@ -76,11 +76,11 @@ class ControllerPnlFinanCot extends Controller {
         }
 
 
-        $xResult = '<b>Em aberto:</b> R$' . number_format($iTotal, 2, ',', '.') . '    |  '
-                . '<span class="cor_vermelho"><b>Atraso:</b> R$' . number_format($iAtraso, 2, ',', '.') . '</span>  | '
-                . '<span class="cor_verde"><b>Média de Faturamento:</b>R$ ' . number_format($iMedia, 2, ',', '.') . '</span> | ';
+        $xResult = '<b>Em aberto:</b> R$ ' . number_format($iTotal, 2, ',', '.') . '    |  '
+                . '<span class="cor_vermelho"><b>Atraso:</b> R$ ' . number_format($iAtraso, 2, ',', '.') . '</span>  | '
+                . '<span class="cor_verde"><b>Média de Faturamento:</b> R$ ' . number_format($iMedia, 2, ',', '.') . '</span> | ';
         if ($iLimite > 0) {
-            $xResult .= '<span><b>Limite de crédito:</b>R$ ' . number_format($iLimite, 2, ',', '.') . '</span>';
+            $xResult .= '<span><b>Limite de crédito:</b> R$ ' . number_format($iLimite, 2, ',', '.') . '</span>';
         } else {
             $xResult .= '<span><b>SEM LIMITE DE CRÉDITO CADASTRADO!</b></span>';
         }

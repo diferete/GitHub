@@ -19,8 +19,6 @@ class ViewConsultaEstoque extends View {
         $oParam = Fabrica::FabricarController('Param');
         $bVisualizaEmpenho = $oParam->getBempenho();
 
-
-
         $this->setBTela(true);
 
         $oGrupo = new Campo('Grupo', 'grupo', Campo::TIPO_BUSCADOBANCOPK, 2);
@@ -132,10 +130,8 @@ class ViewConsultaEstoque extends View {
         $oOf->setSTipoBotao(Campo::BUTTON_SUCCESS);
         $oOf->setSCorFundo(Campo::FUNDO_AMARELO);
         $oOf->setClasseBusca('OfRep');
-        $oOf->setSCampoRetorno('op', $this->getTela()->getId());
+        $oOf->setSCampoRetorno('quant', $this->getTela()->getId());
         $oOf->setSParamBuscaPk($oCodigo->getId());
-
-
 
         $oFildEmb = new FieldSet('Embalagem');
         $oFildEmb->setOculto(false);

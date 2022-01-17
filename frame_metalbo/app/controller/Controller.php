@@ -364,8 +364,6 @@ class Controller {
 
         $oModel = $oModelOriginal;
 
-
-
         if ($xValor === null && $xValor !== "" && $xValor !== 0) {
             // $aCampos = json_decode($_REQUEST['campos'],true);
             $aCampos = array();
@@ -769,7 +767,6 @@ class Controller {
         //cria a tela
         $this->View->criaTela();
 
-
         //alimenta campos busca
         $this->antesIncluir();
         //adiciona onde será renderizado
@@ -1043,7 +1040,6 @@ class Controller {
         $this->afterCriaTela();
 
         $this->View->addBotaoPadraoTela($sCampoIncremento);
-
 
         //renderiza a tela
         $this->View->getTela()->getRender();
@@ -1511,8 +1507,6 @@ class Controller {
                 . 'setTimeout(function () { win.close();}, 10000);';
         echo $oWindow;
 
-
-
         $oMenSuccess = new Mensagem("Sucesso", "Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
         echo $oMenSuccess->getRender();
     }
@@ -1540,10 +1534,22 @@ class Controller {
         //   .'setTimeout(function () { win.close();}, 10000);';
         echo $oWindow;
 
-
-
         $oMenSuccess = new Mensagem("Sucesso", "Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
         echo $oMenSuccess->getRender();
+    }
+
+    public function geraRelPdf($sDados) {
+        $aDados = explode(',', $sDados);
+        $sSistema = "app/relatorio";
+        $sRelatorio = $aDados[1] . '.php?';
+        $sCampos = 'nr=' . $aDados[0];
+        $sCampos .= '&dir=' . $_SESSION["diroffice"];
+        $sCampos .= $this->getSget();
+        $sCampos .= '&output=email';
+
+        $oWindow = 'var win = window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "1366002941508","width=100,height=100,left=375,top=330");'
+                . 'setTimeout(function () { win.close();}, 1000);';
+        echo $oWindow;
     }
 
     /**
@@ -1590,7 +1596,6 @@ class Controller {
         $aDados = explode(',', $sParametros);
         $this->adicionaFiltrosExtras();
 
-
         $this->View->criaConsulta();
         $this->antesBuscaPk($aDados);
         $this->View->getTela()->setAbaSel($aDados[0]);
@@ -1605,10 +1610,14 @@ class Controller {
                 $bDesativaAcao = false;
                 $this->View->getTela()->setBBtnConsulta(true);
             }
+            if (isset($aDados[5])) {
+                $bDesativaAcao = $aDados[5];
+            }
             if ($bDesativaAcao) {
                 $this->View->setUsaAcaoAlterar(false);
                 $this->View->setUsaAcaoExcluir(false);
                 $this->View->setUsaAcaoIncluir(false);
+                $this->View->setUsaAcaoVisualizar(false);
             }
         }
         $this->View->setRetorno($aDados[0]);
@@ -1636,9 +1645,6 @@ class Controller {
         $aClasse = array_keys($aParametrosG);
         //pega o última posição do array q é o arquivo do relatório
         $ClasseDetail = $aClasse[count($aClasse) - 1];
-
-
-
 
         $aGrids = array(1, 2);
 
@@ -1711,8 +1717,7 @@ class Controller {
 
         $aCampos = $this->View->$aGridMetodo[1]();
 
-
-        $this->getDadosConsulta($aGridMetodo[0], $bReload, $sCampoConsulta, $aCampos, true, true, false, $sIdTela);
+        $this->getDadosConsulta($aGridMetodo[0], $bReload, $sCampoConsulta, $aCampos, true, true, false);
     }
 
     /**
@@ -1720,7 +1725,7 @@ class Controller {
      */
     public function getDadosScroll($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false) {
         $this->setBPesqScroll(true);
-        $this->getDadosConsulta($sDadosReload, $bReload, $sCampoConsulta, $aColuna, $bGridCampo, true, $sIdTela);
+        $this->getDadosConsulta($sDadosReload, $bReload, $sCampoConsulta, $aColuna, $bGridCampo, true);
     }
 
     /**
@@ -1733,7 +1738,7 @@ class Controller {
         $nomeGrid = $aDados[0];
         $aCampos = $this->View->$nomeGrid();
         $this->afterGetdadoGrid();
-        $this->getDadosConsulta($sDadosReload, true, null, $aCampos, true, false, $sIdTela);
+        $this->getDadosConsulta($sDadosReload, true, null, $aCampos, true, false);
     }
 
     /**
@@ -1744,7 +1749,7 @@ class Controller {
         $aParam = explode('=', $aDados[0]);
         $this->Persistencia->adicionaFiltro($aParam[0], $aParam[1]);
         $this->antesDetalhe($aParam[1]);
-        $this->getDadosConsulta($sDados, true, null, null, null, false, $sIdTela);
+        $this->getDadosConsulta($sDados, true, null, null, null, false);
     }
 
     /**
@@ -1756,7 +1761,7 @@ class Controller {
      * $sRenderTo onde será renderizados os dados
      * $bConsultaPorSql define se a consulta será manual = true ou false pela persistencia
      */
-    public function getDadosConsulta($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela = '') {
+    public function getDadosConsulta($sDadosReload, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false) {
         //realiza a busca dos filtros
         $this->beforFiltroConsulta();
         //verifica se tem order by
@@ -1825,17 +1830,22 @@ class Controller {
                         }
                         //tira o incremental
                         array_pop($aCamposChave);
+
                         foreach ($aCamposChave as $key => $value) {
                             //retorna campo do model
-                            $aModel = explode('_', $key);
-                            if (count($aModel) > 1) {
-                                $aModel = $this->scrollFilhas($aModel);
-                                $sModelFiltro = $aModel[1];
+                            if (substr_count($key, '_') > 1) {
+                                $aModel = explode('_', $key);
+                                if (count($aModel) > 1) {
+                                    $aModel = $this->scrollFilhas($aModel);
+                                    $sModelFiltro = $aModel[1];
+                                } else {
+                                    $aModel = $this->scrollFilhas($aModel);
+                                    $sModelFiltro = $aModel[0];
+                                }
+                                $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                             } else {
-                                $aModel = $this->scrollFilhas($aModel);
-                                $sModelFiltro = $aModel[0];
+                                $this->Persistencia->adicionaFiltro($key, $value, Persistencia::LIGACAO_AND);
                             }
-                            $this->Persistencia->adicionaFiltro($sModelFiltro, $value, Persistencia::LIGACAO_AND);
                         }
                     }
                 }
@@ -1877,7 +1887,6 @@ class Controller {
         $aModels = $this->Persistencia->getArrayModel(); //carrega os campos da consulta
         //pega o total de linhas na querys
         $iTotalReg = $this->Persistencia->getCount();
-
 
         $sDados = '';
         //verifica se foi informado posição do contador
@@ -1960,11 +1969,9 @@ class Controller {
                 $sConsulta = '';
                 $sNomeCampo = $campoAtual->getSNome();
 
-
-
                 if ($campoAtual->getBCampoIcone() == true) {
                     $sChave = $this->Persistencia->getChaveModel($oAtual);
-                    $sDados .= $campoAtual->getRender($sConsulta, $sChave, $sParam, $sIdTela);
+                    $sDados .= $campoAtual->getRender($sConsulta, $sChave, $sParam);
                 } else {
                     if ($campoAtual->getTipo() == CampoConsulta::TIPO_DATA) {
                         if ($this->getValorModel($oAtual, $sNomeCampo)) {
@@ -1988,11 +1995,11 @@ class Controller {
 
                     if ($aRetornoFormat[0]) {
                         $sChave = $this->Persistencia->getChaveModel($oAtual);
-                        $sDados .= $campoAtual->getRender($aRetornoFormat[1] . $sConsulta, $xValorCampo, $sChave, $sIdTela);
+                        $sDados .= $campoAtual->getRender($aRetornoFormat[1] . $sConsulta, $xValorCampo, $sChave);
                         $aRetornoFormat[0] = false;
                     } else {
                         $sChave = $this->Persistencia->getChaveModel($oAtual);
-                        $sDados .= $campoAtual->getRender($sConsulta, $xValorCampo, $sChave, $sIdTela);
+                        $sDados .= $campoAtual->getRender($sConsulta, $xValorCampo, $sChave);
                     }
                 }
             }
@@ -2000,7 +2007,7 @@ class Controller {
 
             //monta td das chaves primaria
             $sChave = $this->Persistencia->getChaveModel($oAtual);
-            $sDados .= '<td class="hidden chave">' . $sChave . '</td>';
+            $sDados .= '<td class = "hidden chave">' . $sChave . '</td>';
             $sDados .= '</tr>';
         }
         //pega o total de linhas na querys
@@ -2040,8 +2047,7 @@ class Controller {
             //mostra contator de registros 
 
             $sNrReg = 'var nrReg = $("#' . $aDadosAtualizar[0] . ' > tbody > tr").length ;'
-                    . 'var totalRegFixo = $("#' . $aDadosAtualizar[0] . '-totalRegFixo").val();'
-                    . '$("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de " + totalRegFixo + ". Clique para carregar!"); ';
+                    . ' $("#' . $aDadosAtualizar[0] . '-nrReg").text(nrReg+" registros listados do total de ' . $iTotalReg . '. Clique para carregar!"); ';
             echo $sNrReg;
         } else {
             //retorna os dados
@@ -2090,12 +2096,6 @@ class Controller {
                     break;
             }
         }
-
-
-
-
-
-
         return $sTot;
     }
 
@@ -2493,8 +2493,6 @@ class Controller {
         //adiciona filtro adicionais se for necessário ou pode fazer validações
         $this->antesValorBuscaPk();
 
-
-
         $sMetodoPersistencia = self::METODO_ARRAY_DADOS;
         $aModels = $this->Persistencia->$sMetodoPersistencia(); //carrega os dados 
 
@@ -2509,6 +2507,7 @@ class Controller {
 
             $sMsgErro = new Mensagem('Código Inexistente', 'O código informado não existe', Mensagem::TIPO_ERROR);
             echo $sMsgErro->getRender();
+
             //limpa campo descriçao
             $sLimpa = "$('#" . $sCampoRetorno . "').val('');";
             echo $sLimpa;
@@ -2671,7 +2670,7 @@ class Controller {
         $aColunas = $_REQUEST['colunas'];
         $aTotalizador = json_decode($_REQUEST['summary'], true);
 
-        $aDados = $this->getDadosConsulta(true, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela);
+        $aDados = $this->getDadosConsulta(true, $bReload = false, $sCampoConsulta = null, $aColuna = null, $bGridCampo = false, $bScroll = false);
 
         $oPDF = new PDF($sTitulo);
         $oPDF->addColunas($aColunas);
@@ -2805,10 +2804,8 @@ class Controller {
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
 
-
         //carrega o model
         $this->carregaModel($aCamposTela);
-
 
         $this->adicionaFiltrosExtras();
 
@@ -2892,7 +2889,6 @@ class Controller {
         //$this->funcoesAutoIncremento();
         //adiciona botões na tela de detalhe
         $this->View->adicionaBotoesDet($aDados[2], $aDados[0], $aDados[4], $aDados[5], $aDados[1]);
-
 
         //seta o controler na view
         $this->View->setTelaController($this->View->getController());
@@ -3013,7 +3009,6 @@ class Controller {
         //necessidade de colocar novos filtros mas limpa os anteriores
         $this->adicionaFiltroDet2();
 
-
         $this->Persistencia->iniciaTransacao();
 
         //array de controle de erros
@@ -3055,10 +3050,9 @@ class Controller {
             $msg = "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
             echo $msg;
             echo $oMsg->getRender();
-            $this->getDadosConsulta($aDados[2], true, null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela);
+            $this->getDadosConsulta($aDados[2], true, null, $aColuna = null, $bGridCampo = false, $bScroll = false);
             $oFocus = new Base();
             echo $oFocus->focus($aDados[3]);
-
 
             //monta os filtros
         } else {
@@ -3138,7 +3132,7 @@ class Controller {
             $msg = "" . $this->View->getAutoIncremento($sCampoInc, $iAutoInc) . "";
             echo $msg;
             echo $oMsg->getRender();
-            $this->getDadosConsulta($aDados[2], true, null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela);
+            $this->getDadosConsulta($aDados[2], true, null, $aColuna = null, $bGridCampo = false, $bScroll = false);
             //gera a atualização do grid
             //monta os filtros
         } else {
@@ -3316,7 +3310,6 @@ class Controller {
         //cria a tela
         $this->View->criaTela();
 
-
         //traz lista campos
         $aCamposTela = $this->View->getTela()->getCampos();
 
@@ -3325,7 +3318,6 @@ class Controller {
         }
 
         $this->Persistencia->iniciaTransacao();
-
 
         $aChaveMestre = $this->Persistencia->getChaveArray();
         foreach ($aChaveMestre as $oCampoBanco) {
@@ -3372,7 +3364,6 @@ class Controller {
             //MENSAGEM SUCESSO
             $oMsg = new Mensagem('Sucesso!', 'Seu registro foi alterado com sucesso...', Mensagem::TIPO_SUCESSO);
             echo $oMsg->getRender();
-
 
             //Atualiza o Grid se não for detalhe
             // if(!$bDetalhe){
@@ -3497,7 +3488,6 @@ class Controller {
 
             $sDados .= ',' . implode(',', $aChaves);
 
-
             $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item (ou itens)?', Modal::TIPO_ERRO, true, true, true);
             $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $this->getNomeClasse() . '","acaoExcluirRegDet","' . $sDados . '");');
 
@@ -3511,7 +3501,6 @@ class Controller {
         $idGrid = $aDados[0];
         array_shift($aDados);
         $aRetorno[0] = true;
-
 
         foreach ($aDados as $sChaveAtual) {
             $this->Persistencia->iniciaTransacao();
@@ -3548,7 +3537,7 @@ class Controller {
                 // Retorna Mensagem Informando o Sucesso da Exlusão do registro
                 $oMensagemSucesso = new Mensagem('Sucesso!', 'Seu registro foi deletado...', Mensagem::TIPO_SUCESSO);
                 echo $oMensagemSucesso->getRender();
-                $this->getDadosConsulta($idGrid, false, null, $aColuna = null, $bGridCampo = false, $bScroll = false, $sIdTela);
+                $this->getDadosConsulta($idGrid, false, null, $aColuna = null, $bGridCampo = false, $bScroll = false);
             } else {
                 $oMensagemErro = new Mensagem('Falha', 'O registro não foi excluído!', Mensagem::TIPO_ERROR);
                 echo $oMensagemErro->getRender();
@@ -3571,7 +3560,6 @@ class Controller {
         $sClasse = $this->getNomeClasse();
         $this->antesExcluir($aCamposChave);
 
-
         $oMensagem = new Modal('Deletar', 'Você tem certeza que deseja deletar este item?', Modal::TIPO_ERRO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","acaoExcluirRegistro","' . $sDados . '");');
 
@@ -3586,10 +3574,6 @@ class Controller {
         $aChave = explode(',', $sChave);
         //armazena parametros no param para recuperá-los se necessários
         $this->parametros = $aChave;
-
-
-
-
 
         foreach ($aChave as $sChaveAtual) {
             $this->Persistencia->iniciaTransacao();
@@ -4141,6 +4125,15 @@ class Controller {
                 case $sFiltro == 'scroll':
                     $sTipoFiltro = Persistencia::MENOR;
                     break;
+                case $sFiltro == 'maior':
+                    $sTipoFiltro = Persistencia::MAIOR;
+                    break;
+                case $sFiltro == 'diferente':
+                    $sTipoFiltro = Persistencia::DIFERENTE;
+                    break;
+                case $sFiltro == 'menor':
+                    $sTipoFiltro = Persistencia::MENOR;
+                    break;
             }
         } else {
             $sTipoFiltro = Persistencia::IGUAL;
@@ -4373,44 +4366,51 @@ class Controller {
             }
         }
 
-        if ($sAcao == 'Alterar') {
-            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setFilcgc($_SESSION['filcgc']);
-            $oHist->Model->setUsucodigo($_SESSION['codUser']);
-            $oHist->Model->setUsunome($_SESSION['nome']);
-            $oHist->Model->setClasse($this->getNomeClasse());
-            $oHist->Model->setHora(date('H:i:s'));
-            $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico($aCampos['historico']);
-            $oHist->Model->setAcao('Alterado registro: ' . $sStringItems);
-            $oHist->Persistencia->setModel($oHist->Model);
-            $oHist->Persistencia->inserir();
-        }
-        if ($sAcao == 'Inserir') {
-            $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setFilcgc($_SESSION['filcgc']);
-            $oHist->Model->setUsucodigo($_SESSION['codUser']);
-            $oHist->Model->setUsunome($_SESSION['nome']);
-            $oHist->Model->setClasse($this->getNomeClasse());
-            $oHist->Model->setHora(date('H:i:s'));
-            $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico($aCampos['historico']);
-            $oHist->Model->setAcao('Inserido registro: ' . $sStringItems);
-            $oHist->Persistencia->setModel($oHist->Model);
-            $oHist->Persistencia->inserir();
-        }
-        if ($sAcao == 'Excluir') {
-            $sStringItems = $oHist = Fabrica::FabricarController('MET_TEC_Historico');
-            $oHist->Model->setFilcgc($_SESSION['filcgc']);
-            $oHist->Model->setUsucodigo($_SESSION['codUser']);
-            $oHist->Model->setUsunome($_SESSION['nome']);
-            $oHist->Model->setClasse($this->getNomeClasse());
-            $oHist->Model->setHora(date('H:i:s'));
-            $oHist->Model->setData(date('d/m/Y'));
-            $oHist->Model->setHistorico();
-            $oHist->Model->setAcao('Exclusão do item ' . $sDados);
-            $oHist->Persistencia->setModel($oHist->Model);
-            $oHist->Persistencia->inserir();
+        switch ($sAcao) {
+            case 'Alterar':
+                $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+                $oHist->Model->setFilcgc($_SESSION['filcgc']);
+                $oHist->Model->setUsucodigo($_SESSION['codUser']);
+                $oHist->Model->setUsunome($_SESSION['nome']);
+                $oHist->Model->setClasse($this->getNomeClasse());
+                $oHist->Model->setHora(date('H:i:s'));
+                $oHist->Model->setData(date('d/m/Y'));
+                $oHist->Model->setHistorico($aCampos['historico']);
+                $oHist->Model->setAcao('Alterado registro: ' . $sStringItems);
+                $oHist->Persistencia->setModel($oHist->Model);
+                $oHist->Persistencia->inserir();
+
+                break;
+
+            case 'Inserir':
+                $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+                $oHist->Model->setFilcgc($_SESSION['filcgc']);
+                $oHist->Model->setUsucodigo($_SESSION['codUser']);
+                $oHist->Model->setUsunome($_SESSION['nome']);
+                $oHist->Model->setClasse($this->getNomeClasse());
+                $oHist->Model->setHora(date('H:i:s'));
+                $oHist->Model->setData(date('d/m/Y'));
+                $oHist->Model->setHistorico($aCampos['historico']);
+                $oHist->Model->setAcao('Inserido registro: ' . $sStringItems);
+                $oHist->Persistencia->setModel($oHist->Model);
+                $oHist->Persistencia->inserir();
+
+                break;
+
+            case 'Excluir':
+                $sStringItems = $oHist = Fabrica::FabricarController('MET_TEC_Historico');
+                $oHist->Model->setFilcgc($_SESSION['filcgc']);
+                $oHist->Model->setUsucodigo($_SESSION['codUser']);
+                $oHist->Model->setUsunome($_SESSION['nome']);
+                $oHist->Model->setClasse($this->getNomeClasse());
+                $oHist->Model->setHora(date('H:i:s'));
+                $oHist->Model->setData(date('d/m/Y'));
+                $oHist->Model->setHistorico($aCampos['historico']);
+                $oHist->Model->setAcao('Exclusão do item ' . $sDados);
+                $oHist->Persistencia->setModel($oHist->Model);
+                $oHist->Persistencia->inserir();
+
+                break;
         }
     }
 

@@ -108,7 +108,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
          * Contador de pedidos aguardando aprovação
          */
         $aRetorno = array();
-        if ($oDados->usucodigo == 22) {
+        if ($oDados->usucodigo == 22 || $oDados->usucodigo == 46) {
             $sSql = "select COUNT(*) as total from sup_pedido(nolock) where sup_pedidosituacao = 'A' and fil_codigo = '8993358000174' ";
             $s = $this->consultaSql($sSql);
         } else {
@@ -136,7 +136,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
 
         switch ($cnpj) {
             case 8993358000174:
-                if ($usucodigo == 22) {
+                if ($usucodigo == 22 || $usucodigo == 46) {
                     $aDados = array();
                     $aPedidos = array();
                     $aRetorno = array();
@@ -223,7 +223,7 @@ class PersistenciaSTEEL_SUP_PedidoCompra extends Persistencia {
                         . "where "
                         . "pdcsituaca = 'N' "
                         . "and pdcfutaut = '" . $oUsuNomeDelsoft->usunomedelsoft . "' "
-                        . "and rex_maquinas.widl.PED01.filcgc = 75483040000211"
+                        . "and rex_maquinas.widl.PED01.filcgc = 75483040000211 "
                         . "group by "
                         . "rex_maquinas.widl.PED01.filcgc,"
                         . "pdcfutaut,"

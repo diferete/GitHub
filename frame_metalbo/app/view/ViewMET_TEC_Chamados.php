@@ -21,8 +21,8 @@ class ViewMET_TEC_Chamados extends View {
         $this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setIAltura(500);
         $this->getTela()->setITipoGrid(2);
-
         $this->setUsaFiltro(true);
+        
         $sFiltroSetor = $_SESSION['codsetor'];
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
@@ -117,11 +117,11 @@ class ViewMET_TEC_Chamados extends View {
         $oFilEmp->setSLabel('Empresas');
 
         $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
-        $oFilSit->addItemSelect('Todos', 'Todos');
         $oFilSit->addItemSelect('AGUARDANDO', 'AGUARDANDO');
         $oFilSit->addItemSelect('INICIADO', 'INICIADO');
         $oFilSit->addItemSelect('FINALIZADO', 'FINALIZADO');
         $oFilSit->addItemSelect('CANCELADO', 'CANCELADO');
+        $oFilSit->addItemSelect('', 'TODOS');
         $oFilSit->setSLabel('Situação');
 
         $oFilTipo = new Filtro($oTipo, Filtro::CAMPO_SELECT, 1, 1, 12, 12, false);
@@ -458,7 +458,7 @@ class ViewMET_TEC_Chamados extends View {
         $oDatainicial = new Campo('Data Inicial', 'dataini', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDatainicial->setSValor(Util::getPrimeiroDiaMes());
         $oDatainicial->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
-        
+
         $oDatafinal = new Campo('Data Final', 'datafinal', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDatafinal->setSValor(Util::getDataAtual());
         $oDatafinal->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');

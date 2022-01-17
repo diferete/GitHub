@@ -65,8 +65,15 @@ class ViewMET_QUAL_Rnc extends View {
 
         $oFilDatabert = new Filtro($oDatabert, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12, false);
 
+        $oFilSit = new Filtro($oSit, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
+        $oFilSit->addItemSelect('', 'Todas as situações');
+        $oFilSit->addItemSelect('Aguardando', 'Aguardando');
+        $oFilSit->addItemSelect('Finalizada', 'Finalizada');
+        $oFilSit->addItemSelect('Cancelada', 'Cancelada');
+        $oFilSit->setSLabel('');
 
-        $this->addFiltro($oFiltroNr, $oFilCodProd, $oFilCodProbl, $oFilFornecedor, $oFiltroDescP, $oFilCausadores, $oFilTipoRnc, $oFilDatabert);
+
+        $this->addFiltro($oFiltroNr, $oFilCodProd, $oFilCodProbl, $oFilFornecedor, $oFiltroDescP, $oFilCausadores, $oFilTipoRnc, $oFilSit, $oFilDatabert);
         $this->addDropdown($oDrop1, $oDrop2);
         $this->addCampos($oNr, $oFilcgc, $oNome, $oTipoRnc, $oNomeFornecedor, $oSit, $oDatabert, $oCodProbl, $oCodProd, $oDescprod, $oUserCausa);
     }

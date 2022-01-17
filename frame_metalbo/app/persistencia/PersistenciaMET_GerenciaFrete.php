@@ -85,7 +85,7 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                     Ceiling(nfspesobr) as pesoNota, Ceiling(nfspesobr/100) as FracaoFrete,
                    '" . $aValores['cnpj'] . "' as cnpj ,'' as totalfrete, '' as freteminimo
                     from widl.NFC001 left outer join  widl.EMP01 
-                    on widl.NFC001.nfsclicod =widl.EMP01.empcod
+                    on widl.NFC001.nfsclicod = widl.EMP01.empcod
                     where nfsnfnro in(" . $aValores['nrnotaoc'] . ")";
 
             $result = $this->getObjetoSql($sSql);
@@ -133,11 +133,11 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
 
         $aRet1 = $PDOnew->exec("BEGIN TRY DROP TABLE tbnt# END TRY BEGIN CATCH END CATCH "
                 . "BEGIN TRY DROP TABLE tbnt2# END TRY BEGIN CATCH END CATCH ");
-        
-        if(stristr($aValores['totalnf'], ',')){
+
+        if (stristr($aValores['totalnf'], ',')) {
             $aValores['totalnf'] = Util::ValorSql($aValores['totalnf']);
         }
-        if(stristr($aValores['totakg'], ',')){
+        if (stristr($aValores['totakg'], ',')) {
             $aValores['totakg'] = Util::ValorSql($aValores['totakg']);
         }
         if (($aValores['cnpj'] == '3565095000260') || ($aValores['cnpj'] == '428307001593') || ($aValores['cnpj'] == '2633583000385') || ($aValores['cnpj'] == '4353469003504') || ($aValores['cnpj'] == '89317697001880')) {
@@ -149,12 +149,12 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                     . $aValores['fracaofrete'] . " as FracaoFrete,'' as totalfrete, '' as freteminimo into tbnt#";
             $aRetorno = $PDOnew->exec($sSqlAux);
         }
-        
+
         //MIRIN - Compra e Venda
         if ($aValores['cnpj'] == '3565095000260') {
 
             if ($aRetorno == 1) {
-             $sSql1 = " 
+                $sSql1 = " 
                 create table tbnt2# (
                     seq integer,
                     ref varchar(100),
@@ -195,12 +195,12 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
 
                 $result1 = $PDOnew->exec($sSql1);
             }
-            if($result1){
-            $sSql2 = "select * from  tbnt2#";
-               $result = $PDOnew->query($sSql2);
+            if ($result1) {
+                $sSql2 = "select * from  tbnt2#";
+                $result = $PDOnew->query($sSql2);
             }
-            
-            
+
+
             $iI = 0;
             while ($key = $result->fetch($PDOnew::FETCH_ASSOC)) {
                 $aRow1[$iI] = $key;
@@ -344,6 +344,10 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                     on tbfrete.cnpj = tbnt2#.cnpj
                     where  tbfrete.cnpj =10618249000119 and tbfrete.seq in(33)";
                 $aRetorno1 = $PDOnew->exec($sSql3);
+
+                $fp = fopen("bloco1.txt", "w");
+                fwrite($fp, $sSql3);
+                fclose($fp);
             }
             $sSql1 = "select * from  tbnt#";
             $result = $PDOnew->query($sSql1);
@@ -453,28 +457,28 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
      * @return int
      */
     public function getParcelaFrete($oVal) {
-        $iRetorno='';
-        if ($oVal->getCnpj() != '' or $oVal->getNrconhe() != '') { 
-            $sSql =  'select MAX(pagparnro) + 1 as parcela  '.
-                        'from widl.CTP0011                    '.
-                        'where filcgc = '.$oVal->getCnpj().'        '.
-                        'and pagdocto = '.$oVal->getNrconhe().'';
-        $result = $this->getObjetoSql($sSql);
-        $iRetorno = $result->fetch(PDO::FETCH_OBJ);
+        $iRetorno = '';
+        if ($oVal->getCnpj() != '' or $oVal->getNrconhe() != '') {
+            $sSql = 'select MAX(pagparnro) + 1 as parcela  ' .
+                    'from widl.CTP0011                    ' .
+                    'where filcgc = ' . $oVal->getCnpj() . '        ' .
+                    'and pagdocto = ' . $oVal->getNrconhe() . '';
+            $result = $this->getObjetoSql($sSql);
+            $iRetorno = $result->fetch(PDO::FETCH_OBJ);
         }
-    if($iRetorno->parcela == null){
-        return 1;
-    }else{
-        return $iRetorno;
-    }  
+        if ($iRetorno->parcela == null) {
+            return 1;
+        } else {
+            return $iRetorno;
+        }
     }
-    
+
     public function verificaNotaConhec($aValores) {
         $sSql = "select count(nrnotaoc) as total from tbgerecfrete where nrnotaoc = " . $aValores['nrnotaoc'] . " "
                 . "and cnpj = " . $aValores['cnpj'] . " ";
 
-        $result = $this->getObjetoSql($sSql);
-        $oRow = $result->fetch(PDO::FETCH_OBJ);
+        $oRow = $this->consultaSql($sSql);
         return $oRow->total;
     }
+
 }

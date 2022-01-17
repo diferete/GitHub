@@ -178,7 +178,6 @@ class ControllerCotIten extends Controller {
         $sChave = htmlspecialchars_decode($aDados[0]);
         $this->carregaModelString($sChave);
         $this->Persistencia->adicionafiltro('nr', $this->Model->getNr());
-        // $this->Persistencia->adicionafiltro('seq', $this->Model->getSeq());
 
         foreach ($aDados as $sChaveAtual) {
             $sChave = htmlspecialchars_decode($sChaveAtual);
@@ -208,8 +207,6 @@ class ControllerCotIten extends Controller {
         $sChave = htmlspecialchars_decode($aChaves[0]);
         $this->carregaModelString($sChave);
         $this->Persistencia->adicionafiltro('nr', $this->Model->getNr());
-        //$this->Persistencia->adicionafiltro('seq', $this->Model->getSeq()); 
-
 
         foreach ($aChaves as $sChaveAtual) {
             $sChave = htmlspecialchars_decode($sChaveAtual);

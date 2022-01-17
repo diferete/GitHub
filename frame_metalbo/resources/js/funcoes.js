@@ -285,7 +285,6 @@ function calcSolCot(quant, vlrBruto, vlrUnit, desconto, tratamento, desc1, desc2
         $("#" + idVlrUnit + "").prop("readonly", false);
     }
 
-
     var quantidade = moedaParaNumero(quant);
 
     if (isNaN(quantidade)) {
@@ -301,19 +300,18 @@ function calcSolCot(quant, vlrBruto, vlrUnit, desconto, tratamento, desc1, desc2
     var tot_desc1 = (desconto1 / 100) * unitario;
     unitario = unitario - tot_desc1;
 
-
-
-
     var desc_trat = moedaParaNumero(tratamento);
     $('#' + idTratamento + '').val('' + desc_trat + '');
 
     var tot_desc_trat = (desc_trat / 100) * unitario;
     unitario = unitario + tot_desc_trat;
+    
     var desc_extra1 = moedaParaNumero(desc1);
     $('#' + idDesc1 + '').val('' + desc_extra1 + '');
 
     var tot_descextra1 = (desc_extra1 / 100) * unitario;
     unitario = unitario - tot_descextra1;
+    
     var desc_extra2 = moedaParaNumero(desc2);
     $('#' + idDesc2 + '').val('' + desc_extra2 + '');
 
@@ -552,7 +550,7 @@ function calcPrecoKg(idQuant, idPeso, idVlrTot, idBadge) {
 function aplicaQtNormal(idQtSug, idQuant) {
     var sug = $('#' + idQtSug + '').val();
     $('#' + idQuant + '').val('' + sug + '');
-    $('#' + idQuant + '').focus();
+    $('#' + idQuant + '').focus().blur();
 }
 /**
  * Aplica quantidade caixa Master
@@ -560,7 +558,7 @@ function aplicaQtNormal(idQtSug, idQuant) {
 function aplicaQtMaster(idQtSug, idQuant) {
     var sug = $('#' + idQtSug + '').val();
     $('#' + idQuant + '').val('' + sug + '');
-    $('#' + idQuant + '').focus();
+    $('#' + idQuant + '').focus().blur();
 }
 /**
  * Valida preço por kg

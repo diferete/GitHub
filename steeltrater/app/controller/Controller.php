@@ -1619,10 +1619,14 @@ class Controller {
                 $bDesativaAcao = false;
                 $this->View->getTela()->setBBtnConsulta(true);
             }
+            if (isset($aDados[5])) {
+                $bDesativaAcao = $aDados[5];
+            }
             if ($bDesativaAcao) {
                 $this->View->setUsaAcaoAlterar(false);
                 $this->View->setUsaAcaoExcluir(false);
                 $this->View->setUsaAcaoIncluir(false);
+                $this->View->setUsaAcaoVisualizar(false);
             }
         }
         $this->View->setRetorno($aDados[0]);
@@ -4431,7 +4435,6 @@ class Controller {
                 $oHist->Persistencia->inserir();
 
                 break;
-
 
             case 'Excluir':
                 $sStringItems = $oHist = Fabrica::FabricarController('MET_TEC_Historico');

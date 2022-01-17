@@ -43,7 +43,7 @@ class PersistenciaAdm extends Persistencia{
         (Pesotudo - PesoSucata - pesodev) as 'metfat_metalbo.PesoLiquido',
         ((vlrliquido - sucata)/(Pesotudo - PesoSucata - pesodev))as 'metfat_metalbo.mediaSipi',
         ((vlrliquido - sucata + vlripi)/(Pesotudo - PesoSucata - pesodev))as 'metfat_metalbo.mediaCipi' 
-        from metfat_metalbo ";
+        from metfat_metalbo(nolock) ";
         return $sSql;
     }
     
@@ -75,7 +75,7 @@ class PersistenciaAdm extends Persistencia{
             (Pesotudo - PesoSucata - pesodev) as 'metfat_metalbo.PesoLiquido',
             ((vlrliquido - sucata)/(Pesotudo - PesoSucata - pesodev))as 'metfat_metalbo.mediaSipi',
             ((vlrliquido - sucata + vlripi)/(Pesotudo - PesoSucata - pesodev))as 'metfat_metalbo.mediaCipi' 
-            from metfat_metalbo where DATA between '".$sDataInicial."' and '".$sDataFinal."' 
+            from metfat_metalbo(nolock) where DATA between '".$sDataInicial."' and '".$sDataFinal."' 
             order by data desc ";
 
             $result = $this->getObjetoSql($sSql);
@@ -103,7 +103,7 @@ class PersistenciaAdm extends Persistencia{
             ."(Pesotudo - PesoSucata - pesodev) as 'metfat_metalbo.PesoLiquido', " 
             ."((vlrliquido - sucata)/(Pesotudo - PesoSucata - pesodev))as 'metfat_metalbo.mediaSipi', "
             ."((vlrliquido - sucata + vlripi)/(Pesotudo - PesoSucata - pesodev))as 'metfat_metalbo.mediaCipi' "
-            ."from metfat_metalbo where DATA = '".Util::getDataAtual()."' order by data desc ";
+            ."from metfat_metalbo(nolock) where DATA = '".Util::getDataAtual()."' order by data desc ";
 
         
 //                "select  metfat_metalbo.data AS 'metfat_metalbo.data', "

@@ -132,6 +132,7 @@ class ViewCotIten extends View {
         $oCodigo = new Campo('Codigo', 'codigo', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCodigo->setSIdHideEtapa($this->getSIdHideEtapa());
         $oCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
+        $oCodigo->setBFocus(true);
         $oCodigo->addValidacao(false, Validacao::TIPO_STRING);
 
         //campo descrição do produto adicionando o campo de busca
@@ -147,7 +148,7 @@ class ViewCotIten extends View {
         $oCodigo->setClasseBusca('Produto');
         $oCodigo->setSCampoRetorno('procod', $this->getTela()->getId());
         $oCodigo->addCampoBusca('prodes', $oProdes->getId(), $this->getTela()->getId());
-        $oCodigo->setBFocus(true);
+        
 
         //campo quantidade setanto o valor inicial como zero
         $oQuant = new Campo('Quant.', 'quant', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -223,7 +224,21 @@ class ViewCotIten extends View {
 
 
         //id form,id incremento,id do grid, id focus,    
-        $sAcao = $sAcao = 'convItenSolRep($("#' . $oVlrUnit->getId() . '").val(),"' . $oVlrUnit->getId() . '",$("#' . $oVlrTot->getId() . '").val(),"' . $oVlrTot->getId() . '",$("#' . $oPrcBruto->getId() . '").val(),"' . $oPrcBruto->getId() . '");requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oCodigo->getId() . '","' . $oNr->getSValor() . ',' . $oChkTodos->getId() . ',' . $oObsProd->getId() . ',' . $oDesconto->getId() . '");';
+        $sAcao = $sAcao = 'convItenSolRep($("#' . $oVlrUnit->getId() . '").val(), '
+                . '"' . $oVlrUnit->getId() . '", '
+                . '$("#' . $oVlrTot->getId() . '").val(), '
+                . '"' . $oVlrTot->getId() . '", '
+                . '$("#' . $oPrcBruto->getId() . '").val(), '
+                . '"' . $oPrcBruto->getId() . '"); '
+                . 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten", '
+                . '"' . $this->getTela()->getId() . '-form, '
+                . '' . $oSeq->getId() . ','
+                . '' . $sGrid . ','
+                . '' . $oCodigo->getId() . '",'
+                . '"' . $oNr->getSValor() . ','
+                . '' . $oChkTodos->getId() . ','
+                . '' . $oObsProd->getId() . ','
+                . '' . $oDesconto->getId() . '");';
 
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
@@ -259,6 +274,7 @@ class ViewCotIten extends View {
         $oDiver = new Campo('Divergência', 'diver', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDiver->setITamanho(Campo::TAMANHO_PEQUENO);
         $oDiver->setBCampoBloqueado(true);
+        $oDiver->setSCorFundo(Campo::FUNDO_AMARELO);
 
         //botão para aplicar a quantidade para arredondar a master
         $oBtnMaster = new Campo('Aplicar', 'btnMaster', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
@@ -327,7 +343,7 @@ class ViewCotIten extends View {
         $oSolLib = new Campo('Solicita Liberação', 'sollib', Campo::TIPO_BOTAOSMALL_SUB, 1, 1, 12, 12);
         $oSolLib->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
         $sAcaoLib = 'var difporc = retornaPorc ("' . $oVlrUnit->getId() . '","' . $oPrcBruto->getId() . '"); '
-                . ' var solPreco = calcPrecoKg("' . $oQuant->getId() . '","' . $oPesoProduto->getId() . '","' . $oVlrTot->getId() . '","' . $oPrecoKg->getId() . '"); '
+                . ' var cotPreco = calcPrecoKg("' . $oQuant->getId() . '","' . $oPesoProduto->getId() . '","' . $oVlrTot->getId() . '","' . $oPrecoKg->getId() . '"); '
                 . 'requestAjax("' . $this->getTela()->getId() . '-form","AutPrecoItem","insereLib","P"+","+$("#' . $oNr->getId() . '").val()+","+$("#' . $oCodigo->getId() . '").val()+","+$("#' . $oProdes->getId() . '").val()+","+'
                 . 'moedaParaNumero($("#' . $oPrcBruto->getId() . '").val())+","+moedaParaNumero($("#' . $oVlrUnit->getId() . '").val())+","+difporc+","+moedaParaNumero(solPreco)+","+$("#' . $oEmpCod->getId() . '").val()+","+$("#' . $oEmpdes->getId() . '").val()+","+$("#' . $oQuant->getId() . '").val());';
 
@@ -356,7 +372,7 @@ class ViewCotIten extends View {
         $oProd->setBOculto(true);
 
         $oFieldLib = new FieldSet('Liberações');
-        $oFieldLib->addCampos(array($oLiberadoEmbalagem, $oLibPrcKg, $oLoteMinimo, $oSolLib, $oPesoProduto, $oHora, $oEmpCod, $oEmpdes, $oProd));
+        $oFieldLib->addCampos(array($oLiberadoEmbalagem, $oLibPrcKg, $oLoteMinimo, $oSolLib, $oPesoProduto, /* $oData, */ $oHora), array($oEmpCod, $oEmpdes, $oProd));
 
         /* adiciona o evento sair do campo chamando função 
          * entradaCodigo no arquivo funções 
@@ -370,7 +386,19 @@ class ViewCotIten extends View {
                 . 'var oNrSaida = $("#' . $oNr->getId() . '").val();'
                 . 'var oEmpSaida = $("#' . $oEmpCod->getId() . '").val();'
                 . 'if($("#' . $oCodigo->getId() . '").val()!==""){'
-                . 'requestAjax("","SolPedIten","acaoExitCodigo","' . $oPrcBruto->getId() . ',' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . '    ","");'
+                . 'requestAjax("","CotIten","acaoExitCodigo",'
+                . '"' . $oPrcBruto->getId() . ','
+                . '' . $oVlrUnit->getId() . ','
+                . '' . $oCaixaMaster->getId() . ','
+                . '' . $oCaixaNormal->getId() . ','
+                . '"+oProcod+",'
+                . '' . $oPesoProduto->getId() . ','
+                . '' . $oLibPrcKg->getId() . ','
+                . 'P,'
+                . '"+oNrSaida+",'
+                . '"+oEmpSaida+",'
+                . '' . $oLoteMinimo->getId() . '",'
+                . '"");'
                 . '$("#' . $oQuant->getId() . '").trigger("blur").focus().select();}');
 
         /*

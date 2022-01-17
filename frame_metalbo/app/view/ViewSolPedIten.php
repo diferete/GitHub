@@ -55,7 +55,7 @@ class ViewSolPedIten extends View {
 
     public function criaConsulta() {
         parent::criaConsulta();
-        
+
         $this->getOGridDetalhe();
         $this->setBScrollInf(false);
         $this->getTela()->setBUsaCarrGrid(true);
@@ -223,7 +223,21 @@ class ViewSolPedIten extends View {
 
 
         //id form,id incremento,id do grid, id focus,    
-        $sAcao = $sAcao = 'convItenSolRep($("#' . $oVlrUnit->getId() . '").val(),"' . $oVlrUnit->getId() . '",$("#' . $oVlrTot->getId() . '").val(),"' . $oVlrTot->getId() . '",$("#' . $oPrcBruto->getId() . '").val(),"' . $oPrcBruto->getId() . '");requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten","' . $this->getTela()->getId() . '-form,' . $oSeq->getId() . ',' . $sGrid . ',' . $oCodigo->getId() . '","' . $oNr->getSValor() . ',' . $oChkTodos->getId() . ',' . $oObsProd->getId() . ',' . $oDesconto->getId() . '");';
+        $sAcao = $sAcao = 'convItenSolRep($("#' . $oVlrUnit->getId() . '").val(),'
+                . '"' . $oVlrUnit->getId() . '",'
+                . '$("#' . $oVlrTot->getId() . '").val(),'
+                . '"' . $oVlrTot->getId() . '",'
+                . '$("#' . $oPrcBruto->getId() . '").val(),'
+                . '"' . $oPrcBruto->getId() . '");'
+                . 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","acaoDetalheIten",'
+                . '"' . $this->getTela()->getId() . '-form,'
+                . '' . $oSeq->getId() . ','
+                . '' . $sGrid . ','
+                . '' . $oCodigo->getId() . '",'
+                . '"' . $oNr->getSValor() . ','
+                . '' . $oChkTodos->getId() . ','
+                . '' . $oObsProd->getId() . ','
+                . '' . $oDesconto->getId() . '");';
 
         $oBtnInserir->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBtnInserir->getId());
@@ -365,12 +379,27 @@ class ViewSolPedIten extends View {
          * chama o método no php acaoExitCampo para trazer preço e embalagens
          * chama função do cálculo dos descontos
          */
-        $oCodigo->addEvento(Campo::EVENTO_SAIR, 'entradaCodigo("' . $oVlrUnit->getId() . '"); var oProcod=$("#' . $oCodigo->getId() . '").val(); var prcTabela =$("#' . $oPrcBruto->getId() . '").val(); var prcUnit =$("#' . $oVlrUnit->getId() . '").val();'
-                . 'var oNrSaida = $("#' . $oNr->getId() . '").val();'
-                . 'var oEmpSaida = $("#' . $oEmpCod->getId() . '").val();'
-                . 'if($("#' . $oCodigo->getId() . '").val()!== ""){'
-                . 'requestAjax("","SolPedIten","acaoExitCodigo","' . $oPrcBruto->getId() . ','
-                . '' . $oVlrUnit->getId() . ',' . $oCaixaMaster->getId() . ',' . $oCaixaNormal->getId() . ',"+oProcod+",' . $oPesoProduto->getId() . ',' . $oLibPrcKg->getId() . ',P,"+oNrSaida+","+oEmpSaida+",' . $oLoteMinimo->getId() . '","");  $("#' . $oQuant->getId() . '").trigger("blur");}');
+        $oCodigo->addEvento(Campo::EVENTO_SAIR, 'entradaCodigo("' . $oVlrUnit->getId() . '"); '
+                . 'var oProcod=$("#' . $oCodigo->getId() . '").val(); '
+                . 'var prcTabela =$("#' . $oPrcBruto->getId() . '").val(); '
+                . 'var prcUnit =$("#' . $oVlrUnit->getId() . '").val(); '
+                . 'var oNrSaida = $("#' . $oNr->getId() . '").val(); '
+                . 'var oEmpSaida = $("#' . $oEmpCod->getId() . '").val(); '
+                . 'if($("#' . $oCodigo->getId() . '").val()!==""){'
+                . 'requestAjax("","SolPedIten","acaoExitCodigo",'
+                . '"' . $oPrcBruto->getId() . ','
+                . '' . $oVlrUnit->getId() . ','
+                . '' . $oCaixaMaster->getId() . ','
+                . '' . $oCaixaNormal->getId() . ','
+                . '"+oProcod+",'
+                . '' . $oPesoProduto->getId() . ','
+                . '' . $oLibPrcKg->getId() . ','
+                . 'P,'
+                . '"+oNrSaida+",'
+                . '"+oEmpSaida+",'
+                . '' . $oLoteMinimo->getId() . '",'
+                . '"");'
+                . '$("#' . $oQuant->getId() . '").trigger("blur").focus().select();}');
 
         /*
          * Define os eventos no exit dos campos de desconto
@@ -460,7 +489,6 @@ class ViewSolPedIten extends View {
                 . 'requestAjax("","' . $this->getController() . '","LimparDisp","' . $this->getOGridDetalhe()->getSId() . '",chavedel);';
         $oBotaoDesm = new Botao('Limpar', Botao::TIPO_DETALHE, $sAcaoDesm);
         $oBotaoDesm->setSStyleBotao(Botao::TIPO_WARNING);
-
 
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
 

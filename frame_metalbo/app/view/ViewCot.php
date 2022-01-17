@@ -225,6 +225,7 @@ class ViewCot extends View {
                 . '}else{'
                 . 'return { valid: true };'
                 . '};';
+        
         if ($sAcaoRotina != 'acaoVisualizar') {
             $oDataEnt->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
         }

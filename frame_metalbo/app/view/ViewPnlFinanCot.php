@@ -12,10 +12,6 @@ class ViewPnlFinanCot extends View {
         parent::__construct();
     }
 
-    public function criaConsulta() {
-        parent::criaConsulta();
-    }
-
     public function criaTela() {
         parent::criaTela();
         $aValor = $this->getAParametrosExtras();
@@ -64,6 +60,10 @@ class ViewPnlFinanCot extends View {
         $oGrid->addParam('empcod', $aValor[0]);
 
         $this->addCampos(array($oNr, $oCnpj, $oEmpDes), array($oGrid));
+    }
+
+    public function criaConsulta() {
+        parent::criaConsulta();
     }
 
 }

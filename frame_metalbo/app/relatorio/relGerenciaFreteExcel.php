@@ -70,7 +70,7 @@ $NomeArquivo = "Relatório de Frete";
 //busca os dados do banco
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 if (!$bEst) {
-    $sql = "select nr,tbgerecfrete.cnpj,empdes,
+    $sql = "select valorserv -  valorserv2 as difvalor, nr,tbgerecfrete.cnpj,empdes,
             nrconhe,nrfat,nrnotaoc,totakg,totalnf,valorserv,convert (varchar,data,103) as data,sit,usuario,
             convert (varchar,dataem,103) as dataem, codtipo
             from tbgerecfrete left outer join widl.EMP01
@@ -139,6 +139,7 @@ if (!$bEst) {
                     ->setCellValue('G5', 'Valor Serviço')
                     ->setCellValue('H5', 'Tipo')
                     ->setCellValue('I5', 'Dt. Emissão')
+                    ->setCellValue('J5', 'Valor Dif.')
             ;
             $NomeArquivo = rtrim($row['nrfat']) . '-' . rtrim($sCnpjdes) . '-' . rtrim($sEmpresa);
             $ik1++;
@@ -162,7 +163,7 @@ if (!$bEst) {
             $iCompra++;
         }
         $sDataEm = $row['dataem'];
-
+        $sDifer = $row['difvalor'];
 
         //$iQuantidadetotal=$iQuantidadetotal+$iQuant;
         $objPHPExcel->setActiveSheetIndex(0)
@@ -175,7 +176,7 @@ if (!$bEst) {
                 ->setCellValue('G' . ($ik), "$sValorSer")
                 ->setCellValue('H' . ($ik), "$sTipo")
                 ->setCellValue('I' . ($ik), "$sDataEm")
-
+                ->setCellValue('J' . ($ik), "$sDifer")
         ;
         $ik++;
         $iQntTotal++;
@@ -288,52 +289,6 @@ if (!$bEst) {
         $sth1 = $PDO->query($sql1);
         $iN = 0;
         while ($row = $sth1->fetch(PDO::FETCH_ASSOC)) {
-//            if ($bTip) {
-//                if ($iN == 0) {
-//                    //Cabeçalho
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(15, 5, 'Nr', 'L,B,T', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(22, 5, 'Conhecimento', 'L,B,T', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(17, 5, 'Fatura', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Nota', 'L,B,T', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Total Kg', 'L,B,T', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Total R$', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Valor Serviço', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Dt. Emissão', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(24, 5, 'Dt. Vencimento', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(23, 5, 'Estado', 'L,B,T,R', 1, 'L');
-//                    $iN++;
-//                }
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(15, 5, $row['nr'], 'R,B,T,L', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(22, 5, $row['nrconhe'], 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(17, 5, $row['nrfat'], 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, $row['nrnotaoc'], 'R,B,T,L', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, number_format($row['totakg'], 2), 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, number_format($row['totalnf'], 2, ',', '.'), 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, number_format($row['valorserv'], 2), 'R,B,T,L', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, $row['dataem'], 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(24, 5, $row['datafn'], 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(23, 5, $row['nfscliuf'], 'R,B,T', 1, 'L');
-//            }
             //Cálculos para mostrar os totais por estado
             if (isset($aTotaisEst[$row['nfscliuf']])) {
                 $aTotaisEst[$row['nfscliuf']] = [(float) $aTotaisEst[$row['nfscliuf']][0] + (float) $row['totakg'],
@@ -387,53 +342,6 @@ if (!$bEst) {
         $sth1 = $PDO->query($sql1);
         $iN = 0;
         while ($row = $sth1->fetch(PDO::FETCH_ASSOC)) {
-
-//            if ($bTip) {
-//                if ($iN == 0 && $sCodtip != 0) {
-//                    //Cabeçalho
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(15, 5, 'Nr', 'L,B,T', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(22, 5, 'Conhecimento', 'L,B,T', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(17, 5, 'Fatura', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Nota', 'L,B,T', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Total Kg', 'L,B,T', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Total R$', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Valor Serviço', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(20, 5, 'Dt. Emissão', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(24, 5, 'Dt. Vencimento', 'L,B,T,R', 0, 'L');
-//                    $pdf->SetFont('arial', 'B', 8);
-//                    $pdf->Cell(23, 5, 'Estado', 'L,B,T,R', 1, 'L');
-//                    $iN++;
-//                }
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(15, 5, $row['nr'], 'R,B,T,L', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(22, 5, $row['nrconhe'], 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(17, 5, $row['nrfat'], 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, $row['nrnotaoc'], 'R,B,T,L', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, number_format($row['totakg'], 2), 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, number_format($row['totalnf'], 2, ',', '.'), 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, number_format($row['valorserv'], 2), 'R,B,T,L', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(20, 5, $row['dataem'], 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(24, 5, $row['datafn'], 'R,B,T', 0, 'L');
-//                $pdf->SetFont('arial', '', 8);
-//                $pdf->Cell(23, 5, $row['nfeestado'], 'R,B,T', 1, 'L');
-//            }
             if (isset($aTotaisEst[$row['nfeestado']])) {
                 $aTotaisEst[$row['nfeestado']] = [(float) $aTotaisEst[$row['nfeestado']][0] + (float) $row['totakg'],
                     (float) $aTotaisEst[$row['nfeestado']][1] + (float) $row['totalnf'],

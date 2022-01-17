@@ -48,4 +48,30 @@ class ControllerMET_RH_Colaboradores extends Controller {
         }
     }
 
+    public function updateDadosFuncAids() {
+        $sDados = $_REQUEST['dados'];
+        $aRetorno = $this->Persistencia->updateDadosFuncAids($sDados);
+
+        if ($aRetorno[0]) {
+            $bRetorno = true;
+            echo json_encode($bRetorno);
+        } else {
+            $bRetorno = false;
+            echo json_encode($bRetorno);
+        }
+    }
+
+    public function gravaDadosFuncAids() {
+        $sDados = $_REQUEST['dados'];
+        $aRetorno = $this->Persistencia->gravaDadosFuncAids($sDados);
+
+        if ($aRetorno[0]) {
+            $bRetorno = true;
+            echo json_encode($bRetorno);
+        } else {
+            $bRetorno = false;
+            echo json_encode($bRetorno);
+        }
+    }
+
 }

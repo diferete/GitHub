@@ -139,7 +139,7 @@ class PersistenciaQualNovoProjProd extends Persistencia {
 
     public function buscaObs($sCnpj, $sNr) {
         $sSql = "select sol_viavel_obs,fin_obs,obs_geral 
-                from tbqualNovoProjeto 
+                from tbqualNovoProjeto(nolock) 
                 where filcgc ='" . $sCnpj . "' and nr ='" . $sNr . "'   ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
@@ -151,11 +151,14 @@ class PersistenciaQualNovoProjProd extends Persistencia {
     }
 
     public function buscaDados($aDados) {
-        $sSql = "select nr,tbqualNovoProjeto.empcod,empdes,convert(varchar,dtimp,103)as dtimp,horaimp,
-                officedes,repnome,desc_novo_prod,quant_pc,replibobs,resp_venda_nome,acabamento,procod,sitproj
-                from tbqualNovoProjeto left outer join 
-                widl.EMP01 on tbqualNovoProjeto.empcod = widl.EMP01.empcod
-                where  filcgc = '" . $aDados['EmpRex_filcgc'] . "' and nr = '" . $aDados['nr'] . "'";
+        $sSql = "select nr,tbqualNovoProjeto.empcod,empdes,convert(varchar,dtimp,103)as dtimp,horaimp,"
+                . "officedes,repnome,desc_novo_prod,quant_pc,lotemin,pesoct,precofinal,replibobs,"
+                . "resp_venda_nome,acabamento,procod,sitproj "
+                . "from tbqualNovoProjeto(nolock) "
+                . "left outer join widl.EMP01(nolock) "
+                . "on tbqualNovoProjeto.empcod = widl.EMP01.empcod "
+                . "where  filcgc = '" . $aDados['EmpRex_filcgc'] . "' "
+                . "and nr = '" . $aDados['nr'] . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
 
@@ -165,14 +168,16 @@ class PersistenciaQualNovoProjProd extends Persistencia {
     //busca somente e-mail venda e projetos
     public function projEmailVendaProj($sCnpj, $sNr) {
         //busca códigos
-        $sSql = "select resp_proj_cod,resp_venda_cod,repcod 
-                from tbqualNovoProjeto 
-                where filcgc ='" . $sCnpj . "' and nr ='" . $sNr . "'   ";
+        $sSql = "select resp_proj_cod,resp_venda_cod,repcod "
+                . "from tbqualNovoProjeto(nolock) "
+                . "where filcgc ='" . $sCnpj . "' and nr ='" . $sNr . "'   ";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
 
         foreach ($oRow as $key => $sCod) {
-            $sSql = "select usuemail from tbusuario where usucodigo ='" . $sCod . "' ";
+            $sSql = "select usuemail "
+                    . "from tbusuario(nolock) "
+                    . "where usucodigo ='" . $sCod . "' ";
             $result = $this->getObjetoSql($sSql);
             $oCodigo = $result->fetch(PDO::FETCH_OBJ);
             $aEmail[] = $oCodigo->usuemail;
@@ -182,7 +187,9 @@ class PersistenciaQualNovoProjProd extends Persistencia {
     }
 
     public function buscaSitCli($sDados) {
-        $sSql = "select sitcliente from tbqualNovoProjeto where nr='" . $sDados . "'";
+        $sSql = "select sitcliente "
+                . "from tbqualNovoProjeto(nolock) "
+                . "where nr='" . $sDados . "'";
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);
 
@@ -190,10 +197,11 @@ class PersistenciaQualNovoProjProd extends Persistencia {
     }
 
     public function getCadDim($sDados) {
-        $sSql = "select prodacab,promatcod,ProClasseG ,ProAngHel,"
-                . " prodchamin,prodchamax,prodaltmin,prodaltmax,proddiamin,proddiamax,procommin,procommax,prodiapmin,prodiapmax,"
-                . "prodiaemin,prodiaemax,procomrmin,procomrmax,comphastma,comphastmi,DiamHastMi,DiamHastMa ,pfcmin, pfcmax"
-                . " from widl.prod01 where procod = '" . $sDados . "'";
+        $sSql = "select prodacab,promatcod,ProClasseG ,ProAngHel, "
+                . "prodchamin,prodchamax,prodaltmin,prodaltmax,proddiamin,proddiamax,procommin,procommax,prodiapmin,prodiapmax, "
+                . "prodiaemin,prodiaemax,procomrmin,procomrmax,comphastma,comphastmi,DiamHastMi,DiamHastMa ,pfcmin, pfcmax "
+                . "from widl.prod01 "
+                . "where procod = '" . $sDados . "'";
         $oObj = $this->consultaSql($sSql);
         return $oObj;
     }
@@ -203,13 +211,13 @@ class PersistenciaQualNovoProjProd extends Persistencia {
         parse_str($_REQUEST['campos'], $aCampos);
 
         /*
-         * Busca dados inseridos na tabela tbqualNovoProjeto para cadastro dimensional Sistema_Metalbo/Delsoft
+         * Busca dados inseridos na tabela tbqualNovoProjeto(nolock) para cadastro dimensional Sistema_Metalbo/Delsoft
          * * */
-        $sSql = "select procod,desc_novo_prod,acab,material,classe,anghelice,"
-                . "chavemin,chavemax,altmin,altmax,diamfmin,diamfmax,compmin,compmax,diampmin,diampmax,"
-                . "diamexmin,diamexmax,comprmin,comprmax,comphmin,comphmax,diamhmin,diamhmax,profcanecomin,profcanecomax,metmat"
-                . " from tbqualNovoProjeto"
-                . " WHERE procod =" . $aCampos['procod'];
+        $sSql = "select procod,desc_novo_prod,acab,material,classe,anghelice, "
+                . "chavemin,chavemax,altmin,altmax,diamfmin,diamfmax,compmin,compmax,diampmin,diampmax, "
+                . "diamexmin,diamexmax,comprmin,comprmax,comphmin,comphmax,diamhmin,diamhmax,profcanecomin,profcanecomax,metmat "
+                . "from tbqualNovoProjeto(nolock) "
+                . "WHERE procod =" . $aCampos['procod'];
 
         $result = $this->getObjetoSql($sSql);
         $oRow = $result->fetch(PDO::FETCH_OBJ);

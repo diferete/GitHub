@@ -177,7 +177,10 @@ class ControllerQualNovoProjProd extends Controller {
                         . '<b>CÓDIGO DO NOVO PRODUTO:</b> ' . $oDadosProj->procod . '<br/>'
                         . '<b>Descrição:</b> ' . $oDadosProj->desc_novo_prod . '<br/>'
                         . '<b>Acabamento:</b> ' . $oDadosProj->acabamento . '<br/>'
-                        . '<b>Quantidade:</b> ' . number_format($oDadosProj->quant_pc, '.') . '<br />' //.number_format($oAprov->quant_pc, '.').
+                        . '<b>Quantidade:</b> ' . number_format($oDadosProj->quant_pc, 2, ',', '.') . '<br />'
+                        . '<b>Lote Min.:</b> ' . number_format($oDadosProj->lotemin, 2, ',', '.') . '<br />'
+                        . '<b>Peso Cento:</b> ' . number_format($oDadosProj->pesoct, 2, ',', '.') . '<br />'
+                        . '<b>PREÇO FINAL:</b> R$ ' . number_format($oDadosProj->precofinal, 2, ',', '.') . '<br />'
                         . '<b>Data Implantação:  ' . $oDadosProj->dtimp . '<br/><br/><br/>'
                         . '<table border=1 cellspacing=0 cellpadding=2 width="100%"> '
                         . '<tr><td><b>Cnpj:</b></td><td>' . $oDadosProj->empcod . '</td></tr>'
@@ -193,8 +196,6 @@ class ControllerQualNovoProjProd extends Controller {
 
         $oEmail->limpaDestinatariosAll();
 
-
-        //nao enviar e-mail para vendas no momento
         $aEmail = $this->Persistencia->projEmailVendaProj($aCamposChave['EmpRex_filcgc'], $aCamposChave['nr']);
 
         $oEmail->addDestinatario($aEmail[1]);

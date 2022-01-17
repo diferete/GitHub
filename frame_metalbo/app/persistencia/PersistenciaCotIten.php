@@ -46,7 +46,10 @@ class PersistenciaCotIten extends Persistencia {
      * retorna um array para calculo do valor da st
      */
     public function itensCalcSt($sNr) {
-        $sSql = 'select codigo,vlrtot,seq from ' . $this->getTabela() . ' where nr=' . $sNr . ' order by seq';
+        $sSql = 'select codigo,vlrtot,seq '
+                . 'from ' . $this->getTabela() . '(nolock) '
+                . 'where nr=' . $sNr . ' '
+                . 'order by seq';
         $result = $this->getObjetoSql($sSql);
 
         $aDados = array();
@@ -66,7 +69,10 @@ class PersistenciaCotIten extends Persistencia {
     public function dispVenda($sNr, $sSeq) {
         $sTabIten = $_SESSION['officecabcotiten'];
 
-        $sSql = "update " . $sTabIten . " set pdfdisp ='Disp.' where nr ='" . $sNr . "' and seq ='" . $sSeq . "'  ";
+        $sSql = "update " . $sTabIten . " "
+                . "set pdfdisp ='Disp.' "
+                . "where nr ='" . $sNr . "' "
+                . "and seq ='" . $sSeq . "'  ";
         $aRetorno = $this->executaSql($sSql);
 
         return $aRetorno;
@@ -75,10 +81,16 @@ class PersistenciaCotIten extends Persistencia {
     public function limpaDispVenda($sNr, $sSeq) {
         $sTabIten = $_SESSION['officecabcotiten'];
 
-        $sSql = "update " . $sTabIten . " set pdfdisp ='' where nr ='" . $sNr . "' and seq ='" . $sSeq . "'  ";
+        $sSql = "update " . $sTabIten . " "
+                . "set pdfdisp ='' "
+                . "where nr ='" . $sNr . "' "
+                . "and seq ='" . $sSeq . "'  ";
         $aRetorno = $this->executaSql($sSql);
 
         return $aRetorno;
     }
 
 }
+
+
+//guilherme.sanchez@belenus.com.br;compras01@crvindustrial.com;sider@sider.com.br;augusto.mattos@saetowers.com.br;jeferson@fusopar.com.br;carlos@hard.com.br;roffer@roffer.com.br;suprimentos4@page.ind.br;viemar@viemar.com.br;thiago@allenfix.com.br;marcos.simon@macrosul.com.br;lcfernandes@gsl.com.br;ester.vendas@metalurgicacaninde.com.br;tadeu.fiorentin@agcocorp.com;antonio@arsparafusos.com.br;gilmar@vencetudo.ind.br;ezequiel@jhonrob.com.br;jfeijo@carlosbecker.com.br;vendas@parafusosrudgeramos.com.br;rosi@fusopar.com.br;nfe.grc@kepler.com.br;roni@brametal.com.br;compras.wan@mascarello.com.br;phe@phe.ind.br;rsimioni@rsimioni.com.br;brandalisejr@hotmail.com;brafer@brafer.com;piva@konesul.ind.br;janaina@fusopar.com.br;compras@nathor.com.br;metalrvb@terra.com.br;forjafix@forjafix.com.br;contato@fortefixadores.com.br;cristiano@mgparafusos.com.br;gringa@stara.com.br;marcoaurelio@ovd.com.br;rafael.dutra@aguiasistemas.com.br;mario.klann@coremma.com.br;financeiro@plaxmetal.com.br;fiscal@planticenter.com.br;nfe@reiparparafusos.com.br;brasil_rudi@terra.com.br;paramar@paramar.com.br;compras2@krebs.com.br;administrativo@alfafix.com.br;elias@imperialferramentas.com.br;cezar@w3.ind.br;adm@msmindustria.com.br;vendas@metalparafusos.com.br;andre@commersul.com.br;leandro@macripar.com.br;compras01@metalurgicaamapa.com.br;neyrocha@fpparafusos.com.br;gomes@ovd.com.br;victor.moreno@indufix.com.br;tedesco@tedesco.eng.br;

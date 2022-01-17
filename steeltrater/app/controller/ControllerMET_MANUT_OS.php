@@ -16,18 +16,16 @@ class ControllerMET_MANUT_OS extends Controller {
      * Mensagem para liberar início da manutenção
      */
     public function msgLibManut($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
+        $sDados = htmlspecialchars_decode($_REQUEST['campos']);
+        $sChave = htmlspecialchars_decode($sDados);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
+
         $sClasse = $this->getNomeClasse();
 
-        $this->carregaModelString($sChave);
-        $this->Model = $this->Persistencia->consultar();
-
-        if ($this->Model->getSituacao() <> 'Aberta') {
+        if ($aCamposChave['situacao'] <> 'Aberta') {
             $aOrdem = $aCamposChave['nr'];
-            $oMensagem = new Modal('Ordem não está em estado para apontar!', 'Ordem nº' . $aOrdem . ' está ' . $this->Model->getSituacao() . ' não é permitido fazer alterações!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Ordem não está em estado para apontar!', 'Ordem nº' . $aOrdem . ' está ' . $aCamposChave['situacao'] . ' não é permitido fazer alterações!', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
             exit();
         }
@@ -39,8 +37,7 @@ class ControllerMET_MANUT_OS extends Controller {
     }
 
     public function liberaManut($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
+        $sChave = htmlspecialchars_decode($sDados);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
@@ -48,9 +45,14 @@ class ControllerMET_MANUT_OS extends Controller {
         $aRetorno = array();
         $aRetorno = $this->Persistencia->apontaInicio($aCamposChave);
 
-        $oMensagem = new Modal('Atenção', 'A ordem nº' . $aCamposChave['nr'] . ' foi iniciada a manutenção com sucesso', Modal::TIPO_SUCESSO, false, true, true);
-        echo $oMensagem->getRender();
-        echo"$('#" . $aDados[1] . "-pesq').click();";
+        if ($aRetorno[0]) {
+            $sScript = '$("#manutSitOs").val("Iniciada");';
+            echo $sScript;
+//    echo "$('.btn.btn-outline.btn-danger').trigger('click');";
+            $oMensagem = new Mensagem('Atenção', 'A ordem nº' . $aCamposChave['nr'] . ' foi iniciada a manutenção com sucesso', Mensagem::TIPO_SUCESSO, 7000);
+            echo $oMensagem->getRender();
+//    echo "$('.ribbon-inner').trigger('click');";
+        }
     }
 
     /**
@@ -133,31 +135,33 @@ class ControllerMET_MANUT_OS extends Controller {
     }
 
     public function msgEnc($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
+        $sDados = htmlspecialchars_decode($_REQUEST['campos']);
+        $sChave = htmlspecialchars_decode($sDados);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
+
         $sClasse = $this->getNomeClasse();
 
-        $this->carregaModelString($sChave);
-        $this->Model = $this->Persistencia->consultar();
-
-        if ($this->Model->getSituacao() <> 'Iniciada') {
+        if ($aCamposChave['situacao'] <> 'Iniciada') {
             $aOrdem = $aCamposChave['nr'];
-            $oMensagem = new Modal('Ordem não está em estado para encerrar!', 'Ordem nº' . $aOrdem . ' está ' . $this->Model->getSituacao() . ' não é permitido encerrar!', Modal::TIPO_ERRO, false, true, true);
+            $oMensagem = new Modal('Ordem não está em estado para encerrar!', 'Ordem nº' . $aOrdem . ' está ' . $aCamposChave['situacao'] . ' não é permitido encerrar!', Modal::TIPO_ERRO, false, true, true);
+            echo $oMensagem->getRender();
+            exit();
+        }
+        
+        if ($aCamposChave['solucao']==''||$aCamposChave['solucao']==null) {
+            $oMensagem = new Modal('Ordem não pode ser encerrada!', 'Escreva uma solução!', Modal::TIPO_ERRO, false, true, true);
             echo $oMensagem->getRender();
             exit();
         }
 
         $oMensagem = new Modal('Encerramento', 'Deseja encerrar a ordem nº' . $aCamposChave['nr'] . '?', Modal::TIPO_AVISO, true, true, true);
         $oMensagem->setSBtnConfirmarFunction('requestAjax("","' . $sClasse . '","enc","' . $sDados . '");');
-
         echo $oMensagem->getRender();
     }
 
     public function enc($sDados) {
-        $aDados = explode(',', $sDados);
-        $sChave = htmlspecialchars_decode($aDados[2]);
+        $sChave = htmlspecialchars_decode($sDados);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
         $sClasse = $this->getNomeClasse();
@@ -165,9 +169,14 @@ class ControllerMET_MANUT_OS extends Controller {
         $aRetorno = array();
         $aRetorno = $this->Persistencia->enc($aCamposChave);
 
-        $oMensagem = new Modal('Encerramento', 'A ordem nº' . $aCamposChave['nr'] . ' foi encerrada!!!', Modal::TIPO_SUCESSO, false, true, true);
-        echo $oMensagem->getRender();
-        echo"$('#" . $aDados[1] . "-pesq').click();";
+        if ($aRetorno[0]) {
+            $sScript = '$("#manutSitOs").val("Encerrada");';
+            echo $sScript;
+//    echo "$('.btn.btn-outline.btn-danger').trigger('click');";
+            $oMensagem = new Mensagem('Encerramento', 'A ordem nº' . $aCamposChave['nr'] . ' foi encerrada!!!', Mensagem::TIPO_SUCESSO, 7000);
+            echo $oMensagem->getRender();
+//    echo "$('.ribbon-inner').trigger('click');";    
+        }
     }
 
     /**
@@ -179,6 +188,7 @@ class ControllerMET_MANUT_OS extends Controller {
         $sParametros[0] = str_replace("amp;", "", $sParametros[0]);
         $this->carregaModelString($sParametros[0]);
         $this->Model = $this->Persistencia->consultar();
+        $this->View->setAParametrosExtras($this->Model);
 
         if ($this->Model->getSituacao() == 'Encerrada') {
             $aOrdem = explode('=', explode('&', $sParametros[0])[1]);
@@ -196,12 +206,44 @@ class ControllerMET_MANUT_OS extends Controller {
 
     /**
      * Antes de criar consulta atualiza a data de dias
+     * E antes de pesquisar máquina adiciona filtro conforme as situações
      * @param type $sParametros
      */
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
 
+        $sResp = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[9'])[1];
+        $sTip = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[8'])[1];
+        $sSeq = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[7'])[1];
+        $sSet = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[6'])[1];
+        $sSit = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[5'])[1];
+        $sPrev = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[4'])[1];
+        $sPrev2 = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[3'])[1];
+        $sUsu = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[2'])[1];
+        $sMaq = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[1'])[1];
+        $sNr = explode('|', $_REQUEST['parametrosCampos']['parametrosCampos[0'])[1];
+
+        if($sResp=='' && $sTip=='' && $sSeq=='' && $sSet=='' && $sSit=='' && $sPrev=='' && $sPrev2=='' && $sUsu=='' && $sMaq=='' && $sNr=='') {
+            if (isset($_REQUEST['parametrosCampos']['parametrosCampos[5'])) {
+                if ($sSit == '') {
+                    $this->Persistencia->adicionaFiltro('situacao', 'Aberta', 1);
+                    $this->Persistencia->adicionaFiltro('situacao', 'Iniciada', 1);
+                } else {
+                    $this->Persistencia->adicionaFiltro('situacao', $sSit, 1);
+                }
+            } else {
+                $this->Persistencia->adicionaFiltro('situacao', 'Aberta', 1);
+                $this->Persistencia->adicionaFiltro('situacao', 'Iniciada', 1);
+            }
+        }
         $this->Persistencia->atualizaDataAntesdaConsulta();
+    }
+
+    public function adicionaFiltrosExtras() {
+        parent::adicionaFiltrosExtras();
+        $aDados = $this->Persistencia->buscaDadosSetores();
+        $aDados[2] = $this->Persistencia->buscaDadosCelula();
+        $this->View->setAParametrosExtras($aDados);
     }
 
     /**
@@ -279,7 +321,7 @@ class ControllerMET_MANUT_OS extends Controller {
      *  Gera xls das manutenções Steel
      */
     public function relatorioExcelManut() { //indicadorExpedicaoXls
-        //Explode string parametros
+//Explode string parametros
         $sDados = $_REQUEST['campos'];
 
         $sCampos = htmlspecialchars_decode($sDados);
@@ -403,6 +445,52 @@ class ControllerMET_MANUT_OS extends Controller {
                 . '$("#previsaoManOs").val("' . $oData . '");'
                 . '$("#tipomanutManOs").val("' . $sTipo . '");';
         echo $sScript;
+    }
+
+    public function beforeInsert() {
+        parent::beforeInsert();
+
+        $aRetorno = array();
+        $aCampos = $this->getArrayCampostela();
+        if ($aCampos['previsao'] == '' || $aCampos['previsao'] == null) {
+            $oModal = new Modal('Atenção!', 'Informar data da Previsão de Entrega!', Modal::TIPO_AVISO);
+            echo $oModal->getRender();
+            exit();
+            $aRetorno[0] = false;
+        } else {
+            $aRetorno[0] = true;
+        }
+        $aRetorno[1] = '';
+        return $aRetorno;
+    }
+
+    /*
+     * Antes de criar tela carrega dados padrões em tela
+     */
+
+    public function antesDeMostrarTela($sParametros = null) {
+        parent::antesDeMostrarTela($sParametros);
+        $aDados = $this->Persistencia->buscaDadosSetores();
+        $aDados[2] = $this->Persistencia->buscaDadosCelula();
+        $this->View->setAParametrosExtras($aDados);
+    }
+
+    public function buscaDadosCelulaSetor($sId) {
+
+        $aDados = $this->getArrayCampostela();
+        $iCodSetor = $aDados['codsetor'];
+
+        $aDadosCelula = $this->Persistencia->buscaDadosCelulaSetor($iCodSetor);
+        if ($aDadosCelula == false) {
+            
+        } else {
+            echo '$("#seqCelula").empty();';
+            $sHtml = '';
+            foreach ($aDadosCelula[0] as $sKey) {
+                $sHtml = $sHtml . '<option value=' . $sKey . '> Celula ' . $sKey . '</option>';
+            }
+            echo '$("#seqCelula").prepend("' . $sHtml . '")';
+        }
     }
 
 }

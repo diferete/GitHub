@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 })
 export class ConexaoService {
   //**************Link para conexão com a Api**************
-  //link = 'https://sistema.metalbo.com.br/steeltraterPROT/index.php?classe=MET_TEC_Mobile&metodo=getRequisicao';
+  //link = 'https://sistema.metalbo.com.br/enderecamento/index.php?classe=MET_TEC_Mobile&metodo=getRequisicao';
   link = 'http://localhost/GitHub/steeltrater/index.php?classe=MET_TEC_Mobile&metodo=getRequisicao';
   //link = 'https://sistema.metalbo.com.br/metalbo/index.php?classe=MET_TEC_Mobile&metodo=getRequisicao';
 

@@ -91,10 +91,13 @@ class PersistenciaMET_CAD_Maquinas extends Persistencia {
         $this->adicionaRelacionamento('tipmanut', 'tipmanut');
         $this->adicionaRelacionamento('obs', 'obs');
         $this->adicionaRelacionamento('cct_codigo', 'cct_codigo');
+        $this->adicionaRelacionamento('cct_codigo', 'STEEL_CCT_CentroCusto.cct_codigo', false, false, false);
 
         $this->adicionaOrderBy('cod', 1);
 
         $this->adicionaJoin('DELX_FIL_EMPRESA');
+        
+        $this->adicionaJoin('STEEL_CCT_CentroCusto');
 
         $this->adicionaJoin('DELX_CAD_Pessoa', null, 1, 'fabricante', 'emp_codigo');
 
@@ -104,6 +107,7 @@ class PersistenciaMET_CAD_Maquinas extends Persistencia {
 
         /**
          * Filtra por empresa para quando buscar pelo campo pesquisa máquina na tela de manutenção
+         * E filtra conforme setor e célula inserida para inserção da manuteção
          */
         if (isset($_REQUEST['campos'])) {
             if ($_REQUEST['campos'] !== "" && $_REQUEST['campos'] !== null) {
@@ -114,6 +118,18 @@ class PersistenciaMET_CAD_Maquinas extends Persistencia {
                 parse_str($sChave, $aCamposChave);
                 if ($aCamposChave['fil_codigo'] !== null) {
                     $this->adicionaFiltro('fil_codigo', $aCamposChave['fil_codigo']);
+                }
+                $sChave = htmlspecialchars_decode($aDados[9]);
+                $aCamposChave = array();
+                parse_str($sChave, $aCamposChave);
+                if ($aCamposChave['codsetor'] !== null && $aCamposChave['codsetor'] !== '') {
+                    $this->adicionaFiltro('codsetor', $aCamposChave['codsetor']);
+                }
+                $sChave = htmlspecialchars_decode($aDados[10]);
+                $aCamposChave = array();
+                parse_str($sChave, $aCamposChave);
+                if ($aCamposChave['seq'] !== null && $aCamposChave['seq'] !== '') {
+                    $this->adicionaFiltro('seq', $aCamposChave['seq']);
                 }
             }
         }

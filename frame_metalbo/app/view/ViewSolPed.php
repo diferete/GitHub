@@ -95,6 +95,8 @@ class ViewSolPed extends View {
 
         $sAcaoRotina = $this->getSRotina();
 
+        $oObjTela = $this->getOObjTela();
+
         $this->setTituloTela('Inclusão de solicitação de pedidos de venda!');
 
         //---Define para não ter botão fechar---
@@ -104,6 +106,10 @@ class ViewSolPed extends View {
         $oNr->setITamanho(Campo::TAMANHO_PEQUENO);
         $oNr->setBCampoBloqueado(true);
         $oNr->setBFocus(true);
+
+        $oNrCot = new Campo('Cotação', 'nrcot', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oNrCot->setBOculto(true);
+
         //--------------------campo de pesquisa
         $oCnpj = new Campo('Cliente', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
@@ -285,10 +291,10 @@ class ViewSolPed extends View {
             }
             $this->setSIdControleUpAlt($oAcao->getId());
 
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRep, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oAcao, $oLinha, $oSituaca);
+            $this->addCampos(array($oNr, $oNrCot, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRep, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oAcao, $oLinha, $oSituaca);
         } else {
 
-            $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRep, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oSituaca);
+            $this->addCampos(array($oNr, $oNrCot, $oData, $oHora, $oUserIns), $oLinha, array($oCnpj, $oEmpresa), $oLinha, array($oCodPag, $oCodPagDes), $oLinha, array($oOd, $oCodRep, $oRep, $oConsemail), $oLinha, $oFrete, $oLinha, array($oTransp, $oTranspDes), $oLinha, $oObs, $oLinha, array($oQtExata, $oAtencao), $oLinha, $oDataEnt, $oLinha, array($oContato, $oEmail), $oLinha, $oSituaca);
         }
     }
 

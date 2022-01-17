@@ -39,11 +39,22 @@ class ViewFinanRep extends View {
         $oCnpj->setClasseBusca('Pessoa');
         $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
+
         $oBtnBuscar = new Campo('Buscar', '', Campo::TIPO_BOTAOSMALL);
 
         //grid do financeiro
 
         $oGridFinan = new Campo('Títulos em aberto', 'gridFinan', Campo::TIPO_GRID, 12, 12, 12, 12, 150);
+
+        $oEmpCod = new CampoConsulta('CNPJ', 'empcod');
+        $oEmpCod->setBColOculta(true);
+
+        $oBancoCod = new CampoConsulta('Banco', 'recprbconr');
+        $oBancoCod->setBColOculta(true);
+
+        $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
+        $oBtnBoleto->setSRelNome('boletos');
+        $oBtnBoleto->setILargura(15);
 
         $oDataEmi = new CampoConsulta('Emissão', 'recdtemiss', CampoConsulta::TIPO_DATA);
         $oDataEmi->setILargura(80);
@@ -70,7 +81,7 @@ class ViewFinanRep extends View {
 
         $oHist = new CampoConsulta('Histórico', 'rechist');
 
-        $oGridFinan->addCampos($oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist);
+        $oGridFinan->addCampos($oBtnBoleto,$oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
         $oGridFinan->setSController('FinanRep');
         $oGridFinan->addParam('empcod', '0');
         $oGridFinan->getOGrid()->setSScrollInfCampo('criaConsultaGridFinan');
@@ -115,6 +126,16 @@ class ViewFinanRep extends View {
 
         $oGridFinan = new Grid("");
 
+        $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
+        $oBtnBoleto->setSRelNome('boletos');
+        $oBtnBoleto->setILargura(15);
+
+        $oEmpCod = new CampoConsulta('CNPJ', 'empcod');
+        $oEmpCod->setBColOculta(true);
+
+        $oBancoCod = new CampoConsulta('Banco', 'recprbconr');
+        $oBancoCod->setBColOculta(true);
+
         $oDataEmi = new CampoConsulta('Emissão', 'recdtemiss', CampoConsulta::TIPO_DATA);
         $oDataEmi->setILargura(80);
 
@@ -139,7 +160,7 @@ class ViewFinanRep extends View {
 
         $oHist = new CampoConsulta('Histórico', 'rechist');
 
-        $oGridFinan->addCampos($oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist);
+        $oGridFinan->addCampos($oBtnBoleto, $oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
 
         $aCampos = $oGridFinan->getArrayCampos();
         return $aCampos;
@@ -167,8 +188,13 @@ class ViewFinanRep extends View {
 
         $oAtraso = new Campo('Somente em atraso', 'atrasados', Campo::TIPO_CHECK, 2, 2, 12, 12);
 
+        $oPagosAtraso = new Campo('Pagos com atraso', 'pagoatraso', Campo::TIPO_CHECK, 2, 2, 12, 12);
+
         $oDivisor1 = new Campo('Cliente', 'cliente', Campo::DIVISOR_SUCCESS, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
+
+        $oDivisor2 = new Campo('Condições adicionais', 'condicoes', Campo::DIVISOR_DARK, 12, 12, 12, 12);
+        $oDivisor2->setApenasTela(true);
 
         $oEmpCod = new campo('CNPJ', 'empcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
 
@@ -182,14 +208,14 @@ class ViewFinanRep extends View {
         $oEmpCod->setClasseBusca('Pessoa');
         $oEmpCod->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oEmpCod->addCampoBusca('empdes', $oEmpDes->getId(), $this->getTela()->getId());
-        
+
         //para mostrar a parte de imprimir a planilha no excel
-        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2,2,2,2);
+        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2, 2, 2, 2);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","FinanRep","relatorioExcelTituloAberto");';
         $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $this->addCampos($oDivisor, array($oDataIni, $oDataFim, $oAtraso), $oDivisor1, array($oEmpCod, $oEmpDes), $oXls);
+        $this->addCampos($oDivisor, array($oDataIni, $oDataFim), $oDivisor2, array($oAtraso, $oPagosAtraso), $oDivisor1, array($oEmpCod, $oEmpDes), $oXls);
     }
 
 }

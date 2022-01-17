@@ -33,8 +33,8 @@ class ControllerMET_MANUT_OSGeraSolCom extends Controller {
      * @param type $sDadosOS
      */
     public function GeraSolOS($sDadosOS, $sDados) {
-        $aDadosinic = explode(',', $sDados); 
-        
+        $aDadosinic = explode(',', $sDados);
+
         $aDados = explode('&&', $sDadosOS);
         $aDadosOS = array();
         $aOSs = array();
@@ -67,10 +67,13 @@ class ControllerMET_MANUT_OSGeraSolCom extends Controller {
         }
         $iK = 0;
         foreach ($aCodMaqs as $key => $value) {
+            $oContMaq = Fabrica::FabricarController('MET_CAD_Maquinas');
+            $oContMaq->Persistencia->adicionaFiltro('codigoMaq', $value);
+            $oModelMaq = $oContMaq->Persistencia->consultarWhere();
             if ($iK == 0) {
-                $sCodMaqs = $value;
+                $sCodMaqs = $value.'-'.$oModelMaq->getMaquina();
             } else {
-                $sCodMaqs = $sCodMaqs . ',' . $value;
+                $sCodMaqs = $sCodMaqs . ', ' . $value.'- '.$oModelMaq->getMaquina();
             }
             $iK++;
         }
@@ -83,7 +86,7 @@ class ControllerMET_MANUT_OSGeraSolCom extends Controller {
             echo"$('#" . $aDadosinic[1] . "-pesq').click();";
         }
     }
-    
+
     public function antesDeCriarConsulta($sParametros = null) {
         parent::antesDeCriarConsulta($sParametros);
 
@@ -98,9 +101,8 @@ class ControllerMET_MANUT_OSGeraSolCom extends Controller {
             unset($aWhere[5]);
             $this->Persistencia->setAListaWhere($aWhere);
         }
-        
     }
-    
+
     public function consultaMaterialSol() {
 
         $aCampos = $this->getArrayCampostela();
@@ -125,15 +127,14 @@ class ControllerMET_MANUT_OSGeraSolCom extends Controller {
         $sDados = $oModelDadosPar->getObs();
         $aGrupDados = explode(',', $sDados);
 
-        if (!in_array($oDadosMaq->getPro_grupocodigo() , $aGrupDados )) {
+        if (!in_array($oDadosMaq->getPro_grupocodigo(), $aGrupDados)) {
             $oMensagem = new Mensagem('Atenção!', 'Código de material inexistente no grupo válido, digite um código válido!', Mensagem::TIPO_WARNING, 7000);
             echo $oMensagem->getRender();
             $sScript = '$("#CodmaterialManOsSol").val("");'
                     . '$("#materialManOsSol").val("");'
                     . '$("#CodmaterialManOsSol").val("").focus();';
             echo $sScript;
-        } 
-        
+        }
     }
-    
+
 }

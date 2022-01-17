@@ -22,7 +22,7 @@ class ViewProduto extends View {
         $oProdes = new CampoConsulta('Descrição', 'prodes', CampoConsulta::TIPO_LARGURA, 20);
 
         $oProBloq = new CampoConsulta('Bloqueado', 'probloqpro');
-        $oProBloq->addComparacao('S', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA);
+        $oProBloq->addComparacao('S', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, '');
 
         $oUn = new CampoConsulta('Unidade', 'pround', CampoConsulta::TIPO_LARGURA, 20);
 

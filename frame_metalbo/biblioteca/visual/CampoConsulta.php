@@ -32,6 +32,7 @@ class CampoConsulta {
     private $bColOculta;
     private $bDisabled;
     private $iCasaDecimal;
+    private $sRelNome;
 
     const TIPO_TEXTO = 0;
     const TIPO_DATA = 1;
@@ -50,6 +51,7 @@ class CampoConsulta {
     const TIPO_EDITDECIMAL = 14;
     const TIPO_EDITTEXTO = 15;
     const TIPO_MVC = 16;
+    const TIPO_RELATORIO = 17;
     //Constantes para operadores lógicos
     const MODO_LINHA = 0;
     const MODO_COLUNA = 1;
@@ -91,7 +93,7 @@ class CampoConsulta {
     const ICONE_BOTAODANGER = 'btn btn-danger btn-xs ladda-button btn-grid';
     const ICONE_APONTAR = 'btn-xs btn-icon btn-dark btn-outline icon wb-pencil';
     const ICONE_ALERTA = 'btn-xs btn-icon btn-warning btn-outline icon wb-alert';
-    const ICONE_MARTELO = 'btn-xs btn-icon btn-dark btn-outline icon wb-hammer';
+    const ICONE_MARTELO = 'btn-xs btn-icon btn-primary btn-outline icon wb-hammer';
     const ICONE_BLOQUEAR = 'btn-xs btn-icon btn-danger btn-outline icon wb-lock';
     const ICONE_DESBLOQUEAR = 'btn-xs btn-icon btn-primary btn-outline icon wb-unlock';
     const ICONE_RELOGIO = 'btn-xs btn btn-outline btn-success icon icon wb-time';
@@ -135,6 +137,9 @@ class CampoConsulta {
         if ($this->Tipo == 16) {
             $this->setBCampoIcone(true);
         }
+        if ($this->Tipo == 17) {
+            $this->setBCampoIcone(true);
+        }
     }
 
     /**
@@ -148,6 +153,14 @@ class CampoConsulta {
         $this->aMVC['classe'] = $sClasse;
         $this->aMVC['metodo'] = $sMetodo;
         $this->aMVC['titulo'] = $sTitulo;
+    }
+
+    function getSRelNome() {
+        return $this->sRelNome;
+    }
+
+    function setSRelNome($sRelNome) {
+        $this->sRelNome = $sRelNome;
     }
 
     function getICasaDecimal() {
@@ -407,15 +420,40 @@ class CampoConsulta {
             $sClasse .= ' truncate';
         }
 
+
         $aComparacao = $this->getAComparacao();
         foreach ($aComparacao as $key => $aValue) {
             switch ($aValue['usaCase']) {
                 case true:
-                    if ($aValue['valor'] == $xValor) {
-                        $xValor = $aValue['case'];
-                    }
-                    break;
+                    switch ($aValue['tipo']) {
+                        // = 
+                        case 0:
+                            if ($aValue['valor'] == $xValor) {
+                                $xValor = $aValue['case'];
+                            }
+                            break;
+                        // >
+                        case 1:
+                            if ($aValue['valor'] < $xValor) {
+                                $xValor = $aValue['case'];
+                            }
 
+                            break;
+                        // <
+                        case 2:
+                            if ($aValue['valor'] > $xValor) {
+                                $xValor = $aValue['case'];
+                            }
+
+                            break;
+                        // !=
+                        case 3:
+                            if ($aValue['valor'] != $xValor) {
+                                $xValor = $aValue['case'];
+                            }
+
+                            break;
+                    }
                 default:
                     break;
             }
@@ -852,7 +890,32 @@ class CampoConsulta {
                 $sCampo .= '});</script>';
 
                 break;
+
+            case self:: TIPO_RELATORIO:
+                if ($this->getBDisabled()) {
+                    $sDisabled = 'disabled';
+                }
+                $xValor = str_replace("\n", " ", $xValor);
+                $xValor = str_replace("'", "\'", $xValor);
+                $xValor = str_replace("\r", "", $xValor);
+
+                $aDados = array();
+                $aParam = explode('&', $xValor);
+                foreach ($aParam as $value) {
+                    array_push($aDados, trim($value));
+                }
+
+                $sParam = implode('&', $aDados);
+                $sIdBtn = Base::getId();
+                $sCampo = '<td class=" tr-font"  style="width:' . $this->getILargura() . 'px">'
+                        . '<button type="button" class="' . $this->getSTipoBotao() . '" id="' . $sIdBtn . '" title="' . $this->getSNome() . '" ' . $sDisabled . '></button>'
+                        . '</td>';
+                $sCampo .= '<script>$("#' . $sIdBtn . '").click(function(){'
+                        . 'window.open("app/relatorio/' . $this->getSRelNome() . '.php?' . $sParam . '", "' . $this->getSRelNome() . '&output=tela", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");'
+                        . '});</script>';
+                break;
         }
+
 
         return $sCampo;
     }

@@ -15,16 +15,17 @@ class ViewMET_MANUT_OS extends View {
         $this->getTela()->setBGridResponsivo(false);
         $this->getTela()->setBUsaCarrGrid(true);
         $this->getTela()->setITipoGrid(2);
+        
+        $aDados = $this->getAParametrosExtras();
+        $aCodSetor = $aDados[0];
+        $aDesSetor = $aDados[1];
+        //$aCodCelula = $aDados[2];
 
         $ofil_des = new CampoConsulta('Empresa', 'DELX_FIL_Empresa.fil_fantasia', CampoConsulta::TIPO_TEXTO);
-//       $ofil_des->setBColOculta(true);
         $onr = new CampoConsulta('Ordem', 'nr', CampoConsulta::TIPO_TEXTO);
 
         $ocodMaq = new CampoConsulta('Cód', 'MET_CAD_Maquinas.codigoMaq', CampoConsulta::TIPO_TEXTO);
         $odesMaq = new CampoConsulta('Máquina', 'MET_CAD_Maquinas.maquina', CampoConsulta::TIPO_TEXTO);
-
-        $oAcao = new CampoConsulta('Ação', 'oqfazer');
-        $oServ = new CampoConsulta('Serviço', 'MET_MANUT_OSServico.servico');
 
         $oresponsavel = new CampoConsulta('Responsável', 'responsavel', CampoConsulta::TIPO_TEXTO);
 
@@ -40,53 +41,69 @@ class ViewMET_MANUT_OS extends View {
         $otipomanut->setBComparacaoColuna(true);
 
         $odias = new CampoConsulta('Dias Restantes', 'dias', CampoConsulta::TIPO_TEXTO);
-        $odias->addComparacao('0', CampoConsulta::COMPARACAO_MENOR, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, false, '');
-        $odias->addComparacao('0', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_AMARELO, CampoConsulta::MODO_COLUNA, false, '');
-        $odias->addComparacao('0', CampoConsulta::COMPARACAO_MAIOR, CampoConsulta::COL_VDCLARO, CampoConsulta::MODO_COLUNA, false, '');
-        $odias->addComparacao('', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, false, '');
+        $odias->addComparacao('0', CampoConsulta::COMPARACAO_MENOR, CampoConsulta::COL_PADRAO, CampoConsulta::MODO_COLUNA, true, 'ATRASADO');
         $odias->setBComparacaoColuna(true);
-
-        //$ocodsetor = new CampoConsulta('SETOR', 'codsetor', CampoConsulta::TIPO_TEXTO);
+        
+        $oCodsetor = new CampoConsulta('Setor', 'MET_CAD_Maquinas.codsetor', CampoConsulta::TIPO_TEXTO);
         $oSituaca = new CampoConsulta('Situação', 'situacao');
         $oSituaca->addComparacao('Aberta', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_AZUL, CampoConsulta::MODO_LINHA, true, 'ABERTA');
         $oSituaca->addComparacao('Cancelada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, true, 'CANCELADA');
         $oSituaca->addComparacao('Iniciada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERDE, CampoConsulta::MODO_LINHA, true, 'INICIADA');
         $oSituaca->addComparacao('Encerrada', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_PADRAO, CampoConsulta::MODO_LINHA, true, 'ENCERRADA');
 
+       // $oSeq = new CampoConsulta('Célula', 'MET_CAD_Maquinas.seq', CampoConsulta::TIPO_TEXTO);
+        
         $oNrfiltro = new Filtro($onr, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12);
-//        $oDesEmpfiltro = new Filtro($ofil_des, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
-//        $oMaqCodfiltro = new Filtro($ocodMaq, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12);
         $oMaqDesfiltro = new Filtro($odesMaq, Filtro::CAMPO_TEXTO, 3, 3, 12, 12);
         $oUsuariofiltro = new Filtro($ousuariocaddes, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, true);
-        // $oCodigoSetorfiltro = new Filtro($ocodsetor, Filtro::CAMPO_TEXTO_IGUAL, 2, 2, 12, 12);
+        
+        //Filtro de Setor
+        $oFiltroSetor = new Filtro($oCodsetor, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
+        $oFiltroSetor->setId('filtroSetor');
+        $oFiltroSetor->addItemSelect('', 'Todos Setores');
+        $iCont = 0;
+        foreach ($aCodSetor as $key1) {
+            $oFiltroSetor->addItemSelect($key1, $key1 . ' - ' . $aDesSetor[$iCont]);
+            $iCont++;
+        }
+        $oFiltroSetor->setSLabel('');
+        
+//        //Filtro de Célula
+//        $oseqFiltro = new Filtro($oSeq, Filtro::CAMPO_SELECT, 1, 1, 12, 12);
+//        $oseqFiltro->addItemSelect('', 'Todas Células');
+//        foreach ($aCodCelula as $key1) {
+//            $oseqFiltro->addItemSelect($key1, 'Célula - ' . $key1);
+//        }
+//        $oseqFiltro->setSLabel('');
+               
         $oDescricaoSituacaofiltro = new Filtro($oSituaca, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oDescricaoSituacaofiltro->setSLabel('');
         $oDescricaoSituacaofiltro->addItemSelect('', 'Todas Situações');
         $oDescricaoSituacaofiltro->addItemSelect('Aberta', 'Aberta');
-        $oDescricaoSituacaofiltro->addItemSelect('Cancelada', 'Cancelada');
         $oDescricaoSituacaofiltro->addItemSelect('Iniciada', 'Iniciada');
         $oDescricaoSituacaofiltro->addItemSelect('Encerrada', 'Encerrada');
+        $oDescricaoSituacaofiltro->addItemSelect('Cancelada', 'Cancelada');
 
-        $oTipofiltro = new Filtro($otipomanut, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
-        $oTipofiltro->setSLabel('');
-        $oTipofiltro->addItemSelect('', 'Todos Tipos');
-        $oTipofiltro->addItemSelect('MP', 'Preventiva');
-        $oTipofiltro->addItemSelect('MC', 'Corretiva');
+//        $oTipofiltro = new Filtro($otipomanut, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
+//        $oTipofiltro->setSLabel('');
+//        $oTipofiltro->addItemSelect('', 'Todos Tipos');
+//        $oTipofiltro->addItemSelect('MP', 'Preventiva');
+//        $oTipofiltro->addItemSelect('MC', 'Corretiva');
 
         $oRespfiltro = new Filtro($oresponsavel, Filtro::CAMPO_SELECT, 2, 2, 12, 12);
         $oRespfiltro->setSLabel('');
         $oRespfiltro->addItemSelect('', 'Todos Responsáveis');
         $oRespfiltro->addItemSelect('MECANICA', 'Mecanica');
         $oRespfiltro->addItemSelect('ELETRICA', 'Elétrica');
-        $oRespfiltro->addItemSelect('OPERADOR', 'Operador');
+        //$oRespfiltro->addItemSelect('OPERADOR', 'Operador');
 
         $oFilData = new Filtro($oprevisao, Filtro::CAMPO_DATA_ENTRE, 2, 2, 12, 12);
         //$oDiasfiltro = new Filtro($odias, Filtro::CAMPO_INTEIRO, 2, 2, 12, 12);
 
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Movimentações', Dropdown::TIPO_INFO);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Aponta início da manutenção', 'MET_MANUT_OS', 'msgLibManut', '', false, '', false, '', false, '', false, false);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Encerramento', 'MET_MANUT_OS', 'msgEnc', '', false, '', false, '', false, '', false, false);
+        //$oDrop1->addItemDropdown($this->addIcone(Base::ICON_EDITAR) . 'Aponta início da manutenção', 'MET_MANUT_OS', 'msgLibManut', '', false, '', false, '', false, '', false, false);
+        //$oDrop1->addItemDropdown($this->addIcone(Base::ICON_FECHAR) . 'Encerramento', 'MET_MANUT_OS', 'msgEnc', '', false, '', false, '', false, '', false, false);
         // $oDrop1->addItemDropdown($this->addIcone(Base::ICON_LOOP) . 'Retorna para aberta', 'MET_MANUT_OS', 'msgRetAberta', '', false, '', false, '', false, '', false, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_RECARREGAR) . 'Retorna para iniciada', 'MET_MANUT_OS', 'msgRetIniciada', '', false, '', false, '', false, '', false, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_BORRACHA) . 'Cancela', 'MET_MANUT_OS', 'msgCancela', '', false, '', false, '', false, '', false, false);
@@ -102,10 +119,9 @@ class ViewMET_MANUT_OS extends View {
 
         //INTERESSANTE CRIAR UMA SITUAÇÃO POSTERGADA DEVIDO PROBLEMA DE MÁQUINA?
 
-        $this->addFiltro($oDescricaoSituacaofiltro, $oNrfiltro, $oMaqDesfiltro, $oUsuariofiltro, $oFilData, $oTipofiltro, $oRespfiltro);
+        $this->addFiltro($oDescricaoSituacaofiltro, $oNrfiltro, $oMaqDesfiltro, $oUsuariofiltro, $oFiltroSetor, $oFilData, $oRespfiltro);
 
-        $this->addCampos($onr, $ocodMaq, $odesMaq, $oAcao, $oServ, $odatacad, $ohoracad, $ousuariocaddes, $oprevisao, $odias, $otipomanut, $oresponsavel/* , $ocodsetor */, $oSituaca, $ofil_des);
-
+        $this->addCampos($onr, $ocodMaq, $odesMaq, $oCodsetor, $odatacad, $ohoracad, $ousuariocaddes, $oprevisao, $otipomanut, $oresponsavel, $oSituaca, $odias, $ofil_des);
     }
 
     public function criaTela() {
@@ -114,6 +130,12 @@ class ViewMET_MANUT_OS extends View {
         $sAcao = $this->getSRotina();
         $this->getTela()->setSId('formMET_MANUT_OS');
         $aDados = $this->getAParametrosExtras();
+        if(!method_exists($aDados, 'getSituacao')){
+            $aCodSetor = $aDados[0];
+            $aDesSetor = $aDados[1];
+            $aDados = '';
+        }
+        
         if ($sAcao !== 'acaoAlterar') {
             //desativa botoes
             $this->setBTela(true);
@@ -144,6 +166,33 @@ class ViewMET_MANUT_OS extends View {
         $onr = new Campo('Ordem', 'nr', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $onr->setBCampoBloqueado(true);
 
+        $oSetor = new campo('Setor', 'codsetor', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oSetor->addItemSelect('', 'Todos Setores');
+        $iCont = 0;
+        foreach ($aCodSetor as $key1) {
+            $oSetor->addItemSelect($key1, $key1 . ' - ' . $aDesSetor[$iCont]);
+            $iCont++;
+        }
+//        $oSetor->setBFocus(true);
+//
+//        $oSetorDes = new Campo('Descrição', 'descsetor', Campo::TIPO_BUSCADOBANCO, 4, 4, 12, 12);
+//        $oSetorDes->setSIdPk($oSetor->getId());
+//        $oSetorDes->setClasseBusca('MET_CAD_Setores');
+//        $oSetorDes->addCampoBusca('codsetor', '', '');
+//        $oSetorDes->addCampoBusca('descsetor', '', '');
+//        $oSetorDes->setSIdTela($this->getTela()->getid());
+//        $oSetorDes->setApenasTela(true);
+//        $oSetorDes->setBCampoBloqueado(true);
+//
+//        $oSetor->setClasseBusca('MET_CAD_Setores');
+//        $oSetor->setSCampoRetorno('codsetor', $this->getTela()->getId());
+//        $oSetor->addCampoBusca('descsetor', $oSetorDes->getId(), $this->getTela()->getId());
+        
+//        $oseq = new Campo('Célula', 'seq', Campo::CAMPO_SELECTSIMPLE, 1, 1, 12, 12);
+//        $oseq->setId('seqCelula');
+//        $sDadosCelula = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OS","buscaDadosCelulaSetor","' . $oseq->getId() . '");';
+//        $oSetor->addEvento(Campo::EVENTO_CHANGE, $sDadosCelula);
+        
         $ocod = new campo('Código Máquina', 'cod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $ocod->setId('codMaqManOS');
         $ocod->addValidacao(false, Validacao::TIPO_INTEIRO);
@@ -163,7 +212,7 @@ class ViewMET_MANUT_OS extends View {
 
         $sConsDesMaq = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OS","consultaDesMaq");';
         $ocod->addEvento(Campo::EVENTO_CHANGE, $sConsDesMaq);
-
+        
         $oCracha = new Campo('Crachá', 'cracha', Campo::TIPO_TEXTO, 2, 2, 12, 12);
         $oCracha->setId('manutCracha');
         if ($sAcao !== 'acaoAlterar') {
@@ -174,7 +223,6 @@ class ViewMET_MANUT_OS extends View {
         $oCracha->setSCorFundo(Campo::FUNDO_VERMELHO);
 
         $ousuariocad = new campo('Usuário', 'usuariocad', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
-        //$ousuariocad->setSValor($_SESSION['codUser']);
         $ousuariocad->setBCampoBloqueado(true);
 
         $ousuariocaddes = new Campo('Descrição', 'MET_TEC_USUARIO.usunome', Campo::TIPO_BUSCADOBANCO, 2, 2, 12, 12);
@@ -183,7 +231,6 @@ class ViewMET_MANUT_OS extends View {
         $ousuariocaddes->addCampoBusca('usucodigo', '', '');
         $ousuariocaddes->addCampoBusca('usunome', '', '');
         $ousuariocaddes->setSIdTela($this->getTela()->getid());
-        //$ousuariocaddes->setSValor($_SESSION['nome']);
         $ousuariocaddes->addValidacao(false, Validacao::TIPO_STRING);
         $ousuariocaddes->setBCampoBloqueado(true);
 
@@ -205,55 +252,61 @@ class ViewMET_MANUT_OS extends View {
         $ohoracad->setBCampoBloqueado(true);
 
         $oproblema = new Campo('Problema apresentado', 'problema', Campo::TIPO_TEXTAREA, 6);
+        $oproblema->addValidacao(false, Validacao::TIPO_STRING);
         $oproblema->setSCorFundo(Campo::FUNDO_MONEY);
         $oproblema->setILinhasTextArea(8);
 
+        $oBotIniciar = new Campo('INICIAR', 'iniciar', Campo::TIPO_BOTAOSMALL_SUB, 2, 2, 2, 2);
+        $oBotIniciar->setApenasTela(true);
+        $sAcao2 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OS","msgLibManut","");';
+        $oBotIniciar->getOBotao()->addAcao($sAcao2);
+
         $osituacao = new Campo('Situação', 'situacao', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $osituacao->setSValor('Aberta');
+        $osituacao->setId('manutSitOs');
         $osituacao->setBCampoBloqueado(true);
-        
-        $oQueFazer = new Campo('O que fazer', 'oqfazer', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
-        $oQueFazer->addItemSelect('', '');
-        $oQueFazer->addItemSelect('AJUSTE', 'AJUSTE');
-        $oQueFazer->addItemSelect('ENGRAXE', 'ENGRAXE');
-        $oQueFazer->addItemSelect('LIMPAR', 'LIMPAR');
-        $oQueFazer->addItemSelect('LIMPAR OU TROCAR', 'LIMPAR OU TROCAR');
-        $oQueFazer->addItemSelect('LIMPEZA', 'LIMPEZA');
-        $oQueFazer->addItemSelect('LIMPEZA E ENGRAXE', 'LIMPEZA E ENGRAXE');
-        $oQueFazer->addItemSelect('LUBRIFICACAO', 'LUBRIFICACAO');
-        $oQueFazer->addItemSelect('LUBRIFICAR', 'LUBRIFICAR');
-        $oQueFazer->addItemSelect('REPOSICAO', 'REPOSICAO');
-        $oQueFazer->addItemSelect('TROCA', 'TROCA');
-        $oQueFazer->addItemSelect('VERIFICAR', 'VERIFICAR');
-        $oQueFazer->addItemSelect('VERIFICAR CONDICOES', 'VERIFICAR CONDICOES');
-        $oQueFazer->addItemSelect('VERIFICAR DESGASTE', 'VERIFICAR DESGASTE');
-        $oQueFazer->addItemSelect('VERIFICAR DESGASTE E AJUSTAR SE NECESSARIO', 'VERIFICAR DESGASTE E AJUSTAR SE NECESSARIO');
-        $oQueFazer->addItemSelect('VERIFICAR ESTADO', 'VERIFICAR ESTADO');
-        $oQueFazer->addItemSelect('VERIFICAR FOLGA', 'VERIFICAR FOLGA');
-        $oQueFazer->addItemSelect('VERIFICAR FOLGAS', 'VERIFICAR FOLGAS');
-        $oQueFazer->addItemSelect('VERIFICAR NECESSIDADE DE TROCA', 'VERIFICAR NECESSIDADE DE TROCA');
-        $oQueFazer->addItemSelect('VERIFICAR VAZAMENTO', 'VERIFICAR VAZAMENTO');
-        $oQueFazer->addItemSelect('APERTO', 'APERTO');     
-        
-        $oServPrevCod = new Campo('Código', 'codserv', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
-        $oServPrevCod->setId('CodservicoManOs');
 
-        $oServPrevDes = new Campo('Serviço', 'MET_MANUT_OSServico.servico', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
-        $oServPrevDes->setId('servicoManOs');
-        $oServPrevDes->setSCorFundo(Campo::FUNDO_AZUL);
-        $oServPrevDes->setSIdPk($oServPrevCod->getId());
-        $oServPrevDes->setClasseBusca('MET_MANUT_OSServico');
-        $oServPrevDes->addCampoBusca('codserv', '', '');
-        $oServPrevDes->addCampoBusca('servico', '', '');
-        $oServPrevDes->setSIdTela($this->getTela()->getid());
-        $oServPrevDes->setApenasTela(true);
-
-        $oServPrevCod->setClasseBusca('MET_MANUT_OSServico');
-        $oServPrevCod->setSCampoRetorno('codserv', $this->getTela()->getId());
-        $oServPrevCod->addCampoBusca('servico', $oServPrevDes->getId(), $this->getTela()->getId());
-                
-        $sConsServico = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OS","consultaServico");';
-        $oServPrevCod->addEvento(Campo::EVENTO_CHANGE, $sConsServico);
+//        $oQueFazer = new Campo('O que fazer', 'oqfazer', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
+//        $oQueFazer->addItemSelect('', '');
+//        $oQueFazer->addItemSelect('AJUSTE', 'AJUSTE');
+//        $oQueFazer->addItemSelect('ENGRAXE', 'ENGRAXE');
+//        $oQueFazer->addItemSelect('LIMPAR', 'LIMPAR');
+//        $oQueFazer->addItemSelect('LIMPAR OU TROCAR', 'LIMPAR OU TROCAR');
+//        $oQueFazer->addItemSelect('LIMPEZA', 'LIMPEZA');
+//        $oQueFazer->addItemSelect('LIMPEZA E ENGRAXE', 'LIMPEZA E ENGRAXE');
+//        $oQueFazer->addItemSelect('LUBRIFICACAO', 'LUBRIFICACAO');
+//        $oQueFazer->addItemSelect('LUBRIFICAR', 'LUBRIFICAR');
+//        $oQueFazer->addItemSelect('REPOSICAO', 'REPOSICAO');
+//        $oQueFazer->addItemSelect('TROCA', 'TROCA');
+//        $oQueFazer->addItemSelect('VERIFICAR', 'VERIFICAR');
+//        $oQueFazer->addItemSelect('VERIFICAR CONDICOES', 'VERIFICAR CONDICOES');
+//        $oQueFazer->addItemSelect('VERIFICAR DESGASTE', 'VERIFICAR DESGASTE');
+//        $oQueFazer->addItemSelect('VERIFICAR DESGASTE E AJUSTAR SE NECESSARIO', 'VERIFICAR DESGASTE E AJUSTAR SE NECESSARIO');
+//        $oQueFazer->addItemSelect('VERIFICAR ESTADO', 'VERIFICAR ESTADO');
+//        $oQueFazer->addItemSelect('VERIFICAR FOLGA', 'VERIFICAR FOLGA');
+//        $oQueFazer->addItemSelect('VERIFICAR FOLGAS', 'VERIFICAR FOLGAS');
+//        $oQueFazer->addItemSelect('VERIFICAR NECESSIDADE DE TROCA', 'VERIFICAR NECESSIDADE DE TROCA');
+//        $oQueFazer->addItemSelect('VERIFICAR VAZAMENTO', 'VERIFICAR VAZAMENTO');
+//        $oQueFazer->addItemSelect('APERTO', 'APERTO');     
+//        
+//        $oServPrevCod = new Campo('Código', 'codserv', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+//        $oServPrevCod->setId('CodservicoManOs');
+//
+//        $oServPrevDes = new Campo('Serviço', 'MET_MANUT_OSServico.servico', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+//        $oServPrevDes->setId('servicoManOs');
+//        $oServPrevDes->setSCorFundo(Campo::FUNDO_AZUL);
+//        $oServPrevDes->setSIdPk($oServPrevCod->getId());
+//        $oServPrevDes->setClasseBusca('MET_MANUT_OSServico');
+//        $oServPrevDes->addCampoBusca('codserv', '', '');
+//        $oServPrevDes->addCampoBusca('servico', '', '');
+//        $oServPrevDes->setSIdTela($this->getTela()->getid());
+//        $oServPrevDes->setApenasTela(true);
+//
+//        $oServPrevCod->setClasseBusca('MET_MANUT_OSServico');
+//        $oServPrevCod->setSCampoRetorno('codserv', $this->getTela()->getId());
+//        $oServPrevCod->addCampoBusca('servico', $oServPrevDes->getId(), $this->getTela()->getId());
+//                
+//        $sConsServico = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OS","consultaServico");';
+//        $oServPrevCod->addEvento(Campo::EVENTO_CHANGE, $sConsServico);
 
         $oField1 = new FieldSet('Fechamento');
         $osolucao = new Campo('Solução', 'solucao', Campo::TIPO_TEXTAREA, 6);
@@ -264,7 +317,20 @@ class ViewMET_MANUT_OS extends View {
         $oconsumo->setILinhasTextArea(5);
         $oconsumo->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oField1->addCampos($osolucao, $oconsumo);
+        $oBotEncerrar = new Campo('ENCERRAR', 'encerrar', Campo::TIPO_BOTAOSMALL_SUB, 2, 2, 2, 2);
+        $oBotEncerrar->setApenasTela(true);
+        $sAcao3 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MANUT_OS","msgEnc","");';
+        $oBotEncerrar->getOBotao()->addAcao($sAcao3);
+
+        if (isset($aDados) && $aDados != null) {
+            if ($aDados->getSituacao() == 'Encerrada') {
+                $oField1->addCampos($osolucao, $oconsumo);
+            } else {
+                $oField1->addCampos($osolucao, $oconsumo, $oBotEncerrar);
+            }
+        } else {
+            $oField1->addCampos($osolucao, $oconsumo, $oBotEncerrar);
+        }
 
         $oField2 = new FieldSet('Material Necessário Para Compra');
 
@@ -336,6 +402,12 @@ class ViewMET_MANUT_OS extends View {
         $oBotaoExcluir->setBHideTelaAcao(true);
         $oBotaoExcluir->setSNomeGrid('gridMaterialManutOS');
 
+        if (isset($aDados) && $aDados != null) {
+            if ($aDados->getSituacao() == 'Encerrada') {
+                $oBotaoExcluir->setBDisabled(true);
+            }
+        }
+
         $oGridMatNeces->addCampos($oBotaoExcluir, $oseqMat, $ocodMat, $odesMat, $oquantidade, $odata, $oobs1, $odesUser);
         $oGridMatNeces->setSController('MET_MANUT_OSMaterial');
         $oGridMatNeces->getOGrid()->setIAltura(200);
@@ -357,12 +429,20 @@ class ViewMET_MANUT_OS extends View {
         $oBtnAtualizarGrid->getOBotao()->setSStyleBotao(Botao::TIPO_DEFAULT);
         $oBtnAtualizarGrid->getOBotao()->addAcao($sAcaoAtualizarGrid);
         $oBtnAtualizarGrid->setApenasTela(true);
+
+        if (isset($aDados) && $aDados != null) {
+            if ($aDados->getSituacao() == 'Encerrada') {
+                $oBotInser->setBDesativado(true);
+                $oBtnAtualizarGrid->setBDesativado(true);
+            }
+        }
+
         $oField2->addCampos(array($oSeq, $oProCod, $omatnecessario, $oQuant, $oObservacao), array($oBotInser, $oBtnAtualizarGrid), $oGridMatNeces);
 
         $oDias = new Campo('Ciclo/Dias Restantes', 'dias', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $oDias->setId('diasManOs');
         $oDias->setBCampoBloqueado(true);
-        
+
         $oresponsavel = new Campo('Responsável', 'responsavel', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oresponsavel->setId('responsavelManOs');
         $oresponsavel->addItemSelect('MECANICA', 'MECANICA');
@@ -375,8 +455,8 @@ class ViewMET_MANUT_OS extends View {
 
         $otipomanut = new Campo('Tipo Manutenção', 'tipomanut', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $otipomanut->setId('tipomanutManOs');
+        $otipomanut->setSValor('MC');
         $otipomanut->addItemSelect('MC', 'CORRETIVA');
-        $otipomanut->addItemSelect('MP', 'PREVENTIVA');
 
         $ocodsetor = new Campo('codsetor', 'codsetor', Campo::TIPO_TEXTO, 1, 1, 12, 12);
         $ocodsetor->setSValor($_SESSION['codsetor']);
@@ -388,14 +468,11 @@ class ViewMET_MANUT_OS extends View {
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
-
-        $oField0->addCampos(array($oCracha, $ousuariocad, $ousuariocaddes, $odatacad, $ohoracad), $oLinha1, array($ocod, $ocod_Des), $oLinha1, array($oQueFazer, $oServPrevCod, $oServPrevDes), $oLinha1, array($oresponsavel, $oprevisao, $otipomanut, $oDias), $oLinha1, $oproblema);
-
         $sAcaoMet = $_REQUEST['metodo'];
 
         if ($sAcaoMet == 'acaoMostraTelaAlterar') {
 
-            $oServPrevCod->setBFocus(true);
+            //$oServPrevCod->setBFocus(true);
             $oCracha->setBCampoBloqueado(true);
             $ocod->setBCampoBloqueado(true);
             $ocod_Des->setBCampoBloqueado(true);
@@ -403,15 +480,31 @@ class ViewMET_MANUT_OS extends View {
             $oprevisao->setBCampoBloqueado(true);
             //$otipomanut->setBCampoBloqueado(true);
             $oproblema->setBCampoBloqueado(true);
+            if (isset($aDados) && $aDados != null) {
+                if ($aDados->getSituacao() == 'Encerrada') {
+                    $oField0->addCampos(array($oCracha, $ousuariocad, $ousuariocaddes, $odatacad, $ohoracad), $oLinha1, array($ocod, $ocod_Des), $oLinha1, /* array($oQueFazer, $oServPrevCod, $oServPrevDes), */ $oLinha1, array($oresponsavel, $oprevisao, $otipomanut, $oDias), $oLinha1, $oproblema);
+                } else {
+                    $oField0->addCampos(array($oCracha, $ousuariocad, $ousuariocaddes, $odatacad, $ohoracad), $oLinha1, array($ocod, $ocod_Des), $oLinha1, /* array($oQueFazer, $oServPrevCod, $oServPrevDes), */ $oLinha1, array($oresponsavel, $oprevisao, $otipomanut, $oDias), $oLinha1, $oproblema, $oBotIniciar);
+                }
+            } else {
+                $oField0->addCampos(array($oCracha, $ousuariocad, $ousuariocaddes, $odatacad, $ohoracad), $oLinha1, array($ocod, $ocod_Des), $oLinha1, /* array($oQueFazer, $oServPrevCod, $oServPrevDes), */ $oLinha1, array($oresponsavel, $oprevisao, $otipomanut, $oDias), $oLinha1, $oproblema, $oBotIniciar);
+            }
         } else {
-            
+            $osituacao->setSValor('Aberta');
             $oField1->setOculto(true);
             $oField2->setOculto(true);
             $this->setBOcultaFechar(true);
+            $oDias->setBOculto(true);
+            $oField0->addCampos(array($oCracha, $ousuariocad, $ousuariocaddes, $odatacad, $ohoracad), $oLinha1, array($oSetor, $ocod, $ocod_Des), $oLinha1, array($oresponsavel, $oprevisao, $otipomanut, $oDias), $oLinha1, $oproblema);
         }
-
+        if (isset($aDados) && $aDados != null) {
+            if ($aDados->getSituacao() == 'Iniciada') {
+                $oField0->setOculto(true);
+                $oField2->setOculto(true);
+            }
+        }
         if ($sAcaoMet !== 'acaoMostraTela') {
-            $this->addCampos(array($onr, $ofil_codigo, $ofil_Des, $osituacao), $oLinha1,  $oField0, $oLinha1, $oField2, $oLinha1, $oField1, $oLinha1, $ocodsetor, $oobs);
+            $this->addCampos(array($onr, $ofil_codigo, $ofil_Des, $osituacao), $oLinha1, $oField0, $oLinha1, $oField2, $oLinha1, $oField1, $oLinha1, $ocodsetor, $oobs);
         } else {
             $this->addCampos(array($onr, $ofil_codigo, $ofil_Des, $osituacao), $oLinha1, $oField0);
         }
@@ -481,5 +574,4 @@ class ViewMET_MANUT_OS extends View {
 
         $this->addCampos(array($ocod, $oMaq_Des), $oLinha1, array($oresponsavel, $otipomanut), $oLinha1, array($oDataIniPrev, $oDataFimPrev), $oLinha1, array($oDataIni, $oDataFim), $oLinha1, $osituacao, $oXls);
     }
-
 }

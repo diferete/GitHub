@@ -14,7 +14,7 @@ class PersistenciaFinanRep extends Persistencia {
         $this->setTabela('widl.REC001');
 
         $this->adicionaRelacionamento('recdtemiss', 'recdtemiss');
-        $this->adicionaRelacionamento('empcod', 'empcod');
+        $this->adicionaRelacionamento('empcod', 'empcod', true, true);
         $this->adicionaRelacionamento('empdes', 'empdes');
         $this->adicionaRelacionamento('recdocto', 'recdocto', true, true, true);
         $this->adicionaRelacionamento('recprdtpro', 'recprdtpro');
@@ -24,6 +24,7 @@ class PersistenciaFinanRep extends Persistencia {
         $this->adicionaRelacionamento('recprvlpgt', 'recprvlpgt');
         $this->adicionaRelacionamento('recprindtr', 'recprindtr');
         $this->adicionaRelacionamento('recprtirec', 'recprtirec');
+        $this->adicionaRelacionamento('recprbconr', 'recprbconr', true, true);
         $this->adicionaRelacionamento('dias', 'dias');
         $this->adicionaRelacionamento('bcodes', 'bcodes');
         $this->adicionaRelacionamento('rechist', 'rechist');
@@ -53,6 +54,7 @@ class PersistenciaFinanRep extends Persistencia {
           widl.REC0012.recprvlpgt as 'widl.REC001.recprvlpgt',
           widl.REC0012.recprindtr  as 'widl.REC001.recprindtr',
           widl.REC0012.recprtirec  as 'widl.REC001.recprtirec',
+          widl.REC0012.recprbconr  as 'widl.REC001.recprbconr',
           DATEDIFF(day,CONVERT (date, SYSDATETIME()),recprdtpro) as 'widl.REC001.dias',
           bcodes as  'widl.REC001.bcodes',
           recprnro as 'widl.REC001.recprnro' 

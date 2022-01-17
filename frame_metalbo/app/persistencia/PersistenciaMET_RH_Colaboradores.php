@@ -47,7 +47,7 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
 
     public function getDadosFunc($sDados) {
 
-        $bRetorno = $this->verificaCadastro($sDados);
+        $bRetorno = $this->verificaCadastroAids($sDados);
 
         if (!$bRetorno) {
             $aDados = array();
@@ -143,6 +143,76 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
 
     public function verificaCadastro($sDados) {
         $sSqlSelect = "select COUNT(*) as total from MET_NovembroAzul where cracha = " . $sDados . "";
+        $oResult = $this->consultaSql($sSqlSelect);
+
+        if ($oResult->total > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function gravaDadosFuncAids($sDados) {
+
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+        $sSqlSelect = "select "
+                . "tbfunc.nomfun,"
+                . "setor,"
+                . "vetorh.dbo.r034fun.tipsex "
+                . "from vetorh.dbo.r034fun "
+                . "left outer join tbfunc "
+                . "on [vetorh].dbo.r034fun.numcad = tbfunc.numcad "
+                . "where "
+                . "cnpj = 75483040000211 "
+                . "and vetorh.dbo.r034fun.numcad =" . $sDados;
+        $oResult = $this->consultaSql($sSqlSelect);
+
+
+        $sSqlInsert = "insert "
+                . "into MET_Aids"
+                . "(nr,"
+                . "cracha,"
+                . "datacad,"
+                . "horacad,"
+                . "nome,"
+                . "setor,"
+                . "tag,"
+                . "genero)"
+                . "values"
+                . "((select(case when max(nr) is null then 1 else max(nr)+1 end) as nr from MET_Aids),"
+                . "" . $sDados . ","
+                . "'" . $sData . "',"
+                . "'" . $sHora . "',"
+                . "'" . trim($oResult->nomfun) . "',"
+                . "'" . trim($oResult->setor) . "',"
+                . "'C',"
+                . "'" . trim($oResult->tipsex) . "')";
+        $aRetorno = $this->executaSql($sSqlInsert);
+
+        return $aRetorno;
+    }
+
+    public function updateDadosFuncAids($sDados) {
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+        $sSqlUpdate = "update "
+                . "MET_Aids "
+                . "set tag = 'A' "
+                . "where cracha = " . $sDados;
+        $aRetorno = $this->executaSql($sSqlUpdate);
+
+        return $aRetorno;
+    }
+
+    public function verificaCadastroAids($sDados) {
+        $sSqlSelect = "select COUNT(*) as total from MET_Aids where cracha = " . $sDados . "";
         $oResult = $this->consultaSql($sSqlSelect);
 
         if ($oResult->total > 0) {

@@ -67,9 +67,9 @@ class ControllerConsultaEstoque extends Controller {
         $aDados = explode(',', $sDados);
         $aProcod = explode('=', $aDados[1]);
         if (isset($aProcod[1])) {
-            $sProcod = $aProcod[1];
+            $sProcod = trim($aProcod[1]);
         } else {
-            $sProcod = $aProcod[0];
+            $sProcod = trim($aProcod[0]);
         }
         //verifica se o código existe
         $oProduto = Fabrica::FabricarPersistencia('Produto');
@@ -90,8 +90,11 @@ class ControllerConsultaEstoque extends Controller {
                     $sActive = 'class="active"';
                     $sH1 = "<h4>";
                     $sH2 = "</h4>";
-                };
-                $sTable .= '<tr ' . $sActive . '><td>' . $sH1 . $key . $sH2 . '</td><td>' . $sH1 . number_format($value, 2, ',', '.') . $sH2 . '</td></tr>';
+                }
+                $sTable .= '<tr ' . $sActive . '>'
+                        . '<td>' . $sH1 . $key . $sH2 . '</td>'
+                        . '<td>' . $sH1 . number_format($value, 2, ',', '.') . $sH2 . '</td>'
+                        . '</tr>';
             }
             //carrega soma dos pedidos
 
@@ -115,10 +118,7 @@ class ControllerConsultaEstoque extends Controller {
             }
             echo '$("#' . $aDados[4] . '").val("' . number_format($iOf, 2, ',', '.') . '");';
 
-
-
             //carrega estoques
-
             $sRender = '$("#' . $aDados[0] . ' > tbody > tr").empty();';
             echo $sRender;
             echo '$("#' . $aDados[0] . ' > tbody").append(\'' . $sTable . '\');';
@@ -148,8 +148,11 @@ class ControllerConsultaEstoque extends Controller {
                     $sActive = 'class="active"';
                     $sH1 = "<h4>";
                     $sH2 = "</h4>";
-                };
-                $sTable .= '<tr ' . $sActive . '><td>' . $sH1 . $key . $sH2 . '</td><td>' . $sH1 . number_format($value, 2, ',', '.') . $sH2 . '</td></tr>';
+                }
+                $sTable .= '<tr ' . $sActive . '>'
+                        . '<td>' . $sH1 . $key . $sH2 . '</td>'
+                        . '<td>' . $sH1 . number_format($value, 2, ',', '.') . $sH2 . '</td>'
+                        . '</tr>';
             }
             //limpa estoques
 

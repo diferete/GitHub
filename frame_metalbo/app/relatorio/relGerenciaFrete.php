@@ -124,7 +124,7 @@ if (!$bEst) {
     if ($bTip) {
 
 
-        $sql = "select nr,tbgerecfrete.cnpj,empdes,convert (varchar,datafn,103) as datafn,
+        $sql = "select valorserv -  valorserv2 as Difvalor, nr,tbgerecfrete.cnpj,empdes,convert (varchar,datafn,103) as datafn,
             nrconhe,nrfat,nrnotaoc,totakg,totalnf,valorserv,convert (varchar,data,103) as data,sit,usuario,
             convert (varchar,dataem,103) as dataem, codtipo
             from tbgerecfrete left outer join widl.EMP01
@@ -172,34 +172,35 @@ if (!$bEst) {
             }
 
             $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(15, 5, $row['nr'], 'R,B,T,L', 0, 'L');
+            $pdf->Cell(14, 5, $row['nr'], 'R,B,T,L', 0, 'L');
             $pdf->SetFont('arial', '', 8);
             $pdf->Cell(22, 5, $row['nrconhe'], 'R,B,T', 0, 'L');
             $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(22, 5, $row['nrfat'], 'R,B,T', 0, 'L');
+            $pdf->Cell(19, 5, $row['nrfat'], 'R,B,T', 0, 'L');
             $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(22, 5, $row['nrnotaoc'], 'R,B,T,L', 0, 'L');
+            $pdf->Cell(19, 5, $row['nrnotaoc'], 'R,B,T,L', 0, 'L');
             $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(20, 5, number_format($row['totakg'], 2), 'R,B,T', 0, 'L');
+            $pdf->Cell(19, 5, number_format($row['totakg'], 2), 'R,B,T', 0, 'L');
             $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(20, 5, number_format($row['totalnf'], 2, ',', '.'), 'R,B,T', 0, 'L');
+            $pdf->Cell(19, 5, number_format($row['totalnf'], 2, ',', '.'), 'R,B,T', 0, 'L');
             $pdf->SetFont('arial', '', 8);
             $pdf->Cell(20, 5, number_format($row['valorserv'], 2), 'R,B,T,L', 0, 'L');
             $pdf->SetFont('arial', '', 8);
             if ($row['codtipo'] == 1) {
-                $pdf->Cell(15, 5, 'Venda', 'R,B,T', 0, 'L');
+                $pdf->Cell(13, 5, 'Venda', 'R,B,T', 0, 'L');
                 $iVenda++;
                 $iTotalServVenda = $iTotalServVenda + $row['valorserv'];
             } else {
-                $pdf->Cell(15, 5, 'Compra', 'R,B,T', 0, 'L');
+                $pdf->Cell(13, 5, 'Compra', 'R,B,T', 0, 'L');
                 $iCompra++;
                 $iTotalServCompra = $iTotalServCompra + $row['valorserv'];
             }
             $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(20, 5, $row['dataem'], 'R,B,T', 0, 'L');
+            $pdf->Cell(19, 5, $row['dataem'], 'R,B,T', 0, 'L');
             $pdf->SetFont('arial', '', 8);
-            $pdf->Cell(25, 5, $row['datafn'], 'R,B,T', 1, 'L');
-
+            $pdf->Cell(23, 5, $row['datafn'], 'R,B,T', 0, 'L');
+            $pdf->SetFont('arial', '', 8);
+            $pdf->Cell(14, 5, number_format($row['Difvalor'], 2, ',', '.'), 'R,B,T', 1, 'L');
             //Contadores
             $iQntTotal++;
             $iTotalKg = $iTotalKg + $row['totakg'];
@@ -358,7 +359,7 @@ if (!$bEst) {
     //TIPO VENDAS
     if (isset($sCodtip) && $sCodtip == 1 || $sCodtip == 0) {
 
-        $sql1 = "select  DISTINCT (tbgerecfrete.nr) as nr,nrnotaoc,valorserv,totakg,totalnf,nrconhe, CASE WHEN  nfscliuf IS NULL THEN 'SP' ELSE nfscliuf END AS nfscliuf,tbgerecfrete.codtipo, nrfat, dataem, datafn
+        $sql1 = "select  valorserv -  valorserv3 as Difvalor, DISTINCT (tbgerecfrete.nr) as nr,nrnotaoc,valorserv,totakg,totalnf,nrconhe, CASE WHEN  nfscliuf IS NULL THEN 'SP' ELSE nfscliuf END AS nfscliuf,tbgerecfrete.codtipo, nrfat, dataem, datafn
             from tbgerecfrete left outer join 
             tbfrete  on tbgerecfrete.seqregra = tbfrete.seq
             left outer join  widl.EMP01
@@ -457,7 +458,7 @@ if (!$bEst) {
     //TIPO COMPRAS
     if (isset($sCodtip) && $sCodtip == 2 || $sCodtip == 0) {
 
-        $sql1 = "select nr,nrnotaoc,valorserv,totakg,totalnf,tbgerecfrete.codtipo,nrconhe, CASE WHEN  nfeestado IS NULL THEN 'SC' ELSE nfeestado END AS nfeestado,
+        $sql1 = "select valorserv -  valorserv3 as Difvalor, nr,nrnotaoc,valorserv,totakg,totalnf,tbgerecfrete.codtipo,nrconhe, CASE WHEN  nfeestado IS NULL THEN 'SC' ELSE nfeestado END AS nfeestado,
             nrfat, dataem, datafn
             from tbgerecfrete left outer join 
             tbfrete  on tbgerecfrete.seqregra = tbfrete.seq
@@ -650,25 +651,27 @@ function cabecalho($pdf, $row, $bEst) {
         $pdf->Ln(1);
 
         $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(15, 5, 'Nr', 'L,B,T', 0, 'L');
+        $pdf->Cell(14, 5, 'Nr', 'L,B,T', 0, 'L');
         $pdf->SetFont('arial', 'B', 8);
         $pdf->Cell(22, 5, 'Conhecimento', 'L,B,T', 0, 'L');
         $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(22, 5, 'Fatura', 'L,B,T,R', 0, 'L');
+        $pdf->Cell(19, 5, 'Fatura', 'L,B,T,R', 0, 'L');
         $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(22, 5, 'Nota', 'L,B,T', 0, 'L');
+        $pdf->Cell(19, 5, 'Nota', 'L,B,T', 0, 'L');
         $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(20, 5, 'Total Kg', 'L,B,T', 0, 'L');
+        $pdf->Cell(19, 5, 'Total Kg', 'L,B,T', 0, 'L');
         $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(20, 5, 'Total R$', 'L,B,T,R', 0, 'L');
+        $pdf->Cell(19, 5, 'Total R$', 'L,B,T,R', 0, 'L');
         $pdf->SetFont('arial', 'B', 8);
         $pdf->Cell(20, 5, 'Valor Serviço', 'L,B,T,R', 0, 'L');
         $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(15, 5, 'Tipo', 'L,B,T,R', 0, 'L');
+        $pdf->Cell(13, 5, 'Tipo', 'L,B,T,R', 0, 'L');
         $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(20, 5, 'Dt. Emissão', 'L,B,T,R', 0, 'L');
+        $pdf->Cell(19, 5, 'Dt. Emissão', 'L,B,T,R', 0, 'L');
         $pdf->SetFont('arial', 'B', 8);
-        $pdf->Cell(25, 5, 'Dt. Vencimento', 'L,B,T,R', 1, 'L');
+        $pdf->Cell(23, 5, 'Dt. Vencimento', 'L,B,T,R', 0, 'L');
+        $pdf->SetFont('arial', 'B', 8);
+        $pdf->Cell(14, 5, 'Valor Dif.', 'L,B,T,R', 1, 'L');
 
         //Cabeçalho por Estado
     } else {

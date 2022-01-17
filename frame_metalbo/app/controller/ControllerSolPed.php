@@ -33,7 +33,7 @@ class ControllerSolPed extends Controller {
         $oRep = Fabrica::FabricarController('RepCodOffice');
         $oRep->Persistencia->adicionaFiltro('officecod', $_SESSION['repoffice']);
         $oReps = $oRep->Persistencia->getArrayModel();
-
+        
         $this->View->setOObjTela($oReps);
     }
 

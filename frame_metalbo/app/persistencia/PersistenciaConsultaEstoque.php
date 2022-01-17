@@ -74,11 +74,10 @@ class PersistenciaConsultaEstoque extends Persistencia {
                 . "mov varchar (1), "
                 . "quantEnt money, "
                 . "quantSaid money, "
-                . "alm varchar (10),"
-                . "filcgc varchar(30)) ";
+                . "alm varchar (10)) ";
         $aRet2 = $PDOnew->exec($sSql);
 
-
+        // estoque inicial
         $sSql = "insert into  #EstLiveMetalbo (procod,mov,quantEnt,quantSaid,alm) "
                 . "select widl.esti04.procod,('E') as mov,(widl.ESTI04.encqtdest)as Entrada,('0')as Saida,encestalm "
                 . "from widl.ESTI04(nolock) "
@@ -87,10 +86,11 @@ class PersistenciaConsultaEstoque extends Persistencia {
                 . "(select MAX(WIDL.ESTI04.encdata) from widl.ESTI04(nolock) where filcgc = 75483040000211 )) "
                 . "and filcgc = '75483040000211' "
                 . "and encestpos = '' "
-                . "and procod = " . $sProcod . " ";
+                . "and procod in('" . $sProcod . "')";
         $aRet3 = $PDOnew->exec($sSql);
 
-        $sSql = " insert into  #EstLiveMetalbo (procod,mov,quantEnt,quantSaid,alm) "
+        //entrada de nota fiscal
+        $sSql = "insert into #EstLiveMetalbo (procod,mov,quantEnt,quantSaid,alm) "
                 . "select procod,('E') as mov,(nfeproqtd) as Entrada,('0')as Saida,nfeproalm "
                 . "from widl.nfe01(nolock),widl.NFEENT2(nolock),widl.MOV01(nolock) "
                 . "where widl.NFE01.nfenro = widl.NFEENT2.nfenro "
@@ -98,41 +98,49 @@ class PersistenciaConsultaEstoque extends Persistencia {
                 . "and widl.NFE01.movcod = widl.MOV01.movcod "
                 . "and widl.NFE01.empcod = widl.NFEENT2.empcod "
                 . "and movest = 'S' "
+                . "and nfeflag <> 4 "
+                . "and nfepromove = 'S' "
                 . "and nfeprodtch >'" . $sDataEnc . "' "
-                . "and procod =" . $sProcod . "";
+                . "and procod in('" . $sProcod . "')";
         $aRet4 = $PDOnew->exec($sSql);
 
-        $sSql = " insert into #EstLiveMetalbo (procod,mov,quantEnt,quantSaid,alm) "
+        //entrada de produção
+        $sSql = "insert into #EstLiveMetalbo (procod,mov,quantEnt,quantSaid,alm) "
                 . "Select widl.lctprod1.procod,('E') as mov,sum(lcpproqtd)as Entrada,('0')as Saida,lctproalmo "
                 . "from widl.LCTPROD1 (NOLOCK),widl.prod01 (NOLOCK) "
                 . "where widl.prod01.procod = widl.LCTPROD1.procod "
                 . "and lcpprodata >'" . $sDataEnc . "' and filcgc = 75483040000211 "
-                . "and  widl.lctprod1.procod =" . $sProcod . " "
-                . "GROUP by widl.LCTPROD1.procod,lctproalmo order by widl.lctprod1.procod ";
+                . "and  widl.lctprod1.procod in( '" . $sProcod . "') "
+                . "GROUP by widl.LCTPROD1.procod,lctproalmo "
+                . "order by widl.lctprod1.procod";
         $aRet5 = $PDOnew->exec($sSql);
 
-        $sSql = " insert into #EstLiveMetalbo(procod,mov,quantEnt,quantSaid,alm) "
-                . "SELECT procod,('E') as mov,SUM (traiteqtde)as Entrada,('0')as Saida,traitealm "
+        //entrada de transferencia
+        $sSql = "insert into #EstLiveMetalbo(procod,mov,quantEnt,quantSaid,alm) "
+                . "SELECT procod, ('E') as mov, SUM (traiteqtde)as Entrada, ('0')as Saida,traitealm "
                 . "FROM widl.TRANSF1(nolock),widl.prod01(nolock) "
                 . "WHERE widl.prod01.procod = widl.transf1.traitepro "
                 . "AND traitedata >'" . $sDataEnc . "' "
-                . "and procod =" . $sProcod . " "
-                . "group by procod,traitealm ";
+                . "and procod in('" . $sProcod . "') "
+                . "and filcgc = '75483040000211' "
+                . "group by procod,traitealm";
         $aRet6 = $PDOnew->exec($sSql);
 
+        //saida de transferencia
         $sSql = "insert into #EstLiveMetalbo(procod,mov,quantEnt,quantSaid,alm) "
                 . "SELECT procod,('S') as mov,('0')as Entrada,SUM (traqtdtot)AS Saida,traalmcod "
                 . "FROM widl.TRANSF(nolock),widl.prod01(nolock) "
                 . "WHERE widl.TRANSF.traprocod = widl.prod01.procod "
                 . "and tradata >'" . $sDataEnc . "' "
-                . "and procod =" . $sProcod . " "
-                . "group by widl.prod01.procod,traalmcod ";
+                . "and procod in('" . $sProcod . "') "
+                . "and filcgc = '75483040000211'"
+                . "group by widl.prod01.procod,traalmcod";
         $aRet7 = $PDOnew->exec($sSql);
 
-
+        //requisição
         $sSql = "insert into #EstLiveMetalbo(procod,mov,quantEnt,quantSaid,alm) "
-                . "select widl.requis.procod,('S') as mov,('0')as Entrada, "
-                . "sum(widl.requis.reqproqtat)as Saida,reqproalm "
+                . "select widl.requis.procod, ('S') as mov, ('0') as Entrada, "
+                . "sum(widl.requis.reqproqtat)as Saida, reqproalm "
                 . "from widl.requis(nolock) left outer join widl.REQ01(nolock) "
                 . "on widl.REQUIS.reqnro = widl.REQ01.reqnro "
                 . "and widl.REQ01.filcgc = widl.REQUIS.filcgc "
@@ -140,14 +148,15 @@ class PersistenciaConsultaEstoque extends Persistencia {
                 . "widl.req01.filcgc ='75483040000211' "
                 . "and reqprodtat >'" . $sDataEnc . "' "
                 . "and reqprosit IN ( 'I','E','N','') "
-                . "and widl.requis.procod =" . $sProcod . " "
-                . "group by widl.requis.procod,reqproalm ";
+                . "and widl.requis.procod in('" . $sProcod . "') "
+                . "group by widl.requis.procod,reqproalm";
         $aRet8 = $PDOnew->exec($sSql);
 
+        //faturamento
         $sSql = "insert into #EstLiveMetalbo(procod,mov,quantEnt,quantSaid,alm) "
-                . "select widl.nfc003.nfsitcod,('S') as mov, "
+                . "select widl.nfc003.nfsitcod,('S') as mov,"
                 . "case "
-                . "when nfssaida = '' then sum(widl.NFC003.nfsitqtd) end as Entrada, "
+                . "when nfssaida = '' then sum(widl.NFC003.nfsitqtd) end as Entrada,"
                 . "case "
                 . "when nfssaida = 'XXX' then sum(widl.NFC003.nfsitqtd) end as Saida, "
                 . "nfsitalm "
@@ -160,19 +169,17 @@ class PersistenciaConsultaEstoque extends Persistencia {
                 . "and widl.nfc003.nfsfilcgc = '75483040000211' "
                 . "and widl.nfc001.nfscancela <> '*' "
                 . "AND nfsitdtemi >'" . $sDataEnc . "' "
-                . "and nfsitcod =" . $sProcod . " "
+                . "and nfsitcod in('" . $sProcod . "') "
                 . "and widl.NFC003.nfsnfser = 2 "
                 . "group by procod,nfsitcod,nfsitalm,nfssaida "
-                . "order by widl.prod01.procod ";
+                . "order by widl.prod01.procod";
         $aRet9 = $PDOnew->exec($sSql);
 
         //gera o total
         $sSql = "select "
                 . "(SUM(quantEnt)) - (SUM(quantSaid)) as estoque "
                 . "from #EstLiveMetalbo "
-                . "where alm <> 60 "
-                . "and alm <> 62 "
-                . "and alm <> 63 ";
+                . "where alm in('1','224','57','69') ";
         $result = $PDOnew->query($sSql);
         $row = $result->fetchObject();
         $iTotal = $row->estoque;
@@ -182,9 +189,7 @@ class PersistenciaConsultaEstoque extends Persistencia {
                 . "(SUM(quantEnt)) - (SUM(quantSaid)) as estoque "
                 . "from #EstLiveMetalbo,widl.ALM01(nolock) "
                 . "where #EstLiveMetalbo.alm = widl.ALM01.almcod "
-                . "and alm <> 60 "
-                . "and alm <> 62 "
-                . "and alm <> 63 "
+                . "and alm in('1','224','57','69') "
                 . "group by alm,almdes ";
         $result = $PDOnew->query($sSql);
         $aEstoque = array();
@@ -206,7 +211,7 @@ class PersistenciaConsultaEstoque extends Persistencia {
                 . "and pdvsituaca = 'O' "
                 . "and pdvaprova = 'A' "
                 . "and widl.PEDV01.procod =" . $sProcod . " "
-                . "and (widl.pedv01.pdvproqtdp - widl.pedv01.pdvproqtdf)>=0 ";
+                . "and (widl.pedv01.pdvproqtdp - widl.pedv01.pdvproqtdf)> =0 ";
         $result = $this->getObjetoSql($sSql);
         $row = $result->fetch(PDO::FETCH_OBJ);
         $sTotal = $row->totalped;

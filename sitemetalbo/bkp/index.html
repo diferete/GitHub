@@ -1,0 +1,733 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- Required meta tags -->
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-112382958-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-112382958-1');
+        </script>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Grayrids">
+        <title>Metalbo - Elementos de Fixação</title>
+        <link rel="icon" type="image/png" href="img/favicons/favicon.png">
+        <link rel="apple-touch-icon" sizes="57x57" href="img/favicons/faviconx57.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="img/favicons/faviconx72.png">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/line-icons.css">
+        <link rel="stylesheet" href="css/owl.carousel.css">
+        <link rel="stylesheet" href="css/owl.theme.css">
+        <link rel="stylesheet" href="css/nivo-lightbox.css">
+        <link rel="stylesheet" href="css/magnific-popup.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/menu_sideslide.css">
+        <link rel="stylesheet" href="css/main.css?v=28">    
+        <link rel="stylesheet" href="css/responsive.css">
+        <link rel="stylesheet" href="css/bootstrap-sweetalert/sweet-alert.css">
+        <script src="css/bootstrap-sweetalert/sweet-alert.js"></script>
+
+
+        <!-- Color CSS Styles  -->
+        <link rel="stylesheet" type="text/css" href="css/colors/green.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/metalbostyle.css" media="screen" />
+
+    </head>
+
+    <body>
+        <!-- Menu superior lateral -->
+        <header id="slider-area">  
+            <div class="menu-wrap">
+                <nav class="menu">
+                    <div class="icon-list navbar-collapse">
+
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#" onclick="mensagemErro('Caro usuário!', 'Este recurso está em desenvolvimento e logo será liberado!');">Baixar nota fiscal eletrônica</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#" onclick="mensagemErro('Caro usuário!', 'Este recurso está em desenvolvimento e logo será liberado!');">Enviar Curriculo</a>
+                            </li>  
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#" onclick="mensagemErro('Caro usuário!', 'Este recurso está em desenvolvimento e logo será liberado!');">Contato Técnico</a>
+                            </li> 
+                            <!--<li class="nav-item">
+                                <a class="nav-link page-scroll" href="https://sistema.metalbo.com.br/index.php?soluser=true">Solicitar Usuário</a>
+                            </li>-->
+                        </ul>            
+                    </div>
+                </nav> 
+                <button class="close-button" id="close-button"><i class="lnr lnr-cross"></i></button>
+            </div> 
+
+
+
+
+            <!--Menu superior -->   
+            <nav class="navbar navbar-expand-md fixed-top scrolling-navbar mainmenu-area">
+                <div class="container">          
+                    <a class="navbar-brand" href="index.html"><img src="img/logo/logopng.png" /></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="lnr lnr-menu"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#slider-area">Início</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#representantes">Representantes</a>
+                            </li>  
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#produtos">Produtos</a> 
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#institucional">Institucional</a>
+                            </li>            
+                            <!--<li class="nav-item">
+                                <a class="nav-link page-scroll" href="http://metalbo.com.br/Metalboletim/" target="new">MetalboLetim</a>
+                            </li>--> 
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#noticias">Notícias</a>
+                            </li>    
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="#contact">Contato</a>
+                            </li> 
+                            <!--<li class="nav-item">
+                                <a class="nav-link page-scroll" href="https://sistema.metalbo.com.br/" target="new">Sistema</a>
+                            </li>-->
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="/site/EN" target="new"><img title="English" src="img/flags/eng.jpg" alt="English"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="/site/ES" target="new"><img title="Español" src="img/flags/spa.jpg" alt="Español"></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link page-scroll" href="/site/GE" target="new"><img title="Deutsch" src="img/flags/ger.jpg" alt="Deutsch"></a>
+                            </li>
+
+                            <li class="nav-item">
+                                <button class="menu-button" id="open-button"><i class="lnr lnr-menu"></i></button>
+                            </li>
+                        </ul>              
+                    </div>
+                </div>
+            </nav> 
+
+            <!-- Slides do site -->
+            <div id="carousel-area">
+                <div id="carousel-slider" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-slider" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-slider" data-slide-to="1"></li>
+                        <li data-target="#carousel-slider" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item">
+                            <img src="img/slider/bg-1.jpg" alt="">
+                            <div class="carousel-caption">
+                                <h1 style="color: red !important;font-weight:900 !important;font-size:60px !important;">FIXANDO IDEIAS E PROJETOS  <br> SEMPRE PENSANDO NO SEU FUTURO!</h1>  
+                            </div>
+                        </div>
+                        <div class="carousel-item ">
+                            <img src="img/slider/bg-2.jpg" alt="">
+                            <div class="carousel-caption">
+                                <h1 style="color:green;font-weight:900 !important;font-size:60px !important;" class="text-center">FIXANDO COM QUALIDADE E TECNOLOGIA!</h1> 
+                                <p style="font-size:20px !important;">Excelência na fabricação de porcas e parafusos!</p>
+                                <a href="#produtos" class="btn btn-lg btn-common">CONHEÇA NOSSOS PRODUTOS!</a>
+                            </div>
+                        </div>
+                        <div class="carousel-item active">
+                            <img src="img/slider/bg-3.jpg" alt="">
+                            <div class="carousel-caption">
+                                <h1  class="hoverBtn"style="font-weight:900 !important;font-size:60px !important;">MAIS DE 50 ANOS DE TRADIÇÃO!</h1> 
+                                <p style="font-size:20px !important;">Presente na história da indústria Brasileira! </p>
+                                <a href="nossa_historia.html" class="btn btn-lg btn-common" target="new">CONHEÇA NOSSA HISTÓRIA!</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carousel-slider" role="button" data-slide="prev">
+                        <i class="lnr  lnr-arrow-left"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#carousel-slider" role="button" data-slide="next">
+                        <i class="lnr  lnr-arrow-right"></i>
+                    </a>
+                </div>
+            </div>  
+            <div class="mobile-only"></div>
+        </header>
+
+
+        <!-- Serviços prestados -->
+        <section  class="section">
+            <div class="container">
+                <div class="section-header">          
+                    <h2 class="section-title">Metalbo <span>elementos de fixação!</span></h2>
+                </div> 
+                <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="item-boxes wow fadeInDown" data-wow-delay="0.2s">
+                            <div class="icon">
+                                <i class="lnr lnr-cog"></i>
+                            </div>
+                            <h4>EXCELÊNCIA NA FABRICAÇÃO!</h4>
+                            <p>Nossos produtos são de grande qualidade com matéria prima de fornecedores renomados como Arcelor Mittal, 
+                                Belgo Bekaert Arames, Gerdau Açominas, Gerdau Aços Longos, Gerdau Aços Especiais.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="item-boxes wow fadeInDown" data-wow-delay="0.4s">
+                            <div class="icon">
+                                <i class="fa fa-dribbble"></i>
+                            </div>
+                            <h4>BRASIL E AMÉRICA LATINA!</h4>
+                            <p>A Metalbo tem forte atuação no mercado de Porcas e Parafusos atendendo todo o Brasil e Mercosul exportando desde 1996 tornando a Metalbo uma das maiores fabricantes de elementos de fixação do Brasil.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="item-boxes wow fadeInDown" data-wow-delay="0.6s">
+                            <div class="icon">
+                                <i class="lnr lnr-chart-bars"></i>
+                            </div>
+                            <h4>CERTIFICADA ISO 9001</h4>
+                            <p>Em 11 de março de 2008, a Metalbo conquistou a certificação do seu Sistema de Gestão da Qualidade - ISO 9001:2008 demonstrando a qualidade dos produtos Metalbo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Representantes -->
+        <section id="download" class="section2">
+            <div class="container" id="representantes">
+                <div class="section-header">          
+                    <h5 class="section-title">Contamos com representantes em todo o Brasil e na América Latina!</h5>
+                </div>
+            </div>
+        </section>
+
+        <div class="section pricing-section">
+            <div class="container">
+                <div class="row pricing-tables">
+                    <div class="col-md-4 col-sm-6 ">
+                        <div class="pricing-table table-left">
+                            <img src="img/representantes/handel-fnd.png" class="rep-img"/>
+                            <div class="pricing-details">
+                                <span>HANDEL S.A</span>
+                                <p>Handel representa marcas exclusivas e conhecidas mundialmente, atendendo
+                                    toda a américa latina e áfrica do sul.</p>
+                            </div>
+                            <div class="plan-button">
+                                <a href="http://handel.com.ar/" target="new" class="btn btn-common" style="margin-top: 20px;">handel.com.ar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <img src="img/representantes/rep.jpg" alt="" style="max-width: 100%;height:100%;" />
+                            <div class="pricing-details">
+                                <span>ENCONTRE UM REPRESENTANTE!</span>
+                                <p>A maneira mais rápida e prática de fazer suas cotações... 
+                                    Selecione seu estado no campo abaixo para encontrar o representante mais próximo de você!
+                                </p>
+                                <div id="selEstado">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-lg-4"></div>
+                                            <select id="estado" style="border: 2px solid red !important;" class="col-lg-12 form-control-sm">
+                                                <option value="0" selected>Selecione o seu Estado (UF)</option>
+                                                <option value="AC">Acre</option>
+                                                <option value="AL">Alagoas</option>
+                                                <option value="AP">Amapá</option>
+                                                <option value="AM">Amazonas</option>
+                                                <option value="BA">Bahia</option>
+                                                <option value="CE">Ceará</option>
+                                                <option value="DF">Distrito Federal</option>
+                                                <option value="ES">Espírito Santo</option>
+                                                <option value="GO">Goiás</option>
+                                                <option value="MA">Maranhão</option>
+                                                <option value="MT">Mato Grosso</option>
+                                                <option value="MS">Mato Grosso do Sul</option>
+                                                <option value="MG">Minas Gerais</option>
+                                                <option value="PA">Pará</option>
+                                                <option value="PB">Paraíba</option>
+                                                <option value="PR">Paraná</option>
+                                                <option value="PE">Pernambuco</option>
+                                                <option value="PI">Piauí</option>
+                                                <option value="RJ">Rio de Janeiro</option>
+                                                <option value="RN">Rio Grande do Norte</option>
+                                                <option value="RS">Rio Grande do Sul</option>
+                                                <option value="RO">Rondônia</option>
+                                                <option value="RR">Roraima</option>
+                                                <option value="SC">Santa Catarina</option>
+                                                <option value="SP">São Paulo</option>
+                                                <option value="SE">Sergipe</option>
+                                                <option value="TO">Tocantins</option>
+                                            </select>
+                                            <div class="col-lg-4"></div>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="plan-button hidden">
+                                <a href="#" data-target="#buscarep" data-toggle="modal" class="btn btn-common" id="callbtn"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <img src="img/representantes/metalbosp.png" class="rep-img"/>
+                            <div class="pricing-details">
+                                <span>VENDAS SÃO PAULO</span>
+                                <p>Atendendo <strong>Acre, Amapá, Amazonas, Distrito Federal, Espírito Santo, Goiás, Pará, Rio de Janeiro, Rondônia, Roraima, São Paulo e Tocantis</strong>.</p>
+                            </div>
+                            <div class="plan-button">
+                                <a href="http://metalbosp.com.br" target="new" class="btn btn-common">metalbosp.com.br</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="buscarep" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog " role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <!-- Blog Item Starts -->
+                                        <div id="modalrep"></div>
+                                    </div>
+                                </div>
+                                <div class="pricing-table">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--Produtos -->
+        <section id="download" class="section">
+            <div class="container" id="produtos">
+                <div class="section-header">          
+                    <h5 class="section-title">Acesse nosso catálogo de produtos!</h5>
+                </div>
+
+            </div>
+        </section>
+
+        <div id="pricing" class="section pricing-section">
+            <div class="container">
+                <div class="row pricing-tables">
+                    <!--<div class="col-md-5 col-sm-6 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <a href="https://issuu.com/revistabicicleta/docs/lista_de_pre__o_-_2017" target="_blank"> <img class="img-thumbnail" src="img/catalogo/catalogo-capa.jpg" alt="catalogo"> </a>
+
+                            <div class="plan-button">
+                                <a href="https://issuu.com/revistabicicleta/docs/lista_de_pre__o_-_2017" target="new"  class="btn btn-common" style="margin-top: 20px;">Visualizar</a>
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <div class="pricing-details">
+                                <img class="img-teste teste2" src="img/catalogo/catalogo-capa.jpg" alt="catalogo">
+                                <span>CONHEÇA A VARIEDADE DOS PRODUTOS METALBO!</span>
+                                <p><br/><br/>A Metalbo conta com uma ampla linha de elementos de fixação, como porcas, parafusos, arruelas, barras roscadas, entre outros, os quais são utilizados
+                                    em diversos segmentos como o de fabricação de máquinas e equipamentos agrícolas, torres de transmissão de energia, construção civil e na fabricação de máquinas em geral.</p>
+                                <p> Precisa de nosso catálogo? <br/>
+                            </div>
+                            <div class="row" style="margin-top: 55px;">
+                                <div class="plan-button col-md-6">
+                                    <a href="http://metalbo.com.br/catalogo/tabela.pdf" target="_blank" class="btn btn-common">Catálogo PDF</a>
+                                </div>
+                                <div class="plan-button col-md-6">
+                                    <a href="https://sistema.metalbo.com.br/catalogo/?#" target="_blank" class="btn btn-common">Catálogo WEB</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Institucional -->
+        <div id="institucional"></div>
+        <section id="download" class="section2" >
+            <div class="container">
+                <div class="section-header">          
+                    <h2 class="section-title">MAIS DE 50 ANOS DE TRADIÇÃO NA INDÚSTRIA!</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">            
+                        <div class="download-area text-center">
+                            <a href="nossa_historia.html" class="btn btn-border" target="new" >Conheça nossa história</a>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--<section id="features" class="section" data-stellar-background-ratio="0.2">
+            <div class="container">
+                <div class="section-header">          
+                    <h2 class="section-title">Fique por dentro das novidades da Metalbo acessando nosso Facebook!</h2>
+                </div>
+            </div>
+        </section>
+        <div id="pricing" class="section pricing-section">
+            <div class="container">
+                <div class="row pricing-tables">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <div class="pricing-details">
+                                <a href="http://metalbo.com.br/Metalboletim/" target="new" >
+                                    <img alt="" src="img/institucional/metalboletim.png" class="logo-boletim"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div id="pricing2" class="section pricing-section">
+            <div class="container">
+                <div class="row pricing-tables">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="pricing-table table-left">
+                            <div class="pricing-details">
+                                <h3>
+                                    <span><strong> Política e Objetivos da Qualidade </strong></span>
+                                </h3>
+                                <hr class="lines">
+                                <p style="text-align:left;padding-left:10px">A Metalbo Indústria de Fixadores Metálicos Ltda com o compromisso de atender ao propósito e contexto da organização,
+                                    satisfazer as partes interessadas pertinentes ao negócio e seus requisitos,
+                                    e melhorar continuamente a eficácia do sistema de gestão da qualidade se responsabiliza com os objetivos:</p>
+                                <p style="text-align:left;padding-left:10px">
+                                    - Conformidade de produtos e melhoria dos processos;<br/>
+                                    - Atender aos requisitos dos clientes;<br/>
+                                    - Qualificação e conscientização dos colaboradores;<br/>
+                                    - Crescimento sustentável da organização;<br/>
+                                </p>
+                            </div>
+                        <div class="plan-button">
+                            <a href="http://metalbo.com.br/img/institucional/certificado2023.pdf" target="_blank" class="btn btn-common">Certificado ISO</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Notícias  -->
+        <div id="noticias"></div>
+        <section id="blog" class="section">
+            <!-- Container Starts -->
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" style="margin-top: 50px;">Notícias <span>Metalbo</span></h2>
+                    <hr class="lines">
+                </div>
+
+                <div class="row" id="divFeed"></div>
+                <div id="loading" class="row justify-content-md-center gif">
+                    <img class="loading" src="img/loading.gif" alt="#"/>
+                </div>
+                <div class="plan-button text-center">
+                    <a href="noticias.html" target="_blank" rel="noopener noreferrer" class="btn btn-common">Mais notícias...</a>
+                </div>
+
+            </div>
+            <br/>
+            <br/>
+        </section>
+        <!-- blog Section End -->
+
+        <div id="subscribe" class="section" style="padding-bottom: 40px;">
+            <div class="container">
+                <div class="section-header">          
+                    <h2 class="section-title" style="margin-top: 50px;">Fique por dentro da Metalbo! <span>Cadastre seu e-mail agora!</span></h2>
+                    <hr class="lines">
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-md-8">
+                        <form accept-charset="utf-8" class="text-center form-inline">
+                            <input class="mb-20 form-control" name="email" id="letter" placeholder="Informe seu e-mail!" onfocus="desabilita();">
+                            <div class="help-block with-errors" style="color: red" id="validaletter">Informe um valor válido!</div>
+                            <div class="help-block with-errors" style="color: green" id="validaSucesso">Cadastrado com sucesso!</div>
+                            <div class="help-block with-errors" style="color: red" id="validaBackphp">Algo deu errado no cadastro!</div>
+                            <a class="sub_btn" onclick="newsletter();">Cadastrar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- Contact Section Start -->
+        <section id="contact" class="section">      
+            <div class="contact-form">
+                <div class="container">
+                    <div class="row justify-content-md-center">          
+                        <div class="col-md-9">
+                            <div class="contact-block">
+                                <div class="section-header">          
+                                    <h2 class="section-title">Entre em contato com a Metalbo!<span> </span></h2>
+                                    <div id="msg"></div>
+                                    <hr/>
+                                </div>
+                                <form  accept-charset="utf-8" id="contactForm">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nome" id="nome" class="form-control"   name="nome" required data-error="Por favor entre com seu nome">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Seu email" id="email" class="form-control" name="email" required data-error="Por favor digite seu e-mail">
+                                                <div class="help-block with-errors"></div>
+                                            </div> 
+                                        </div>
+                                        <!-- <div class="col-md-4">
+                                             <div class="form-group">
+                                                 <input type="text" placeholder="Assunto" id="assunto" class="form-control" name="assunto" required data-error="Informe um assunto">
+                                                 <div class="help-block with-errors"></div>
+                                             </div>
+                                         </div>-->
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="assunto" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Selecione o Assunto</option>
+                                                    <option value="1">Cotações</option>                                                    
+                                                    <option value="2">Apresentações</option>
+                                                    <option value="3">NFe</option>
+                                                    <!--<option value="4">Compras</option>-->
+                                                    <option value="5">Outros</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="uf" onchange="getES()" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Selecione o Estado</option>
+                                                    <option value="12">Acre</option>
+                                                    <option value="27">Alagoas</option>
+                                                    <option value="16">Amapá</option>
+                                                    <option value="13">Amazonas</option>
+                                                    <option value="29">Bahia</option>
+                                                    <option value="23">Ceará</option>
+                                                    <option value="53">Distrito Federal</option>
+                                                    <option value="32">Espírito Santo</option>
+                                                    <option value="52">Goiás</option>
+                                                    <option value="21">Maranhão</option>
+                                                    <option value="51">Mato Grosso</option>
+                                                    <option value="50">Mato Grosso do Sul</option>
+                                                    <option value="31">Minas Gerais</option>
+                                                    <option value="41">Paraná</option>
+                                                    <option value="25">Paraíba</option>
+                                                    <option value="15">Pará</option>
+                                                    <option value="26">Pernambuco</option>
+                                                    <option value="22">Piauí</option>
+                                                    <option value="33">Rio de Janeiro</option>
+                                                    <option value="24">Rio Grande do Norte</option>
+                                                    <option value="43">Rio Grande do Sul</option>
+                                                    <option value="11">Rondônia</option>
+                                                    <option value="14">Roraima</option>
+                                                    <option value="42">Santa Catarina</option>
+                                                    <option value="28">Sergipe</option>
+                                                    <option value="35">São Paulo</option>
+                                                    <option value="17">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="cidade" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Selecione a Cidade</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!--<div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Sua Cidade" id="cidade" class="form-control" name="cidade" required data-error="Informe a sua ciadade">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>-->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <textarea   placeholder="Digite sua mensagem" id="mensagem" class="form-control"  name ="mensagem" rows="11" data-error="Digite sua mensagem" required></textarea>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                            <div class="submit-button text-center">
+                                                <button class="btn btn-common" id="submit" type="submit">Enviar mensagem!</button>
+                                                <div id="msgSubmit" class="h3 text-center hidden"></div> 
+                                                <div class="clearfix"></div> 
+                                            </div>
+                                        </div>
+                                    </div>                     
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </section>
+
+
+
+
+        <!-- Footer Section Start -->
+
+        <div  id="googleMap" style="width:100%;height:400px;position:fixed">
+            <div class="map-icon" data-latitude="-27.285582" data-longitude="-49.782763"><i class="map-button">MAPA</i></div>
+        </div>
+
+        <footer>          
+            <div class="row">
+                <div class="col-md-4 mobile-footer col-4-footer" > 
+                    <h3>Endereço</h3>
+                    Metalbo Indústria de Fixadores Metálicos LTDA.<br>
+                    Rodovia SC-426 Trevo BR-470, 3207 <br>
+                    Centro - Trombudo Central<br>
+                    SC - BRASIL<br>
+                    CEP: 89176-000<br>
+                    Fone: 55 (47) 3544-8400 <br>
+                </div><br> 
+
+                <!--<div class="col-md-3 mobile-footer" style="padding:0px !important;"> 
+                    <h3>Contatos</h3>
+                    <strong>Geral:  </strong><a href="mailto:contato@metalbo.com.br">contato@metalbo.com.br</a><br/>
+                    <strong>Comercial: </strong><a href="mailto:contato@metalbo.com.br">contato@metalbo.com.br</a><br/>
+                    <strong>Nfe: </strong><a href="mailto:nfe@metalbo.com.br">nfe@metalbo.com.br</a><br/>
+                    <strong>Compras: </strong><a href="mailto:compras@metalbo.com.br">compras@metalbo.com.br</a><br/>
+                </div><br>
+
+                <div class="col-md-3 mobile-footer" > 
+                    <h3>Sites </h3>
+                    <a href="http://www.poliamidos.com.br/pt-br/" target="new">www.poliamidos.com.br</a><br/>
+                    <a href="http://www.steeltrater.com.br/" target="new">www.steeltrater.com.br</a><br/>
+                    <a href="http://www.metalbo.com.br/Metalboletim/" target="new">www.metalbo.com.br/metalboletim</a><br/>
+                </div><br>-->
+
+                <div class="col-md-4 mobile-footer" style="padding:0px !important;"> 
+                    <h3 style="color:white">Links Uteis</h3>
+                    <a href="#" onclick="mensagemErro('Caro usuário!', 'Este recurso está em desenvolvimento e logo será liberado!');">Baixar NFE</a><br/>
+                    <a href="#" onclick="mensagemErro('Caro usuário!', 'Este recurso está em desenvolvimento e logo será liberado!');">Trabalhe Conosco</a><br/>
+                    <a href="#" onclick="mensagemErro('Caro usuário!', 'Este recurso está em desenvolvimento e logo será liberado!');">Contato Técnico</a><br/>
+                    <!--<a href="https://sistema.metalbo.com.br/index.php?soluser=true">Solicitar Usuário</a><br/>-->
+                </div><br>
+
+                <div class="col-md-4"> 
+                    <div class="site-info">
+                        <img style="width: 50%" src="img/footer/footer-logo.png" alt="" />
+                        <p style="font-size:12px!important" >Todos os direitos reservados<br/>  Metalbo Indústria de Fixadores Metálicos LTDA - 2018</p>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="social-icons">
+                                        <ul>
+                                            <li class="facebook">
+                                                <a href="https://www.facebook.com/metalbo.oficial/" target="new">
+                                                    <i class="fa fa-facebook">
+                                                    </i>
+                                                </a>
+                                            </li>
+                                            <li class="youtube">
+                                                <a href="https://www.youtube.com/channel/UC3skhwqKfP54BF-tLXEE2yQ" target="new">
+                                                    <i class="fa fa-youtube">
+                                                    </i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>				
+                <div class="box-cookies hide">
+                    <p class="msg-cookies">Este site usa cookies para garantir que você obtenha a melhor experiência.</p>
+                    <button class="btn-cookies">Aceitar!</button>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer Section End --> 
+
+        <!-- Go To Top Link -->
+        <a href="#" class="back-to-top">
+            <i class="lnr lnr-arrow-up"></i>
+        </a>
+
+
+        <!-- jQuery first, then Tether, then Bootstrap JS. -->
+        <script src="js/jquery-min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/classie.js"></script>
+        <script src="js/jquery.mixitup.js"></script>
+        <script src="js/nivo-lightbox.js"></script>
+        <script src="js/owl.carousel.js"></script>   
+        <script src="js/jquery.stellar.min.js"></script>     
+        <script src="js/jquery.nav.js"></script>    
+        <script src="js/scrolling-nav.js"></script>    
+        <script src="js/jquery.easing.min.js"></script>    
+        <script src="js/wow.js"></script>   
+        <script src="js/menu.js"></script>
+        <script src="js/jquery.counterup.min.js"></script>    
+        <script src="js/jquery.magnific-popup.min.js"></script>    
+        <script src="js/waypoints.min.js"></script>    
+        <script src="js/form-validator.min.js"></script>
+        <script src="js/contact-form-script.js?v=29"></script>   
+        <script src="js/main.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/plugins.min.js"></script>
+        <script src="css/bootstrap-sweetalert/sweet-alert.js"></script>
+
+
+        <!-- Google Maps JS Only for Contact Pages -->
+        <script type="text/javascript">
+                        function myMap() {
+                            var mapProp = {
+                                center: new google.maps.LatLng(-27.285984, -49.783362),
+                                zoom: 15,
+                            };
+                            var map = new google.maps.Map(document.getElementById("googleMap"), mapProp, marker);
+
+                            var marker = new google.maps.Marker({
+                                position: new google.maps.LatLng(-27.285984, -49.783362),
+                                map: map
+                            });
+                        }
+                        $("#validaletter").hide();
+                        $("#validaSucesso").hide();
+                        $("#validaBackphp").hide();
+
+        </script>
+
+        <!-- Google Maps API -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVHolIAKUem5Y3FSxBcExiiyTTGEjyVYk&callback=myMap"></script>
+
+    </body>
+</html>

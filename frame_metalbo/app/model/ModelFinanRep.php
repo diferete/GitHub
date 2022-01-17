@@ -23,6 +23,15 @@ class ModelFinanRep {
     private $bcodes;
     private $rechist;
     private $recprnro;
+    private $recprbconr;
+
+    function getRecprbconr() {
+        return $this->recprbconr;
+    }
+
+    function setRecprbconr($recprbconr) {
+        $this->recprbconr = $recprbconr;
+    }
 
     function getRecdtemiss() {
         return $this->recdtemiss;

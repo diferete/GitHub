@@ -18,7 +18,7 @@ class ViewItemMenu extends View {
     }
 
     function criaGridDetalhe() {
-        parent::criaGridDetalhe();
+        parent::criaGridDetalhe($sIdAba);
 
         /**
          * ESSE MÉTODO DE ESPELHAR O MOSTRACONSULTA SOMENTE POR ENQUANTO
@@ -73,6 +73,10 @@ class ViewItemMenu extends View {
         //$oMenDes->setBOculto(true);
         $oMenDes->setSValor($aValor[3]);
 
+        $oRotina = new Campo('Rotina?', 'rotina', Campo::TIPO_RADIO, 1, 1, 12, 12);
+        $oRotina->addItenRadio('S', 'SIM');
+        $oRotina->addItenRadio('N', 'NÃO');
+
         $oIteCodigo = new Campo('Codigo', 'itecodigo', Campo::TIPO_TEXTO, 1);
         $oIteCodigo->setITamanho(Campo::TAMANHO_PEQUENO);
         $oIteCodigo->setBFocus(true);
@@ -97,7 +101,7 @@ class ViewItemMenu extends View {
         //$oBotConf->setSAcaoBtn($sAcao);
         $this->getTela()->setIdBtnConfirmar($oBotConf->getId());
         $this->getTela()->setAcaoConfirmar($sAcao);
-        $this->addCampos(array($oModCod, $oModdes, $oMenCodigo, $oMenDes), array($oIteCodigo, $oIteDesc, $oIteOrdem), array($oIteclasse, $oIteMetodo, $oBotConf));
+        $this->addCampos(array($oModCod, $oModdes, $oMenCodigo, $oMenDes), array($oIteCodigo, $oIteDesc, $oIteOrdem, $oRotina), array($oIteclasse, $oIteMetodo, $oBotConf));
 
         //adiciona objetos campos para servirem como filtros iniciais do grid
         $this->addCamposFiltroIni($oModCod, $oMenCodigo);
