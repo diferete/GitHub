@@ -75,8 +75,6 @@ class ControllerMET_FRETE_FaturaXml extends Controller {
                             $_REQUEST['xml'] = $file;
 
                             require 'app/relatorio/UploadXmlFrete.php';
-
-                            $this->Persistencia->setTagOpen($aDadosFatura);
                         }
                     }
 
@@ -94,11 +92,11 @@ class ControllerMET_FRETE_FaturaXml extends Controller {
                     foreach (array_filter(glob('uploads/xml-cte/' . $aDadosFatura['fatura'] . '/*'), 'is_file') as $file) {
                         $_REQUEST['xml'] = $file;
                         require 'app/relatorio/UploadXmlFrete.php';
-                        $this->Persistencia->setTagOpen($aDadosFatura);
                     }
 
                     break;
             }
+            $this->Persistencia->setTagOpen($aDadosFatura);
         }
 
         $count;
