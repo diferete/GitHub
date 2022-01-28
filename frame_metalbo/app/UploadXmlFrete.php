@@ -14,7 +14,7 @@ $datafn = $_REQUEST['dataVenc'];
 $data = date('d/m/Y');
 $hora = date('H:i:s');
 $usuario = $_REQUEST['usuario'];
-$oNfsNfNro1 = '';
+$oNfsNfNro1 = 0;
 $oTotalnf = 0;
 $oTotalKg = 0;
 $obsfinal = null;
@@ -25,7 +25,6 @@ $sSit = 'A';
 $oXml = simplexml_load_file($arquivo);
 $sNCTe = (string) $oXml->CTe->infCte->ide->nCT;
 $sValorServico = (string) $oXml->CTe->infCte->vPrest->vTPrest;
-$sCNPJCliente = (string) $oXml->CTe->infCte->dest->CNPJ;
 $aObjetoChaves = (array) $oXml->CTe->infCte->infCTeNorm->infDoc;
 $sValorCarga = (string) $oXml->CTe->infCte->infCTeNorm->infCarga->vCarga;
 if ($cnpj == '428307001593') {
@@ -41,9 +40,9 @@ foreach ($aObjetoChaves as $key => $chaves) {
     if ($total > 1) {
         foreach ($chaves as $chave) {
             if ($sNFE == '') {
-                $sNFE = "'" . substr((string) $chave->chave, 25, 9) . "'";
+                $sNFE = "'" . substr((string) $chaves->chave, 25, 9) . "'";
             } else {
-                $sNFE = $sNFE . ",'" . substr((string) $chave->chave, 25, 9) . "'";
+                $sNFE = $sNFE . ",'" . substr((string) $chaves->chave, 25, 9) . "'";
             }
         }
     } else {
@@ -52,7 +51,7 @@ foreach ($aObjetoChaves as $key => $chaves) {
 }
 
 /* VALIDAÇÃO DO TIPO DE CTE - COMPRA OU VENDA - */
-/* seleciona na tabela do faturamento os dados da NFE referente ao CTE */
+/* seleciona na tabela do faturamente os dados da NFE referente ao CTE */
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 $sSql = " select "
         . "nfsnfnro,"
@@ -65,12 +64,9 @@ $sSql = " select "
         . "left outer join widl.EMP01 "
         . "on widl.NFC001.nfsclicod = widl.EMP01.empcod "
         . "where nfsnfnro in(" . $sNFE . ") "
-        . "and widl.EMP01.empcl = 'C' "
-        . "and nfsfilcgc = 75483040000211 "
-        . "and nfsclicgc = " . $sCNPJCliente . "";
+        . "and nfsvlrtot in('" . $sValorCarga . "')";
 $dadosSql = $PDO->query($sSql);
 $aDadosNF1 = $dadosSql->fetch(PDO::FETCH_ASSOC);
-/* se nao existe na NFC001 retorna false e busca na NFE01 */
 if (!$aDadosNF1 || $aDadosNF1 == null) {
     /* compra */
     $sSql2 = "select nfenro as nfsnfnro,"
@@ -78,11 +74,11 @@ if (!$aDadosNF1 || $aDadosNF1 == null) {
             . "nfetransp as cnpj "
             . "from widl.NFE01 "
             . "where nfetransp ='" . $cnpj . "' "
-            . "and  nfenro in(" . $sNFE . ") ";
+            . "and  nfenro in(" . $sNFE . ") "
+            . "and nfevlrnota in ('" . $sValorCarga . "')";
     $dadosSql2 = $PDO->query($sSql2);
     $oRow1 = $dadosSql2->fetch(PDO::FETCH_ASSOC);
     /* validação caso não tenha nota de compra */
-    /* caso não ache na NFE01 carrega valores direto do XML */
     if (!$oRow1 || $oRow1 == null) {
         $iCodTipo = 2;
         $oTotalnf = $sValorCarga;
@@ -98,7 +94,7 @@ if (!$aDadosNF1 || $aDadosNF1 == null) {
         $iCodTipo = 2;
         $dadosSql2 = $PDO->query($sSql2);
         while ($oRow2 = $dadosSql2->fetch(PDO::FETCH_ASSOC)) {
-            if ($oNfsNfNro1 == '') {
+            if ($oNfsNfNro1 == 0) {
                 $oNfsNfNro1 = "'" . $oRow2 ['nfsnfnro'] . "'";
             } else {
                 $oNfsNfNro2 = $oNfsNfNro1 . ",'" . $oRow2 ['nfsnfnro'] . "'";
@@ -116,7 +112,7 @@ if (!$aDadosNF1 || $aDadosNF1 == null) {
     $iCodTipo = 1;
     $dadosSql = $PDO->query($sSql);
     while ($aDadosNF2 = $dadosSql->fetch(PDO::FETCH_ASSOC)) {
-        if ($oNfsNfNro1 == '') {
+        if ($oNfsNfNro1 == 0) {
             $oNfsNfNro1 = "'" . $aDadosNF2 ['nfsnfnro'] . "'";
         } else {
             $oNfsNfNro2 = $oNfsNfNro1 . ",'" . $aDadosNF2 ['nfsnfnro'] . "'";
@@ -140,7 +136,7 @@ $oFracaoFrete = ceil($oTotalKg / 100);
 
 /* verifica se exitem mais de uma nota/chave e adiciona essas notas no campo observação */
 if ($total > 1) {
-    $obsfinal = str_replace("'", "", $oNfsNfNro2);
+    $obsfinal = $oNfsNfNro2;
 }
 
 /* calculos por transportadora */
@@ -153,7 +149,7 @@ if (stristr($oTotalnf, ',')) {
 if (stristr($oTotalKg, ',')) {
     $oTotalKg = Util::ValorSql($oTotalKg);
 }
-if (($cnpj == '3565095000260') || ($cnpj == '428307001593') || ($cnpj == '2633583000385') || ($cnpj == '4353469003504') || ($cnpj == '89317697001880') || ($cnpj == '32241003000375')) {
+if (($cnpj == '3565095000260') || ($cnpj == '428307001593') || ($cnpj == '2633583000385') || ($cnpj == '4353469003504') || ($cnpj == '89317697001880')) {
 
     $sSqlAux = "BEGIN TRY DROP TABLE tbnt# END TRY BEGIN CATCH END CATCH "
             . " BEGIN TRY DROP TABLE tbnt2# END TRY BEGIN CATCH END CATCH "
@@ -164,18 +160,11 @@ if (($cnpj == '3565095000260') || ($cnpj == '428307001593') || ($cnpj == '263358
 }
 
 //MIRIN - Compra e Venda
-/*
- * VENDA SEQ
- * 1,2,3,4,5,17,18 = Fórmula completa
- * 16 = Fórmula de 2%
- * 11,12,13,14,15 = Fórmula parcial 
- * COMPRA SEQ
- * TODOS
- */
 if ($cnpj == '3565095000260') {
 
     if ($aRetorno == 1) {
-        $sSql1 = "create table tbnt2# (
+        $sSql1 = $sSql1 = " 
+                create table tbnt2# (
                     seq integer,
                     ref varchar(100),
                     totalfrete money,
@@ -190,7 +179,7 @@ if ($cnpj == '3565095000260') {
                     +ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+ (nfsvlrtot *gris)  ,2),2 ) as freteminimo
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where tbfrete.cnpj =" . $cnpj . " and SEQ not in(11,12,13,14,15,16) and codtipo = 1
+                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ not in(11,12,13,14,15,16) and codtipo = 1
                 insert into tbnt2#
                 /*vendas = 16*/
                 select seq, ref, ROUND(
@@ -199,7 +188,7 @@ if ($cnpj == '3565095000260') {
                     ROUND(ROUND( (fretevalor * nfsvlrtot) ,2)  +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) ,2) as freteminimo
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where tbfrete.cnpj =" . $cnpj . " and SEQ in(16) and codtipo = 1
+                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ in(16) and codtipo = 1
                 insert into tbnt2#
                 /*vendas = 11,12,13,14,15*/
                 select seq, ref, ROUND(
@@ -210,7 +199,7 @@ if ($cnpj == '3565095000260') {
                     + ROUND(ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) ,2) as freteminimo
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where tbfrete.cnpj =" . $cnpj . " and SEQ in(11,12,13,14,15) and codtipo = 1 
+                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ in(11,12,13,14,15) and codtipo = 1 
                 insert into tbnt2#   
                 /*compras = TODOS*/
                 select seq, ref, ROUND(
@@ -221,7 +210,8 @@ if ($cnpj == '3565095000260') {
                     + ROUND(ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) ,2) as freteminimo
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where tbfrete.cnpj =" . $cnpj . " and codtipo = 2";
+                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and codtipo = 2
+                ";
 
         $result1 = $PDO->exec($sSql1);
     }
@@ -472,30 +462,26 @@ if ($cnpj == '10882366000195') {
         $iI++;
     }
 }
-
-//*vonderlog*/ - Venda
-if ($cnpj == '32241003000375') {
-
-    $sSql1 = "select seq, ref, ROUND (coalesce( (taxamin/100) * nfsvlrtot ,0),2)  AS totalfrete, ROUND (coalesce( (taxamin/100) * nfsvlrtot ,0),2) as  freteminimo
-                    from tbfrete left outer join tbnt#
-                    on tbfrete.cnpj = tbnt#.cnpj
-                    where  tbfrete.cnpj = " . $cnpj . " ";
-    $result = $PDO->query($sSql1);
-
-    $iI = 0;
-    while ($key = $result->fetch($PDO::FETCH_ASSOC)) {
-        $aRow1[$iI] = $key;
-        $iI++;
-    }
-}
-
-
 /* verifica regra da tabela de valores */
+$sTotalFrete = '';
+$sFreteMin = '';
+$SeqRegra = '';
+$i = 0;
+
 foreach ($aRow1 as $value) {
-    if ((number_format($value['totalfrete'], 0) == number_format(str_replace(',', '.', $sValorServico), 0)) ||
-            number_format($value['freteminimo'], 0) == number_format(str_replace(',', '.', $sValorServico), 0)) {
+   if($i == 0){
+        $sTotalFrete = $value['totalfrete'];
+        $sFreteMin = $value['freteminimo'];
         $SeqRegra = $value['seq'];
-    }
+        $i++;
+   }else{
+        if(abs(number_format(str_replace(',', '.', $sValorServico), 0)-number_format($value['totalfrete'])
+                < abs(number_format(str_replace(',', '.', $sValorServico), 0)-number_format($sTotalFrete, 0))){
+            $sTotalFrete = $value['totalfrete'];
+            $sFreteMin = $value['freteminimo'];
+            $SeqRegra = $value['seq'];
+        }
+   }
 }
 
 /* pega o ultimo valor da sequencia da tabela */
@@ -528,8 +514,8 @@ $dados = [
     'obsfinal' => $obsfinal,
     'dataem' => $dataem,
     'datafn' => $datafn,
-    'valorserv2' => $value['totalfrete'],
-    'valorserv3' => $value['freteminimo'],
+    'valorserv2' => $sTotalFrete,
+    'valorserv3' => $sFreteMin,
 ];
 $sSqlInsert = "INSERT INTO tbgerecfrete 
  (nr, cnpj, nrconhe, nrfat, nrnotaoc, totakg, totalnf, valorserv, fracaofrete, seqregra, 
