@@ -365,4 +365,8 @@ class ControllerCot extends Controller {
         }
     }
 
+    public function relConsultaEstoque($renderTo, $sMetodo = '') {
+        parent::mostraTelaRelatorio($renderTo, 'relConsultaEstoque');
+    }
+
 }

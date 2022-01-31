@@ -59,22 +59,6 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
             exit();
         }
 
-
-        if ($this->Model->getPro_referencia() !== '' && $this->Model->getPro_codigoantigo() !== '') {
-            $oOprodutoRef = Fabrica::FabricarController('STEEL_PCP_Produtos');
-            $oOprodutoRef->Persistencia->adicionaFiltro('pro_referencia', $this->Model->getPro_referencia());
-            $oOprodutoRef->Persistencia->adicionaFiltro('pro_codigoantigo', $this->Model->getPro_codigoantigo());
-            $iCountRef = $oOprodutoRef->Persistencia->getCount();
-            if ($iCountRef > 0) {
-                $oModal = new Modal('Atenção!', 'Já existe uma referência cadastrada para esse Cliente, necessário alterar a referência!', Modal::TIPO_AVISO, false, true, true);
-                echo $oModal->getRender();
-                exit();
-            }
-        }
-
-
-
-
         $this->preencheModelcomDados();
         $this->validacaoProdutos();
 
@@ -208,6 +192,30 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
     }
 
     public function validacaoProdutos() {
+
+    	if ($this->Model->getPro_referencia() !== '' && $this->Model->getPro_codigoantigo() !== '') {
+            $oOprodutoRef = Fabrica::FabricarController('STEEL_PCP_Produtos');
+            $oOprodutoRef->Persistencia->adicionaFiltro('pro_referencia', $this->Model->getPro_referencia());
+            $oOprodutoRef->Persistencia->adicionaFiltro('pro_codigoantigo', $this->Model->getPro_codigoantigo());
+            $iCountRef = $oOprodutoRef->Persistencia->getCount();
+            if ($iCountRef > 0) {
+                $oModal = new Modal('Atenção!', 'Já existe uma referência cadastrada para esse Cliente, necessário alterar a referência!', Modal::TIPO_AVISO, false, true, true);
+                echo $oModal->getRender();
+                exit();
+            }
+        }
+
+        if ($this->Model->getPro_referencia() !== '') {
+            $oOprodutoRef = Fabrica::FabricarController('STEEL_PCP_Produtos');
+            $oOprodutoRef->Persistencia->adicionaFiltro('pro_referencia', $this->Model->getPro_referencia());
+            $iCountRef = $oOprodutoRef->Persistencia->getCount();
+            if ($iCountRef > 0) {
+                $oModal = new Modal('Atenção!', 'Já existe um produto com essa referência cadastrada, necessário alterar a referência!', Modal::TIPO_AVISO, false, true, true);
+                echo $oModal->getRender();
+                exit();
+            }
+        }
+
         if ($this->Model->getPro_ncm() == null || $this->Model->getPro_ncm() == '') {
             $oModal = new Modal('Atencão', 'Obrigatório informar o NCM do produto.', Modal::TIPO_AVISO, false, true, false);
             echo $oModal->getRender();

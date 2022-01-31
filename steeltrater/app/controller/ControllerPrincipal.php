@@ -33,7 +33,9 @@ class ControllerPrincipal extends Controller {
                 $bExecuta = $this->validaSessao();
             }
 
-            if ($bExecuta || $_REQUEST['metodo'] == 'logaSistema' || $_REQUEST['redefinesenha'] || ($_REQUEST['classe'] == 'Mobile' && $_REQUEST['metodo'] == 'getRequisicao') || ($_REQUEST['classe'] == 'MET_TEC_Mobile' && $_REQUEST['metodo'] == 'getRequisicao')) {
+            if ($bExecuta || $_REQUEST['metodo'] == 'logaSistema' || $_REQUEST['redefinesenha'] 
+                    || ($_REQUEST['classe'] == 'Mobile' && $_REQUEST['metodo'] == 'getRequisicao') 
+                    || ($_REQUEST['classe'] == 'MET_TEC_Mobile' && $_REQUEST['metodo'] == 'getRequisicao')) {
                 $bExecuta = true;
 
                 $sClasse = $_REQUEST['classe'];

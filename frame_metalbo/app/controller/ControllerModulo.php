@@ -40,6 +40,16 @@ class ControllerModulo extends Controller {
         }
     }
 
+    /* pega os dados da tabela com os dados do Excel e insere em outra tabela com todos os códigos de acabamentos */
+
+    public function populaTabelaPrecoNovo() {
+        $this->Persistencia->populaTabelaPrecoNovo();
+    }
+
+    public function verificaMovProduto() {
+        $this->Persistencia->verificaMovProduto();
+    }
+
     public function teste() {
         $this->Persistencia->teste();
         $omsg = new Mensagem('Acabou', 'acabou', Mensagem::TIPO_SUCESSO);

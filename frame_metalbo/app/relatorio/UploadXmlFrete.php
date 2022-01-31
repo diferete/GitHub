@@ -491,10 +491,23 @@ if ($cnpj == '32241003000375') {
 
 
 /* verifica regra da tabela de valores */
+$sTotalFrete = '';
+$sFreteMin = '';
+$SeqRegra = '';
+$i = 0;
+
 foreach ($aRow1 as $value) {
-    if ((number_format($value['totalfrete'], 0) == number_format(str_replace(',', '.', $sValorServico), 0)) ||
-            number_format($value['freteminimo'], 0) == number_format(str_replace(',', '.', $sValorServico), 0)) {
+    if ($i == 0) {
+        $sTotalFrete = $value['totalfrete'];
+        $sFreteMin = $value['freteminimo'];
         $SeqRegra = $value['seq'];
+        $i++;
+    } else {
+        if (abs(number_format(str_replace(',', '.', $sValorServico), 0) - number_format($value['totalfrete'])) < abs(number_format(str_replace(',', '.', $sValorServico), 0) - number_format($sTotalFrete, 0))) {
+            $sTotalFrete = $value['totalfrete'];
+            $sFreteMin = $value['freteminimo'];
+            $SeqRegra = $value['seq'];
+        }
     }
 }
 
@@ -528,8 +541,8 @@ $dados = [
     'obsfinal' => $obsfinal,
     'dataem' => $dataem,
     'datafn' => $datafn,
-    'valorserv2' => $value['totalfrete'],
-    'valorserv3' => $value['freteminimo'],
+    'valorserv2' => $sTotalFrete,
+    'valorserv3' => $sFreteMin,
 ];
 $sSqlInsert = "INSERT INTO tbgerecfrete 
  (nr, cnpj, nrconhe, nrfat, nrnotaoc, totakg, totalnf, valorserv, fracaofrete, seqregra, 

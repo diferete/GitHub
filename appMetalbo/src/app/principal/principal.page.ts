@@ -165,7 +165,7 @@ export class PrincipalPage implements OnInit {
             this.painelSolCompras = result.DADOS.PainelSolCompras;
             this.countDadosBadgeSolComprasSteeltrater = result.DADOS.CountBadgeSolCompras.steeltrater;
             this.countDadosBadgeSolComprasMatriz = result.DADOS.CountBadgeSolCompras.matriz;
-          }
+          } 
         });
       });
     });

@@ -225,7 +225,7 @@ class ViewCot extends View {
                 . '}else{'
                 . 'return { valid: true };'
                 . '};';
-        
+
         if ($sAcaoRotina != 'acaoVisualizar') {
             $oDataEnt->addValidacao(true, Validacao::TIPO_CALLBACK, '', '1', '1000', '', '', $sEventoData, Validacao::TRIGGER_TODOS);
         }
@@ -264,6 +264,174 @@ class ViewCot extends View {
         } else {
             $this->addCampos(array($oNr, $oData, $oHora, $oUserIns), array($oCnpj, $oEmpresa), array($oCodPag, $oCodPagDes), array($oOd, $CodRep, $oRep, $oConsemail), $oFrete, array($oTransp, $oTranspDes), $oObs, array($oQtExata, $oAtencao), $oDataEnt, array($oContato, $oEmail), $oSituaca);
         }
+    }
+
+    public function relConsultaEstoque() {
+        parent::criaTelaRelatorio();
+
+        //Relatório Faturamento
+        $this->setTituloTela('Consulta Estoque');
+        $this->setBTela(true);
+
+        $oUsuario = new Campo('', 'userRel', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oUsuario->setSValor($_SESSION['nome']);
+        $oUsuario->setBOculto(true);
+
+        //Grupo
+        $oGrupoCod = new Campo('Grupo ini.', 'grucod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oGrupoCod->setSValor(0);
+        $oGrupoCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oGrupoCod->getId() . '").val()==""){$("#' . $oGrupoCod->getId() . '").val("0")}');
+        //-----------------------------------------------------------
+
+        $oGrupoDes = new Campo('Descrição', 'grudes', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oGrupoDes->setSIdPk($oGrupoCod->getId());
+        $oGrupoDes->setClasseBusca('GrupoProd');
+        $oGrupoDes->addCampoBusca('grucod', '', '');
+        $oGrupoDes->addCampoBusca('grudes', '', '');
+        $oGrupoDes->setSIdTela($this->getTela()->getid());
+        $oGrupoDes->setBCampoBloqueado(true);
+
+        $oGrupoCod->setClasseBusca('GrupoProd');
+        $oGrupoCod->setSCampoRetorno('grucod', $this->getTela()->getId());
+        $oGrupoCod->addCampoBusca('grudes', $oGrupoDes->getId(), $this->getTela()->getId());
+
+        //-------------------------------------------------------------
+
+        $oSubGrupoCod = new Campo('Sub. Grupo ini.', 'subcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSubGrupoCod->setSValor(0);
+        $oSubGrupoCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubGrupoCod->getId() . '").val()==""){$("#' . $oSubGrupoCod->getId() . '").val("0")}');
+
+        $oSubGrupoDes = new Campo('Descrição', 'subdes', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oSubGrupoDes->setSIdPk($oSubGrupoCod->getId());
+        $oSubGrupoDes->setClasseBusca('SubGrupoProd');
+        $oSubGrupoDes->addCampoBusca('subcod', '', '');
+        $oSubGrupoDes->addCampoBusca('subdes', '', '');
+        $oSubGrupoDes->setSIdTela($this->getTela()->getid());
+        $oSubGrupoDes->setBCampoBloqueado(true);
+
+
+        $oSubGrupoCod->setClasseBusca('SubGrupoProd');
+        $oSubGrupoCod->setSCampoRetorno('subcod', $this->getTela()->getId());
+        $oSubGrupoCod->addCampoBusca('subdes', $oSubGrupoDes->getId(), $this->getTela()->getId());
+
+        //----------------------------------------------------------------
+
+        $oFamiliaCod = new Campo('Família ini.', 'famcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFamiliaCod->setSValor(0);
+        $oFamiliaCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oFamiliaCod->getId() . '").val()==""){$("#' . $oFamiliaCod->getId() . '").val("0")}');
+
+        $oFamiliaDes = new Campo('Descrição', 'famdes', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oFamiliaDes->setSIdPk($oFamiliaCod->getId());
+        $oFamiliaDes->setClasseBusca('FamProd');
+        $oFamiliaDes->addCampoBusca('famcod', '', '');
+        $oFamiliaDes->addCampoBusca('famdes', '', '');
+        $oFamiliaDes->setSIdTela($this->getTela()->getid());
+        $oFamiliaDes->setBCampoBloqueado(true);
+
+
+        $oFamiliaCod->setClasseBusca('FamProd');
+        $oFamiliaCod->setSCampoRetorno('famcod', $this->getTela()->getId());
+        $oFamiliaCod->addCampoBusca('famdes', $oFamiliaDes->getId(), $this->getTela()->getId());
+
+        //-----------------------------------------------------------------------
+
+        $oSubFamiliaCod = new Campo('Sub. Família ini.', 'famsub', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSubFamiliaCod->setSValor(0);
+        $oSubFamiliaCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubFamiliaCod->getId() . '").val()==""){$("#' . $oSubFamiliaCod->getId() . '").val("0")}');
+
+        $oSubFamiliaDes = new Campo('Descrição', 'famsdes', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oSubFamiliaDes->setSIdPk($oSubFamiliaCod->getId());
+        $oSubFamiliaDes->setClasseBusca('FamSub');
+        $oSubFamiliaDes->addCampoBusca('famsub', '', '');
+        $oSubFamiliaDes->addCampoBusca('famsdes', '', '');
+        $oSubFamiliaDes->setSIdTela($this->getTela()->getid());
+        $oSubFamiliaDes->setBCampoBloqueado(true);
+
+        $oSubFamiliaCod->setClasseBusca('FamSub');
+        $oSubFamiliaCod->setSCampoRetorno('famsub', $this->getTela()->getId());
+        $oSubFamiliaCod->addCampoBusca('famsdes', $oSubFamiliaDes->getId(), $this->getTela()->getId());
+
+        //-------------------------------------------------------------------------
+        //FINAL
+        //Grupo
+        $oGrupoCodFin = new Campo('Grupo fin.', 'grucodfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oGrupoCodFin->setSValor(999);
+        $oGrupoCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oGrupoCodFin->getId() . '").val()==""){$("#' . $oGrupoCodFin->getId() . '").val("999")}');
+        //-----------------------------------------------------------
+
+        $oGrupoDesFin = new Campo('Descrição', 'grudesfin', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oGrupoDesFin->setSIdPk($oGrupoCodFin->getId());
+        $oGrupoDesFin->setClasseBusca('GrupoProd');
+        $oGrupoDesFin->addCampoBusca('grucod', '', '');
+        $oGrupoDesFin->addCampoBusca('grudes', '', '');
+        $oGrupoDesFin->setSIdTela($this->getTela()->getid());
+        $oGrupoDesFin->setBCampoBloqueado(true);
+
+        $oGrupoCodFin->setClasseBusca('GrupoProd');
+        $oGrupoCodFin->setSCampoRetorno('grucod', $this->getTela()->getId());
+        $oGrupoCodFin->addCampoBusca('grudes', $oGrupoDesFin->getId(), $this->getTela()->getId());
+
+        //-------------------------------------------------------------
+
+        $oSubGrupoCodFin = new Campo('Sub. Grupo fin.', 'subcodfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSubGrupoCodFin->setSValor(999);
+        $oSubGrupoCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubGrupoCodFin->getId() . '").val()==""){$("#' . $oSubGrupoCodFin->getId() . '").val("999")}');
+
+        $oSubGrupoDesFin = new Campo('Descrição', 'subdesfin', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oSubGrupoDesFin->setSIdPk($oSubGrupoCodFin->getId());
+        $oSubGrupoDesFin->setClasseBusca('SubGrupoProd');
+        $oSubGrupoDesFin->addCampoBusca('subcod', '', '');
+        $oSubGrupoDesFin->addCampoBusca('subdes', '', '');
+        $oSubGrupoDesFin->setSIdTela($this->getTela()->getid());
+        $oSubGrupoDesFin->setBCampoBloqueado(true);
+
+        $oSubGrupoCodFin->setClasseBusca('SubGrupoProd');
+        $oSubGrupoCodFin->setSCampoRetorno('subcod', $this->getTela()->getId());
+        $oSubGrupoCodFin->addCampoBusca('subdes', $oSubGrupoDesFin->getId(), $this->getTela()->getId());
+
+        //----------------------------------------------------------------
+
+        $oFamiliaCodFin = new Campo('Família fin.', 'famcodfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFamiliaCodFin->setSValor(999);
+        $oFamiliaCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oFamiliaCodFin->getId() . '").val()==""){$("#' . $oFamiliaCodFin->getId() . '").val("999")}');
+
+        $oFamiliaDesFin = new Campo('Descrição', 'famdesfin', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oFamiliaDesFin->setSIdPk($oFamiliaCodFin->getId());
+        $oFamiliaDesFin->setClasseBusca('FamProd');
+        $oFamiliaDesFin->addCampoBusca('famcod', '', '');
+        $oFamiliaDesFin->addCampoBusca('famdes', '', '');
+        $oFamiliaDesFin->setSIdTela($this->getTela()->getid());
+        $oFamiliaDesFin->setBCampoBloqueado(true);
+
+        $oFamiliaCodFin->setClasseBusca('FamProd');
+        $oFamiliaCodFin->setSCampoRetorno('famcod', $this->getTela()->getId());
+        $oFamiliaCodFin->addCampoBusca('famdes', $oFamiliaDesFin->getId(), $this->getTela()->getId());
+
+        //-----------------------------------------------------------------------
+
+        $oSubFamiliaCodFin = new Campo('Sub. Família fin.', 'famsubfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSubFamiliaCodFin->setSValor(999);
+        $oSubFamiliaCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubFamiliaCodFin->getId() . '").val()==""){$("#' . $oSubFamiliaCodFin->getId() . '").val("999")}');
+
+        $oSubFamiliaDesFin = new Campo('Descrição', 'famsdesfin', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oSubFamiliaDesFin->setSIdPk($oSubFamiliaCodFin->getId());
+        $oSubFamiliaDesFin->setClasseBusca('FamSub');
+        $oSubFamiliaDesFin->addCampoBusca('famsub', '', '');
+        $oSubFamiliaDesFin->addCampoBusca('famsdes', '', '');
+        $oSubFamiliaDesFin->setSIdTela($this->getTela()->getid());
+        $oSubFamiliaDesFin->setBCampoBloqueado(true);
+
+        $oSubFamiliaCodFin->setClasseBusca('FamSub');
+        $oSubFamiliaCodFin->setSCampoRetorno('famsub', $this->getTela()->getId());
+        $oSubFamiliaCodFin->addCampoBusca('famsdes', $oSubFamiliaDesFin->getId(), $this->getTela()->getId());
+
+        //-------------------------------------------------------------------------
+        //FIM FINAL
+
+        $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha1->setApenasTela(true);
+
+        $this->addCampos($oUsuario, array($oGrupoCod, $oGrupoDes, $oGrupoCodFin, $oGrupoDesFin), $oLinha1, array($oSubGrupoCod, $oSubGrupoDes, $oSubGrupoCodFin, $oSubGrupoDesFin), $oLinha1, array($oFamiliaCod, $oFamiliaDes, $oFamiliaCodFin, $oFamiliaDesFin), $oLinha1, array($oSubFamiliaCod, $oSubFamiliaDes, $oSubFamiliaCodFin, $oSubFamiliaDesFin));
     }
 
 }

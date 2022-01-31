@@ -130,11 +130,19 @@ if (!$bEst) {
             from tbgerecfrete left outer join widl.EMP01
             on tbgerecfrete.cnpj = widl.EMP01.empcod";
 
-        $sql .= " where dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
-
-        if (isset($sCnpj)) {
-            $sql .= " and cnpj = '" . $sCnpj . "'";
+        if ($dDatini == '' && $dDatfin == '') {
+            if (isset($sCnpj)) {
+                $sql .= " where cnpj = '" . $sCnpj . "'";
+            }
+        } else {
+            if (isset($sCnpj)) {
+                $sql .= " where cnpj = '" . $sCnpj . "'";
+                $sql .= " and dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+            } else {
+                $sql .= "  dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+            }
         }
+
         if (isset($sNrFat) && $sNrFat != '') {
             $sql .= " and nrfat ='" . $sNrFat . "'";
         }
@@ -489,7 +497,7 @@ if (!$bEst) {
 
         $sth1 = $PDO->query($sql1);
         $iN = 0;
-        
+
         while ($row = $sth1->fetch(PDO::FETCH_ASSOC)) {
 
             if ($bTip) {
@@ -601,7 +609,7 @@ if (!$bEst) {
     }
 
     $pdf->Ln(5);
-    if($sEst=='Todos'){
+    if ($sEst == 'Todos') {
         $pdf->SetFont('arial', 'B', 10);
         $pdf->Cell(100, 5, 'SOMA DOS TOTAIS: ', 'B', 1, 'L');
         $pdf->SetFont('arial', 'B', 9);
