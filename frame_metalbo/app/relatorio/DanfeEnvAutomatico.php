@@ -14,7 +14,7 @@ $date = date_create(date("Y-m-d"));
 date_sub($date, date_interval_create_from_date_string("3 days"));
 $date = date_format($date, "d/m/Y");
 
-$sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001(nolock) where nfsdtemiss between '" . $date . "' and '" . date('d/m/Y') . "' and nfsnfesit = 'A' and nfsemailen <> 'S' and nfsfilcgc = '75483040000211'"; // and nfsnatcod1 <> 5151";
+$sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001(nolock) where nfsdtemiss between '" . $date . "' and '" . date('d/m/Y') . "' and nfsnfesit = 'A' and nfsemailen <> 'S' and nfsfilcgc = '75483040000211' and nfsnatcod1 <> 1556"; // and nfsnatcod1 <> 5151";
 //$sSqlNF = "select nfsfilcgc,nfsnfnro,nfsnfser from widl.NFC001 where nfsdtemiss between '19/03/2020' and '19/03/2020' and nfsnfesit = 'A' and nfsemailen <> 'S' and nfsfilcgc = '75483040000211' and nfsnatcod1 <> 5151";
 $sth = $PDO->query($sSqlNF);
 while ($aRow = $sth->fetch(PDO::FETCH_ASSOC)) {
@@ -27,7 +27,7 @@ while ($aRow = $sth->fetch(PDO::FETCH_ASSOC)) {
             . "from widl.NFC001(nolock) "
             . "where nfsfilcgc = '" . $aDados[0] . "' "
             . "and nfsnfnro = '" . $aDados[1] . "' "
-            . "and nfsnfser = '" . $aDados[2] . "' ";
+            . "and nfsnfser = '2'";
 
     $dadosSql = $PDO->query($sSql);
     $aDadosNF = $dadosSql->fetch(PDO::FETCH_ASSOC);
@@ -242,7 +242,7 @@ function montaDadosExtras($aDadosNF, $aDados, $PDO) {
     if ($aDadosNF['nfstrauf'] == 'EX' || $aDadosNF['nfscliuf'] == 'EX' || $aDadosNF['nfstrauf'] == '') {
         $sSqlExtras = "select nfstrains, nfstranome, nfstraende, nfstrabair, nfstracep, "
                 . "nfstracid, nfspesobr, nfspesolq, nfsespecie, nfsmarca, nfsqtdvol "
-                . "from widl.NFC001 "
+                . "from widl.NFC001(nolock) "
                 . "where nfsfilcgc = '" . $aDados[0] . "' "
                 . "and nfsnfnro = '" . $aDados[1] . "' "
                 . "and nfsnfser = '" . $aDados[2] . "' ";

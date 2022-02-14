@@ -52,12 +52,6 @@ class ControllerMET_FRETE_FaturaXml extends Controller {
 
             $iArquivo = $this->verificaArquivo($aDadosFatura['fatura']);
 
-            $_REQUEST['cnpj'] = $aDadosFatura['cnpj'];
-            $_REQUEST['fatura'] = $aDadosFatura['fatura'];
-            $_REQUEST['dataEmit'] = $aDadosFatura['dataEmit'];
-            $_REQUEST['dataVenc'] = $aDadosFatura['dataVenc'];
-            $_REQUEST['usuario'] = $_SESSION['nome'];
-
             /* 1 - ZIP
              * 2 - RAR */
             switch ($iArquivo) {
@@ -67,14 +61,51 @@ class ControllerMET_FRETE_FaturaXml extends Controller {
                         $zip->extractTo('uploads/xml-cte/' . $aDadosFatura['fatura']);
                         $zip->close();
 
-                        $count = 0;
-                        foreach (array_filter(glob('uploads/xml-cte/' . $aDadosFatura['fatura'] . '/*'), 'is_file') as $file) {
+                        foreach (array_filter(glob('uploads/xml-cte/' . $aDadosFatura['fatura'] . '/*'), 'is_file') as $arquivo) {
+                            $aDados = array();
 
-                            $count++;
+                            date_default_timezone_set('America/Sao_Paulo');
+                            $aDados['fatura'] = $aDadosFatura['fatura'];
+                            $aDados['cnpj'] = $aDadosFatura['cnpj'];
+                            $aDados['dataem'] = $aDadosFatura['dataEmit'];
+                            $aDados['datafn'] = $aDadosFatura['dataVenc'];
+                            $aDados['data'] = date('d/m/Y');
+                            $aDados['hora'] = date('H:i:s');
+                            $aDados['usuario'] = $_SESSION['nome'];
+                            $aDados['sNFE'] = '';
 
-                            $_REQUEST['xml'] = $file;
 
-                            require 'app/relatorio/UploadXmlFrete.php';
+                            $oXml = simplexml_load_file($arquivo);
+                            $aDados['sNCTe'] = (string) $oXml->CTe->infCte->ide->nCT;
+                            $aDados['sValorServico'] = (string) $oXml->CTe->infCte->vPrest->vTPrest;
+
+                            $aDados['aObjetoChaves'] = (array) $oXml->CTe->infCte->infCTeNorm->infDoc;
+                            $aDados['sValorCarga'] = (string) $oXml->CTe->infCte->infCTeNorm->infCarga->vCarga;
+                            if ($aDados['cnpj'] == '428307001593') {
+                                $aDados['aPeso'] = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[1]; //->qCarga;
+                                $aDados['sCNPJCliente'] = (string) $oXml->CTe->infCte->rem->CNPJ; //ver
+                            } else {
+                                $aPeso = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[4]; //->qCarga;
+                                $aDados['sCNPJCliente'] = (string) $oXml->CTe->infCte->dest->CNPJ;
+                            }
+                            $aDados['sPeso'] = $aPeso['qCarga'];
+
+                            /* veriica se existem mais de uma nota/chave referente ao CTE e concatena ambas */
+                            foreach ($aDados['aObjetoChaves'] as $key => $chaves) {
+                                $aDados['iTotal'] = count($chaves); //número de elementos
+                                if ($aDados['iTotal'] > 1) {
+                                    foreach ($chaves as $chave) {
+                                        if ($aDados['sNFE'] == '') {
+                                            $aDados['sNFE'] = "'" . substr((string) $chave->chave, 25, 9) . "'";
+                                        } else {
+                                            $aDados['sNFE'] = $aDados['sNFE'] . ",'" . substr((string) $chave->chave, 25, 9) . "'";
+                                        }
+                                    }
+                                } else {
+                                    $aDados['sNFE'] = "'" . substr((string) $chaves->chave, 25, 9) . "'";
+                                }
+                            }
+                            $this->Persistencia->gerenciaXML($aDados);
                         }
                     }
 
@@ -87,19 +118,55 @@ class ControllerMET_FRETE_FaturaXml extends Controller {
                     }
                     rar_close($rar_file);
 
+                    foreach (array_filter(glob('uploads/xml-cte/' . $aDadosFatura['fatura'] . '/*'), 'is_file') as $arquivo) {
+                        $aDados = array();
+
+                        date_default_timezone_set('America/Sao_Paulo');
+                        $aDados['fatura'] = $aDadosFatura['fatura'];
+                        $aDados['cnpj'] = $aDadosFatura['cnpj'];
+                        $aDados['dataem'] = $aDadosFatura['dataEmit'];
+                        $aDados['datafn'] = $aDadosFatura['dataVenc'];
+                        $aDados['data'] = date('d/m/Y');
+                        $aDados['hora'] = date('H:i:s');
+                        $aDados['usuario'] = $_SESSION['nome'];
+                        $aDados['sNFE'] = '';
 
 
-                    foreach (array_filter(glob('uploads/xml-cte/' . $aDadosFatura['fatura'] . '/*'), 'is_file') as $file) {
-                        $_REQUEST['xml'] = $file;
-                        require 'app/relatorio/UploadXmlFrete.php';
+                        $oXml = simplexml_load_file($arquivo);
+                        $aDados['sNCTe'] = (string) $oXml->CTe->infCte->ide->nCT;
+                        $aDados['sValorServico'] = (string) $oXml->CTe->infCte->vPrest->vTPrest;
+                        $aDados['sCNPJCliente'] = (string) $oXml->CTe->infCte->dest->CNPJ;
+                        $aDados['aObjetoChaves'] = (array) $oXml->CTe->infCte->infCTeNorm->infDoc;
+                        $aDados['sValorCarga'] = (string) $oXml->CTe->infCte->infCTeNorm->infCarga->vCarga;
+                        if ($cnpj == '428307001593') {
+                            $aDados['aPeso'] = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[1]; //->qCarga;
+                        } else {
+                            $aPeso = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[4]; //->qCarga;
+                        }
+                        $aDados['sPeso'] = $aPeso['qCarga'];
+
+                        /* veriica se existem mais de uma nota/chave referente ao CTE e concatena ambas */
+                        foreach ($aDados['aObjetoChaves'] as $key => $chaves) {
+                            $aDados['iTotal'] = count($chaves); //número de elementos
+                            if ($aDados['iTotal'] > 1) {
+                                foreach ($chaves as $chave) {
+                                    if ($aDados['sNFE'] == '') {
+                                        $aDados['sNFE'] = "'" . substr((string) $chave->chave, 25, 9) . "'";
+                                    } else {
+                                        $aDados['sNFE'] = $aDados['sNFE'] . ",'" . substr((string) $chave->chave, 25, 9) . "'";
+                                    }
+                                }
+                            } else {
+                                $aDados['sNFE'] = "'" . substr((string) $chaves->chave, 25, 9) . "'";
+                            }
+                        }
+                        $this->Persistencia->gerenciaXML($aDados);
                     }
 
                     break;
             }
             $this->Persistencia->setTagOpen($aDadosFatura);
         }
-
-        $count;
 
         $aRetorno = array();
         $aRetorno[0] = true;

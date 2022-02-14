@@ -20,9 +20,13 @@ $iFamsub = $_REQUEST['famsub'];
 $iFamsubFin = $_REQUEST['famsubfin'];
 
 $sGrudes = $_REQUEST['grudes'];
+$sGrudesFin = $_REQUEST['grudesfin'];
 $sSubGrudes = $_REQUEST['subdes'];
+$sSubGrudesFin = $_REQUEST['subdesfin'];
 $sFamdes = $_REQUEST['famdes'];
+$sFamdesFin = $_REQUEST['famdesfin'];
 $sSubFamdes = $_REQUEST['famsdes'];
+$sSubFamdesFin = $_REQUEST['famsdesfin'];
 
 class PDF extends FPDF {
 
@@ -41,7 +45,6 @@ $pdf = new PDF('P', 'mm', 'A4');
 $pdf->AddPage(); // ADICIONA UMA PAGINA
 $pdf->AliasNbPages(); // SELECIONA O NUMERO TOTAL DE PAGINAS, USADO NO RODAPE
 
-
 $pdf->SetXY(10, 10); // DEFINE O X E O Y NA PAGINA
 //seta as margens
 $pdf->SetMargins(2, 10, 2);
@@ -58,7 +61,6 @@ $pdf->Cell(45);
 // Title
 $pdf->Cell(95, 10, 'Estoque de produto acabado', 0, 0, 'L');
 
-
 $x = $pdf->GetX();
 $y = $pdf->GetY();
 
@@ -67,7 +69,6 @@ $pdf->MultiCell(100, 5, 'Usuário: ' . $sUser, 0, 'L');
 $pdf->SetXY($x, $y + 5);
 $pdf->MultiCell(50, 5, 'Data: ' . $sData .
         '  Hora: ' . $sHora, 0, 'L');
-
 
 $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; Database=" . Config::NOME_BD, Config::USER_BD, Config::PASS_BD);
 
@@ -84,8 +85,14 @@ $sSql = "SELECT "
         . "and tbestWeb.procod is not null "
         . "ORDER BY  widl.prod01.procod asc ";
 $dadosSql = $PDO->query($sSql);
+$aRow = $dadosSql->fetch(PDO::FETCH_ASSOC);
 
 $pdf->Ln(8);
+$pdf->SetFont('arial', '', 10);
+$pdf->SetTextColor(255, 0, 0);
+$pdf->Cell(150, 5, 'Última atualização do estoque: ' . Util::converteData($aRow['DataEst']), 0, 1, 'L');
+$pdf->SetTextColor(0, 0, 0);
+$pdf->Ln(2);
 
 $pdf->SetFont('arial', 'B', 14);
 $pdf->Cell(150, 5, 'Filtros:', 0, 1, 'L');
@@ -97,28 +104,28 @@ if ($iGrucod == 0) {
     
 } else {
     $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(150, 5, $iGrucod . ' - ' . $sGrudes, 0, 1, 'L');
+    $pdf->Cell(150, 5, 'Grupo:             ' . $iGrucod . ' - ' . $sGrudes . ' --- ' . $iGrucodFin . ' - ' . $sGrudesFin, 0, 1, 'L');
     $pdf->SetFont('arial', '', 9);
 }
 if ($iSubcod == 0) {
     
 } else {
     $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(150, 5, $iSubcod . ' - ' . $sSubGrudes, 0, 1, 'L');
+    $pdf->Cell(150, 5, 'Sub. Grupo:    ' . $iSubcod . ' - ' . $sSubGrudes . ' --- ' . $iSubcodFin . ' - ' . $sSubGrudesFin, 0, 1, 'L');
     $pdf->SetFont('arial', '', 9);
 }
 if ($iFamcod == 0) {
     
 } else {
     $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(150, 5, $iFamcod . ' - ' . $sFamdes, 0, 1, 'L');
+    $pdf->Cell(150, 5, 'Familia:            ' . $iFamcod . ' - ' . $sFamdes . ' --- ' . $iFamcodFin . ' - ' . $sFamdesFin, 0, 1, 'L');
     $pdf->SetFont('arial', '', 9);
 }
 if ($iFamsub == 0) {
     
 } else {
     $pdf->SetFont('arial', '', 10);
-    $pdf->Cell(150, 5, $iFamsub . ' - ' . $sSubFamdes, 0, 1, 'L');
+    $pdf->Cell(150, 5, 'Sub Familia:    ' . $iFamsub . ' - ' . $sSubFamdes . ' --- ' . $iFamsubFin . ' - ' . $sSubFamdesFin, 0, 1, 'L');
     $pdf->SetFont('arial', '', 9);
 }
 
@@ -136,9 +143,12 @@ $pdf->SetFont('arial', 'B', 10);
 $pdf->Cell(18, 5, 'Peso(Kg)', 0, 1, 'L');
 $pdf->SetFont('arial', '', 9);
 
+//$iTotalPeso = 0;
+//$iToralEstoque = 0;
 
+$dadosSql = $PDO->query($sSql);
 while ($aRow = $dadosSql->fetch(PDO::FETCH_ASSOC)) {
-
+    $pdf->Ln(1);
     $sProcod = ltrim(rtrim($aRow['procod']));
     $fEstoque = number_format($aRow['estoque'], 2, ',', '.');
     /* montar linhas a partir daqui para cada item */
@@ -152,8 +162,26 @@ while ($aRow = $dadosSql->fetch(PDO::FETCH_ASSOC)) {
         $pdf->SetFont('arial', '', 9);
         $pdf->Cell(18, 5, number_format($aRow['estoquePeso'], 2, ',', '.'), 0, 1);
         $pdf->Cell(200, 1, '', 'T', 1, 'C', 0);
+
+        $pdf = quebraPagina($pdf->GetY() + 15, $pdf);
+
+        //   $iTotalPeso = $iTotalPeso + $aRow['estoquePeso'];
+        //  $iToralEstoque = $iToralEstoque + $aRow['estoque'];
     }
 }
+//$pdf->SetFont('arial', 'B', 9);
+//$pdf->Cell(150, 5, 'Totais', 0, 0);
+//$pdf->SetFont('arial', '', 9);
+//$pdf->Cell(28, 5, number_format($iToralEstoque, 2, ',', '.'), 0, 0);
+//$pdf->Cell(18, 5, number_format($iTotalPeso, 2, ',', '.'), 0, 1);
 
 $pdf->Output('I', 'Consulta de Estoque - ' . $sData . ' - ' . $sHora . '.pdf');
 Header('Pragma: public');
+
+function quebraPagina($i, $pdf) {
+    if ($i >= 278) {    // 275 é o tamanho da página
+        $pdf->AddPage();   // adiciona se ultrapassar o limite da página
+        $pdf->SetY(10);
+    }
+    return $pdf;
+}

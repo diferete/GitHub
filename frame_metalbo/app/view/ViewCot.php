@@ -430,8 +430,14 @@ class ViewCot extends View {
 
         $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
+        
+        //para mostrar a parte de imprimir a planilha no excel
+        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
+        $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
+        $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","Cot","relatorioConsultaEstoqueExcel");';
+        $oXls->getOBotao()->addAcao($sAcaoLib);
 
-        $this->addCampos($oUsuario, array($oGrupoCod, $oGrupoDes, $oGrupoCodFin, $oGrupoDesFin), $oLinha1, array($oSubGrupoCod, $oSubGrupoDes, $oSubGrupoCodFin, $oSubGrupoDesFin), $oLinha1, array($oFamiliaCod, $oFamiliaDes, $oFamiliaCodFin, $oFamiliaDesFin), $oLinha1, array($oSubFamiliaCod, $oSubFamiliaDes, $oSubFamiliaCodFin, $oSubFamiliaDesFin));
+        $this->addCampos($oUsuario, array($oGrupoCod, $oGrupoDes, $oGrupoCodFin, $oGrupoDesFin), $oLinha1, array($oSubGrupoCod, $oSubGrupoDes, $oSubGrupoCodFin, $oSubGrupoDesFin), $oLinha1, array($oFamiliaCod, $oFamiliaDes, $oFamiliaCodFin, $oFamiliaDesFin), $oLinha1, array($oSubFamiliaCod, $oSubFamiliaDes, $oSubFamiliaCodFin, $oSubFamiliaDesFin), $oLinha1, $oXls);
     }
 
 }

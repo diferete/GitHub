@@ -77,7 +77,7 @@ $x = $pdf->GetX();
 $y = $pdf->GetY();
 
 $pdf->SetFont('Arial', '', 10);
-$pdf->MultiCell(50, 5, 'Usuário: ' . $sUserRel, 0, 'L');
+$pdf->MultiCell(50, 5, 'Usuário: ' . str_split($sUserRel, 14)[0], 0, 'L');
 $pdf->SetXY($x, $y + 5);
 $pdf->MultiCell(50, 5, 'Data: ' . $sData .
         '  Hora: ' . $sHora, 0, 'L');
@@ -139,12 +139,12 @@ if (!$bEst) {
                 $sql .= " where cnpj = '" . $sCnpj . "'";
                 $sql .= " and dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
             } else {
-                $sql .= "  dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+                $sql .= " where dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
             }
         }
 
         if (isset($sNrFat) && $sNrFat != '') {
-            $sql .= " and nrfat ='" . $sNrFat . "'";
+            $sql .= " and nrfat = '" . $sNrFat . "'";
         }
         if (isset($sCodtip) && $sCodtip != 0) {
             $sql .= " and codtipo = '" . $sCodtip . "'";
@@ -271,13 +271,20 @@ if (!$bEst) {
             round(SUM(valorserv),2) as TotalGeral, convert (varchar,dataem,103) as dataem
             from tbgerecfrete left outer join widl.EMP01
             on tbgerecfrete.cnpj = widl.EMP01.empcod";
-        $sql .= " where dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
-        if (isset($sCnpj)) {
-            $sql .= " and cnpj = '" . $sCnpj . "'";
+
+        if ($dDatini == '' && $dDatfin == '') {
+            if (isset($sCnpj)) {
+                $sql .= " where cnpj = '" . $sCnpj . "'";
+            }
+        } else {
+            if (isset($sCnpj)) {
+                $sql .= " where cnpj = '" . $sCnpj . "'";
+                $sql .= " and dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+            } else {
+                $sql .= " where dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+            }
         }
-        if (isset($sCodtip) && $sCodtip != 0) {
-            $sql .= " and codtipo = '" . $sCodtip . "'";
-        }
+
         if (isset($sNrFat) && $sNrFat != '') {
             $sql .= " and nrfat = '" . $sNrFat . "'";
         }
@@ -289,7 +296,7 @@ if (!$bEst) {
         }
 
         $sql .= " group by tbgerecfrete.cnpj,empdes,nrfat,dataem,datafn";
-
+        $array = array();
         $sth = $PDO->query($sql);
         $iN = 0;
         while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
@@ -323,9 +330,9 @@ if (!$bEst) {
             $pdf->Cell(27, 5, $row['datafn'], 'R,B,T', 1, 'L');
 
             if (isset($array[$row['empdes']])) {
-                $array[$row['empdes']] = (float) number_format($array[$row['empdes']], 2, ',', '.') + (float) number_format($row['TotalGeral'], 2, ',', '.');
+                $array[$row['empdes']] = (float) $array[$row['empdes']] + (float) $row['TotalGeral'];
             } else {
-                $array[$row['empdes']] = (float) number_format($row['TotalGeral'], 2, ',', '.');
+                $array[$row['empdes']] = (float) $row['TotalGeral'];
             }
             $pdf = quebraPagina($pdf->GetY() + 15, $pdf, null, $bEst);
             $NomeArquivo = rtrim($row['nrfat']) . '-' . rtrim($row['cnpj']) . '-' . rtrim($row['empdes']);
@@ -335,10 +342,35 @@ if (!$bEst) {
         $pdf->Ln(10);
         //Colunm diagram
         $pdf->SetFont('Arial', 'BIU', 12);
-        $pdf->Cell(0, 5, 'Gráfico do total geral por transportadora', 0, 1);
+        $pdf->Cell(0, 5, 'Gráfico do Soma do Total Geral por transportadora', 0, 1);
         $pdf->Ln(30);
         $valX = $pdf->GetX();
         $valY = $pdf->GetY();
+
+        $aCor = array();
+        $iCor1 = 0;
+        $iCor2 = 0;
+        $iCor3 = 0;
+        if (isset($array)) {
+            //Prepara array setor para gráfico e array de cores
+            foreach ($array as $key) {
+                array_push($aCor, array(0 + $iCor1, 0 + $iCor2, 0 + $iCor3));
+                if ($iCor1 < 255) {
+                    $iCor1 = $iCor1 + 128;
+                } else {
+                    if ($iCor2 < 255) {
+                        $iCor2 = $iCor2 + 128;
+                        $iCor1 = 0;
+                    } else {
+                        if ($iCor3 < 255) {
+                            $iCor3 = $iCor3 + 128;
+                            $iCor1 = 0;
+                            $iCor2 = 0;
+                        }
+                    }
+                }
+            }
+        }
 
         /*
          * Largura do Campo do Gráfico
@@ -353,8 +385,7 @@ if (!$bEst) {
          */
         if (isset($array)) {
             $iTam2 = count($array);
-
-            $pdf->PieChart(200, 200, $array, '%l : %v (%p)', null, 0, 10);
+            $pdf->PieChart(205, 200, $array, '%l : %v (%p)', $aCor, 0, 10);
         }
     }
     //PARTE QUE REALIZA OS SELECTs POR ESTADO
@@ -367,7 +398,7 @@ if (!$bEst) {
     //TIPO VENDAS
     if (isset($sCodtip) && $sCodtip == 1 || $sCodtip == 0) {
 
-        $sql1 = "select  valorserv -  valorserv3 as Difvalor, DISTINCT (tbgerecfrete.nr) as nr,nrnotaoc,valorserv,totakg,totalnf,nrconhe, CASE WHEN  nfscliuf IS NULL THEN 'SP' ELSE nfscliuf END AS nfscliuf,tbgerecfrete.codtipo, nrfat, dataem, datafn
+        $sql1 = "select DISTINCT (tbgerecfrete.nr) as nr,nrnotaoc,valorserv,totakg,totalnf,nrconhe, CASE WHEN  nfscliuf IS NULL THEN 'SP' ELSE nfscliuf END AS nfscliuf,tbgerecfrete.codtipo, nrfat, dataem, datafn
             from tbgerecfrete left outer join 
             tbfrete  on tbgerecfrete.seqregra = tbfrete.seq
             left outer join  widl.EMP01
@@ -466,7 +497,8 @@ if (!$bEst) {
     //TIPO COMPRAS
     if (isset($sCodtip) && $sCodtip == 2 || $sCodtip == 0) {
 
-        $sql1 = "select valorserv -  valorserv3 as Difvalor, nr,nrnotaoc,valorserv,totakg,totalnf,tbgerecfrete.codtipo,nrconhe, CASE WHEN  nfeestado IS NULL THEN 'SC' ELSE nfeestado END AS nfeestado,
+        $sql1 = "select nr,nrnotaoc,valorserv,totakg,totalnf,tbgerecfrete.codtipo,nrconhe, 
+            CASE WHEN  nfeestado IS NULL THEN 'SC' ELSE nfeestado END AS nfeestado,
             nrfat, dataem, datafn
             from tbgerecfrete left outer join 
             tbfrete  on tbgerecfrete.seqregra = tbfrete.seq

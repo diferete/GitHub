@@ -70,9 +70,10 @@ class ViewMET_GerenciaFrete extends View {
         }
         $oFiltroCnpj->setSLabel('');
 
-        $oFiltroFat = new Filtro($oNrFat, Filtro::CAMPO_INTEIRO, 1, 1, 12, 12, false);
-
         $oFiltroConh = new Filtro($oNrCon, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
+        $oFiltroConh->setICharCount(3);
+
+        $oFiltroFat = new Filtro($oNrFat, Filtro::CAMPO_INTEIRO, 1, 1, 12, 12, false);
 
         $oFiltroNota = new Filtro($oNrNot, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
@@ -94,7 +95,7 @@ class ViewMET_GerenciaFrete extends View {
 
         $oFiltroDt = new Filtro($oDat, Filtro::CAMPO_DATA, 1, 1, 12, 12, false);
 
-        $this->addFiltro($oFiltroCnpj, $oFiltroFat, $oFiltroConh, $oFiltroNota, $oFiltroTipo, $oFiltroSitu, $oFiltroDtEmFat, $oFiltroDtVnFat, $oFiltroDt );
+        $this->addFiltro($oFiltroCnpj, $oFiltroConh, $oFiltroFat, $oFiltroNota, $oFiltroTipo, $oFiltroSitu, $oFiltroDtEmFat, $oFiltroDtVnFat, $oFiltroDt);
 
         $this->addCampos($oBotaoContPag, $oNr, $oCnpj, $oEmpDes, $oNrCon, $oNrFat, $oNrNot, $oTotalKg, $oTotalNf, $oFracaoFrete, $oValSer, $oCodTipo, $oDatEm, $oDatVenc, $oSit, $oDat, $oUser);
     }

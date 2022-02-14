@@ -19,7 +19,7 @@ $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc, nfsdtsaida, nfshrsa
         . "from widl.NFC001(nolock) "
         . "where nfsfilcgc = '" . $aDados[0] . "' "
         . "and nfsnfnro = '" . $aDados[1] . "' "
-        . "and nfsnfser = '" . $aDados[2] . "' ";
+        . "and nfsnfser = '2'";
 
 $dadosSql = $PDO->query($sSql);
 $aDadosNF = $dadosSql->fetch(PDO::FETCH_ASSOC);

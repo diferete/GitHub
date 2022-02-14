@@ -23,7 +23,7 @@ $sSql = $sSql = "select nfsnfechv, nfsnfesit, nfsdtemiss, nfsclicgc, nfsdtsaida,
         . "from widl.NFC001 "
         . "where nfsfilcgc = '" . $aDados[0] . "' "
         . "and nfsnfnro = '" . $aDados[1] . "' "
-        . "and nfsnfser = '" . $aDados[2] . "' ";
+        . "and nfsnfser = '2'";
 
 $dadosSql = $PDO->query($sSql);
 $aDadosNF = $dadosSql->fetch(PDO::FETCH_ASSOC);
@@ -87,7 +87,7 @@ function montaDadosExtras($aDadosNF, $aDados, $PDO) {
         $aDadosExtras['dataSaida'] = '';
     }
     if ($aDadosNF['nfstrauf'] == 'EX' || $aDadosNF['nfscliuf'] == 'EX' || $aDadosNF['nfstrauf'] == '') {
-        $sSqlExtras = 'select nfstrains, nfstranome, nfstraende, nfstrabair, nfstracep, '
+        $sSqlExtras = 'select nfstrains,nfsnatcod1,nfsnatcod2,nfstranome, nfstraende, nfstrabair, nfstracep, '
                 . 'nfstracid, nfspesobr, nfspesolq, nfsespecie, nfsmarca, nfsqtdvol '
                 . "from widl.NFC001 "
                 . "where nfsfilcgc = '" . $aDados[0] . "' "
@@ -107,6 +107,8 @@ function montaDadosExtras($aDadosNF, $aDados, $PDO) {
         $aDadosExtras['nfsmarca'] = $aDadosSqlExtras['nfsmarca'];
         $aDadosExtras['nfsqtdvol'] = number_format($aDadosSqlExtras['nfsqtdvol'], '0');
         $aDadosExtras['nfstrauf'] = $aDadosNF['nfstrauf'];
+        $aDadosExtras['nfsnatcod1'] = trim($aDadosSqlExtras['nfsnatcod1']);
+        $aDadosExtras['nfsnatcod2'] = trim($aDadosSqlExtras['nfsnatcod2']);
     } else {
         $aDadosExtras['nfstranome'] = '';
         $aDadosExtras['nfstrains'] = '';
@@ -120,6 +122,8 @@ function montaDadosExtras($aDadosNF, $aDados, $PDO) {
         $aDadosExtras['nfsmarca'] = '';
         $aDadosExtras['nfsqtdvol'] = '';
         $aDadosExtras['nfstrauf'] = '';
+        $aDadosExtras['nfsnatcod1'] = '';
+        $aDadosExtras['nfsnatcod2'] = '';
     }
     return $aDadosExtras;
 }

@@ -368,5 +368,32 @@ class ControllerCot extends Controller {
     public function relConsultaEstoque($renderTo, $sMetodo = '') {
         parent::mostraTelaRelatorio($renderTo, 'relConsultaEstoque');
     }
+    
+    /**
+     *  Gera xls do relatorio de frete
+     */
+    public function relatorioConsultaEstoqueExcel() {
+        
+        //Explode string parametros
+        $sDados = $_REQUEST['campos'];
+
+        $sCampos = htmlspecialchars_decode($sDados);
+
+        $sCampos .= $this->getSget();
+
+        $sSistema = "app/relatorio";
+        $sRelatorio = 'relConsultaEstoqueExcel.php?';
+
+        $sCampos .= '&output=email';
+        $oMensagem = new Mensagem("Aguarde", "Seu excel está sendo processado", Mensagem::TIPO_INFO);
+        echo $oMensagem->getRender();
+
+        $oWindow = 'var win = window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '","MsgWindow","width=500,height=100,left=375,top=330");'
+                . 'setTimeout(function () { win.close();}, 30000);';
+        echo $oWindow;
+
+        $oMenSuccess = new Mensagem("Sucesso", "Seu excel foi gerado com sucesso, acesse sua pasta de downloads!", Mensagem::TIPO_SUCESSO);
+        echo $oMenSuccess->getRender();
+    }
 
 }
