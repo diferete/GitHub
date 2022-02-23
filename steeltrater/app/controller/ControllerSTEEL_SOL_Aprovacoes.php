@@ -12,7 +12,7 @@ class ControllerSTEEL_SOL_Aprovacoes extends Controller {
         $this->carregaClassesMvc('STEEL_SOL_Aprovacoes');
     }
 
-    public function criaTelaModalGerenciaSolicitacao($sDados) {
+    public function criaTelaModalSteelGerenciaSolicitacao($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -28,7 +28,7 @@ class ControllerSTEEL_SOL_Aprovacoes extends Controller {
 
             $this->View->setAParametrosExtras($oDados);
 
-            $this->View->criaModalGerenciaSolicitacao();
+            $this->View->criaModalSteelGerenciaSolicitacao();
 
 
             //busca lista pela op
@@ -38,13 +38,13 @@ class ControllerSTEEL_SOL_Aprovacoes extends Controller {
             $this->View->getTela()->getRender();
         } else {
             $oMsg = new Modal('Atenção', 'A Solicitação não está em situação de ser Aprovada/Reprovada', Modal::TIPO_AVISO, false, true, false);
-            echo "$('#criaModalGerenciaSolicitacao-btn').click();";
+            echo "$('#criaModalSteelGerenciaSolicitacao-btn').click();";
             echo $oMsg->getRender();
             exit;
         }
     }
 
-    public function gerenSolicitacaoCompra($sDados) {
+    public function gerenSteelSolicitacaoCompra($sDados) {
 
         /* $aDados:
          * 0 -> Parametro Aprova/Reprova
@@ -92,7 +92,7 @@ class ControllerSTEEL_SOL_Aprovacoes extends Controller {
 
             default:
 
-                echo '$("#criaModalGerenciaSolicitacao-btn").click();';
+                echo '$("#criaModalSteelGerenciaSolicitacao-btn").click();';
                 break;
         }
     }

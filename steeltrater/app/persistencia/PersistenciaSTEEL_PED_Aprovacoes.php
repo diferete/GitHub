@@ -78,7 +78,7 @@ class PersistenciaSTEEL_PED_Aprovacoes extends Persistencia {
         $this->adicionaOrderBy('sup_pedidoseq', 1);
         $this->adicionaFiltro('FIL_Codigo', '8993358000174');
         $this->adicionaJoin('DELX_CAD_Pessoa', null, 1, 'SUP_PedidoFornecedor', 'emp_codigo');
-        $this->setSTop(75);
+        $this->setSTop(25);
     }
 
     public function gerenPedidoCompra($sit, $aCampos) {

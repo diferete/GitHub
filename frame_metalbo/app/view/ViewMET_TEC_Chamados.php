@@ -22,7 +22,7 @@ class ViewMET_TEC_Chamados extends View {
         $this->getTela()->setIAltura(500);
         $this->getTela()->setITipoGrid(2);
         $this->setUsaFiltro(true);
-        
+
         $sFiltroSetor = $_SESSION['codsetor'];
 
         $oBotaoModal = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_EDIT);
@@ -171,16 +171,33 @@ class ViewMET_TEC_Chamados extends View {
         $oFilcgc->setBCampoBloqueado(true);
         $oFilcgc->setSValor($_SESSION['filcgc']);
 
-        $oUsuCod = new Campo('Cód.', 'usucod', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oUsuCod->setBCampoBloqueado(true);
+        $oUsuCod = new Campo('Crachá', 'usucod', Campo::TIPO_BUSCADOBANCOPK, 1, 1, 12, 12);
+        $oUsuCod->addValidacao(false, Validacao::TIPO_STRING, 'Campo obrigatório');
         $oUsuCod->setSValor($_SESSION['codUser']);
+        $oUsuCod->setBOculto(true);
+        if ($_SESSION['codsetor'] != 2) {
+            $oUsuCod->setBCampoBloqueado(true);
+        }
 
-        $oUsuNome = new Campo('Nome', 'usunome', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-        $oUsuNome->setBCampoBloqueado(true);
+        $oUsuNome = new Campo('Usuário solicitante', 'usunome', Campo::TIPO_BUSCADOBANCO, 3, 3, 12, 12);
+        $oUsuNome->setSIdPk($oUsuCod->getId());
+        $oUsuNome->setClasseBusca('MET_RH_Colaboradores');
+        $oUsuNome->addCampoBusca('numcad', '', '');
+        $oUsuNome->addCampoBusca('nomfun', '', '');
+        $oUsuNome->setSIdTela($this->getTela()->getid());
         $oUsuNome->setSValor($_SESSION['nome']);
+        if ($_SESSION['codsetor'] != 2) {
+            $oUsuNome->setBCampoBloqueado(true);
+        }
+
+        $oUsuCod->setClasseBusca('MET_RH_Colaboradores');
+        $oUsuCod->setSCampoRetorno('numcad', $this->getTela()->getId());
+        $oUsuCod->addCampoBusca('nomfun', $oUsuNome->getId(), $this->getTela()->getId());
 
         $oRepOffice = new Campo('Rep. Escritório', 'repoffice', Campo::TIPO_TEXTO, 2, 2, 12, 12);
-        $oRepOffice->setSValor($_SESSION['repofficedes']);
+        if ($_SESSION['codsetor'] != 2) {
+            $oRepOffice->setSValor($_SESSION['repofficedes']);
+        }
         $oRepOffice->setBCampoBloqueado(true);
 
         $oDataCad = new Campo('Data Cad.', 'datacad', Campo::TIPO_TEXTO, 1, 1, 12, 12);
@@ -246,7 +263,7 @@ class ViewMET_TEC_Chamados extends View {
         $oTabGeral->addCampos(array($oTipo, $oSubTipoCod, $oSubTipo), $oProblema, $oSituaca);
         $oTabAnexos->addCampos($oAnexo1, $oAnexo2, $oAnexo3);
         $oTab->addItems($oTabGeral, $oTabAnexos);
-        $this->addCampos(array($oNr, $oFilcgc, $oUsuCod, $oUsuNome, $oSetor, $oDescSetor, $oRepOffice, $oDataCad, $oHoraCad), $oLinha, $oTab);
+        $this->addCampos(array($oNr, $oFilcgc, $oUsuCod, $oUsuNome, $oSetor, $oDescSetor), array($oRepOffice, $oDataCad, $oHoraCad), $oLinha, $oTab);
     }
 
     public function criaModalIniciaChamado() {

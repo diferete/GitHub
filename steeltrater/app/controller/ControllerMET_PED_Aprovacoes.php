@@ -12,7 +12,7 @@ class ControllerMET_PED_Aprovacoes extends Controller {
         $this->carregaClassesMvc('MET_PED_Aprovacoes');
     }
 
-    public function criaTelaModalGerenciaPedido($sDados) {
+    public function criaTelaModalMetGerenciaPedido($sDados) {
         $this->View->setSRotina(View::ACAO_ALTERAR);
         $aDados = explode(',', $sDados);
         $sChave = htmlspecialchars_decode($aDados[2]);
@@ -25,7 +25,7 @@ class ControllerMET_PED_Aprovacoes extends Controller {
 
             $this->View->setAParametrosExtras($aCamposChave);
 
-            $this->View->criaModalGerenciaPedido();
+            $this->View->criaModalMetGerenciaPedido();
 
 
             //busca lista pela op
@@ -35,13 +35,13 @@ class ControllerMET_PED_Aprovacoes extends Controller {
             $this->View->getTela()->getRender();
         } else {
             $oMsg = new Modal('Atenção', 'O Pedido não está em situação de ser Aprovado/Reprovado', Modal::TIPO_AVISO, false, true, false);
-            echo "$('#criaModalGerenciaPedido-btn').click();";
+            echo "$('#criaModalMetGerenciaPedido-btn').click();";
             echo $oMsg->getRender();
             exit;
         }
     }
 
-    public function gerenPedidoCompra($sDados) {
+    public function gerenMetPedidoCompra($sDados) {
 
         /* $aDados:
          * 0 -> Parametro Aprova/Reprova
@@ -91,7 +91,7 @@ class ControllerMET_PED_Aprovacoes extends Controller {
 
             default:
 
-                echo '$("#criaModalGerenciaPedido-btn").click();';
+                echo '$("#criaModalMetGerenciaPedido-btn").click();';
                 break;
         }
     }

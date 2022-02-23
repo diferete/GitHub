@@ -32,6 +32,7 @@ class Filtro {
     private $bSeq;
     private $aEventos; // Array contendo eventos do campo
     private $bInline;
+    private $iCharCount;
 
     //Estilo do filtro    
     const CAMPO_DATA = 0;
@@ -72,6 +73,23 @@ class Filtro {
         $this->aFiltroValor = array();
         $this->aItemsSelect = array();
         $this->aEventos = array();
+        $this->iCharCount = 5;
+    }
+
+    function getAFiltroValor() {
+        return $this->aFiltroValor;
+    }
+
+    function getICharCount() {
+        return $this->iCharCount;
+    }
+
+    function setAFiltroValor($aFiltroValor) {
+        $this->aFiltroValor = $aFiltroValor;
+    }
+
+    function setICharCount($iCharCount) {
+        $this->iCharCount = $iCharCount;
     }
 
     function getBQuebraLinha() {

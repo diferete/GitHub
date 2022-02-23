@@ -24,6 +24,8 @@ class ViewMET_FRETE_FaturaXml extends View {
 
         $oCnpj = new CampoConsulta('CNPJ', 'cnpj');
 
+        $oData = new CampoConsulta('Data', 'dataUpload', CampoConsulta::TIPO_DATA);
+
         $oArquivo = new CampoConsulta('Arquivo', 'arquivo');
 
         $oExtraido = new CampoConsulta('Extraido', 'extraido');
@@ -33,7 +35,7 @@ class ViewMET_FRETE_FaturaXml extends View {
         $oFilFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
         $this->addFiltro($oFilFilcgc);
-        $this->addCampos($oFilcgc, $oCnpj, $oArquivo, $oExtraido);
+        $this->addCampos($oFilcgc, $oCnpj, $oData, $oArquivo, $oExtraido);
     }
 
     public function criaTela() {
@@ -71,12 +73,12 @@ class ViewMET_FRETE_FaturaXml extends View {
         $oDataVenc = new Campo('Dt. Vencimento', 'dataVenc', Campo::TIPO_DATA, 2, 2, 12, 12);
 
         $oDataUpload = new Campo('dataUpload', 'dataUpload', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-         date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Sao_Paulo');
         $oDataUpload->setSValor(date('d/m/Y'));
         $oDataUpload->setBOculto(true);
 
         $oHoraUpload = new Campo('horaUpload', 'horaUpload', Campo::TIPO_TEXTO, 1, 1, 12, 12);
-         date_default_timezone_set('America/Sao_Paulo');
+        date_default_timezone_set('America/Sao_Paulo');
         $oHoraUpload->setSValor(date('H:i:s'));
         $oHoraUpload->setBOculto(true);
 

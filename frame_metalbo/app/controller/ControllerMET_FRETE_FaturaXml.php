@@ -82,8 +82,9 @@ class ControllerMET_FRETE_FaturaXml extends Controller {
                             $aDados['aObjetoChaves'] = (array) $oXml->CTe->infCte->infCTeNorm->infDoc;
                             $aDados['sValorCarga'] = (string) $oXml->CTe->infCte->infCTeNorm->infCarga->vCarga;
                             if ($aDados['cnpj'] == '428307001593') {
-                                $aDados['aPeso'] = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[1]; //->qCarga;
+                                $aPeso['aPeso'] = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[1]; //->qCarga;
                                 $aDados['sCNPJCliente'] = (string) $oXml->CTe->infCte->rem->CNPJ; //ver
+                                $aPeso['qCarga'] = $aPeso['aPeso']['qCarga'];
                             } else {
                                 $aPeso = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[4]; //->qCarga;
                                 $aDados['sCNPJCliente'] = (string) $oXml->CTe->infCte->dest->CNPJ;

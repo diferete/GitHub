@@ -74,24 +74,32 @@ if (!$bEst) {
             nrconhe,nrfat,nrnotaoc,totakg,totalnf,valorserv,convert (varchar,data,103) as data,sit,usuario,
             convert (varchar,dataem,103) as dataem, codtipo
             from tbgerecfrete left outer join widl.EMP01
-            on tbgerecfrete.cnpj = widl.EMP01.empcod";
+            on tbgerecfrete.cnpj = widl.EMP01.empcod ";
 
-    $sql .= " where dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
-
-    if (isset($sCnpj) && $sCnpj != '') {
-        $sql .= " and cnpj = '" . $sCnpj . "'";
+    if ($dDatini == '' && $dDatfin == '') {
+        if (isset($sCnpj)) {
+            $sql .= "where cnpj = '" . $sCnpj . "' ";
+        }
+    } else {
+        if (isset($sCnpj)) {
+            $sql .= "where cnpj = '" . $sCnpj . "' ";
+            $sql .= "and data between '" . $dDatini . "' and '" . $dDatfin . "' ";
+        } else {
+            $sql .= "where data between '" . $dDatini . "' and '" . $dDatfin . "' ";
+        }
     }
+
     if (isset($sNrFat) && $sNrFat != '') {
-        $sql .= " and nrfat ='" . $sNrFat . "'";
+        $sql .= "and nrfat = '" . $sNrFat . "' ";
     }
     if (isset($sCodtip) && $sCodtip != 0) {
-        $sql .= " and codtipo = '" . $sCodtip . "'";
+        $sql .= "and codtipo = '" . $sCodtip . "' ";
     }
     if (isset($sNrNota) && $sNrNota != '') {
-        $sql .= " and nrnotaoc = '" . $sNrNota . "'";
+        $sql .= "and nrnotaoc = '" . $sNrNota . "' ";
     }
     if (isset($sNrCon) && $sNrCon != '') {
-        $sql .= " and nrconhe = '" . $sNrCon . "'";
+        $sql .= "and nrconhe = '" . $sNrCon . "' ";
     }
 
     $sth = $PDO->query($sql);
@@ -260,31 +268,46 @@ if (!$bEst) {
     //TIPO VENDAS
     if (isset($sCodtip) && $sCodtip == 1 || $sCodtip == 0) {
 
-        $sql1 = "select  DISTINCT (tbgerecfrete.nr) as nr,nrnotaoc,valorserv,totakg,totalnf,nrconhe, CASE WHEN  nfscliuf IS NULL THEN 'SP' ELSE nfscliuf END AS nfscliuf,tbgerecfrete.codtipo, nrfat, dataem, datafn
+        $sql1 = "select  DISTINCT (tbgerecfrete.nr) as nr,nrnotaoc,valorserv,totakg,totalnf,nrconhe, 
+            CASE WHEN  nfscliuf IS NULL THEN 'SP' 
+            ELSE nfscliuf END AS nfscliuf,
+            tbgerecfrete.codtipo, nrfat, dataem, datafn
             from tbgerecfrete left outer join 
             tbfrete  on tbgerecfrete.seqregra = tbfrete.seq
             left outer join  widl.EMP01
             on tbgerecfrete.cnpj = widl.EMP01.empcod
             LEFT OUTER JOIN  widl.NFC001 ON  widl.NFC001.nfsnfnro =tbgerecfrete.nrnotaoc ";
 
-        $sql1 .= " where dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+        if ($dDatini == '' && $dDatfin == '') {
+            if (isset($sCnpj)) {
+                $sql .= "where cnpj = '" . $sCnpj . "' ";
+            }
+        } else {
+            if (isset($sCnpj)) {
+                $sql .= "where cnpj = '" . $sCnpj . "' ";
+                $sql .= "and data between '" . $dDatini . "' and '" . $dDatfin . "' ";
+            } else {
+                $sql .= "where data between '" . $dDatini . "' and '" . $dDatfin . "' ";
+            }
+        }
+
         if (isset($sEst) && $sEst != 'Todos') {
             IF ($sEst == 'SP') {
-                $sql1 .= " AND (nfscliuf='SP' OR nfscliuf IS NULL) ";
+                $sql1 .= "AND (nfscliuf='SP' OR nfscliuf IS NULL) ";
             } ELSE {
-                $sql1 .= " and nfscliuf ='" . $sEst . "'";
+                $sql1 .= "and nfscliuf ='" . $sEst . "' ";
             }
         }
         if (isset($sNrFat) && $sNrFat != '') {
-            $sql1 .= " and nrfat ='" . $sNrFat . "'";
+            $sql1 .= "and nrfat ='" . $sNrFat . "' ";
         }
         if (isset($sNrNota) && $sNrNota != '') {
-            $sql1 .= " and nrnotaoc = '" . $sNrNota . "'";
+            $sql1 .= "and nrnotaoc = '" . $sNrNota . "' ";
         }
         if (isset($sNrCon) && $sNrCon != '') {
-            $sql1 .= " and nrconhe = '" . $sNrCon . "'";
+            $sql1 .= "and nrconhe = '" . $sNrCon . "' ";
         }
-        $sql1 .= " and tbgerecfrete.codtipo =1 order by nfscliuf ";
+        $sql1 .= "and tbgerecfrete.codtipo =1 order by nfscliuf ";
 
         $sth1 = $PDO->query($sql1);
         $iN = 0;
@@ -396,7 +419,7 @@ if (!$bEst) {
 
     $ik++;
     $ik++;
-    if($sEst=='Todos'){
+    if ($sEst == 'Todos') {
         $objPHPExcel->setActiveSheetIndex(0)
                 ->setCellValue('A' . ($ik), 'SOMA DOS TOTAIS:')
         ;
@@ -425,7 +448,7 @@ if (!$bEst) {
     $objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
     $objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(14);
     $objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(14);
-    
+
     if ($sEst != 'Todos' && $sEst != '') {
         $NomeArquivo = "Relatorio de Frete do estado de " . $sEst;
     } else {

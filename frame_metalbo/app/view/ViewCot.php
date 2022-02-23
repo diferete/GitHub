@@ -278,7 +278,7 @@ class ViewCot extends View {
         $oUsuario->setBOculto(true);
 
         //Grupo
-        $oGrupoCod = new Campo('Grupo ini.', 'grucod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oGrupoCod = new Campo('Grupo inicial', 'grucod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oGrupoCod->setSValor(0);
         $oGrupoCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oGrupoCod->getId() . '").val()==""){$("#' . $oGrupoCod->getId() . '").val("0")}');
         //-----------------------------------------------------------
@@ -297,7 +297,7 @@ class ViewCot extends View {
 
         //-------------------------------------------------------------
 
-        $oSubGrupoCod = new Campo('Sub. Grupo ini.', 'subcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSubGrupoCod = new Campo('Subgrupo inicial', 'subcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubGrupoCod->setSValor(0);
         $oSubGrupoCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubGrupoCod->getId() . '").val()==""){$("#' . $oSubGrupoCod->getId() . '").val("0")}');
 
@@ -316,7 +316,7 @@ class ViewCot extends View {
 
         //----------------------------------------------------------------
 
-        $oFamiliaCod = new Campo('Família ini.', 'famcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFamiliaCod = new Campo('Família inicial', 'famcod', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFamiliaCod->setSValor(0);
         $oFamiliaCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oFamiliaCod->getId() . '").val()==""){$("#' . $oFamiliaCod->getId() . '").val("0")}');
 
@@ -335,7 +335,7 @@ class ViewCot extends View {
 
         //-----------------------------------------------------------------------
 
-        $oSubFamiliaCod = new Campo('Sub. Família ini.', 'famsub', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSubFamiliaCod = new Campo('Subfamília inicial', 'famsub', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubFamiliaCod->setSValor(0);
         $oSubFamiliaCod->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubFamiliaCod->getId() . '").val()==""){$("#' . $oSubFamiliaCod->getId() . '").val("0")}');
 
@@ -354,7 +354,7 @@ class ViewCot extends View {
         //-------------------------------------------------------------------------
         //FINAL
         //Grupo
-        $oGrupoCodFin = new Campo('Grupo fin.', 'grucodfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oGrupoCodFin = new Campo('Grupo final', 'grucodfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oGrupoCodFin->setSValor(999);
         $oGrupoCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oGrupoCodFin->getId() . '").val()==""){$("#' . $oGrupoCodFin->getId() . '").val("999")}');
         //-----------------------------------------------------------
@@ -373,7 +373,7 @@ class ViewCot extends View {
 
         //-------------------------------------------------------------
 
-        $oSubGrupoCodFin = new Campo('Sub. Grupo fin.', 'subcodfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSubGrupoCodFin = new Campo('Subgrupo final', 'subcodfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubGrupoCodFin->setSValor(999);
         $oSubGrupoCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubGrupoCodFin->getId() . '").val()==""){$("#' . $oSubGrupoCodFin->getId() . '").val("999")}');
 
@@ -391,7 +391,7 @@ class ViewCot extends View {
 
         //----------------------------------------------------------------
 
-        $oFamiliaCodFin = new Campo('Família fin.', 'famcodfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oFamiliaCodFin = new Campo('Família final', 'famcodfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oFamiliaCodFin->setSValor(999);
         $oFamiliaCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oFamiliaCodFin->getId() . '").val()==""){$("#' . $oFamiliaCodFin->getId() . '").val("999")}');
 
@@ -409,7 +409,7 @@ class ViewCot extends View {
 
         //-----------------------------------------------------------------------
 
-        $oSubFamiliaCodFin = new Campo('Sub. Família fin.', 'famsubfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
+        $oSubFamiliaCodFin = new Campo('Subfamília final', 'famsubfin', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
         $oSubFamiliaCodFin->setSValor(999);
         $oSubFamiliaCodFin->addEvento(Campo::EVENTO_SAIR, 'if($("#' . $oSubFamiliaCodFin->getId() . '").val()==""){$("#' . $oSubFamiliaCodFin->getId() . '").val("999")}');
 
@@ -432,7 +432,7 @@ class ViewCot extends View {
         $oLinha1->setApenasTela(true);
         
         //para mostrar a parte de imprimir a planilha no excel
-        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 1);
+        $oXls = new Campo('Exportar para Excel', 'sollib', Campo::TIPO_BOTAOSMALL, 2);
         $oXls->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
         $sAcaoLib = 'requestAjax("' . $this->getTela()->getId() . '-form","Cot","relatorioConsultaEstoqueExcel");';
         $oXls->getOBotao()->addAcao($sAcaoLib);

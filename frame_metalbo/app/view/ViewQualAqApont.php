@@ -14,7 +14,6 @@ class ViewQualAqApont extends View {
 
     public function criaTela() {
         parent::criaTela();
-        // $this->setBTela(true);
         $aDados = $this->getAParametrosExtras();
 
         $oEmpresa = new Campo('', 'filcgc', Campo::TIPO_TEXTO, 2, 2, 2, 2);

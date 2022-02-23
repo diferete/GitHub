@@ -15,9 +15,6 @@ class ViewMET_TEC_ChamadoTipo extends View {
     public function criaConsulta() {
         parent::criaConsulta();
 
-        $this->setUsaAcaoExcluir(false);
-        $this->setUsaAcaoAlterar(false);
-        $this->setUsaAcaoIncluir(false);
 
         $oTipo = new CampoConsulta('Tipo', 'tipo');
         $oSubtipo = new CampoConsulta('Subtipo', 'subtipo');
@@ -30,8 +27,13 @@ class ViewMET_TEC_ChamadoTipo extends View {
         parent::criaTela();
 
 
-        $oTipo = new Campo('Tipo', 'tipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        $oTipo = new Campo('Tipo', 'tipo', Campo::TIPO_SELECT, 1, 1, 12, 12);
+        $oTipo->addItemSelect('1', 'HARDWARE');
+        $oTipo->addItemSelect('2', 'SOFTWARE');
+        $oTipo->addItemSelect('3', 'SERVIÇOS');
+        
         $oSubtipo = new Campo('Subtipo', 'subtipo', Campo::TIPO_TEXTO, 1, 1, 12, 12);
+        
         $oSubtipoNome = new Campo('Descrição', 'subtipo_nome', Campo::TIPO_TEXTO, 1, 1, 12, 12);
 
         $this->addCampos($oTipo, $oSubtipo, $oSubtipoNome);

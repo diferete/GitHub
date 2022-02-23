@@ -453,7 +453,6 @@ class Form {
      * Método que retorna renderizaçao de telas modais
      */
     public function getRenderModal($sTitulo, $sNome, $sId, $sIdTela) {
-        //teste para renderizaçao de janelas modais
         $sModal1 = '<div class="modal fade" id="' . $sNome . '" aria-hidden="true" aria-labelledby="examplePositionCenter" '
                 . 'role="dialog" tabindex="-1"> '
                 . '         <div class="modal-dialog modal-center" style="width:1100px"> '
@@ -466,7 +465,6 @@ class Form {
                 . '              </div> '
                 . '             <div class="modal-footer"> '
                 . '                <button type="button" id="' . $sId . '-btn" class="btn btn-danger" data-dismiss="modal">Fechar</button> '
-                //.'               <button type="button" class="btn btn-primary">Save changes</button> '
                 . '             </div> '
                 . '           </div> '
                 . '         </div> '
@@ -483,7 +481,13 @@ class Form {
         $sBotao = '';
         //renderiza os botões
         foreach ($this->aBotoes as $key => $oBotao) {
-            $sBotao .= $oBotao->getRender();
+            if (!$this->getBTela()) {
+                $sBotao .= $oBotao->getRender();
+            } else {
+                if ($oBotao->getITipo() !== 6 && $oBotao->getITipo() !== 7 && $oBotao->getITipo() !== 8) {
+                    $sBotao .= $oBotao->getRender();
+                }
+            }
         }
         //renderiza os campos
         $sConteudo = $this->oLayout->getRender();
@@ -516,11 +520,13 @@ class Form {
                 . $sConteudo;
         $aGrid = $this->getAGrid();
         if (empty($aGrid)) {
-            $sForm .= '<hr>';
-            $sForm .= '<div class="row btn-padroes-form">'
-                    //renderizar os botões
-                    . $sBotao
-                    . '</div>';
+            if (!empty($sBotao)) {
+                $sForm .= '<hr>';
+                $sForm .= '<div class="row btn-padroes-form">'
+                        //renderizar os botões
+                        . $sBotao
+                        . '</div>';
+            }
         }
         $sForm .= '<div id="' . $this->getId() . '-msg">'
                 . '</div>';

@@ -42,7 +42,13 @@ $sSql = "SELECT "
         . "AND famcod BETWEEN '" . $iFamcod . "' AND '" . $iFamcodFin . "' "
         . "AND famsub BETWEEN '" . $iFamsub . "' AND '" . $iFamsubFin . "' "
         . "and widl.prod01.procod not in('54264') "
+        . "and subcod not in('2','9','114','116','125','128','129','150','151','152','153','201','202','203','204','205','206','207','208',"
+        . "'209','210','211','212','213','214','215','216','217','218','219','220','221','222','223','224','225','226','260','301','302','303',"
+        . "'304','306','308','309','310','311','314','317','318','319','321','328','329','401','404','409','410','419','514','516','517','518',"
+        . "'521','529','542','543','544','545','546','547','548','549','550','551','552','554','555','590','629','633','700','710','800','802',"
+        . "'803','804','805','807','808','809') "
         . "and tbestWeb.procod is not null "
+        . "and estoque > 0.00 "
         . "ORDER BY  widl.prod01.procod asc ";
 $dadosSql = $PDO->query($sSql);
 
@@ -53,65 +59,62 @@ $objPHPExcel = new PHPExcel();
 $objPHPExcel->getActiveSheet()->getStyle('A1')->getFont()->setBold(true);
 
 $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A1', 'Relatório de Estoque de produto acabado');
+        ->setCellValue('A1', 'Relatório de Estoque de produto acabado');
 
-$NomeArquivo = 'Consulta de Estoque - ' . $sData . ' - ' . $sHora ;
+$NomeArquivo = 'Consulta de Estoque - ' . $sData . ' - ' . $sHora;
 
 //Títulos da planhilha e filtros
-    $objPHPExcel->setActiveSheetIndex(0)
-            //Filtros
-            ->setCellValue('A2', 'Filtros:')
-            ->setCellValue('A3', 'Grupo:')
-            ->setCellValue('A4', 'Sub.Grupo:')
-            ->setCellValue('A5', 'Família:')
-            ->setCellValue('A6', 'Sub.Família:')
-            ->setCellValue('B3', "$iGrucod")
-            ->setCellValue('C3', "$sGrudes")
-            ->setCellValue('D3', "$iGrucodFin")
-            ->setCellValue('E3', "$sGrudesFin")
-            ->setCellValue('B4', "$iSubcod")
-            ->setCellValue('C4', "$sSubGrudes")
-            ->setCellValue('D4', "$iSubcodFin")
-            ->setCellValue('E4', "$sSubGrudesFin")
-            ->setCellValue('B5', "$iFamcod")
-            ->setCellValue('C5', "$sFamdes")
-            ->setCellValue('D5', "$iFamcodFin")
-            ->setCellValue('E5', "$sFamdesFin")
-            ->setCellValue('B6', "$iFamsub")
-            ->setCellValue('C6', "$sSubFamdes")
-            ->setCellValue('D6', "$iFamsubFin")
-            ->setCellValue('E6', "$sSubFamdesFin")
-    ;
+$objPHPExcel->setActiveSheetIndex(0)
+        //Filtros
+        ->setCellValue('A2', 'Filtros:')
+        ->setCellValue('A3', 'Grupo:')
+        ->setCellValue('A4', 'Sub.Grupo:')
+        ->setCellValue('A5', 'Família:')
+        ->setCellValue('A6', 'Sub.Família:')
+        ->setCellValue('B3', "$iGrucod")
+        ->setCellValue('C3', "$sGrudes")
+        ->setCellValue('D3', "$iGrucodFin")
+        ->setCellValue('E3', "$sGrudesFin")
+        ->setCellValue('B4', "$iSubcod")
+        ->setCellValue('C4', "$sSubGrudes")
+        ->setCellValue('D4', "$iSubcodFin")
+        ->setCellValue('E4', "$sSubGrudesFin")
+        ->setCellValue('B5', "$iFamcod")
+        ->setCellValue('C5', "$sFamdes")
+        ->setCellValue('D5', "$iFamcodFin")
+        ->setCellValue('E5', "$sFamdesFin")
+        ->setCellValue('B6', "$iFamsub")
+        ->setCellValue('C6', "$sSubFamdes")
+        ->setCellValue('D6', "$iFamsubFin")
+        ->setCellValue('E6', "$sSubFamdesFin");
 
 $objPHPExcel->setActiveSheetIndex(0)
-                    //titulos
-                    ->setCellValue('A7', 'Item')
-                    ->setCellValue('B7', 'Estoque')
-                    ->setCellValue('C7', 'Und')
-                    ->setCellValue('D7', 'Peso(Kg)')
-            ;
+        //titulos
+        ->setCellValue('A7', 'Codigo')
+        ->setCellValue('B7', 'Descricao')
+        ->setCellValue('C7', 'Estoque')
+        ->setCellValue('D7', 'Und')
+        ->setCellValue('E7', 'Peso(Kg)');
 
-$ik =8;
+$ik = 8;
 while ($aRow = $dadosSql->fetch(PDO::FETCH_ASSOC)) {
 
-    $sProcod = ltrim(rtrim($aRow['procod']));
     $fEstoque = number_format($aRow['estoque'], 2, ',', '.');
     /* montar linhas a partir daqui para cada item */
 
-    if ($fEstoque != '0,00') {
-        $sProd = $sProcod . ' - ' . $aRow['prodes'];
-        $sEst = $fEstoque;
-        $sUnd = $aRow['unm'];
-        $sEstPes = number_format($aRow['estoquePeso'], 2, ',', '.');
-        
-        $objPHPExcel->setActiveSheetIndex(0)
-                ->setCellValue('A' . ($ik), "$sProd")
-                ->setCellValue('B' . ($ik), "$sEst")
-                ->setCellValue('C' . ($ik), "$sUnd")
-                ->setCellValue('D' . ($ik), "$sEstPes")
-        ;
-        $ik++;
-    }
+    $iCod = ltrim(rtrim($aRow['procod']));
+    $sDes = $aRow['prodes'];
+    $sEst = $fEstoque;
+    $sUnd = $aRow['unm'];
+    $sEstPes = number_format($aRow['estoquePeso'], 2, ',', '.');
+
+    $objPHPExcel->setActiveSheetIndex(0)
+            ->setCellValue('A' . ($ik), "$iCod")
+            ->setCellValue('B' . ($ik), "$sDes")
+            ->setCellValue('C' . ($ik), "$sEst")
+            ->setCellValue('D' . ($ik), "$sUnd")
+            ->setCellValue('E' . ($ik), "$sEstPes");
+    $ik++;
 }
 
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(50);

@@ -22,12 +22,12 @@ class ViewFinanRep extends View {
 
         $this->setBTela(true);
 
-        $oCnpj = new Campo('Cliente', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2);
+        $oCnpj = new Campo('Cliente', 'cnpj', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 2, 2);
         $oCnpj->setITamanho(Campo::TAMANHO_PEQUENO);
         $oCnpj->setBFocus(true);
         $oCnpj->setSCorFundo(Campo::FUNDO_AMARELO);
 
-        $oEmpresa = new Campo('Razão Social', 'cliente', Campo::TIPO_BUSCADOBANCO, 4);
+        $oEmpresa = new Campo('Razão Social', 'cliente', Campo::TIPO_BUSCADOBANCO, 4, 4, 4, 4);
         $oEmpresa->setSIdPk($oCnpj->getId());
         $oEmpresa->setClasseBusca('Pessoa');
         $oEmpresa->addCampoBusca('empcod', '', '');
@@ -40,7 +40,7 @@ class ViewFinanRep extends View {
         $oCnpj->setSCampoRetorno('empcod', $this->getTela()->getId());
         $oCnpj->addCampoBusca('empdes', $oEmpresa->getId(), $this->getTela()->getId());
 
-        $oBtnBuscar = new Campo('Buscar', '', Campo::TIPO_BOTAOSMALL);
+        $oBtnBuscar = new Campo('Buscar', '', Campo::TIPO_BOTAOSMALL, 3, 3, 3, 3);
 
         //grid do financeiro
 
@@ -52,9 +52,10 @@ class ViewFinanRep extends View {
         $oBancoCod = new CampoConsulta('Banco', 'recprbconr');
         $oBancoCod->setBColOculta(true);
 
-        $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
-        $oBtnBoleto->setSRelNome('boletos');
-        $oBtnBoleto->setILargura(15);
+        /*
+          $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
+          $oBtnBoleto->setSRelNome('boletos');
+          $oBtnBoleto->setILargura(15); */
 
         $oDataEmi = new CampoConsulta('Emissão', 'recdtemiss', CampoConsulta::TIPO_DATA);
         $oDataEmi->setILargura(80);
@@ -81,7 +82,7 @@ class ViewFinanRep extends View {
 
         $oHist = new CampoConsulta('Histórico', 'rechist');
 
-        $oGridFinan->addCampos($oBtnBoleto,$oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
+        $oGridFinan->addCampos($oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
         $oGridFinan->setSController('FinanRep');
         $oGridFinan->addParam('empcod', '0');
         $oGridFinan->getOGrid()->setSScrollInfCampo('criaConsultaGridFinan');
@@ -96,16 +97,16 @@ class ViewFinanRep extends View {
         $oGridTotal->addLinhasGridView(2, 'Em atraso');
         $oGridTotal->addLinhasGridView(2, '0');
 
-        $oAg = new Campo('Ag.Beneficiário.Carteira.Nosso Nr.', 'ag', Campo::TIPO_TEXTO, 3);
+        $oAg = new Campo('Ag.Beneficiário.Carteira.Nosso Nr.', 'ag', Campo::TIPO_TEXTO, 3, 3, 3, 3);
         $oAg->setSCorFundo(Campo::FUNDO_AZUL);
 
-        $oCnpjCli = new Campo('Cnpj - Cliente', 'cnpjcli', Campo::TIPO_TEXTO, 2);
+        $oCnpjCli = new Campo('Cnpj - Cliente', 'cnpjcli', Campo::TIPO_TEXTO, 2, 2, 2, 2);
         $oCnpjCli->setSCorFundo(Campo::FUNDO_AZUL);
 
-        $oNossoNr = new Campo('Nosso Número', 'nosso', Campo::TIPO_TEXTO, 2);
+        $oNossoNr = new Campo('Nosso Número', 'nosso', Campo::TIPO_TEXTO, 2, 2, 2, 2);
         $oNossoNr->setSCorFundo(Campo::FUNDO_VERDE);
 
-        $oCnpjMatriz = new Campo('Cnpj METALBO', 'rex', Campo::TIPO_TEXTO, 2);
+        $oCnpjMatriz = new Campo('Cnpj METALBO', 'rex', Campo::TIPO_TEXTO, 2, 2, 2, 2);
         $oCnpjMatriz->setSValor("75483040000130");
 
         $oBtnBuscar->addAcaoBotao('if ($("#' . $oCnpj->getId() . '").val()!== ""){'
@@ -125,10 +126,10 @@ class ViewFinanRep extends View {
     function criaConsultaGridFinan() {
 
         $oGridFinan = new Grid("");
-
-        $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
-        $oBtnBoleto->setSRelNome('boletos');
-        $oBtnBoleto->setILargura(15);
+        /*
+          $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
+          $oBtnBoleto->setSRelNome('boletos');
+          $oBtnBoleto->setILargura(15); */
 
         $oEmpCod = new CampoConsulta('CNPJ', 'empcod');
         $oEmpCod->setBColOculta(true);
@@ -160,7 +161,7 @@ class ViewFinanRep extends View {
 
         $oHist = new CampoConsulta('Histórico', 'rechist');
 
-        $oGridFinan->addCampos($oBtnBoleto, $oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
+        $oGridFinan->addCampos($oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
 
         $aCampos = $oGridFinan->getArrayCampos();
         return $aCampos;

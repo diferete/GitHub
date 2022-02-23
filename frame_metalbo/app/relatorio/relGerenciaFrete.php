@@ -128,32 +128,32 @@ if (!$bEst) {
             nrconhe,nrfat,nrnotaoc,totakg,totalnf,valorserv,convert (varchar,data,103) as data,sit,usuario,
             convert (varchar,dataem,103) as dataem, codtipo
             from tbgerecfrete left outer join widl.EMP01
-            on tbgerecfrete.cnpj = widl.EMP01.empcod";
+            on tbgerecfrete.cnpj = widl.EMP01.empcod ";
 
         if ($dDatini == '' && $dDatfin == '') {
             if (isset($sCnpj)) {
-                $sql .= " where cnpj = '" . $sCnpj . "'";
+                $sql .= "where cnpj = '" . $sCnpj . "' ";
             }
         } else {
             if (isset($sCnpj)) {
-                $sql .= " where cnpj = '" . $sCnpj . "'";
-                $sql .= " and dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+                $sql .= "where cnpj = '" . $sCnpj . "' ";
+                $sql .= "and data between '" . $dDatini . "' and '" . $dDatfin . "' ";
             } else {
-                $sql .= " where dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+                $sql .= "where data between '" . $dDatini . "' and '" . $dDatfin . "' ";
             }
         }
 
         if (isset($sNrFat) && $sNrFat != '') {
-            $sql .= " and nrfat = '" . $sNrFat . "'";
+            $sql .= "and nrfat = '" . $sNrFat . "' ";
         }
         if (isset($sCodtip) && $sCodtip != 0) {
-            $sql .= " and codtipo = '" . $sCodtip . "'";
+            $sql .= "and codtipo = '" . $sCodtip . "' ";
         }
         if (isset($sNrNota) && $sNrNota != '') {
-            $sql .= " and nrnotaoc = '" . $sNrNota . "'";
+            $sql .= "and nrnotaoc = '" . $sNrNota . "' ";
         }
         if (isset($sNrCon) && $sNrCon != '') {
-            $sql .= " and nrconhe = '" . $sNrCon . "'";
+            $sql .= "and nrconhe = '" . $sNrCon . "' ";
         }
 
         $sth = $PDO->query($sql);
@@ -274,25 +274,25 @@ if (!$bEst) {
 
         if ($dDatini == '' && $dDatfin == '') {
             if (isset($sCnpj)) {
-                $sql .= " where cnpj = '" . $sCnpj . "'";
+                $sql .= "where cnpj = '" . $sCnpj . "' ";
             }
         } else {
             if (isset($sCnpj)) {
-                $sql .= " where cnpj = '" . $sCnpj . "'";
-                $sql .= " and dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+                $sql .= "where cnpj = '" . $sCnpj . "' ";
+                $sql .= "and dataem between '" . $dDatini . "' and '" . $dDatfin . "' ";
             } else {
-                $sql .= " where dataem between '" . $dDatini . "' and '" . $dDatfin . "'";
+                $sql .= "where dataem between '" . $dDatini . "' and '" . $dDatfin . "' ";
             }
         }
 
         if (isset($sNrFat) && $sNrFat != '') {
-            $sql .= " and nrfat = '" . $sNrFat . "'";
+            $sql .= "and nrfat = '" . $sNrFat . "' ";
         }
         if (isset($sNrNota) && $sNrNota != '') {
-            $sql .= " and nrnotaoc = '" . $sNrNota . "'";
+            $sql .= "and nrnotaoc = '" . $sNrNota . "' ";
         }
         if (isset($sNrCon) && $sNrCon != '') {
-            $sql .= " and nrconhe = '" . $sNrCon . "'";
+            $sql .= "and nrconhe = '" . $sNrCon . "' ";
         }
 
         $sql .= " group by tbgerecfrete.cnpj,empdes,nrfat,dataem,datafn";

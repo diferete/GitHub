@@ -41,7 +41,7 @@ class PersistenciaMET_PED_Aprovacoes extends Persistencia {
 
         $this->adicionaFiltro('pdcfutaut', $_SESSION['nomedelsoft']);
 
-        $this->setSTop(50);
+        $this->setSTop(25);
     }
 
     public function consultaManual() {

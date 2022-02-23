@@ -333,8 +333,8 @@ class ViewMET_QUAL_RcRep extends View {
         $oAplicacao->addItemSelect('Erro no pedido', 'Erro no pedido');
         $oAplicacao->addItemSelect('Dimencional errado', 'Dimencional errado');
         $oAplicacao->addItemSelect('Produto faltando no físico', 'Produto faltando no físico');
-
-
+        
+       
         $oDivisor1 = new Campo('Dados da não conformidade', 'nconf', Campo::DIVISOR_DARK, 12, 12, 12, 12);
         $oDivisor1->setApenasTela(true);
 

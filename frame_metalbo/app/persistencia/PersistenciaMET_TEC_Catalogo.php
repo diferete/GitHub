@@ -57,7 +57,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
                 . "and probloqpro <> 'S' "
                 . "and promatcod <> '' "
                 . "and pdftabvendas.preco is not null "
-                . "and widl.prod01.subcod not in(2,9,116,128,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,260,329,700,710,711) "
+                . "and widl.prod01.subcod not in('2','9','116','128','201','202','203','204','205','206','207','208','209','210','211','212','213','214','215','216','217','218','219','220','221','222','223','224','225','226','260','329','700','710','711') "
                 . "and tbean.caixa = 'NORMAL'";
         $aRet07 = $PDOnew->exec($sSql);
 
@@ -84,7 +84,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
                 . "and probloqpro <> 'S' "
                 . "and promatcod <> '' "
                 . "and pdftabvendas.preco is not null "
-                . "and widl.prod01.subcod not in(2,9,116,128,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,260,329,700,710,711) "
+                . "and widl.prod01.subcod not in('2','9','116','128','201','202','203','204','205','206','207','208','209','210','211','212','213','214','215','216','217','218','219','220','221','222','223','224','225','226','260','329','700','710','711') "
                 . "and tbean.caixa = 'MASTER'";
         $aRet08 = $PDOnew->exec($sSql);
 
@@ -111,7 +111,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
                 . "and probloqpro <> 'S' "
                 . "and promatcod <> '' "
                 . "and pdftabvendas.preco is not null "
-                . "and widl.prod01.subcod not in(2,9,116,128,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,260,329,700,710,711) "
+                . "and widl.prod01.subcod not in('2','9','116','128','201','202','203','204','205','206','207','208','209','210','211','212','213','214','215','216','217','218','219','220','221','222','223','224','225','226','260','329','700','710','711') "
                 . "and tbean.caixa = 'SACO'";
         $aRet09 = $PDOnew->exec($sSql);
 
@@ -145,7 +145,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         $sSql .= "and probloqpro <> 'S' "
                 . "and promatcod <> '' "
                 . "and pdftabvendas.preco is not null "
-                . "and widl.prod01.subcod not in(2,9,116,128,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,260,329,700,710,711)";
+                . "and widl.prod01.subcod not in('2','9','116','128','201','202','203','204','205','206','207','208','209','210','211','212','213','214','215','216','217','218','219','220','221','222','223','224','225','226','260','329','700','710','711')";
 
         $result = $PDOnew->query($sSql);
         $aRetorno = array();
@@ -288,7 +288,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
     }
 
     function buscaSubG($sDados) {
-                $sSql = 'select subcod, subdes from widl.prod05 where grucod = ' . $sDados . ' and subcod not in(9,128,150,151,152,153,401,404,409,410,419,512,513,542,543,544,545,546,547,549,550,551,552,554,555,800,802,803,804,805,807,808,809)';
+        $sSql = 'select subcod, subdes from widl.prod05 where grucod = ' . $sDados . ' and subcod not in(9,128,150,151,152,153,401,404,409,410,419,512,513,542,543,544,545,546,547,549,550,551,552,554,555,800,802,803,804,805,807,808,809)';
         $result = $this->getObjetoSql($sSql);
         $aRetorno = array();
         $aDadosRet = array();
@@ -326,7 +326,6 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         return $aRetorno;
     }
 
-
     function buscaCarrinho($aDados) {
 
 
@@ -356,7 +355,7 @@ class PersistenciaMET_TEC_Catalogo extends Persistencia {
         foreach ($aDados as $key => $value) {
 
             $aItem = explode('|', $value);
-            
+
             $sSql = "insert into #MetTecCxNormal (procod,cxnormal) "
                     . "select widl.prod01.procod,pcs "
                     . "from widl.prod01 "

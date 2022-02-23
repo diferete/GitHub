@@ -61,7 +61,7 @@ class Grid {
      *  @param string $sTelaMuitoPequena Define o valor para telas de celulares pequenos
      *
      */
-    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 500, $iLarguraGrid = 2000) {
+    function __construct($sTelaGrande = '12', $sTelaMedia = '12', $sTelaPequena = '12', $sTelaMuitoPequena = '12', $iAltura = 600, $iLarguraGrid = 2000) {
         $this->sId = Base::getId();
         $this->aColunas = array();
         $this->aBotoes = array();
@@ -654,25 +654,19 @@ class Grid {
             //rendereizar filtros
             foreach ($this->aFiltro as $oFiltro) {
                 $iTipo = $oFiltro->getITipoCampo();
-
                 $sFiltro .= $oFiltro->getRender();
-            }
-            $sFiltro .= '</form>'
-                    . '<script>';
-            if ($this->getBUsaKeypress()) {
-                $sFiltro .= '$("#' . $this->getSId() . '-pesquisa :input").keyup(function(){'
+                $sFiltro .= '<script>'
+                        . '$("#' . $oFiltro->getId() . ' :input").keyup(function(){'
                         . 'var val = $(this).val();'
-                        . '$("#' . $this->getSId() . '-pesquisa").each(function(){'
-                        . 'if(val.length > 5){'
+                        . 'if (val.length > ' . $oFiltro->getICharCount() . ') {'
                         . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
                         . '}'
-                        /*  . 'if(val.length <= 1){'
-                          . 'sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
-                          . '}' */
                         . '});'
-                        . '});';
+                        . '</script>';
             }
-            $sFiltro .= '$("#' . $this->getSId() . '-pesq").click(function(){'
+            $sFiltro .= '</form>';
+            $sFiltro .= '<script>'
+                    . '$("#' . $this->getSId() . '-pesq").click(function(){'
                     . '    sendFiltros("#' . $this->getSId() . '-filtros","' . $this->getController() . '","' . $this->getSId() . '","' . $this->getSCampoConsulta() . '");'
                     . ' });'
                     . '</script>';

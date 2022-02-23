@@ -38,6 +38,7 @@ class ViewSTEEL_SUP_Solicitacao extends View {
         $oSitSol->addComparacao('M', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_LARANJA, CampoConsulta::MODO_COLUNA, true, 'EM MONTAGEM');
         $oSitSol->addComparacao('L', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERDE, CampoConsulta::MODO_COLUNA, true, 'LIBERADO');
         $oSitSol->addComparacao('O', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VDCLARO, CampoConsulta::MODO_COLUNA, true, 'EM COMPRAS');
+        $oSitSol->addComparacao('D', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VDCLARO, CampoConsulta::MODO_COLUNA, true, 'COMPRADA PARCIAL');
         $oSitSol->addComparacao('C', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_ROSA, CampoConsulta::MODO_COLUNA, true, 'CANCELADO');
         $oSitSol->addComparacao('E', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_BLACK, CampoConsulta::MODO_COLUNA, true, 'ENCERRADO');
         $oSitSol->addComparacao('R', CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COL_VERMELHO, CampoConsulta::MODO_COLUNA, true, 'REPROVADO');

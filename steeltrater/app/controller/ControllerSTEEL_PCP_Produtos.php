@@ -205,7 +205,7 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
             }
         }
 
-        if ($this->Model->getPro_referencia() !== '') {
+        if ($this->Model->getPro_referencia() !== '' && $this->Model->getPro_codigoantigo() == '') {
             $oOprodutoRef = Fabrica::FabricarController('STEEL_PCP_Produtos');
             $oOprodutoRef->Persistencia->adicionaFiltro('pro_referencia', $this->Model->getPro_referencia());
             $iCountRef = $oOprodutoRef->Persistencia->getCount();

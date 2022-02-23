@@ -30,14 +30,14 @@ class ViewMET_PED_Aprovacoes extends View {
         $oPedidoSeq = new CampoConsulta('Nr', 'pdcnro');
         $oPedidoSeq->setILargura(5);
 
-        $oBotaoGerencia = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_APONTAR);
+        $oBotaoGerencia = new CampoConsulta('', 'apontar', CampoConsulta::TIPO_MODAL, CampoConsulta::ICONE_MARTELO);
         $oBotaoGerencia->setBHideTelaAcao(true);
         $oBotaoGerencia->setILargura(15);
         $oBotaoGerencia->setSTitleAcao('Gerenciar');
-        $oBotaoGerencia->addAcao('MET_PED_Aprovacoes', 'criaTelaModalGerenciaPedido', 'criaModalGerenciaPedido', '');
+        $oBotaoGerencia->addAcao('MET_PED_Aprovacoes', 'criaTelaModalMetGerenciaPedido', 'criaModalMetGerenciaPedido', '');
         $this->addModais($oBotaoGerencia);
 
-        $oBtnItens = new CampoConsulta('', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_MARTELO);
+        $oBtnItens = new CampoConsulta('', '', CampoConsulta::TIPO_MVC, CampoConsulta::ICONE_APONTAR);
         $oBtnItens->addDadosConsultaMVC('MET_PED_AprovacoesItens', 'TelaVisualizaItens', 'Visualizar itens!');
         $oBtnItens->setILargura(15);
 
@@ -88,7 +88,7 @@ class ViewMET_PED_Aprovacoes extends View {
         parent::criaTela();
     }
 
-    public function criaModalGerenciaPedido() {
+    public function criaModalMetGerenciaPedido() {
         parent::criaModal();
 
         $this->setBTela(true);
@@ -108,13 +108,13 @@ class ViewMET_PED_Aprovacoes extends View {
 
         //botão inserir os dados
         $oBtnAprova = new Campo('Aprovar', '', Campo::TIPO_BOTAOSMALL_SUB, 2);
-        $sAcaoAprova = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","gerenPedidoCompra","A,S");';
+        $sAcaoAprova = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","gerenMetPedidoCompra","A,S");';
         $oBtnAprova->getOBotao()->addAcao($sAcaoAprova);
         $oBtnAprova->getOBotao()->setSStyleBotao(Botao::TIPO_PRIMARY);
 
         //botão inserir os dados
         $oBtnReprova = new Campo('Reprovar', '', Campo::TIPO_BOTAOSMALL_SUB, 2);
-        $sAcaoReprova = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","gerenPedidoCompra","R,S");';
+        $sAcaoReprova = 'requestAjax("' . $this->getTela()->getId() . '-form","' . $this->getController() . '","gerenMetPedidoCompra","R,S");';
         $oBtnReprova->getOBotao()->addAcao($sAcaoReprova);
         $oBtnReprova->getOBotao()->setSStyleBotao(Botao::TIPO_DANGER);
 
