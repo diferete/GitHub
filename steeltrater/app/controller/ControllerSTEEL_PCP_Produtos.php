@@ -258,6 +258,7 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         $aFiltros[14] = 111;
         $aFiltros[15] = 112;
         $aFiltros[16] = 113;
+        $aFiltros[17] = 19;
         $this->Persistencia->adicionaFiltro('pro_grupocodigo', $aFiltros, Persistencia::LIGACAO_AND, Persistencia::GRUPO);
     }
 

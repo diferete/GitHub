@@ -27,8 +27,9 @@ class PersistenciaMET_FRETE_FaturaXml extends Persistencia {
         $this->adicionaRelacionamento('horaUpload', 'horaUpload');
         $this->adicionaRelacionamento('arquivo', 'arquivo');
         $this->adicionaRelacionamento('extraido', 'extraido');
-        
-        $this->adicionaOrderBy('dataUpload',1);
+
+        $this->setSTop(75);
+        $this->adicionaOrderBy('dataUpload', 1);
     }
 
     public function buscaEmpresas() {
@@ -106,6 +107,7 @@ class PersistenciaMET_FRETE_FaturaXml extends Persistencia {
                     . "nfetransp as cnpj "
                     . "from widl.NFE01 "
                     . "where nfetransp ='" . $aDados['cnpj'] . "' "
+                    . "and empcod= '" . $aDados['sCNPJCliente'] . "' "
                     . "and nfenro in(" . $aDados['sNFE'] . ") ";
             $dadosSql2 = $PDO->query($sSql2);
             $oRow1 = $dadosSql2->fetch(PDO::FETCH_ASSOC);
@@ -271,15 +273,34 @@ class PersistenciaMET_FRETE_FaturaXml extends Persistencia {
             }
         }
 
-//* EXPRESSO SÃO MIGUEL LTDA */ - COMPRA OK
+        //* EXPRESSO SÃO MIGUEL LTDA */ - COMPRA OK
+        /*
+         * Campos
+         * Pedagio sempre colocado o mínimo por região
+         * Taxa = mínimo - gris minimo
+         */
         if ($aDados['cnpj'] == '428307001593') {
 
             if ($aRetorno == 1) {
-                $sSql1 = "select seq, ref, ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce( pedagio *FracaoFrete,0)+
-                coalesce(  nfsvlrtot * gris, 0),2)/imposto,2)  as totalfrete,
-                ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce( pedagio *FracaoFrete,0)+
-                coalesce( taxa,0),2)/imposto,2)  as freteminimo
-                from tbfrete left outer join tbnt#
+                $sSql1 = "select seq, ref,
+                            CASE    WHEN ((pedagio *FracaoFrete)<=pedagio AND (nfsvlrtot * gris)<=taxa) THEN (
+					ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce(pedagio,0)+
+                                        COALESCE(taxa, 0),2)/imposto,2))
+                                    WHEN ((pedagio *FracaoFrete)<=pedagio AND (nfsvlrtot * gris)>taxa) THEN(
+                                        ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce(pedagio,0)+
+                                        COALESCE(nfsvlrtot * gris, 0),2)/imposto,2)
+                                        )
+                                    WHEN (pedagio *FracaoFrete)>pedagio AND (nfsvlrtot * gris)<=taxa THEN(
+                                        ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce(pedagio *FracaoFrete,0)+
+                                        COALESCE(taxa, 0),2)/imposto,2)
+                                        )
+                                    ELSE 
+                                        (ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce( pedagio *FracaoFrete,0)+
+                                        COALESCE( nfsvlrtot * gris, 0),2)/imposto,2))
+                                        END AS totalfrete,
+					ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce(pedagio,0)+
+					coalesce( taxa,0),2)/imposto,2)  as freteminimo
+					from tbfrete left outer join tbnt#
                 on tbfrete.cnpj = tbnt#.cnpj
                 where  tbfrete.cnpj = " . $aDados['cnpj'] . " ";
 
@@ -551,6 +572,22 @@ class PersistenciaMET_FRETE_FaturaXml extends Persistencia {
 
         if ($oTotalKg != $aDados['sPeso']) {
             $oTotalKg = $aDados['sPeso'];
+        }
+
+        $sSqlNFE = "select count(nrnotaoc) as total,nrconhe from tbgerecfrete where nrnotaoc = " . $oNfsNfNro1 . " "
+                . "and cnpj = " . $aDados['cnpj'] . " "
+                . "group by nrconhe";
+        $dadosSqlNFE = $PDO->query($sSqlNFE);
+        $aNFE = $dadosSqlNFE->fetch(PDO::FETCH_ASSOC);
+        $aNConhecimento = array();
+        if ($aNFE['total'] >= 1) {
+            $sSit = 'E';
+            $dadosSqlNFE = $PDO->query($sSqlNFE);
+            while ($aNFE = $dadosSqlNFE->fetch(PDO::FETCH_ASSOC)) {
+                array_push($aNConhecimento, $aNFE['nrconhe']);
+            }
+            $sConhecimentos = implode(',', $aNConhecimento);
+            $obsfinal = 'NFE ' . str_replace("'", "", $oNfsNfNro1) . ' TAMBÉM ESTÁ VINCULADA AO CTE(s) ' . $sConhecimentos;
         }
 
         /* insere valores nos campos da tabela */

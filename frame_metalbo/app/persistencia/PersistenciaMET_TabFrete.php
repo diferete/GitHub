@@ -16,7 +16,7 @@ class PersistenciaMET_TabFrete extends Persistencia{
         $this->adicionaRelacionamento('cnpj','cnpj',true,true);
         $this->adicionaRelacionamento('cnpj','Pessoa.empcod',false,false);
         $this->adicionaRelacionamento('empdes','empdes',false,false);
-        $this->adicionaRelacionamento('codtipo','codtipo',true,true);
+        $this->adicionaRelacionamento('codtipo','codtipo');
         $this->adicionaRelacionamento('ref','ref');
         $this->adicionaRelacionamento('taxamin','taxamin');
         $this->adicionaRelacionamento('fretevalor','fretevalor');

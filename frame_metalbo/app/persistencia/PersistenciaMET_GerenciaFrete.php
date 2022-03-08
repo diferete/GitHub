@@ -38,7 +38,7 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
 
         $this->adicionaOrderBy('nr', 1);
         $this->adicionaJoin('Pessoa', null, 1, 'cnpj', 'empcod');
-        $this->setSTop(50);
+        $this->setSTop(75);
     }
 
     /**
@@ -232,17 +232,36 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
         } else
 
         //* EXPRESSO SÃO MIGUEL LTDA */ - COMPRA OK
+        /*
+         * Campos
+         * Pedagio sempre colocado o mínimo por região
+         * Taxa = mínimo - gris minimo
+         */
+
         if ($aValores['cnpj'] == '428307001593') {
 
             if ($aRetorno == 1) {
-                $sSql1 = "select seq, ref, ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce( pedagio *FracaoFrete,0)+
-                coalesce(  nfsvlrtot * gris, 0),2)/imposto,2)  as totalfrete,
-                ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce( pedagio *FracaoFrete,0)+
-                coalesce( taxa,0),2)/imposto,2)  as freteminimo
-                from tbfrete left outer join tbnt#
+                $sSql1 = "select seq, ref,
+                            CASE    WHEN ((pedagio *FracaoFrete)<=pedagio AND (nfsvlrtot * gris)<=taxa) THEN (
+					ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce(pedagio,0)+
+                                        COALESCE(taxa, 0),2)/imposto,2))
+                                    WHEN ((pedagio *FracaoFrete)<=pedagio AND (nfsvlrtot * gris)>taxa) THEN(
+                                        ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce(pedagio,0)+
+                                        COALESCE(nfsvlrtot * gris, 0),2)/imposto,2)
+                                        )
+                                    WHEN (pedagio *FracaoFrete)>pedagio AND (nfsvlrtot * gris)<=taxa THEN(
+                                        ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce(pedagio *FracaoFrete,0)+
+                                        COALESCE(taxa, 0),2)/imposto,2)
+                                        )
+                                    ELSE 
+                                        (ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce( pedagio *FracaoFrete,0)+
+                                        COALESCE( nfsvlrtot * gris, 0),2)/imposto,2))
+                                        END AS totalfrete,
+					ROUND(ROUND(coalesce( fretevalor * nfsvlrtot ,0)  + coalesce( taxamin +(pesoNota * fretepeso),0)+coalesce(pedagio,0)+
+					coalesce( taxa,0),2)/imposto,2)  as freteminimo
+					from tbfrete left outer join tbnt#
                 on tbfrete.cnpj = tbnt#.cnpj
                 where  tbfrete.cnpj = " . $aValores['cnpj'] . " ";
-
                 $result = $PDOnew->query($sSql1);
             }
 

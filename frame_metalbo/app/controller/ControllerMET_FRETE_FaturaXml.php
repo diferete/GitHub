@@ -83,11 +83,30 @@ class ControllerMET_FRETE_FaturaXml extends Controller {
                             $aDados['sValorCarga'] = (string) $oXml->CTe->infCte->infCTeNorm->infCarga->vCarga;
                             if ($aDados['cnpj'] == '428307001593') {
                                 $aPeso['aPeso'] = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[1]; //->qCarga;
-                                $aDados['sCNPJCliente'] = (string) $oXml->CTe->infCte->rem->CNPJ; //ver
-                                $aPeso['qCarga'] = $aPeso['aPeso']['qCarga'];
+                                $aDados['sCNPJDest'] = (string) $oXml->CTe->infCte->dest->CNPJ; //ver
+                                $aDados['sCNPJRem'] = (string) $oXml->CTe->infCte->rem->CNPJ; //ver
+                                if ($aDados['sCNPJDest'] == '75483040000211') {
+                                    $aDados['sCNPJCliente'] = $aDados['sCNPJRem'];
+                                } else {
+                                    $aDados['sCNPJCliente'] = $aDados['sCNPJDest'];
+                                }
+                                if ($aPeso['aPeso']['tpMed'] == 'CUBAGEM') {
+                                    $aPeso['qCarga'] = $aPeso['aPeso']['qCarga'] * 300;
+                                } else {
+                                    $aPeso['qCarga'] = $aPeso['aPeso']['qCarga'];
+                                }
                             } else {
                                 $aPeso = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[4]; //->qCarga;
-                                $aDados['sCNPJCliente'] = (string) $oXml->CTe->infCte->dest->CNPJ;
+                                if ($aPeso['aPeso']['tpMed'] == 'CUBAGEM') {
+                                    $aPeso['qCarga'] = $aPeso['aPeso']['qCarga'] * 300;
+                                }
+                                $aDados['sCNPJDest'] = (string) $oXml->CTe->infCte->dest->CNPJ;
+                                $aDados['sCNPJRem'] = (string) $oXml->CTe->infCte->rem->CNPJ; //ver
+                                if ($aDados['sCNPJDest'] == '75483040000211') {
+                                    $aDados['sCNPJCliente'] = $aDados['sCNPJRem'];
+                                } else {
+                                    $aDados['sCNPJCliente'] = $aDados['sCNPJDest'];
+                                }
                             }
                             $aDados['sPeso'] = $aPeso['qCarga'];
 
@@ -139,10 +158,32 @@ class ControllerMET_FRETE_FaturaXml extends Controller {
                         $aDados['sCNPJCliente'] = (string) $oXml->CTe->infCte->dest->CNPJ;
                         $aDados['aObjetoChaves'] = (array) $oXml->CTe->infCte->infCTeNorm->infDoc;
                         $aDados['sValorCarga'] = (string) $oXml->CTe->infCte->infCTeNorm->infCarga->vCarga;
-                        if ($cnpj == '428307001593') {
-                            $aDados['aPeso'] = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[1]; //->qCarga;
+                        if ($aDados['cnpj'] == '428307001593') {
+                            $aPeso['aPeso'] = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[1]; //->qCarga;
+                            $aDados['sCNPJDest'] = (string) $oXml->CTe->infCte->dest->CNPJ; //ver
+                            $aDados['sCNPJRem'] = (string) $oXml->CTe->infCte->rem->CNPJ; //ver
+                            if ($aDados['sCNPJDest'] == '75483040000211') {
+                                $aDados['sCNPJCliente'] = $aDados['sCNPJRem'];
+                            } else {
+                                $aDados['sCNPJCliente'] = $aDados['sCNPJDest'];
+                            }
+                            if ($aPeso['aPeso']['tpMed'] == 'CUBAGEM') {
+                                $aPeso['qCarga'] = $aPeso['aPeso']['qCarga'] * 300;
+                            } else {
+                                $aPeso['qCarga'] = $aPeso['aPeso']['qCarga'];
+                            }
                         } else {
                             $aPeso = (array) $oXml->CTe->infCte->infCTeNorm->infCarga->infQ[4]; //->qCarga;
+                            if ($aPeso['aPeso']['tpMed'] == 'CUBAGEM') {
+                                $aPeso['qCarga'] = $aPeso['aPeso']['qCarga'] * 300;
+                            }
+                            $aDados['sCNPJDest'] = (string) $oXml->CTe->infCte->dest->CNPJ;
+                            $aDados['sCNPJRem'] = (string) $oXml->CTe->infCte->rem->CNPJ; //ver
+                            if ($aDados['sCNPJDest'] == '75483040000211') {
+                                $aDados['sCNPJCliente'] = $aDados['sCNPJRem'];
+                            } else {
+                                $aDados['sCNPJCliente'] = $aDados['sCNPJDest'];
+                            }
                         }
                         $aDados['sPeso'] = $aPeso['qCarga'];
 

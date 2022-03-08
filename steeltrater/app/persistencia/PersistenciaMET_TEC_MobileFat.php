@@ -115,7 +115,8 @@ class PersistenciaMET_TEC_MobileFat extends Persistencia {
                 convert(varchar,metpedonlineShow.data,103) as 'dataconv',
                 metpedonlineShow.nr as 'nr',
                 metpedonlineShow.peso as 'peso', 
-                (select SUM(peso)from rex_maquinas.dbo.metpedonlineShow ped2 where metpedonlineShow.seq >= ped2.seq and DATA between '" . $sDataIni . "' and '" . $sDataFim . "' )as 'contpeso', 
+                (select SUM(peso)from rex_maquinas.dbo.metpedonlineShow ped2 where metpedonlineShow.seq >= ped2.seq 
+                and DATA between '" . $sDataIni . "' and '" . $sDataFim . "' )as 'contpeso', 
                 metpedonlineShow.vlr as 'vlr',
                 metpedonlineShow.ipi as 'ipi',
                 metpedonlineShow.vlrcompipi as 'vlrcomipi', 

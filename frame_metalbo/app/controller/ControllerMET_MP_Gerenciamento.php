@@ -43,6 +43,8 @@ class ControllerMET_MP_Gerenciamento extends Controller {
 
         $this->Model->setCodsetor($oCodSetor->codsetor);
 
+        $this->Model->setManutp('SIM');
+
         $this->verificaNrPorMaquina($iCodMaq);
         $this->verificaCampoMaquina();
 
@@ -90,6 +92,8 @@ class ControllerMET_MP_Gerenciamento extends Controller {
 
         $this->Model->setCodsetor($oCodSetor->codsetor);
 
+        $this->Model->setManutp('SIM');
+
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -134,8 +138,8 @@ class ControllerMET_MP_Gerenciamento extends Controller {
             $sRelatorio = 'relServicoMaquinaMantPrev.php?' . $sNrs . '&Sit=' . $aSit1[2];
 
             $sCampos .= $this->getSget();
-
-            $sCampos .= '&email=N';
+            $sCodUser = $_SESSION['codUser'];
+            $sCampos .= '&email=N&codUser='.$sCodUser;
 
             $sCampos .= '&output=tela';
             $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "' . $sCampos . '", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
@@ -197,24 +201,28 @@ class ControllerMET_MP_Gerenciamento extends Controller {
         if ($iCodMaq != null) {
             $iCodMaq = 'Maq = ' . $iCodMaq;
         }
+        $sCodUser = $_SESSION['codUser'];
 
-        $sResulta = '<div id="titulolinhatempo">'
-                . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas ' . $iCodMaq . '</h1>'
-                . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
-                . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
-                . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['ELETRICA'] . ''
-                . '</div>';
+        if($sCodUser!= '15' && $sCodUser!= '132') {
+            $sResulta = '<div id="titulolinhatempo">'
+                    . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas ' . $iCodMaq . '</h1>'
+                    . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
+                    . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
+                    . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['ELETRICA'] . ''
+                    . '</div>';
 
-        echo '$("#titulolinhatempo").empty();';
+            echo '$("#titulolinhatempo").empty();';
 
-        $sTitulo = '<div id="titulolinhatempo">'
-                . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas ' . $iCodMaq . '</h1>'
-                . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
-                . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
-                . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['ELETRICA'] . ''
-                . '</div>';
-        echo '$("#titulolinhatempo").append(\'' . $sTitulo . '\');';
-
+            $sTitulo = '<div id="titulolinhatempo">'
+                    . '<h1 class="panel-title" style="-webkit-text-stroke-width:thin; color:red; font-size:18px">Serviços em Atraso das Máquinas ' . $iCodMaq . '</h1>'
+                    . '<div class="cor_verde">Total de serviços Operador: 0' . $aTotal['OPERADOR'] . '</div>'
+                    . '<div class="cor_azul">Total de serviços Mecânica: 0' . $aTotal['MECANICA'] . '</div>'
+                    . 'Total de serviços Manutenção Elétrica: 0' . $aTotal['ELETRICA'] . ''
+                    . '</div>';
+            echo '$("#titulolinhatempo").append(\'' . $sTitulo . '\');';
+        }else{
+            $sResulta = '';
+        }
         return $sResulta;
     }
 
@@ -227,8 +235,8 @@ class ControllerMET_MP_Gerenciamento extends Controller {
 
         $sSit = explode('|', $oDados['parametrosCampos[5'])[1];
         $iSet = $_SESSION['codsetor'];
-
-        if ($_REQUEST['metodo'] != 'getDadosConsulta' && $_REQUEST['metodo'] != 'getDadosScroll' || $iSet == 5) {
+        //$_REQUEST['metodo'] != 'getDadosConsulta' && 
+        if ($_REQUEST['metodo'] != 'getDadosScroll' || $iSet == 5) {
             if ($iSet != 2 && $iSet != 12 && $iSet != 29 && $iSet != 31 && $iSet != 9 && $iSet != 32 && $iSet != 24) {
                 $this->Persistencia->adicionaFiltro('Setor.codsetor', $iSet);
                 $this->Persistencia->setSqlWhere('nr in (' . $this->Persistencia->retornaTexMaqPorSetor($iSet) . ') ');
@@ -247,8 +255,8 @@ class ControllerMET_MP_Gerenciamento extends Controller {
         if ($_REQUEST['metodo'] == 'getDadosScroll') {
             $iNr = 0;
             $aWhere = $this->Persistencia->getListaWhere();
-            foreach ($aWhere as $key){
-                if($key['campo']=='nr'){
+            foreach ($aWhere as $key) {
+                if ($key['campo'] == 'nr') {
                     $iNr = $key['valor'];
                     break;
                 }
@@ -259,6 +267,7 @@ class ControllerMET_MP_Gerenciamento extends Controller {
             $aWhere[1]['comparacao'] = 1;
             $this->Persistencia->setAListaWhere($aWhere);
         }
+        $this->Persistencia->adicionaFiltro('manutp', 'SIM');
     }
 
     /**
@@ -278,8 +287,49 @@ class ControllerMET_MP_Gerenciamento extends Controller {
     /**
      * Muda a situação para abertos quando aplicado o filtro de dias restantes
      */
-    public function mudaSituacao(){
+    public function mudaSituacao1() {
         echo "$('#sitServicos').val('ABERTOS');";
+        echo "$('#horasRestManut').val('----');";
     }
-    
+
+    /**
+     * Muda a situação para abertos quando aplicado o filtro de dias restantes
+     */
+    public function mudaSituacao2() {
+        echo "$('#sitServicos').val('ABERTOS');";
+        echo "$('#diasRestManut').val('----');";
+    }
+
+    public function acaoMostraRelatorio($sParametros) {
+        parent::acaoMostraRelatorio($sParametros);
+
+        //abre mensagem que o relatório está sendo processado
+        $oMensagem = new Mensagem('Geração de Relatório', 'Seu relatório está sendo processado!', Mensagem::TIPO_INFO);
+        echo $oMensagem->getRender();
+
+        //Explode string parametros
+        $aDados = explode(',', $sParametros);
+        $sMetodo = $aDados[0];
+        $sCampos = htmlspecialchars_decode($aDados[1]);
+
+        $aDocto = array();
+        parse_str($sCampos, $aDocto);
+        $sCampos .= $this->getSget();
+        if ($aDocto['tipoRel'] == 'CORRETIVA') {
+            $sMetodo = 'relMantCorretiva';
+        }
+
+        $sSistema = "app/relatorio";
+        $sRelatorio = $sMetodo . '.php?';
+        $oWindow = 'window.open("' . $sSistema . '/' . $sRelatorio . '' . $sCampos . '", "Relatório", "STATUS=NO, TOOLBAR=NO, LOCATION=NO, DIRECTORIES=NO, RESISABLE=NO, SCROLLBARS=YES, TOP=10, LEFT=30, WIDTH=1200, HEIGHT=700");';
+        echo $oWindow;
+    }
+
+    /**
+     * Dá um click na tela de gerenciamento pulado para a tela de itens
+     */
+    public function AcaoSeguinte() {
+        echo "$('.btn.btn-outline.btn-primary').trigger('click');";
+    }
+
 }

@@ -230,15 +230,15 @@ foreach ($aOps as $key => $aOp) {
                 $pdf->Cell(25, 5, 'Cementação Prevista','T,B',0,'L');
                 $pdf->Cell(109, 5, '','B,R,T',1,'C');
 
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(36, 5, '','B,R',0,'C');
-
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(99, 5, '','B,R',1,'L');
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(36, 5, '','B,R',0,'C');
+//
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(99, 5, '','B,R',1,'L');
                 
                 $icont++;
                 break;
@@ -252,15 +252,15 @@ foreach ($aOps as $key => $aOp) {
                 $pdf->Cell(25, 5, 'Autenitização Prevista','T,B',0,'L');
                 $pdf->Cell(109, 5, '','B,R,T',1,'C');
 
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(36, 5, '','B,R',0,'C');
-
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(99, 5, '','B,R',1,'L');
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(36, 5, '','B,R',0,'C');
+//
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(99, 5, '','B,R',1,'L');
                 
                 $icont++;
                 break;
@@ -274,15 +274,15 @@ foreach ($aOps as $key => $aOp) {
                 $pdf->Cell(25, 5, 'Recozimento Previsto','T,B',0,'L');
                 $pdf->Cell(109, 5, '','B,R,T',1,'C');
 
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(36, 5, '','B,R',0,'C');
-
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(99, 5, '','B,R',1,'L');
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(36, 5, '','B,R',0,'C');
+//
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(99, 5, '','B,R',1,'L');
                 
                 $icont++;
                 break;
@@ -345,15 +345,15 @@ foreach ($aOps as $key => $aOp) {
                 $pdf->SetFont('Arial','B',9);
                 $pdf->Cell(199, 5, 'Inspeção da Esferoidização','B,R,L',1,'C');
 
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(36, 5, '','B,R',0,'C');
-
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(99, 5, '','B,R',1,'L');
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(36, 5, '','B,R',0,'C');
+//
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(99, 5, '','B,R',1,'L');
 
                 $pdf->SetFont('Arial','',9);
                 $pdf->Cell(35, 5, 'Dureza Encontrada :','L,B',0,'L');
@@ -385,15 +385,15 @@ foreach ($aOps as $key => $aOp) {
                 $pdf->SetFont('Arial','B',9);
                 $pdf->Cell(199, 5, 'Inspeção da Trefila','B,R,L',1,'C');
 
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(36, 5, '','B,R',0,'C');
-
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(99, 5, '','B,R',1,'L');
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(36, 5, '','B,R',0,'C');
+//
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(99, 5, '','B,R',1,'L');
 
                 $pdf->SetFont('Arial','',9);
                 $pdf->Cell(57, 5, 'Diâmetro Inicial (µm):','L,B',0,'L');
@@ -420,15 +420,15 @@ foreach ($aOps as $key => $aOp) {
                 $pdf->Cell(25, 5, 'Revenimento Previsto','T,B',0,'L');
                 $pdf->Cell(109, 5, '','B,R,T',1,'C');
 
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(36, 5, '','B,R',0,'C');
-
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(99, 5, '','B,R',1,'L');
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(36, 5, '','B,R',0,'C');
+//
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(99, 5, '','B,R',1,'L');
                 
                 $icont++;
                 break;
@@ -442,15 +442,15 @@ foreach ($aOps as $key => $aOp) {
                 $pdf->Cell(25, 5, 'Maquina Prevista:','T,B',0,'L');
                 $pdf->Cell(109, 5, '','B,R,T',1,'C');
 
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(36, 5, '','B,R',0,'C');
-
-                $pdf->SetFont('Arial','',9);
-                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
-                $pdf->SetFont('Arial','B',9);
-                $pdf->Cell(99, 5, '','B,R',1,'L');
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(36, 5, '','B,R',0,'C');
+//
+//                $pdf->SetFont('Arial','',9);
+//                $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
+//                $pdf->SetFont('Arial','B',9);
+//                $pdf->Cell(99, 5, '','B,R',1,'L');
                 
                 $icont++;
                 break;
@@ -463,15 +463,15 @@ foreach ($aOps as $key => $aOp) {
         $pdf->SetFont('Arial','B',9);
         $pdf->Cell(199, 5, 'Inspeção Final','B,R,L,T',1,'C');
 
-        $pdf->SetFont('Arial','',9);
-        $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
-        $pdf->SetFont('Arial','B',9);
-        $pdf->Cell(36, 5, '','B,R',0,'C');
-
-        $pdf->SetFont('Arial','',9);
-        $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
-        $pdf->SetFont('Arial','B',9);
-        $pdf->Cell(99, 5, '','B,R',1,'L');
+//        $pdf->SetFont('Arial','',9);
+//        $pdf->Cell(39, 5, 'Data Realizada:','L,B',0,'L');
+//        $pdf->SetFont('Arial','B',9);
+//        $pdf->Cell(36, 5, '','B,R',0,'C');
+//
+//        $pdf->SetFont('Arial','',9);
+//        $pdf->Cell(25, 5, 'Responsável:','L,B',0,'L');
+//        $pdf->SetFont('Arial','B',9);
+//        $pdf->Cell(99, 5, '','B,R',1,'L');
 
         $pdf->SetFont('Arial','',9);
         $pdf->Cell(35, 5, 'Dureza Encontrada :','L,B',0,'L');

@@ -62,6 +62,16 @@ class ControllerUpload extends Controller {
                     //Move arquivo temporario para pasta escolhida juntamente com seu novo nome.
                     move_uploaded_file($oArquivo['TEMP'], $oArquivo['DIR_NOME']);
 
+                    if ($oArquivo['EXTENSAO'] == 'png') {
+                        $image = imagecreatefrompng($oArquivo['DIR_NOME']);
+                        $aArquivo = explode('.', $oArquivo['NOME_NOVO']);
+                        imagejpeg($image, $oArquivo['DIRETORIO'] . $aArquivo[0] . '.jpg', 70);
+                        imagedestroy($image);
+
+                        $oArquivo['NOME_NOVO'] = $aArquivo[0] . '.jpg';
+                        $debug = unlink($oArquivo['DIR_NOME']);
+                    } 
+
                     $sRetorno = json_encode(['uploaded' => 'true', 'nome' => $oArquivo['NOME_NOVO'], 'campo' => $oArquivo['CAMPO']]);
 
                     echo $sRetorno;

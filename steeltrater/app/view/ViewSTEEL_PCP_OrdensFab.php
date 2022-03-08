@@ -155,6 +155,8 @@ class ViewSTEEL_PCP_OrdensFab extends View {
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Etiqueta  Térmica', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecificoEtiq', '', false, 'OpSteelEtiqueta', false, '', false, '', true, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar Zincagem', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecifico', 'Zinc', false, 'OpSteelZinc', false, '', false, '', true, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Etiqueta  Térmica Zincagem', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecificoEtiq', 'Zinc', false, 'OpSteelEtiquetaZinc', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Visualizar Trefila', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecifico', 'Tref', false, 'OpSteelTref', false, '', false, '', true, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'Etiqueta  Térmica Trefila', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEspecificoEtiq', 'Tref', false, 'OpSteelEtiquetaTref', false, '', false, '', true, false);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_INFO) . 'Total por nota de entrada', 'STEEL_PCP_OrdensFab', 'acaoMostraRelEntrada', 'Zinc', false, 'RelCompNfOp', false, '', false, '', true, false);
         
         $oDrop2 = new Dropdown('Açao', Dropdown::TIPO_DARK);
