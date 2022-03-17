@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <!-- Required meta tags -->
+
+        <meta charset="utf-8">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/line-icons.css">
+        <link rel="stylesheet" href="css/owl.carousel.css">
+        <link rel="stylesheet" href="css/owl.theme.css">
+        <link rel="stylesheet" href="css/nivo-lightbox.css">
+        <link rel="stylesheet" href="css/magnific-popup.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/menu_sideslide.css">
+        <link rel="stylesheet" href="css/main.css">    
+        <link rel="stylesheet" href="css/responsive.css">
+        <link rel="stylesheet" href="css/bootstrap-sweetalert/sweet-alert.css">
+        <script src="css/bootstrap-sweetalert/sweet-alert.js"></script>
+
+
+        <!-- Color CSS Styles  -->
+        <link rel="stylesheet" type="text/css" href="css/colors/green.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/metalbostyle.css" media="screen" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="Grayrids">
+        <title>Metalbo - Elementos de Fixação</title>
+        <link rel="icon" type="image/png" href="img/favicons/favicon.png">
+        <link rel="apple-touch-icon" sizes="57x57" href="img/favicons/faviconx57.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="img/favicons/faviconx72.png">
+
+    </head>
+    <body>
+
+        <!-- Header Section Start -->
+        <header id="hero-area2" data-stellar-background-ratio="0.5">    
+            <nav class="navbar navbar-expand-md fixed-top scrolling-navbar mainmenu-area">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html"><img src="img/logo/logopng.png" alt=""/></a>          
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="lnr lnr-menu"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">Voltar</a>
+                            </li> 
+                        </ul>
+                    </div>
+                </div>
+            </nav>      
+            <div class="container">      
+                <div class="row justify-content-md-center">
+                    <div class="col-md-10">
+                        <div class="contents text-center">
+                            <h1 class="wow fadeIn" data-wow-duration="1000ms" data-wow-delay="0.3s">CURRÍCULO</h1>
+                        </div>
+                    </div>
+                </div> 
+            </div>           
+        </header>
+        <!-- Header Section End -->
+
+        <!-- Notícias  -->
+        <section  class="section">      
+            <div class="contact-form">
+                <div class="container">
+                    <div class="row justify-content-md-center">          
+                        <div class="col-md-9">
+                            <div class="contact-block">
+                                <div class="section-header">          
+                                    <h2 class="section-title">Envie seu currículo para a gente!<span> </span></h2>
+                                    <hr/>
+                                </div>
+                                <form  accept-charset="utf-8">
+                                    <h3>Dados pessoais</h3>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nome" id="nomeCurr" class="form-control"   name="nomeCurr"  data-error="Por favor insira com seu nome">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="Data de nascimento" class="form-control"  type="text" onfocus="(this.type = 'date')" id="dataNasc"  data-error="Por favor informe sua data de nascimento">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nacionalidade (País de origem)" id="pais" class="form-control"   name="nacionalidade"  data-error="Por favor informe o País em que nasceu">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="ufNaturalidade" onchange="getES()" class="col-lg-12 form-control-sm"  data-error="Por favor informe o estado do seu nascimento">
+                                                    <option value="0" disabled selected>Natural do Estado de:</option>
+                                                    <option value="12">Acre</option>
+                                                    <option value="27">Alagoas</option>
+                                                    <option value="16">Amapá</option>
+                                                    <option value="13">Amazonas</option>
+                                                    <option value="29">Bahia</option>
+                                                    <option value="23">Ceará</option>
+                                                    <option value="53">Distrito Federal</option>
+                                                    <option value="32">Espírito Santo</option>
+                                                    <option value="52">Goiás</option>
+                                                    <option value="21">Maranhão</option>
+                                                    <option value="51">Mato Grosso</option>
+                                                    <option value="50">Mato Grosso do Sul</option>
+                                                    <option value="31">Minas Gerais</option>
+                                                    <option value="41">Paraná</option>
+                                                    <option value="25">Paraíba</option>
+                                                    <option value="15">Pará</option>
+                                                    <option value="26">Pernambuco</option>
+                                                    <option value="22">Piauí</option>
+                                                    <option value="33">Rio de Janeiro</option>
+                                                    <option value="24">Rio Grande do Norte</option>
+                                                    <option value="43">Rio Grande do Sul</option>
+                                                    <option value="11">Rondônia</option>
+                                                    <option value="14">Roraima</option>
+                                                    <option value="42">Santa Catarina</option>
+                                                    <option value="28">Sergipe</option>
+                                                    <option value="35">São Paulo</option>
+                                                    <option value="17">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="cidade" class="col-lg-12 form-control-sm"  data-error="Por favor informe o município do seu nascimento">
+                                                    <option value="0" disabled selected>Natural do múnicipio de:</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="genero" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Gênero/Sexo</option>
+                                                    <option value="Masculino">Masculino</option>                                                    
+                                                    <option value="Feminino">Feminino</option>
+                                                    <option value="Outros">Outros</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Altura (ex: 1,85)" id="altura" class="form-control"   name="altura"  data-error="Por favor insira sua altura">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Peso (Kg)" id="peso" class="form-control"   name="peso"  data-error="Por favor insira o seu peso">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="estCivil" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Estado Civil</option>
+                                                    <option value="Solteiro(a)">Solteiro(a)</option>                                                    
+                                                    <option value="Casado(a)">Casado(a)</option>
+                                                    <option value="Separado(a)">Separado(a)</option>
+                                                    <option value="Divorciado(a)">Divorciado(a)</option>
+                                                    <option value="Viúvo(a)">Viúvo(a)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nome do cônjuge (caso casado(a))" id="conjuge" class="form-control"   name="nomeConj">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="Data de nascimento do Cônjuge" class="form-control"  type="text" onfocus="(this.type = 'date')" id="dateNascConj">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="filhos" class="col-lg-12 form-control-sm">
+                                                    <option value="N" disabled selected>Filhos?</option>
+                                                    <option value="0">Não</option>                                                    
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5 ou mais</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="menor14" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Algum menor de 14 anos?</option>                                                  
+                                                    <option value="Não">Não</option>
+                                                    <option value="Sim">Sim</option>  
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nome da Mãe" id="mae" class="form-control"   name="nomeMãe"  data-error="Por favor entre com seu nome">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nome do Pai" id="pai" class="form-control"   name="nomePai">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="pcd" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>É PCD (Pessoa com Deficiência)?</option>
+                                                    <option value="Sim">Sim</option>                                                    
+                                                    <option value="Não">Não</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <textarea   placeholder="Caso SIM, qual a sua deficiência" id="tipopcd" class="form-control"  name ="tipopcd" rows="3"></textarea>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <hr/>
+                                    <h3>Dados para contato e endereço</h3>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Seu email" id="email" class="form-control" name="email"  data-error="Por favor digite seu e-mail">
+                                                <div class="help-block with-errors"></div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Fone para contato" id="fone" name="fone" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
+                                                <script>
+                                                    function mask(o, f) {
+                                                        setTimeout(function () {
+                                                            var v = mfone(o.value);
+                                                            if (v != o.value) {
+                                                                o.value = v;
+                                                            }
+                                                        }, 1);
+                                                    }
+
+                                                    function mfone(v) {
+                                                        var r = v.replace(/\D/g, "");
+                                                        r = r.replace(/^0/, "");
+                                                        if (r.length > 10) {
+                                                            r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 5) {
+                                                            r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 2) {
+                                                            r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+                                                        } else {
+                                                            r = r.replace(/^(\d*)/, "($1");
+                                                        }
+                                                        return r;
+                                                    }
+                                                </script>
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Rua" id="rua" class="form-control"   name="rua"  data-error="Insira o nome da sua rua">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Bairro" id="bairro" class="form-control"   name="bairro"  data-error="Insira o nome do seu bairro">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Número" id="numero" class="form-control"   name="numero"  data-error="Insira o número da sua residencia ou SN">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="CEP (somente números)" id="cep" class="form-control" name="cep"  data-error="Insira o CEP da sua Cidade ou Rua">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="ufMora" onchange="getESMora()" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Estado</option>
+                                                    <option value="12">Acre</option>
+                                                    <option value="27">Alagoas</option>
+                                                    <option value="16">Amapá</option>
+                                                    <option value="13">Amazonas</option>
+                                                    <option value="29">Bahia</option>
+                                                    <option value="23">Ceará</option>
+                                                    <option value="53">Distrito Federal</option>
+                                                    <option value="32">Espírito Santo</option>
+                                                    <option value="52">Goiás</option>
+                                                    <option value="21">Maranhão</option>
+                                                    <option value="51">Mato Grosso</option>
+                                                    <option value="50">Mato Grosso do Sul</option>
+                                                    <option value="31">Minas Gerais</option>
+                                                    <option value="41">Paraná</option>
+                                                    <option value="25">Paraíba</option>
+                                                    <option value="15">Pará</option>
+                                                    <option value="26">Pernambuco</option>
+                                                    <option value="22">Piauí</option>
+                                                    <option value="33">Rio de Janeiro</option>
+                                                    <option value="24">Rio Grande do Norte</option>
+                                                    <option value="43">Rio Grande do Sul</option>
+                                                    <option value="11">Rondônia</option>
+                                                    <option value="14">Roraima</option>
+                                                    <option value="42">Santa Catarina</option>
+                                                    <option value="28">Sergipe</option>
+                                                    <option value="35">São Paulo</option>
+                                                    <option value="17">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="cidadeMora" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Cidade</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Meses ou anos que mora no endereço (somente números)" id="tempoMora" class="form-control"   name="tempomora"  data-error="Por favor entre com seu nome">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <p>Preencha caso tenha vindo de outro Estado ou Cidade</p>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="ufAnt" onchange="getESAnt()" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Estado</option>
+                                                    <option value="12">Acre</option>
+                                                    <option value="27">Alagoas</option>
+                                                    <option value="16">Amapá</option>
+                                                    <option value="13">Amazonas</option>
+                                                    <option value="29">Bahia</option>
+                                                    <option value="23">Ceará</option>
+                                                    <option value="53">Distrito Federal</option>
+                                                    <option value="32">Espírito Santo</option>
+                                                    <option value="52">Goiás</option>
+                                                    <option value="21">Maranhão</option>
+                                                    <option value="51">Mato Grosso</option>
+                                                    <option value="50">Mato Grosso do Sul</option>
+                                                    <option value="31">Minas Gerais</option>
+                                                    <option value="41">Paraná</option>
+                                                    <option value="25">Paraíba</option>
+                                                    <option value="15">Pará</option>
+                                                    <option value="26">Pernambuco</option>
+                                                    <option value="22">Piauí</option>
+                                                    <option value="33">Rio de Janeiro</option>
+                                                    <option value="24">Rio Grande do Norte</option>
+                                                    <option value="43">Rio Grande do Sul</option>
+                                                    <option value="11">Rondônia</option>
+                                                    <option value="14">Roraima</option>
+                                                    <option value="42">Santa Catarina</option>
+                                                    <option value="28">Sergipe</option>
+                                                    <option value="35">São Paulo</option>
+                                                    <option value="17">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="cidadeAnt" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Cidade</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <h3>Documentos</h3>
+                                    <p>Preencha somente números nos próximos 6 campos</p>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Identidade/RG  (somente numeros)" id="rg" class="form-control"   name="rg"  data-error="Insira seu RG">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="CPF (somente numeros)" id="cpf" class="form-control"   name="cpf"  data-error="Insira seu CPF">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nº Carteira de Trabalho  (somente numeros)" id="ctps" class="form-control"   name="ctps"  data-error="Insira o número da carteira de trabalho">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nº Série da Carteira de Trabalho  (somente numeros)" id="seriectps" class="form-control"   name="nome"  data-error="Insira o número de série da carteira de trabalho">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nº Título de Eleitor  (somente numeros)" id="titeleitor" class="form-control"   name="titeleitor"  data-error="Insira o número do seu título de eleitor">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Nº PIS  (somente numeros)" id="pis" class="form-control"   name="pis"  data-error="Insira o número do seu PIS">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="escolaridade" class="col-lg-12 form-control-sm"  data-error="Insira o seu nível de escolaridade">
+                                                    <option value="0" disabled selected>Nível de Escolaridade</option>
+                                                    <option value="Nenhum">Nenhum</option>                                                    
+                                                    <option value="Ensíno Básico (1ª a 4ª)">Ensíno Básico (1ª a 4ª)</option>
+                                                    <option value="Ensíno Fundamental (5ª a 8ª/9ª)">Ensíno Fundamental (5ª a 8ª/9ª)</option>
+                                                    <option value="Ensíno Médio (cursando)">Ensíno Médio (cursando)</option>
+                                                    <option value="Ensíno Médio (completo)">Ensíno Médio (completo)</option>
+                                                    <option value="Curso Profissionalizante (cursando)">Curso Profissionalizante (cursando)</option>
+                                                    <option value="Curso Profissionalizante (completo)">Curso Profissionalizante (completo)</option>
+                                                    <option value="Ensíno Superior (cursando)">Ensíno Superior (cursando)</option>
+                                                    <option value="Ensíno Superior (completo)">Ensíno Superior (completo)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Entidade promotora (ex: SENAI, UFSC, etc.) " id="entidade" class="form-control"   name="entidade"  data-error="Por favor entre com seu nome">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Qual o curso superior/profissionalizante cursado?" id="curso" class="form-control"   name="curso"  data-error="Por favor entre com seu nome">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>                                        
+                                    </div>
+                                    <hr/>
+                                    <h3>Atividades profissionais</h3>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Empresa" id="Empresa1" class="form-control"   name="Empresa1"  data-error="Insira o nome da Empresa">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="ufEmpresa1" onchange="getESEmpresa1()" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Estado</option>
+                                                    <option value="12">Acre</option>
+                                                    <option value="27">Alagoas</option>
+                                                    <option value="16">Amapá</option>
+                                                    <option value="13">Amazonas</option>
+                                                    <option value="29">Bahia</option>
+                                                    <option value="23">Ceará</option>
+                                                    <option value="53">Distrito Federal</option>
+                                                    <option value="32">Espírito Santo</option>
+                                                    <option value="52">Goiás</option>
+                                                    <option value="21">Maranhão</option>
+                                                    <option value="51">Mato Grosso</option>
+                                                    <option value="50">Mato Grosso do Sul</option>
+                                                    <option value="31">Minas Gerais</option>
+                                                    <option value="41">Paraná</option>
+                                                    <option value="25">Paraíba</option>
+                                                    <option value="15">Pará</option>
+                                                    <option value="26">Pernambuco</option>
+                                                    <option value="22">Piauí</option>
+                                                    <option value="33">Rio de Janeiro</option>
+                                                    <option value="24">Rio Grande do Norte</option>
+                                                    <option value="43">Rio Grande do Sul</option>
+                                                    <option value="11">Rondônia</option>
+                                                    <option value="14">Roraima</option>
+                                                    <option value="42">Santa Catarina</option>
+                                                    <option value="28">Sergipe</option>
+                                                    <option value="35">São Paulo</option>
+                                                    <option value="17">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="cidadeEmpresa1" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Cidade</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Fone para contato" id="foneEmpresa1" name="foneEmpresa1" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
+                                                <script>
+                                                    function mask(o, f) {
+                                                        setTimeout(function () {
+                                                            var v = mfone(o.value);
+                                                            if (v != o.value) {
+                                                                o.value = v;
+                                                            }
+                                                        }, 1);
+                                                    }
+
+                                                    function mfone(v) {
+                                                        var r = v.replace(/\D/g, "");
+                                                        r = r.replace(/^0/, "");
+                                                        if (r.length > 10) {
+                                                            r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 5) {
+                                                            r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 2) {
+                                                            r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+                                                        } else {
+                                                            r = r.replace(/^(\d*)/, "($1");
+                                                        }
+                                                        return r;
+                                                    }
+                                                </script>
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="Da data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date1Empresa1"  data-error="Insira uma data válida">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="até a data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date2Empresa1">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Empresa" id="Empresa2" class="form-control"   name="Empresa2"  data-error="Insira o nome da Empresa">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="ufEmpresa2" onchange="getESEmpresa2()" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Estado</option>
+                                                    <option value="12">Acre</option>
+                                                    <option value="27">Alagoas</option>
+                                                    <option value="16">Amapá</option>
+                                                    <option value="13">Amazonas</option>
+                                                    <option value="29">Bahia</option>
+                                                    <option value="23">Ceará</option>
+                                                    <option value="53">Distrito Federal</option>
+                                                    <option value="32">Espírito Santo</option>
+                                                    <option value="52">Goiás</option>
+                                                    <option value="21">Maranhão</option>
+                                                    <option value="51">Mato Grosso</option>
+                                                    <option value="50">Mato Grosso do Sul</option>
+                                                    <option value="31">Minas Gerais</option>
+                                                    <option value="41">Paraná</option>
+                                                    <option value="25">Paraíba</option>
+                                                    <option value="15">Pará</option>
+                                                    <option value="26">Pernambuco</option>
+                                                    <option value="22">Piauí</option>
+                                                    <option value="33">Rio de Janeiro</option>
+                                                    <option value="24">Rio Grande do Norte</option>
+                                                    <option value="43">Rio Grande do Sul</option>
+                                                    <option value="11">Rondônia</option>
+                                                    <option value="14">Roraima</option>
+                                                    <option value="42">Santa Catarina</option>
+                                                    <option value="28">Sergipe</option>
+                                                    <option value="35">São Paulo</option>
+                                                    <option value="17">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="cidadeEmpresa2" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Cidade</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Fone para contato" id="foneEmpresa2" name="foneEmpresa2" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
+                                                <script>
+                                                    function mask(o, f) {
+                                                        setTimeout(function () {
+                                                            var v = mfone(o.value);
+                                                            if (v != o.value) {
+                                                                o.value = v;
+                                                            }
+                                                        }, 1);
+                                                    }
+
+                                                    function mfone(v) {
+                                                        var r = v.replace(/\D/g, "");
+                                                        r = r.replace(/^0/, "");
+                                                        if (r.length > 10) {
+                                                            r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 5) {
+                                                            r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 2) {
+                                                            r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+                                                        } else {
+                                                            r = r.replace(/^(\d*)/, "($1");
+                                                        }
+                                                        return r;
+                                                    }
+                                                </script>
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="Da data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date1Empresa2"  data-error="Insira uma data válida">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="até a data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date2Empresa2">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+                                    <div class="row"><div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Empresa" id="Empresa3" class="form-control"   name="Empresa3"  data-error="Insira o nome da empresa">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="ufEmpresa3" onchange="getESEmpresa3()" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Estado</option>
+                                                    <option value="12">Acre</option>
+                                                    <option value="27">Alagoas</option>
+                                                    <option value="16">Amapá</option>
+                                                    <option value="13">Amazonas</option>
+                                                    <option value="29">Bahia</option>
+                                                    <option value="23">Ceará</option>
+                                                    <option value="53">Distrito Federal</option>
+                                                    <option value="32">Espírito Santo</option>
+                                                    <option value="52">Goiás</option>
+                                                    <option value="21">Maranhão</option>
+                                                    <option value="51">Mato Grosso</option>
+                                                    <option value="50">Mato Grosso do Sul</option>
+                                                    <option value="31">Minas Gerais</option>
+                                                    <option value="41">Paraná</option>
+                                                    <option value="25">Paraíba</option>
+                                                    <option value="15">Pará</option>
+                                                    <option value="26">Pernambuco</option>
+                                                    <option value="22">Piauí</option>
+                                                    <option value="33">Rio de Janeiro</option>
+                                                    <option value="24">Rio Grande do Norte</option>
+                                                    <option value="43">Rio Grande do Sul</option>
+                                                    <option value="11">Rondônia</option>
+                                                    <option value="14">Roraima</option>
+                                                    <option value="42">Santa Catarina</option>
+                                                    <option value="28">Sergipe</option>
+                                                    <option value="35">São Paulo</option>
+                                                    <option value="17">Tocantins</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="cidadeEmpresa3" class="col-lg-12 form-control-sm">
+                                                    <option value="0" disabled selected>Cidade</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Fone para contato" id="foneEmpresa3" name="fone" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
+                                                <script>
+                                                    function mask(o, f) {
+                                                        setTimeout(function () {
+                                                            var v = mfone(o.value);
+                                                            if (v != o.value) {
+                                                                o.value = v;
+                                                            }
+                                                        }, 1);
+                                                    }
+
+                                                    function mfone(v) {
+                                                        var r = v.replace(/\D/g, "");
+                                                        r = r.replace(/^0/, "");
+                                                        if (r.length > 10) {
+                                                            r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 5) {
+                                                            r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 2) {
+                                                            r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+                                                        } else {
+                                                            r = r.replace(/^(\d*)/, "($1");
+                                                        }
+                                                        return r;
+                                                    }
+                                                </script>
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="Da data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date1Empresa3"  data-error="Insira uma data válida">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="até a data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date2Empresa3">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                    </div>
+                                    <div class="submit-button text-center">
+                                        <button class="btn btn-common" onclick="sendPdfEmail()" type="button">Enviar!</button>
+                                        <div id="msgSubmitCurr" class="h3 text-center hidden"></div> 
+                                        <div class="clearfix"></div> 
+                                    </div>
+                                    <p id="waiting-msg" class="msg-email hidden"></p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </section> 
+
+
+        <footer>          
+            <div class="row">
+                <div class="col-md-4 mobile-footer col-4-footer" > 
+                    <h3>Endereço</h3>
+                    Metalbo Indústria de Fixadores Metálicos LTDA.<br>
+                    Rodovia SC-426 Trevo BR-470, 3207 <br>
+                    Centro - Trombudo Central<br>
+                    SC - BRASIL<br>
+                    CEP: 89176-000<br>
+                    Fone: 55 (47) 3544-8400 <br>
+                </div>
+
+
+
+                <div class="col-md-4"> 
+                    <div class="site-info">
+                        <img style="width: 50%" src="img/footer/footer-logo.png" alt="" />
+                        <p style="font-size:12px!important" >Todos os direitos reservados<br/>  Metalbo Indústria de Fixadores Metálicos LTDA - 2018</p>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="social-icons">
+                                        <ul>
+                                            <li class="facebook">
+                                                <a href="https://www.facebook.com/metalbo.oficial/" target="new">
+                                                    <i class="fa fa-facebook">
+                                                    </i>
+                                                </a>
+                                            </li>
+                                            <li class="youtube">
+                                                <a href="https://www.youtube.com/channel/UC3skhwqKfP54BF-tLXEE2yQ" target="new">
+                                                    <i class="fa fa-youtube">
+                                                    </i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </footer>
+        <!-- Footer Section End --> 
+
+
+
+        <!-- jQuery first, then Tether, then Bootstrap JS. -->
+        <script src="js/jquery-min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/classie.js"></script>
+        <script src="js/jquery.mixitup.js"></script>
+        <script src="js/nivo-lightbox.js"></script>
+        <script src="js/owl.carousel.js"></script>    
+        <script src="js/jquery.stellar.min.js"></script>    
+        <script src="js/jquery.nav.js"></script>    
+        <script src="js/scrolling-nav.js"></script>    
+        <script src="js/jquery.easing.min.js"></script>     
+        <script src="js/wow.js"></script>   
+        <script src="js/jquery.vide.js"></script>
+        <script src="js/jquery.counterup.min.js"></script>    
+        <script src="js/jquery.magnific-popup.min.js"></script>    
+        <script src="js/waypoints.min.js"></script>    
+        <script src="js/form-validator.min.js"></script>
+        <script src="js/curriculo.js"></script>
+
+    </body>
+</html>
