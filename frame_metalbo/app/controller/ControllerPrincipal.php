@@ -32,7 +32,8 @@ class ControllerPrincipal extends Controller {
                     $_REQUEST['classe'] == 'NoticiaSite' ||
                     $_REQUEST['classe'] == 'MovFornoSteel' ||
                     $_REQUEST['classe'] == 'MET_RH_Colaboradores' ||
-                    $_REQUEST['classe'] == 'MET_TEC_Catalogo') {
+                    $_REQUEST['classe'] == 'MET_TEC_Catalogo' ||
+                    $_REQUEST['classe'] == 'MET_RH_Curriculo') {
                 $bExecuta = true;
             } else {
                 $bExecuta = $this->validaSessao();

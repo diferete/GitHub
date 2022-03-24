@@ -18,21 +18,51 @@ class PersistenciaMET_RH_Curriculo extends Persistencia {
     }
 
     public function insereDadosCurriculo($oDados) {
-        $sSqlMax = "select MAX(nr) + 1 as nr  from MET_RH_Curriculo";
-        $oMax = $this->consultaSql($sSqlMax);
 
-        $aEstados = array();
-        if ($oMax->nr == null) {
-            $oDados->nr = 1;
-        }
 
+        $oDados->altura = Util::ValorSql($oDados->altura);
+        $aDadosInsert = array();
         foreach ($oDados as $key => $value) {
-            if ($value == null) {
-                $oDados->$key = null;
+            if ($value == '' || $value == null) {
+                $aDadosInsert[$key] = '';
+            } else {
+                $aDadosInsert[$key] = $value;
             }
         }
 
-        $oDados->altura = Util::ValorSql($oDados->altura);
+        if ($aDadosInsert['altura'] == '') {
+            $aDadosInsert['altura'] = 'null';
+        }
+        if ($aDadosInsert['peso'] == '') {
+            $aDadosInsert['peso'] = 'null';
+        }
+        if ($aDadosInsert['filhos'] == '') {
+            $aDadosInsert['filhos'] = 'null';
+        }
+        if ($aDadosInsert['numero'] == '') {
+            $aDadosInsert['numero'] = 'null';
+        }
+        if ($aDadosInsert['cep'] == '') {
+            $aDadosInsert['cep'] = 'null';
+        }
+        if ($aDadosInsert['tempoMora'] == '') {
+            $aDadosInsert['tempoMora'] = 'null';
+        }
+
+
+        $sSqlMax = "select MAX(nr) + 1 as nr  from MET_RH_Curriculo";
+        $oMax = $this->consultaSql($sSqlMax);
+
+
+
+        if ($oMax->nr == null) {
+            $aDadosInsert['nr'] = 1;
+        } else {
+            $aDadosInsert['nr'] = $oMax->nr;
+        }
+
+
+        $aEstados = array();
         array_push($aEstados, $oDados->ufNaturalidade);
         array_push($aEstados, $oDados->ufMora);
         array_push($aEstados, $oDados->ufAnt);
@@ -48,17 +78,17 @@ class PersistenciaMET_RH_Curriculo extends Persistencia {
                 . "escolaridade, entidade, curso, Empresa1, ufEmpresa1, cidadeEmpresa1, foneEmpresa1, date1Empresa1, date2Empresa1, Empresa2, ufEmpresa2, "
                 . "cidadeEmpresa2, foneEmpresa2, date1Empresa2, date2Empresa2, Empresa3, ufEmpresa3, cidadeEmpresa3, foneEmpresa3, date1Empresa3, date2Empresa3)"
                 . "values("
-                . "75483040000211," . $oDados->nr . ",'" . $oDados->nomeCurr . "','" . $oDados->dataNasc . "', '" . $oDados->pais . "', '" . $aEstados[0] . "', "
-                . "'" . $oDados->cidade . "', '" . $oDados->genero . "', " . $oDados->altura . ", " . $oDados->peso . ", '" . $oDados->estCivil . "', '" . $oDados->conjuge . "',"
-                . "'" . $oDados->dateNascConj . "', " . $oDados->filhos . ", '" . $oDados->menor14 . "', '" . $oDados->mae . "', '" . $oDados->pai . "', '" . $oDados->pcd . "',"
-                . "'" . $oDados->tipopcd . "', '" . $oDados->email . "', '" . $oDados->fone . "', '" . $oDados->rua . "', '" . $oDados->bairro . "', " . $oDados->numero . ", "
-                . "" . $oDados->cep . ", '" . $aEstados[1] . "', '" . $oDados->cidadeMora . "', " . $oDados->tempoMora . ", '" . $aEstados[2] . "', '" . $oDados->cidadeAnt . "',"
-                . "" . $oDados->rg . ", " . $oDados->cpf . ", " . $oDados->ctps . ", " . $oDados->seriectps . ", " . $oDados->titeleitor . ", " . $oDados->pis . ", "
-                . "'" . $oDados->escolaridade . "', '" . $oDados->entidade . "', '" . $oDados->curso . "', '" . $oDados->Empresa1 . "', '" . $aEstados[3] . "',"
-                . "'" . $oDados->cidadeEmpresa1 . "', '" . $oDados->foneEmpresa1 . "', '" . $oDados->date1Empresa1 . "',' " . $oDados->date2Empresa1 . "', '" . $oDados->Empresa2 . "',"
-                . "'" . $aEstados[4] . "', '" . $oDados->cidadeEmpresa2 . "', '" . $oDados->foneEmpresa2 . "', '" . $oDados->date1Empresa2 . "', '" . $oDados->date2Empresa2 . "',"
-                . "'" . $oDados->Empresa3 . "', '" . $aEstados[5] . "', '" . $oDados->cidadeEmpresa3 . "', '" . $oDados->foneEmpresa3 . "', '" . $oDados->date1Empresa3 . "',"
-                . "'" . $oDados->date2Empresa3 . "')";
+                . "75483040000211," . $aDadosInsert['nr'] . ",'" . $aDadosInsert['nomeCurr'] . "','" . $aDadosInsert['dataNasc'] . "', '" . $aDadosInsert['pais'] . "', '" . $aEstados[0] . "', "
+                . "'" . $aDadosInsert['cidade'] . "', '" . $aDadosInsert['genero'] . "', " . $aDadosInsert['altura'] . ", " . $aDadosInsert['peso'] . ", '" . $aDadosInsert['estCivil'] . "', '" . $aDadosInsert['conjuge'] . "',"
+                . "'" . $aDadosInsert['dateNascConj'] . "', " . $aDadosInsert['filhos'] . ", '" . $aDadosInsert['menor14'] . "', '" . $aDadosInsert['mae'] . "', '" . $aDadosInsert['pai'] . "', '" . $aDadosInsert['pcd'] . "',"
+                . "'" . $aDadosInsert['tipopcd'] . "', '" . $aDadosInsert['email'] . "', '" . $aDadosInsert['fone'] . "', '" . $aDadosInsert['rua'] . "', '" . $aDadosInsert['bairro'] . "', " . $aDadosInsert['numero'] . ", "
+                . "" . $aDadosInsert['cep'] . ", '" . $aEstados[1] . "', '" . $aDadosInsert['cidadeMora'] . "', " . $aDadosInsert['tempoMora'] . ", '" . $aEstados[2] . "', '" . $aDadosInsert['cidadeAnt'] . "',"
+                . "" . $aDadosInsert['rg'] . ", " . $aDadosInsert['cpf'] . ", " . $aDadosInsert['ctps'] . ", " . $aDadosInsert['seriectps'] . ", " . $aDadosInsert['titeleitor'] . ", " . $aDadosInsert['pis'] . ", "
+                . "'" . $aDadosInsert['escolaridade'] . "', '" . $aDadosInsert['entidade'] . "', '" . $aDadosInsert['curso'] . "', '" . $aDadosInsert['Empresa1'] . "', '" . $aEstados[3] . "',"
+                . "'" . $aDadosInsert['cidadeEmpresa1'] . "', '" . $aDadosInsert['foneEmpresa1'] . "', '" . $aDadosInsert['date1Empresa1'] . "','" . $aDadosInsert['date2Empresa1'] . "', '" . $aDadosInsert['Empresa2'] . "',"
+                . "'" . $aEstados[4] . "', '" . $aDadosInsert['cidadeEmpresa2'] . "', '" . $aDadosInsert['foneEmpresa2'] . "', '" . $aDadosInsert['date1Empresa2'] . "', '" . $aDadosInsert['date2Empresa2'] . "',"
+                . "'" . $aDadosInsert['Empresa3'] . "', '" . $aEstados[5] . "', '" . $aDadosInsert['cidadeEmpresa3'] . "', '" . $aDadosInsert['foneEmpresa3'] . "', '" . $aDadosInsert['date1Empresa3'] . "',"
+                . "'" . $aDadosInsert['date2Empresa3'] . "')";
         $aRetorno = $this->executaSql($sSqlInsert);
 
         return $aRetorno;
