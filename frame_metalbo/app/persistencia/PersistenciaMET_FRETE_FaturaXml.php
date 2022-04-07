@@ -192,7 +192,7 @@ class PersistenciaMET_FRETE_FaturaXml extends Persistencia {
                     . " BEGIN TRY DROP TABLE tbnt2# END TRY BEGIN CATCH END CATCH "
                     . "select " . $aDados['cnpj'] . " as cnpj,"
                     . "" . $oNfsNfNro1 . " as nota,"
-                    . "". $oTotalnf . " as nfsvlrtot,"
+                    . "" . $oTotalnf . " as nfsvlrtot,"
                     . "" . $oTotalKg . " as pesoNota,"
                     . "" . $oFracaoFrete . " as FracaoFrete,"
                     . "'' as totalfrete,"
@@ -213,59 +213,64 @@ class PersistenciaMET_FRETE_FaturaXml extends Persistencia {
         if ($aDados['cnpj'] == '3565095000260') {
 
             if ($aRetorno == 1) {
-                $sSql1 = "create table tbnt2# (seq integer,
+                $sSql1 = " 
+                create table tbnt2# (
+                    seq integer,
                     ref varchar(100),
                     totalfrete money,
                     freteminimo money)    
                 insert into tbnt2#   
-                
-                /*vendas = 1,2,3,4,5,6,17,18*/ -- Add 5% (0,05) em todos os calculos com exceção do fretevalor
-                select seq, ref, ROUND (ROUND (ROUND (fretevalor * nfsvlrtot, 2) + ROUND (pesoNota * fretepeso, 2) + ROUND( pedagio * FracaoFrete, 2) + taxa2 + tas + (nfsvlrtot *gris), 2) * imposto/100 + ROUND (ROUND (fretevalor  * nfsvlrtot , 2) + ROUND (pesoNota * fretepeso, 2) + ROUND (pedagio *FracaoFrete, 2) + taxa2 + tas + (nfsvlrtot *gris), 2), 2) as totalfrete,
-                    ROUND (ROUND (ROUND (fretevalor * nfsvlrtot, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + taxa + (nfsvlrtot *gris), 2) * imposto/100 + ROUND (ROUND (fretevalor * nfsvlrtot, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + taxa + (nfsvlrtot * gris), 2), 2 ) as freteminimo
-                    from tbfrete 
-					left outer join tbnt#
+                /*vendas = 1,2,3,4,5,6,17,18*/
+                select seq, ref, ROUND(
+                    ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris) + 
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)* taxaEmergencial ,2),2) * imposto/100 
+                    +ROUND(ROUND( fretevalor  * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio *FracaoFrete,2)+taxa2 +tas +(nfsvlrtot *gris)  ,2),2 ) +
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)* taxaEmergencial ,2) 
+                    as totalfrete,
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2)  +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris) +
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)* taxaEmergencial ,2) ,2) *imposto/100  
+                    +ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+ (nfsvlrtot *gris)  ,2),2 )+
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)* taxaEmergencial ,2)
+                    as freteminimo
+                    from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where tbfrete.cnpj = 3565095000260 
-					and SEQ not in(11,12,13,14,15,16) 
-					and codtipo = 1 
+                    where tbfrete.cnpj =" . $aDados['cnpj'] . " and SEQ not in(11,12,13,14,15,16) and codtipo = 1
                 insert into tbnt2#
-		----------------------------------------------------------------------------------------------------------------------------
-                /*vendas = 16*/ -- Não acrecentar 5%
-                select seq, ref, ROUND (ROUND (ROUND ((fretevalor * nfsvlrtot), 2) + ROUND (pesoNota * fretepeso, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + (nfsvlrtot *gris), 2), 2) as totalfrete,
-                    ROUND (ROUND (ROUND ((fretevalor * nfsvlrtot), 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + taxa + (nfsvlrtot *gris), 2), 2) as freteminimo
-                    from tbfrete 
-					left outer join tbnt#
+                /*vendas = 16*/
+                select seq, ref, ROUND(
+                    ROUND(ROUND( (fretevalor * nfsvlrtot) ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2) ,2 ) as totalfrete,
+                    ROUND(
+                    ROUND(ROUND( (fretevalor * nfsvlrtot) ,2)  +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) ,2) as freteminimo
+                    from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where tbfrete.cnpj = 3565095000260 
-					and SEQ in(16) 
-					and codtipo = 1
+                    where tbfrete.cnpj =" . $aDados['cnpj'] . " and SEQ in(16) and codtipo = 1
                 insert into tbnt2#
-                ----------------------------------------------------------------------------------------------------------------------------
-                /*vendas = 11,12,13,14,15*/ -- Add 5% (0,05) em todos os calculos com exceção do fretevalor
-                select seq, ref, ROUND (ROUND (ROUND (fretevalor * nfsvlrtot, 2) + ROUND (pesoNota * fretepeso, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + (nfsvlrtot * gris), 2) * imposto/100 + ROUND (ROUND (fretevalor * nfsvlrtot ,2) + ROUND (pesoNota * fretepeso, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + (nfsvlrtot * gris), 2), 2) as totalfrete,
-				ROUND (ROUND (ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + taxa + (nfsvlrtot * gris), 2) * imposto/100 + ROUND (ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + taxa + (nfsvlrtot * gris), 2), 2) as freteminimo 
-					from tbfrete 
-					left outer join tbnt#
-					on tbfrete.cnpj = tbnt#.cnpj
-					where tbfrete.cnpj =3565095000260 
-					and SEQ in(11,12,13,14,15) 
-					and codtipo = 1 
+                /*vendas = 11,12,13,14,15*/
+                select seq, ref, ROUND(
+                    ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)* imposto/100  
+                    + ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2) ,2) as totalfrete,
+                    ROUND(
+                    ROUND(ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2)* imposto/100  
+                    + ROUND(ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) ,2) as freteminimo
+                    from tbfrete left outer join tbnt#
+                    on tbfrete.cnpj = tbnt#.cnpj
+                    where tbfrete.cnpj =" . $aDados['cnpj'] . " and SEQ in(11,12,13,14,15) and codtipo = 1 
                 insert into tbnt2#   
-                -----------------------------------------------------------------------------------------------------------------------------
-                /*compras = TODOS*/ -- Add 5% (0,05) em todos os calculos com exceção do fretevalor
+                /*compras = TODOS*/
                 select seq, ref, 
-                CASE 
-				WHEN ROUND (pesoNota * fretepeso, 2) < taxamin 
-				THEN (ROUND (ROUND (ROUND (fretevalor * nfsvlrtot, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + taxa + (nfsvlrtot *gris), 2) * imposto/100 + ROUND (ROUND (fretevalor * nfsvlrtot, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + taxa + (nfsvlrtot * gris), 2), 2))
-                ELSE (ROUND (ROUND (ROUND (fretevalor * nfsvlrtot, 2) + ROUND (pesoNota * fretepeso, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + (nfsvlrtot * gris), 2) * imposto/100 + ROUND (ROUND (fretevalor  * nfsvlrtot, 2) + ROUND (pesoNota * fretepeso, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + (nfsvlrtot * gris), 2), 2 ))
-				END
-				as totalfrete,
-                ROUND (ROUND (ROUND (fretevalor * nfsvlrtot , 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + taxa + (nfsvlrtot *gris), 2) * imposto/100 + ROUND( ROUND (fretevalor * nfsvlrtot, 2) + ROUND (pedagio * FracaoFrete, 2) + taxa2 + tas + taxa + (nfsvlrtot *gris), 2), 2) as freteminimo
-					from tbfrete 
-					left outer join tbnt# 
-					on tbfrete.cnpj = tbnt#.cnpj 
-					where tbfrete.cnpj =3565095000260 
-				and codtipo = 2 ";
+                CASE WHEN ROUND( pesoNota * fretepeso,2)<taxamin THEN (ROUND(
+                   ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2)* imposto/100  
+                   + ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) ,2))
+                   ELSE (ROUND(
+                   ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot * gris)  ,2) * imposto/100 
+                   +ROUND(ROUND( fretevalor  * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas +(nfsvlrtot * gris)  ,2),2 ))
+                        end as totalfrete,
+                   ROUND(
+                   ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2)* imposto/100  
+                   + ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) ,2) as freteminimo
+                   from tbfrete left outer join tbnt#
+                    on tbfrete.cnpj = tbnt#.cnpj
+                    where tbfrete.cnpj =" . $aDados['cnpj'] . " and codtipo = 2";
 
                 $result1 = $PDO->exec($sSql1);
             }
@@ -273,7 +278,7 @@ class PersistenciaMET_FRETE_FaturaXml extends Persistencia {
             $fp = fopen("bloco1.txt", "w");
             fwrite($fp, $sSql1);
             fclose($fp);
-            
+
             if ($result1) {
                 $sSql2 = "select * from  tbnt2#";
                 $result = $PDO->query($sSql2);
@@ -373,8 +378,9 @@ class PersistenciaMET_FRETE_FaturaXml extends Persistencia {
         if ($aDados['cnpj'] == '89317697001880') {
 
             if ($aRetorno == 1) {
-                $sSql1 = "select 'tw'as cliente, ref, seq ,ROUND(ROUND (coalesce( fretevalor * nfsvlrtot ,0)+  coalesce(((pesoNota * fretepeso)+taxamin),0)+ coalesce( pedagio *FracaoFrete,0)+
-                    coalesce(  nfsvlrtot  *gris,0),2)/ imposto ,2) as totalfrete, '' as freteminimo
+                $sSql1 = "select 'tw'as cliente, ref, seq ,ROUND((ROUND (coalesce( fretevalor * nfsvlrtot ,0)+  coalesce(((pesoNota * fretepeso)+taxamin),0)+ coalesce( pedagio *FracaoFrete,0)+
+                    coalesce(  nfsvlrtot  *gris,0),2)+ ROUND (coalesce( fretevalor * nfsvlrtot ,0)+ coalesce( pedagio *FracaoFrete,0)+ coalesce(  nfsvlrtot  *gris,0),2)*taxaEmergencial) / imposto ,2)
+                    as totalfrete, '' as freteminimo 
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
                     where  tbfrete.cnpj = " . $aDados['cnpj'] . "";

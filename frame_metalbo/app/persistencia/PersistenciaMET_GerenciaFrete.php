@@ -171,11 +171,16 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                 insert into tbnt2#   
                 /*vendas = 1,2,3,4,5,6,17,18*/
                 select seq, ref, ROUND(
-                    ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2) * imposto/100 
-                    +ROUND(ROUND( fretevalor  * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio *FracaoFrete,2)+taxa2 +tas +(nfsvlrtot *gris)  ,2),2 ) as totalfrete,
-                    ROUND(
-                    ROUND(ROUND( fretevalor * nfsvlrtot ,2)  +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) *imposto/100 
-                    +ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+ (nfsvlrtot *gris)  ,2),2 ) as freteminimo
+                    ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris) + 
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)* porc ,2),2) * imposto/100 
+                    +ROUND(ROUND( fretevalor  * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio *FracaoFrete,2)+taxa2 +tas +(nfsvlrtot *gris)  ,2),2 ) +
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pesoNota * fretepeso,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)* porc ,2) 
+                    as totalfrete,
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2)  +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris) +
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)* porc ,2) ,2) *imposto/100  
+                    +ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+ (nfsvlrtot *gris)  ,2),2 )+
+                    ROUND(ROUND(ROUND( fretevalor * nfsvlrtot ,2) +ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+(nfsvlrtot *gris)  ,2)* porc ,2)
+                    as freteminimo
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
                     where tbfrete.cnpj =" . $aValores['cnpj'] . " and SEQ not in(11,12,13,14,15,16) and codtipo = 1
@@ -214,8 +219,7 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
                    + ROUND(ROUND( fretevalor * nfsvlrtot ,2)+ ROUND( pedagio * FracaoFrete,2)+taxa2 +tas+taxa+(nfsvlrtot *gris)   ,2) ,2) as freteminimo
                    from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
-                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and codtipo = 2
-                ";
+                    where tbfrete.cnpj =" . $aValores['cnpj'] . " and codtipo = 2";
                 $result1 = $PDOnew->exec($sSql1);
             }
             if ($result1) {
@@ -318,8 +322,9 @@ class PersistenciaMET_GerenciaFrete extends Persistencia {
         if ($aValores['cnpj'] == '89317697001880') {
 
             if ($aRetorno == 1) {
-                $sSql1 = "select 'tw'as cliente, ref, seq ,ROUND(ROUND (coalesce( fretevalor * nfsvlrtot ,0)+  coalesce(((pesoNota * fretepeso)+taxamin),0)+ coalesce( pedagio *FracaoFrete,0)+
-                    coalesce(  nfsvlrtot  *gris,0),2)/ imposto ,2) as totalfrete, '' as freteminimo
+                $sSql1 = "select 'tw'as cliente, ref, seq ,ROUND((ROUND (coalesce( fretevalor * nfsvlrtot ,0)+  coalesce(((pesoNota * fretepeso)+taxamin),0)+ coalesce( pedagio *FracaoFrete,0)+
+                    coalesce(  nfsvlrtot  *gris,0),2)+ ROUND (coalesce( fretevalor * nfsvlrtot ,0)+ coalesce( pedagio *FracaoFrete,0)+ coalesce(  nfsvlrtot  *gris,0),2)*porc) / imposto ,2)
+                    as totalfrete, '' as freteminimo
                     from tbfrete left outer join tbnt#
                     on tbfrete.cnpj = tbnt#.cnpj
                     where  tbfrete.cnpj = " . $aValores['cnpj'] . "";
