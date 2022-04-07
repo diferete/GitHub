@@ -98,7 +98,7 @@ export class AppComponent {
           this.SISTEMA = result.DADOS.SISTEMA;
           this.PEDIDO = result.DADOS.PEDIDOS;
           this.FOSFATIZACAO = result.DADOS.FOSFATIZAÇÃO;
-          this.ENDERECAMENTOS = result.DADOS.ENDEREÇAMENTOS;
+          this.ENDERECAMENTOS = result.DADOS.ENDEREÇAMENTO;
         });
       });
     });

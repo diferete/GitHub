@@ -254,16 +254,4 @@ export class MetEnderecamentoDetalhePage implements OnInit {
   voltar() {
     this.navCtrl.back();
   }
-
-  //mensagem internet
-  async mensagemAlertInternet() {
-    const alert = await this.alertController.create({
-      header: 'Atenção!',
-      subHeader: 'Verifique sua conexão com a internet.',
-      message: 'Dados não ativos.',
-      buttons: ['OK'],
-    });
-
-    await alert.present();
-  }
 }

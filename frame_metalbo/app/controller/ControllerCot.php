@@ -245,16 +245,18 @@ class ControllerCot extends Controller {
 
 
 
+        $aDadosConfig = $this->checkEmailRep();
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor(Config::SERVER_SMTP);
-        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setServidor($aDadosConfig['SERVER_SMTP']);
+        $oEmail->setPorta($aDadosConfig['PORT_SMTP']);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario(Config::EMAIL_SENDER);
-        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
-        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+        $oEmail->setUsuario($aDadosConfig['EMAIL_SENDER']);
+        $oEmail->setSenha($aDadosConfig['PASWRD_EMAIL_SENDER']);
+        $oEmail->setProtocoloSMTP($aDadosConfig['PROTOCOLO_SMTP']);
+        $oEmail->setRemetente(utf8_decode($aDadosConfig['EMAIL_SENDER']), utf8_decode('Relatórios Web Metalbo'));
+
 
         $oEmail->setAssunto(utf8_decode('Cotaçao de venda nº' . $aNr[1]));
         $oEmail->setMensagem(utf8_decode('Anexo cotação de venda nº' . $aNr[1]));
@@ -313,6 +315,7 @@ class ControllerCot extends Controller {
         $_REQUEST['diroffice'] = $_SESSION['diroffice'];
         $_REQUEST['logo'] = 'comlogo';
         $_REQUEST['repcod'] = $_SESSION['repoffice'];
+        $_REQUEST['repoffice'] = $_SESSION['repoffice'];
 
         $bRetorno = require 'app/relatorio/cotacao.php';
 

@@ -18,6 +18,7 @@ $PDO = new PDO("sqlsrv:server=" . Config::HOST_BD . "," . Config::PORTA_BD . "; 
 $sSql = "  select " . $sTabCab . ".NR,CNPJ,CLIENTE,widl.emp01.empfone,
             CODPGT,CPGT,ODCOMPRA,
             TRANSCNPJ,TRANSP,CODREP,REP,convert(varchar," . $sTabCab . ".DATA,103)as data,OBS,
+            " . $sTabCab . ".DATA as dataemiss,
             CONVERT(varchar,DTENT,103)as dtent,contato,cidnome,estcod,frete
             from " . $sTabCab . " left outer join widl.EMP01
             on " . $sTabCab . ".CNPJ = widl.EMP01.empcod left outer join widl.CID01
@@ -44,6 +45,7 @@ while ($row = $dadoscab->fetch(PDO::FETCH_ASSOC)) {
     $dtent = $row["dtent"];
     $contato = $row["contato"];
     $frete = $row["frete"];
+    $dataEmiss = $row["dataemiss"];
 }
 
 
@@ -125,11 +127,20 @@ while ($row = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
     $linha++;
 }
 
-$sSql = "select sum(VLRTOT)as total,sum(coalesce(quant*propesprat,0))as peso,
-sum(VLRTOT+(VLRTOT*10/100))as totalipi 
-from " . $sTabIten . " inner join widl.prod01(nolock) 
-on " . $sTabIten . ".CODIGO = widl.prod01.procod   
-where NR =" . $nrHeader;
+if (strtotime($dataEmiss) >= strtotime('2022-03-01')) {
+    $sIpi = '7.5';
+} else {
+    $sIpi = '10';
+}
+
+
+$sSql = "select sum(VLRTOT)as total,"
+        . "sum(coalesce(quant*propesprat,0))as peso,"
+        . "sum(VLRTOT+(VLRTOT*" . $sIpi . "/100))as totalipi "
+        . "from " . $sTabIten . " "
+        . "inner join widl.prod01(nolock) "
+        . "on " . $sTabIten . ".CODIGO = widl.prod01.procod   "
+        . "where NR =" . $nrHeader;
 $row = $PDO->query($sSql);
 $rowTotal = $row->fetch(PDO::FETCH_OBJ);
 $total = $rowTotal->total;

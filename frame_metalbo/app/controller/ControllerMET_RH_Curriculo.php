@@ -19,11 +19,11 @@ class ControllerMET_RH_Curriculo extends Controller {
 
     public function getDadosCurriculo() {
         $sDados = $_REQUEST['dados'];
-        $aCampos = json_decode($sDados);
+        $oCampos = json_decode($sDados);
 
-        $aRetorno = $this->Persistencia->insereDadosCurriculo($aCampos);
+        $aRetorno = $this->Persistencia->insereDadosCurriculo($oCampos);
 
-        $_REQUEST['campos'] = $aCampos;
+        $_REQUEST['campos'] = $oCampos;
         $sReturn = require 'app/relatorio/curriculo.php';
 
         if ($aRetorno[0]) {

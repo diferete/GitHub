@@ -31,6 +31,7 @@ class PersistenciaMET_TabFrete extends Persistencia{
         $this->adicionaRelacionamento('formula2','formula2');
         $this->adicionaRelacionamento('formula3','formula3');
         $this->adicionaRelacionamento('formula4','formula4');
+        $this->adicionaRelacionamento('taxaEmergencial','taxaEmergencial');
         
         $this->adicionaOrderBy('seq',1);
         $this->adicionaJoin('Pessoa', null,1, 'cnpj','empcod');

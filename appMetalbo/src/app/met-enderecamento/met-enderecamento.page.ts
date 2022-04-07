@@ -74,23 +74,7 @@ export class MetEnderecamentoPage implements OnInit {
     await alert.present();
   }
 
-  //mensagem internet
-  async mensagemAlertInternet() {
-    const alert = await this.alertController.create({
-      header: 'Atenção!',
-      subHeader: 'Verifique sua conexão com a internet.',
-      message: 'Dados não ativos.',
-      buttons: ['OK'],
-    });
-
-    await alert.present();
-  }
-
   ngOnInit() {}
-
-  ionViewWillEnter() {
-    this.getLista();
-  }
 
   //abre tela detalhe
   getDadosDetalhe(p) {

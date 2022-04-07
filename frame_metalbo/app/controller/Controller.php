@@ -4470,6 +4470,30 @@ class Controller {
         return $aRetorno;
     }
 
+    public function checkEmailRep() {
+        $iRepOffice = $_SESSION['repoffice'];
+        $aDados = array();
+        switch ($iRepOffice) {
+            case 1:
+                $aDados['EMAIL_SENDER'] = 'metalbowebsp@metalbosp.com.br'; //metalboweb@outlook.com
+                $aDados['PASWRD_EMAIL_SENDER'] = 'n2w2f4v9'; //&@tr3be&xr#42V
+                $aDados['SERVER_SMTP'] = 'smtp.terra.com.br'; //smtp.live.com
+                $aDados['PORT_SMTP'] = 587; //587
+                $aDados['PROTOCOLO_SMTP'] = '';
+                break;
+
+            default:
+                $aDados['EMAIL_SENDER'] = 'metalboweb@outlook.com'; //metalboweb@outlook.com
+                $aDados['PASWRD_EMAIL_SENDER'] = '&@tr3be&xr#42V'; //&@tr3be&xr#42V
+                $aDados['SERVER_SMTP'] = 'smtp-mail.outlook.com'; //smtp.live.com
+                $aDados['PORT_SMTP'] = 587; //587
+                $aDados['PROTOCOLO_SMTP'] = 'tls';
+                break;
+        }
+
+        return $aDados;
+    }
+
 }
 
 ?>

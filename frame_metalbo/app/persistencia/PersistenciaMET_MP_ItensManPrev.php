@@ -95,7 +95,7 @@ class PersistenciaMET_MP_ItensManPrev extends Persistencia{
             . "where seq = '".$aDados['seq']."' and nr = '".$aDados['nr']."' and filcgc = '".$aDados['filcgc']."'  
             update tbitensmp set dias = ciclo - DATEDIFF(DAY, databert, GETDATE()) from tbitensmp
             left outer join  tbservmp on tbservmp.codsit = tbitensmp.codsit 
-            where databert<>GETDATE() AND sitmp<>'FINALIZADO'";
+            where databert<>GETDATE() AND sitmp<>'FINALIZADO' AND tipciclo <> 'HORAS'";
         
         $aRetorno = $this->executaSql($sSql);
         
@@ -110,7 +110,7 @@ class PersistenciaMET_MP_ItensManPrev extends Persistencia{
         
         $sSql = "update tbitensmp set dias = ciclo - DATEDIFF(DAY, databert, GETDATE()) from tbitensmp
             left outer join  tbservmp on tbservmp.codsit = tbitensmp.codsit 
-            where databert<>GETDATE() AND sitmp<>'FINALIZADO'";
+            where databert<>GETDATE() AND sitmp<>'FINALIZADO' AND tipciclo <> 'HORAS'";
         
         $aRetorno = $this->executaSql($sSql);
         
@@ -147,5 +147,32 @@ class PersistenciaMET_MP_ItensManPrev extends Persistencia{
         $sOqueFazer = $oRow['oqfazer'];
         return $sOqueFazer;
     }
+    
+    public function apontaHorasMaqItens($sDados){
+        
+        $aCamposChave = array();
+        parse_str($sDados, $aCamposChave);
+        
+        //Adiciona a data e hora do momento
+        date_default_timezone_set('America/Sao_Paulo');
+        $sData =  date('d/m/Y H:i:s');
+        $sUsuário = $_SESSION['nome'];
+        $sCodUsuário = $_SESSION['codUser'];
+        
+        //Alteração dos dias restantes na tabela de itens
+        //Alteração na tabela principal
+        //Inserção no histórico
+        $sSql = "update tbitensmp SET dias = (dias-".$aCamposChave['diferencaHoras'].") FROM tbitensmp left outer join  tbservmp on tbservmp.codsit = tbitensmp.codsit 
+                WHERE nr = '".$aCamposChave['nr']."' AND codmaq = '".$aCamposChave['codmaq']."' AND filcgc = '".$aCamposChave['filcgc']."' AND sitmp = 'ABERTO' AND tipciclo = 'HORAS'
+                    UPDATE tbmanutmp SET horasmaq = '".$aCamposChave['horas']."' WHERE nr = '".$aCamposChave['nr']."' AND codmaq = '".$aCamposChave['codmaq']."' AND filcgc = '".$aCamposChave['filcgc']."' AND sitmp = 'ABERTO'
+                        INSERT INTO tbmanuthistorico (id, fil_codigo, usersistcod, usersistdes, codmaquina, codservico, coditemmp, horasmaq, horasmaqant, obs, datahora)
+                        VALUES ((SELECT count(id) from tbmanuthistorico)+1,'".$aCamposChave['filcgc']."', '".$sCodUsuário."', '".$sUsuário."', '".$aCamposChave['codmaq']."', 0, 0, '".$aCamposChave['horas']."', '".$aCamposChave['horasMaqAnt']."', 
+                        'Alteração de horas da máquina e itens da preventiva com a diferença de ".$aCamposChave['diferencaHoras']." horas', '".$sData."');";
+        $aRetorno = $this->executaSql($sSql);
+
+        return $aRetorno;
+        
+    }
+    
     
 }

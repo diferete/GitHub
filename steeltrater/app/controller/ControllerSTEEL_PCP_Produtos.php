@@ -27,8 +27,6 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
 
         $this->insertProdutoFilial();
 
-
-
         $aRetorno = array();
         $aRetorno[0] = true;
         $aRetorno[1] = '';
@@ -60,8 +58,7 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         }
 
         $this->preencheModelcomDados();
-        $this->validacaoProdutos();
-
+        $this->validacaoProdutos(1);
 
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -75,7 +72,7 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         $this->Model->setPro_alteracaodatahora(date('d/m/Y h:m:s'));
         $this->Model->setPro_alteracaousuario($_SESSION['nomedelsoft']);
         $this->preencheModelcomDados();
-        $this->validacaoProdutos();
+        $this->validacaoProdutos(2);
         $this->verificaCampoGrupo();
         $this->verificaCampoSubGrupo();
         $this->verificaCampoFamilia();
@@ -191,20 +188,21 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         //$this->Model->setPro_imagem(' ');
     }
 
-    public function validacaoProdutos() {
+    public function validacaoProdutos($iTip) {
 
-    	if ($this->Model->getPro_referencia() !== '' && $this->Model->getPro_codigoantigo() !== '') {
-            $oOprodutoRef = Fabrica::FabricarController('STEEL_PCP_Produtos');
-            $oOprodutoRef->Persistencia->adicionaFiltro('pro_referencia', $this->Model->getPro_referencia());
-            $oOprodutoRef->Persistencia->adicionaFiltro('pro_codigoantigo', $this->Model->getPro_codigoantigo());
-            $iCountRef = $oOprodutoRef->Persistencia->getCount();
-            if ($iCountRef > 0) {
-                $oModal = new Modal('Atenção!', 'Já existe uma referência cadastrada para esse Cliente, necessário alterar a referência!', Modal::TIPO_AVISO, false, true, true);
-                echo $oModal->getRender();
-                exit();
+        if ($iTip == 1) {
+            if ($this->Model->getPro_referencia() !== '' && $this->Model->getPro_codigoantigo() !== '') {
+                $oOprodutoRef = Fabrica::FabricarController('STEEL_PCP_Produtos');
+                $oOprodutoRef->Persistencia->adicionaFiltro('pro_referencia', $this->Model->getPro_referencia());
+                $oOprodutoRef->Persistencia->adicionaFiltro('pro_codigoantigo', $this->Model->getPro_codigoantigo());
+                $iCountRef = $oOprodutoRef->Persistencia->getCount();
+                if ($iCountRef > 0) {
+                    $oModal = new Modal('Atenção!', 'Já existe uma referência cadastrada para esse Cliente, necessário alterar a referência!', Modal::TIPO_AVISO, false, true, true);
+                    echo $oModal->getRender();
+                    exit();
+                }
             }
         }
-
         if ($this->Model->getPro_referencia() !== '' && $this->Model->getPro_codigoantigo() == '') {
             $oOprodutoRef = Fabrica::FabricarController('STEEL_PCP_Produtos');
             $oOprodutoRef->Persistencia->adicionaFiltro('pro_referencia', $this->Model->getPro_referencia());
@@ -401,7 +399,6 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
             echo $oMenSuccess->getRender();
             exit();
         }
-        
     }
 
     public function verificaCampoSubGrupo() {
@@ -409,7 +406,7 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        
+
         $oControllerSubGrupo = Fabrica::FabricarController('STEEL_PCP_SubgrupoProd');
         $oControllerSubGrupo->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
         $oControllerSubGrupo->Persistencia->adicionaFiltro('PRO_SubGrupoCodigo', $aCamposChave['pro_subgrupocodigo']);
@@ -428,7 +425,7 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        
+
         $oControllerFamilia = Fabrica::FabricarController('STEEL_PCP_FamProd');
         $oControllerFamilia->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
         $oControllerFamilia->Persistencia->adicionaFiltro('PRO_SubGrupoCodigo', $aCamposChave['pro_subgrupocodigo']);
@@ -448,7 +445,7 @@ class ControllerSTEEL_PCP_Produtos extends Controller {
         $sChave = htmlspecialchars_decode($_REQUEST['campos']);
         $aCamposChave = array();
         parse_str($sChave, $aCamposChave);
-        
+
         $oControllerSubFamilia = Fabrica::FabricarController('STEEL_PCP_SubFamProd');
         $oControllerSubFamilia->Persistencia->adicionaFiltro('PRO_GrupoCodigo', $aCamposChave['pro_grupocodigo']);
         $oControllerSubFamilia->Persistencia->adicionaFiltro('PRO_SubGrupoCodigo', $aCamposChave['pro_subgrupocodigo']);

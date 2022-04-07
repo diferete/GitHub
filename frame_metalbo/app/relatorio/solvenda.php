@@ -291,16 +291,17 @@ if ($_REQUEST['output'] == 'email') {
 }
 
 if ($_REQUEST['output'] == 'email') {
+    $aDadosConfig = $this->checkEmailRep();
     $oEmail = new Email();
     $oEmail->setMailer();
     $oEmail->setEnvioSMTP();
-    $oEmail->setServidor(Config::SERVER_SMTP);
-    $oEmail->setPorta(Config::PORT_SMTP);
+    $oEmail->setServidor($aDadosConfig['SERVER_SMTP']);
+    $oEmail->setPorta($aDadosConfig['PORT_SMTP']);
     $oEmail->setAutentica(true);
-    $oEmail->setUsuario(Config::EMAIL_SENDER);
-    $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
-    $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+    $oEmail->setUsuario($aDadosConfig['EMAIL_SENDER']);
+    $oEmail->setSenha($aDadosConfig['PASWRD_EMAIL_SENDER']);
+    $oEmail->setProtocoloSMTP($aDadosConfig['PROTOCOLO_SMTP']);
+    $oEmail->setRemetente(utf8_decode($aDadosConfig['EMAIL_SENDER']), utf8_decode('Relatórios Web Metalbo'));
 
     $oEmail->setAssunto(utf8_decode('Solicitação de venda nº' . $NR));
     $oEmail->setMensagem(utf8_decode('Anexo solicitação de venda nº' . $NR));
@@ -332,4 +333,28 @@ function retornaArrayCabRepres($sRepCod) {
     $row = $PDO->query($sSql);
     $rowTotal = $row->fetch(PDO::FETCH_OBJ);
     return $rowTotal;
+}
+
+function checkEmailRep() {
+    $iRepOffice = $_REQUEST['repoffice'];
+    $aDados = array();
+    switch ($iRepOffice) {
+        case 1:
+            $aDados['EMAIL_SENDER'] = 'metalbowebsp@metalbosp.com.br'; //metalboweb@outlook.com
+            $aDados['PASWRD_EMAIL_SENDER'] = 'n2w2f4v9'; //&@tr3be&xr#42V
+            $aDados['SERVER_SMTP'] = 'smtp.terra.com.br'; //smtp.live.com
+            $aDados['PORT_SMTP'] = 587; //587
+            $aDados['PROTOCOLO_SMTP'] = '';
+            break;
+
+        default:
+            $aDados['EMAIL_SENDER'] = 'metalboweb@outlook.com'; //metalboweb@outlook.com
+            $aDados['PASWRD_EMAIL_SENDER'] = '&@tr3be&xr#42V'; //&@tr3be&xr#42V
+            $aDados['SERVER_SMTP'] = 'smtp-mail.outlook.com'; //smtp.live.com
+            $aDados['PORT_SMTP'] = 587; //587
+            $aDados['PROTOCOLO_SMTP'] = 'tls';
+            break;
+    }
+
+    return $aDados;
 }

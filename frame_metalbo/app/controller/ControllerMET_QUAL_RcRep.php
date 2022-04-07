@@ -423,6 +423,7 @@ class ControllerMET_QUAL_RcRep extends Controller {
         $_REQUEST['nrRc'] = $aCamposChave['nr'];
         $_REQUEST['email'] = 'S';
         $_REQUEST['userRel'] = $_SESSION['nome'];
+        $_REQUEST['repoffice'] = $_SESSION['repoffice'];
 
         $sIdGrid = $aDados[1];
         $sReenvia = $aDados[3];
@@ -486,16 +487,18 @@ class ControllerMET_QUAL_RcRep extends Controller {
         $data = date('d/m/Y');
         $hora = date('H:m');
 
+        $aDadosConfig = $this->checkEmailRep();
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor(Config::SERVER_SMTP);
-        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setServidor($aDadosConfig['SERVER_SMTP']);
+        $oEmail->setPorta($aDadosConfig['PORT_SMTP']);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario(Config::EMAIL_SENDER);
-        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
-        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('E-mail automático METALBO'));
+        $oEmail->setUsuario($aDadosConfig['EMAIL_SENDER']);
+        $oEmail->setSenha($aDadosConfig['PASWRD_EMAIL_SENDER']);
+        $oEmail->setProtocoloSMTP($aDadosConfig['PROTOCOLO_SMTP']);
+        $oEmail->setRemetente(utf8_decode($aDadosConfig['EMAIL_SENDER']), utf8_decode('E-mail automático METALBO'));
+
 
         $oRow = $this->Persistencia->buscaDadosRC($aCamposChave);
 

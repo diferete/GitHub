@@ -506,7 +506,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
                 if ($aRet[0] == 'Env.Exp') {
                     //$oEmail->addDestinatario('alexandre@metalbo.com.br');
                     $oEmail->addDestinatario('embalagem@metalbo.com.br');
-                    $oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
                     $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 }
 
@@ -882,7 +881,6 @@ class ControllerMET_QUAL_RcVenda extends Controller {
             case 3:
                 //$oEmail->addDestinatario('alexandre@metalbo.com.br');
                 $oEmail->addDestinatario('embalagem@metalbo.com.br');
-                $oEmail->addDestinatarioCopia('josiani@metalbo.com.br');
                 $oEmail->addDestinatarioCopia('duda@metalbo.com.br');
                 break;
             case 5:

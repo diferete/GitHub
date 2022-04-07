@@ -22,16 +22,6 @@ class ControllerMET_RH_Colaboradores extends Controller {
         }
     }
 
-    public function getDadosFuncVideos() {
-        $sDados = $_REQUEST['dados'];
-        if ($sDados == '' || $sDados == null) {
-            echo json_encode('false');
-        } else {
-            $aRetorno = $this->Persistencia->getDadosFuncVideos($sDados);
-            echo json_encode($aRetorno);
-        }
-    }
-
     public function gravaDadosFunc() {
         $sDados = $_REQUEST['dados'];
         $aRetorno = $this->Persistencia->gravaDadosFunc($sDados);
@@ -99,6 +89,16 @@ class ControllerMET_RH_Colaboradores extends Controller {
         }
     }
 
+    public function getDadosFuncVideos() {
+        $sDados = $_REQUEST['dados'];
+        if ($sDados == '' || $sDados == null) {
+            echo json_encode('false');
+        } else {
+            $aRetorno = $this->Persistencia->getDadosFuncVideos($sDados);
+            echo json_encode($aRetorno);
+        }
+    }
+
     public function gravaDadosFuncVideos() {
         $sDados = $_REQUEST['dados'];
         $oDados = json_decode($sDados);
@@ -113,7 +113,7 @@ class ControllerMET_RH_Colaboradores extends Controller {
             echo json_encode($bRetorno);
         }
     }
-    
+
     public function updateDadosFuncVideos() {
         $sDados = $_REQUEST['dados'];
         $aRetorno = $this->Persistencia->updateDadosFuncVideos($sDados);

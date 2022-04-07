@@ -28,11 +28,11 @@ class Config {
     const ARQ_FOLDER_JS = '/js'; //funções do sistema        
     const ARQ_FOLDER_TEMP = 'temp'; //arquivos temporários de upload
     const JASPER_FOLDER = '/PHPJasperXMLmet';
-    const EMAIL_SENDER = 'metalboweb@gmail.com';
-    const PASWRD_EMAIL_SENDER = '7&t+Ah8*Qz!1';
-    const SERVER_SMTP = 'smtp.gmail.com';
-    const PORT_SMTP = 465;
-    const PROTOCOLO_SMTP = 'ssl';
+    const EMAIL_SENDER = 'metalboweb@outlook.com'; //metalboweb@gmail.com
+    const PASWRD_EMAIL_SENDER = '&@tr3be&xr#42V'; //7&t+Ah8*Qz!1
+    const SERVER_SMTP = 'smtp-mail.outlook.com'; //smtp.live.com
+    const PORT_SMTP = 587; //587
+    const PROTOCOLO_SMTP = 'tls';
 
     /*
      * Configurações da conexão com o banco de dados

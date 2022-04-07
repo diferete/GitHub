@@ -272,6 +272,7 @@ function sendPdfEmail() {
     var mae = $('#mae').val();
     var pai = $('#pai').val();
     var pcd = $('#pcd').val();
+    var epcd = $('#epcd').val();
     var tipopcd = $('#tipopcd').val();
     var email = $('#email').val();
     var fone = $('#fone').val();
@@ -299,18 +300,22 @@ function sendPdfEmail() {
     var foneEmpresa1 = $('#foneEmpresa1').val();
     var date1Empresa1 = $('#date1Empresa1').val();
     var date2Empresa1 = $('#date2Empresa1').val();
+    var cargoEmpresa1 = $('#cargoEmpresa1').val();
     var Empresa2 = $('#Empresa2').val();
     var ufEmpresa2 = $('#ufEmpresa2').val();
     var cidadeEmpresa2 = $('#cidadeEmpresa2').val();
     var foneEmpresa2 = $('#foneEmpresa2').val();
     var date1Empresa2 = $('#date1Empresa2').val();
     var date2Empresa2 = $('#date2Empresa2').val();
+    var cargoEmpresa2 = $('#cargoEmpresa2').val();
     var Empresa3 = $('#Empresa3').val();
     var ufEmpresa3 = $('#ufEmpresa3').val();
     var cidadeEmpresa3 = $('#cidadeEmpresa3').val();
     var foneEmpresa3 = $('#foneEmpresa3').val();
     var date1Empresa3 = $('#date1Empresa3').val();
     var date2Empresa3 = $('#date2Empresa3').val();
+    var cargoEmpresa3 = $('#cargoEmpresa3').val();
+    var referencia = $('#referencia').val();
 
     var dataToSend = JSON.stringify({
         "nomeCurr": nomeCurr,
@@ -329,6 +334,7 @@ function sendPdfEmail() {
         "mae": mae,
         "pai": pai,
         "pcd": pcd,
+        "epcd": epcd,      
         "tipopcd": tipopcd,
         "email": email,
         "fone": fone,
@@ -356,19 +362,25 @@ function sendPdfEmail() {
         "foneEmpresa1": foneEmpresa1,
         "date1Empresa1": date1Empresa1,
         "date2Empresa1": date2Empresa1,
+        "cargoEmpresa1": cargoEmpresa1,
         "Empresa2": Empresa2,
         "ufEmpresa2": ufEmpresa2,
         "cidadeEmpresa2": cidadeEmpresa2,
         "foneEmpresa2": foneEmpresa2,
         "date1Empresa2": date1Empresa2,
         "date2Empresa2": date2Empresa2,
+        "cargoEmpresa2": cargoEmpresa2,
         "Empresa3": Empresa3,
         "ufEmpresa3": ufEmpresa3,
         "cidadeEmpresa3": cidadeEmpresa3,
         "foneEmpresa3": foneEmpresa3,
         "date1Empresa3": date1Empresa3,
-        "date2Empresa3": date2Empresa3
+        "date2Empresa3": date2Empresa3,
+        "cargoEmpresa3": cargoEmpresa3,
+        "referencia": referencia,
     });
+
+    console.log(referencia);
 
     if (nomeCurr === '' || cidade === 0 || pcd === 0 || rg === '' || cpf === '' || ctps === '' || seriectps === '' || pis === '' || fone === '') {
         //Caso erro, mostra mensagem vermelha com mensagem de erro
@@ -379,7 +391,7 @@ function sendPdfEmail() {
         $("#waiting-msg").text('Olá, aguarde enquanto enviamos seu currículo para a Metalbo.').removeClass('shake animated hidden email-error email-success').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
             $("#waiting-msg").removeClass('shake animated');
         });
-        $.getJSON("http://localhost/github/frame_metalbo/index.php?classe=MET_RH_Curriculo&metodo=getDadosCurriculo" + "&dados=" + dataToSend, function (result) {
+        $.getJSON("https://sistema.metalbo.com.br/index.php?classe=MET_RH_Curriculo&metodo=getDadosCurriculo" + "&dados=" + dataToSend, function (result) {
             if (result === 'success') {
                 //Caso sucesso, mostra mensagem verde com mensagem de sucesso
                 $("#waiting-msg").text('Um e-mail com o seu currículo em anexo foi enviado com sucesso para a Metalbo, cheque sua caixa de entrada para uma cópia!').addClass('email-success').removeClass('shake animated hidden email-error').addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {

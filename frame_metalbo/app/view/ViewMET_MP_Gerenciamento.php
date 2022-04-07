@@ -27,21 +27,24 @@ class ViewMET_MP_Gerenciamento extends View {
         $this->getTela()->setBUsaCarrGrid(true);
 
         $iSet = $_SESSION['codsetor'];
-        
-        if($iSet== 2){
+
+        if ($iSet == 2) {
             $this->setUsaAcaoIncluir(true);
             $this->setUsaAcaoExcluir(false);
-        }else{
+        } else {
             $this->setUsaAcaoIncluir(false);
             $this->setUsaAcaoExcluir(false);
         }
 
         $oNr = new CampoConsulta('Nr', 'nr');
-        foreach ($aDado5 as $key) {
-            $oNr->addComparacao($key, CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
-        }
-        $oNr->setSOperacao('personalizado');
+        $sCodUser = $_SESSION['codUser'];
 
+        if ($sCodUser != '15' && $sCodUser != '132') {
+            foreach ($aDado5 as $key) {
+                $oNr->addComparacao($key, CampoConsulta::COMPARACAO_IGUAL, CampoConsulta::COR_VERMELHO, CampoConsulta::MODO_LINHA, false, null);
+            }
+            $oNr->setSOperacao('personalizado');
+        }
         $oCodmaq = new CampoConsulta('Cod.Maq.', 'codmaq');
 
         $oDesMaq = new CampoConsulta('Maquina', 'maqmp');
@@ -63,12 +66,11 @@ class ViewMET_MP_Gerenciamento extends View {
         $oFilCodMaq->setSCampoRetorno('cod', $this->getTela()->getSId());
         $oFilCodMaq->setSIdTela($this->getTela()->getSId());
 
-        $oFiltroSituacao = new Filtro($oSitmp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, true);
-        $oFiltroSituacao->setSValor('ABERTO');
-        $oFiltroSituacao->addItemSelect('ABERTO', 'Situação Aberto');
-        $oFiltroSituacao->addItemSelect('FINALIZADO', 'Situação Finalizado');
-        $oFiltroSituacao->setSLabel('');
-
+//        $oFiltroSituacao = new Filtro($oSitmp, Filtro::CAMPO_SELECT, 2, 2, 12, 12, true);
+//        $oFiltroSituacao->setSValor('ABERTO');
+//        $oFiltroSituacao->addItemSelect('ABERTO', 'Situação Aberto');
+//        $oFiltroSituacao->addItemSelect('FINALIZADO', 'Situação Finalizado');
+//        $oFiltroSituacao->setSLabel('');
         //Filtro de células
         $oFiltroSeq = new Filtro($oSeq, Filtro::CAMPO_SELECT, 2, 2, 12, 12, false);
         $oFiltroSeq->addItemSelect('', 'Todas Células');
@@ -96,12 +98,12 @@ class ViewMET_MP_Gerenciamento extends View {
         }
         $oFiltroSetor->setSLabel('');
 
-        if($iSet!= 2 && $iSet!= 12 && $iSet!= 29 && $iSet!= 31 && $iSet!= 9 && $iSet!= 32 && $iSet!= 24){
+        if ($iSet != 2 && $iSet != 12 && $iSet != 29 && $iSet != 31 && $iSet != 9 && $iSet != 32 && $iSet != 24) {
             $oFiltroSetor->setSValor($iSet);
         }
 
-        $oFiltroDesMaq = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 3, 3, 12, 12, TRUE);
-        
+        $oFiltroDesMaq = new Filtro($oDesMaq, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+
         $this->setUsaDropdown(true);
         $oDrop1 = new Dropdown('Imprimir', Dropdown::TIPO_SUCESSO);
         $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMAGEM) . 'TODOS', 'MET_MP_Gerenciamento', 'acaoMostraRelEspecifico', 'TODOS', false, 'relServicoMaquinaMantPrev', false, '', false, '', true, false);
@@ -113,9 +115,8 @@ class ViewMET_MP_Gerenciamento extends View {
                 . 'requestAjax("' . $this->getTela()->getSId() . '-form","MET_MP_Gerenciamento","calculoPersonalizado",chave+",qualaqtempo");');
 
         $this->addDropdown($oDrop1);
-        $this->addFiltro($oFiltroNr, $oFilCodMaq, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor, $oFiltroSituacao, $oFiltroDesMaq);
+        $this->addFiltro($oFiltroNr, $oFilCodMaq, $oFiltroDesMaq, $oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor/* , $oFiltroSituacao */);
         $this->addCampos($oNr, $oCodmaq, $oDesMaq, $oSeq, $oCategoria, $oSetor, $oSetDes, $oSitmp);
-        
     }
 
     public function criaTela() {
@@ -158,6 +159,11 @@ class ViewMET_MP_Gerenciamento extends View {
         $oSitmp->addValidacao(false, Validacao::TIPO_STRING);
         $oSitmp->setBCampoBloqueado(true);
 
+        $oHoras = new Campo('Horas', 'horasmaq', Campo::TIPO_DECIMAL, 1, 1, 12, 12);
+        if ($sAcaoRotina == 'acaoAlterar' || $sAcaoRotina == 'acaoVisualizar') {
+            $oHoras->setBCampoBloqueado(true);
+        }
+
         $oDatabert = new Campo('DataAbert', 'databert', Campo::TIPO_DATA, 2);
         $oDatabert->setSValor(date('d/m/Y'));
         $oDatabert->setBCampoBloqueado(true);
@@ -174,7 +180,6 @@ class ViewMET_MP_Gerenciamento extends View {
         $this->addEtapa($oEtapas);
 
         if ((!$sAcaoRotina != null || $sAcaoRotina != 'acaoVisualizar') && ($sAcaoRotina == 'acaoIncluir' || $sAcaoRotina == 'acaoAlterar' )) {
-
             //monta campo de controle para inserir ou alterar
             $oAcao = new campo('', 'acao', Campo::TIPO_CONTROLE, 2);
             $oAcao->setApenasTela(true);
@@ -182,13 +187,15 @@ class ViewMET_MP_Gerenciamento extends View {
                 $oAcao->setSValor('incluir');
             } else {
                 $oAcao->setSValor('alterar');
+                $sAcaoSeguinte = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","AcaoSeguinte"," "," ");';
+                $this->getTela()->setSAcaoShow($sAcaoSeguinte);
             }
             $this->setSIdControleUpAlt($oAcao->getId());
             $this->addCampos(array($oFilcgc, $oNr,
-                $oDatabert, $oUserabert), $oSitmp, array($oCodmaq, $oMaq_des), $oAcao);
+                $oDatabert, $oUserabert), $oSitmp, array($oCodmaq, $oMaq_des, $oHoras), $oAcao);
         } else {
             $this->addCampos(array($oFilcgc, $oNr,
-                $oDatabert, $oUserabert), $oSitmp, array($oCodmaq, $oMaq_des));
+                $oDatabert, $oUserabert), $oSitmp, array($oCodmaq, $oMaq_des, $oHoras));
         }
     }
 
@@ -203,7 +210,7 @@ class ViewMET_MP_Gerenciamento extends View {
         $aDado3 = $aDados[2];
         $aDado4 = $aDados[3];
 
-        $this->setTituloTela('Relatório dos Itens da Manutenção Preventiva');
+        $this->setTituloTela('Relatório dos Itens da Manutenção Preventiva (MP) e Manutenção Corretiva (MC)');
         $this->setBTela(true);
 
         $oCodmaq = new Campo('Codigo', 'codmaq', Campo::TIPO_BUSCADOBANCOPK, 2, 2, 12, 12);
@@ -223,7 +230,9 @@ class ViewMET_MP_Gerenciamento extends View {
         $oSitmp->addItemSelect('', 'TODOS');
         $oSitmp->addItemSelect('ABERTOS', 'ABERTOS');
         $oSitmp->addItemSelect('FINALIZADOS', 'FINALIZADOS');
-        $oSitmp->addItemSelect('NAO APONTADOS', 'NÃO APONTADOS');
+        $oSitmp->addItemSelect('NAO APONTADOS', 'NÃO APONTADOS (MP)');
+        $oSitmp->addItemSelect('CANCELADA', 'CANCELADA (MC)');
+        $oSitmp->addItemSelect('AGUARDANDO', 'AGUARDANDO (MC)');
         $oSitmp->addValidacao(true, Validacao::TIPO_STRING);
         $oSitmp->setId('sitServicos');
 
@@ -235,9 +244,9 @@ class ViewMET_MP_Gerenciamento extends View {
             $oFiltroSeq->addItemSelect($val, $key['seq'] . ' - Célula');
         }
         $oFiltroSeq->addValidacao(true, Validacao::TIPO_STRING);
-
+        
         //Filtro de Setor
-        $oFiltroSetor = new Campo('Setor', 'MET_MP_Maquinas.codsetor', Campo::CAMPO_SELECTSIMPLE, 3, 3, 12, 12);
+        $oFiltroSetor = new Campo('Setor', 'MET_MP_Maquinas.codsetor', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oFiltroSetor->addItemSelect('', 'Todos Setores');
         $iCont = 0;
         foreach ($aCodSetor as $key1) {
@@ -250,13 +259,19 @@ class ViewMET_MP_Gerenciamento extends View {
         $oRespFiltro = new Campo('Responsável', 'resp', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oRespFiltro->addItemSelect('', 'Todos');
         foreach ($aDado3 as $key2) {
-            $oRespFiltro->addItemSelect($key2['resp'], $key2['resp']);
+            if ($key2['resp'] == 'OPERADOR') {
+                $oRespFiltro->addItemSelect($key2['resp'], $key2['resp'] . ' (MP)');
+            } else {
+                $oRespFiltro->addItemSelect($key2['resp'], $key2['resp']);
+            }
         }
+        $oRespFiltro->addItemSelect('PREDIAL', 'PREDIAL (MC)');
+        $oRespFiltro->addItemSelect('PINTURA', 'PINTURA (MC)');
         $oRespFiltro->addValidacao(true, Validacao::TIPO_STRING);
 
         //Filtro tipo Categoria
         $oCategoriaFiltro = new Campo('Categoria', 'MET_MP_Maquinas.maqtip', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
-        $oCategoriaFiltro->addItemSelect(' ', 'Todas Categorias');
+        $oCategoriaFiltro->addItemSelect('', 'Todas Categorias');
         foreach ($aDado4 as $key3) {
             $oCategoriaFiltro->addItemSelect(rtrim($key3['maqtip']), rtrim($key3['maqtip']));
         }
@@ -268,28 +283,21 @@ class ViewMET_MP_Gerenciamento extends View {
         $oDatafinal1 = new Campo('Data Final', 'datafinal', Campo::TIPO_DATA, 2, 2, 12, 12);
         $oDatafinal1->setSValor(Util::getDataAtual());
         $oDatafinal1->addValidacao(true, Validacao::TIPO_STRING, '', '2', '100');
+        $oAplicaFiltroDA = new Campo('Filtro Data Abertura', 'apdataDa', Campo::TIPO_CHECK, 2, 2, 12, 12);
+        $oAplicaFiltroDF = new Campo('Filtro Data Fechamento', 'apdataDf', Campo::TIPO_CHECK, 2, 2, 12, 12);
+        $oAplicaFiltroDataTodos = new Campo('Todos', 'todosFiltroData', Campo::TIPO_CHECK, 2, 2, 12, 12);
 
-        $sCallBack1 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","mudaFoco1","");';
-        $sCallBack2 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","mudaFoco2","");';
-        
-        $oAplicaFiltroDA = new Campo('Filtro Data Abertura', 'apdataDa', Campo::TIPO_CHECK,3,3,12,12);
-        $oAplicaFiltroDA->setId('apdataDa');
-        $oAplicaFiltroDA->addEvento(Campo::EVENTO_CLICK, $sCallBack1);
-        
-        $oAplicaFiltroDF = new Campo('Filtro Data Fechamento', 'apdataDf', Campo::TIPO_CHECK,3,3,12,12);
-        $oAplicaFiltroDF->setId('apdataDf');
-        $oAplicaFiltroDF->addEvento(Campo::EVENTO_CLICK, $sCallBack2);
-        
-        $oSimplifica = new Campo('Consultar serviços cadastrados na(s) máquina(s)', 'simple', Campo::TIPO_CHECK,12,12,12,12);
+        $oSimplifica = new Campo('Consultar serviços preventiva cadastrados na(s) máquina(s)', 'simple', Campo::TIPO_CHECK, 12, 12, 12, 12);
 
-        $oLinha1 = new campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
+        $oLinha1 = new Campo('', 'linha', Campo::TIPO_LINHABRANCO, 12, 12, 12, 12);
         $oLinha1->setApenasTela(true);
-        $oLinha2 = new campo('', 'linha2', Campo::TIPO_LINHA, 12, 12, 12, 12);
+        $oLinha2 = new Campo('', 'linha2', Campo::TIPO_LINHA, 12, 12, 12, 12);
         $oLinha2->setApenasTela(true);
-        
-        $sCallBack3 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","mudaSituacao","");';
 
-        $oDiasRest = new Campo('Dias Restantes', 'dias', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $sCallBack3 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","mudaSituacao1","");';
+        $sCallBack4 = 'requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","mudaSituacao2","");';
+
+        $oDiasRest = new Campo('Dias Restantes (MP)', 'dias', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oDiasRest->addItemSelect('----', 'TODOS');
         $oDiasRest->addItemSelect('0', '0 DIAS');
         $oDiasRest->addItemSelect('1', '1 DIAS');
@@ -304,8 +312,26 @@ class ViewMET_MP_Gerenciamento extends View {
         $oDiasRest->addItemSelect('166', '166 DIAS');
         $oDiasRest->addItemSelect('180', '180 DIAS');
         $oDiasRest->addItemSelect('365', '365 DIAS');
+        $oDiasRest->setId('diasRestManut');
         $oDiasRest->addEvento(Campo::EVENTO_CLICK, $sCallBack3);
-        
+
+        $oHorasRest = new Campo('Horas Restantes (MP)', 'horas', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oHorasRest->addItemSelect('----', 'TODOS');
+        $oHorasRest->addItemSelect('2', '2 HORAS');
+        $oHorasRest->addItemSelect('8', '8 HORAS');
+        $oHorasRest->addItemSelect('10', '10 HORAS');
+        $oHorasRest->addItemSelect('20', '20 HORAS');
+        $oHorasRest->addItemSelect('50', '50 HORAS');
+        $oHorasRest->addItemSelect('100', '100 HORAS');
+        $oHorasRest->addItemSelect('200', '200 HORAS');
+        $oHorasRest->addItemSelect('250', '250 HORAS');
+        $oHorasRest->addItemSelect('500', '500 HORAS');
+        $oHorasRest->addItemSelect('1000', '1000 HORAS');
+        $oHorasRest->addItemSelect('2000', '2000 HORAS');
+        $oHorasRest->setId('horasRestManut');
+        $oHorasRest->addEvento(Campo::EVENTO_CLICK, $sCallBack4);
+        $oHorasRest->setApenasTela(true);
+
         $oTipoOrdeBy = new Campo('Tipo de Ordenação', 'tipo', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
         $oTipoOrdeBy->addItemSelect('MAQDES', 'DESCRIÇÃO MÁQUINA');
         $oTipoOrdeBy->addItemSelect('MAQ', 'CÓD. MÁQUINA');
@@ -313,12 +339,32 @@ class ViewMET_MP_Gerenciamento extends View {
         $oTipoOrdeBy->addItemSelect('DESSETOR', 'DESCRIÇÃO SETOR');
         $oTipoOrdeBy->addItemSelect('NR', 'NR');
 
+        $oTipoRel = new Campo('Tipo de Relatório', 'tipoRel', Campo::CAMPO_SELECTSIMPLE, 2, 2, 12, 12);
+        $oTipoRel->addItemSelect('PREVENTIVA', 'PREVENTIVA');
+        $oTipoRel->addItemSelect('CORRETIVA', 'CORRETIVA');
+
         //adiciona os evento ao sair do campo codmaq
         $sEventoOp = 'var CodMaq =  $("#' . $oCodmaq->getId() . '").val();if(CodMaq !==""){requestAjax("' . $this->getTela()->getId() . '-form","MET_MP_Gerenciamento","consultaDadosMaquina",'
                 . '"' . $oFiltroSeq->getId() . ',' . $oCategoriaFiltro->getId() . ',' . $oFiltroSetor->getId() . '");}';
         $oCodmaq->addEvento(Campo::EVENTO_SAIR, $sEventoOp);
 
-        $this->addCampos(array($oCodmaq, $oMaq_des), $oLinha1, array($oFiltroSeq, $oRespFiltro, $oSitmp), $oLinha1, array($oCategoriaFiltro, $oFiltroSetor, $oTipoOrdeBy), $oLinha1, $oLinha2, array($oDatainicial1, $oDatafinal1), $oAplicaFiltroDA, $oAplicaFiltroDF, $oLinha2, $oLinha1, $oDiasRest,$oSimplifica);
+        $oDivisor1 = new Campo('SELECIONE OS FILTROS CONFORME O RELATÓRIO PREVENTIVA =(MP) OU CORRETIVA =(MC)', 'divinicial', Campo::DIVISOR_DARK, 8, 12, 12, 12);
+        $oDivisor1->setApenasTela(true);
+
+        $oDivisor2 = new Campo('SELECIONE UM FILTRO PARA APLICAR A DATA (ENTRE A DATA INICIAL E DATA FINAL)', 'divdata', Campo::DIVISOR_INFO, 12, 12, 12, 12);
+        $oDivisor2->setApenasTela(true);
+
+        $sCodUser = $_SESSION['codUser'];
+        $sCampoUsuSessão = new Campo('UsuSessão', 'ususessao', Campo::TIPO_TEXTO, 2, 2, 12, 12);
+        $sCampoUsuSessão->setSValor($sCodUser);
+        $sCampoUsuSessão->setBOculto(true);
+        
+        $oBtnConsultahoras = new Campo('Horas apontadas', 'horas', Campo::TIPO_BOTAO_MOSTRACONSULTA, 1, 1, 12, 12);
+        $oBtnConsultahoras->setClasseBusca('MET_MP_ManutHistorico');
+        $oBtnConsultahoras->setSIdTela($this->getTela()->getId());
+        $oBtnConsultahoras->setIMarginTop(17);
+        
+        $this->addCampos(array($oCodmaq, $oMaq_des, $oBtnConsultahoras), $oLinha1, array($oFiltroSeq, $oCategoriaFiltro, $oFiltroSetor), $oLinha1, $oDivisor1, $oLinha1, array($oRespFiltro, $oSitmp), $oLinha1, $oLinha2, $oDivisor2, array($oAplicaFiltroDA, $oAplicaFiltroDF, $oAplicaFiltroDataTodos), $oLinha1, $oLinha1, array($oDatainicial1, $oDatafinal1), $oLinha2, $oLinha1, array($oDiasRest, $oHorasRest), $oLinha1, array($oTipoRel, $oTipoOrdeBy), $oSimplifica, $sCampoUsuSessão);
     }
 
 }

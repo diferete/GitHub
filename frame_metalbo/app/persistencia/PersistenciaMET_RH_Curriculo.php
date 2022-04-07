@@ -19,7 +19,8 @@ class PersistenciaMET_RH_Curriculo extends Persistencia {
 
     public function insereDadosCurriculo($oDados) {
 
-
+        $oDados->cpf = str_replace('.', '', $oDados->cpf);
+        $oDados->cpf = str_replace('-', '', $oDados->cpf);
         $oDados->altura = Util::ValorSql($oDados->altura);
         $aDadosInsert = array();
         foreach ($oDados as $key => $value) {
@@ -49,18 +50,14 @@ class PersistenciaMET_RH_Curriculo extends Persistencia {
             $aDadosInsert['tempoMora'] = 'null';
         }
 
-
         $sSqlMax = "select MAX(nr) + 1 as nr  from MET_RH_Curriculo";
         $oMax = $this->consultaSql($sSqlMax);
-
-
 
         if ($oMax->nr == null) {
             $aDadosInsert['nr'] = 1;
         } else {
             $aDadosInsert['nr'] = $oMax->nr;
         }
-
 
         $aEstados = array();
         array_push($aEstados, $oDados->ufNaturalidade);
@@ -76,7 +73,7 @@ class PersistenciaMET_RH_Curriculo extends Persistencia {
                 . "filcgc,nr,nome, dataNasc, pais, ufNaturalidade, cidade, genero, altura, peso, estCivil, conjuge, dateNascConj, filhos, menor14, mae, pai, pcd, tipopcd, "
                 . "email, fone, rua, bairro, numero, cep, ufMora, cidadeMora, tempoMora, ufAnt, cidadeAnt, rg, cpf, ctps, seriectps, titeleitor, pis, "
                 . "escolaridade, entidade, curso, Empresa1, ufEmpresa1, cidadeEmpresa1, foneEmpresa1, date1Empresa1, date2Empresa1, Empresa2, ufEmpresa2, "
-                . "cidadeEmpresa2, foneEmpresa2, date1Empresa2, date2Empresa2, Empresa3, ufEmpresa3, cidadeEmpresa3, foneEmpresa3, date1Empresa3, date2Empresa3)"
+                . "cidadeEmpresa2, foneEmpresa2, date1Empresa2, date2Empresa2, Empresa3, ufEmpresa3, cidadeEmpresa3, foneEmpresa3, date1Empresa3, date2Empresa3, referencia,epcd)"
                 . "values("
                 . "75483040000211," . $aDadosInsert['nr'] . ",'" . $aDadosInsert['nomeCurr'] . "','" . $aDadosInsert['dataNasc'] . "', '" . $aDadosInsert['pais'] . "', '" . $aEstados[0] . "', "
                 . "'" . $aDadosInsert['cidade'] . "', '" . $aDadosInsert['genero'] . "', " . $aDadosInsert['altura'] . ", " . $aDadosInsert['peso'] . ", '" . $aDadosInsert['estCivil'] . "', '" . $aDadosInsert['conjuge'] . "',"
@@ -88,7 +85,7 @@ class PersistenciaMET_RH_Curriculo extends Persistencia {
                 . "'" . $aDadosInsert['cidadeEmpresa1'] . "', '" . $aDadosInsert['foneEmpresa1'] . "', '" . $aDadosInsert['date1Empresa1'] . "','" . $aDadosInsert['date2Empresa1'] . "', '" . $aDadosInsert['Empresa2'] . "',"
                 . "'" . $aEstados[4] . "', '" . $aDadosInsert['cidadeEmpresa2'] . "', '" . $aDadosInsert['foneEmpresa2'] . "', '" . $aDadosInsert['date1Empresa2'] . "', '" . $aDadosInsert['date2Empresa2'] . "',"
                 . "'" . $aDadosInsert['Empresa3'] . "', '" . $aEstados[5] . "', '" . $aDadosInsert['cidadeEmpresa3'] . "', '" . $aDadosInsert['foneEmpresa3'] . "', '" . $aDadosInsert['date1Empresa3'] . "',"
-                . "'" . $aDadosInsert['date2Empresa3'] . "')";
+                . "'" . $aDadosInsert['date2Empresa3'] . "', '" . $aDadosInsert['referencia'] . "','" . $aDadosInsert['epcd'] . "')";
         $aRetorno = $this->executaSql($sSqlInsert);
 
         return $aRetorno;

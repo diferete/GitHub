@@ -451,10 +451,13 @@ while ($rowItens = $dadosItens->fetch(PDO::FETCH_ASSOC)) {
             . "SUP_PedidoItemValorTotal,"
             . "convert(varchar,SUP_PedidoItemDataNeces,103)as SUP_PedidoItemDataNeces "
             . "from SUP_PEDIDOITEM "
+            . "left outer join SUP_PEDIDO "
+            . "on sup_pedido.SUP_PedidoSeq = SUP_PEDIDOITEM.SUP_PedidoSeq "
             . "where SUP_PEDIDOITEM.FIL_Codigo = " . $Fil_Codigo . " "
-            . "and PRO_Codigo = " . $rowItens['PRO_Codigo'] . " "
+            . "and PRO_Codigo = " . trim($rowItens['PRO_Codigo']) . " "
             . "and SUP_PEDIDOITEM.SUP_PedidoSeq < " . $SUP_PedidoSeq . " "
             . "and SUP_PedidoItemDataNeces BETWEEN '" . $datainicial . "' AND '" . $data . "' "
+            . "and SUP_PedidoSituacao not in('C') "
             . "order by SUP_PEDIDOITEM.SUP_PedidoSeq"; //desc
     $dadosTopCinco = $PDO->query($sqlTopCinco);
 

@@ -242,4 +242,33 @@ class PersistenciaModulo extends Persistencia {
         return $sData;
     }
 
+    public function exportaFunc() {
+        $sSql = 'select numpis,nomfun,numcad '
+                . 'from vetorh.dbo.r034fun '
+                . 'where sitafa = 1 '
+                . 'and codfil = 1 '
+                . 'and numemp = 3 '
+                . 'order by nomfun';
+        $result = $this->getObjetoSql($sSql);
+        //14138320721;ALEXANDRE W DE SOUZA;0;1824;0;0;;000000182400;
+        $sHeader = 'pis;nome;administrador;matricula;rfid;codigo;senha;barras;digitais';
+        $sDados = '';
+        $fp = fopen("bloco2.txt", "w");
+        while ($oRowBD = $result->fetch(PDO::FETCH_OBJ)) {
+            $pis = $oRowBD->numpis;
+            $nome = $oRowBD->nomfun;
+            $matricula = $oRowBD->numcad;
+            if (strlen(trim($oRowBD->numcad)) <= 3) {
+                //000000012300
+                $barras = '0000000' . trim($oRowBD->numcad) . '00';
+            } else {
+                //000000123400
+                $barras = '000000' . trim($oRowBD->numcad) . '00';
+            }
+            $sDados = $pis . ';' . $nome . ';' . '0' . ';' . $matricula . ';' . '0' . ';' . '0' . ';;' . $barras . ';';
+            fwrite($fp, $sDados . "\n");
+        }
+        fclose($fp);
+    }
+
 }

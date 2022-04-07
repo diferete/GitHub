@@ -61,8 +61,8 @@ class ViewSTEEL_SUP_PedidoCompra extends View {
         $oPedidoValorTotal = new CampoConsulta('Valor total', 'sup_pedidovalortotal', CampoConsulta::TIPO_DECIMAL);
 
         $oDrop1 = new Dropdown('IMPRIMIR PEDIDO DE COMPRA', Dropdown::TIPO_PRIMARY, Dropdown::TIPO_PADRAO, 3, 3, 12, 12);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Imprimir últimos 6 mêses', $this->getController(), 'acaoMostraRelConsulta', '', false, 'RelPedidoCompra,mes=6', false, '', false, '', false, false);
-        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Imprimir últimos 12 mêses', $this->getController(), 'acaoMostraRelConsulta', '', false, 'RelPedidoCompra,mes=12', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Imprimir últimos 6 meses', $this->getController(), 'acaoMostraRelConsulta', '', false, 'RelPedidoCompra,mes=6', false, '', false, '', false, false);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_IMPRESSORA) . 'Imprimir últimos 12 meses', $this->getController(), 'acaoMostraRelConsulta', '', false, 'RelPedidoCompra,mes=12', false, '', false, '', false, false);
         $oFilPedidoSeq = new Filtro($oPedidoSeq, Filtro::CAMPO_TEXTO, 1, 1, 12, 12, false);
 
         $this->addDropdown($oDrop1);

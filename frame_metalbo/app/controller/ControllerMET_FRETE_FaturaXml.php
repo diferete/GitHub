@@ -177,7 +177,7 @@ class ControllerMET_FRETE_FaturaXml extends Controller {
                             if ($aPeso['aPeso']['tpMed'] == 'CUBAGEM') {
                                 $aPeso['qCarga'] = $aPeso['aPeso']['qCarga'] * 300;
                             }
-                            $aDados['sCNPJDest'] = (string) $oXml->CTe->infCte->dest->CNPJ;
+                            $aDados['sCNPJDest'] = (string) $oXml->CTe->infCte->dest->CNPJ; //ver
                             $aDados['sCNPJRem'] = (string) $oXml->CTe->infCte->rem->CNPJ; //ver
                             if ($aDados['sCNPJDest'] == '75483040000211') {
                                 $aDados['sCNPJCliente'] = $aDados['sCNPJRem'];

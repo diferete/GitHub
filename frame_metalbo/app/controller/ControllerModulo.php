@@ -61,4 +61,8 @@ class ControllerModulo extends Controller {
         echo 'alert(' . $sDados . ');';
     }
 
+    public function exportaFunc() {
+        $this->Persistencia->exportaFunc();
+    }
+
 }

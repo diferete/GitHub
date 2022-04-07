@@ -105,16 +105,17 @@ class ControllerMET_TEC_Chamados extends Controller {
                 break;
         }
 
+        $aDadosConfig = $this->checkEmailRep();
         $oEmail = new Email();
         $oEmail->setMailer();
         $oEmail->setEnvioSMTP();
-        $oEmail->setServidor(Config::SERVER_SMTP);
-        $oEmail->setPorta(Config::PORT_SMTP);
+        $oEmail->setServidor($aDadosConfig['SERVER_SMTP']);
+        $oEmail->setPorta($aDadosConfig['PORT_SMTP']);
         $oEmail->setAutentica(true);
-        $oEmail->setUsuario(Config::EMAIL_SENDER);
-        $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
-        $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-        $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
+        $oEmail->setUsuario($aDadosConfig['EMAIL_SENDER']);
+        $oEmail->setSenha($aDadosConfig['PASWRD_EMAIL_SENDER']);
+        $oEmail->setProtocoloSMTP($aDadosConfig['PROTOCOLO_SMTP']);
+        $oEmail->setRemetente(utf8_decode($aDadosConfig['EMAIL_SENDER']), utf8_decode('CHAMADO NR ' . $oDados->nr . ''));
 
         $oEmail->setAssunto(utf8_decode('CHAMADO Nº' . $oDados->nr . ' - ' . $sAssunto));
         $oEmail->setMensagem(utf8_decode('Novo chamado:<br/>'

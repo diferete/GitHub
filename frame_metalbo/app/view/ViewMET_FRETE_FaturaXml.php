@@ -24,6 +24,8 @@ class ViewMET_FRETE_FaturaXml extends View {
 
         $oCnpj = new CampoConsulta('CNPJ', 'cnpj');
 
+        $oEmpDes = new CampoConsulta('Empresa', 'Pessoa.empdes');
+
         $oData = new CampoConsulta('Data', 'dataUpload', CampoConsulta::TIPO_DATA);
 
         $oArquivo = new CampoConsulta('Arquivo', 'arquivo');
@@ -32,10 +34,11 @@ class ViewMET_FRETE_FaturaXml extends View {
 
         $this->setUsaFiltro(true);
 
-        $oFilFilcgc = new Filtro($oFilcgc, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilCNPJ = new Filtro($oCnpj, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
+        $oFilEmpDes = new Filtro($oEmpDes, Filtro::CAMPO_TEXTO, 2, 2, 12, 12);
 
-        $this->addFiltro($oFilFilcgc);
-        $this->addCampos($oFilcgc, $oCnpj, $oData, $oArquivo, $oExtraido);
+        $this->addFiltro($oFilCNPJ, $oFilEmpDes);
+        $this->addCampos($oFilcgc, $oCnpj, $oEmpDes, $oData, $oArquivo, $oExtraido);
     }
 
     public function criaTela() {

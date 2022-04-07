@@ -364,8 +364,11 @@ class Util {
         return $sReturn;
     }
 
-    /**
-     * arruma valores para salvar no banco
+   /**
+     * Converte a vírgula em ponto para insert sql.
+     *
+     * @param float  $valor valor a ser convertido
+     * Retorna o valor com ponto no lugar da vírgula;
      */
     public static function ValorSql($valor) {
         $verificaPonto = ".";

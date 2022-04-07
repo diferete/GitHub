@@ -200,25 +200,6 @@ $.getJSON("https://sistema.metalbo.com.br/index.php?classe=NoticiaSite&metodo=ge
 
 });
 
-
-/*
- $(function () {
- $("#selEstado").hide();
- $("#toggler").on("click", function () {
- $("#repImg, #selEstado").toggle("5000");
- });
- });
- */
-/*
- $("#nome").one("click", function mensagemAlert() {
- var campo = $("#nome").val();
- if (campo == '') {
- var sTit = "Caro usuário!";
- var sMsg = "A Metalbo trabalha diretamente com Representantes para suas vendas por isso solicitamos entre em contato com eles para fazer suas COTAÇÕES e ORÇAMENTOS. Acesse a área de Representantes no site, clique em 'SELECIONE SEU ESTADO(UF)' e encontre o Representante que pode lhe atender ;)."
- sweetAlert(sTit, sMsg, "info");
- }
- });*/
-
 (() => {
     if (!localStorage.pureJavaScriptCookies) {
         document.querySelector(".box-cookies").classList.remove('hide');

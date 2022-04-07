@@ -146,6 +146,11 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         $oOpSteel = Fabrica::FabricarController('STEEL_PCP_OrdensFab');
         $oDados = $oOpSteel->consultaOp($aCampos['op']);
 
+        if ($oDados->getSituacao()=='Aberta' || $oDados->getSituacao()=='Processo') {
+            $oModal = new Modal('Atenção', 'Essa OP está em situação '.$oDados->getSituacao().', não pode gerar Certificado!', Modal::TIPO_ERRO, false);
+            echo $oModal->getRender();
+            exit();
+        }
 
         if ($oDados->getOp() == null) {
             $oMensagem = new Mensagem('Atenção!', 'Ordem de produção não foi localizada!', Mensagem::TIPO_WARNING);
@@ -405,7 +410,15 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         //Parte de validações ? verificar se necessário gravar na observação
         $oDadosOp = $oOp->Persistencia->consultarWhere();
         $aInfo = $this->validaValoresCert($oDadosOp);
-//        $this->Model->setObs($aInfo);
+        
+        //Parte para manter sempre como não aplicável campo inspeção
+        $oProdMatReceita = Fabrica::FabricarController('STEEL_PCP_prodMatReceita');
+        $oProdMatReceita->Persistencia->adicionaFiltro('seqmat', $oDadosOp->getSeqmat());
+        $oDadosProdMat = $oProdMatReceita->Persistencia->consultarWhere();
+        $sTrat = $oDadosProdMat->getTratrevencomp();
+        if ($sTrat == "À SECO") {
+            $this->Model->setInspeneg("Não Aplicável");
+        }
 
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -426,7 +439,15 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         //Parte de validações ? verificar se necessário gravar na observação
         $oDadosOp = $oOp->Persistencia->consultarWhere();
         $aInfo = $this->validaValoresCert($oDadosOp);
-//        $this->Model->setObs($aInfo);
+        
+        //Parte para manter sempre como não aplicável campo inspeção
+        $oProdMatReceita = Fabrica::FabricarController('STEEL_PCP_prodMatReceita');
+        $oProdMatReceita->Persistencia->adicionaFiltro('seqmat', $oDadosOp->getSeqmat());
+        $oDadosProdMat = $oProdMatReceita->Persistencia->consultarWhere();
+        $sTrat = $oDadosProdMat->getTratrevencomp();
+        if ($sTrat == "À SECO") {
+            $this->Model->setInspeneg("Não Aplicável");
+        }
 
         $aRetorno = array();
         $aRetorno[0] = true;
@@ -481,13 +502,13 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getDurezaNucMax()) < ($this->Model->getDurezaNucMin()) && ($oOp->getDurezaNucMax() !== ".0000")) {
+            if (($oOp->getDurezaNucMax()) < ($this->Model->getDurezaNucMin()) && ($oOp->getDurezaNucMax() !== ".0000" && $oOp->getDurezaNucMax() !== 0)) {
                 $aInfo = "Certificado não gravado! Dureza mínima do núcleo encontrada está acima da Dureza máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getDurezaNucMax()) < ($this->Model->getDurezaNucMax()) && ($oOp->getDurezaNucMax() !== ".0000")) {
+            if (($oOp->getDurezaNucMax()) < ($this->Model->getDurezaNucMax()) && ($oOp->getDurezaNucMax() !== ".0000" && $oOp->getDurezaNucMax() !== 0)) {
                 $aInfo = "Certificado não gravado! Dureza máxima do núcleo encontrada está acima da Dureza máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
@@ -512,13 +533,13 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getDurezaSuperfMax()) < ($this->Model->getDurezaSuperfMin()) && ($oOp->getDurezaSuperfMax() !== ".0000")) {
+            if (($oOp->getDurezaSuperfMax()) < ($this->Model->getDurezaSuperfMin()) && ($oOp->getDurezaSuperfMax() !== ".0000" && $oOp->getDurezaSuperfMax() !== 0)) {
                 $aInfo = "Certificado não gravado! Dureza minima da superfície encontrada está acima da Dureza máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getDurezaSuperfMax()) < ($this->Model->getDurezaSuperfMax()) && ($oOp->getDurezaSuperfMax() !== ".0000")) {
+            if (($oOp->getDurezaSuperfMax()) < ($this->Model->getDurezaSuperfMax()) && ($oOp->getDurezaSuperfMax() !== ".0000" && $oOp->getDurezaSuperfMax() !== 0)) {
                 $aInfo = "Certificado não gravado! Dureza máxima da superfície encontrada está acima da Dureza máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
@@ -543,13 +564,13 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getExpCamadaMax()) < ($this->Model->getExpCamadaMin()) && ($oOp->getExpCamadaMax() !== ".0000")) {
+            if (($oOp->getExpCamadaMax()) < ($this->Model->getExpCamadaMin()) && ($oOp->getExpCamadaMax() !== ".0000" && $oOp->getExpCamadaMax() !== 0)) {
                 $aInfo = "Certificado não gravado! Camada minima encontrada está acima da Camada máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
                 exit;
             }
-            if (($oOp->getExpCamadaMax()) < ($this->Model->getExpCamadaMax()) && ($oOp->getExpCamadaMax() !== ".0000")) {
+            if (($oOp->getExpCamadaMax()) < ($this->Model->getExpCamadaMax()) && ($oOp->getExpCamadaMax() !== ".0000" && $oOp->getExpCamadaMax() !== 0)) {
                 $aInfo = "Certificado não gravado! Camada máxima encontrada está acima da Camada máxima solicitada!";
                 $oModal = new Modal('Atenção!', $aInfo, Modal::TIPO_AVISO, false);
                 echo $oModal->getRender();
@@ -774,6 +795,7 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
                 $bAlterar = true;
             }
         }
+        
         /*
          * Parte responsável por alterar
          */
@@ -963,7 +985,6 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         echo '$("#CertNucEscala").prop("disabled", false);';
         echo '$("#CertexpCamadaMin").prop("disabled", false);';
         echo '$("#CertexpCamadaMax").prop("disabled", false);';
-        echo '$("#Certinspeneg").val("Tolerável");';
         echo '$("#Certinspeneg").prop("disabled", false);';
         echo '$("#CertFioDurezaSol").prop("disabled", false);';
         echo '$("#CertFioEsferio").prop("disabled", false);';
@@ -1023,9 +1044,10 @@ class ControllerSTEEL_PCP_Certificado extends Controller {
         $oProdMatReceita->Persistencia->adicionaFiltro('seqmat', $oDados->getSeqmat());
         $oDadosProdMat = $oProdMatReceita->Persistencia->consultarWhere();
         $sTrat = $oDadosProdMat->getTratrevencomp();
-        if($sTrat=="À SECO") {
-            echo '$("#' . $aId[17] . '").prop("disabled", true);';
+        if ($sTrat == "À SECO") {
             echo '$("#' . $aId[17] . '").val("Não Aplicável");';
+            echo '$("#' . $aId[17] . '").trigger("change");';
+            //echo '$("#' . $aId[17] . '").prop("disabled", true);';
         }
         if (($oDados->getFioDurezaSol() != 0 && $oDados->getFioDurezaSol() != null) || ($oDados->getFioEsferio() != 0 && $oDados->getFioEsferio() != null)) {
             if (!$bFoco) {

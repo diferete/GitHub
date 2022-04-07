@@ -47,14 +47,13 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
 
     public function getDadosFunc($sDados) {
 
-        $bRetorno = $this->verificaCadastroAids($sDados);
+        $bRetorno = $this->verificaPalpiteAudicao($sDados);
 
         if (!$bRetorno) {
             $aDados = array();
             $sSql = "select "
                     . "tbfunc.nomfun,"
-                    . "setor,"
-                    . "tipsex "
+                    . "setor "
                     . "from vetorh.dbo.r034fun "
                     . "left outer join tbfunc "
                     . "on [vetorh].dbo.r034fun.numcad = tbfunc.numcad "
@@ -67,7 +66,6 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
             if ($oResult) {
                 $aDados['nome'] = trim($oResult->nomfun);
                 $aDados['setor'] = trim($oResult->setor);
-                $aDados['tipsex'] = trim($oResult->tipsex);
                 $aRetorno['dados'] = $aDados;
             } else {
                 $aDados[0] = 'false';
@@ -153,8 +151,6 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
     }
 
     public function gravaDadosFuncAids($sDados) {
-
-
         date_default_timezone_set('America/Sao_Paulo');
         $sHora = date('H:i');
         $sData = date('d/m/Y');
@@ -213,6 +209,156 @@ class PersistenciaMET_RH_Colaboradores extends Persistencia {
 
     public function verificaCadastroAids($sDados) {
         $sSqlSelect = "select COUNT(*) as total from MET_Aids where cracha = " . $sDados . "";
+        $oResult = $this->consultaSql($sSqlSelect);
+
+        if ($oResult->total > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function gravaDadosFuncPalpite($oDados) {
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+        $sSqlSelect = "select "
+                . "tbfunc.nomfun,"
+                . "setor "
+                . "from vetorh.dbo.r034fun "
+                . "left outer join tbfunc "
+                . "on [vetorh].dbo.r034fun.numcad = tbfunc.numcad "
+                . "where "
+                . "cnpj = 75483040000211 "
+                . "and vetorh.dbo.r034fun.numcad =" . $oDados->cracha;
+        $oResult = $this->consultaSql($sSqlSelect);
+
+
+        $sSqlInsert = "insert "
+                . "into MET_PalpiteAudicao"
+                . "(nr,"
+                . "cracha,"
+                . "datacad,"
+                . "horacad,"
+                . "nome,"
+                . "setor,"
+                . "palpite)"
+                . "values"
+                . "((select(case when max(nr) is null then 1 else max(nr)+1 end) as nr from MET_PalpiteAudicao),"
+                . "" . $oDados->cracha . ","
+                . "'" . $sData . "',"
+                . "'" . $sHora . "',"
+                . "'" . trim($oResult->nomfun) . "',"
+                . "'" . trim($oResult->setor) . "',"
+                . "'" . trim($oDados->palpite) . "')";
+        $aRetorno = $this->executaSql($sSqlInsert);
+
+        return $aRetorno;
+    }
+
+    public function verificaPalpiteAudicao($sDados) {
+        $sSqlSelect = "select COUNT(*) as total from MET_PalpiteAudicao where cracha = " . $sDados . "";
+        $oResult = $this->consultaSql($sSqlSelect);
+
+        if ($oResult->total > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function getDadosFuncVideos($sDados) {
+
+        $bRetorno = $this->verificaDadosFuncVideos($sDados);
+
+        if (!$bRetorno) {
+            $aDados = array();
+            $sSql = "select "
+                    . "tbfunc.nomfun,"
+                    . "setor "
+                    . "from vetorh.dbo.r034fun "
+                    . "left outer join tbfunc "
+                    . "on [vetorh].dbo.r034fun.numcad = tbfunc.numcad "
+                    . "where "
+                    . "cnpj = 75483040000211 "
+                    . "and numemp = 3"
+                    . "and vetorh.dbo.r034fun.numcad =" . $sDados;
+            $oResult = $this->consultaSql($sSql);
+
+            if ($oResult) {
+                $aDados['nome'] = trim($oResult->nomfun);
+                $aDados['setor'] = trim($oResult->setor);
+                $aRetorno['dados'] = $aDados;
+            } else {
+                $aDados[0] = 'false';
+                $aDados[1] = 'E';
+                $aRetorno['dados'] = $aDados;
+            }
+        } else {
+            $aDados[0] = 'false';
+            $aDados[1] = 'C';
+            $aRetorno['dados'] = $aDados;
+        }
+        return $aRetorno;
+    }
+
+    public function gravaDadosFuncVideos($sDados) {
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+        $sSqlSelect = "select "
+                . "tbfunc.nomfun,"
+                . "setor "
+                . "from vetorh.dbo.r034fun "
+                . "left outer join tbfunc "
+                . "on [vetorh].dbo.r034fun.numcad = tbfunc.numcad "
+                . "where "
+                . "cnpj = 75483040000211 "
+                . "and vetorh.dbo.r034fun.numcad =" . $sDados;
+        $oResult = $this->consultaSql($sSqlSelect);
+
+
+        $sSqlInsert = "insert "
+                . "into MET_DropsInclusao1"
+                . "(nr,"
+                . "cracha,"
+                . "datacad,"
+                . "horacad,"
+                . "nome,"
+                . "setor,"
+                . "tag)"
+                . "values"
+                . "((select(case when max(nr) is null then 1 else max(nr)+1 end) as nr from MET_DropsInclusao1),"
+                . "" . $sDados . ","
+                . "'" . $sData . "',"
+                . "'" . $sHora . "',"
+                . "'" . trim($oResult->nomfun) . "',"
+                . "'" . trim($oResult->setor) . "',"
+                . "'C')";
+        $aRetorno = $this->executaSql($sSqlInsert);
+
+        return $aRetorno;
+    }
+
+    public function updateDadosFuncVideos($sDados) {
+
+        date_default_timezone_set('America/Sao_Paulo');
+        $sHora = date('H:i');
+        $sData = date('d/m/Y');
+
+        $sSqlUpdate = "update "
+                . "MET_DropsInclusao1 "
+                . "set tag = 'A' "
+                . "where cracha = " . $sDados;
+        $aRetorno = $this->executaSql($sSqlUpdate);
+
+        return $aRetorno;
+    }
+
+    public function verificaDadosFuncVideos($sDados) {
+        $sSqlSelect = "select COUNT(*) as total from MET_DropsInclusao1 where cracha = " . $sDados . "";
         $oResult = $this->consultaSql($sSqlSelect);
 
         if ($oResult->total > 0) {

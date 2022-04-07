@@ -97,15 +97,12 @@ switch ($banco) {
             //'agenciaDv' => 1,
             'descricaoDemonstrativo' => array(// Até 5
             ),
-            'instrucoes' => array(// Até 8
-                'Após o vencimento cobrar mora de R$4,19 ao dia',
-                'Protestar após 20 dias corridos do vencimento',
-                'Cobrança escritural',
+            'instrucoes' => array(''
             ),
             // Parâmetros opcionais
             //'resourcePath' => '../resources',
             'moeda' => Itau::MOEDA_REAL,
-            //'dataDocumento' => new DateTime(),
+            'dataDocumento' => new DateTime($row['recdtemiss']),
             //'dataProcessamento' => new DateTime(),
             //'contraApresentacao' => true,
             //'pagamentoMinimo' => 23.00,
@@ -171,15 +168,13 @@ switch ($banco) {
             //'carteiraDv' => 1,
             'descricaoDemonstrativo' => array(// Até 5
             ),
-            'instrucoes' => array(// Até 8
-                'Após o dia 30/11 cobrar 2% de mora e 1% de juros ao dia.',
-                'Não receber após o vencimento.',
+            'instrucoes' => array('',
             ),
             // Parâmetros opcionais
             //'resourcePath' => '../resources',
             //'cip' => '000', // Apenas para o Bradesco
             'moeda' => Bradesco::MOEDA_REAL,
-            //'dataDocumento' => new DateTime(),
+            'dataDocumento' => new DateTime($row['recdtemiss']),
             //'dataProcessamento' => new DateTime(),
             //'contraApresentacao' => true,
             //'pagamentoMinimo' => 23.00,

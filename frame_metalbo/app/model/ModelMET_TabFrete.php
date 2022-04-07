@@ -27,7 +27,18 @@ class ModelMET_TabFrete {
     private $formula3;
     private $formula4;
     private $empdes;
+    private $taxaEmergencial;
     
+    
+    function getTaxaEmergencial() {
+        return $this->taxaEmergencial;
+    }
+
+    function setTaxaEmergencial($taxaEmergencial) {
+        $this->taxaEmergencial = $taxaEmergencial;
+    }
+
+        
     function getPessoa() {
         if (!isset($this->Pessoa)) {
             $this->Pessoa = Fabrica::FabricarModel('Pessoa');

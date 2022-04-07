@@ -26,10 +26,13 @@ class ViewModulo extends View {
         $oModulo->setILargura(500);
 
 
+        $oDrop1 = new Dropdown('exportaFunc', Dropdown::TIPO_AVISO, Dropdown::ICON_EMAIL);
+        $oDrop1->addItemDropdown($this->addIcone(Base::ICON_EMAIL) . 'exportaFunc', $this->getController(), 'exportaFunc', '', false, '', false, '', false, '', false, true);
+
 
         $oModuloF = new Filtro($oModulo, Filtro::CAMPO_TEXTO, 4, 4, 12, 12, false);
         $this->addFiltro($oModuloF);
-        $this->addDropdown($oDrop2, $oDrop3);
+        $this->addDropdown($oDrop2);
         $this->addCampos($oCodigo, $oModulo);
     }
 

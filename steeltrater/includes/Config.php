@@ -28,11 +28,11 @@ class Config {
     const ARQ_FOLDER_JS = '/js'; //funções do sistema        
     const ARQ_FOLDER_TEMP = 'temp'; //arquivos temporários de upload
     const JASPER_FOLDER = '/PHPJasperXML';
-    const EMAIL_SENDER = 'metalboweb@gmail.com';
-    const PASWRD_EMAIL_SENDER = '7&t+Ah8*Qz!z';
-    const SERVER_SMTP = 'smtp.gmail.com';
-    const PORT_SMTP = 465;
-    const PROTOCOLO_SMTP = 'ssl';
+    const EMAIL_SENDER = 'metalboweb@outlook.com'; //metalboweb@outlook.com
+    const PASWRD_EMAIL_SENDER = '&@tr3be&xr#42V'; //&@tr3be&xr#42V
+    const SERVER_SMTP = 'smtp-mail.outlook.com'; //smtp.live.com
+    const PORT_SMTP = 587; //587
+    const PROTOCOLO_SMTP = 'tls';
 
     /*
      * Configurações da conexão com o banco de dados
@@ -53,33 +53,31 @@ class Config {
     const BD_FIREBIRD = 4;
     const BD_ORACLE = 5;
     const BD_SQLSERVER = 6;
-
-
     
-    const TIPO_BD = self::BD_SQLSERVER;
-    const PORTA_BD = 1433;
-    const USER_BD  = 'sa';
-    const NOME_BD  = 'PROTOT';
-    const HOST_BD  = 'METALBOBASE';
-    const PASS_BD  = 'Met@lbo@4321';
-     
-   
-    /*
-    const TIPO_BD = self::BD_SQLSERVER;
-    const PORTA_BD = 1433;
-    const USER_BD  = 'sa';
-    const NOME_BD  = 'METALBOBASE';
-    const HOST_BD  = 'METALBOBASE';
-    const PASS_BD  = 'Met@lbo@4321';*/
     
     /*
     const TIPO_BD = self::BD_SQLSERVER;
     const PORTA_BD = 1433;
-    const USER_BD  = 'sa';
-    const NOME_BD  = 'METALBOBASE';
-    const HOST_BD  = 'METALBOBASE22';
-    const PASS_BD  = 'Met@lbo@4321';*/
-       
+    const USER_BD = 'sa';
+    const NOME_BD = 'PROTOT';
+    const HOST_BD = 'METALBOBASE';
+    const PASS_BD = 'Met@lbo@4321';*/
+
+    /*
+      const TIPO_BD = self::BD_SQLSERVER;
+      const PORTA_BD = 1433;
+      const USER_BD  = 'sa';
+      const NOME_BD  = 'METALBOBASE';
+      const HOST_BD  = 'METALBOBASE';
+      const PASS_BD  = 'Met@lbo@4321'; */
+
+    
+      const TIPO_BD = self::BD_SQLSERVER;
+      const PORTA_BD = 1433;
+      const USER_BD  = 'sa';
+      const NOME_BD  = 'PROTOT';
+      const HOST_BD  = 'METALBOBASE22';
+      const PASS_BD  = 'Met@lbo@4321'; 
 }
 
 ?>

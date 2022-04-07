@@ -860,18 +860,19 @@ if ($sEmailRequest == 'S') {
     $factor = floor((strlen($bytes) - 1) / 3);
     $teste = $bytes / pow(1024, $factor);
     $iSizeAnexo = number_format($teste, 0);
-    
 
+
+    $aDadosConfig = $this->checkEmailRep();
     $oEmail = new Email();
     $oEmail->setMailer();
     $oEmail->setEnvioSMTP();
-    $oEmail->setServidor(Config::SERVER_SMTP);
-    $oEmail->setPorta(Config::PORT_SMTP);
+    $oEmail->setServidor($aDadosConfig['SERVER_SMTP']);
+    $oEmail->setPorta($aDadosConfig['PORT_SMTP']);
     $oEmail->setAutentica(true);
-    $oEmail->setUsuario(Config::EMAIL_SENDER);
-    $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
-    $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Relatórios Web Metalbo'));
+    $oEmail->setUsuario($aDadosConfig['EMAIL_SENDER']);
+    $oEmail->setSenha($aDadosConfig['PASWRD_EMAIL_SENDER']);
+    $oEmail->setProtocoloSMTP($aDadosConfig['PROTOCOLO_SMTP']);
+    $oEmail->setRemetente(utf8_decode($aDadosConfig['EMAIL_SENDER']), utf8_decode('Relatórios Web Metalbo'));
 
     $sSqlRC = "select convert(varchar,datanf,103)as data,nr,officedes,empcod,empdes,nf,odcompra,pedido,valor,peso,aplicacao,naoconf,resp_venda_cod from tbrncqual"
             . " where filcgc = '" . $filcgc . "' and nr = '" . $nr . "'";
@@ -942,4 +943,28 @@ function quebraPagina($i, $pdf) {
         $pdf->SetY(10);
     }
     return $pdf;
+}
+
+function checkEmailRep() {
+    $iRepOffice = $_REQUEST['repoffice'];
+    $aDados = array();
+    switch ($iRepOffice) {
+        case 1:
+            $aDados['EMAIL_SENDER'] = 'metalbowebsp@metalbosp.com.br'; //metalboweb@outlook.com
+            $aDados['PASWRD_EMAIL_SENDER'] = 'n2w2f4v9'; //&@tr3be&xr#42V
+            $aDados['SERVER_SMTP'] = 'smtp.terra.com.br'; //smtp.live.com
+            $aDados['PORT_SMTP'] = 587; //587
+            $aDados['PROTOCOLO_SMTP'] = '';
+            break;
+
+        default:
+            $aDados['EMAIL_SENDER'] = 'metalboweb@outlook.com'; //metalboweb@outlook.com
+            $aDados['PASWRD_EMAIL_SENDER'] = '&@tr3be&xr#42V'; //&@tr3be&xr#42V
+            $aDados['SERVER_SMTP'] = 'smtp-mail.outlook.com'; //smtp.live.com
+            $aDados['PORT_SMTP'] = 587; //587
+            $aDados['PROTOCOLO_SMTP'] = 'tls';
+            break;
+    }
+
+    return $aDados;
 }

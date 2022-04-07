@@ -52,10 +52,10 @@ class ViewFinanRep extends View {
         $oBancoCod = new CampoConsulta('Banco', 'recprbconr');
         $oBancoCod->setBColOculta(true);
 
-        /*
-          $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
-          $oBtnBoleto->setSRelNome('boletos');
-          $oBtnBoleto->setILargura(15); */
+
+        $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
+        $oBtnBoleto->setSRelNome('boletos');
+        $oBtnBoleto->setILargura(15);
 
         $oDataEmi = new CampoConsulta('Emissão', 'recdtemiss', CampoConsulta::TIPO_DATA);
         $oDataEmi->setILargura(80);
@@ -82,7 +82,7 @@ class ViewFinanRep extends View {
 
         $oHist = new CampoConsulta('Histórico', 'rechist');
 
-        $oGridFinan->addCampos($oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
+        $oGridFinan->addCampos($oBtnBoleto, $oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
         $oGridFinan->setSController('FinanRep');
         $oGridFinan->addParam('empcod', '0');
         $oGridFinan->getOGrid()->setSScrollInfCampo('criaConsultaGridFinan');
@@ -126,10 +126,10 @@ class ViewFinanRep extends View {
     function criaConsultaGridFinan() {
 
         $oGridFinan = new Grid("");
-        /*
-          $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
-          $oBtnBoleto->setSRelNome('boletos');
-          $oBtnBoleto->setILargura(15); */
+
+        $oBtnBoleto = new CampoConsulta('Boleto', 'Emite 2ª via!', CampoConsulta::TIPO_RELATORIO, CampoConsulta::ICONE_MARTELO);
+        $oBtnBoleto->setSRelNome('boletos');
+        $oBtnBoleto->setILargura(15);
 
         $oEmpCod = new CampoConsulta('CNPJ', 'empcod');
         $oEmpCod->setBColOculta(true);
@@ -161,7 +161,7 @@ class ViewFinanRep extends View {
 
         $oHist = new CampoConsulta('Histórico', 'rechist');
 
-        $oGridFinan->addCampos($oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
+        $oGridFinan->addCampos($oBtnBoleto, $oDataEmi, $oNfdoc, $oVenc, $oValor, $oDias, $oParc, $oBanco, $oHist, $oEmpCod, $oBancoCod);
 
         $aCampos = $oGridFinan->getArrayCampos();
         return $aCampos;

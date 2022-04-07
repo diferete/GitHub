@@ -15,6 +15,7 @@
  */
 class ModelMET_FRETE_FaturaXml {
 
+    private $Pessoa;
     private $filcgc;
     private $cnpj;
     private $fatura;
@@ -25,6 +26,26 @@ class ModelMET_FRETE_FaturaXml {
     private $horaUpload;
     private $arquivo;
     private $extraido;
+    private $empdes;
+
+    function getEmpdes() {
+        return $this->empdes;
+    }
+
+    function setEmpdes($empdes) {
+        $this->empdes = $empdes;
+    }
+
+    function getPessoa() {
+        if (!isset($this->Pessoa)) {
+            $this->Pessoa = Fabrica::FabricarModel('Pessoa');
+        }
+        return $this->Pessoa;
+    }
+
+    function setPessoa($Pessoa) {
+        $this->Pessoa = $Pessoa;
+    }
 
     function getFilcgc() {
         return $this->filcgc;

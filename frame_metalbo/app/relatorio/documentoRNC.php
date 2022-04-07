@@ -264,7 +264,7 @@ $pdf->Cell(40, 7, 'DATA:', 1, 1, 'L', 1);
 $pdf->Ln(1);
 $pdf->Cell(204, 7, 'Nº O.R.::', 1, 1, 'L', 1);
 
-if (strstr($row['anexo1'], 'png') || strstr($row['anexo1'], 'jpg')) {
+if (strstr($row['anexo1'], 'png') || strstr($row['anexo1'], 'jpg') || strstr($row['anexo2'], 'jpeg')) {
     if (isset($row['anexo1'])) {
         $pdf->AddPage();
         $pdf->SetXY(10, 10);
@@ -283,7 +283,7 @@ if (strstr($row['anexo1'], 'pdf')) {
     }
 }
 
-if (strstr($row['anexo2'], 'png') || strstr($row['anexo2'], 'jpg')) {
+if (strstr($row['anexo2'], 'png') || strstr($row['anexo2'], 'jpg') || strstr($row['anexo2'], 'jpeg')) {
     if (isset($row['anexo2'])) {
         $pdf->AddPage();
         $pdf->SetXY(10, 10);

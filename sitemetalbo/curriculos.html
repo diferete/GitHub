@@ -228,9 +228,21 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select id="epcd" class="col-lg-12 form-control-sm"  data-error="Tipo de PCD">
+                                                    <option value="0" disabled selected>Tipo de PCD</option>
+                                                    <option value="Deficiência Física">Deficiência Física</option>                                                    
+                                                    <option value="Deficiência Auditiva">Deficiência Auditiva</option>
+                                                    <option value="Deficiência Visual">Deficiência Visual</option>
+                                                    <option value="Deficiência Intelecutal">Deficiência Intelecutal</option>
+                                                    <option value="Deficiência Multipla">Deficiência Multipla</option>                                                    
+                                                </select>
+                                            </div>
+                                        </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <textarea   placeholder="Caso SIM, qual a sua deficiência" id="tipopcd" class="form-control"  name ="tipopcd" rows="3"></textarea>
+                                                <textarea   placeholder="Descreva aqui o tipo de deficiência que você possui." id="tipopcd" class="form-control"  name ="tipopcd" rows="3"></textarea>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
@@ -470,6 +482,43 @@
                                                 <div class="help-block with-errors"></div>
                                             </div>                                 
                                         </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Cargo" id="cargoEmpresa1" class="form-control"   name="cargoEmpresa1"  data-error="Insira o cargo exercido na Empresa">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Fone para contato da Empresa" id="foneEmpresa1" name="foneEmpresa1" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
+                                                <script>
+                                                    function mask(o, f) {
+                                                        setTimeout(function () {
+                                                            var v = mfone(o.value);
+                                                            if (v != o.value) {
+                                                                o.value = v;
+                                                            }
+                                                        }, 1);
+                                                    }
+
+                                                    function mfone(v) {
+                                                        var r = v.replace(/\D/g, "");
+                                                        r = r.replace(/^0/, "");
+                                                        if (r.length > 10) {
+                                                            r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 5) {
+                                                            r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
+                                                        } else if (r.length > 2) {
+                                                            r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
+                                                        } else {
+                                                            r = r.replace(/^(\d*)/, "($1");
+                                                        }
+                                                        return r;
+                                                    }
+                                                </script>
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>                                        
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <select id="ufEmpresa1" onchange="getESEmpresa1()" class="col-lg-12 form-control-sm">
@@ -511,9 +560,37 @@
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Fone para contato" id="foneEmpresa1" name="foneEmpresa1" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
+                                                <input placeholder="Da data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date1Empresa1"  data-error="Insira uma data válida">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="até a data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date2Empresa1">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Empresa" id="Empresa2" class="form-control"   name="Empresa2"  data-error="Insira o nome da Empresa">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Cargo" id="cargoEmpresa2" class="form-control"   name="cargoEmpresa2"  data-error="Insira o cargo exercido na Empresa">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Fone para contato" id="foneEmpresa2" name="foneEmpresa2" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
                                                 <script>
                                                     function mask(o, f) {
                                                         setTimeout(function () {
@@ -539,27 +616,6 @@
                                                         return r;
                                                     }
                                                 </script>
-                                                <div class="help-block with-errors"></div>
-                                            </div>                                 
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input placeholder="Da data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date1Empresa1"  data-error="Insira uma data válida">
-                                                <div class="help-block with-errors"></div>
-                                            </div>                                 
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input placeholder="até a data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date2Empresa1">
-                                                <div class="help-block with-errors"></div>
-                                            </div>                                 
-                                        </div>
-                                    </div>
-                                    <hr/>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <input type="text" placeholder="Empresa" id="Empresa2" class="form-control"   name="Empresa2"  data-error="Insira o nome da Empresa">
                                                 <div class="help-block with-errors"></div>
                                             </div>                                 
                                         </div>
@@ -604,9 +660,38 @@
                                                 </select>
                                             </div>
                                         </div>
+
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Fone para contato" id="foneEmpresa2" name="foneEmpresa2" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
+                                                <input placeholder="Da data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date1Empresa2"  data-error="Insira uma data válida">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input placeholder="até a data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date2Empresa2">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Empresa" id="Empresa3" class="form-control"   name="Empresa3"  data-error="Insira o nome da empresa">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <input type="text" placeholder="Cargo" id="cargoEmpresa3" class="form-control"   name="cargoEmpresa3"  data-error="Insira o cargo exercido na Empresa">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Fone para contato" id="foneEmpresa3" name="fone" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
                                                 <script>
                                                     function mask(o, f) {
                                                         setTimeout(function () {
@@ -632,27 +717,6 @@
                                                         return r;
                                                     }
                                                 </script>
-                                                <div class="help-block with-errors"></div>
-                                            </div>                                 
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input placeholder="Da data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date1Empresa2"  data-error="Insira uma data válida">
-                                                <div class="help-block with-errors"></div>
-                                            </div>                                 
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input placeholder="até a data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date2Empresa2">
-                                                <div class="help-block with-errors"></div>
-                                            </div>                                 
-                                        </div>
-                                    </div>
-
-                                    <hr/>
-                                    <div class="row"><div class="col-md-12">
-                                            <div class="form-group">
-                                                <input type="text" placeholder="Empresa" id="Empresa3" class="form-control"   name="Empresa3"  data-error="Insira o nome da empresa">
                                                 <div class="help-block with-errors"></div>
                                             </div>                                 
                                         </div>
@@ -697,37 +761,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Fone para contato" id="foneEmpresa3" name="fone" onkeypress="mask(this, mfone);" onblur="mask(this, mfone);"  data-error="Por favor insira um número de telefone válido"/>
-                                                <script>
-                                                    function mask(o, f) {
-                                                        setTimeout(function () {
-                                                            var v = mfone(o.value);
-                                                            if (v != o.value) {
-                                                                o.value = v;
-                                                            }
-                                                        }, 1);
-                                                    }
 
-                                                    function mfone(v) {
-                                                        var r = v.replace(/\D/g, "");
-                                                        r = r.replace(/^0/, "");
-                                                        if (r.length > 10) {
-                                                            r = r.replace(/^(\d\d)(\d{5})(\d{4}).*/, "($1) $2-$3");
-                                                        } else if (r.length > 5) {
-                                                            r = r.replace(/^(\d\d)(\d{4})(\d{0,4}).*/, "($1) $2-$3");
-                                                        } else if (r.length > 2) {
-                                                            r = r.replace(/^(\d\d)(\d{0,5})/, "($1) $2");
-                                                        } else {
-                                                            r = r.replace(/^(\d*)/, "($1");
-                                                        }
-                                                        return r;
-                                                    }
-                                                </script>
-                                                <div class="help-block with-errors"></div>
-                                            </div>                                 
-                                        </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <input placeholder="Da data de" class="form-control"  type="text" onfocus="(this.type = 'date')" id="date1Empresa3"  data-error="Insira uma data válida">
@@ -741,11 +775,21 @@
                                             </div>                                 
                                         </div>
                                     </div>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input placeholder="Referêcia (alguém que trabalha aqui na metalbo que você conheça)" class="form-control"  type="text" id="referencia" name="referencia">
+                                                <div class="help-block with-errors"></div>
+                                            </div>                                 
+                                        </div>
+                                    </div>
                                     <div class="submit-button text-center">
                                         <button class="btn btn-common" onclick="sendPdfEmail()" type="button">Enviar!</button>
                                         <div id="msgSubmitCurr" class="h3 text-center hidden"></div> 
                                         <div class="clearfix"></div> 
                                     </div>
+
                                     <p id="waiting-msg" class="msg-email hidden"></p>
                                 </form>
                             </div>

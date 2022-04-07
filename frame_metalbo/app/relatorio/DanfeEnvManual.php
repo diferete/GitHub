@@ -109,13 +109,13 @@ function enviaXMLDanfe($sDirXml, $sDirSalvaDanfe, $aDados, $aDadosNF, $PDO) {
     $oEmail = new Email();
     $oEmail->setMailer();
     $oEmail->setEnvioSMTP();
-    $oEmail->setServidor(Config::SERVER_SMTP);
-    $oEmail->setPorta(Config::PORT_SMTP);
+    $oEmail->setServidor('smtp-mail.outlook.com');
+    $oEmail->setPorta('587');
     $oEmail->setAutentica(true);
-    $oEmail->setUsuario(Config::EMAIL_SENDER);
-    $oEmail->setSenha(Config::PASWRD_EMAIL_SENDER);
-    $oEmail->setProtocoloSMTP(Config::PROTOCOLO_SMTP);
-    $oEmail->setRemetente(utf8_decode(Config::EMAIL_SENDER), utf8_decode('Envio de XML de DANFE'));
+    $oEmail->setUsuario('metalboweb@outlook.com');
+    $oEmail->setSenha('&@tr3be&xr#42V');
+    $oEmail->setProtocoloSMTP('tls');
+    $oEmail->setRemetente(utf8_decode('metalboweb@outlook.com'), utf8_decode('Envio de XML de DANFE'));
 
     $oEmail->setAssunto(utf8_decode('XML METALBO IND. FIXADORES METALICOS LTDA'));
     $oEmail->setMensagem(utf8_decode('<span>Seguem XML e DANFE referente a NF.: <b> ' . $aDados[1] . '</b></span>'
